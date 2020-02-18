@@ -1,284 +1,89 @@
-Return-Path: <SRS0=Tovu=4F=gmail.com=alexdeucher@kernel.org>
+Return-Path: <SRS0=61pB=4G=us-west-2.amazonses.com=01010170576f786f-20976c22-0115-44c6-a07e-5ce13843a3ea-000000@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,NORMAL_HTTP_TO_IP,
-	NUMERIC_HTTP_ADDR,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Level: *
+X-Spam-Status: No, score=2.0 required=3.0 tests=DEAR_SOMETHING,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,
+	MIME_HTML_ONLY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A737DC34022
-	for <linux-firmware@archiver.kernel.org>; Mon, 17 Feb 2020 15:11:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D50EBC34031
+	for <linux-firmware@archiver.kernel.org>; Tue, 18 Feb 2020 08:34:48 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 94EE620801; Mon, 17 Feb 2020 15:11:24 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	id C5E6622527; Tue, 18 Feb 2020 08:34:48 +0000 (UTC)
+Received: from a27-60.smtp-out.us-west-2.amazonses.com (a27-60.smtp-out.us-west-2.amazonses.com [54.240.27.60])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 350E620675;
-	Mon, 17 Feb 2020 15:11:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9561721D7D
+	for <linux-firmware@kernel.org>; Tue, 18 Feb 2020 08:34:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UiZXJzTr"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 350E620675
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=alexdeucher@gmail.com
-Received: by mail-wr1-f46.google.com with SMTP id n10so18217220wrm.1;
-        Mon, 17 Feb 2020 07:11:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=uf41bswx+YT+XiykR6GOcSHEp9+iitD65x3TitEEjQo=;
-        b=UiZXJzTrBnUy/KTsVNQZCSnEkGdYS+KCEQFwxaPRwjbfINAuJ3nygu5Tkn1pFoPm/5
-         E80Hobprm2cH0BUUiveVPpKEQmM/pA01Dy9BGMozzBCo6RHGxEs1/pyjrndjGCe/CajK
-         sfnF6GF94qcpfxpq4JFRW+MVgkihAJoTpSyvXPAbgmWUKC3Le4KLjlHy72MhbKjeAX23
-         zmHkabrNO/OJfwSPMhRmoTp8PNjZjn/4v0pdmh4PVlYmgwGptHpMw2RLZDKUcBE7XeU2
-         oZSeFgWuXAFZlRgFzgd7H5BP4mS0UYq0cWOyMqVsa57K3Nj6fIjYtEimmPn0xwoBbBPQ
-         iEfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=uf41bswx+YT+XiykR6GOcSHEp9+iitD65x3TitEEjQo=;
-        b=sKXcSzlJNpeK6IuA4YEuSbjPtY2fDC/wMAUA7M9Gkl3qLryRLCxcgSdZzu/MKm8+t0
-         p1gzqYfekc2tPnk5C5FKexaAyldDDYMLzsOaatB9qJL+cNBXnBwjloAqrxmQ1xqZqY2A
-         ZgUka+5/eNlfaOsT1DdChn5VXi63Ssop/maCyoeS5nJzslmoXAIDfUbNl8L+JM3Qyg2Q
-         COc21lr6RtVZo25L47x5cdhh5lWVVYs1esrmrBG48MeAm6eqrc3b+m0+O0/IyPMQA6b+
-         yo04pA5ZoyPhJ3tkEdE2gO90kkuXWMIxUL2j/Ib6bRUaKOIdOjZihvKErYms+82L898S
-         53jQ==
-X-Gm-Message-State: APjAAAV6f6DAzsMjkkHZNmnEtUhu7BTwXWMqBRMhPaXU3qN9WWiYvob+
-	khmwfrj+TvA8thk/1gBKuI6hWgSDN/qpbJO1dZTN0A==
-X-Google-Smtp-Source: APXvYqyRGCVkC3ylRDrzPta98XAxhNltDYAx47urq8KfXJZdFwa2LzEI6eoBhRKx2ScnseceAbosQxG+EvajzBchGx0=
-X-Received: by 2002:a05:6000:1183:: with SMTP id g3mr23046920wrx.374.1581952282423;
- Mon, 17 Feb 2020 07:11:22 -0800 (PST)
-MIME-Version: 1.0
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 17 Feb 2020 10:11:11 -0500
-Message-ID: <CADnq5_PLo73We-obEZAW0tXQE-1iM5rXjBS3SWvggJV47AqBVA@mail.gmail.com>
-Subject: amdgpu firmware updates
+	dkim=pass (1024-bit key) header.d=costuco.com header.i=@costuco.com header.b="JlUQeNeQ";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="HapqRzPB"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9561721D7D
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=costuco.com
+Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=01010170576f786f-20976c22-0115-44c6-a07e-5ce13843a3ea-000000@us-west-2.amazonses.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=u75p64tjvkbmcnf6rjydxreq3obihong; d=costuco.com; t=1582014888;
+	h=Date:To:From:Reply-To:Subject:Message-ID:List-Unsubscribe:MIME-Version:Content-Type;
+	bh=yIy7ryLw4NY4i1cf8siX+nlICLe32Aj/oqkL4NTj6R8=;
+	b=JlUQeNeQoueGnUgJE14++eZ0PX7es1NeQ8W+7Jd28wJBP6YGB9yroboPRSW1ru10
+	i8290+RBaa2RH/NXmt5GJ4WhjAGUfDz56z6064p9mP1G0hv4KAbM0+Gq43Er2HqQAGe
+	HGcWmjQEuLlFRW+AI8HO6v2MT0F9J2oB2hwmNFHA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1582014888;
+	h=Date:To:From:Reply-To:Subject:Message-ID:List-Unsubscribe:MIME-Version:Content-Type:Feedback-ID;
+	bh=yIy7ryLw4NY4i1cf8siX+nlICLe32Aj/oqkL4NTj6R8=;
+	b=HapqRzPB6/nzpeiY+mPs6LFRnyN+bUaOkHroNN/aRaBTmnFN6wg2EEAbhLgyCjIe
+	DK9EWlb99LxujAboUlADUcggCUk2mTrbTlKDaoj2xPjgL7RuHoXgG9bvDlds3fzCG3W
+	MvuVcr/DR0qZrtUMnST3NoIyCtd+9KgLxOR7mXYU=
+Date: Tue, 18 Feb 2020 08:34:48 +0000
 List-Id: <linux-firmware.lore.kernel.org>
-To: Linux Firmware <linux-firmware@kernel.org>, Josh Boyer <jwboyer@kernel.org>
-Content-Type: multipart/mixed; boundary="000000000000d88f01059ec6f703"
+To: linux-firmware@kernel.org
+From: "nBoard.in" <jobs@costuco.com>
+Reply-To: "nBoard.in" <jobs@nboard.in>
+Subject: Analyze your students skills
+Message-ID: <01010170576f786f-20976c22-0115-44c6-a07e-5ce13843a3ea-000000@us-west-2.amazonses.com>
+X-Mailer: Sendy (https://sendy.co)
+List-Unsubscribe: <http://costuco.webpromos.in/unsubscribe/Yq7HOkln1FmSz2AdpqYccUASvWL5W892h3Iqtx7rG5aUQ/34xmSZzZjixA763szcEhwLZQ/VTa8hpgxycoAxMcqKkSR5A>
+MIME-Version: 1.0
+Content-Type: text/html; charset=UTF-8
+X-SES-Outgoing: 2020.02.18-54.240.27.60
+Feedback-ID: 1.us-west-2.2DD/h8DxormTOz8FA18tSY98n7lm5eh/8dBAxtSRpmk=:AmazonSES
 
---000000000000d88f01059ec6f703
-Content-Type: text/plain; charset="UTF-8"
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<p><span style="font-size:12px;"><span style="font-family:arial;">Dear Sir/Madam,</span></span></p>
 
-Updated firmware for raven.  Please apply!
+<p><span style="font-size:12px;"><span style="font-family:arial;">Get&nbsp;<strong>free online practice tool</strong>&nbsp;for your students (1st, 2nd, 3rd) for&nbsp;<strong>1 year</strong>.</span></span></p>
 
-Thanks,
+<p><span style="font-size:12px;"><span style="font-family:arial;">To avail this opportunity, add your students to nBoard (https://nboard.in). Check the below video to know the process:</span></span></p>
 
-Alex
+<p><strong><span style="font-size:14px;"><span style="font-family:arial;">https://youtu.be/uFwD_DVEDg4</span></span></strong></p>
 
---000000000000d88f01059ec6f703
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0001-drm-amdgpu-update-to-latest-19.50-firmware-for-raven.patch"
-Content-Disposition: attachment; 
-	filename="0001-drm-amdgpu-update-to-latest-19.50-firmware-for-raven.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_k6qliwfx0>
-X-Attachment-Id: f_k6qliwfx0
+<p><span style="font-size:12px;"><span style="font-family:arial;">After this entire process, send us an email to&nbsp;<a href="mailto:jobs@nboard.in" target="_blank">jobs@nboard.in</a>&nbsp;so that we will activate free CoSET membership for your students.</span></span></p>
 
-RnJvbSA2ZGNjMTQwODk0OTIwNTg4MThjYTYyOTBkODYwNWFiN2MyYTk4NjI1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5j
-b20+CkRhdGU6IE1vbiwgMTcgRmViIDIwMjAgMTA6MDk6MDUgLTA1MDAKU3ViamVjdDogW1BBVENI
-XSBkcm0vYW1kZ3B1OiB1cGRhdGUgdG8gbGF0ZXN0IDE5LjUwIGZpcm13YXJlIGZvciByYXZlbgoK
-QmFzZWQgb24gaW50ZXJuYWwgZ2l0IGNvbW1pdDoKNDBlMWZhYzU0OGQ1ZjVkZWI3ZGVkMTRiN2Ew
-Yjg4NGRjNTc2NGJhYgoKU2lnbmVkLW9mZi1ieTogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1
-Y2hlckBhbWQuY29tPgotLS0KIGFtZGdwdS9yYXZlbl9ybGMuYmluIHwgQmluIDM5MDg0IC0+IDM5
-MDg0IGJ5dGVzCiAxIGZpbGUgY2hhbmdlZCwgMCBpbnNlcnRpb25zKCspLCAwIGRlbGV0aW9ucygt
-KQoKZGlmZiAtLWdpdCBhL2FtZGdwdS9yYXZlbl9ybGMuYmluIGIvYW1kZ3B1L3JhdmVuX3JsYy5i
-aW4KaW5kZXggZTZhMDg2YzExMzU2NzI1ZWEyOTM3MDIzMzViYTYwNmQ0YmJmMTM1Zi4uN2RmNmJl
-OTMxZTZmZDA5MjM0M2RlZTYxNTkzNDBhYWNmMmI1Y2M4ZCAxMDA2NDQKR0lUIGJpbmFyeSBwYXRj
-aApkZWx0YSA3MTc5CnpjbWJfZzN3VHUzd08oZilXTShvbW5hTHkhQT49KUlQQ15tX0JzP00kVisp
-b31DQj4qZmQxI3Z8ekVEdHZPSkdoNAp6REQoeWlZeXlkWmZRbSlMWWFAY182Kjx4MiozXldAKW5L
-VEE8JGxeTGNKUn5RPlpQRk97X0QmK1ZXNUBrY2ZVS3wKendgVDNWVVZIN2UqSXMqe3l7RSZscl5B
-ckJyO1RVfTVnQUEjRTVLdHc9WCF1ZDxhXl8zQDRDIUN5MXd7JGByJUl4CnpvcXMqS3l1VytJKz8r
-UnNPUGI8aiFHOFE4M0koejUtdTNHWnVIWXk/SDU7aDhZLTU3YlgyflF1anNrc1ZxVjZPPgp6MGlm
-SiRTTFF9S3lBUGRgYGQ8RCNKfWw4SHBNbTVKS3s2Zi1Rb2BHcmJuTkVlZzVNRjVkYi03Mkx5b2pj
-dFQ5d3IKeko3TWRZT2xyUEdiUXY7QT9rUz8/e3kyKzVXTExPTkcpJDJ3UTwpc2BEWCt4ekA4YFpx
-SGNrJCl7diooejZpRXIyCnpzNSNlMy1MN2BARW9lSz9aYmUmMFRjVHF3bnt1cXQzZmQ7blQlZnRn
-ck5vMH4yVGd6JDBMX04+Ujx2bnxQM2Q+Nwp6IXFuYF85bDZ3ODR8bylHZUg7VSh6S3wzVlhTek1L
-OXpNfExEUGVOODwkbHtReDJ0YGs3UDhvc1pPa2pzYUdRcCEKekcoMVZldz8obHtaZkBpO18zO3FA
-N0p9RlAhJlZncCRmXjJLM3FQblZOOzcySW0zZ0B8c0NpYlR3a0lnZ29CUyM0CnpDUEh0VDlhLUxl
-TU8mMWNKKXkmeXQ0dWBsaWEpYHJ6WEh3ISsqdUBOMUJ3QjQwQmElMXdTWEd7UG92S1BXfClUZAp6
-YmllfEBRLUozSUpwaTVtMEBfQ2I1eHwhKmJlI2A4ZUwmYjhzWVpxckUwKyphMHxocFQ5Rm9uRW5q
-PFcxMG5jejEKeiYhWHxIO0YrJUNTKHp1JjI1cHVNOz8rVTxfJis7bllLPFlBPGwmU1c5ej0zMEF5
-P3l8Z35WNW1BZDdnRShMe1pkCnokPUcrMDxoRj9ocjdoay0/U35gTHl4bkF3K3QhUFI8MSN8Kjdm
-VXx9UDY5R3xGZnd7fVIqT2xaQHZ1ZktfdkRoaQp6NUFnNFIydyl5MnsoWFY0cUh6KTRKaSRJNSEt
-Z0BFVlZfYHwkNkIxVkR4fEt+WThjJVAkanV7cERXQyh1e2VKfCUKejI3TjYrME5NYXMwYzw9KE81
-Y1QkUmNTPEMxVFJWSWZRPURqVWtHOClgeWJefnZrbT04MUdJVDBIeEA4NDBBZ1QzCnpARHs5XnRg
-eGpmcVo7RXVxQV5YdD5NM207SVdAbDAraHMzR2ErQDlOIUZudmBqKEVhT2FePD1zIy01YWpiKVom
-cwp6M2QhbnNASUg2S3dRamdSTntxM2xya3ckV2J0R35YdkpUcm8+WiFJbSNlPiF2KGg8PlB0KDI7
-UysyJldKWjxMSXgKelNOKmdyJnJBeGNsLXo/JUslTjlgSWEwY0smXjklVnQ8Kj1uQE9EYkJvdjVg
-fFRZViRlVjIoSXpeUTFoTFAwYX07CnpaPC1GQFomYk5rZGA0MVFwQXdHdmpJMjR9cmpvb18qTXQy
-SENsRXNEWno0TTJwRHUjJklpVlkqSz5MOSoyWWYlfgp6dEM2VnZ1fW53VUFScUh4aGohNT1NfGl4
-WHY+bnN0IVY1QVF5SiFwK2ZXNmFrSjtwWkRvfX5XJU5TPWZvQ1I5WEAKemlJSGR7Tm1hQFlgMWdD
-Q0lgVT5STUVpMHl1SHNVQlZkIXBeWEFjKldEe011KjxNcHZKT3xCflY1WkU0dzs8Wj83CnpNNjMx
-TnshX1VycV9tVDxPNCR6RUtjPDltSmFrQnQjfCRAPEhPZURSU0VicGFHJCY9a1UtOyV3YHtIU1B2
-YjBeaQp6WVJ8NzhAWSs8UnlhVVRPUDwrXm9PZGFzdjlIcmpedVE9aWNpYm5pcj1tJGxicXQ+aihO
-O0VpYk57Jk9SJWMzZX0KemNuKU9ZUTh1P2xtKmQ0V3AzX2lYMTxmfXYrQ1FlK0s0WmNkQn5HK0RZ
-djsxZ05LSDN7JXZMI0VTPnZrXlUxflg8CnpocWohcFR3b2tmSnx4SmhHKD12ZFFQbkF5R2xJXjM2
-cHxlP1J5T0Y3KUZXRmpZNyN1d0FWJXsrR0FMI3ljIXlxTAp6YHdGfF9AcjNNQFFFK3wpclcwR1Ij
-JkpUM3U3cHhHeHoqNlJzKzZAaypoKGxPVXFlSDZMP3BYJWcxbV5GcX53bEQKempRNz5fPjQ4dWVE
-S1NiUE5MQU1YS1U9RTg4MHQ3a0pqUkBlb25vYns1fVdJd1lhJXZ7KiooRzBoZzJQbGZOYHE2CnpC
-PGtFPWhZOTB4dlElTWBDJmFfPDlPO0I7Y1VNP0hnM1luMi1AV2ROYUBISEs+QlctOzNvQ0N9dWxs
-WEYrZSotOAp6MygtS2ohbW8pamlUUDVleElOSjt4eTBoYylafXpYVDxvWFR7aCF6Tj9aKlk5MDI/
-NylKZVQtJEBFeEFpK2I2MmwKejxqcFJtJjx9a2k9Y0NVQm9tMHEhY3IxI0orT2BtTVVRUy1WRTI0
-KkdvRCNKJGtUQCg7ZlA7ZkstNFVfY1F6X2pjCnpJejY1PUsxQVglbj8oVGlLISUpcFZJVW1kO3RQ
-Kyo1dFgzc01ZdE4oM1Vgdlg/Z2lLbU1vUG0mQ15FUjhCNjwyQAp6IzVSSCRkc2Y4UUpzN31hPmI2
-Kmk8em5eTkdGdUliI1l3NCErckMzMDkrQnRzVS16ekY5ODlXfD5jeTh5bFM4fmMKekVAd25sMFZs
-OU5iM0cjTGd7MD5lWnlRWXBNUSYzfThNcT0rZGVaQmcwOHYoTF5GaFpzJH5LTGVQMnh+O2dXLX0t
-Cno8UEUrfnN1Y31gWXMoOEBvVG9sM3ZpI19yaTFGeWAkWGlGYlFte2ZYYyt0P3JAV2pjJVE9d2Jw
-b3JtUHk+aCl0ewp6VUVUYChmOCtJPG8xcFFHTkV0SFF4KFkzfShJbEZOYyUpc1RieDVpQ1ZiSW8j
-dHw2NmZQRHdyJXhlfkBqYTNsKE0KemlxfD8mNEBHJU8jOzlLMnxKZGA+az5yT18rWWkjWEBFa2Yy
-KjgoZmUwRXRFX0JTNj11N2AzeDlDOEtCfkckbS14CnpnPVFLK3oyb0JpQlRkNlY3TnJOODdZb0Za
-bCktNlNCMjtEVXo5Z19OVWs9dUVfWHVnSSQ4aXRfX2goNmNDYmZgYwp6NGZXakQzMFpjfk5RdWhp
-M2FOKTMtMnMhJjBiVCY/MUgyMDgxaERmY2A8dUlmVXlHVDx6czlzKms3PnRGNnVXMHIKenYpRDF6
-NlZqKVIoWWp9b0h8KE9ELTkkR1I7dTRAOSUyI3tDbFYxZTU2e0NLYVhXeiNnNG1ITlNkKkpHRl4r
-NEFlCnpmVCNYXzI4bz89dilHI0lvJVVUV3xOalM1emZJeyYkKGVKbEllbmtgTURzSjZmeEtXPmpT
-PWVNS3smQ21IUEhWbAp6Yyt1N0I9Qj52JCVKcUhgdHt5aEkxeT5Kd0wtYWI1VjJSI0dxUW98PENg
-bDk2a0pWak10YjhvRyhxPFVHJHJFfCQKemQ4cUhmYlVwPGQoa3JEcnV7Q3szJTVfLU0tSHxiMjNt
-eCN2dl59M3MjSHNrMHlIMXA2dGQ7SCtvZikyek08NyNuCnohR1JwQFBEO1MjM3R6UlomN2lTWTUr
-JnVERDl9Mkd7TmRYdkttNCRlR0NkXys4ZStNPjBKbmo7cGNeIWVVeEllMAp6cyFeazlTVHhTdjtN
-fTgwJDZDMTteIXJxZXJjNiZFK2NJZXk0fWtOYXJsREp6NTg0NyVgZTBeO1RsWilvc0U/QEIKel5E
-KSRhMChGVD5QMFB4dClAN0gwOHElej9BMlJ3KUc1dSVKfDRtR3ZYb1BaMUVZOUx7ejlURWMkeVlD
-NEFybjRCCnpKfVZNdXZXQkw4aEZWO1NaemNXTXlyUiZIPG1fNGwxZ0JAR2p+RlBQKDY3WCQ1dFU7
-QG9ONmEoO0MqQnA3c0h0MQp6dz54e05SM0h2IyZ6TSNSaDZrbU9GPTtxbyF4YjlOKWJLPE5QdHxa
-aCEqXjxVZnJqVFc3Sz9MSXJRMVluUEs5KXIKej0qayU8SnRFQSQzTnoyakR5bkBNPyN1SXxtajBD
-Xmx7TWwlVXJ0U0lAcDk2enVuKDZVdF9hLURMWXFyMHg2eyQpCnpHUnk1JHcwWWxnRFNsMklfancj
-I0dNVkVCWFBAe1loR0dRO1hIS3BzUyhsTXd2YDMzRXh2OThIKSN1KEM4alhuRAp6XnJxQ08qUTQw
-byZ6bn4tX09ab1dGWns3WmVIVk58Q0Zye2ptam5INTt1SWsmUHo+fm9NNE9WPm1gUD56ZSVPPkgK
-eipBSk5ZT2U5RDZeR2VoVWpVYGorWDQpM2ZrZThBN1IzU0JJUXwoYitEfnRBQ2xURFQzUFNBUytn
-cDFQYGc8Xk4hCnomYHxYMCMtYiFhajY+Njs5YDRibjlyWTxFcnZKV0FmOWtRRSFoQDMhZnh7PjlG
-algmeHI/X0I/Q2xQRHdHWER6Twp6JmdocFNOPkx8K3NMU2BldD1jTTRBYUklamJvemB+bFJyXnY1
-eHd+dFg9TihVZipYRzNEVCMpZU43R3c5SFg2TmIKejJxaGU4NjdCK3pSMz5yQHtMJmR3UzVUVX56
-SGteRyFqelI4QG5GJnAqYUZ4bFNfPnZmdVpaNCl6MCFNUGI+VlYxCnp6aDtAPmFgYVVUU2Ztd3NR
-I2RkajAxZ1VJbEtWRjBTNC1fOFNtY0YlTCghZU0xb3NxcU9aLUxNY25uWmhsb3BYWgp6NS0+YGB4
-XnxNTCZHYj5pP04xSHJIej5ZYkAtPmpKYkYoNkViPm9LQk9eO2Q+ZWo7TD97I145O1pJQEM5ZjRZ
-ITsKenFzM3lzenhwM3FUS1RfUUI5IUpqYW5fJDlKdFU7ISR2PTNrRDAyfGVyWkNabTBEODA7SzBn
-anYzcz9zYjA5IzxACnoocEtQZnJFe3JPWVpKWDZXfTAxfHhwYnBnU0x7Y0c0aUBMKnxLc0FIT05Z
-Z2NCYD1EaztYXnxCK1RYeWxaTSViQwp6Un4qUTdyeXtIRW99PWtfJElQTVMkMWR9R0BOTkVmODl0
-M1JTaXlyb0UmYj9VPXd9PGw2ckMyO09MI2ptdW0qYyUKelFvYTdCPjZFUVk5YXdsZkZsQDlZJGky
-Q0VXUiU7M1JEMWxsayghPjROSy1lVGRqMCokJFhCUCpxQjtgbjVzanNqCnolPXlAOWUkaURyJmJs
-M0F7fUE3KGktbl9YdmlYZT82aUx4aDx9dmhAaTF9cWQ5VyNENz91WW5ObTxHSFdAYXN9KQp6ZWlG
-RGBgPDdiZEN6KU04ZlkxSXtCTXk5dyR7VFJzK3docTlyWXVLVkV3YWlkOG4qZXg4elk4XzczRTEq
-JmNhXksKek16TiMoWTNaYVleWnxyQ3FII3BQQEsrV2JEO2RTI01qVDNCMWt3Mno/WDxRQmR3Rzl+
-b3tDZntVWXg2I29YYVZECnpRc1loR1hJYj81bDYjc2F8TCFFdDBHeW80NUhXNCFNNFRAPk1vd0B5
-N1FAcktZPko4PjAyV2AyVCZ3WTMpXzV1Zwp6P2AzZygpYmMxVkB0bnB9Rj9pPlMjan5TTk5hTXhR
-JHtGfVNTKCVGZUZEcXcrRSlgU3JSSDtDakZCTDFUUWtpMGMKekdra0l9e1Q5JDQoJiZ+TGBaVWxO
-WUlKKUh7YiEmcigmKC1qYFc+SipZVkBRU2RWXkZAdDFRelBMdCteQks7YylRCnpaLWhlfTlvP2Io
-TDBfVEtGRlBzeyQyXjw3d31qKyhxQDF1KipANFZiK0UrQG9lUzFhRW4wY2YwMVIjV1YyNDtvcAp6
-akVYdGIrXjxJVnROP0lBYlJiRG81RCQobTllTkhuQUJDTXlSbT4ra3dSe0gyWiVmMiRXMCQyPUxm
-OSUjUyFQdXAKelomY2UjT1NDUU8jYCYrb1pNYFA8PGhXQXZefjNTMUVGOXkjKHlielFlNUlOLXd9
-Q2JaJmFlez9VfVVISzxXZHZLCnpQZE1kMkVSNiU2RTFKZjgzaCMlTVF+blE/ViVJUiE3fX0tZmVl
-K2FvPzMqVkpqPDBwRUsjeW5fWnw5OD9vaWVXdwp6P3JNKjl1fVk8dVV5NzNJaW1XSGw7fk5OTDMw
-Ul8qR1RhV15eQVM0c1d4aTt0X05FeHN6JmUrRy1MSkhCQSVIYiYKejdya0BYQ18xVnE4cn5XJUU+
-YGFreSQ9KEFmJEp0Sl5ZQyFvQDE+KGhqe3ZoTktBPXFXYzh2dWFofHJkM2AqMGk8CnpQYjh4c3Vs
-IWZZcnU9cyh1OVYlMCgkbFleOCRtWmd7PkIoTyt2TzcqQDhfYSlMUnpqSmBWI0ZMIzVnK1VMdGQ5
-VQp6dTVEUjdQQXlEclcxNHR5IW8yRTlrVDRfcE9vN1FFWlYhclNUVnZYYG1eU1lRUmJIZThaVkVM
-KERfKX47K1khQHQKeiM8YihLSHY5ODsjWH5JXjc4RDNPWlhNQUJvRDBhYHdDYnhEbFg9PEVWeGt3
-RzJlTiZNWUlRa0BIRGhIQ1hwe0lSCnp1KXJSeklrPWQ+ck0+SSFaSShqZ3s/SCgmPzA7blMyTWRQ
-cHtCcF9mOHlCNnMqJmE4Y2xgSy0/Zyk/WEcrV0J1Xgp6ck90bnwhO29gbSFoZEd9PD5LPClSZSRt
-diQmODxNYT5tSGcrWEhAZzteMjM4endASj00PnZnQFVuVGJ5byozNCYKel4+cUk/XmBgY0h6Y2Ne
-anI1KlJ6ZTA/PGQlKzhQRj9IXyV6dVZNN01QaE5VcSpVVmslK3NuP2t5X3tBM28wPE81CnpVVDRR
-fT55d2RKX1Y7dWphejROOSFgSEt9LX40SWkhbX41fXJMS0ZGIT9xPUg/VFUkR1BUcHxPYFdANSRg
-TXBFJAp6e2JiWTgxR1NHWTg4Sy0xdSpEYTVyWjFkdnRqX2hwcGcreiRkcEAjeilZI01TZWxASk8j
-SiVAOz5ob2BZXjZvMWcKd0JnQ0glcn1TPn10dlB3LTlOcUowLXslK1ZkUy1jI0ZXOSFjY0ktYFFl
-YVRBfTgwTUs/c0Arcm5La0EoZW5FKEkpCgpkZWx0YSA3NDM0CnpjbWJfaDN3VHUzd08oZikkO0BP
-am5hTCFYMz9YRWFPdnEjTUJ0UX1wVX1CMVpYOzIlZmElbTcwTHtPXzB0RWRUYwp6NUsoOVlDVEBA
-ZnFFWkN2QlIpYmM3a3QhJTQ4X0w7Tk4+M1lac0xRbChEdihTQCVwWmgrPCU9cDY5I1ZlYHJVaTsK
-emVRVmE8PiRUVGpkK29MTiszREBtXzRlc0p5PEoyLU01SDUkJXomeXRwbVB5R0F9U2dqK1RRN1Qq
-SXd7Uzs/RX5NCnpjKlJwYXk/PEhYSCo/SkBWVjVxbXZFVF4pQVBOUHMrVys4I0l7VW1rZUFLUl5f
-VlUzYnJPVl9ZSWlDRTNNeHN5KAp6cGE1VmJvMDNgYERwKGRpNVBEQHU4aHJrMkxRdFowVUs3Y2k+
-ezNFLSpUSDF2OzRYV2lScWtsamxpVVNifDMkRGwKekJ3QlIyUWtQaCp0MjdeaC05OFZzVW5eZUxX
-dEg0ck1DfkstQ1dYa1ZhR1BrWEI5VFhGNDExTnNHNXchJVV6cWljCnpmZHNORUlpJkNKMXZpZlRv
-QXI+a2xTIzN7TE1MZD1nKFVNQjRFSkszU3omazNLPCMtcDNmWHN+WiRkaX0/SHk+Iwp6WGlJZD1a
-YyZjNG5uQndNbmpKSmQjeis5bzNmZ3dpe0dlSVRlJHFvfT9VWmcmTShwYmw1MzYhKDk8P3Q0Mnlz
-QmEKekJKZTFOcV9nZkkqfUwrLThJaWx5SzJabW1FSmBvKTNOK2xNO2M1LWYoKHFMZ1k/MGVyZDQj
-QlNFS3Z1KyQmczxeCnozakEwQ3JaKXFxSlZNaVh0ViRxeztAVEk0OH5SKHNldUZRLVBHTXlYU0JL
-WXhFXk0+OGMlbmZgX1A2cDF8R340KQp6S25UYEhhOGIlOGA1KGFKZlhlX2lmQ1RfSXFSTnJJMGBN
-SUEoRms5TV9FTFpoY293aF5hNTk/JHFYSTkwRmEtRGwKenB2eVVANyZRPSFqcDM8Q3IoKHNGJjF2
-WjBAPm5qKCMmRz0rbU45eyt5TVNsWGN4TGJuPWtlbDZIWnhRRil3b1NjCno1XkxrfkAld2FLR2sm
-RmJTSy1ecDZFLT4tUURgTG47TEZJPk9MUig/Ty1KMl8hallXYnMqfTVSaTJDQGYwSzM3YAp6UGtA
-dHpZKT9iQi08YUtEa2Y7dU1PS1ZAc0JsIV5FNnlQZ0JFMmpFPWZ2fXdNVmN1TCNnRko9PlcyQ305
-IThWVXwKelUtcjZ5eDtQS1A9K2w1bjw0TjhDSH5gQE9LWjdseF9XLXM3Yl4pRlF1PC15WGdQI1k/
-Ti1MNzA9fVNvK3VyO2g3CnozP0t+QXs+UzskWmI1KDZENk5efl81dnBRTEcrSWJVVzxKWlJjaVhP
-VU52P3VyYiQ+VnJIZG57IyNlZitlMiprfAp6eHNkPkBjU1E3PUdOZEQtLXtoT1l5VzlwUlBRWGQ3
-S2FRe3lObnBuWXFIYlByQX1fJEJkO21GKFNMZ2BxYCp8IzYKem4hMWloIzhtVHE+MjErJXU5OVlt
-MGtiY1lyRHNjZSl2RlBEZTd1bnFSNTdfZjR2e3pfKz9ISHZwX3BvRWg3WDtWCnpqRk92anNKKWNy
-WkxgKDJAOXtjRip9TW18QiRCcipoMGpzQ3A2VEwqQmBjZFhHTjkzKldlZTxYSSlsKW0+VE15fgp6
-PVVYYj0zQXVycGxEflVqY19RWD4lPS1oMHk2XldTMjZnZj1aI34qWVVuVH5wT0c/K1VIVjBtYSRz
-YH1HTEV3M0EKelE5S3RUPSYzaGxXRiRPM29wej4zdl5kVkxvTE1FcyM2P2ZeNUp9WmFBQUNMT1Js
-VjNveEB3KSRDO0FkOTE5eno7CnpZcHteKUt7THU0Rk84ZE5hJl5KcWZ2eEBzZWlYfSRLeUNoSldH
-SyV+TjttMU5tRkhtY2htO2dkZkRVUSRuQitEeAp6TXxoO15zeChXNFcrTSs9aEQoV1JVdERXVm03
-V3VLVEp4diF2WngkR3dlbGFaYH55a3w4bk85Q29pO30zKlRFfGUKenh7aTloOVB9SH1aeE9AUjJC
-UjctayhZUkJzdFlBOW8yciMqeHNaaU5Jb3VaTzZROWxHSWdSMGsoMHBeRHtYPVJQCnopRjsmX0Ut
-fX5FdSM5eWtZUHRhPXdhVmQmbm8hTUt5NXMldlh2O1pAMn0/P1Q8c0V7b048JCo1R14hcUFJWCZw
-Pwp6TTxIMTtWYFduYGxGYFU2NW1KKVYrPTlgKGtaY2l8TnY8KkgqKj8jJW4zSSZfbyZvMTRVXj8r
-eT9zS2lHPCh2QGYKemxnaVkqUnMoM1NSdnlMZmEtZT0jO2VoSWhJRyZXLSNFWnh3QlMlRHsmUmFo
-aTRUUVEjJHIxVyF3JVlnayppdHBkCnpQeyU+O0czSCE2QjQqZ0R1Jj4oZUdxR098KnszSS1NeiY1
-dHomS2w5NiVMMGhGJExwc3ZkcUZIJnhsRW1UPE1JTQp6PWNxSik0NFlGX3pjKUs3RF9FfmkoQFAp
-fDdGT1EwMTJmZX0rRmV1OFcoJCEoK0prUzFGQzYqVW8hUUFRJHM9bCMKekdnMzwtQHNBUE95IVVM
-dzs5bEgyM1h1UCRWcDtPRjtQKXFJRVZAIylDVTNKTmc/e1dNeGU5JSo8KHh0VyNBQnM0CnoodFYp
-d2FgTig+N2Q9RkFWWl9GMDs7PjhzKWA5b2graFZxfU8xZjM3Yn4tYjhPJWdEaGw+cWYxaE1hbVdB
-Uk9BRgp6JipAQnpOS2p9Y1pjV1clITBFZERXIVA+Q21qJS0pb0hqej9AbSR3ZmlmeSFEPjsrK2ND
-PUl9NE1zMllVJWY7JE4KemJTVHMhWUVtKV5wWnlrejFWbzxDe2l0X0tMfGFPZ3ZfJCtpcjdeKFU8
-Nks1bTdqT2JjWEM5M1JkbSUtMGk/QHY/CnpnRjNlKnJWTn1Ic2M2emlIdnl1bytVN0hrYkNobEJK
-KiEwXmIlYHpeUG49MWVDTit6XncxJGRtRm5RXz0hZlRFJAp6NEN7fHg5WEAhSkQrTWRtZmZvcikz
-e1B+WUhBRENQdzQwSGZFaU5BPnclJTJWLTxNcjNWPCRBODdiamQtbzRkM0AKeko0Sm9FUWAjcnly
-azVHbGcwQDRmUHBAKXRPN2Utd2xgdVl4KEArZWd5VWU1WVA8KXU0SFImfGgwcXB0Wk5iPSpUCnox
-dXMpPWEzU3JCLXdyRTEwRXMzbDdqY2N5cldtbV4hPHwqTTg9OEVQeSVVLXgwUUpnP3FtTUtWOWo+
-Z3koNmtoYQp6anFiRWVFKWw5U2MzJW91PWs1Zz9MY2AqSytuTHg4Z0x8ezNMNCNVSS1nNyV8OyF9
-YmgpS2p3M1NTal9ocWtTO0IKenBCKTdwMD15MHcwST41WWBgYjxjellzSHQ3aH5FbCNrNkI1aXJ1
-ck5NPVRvUzNgRDFtKEx6Xn5EYD0tSDk3STxYCno7YH4/Nzt8c212JD5YQmp6NyhUPW5gaHQwOHhB
-JGJUdDBlaHhwMUtHOGkxJCVlRmxsMGEqdEBxYUx4TlJtO2U4Ugp6OE5FbkZteSRFKnlYTiRMPGBj
-PSFOQ3h0UFRgKSRWcDlrVEB7O3Eta1NIWCp7UioxSlI9UDF8dm1BSENYQEt3bGwKektYTSZPR0RZ
-cXE1bmA4SHlneWMkS1QmczB2R1IjbnBFK05ibUBtI2BqekBoQDlMSnxYLW5jNGh2Uz1CMXd8ZnFq
-CnpedlE1ZCZfdyVPR0h1VzI2UntjSlk7KGtpO350UCYjcCowKSReRFFpfDJ6Pm44Y0lwUntZeXUq
-eGQkfSVOfWBsSgp6MUhLJj5rfXRUM0BgRyF8MGNkYihofitLQGNMe1NyKkomRXBmd29sRGtVUzkk
-bGczI04mSkNKJHRkJCE8emUmfW8Kel9jI21MbU88MEYxKVFJMDhjezJeZzBAMUhadTRZMHE4e0Iy
-PkshV2U9QHt4PXB4JilnaGRvKFNxcTNfJjRRTilgCno0O2xUe0c1eWA+fDJuMm1HKG1ZKylNV0VI
-fEZpNVk4KCtQNmckKCF0RzVXK0sqPCYofHhSekpwR2J3cyhvPiVDXwp6QCQzZDIxanBvem49bzJE
-cDxqaGRCUHokSGMtMm5DekBMJEFUbnVCMS19ME8+UW5ncntHa0BNOUZxfGxUajdoYCEKejhtYG9e
-TjVlQlUrXmt7MGhMPnUxZ0B6WTA3QiNzVSgpRDYpWmwkelJ0azEyTD9pWXUwRH4mdVd4QTswWSVX
-LWFnCnopR0BNbHFWbGpQQCNmYVk3QjNyKDRTSTNPO2ZsY1JZX3okPWEoZil3VHhQa1FmaX58dUYy
-KHlycmBNVXRDNmhWJAp6cjA2fipgZUc8JVB6SjwrKk8/bFhreiV3ajdHSFFYYUZ0NVV5RTFTd0I2
-OGBnKHFPYjYjcU5JSXl3UEdHVGc7PHsKektlbmp2Z0Q8RUFnVlMoMWhATVRIQjE4cD5qdXQwZGw7
-bDxxbUN2bihPPEEoZlZCWEdmdUp+SkNpRiU8aWQ4ODIyCnpkUFV5JnRucXNhc1hkMXBqYENXV3dD
-OUB+c3RPSyhlaX1mMGFWaXFhJEJ6al9VVUUhSTNkQUB4ezd3Xm49fX0qSAp6Vil9MStxYzE8RUEt
-cU5Mdy1+O0wkRXRjVUppUGY+NmBuK190I2theUUwU2owN1dxZy1EZEtXO0xeJCQmNCE1PlMKejxv
-NkdncE4ybVdQNUNwVz9QN0MmUjtGTCZuUSs3UjNgc1FCSUdHT2lUV0lwQ2JWQHFYREYqVkxsMyQk
-OF9lbWNKCnpNP3FRWWo+NTVjQlU5R3kjPyMwWGZMXzN9VnM2Mjc+OUUqYkBFaHEqVnNfeWcyUzA4
-WnY/IV5NVTFHUzw8PnRWIQp6bE49UERCPTtAS0ojQXd9VnYhNV9jfH1XYzNFb2lURHljMEI7VD1H
-XmNYfD1ObmdCQzI5TXcrSXczJmBpO0cmR0MKej1uYVo1bXdYTjY+KWU5eSE0UGcoQS1kMGBAWTR8
-VXFSJk1DeT1fKyghSmlZenpLY2JUJm99ai1UM1kpKlRPeVJeCnpNZERZIUVhX2Z4en1HbHFPT1lw
-elhpSmRqOVJTX2UxRF91T0pQUDt+OzR5JjMtX29gVmMkeyplJjgpU0YtVT4zIQp6RHp+KWw3TUI8
-TTVUVWw+ZUVqWXp6RShPZSVxN25UWSpKRUNxTDUpXkIhclQkYlYtUTBPKipMTlo5X057JEg3cGwK
-emokVDlnNTlNKmhgSz05fkktOFFEZUNSRW5mTWVtSVohbHtkOCtkVSQ4c01tUFVCZUdGaUd2Pmc8
-VW5hVk45enhNCnpJbF5QdTZqX3omNDs7MUE9UG88I2JBRjVQPXM8VytjfVN3MktDQXBFXjtFMylr
-dnlYSEB0dzhfaUtuUXZrPU1LPAp6dzV9WVYkKW1idj16M1RsSlM8PU4+NShXZXV5fSVBVzNtQjZ4
-NUk9MntDfTl5X240MyMpa0s+fXl5fDdjcHQhQWMKem1heihUcSpmZCN0dT4hUXQtVG11OzRjYmVT
-enspWkApMk1+OzFZc24rSkw4RytSUDc7Vj9afkUpbiFnMG0oXnZqCnpMWFdCMmZacWchJUJjTmE7
-MG8+WUBkWXRsPTh8MylRITg/JUhecmd+cnprRjtEN19+Wm02d0AkdztqZ19jWj1Adwp6JDg7SVJW
-cD5JeEYwKXUlUX1IOSs8WUtZNlZoWX1nS0NGMTlWalRwWmh2OHYwU1JVcDBYIVYoPjlIJmJVcFA9
-VCQKensxUUEmamZaaD1EXjIzUDM1fEtZTzsyYlZteU56dVBnR2R5MWtPRiY3TDxQeG1zaWZqbmM2
-Z0l5NW8xbkItOGE0CnpNYTghT2lAI1BycHolSntjcSNfKFF9TyE1SDQkRjJ1T3k8VVYoQCQ9Oypt
-LUpGMEIkanBGQUpHMUN1bEdgfkt3bAp6ZnZGfGY8NUdjZ3Q1bUZQbWRYX2F6QjJmPFg4TW1vemZH
-Zj9WKDlaZ3pnP3FTVzlVQnRlV2dhWCRJITA8eTtZOzkKeiNMJDtXMXI1cTdqZ2NQMXhCJnxIZmNf
-OTE7P0pJX0xxNyVtVVg2YXZRRExkeEVxeDtUcy01XmZSREpXTD0kYUZQCnpgRVc3c3goTWRyYXpC
-OCV7VHskTXt0QHkqMStsRUFZPmNtejxvbCRDIUQxRWp5QGZpO0E+bDYtZHVtcD4/P2xycQp6VSQp
-QXVZOzBCQU49S3dFVz40e2IyWTE3RmF0RWZBVyF7U2MqVE9tdjcoI09VUUgqVCNJYCVocGNaPHkw
-c3pzYlIKelRPbDxJP3k9TSFOWmFIYCs2Kkxid2FGKmp1eiQ4YjEtP3oqKFBseTAzWEsxKlk8KjZw
-b2xeTiRJZjl3UyZASFZRCno+e0dGUnV1dUg5d3hRKHI9bip8JGp5aSVHR2kybUcmZE5CNiFXTyZA
-ZndubUxNT0I3Njl2NjlhbHtHYD9AdlYlcAp6MVN9ejk/RGFBUG4qSFFHNTs+JjI7UEw0P1dGfnNe
-Jjx4Ujg9Zllsa3FIZDxuU1NKM25adHBVODhPYWtOWmxIMX0KejU2PURMYm84aGxtYChBYVpKXmlj
-RlZSZCZ3N25EdT0rLU9JUGYkSnpTZGBCS3Ztdlh+PW5GNVA+cD9kX3srR2ZyCnp0PHBSUGtgZ14w
-SCVCeTAlYUU9WCVjazh0XiV0TlNrI0dpb1Z9UlJuRj5QfjkrWS1+fTlpWW1LKWFqUTdlaHNZegp6
-amwlODNuNkBwWjlqfj5jQS1iQFBvSW9ndCQlQC1tPGY2aHdxZ0QlUHcxQ3s0NlM/cTJiI0tZPkNh
-VntMczR+YUIKelErelVnZ18qTzVociYoV2V9QUIpeik7X15fbHdteHpXVX5Hekk8bD1YVURBblRB
-JSZpb35eY0d4NFp0YHhgJDJLCnpmNmwhQTs0XighP0pyO1Fsa1NaWj1kWmwtPiQwNzVIaUBTbS1N
-STJjajwwZ2tXLXFeUHxJUloxI3k5QUomJUx8Ywp6OCUtaSohdnApWFByWkgyUGhWWT5jSmA3X1B0
-UkhLbXBYY0ZNZDsocE9MSXJ3dGVqSGNBTmJwO1M+cVMySTJgYzUKekAjMmBASiU4RVdfbXUzanZs
-ez1uPTlgbnZDbF99OTtfXyFFSmErV1A9aTlEMmN8LVN4X15jaih0TlgqNnJoaEFLCnp6d34oWmpA
-bmFTY1I2MUY/MDlFZC0jMiN6TylzNzVKWWlZJDsyKkVOO3I3cGVgUFF6QWxsTHNVP1ZXKlR5PFhk
-Zgp3dVd9QnxpP2dOOHY5JWJ0clFmb3hgbVFIeS18MEYjYHxVSUNKcSFONjxBI29PLUItYC1ZM1FC
-JVVzWX5wQGM7ay0KCi0tIAoyLjI0LjEKCg==
---000000000000d88f01059ec6f703--
+<p><span style="font-size:12px;"><span style="font-family:arial;">Key Benefits with CoSET are:</span></span></p>
+
+<ul>
+	<li><span style="font-size:12px;"><span style="font-family:arial;">Unlimited assessments to practise on various subjects like Aptitude, Reasoning, Verbal and Technical, Programming languages like C, C++, Java, PHP etc.&nbsp;</span></span></li>
+	<li><span style="font-size:12px;"><span style="font-family:arial;">Previous placement papers of reputed companies and Top MNC&#39;s.&nbsp;</span></span></li>
+	<li><span style="font-size:12px;"><span style="font-family:arial;">Comprehensive assessment reports for self evaluation&nbsp;</span></span></li>
+	<li><span style="font-size:12px;"><span style="font-family:arial;">Practice and improve your coding skills.</span></span></li>
+</ul>
+
+<p><span style="font-size:12px;"><span style="font-family:arial;">and More...</span></span></p>
+
+<p><span style="font-size:12px;"><span style="font-family:arial;">For any further queries related to add students / coset, feel free to contact us on&nbsp;&nbsp;<b>+91-9618949746</b>&nbsp;,&nbsp;<b>+91-<wbr />8885556688</b>&nbsp;(or) Send us an email to&nbsp;<a href="mailto:jobs@nboard.in" target="_blank">jobs@nboard.in</a>&nbsp;and our team will&nbsp; assist you to complete the process.</span></span></p>
+
+<p><span style="font-size:12px;"><span style="font-family:arial;">Regards<br />
+Team nBoard.in</span></span></p>
+
+<p><img alt="" src="https://ci4.googleusercontent.com/proxy/Skb6NFbvhmPkuGfMjTEIz8eyBKXLArjGmvel4pUkx9erX9OUDFmlCT_FoxD3peBRdfY4_3uXlKLrAaR_4pH1hWHwzmG_=s0-d-e1-ft#http://costuco.webpromos.in/uploads/1579579029.png" /></p>
+
+<p><span style="font-size:10px;"><span style="font-family:arial;"><em><span style="color:#808080;">This email was sent to&nbsp;linux-firmware@kernel.org&nbsp;because you indicated that you want to receive news regarding&nbsp;updates related to Fresher jobs. If you do not wish to receive such emails in the future, please&nbsp;</span><a data-saferedirecturl="https://www.google.com/url?q=http://costuco.webpromos.in/unsubscribe-success.php?c%3D1645&amp;source=gmail&amp;ust=1582095942840000&amp;usg=AFQjCNF7FYG5nAhNu-uqUKJ3ji1d4x_K0g" href="http://costuco.webpromos.in/l/5aHH1wXhsvN763ClCyNl20tQ/xwZkDZDp9TJZozeM8923hgZw/VTa8hpgxycoAxMcqKkSR5A" target="_blank"><span style="color:#808080;">Unsubscribe here</span></a><span style="color:#808080;">&nbsp;.Note: If you unsubscribe you will be&nbsp;loosing&nbsp;an opportunity to receive jobs /alerts.</span></em></span></span></p>
+</body>
+</html>
+<img src="http://costuco.webpromos.in/t/VTa8hpgxycoAxMcqKkSR5A/5aHH1wXhsvN763ClCyNl20tQ" alt="" style="width:1px;height:1px;"/>
