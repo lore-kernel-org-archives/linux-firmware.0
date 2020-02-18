@@ -1,4 +1,4 @@
-Return-Path: <SRS0=52rg=4G=vger.kernel.org=linux-kernel-owner@kernel.org>
+Return-Path: <SRS0=ePHU=4G=vger.kernel.org=linux-media-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
@@ -8,21 +8,20 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8D78C34026
-	for <linux-kernel@archiver.kernel.org>; Tue, 18 Feb 2020 10:04:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 204D0C34034
+	for <linux-media@archiver.kernel.org>; Tue, 18 Feb 2020 10:04:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 95BFC21D7D
-	for <linux-kernel@archiver.kernel.org>; Tue, 18 Feb 2020 10:04:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EB3AE24125
+	for <linux-media@archiver.kernel.org>; Tue, 18 Feb 2020 10:04:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
 	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="Ckxo9I9A"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726482AbgBRKEg (ORCPT
-        <rfc822;linux-kernel@archiver.kernel.org>);
+        id S1726428AbgBRKEg (ORCPT <rfc822;linux-media@archiver.kernel.org>);
         Tue, 18 Feb 2020 05:04:36 -0500
 Received: from mailgw02.mediatek.com ([210.61.82.184]:14384 "EHLO
         mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
         with ESMTP id S1726293AbgBRKEg (ORCPT
-        <rfc822;linux-kernel@vger.kernel.org>);
+        <rfc822;linux-media@vger.kernel.org>);
         Tue, 18 Feb 2020 05:04:36 -0500
 X-UUID: 4613f0bc78d645359a74d63740bdfa03-20200218
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
@@ -62,11 +61,11 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK:  N
 Content-Transfer-Encoding: base64
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
-List-ID: <linux-kernel.vger.kernel.org>
-X-Mailing-List: linux-kernel@vger.kernel.org
-Message-ID: <20200218100357.3Fn5tsitZfcazGy4Px6AYKp9one_bVSNDBkQ2G5sRYI@z>
+List-ID: <linux-media.vger.kernel.org>
+X-Mailing-List: linux-media@vger.kernel.org
+Message-ID: <20200218100357.TQEfYRegzJp1319cUQQm9BE7fEx5wHCrqVI_ijpwEo0@z>
 
 SGkgbGludXgtZmlybXdhcmUgbWFpbnRhaW5lcnMsDQoNClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBz
 aW5jZSBjb21taXQgNmY4OTczNTgwMGZlM2FmNzYxMTA0ZGVmZGI4MWI1MGI2ZDY0MDJmMDoNCg0K
