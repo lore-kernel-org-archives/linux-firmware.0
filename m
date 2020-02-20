@@ -1,4 +1,4 @@
-Return-Path: <SRS0=cA0y=4I=vger.kernel.org=linux-bluetooth-owner@kernel.org>
+Return-Path: <SRS0=6S+F=4I=vger.kernel.org=linux-arm-msm-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-10.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F910C11D04
-	for <linux-bluetooth@archiver.kernel.org>; Thu, 20 Feb 2020 10:36:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB3C7C11D07
+	for <linux-arm-msm@archiver.kernel.org>; Thu, 20 Feb 2020 10:36:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5D21E24672
-	for <linux-bluetooth@archiver.kernel.org>; Thu, 20 Feb 2020 10:36:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7B10924672
+	for <linux-arm-msm@archiver.kernel.org>; Thu, 20 Feb 2020 10:36:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="YR4l1mqr"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="hWOYRbRh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727326AbgBTKgD (ORCPT
-        <rfc822;linux-bluetooth@archiver.kernel.org>);
+        id S1727193AbgBTKgE (ORCPT
+        <rfc822;linux-arm-msm@archiver.kernel.org>);
+        Thu, 20 Feb 2020 05:36:04 -0500
+Received: from mail27.static.mailgun.info ([104.130.122.27]:51073 "EHLO
+        mail27.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726501AbgBTKgD (ORCPT
+        <rfc822;linux-arm-msm@vger.kernel.org>);
         Thu, 20 Feb 2020 05:36:03 -0500
-Received: from mail26.static.mailgun.info ([104.130.122.26]:16446 "EHLO
-        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727193AbgBTKgC (ORCPT
-        <rfc822;linux-bluetooth@vger.kernel.org>);
-        Thu, 20 Feb 2020 05:36:02 -0500
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1582194962; h=Message-ID: Subject: Cc: To: From: Date:
+ s=smtp; t=1582194963; h=Message-ID: Subject: Cc: To: From: Date:
  Content-Transfer-Encoding: Content-Type: MIME-Version: Sender;
- bh=IvusCc7SfQWheL3qpyxJjGggUjJ0Q+qu37ojxqfgpPg=; b=YR4l1mqrTaMMfvCuQfBUKQA0xUbGuFHCF1lbgA3wBhn/pdTT/K483Kd4oay0MsaeWMGp+Bs/
- 6fPoPB6h1/kEKOFdgY7hKZPGxMJIME9+SvZIDhZw1jbhGLecdSJy4qh4EeIRK/f80n/wqYzb
- 4k4XCNAo5+8up5eVAjpSO/d8hAk=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyI2MTA3ZSIsICJsaW51eC1ibHVldG9vdGhAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+ bh=IvusCc7SfQWheL3qpyxJjGggUjJ0Q+qu37ojxqfgpPg=; b=hWOYRbRhXL9s9qU0B7Dhm1acPV0OaLZCk/o4x0ZXjzJAHuHPIdTGmpv49bFnCq5frQ+yA4cn
+ psocljpApkfZ9kna/HH5C1Oca1ocTLq/YXyRt79iC2pb8EwOgpb7Qv/eCDUNObXd+iDY0aJi
+ IfrqNxJNiUwtapg+Ymwkrg6PZYw=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyI1MzIzYiIsICJsaW51eC1hcm0tbXNtQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
 Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
  by mxa.mailgun.org with ESMTP id 5e4e610b.7fa682926c38-smtp-out-n02;
  Thu, 20 Feb 2020 10:35:55 -0000 (UTC)
@@ -57,11 +57,11 @@ Subject: Firmware files for QCA BT chip WCN3991.
 Message-ID: <3d3a530f11e6bc9a87573389d72ddd3c@codeaurora.org>
 X-Sender: bgodavar@codeaurora.org
 User-Agent: Roundcube Webmail/1.3.9
-Sender: linux-bluetooth-owner@vger.kernel.org
+Sender: linux-arm-msm-owner@vger.kernel.org
 Precedence: bulk
-List-ID: <linux-bluetooth.vger.kernel.org>
-X-Mailing-List: linux-bluetooth@vger.kernel.org
-Message-ID: <20200220103554.a6wF-cJDgTLoIXiMZYOat5i3QxaVUrHb0NjYv1dfwkc@z>
+List-ID: <linux-arm-msm.vger.kernel.org>
+X-Mailing-List: linux-arm-msm@vger.kernel.org
+Message-ID: <20200220103554.MBB9_S3D1l6HmQCisxNnyPWi7WuFKpNXsC53fqJdYG0@z>
 
 Hi,
 
