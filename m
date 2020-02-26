@@ -1,27 +1,26 @@
-Return-Path: <SRS0=/Zd0=4O=vger.kernel.org=linux-kernel-owner@kernel.org>
+Return-Path: <SRS0=hlfS=4O=vger.kernel.org=linux-media-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_2
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F304AC4BA0B
-	for <linux-kernel@archiver.kernel.org>; Wed, 26 Feb 2020 04:20:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2534BC4BA0A
+	for <linux-media@archiver.kernel.org>; Wed, 26 Feb 2020 04:20:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C6B1221D7E
-	for <linux-kernel@archiver.kernel.org>; Wed, 26 Feb 2020 04:20:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F09FF24650
+	for <linux-media@archiver.kernel.org>; Wed, 26 Feb 2020 04:20:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
 	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="W4ZcjTIp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726661AbgBZEUS (ORCPT
-        <rfc822;linux-kernel@archiver.kernel.org>);
+        id S1726089AbgBZEUS (ORCPT <rfc822;linux-media@archiver.kernel.org>);
         Tue, 25 Feb 2020 23:20:18 -0500
 Received: from mailgw02.mediatek.com ([1.203.163.81]:18831 "EHLO
         mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
         with ESMTP id S1725788AbgBZEUR (ORCPT
-        <rfc822;linux-kernel@vger.kernel.org>);
+        <rfc822;linux-media@vger.kernel.org>);
         Tue, 25 Feb 2020 23:20:17 -0500
 X-UUID: ccb90562774a4957965dd6b0554db47b-20200226
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
@@ -66,11 +65,11 @@ MIME-Version: 1.0
 X-TM-SNTS-SMTP: D348BF505CE6650B3B5516AF264460E956BF2F030360665364A932DB0EF629EA2000:8
 X-MTK:  N
 Content-Transfer-Encoding: base64
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
-List-ID: <linux-kernel.vger.kernel.org>
-X-Mailing-List: linux-kernel@vger.kernel.org
-Message-ID: <20200226041950.adV0oRi8ix2SxkIgbetvLRGQhg67wAhisjgvnCBCpv0@z>
+List-ID: <linux-media.vger.kernel.org>
+X-Mailing-List: linux-media@vger.kernel.org
+Message-ID: <20200226041950.g0EcscJR54VvrLz0SAnQT7McUWzHbY-fkNkKzNTe7Lc@z>
 
 RGVhciBBbGV4LA0KDQpEbyB5b3UgbWVhbiB0byBjcmVhdGUgdHdvIHN5bWJvbGljIGxpbms/DQoN
 Cmxyd3hyd3hyd3ggIDEgZ3RrX3J1aXdhbmcgZ3RrX3J1aXdhbmcgICAgICAyNSBGZWIgMjYgMTE6
