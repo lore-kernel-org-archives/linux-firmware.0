@@ -1,84 +1,98 @@
-Return-Path: <SRS0=hlfS=4O=vger.kernel.org=linux-media-owner@kernel.org>
+Return-Path: <SRS0=Gpts=4O=chromium.org=acourbot@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MIME_BASE64_TEXT,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66B8EC4BA0B
-	for <linux-media@archiver.kernel.org>; Wed, 26 Feb 2020 03:38:26 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3111E21744
-	for <linux-media@archiver.kernel.org>; Wed, 26 Feb 2020 03:38:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1B05C4BA0A
+	for <linux-firmware@archiver.kernel.org>; Wed, 26 Feb 2020 03:42:12 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id A439B21D7E; Wed, 26 Feb 2020 03:42:12 +0000 (UTC)
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com [209.85.210.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id 60FC52067C
+	for <linux-firmware@kernel.org>; Wed, 26 Feb 2020 03:42:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="V4Dr5Ta0"
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726063AbgBZDiX (ORCPT <rfc822;linux-media@archiver.kernel.org>);
-        Tue, 25 Feb 2020 22:38:23 -0500
-Received: from mailgw02.mediatek.com ([210.61.82.184]:35447 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725837AbgBZDiW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Feb 2020 22:38:22 -0500
-X-UUID: 8aaae59155ea46189d8202b9f9185cf0-20200226
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=nh2s25XhkWJkMUS7wIRow/JMcFuv2C5dPCJ4XGFkezc=;
-        b=V4Dr5Ta011CUDI31cGOwkUngGIe0OczP9v8i4vOyryim9LjFheAT8g0OAiOj9NYQxO8PwocW4gC54Q/N7w3Un9Aeg70FUiXj81XjNeu4YeCe4ITrtpxhGRpGh3U/dW+D+oa+ywgLVVyKZYtwjh7H/6L3SZYI3y3QldAbZYAqcQA=;
-X-UUID: 8aaae59155ea46189d8202b9f9185cf0-20200226
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
-        (envelope-from <gtk_ruiwang@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-        with ESMTP id 605971352; Wed, 26 Feb 2020 11:38:15 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Wed, 26 Feb 2020 11:37:24 +0800
-Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Wed, 26 Feb 2020 11:35:56 +0800
-From:   <gtk_ruiwang@mediatek.com>
-List-Id: <linux-firmware.lore.kernel.org>
-To:     <linux-firmware@kernel.org>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>, <PoChun.Lin@mediatek.com>,
-        Longfei Wang <longfei.wang@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        <gtk_ruiwang@mediatek.com>
-Subject: [PATCH] mediatek: move MT8173 VPU FW to subfolder
-Date:   Wed, 26 Feb 2020 11:36:46 +0800
-Message-ID: <20200226033646.20949-2-gtk_ruiwang@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20200226033646.20949-1-gtk_ruiwang@mediatek.com>
-References: <20200226033646.20949-1-gtk_ruiwang@mediatek.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kJDoUvS6"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 60FC52067C
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=acourbot@chromium.org
+Received: by mail-ot1-f65.google.com with SMTP id j16so1713171otl.1
+        for <linux-firmware@kernel.org>; Tue, 25 Feb 2020 19:42:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zhbMFZH9TV9xXX3bi0AiULw9sla8JatRwgZ0NfA605c=;
+        b=kJDoUvS6OOJk+ypY1EujEwgsPIKGLXE6pkmbSfiESFefGeQ4Nl1/uklyaEW0ZctjRf
+         /BuGku1pbGbTJQkAKdFDT07ofldpcOno6F37PivyZNi0+RxqwzT/xWZ+7mdmIjlguqAH
+         zHSYv7AFcb+vycN05DI991TYsea4JG/1ynAGU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zhbMFZH9TV9xXX3bi0AiULw9sla8JatRwgZ0NfA605c=;
+        b=TJzMZmcj8dGRmR8J8TrPusiGt++vU9Y04Voq2DQvDRYcQf/x2sVe6KUfldvWuVm6sS
+         fOOBGKqXw8sQeFiewxkgIj9Lv1lrN5o6uTv9niwFoXFWwsmffUblTRIeyd/WOrtWMmDH
+         ZWOOcGr7c+2AkbGWseLm+GbUiYg2wiZSRIdy2sQKxju77GmLa7eg/L4B7nD6hP3/5EzD
+         Xobe/WvGXcwfwlGNnGShN7PU4M32/uMvJynDzlhGJn6GorxUG0rIpdviMPiHVDOucZyl
+         wQrwFdHv/FBvfI4bqm+mESo8hVWUxoPpP8mmEUi0ThktbM+UndFsrNWwZgvUDTCik5gR
+         cgYQ==
+X-Gm-Message-State: APjAAAW+D7A5LuthyVbRVfanOpil+fn+aXKXpsznDQ8n/8Y5vfdcKmsC
+	jHTUqY+icLvwqvzsfKBAzc3WRPy3WfE=
+X-Google-Smtp-Source: APXvYqzuTLMXWabMOxTlR1tByquurQwD9hMgegRMUtsbZu57MAzQBlBus9B3sQPTKsotLmGFxsGuCA==
+X-Received: by 2002:a9d:20c1:: with SMTP id x59mr1470173ota.286.1582688531220;
+        Tue, 25 Feb 2020 19:42:11 -0800 (PST)
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com. [209.85.167.179])
+        by smtp.gmail.com with ESMTPSA id t21sm274968otr.42.2020.02.25.19.42.10
+        for <linux-firmware@kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Feb 2020 19:42:10 -0800 (PST)
+Received: by mail-oi1-f179.google.com with SMTP id l136so1660518oig.1
+        for <linux-firmware@kernel.org>; Tue, 25 Feb 2020 19:42:10 -0800 (PST)
+X-Received: by 2002:aca:ab53:: with SMTP id u80mr1537577oie.94.1582688529944;
+ Tue, 25 Feb 2020 19:42:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
-Content-Transfer-Encoding: base64
-Sender: linux-media-owner@vger.kernel.org
-Precedence: bulk
-List-ID: <linux-media.vger.kernel.org>
-X-Mailing-List: linux-media@vger.kernel.org
-Message-ID: <20200226033646.P0gaCm5wpH1bdlcr41vJeM4YM8eOgLVtRLT4MlgnXX0@z>
+References: <20200226033646.20949-1-gtk_ruiwang@mediatek.com> <20200226033646.20949-2-gtk_ruiwang@mediatek.com>
+In-Reply-To: <20200226033646.20949-2-gtk_ruiwang@mediatek.com>
+From: Alexandre Courbot <acourbot@chromium.org>
+Date: Wed, 26 Feb 2020 12:41:58 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MWN6bXfYvpBJ6XyPCuvJSpdxNOf4Z9RbY0jbnB5=JX_sQ@mail.gmail.com>
+Message-ID: <CAPBb6MWN6bXfYvpBJ6XyPCuvJSpdxNOf4Z9RbY0jbnB5=JX_sQ@mail.gmail.com>
+Subject: Re: [PATCH] mediatek: move MT8173 VPU FW to subfolder
+To: gtk_ruiwang <gtk_ruiwang@mediatek.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: linux-firmware@kernel.org, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	"moderated list:ARM/Mediatek SoC support" <linux-arm-kernel@lists.infradead.org>, 
+	"moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, srv_heupstream@mediatek.com, 
+	Tomasz Figa <tfiga@chromium.org>, PoChun.Lin@mediatek.com, 
+	Longfei Wang <longfei.wang@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>, 
+	Maoguang Meng <maoguang.meng@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
 
-RnJvbTogZ3RrX3J1aXdhbmcgPGd0a19ydWl3YW5nQG1lZGlhdGVrLmNvbT4NCg0KQ3VycmVudGx5
-IHZwdV9kLmJpbiBhbmQgdnB1X3AuYmluIGFyZSBhdCB0aGUgcm9vdCBvZg0KbGludXgtZmlybXdh
-cmUgZ2l0IHRyZWUsIGl0J3Mgbm90IGFwcHJvcHJpYXRlIHNvIHdlIG1vdmUNCnRoZW0gdG8gc3Vi
-Zm9sZGVyIG1lZGlhdGVrL210ODE3Mw0KDQpSZWxlYXNlIFZlcnNpb246IDEuMS40DQoNClNpZ25l
-ZC1vZmYtYnk6IFJ1aSBXYW5nIDxndGtfcnVpd2FuZ0BtZWRpYXRlay5jb20+DQotLS0NCiB2cHVf
-ZC5iaW4gPT4gbWVkaWF0ZWsvbXQ4MTczL3ZwdV9kLmJpbiB8IEJpbg0KIHZwdV9wLmJpbiA9PiBt
-ZWRpYXRlay9tdDgxNzMvdnB1X3AuYmluIHwgQmluDQogMiBmaWxlcyBjaGFuZ2VkLCAwIGluc2Vy
-dGlvbnMoKyksIDAgZGVsZXRpb25zKC0pDQogcmVuYW1lIHZwdV9kLmJpbiA9PiBtZWRpYXRlay9t
-dDgxNzMvdnB1X2QuYmluICgxMDAlKQ0KIHJlbmFtZSB2cHVfcC5iaW4gPT4gbWVkaWF0ZWsvbXQ4
-MTczL3ZwdV9wLmJpbiAoMTAwJSkNCg0KZGlmZiAtLWdpdCBhL3ZwdV9kLmJpbiBiL21lZGlhdGVr
-L210ODE3My92cHVfZC5iaW4NCnNpbWlsYXJpdHkgaW5kZXggMTAwJQ0KcmVuYW1lIGZyb20gdnB1
-X2QuYmluDQpyZW5hbWUgdG8gbWVkaWF0ZWsvbXQ4MTczL3ZwdV9kLmJpbg0KZGlmZiAtLWdpdCBh
-L3ZwdV9wLmJpbiBiL21lZGlhdGVrL210ODE3My92cHVfcC5iaW4NCnNpbWlsYXJpdHkgaW5kZXgg
-MTAwJQ0KcmVuYW1lIGZyb20gdnB1X3AuYmluDQpyZW5hbWUgdG8gbWVkaWF0ZWsvbXQ4MTczL3Zw
-dV9wLmJpbg0KLS0gDQoyLjE4LjANCg==
+On Wed, Feb 26, 2020 at 12:38 PM <gtk_ruiwang@mediatek.com> wrote:
+>
+> From: gtk_ruiwang <gtk_ruiwang@mediatek.com>
+>
+> Currently vpu_d.bin and vpu_p.bin are at the root of
+> linux-firmware git tree, it's not appropriate so we move
+> them to subfolder mediatek/mt8173
+>
+> Release Version: 1.1.4
+>
+> Signed-off-by: Rui Wang <gtk_ruiwang@mediatek.com>
+> ---
+>  vpu_d.bin => mediatek/mt8173/vpu_d.bin | Bin
+>  vpu_p.bin => mediatek/mt8173/vpu_p.bin | Bin
+>  2 files changed, 0 insertions(+), 0 deletions(-)
+>  rename vpu_d.bin => mediatek/mt8173/vpu_d.bin (100%)
+>  rename vpu_p.bin => mediatek/mt8173/vpu_p.bin (100%)
 
+This is nice as it removes some stuff from the root, but for
+compatibility with older kernels that don't know about the new path
+shouldn't we at least temporarily create a symbolic link between the
+old location and the new one?
