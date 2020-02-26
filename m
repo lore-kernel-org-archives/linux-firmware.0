@@ -1,27 +1,30 @@
-Return-Path: <SRS0=Gpts=4O=chromium.org=acourbot@kernel.org>
+Return-Path: <SRS0=/Zd0=4O=vger.kernel.org=linux-kernel-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1B05C4BA0A
-	for <linux-firmware@archiver.kernel.org>; Wed, 26 Feb 2020 03:42:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id A439B21D7E; Wed, 26 Feb 2020 03:42:12 +0000 (UTC)
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com [209.85.210.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 60FC52067C
-	for <linux-firmware@kernel.org>; Wed, 26 Feb 2020 03:42:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7910AC4BA0B
+	for <linux-kernel@archiver.kernel.org>; Wed, 26 Feb 2020 03:42:14 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
+	by mail.kernel.org (Postfix) with ESMTP id 4F16B2067C
+	for <linux-kernel@archiver.kernel.org>; Wed, 26 Feb 2020 03:42:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
 	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kJDoUvS6"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 60FC52067C
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=acourbot@chromium.org
-Received: by mail-ot1-f65.google.com with SMTP id j16so1713171otl.1
-        for <linux-firmware@kernel.org>; Tue, 25 Feb 2020 19:42:12 -0800 (PST)
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S1725788AbgBZDmN (ORCPT
+        <rfc822;linux-kernel@archiver.kernel.org>);
+        Tue, 25 Feb 2020 22:42:13 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:35500 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726024AbgBZDmM (ORCPT
+        <rfc822;linux-kernel@vger.kernel.org>);
+        Tue, 25 Feb 2020 22:42:12 -0500
+Received: by mail-ot1-f65.google.com with SMTP id r16so1709706otd.2
+        for <linux-kernel@vger.kernel.org>; Tue, 25 Feb 2020 19:42:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
@@ -35,44 +38,54 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
         bh=zhbMFZH9TV9xXX3bi0AiULw9sla8JatRwgZ0NfA605c=;
-        b=TJzMZmcj8dGRmR8J8TrPusiGt++vU9Y04Voq2DQvDRYcQf/x2sVe6KUfldvWuVm6sS
-         fOOBGKqXw8sQeFiewxkgIj9Lv1lrN5o6uTv9niwFoXFWwsmffUblTRIeyd/WOrtWMmDH
-         ZWOOcGr7c+2AkbGWseLm+GbUiYg2wiZSRIdy2sQKxju77GmLa7eg/L4B7nD6hP3/5EzD
-         Xobe/WvGXcwfwlGNnGShN7PU4M32/uMvJynDzlhGJn6GorxUG0rIpdviMPiHVDOucZyl
-         wQrwFdHv/FBvfI4bqm+mESo8hVWUxoPpP8mmEUi0ThktbM+UndFsrNWwZgvUDTCik5gR
-         cgYQ==
-X-Gm-Message-State: APjAAAW+D7A5LuthyVbRVfanOpil+fn+aXKXpsznDQ8n/8Y5vfdcKmsC
-	jHTUqY+icLvwqvzsfKBAzc3WRPy3WfE=
-X-Google-Smtp-Source: APXvYqzuTLMXWabMOxTlR1tByquurQwD9hMgegRMUtsbZu57MAzQBlBus9B3sQPTKsotLmGFxsGuCA==
-X-Received: by 2002:a9d:20c1:: with SMTP id x59mr1470173ota.286.1582688531220;
+        b=WhPraFsbG81HWwVLP4Z80bq2UaPSi4Gw+q6R3JY8gJEU3XqlWDCZxnjM5TU+8vk5Xc
+         2cwDey/crOhSX4HKf+rFamR72eYVBlFaXQi0toSLc2CmuKCIJ443KfwrMj/+dq7VtwTk
+         pZDpSb9BpLzrvWTIAUS4Lu9Bb7sGdupAeVdSDNRov32HPjkMmEszJeLVUv3hZ2dGQKfH
+         YR0hpHwJHqoyqX0LbhH3SjgwVRQ4DcckOdIraYzz5TJIskDUSKCwCealWdj4s9W45zd5
+         yAgqpLSGTV57ohzZmfYDnP7Fc8sxDLOewRtrFRvTiVnQPDABdSzA7txeqBAMv563Ja7e
+         kvEA==
+X-Gm-Message-State: APjAAAWbCCSHFJhoniKxqO7xAv2RTrHqNKPu/Bhrb4SVn+4POtlvkjnh
+        ofaoKJuA+svxsXaNhGlN34GUnnZ95IU=
+X-Google-Smtp-Source: APXvYqwu/7Cg5/db+aNRnUKnXn1HnVT42ZOIVtb9USet8b9BGzIFw2LcKpu67GnK+NYK4NxsFvo7GA==
+X-Received: by 2002:a05:6830:1184:: with SMTP id u4mr1318214otq.221.1582688531429;
         Tue, 25 Feb 2020 19:42:11 -0800 (PST)
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com. [209.85.167.179])
-        by smtp.gmail.com with ESMTPSA id t21sm274968otr.42.2020.02.25.19.42.10
-        for <linux-firmware@kernel.org>
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com. [209.85.167.176])
+        by smtp.gmail.com with ESMTPSA id g5sm282576otp.10.2020.02.25.19.42.10
+        for <linux-kernel@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
         Tue, 25 Feb 2020 19:42:10 -0800 (PST)
-Received: by mail-oi1-f179.google.com with SMTP id l136so1660518oig.1
-        for <linux-firmware@kernel.org>; Tue, 25 Feb 2020 19:42:10 -0800 (PST)
+Received: by mail-oi1-f176.google.com with SMTP id q84so1638610oic.4
+        for <linux-kernel@vger.kernel.org>; Tue, 25 Feb 2020 19:42:10 -0800 (PST)
 X-Received: by 2002:aca:ab53:: with SMTP id u80mr1537577oie.94.1582688529944;
  Tue, 25 Feb 2020 19:42:09 -0800 (PST)
 MIME-Version: 1.0
 References: <20200226033646.20949-1-gtk_ruiwang@mediatek.com> <20200226033646.20949-2-gtk_ruiwang@mediatek.com>
 In-Reply-To: <20200226033646.20949-2-gtk_ruiwang@mediatek.com>
-From: Alexandre Courbot <acourbot@chromium.org>
-Date: Wed, 26 Feb 2020 12:41:58 +0900
+From:   Alexandre Courbot <acourbot@chromium.org>
+Date:   Wed, 26 Feb 2020 12:41:58 +0900
 X-Gmail-Original-Message-ID: <CAPBb6MWN6bXfYvpBJ6XyPCuvJSpdxNOf4Z9RbY0jbnB5=JX_sQ@mail.gmail.com>
-Message-ID: <CAPBb6MWN6bXfYvpBJ6XyPCuvJSpdxNOf4Z9RbY0jbnB5=JX_sQ@mail.gmail.com>
+Message-ID:
+ <CAPBb6MWN6bXfYvpBJ6XyPCuvJSpdxNOf4Z9RbY0jbnB5=JX_sQ@mail.gmail.com>
 Subject: Re: [PATCH] mediatek: move MT8173 VPU FW to subfolder
-To: gtk_ruiwang <gtk_ruiwang@mediatek.com>
+To:     gtk_ruiwang <gtk_ruiwang@mediatek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	"moderated list:ARM/Mediatek SoC support" <linux-arm-kernel@lists.infradead.org>, 
-	"moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, srv_heupstream@mediatek.com, 
-	Tomasz Figa <tfiga@chromium.org>, PoChun.Lin@mediatek.com, 
-	Longfei Wang <longfei.wang@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>, 
-	Maoguang Meng <maoguang.meng@mediatek.com>
+Cc:     linux-firmware@kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>, srv_heupstream@mediatek.com,
+        Tomasz Figa <tfiga@chromium.org>, PoChun.Lin@mediatek.com,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Maoguang Meng <maoguang.meng@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
+Sender: linux-kernel-owner@vger.kernel.org
+Precedence: bulk
+List-ID: <linux-kernel.vger.kernel.org>
+X-Mailing-List: linux-kernel@vger.kernel.org
+Message-ID: <20200226034158.gmrC1gHfEoS-2bj8p_7JUDg5VxsFM40ewXHgPenEdJI@z>
 
 On Wed, Feb 26, 2020 at 12:38 PM <gtk_ruiwang@mediatek.com> wrote:
 >
