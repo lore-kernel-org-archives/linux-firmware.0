@@ -1,33 +1,36 @@
-Return-Path: <SRS0=J3Ix=4O=mediatek.com=gtk_ruiwang@kernel.org>
+Return-Path: <SRS0=hlfS=4O=vger.kernel.org=linux-media-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C3F1C4BA0A
-	for <linux-firmware@archiver.kernel.org>; Wed, 26 Feb 2020 05:31:56 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 4CC3E222C2; Wed, 26 Feb 2020 05:31:56 +0000 (UTC)
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
-	by mail.kernel.org (Postfix) with ESMTP id 3149C21927
-	for <linux-firmware@kernel.org>; Wed, 26 Feb 2020 05:31:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6F75C4BA0B
+	for <linux-media@archiver.kernel.org>; Wed, 26 Feb 2020 05:32:00 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
+	by mail.kernel.org (Postfix) with ESMTP id 99A5321927
+	for <linux-media@archiver.kernel.org>; Wed, 26 Feb 2020 05:32:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
 	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="TIkEoJF2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3149C21927
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=mediatek.com
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=gtk_ruiwang@mediatek.com
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S1726903AbgBZFcA (ORCPT <rfc822;linux-media@archiver.kernel.org>);
+        Wed, 26 Feb 2020 00:32:00 -0500
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:15925 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725890AbgBZFcA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 26 Feb 2020 00:32:00 -0500
 X-UUID: 7c124bf777db4e95b6cad6f47f4dd953-20200226
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=JCK+t8ISBOj7yWNmdTukq+mypW1MjFgO15pFBPhk7bk=;
-	b=TIkEoJF2SM4l0QsxZT2iazuppWT5V7ItVlo85vmM74EdGP5w4F4oqgVNqoWxhIQ/pY6mzM661VAOTQRmidgQCysQ9/DB9yA+dWulGdfEBKuen2rS6bL7gY478KuFCGDsRUr8GGhXBs1z1mjjeKGAbkaJkJ7qpyYNe3nJhqEbPxQ=;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=JCK+t8ISBOj7yWNmdTukq+mypW1MjFgO15pFBPhk7bk=;
+        b=TIkEoJF2SM4l0QsxZT2iazuppWT5V7ItVlo85vmM74EdGP5w4F4oqgVNqoWxhIQ/pY6mzM661VAOTQRmidgQCysQ9/DB9yA+dWulGdfEBKuen2rS6bL7gY478KuFCGDsRUr8GGhXBs1z1mjjeKGAbkaJkJ7qpyYNe3nJhqEbPxQ=;
 X-UUID: 7c124bf777db4e95b6cad6f47f4dd953-20200226
 Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-	(envelope-from <gtk_ruiwang@mediatek.com>)
-	(mailgw01.mediatek.com ESMTP with TLS)
-	with ESMTP id 1646308909; Wed, 26 Feb 2020 13:31:46 +0800
+        (envelope-from <gtk_ruiwang@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 1646308909; Wed, 26 Feb 2020 13:31:46 +0800
 Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N1.mediatek.inc
  (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Wed, 26 Feb
  2020 13:30:29 +0800
@@ -36,31 +39,39 @@ Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
  Transport; Wed, 26 Feb 2020 13:30:22 +0800
 Message-ID: <1582695101.6276.21.camel@mhfsdcap03>
 Subject: Re: [PATCH] mediatek: move MT8173 VPU FW to subfolder
-From: gtk_ruiwang <gtk_ruiwang@mediatek.com>
-To: Alexandre Courbot <acourbot@chromium.org>
+From:   gtk_ruiwang <gtk_ruiwang@mediatek.com>
+To:     Alexandre Courbot <acourbot@chromium.org>
 List-Id: <linux-firmware.lore.kernel.org>
-CC: <linux-firmware@kernel.org>, Linux Media Mailing List
-	<linux-media@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-	"moderated list:ARM/Mediatek SoC support"
-	<linux-arm-kernel@lists.infradead.org>, "moderated list:ARM/Mediatek SoC
- support" <linux-mediatek@lists.infradead.org>, <srv_heupstream@mediatek.com>,
-	Tomasz Figa <tfiga@chromium.org>, <PoChun.Lin@mediatek.com>, Longfei Wang
-	<longfei.wang@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>, Maoguang
- Meng <maoguang.meng@mediatek.com>
-Date: Wed, 26 Feb 2020 13:31:41 +0800
+CC:     <linux-firmware@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>, Tomasz Figa <tfiga@chromium.org>,
+        <PoChun.Lin@mediatek.com>,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Maoguang Meng <maoguang.meng@mediatek.com>
+Date:   Wed, 26 Feb 2020 13:31:41 +0800
 In-Reply-To: <CAPBb6MWcoSjvxj5tHvWTiQWqY5CdgTemCmyhmio0yZMEq-4VWQ@mail.gmail.com>
 References: <20200226033646.20949-1-gtk_ruiwang@mediatek.com>
-	 <20200226033646.20949-2-gtk_ruiwang@mediatek.com>
-	 <CAPBb6MWN6bXfYvpBJ6XyPCuvJSpdxNOf4Z9RbY0jbnB5=JX_sQ@mail.gmail.com>
-	 <1582690790.6276.19.camel@mhfsdcap03>
-	 <CAPBb6MWcoSjvxj5tHvWTiQWqY5CdgTemCmyhmio0yZMEq-4VWQ@mail.gmail.com>
+         <20200226033646.20949-2-gtk_ruiwang@mediatek.com>
+         <CAPBb6MWN6bXfYvpBJ6XyPCuvJSpdxNOf4Z9RbY0jbnB5=JX_sQ@mail.gmail.com>
+         <1582690790.6276.19.camel@mhfsdcap03>
+         <CAPBb6MWcoSjvxj5tHvWTiQWqY5CdgTemCmyhmio0yZMEq-4VWQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 
-	9A0097486F9233037774B591F3A3B223952FD4F850E57BBE71392346B1574B372000:8
-X-MTK: N
+X-TM-SNTS-SMTP: 9A0097486F9233037774B591F3A3B223952FD4F850E57BBE71392346B1574B372000:8
+X-MTK:  N
 Content-Transfer-Encoding: base64
+Sender: linux-media-owner@vger.kernel.org
+Precedence: bulk
+List-ID: <linux-media.vger.kernel.org>
+X-Mailing-List: linux-media@vger.kernel.org
+Message-ID: <20200226053141.llC1iYdYxwdfoqfwcOEiSxVxz5ZN0nNdyhitUoyaHvs@z>
 
 RGVhciBBbGV4LA0KDQp3ZSBoYXZlIHN1Ym1pdCBhIG5ldyBwYXRjaCB0byBsaW51eC1maXJtd2Fy
 ZSwgYW5kIHVwZGF0ZSBXSEVOQ0UgZmlsZS4NCg0KcGxlYXNlIGtpbmRseSBoZWxwIHRvIHJldmll
