@@ -1,87 +1,131 @@
-Return-Path: <SRS0=hlfS=4O=vger.kernel.org=linux-media-owner@kernel.org>
+Return-Path: <SRS0=ht0X=4O=lists.infradead.org=linux-mediatek-bounces+linux-mediatek=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,MIME_BASE64_TEXT,SPF_HELO_NONE,
-	SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ADE2C4BA0D
-	for <linux-media@archiver.kernel.org>; Wed, 26 Feb 2020 05:26:21 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 197AF222C2
-	for <linux-media@archiver.kernel.org>; Wed, 26 Feb 2020 05:26:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AE57C4BA0A
+	for <linux-mediatek@archiver.kernel.org>; Wed, 26 Feb 2020 05:26:27 +0000 (UTC)
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id E02C6222C2
+	for <linux-mediatek@archiver.kernel.org>; Wed, 26 Feb 2020 05:26:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="VgGBkqS/"
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726192AbgBZF0S (ORCPT <rfc822;linux-media@archiver.kernel.org>);
-        Wed, 26 Feb 2020 00:26:18 -0500
-Received: from mailgw02.mediatek.com ([210.61.82.184]:56195 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725890AbgBZF0S (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Feb 2020 00:26:18 -0500
-X-UUID: 0b727d7bc378477da6077d4dd771285e-20200226
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=49qv1PxTKA63h58GMIBjrRHNQLNwM95yAfup8dmCDng=;
-        b=VgGBkqS/lhx8aHza6srnTlOWVCXAAb7gqgzRHJMqS5XGY73XeIxi/bCMdr5TIYF660EOvYMF+OB+BLUXGndf5lm7cvKx3ReY7GK/fkziBEs5prVwCB5Cr+4JwVsXdXVEWmphC7e2LQq+ZRibouGG8a4onXEHYBixO5uBlLIn+fo=;
-X-UUID: 0b727d7bc378477da6077d4dd771285e-20200226
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
-        (envelope-from <gtk_ruiwang@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-        with ESMTP id 641813501; Wed, 26 Feb 2020 13:26:12 +0800
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="eQ8u87S3";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="jQpMKKDn"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E02C6222C2
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mediatek.com
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-mediatek-bounces+linux-mediatek=archiver.kernel.org@lists.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=biNyaaWHH0uIgKGkFIAN3FdvQYTZ9t6Rt+28W2FULzk=; b=eQ8u87S3RgDBbV
+	8GsydZbHKPqQ/QFZfKyS6e67ti1yTTBlqkHOVvakdccm8CGRlu+7iAMQ0zfhtt3QZ0DgelxSaAM0d
+	NwcG3BHY+8EOqODKG974XXBANeRFa7LF79i8BFfqBLpf8XbDSJbKiuB0GTXRVUze0uBypcJfJ7gAO
+	ZwpgaB841KcUXNJCMIptq0oysVe/UODVYxy7JBEpH23Qs1vekzbeIhVKbR8y4t6jvE6P2uMzTEaRL
+	2JjmztkZTxUHDSgAxKgm8cp/4vmYg7bYObSiZcPreTO7vg7MQVj9tjUy8ufBqVVb6AOLycdTPlzeu
+	rc6zxspWRUuyeVdjk3LQ==;
+Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1j6pD7-00006J-S9; Wed, 26 Feb 2020 05:26:17 +0000
+Received: from mailgw01.mediatek.com ([216.200.240.184])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1j6pD5-00005s-Pi; Wed, 26 Feb 2020 05:26:17 +0000
+X-UUID: 5d6a6ce6beb7430d928efd602da2ab9a-20200225
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=49qv1PxTKA63h58GMIBjrRHNQLNwM95yAfup8dmCDng=; 
+ b=jQpMKKDnON1BIjVmK8G3Gvz0Q+xcannVAC/8pxT34o/1hrQiAeL7OWetAvP3v9EuOa303HdR3ezVOUWIKo/X/C/RethaZrh/CZptLwtZBBLR1RhefiDdJSHDxzhDqyPDXJUK4JDx/KTigbj1e2mX7jJ9jVm+lc/3pn/89tzoKco=;
+X-UUID: 5d6a6ce6beb7430d928efd602da2ab9a-20200225
+Received: from mtkcas66.mediatek.inc [(172.29.193.44)] by mailgw01.mediatek.com
+ (envelope-from <gtk_ruiwang@mediatek.com>)
+ (musrelay.mediatek.com ESMTP with TLS)
+ with ESMTP id 21920225; Tue, 25 Feb 2020 21:26:14 -0800
+Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
+ MTKMBS62DR.mediatek.inc (172.29.94.18) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 25 Feb 2020 21:26:11 -0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
  mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
  15.0.1395.4; Wed, 26 Feb 2020 13:25:18 +0800
 Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
  Transport; Wed, 26 Feb 2020 13:23:53 +0800
-From:   <gtk_ruiwang@mediatek.com>
+From: <gtk_ruiwang@mediatek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To:     <linux-firmware@kernel.org>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>, <PoChun.Lin@mediatek.com>,
-        Longfei Wang <longfei.wang@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        <gtk_ruiwang@mediatek.com>
+To: <linux-firmware@kernel.org>
 Subject: pull request: linux-firmware: move MT8173 VPU FW to subfolder 
-Date:   Wed, 26 Feb 2020 13:26:02 +0800
+Date: Wed, 26 Feb 2020 13:26:02 +0800
 Message-ID: <20200226052603.22768-1-gtk_ruiwang@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
-Content-Transfer-Encoding: base64
-Sender: linux-media-owner@vger.kernel.org
-Precedence: bulk
-List-ID: <linux-media.vger.kernel.org>
-X-Mailing-List: linux-media@vger.kernel.org
-Message-ID: <20200226052602.ab4iNoPCyM0Ggr8GfhbajvYYH6kR0PIYGjBGQ_dTM_s@z>
+X-MTK: N
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20200225_212615_840005_589B8A5F 
+X-CRM114-Status: UNSURE (   7.84  )
+X-CRM114-Notice: Please train this message.
+X-BeenThere: linux-mediatek@lists.infradead.org
+X-Mailman-Version: 2.1.29
+Precedence: list
+List-Id: <linux-mediatek.lists.infradead.org>
+List-Unsubscribe: <http://lists.infradead.org/mailman/options/linux-mediatek>, 
+ <mailto:linux-mediatek-request@lists.infradead.org?subject=unsubscribe>
+List-Archive: <http://lists.infradead.org/pipermail/linux-mediatek/>
+List-Post: <mailto:linux-mediatek@lists.infradead.org>
+List-Help: <mailto:linux-mediatek-request@lists.infradead.org?subject=help>
+List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-mediatek>, 
+ <mailto:linux-mediatek-request@lists.infradead.org?subject=subscribe>
+Cc: gtk_ruiwang@mediatek.com, Maoguang Meng <maoguang.meng@mediatek.com>,
+ Alexandre Courbot <acourbot@chromium.org>, srv_heupstream@mediatek.com,
+ Yunfei Dong <yunfei.dong@mediatek.com>,
+ Longfei Wang <longfei.wang@mediatek.com>, linux-kernel@vger.kernel.org,
+ Tomasz Figa <tfiga@chromium.org>, linux-mediatek@lists.infradead.org,
+ PoChun.Lin@mediatek.com, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Sender: "Linux-mediatek" <linux-mediatek-bounces@lists.infradead.org>
+Errors-To: linux-mediatek-bounces+linux-mediatek=archiver.kernel.org@lists.infradead.org
+Message-ID: <20200226052602.ZoZITA9nqtmpSHTbCd5ClzL1kkIN9Nnl9r6sqrlCGf8@z>
 
-SGkgbGludXgtZmlybXdhcmUgbWFpbnRhaW5lcnMsDQoNClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBz
-aW5jZSBjb21taXQgZWZjZmEwM2FlNjEwMGRmZTUyM2ViZjYxMmUwM2MzYTkwZmM0Yzc5NDoNCg0K
-ICBsaW51eC1maXJtd2FyZTogVXBkYXRlIGZpcm13YXJlIGZpbGUgZm9yIEludGVsIEJsdWV0b290
-aCBBWDIwMSAoMjAyMC0wMi0yNCAwNzo0Mzo0MiAtMDUwMCkNCg0KYXJlIGF2YWlsYWJsZSBpbiB0
-aGUgR2l0IHJlcG9zaXRvcnkgYXQ6DQoNCiAgaHR0cHM6Ly9naXRodWIuY29tL3J1aXdhbmctbXRr
-L2xpbnV4X2Z3X3ZwdS5naXQNCg0KZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRvIGE4YTE4
-ZDFjZTU5MjBiYzBjZmNmMzIwNzQ3MTYzY2YxMzgwNmI1Njg6DQoNCiAgbWVkaWF0ZWs6IG1vdmUg
-TVQ4MTczIFZQVSBGVyB0byBzdWJmb2xkZXIgKDIwMjAtMDItMjYgMTM6MDg6MTUgKzA4MDApDQoN
-Ci0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0NCmd0a19ydWl3YW5nICgxKToNCiAgICAgIG1lZGlhdGVrOiBtb3ZlIE1UODE3MyBW
-UFUgRlcgdG8gc3ViZm9sZGVyDQoNCiBXSEVOQ0UgICAgICAgICAgICAgICAgICAgIHwgICA2ICsr
-KystLQ0KIG1lZGlhdGVrL210ODE3My92cHVfZC5iaW4gfCBCaW4gMCAtPiAyOTc3MTg0IGJ5dGVz
-DQogbWVkaWF0ZWsvbXQ4MTczL3ZwdV9wLmJpbiB8IEJpbiAwIC0+IDEzMTE4MCBieXRlcw0KIHZw
-dV9kLmJpbiAgICAgICAgICAgICAgICAgfCBCaW4gMjk3NzE4NCAtPiAyNSBieXRlcw0KIHZwdV9w
-LmJpbiAgICAgICAgICAgICAgICAgfCBCaW4gMTMxMTgwIC0+IDI1IGJ5dGVzDQogNSBmaWxlcyBj
-aGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQogY3JlYXRlIG1vZGUgMTAw
-NjQ0IG1lZGlhdGVrL210ODE3My92cHVfZC5iaW4NCiBjcmVhdGUgbW9kZSAxMDA2NDQgbWVkaWF0
-ZWsvbXQ4MTczL3ZwdV9wLmJpbg0KIG1vZGUgY2hhbmdlIDEwMDY0NCA9PiAxMjAwMDAgdnB1X2Qu
-YmluDQogbW9kZSBjaGFuZ2UgMTAwNjQ0ID0+IDEyMDAwMCB2cHVfcC5iaW4NCg0K
+Hi linux-firmware maintainers,
 
+The following changes since commit efcfa03ae6100dfe523ebf612e03c3a90fc4c794:
+
+  linux-firmware: Update firmware file for Intel Bluetooth AX201 (2020-02-24 07:43:42 -0500)
+
+are available in the Git repository at:
+
+  https://github.com/ruiwang-mtk/linux_fw_vpu.git
+
+for you to fetch changes up to a8a18d1ce5920bc0cfcf320747163cf13806b568:
+
+  mediatek: move MT8173 VPU FW to subfolder (2020-02-26 13:08:15 +0800)
+
+----------------------------------------------------------------
+gtk_ruiwang (1):
+      mediatek: move MT8173 VPU FW to subfolder
+
+ WHENCE                    |   6 ++++--
+ mediatek/mt8173/vpu_d.bin | Bin 0 -> 2977184 bytes
+ mediatek/mt8173/vpu_p.bin | Bin 0 -> 131180 bytes
+ vpu_d.bin                 | Bin 2977184 -> 25 bytes
+ vpu_p.bin                 | Bin 131180 -> 25 bytes
+ 5 files changed, 4 insertions(+), 2 deletions(-)
+ create mode 100644 mediatek/mt8173/vpu_d.bin
+ create mode 100644 mediatek/mt8173/vpu_p.bin
+ mode change 100644 => 120000 vpu_d.bin
+ mode change 100644 => 120000 vpu_p.bin
+
+_______________________________________________
+Linux-mediatek mailing list
+Linux-mediatek@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-mediatek
