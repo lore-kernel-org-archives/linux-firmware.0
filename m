@@ -1,4 +1,4 @@
-Return-Path: <SRS0=/Zd0=4O=vger.kernel.org=linux-kernel-owner@kernel.org>
+Return-Path: <SRS0=hlfS=4O=vger.kernel.org=linux-media-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
@@ -7,24 +7,23 @@ X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7910AC4BA0B
-	for <linux-kernel@archiver.kernel.org>; Wed, 26 Feb 2020 03:42:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38814C4BA0A
+	for <linux-media@archiver.kernel.org>; Wed, 26 Feb 2020 03:42:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4F16B2067C
-	for <linux-kernel@archiver.kernel.org>; Wed, 26 Feb 2020 03:42:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0C1A52467B
+	for <linux-media@archiver.kernel.org>; Wed, 26 Feb 2020 03:42:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
 	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kJDoUvS6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725788AbgBZDmN (ORCPT
-        <rfc822;linux-kernel@archiver.kernel.org>);
+        id S1726148AbgBZDmN (ORCPT <rfc822;linux-media@archiver.kernel.org>);
         Tue, 25 Feb 2020 22:42:13 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:35500 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726024AbgBZDmM (ORCPT
-        <rfc822;linux-kernel@vger.kernel.org>);
-        Tue, 25 Feb 2020 22:42:12 -0500
-Received: by mail-ot1-f65.google.com with SMTP id r16so1709706otd.2
-        for <linux-kernel@vger.kernel.org>; Tue, 25 Feb 2020 19:42:12 -0800 (PST)
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:34795 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725788AbgBZDmN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 25 Feb 2020 22:42:13 -0500
+Received: by mail-ot1-f66.google.com with SMTP id j16so1713187otl.1
+        for <linux-media@vger.kernel.org>; Tue, 25 Feb 2020 19:42:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
@@ -38,24 +37,24 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
         bh=zhbMFZH9TV9xXX3bi0AiULw9sla8JatRwgZ0NfA605c=;
-        b=WhPraFsbG81HWwVLP4Z80bq2UaPSi4Gw+q6R3JY8gJEU3XqlWDCZxnjM5TU+8vk5Xc
-         2cwDey/crOhSX4HKf+rFamR72eYVBlFaXQi0toSLc2CmuKCIJ443KfwrMj/+dq7VtwTk
-         pZDpSb9BpLzrvWTIAUS4Lu9Bb7sGdupAeVdSDNRov32HPjkMmEszJeLVUv3hZ2dGQKfH
-         YR0hpHwJHqoyqX0LbhH3SjgwVRQ4DcckOdIraYzz5TJIskDUSKCwCealWdj4s9W45zd5
-         yAgqpLSGTV57ohzZmfYDnP7Fc8sxDLOewRtrFRvTiVnQPDABdSzA7txeqBAMv563Ja7e
-         kvEA==
-X-Gm-Message-State: APjAAAWbCCSHFJhoniKxqO7xAv2RTrHqNKPu/Bhrb4SVn+4POtlvkjnh
-        ofaoKJuA+svxsXaNhGlN34GUnnZ95IU=
-X-Google-Smtp-Source: APXvYqwu/7Cg5/db+aNRnUKnXn1HnVT42ZOIVtb9USet8b9BGzIFw2LcKpu67GnK+NYK4NxsFvo7GA==
-X-Received: by 2002:a05:6830:1184:: with SMTP id u4mr1318214otq.221.1582688531429;
+        b=MqIdgoUTgvJ0KOkk1TR6is7aksvqp/NMLRkwIuwZjokuixSik8gTMy5z6UABCYYLQv
+         7dd1NqsJDM9qxxgv98iN8t4Pb1CTFjlQmG304Fli6h/FEg/SoQSUJsma4Gti4rIg3UQL
+         1jFk3f9hNggXaW/ZJSEbLYcMXm0vnN93GWZvgGdmYfl/kF63yDVsr+KTtepUk+lIB9Sn
+         RyZOFN+f5ao34bRHDPZybrCokColkK6q4soQVF5qLuiSMZtcZZflQYwmunbMhR3jUBFc
+         RJOXvh9t6sgEmOmlk+fRwjm8CAK4PGlcn3Wn4bCWKgw08HZCVmr56czTcYzsDhRBgt7m
+         8cxQ==
+X-Gm-Message-State: APjAAAXYvsMp7i3t+SB/X5HUSKVS/nFaaWBa4HnYm82580S0HDGnYFbQ
+        gKiO+2pnczHxhl2l1/a4DTKMUEM4cTc=
+X-Google-Smtp-Source: APXvYqxjv40QQzzFkYNfIRrbnzX9ImkaL5SabV7Y+eW9yiLQRzN8E217SIWBlHiM6TNPuLQJ489Ifw==
+X-Received: by 2002:a05:6830:1198:: with SMTP id u24mr1354957otq.215.1582688531601;
         Tue, 25 Feb 2020 19:42:11 -0800 (PST)
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com. [209.85.167.176])
-        by smtp.gmail.com with ESMTPSA id g5sm282576otp.10.2020.02.25.19.42.10
-        for <linux-kernel@vger.kernel.org>
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com. [209.85.167.179])
+        by smtp.gmail.com with ESMTPSA id x15sm278153otq.30.2020.02.25.19.42.10
+        for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
         Tue, 25 Feb 2020 19:42:10 -0800 (PST)
-Received: by mail-oi1-f176.google.com with SMTP id q84so1638610oic.4
-        for <linux-kernel@vger.kernel.org>; Tue, 25 Feb 2020 19:42:10 -0800 (PST)
+Received: by mail-oi1-f179.google.com with SMTP id a142so1624664oii.7
+        for <linux-media@vger.kernel.org>; Tue, 25 Feb 2020 19:42:10 -0800 (PST)
 X-Received: by 2002:aca:ab53:: with SMTP id u80mr1537577oie.94.1582688529944;
  Tue, 25 Feb 2020 19:42:09 -0800 (PST)
 MIME-Version: 1.0
@@ -81,11 +80,11 @@ Cc:     linux-firmware@kernel.org,
         Yunfei Dong <yunfei.dong@mediatek.com>,
         Maoguang Meng <maoguang.meng@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
-List-ID: <linux-kernel.vger.kernel.org>
-X-Mailing-List: linux-kernel@vger.kernel.org
-Message-ID: <20200226034158.gmrC1gHfEoS-2bj8p_7JUDg5VxsFM40ewXHgPenEdJI@z>
+List-ID: <linux-media.vger.kernel.org>
+X-Mailing-List: linux-media@vger.kernel.org
+Message-ID: <20200226034158.SCDbAkPbv_pMGwrkRFNhPCopsKnOV-PZ8-5DPKk2Pfs@z>
 
 On Wed, Feb 26, 2020 at 12:38 PM <gtk_ruiwang@mediatek.com> wrote:
 >
