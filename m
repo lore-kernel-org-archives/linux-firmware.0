@@ -1,4 +1,4 @@
-Return-Path: <SRS0=o+AG=4O=lists.infradead.org=linux-arm-kernel-bounces+infradead-linux-arm-kernel=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=ht0X=4O=lists.infradead.org=linux-mediatek-bounces+linux-mediatek=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
@@ -6,41 +6,40 @@ X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AB29C4BA0B
-	for <infradead-linux-arm-kernel@archiver.kernel.org>; Wed, 26 Feb 2020 03:42:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93436C4BA0A
+	for <linux-mediatek@archiver.kernel.org>; Wed, 26 Feb 2020 03:42:31 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6CEE02067C
-	for <infradead-linux-arm-kernel@archiver.kernel.org>; Wed, 26 Feb 2020 03:42:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 661E52067C
+	for <linux-mediatek@archiver.kernel.org>; Wed, 26 Feb 2020 03:42:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="acQgTlSb";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="A8jNvu8T";
 	dkim=fail reason="signature verification failed" (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kJDoUvS6"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6CEE02067C
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 661E52067C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=chromium.org
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-arm-kernel-bounces+infradead-linux-arm-kernel=archiver.kernel.org@lists.infradead.org
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-mediatek-bounces+linux-mediatek=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=UZu7JooB9mE+epDJgDh7DjEJhNTdRYAVOc88naYpEx8=; b=acQgTlSb0Qkd//
-	TFZEU3+TVVSCnvXq55NJjU+0PVvEa1w42o4uS4GJfQqM4ONSsdMMTRCX1VrC5eBqxfiaqUHGPgjcq
-	uJdmfmi0ftM6OF45JzyKjUpXOF2737OmQ9HxRy02C7mxini9d/u2zfpy34PFO6cOqNLvdS5f0wfkq
-	7cIY81r0ugKU7ciCT3DBHV2jWaKMs9hy+l/4EPSuAyFtNqEqeuP0pynguzLR3YRDg3ctyTBF42Hza
-	zMtNcdnDdQl0nlZ6CofpRiJfqjNp2Lt8oIw9wa+qkoHUjGibQeQOSXJZMiaFdfrWOyrIZue5UJ9SM
-	bpT5lEG+xWzjeudpEoIA==;
+	List-Owner; bh=JZvUg58ALEVAJgx+ILC40Rr120uEPk5aRTi534sOoXM=; b=A8jNvu8Ta8NM3S
+	8xtsVg6r20G1C3wNJIFqw1FCVB1x5rLjHdbjfCUDOhE86fzAB+k4QJnBAJx3ifHnu8h9b0nKf/VOZ
+	mbC8ucXqE6aXOTYDkUi8ejliSBurIvP1kY0pPNKQv5vEYmpO6CysIX4B67m/kv9kFv7yg8kTD1OI9
+	HzSHLpIbHrIeJ2zOhbXQ55YXL3SXpcHA6gk3wInG1Iya20+fV6dwEdlnxxBUWL8O44jxaMnYm/TNq
+	cHOeMy2z105ni0zyy9F0HBkSY5RbYotlBdTS9tPq4I8JzvetKUPxPF8XUp0lbw3aMCPmC/EuS+ulL
+	HP7obNYwc88aNptEh5ag==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j6naS-00074Z-Ry; Wed, 26 Feb 2020 03:42:16 +0000
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344])
+	id 1j6naa-0007CU-Bp; Wed, 26 Feb 2020 03:42:24 +0000
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j6naP-00072o-5G
- for linux-arm-kernel@lists.infradead.org; Wed, 26 Feb 2020 03:42:14 +0000
-Received: by mail-ot1-x344.google.com with SMTP id b3so1680771otp.4
- for <linux-arm-kernel@lists.infradead.org>;
- Tue, 25 Feb 2020 19:42:12 -0800 (PST)
+ id 1j6naP-00072n-52
+ for linux-mediatek@lists.infradead.org; Wed, 26 Feb 2020 03:42:14 +0000
+Received: by mail-oi1-x243.google.com with SMTP id 18so1623863oij.6
+ for <linux-mediatek@lists.infradead.org>; Tue, 25 Feb 2020 19:42:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc; bh=zhbMFZH9TV9xXX3bi0AiULw9sla8JatRwgZ0NfA605c=;
@@ -52,27 +51,26 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
  bh=zhbMFZH9TV9xXX3bi0AiULw9sla8JatRwgZ0NfA605c=;
- b=Lb3l3rp5vQMmY35rFwJaHrcbSD9pXcAurfA7d318r5lsr0Kh383SIE2C+EmMMr6DCn
- 5EtJCkCq3BM4kOZD2FE3FBfmsGAci0adejw2ETdwAUGALEeyXGM9eo00afYOB/wUz95S
- ya+y67zsYuWwJwbwmoBZA6ZM/cfqSOa+Z5KRx7fQNv9VFG3VLsx37Ln8igAhuSqlA/IF
- 0xEKLB446CAvvHj/tN5kVO92AMJIO676HwsGvk9XXI/JDIj96RFgePdOKZBQ97vDTrCj
- +dAtwpvnLwBOcyd4bJ4OQ2yDcitO5OtNB04qk4kQ6J5SVY9DEBGdueytDXg8zbPEOmhL
- wxVw==
-X-Gm-Message-State: APjAAAUE86t9nkO0gsyKIMLWX9IYOTNY1m7Ryi3LmDeAqeKqIDvV0MKx
- rN2/dwg2tHa2faKPhiqgGXX1cIF4yxs=
-X-Google-Smtp-Source: APXvYqwwmbqpjWh/CuW4ctyb6AiRhbvEbAVUjKfeZhrVfAqBtrL3dOO62Fo5sBSLB92XM2DDQ1eFYQ==
-X-Received: by 2002:a05:6830:610:: with SMTP id
- w16mr1410157oti.239.1582688531325; 
+ b=Vp7aodejMpK9aAKPtoB6nXsQUN8lQ8Y71U99OI9nvZJS6JecdU1QsyPPc3s0+7uS9r
+ qA0g47Yfx8RTQan7BHHdtbb+VJfsu1tnd66UiUz8YOykfXQ4DPXX1OLfU8wW4qzgG8cS
+ i1YLn7UzPMkK5HVsL9LEkck4e7crZHhvD959CbkoftF2rRPypeGeHoI9Pv4eha1CgrL5
+ hrc+jU2GlOfYz4d9rzRvQNHpaKh4zALww5R+B3tvt+D7XURDO9I4jcmWGXfamyXdmDKO
+ 3giq061xvoGhW0ifpFmRkre56TOKuUO7u6EPKIbfYTRUOoie7WxmtlQv/5RehppBwUFA
+ Idzg==
+X-Gm-Message-State: APjAAAU3SXnCcrMVJdnFMWqRtcWiqHEN5Q1THVNOZhzyR5gT0aS79GYw
+ 0HFHnrjxU2RKlyPgMjKaGTS/OLsicok=
+X-Google-Smtp-Source: APXvYqxjQ6BX8ao8WY/O0p9T1mb6lxIeWfkP10n6i7yz5sdwSphPLkglVF+mrSFekNQ9aeADqm22BQ==
+X-Received: by 2002:a05:6808:4c7:: with SMTP id
+ a7mr1597455oie.83.1582688531292; 
  Tue, 25 Feb 2020 19:42:11 -0800 (PST)
 Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com.
  [209.85.167.182])
- by smtp.gmail.com with ESMTPSA id 60sm280243otu.45.2020.02.25.19.42.10
- for <linux-arm-kernel@lists.infradead.org>
+ by smtp.gmail.com with ESMTPSA id l207sm308423oih.25.2020.02.25.19.42.10
+ for <linux-mediatek@lists.infradead.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
  Tue, 25 Feb 2020 19:42:10 -0800 (PST)
-Received: by mail-oi1-f182.google.com with SMTP id q81so1667948oig.0
- for <linux-arm-kernel@lists.infradead.org>;
- Tue, 25 Feb 2020 19:42:10 -0800 (PST)
+Received: by mail-oi1-f182.google.com with SMTP id j132so1610571oih.9
+ for <linux-mediatek@lists.infradead.org>; Tue, 25 Feb 2020 19:42:10 -0800 (PST)
 X-Received: by 2002:aca:ab53:: with SMTP id u80mr1537577oie.94.1582688529944; 
  Tue, 25 Feb 2020 19:42:09 -0800 (PST)
 MIME-Version: 1.0
@@ -87,19 +85,19 @@ Message-ID:
 Subject: Re: [PATCH] mediatek: move MT8173 VPU FW to subfolder
 To: gtk_ruiwang <gtk_ruiwang@mediatek.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200225_194213_219773_61A5F27A 
-X-CRM114-Status: GOOD (  13.08  )
-X-BeenThere: linux-arm-kernel@lists.infradead.org
+X-CRM114-CacheID: sfid-20200225_194213_219628_8DD3139C 
+X-CRM114-Status: GOOD (  11.62  )
+X-BeenThere: linux-mediatek@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
-List-Id: <linux-arm-kernel.lists.infradead.org>
-List-Unsubscribe: <http://lists.infradead.org/mailman/options/linux-arm-kernel>, 
- <mailto:linux-arm-kernel-request@lists.infradead.org?subject=unsubscribe>
-List-Archive: <http://lists.infradead.org/pipermail/linux-arm-kernel/>
-List-Post: <mailto:linux-arm-kernel@lists.infradead.org>
-List-Help: <mailto:linux-arm-kernel-request@lists.infradead.org?subject=help>
-List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-arm-kernel>, 
- <mailto:linux-arm-kernel-request@lists.infradead.org?subject=subscribe>
+List-Id: <linux-mediatek.lists.infradead.org>
+List-Unsubscribe: <http://lists.infradead.org/mailman/options/linux-mediatek>, 
+ <mailto:linux-mediatek-request@lists.infradead.org?subject=unsubscribe>
+List-Archive: <http://lists.infradead.org/pipermail/linux-mediatek/>
+List-Post: <mailto:linux-mediatek@lists.infradead.org>
+List-Help: <mailto:linux-mediatek-request@lists.infradead.org?subject=help>
+List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-mediatek>, 
+ <mailto:linux-mediatek-request@lists.infradead.org?subject=subscribe>
 List-Id: <linux-firmware.lore.kernel.org>
 Cc: Maoguang Meng <maoguang.meng@mediatek.com>, srv_heupstream@mediatek.com,
  Yunfei Dong <yunfei.dong@mediatek.com>,
@@ -111,9 +109,9 @@ Cc: Maoguang Meng <maoguang.meng@mediatek.com>, srv_heupstream@mediatek.com,
  Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Sender: "linux-arm-kernel" <linux-arm-kernel-bounces@lists.infradead.org>
-Errors-To: linux-arm-kernel-bounces+infradead-linux-arm-kernel=archiver.kernel.org@lists.infradead.org
-Message-ID: <20200226034158.Kf-rnKhQf-5FCNRUBcdpIGuhxVcnw2h9pMlOHArSILg@z>
+Sender: "Linux-mediatek" <linux-mediatek-bounces@lists.infradead.org>
+Errors-To: linux-mediatek-bounces+linux-mediatek=archiver.kernel.org@lists.infradead.org
+Message-ID: <20200226034158.c5HmfOuNrToawAfA7ozkIYbVmB6aXJx1RKppDDloI-I@z>
 
 On Wed, Feb 26, 2020 at 12:38 PM <gtk_ruiwang@mediatek.com> wrote:
 >
@@ -139,6 +137,6 @@ shouldn't we at least temporarily create a symbolic link between the
 old location and the new one?
 
 _______________________________________________
-linux-arm-kernel mailing list
-linux-arm-kernel@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+Linux-mediatek mailing list
+Linux-mediatek@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-mediatek
