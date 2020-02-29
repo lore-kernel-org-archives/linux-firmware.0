@@ -1,104 +1,121 @@
-Return-Path: <SRS0=/Zd0=4O=vger.kernel.org=linux-kernel-owner@kernel.org>
+Return-Path: <SRS0=U1HG=4R=chromium.org=briannorris@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20C6BC4BA21
-	for <linux-kernel@archiver.kernel.org>; Wed, 26 Feb 2020 22:16:45 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E7CDB24653
-	for <linux-kernel@archiver.kernel.org>; Wed, 26 Feb 2020 22:16:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B996DC3F2CD
+	for <linux-firmware@archiver.kernel.org>; Sat, 29 Feb 2020 01:33:00 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id A9EF8246A3; Sat, 29 Feb 2020 01:33:00 +0000 (UTC)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id 73116246A2
+	for <linux-firmware@kernel.org>; Sat, 29 Feb 2020 01:33:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UF7GZ0n1"
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727912AbgBZWQn (ORCPT
-        <rfc822;linux-kernel@archiver.kernel.org>);
-        Wed, 26 Feb 2020 17:16:43 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51597 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727715AbgBZWQn (ORCPT
-        <rfc822;linux-kernel@vger.kernel.org>);
-        Wed, 26 Feb 2020 17:16:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1582755402;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=adv2gMDHdJrSNT8UFFETSumaGBAQt4WCebanQKid9IU=;
-        b=UF7GZ0n1Xz9E8U1XFr5pg5NJ85mz7zOf5kvFcVwVDNbjJSa17Yn91xuac4VLHYUE+g8zWp
-        zHynoIvNUMOFrpviNgNEhAFmDheH6MuddT2TFJHNyw/KwLORBuGqeYwN9+/UK5++JD5mbF
-        ewB4vYHZlOAs0sckW6JuCvOIx5gP9pk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-207-C06umtVxPMyCySJwEmO88w-1; Wed, 26 Feb 2020 17:16:35 -0500
-X-MC-Unique: C06umtVxPMyCySJwEmO88w-1
-Received: by mail-wr1-f70.google.com with SMTP id p8so392743wrw.5
-        for <linux-kernel@vger.kernel.org>; Wed, 26 Feb 2020 14:16:35 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QAZ78tSd"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 73116246A2
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=briannorris@chromium.org
+Received: by mail-pf1-f178.google.com with SMTP id i13so2607668pfe.3
+        for <linux-firmware@kernel.org>; Fri, 28 Feb 2020 17:33:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kihcOsqZE1BnfxesPaJZ0V8twnwz8HcPryt9mWJnd0M=;
+        b=QAZ78tSdC3xOa2c2yoJ2/2JpjKdtvyANs8B0C/vmd7GSFGOq+093LuSW8e2IngeXWS
+         2XsQEUGYLdsULXVRMrDC5os+p5uATrVj0teky55FBo1wtVPMV8bl/q1WowBf/EgjS+i3
+         KJcqJHTkHMPDrrzzQAOHwls98bpXG1hqhKT+U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=adv2gMDHdJrSNT8UFFETSumaGBAQt4WCebanQKid9IU=;
-        b=mDbtSSOcNghX3frbVS9m/WBhGMjwjQtKQJVG3iXjeBDhsayqEZpzmTKj22r+t5sKfx
-         E/zbQ4PkfxASB3nX9zm8HSrxfIrQ0Qx87Aw0E5Vkh3JMkLdrNuoKWlH0DddFHd+nQFot
-         g5J0zW3V5UNEl9lx22pCKzFvYRJY9mj3XybQ9EtlkmprN+CK9ifyFR4NMf2mir6UuMb0
-         vw3foDc0oBMMYAi9FkOH5Qrq6z8gwGc6niOC4rhPgittf8fE3Lzds8XuYPZ5kp/INOeN
-         GHaTjAhJ9BnNCoMmAqvLCsemb/aJQoYIt+20KNspo0jdG+JvqD4GAgDoXaI/w0OARW+w
-         Cx9g==
-X-Gm-Message-State: APjAAAV8D49ialL6TG/aDWLLfMO/O4aOv6vQkUiBAN2YFftyJOu6O5Fw
-        xaIHiIJMYaLaKw/ughlE4rgLQEACAy09jL0SbPWYJh41zrdToYLZJMitygV6UrxQlpu5KGjzLsH
-        ZIKhz3vLej17zgvjSmx04tfcl
-X-Received: by 2002:a1c:9a13:: with SMTP id c19mr987169wme.134.1582755394159;
-        Wed, 26 Feb 2020 14:16:34 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxmsicT3h4tLxMLXoSzTW55n/I22wHMyHI3oCwdmxH72apFzjH20mlpy8BOATYE62y6EP1+Dw==
-X-Received: by 2002:a1c:9a13:: with SMTP id c19mr987142wme.134.1582755393863;
-        Wed, 26 Feb 2020 14:16:33 -0800 (PST)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-fc7e-fd47-85c1-1ab3.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:fc7e:fd47:85c1:1ab3])
-        by smtp.gmail.com with ESMTPSA id b10sm4974284wrw.61.2020.02.26.14.16.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Feb 2020 14:16:32 -0800 (PST)
-From:   Hans de Goede <hdegoede@redhat.com>
-Subject: Updating cypress/brcm firmware in linux-firmware for CVE-2019-15126
-To:     Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
-        Chirjeev Singh <Chirjeev.Singh@cypress.com>,
-        Chung-Hsien Hsu <cnhu@cypress.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kihcOsqZE1BnfxesPaJZ0V8twnwz8HcPryt9mWJnd0M=;
+        b=YpLVqrpnbIw24owR6pBm0GwLj5TDsU321IeGeCFz+WUlwRBv+mIvQE2NhJhsmJxxRx
+         N4YqhpnuMnSNx8OlW3vj6W7mlinP+q+IUSp4RWIgSZi752ULOEAzohjr//YssvamwtEl
+         ahhw53xJ2PAbq0HPl0c8djZTj1ulnbQAwF2FydWUUjaGoooh3Pwpt9aHgjKjHJndgtq2
+         6zf9eHKxzvTIaNWSCrrZQrnAqChw+/OR036+bAdPp8TVgHGXYAZfgot29RI0+5d9HP/f
+         G+jmNpCkZOv3MXLChpHh09W8d5vaoBObsqtBKEO8lBU7eaSwlgqW752RXwaGsYwMo2eQ
+         o/ZQ==
+X-Gm-Message-State: APjAAAVHYbZRPjOY/qT5Q1QEnHW/tzOXgHL2GY209x6LpcVDP/ZMXeXZ
+	jkSLKw+LkIq/vL4JsLaDCg0k1aCml9o=
+X-Google-Smtp-Source: APXvYqxQVRFAjPQIAV0ihKincMXA8qQ3G+C8Psb37ygpYVoc8s7e+T9o9ZjHj6LFQi/wyC8O+o4Nrg==
+X-Received: by 2002:a63:f74a:: with SMTP id f10mr7167348pgk.360.1582939979439;
+        Fri, 28 Feb 2020 17:32:59 -0800 (PST)
+Received: from smtp.gmail.com ([2620:15c:202:1:534:b7c0:a63c:460c])
+        by smtp.gmail.com with ESMTPSA id mr7sm15201pjb.12.2020.02.28.17.32.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Feb 2020 17:32:58 -0800 (PST)
+From: Brian Norris <briannorris@chromium.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc:     linux-firmware@kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Message-ID: <93dba8d2-6e46-9157-d292-4d93feb8ec1a@redhat.com>
-Date:   Wed, 26 Feb 2020 23:16:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+To: linux-firmware@kernel.org
+Cc: Brian Norris <briannorris@chromium.org>
+Subject: [PATCH linux-firmware] Makefile: improve `make check` usefulness
+Date: Fri, 28 Feb 2020 17:32:48 -0800
+Message-Id: <20200229013248.121115-1-briannorris@chromium.org>
+X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Sender: linux-kernel-owner@vger.kernel.org
-Precedence: bulk
-List-ID: <linux-kernel.vger.kernel.org>
-X-Mailing-List: linux-kernel@vger.kernel.org
-Message-ID: <20200226221632.SE_l8Z7sCmidz-Fk6KKxwysKP0ygOoVhIUHtgU_xbC0@z>
+Content-Transfer-Encoding: 8bit
 
-Hello Cypress people,
+Silence the make echo'ing, so the output is cleaner.
 
-Can we please get updated firmware for
-brcm/brcmfmac4356-pcie.bin and brcm/brcmfmac4356-sdio.bin
-fixing CVE-2019-15126 as well as for any other affected
-models (the 4356 is explicitly named in the CVE description) ?
+Add an exit code to check_whence.py, so we can get a real failure for
+bad WHENCE files.
 
-The current Cypress firmware files in linux-firmware are
-quite old, e.g. for brcm/brcmfmac4356-pcie.bin linux-firmware has:
-version 7.35.180.176 dated 2017-10-23, way before the CVE
+Signed-off-by: Brian Norris <briannorris@chromium.org>
+---
+ Makefile        | 2 +-
+ check_whence.py | 6 +++++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-Where as https://community.cypress.com/docs/DOC-19000 /
-cypress-fmac-v4.14.77-2020_0115.zip has:
-version 7.35.180.197 which presumably contains a fix (no changelog)
-
-Regards,
-
-Hans
+diff --git a/Makefile b/Makefile
+index 16b5b1a02a49..e1c362f36650 100644
+--- a/Makefile
++++ b/Makefile
+@@ -6,7 +6,7 @@ FIRMWAREDIR = /lib/firmware
+ all:
+ 
+ check:
+-	./check_whence.py
++	@./check_whence.py
+ 
+ install:
+ 	mkdir -p $(DESTDIR)$(FIRMWAREDIR)
+diff --git a/check_whence.py b/check_whence.py
+index 4adbfc30d72d..04f41dfc5f9e 100755
+--- a/check_whence.py
++++ b/check_whence.py
+@@ -33,6 +33,7 @@ def list_git():
+             yield line.rstrip('\n')
+ 
+ def main():
++    ret = 0
+     whence_list = list(list_whence())
+     known_files = set(name for name in whence_list if not name.endswith('/')) | \
+                   set(['check_whence.py', 'configure', 'Makefile',
+@@ -42,6 +43,7 @@ def main():
+ 
+     for name in sorted(list(known_files - git_files)):
+         sys.stderr.write('E: %s listed in WHENCE does not exist\n' % name)
++        ret = 1
+ 
+     for name in sorted(list(git_files - known_files)):
+         # Ignore subdirectory changelogs and GPG detached signatures
+@@ -55,6 +57,8 @@ def main():
+                 break
+         else:
+             sys.stderr.write('E: %s not listed in WHENCE\n' % name)
++            ret = 1
++    return ret
+ 
+ if __name__ == '__main__':
+-    main()
++    sys.exit(main())
+-- 
+2.25.0.265.gbab2e86ba0-goog
 
