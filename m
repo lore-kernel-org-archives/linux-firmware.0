@@ -1,26 +1,28 @@
-Return-Path: <SRS0=ayrm=4W=cypress.com=Chi-Hsien.Lin@kernel.org>
+Return-Path: <SRS0=j27y=4W=vger.kernel.org=linux-kernel-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MSGID_FROM_MTA_HEADER,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38E19C3F2D1
-	for <linux-firmware@archiver.kernel.org>; Thu,  5 Mar 2020 03:51:15 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 157D120842; Thu,  5 Mar 2020 03:51:15 +0000 (UTC)
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2134.outbound.protection.outlook.com [40.107.223.134])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 10D092073B
-	for <linux-firmware@kernel.org>; Thu,  5 Mar 2020 03:51:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04E4CC3F2D7
+	for <linux-kernel@archiver.kernel.org>; Thu,  5 Mar 2020 03:51:17 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
+	by mail.kernel.org (Postfix) with ESMTP id C71FC208C3
+	for <linux-kernel@archiver.kernel.org>; Thu,  5 Mar 2020 03:51:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
 	dkim=pass (1024-bit key) header.d=cypress.com header.i=@cypress.com header.b="PkwLxFt/"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 10D092073B
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=cypress.com
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=Chi-Hsien.Lin@cypress.com
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S1725938AbgCEDvP (ORCPT
+        <rfc822;linux-kernel@archiver.kernel.org>);
+        Wed, 4 Mar 2020 22:51:15 -0500
+Received: from mail-dm6nam11on2102.outbound.protection.outlook.com ([40.107.223.102]:8736
+        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725877AbgCEDvP (ORCPT <rfc822;linux-kernel@vger.kernel.org>);
+        Wed, 4 Mar 2020 22:51:15 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
  b=fXU+KC7GYQWLnon6G25R8/SL9z+JwK7eJJKXxavXxtomhG2ho1i5DHC5+0nLeJTAvGmF7RkM3SVEyGNRsF4aTp8935MVCW4MGCt2XPCpAMvQF97mRfM0Edljdnvi3yBmWtGcWgQDBxjHiXcXLj73XvAx3/oH1x7E50VISgQtYTJ8N+kw+Pz+KPiz5q39qnLwb5XzuxsV0S8r9+wyW+pLjhXTFi2phOMaHEx7Vq0QkAxlyoW5wexPxjFw3SCC9BjrLi98gy++/7Yy2hF0gg1s8aL/FljL1d0uiXygT3vDpv2vcqKeykRA3Pz/lTV8dx99ueL9sinCnn607IKqTUwphg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
@@ -50,17 +52,17 @@ Received: from BYAPR06MB4901.namprd06.prod.outlook.com
 Reply-To: chi-hsien.lin@cypress.com
 Subject: Re: Updating cypress/brcm firmware in linux-firmware for
  CVE-2019-15126
-To: Hans de Goede <hdegoede@redhat.com>,
- Christopher Rumpf <Christopher.Rumpf@cypress.com>,
- Chung-Hsien Hsu <cnhu@cypress.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Christopher Rumpf <Christopher.Rumpf@cypress.com>,
+        Chung-Hsien Hsu <cnhu@cypress.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc:     linux-firmware@kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 References: <93dba8d2-6e46-9157-d292-4d93feb8ec1a@redhat.com>
  <c2f75e84-6c8d-f4f0-bcc6-5fb2b662de33@redhat.com>
-From: Chi-Hsien Lin <chi-hsien.lin@cypress.com>
+From:   Chi-Hsien Lin <chi-hsien.lin@cypress.com>
 Message-ID: <3cf961a6-56c8-81fb-3bf9-fc36e2601d2c@cypress.com>
-Date: Thu, 5 Mar 2020 11:50:58 +0800
+Date:   Thu, 5 Mar 2020 11:50:58 +0800
 User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
  Thunderbird/52.9.1
 In-Reply-To: <c2f75e84-6c8d-f4f0-bcc6-5fb2b662de33@redhat.com>
@@ -79,20 +81,16 @@ X-MS-Office365-Filtering-HT: Tenant
 X-MS-Office365-Filtering-Correlation-Id: fa41a757-845b-4fba-fd16-08d7c0b870ff
 X-MS-TrafficTypeDiagnostic: BYAPR06MB3912:|BYAPR06MB3912:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS:
-	<BYAPR06MB39122222F68CA432BBB73D35BBE20@BYAPR06MB3912.namprd06.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <BYAPR06MB39122222F68CA432BBB73D35BBE20@BYAPR06MB3912.namprd06.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-Forefront-PRVS: 03333C607F
-X-Forefront-Antispam-Report:
-	SFV:NSPM;SFS:(10019020)(136003)(366004)(39860400002)(346002)(396003)(376002)(189003)(199004)(81166006)(6666004)(8676002)(81156014)(4326008)(16576012)(6486002)(31696002)(52116002)(316002)(26005)(186003)(31686004)(5660300002)(16526019)(86362001)(36756003)(66476007)(3450700001)(478600001)(2906002)(4001150100001)(66556008)(53546011)(956004)(966005)(110136005)(6636002)(66946007)(2616005)(8936002);DIR:OUT;SFP:1102;SCL:1;SRVR:BYAPR06MB3912;H:BYAPR06MB4901.namprd06.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(136003)(366004)(39860400002)(346002)(396003)(376002)(189003)(199004)(81166006)(6666004)(8676002)(81156014)(4326008)(16576012)(6486002)(31696002)(52116002)(316002)(26005)(186003)(31686004)(5660300002)(16526019)(86362001)(36756003)(66476007)(3450700001)(478600001)(2906002)(4001150100001)(66556008)(53546011)(956004)(966005)(110136005)(6636002)(66946007)(2616005)(8936002);DIR:OUT;SFP:1102;SCL:1;SRVR:BYAPR06MB3912;H:BYAPR06MB4901.namprd06.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
 Received-SPF: None (protection.outlook.com: cypress.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	06ZziBZbf7QAatdZORahHPk8cDPIB6Z4KOvnw0yLp1zdSP6teq1Z9TWT784CPsnrkGBEJe9uAaC3ERnJck27zV3e4It637pymvGKwnWTC59541k/gcIVyMA0bgUD/lXOiXhSpLNwE9LHT+deoyr8d0/naHCSrXGzv32RBOftjdx0SfMf+Yir6AJUZ9BSO2z/NExm/DZHB3rdJCUQrbqGDDKaCxXu1djFTQk231OOOpJyf0OG0nju+kov0axBwtzUl/ayr03x2NQDA9NdYJUnFl3bRRbk97sO3Ok0RgLAEi4wnLjP2BPkT9U/MCvw8wNFAnp8iN4UVh0I5IHNeGltxkMrKmYKkZqqxT76ZnjpGxlMdjIiHrdQpwsEjn3kYyOW0D+Jq/ZMXphAAiJfRh6U5jv47u1PdvdFmq/cOHA6GNAWELkt3hyky7y4hrzvVKnctBLn8bc6uILNvTIjnDJCZvZu07Ks6RzA9WL8CYp8vDA36X42sW+vszwPhjdJTNR+2CzNGbsbqOni/pWw/sjYeg==
-X-MS-Exchange-AntiSpam-MessageData:
-	neVk+4Cdwc7s8fxmZHd2OYcz10WjWvvtu8wvMRNUUFNQE9efUmFKtdXvwVdJ2T/d4nZtxJkeghAMTJFSsdyc612n1unlSGOZ5si/wgx8O2u5SVzWgg3E8hG5F5nQGK3PN8vT3H9SG2y6j30ACfmKqg==
+X-Microsoft-Antispam-Message-Info: 06ZziBZbf7QAatdZORahHPk8cDPIB6Z4KOvnw0yLp1zdSP6teq1Z9TWT784CPsnrkGBEJe9uAaC3ERnJck27zV3e4It637pymvGKwnWTC59541k/gcIVyMA0bgUD/lXOiXhSpLNwE9LHT+deoyr8d0/naHCSrXGzv32RBOftjdx0SfMf+Yir6AJUZ9BSO2z/NExm/DZHB3rdJCUQrbqGDDKaCxXu1djFTQk231OOOpJyf0OG0nju+kov0axBwtzUl/ayr03x2NQDA9NdYJUnFl3bRRbk97sO3Ok0RgLAEi4wnLjP2BPkT9U/MCvw8wNFAnp8iN4UVh0I5IHNeGltxkMrKmYKkZqqxT76ZnjpGxlMdjIiHrdQpwsEjn3kYyOW0D+Jq/ZMXphAAiJfRh6U5jv47u1PdvdFmq/cOHA6GNAWELkt3hyky7y4hrzvVKnctBLn8bc6uILNvTIjnDJCZvZu07Ks6RzA9WL8CYp8vDA36X42sW+vszwPhjdJTNR+2CzNGbsbqOni/pWw/sjYeg==
+X-MS-Exchange-AntiSpam-MessageData: neVk+4Cdwc7s8fxmZHd2OYcz10WjWvvtu8wvMRNUUFNQE9efUmFKtdXvwVdJ2T/d4nZtxJkeghAMTJFSsdyc612n1unlSGOZ5si/wgx8O2u5SVzWgg3E8hG5F5nQGK3PN8vT3H9SG2y6j30ACfmKqg==
 X-OriginatorOrg: cypress.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: fa41a757-845b-4fba-fd16-08d7c0b870ff
 X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2020 03:51:10.2092
@@ -102,6 +100,11 @@ X-MS-Exchange-CrossTenant-Id: 011addfc-2c09-450d-8938-e0bbc2dd2376
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 1H8ggI5j5zdcRkA4xc7Q/+ykXWHjjpD5F8ubEHG3AvkSqMED5U4l8i2fYee0RGu7CSVLOaa8e2RZqgG92n/EpQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR06MB3912
+Sender: linux-kernel-owner@vger.kernel.org
+Precedence: bulk
+List-ID: <linux-kernel.vger.kernel.org>
+X-Mailing-List: linux-kernel@vger.kernel.org
+Message-ID: <20200305035058.vq7Xiqs_xXRfk_yyebh90Gr_2ZsVGGQ5bk6xCvLazrw@z>
 
 (+Chris)
 
