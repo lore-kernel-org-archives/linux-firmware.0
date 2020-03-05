@@ -1,60 +1,67 @@
-Return-Path: <SRS0=5N2G=4W=bombadil.srs.infradead.org=BATV+870a638632269e5085cd+6038+infradead.org+dwmw2@kernel.org>
+Return-Path: <SRS0=j27y=4W=vger.kernel.org=linux-kernel-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,SPF_PASS,
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5575C3F2CD
-	for <linux-firmware@archiver.kernel.org>; Thu,  5 Mar 2020 09:16:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 9634F2146E; Thu,  5 Mar 2020 09:16:53 +0000 (UTC)
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6A735208CD
-	for <linux-firmware@kernel.org>; Thu,  5 Mar 2020 09:16:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A10EC3F2CD
+	for <linux-kernel@archiver.kernel.org>; Thu,  5 Mar 2020 09:16:55 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
+	by mail.kernel.org (Postfix) with ESMTP id 397D9208CD
+	for <linux-kernel@archiver.kernel.org>; Thu,  5 Mar 2020 09:16:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="s5mrUHcS"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6A735208CD
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=BATV+870a638632269e5085cd+6038+infradead.org+dwmw2@bombadil.srs.infradead.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="s5mrUHcS"
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S1726682AbgCEJQy (ORCPT
+        <rfc822;linux-kernel@archiver.kernel.org>);
+        Thu, 5 Mar 2020 04:16:54 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:37140 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725816AbgCEJQx (ORCPT
+        <rfc822;linux-kernel@vger.kernel.org>);
+        Thu, 5 Mar 2020 04:16:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20170209; h=Mime-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=gTwzrLfgqIjdqIGKwb4Y5kBHwktAUEnWC10Kn/EpDiM=; b=s5mrUHcSjdZom/QuZ85/5HtkHd
-	SSKeDBNjp+xhErhPkN7BXjfzwVGH+/ZNPFxa2Cz4br06m7r9UZqsCovoTm1R3x2u8lXW5a4SLmv0I
-	dvHjT5Z2crZlvnFH37M/B5oQWdIx2+pHXWV6m5FlHHCaOmZEEEegyeH1C4pZJ+1FmOtUR41xnru9M
-	RM4VCy3g80gx3UCfrYPWBd5sufDrYei/+fNKuM8LYzjJJtACkGum6PFZ9dpuoHatYupcl/6C9vz37
-	j/179M4jrizVYyO3tdZKrzehVmWTRGp/XYW8zQAFey3VLHFYoF70d3y5ek5iZKmp3AfnGsFoQp8/F
-	q7wlnTgw==;
+        d=infradead.org; s=bombadil.20170209; h=Mime-Version:Content-Type:References:
+        In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=gTwzrLfgqIjdqIGKwb4Y5kBHwktAUEnWC10Kn/EpDiM=; b=s5mrUHcSjdZom/QuZ85/5HtkHd
+        SSKeDBNjp+xhErhPkN7BXjfzwVGH+/ZNPFxa2Cz4br06m7r9UZqsCovoTm1R3x2u8lXW5a4SLmv0I
+        dvHjT5Z2crZlvnFH37M/B5oQWdIx2+pHXWV6m5FlHHCaOmZEEEegyeH1C4pZJ+1FmOtUR41xnru9M
+        RM4VCy3g80gx3UCfrYPWBd5sufDrYei/+fNKuM8LYzjJJtACkGum6PFZ9dpuoHatYupcl/6C9vz37
+        j/179M4jrizVYyO3tdZKrzehVmWTRGp/XYW8zQAFey3VLHFYoF70d3y5ek5iZKmp3AfnGsFoQp8/F
+        q7wlnTgw==;
 Received: from 54-240-197-234.amazon.com ([54.240.197.234] helo=u3832b3a9db3152.ant.amazon.com)
-	by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j9mcb-0003pZ-Lf; Thu, 05 Mar 2020 09:16:50 +0000
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j9mcb-0003pZ-Lf; Thu, 05 Mar 2020 09:16:50 +0000
 Message-ID: <40403657934d090d4668916a02878f476b34c9fd.camel@infradead.org>
 Subject: Re: Updating cypress/brcm firmware in linux-firmware for
  CVE-2019-15126
-From: David Woodhouse <dwmw2@infradead.org>
-To: Hans de Goede <hdegoede@redhat.com>, chi-hsien.lin@cypress.com, 
- Christopher Rumpf <Christopher.Rumpf@cypress.com>, Chung-Hsien Hsu
- <cnhu@cypress.com>
+From:   David Woodhouse <dwmw2@infradead.org>
+To:     Hans de Goede <hdegoede@redhat.com>, chi-hsien.lin@cypress.com,
+        Christopher Rumpf <Christopher.Rumpf@cypress.com>,
+        Chung-Hsien Hsu <cnhu@cypress.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, Linux Kernel Mailing List
-	 <linux-kernel@vger.kernel.org>
-Date: Thu, 05 Mar 2020 11:16:46 +0200
+Cc:     linux-firmware@kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Thu, 05 Mar 2020 11:16:46 +0200
 In-Reply-To: <17ec344e-80c5-02a9-59a3-35789a2eaaf9@redhat.com>
 References: <93dba8d2-6e46-9157-d292-4d93feb8ec1a@redhat.com>
-	 <c2f75e84-6c8d-f4f0-bcc6-5fb2b662de33@redhat.com>
-	 <3cf961a6-56c8-81fb-3bf9-fc36e2601d2c@cypress.com>
-	 <17ec344e-80c5-02a9-59a3-35789a2eaaf9@redhat.com>
+         <c2f75e84-6c8d-f4f0-bcc6-5fb2b662de33@redhat.com>
+         <3cf961a6-56c8-81fb-3bf9-fc36e2601d2c@cypress.com>
+         <17ec344e-80c5-02a9-59a3-35789a2eaaf9@redhat.com>
 Content-Type: multipart/signed; micalg="sha-256";
-	protocol="application/x-pkcs7-signature";
-	boundary="=-YrGk8MRnXsewlRGZZ1kC"
+        protocol="application/x-pkcs7-signature";
+        boundary="=-YrGk8MRnXsewlRGZZ1kC"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
 Mime-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Sender: linux-kernel-owner@vger.kernel.org
+Precedence: bulk
+List-ID: <linux-kernel.vger.kernel.org>
+X-Mailing-List: linux-kernel@vger.kernel.org
+Message-ID: <20200305091646.KCGxcFrAsePH97biIJZaUnQSxTByzo6lIzemwYxMjIg@z>
 
 
 --=-YrGk8MRnXsewlRGZZ1kC
