@@ -1,57 +1,60 @@
-Return-Path: <SRS0=o7Aq=4W=redhat.com=hdegoede@kernel.org>
+Return-Path: <SRS0=j27y=4W=vger.kernel.org=linux-kernel-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D142C3F2D1
-	for <linux-firmware@archiver.kernel.org>; Thu,  5 Mar 2020 06:24:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 0B5B3208C3; Thu,  5 Mar 2020 06:24:53 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BD120207FD
-	for <linux-firmware@kernel.org>; Thu,  5 Mar 2020 06:24:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B737C3F2CD
+	for <linux-kernel@archiver.kernel.org>; Thu,  5 Mar 2020 06:24:54 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
+	by mail.kernel.org (Postfix) with ESMTP id E08BD207FD
+	for <linux-kernel@archiver.kernel.org>; Thu,  5 Mar 2020 06:24:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
 	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aWdkEMMh"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BD120207FD
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=hdegoede@redhat.com
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S1725926AbgCEGYw (ORCPT
+        <rfc822;linux-kernel@archiver.kernel.org>);
+        Thu, 5 Mar 2020 01:24:52 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32933 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725816AbgCEGYw (ORCPT
+        <rfc822;linux-kernel@vger.kernel.org>);
+        Thu, 5 Mar 2020 01:24:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1583389491;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=onavTSj9a/P9cQTzAh/dyBQ46vlcFHueFUhjebvWmRQ=;
-	b=aWdkEMMhEDBGMDKsL74iXqhXbmLnKR7IoxtQJ1KOZTyMum/0aKxm4IauRzXzrjr0pxP+kG
-	mJ89rbQJcijimucAvUXLDODU+tEJ9YfQz/13C/q/NmGu2/8fGho/OCJqiiIj7tzbcQr9fl
-	tiN93UYZygKbWbIP/E9gJ0Rc1fKfq6c=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-nWhHh0sAPCu_zK3X9KtStg-1; Thu, 05 Mar 2020 01:24:47 -0500
-X-MC-Unique: nWhHh0sAPCu_zK3X9KtStg-1
-Received: by mail-wr1-f72.google.com with SMTP id d7so1915969wrr.0
-        for <linux-firmware@kernel.org>; Wed, 04 Mar 2020 22:24:47 -0800 (PST)
+        s=mimecast20190719; t=1583389491;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=onavTSj9a/P9cQTzAh/dyBQ46vlcFHueFUhjebvWmRQ=;
+        b=aWdkEMMhEDBGMDKsL74iXqhXbmLnKR7IoxtQJ1KOZTyMum/0aKxm4IauRzXzrjr0pxP+kG
+        mJ89rbQJcijimucAvUXLDODU+tEJ9YfQz/13C/q/NmGu2/8fGho/OCJqiiIj7tzbcQr9fl
+        tiN93UYZygKbWbIP/E9gJ0Rc1fKfq6c=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-382-PWnfSI4RMoeXOtCKVl1Gsg-1; Thu, 05 Mar 2020 01:24:47 -0500
+X-MC-Unique: PWnfSI4RMoeXOtCKVl1Gsg-1
+Received: by mail-wm1-f71.google.com with SMTP id b23so1693874wmj.3
+        for <linux-kernel@vger.kernel.org>; Wed, 04 Mar 2020 22:24:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
         bh=onavTSj9a/P9cQTzAh/dyBQ46vlcFHueFUhjebvWmRQ=;
-        b=sVpSCFLGnIhYyQz3MxErksxdx4TJoWFXgop85zA3COVYkhdTedgg2RqnXENjOozM46
-         yOcCL6i98EyxpRH6UIUWvpD5Br19WoNbeA8WLrUqgVcPGS5dGcBvVZCH4YpW3nWfDFhQ
-         9JI2c2t6cyL8dSYDcAPduFVheRYYr6K7086Tr5kGtKyBbDJMOGDaThq2Dd3OZElpLZJC
-         9367JS4X8NYawxyVcSmc5tQYibJVENR1UyqxP5tSSng0feKIdqLgti84+y95Tz4iH9eP
-         nrG5rBhrLpj4VA4Ltg8Rc10mWfqreRIhVXqgJlHaoipAjOXTGfdeQupBnbSRw3CpKKnT
-         r/pw==
-X-Gm-Message-State: ANhLgQ03+TkWwUxY2lxk5XQ896jYCT6M118V4aRvDlP13qbro0meSvHm
-	qb1arqtVBddMYARAER4LXJP71Nx59TjwIKYMneTOO+oOYZkMS5nwG+je1058sYtew7CExc+bT66
-	2Vtm49ffBs07C6Eu1SoiK
-X-Received: by 2002:a1c:e91a:: with SMTP id q26mr7582619wmc.103.1583389485991;
+        b=WK/8zucVyHdyHYHB7fn2TEb1+1+qe4aoQDes5xPmNehWxp564hwmMUEfgx5EayZISG
+         +KwbGR2ha4RfMNP0/eei+ytYsPTXN+cTjX6Z6fGVjnOxUjnzhusxsH+28AxZHutrHJpe
+         wCXTRXTXxHm6Q78Fm3JyuiEluQT7sGvUlf7hKjThiUGvWHM9yqWCAPCBNqgvKO6f+/p8
+         ocmMtiPwzTp/Ir7jQisn6pb4hjxDxSyEyrIGmR6n2m5JidUDO+2CfBY5IJEq6dfoBaN9
+         ior28hjWM+aIqlSstPbLOjyydyFeD0F9+6+rpiILgPVjdgI1JMiocvWgXvPb7TjloxRL
+         n+/g==
+X-Gm-Message-State: ANhLgQ3OIS2ToK3fVeBhEspCwpoUBe4Z3e7iFdTzfXrAcIGz3pDGM28w
+        rHY4Yg1AwWJBrpgDUS3fJ3PjPzWF/LbGQuwyPpbmhIuUrYG/Q26imlgOklGH0ZnatTUjhPcyEpe
+        9vXR0+gTLa3UelYjmGy81ZBCY
+X-Received: by 2002:a1c:e91a:: with SMTP id q26mr7582620wmc.103.1583389485992;
         Wed, 04 Mar 2020 22:24:45 -0800 (PST)
 X-Google-Smtp-Source: ADFU+vtiUZKoooY6I7KXJDNcIm/991GyLdsN4IX/2ZjkrqnVzZ2zAJhkHlmZQlxsSawC3GpXdxNnsg==
 X-Received: by 2002:a1c:e91a:: with SMTP id q26mr7582593wmc.103.1583389485734;
@@ -62,27 +65,30 @@ Received: from x1.localdomain (2001-1c00-0c0c-fe00-7a91-34f6-66f7-d87c.cable.dyn
         Wed, 04 Mar 2020 22:24:44 -0800 (PST)
 Subject: Re: Updating cypress/brcm firmware in linux-firmware for
  CVE-2019-15126
-To: chi-hsien.lin@cypress.com,
- Christopher Rumpf <Christopher.Rumpf@cypress.com>,
- Chung-Hsien Hsu <cnhu@cypress.com>
+To:     chi-hsien.lin@cypress.com,
+        Christopher Rumpf <Christopher.Rumpf@cypress.com>,
+        Chung-Hsien Hsu <cnhu@cypress.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc:     linux-firmware@kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 References: <93dba8d2-6e46-9157-d292-4d93feb8ec1a@redhat.com>
  <c2f75e84-6c8d-f4f0-bcc6-5fb2b662de33@redhat.com>
  <3cf961a6-56c8-81fb-3bf9-fc36e2601d2c@cypress.com>
-From: Hans de Goede <hdegoede@redhat.com>
+From:   Hans de Goede <hdegoede@redhat.com>
 Message-ID: <17ec344e-80c5-02a9-59a3-35789a2eaaf9@redhat.com>
-Date: Thu, 5 Mar 2020 07:24:44 +0100
+Date:   Thu, 5 Mar 2020 07:24:44 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
 In-Reply-To: <3cf961a6-56c8-81fb-3bf9-fc36e2601d2c@cypress.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+Sender: linux-kernel-owner@vger.kernel.org
+Precedence: bulk
+List-ID: <linux-kernel.vger.kernel.org>
+X-Mailing-List: linux-kernel@vger.kernel.org
+Message-ID: <20200305062444.ApbELKpbWSUF8DhYSGWD3B8wegv7ajqersyeUVaZTrk@z>
 
 Hi,
 
