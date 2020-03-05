@@ -1,194 +1,169 @@
-Return-Path: <SRS0=j27y=4W=vger.kernel.org=linux-kernel-owner@kernel.org>
+Return-Path: <SRS0=o7Aq=4W=redhat.com=hdegoede@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A10EC3F2CD
-	for <linux-kernel@archiver.kernel.org>; Thu,  5 Mar 2020 09:16:55 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 397D9208CD
-	for <linux-kernel@archiver.kernel.org>; Thu,  5 Mar 2020 09:16:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFE1AC3F2CD
+	for <linux-firmware@archiver.kernel.org>; Thu,  5 Mar 2020 14:00:26 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id A0A0120848; Thu,  5 Mar 2020 14:00:26 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id 0038120637
+	for <linux-firmware@kernel.org>; Thu,  5 Mar 2020 14:00:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="s5mrUHcS"
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726682AbgCEJQy (ORCPT
-        <rfc822;linux-kernel@archiver.kernel.org>);
-        Thu, 5 Mar 2020 04:16:54 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:37140 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725816AbgCEJQx (ORCPT
-        <rfc822;linux-kernel@vger.kernel.org>);
-        Thu, 5 Mar 2020 04:16:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Mime-Version:Content-Type:References:
-        In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=gTwzrLfgqIjdqIGKwb4Y5kBHwktAUEnWC10Kn/EpDiM=; b=s5mrUHcSjdZom/QuZ85/5HtkHd
-        SSKeDBNjp+xhErhPkN7BXjfzwVGH+/ZNPFxa2Cz4br06m7r9UZqsCovoTm1R3x2u8lXW5a4SLmv0I
-        dvHjT5Z2crZlvnFH37M/B5oQWdIx2+pHXWV6m5FlHHCaOmZEEEegyeH1C4pZJ+1FmOtUR41xnru9M
-        RM4VCy3g80gx3UCfrYPWBd5sufDrYei/+fNKuM8LYzjJJtACkGum6PFZ9dpuoHatYupcl/6C9vz37
-        j/179M4jrizVYyO3tdZKrzehVmWTRGp/XYW8zQAFey3VLHFYoF70d3y5ek5iZKmp3AfnGsFoQp8/F
-        q7wlnTgw==;
-Received: from 54-240-197-234.amazon.com ([54.240.197.234] helo=u3832b3a9db3152.ant.amazon.com)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j9mcb-0003pZ-Lf; Thu, 05 Mar 2020 09:16:50 +0000
-Message-ID: <40403657934d090d4668916a02878f476b34c9fd.camel@infradead.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ckuzOiV4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0038120637
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=hdegoede@redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1583416824;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=REYAw8IXLNs9Tf/q5p/SCoSNcXTUik9NnIPit8ULeAI=;
+	b=ckuzOiV4gYobC83DCZdKi0ycdgzo0cNLZPSmgkdj7XC0ary/vxfZ9y2CqgYUP1ATdDhlVo
+	KjZno8CGjsN1Lg3pjr6XhjS050tXdDszOnS0kTeIbCKlqVclavHfr7m7ROFaI3fHIpAsIN
+	LhmxoTAD9WRQUpChUM8b6sjbjUjCkKI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-472-Xuoz5RqINjGsp5vNt8VO7w-1; Thu, 05 Mar 2020 09:00:22 -0500
+X-MC-Unique: Xuoz5RqINjGsp5vNt8VO7w-1
+Received: by mail-wm1-f69.google.com with SMTP id f207so2118808wme.6
+        for <linux-firmware@kernel.org>; Thu, 05 Mar 2020 06:00:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=REYAw8IXLNs9Tf/q5p/SCoSNcXTUik9NnIPit8ULeAI=;
+        b=a6oICLLeaJ1v4+bkw9kfUWH0HTx5Gzg53/AKKYbjKqQnr5+8OqbJWXT5EXAVFr49Aq
+         8JoXa9qYEzKFqEEFuE3kjknxpYOec0Ru1RoMiVMyWF0sgLhnX9zh2yklSYFs5vQYTwj2
+         +owG/lhXp/ARtPs1VhnMLbTOAU6LK3yS9ok+HnX7HOQ6WD3q3kJ4kc60hiULZ3d1f4z5
+         ws7Tac2DlYlox8YjwxW9ifVr6lOJiRsZMvXVLnjmjArJthhM5jiN7xKz4NNMS6exd6aN
+         W/qh1IDKIASQ3mFAdAjHYcQP6cFx+M3zUyW8IE+E3Yghlh9ilPsYkmRt6uvHjqH+Xp8d
+         431w==
+X-Gm-Message-State: ANhLgQ2tsS0JaBIJMml+gvF47qDZUOovaq4yQeGzihrcEb9EGUdm7Mhk
+	WvQ9k0nBhPv1h7shP2dP6TlVo9LC7D02/UVgxZU/ReDVTigDIWbUqil2BHa9aikPwzgrQlq+fd7
+	l71l4DWjoantBBPne7Oo/
+X-Received: by 2002:a05:6000:104f:: with SMTP id c15mr9964892wrx.376.1583416820831;
+        Thu, 05 Mar 2020 06:00:20 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vtpgbLzB8p/rJAQcpMUSyR7T+t+wKqbw1eij43GDthY7l3e1Uv5a9zNtcXrmhPB10Lozrx0fw==
+X-Received: by 2002:a05:6000:104f:: with SMTP id c15mr9964863wrx.376.1583416820573;
+        Thu, 05 Mar 2020 06:00:20 -0800 (PST)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-fc7e-fd47-85c1-1ab3.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:fc7e:fd47:85c1:1ab3])
+        by smtp.gmail.com with ESMTPSA id w19sm8707521wmc.22.2020.03.05.06.00.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Mar 2020 06:00:19 -0800 (PST)
 Subject: Re: Updating cypress/brcm firmware in linux-firmware for
  CVE-2019-15126
-From:   David Woodhouse <dwmw2@infradead.org>
-To:     Hans de Goede <hdegoede@redhat.com>, chi-hsien.lin@cypress.com,
-        Christopher Rumpf <Christopher.Rumpf@cypress.com>,
-        Chung-Hsien Hsu <cnhu@cypress.com>
+To: David Woodhouse <dwmw2@infradead.org>, chi-hsien.lin@cypress.com,
+ Christopher Rumpf <Christopher.Rumpf@cypress.com>,
+ Chung-Hsien Hsu <cnhu@cypress.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc:     linux-firmware@kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Date:   Thu, 05 Mar 2020 11:16:46 +0200
-In-Reply-To: <17ec344e-80c5-02a9-59a3-35789a2eaaf9@redhat.com>
+Cc: linux-firmware@kernel.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 References: <93dba8d2-6e46-9157-d292-4d93feb8ec1a@redhat.com>
-         <c2f75e84-6c8d-f4f0-bcc6-5fb2b662de33@redhat.com>
-         <3cf961a6-56c8-81fb-3bf9-fc36e2601d2c@cypress.com>
-         <17ec344e-80c5-02a9-59a3-35789a2eaaf9@redhat.com>
-Content-Type: multipart/signed; micalg="sha-256";
-        protocol="application/x-pkcs7-signature";
-        boundary="=-YrGk8MRnXsewlRGZZ1kC"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
-Sender: linux-kernel-owner@vger.kernel.org
-Precedence: bulk
-List-ID: <linux-kernel.vger.kernel.org>
-X-Mailing-List: linux-kernel@vger.kernel.org
-Message-ID: <20200305091646.KCGxcFrAsePH97biIJZaUnQSxTByzo6lIzemwYxMjIg@z>
+ <c2f75e84-6c8d-f4f0-bcc6-5fb2b662de33@redhat.com>
+ <3cf961a6-56c8-81fb-3bf9-fc36e2601d2c@cypress.com>
+ <17ec344e-80c5-02a9-59a3-35789a2eaaf9@redhat.com>
+ <40403657934d090d4668916a02878f476b34c9fd.camel@infradead.org>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <e6c7ec6c-8619-1511-8626-70ebdea3cec5@redhat.com>
+Date: Thu, 5 Mar 2020 15:00:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <40403657934d090d4668916a02878f476b34c9fd.camel@infradead.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+Hi,
+
+On 3/5/20 10:16 AM, David Woodhouse wrote:
+> On Thu, 2020-03-05 at 07:24 +0100, Hans de Goede wrote:
+>>> also clm_blob download is not supported in kernels prior to 4.15 so
+>>> those files won't work with older kernels.
+>>
+>> That is a valid concern, I'm not sure what the rules for linux-firmware
+>> are with regards to this.
+> 
+> Not quite sure I understand the problem.
+> 
+> The rules for Linux firmware are just the same as basic engineering
+> practice for loadable libraries.
+> 
+> If you change the ABI, you change the "soname" of a library, which
+> equates to changing the filename of a linux-firmware object.
+> 
+> So if you make a new file format for the firmware which requires new
+> driver support, then you give it a new name. The updated driver can
+> attempt to load the old firmware filename as a fallback, if it still
+> supports that, or you just have a clean separation between the two.
+> 
+> The linux-firmware repository then carries *both* files, supporting
+> both old and new kernels in parallel.
+
+That is true, adding support to the brcm drivers for that should
+be easy enough and backporting that to older still supported drivers
+(which already support the separate regulatory db the new firmware
+uses) should also be easy enough.
+
+So that removes one concern, leaving just the regulatory concerns.
+
+To be honest I do not completely understand the regulatory concerns
+about using the drivers from the SDK.
+
+Chi-hsien, you say that the clm_blob files from the Cypress SDK are
+only valid for the Cypress reference designs, but AFAIK the clm_blob
+only contains per country regulatory info, so which channels can
+be used, how much mW/dB signal strength is allowed in those channels,
+etc.  Which I would expect to not change on a per design basis.
+Parameters which can change on a per design basis like antenna gain,
+are stored in the nvram and not part of the clm_blob (AFAIK).
+
+So I still do not understand why using the clm_blob files files from
+the SDK would be a problem? Can you explain this in more detail?
+
+Even if the clm_blob as distributed in the SDK is a problem, then
+I believe there should be a way to make a generic clm_blob which
+is not tied to the reference designs. The current brcm firmware
+files in linux-firmware have such a generic clm_blob builtin,
+if one can be builtin, then it should be possible to also create
+a generic clm_blob for the newer style firmware where the clm_blob
+is a separate binary ?
+
+Note that going this route (combined with different names for the
+new style firmware so that we can keep the old files for old kernels)
+will mean less work for Cypress. I believe that the current problem
+is that Cypress needs to do firmware builds for each chipset twice,
+once for the new-style format used inside Cypress' SDK and once for
+the old-style format used in linux-firmware. And it seems that there
+are not enough resources to do the old-style builds causing the firmware
+versions in linux-firmware to lag behind by multiple years!
+
+Regards,
+
+Hans
 
 
---=-YrGk8MRnXsewlRGZZ1kC
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2020-03-05 at 07:24 +0100, Hans de Goede wrote:
-> > also clm_blob download is not supported in kernels prior to 4.15 so
-> > those files won't work with older kernels.
->=20
-> That is a valid concern, I'm not sure what the rules for linux-firmware
-> are with regards to this.
+p.s.
 
-Not quite sure I understand the problem.
-
-The rules for Linux firmware are just the same as basic engineering
-practice for loadable libraries.
-
-If you change the ABI, you change the "soname" of a library, which
-equates to changing the filename of a linux-firmware object.
-
-So if you make a new file format for the firmware which requires new
-driver support, then you give it a new name. The updated driver can
-attempt to load the old firmware filename as a fallback, if it still
-supports that, or you just have a clean separation between the two.
-
-The linux-firmware repository then carries *both* files, supporting
-both old and new kernels in parallel.
+Also note that the Linux 802.11 stack already takes care of only
+selecting channels which are allowed in the country where the wifi
+card is (as advertised by the access-point). AFAIK by some other
+vendors this alone is enough for regulatory concerns and there is
+no firmware level country settting.
 
 
---=-YrGk8MRnXsewlRGZZ1kC
-Content-Type: application/x-pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
 
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCECow
-ggUcMIIEBKADAgECAhEA4rtJSHkq7AnpxKUY8ZlYZjANBgkqhkiG9w0BAQsFADCBlzELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgG
-A1UEChMRQ09NT0RPIENBIExpbWl0ZWQxPTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhl
-bnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0EwHhcNMTkwMTAyMDAwMDAwWhcNMjIwMTAxMjM1
-OTU5WjAkMSIwIAYJKoZIhvcNAQkBFhNkd213MkBpbmZyYWRlYWQub3JnMIIBIjANBgkqhkiG9w0B
-AQEFAAOCAQ8AMIIBCgKCAQEAsv3wObLTCbUA7GJqKj9vHGf+Fa+tpkO+ZRVve9EpNsMsfXhvFpb8
-RgL8vD+L133wK6csYoDU7zKiAo92FMUWaY1Hy6HqvVr9oevfTV3xhB5rQO1RHJoAfkvhy+wpjo7Q
-cXuzkOpibq2YurVStHAiGqAOMGMXhcVGqPuGhcVcVzVUjsvEzAV9Po9K2rpZ52FE4rDkpDK1pBK+
-uOAyOkgIg/cD8Kugav5tyapydeWMZRJQH1vMQ6OVT24CyAn2yXm2NgTQMS1mpzStP2ioPtTnszIQ
-Ih7ASVzhV6csHb8Yrkx8mgllOyrt9Y2kWRRJFm/FPRNEurOeNV6lnYAXOymVJwIDAQABo4IB0zCC
-Ac8wHwYDVR0jBBgwFoAUgq9sjPjF/pZhfOgfPStxSF7Ei8AwHQYDVR0OBBYEFLfuNf820LvaT4AK
-xrGK3EKx1DE7MA4GA1UdDwEB/wQEAwIFoDAMBgNVHRMBAf8EAjAAMB0GA1UdJQQWMBQGCCsGAQUF
-BwMEBggrBgEFBQcDAjBGBgNVHSAEPzA9MDsGDCsGAQQBsjEBAgEDBTArMCkGCCsGAQUFBwIBFh1o
-dHRwczovL3NlY3VyZS5jb21vZG8ubmV0L0NQUzBaBgNVHR8EUzBRME+gTaBLhklodHRwOi8vY3Js
-LmNvbW9kb2NhLmNvbS9DT01PRE9SU0FDbGllbnRBdXRoZW50aWNhdGlvbmFuZFNlY3VyZUVtYWls
-Q0EuY3JsMIGLBggrBgEFBQcBAQR/MH0wVQYIKwYBBQUHMAKGSWh0dHA6Ly9jcnQuY29tb2RvY2Eu
-Y29tL0NPTU9ET1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcnQwJAYI
-KwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmNvbW9kb2NhLmNvbTAeBgNVHREEFzAVgRNkd213MkBpbmZy
-YWRlYWQub3JnMA0GCSqGSIb3DQEBCwUAA4IBAQALbSykFusvvVkSIWttcEeifOGGKs7Wx2f5f45b
-nv2ghcxK5URjUvCnJhg+soxOMoQLG6+nbhzzb2rLTdRVGbvjZH0fOOzq0LShq0EXsqnJbbuwJhK+
-PnBtqX5O23PMHutP1l88AtVN+Rb72oSvnD+dK6708JqqUx2MAFLMevrhJRXLjKb2Mm+/8XBpEw+B
-7DisN4TMlLB/d55WnT9UPNHmQ+3KFL7QrTO8hYExkU849g58Dn3Nw3oCbMUgny81ocrLlB2Z5fFG
-Qu1AdNiBA+kg/UxzyJZpFbKfCITd5yX49bOriL692aMVDyqUvh8fP+T99PqorH4cIJP6OxSTdxKM
-MIIFHDCCBASgAwIBAgIRAOK7SUh5KuwJ6cSlGPGZWGYwDQYJKoZIhvcNAQELBQAwgZcxCzAJBgNV
-BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
-BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRo
-ZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTE5MDEwMjAwMDAwMFoXDTIyMDEwMTIz
-NTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCASIwDQYJKoZIhvcN
-AQEBBQADggEPADCCAQoCggEBALL98Dmy0wm1AOxiaio/bxxn/hWvraZDvmUVb3vRKTbDLH14bxaW
-/EYC/Lw/i9d98CunLGKA1O8yogKPdhTFFmmNR8uh6r1a/aHr301d8YQea0DtURyaAH5L4cvsKY6O
-0HF7s5DqYm6tmLq1UrRwIhqgDjBjF4XFRqj7hoXFXFc1VI7LxMwFfT6PStq6WedhROKw5KQytaQS
-vrjgMjpICIP3A/CroGr+bcmqcnXljGUSUB9bzEOjlU9uAsgJ9sl5tjYE0DEtZqc0rT9oqD7U57My
-ECIewElc4VenLB2/GK5MfJoJZTsq7fWNpFkUSRZvxT0TRLqznjVepZ2AFzsplScCAwEAAaOCAdMw
-ggHPMB8GA1UdIwQYMBaAFIKvbIz4xf6WYXzoHz0rcUhexIvAMB0GA1UdDgQWBBS37jX/NtC72k+A
-CsaxitxCsdQxOzAOBgNVHQ8BAf8EBAMCBaAwDAYDVR0TAQH/BAIwADAdBgNVHSUEFjAUBggrBgEF
-BQcDBAYIKwYBBQUHAwIwRgYDVR0gBD8wPTA7BgwrBgEEAbIxAQIBAwUwKzApBggrBgEFBQcCARYd
-aHR0cHM6Ly9zZWN1cmUuY29tb2RvLm5ldC9DUFMwWgYDVR0fBFMwUTBPoE2gS4ZJaHR0cDovL2Ny
-bC5jb21vZG9jYS5jb20vQ09NT0RPUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFp
-bENBLmNybDCBiwYIKwYBBQUHAQEEfzB9MFUGCCsGAQUFBzAChklodHRwOi8vY3J0LmNvbW9kb2Nh
-LmNvbS9DT01PRE9SU0FDbGllbnRBdXRoZW50aWNhdGlvbmFuZFNlY3VyZUVtYWlsQ0EuY3J0MCQG
-CCsGAQUFBzABhhhodHRwOi8vb2NzcC5jb21vZG9jYS5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAC20spBbrL71ZEiFrbXBHonzhhirO1sdn+X+O
-W579oIXMSuVEY1LwpyYYPrKMTjKECxuvp24c829qy03UVRm742R9Hzjs6tC0oatBF7KpyW27sCYS
-vj5wbal+TttzzB7rT9ZfPALVTfkW+9qEr5w/nSuu9PCaqlMdjABSzHr64SUVy4ym9jJvv/FwaRMP
-gew4rDeEzJSwf3eeVp0/VDzR5kPtyhS+0K0zvIWBMZFPOPYOfA59zcN6AmzFIJ8vNaHKy5QdmeXx
-RkLtQHTYgQPpIP1Mc8iWaRWynwiE3ecl+PWzq4i+vdmjFQ8qlL4fHz/k/fT6qKx+HCCT+jsUk3cS
-jDCCBeYwggPOoAMCAQICEGqb4Tg7/ytrnwHV2binUlYwDQYJKoZIhvcNAQEMBQAwgYUxCzAJBgNV
-BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
-BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMSswKQYDVQQDEyJDT01PRE8gUlNBIENlcnRpZmljYXRp
-b24gQXV0aG9yaXR5MB4XDTEzMDExMDAwMDAwMFoXDTI4MDEwOTIzNTk1OVowgZcxCzAJBgNVBAYT
-AkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAYBgNV
-BAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAvrOeV6wodnVAFsc4A5jTxhh2IVDzJXkLTLWg0X06WD6cpzEup/Y0dtmEatrQPTRI5Or1u6zf
-+bGBSyD9aH95dDSmeny1nxdlYCeXIoymMv6pQHJGNcIDpFDIMypVpVSRsivlJTRENf+RKwrB6vcf
-WlP8dSsE3Rfywq09N0ZfxcBa39V0wsGtkGWC+eQKiz4pBZYKjrc5NOpG9qrxpZxyb4o4yNNwTqza
-aPpGRqXB7IMjtf7tTmU2jqPMLxFNe1VXj9XB1rHvbRikw8lBoNoSWY66nJN/VCJv5ym6Q0mdCbDK
-CMPybTjoNCQuelc0IAaO4nLUXk0BOSxSxt8kCvsUtQIDAQABo4IBPDCCATgwHwYDVR0jBBgwFoAU
-u69+Aj36pvE8hI6t7jiY7NkyMtQwHQYDVR0OBBYEFIKvbIz4xf6WYXzoHz0rcUhexIvAMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMBEGA1UdIAQKMAgwBgYEVR0gADBMBgNVHR8E
-RTBDMEGgP6A9hjtodHRwOi8vY3JsLmNvbW9kb2NhLmNvbS9DT01PRE9SU0FDZXJ0aWZpY2F0aW9u
-QXV0aG9yaXR5LmNybDBxBggrBgEFBQcBAQRlMGMwOwYIKwYBBQUHMAKGL2h0dHA6Ly9jcnQuY29t
-b2RvY2EuY29tL0NPTU9ET1JTQUFkZFRydXN0Q0EuY3J0MCQGCCsGAQUFBzABhhhodHRwOi8vb2Nz
-cC5jb21vZG9jYS5jb20wDQYJKoZIhvcNAQEMBQADggIBAHhcsoEoNE887l9Wzp+XVuyPomsX9vP2
-SQgG1NgvNc3fQP7TcePo7EIMERoh42awGGsma65u/ITse2hKZHzT0CBxhuhb6txM1n/y78e/4ZOs
-0j8CGpfb+SJA3GaBQ+394k+z3ZByWPQedXLL1OdK8aRINTsjk/H5Ns77zwbjOKkDamxlpZ4TKSDM
-KVmU/PUWNMKSTvtlenlxBhh7ETrN543j/Q6qqgCWgWuMAXijnRglp9fyadqGOncjZjaaSOGTTFB+
-E2pvOUtY+hPebuPtTbq7vODqzCM6ryEhNhzf+enm0zlpXK7q332nXttNtjv7VFNYG+I31gnMrwfH
-M5tdhYF/8v5UY5g2xANPECTQdu9vWPoqNSGDt87b3gXb1AiGGaI06vzgkejL580ul+9hz9D0S0U4
-jkhJiA7EuTecP/CFtR72uYRBcunwwH3fciPjviDDAI9SnC/2aPY8ydehzuZutLbZdRJ5PDEJM/1t
-yZR2niOYihZ+FCbtf3D9mB12D4ln9icgc7CwaxpNSCPt8i/GqK2HsOgkL3VYnwtx7cJUmpvVdZ4o
-gnzgXtgtdk3ShrtOS1iAN2ZBXFiRmjVzmehoMof06r1xub+85hFQzVxZx5/bRaTKTlL8YXLI8nAb
-R9HWdFqzcOoB/hxfEyIQpx9/s81rgzdEZOofSlZHynoSMYIDyjCCA8YCAQEwga0wgZcxCzAJBgNV
-BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
-BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRo
-ZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA4rtJSHkq7AnpxKUY8ZlYZjANBglghkgB
-ZQMEAgEFAKCCAe0wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjAw
-MzA1MDkxNjQ2WjAvBgkqhkiG9w0BCQQxIgQgJGpJQZtnjRHslKmYZ+1e53NgpQZLM87Sk4P+DJK0
-5fswgb4GCSsGAQQBgjcQBDGBsDCBrTCBlzELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIg
-TWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgGA1UEChMRQ09NT0RPIENBIExpbWl0ZWQx
-PTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhlbnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1h
-aWwgQ0ECEQDiu0lIeSrsCenEpRjxmVhmMIHABgsqhkiG9w0BCRACCzGBsKCBrTCBlzELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgG
-A1UEChMRQ09NT0RPIENBIExpbWl0ZWQxPTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhl
-bnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0ECEQDiu0lIeSrsCenEpRjxmVhmMA0GCSqGSIb3
-DQEBAQUABIIBAB/LocHVqoCwXu7vF105ub30kMsSpPQg/NSh9aAj7hVLI4GGsTKktPnlqOlLBW+/
-B4x0AKsSf/az2uP3keLV+2IVdB+oA3/dOZ8cO+8rSwOkybKWAXDCfO+zNU3C3Qp8gE443+gAkJ+B
-OfV/Vmi3Swxsjcsp6gJyG3Aw/QKfOfAkd+iV54mAxxoTQ3FkscIApi3XF5MrjgYLAQFenjojMkQe
-0g3gpkMvQi3vTePM1zRCjjaUonM8n4zio6Sxt6Iuab+EabBOsaB4yoOrK0p+R0Zc2D4rIbcKCgmL
-CyHtLnnE7zqc9r2ekeiAnLk4/VVhvgl5/cSeGv5XJQ20+naYzx4AAAAAAAA=
-
-
---=-YrGk8MRnXsewlRGZZ1kC--
 
