@@ -1,106 +1,86 @@
-Return-Path: <SRS0=uHQ0=42=tutanota.com=laufer@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88CD8C10F25
-	for <linux-firmware@archiver.kernel.org>; Mon,  9 Mar 2020 05:27:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A8EFC10F27
+	for <linux-firmware@archiver.kernel.org>; Mon,  9 Mar 2020 17:50:38 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 7836B20828; Mon,  9 Mar 2020 05:27:25 +0000 (UTC)
-X-Greylist: delayed 451 seconds by postgrey-1.34 at mail.kernel.org; Mon, 09 Mar 2020 05:27:24 UTC
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=tutanota.com header.i=@tutanota.com header.b="rSIsuCWP"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 43A6720728
-Authentication-Results: mail.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tutanota.com
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=laufer@tutanota.com
-Received: from w1.tutanota.de (w1.tutanota.de [81.3.6.162])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id 6ECDA21927; Mon,  9 Mar 2020 17:50:38 +0000 (UTC)
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 43A6720728
-	for <linux-firmware@kernel.org>; Mon,  9 Mar 2020 05:27:24 +0000 (UTC)
-Received: from w3.tutanota.de (unknown [192.168.1.164])
-	by w1.tutanota.de (Postfix) with ESMTP id 05CDAFBF321
-	for <linux-firmware@kernel.org>; Mon,  9 Mar 2020 05:19:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1583731190;
-	s=s1; d=tutanota.com;
-	h=From:To:Subject:Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:In-Reply-To:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:References:Resent-Message-ID:Resent-From:Sender:from;
-	bh=QqtAQZKslAekEtucvD7m8W1YrTHqIE8oDFn5107AQdM=;
-	b=rSIsuCWPA/1Dw8xcROpvHHzV6bvIc/s5U5s85C9YLvHyOBzVLf0v9jenGWJA/Uk+
-	6LL1PfZRwBl4rDM3zBR4znDN/K9lFApZyzXLn7QM6Xwt2Nlup8As6vK9vJl/do1ItzR
-	u1jQo5UHFjwC4AFBud1vIEeSjmggtUgWXhZo1GhR1X3v+O5JCbYtg9lEN1V8A4mrnGL
-	tBAD/QmQP1DACosMUgK5E+uK62MUq77JHb9G+PfvaH+rPr8ayKeH6i4SSSRaqD7mhf7
-	GchePHOJCh0rJwRYdB1x6eY4F2DPLiHx+/ML1UluwupmoHDqbL3EbKE0ebKUiPNPIHF
-	EdpCc6rdNw==
-Date: Mon, 9 Mar 2020 06:19:50 +0100 (CET)
-From: =?UTF-8?Q?Zdzis=C5=82aw_Dyrma?= <laufer@tutanota.com>
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Message-ID: <M1xj1ID--3-2@tutanota.com>
-Subject: Problem installing firmware please help me but I  got stuck:(
+	by mail.kernel.org (Postfix) with ESMTPSA id 4B59C208C3;
+	Mon,  9 Mar 2020 17:50:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1583776238;
+	bh=IqkP2cQ1tanWWBC7/FvJu2+USviXtwQlw8Gm+JaKeOU=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=YUxZgi1oCvrr318keFuhUnR6Enob3OZLj7JH2eR38tcRojNNOS4wizTUMPDYrubJi
+	 EumVeobF9sBGT9+kge4BiBjGgreZdQqeRY7YI81p143YugHaaXReJzhMrPyDMLLdgZ
+	 0xVWAiIKz57E2ML4ZV9bJc2UfBgR8ppzhIy7MIaE=
+Received: by mail-io1-f48.google.com with SMTP id h8so10044044iob.2;
+        Mon, 09 Mar 2020 10:50:38 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ1W+vruQKrGD4v0gwOvcBUxbIxGf4s+mK/HDszhWrDzlBH1qiyT
+	LWmZuiE/ScjbdF6amXY/elNYfX849sltymsrXWk=
+X-Google-Smtp-Source: ADFU+vsw9etjX+/B/69FRItZyc1hFZ5aZGJOpvbL3Rg6sjSGP5yWm/yGd+BKnzQRiynEp0kleRiyvFdHlWg3KIwg500=
+X-Received: by 2002:a05:6602:2098:: with SMTP id a24mr12959827ioa.101.1583776237711;
+ Mon, 09 Mar 2020 10:50:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_127473_1117618750.1583731191013"
-
-------=_Part_127473_1117618750.1583731191013
-Content-Type: text/plain; charset=UTF-8
+References: <20200304213513.2239-1-daniele.ceraolospurio@intel.com>
+In-Reply-To: <20200304213513.2239-1-daniele.ceraolospurio@intel.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Mon, 9 Mar 2020 13:50:26 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA5Hr0RQ5W6-fDCTUHOJoGuwebebFw8OD7Wj+1_zHYrhNQ@mail.gmail.com>
+Message-ID: <CA+5PVA5Hr0RQ5W6-fDCTUHOJoGuwebebFw8OD7Wj+1_zHYrhNQ@mail.gmail.com>
+Subject: Re: PR - i915 firmware updates (TGL HuC 7.0.12 and DMC 2.06)
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: Linux Firmware <linux-firmware@kernel.org>, 
+	Intel Graphics Development <intel-gfx@lists.freedesktop.org>, Kyle McMartin <kyle@kernel.org>, 
+	Ben Hutchings <ben@decadent.org.uk>, jose.souza@intel.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Welcome!
-I think I stood in the place for good and I don't know which way to go ... =
-please help ... :(
-I had / have a problem with Possible missing firmware /lib/firmware/i915/bx=
-t_huc_ver01_8_2893.bin for module i915 (and 4 more)
-I found your firmware fixes here
-https://github.com/wkennington/linux-firmware
-I downloaded the complete linux-firmware folder but I have no idea how to i=
-nstall it ... :(
+On Wed, Mar 4, 2020 at 4:36 PM Daniele Ceraolo Spurio
+<daniele.ceraolospurio@intel.com> wrote:
+>
+> Hi,
+>
+> Kindly add the below i915 changes to linux-firmware.git
+>
+> The following changes since commit 0148cfefcbf98898ca65bb26d9d7d638b30e21=
+1d:
+>
+>   Merge https://github.com/rjliao-qca/qca-btfw (2020-03-02 08:08:15 -0500=
+)
+>
+> are available in the Git repository at:
+>
+>   git://anongit.freedesktop.org/drm/drm-firmware tgl_huc_7.0.12_dmc_2.06
 
-messiah @ matrix: ~ $ sudo apt install --reinstall linux-firmware
-[sudo] password for user messiah:
-Reading package lists ... Done
-Building a dependency tree
-Reading status information ... Ready
-E: Could not find linux-firmware package
-Messiah matrix @: ~ $
+Pulled and pushed out.
 
-? There is a general massacre ....
+josh
 
-I will be grateful to you for showing me the direction to go
-
-Thank you in advance :)
-Pozdrawiam!
-Zdzis=C5=82aw Dyrma. Zasadniczo...
-
-------=_Part_127473_1117618750.1583731191013
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-  <head>
-    <meta http-equiv=3D"content-type" content=3D"text/html; charset=3DUTF-8=
-">
-  </head>
-  <body>
-<div>Welcome!<br></div><div>I think I stood in the place for good and I don=
-'t know which way to go ... please help ... :(<br></div><div>I had / have a=
- problem with Possible missing firmware /lib/firmware/i915/bxt_huc_ver01_8_=
-2893.bin for module i915 (and 4 more)<br></div><div>I found your firmware f=
-ixes here<br></div><div><a href=3D"https://github.com/wkennington/linux-fir=
-mware">https://github.com/wkennington/linux-firmware</a><br></div><div>I do=
-wnloaded the complete linux-firmware folder but I have no idea how to insta=
-ll it ... :(<br></div><div><br></div><div>messiah @ matrix: ~ $ sudo apt in=
-stall --reinstall linux-firmware<br></div><div>[sudo] password for user mes=
-siah:<br></div><div>Reading package lists ... Done<br></div><div>Building a=
- dependency tree<br></div><div>Reading status information ... Ready<br></di=
-v><div>E: Could not find linux-firmware package<br></div><div>Messiah matri=
-x @: ~ $<br></div><div><br></div><div>? There is a general massacre ....<br=
-></div><div><br></div><div>I will be grateful to you for showing me the dir=
-ection to go<br></div><div><br></div><div>Thank you in advance :)<br></div>=
-<div>Pozdrawiam!<br></div><div>Zdzis=C5=82aw Dyrma. Zasadniczo...<br></div>=
-  </body>
-</html>
-
-------=_Part_127473_1117618750.1583731191013--
+>
+> for you to fetch changes up to fb83402c757034fd9adef083047390b3b2f54cb4:
+>
+>   i915: Add DMC firmware v2.06 for TGL (2020-03-04 13:19:07 -0800)
+>
+> ----------------------------------------------------------------
+> Daniele Ceraolo Spurio (1):
+>       i915: add HuC firmware v7.0.12 for TGL
+>
+> Jos=C3=A9 Roberto de Souza (1):
+>       i915: Add DMC firmware v2.06 for TGL
+>
+>  WHENCE                   |   6 ++++++
+>  i915/tgl_dmc_ver2_06.bin | Bin 0 -> 18660 bytes
+>  i915/tgl_huc_7.0.12.bin  | Bin 0 -> 530368 bytes
+>  3 files changed, 6 insertions(+)
+>  create mode 100644 i915/tgl_dmc_ver2_06.bin
+>  create mode 100644 i915/tgl_huc_7.0.12.bin
