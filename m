@@ -1,33 +1,49 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=2DZA=42=lists.freedesktop.org=intel-gfx-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
+	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A8EFC10F27
-	for <linux-firmware@archiver.kernel.org>; Mon,  9 Mar 2020 17:50:38 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 6ECDA21927; Mon,  9 Mar 2020 17:50:38 +0000 (UTC)
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 081DDC10F27
+	for <intel-gfx@archiver.kernel.org>; Mon,  9 Mar 2020 17:50:41 +0000 (UTC)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 4B59C208C3;
-	Mon,  9 Mar 2020 17:50:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CF91C208C3
+	for <intel-gfx@archiver.kernel.org>; Mon,  9 Mar 2020 17:50:40 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="YUxZgi1o"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CF91C208C3
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=intel-gfx-bounces@lists.freedesktop.org
+Received: from gabe.freedesktop.org (localhost [127.0.0.1])
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F2A46E0AD;
+	Mon,  9 Mar 2020 17:50:40 +0000 (UTC)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B95376E0AD
+ for <intel-gfx@lists.freedesktop.org>; Mon,  9 Mar 2020 17:50:38 +0000 (UTC)
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com
+ [209.85.166.48])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 53E71215A4
+ for <intel-gfx@lists.freedesktop.org>; Mon,  9 Mar 2020 17:50:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583776238;
-	bh=IqkP2cQ1tanWWBC7/FvJu2+USviXtwQlw8Gm+JaKeOU=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=YUxZgi1oCvrr318keFuhUnR6Enob3OZLj7JH2eR38tcRojNNOS4wizTUMPDYrubJi
-	 EumVeobF9sBGT9+kge4BiBjGgreZdQqeRY7YI81p143YugHaaXReJzhMrPyDMLLdgZ
-	 0xVWAiIKz57E2ML4ZV9bJc2UfBgR8ppzhIy7MIaE=
-Received: by mail-io1-f48.google.com with SMTP id h8so10044044iob.2;
-        Mon, 09 Mar 2020 10:50:38 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ1W+vruQKrGD4v0gwOvcBUxbIxGf4s+mK/HDszhWrDzlBH1qiyT
-	LWmZuiE/ScjbdF6amXY/elNYfX849sltymsrXWk=
+ s=default; t=1583776238;
+ bh=IqkP2cQ1tanWWBC7/FvJu2+USviXtwQlw8Gm+JaKeOU=;
+ h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+ b=YUxZgi1oCvrr318keFuhUnR6Enob3OZLj7JH2eR38tcRojNNOS4wizTUMPDYrubJi
+ EumVeobF9sBGT9+kge4BiBjGgreZdQqeRY7YI81p143YugHaaXReJzhMrPyDMLLdgZ
+ 0xVWAiIKz57E2ML4ZV9bJc2UfBgR8ppzhIy7MIaE=
+Received: by mail-io1-f48.google.com with SMTP id h131so9335662iof.1
+ for <intel-gfx@lists.freedesktop.org>; Mon, 09 Mar 2020 10:50:38 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ3xcVwVZgfJiO2Fj1ZQi8Ks1EFM1l1qpwdfnMsPWJ2Ruwuny2kq
+ gCr3YlyibcstHLOpU/Hz9yRbVBPg0lXHzBj0t2U=
 X-Google-Smtp-Source: ADFU+vsw9etjX+/B/69FRItZyc1hFZ5aZGJOpvbL3Rg6sjSGP5yWm/yGd+BKnzQRiynEp0kleRiyvFdHlWg3KIwg500=
-X-Received: by 2002:a05:6602:2098:: with SMTP id a24mr12959827ioa.101.1583776237711;
+X-Received: by 2002:a05:6602:2098:: with SMTP id
+ a24mr12959827ioa.101.1583776237711; 
  Mon, 09 Mar 2020 10:50:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200304213513.2239-1-daniele.ceraolospurio@intel.com>
@@ -35,52 +51,53 @@ In-Reply-To: <20200304213513.2239-1-daniele.ceraolospurio@intel.com>
 From: Josh Boyer <jwboyer@kernel.org>
 Date: Mon, 9 Mar 2020 13:50:26 -0400
 X-Gmail-Original-Message-ID: <CA+5PVA5Hr0RQ5W6-fDCTUHOJoGuwebebFw8OD7Wj+1_zHYrhNQ@mail.gmail.com>
-Message-ID: <CA+5PVA5Hr0RQ5W6-fDCTUHOJoGuwebebFw8OD7Wj+1_zHYrhNQ@mail.gmail.com>
-Subject: Re: PR - i915 firmware updates (TGL HuC 7.0.12 and DMC 2.06)
+Message-ID:
+ <CA+5PVA5Hr0RQ5W6-fDCTUHOJoGuwebebFw8OD7Wj+1_zHYrhNQ@mail.gmail.com>
 To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Subject: Re: [Intel-gfx] PR - i915 firmware updates (TGL HuC 7.0.12 and DMC
+ 2.06)
+X-BeenThere: intel-gfx@lists.freedesktop.org
+X-Mailman-Version: 2.1.29
+Precedence: list
+List-Id: Intel graphics driver community testing & development
+ <intel-gfx.lists.freedesktop.org>
+List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/intel-gfx>,
+ <mailto:intel-gfx-request@lists.freedesktop.org?subject=unsubscribe>
+List-Archive: <https://lists.freedesktop.org/archives/intel-gfx>
+List-Post: <mailto:intel-gfx@lists.freedesktop.org>
+List-Help: <mailto:intel-gfx-request@lists.freedesktop.org?subject=help>
+List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/intel-gfx>,
+ <mailto:intel-gfx-request@lists.freedesktop.org?subject=subscribe>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, 
-	Intel Graphics Development <intel-gfx@lists.freedesktop.org>, Kyle McMartin <kyle@kernel.org>, 
-	Ben Hutchings <ben@decadent.org.uk>, jose.souza@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Kyle McMartin <kyle@kernel.org>, Ben Hutchings <ben@decadent.org.uk>,
+ Linux Firmware <linux-firmware@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Errors-To: intel-gfx-bounces@lists.freedesktop.org
+Sender: "Intel-gfx" <intel-gfx-bounces@lists.freedesktop.org>
+Message-ID: <20200309175026.2W2gEvju3uDyAsAOmlKtXpFgPJUbprccxppUotZsFyo@z>
 
-On Wed, Mar 4, 2020 at 4:36 PM Daniele Ceraolo Spurio
-<daniele.ceraolospurio@intel.com> wrote:
->
-> Hi,
->
-> Kindly add the below i915 changes to linux-firmware.git
->
-> The following changes since commit 0148cfefcbf98898ca65bb26d9d7d638b30e21=
-1d:
->
->   Merge https://github.com/rjliao-qca/qca-btfw (2020-03-02 08:08:15 -0500=
-)
->
-> are available in the Git repository at:
->
->   git://anongit.freedesktop.org/drm/drm-firmware tgl_huc_7.0.12_dmc_2.06
-
-Pulled and pushed out.
-
-josh
-
->
-> for you to fetch changes up to fb83402c757034fd9adef083047390b3b2f54cb4:
->
->   i915: Add DMC firmware v2.06 for TGL (2020-03-04 13:19:07 -0800)
->
-> ----------------------------------------------------------------
-> Daniele Ceraolo Spurio (1):
->       i915: add HuC firmware v7.0.12 for TGL
->
-> Jos=C3=A9 Roberto de Souza (1):
->       i915: Add DMC firmware v2.06 for TGL
->
->  WHENCE                   |   6 ++++++
->  i915/tgl_dmc_ver2_06.bin | Bin 0 -> 18660 bytes
->  i915/tgl_huc_7.0.12.bin  | Bin 0 -> 530368 bytes
->  3 files changed, 6 insertions(+)
->  create mode 100644 i915/tgl_dmc_ver2_06.bin
->  create mode 100644 i915/tgl_huc_7.0.12.bin
+T24gV2VkLCBNYXIgNCwgMjAyMCBhdCA0OjM2IFBNIERhbmllbGUgQ2VyYW9sbyBTcHVyaW8KPGRh
+bmllbGUuY2VyYW9sb3NwdXJpb0BpbnRlbC5jb20+IHdyb3RlOgo+Cj4gSGksCj4KPiBLaW5kbHkg
+YWRkIHRoZSBiZWxvdyBpOTE1IGNoYW5nZXMgdG8gbGludXgtZmlybXdhcmUuZ2l0Cj4KPiBUaGUg
+Zm9sbG93aW5nIGNoYW5nZXMgc2luY2UgY29tbWl0IDAxNDhjZmVmY2JmOTg4OThjYTY1YmIyNmQ5
+ZDdkNjM4YjMwZTIxMWQ6Cj4KPiAgIE1lcmdlIGh0dHBzOi8vZ2l0aHViLmNvbS9yamxpYW8tcWNh
+L3FjYS1idGZ3ICgyMDIwLTAzLTAyIDA4OjA4OjE1IC0wNTAwKQo+Cj4gYXJlIGF2YWlsYWJsZSBp
+biB0aGUgR2l0IHJlcG9zaXRvcnkgYXQ6Cj4KPiAgIGdpdDovL2Fub25naXQuZnJlZWRlc2t0b3Au
+b3JnL2RybS9kcm0tZmlybXdhcmUgdGdsX2h1Y183LjAuMTJfZG1jXzIuMDYKClB1bGxlZCBhbmQg
+cHVzaGVkIG91dC4KCmpvc2gKCj4KPiBmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8gZmI4
+MzQwMmM3NTcwMzRmZDlhZGVmMDgzMDQ3MzkwYjNiMmY1NGNiNDoKPgo+ICAgaTkxNTogQWRkIERN
+QyBmaXJtd2FyZSB2Mi4wNiBmb3IgVEdMICgyMDIwLTAzLTA0IDEzOjE5OjA3IC0wODAwKQo+Cj4g
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLQo+IERhbmllbGUgQ2VyYW9sbyBTcHVyaW8gKDEpOgo+ICAgICAgIGk5MTU6IGFkZCBI
+dUMgZmlybXdhcmUgdjcuMC4xMiBmb3IgVEdMCj4KPiBKb3PDqSBSb2JlcnRvIGRlIFNvdXphICgx
+KToKPiAgICAgICBpOTE1OiBBZGQgRE1DIGZpcm13YXJlIHYyLjA2IGZvciBUR0wKPgo+ICBXSEVO
+Q0UgICAgICAgICAgICAgICAgICAgfCAgIDYgKysrKysrCj4gIGk5MTUvdGdsX2RtY192ZXIyXzA2
+LmJpbiB8IEJpbiAwIC0+IDE4NjYwIGJ5dGVzCj4gIGk5MTUvdGdsX2h1Y183LjAuMTIuYmluICB8
+IEJpbiAwIC0+IDUzMDM2OCBieXRlcwo+ICAzIGZpbGVzIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygr
+KQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgaTkxNS90Z2xfZG1jX3ZlcjJfMDYuYmluCj4gIGNyZWF0
+ZSBtb2RlIDEwMDY0NCBpOTE1L3RnbF9odWNfNy4wLjEyLmJpbgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpJbnRlbC1nZnggbWFpbGluZyBsaXN0CkludGVs
+LWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9pbnRlbC1nZngK
