@@ -1,51 +1,67 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=BYXa=44=mediatek.com=erin.lo@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MENTIONS_GIT_HOSTING,MIME_BASE64_TEXT,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6267CC10F27
-	for <linux-firmware@archiver.kernel.org>; Mon,  9 Mar 2020 17:53:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F9BAC10F25
+	for <linux-firmware@archiver.kernel.org>; Wed, 11 Mar 2020 03:36:21 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 56404215A4; Mon,  9 Mar 2020 17:53:45 +0000 (UTC)
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 33785208C3
-	for <linux-firmware@kernel.org>; Mon,  9 Mar 2020 17:53:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583776425;
-	bh=kSunxzPhMSbueuJ7frjQVep5qnncsezSytZN9j+bsPU=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=ZZQklzaxZy0BmUDoV/6mJPvHkx1wh7VJlktj+QsBM7GbJmrGdUagJ3nRXo1oF+ahO
-	 jKtJ/qnisr3tugKVsEPRcJqOXOox/1VDuJ6hpC0twE5uAchqKoEngphR6W59i8LqVu
-	 rv4OnNFzwbP/Axg1JZUF720YtJP7I9o1kVg21mlI=
-Received: by mail-io1-f50.google.com with SMTP id k4so10054663ior.4
-        for <linux-firmware@kernel.org>; Mon, 09 Mar 2020 10:53:45 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ0UPdnqyH5vL7ULwYpOceLkreFuF/04JNbP/SfS7SQtUZwsz2BX
-	MCbZKPGokXjtSpJP+M7NsvLffWa2y2dN1H3lTrM=
-X-Google-Smtp-Source: ADFU+vvsHImqtq993zzOx8Ea572AY1GuTZjdZ0I2fY4tudHhLdlB4ARrTZ9v3QE2Vec8EDmxYURnXJ30PbtN5DLxg/g=
-X-Received: by 2002:a05:6602:120e:: with SMTP id y14mr5848305iot.159.1583776424645;
- Mon, 09 Mar 2020 10:53:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <CADnq5_PdQmM=_SzXENt8w4J6_uQYun7eoyUsEa7_NzgMtywv=Q@mail.gmail.com>
-In-Reply-To: <CADnq5_PdQmM=_SzXENt8w4J6_uQYun7eoyUsEa7_NzgMtywv=Q@mail.gmail.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 9 Mar 2020 13:53:33 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA757Zb1Tym11QrawO9x1L+oOWpZ6-gyGyHexF0twpCLUg@mail.gmail.com>
-Message-ID: <CA+5PVA757Zb1Tym11QrawO9x1L+oOWpZ6-gyGyHexF0twpCLUg@mail.gmail.com>
-Subject: Re: amdgpu firmware updates
-To: Alex Deucher <alexdeucher@gmail.com>
+	id 3C12421D56; Wed, 11 Mar 2020 03:36:21 +0000 (UTC)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	by mail.kernel.org (Postfix) with ESMTP id 68FE120578
+	for <linux-firmware@kernel.org>; Wed, 11 Mar 2020 03:36:20 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="iERI+jak"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 68FE120578
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=mediatek.com
+Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=erin.lo@mediatek.com
+X-UUID: 1aa98038cfbd4693bc62a88c2391dbf7-20200311
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=DPJUQnv87RbzN8dm0Mgk9azwyYcGOhnHBbgcNu92ga0=;
+	b=iERI+jak/HtMasoCvWXvUVw192XtrcERlG2u980a1zpgERP8wFU7foQ3UYStKaKb9IoBEKp51wPndZ01t5tthjGJZhPYwV/6NEBtFSh0vg54X+sRXqkXP66IJgZtStHfuirh/KnKuMIsW7yKirTbIWqZYlzOA2upjLNd0dhkwXU=;
+X-UUID: 1aa98038cfbd4693bc62a88c2391dbf7-20200311
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
+	(envelope-from <erin.lo@mediatek.com>)
+	(Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+	with ESMTP id 763538050; Wed, 11 Mar 2020 11:36:16 +0800
+Received: from mtkcas09.mediatek.inc (172.21.101.178) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Wed, 11 Mar 2020 11:35:17 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas09.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Wed, 11 Mar 2020 11:35:23 +0800
+From: Erin Lo <erin.lo@mediatek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To: <linux-firmware@kernel.org>
+CC: <linux-mediatek@lists.infradead.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-remoteproc@vger.kernel.org>,
+	<yunfei.dong@mediatek.com>, <maoguang.meng@mediatek.com>,
+	<menghui.lin@mediatek.com>, <sj.huang@mediatek.com>, <drinkcat@google.com>,
+	<shawnku@google.com>, <srv_heupstream@mediatek.com>
+Subject: pull request: linux-firmware: Create Mediatek MT8183 SCP firmware 
+Date: Wed, 11 Mar 2020 11:36:01 +0800
+Message-ID: <20200311033602.31905-1-erin.lo@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+MIME-Version: 1.0
+Content-Type: text/plain
+X-MTK: N
+Content-Transfer-Encoding: base64
 
-On Fri, Mar 6, 2020 at 1:49 PM Alex Deucher <alexdeucher@gmail.com> wrote:
->
-> Updated amdgpu firmware for multi-media engines.  Please apply!
+VGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCAwMTQ4Y2ZlZmNiZjk4ODk4Y2E2NWJi
+MjZkOWQ3ZDYzOGIzMGUyMTFkOg0KDQogIE1lcmdlIGh0dHBzOi8vZ2l0aHViLmNvbS9yamxpYW8t
+cWNhL3FjYS1idGZ3ICgyMDIwLTAzLTAyIDA4OjA4OjE1IC0wNTAwKQ0KDQphcmUgYXZhaWxhYmxl
+IGluIHRoZSBHaXQgcmVwb3NpdG9yeSBhdDoNCg0KICBodHRwczovL2dpdGh1Yi5jb20vZXJpbmxv
+L2xpbnV4X2Z3X3NjcCB2MTI1NzMuNzcNCg0KZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRv
+IGE1MjE1MGQ4ZTFmZTY1OTk0NDY0YjE1ZWExNjJiZGM4OWJhNjFjZTg6DQoNCiAgbWVkaWF0ZWs6
+IEFkZCBtdDgxODMgU0NQIGZpcm13YXJlICgyMDIwLTAzLTExIDEwOjM2OjQ1ICswODAwKQ0KDQot
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tDQpFcmluIExvICgxKToNCiAgICAgIG1lZGlhdGVrOiBBZGQgbXQ4MTgzIFNDUCBmaXJt
+d2FyZQ0KDQogbWVkaWF0ZWsvbXQ4MTgzL3NjcC5pbWcgfCBCaW4gMCAtPiAxMDI3MTA0IGJ5dGVz
+DQogMSBmaWxlIGNoYW5nZWQsIDAgaW5zZXJ0aW9ucygrKSwgMCBkZWxldGlvbnMoLSkNCiBjcmVh
+dGUgbW9kZSAxMDA2NDQgbWVkaWF0ZWsvbXQ4MTgzL3NjcC5pbWcNCg0K
 
-Applied and pushed out.
-
-josh
