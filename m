@@ -1,48 +1,45 @@
-Return-Path: <SRS0=ynic=46=vger.kernel.org=linux-bluetooth-owner@kernel.org>
+Return-Path: <SRS0=+8ip=46=intel.com=amit.k.bag@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E007FC2BB1D
-	for <linux-bluetooth@archiver.kernel.org>; Fri, 13 Mar 2020 05:18:42 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B93D920737
-	for <linux-bluetooth@archiver.kernel.org>; Fri, 13 Mar 2020 05:18:42 +0000 (UTC)
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726377AbgCMFSm (ORCPT
-        <rfc822;linux-bluetooth@archiver.kernel.org>);
-        Fri, 13 Mar 2020 01:18:42 -0400
-Received: from mga14.intel.com ([192.55.52.115]:36600 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725535AbgCMFSm (ORCPT <rfc822;linux-bluetooth@vger.kernel.org>);
-        Fri, 13 Mar 2020 01:18:42 -0400
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAB65C10DCE
+	for <linux-firmware@archiver.kernel.org>; Fri, 13 Mar 2020 05:18:42 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id C6F5320749; Fri, 13 Mar 2020 05:18:42 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id AAAE3206E2
+	for <linux-firmware@kernel.org>; Fri, 13 Mar 2020 05:18:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AAAE3206E2
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=amit.k.bag@intel.com
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Mar 2020 22:18:42 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Mar 2020 22:18:42 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,547,1574150400"; 
    d="scan'208";a="237099185"
 Received: from unknown (HELO intel-Lenovo-Legion-Y540-15IRH-PG0.iind.intel.com) ([10.224.186.95])
   by orsmga008.jf.intel.com with ESMTP; 12 Mar 2020 22:18:39 -0700
-From:   Amit K Bag <amit.k.bag@intel.com>
+From: Amit K Bag <amit.k.bag@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To:     linux-firmware@kernel.org
-Cc:     linux-bluetooth@vger.kernel.org, ravishankar.srivatsa@intel.com,
-        chethan.tumkur.narayan@intel.com,
-        Sukumar Ghorai <sukumar.ghorai@intel.com>,
-        Amit K Bag <amit.k.bag@intel.com>
+To: linux-firmware@kernel.org
+Cc: linux-bluetooth@vger.kernel.org,
+	ravishankar.srivatsa@intel.com,
+	chethan.tumkur.narayan@intel.com,
+	Sukumar Ghorai <sukumar.ghorai@intel.com>,
+	Amit K Bag <amit.k.bag@intel.com>
 Subject: [PATCH v3] Bluetooth: print fw build version in power-on boot
-Date:   Fri, 13 Mar 2020 10:49:08 +0530
+Date: Fri, 13 Mar 2020 10:49:08 +0530
 Message-Id: <20200313051908.30815-1-amit.k.bag@intel.com>
 X-Mailer: git-send-email 2.17.1
-Sender: linux-bluetooth-owner@vger.kernel.org
-Precedence: bulk
-List-ID: <linux-bluetooth.vger.kernel.org>
-X-Mailing-List: linux-bluetooth@vger.kernel.org
+Message-ID: <20200313051908.6CrXNm8-LGQkO3uGl4h7oeEznYO15NQjBWB10ey3ol8@z>
 
 From: Sukumar Ghorai <sukumar.ghorai@intel.com>
 
