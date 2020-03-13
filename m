@@ -1,49 +1,44 @@
-Return-Path: <SRS0=ynic=46=vger.kernel.org=linux-bluetooth-owner@kernel.org>
+Return-Path: <SRS0=+8ip=46=intel.com=amit.k.bag@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E3ECC4CECE
-	for <linux-bluetooth@archiver.kernel.org>; Fri, 13 Mar 2020 05:04:07 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3A44420746
-	for <linux-bluetooth@archiver.kernel.org>; Fri, 13 Mar 2020 05:04:07 +0000 (UTC)
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726406AbgCMFEG (ORCPT
-        <rfc822;linux-bluetooth@archiver.kernel.org>);
-        Fri, 13 Mar 2020 01:04:06 -0400
-Received: from mga06.intel.com ([134.134.136.31]:41642 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725535AbgCMFEG (ORCPT <rfc822;linux-bluetooth@vger.kernel.org>);
-        Fri, 13 Mar 2020 01:04:06 -0400
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B252C10DCE
+	for <linux-firmware@archiver.kernel.org>; Fri, 13 Mar 2020 05:16:10 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id F1AB620737; Fri, 13 Mar 2020 05:16:09 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id 8FB57206E2
+	for <linux-firmware@kernel.org>; Fri, 13 Mar 2020 05:16:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8FB57206E2
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=amit.k.bag@intel.com
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Mar 2020 22:04:05 -0700
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Mar 2020 22:16:08 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,547,1574150400"; 
-   d="scan'208";a="278088218"
+   d="scan'208";a="237098658"
 Received: from unknown (HELO intel-Lenovo-Legion-Y540-15IRH-PG0.iind.intel.com) ([10.224.186.95])
-  by fmsmga002.fm.intel.com with ESMTP; 12 Mar 2020 22:04:02 -0700
-From:   Amit K Bag <amit.k.bag@intel.com>
+  by orsmga008.jf.intel.com with ESMTP; 12 Mar 2020 22:16:06 -0700
+From: Amit K Bag <amit.k.bag@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To:     linux-firmware@kernel.org
-Cc:     linux-bluetooth@vger.kernel.org, ravishankar.srivatsa@intel.com,
-        chethan.tumkur.narayan@intel.com,
-        Sukumar Ghorai <sukumar.ghorai@intel.com>,
-        Amit K Bag <amit.k.bag@intel.com>
-Subject: [PATCH v2] Bluetooth: print fw build version in power-on boot
-Date:   Fri, 13 Mar 2020 10:34:31 +0530
-Message-Id: <20200313050431.30321-1-amit.k.bag@intel.com>
+To: linux-firmware@kernel.org
+Cc: linux-bluetooth@vger.kernel.org,
+	ravishankar.srivatsa@intel.com,
+	chethan.tumkur.narayan@intel.com,
+	Sukumar Ghorai <sukumar.ghorai@intel.com>,
+	Amit K Bag <amit.k.bag@intel.com>
+Subject: [PATCH v3] Bluetooth: print fw build version in power-on boot
+Date: Fri, 13 Mar 2020 10:46:33 +0530
+Message-Id: <20200313051633.30724-1-amit.k.bag@intel.com>
 X-Mailer: git-send-email 2.17.1
-Sender: linux-bluetooth-owner@vger.kernel.org
-Precedence: bulk
-List-ID: <linux-bluetooth.vger.kernel.org>
-X-Mailing-List: linux-bluetooth@vger.kernel.org
-Message-ID: <20200313050431.0F1jIF_stK_tRTpe6XwpUZLMpKs5NJeRiK3_VV7OUK0@z>
 
 From: Sukumar Ghorai <sukumar.ghorai@intel.com>
 
@@ -54,24 +49,26 @@ downloaded to BT controller and issue reported from field test.
 Signed-off-by: Amit K Bag <amit.k.bag@intel.com>
 Signed-off-by: Sukumar Ghorai <sukumar.ghorai@intel.com>
 ---
- drivers/bluetooth/btusb.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/bluetooth/btusb.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/bluetooth/btusb.c b/drivers/bluetooth/btusb.c
-index f5924f3e8b8d..86bac76da852 100644
+index f5924f3e8b8d..c1e8b8d4931e 100644
 --- a/drivers/bluetooth/btusb.c
 +++ b/drivers/bluetooth/btusb.c
-@@ -1930,7 +1930,12 @@ static int btusb_setup_intel(struct hci_dev *hdev)
+@@ -1930,7 +1930,14 @@ static int btusb_setup_intel(struct hci_dev *hdev)
  	if (err)
  		return err;
  
 -	bt_dev_info(hdev, "Intel firmware patch completed and activated");
-+       /* Need build number for downloaded fw patches in every power-on boot */
++	/* Need build number for downloaded fw patches in
++	 * every power-on boot
++	 */
 +       err = btintel_read_version(hdev, &ver);
 +       if (err)
 +               return err;
-+       bt_dev_info(hdev, "Intel Bluetooth fw patch 0x%02x completed and activated",
-+               hdev->name, ver.fw_patch_num);
++       bt_dev_info(hdev, "Intel BT fw patch 0x%02x completed & activated",
++		   hdev->name, ver.fw_patch_num);
  
  	goto complete;
  
