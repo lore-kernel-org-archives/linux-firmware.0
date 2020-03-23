@@ -1,51 +1,47 @@
-Return-Path: <SRS0=u4Rx=5I=vger.kernel.org=linux-wireless-owner@kernel.org>
+Return-Path: <SRS0=Yzqy=5I=reto-schneider.ch=code@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=FUZZY_XPILL,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,LOTS_OF_MONEY,MAILING_LIST_MULTI,
-	NORMAL_HTTP_TO_IP,NUMERIC_HTTP_ADDR,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=FUZZY_XPILL,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,LOTS_OF_MONEY,NORMAL_HTTP_TO_IP,
+	NUMERIC_HTTP_ADDR,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19341C1975A
-	for <linux-wireless@archiver.kernel.org>; Mon, 23 Mar 2020 02:45:49 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BCA9920722
-	for <linux-wireless@archiver.kernel.org>; Mon, 23 Mar 2020 02:45:48 +0000 (UTC)
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727059AbgCWCps (ORCPT
-        <rfc822;linux-wireless@archiver.kernel.org>);
-        Sun, 22 Mar 2020 22:45:48 -0400
-Received: from mxout014.mail.hostpoint.ch ([217.26.49.174]:23651 "EHLO
-        mxout014.mail.hostpoint.ch" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726979AbgCWCpr (ORCPT
-        <rfc822;linux-wireless@vger.kernel.org>);
-        Sun, 22 Mar 2020 22:45:47 -0400
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 039B7C1975A
+	for <linux-firmware@archiver.kernel.org>; Mon, 23 Mar 2020 03:02:34 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id E112220769; Mon, 23 Mar 2020 03:02:33 +0000 (UTC)
+X-Greylist: delayed 1022 seconds by postgrey-1.34 at mail.kernel.org; Mon, 23 Mar 2020 03:02:32 UTC
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8E57F206F9
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=reto-schneider.ch
+Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=code@reto-schneider.ch
+Received: from mxout014.mail.hostpoint.ch (mxout014.mail.hostpoint.ch [217.26.49.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id 8E57F206F9
+	for <linux-firmware@kernel.org>; Mon, 23 Mar 2020 03:02:32 +0000 (UTC)
 Received: from [10.0.2.46] (helo=asmtp013.mail.hostpoint.ch)
-        by mxout014.mail.hostpoint.ch with esmtp (Exim 4.92.3 (FreeBSD))
-        (envelope-from <code@reto-schneider.ch>)
-        id 1jGD5j-000E2Q-VU; Mon, 23 Mar 2020 03:45:27 +0100
+	by mxout014.mail.hostpoint.ch with esmtp (Exim 4.92.3 (FreeBSD))
+	(envelope-from <code@reto-schneider.ch>)
+	id 1jGD5j-000E2Q-VU; Mon, 23 Mar 2020 03:45:27 +0100
 Received: from [2a02:168:6182:1:a8e7:613d:a871:7d4b] (helo=ryzen2700.dss.husqvarnagroup.com)
-        by asmtp013.mail.hostpoint.ch with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92.3 (FreeBSD))
-        (envelope-from <code@reto-schneider.ch>)
-        id 1jGD5j-000KjJ-Pr; Mon, 23 Mar 2020 03:45:27 +0100
+	by asmtp013.mail.hostpoint.ch with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+	(Exim 4.92.3 (FreeBSD))
+	(envelope-from <code@reto-schneider.ch>)
+	id 1jGD5j-000KjJ-Pr; Mon, 23 Mar 2020 03:45:27 +0100
 X-Authenticated-Sender-Id: reto-schneider@reto-schneider.ch
-From:   Reto Schneider <code@reto-schneider.ch>
+From: Reto Schneider <code@reto-schneider.ch>
 List-Id: <linux-firmware.lore.kernel.org>
-To:     linux-firmware@kernel.org
-Cc:     linux-wireless@vger.kernel.org,
-        Reto Schneider <code@reto-schneider.ch>
+To: linux-firmware@kernel.org
+Cc: linux-wireless@vger.kernel.org,
+	Reto Schneider <code@reto-schneider.ch>
 Subject: [PATCH] rtlwifi: v88 firmware files for rtl8192cu
-Date:   Mon, 23 Mar 2020 03:45:00 +0100
+Date: Mon, 23 Mar 2020 03:45:00 +0100
 Message-Id: <20200323024500.4090-1-code@reto-schneider.ch>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: linux-wireless-owner@vger.kernel.org
-Precedence: bulk
-List-ID: <linux-wireless.vger.kernel.org>
-X-Mailing-List: linux-wireless@vger.kernel.org
+Message-ID: <20200323024500.Ze6v0ni2oI-wqoL4A1DGg4421OZ2E73GCrjTgU3bqbw@z>
 
 The vendor driver v4.0.1_6911.20130308 includes new firmware files.
 These were extracted from data statements in that driver to form these
