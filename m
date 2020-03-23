@@ -1,131 +1,94 @@
-Return-Path: <SRS0=u4Rx=5I=vger.kernel.org=linux-wireless-owner@kernel.org>
+Return-Path: <SRS0=Yzqy=5I=reto-schneider.ch=code@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-7.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A33BC54FCE
-	for <linux-wireless@archiver.kernel.org>; Mon, 23 Mar 2020 14:57:59 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 516C82077D
-	for <linux-wireless@archiver.kernel.org>; Mon, 23 Mar 2020 14:57:59 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zy/lHqRX"
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727046AbgCWO56 (ORCPT
-        <rfc822;linux-wireless@archiver.kernel.org>);
-        Mon, 23 Mar 2020 10:57:58 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:39835 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725816AbgCWO56 (ORCPT
-        <rfc822;linux-wireless@vger.kernel.org>);
-        Mon, 23 Mar 2020 10:57:58 -0400
-Received: by mail-oi1-f193.google.com with SMTP id d63so14985048oig.6
-        for <linux-wireless@vger.kernel.org>; Mon, 23 Mar 2020 07:57:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=UjrzqgZSv3mXZto7SmWc3JpstiOe/8niV5P3gk8UjGw=;
-        b=Zy/lHqRXxFojtIxVEBrS9xSbgIQpZO9OwBH241+cIr3F5bZkBHFUzLaJMfu9QcXXfX
-         k16xmf1P2FD8bLSZfgUk5Yj5f79Df7FNRfksN/56A3PzpK2CzceTAXbj5TrcM7LLZ+eB
-         6x4AKhfthB5+Ldjb5+8WnSINyfsz/jrRDvP1IwUYLKMBnXm0SG/apZnhR8ojnKoqCs23
-         NDIF2hxokFdKtZ+KIOq9Fl7RXglTYhOysgRpTebM9Zeebnq68KudAtGOvzgdgkLiOl7y
-         3aTDzkvANelsIUUTYkXPkxVKm2P+hxRidGDYBcFJII5Nx1hp1gI8pYmNW4k6mxA+ggkc
-         dZ5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=UjrzqgZSv3mXZto7SmWc3JpstiOe/8niV5P3gk8UjGw=;
-        b=W9Vth/mdI8quYpilpopL1kAhjS6v2541iBeK0PRONrOckq5hZ3i58WaT/tRriwsMOu
-         p+0QGEdBmdBlRzCnPNjFuTNl+WA70+mAJ11hK8cQIBI2rgXcHGbnIid48FUk4j5cei7O
-         1ej7flQBp6Fwo92UBJMRTr+zRWkH2KiVQ3z+dqSlJieuOR1nlDRcNu+vl78MXt1g2LNu
-         XWR5qyBHLNwLobZPXFtZzVapnfHegU8531Ftm+veK8T2WtlctKiz+IiV+dp6XKbC0TyO
-         saH4AWVpKDsB6fUOG9ijbUD5oCc0zWTNZXNSA7djkhErCk7DLB3AZJulG+A0zieWBbbN
-         N7QQ==
-X-Gm-Message-State: ANhLgQ3uBAOK0o6n/IGMhNbXmS8ChX8tjuChUHIpR9e3zqVf0uYK3YFZ
-        HQKZ8tL2YjkV+2ns24m9jy0UPaSN
-X-Google-Smtp-Source: ADFU+vuqDbJ+iZWSuRM81NzJ4V/DGq3rwml8RPFT7WREYpQqgCX2+rfFxp0bcNR5uo28CGWETp88uw==
-X-Received: by 2002:aca:3c56:: with SMTP id j83mr17804363oia.52.1584975477679;
-        Mon, 23 Mar 2020 07:57:57 -0700 (PDT)
-Received: from [192.168.1.120] (cpe-24-31-245-230.kc.res.rr.com. [24.31.245.230])
-        by smtp.gmail.com with ESMTPSA id 186sm36978ooi.30.2020.03.23.07.57.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Mar 2020 07:57:56 -0700 (PDT)
-Subject: Re: [PATCH] rtlwifi: v88 firmware files for rtl8192cu
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27A28C10DCE
+	for <linux-firmware@archiver.kernel.org>; Mon, 23 Mar 2020 22:58:30 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id 13E292076E; Mon, 23 Mar 2020 22:58:30 +0000 (UTC)
+Received: from mxout013.mail.hostpoint.ch (mxout013.mail.hostpoint.ch [217.26.49.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id 2A13F20719
+	for <linux-firmware@kernel.org>; Mon, 23 Mar 2020 22:58:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2A13F20719
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=reto-schneider.ch
+Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=code@reto-schneider.ch
+Received: from [10.0.2.46] (helo=asmtp013.mail.hostpoint.ch)
+	by mxout013.mail.hostpoint.ch with esmtp (Exim 4.92.3 (FreeBSD))
+	(envelope-from <code@reto-schneider.ch>)
+	id 1jGW1a-000NKF-OE; Mon, 23 Mar 2020 23:58:26 +0100
+Received: from [2a02:168:6182:1:a8e7:613d:a871:7d4b] (helo=ryzen2700.dss.husqvarnagroup.com)
+	by asmtp013.mail.hostpoint.ch with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+	(Exim 4.92.3 (FreeBSD))
+	(envelope-from <code@reto-schneider.ch>)
+	id 1jGW1a-0004KB-Ff; Mon, 23 Mar 2020 23:58:26 +0100
+X-Authenticated-Sender-Id: reto-schneider@reto-schneider.ch
+From: Reto Schneider <code@reto-schneider.ch>
 List-Id: <linux-firmware.lore.kernel.org>
-To:     Reto Schneider <code@reto-schneider.ch>, linux-firmware@kernel.org
-Cc:     linux-wireless@vger.kernel.org
-References: <20200323024500.4090-1-code@reto-schneider.ch>
-From:   Larry Finger <Larry.Finger@lwfinger.net>
-Message-ID: <83f99512-ac72-642e-e336-c2cdce62634c@lwfinger.net>
-Date:   Mon, 23 Mar 2020 09:57:55 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
+To: linux-firmware@kernel.org
+Cc: linux-wireless@vger.kernel.org,
+	Reto Schneider <code@reto-schneider.ch>
+Subject: [PATCH v2 0/1] Updating RTL8192CU firmware
+Date: Mon, 23 Mar 2020 23:58:08 +0100
+Message-Id: <20200323225809.11594-1-code@reto-schneider.ch>
+X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200323024500.4090-1-code@reto-schneider.ch>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Sender: linux-wireless-owner@vger.kernel.org
-Precedence: bulk
-List-ID: <linux-wireless.vger.kernel.org>
-X-Mailing-List: linux-wireless@vger.kernel.org
-Message-ID: <20200323145755.K2R7JgcxbWxjGWkJv9xTJqJu6g7vwj8R6FkC7c4om7U@z>
+References: <20200323024500.4090-1-code@reto-schneider.ch>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On 3/22/20 9:45 PM, Reto Schneider wrote:
-> The vendor driver v4.0.1_6911.20130308 includes new firmware files.
-> These were extracted from data statements in that driver to form these
-> files.
-> 
-> Signed-off-by: Reto Schneider <code@reto-schneider.ch>
-> ---
->   WHENCE                       |  20 ++++++++++++++++++--
->   rtlwifi/rtl8192cufw_A.bin    | Bin 16116 -> 16126 bytes
->   rtlwifi/rtl8192cufw_B.bin    | Bin 16096 -> 16096 bytes
->   rtlwifi/rtl8192cufw_TMSC.bin | Bin 16116 -> 16126 bytes
->   4 files changed, 18 insertions(+), 2 deletions(-)
-> 
-> diff --git a/WHENCE b/WHENCE
-> index 6265e03..d5bde95 100644
-> --- a/WHENCE
-> +++ b/WHENCE
-> @@ -2738,14 +2738,30 @@ Licence: Redistributable. See LICENCE.rtlwifi_firmware.txt for details.
->   
->   --------------------------------------------------------------------------
->   
-> -Driver: rtl8192cu - Realtek 802.11n WLAN driver for RTL8192CU
-> +Driver: rtl8192cu - Realtek 802.11n WLAN driver for RTL8192CU (fallback)
->   
->   File: rtlwifi/rtl8192cufw.bin
-> +
-> +Licence: Redistributable. See LICENCE.rtlwifi_firmware.txt for details.
-> +
-> +--------------------------------------------------------------------------
-> +
-> +Driver: rtl8192cu - Realtek 802.11n WLAN driver for RTL8192CU
-> +
->   File: rtlwifi/rtl8192cufw_A.bin
->   File: rtlwifi/rtl8192cufw_B.bin
->   File: rtlwifi/rtl8192cufw_TMSC.bin
-> +Info: From Vendor's rtl8188C_8192C_usb_linux_v4.0.1_6911.20130308 driver
-> +      All files extracted from driver/hal/rtl8192c/usb/Hal8192CUHWImg.c
-> +      Relevant variables (CONFIG_BT_COEXISTENCE not set):
-> +        - rtlwifi/rtl8192cufw_A.bin: Rtl8192CUFwUMCACutImgArray
-> +        - rtlwifi/rtl8192cufw_B.bin: Rtl8192CUFwUMCBCutImgArray
-> +        - rtlwifi/rtl8192cufw_TMSC.bin: Rtl8192CUFwTSMCImgArray
->   
-> -Licence: Redistributable. See LICENCE.rtlwifi_firmware.txt for details.
-> +Licence: Allegedly GPLv2, but no source visible.
+Before this update, with version 80 of the firmware, the USB interface
+of the RTL8192CU WLAN controller often locked itself up:
+ usb 1-2: device descriptor read/64, error -110
+ usb 1-2: device not accepting address 4, error -110
+ usb 1-2: device not accepting address 5, error -110
+ usb usb1-port2: unable to enumerate USB device
+ usb 2-2: device descriptor read/64, error -110
+ usb 2-2: device descriptor read/64, error -110
 
-No, do not change this line. The firmware is NOT GPLv2; however, it can be 
-redistributed as LICENCE.rtlwiifi says.
+On ARMv5 based GARDENA smart gateway running Linux 4.19.78, this can
+be reliably reproduced by rebooting (warm) the gateway multiple times
+(max. 50 attempts needed).
+Unlike users having this issues on a USB Wi-Fi dongle, resetting of the
+chip by replugging is not an option on this gateway due to the lack of
+any power cut functionality. Therefore, a (cold) reboot of the whole
+gateway is needed.
 
-NACK.
+Updating the firmware of the RTL8192CU WLAN controller from version
+v80.0 to v88.2 (as per output of rtl8xxxu, which was used temporarily)
+seems to resolve this issue. The problem did no show up anymore for 1000
+restarts.
+Please note that only rtl8192cufw_TMSC.bin has been tested.
 
-Larry
+Unrelated of this USB problem, another issue still remains: Using the
+rtl8192cu driver, scanning for available SSIDs yields no more results
+after a few hundred scans (iw wlan0 scan).
+
+Also, the Realtek drivers containing v88.2 of the firmware
+(v4.0.1_6911.20130308 to v4.0.9_25039.20171107) have some changes
+compared to the version v3.4.2_3727.20120404, for which I am unsure of
+whether they need to be reflected in rtl8192cu and/or rtl8xxxu.
+What I could spot for sure however, is that some tables have been
+updated:
+  https://github.com/rettichschnidi/linux/commit/0c865ba26aba907b601b3b73c82111dd10e59ffe
+
+I am unsure if this changes are relevant and how the best way would be
+to ensure that this commit does not break old drivers out there.
+
+Reto Schneider (1):
+  rtlwifi: v88.2 firmware files for RTL8192CU
+
+ WHENCE                       |   6 ++++++
+ rtlwifi/rtl8192cufw_A.bin    | Bin 16116 -> 16126 bytes
+ rtlwifi/rtl8192cufw_B.bin    | Bin 16096 -> 16096 bytes
+ rtlwifi/rtl8192cufw_TMSC.bin | Bin 16116 -> 16126 bytes
+ 4 files changed, 6 insertions(+)
+
+-- 
+2.20.1
+
