@@ -1,29 +1,31 @@
-Return-Path: <SRS0=zkXj=5R=chromium.org=sonnysasaka@kernel.org>
+Return-Path: <SRS0=i/J9=5R=vger.kernel.org=linux-bluetooth-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	NORMAL_HTTP_TO_IP,NUMERIC_HTTP_ADDR,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NORMAL_HTTP_TO_IP,NUMERIC_HTTP_ADDR,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13769C43331
-	for <linux-firmware@archiver.kernel.org>; Wed,  1 Apr 2020 21:27:35 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 030DC20719; Wed,  1 Apr 2020 21:27:35 +0000 (UTC)
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C98302071A
-	for <linux-firmware@kernel.org>; Wed,  1 Apr 2020 21:27:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DDB3C2D0F0
+	for <linux-bluetooth@archiver.kernel.org>; Wed,  1 Apr 2020 21:27:39 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
+	by mail.kernel.org (Postfix) with ESMTP id 14A3D2071A
+	for <linux-bluetooth@archiver.kernel.org>; Wed,  1 Apr 2020 21:27:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
 	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GrciOFRm"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C98302071A
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=sonnysasaka@chromium.org
-Received: by mail-pj1-f65.google.com with SMTP id kx8so617230pjb.5
-        for <linux-firmware@kernel.org>; Wed, 01 Apr 2020 14:27:34 -0700 (PDT)
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S1733065AbgDAV1i (ORCPT
+        <rfc822;linux-bluetooth@archiver.kernel.org>);
+        Wed, 1 Apr 2020 17:27:38 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:46409 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732357AbgDAV1h (ORCPT
+        <rfc822;linux-bluetooth@vger.kernel.org>);
+        Wed, 1 Apr 2020 17:27:37 -0400
+Received: by mail-pl1-f195.google.com with SMTP id s23so475584plq.13
+        for <linux-bluetooth@vger.kernel.org>; Wed, 01 Apr 2020 14:27:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
@@ -37,14 +39,14 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=MY3SG64yEBGy5hTOEzBLQ0iUTKUMeln58PvTbj9GgC0=;
-        b=C2i5qD5bOmEvU9p3Vf1zui3iXT0apb4y+G43IxaJGo6AAUVyYJU4U0BhQQtuCUSJgU
-         0XehQjU3zvB5PBTO6+xjr2IgSpfCw+ofVD0Vo89pAf6xadmOPHzNwNP1GFb4hWhXGiyi
-         WN2krBpwAg5XjkNiCjFmzxwu599L9XIbWH7FTopKA/fyKP9qQlWPcyeeHz43Bt8F1RUU
-         usArLOFvGSq9aPWQdvFbaVadExKKuf5pQy4J0yg1ij6Xir330e91WPS7ahtIKQlXOSUB
-         1T6g8osHteXjg2kV+p9khQD2im8RX0H1W+nSa6EcdsFwVhEuzc2bjBcuRq/NuCQGDcKE
-         TVBA==
-X-Gm-Message-State: AGi0PuYTB9JOpUXhDHZLcECoDL+X9OKNk699qrO1ZMFRplUetDtAIOWr
-	QPWF1ijjZw2tf2A67Pk13O45/1wders=
+        b=TgCsr3rW0V3Iv/1XVBUvzP4cDcJBm1i2GYviPMDvFiAe0nAj0n4xEvyXTvy98JrIx/
+         EoemgN3yFJ6lFHdLsOPfy6oi3g3GbD5nVYfV2YCHEdBXKReS0+8T0zIlPIYgGG3fPscS
+         9vVNNXhybTljUUec636IaTglivlmOQa20QvVgRO8WLxIt7HqcKAAhJ7V9QbnpfpGj7oT
+         cUiHTXlsPT7IBgzjnrPQWid1Q6Ztxf/THKMX+BqvxbkhGnjmFq7PM1w6IaZF/7p7djJB
+         W8nI803UsrNx7BF6wCX5KRMGKCW7yxk9TDkZRW6RpU+UCpTVJvrmcsP3K2+NbsaNbYUY
+         3Qxw==
+X-Gm-Message-State: AGi0PuaWVVmflwk9hNGs9/A9zg9NA50FzE2V7GC6tkSTwcVA/YYycYXS
+        UvU/F2GzMx+WiR2mQes1FHGCSQ==
 X-Google-Smtp-Source: APiQypJ84M3AbUx8+m2Fc5K8QmKypp5GTpAIld2qFJzzdXr6D/t5nUJTfUSvYO3f1Ff6I608hKGC/Q==
 X-Received: by 2002:a17:90a:a484:: with SMTP id z4mr119836pjp.77.1585776453395;
         Wed, 01 Apr 2020 14:27:33 -0700 (PDT)
@@ -52,18 +54,22 @@ Received: from sonnysasaka-chrome.mtv.corp.google.com ([2620:15c:202:201:b7e2:99
         by smtp.gmail.com with ESMTPSA id s62sm2117427pgb.94.2020.04.01.14.27.32
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
         Wed, 01 Apr 2020 14:27:32 -0700 (PDT)
-From: Sonny Sasaka <sonnysasaka@chromium.org>
+From:   Sonny Sasaka <sonnysasaka@chromium.org>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: linux-bluetooth@vger.kernel.org,
-	ningzhao@qti.qualcomm.com,
-	Sonny Sasaka <sonnysasaka@chromium.org>
+To:     linux-firmware@kernel.org
+Cc:     linux-bluetooth@vger.kernel.org, ningzhao@qti.qualcomm.com,
+        Sonny Sasaka <sonnysasaka@chromium.org>
 Subject: [PATCH] ar3k: Support HCI Read Encryption Key Size command
-Date: Wed,  1 Apr 2020 14:27:20 -0700
+Date:   Wed,  1 Apr 2020 14:27:20 -0700
 Message-Id: <20200401212720.11022-1-sonnysasaka@chromium.org>
 X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Sender: linux-bluetooth-owner@vger.kernel.org
+Precedence: bulk
+List-ID: <linux-bluetooth.vger.kernel.org>
+X-Mailing-List: linux-bluetooth@vger.kernel.org
+Message-ID: <20200401212720.EIiU5kYEeKLhX3oE1SPnlJXfxzzTj5z2m90lr-B4TLE@z>
 
 The new firmware supports HCI Read Encryption Key Size command.
 
