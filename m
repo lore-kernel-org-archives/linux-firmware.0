@@ -1,4 +1,4 @@
-Return-Path: <SRS0=i/J9=5R=vger.kernel.org=linux-bluetooth-owner@kernel.org>
+Return-Path: <SRS0=6msR=5R=vger.kernel.org=linux-arm-msm-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-10.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 285D2C43331
-	for <linux-bluetooth@archiver.kernel.org>; Wed,  1 Apr 2020 12:39:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5C36C43331
+	for <linux-arm-msm@archiver.kernel.org>; Wed,  1 Apr 2020 12:39:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EF2722078E
-	for <linux-bluetooth@archiver.kernel.org>; Wed,  1 Apr 2020 12:38:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B9DD2078E
+	for <linux-arm-msm@archiver.kernel.org>; Wed,  1 Apr 2020 12:39:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="VSHK2xpk"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="FNwQ8qYI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732362AbgDAMi7 (ORCPT
-        <rfc822;linux-bluetooth@archiver.kernel.org>);
-        Wed, 1 Apr 2020 08:38:59 -0400
+        id S1732404AbgDAMjK (ORCPT
+        <rfc822;linux-arm-msm@archiver.kernel.org>);
+        Wed, 1 Apr 2020 08:39:10 -0400
 Received: from mail27.static.mailgun.info ([104.130.122.27]:62113 "EHLO
         mail27.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726901AbgDAMi7 (ORCPT
-        <rfc822;linux-bluetooth@vger.kernel.org>);
-        Wed, 1 Apr 2020 08:38:59 -0400
+        by vger.kernel.org with ESMTP id S1726901AbgDAMjK (ORCPT
+        <rfc822;linux-arm-msm@vger.kernel.org>);
+        Wed, 1 Apr 2020 08:39:10 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1585744738; h=Message-ID: Subject: Cc: To: From: Date:
+ s=smtp; t=1585744750; h=Message-ID: Subject: Cc: To: From: Date:
  Content-Transfer-Encoding: Content-Type: MIME-Version: Sender;
- bh=Lm4XeXJvFGgsWmywVyVrVKjBBrWMAGA3u6lSj/QKmog=; b=VSHK2xpkyxTBRGlI4Zc7xi55h6f9NCBJ5MvuloTeckRVAH541CNXddutMkkmF3NYMi/Qgz8A
- 3RuixGT76z+k2g1/iTR3RbUh87aHCrtYYmQFqfmRywgiJybsoNpbAOBH71andFjjkiPDvcky
- mefooDvwYFk9ch3mHvBfL9vaATY=
+ bh=Lm4XeXJvFGgsWmywVyVrVKjBBrWMAGA3u6lSj/QKmog=; b=FNwQ8qYI5/4qadXMtx9/KL61MJABSZ02ctvSL+NNZxEpLz/8DXp8xoF/+GMssoWEW55AJBgT
+ G2fIrsAgW8Pd7NaHDaQ0yifI+95Gm82PK/FexOSLQrjXezBHyANI9cHlmCP9+uYGdL4PWvA+
+ q0mbXc+p7LRjea5HhIs8w5OnO6U=
 X-Mailgun-Sending-Ip: 104.130.122.27
-X-Mailgun-Sid: WyI2MTA3ZSIsICJsaW51eC1ibHVldG9vdGhAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+X-Mailgun-Sid: WyI1MzIzYiIsICJsaW51eC1hcm0tbXNtQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
 Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
  by mxa.mailgun.org with ESMTP id 5e848b51.7f40aaac2ce0-smtp-out-n04;
  Wed, 01 Apr 2020 12:38:41 -0000 (UTC)
@@ -55,11 +55,11 @@ Subject: [PULL] btqca firmware 20200401
 Message-ID: <1fce439e32d6b77970e01a797cdb70ca@codeaurora.org>
 X-Sender: rjliao@codeaurora.org
 User-Agent: Roundcube Webmail/1.3.9
-Sender: linux-bluetooth-owner@vger.kernel.org
+Sender: linux-arm-msm-owner@vger.kernel.org
 Precedence: bulk
-List-ID: <linux-bluetooth.vger.kernel.org>
-X-Mailing-List: linux-bluetooth@vger.kernel.org
-Message-ID: <20200401123838.GoKcSxbx4BzapMB0ZWxai1n2p30_7tkXBroMu5kMWeE@z>
+List-ID: <linux-arm-msm.vger.kernel.org>
+X-Mailing-List: linux-arm-msm@vger.kernel.org
+Message-ID: <20200401123838.n3Ome2SiLWATKC6dbnirOwTIFx1AU8YoOcWS4zoRPko@z>
 
 Hi linux-firmware maintainers,
 
