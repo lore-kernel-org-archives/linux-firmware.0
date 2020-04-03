@@ -1,4 +1,4 @@
-Return-Path: <SRS0=4r1w=5T=vger.kernel.org=linux-kernel-owner@kernel.org>
+Return-Path: <SRS0=CkcR=5T=vger.kernel.org=linux-bluetooth-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-10.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9650C2BA15
-	for <linux-kernel@archiver.kernel.org>; Fri,  3 Apr 2020 08:55:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32FA4C2D0E8
+	for <linux-bluetooth@archiver.kernel.org>; Fri,  3 Apr 2020 08:55:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id ADDBE20678
-	for <linux-kernel@archiver.kernel.org>; Fri,  3 Apr 2020 08:55:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 05CB92080C
+	for <linux-bluetooth@archiver.kernel.org>; Fri,  3 Apr 2020 08:55:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="oFMlkBqv"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="iAJtt2+n"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390286AbgDCIzJ (ORCPT
-        <rfc822;linux-kernel@archiver.kernel.org>);
-        Fri, 3 Apr 2020 04:55:09 -0400
-Received: from mail27.static.mailgun.info ([104.130.122.27]:62884 "EHLO
-        mail27.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727868AbgDCIzJ (ORCPT
-        <rfc822;linux-kernel@vger.kernel.org>);
-        Fri, 3 Apr 2020 04:55:09 -0400
+        id S2390362AbgDCIzM (ORCPT
+        <rfc822;linux-bluetooth@archiver.kernel.org>);
+        Fri, 3 Apr 2020 04:55:12 -0400
+Received: from mail26.static.mailgun.info ([104.130.122.26]:57212 "EHLO
+        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727868AbgDCIzM (ORCPT
+        <rfc822;linux-bluetooth@vger.kernel.org>);
+        Fri, 3 Apr 2020 04:55:12 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1585904108; h=Message-ID: Subject: Cc: To: From: Date:
+ s=smtp; t=1585904111; h=Message-ID: Subject: Cc: To: From: Date:
  Content-Transfer-Encoding: Content-Type: MIME-Version: Sender;
- bh=2BB4XDt82weA6QO3EKEICdWU8jbHAn3rmAUZkFbsLWY=; b=oFMlkBqv6SXXTK1HTRmZKGwbvTAMj3zTL+cMTDmncI+rT+j6mlIL2jUAXa3dN5Y49ooYtd+K
- hSCmE0wfv9cICaT1Zs/dl17r0FBTLXkSN2G47xZJE6OXD0M2wzhObhE3qrVG7Mlqf2Td2QgT
- 4YZH8yXH4/ZZvULRIa5ta32a5YY=
-X-Mailgun-Sending-Ip: 104.130.122.27
-X-Mailgun-Sid: WyI0MWYwYSIsICJsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+ bh=2BB4XDt82weA6QO3EKEICdWU8jbHAn3rmAUZkFbsLWY=; b=iAJtt2+nFZs8JpyIxYUx74ixYQWADmtU+LohBWeiRrvAJKGechgGqJJLjHNsbKGQkI96wJMp
+ 7T3zoEejnuTFkjS4JusMJsVIlupl/+slCm/tQryxaUWuqR1BYH0J03pfyirprDJ99lPQodxv
+ 6rI8jZzBRzdVzPTKNl+mjFl42W8=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyI2MTA3ZSIsICJsaW51eC1ibHVldG9vdGhAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
  by mxa.mailgun.org with ESMTP id 5e86f9eb.7f11ace800a0-smtp-out-n03;
  Fri, 03 Apr 2020 08:55:07 -0000 (UTC)
@@ -57,11 +57,11 @@ Subject: Update fw file to enable transparent WBS
 Message-ID: <4ac4959d44823e7a23618b970f68293e@codeaurora.org>
 X-Sender: bgodavar@codeaurora.org
 User-Agent: Roundcube Webmail/1.3.9
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: linux-bluetooth-owner@vger.kernel.org
 Precedence: bulk
-List-ID: <linux-kernel.vger.kernel.org>
-X-Mailing-List: linux-kernel@vger.kernel.org
-Message-ID: <20200403085506.lQL4F3emScIEtJYZFyrdxF80mOJKva_JEm4s4jj6XWM@z>
+List-ID: <linux-bluetooth.vger.kernel.org>
+X-Mailing-List: linux-bluetooth@vger.kernel.org
+Message-ID: <20200403085506.HWNN56jS32R6UjQ73OljoVrbZPSBx13I0ZV7gQk8FVA@z>
 
 The following changes since commit 
 edf390c23a4e185ff36daded36575f669f5059f7:
