@@ -1,4 +1,4 @@
-Return-Path: <SRS0=ncHA=5T=vger.kernel.org=linux-arm-msm-owner@kernel.org>
+Return-Path: <SRS0=4r1w=5T=vger.kernel.org=linux-kernel-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-10.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78E17C2D0E8
-	for <linux-arm-msm@archiver.kernel.org>; Fri,  3 Apr 2020 08:55:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9650C2BA15
+	for <linux-kernel@archiver.kernel.org>; Fri,  3 Apr 2020 08:55:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3A57020678
-	for <linux-arm-msm@archiver.kernel.org>; Fri,  3 Apr 2020 08:55:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ADDBE20678
+	for <linux-kernel@archiver.kernel.org>; Fri,  3 Apr 2020 08:55:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
 	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="oFMlkBqv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727873AbgDCIzI (ORCPT
-        <rfc822;linux-arm-msm@archiver.kernel.org>);
-        Fri, 3 Apr 2020 04:55:08 -0400
-Received: from mail26.static.mailgun.info ([104.130.122.26]:57212 "EHLO
-        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727829AbgDCIzI (ORCPT
-        <rfc822;linux-arm-msm@vger.kernel.org>);
-        Fri, 3 Apr 2020 04:55:08 -0400
+        id S2390286AbgDCIzJ (ORCPT
+        <rfc822;linux-kernel@archiver.kernel.org>);
+        Fri, 3 Apr 2020 04:55:09 -0400
+Received: from mail27.static.mailgun.info ([104.130.122.27]:62884 "EHLO
+        mail27.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727868AbgDCIzJ (ORCPT
+        <rfc822;linux-kernel@vger.kernel.org>);
+        Fri, 3 Apr 2020 04:55:09 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
  s=smtp; t=1585904108; h=Message-ID: Subject: Cc: To: From: Date:
  Content-Transfer-Encoding: Content-Type: MIME-Version: Sender;
  bh=2BB4XDt82weA6QO3EKEICdWU8jbHAn3rmAUZkFbsLWY=; b=oFMlkBqv6SXXTK1HTRmZKGwbvTAMj3zTL+cMTDmncI+rT+j6mlIL2jUAXa3dN5Y49ooYtd+K
  hSCmE0wfv9cICaT1Zs/dl17r0FBTLXkSN2G47xZJE6OXD0M2wzhObhE3qrVG7Mlqf2Td2QgT
  4YZH8yXH4/ZZvULRIa5ta32a5YY=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyI1MzIzYiIsICJsaW51eC1hcm0tbXNtQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyI0MWYwYSIsICJsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
  by mxa.mailgun.org with ESMTP id 5e86f9eb.7f11ace800a0-smtp-out-n03;
  Fri, 03 Apr 2020 08:55:07 -0000 (UTC)
@@ -57,11 +57,11 @@ Subject: Update fw file to enable transparent WBS
 Message-ID: <4ac4959d44823e7a23618b970f68293e@codeaurora.org>
 X-Sender: bgodavar@codeaurora.org
 User-Agent: Roundcube Webmail/1.3.9
-Sender: linux-arm-msm-owner@vger.kernel.org
+Sender: linux-kernel-owner@vger.kernel.org
 Precedence: bulk
-List-ID: <linux-arm-msm.vger.kernel.org>
-X-Mailing-List: linux-arm-msm@vger.kernel.org
-Message-ID: <20200403085506.k6gkcVy6hwecET8Elwl7w4K7Sqhhp74HznvzXha4mV0@z>
+List-ID: <linux-kernel.vger.kernel.org>
+X-Mailing-List: linux-kernel@vger.kernel.org
+Message-ID: <20200403085506.lQL4F3emScIEtJYZFyrdxF80mOJKva_JEm4s4jj6XWM@z>
 
 The following changes since commit 
 edf390c23a4e185ff36daded36575f669f5059f7:
