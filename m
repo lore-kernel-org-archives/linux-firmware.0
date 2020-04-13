@@ -1,93 +1,97 @@
-Return-Path: <SRS0=3wpq=52=vger.kernel.org=linux-arm-msm-owner@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B7DCC2BB55
-	for <linux-arm-msm@archiver.kernel.org>; Fri, 10 Apr 2020 20:10:46 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 004E220692
-	for <linux-arm-msm@archiver.kernel.org>; Fri, 10 Apr 2020 20:10:45 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QWTv+hK7"
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726626AbgDJUKo (ORCPT
-        <rfc822;linux-arm-msm@archiver.kernel.org>);
-        Fri, 10 Apr 2020 16:10:44 -0400
-Received: from mail-pj1-f41.google.com ([209.85.216.41]:40179 "EHLO
-        mail-pj1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726263AbgDJUKo (ORCPT
-        <rfc822;linux-arm-msm@vger.kernel.org>);
-        Fri, 10 Apr 2020 16:10:44 -0400
-Received: by mail-pj1-f41.google.com with SMTP id kx8so1121603pjb.5
-        for <linux-arm-msm@vger.kernel.org>; Fri, 10 Apr 2020 13:10:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=TEzQStdSYdhloLcug4DXaAnsCMxdJyW9nYr3FtVVCZk=;
-        b=QWTv+hK72PdZq5cqJ7faaym6w0I7k0RD2/G97HiSTKyWdnBydSLmeL4KPnOjc1zL6h
-         gc6MnWlVNfUObGSG4VMXLd0lw+dReCzVaWQmPvdirC7w9gWEq6i2a29r/lcln13S3x4s
-         R+Wcur2VGIs9mWG2AKRVLoR93+kDA2PNMsAWs1S1yVXLbeEaQRglq0OI34HjHTEwHiD8
-         vL3xwl0TpMIZe1CCHqRHAVF35seNl0fNpwpnBBsNjJ6FK9YQGy0dfEVjOrPArPmWPJ29
-         RpjzOczgpSHpnxu0/2/DyhqrzIIh54gwCYUvrJcJzkyANbd0zuIFLnVBcycvr9XTjSng
-         2VVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=TEzQStdSYdhloLcug4DXaAnsCMxdJyW9nYr3FtVVCZk=;
-        b=N1m2pSR4jwR7wKSWQTzsRLGby2LfCzdjN4E8XygNcSD/8Xaweun9g8GxXOgm3FEwwm
-         BKC3OXLNyUMu18+gMgQc3ZuUM/cYKXjOuYxEz/xMAzPqXxkmHPOeXgIr3rtK9KBAWQl6
-         VML2ZU3XIfUbFjYpoXht9iwmkJm81MAJKsRAfhxUrodGkJwvwv4LHz+3Q83sf38jVOpa
-         auX/U7TcTq3nc2svr/pfX9bHujMoUJdvO2U6VoJASgFTABoCKpOgmsdgFuDZxZDamaVj
-         I9XqkEuH6V3W+ko9vYgy5/FCs3w1bdL2jb6n01W3KlXif+9N7kfLd+9qj/wzW2M/+0+C
-         Co8A==
-X-Gm-Message-State: AGi0PuYYKXlIfzPNtFSMJevMe7xsXhYG+i6Z3lzy23JdeE1iELkpkJ71
-        QuDI/gylWLRhHHe2I8v++9JI0VEt2pU=
-X-Google-Smtp-Source: APiQypI7S2whQTGYjYEhhnPjoGTyT8li+FcpyC69dz50ZAB2r1GAlmkjf/Sm1dufiH/flEcyV21yuA==
-X-Received: by 2002:a17:902:7886:: with SMTP id q6mr6207612pll.237.1586549443589;
-        Fri, 10 Apr 2020 13:10:43 -0700 (PDT)
-Received: from builder.lan (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
-        by smtp.gmail.com with ESMTPSA id c126sm2518345pfb.83.2020.04.10.13.10.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2020 13:10:42 -0700 (PDT)
-Date:   Fri, 10 Apr 2020 13:10:53 -0700
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-List-Id: <linux-firmware.lore.kernel.org>
-To:     linux-firmware@kernel.org
-Cc:     linux-arm-msm@vger.kernel.org
-Subject: qcom: Add SDM845 Adreno ZAP shader firmware
-Message-ID: <20200410201053.GA786355@builder.lan>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A7EBC2BA19
+	for <linux-firmware@archiver.kernel.org>; Mon, 13 Apr 2020 11:50:39 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id 1A8002075E; Mon, 13 Apr 2020 11:50:39 +0000 (UTC)
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id EC6482063A
+	for <linux-firmware@kernel.org>; Mon, 13 Apr 2020 11:50:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1586778639;
+	bh=TVcjJhn/D288kHqIjLipsOOh6So+J9K9FsxYdTp98+o=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=O9ilp7j8b9HOmD0SfKh/vRJQ6ToueNDydjp6Nn0EeQ9DqkHv+966epEB6LNGHlB5y
+	 i3LyGvl93cv3Lt1frVGfV5Tb0p3sxR6sKs34gQC1tDDDqPDu+14p18LTOpo9bLpfLI
+	 G0iHielMz442bGGx4FiSBO1ALevJoi9hOtzwtW6U=
+Received: by mail-io1-f51.google.com with SMTP id f19so9025986iog.5
+        for <linux-firmware@kernel.org>; Mon, 13 Apr 2020 04:50:38 -0700 (PDT)
+X-Gm-Message-State: AGi0Pua79xZd3AspLDc1xUzsenj5NSsAUZ8J1yDImsJbgCXlFfx2pRnc
+	vAGTam8cAUqPxLA5QgVYcgjnr4Ot8ckCiYIqg1o=
+X-Google-Smtp-Source: APiQypIMrrEhVWCqCyNHP29gqsPEYlvKj/GOGeipfvn9FoH4qyXdmqpi94IvjhIqAy6KJIL4ZCzdFOfF1RJlj9zGZ7Y=
+X-Received: by 2002:a5d:9494:: with SMTP id v20mr15903241ioj.101.1586778638414;
+ Mon, 13 Apr 2020 04:50:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Sender: linux-arm-msm-owner@vger.kernel.org
-Precedence: bulk
-List-ID: <linux-arm-msm.vger.kernel.org>
-X-Mailing-List: linux-arm-msm@vger.kernel.org
-Message-ID: <20200410201053.jXnhKI3R5dzXJBrGdZlr1Ygyc9oryZ1XKyJMc7cKqjw@z>
+References: <20200327093335.20150-1-amit.k.bag@intel.com> <20200327093335.20150-2-amit.k.bag@intel.com>
+In-Reply-To: <20200327093335.20150-2-amit.k.bag@intel.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Mon, 13 Apr 2020 07:50:27 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA4ex=ex1z03X67Nn5sv0T0BBQesJJhaV0Lkxdhn=U1H8w@mail.gmail.com>
+Message-ID: <CA+5PVA4ex=ex1z03X67Nn5sv0T0BBQesJJhaV0Lkxdhn=U1H8w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] linux-firmware: Update firmware file for Intel
+ Bluetooth AX200
+To: Amit K Bag <amit.k.bag@intel.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: Linux Firmware <linux-firmware@kernel.org>, 
+	BlueZ development <linux-bluetooth@vger.kernel.org>, 
+	"Srivatsa, Ravishankar" <ravishankar.srivatsa@intel.com>, chethan.tumkur.narayan@intel.com
+Content-Type: text/plain; charset="UTF-8"
 
-The following changes since commit edf390c23a4e185ff36daded36575f669f5059f7:
+Both patches applied and pushed out.
 
-  Merge branch 'v12573.77' of https://github.com/erinlo/linux_fw_scp (2020-03-20 07:39:19 -0400)
+josh
 
-are available in the Git repository at:
-
-  https://github.com/andersson/linux-firmware.git a630-zap
-
-for you to fetch changes up to e6ff1e706e8befd0530f7300bc7f89203d4fe90a:
-
-  qcom: Add SDM845 Adreno ZAP shader firmware (2020-04-10 13:05:22 -0700)
-
-----------------------------------------------------------------
-Bjorn Andersson (1):
-      qcom: Add SDM845 Adreno ZAP shader firmware
-
- WHENCE                   |   1 +
- qcom/sdm845/a630_zap.mbn | Bin 0 -> 14256 bytes
- 2 files changed, 1 insertion(+)
- create mode 100644 qcom/sdm845/a630_zap.mbn
+On Fri, Mar 27, 2020 at 5:33 AM Amit K Bag <amit.k.bag@intel.com> wrote:
+>
+> This patch updates new firmware file for Intel Bluetooth AX200
+> Also it is known as Intel CyclonePeak (CcP).
+>
+> FW Build: REL0384
+>
+> Release Version: 21.70.3.2
+>
+> Signed-off-by: Amit K Bag <amit.k.bag@intel.com>
+> ---
+>  intel/ibt-20-0-3.ddc | Bin 27 -> 14 bytes
+>  intel/ibt-20-1-3.ddc | Bin 27 -> 14 bytes
+>  intel/ibt-20-1-4.ddc | Bin 27 -> 14 bytes
+>  3 files changed, 0 insertions(+), 0 deletions(-)
+>
+> diff --git a/intel/ibt-20-0-3.ddc b/intel/ibt-20-0-3.ddc
+> index 3cd54fe2c149616ff68aee097a466c534832f805..f24bb176758e6fce478820f1c2b7f7930bf88ce3 100644
+> GIT binary patch
+> literal 14
+> VcmZS9V3c5SVsvd_(PU(1000Ym0fGPk
+>
+> literal 27
+> icmZSV{=>(t!6?Dv#OT_<qRGh2z{JPK*!_orfdK$Wjs&&<
+>
+> diff --git a/intel/ibt-20-1-3.ddc b/intel/ibt-20-1-3.ddc
+> index 3cd54fe2c149616ff68aee097a466c534832f805..f24bb176758e6fce478820f1c2b7f7930bf88ce3 100644
+> GIT binary patch
+> literal 14
+> VcmZS9V3c5SVsvd_(PU(1000Ym0fGPk
+>
+> literal 27
+> icmZSV{=>(t!6?Dv#OT_<qRGh2z{JPK*!_orfdK$Wjs&&<
+>
+> diff --git a/intel/ibt-20-1-4.ddc b/intel/ibt-20-1-4.ddc
+> index 3cd54fe2c149616ff68aee097a466c534832f805..f24bb176758e6fce478820f1c2b7f7930bf88ce3 100644
+> GIT binary patch
+> literal 14
+> VcmZS9V3c5SVsvd_(PU(1000Ym0fGPk
+>
+> literal 27
+> icmZSV{=>(t!6?Dv#OT_<qRGh2z{JPK*!_orfdK$Wjs&&<
+>
+> --
+> 2.17.1
+>
