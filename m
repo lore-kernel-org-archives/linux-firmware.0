@@ -1,27 +1,56 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=tzuU=55=lists.infradead.org=linux-mediatek-bounces+linux-mediatek=archiver.kernel.org@kernel.org>
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E1B8C2BB86
-	for <linux-firmware@archiver.kernel.org>; Mon, 13 Apr 2020 12:15:41 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 2100C2084D; Mon, 13 Apr 2020 12:15:41 +0000 (UTC)
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 329DAC2BA19
+	for <linux-mediatek@archiver.kernel.org>; Mon, 13 Apr 2020 12:16:04 +0000 (UTC)
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 4E94B20786
-	for <linux-firmware@kernel.org>; Mon, 13 Apr 2020 12:15:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7C2CA2073E
+	for <linux-mediatek@archiver.kernel.org>; Mon, 13 Apr 2020 12:16:03 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="vCtjO+tC";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="kon0mDZR"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7C2CA2073E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-mediatek-bounces+linux-mediatek=archiver.kernel.org@lists.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=91E9UKNq5y6dY/lCz7Sl2EqnT/HOq5HHCbuA8RwZncs=; b=vCtjO+tCe9OGUD
+	HB4MgZCQRUXKb8AUC1be6bdA0XUhkTNeq46rXmBYnXdRAx6tK3pxJbcjYCaNVAamZKD5YHhOcfh5w
+	Gz48Z3DjGubbNKP9xCRa1StuTr0C7X6MCWE6HEzIYMjx4b902v7gNTBcBNi1xWOoNLNA0hT1Qei4M
+	k/7UCM6suiB/swuEIDBdCd/skqq65yIoozvk9MBUOqpignAOwLcdbviGkGeWqj6ysJqOTQ7hybCFb
+	9QYQDi0F0Y6W1j84nC3U/K/Oy1+Cn7i81oJUtJvgc06cp9/Vpk5R9sn4bvrJYn5C60WUdQR5yUpVf
+	ODBMhO5ljYD5jREAMFKQ==;
+Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1jNy0B-00009l-RT; Mon, 13 Apr 2020 12:15:47 +0000
+Received: from mail.kernel.org ([198.145.29.99])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jNy06-00009O-DR
+ for linux-mediatek@lists.infradead.org; Mon, 13 Apr 2020 12:15:46 +0000
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com
+ [209.85.166.49])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 91AB92078B
+ for <linux-mediatek@lists.infradead.org>; Mon, 13 Apr 2020 12:15:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586780140;
-	bh=t//N+PS8RGqLHiy2J5SHNyZE2mKFmsQ1b3YilX2nHL4=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=kon0mDZRuih0IYPjE5nmBoyXRSNX9+n4tf9tEu+A0F9VGIVTjOt2rskRDDGIwGSpV
-	 WK2CdqdrEu1llKHhv68xXIntn6gFgVoH/zQqhsFi6nV94MdPvldtectjbny/cC3zUh
-	 2GcNDSTlS+Da/uRrwMNjHBIVofuAGc/Jrt9j6fGE=
-Received: by mail-io1-f41.google.com with SMTP id s18so5745269ioe.10
-        for <linux-firmware@kernel.org>; Mon, 13 Apr 2020 05:15:40 -0700 (PDT)
-X-Gm-Message-State: AGi0PuYrsAl7gHqTV5xOue/yEY2WAP9K9LtaXpULS9ym1rfQsZMnb9OM
-	2bOdEFlM6yYNJ66KFwivJ2ZVRBgKl4SV3itELTE=
+ s=default; t=1586780140;
+ bh=t//N+PS8RGqLHiy2J5SHNyZE2mKFmsQ1b3YilX2nHL4=;
+ h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+ b=kon0mDZRuih0IYPjE5nmBoyXRSNX9+n4tf9tEu+A0F9VGIVTjOt2rskRDDGIwGSpV
+ WK2CdqdrEu1llKHhv68xXIntn6gFgVoH/zQqhsFi6nV94MdPvldtectjbny/cC3zUh
+ 2GcNDSTlS+Da/uRrwMNjHBIVofuAGc/Jrt9j6fGE=
+Received: by mail-io1-f49.google.com with SMTP id w1so9076996iot.7
+ for <linux-mediatek@lists.infradead.org>; Mon, 13 Apr 2020 05:15:40 -0700 (PDT)
+X-Gm-Message-State: AGi0PuYFeIngK6Tpa6272XTQX0kH2N5SDT9x9HiqTc1kKuesZul9ymqq
+ AiTV6ELMVZikX0dNw+liEj/Q+t0aJA7h7HsS2o4=
 X-Google-Smtp-Source: APiQypLQLNlfUHrItL9JPMNshLvXDDlbuWNHOdxPoS8+sFYudDOMhG3+MGPPC158yeNIfHolU/nVoyk38mK9fd45QQU=
-X-Received: by 2002:a5d:9494:: with SMTP id v20mr16010174ioj.101.1586780138442;
+X-Received: by 2002:a5d:9494:: with SMTP id v20mr16010174ioj.101.1586780138442; 
  Mon, 13 Apr 2020 05:15:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <7406601c3dea245c98635823db03945688c9eb5e.1585905153.git.sean.wang@mediatek.com>
@@ -29,18 +58,56 @@ In-Reply-To: <7406601c3dea245c98635823db03945688c9eb5e.1585905153.git.sean.wang@
 From: Josh Boyer <jwboyer@kernel.org>
 Date: Mon, 13 Apr 2020 08:15:25 -0400
 X-Gmail-Original-Message-ID: <CA+5PVA4hxmgR6Kkrgp+b010gWGFNTRX1LapHMOLq=ZvUOw0fhg@mail.gmail.com>
-Message-ID: <CA+5PVA4hxmgR6Kkrgp+b010gWGFNTRX1LapHMOLq=ZvUOw0fhg@mail.gmail.com>
-Subject: Re: [PATCH] linux-firmware: add firmware for MT7663 Wifi/BT combo device
+Message-ID:
+ <CA+5PVA4hxmgR6Kkrgp+b010gWGFNTRX1LapHMOLq=ZvUOw0fhg@mail.gmail.com>
+Subject: Re: [PATCH] linux-firmware: add firmware for MT7663 Wifi/BT combo
+ device
 To: Sean Wang <sean.wang@mediatek.com>
+X-Spam-Note: CRM114 run bypassed due to message size (756573 bytes)
+X-Spam-Score: -5.1 (-----)
+X-Spam-Report: SpamAssassin version 3.4.4 on bombadil.infradead.org summary:
+ Content analysis details:   (-5.1 points)
+ pts rule name              description
+ ---- ---------------------- --------------------------------------------------
+ -5.0 RCVD_IN_DNSWL_HI       RBL: Sender listed at https://www.dnswl.org/,
+ high trust [198.145.29.99 listed in list.dnswl.org]
+ 0.0 SPF_HELO_NONE          SPF: HELO does not publish an SPF Record
+ -0.0 SPF_PASS               SPF: sender matches SPF record
+ 0.1 FUZZY_XPILL            BODY: Attempt to obfuscate words in spam
+ -0.1 DKIM_VALID_EF          Message has a valid DKIM or DK signature from
+ envelope-from domain
+ -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+ -0.1 DKIM_VALID_AU          Message has a valid DKIM or DK signature from
+ author's domain
+ 0.1 DKIM_SIGNED            Message has a DKIM or DK signature, not necessarily
+ valid
+ -0.0 DKIMWL_WL_HIGH         DKIMwl.org - Whitelisted High sender
+X-BeenThere: linux-mediatek@lists.infradead.org
+X-Mailman-Version: 2.1.29
+Precedence: list
+List-Id: <linux-mediatek.lists.infradead.org>
+List-Unsubscribe: <http://lists.infradead.org/mailman/options/linux-mediatek>, 
+ <mailto:linux-mediatek-request@lists.infradead.org?subject=unsubscribe>
+List-Archive: <http://lists.infradead.org/pipermail/linux-mediatek/>
+List-Post: <mailto:linux-mediatek@lists.infradead.org>
+List-Help: <mailto:linux-mediatek-request@lists.infradead.org?subject=help>
+List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-mediatek>, 
+ <mailto:linux-mediatek-request@lists.infradead.org?subject=subscribe>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: David Woodhouse <dwmw2@infradead.org>, Ben Hutchings <ben@decadent.org.uk>, 
-	Felix Fietkau <nbd@nbd.name>, Lorenzo Bianconi <lorenzo.bianconi@redhat.com>, 
-	Marcel Holtmann <marcel@holtmann.org>, Johan Hedberg <johan.hedberg@gmail.com>, 
-	Linux Firmware <linux-firmware@kernel.org>, 
-	BlueZ development <linux-bluetooth@vger.kernel.org>, 
-	Linux Wireless <linux-wireless@vger.kernel.org>, linux-mediatek@lists.infradead.org, 
-	"Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Cc: Johan Hedberg <johan.hedberg@gmail.com>,
+ David Woodhouse <dwmw2@infradead.org>, Marcel Holtmann <marcel@holtmann.org>,
+ Linux Wireless <linux-wireless@vger.kernel.org>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ Linux Firmware <linux-firmware@kernel.org>,
+ BlueZ development <linux-bluetooth@vger.kernel.org>,
+ linux-mediatek@lists.infradead.org,
+ Lorenzo Bianconi <lorenzo.bianconi@redhat.com>,
+ Ben Hutchings <ben@decadent.org.uk>, Felix Fietkau <nbd@nbd.name>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Sender: "Linux-mediatek" <linux-mediatek-bounces@lists.infradead.org>
+Errors-To: linux-mediatek-bounces+linux-mediatek=archiver.kernel.org@lists.infradead.org
+Message-ID: <20200413121525.lczdAZdT2T1_3xVX2L5e3Ja_NrKJG8-UWOTvsCtFTj0@z>
 
 Applied and pushed out.
 
@@ -11015,3 +11082,8 @@ On Fri, Apr 3, 2020 at 5:17 AM <sean.wang@mediatek.com> wrote:
 >
 > --
 > 2.25.1
+
+_______________________________________________
+Linux-mediatek mailing list
+Linux-mediatek@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-mediatek
