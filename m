@@ -1,110 +1,81 @@
-Return-Path: <SRS0=2VIw=6B=redhat.com=hdegoede@kernel.org>
+Return-Path: <SRS0=NctW=6B=gmail.com=alexdeucher@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=0.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86005C352BE
-	for <linux-firmware@archiver.kernel.org>; Fri, 17 Apr 2020 16:20:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E8AEC2D0EF
+	for <linux-firmware@archiver.kernel.org>; Fri, 17 Apr 2020 17:16:58 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 78BC720857; Fri, 17 Apr 2020 16:20:29 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	id 30671208E4; Fri, 17 Apr 2020 17:16:58 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E716E2072D
-	for <linux-firmware@kernel.org>; Fri, 17 Apr 2020 16:20:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C72F82078E;
+	Fri, 17 Apr 2020 17:16:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jHEH5eOc"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E716E2072D
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=hdegoede@redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1587140427;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=uhEBtpXO58TP+TMlMGkT2KFIozw4pXyZeHpvRi4oM8I=;
-	b=jHEH5eOcl4F1pejMMFfwsx8b0QCAWza/ArveYZTPfDicYqfQS81jK6J8mTxunZHj1asyn+
-	eRVV1tMD8CZw7bmezhOFM62tPKUQ7KEhZOAuqN2lgmLs784DXl+ggUcyX3eVwgvz0/H+yK
-	OYJMXD4CTD4xBGZHEu1eoBM8QPO7Oz0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-22-xm_g4VNWMmOAWJOuk87fsg-1; Fri, 17 Apr 2020 12:20:25 -0400
-X-MC-Unique: xm_g4VNWMmOAWJOuk87fsg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EE8818FE866
-	for <linux-firmware@kernel.org>; Fri, 17 Apr 2020 16:20:25 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-112-195.ams2.redhat.com [10.36.112.195])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 7693F5C28E;
-	Fri, 17 Apr 2020 16:20:24 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH] Add symlink for Dell XPS 15 9550 Broadcom Bluetooth patch-ram file
-Date: Fri, 17 Apr 2020 18:20:22 +0200
-Message-Id: <20200417162022.428430-1-hdegoede@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EU/q/la9"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C72F82078E
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=alexdeucher@gmail.com
+Received: by mail-wm1-f42.google.com with SMTP id a81so3793196wmf.5;
+        Fri, 17 Apr 2020 10:16:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VldSqv4fva6EX7nPXI2uI55Yl59rO2DU7GwN4HHPw9c=;
+        b=EU/q/la9Ulz4BEk5u+hxAo0Qp2nBmEO7U3rqqAFY0atp+JQomidi11phv9q9e3R9jw
+         Vbt7NQA+k8AlJw7F0GP6Ry0fx8dE7AYehi6JJI6GZ6zZofm5cKGdSZ95aBLUArOmAFvs
+         QBImmxi+WjG6FBnEFkP5dIyRBOhE1LjB/FgiBfkJAxhU12QX0F/YtCG6eMZWYFzygMKQ
+         cXOiMiKmeTVedRKkS57BOLTFzQ9J/pPcpdBgcGkkaKfEXIZmUUpdsthqQKmLQ94S07Xl
+         O1wWdu+FjXCXvsPGu+drcis1Ot6B3Q5D7lgEjmK5VW2EMgOgxGRXsjUZztb8z/Q3FcYI
+         XrUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VldSqv4fva6EX7nPXI2uI55Yl59rO2DU7GwN4HHPw9c=;
+        b=PclypHdUq1M/RE7whnKc3hIrirrs+7ofe/GX6i8h/1q+14L1cJ1fCSfzP53Y9RJWHs
+         KoJ4+/Owi4WY1FYytcuAypRl/tR94l/7zeBKcXpDgHzD9YewKu1M7AEO81frYwq1fZGL
+         APYPW7e+QpQDMYIUy8AYpch1Wws0SCeMGXbEiGNNTcQVecBoW0y9xmvAcE6E5ddSO8xu
+         55IldLDBWJfjdhYzie3lSRp0QHPBA7IDsBxXxBkfI1awGrsw/KNPAmxK+9yzu8a+S5hZ
+         CV3rhffPaWv5zeHgWA6+54W/uKSHos+SRuGyuh2/L5BlhL5yvG5maYtsTdpARpVAeouA
+         rhGw==
+X-Gm-Message-State: AGi0PubP65vYKiDgvRxyQhwqrgmjP4XpI4bOpf52+ugEGPYii8+oERN1
+	z8H8zi5FtLuUM9OOYvciA+n3n6r/NEVLW1Y72jJWsw==
+X-Google-Smtp-Source: APiQypJaiFoQWL/UR9F2+zzKAJm2qi5n0Kd8ijpzxNfYe55hva6p6i1BPD+DrtlaJd4NscWtI4esXFxfFkl6Ol/bXxE=
+X-Received: by 2002:a1c:9d8c:: with SMTP id g134mr4505981wme.79.1587143816091;
+ Fri, 17 Apr 2020 10:16:56 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+References: <CADnq5_Pm_HJSM4Op1zyYUvoK2VN5=+ZnrkwqtYZPGOwiDjasPA@mail.gmail.com>
+ <CA+5PVA71rohy0emh+aJCs80M5C30sn7A_gcKierCd2ASdf0GAQ@mail.gmail.com>
+In-Reply-To: <CA+5PVA71rohy0emh+aJCs80M5C30sn7A_gcKierCd2ASdf0GAQ@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 17 Apr 2020 13:16:44 -0400
+Message-ID: <CADnq5_OsJCqfjgrRpVO=2q+ruyCeZTTEPdcJUZ_AKzbYCKAWCQ@mail.gmail.com>
+Subject: Re: amdgpu firmware updates
+To: Josh Boyer <jwboyer@kernel.org>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: Linux Firmware <linux-firmware@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-The linux-firmware repo does not contain many Broadcom (now Cypress)
-Bluetooth patch-ram files, because we have never been able to get
-permission to re-distribute those.
+Thanks!
 
-We do have one file for the for HTC Vive, which was submitted by HTC
-themselves with permission from Cypress.
-
-That file contain a "BCM20703A1 Generic USB 20Mhz fcbga_BU" patch-ram
-build. The patch-ram files used by Windows for the Bluetooth module
-in the XPS 15 9550, USB-id 0a5c:6410 is also a "BCM20703A1 Generic
-USB 20Mhz fcbga_BU" patch-ram build. Since the build-parameters
-(crystal MHz, package/module type used) between the 2 builds are an
-exact match we can also use the HTC submitted patch-ram for the
-XPS 15 9550. So lets add a symlink for this.
-
-This will make the Bluetooth on the XPS 15 9550 work out of the box,
-when linux-firmware is installed, without the user needing to go and
-find a suitable patch-ram file themselves.
-
-This has been tested on a XPS 15 9550 with both Bluetooth HID and
-Bluetooth audio devices.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- WHENCE                 | 1 +
- brcm/BCM-0a5c-6410.hcd | 1 +
- 2 files changed, 2 insertions(+)
- create mode 120000 brcm/BCM-0a5c-6410.hcd
-
-diff --git a/WHENCE b/WHENCE
-index 893586e..e3bab8b 100644
---- a/WHENCE
-+++ b/WHENCE
-@@ -10,6 +10,7 @@ kernel.
-=20
- Driver: BCM-0bb4-0306 Cypress Bluetooth firmware for HTC Vive
-=20
-+File: brcm/BCM-0a5c-6410.hcd
- File: brcm/BCM-0bb4-0306.hcd
-=20
- Licence: Redistributable. See LICENCE.cypress for details.
-diff --git a/brcm/BCM-0a5c-6410.hcd b/brcm/BCM-0a5c-6410.hcd
-new file mode 120000
-index 0000000..df02293
---- /dev/null
-+++ b/brcm/BCM-0a5c-6410.hcd
-@@ -0,0 +1 @@
-+BCM-0bb4-0306.hcd
-\ No newline at end of file
---=20
-2.26.0
-
+On Fri, Apr 17, 2020 at 11:27 AM Josh Boyer <jwboyer@kernel.org> wrote:
+>
+> On Thu, Apr 16, 2020 at 4:12 PM Alex Deucher <alexdeucher@gmail.com> wrote:
+> >
+> > Updated amdgpu firmware for 20.10.  Please apply!
+>
+> Applied and pushed out.
+>
+> josh
+>
+> >
+> > Thanks,
+> >
+> > Alex
