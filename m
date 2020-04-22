@@ -1,30 +1,30 @@
 Return-Path: <SRS0=D9mn=6G=intel.com=amit.k.bag@kernel.org>
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F24DC55186
-	for <linux-firmware@archiver.kernel.org>; Wed, 22 Apr 2020 09:32:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4782C55189
+	for <linux-firmware@archiver.kernel.org>; Wed, 22 Apr 2020 09:32:25 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 0874D2076E; Wed, 22 Apr 2020 09:32:14 +0000 (UTC)
+	id D595B2076C; Wed, 22 Apr 2020 09:32:25 +0000 (UTC)
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9035B2076C
-	for <linux-firmware@kernel.org>; Wed, 22 Apr 2020 09:32:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9035B2076C
+	by mail.kernel.org (Postfix) with ESMTPS id 97CE72075A
+	for <linux-firmware@kernel.org>; Wed, 22 Apr 2020 09:32:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 97CE72075A
 Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=amit.k.bag@intel.com
-IronPort-SDR: YFfGl4EBI/qsGT033PXhgk1uf6LRUVWMA68OoB1hSyP0NB9oruJg80h5aJnto0GoiajENcb2Sf
- ZeNfKV7a4Dzw==
+IronPort-SDR: Ssr052661O1TwDfk4RE0v+Ajy4qSjl+eScyw4pUODNkLc32UJzipkD6cOjDkLBBUesMV8XQi2Z
+ 5dGbff/Iebkw==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2020 02:32:09 -0700
-IronPort-SDR: BrYA5XF1FkrbX7NoU+oTeBznY/sLGrfklstunZ4Yb5PryBh79ISx5myJQpCzzXND6eSXehakcK
- vbtjM+uYMX8w==
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2020 02:32:23 -0700
+IronPort-SDR: p6na0hc/BabbngRCB+5wLM0wl9ct8h2RrMQBNh8xNOny3PSh9EyYKkns+E8X8CtxYpOLL+ohNN
+ sKaDRdGlyzrg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.72,413,1580803200"; 
-   d="scan'208";a="245930349"
+   d="scan'208";a="245930373"
 Received: from unknown (HELO intel-Lenovo-Legion-Y540-15IRH-PG0.iind.intel.com) ([10.224.186.95])
-  by fmsmga007.fm.intel.com with ESMTP; 22 Apr 2020 02:32:01 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 22 Apr 2020 02:32:08 -0700
 From: Amit K Bag <amit.k.bag@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
@@ -32,13 +32,15 @@ Cc: linux-bluetooth@vger.kernel.org,
 	ravishankar.srivatsa@intel.com,
 	chethan.tumkur.narayan@intel.com,
 	Amit K Bag <amit.k.bag@intel.com>
-Subject: [PATCH 1/4] linux-firmware: Update firmware file for Intel Bluetooth 9260
-Date: Wed, 22 Apr 2020 15:02:41 +0530
-Message-Id: <20200422093244.21333-1-amit.k.bag@intel.com>
+Subject: [PATCH 2/4] linux-firmware: Update firmware file for Intel Bluetooth 9560
+Date: Wed, 22 Apr 2020 15:02:42 +0530
+Message-Id: <20200422093244.21333-2-amit.k.bag@intel.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200422093244.21333-1-amit.k.bag@intel.com>
+References: <20200422093244.21333-1-amit.k.bag@intel.com>
 
-This patch updates the firmware file for Intel Bluetooth 9260
-Also it is known as Intel ThunderPeak (THP).
+This patch updates the firmware file for Intel Bluetooth 9560
+Also it is known as Intel JeffersonPeak (JfP).
 
 FW Build: REL6412
 
@@ -47,35 +49,35 @@ Release Version: 21.90.0.3
 Signed-off-by: Amit K Bag <amit.k.bag@intel.com>
 ---
  WHENCE                |   8 ++++----
- intel/ibt-18-16-1.ddc | Bin 14 -> 9 bytes
- intel/ibt-18-16-1.sfi | Bin 664012 -> 670576 bytes
- intel/ibt-18-2.ddc    | Bin 14 -> 9 bytes
- intel/ibt-18-2.sfi    | Bin 664012 -> 670576 bytes
+ intel/ibt-17-16-1.ddc | Bin 14 -> 9 bytes
+ intel/ibt-17-16-1.sfi | Bin 664012 -> 670576 bytes
+ intel/ibt-17-2.ddc    | Bin 14 -> 9 bytes
+ intel/ibt-17-2.sfi    | Bin 664012 -> 670576 bytes
  5 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/WHENCE b/WHENCE
-index 1c2fddd637c3..ae27eb2621ee 100644
+index ae27eb2621ee..925ea7469547 100644
 --- a/WHENCE
 +++ b/WHENCE
-@@ -3341,13 +3341,13 @@ Version: BT_JeffersonPeak_A0_B0_REL0201
- File: intel/ibt-17-1.ddc
+@@ -3325,13 +3325,13 @@ Version: BT_WindStormPeak_REL0306
+ File: intel/ibt-12-16.sfi
+ Version: BT_WindStormPeak_REL0306
+ File: intel/ibt-17-16-1.sfi
+-Version: BT_JeffersonPeak_B0_B0_REL0538
++Version: BT_JeffersonPeak_B0_B0_REL6412
+ File: intel/ibt-17-16-1.ddc
+-Version: BT_JeffersonPeak_B0_B0_REL0538
++Version: BT_JeffersonPeak_B0_B0_REL6412
+ File: intel/ibt-17-2.sfi
+-Version: BT_JeffersonPeak_B0_B0_REL0538
++Version: BT_JeffersonPeak_B0_B0_REL6412
+ File: intel/ibt-17-2.ddc
+-Version: BT_JeffersonPeak_B0_B0_REL0538
++Version: BT_JeffersonPeak_B0_B0_REL6412
+ File: intel/ibt-17-0-1.sfi
  Version: BT_JeffersonPeak_A0_B0_REL0201
- File: intel/ibt-18-16-1.sfi
--Version: BT_ThunderPeak_B0_B0_REL0538
-+Version: BT_ThunderPeak_B0_B0_REL6412
- File: intel/ibt-18-16-1.ddc
--Version: BT_ThunderPeak_B0_B0_REL0538
-+Version: BT_ThunderPeak_B0_B0_REL6412
- File: intel/ibt-18-2.sfi
--Version: BT_ThunderPeak_B0_B0_REL0538
-+Version: BT_ThunderPeak_B0_B0_REL6412
- File: intel/ibt-18-2.ddc
--Version: BT_ThunderPeak_B0_B0_REL0538
-+Version: BT_ThunderPeak_B0_B0_REL6412
- File: intel/ibt-18-0-1.sfi
- Version: BT_ThunderPeak_A0_B0_REL0201
- File: intel/ibt-18-0-1.ddc
-diff --git a/intel/ibt-18-16-1.ddc b/intel/ibt-18-16-1.ddc
+ File: intel/ibt-17-0-1.ddc
+diff --git a/intel/ibt-17-16-1.ddc b/intel/ibt-17-16-1.ddc
 index f24bb176758e6fce478820f1c2b7f7930bf88ce3..6e067796ed5e452f5914f576e750263123672c02 100644
 GIT binary patch
 literal 9
@@ -84,7 +86,7 @@ QcmZS9V3c6dWMpOl00O)Kb^rhX
 literal 14
 VcmZS9V3c5SVsvd_(PU(1000Ym0fGPk
 
-diff --git a/intel/ibt-18-16-1.sfi b/intel/ibt-18-16-1.sfi
+diff --git a/intel/ibt-17-16-1.sfi b/intel/ibt-17-16-1.sfi
 index b6ccd62c5d40d3c73d31aa77cc3a94635d2fc408..fed35ef6b4f6156d2b5372942159c79b6fd89c63 100644
 GIT binary patch
 delta 397414
@@ -11665,7 +11667,7 @@ zMZ6t`p&!sa6U5K;(alFcHDKxo>J+q|rnuNpa)~xXO;gR#R7!DmGNf5TbRU>V%NFP4
 zz}&nOC-VymQIlX37c60&P|nN&hUo29lzt-|<ATMDXOzs*<HdL>M3R1sK~i^1U8_N<
 iK@$G%V4lsH7iWMb6AWqd8e3q*pwNHd3@Mrp5dQ|}wXPxn
 
-diff --git a/intel/ibt-18-2.ddc b/intel/ibt-18-2.ddc
+diff --git a/intel/ibt-17-2.ddc b/intel/ibt-17-2.ddc
 index f24bb176758e6fce478820f1c2b7f7930bf88ce3..6e067796ed5e452f5914f576e750263123672c02 100644
 GIT binary patch
 literal 9
@@ -11674,7 +11676,7 @@ QcmZS9V3c6dWMpOl00O)Kb^rhX
 literal 14
 VcmZS9V3c5SVsvd_(PU(1000Ym0fGPk
 
-diff --git a/intel/ibt-18-2.sfi b/intel/ibt-18-2.sfi
+diff --git a/intel/ibt-17-2.sfi b/intel/ibt-17-2.sfi
 index b6ccd62c5d40d3c73d31aa77cc3a94635d2fc408..fed35ef6b4f6156d2b5372942159c79b6fd89c63 100644
 GIT binary patch
 delta 397414
