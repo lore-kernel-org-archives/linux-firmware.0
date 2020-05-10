@@ -1,30 +1,35 @@
-Return-Path: <SRS0=4XsZ=6Y=gmail.com=christianshewitt@kernel.org>
+Return-Path: <SRS0=BvBO=6Y=vger.kernel.org=linux-bluetooth-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-14.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,LOTS_OF_MONEY,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,LOTS_OF_MONEY,MAILING_LIST_MULTI,
 	MENTIONS_GIT_HOSTING,NORMAL_HTTP_TO_IP,NUMERIC_HTTP_ADDR,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83D10C38A2A
-	for <linux-firmware@archiver.kernel.org>; Sun, 10 May 2020 15:00:21 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 5D9B32082E; Sun, 10 May 2020 15:00:21 +0000 (UTC)
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com [209.85.167.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B43D320735
-	for <linux-firmware@kernel.org>; Sun, 10 May 2020 15:00:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D20CCC54E4B
+	for <linux-bluetooth@archiver.kernel.org>; Sun, 10 May 2020 15:00:22 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id A21ED20820
+	for <linux-bluetooth@archiver.kernel.org>; Sun, 10 May 2020 15:00:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
 	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cBCj+aI5"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B43D320735
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=christianshewitt@gmail.com
-Received: by mail-lf1-f68.google.com with SMTP id b26so5282017lfa.5
-        for <linux-firmware@kernel.org>; Sun, 10 May 2020 08:00:20 -0700 (PDT)
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S1728600AbgEJPAW (ORCPT
+        <rfc822;linux-bluetooth@archiver.kernel.org>);
+        Sun, 10 May 2020 11:00:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47116 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726104AbgEJPAU (ORCPT
+        <rfc822;linux-bluetooth@vger.kernel.org>);
+        Sun, 10 May 2020 11:00:20 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F9DDC061A0C
+        for <linux-bluetooth@vger.kernel.org>; Sun, 10 May 2020 08:00:19 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id a4so5272255lfh.12
+        for <linux-bluetooth@vger.kernel.org>; Sun, 10 May 2020 08:00:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id;
@@ -39,14 +44,14 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
         bh=xAfxlG2hQFkVcFoSQO0kusuFNUpeoGfNWIjltqTUaaU=;
-        b=SJ6DtnwMifucSgBfCFUIirVVAFiEeoKW4kLlBU6uMnFSCUTfy6AgNSrZ1tnZy44N2W
-         JBIMR12aYTcghOHZ1rSDx6axxLgq94C443/In0LEU/k62GpXzczTejiR1GVupuBb018U
-         01n1IezV/WzIYdbXGtRSyS1ZuLhDvNfja2RWwHxxzZiHwUwEraZRKGsg9dBEO2YHp+yP
-         G/sYFcvksgEGiBp/DK0q0cULcB8u/Gd8Gm4ArBaIltbilr9l5rIquv9xt+ZU9nsMwUHh
-         kkVQn8JuxEOn/H0n/5j6o3yjgawSECFAwn7TJolWEcD2IBdJGulJbADyHKEq1HmBwR2Q
-         dzBQ==
-X-Gm-Message-State: AOAM533FAipKPD/Z2lJwXMYdGcWgT+lQZbBo8LNSY3Ju5vTyN+MIiA+6
-	lOD/YMi4RD1kVo32xegRqE9gk21v
+        b=sZFDvd1zI7K05FUVZGNVItaaMts4mhJDsp33KU+lWMoDtNvS50EKV8ytVdVsJwAHwa
+         Q24Cu6jdTBBbaoeebCy0wVZSw2qIVb86nWdJ4RT2ENgFwz8Kkh9jj2mnf7RXPybYtEWt
+         JhEsoGj8+n66RpX7q2V6VAAG8uet+GAoQPHCXpFsTm50fgrPnvphn0vFdwG5tG+9hIMj
+         rFzS++L8Jk7nEwRYBSFdRpgDlnGAar7sorpI6xnXBvlzuUikKk9xX1UIsNuOxgnLrXYH
+         49YDCXwtiWJPHvsdJvISrZz+jAnwBovAprAsiUdYGF4ya1RVOmNBIL2Q82+T/EJnteTh
+         T38A==
+X-Gm-Message-State: AOAM530DwXRJ6+HaDjnnLrIWndtm73zUqkKxfetICFAROztA83kl6Ovi
+        V4JhjEAOzOUN88KGFwjYo0A=
 X-Google-Smtp-Source: ABdhPJyq8pwkMnTj0uPLgLwe59ru8J/EeOm9nTmz1LQwXOrk0pvWwHemcrmyBA+5b/yFqo0385Knsg==
 X-Received: by 2002:ac2:5e9c:: with SMTP id b28mr4571055lfq.50.1589122817462;
         Sun, 10 May 2020 08:00:17 -0700 (PDT)
@@ -54,16 +59,20 @@ Received: from localhost.localdomain ([87.200.95.144])
         by smtp.gmail.com with ESMTPSA id o23sm7434295ljh.63.2020.05.10.08.00.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 10 May 2020 08:00:16 -0700 (PDT)
-From: Christian Hewitt <christianshewitt@gmail.com>
+From:   Christian Hewitt <christianshewitt@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org,
-	linux-bluetooth@vger.kernel.org,
-	Kalle Valo <kvalo@codeaurora.org>
-Cc: Christian Hewitt <christianshewitt@gmail.com>
+To:     linux-firmware@kernel.org, linux-bluetooth@vger.kernel.org,
+        Kalle Valo <kvalo@codeaurora.org>
+Cc:     Christian Hewitt <christianshewitt@gmail.com>
 Subject: [PATCH] QCA: Add Bluetooth firmware for QCA9377
-Date: Sun, 10 May 2020 15:00:11 +0000
+Date:   Sun, 10 May 2020 15:00:11 +0000
 Message-Id: <20200510150011.31952-1-christianshewitt@gmail.com>
 X-Mailer: git-send-email 2.17.1
+Sender: linux-bluetooth-owner@vger.kernel.org
+Precedence: bulk
+List-ID: <linux-bluetooth.vger.kernel.org>
+X-Mailing-List: linux-bluetooth@vger.kernel.org
+Message-ID: <20200510150011.v-hXU6CWg_OcxtfTzxETJQ4yMtZVIOK2hSqT3lkYEiM@z>
 
 This commit will add required Bluetooth firmware files for QCA9377. Files
 are from the Boundary Devices repo [1] and are covered under the existing
