@@ -1,43 +1,51 @@
-Return-Path: <SRS0=yX0g=63=holtmann.org=marcel@kernel.org>
+Return-Path: <SRS0=PnVy=63=vger.kernel.org=linux-bluetooth-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2335DC2D0F8
-	for <linux-firmware@archiver.kernel.org>; Wed, 13 May 2020 07:15:29 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 17B0F2078C; Wed, 13 May 2020 07:15:29 +0000 (UTC)
-Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
-	by mail.kernel.org (Postfix) with ESMTP id DA22C206D6
-	for <linux-firmware@kernel.org>; Wed, 13 May 2020 07:15:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DA22C206D6
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=marcel@holtmann.org
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1F0EC2D0FD
+	for <linux-bluetooth@archiver.kernel.org>; Wed, 13 May 2020 07:15:29 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id A174C206D6
+	for <linux-bluetooth@archiver.kernel.org>; Wed, 13 May 2020 07:15:29 +0000 (UTC)
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S1730444AbgEMHP3 (ORCPT
+        <rfc822;linux-bluetooth@archiver.kernel.org>);
+        Wed, 13 May 2020 03:15:29 -0400
+Received: from coyote.holtmann.net ([212.227.132.17]:36014 "EHLO
+        mail.holtmann.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729189AbgEMHP3 (ORCPT
+        <rfc822;linux-bluetooth@vger.kernel.org>);
+        Wed, 13 May 2020 03:15:29 -0400
 Received: from [192.168.1.91] (p4FEFC5A7.dip0.t-ipconnect.de [79.239.197.167])
-	by mail.holtmann.org (Postfix) with ESMTPSA id 9A82FCED07;
-	Wed, 13 May 2020 09:25:10 +0200 (CEST)
+        by mail.holtmann.org (Postfix) with ESMTPSA id 9A82FCED07;
+        Wed, 13 May 2020 09:25:10 +0200 (CEST)
 Content-Type: text/plain;
-	charset=us-ascii
+        charset=us-ascii
 Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
 Subject: Re: [PATCH v4 1/2] Bluetooth: btusb: Add support for Intel Bluetooth
  Device Typhoon Peak (8087:0032)
-From: Marcel Holtmann <marcel@holtmann.org>
+From:   Marcel Holtmann <marcel@holtmann.org>
 In-Reply-To: <20200511111041.4500-1-amit.k.bag@intel.com>
-Date: Wed, 13 May 2020 09:14:57 +0200
+Date:   Wed, 13 May 2020 09:14:57 +0200
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org,
- BlueZ <linux-bluetooth@vger.kernel.org>,
- "Srivatsa, Ravishankar" <ravishankar.srivatsa@intel.com>,
- Chethan T N <chethan.tumkur.narayan@intel.com>,
- Raghuram Hegde <raghuram.hegde@intel.com>
+Cc:     linux-firmware@kernel.org, BlueZ <linux-bluetooth@vger.kernel.org>,
+        "Srivatsa, Ravishankar" <ravishankar.srivatsa@intel.com>,
+        Chethan T N <chethan.tumkur.narayan@intel.com>,
+        Raghuram Hegde <raghuram.hegde@intel.com>
 Content-Transfer-Encoding: 7bit
 Message-Id: <D04A097B-B8F1-4588-AFA0-CFB5BD77EA88@holtmann.org>
 References: <20200511111041.4500-1-amit.k.bag@intel.com>
-To: Amit K Bag <amit.k.bag@intel.com>
+To:     Amit K Bag <amit.k.bag@intel.com>
 X-Mailer: Apple Mail (2.3608.80.23.2.2)
+Sender: linux-bluetooth-owner@vger.kernel.org
+Precedence: bulk
+List-ID: <linux-bluetooth.vger.kernel.org>
+X-Mailing-List: linux-bluetooth@vger.kernel.org
+Message-ID: <20200513071457.Cvf5E9GrF690D8FqYNRIOcY_dMv4iPXDXbXxUtiwD1c@z>
 
 Hi Amit,
 
