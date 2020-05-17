@@ -1,27 +1,56 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=QdPO=67=lists.infradead.org=linux-mediatek-bounces+linux-mediatek=archiver.kernel.org@kernel.org>
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62255C433DF
-	for <linux-firmware@archiver.kernel.org>; Sun, 17 May 2020 18:42:11 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 3871220823; Sun, 17 May 2020 18:42:11 +0000 (UTC)
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ACB2C433DF
+	for <linux-mediatek@archiver.kernel.org>; Sun, 17 May 2020 18:42:44 +0000 (UTC)
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 8A16320820;
-	Sun, 17 May 2020 18:42:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9FE65207E8
+	for <linux-mediatek@archiver.kernel.org>; Sun, 17 May 2020 18:42:43 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="J6Wu0FfA";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="b5iixxl4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9FE65207E8
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-mediatek-bounces+linux-mediatek=archiver.kernel.org@lists.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=JrMwPtyuESxVj78hnZRWoKU36yM0dmbuucKo/RuBPmc=; b=J6Wu0FfAg11wzg
+	gXCQHOSoY7H/cVAUGrF9UfRYf44nbDzYh5yR1tVeDCUs65q0OT5n3OSrnoor4cZT7eGl0ydzY5qRt
+	kUmu6VyG8XPf3RTCDn29Udv21r5rWJ7s6LHrpNDsP+EDzhVj/a76hHg14PkjLyqtju+CHr+Wt8Q1o
+	JVVWueHGgAs9DNmxZ1IUiLAanRdyAA8PAApB9ePb+E1wHqJAR/9WkiaJCViSEHB/+6O6aHbYSnLet
+	UMFrRC4Y+zVcQPlYBf0r+dI4ewGmoUt/oxlEyIktsft93s9xFvOu7nCNHe7yQisgdg0vzuG8rFFq6
+	mUBo2+D0YyQhQiVDy8CA==;
+Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1jaOEr-0007O8-Iw; Sun, 17 May 2020 18:42:17 +0000
+Received: from mail.kernel.org ([198.145.29.99])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jaOEm-0007NT-5s
+ for linux-mediatek@lists.infradead.org; Sun, 17 May 2020 18:42:16 +0000
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com
+ [209.85.166.45])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3DFF4207E8
+ for <linux-mediatek@lists.infradead.org>; Sun, 17 May 2020 18:42:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589740930;
-	bh=lAOwFsiAmJjY59DTMkoe7E6nmcebh+inyZ/d+yT6NeE=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=b5iixxl495BMpsoIPMnBnqDt+WxH1nZjJZcZQBlI79+GK+xoUxS6pku2Fm1JTeOXG
-	 D3uKU6gNJE7Qa22WEztkhKiRBmFtv4isPO60aBjMCMsWF3GSK6P7A5qhJcsL6uaNnt
-	 Yo6IvE1drixoyqq3FCUfqxfubpOp3aXjpRLBvC9w=
-Received: by mail-io1-f51.google.com with SMTP id x5so8283255ioh.6;
-        Sun, 17 May 2020 11:42:10 -0700 (PDT)
-X-Gm-Message-State: AOAM530htuyIvPsPoKR6eFvvcRvjFRy9yM/srYj5wgkF8DWURRoW1beT
-	ui8HekOudL1DULVv6MPp0P7rvSeBP/yLVthsuKM=
+ s=default; t=1589740930;
+ bh=lAOwFsiAmJjY59DTMkoe7E6nmcebh+inyZ/d+yT6NeE=;
+ h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+ b=b5iixxl495BMpsoIPMnBnqDt+WxH1nZjJZcZQBlI79+GK+xoUxS6pku2Fm1JTeOXG
+ D3uKU6gNJE7Qa22WEztkhKiRBmFtv4isPO60aBjMCMsWF3GSK6P7A5qhJcsL6uaNnt
+ Yo6IvE1drixoyqq3FCUfqxfubpOp3aXjpRLBvC9w=
+Received: by mail-io1-f45.google.com with SMTP id t15so1408235ios.4
+ for <linux-mediatek@lists.infradead.org>; Sun, 17 May 2020 11:42:10 -0700 (PDT)
+X-Gm-Message-State: AOAM531odHHyyM2nFZaXK1t0kHVwJbwwD0wDDqsF+o0+DHiigkmvNJ5C
+ kGL4ojf7AR8sHdbUEwaLQJoj8sgagtKcMykLM9A=
 X-Google-Smtp-Source: ABdhPJy9cF51MNkhv8WDbZUcpZuzD8vd9rxadl7+9arEUNuCLss05pV/wh0WNEerXS4EttDaIIDQeSf8j2qOtXus84w=
-X-Received: by 2002:a6b:7841:: with SMTP id h1mr11420487iop.101.1589740928463;
+X-Received: by 2002:a6b:7841:: with SMTP id h1mr11420487iop.101.1589740928463; 
  Sun, 17 May 2020 11:42:08 -0700 (PDT)
 MIME-Version: 1.0
 References: <85e9c4bb4e77bc83b46645ca6f1e6e0ee49ce33f.1588332279.git.lorenzo@kernel.org>
@@ -32,12 +61,45 @@ X-Gmail-Original-Message-ID: <CA+5PVA6W-s0b00Ngx5DUWm8v2Ld9+D+KF9GftYSZDMLxs6dDq
 Message-ID: <CA+5PVA6W-s0b00Ngx5DUWm8v2Ld9+D+KF9GftYSZDMLxs6dDqQ@mail.gmail.com>
 Subject: Re: [PATCH] linux-firmware: add rebb firmware for mt7663
 To: Lorenzo Bianconi <lorenzo@kernel.org>
+X-Spam-Note: CRM114 run bypassed due to message size (601865 bytes)
+X-Spam-Score: -5.2 (-----)
+X-Spam-Report: SpamAssassin version 3.4.4 on bombadil.infradead.org summary:
+ Content analysis details:   (-5.2 points)
+ pts rule name              description
+ ---- ---------------------- --------------------------------------------------
+ -5.0 RCVD_IN_DNSWL_HI       RBL: Sender listed at https://www.dnswl.org/,
+ high trust [198.145.29.99 listed in list.dnswl.org]
+ 0.0 SPF_HELO_NONE          SPF: HELO does not publish an SPF Record
+ -0.0 SPF_PASS               SPF: sender matches SPF record
+ -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+ -0.1 DKIM_VALID_EF          Message has a valid DKIM or DK signature from
+ envelope-from domain
+ -0.1 DKIM_VALID_AU          Message has a valid DKIM or DK signature from
+ author's domain
+ 0.1 DKIM_SIGNED            Message has a DKIM or DK signature, not necessarily
+ valid
+ -0.0 DKIMWL_WL_HIGH         DKIMwl.org - Whitelisted High sender
+X-BeenThere: linux-mediatek@lists.infradead.org
+X-Mailman-Version: 2.1.29
+Precedence: list
+List-Id: <linux-mediatek.lists.infradead.org>
+List-Unsubscribe: <http://lists.infradead.org/mailman/options/linux-mediatek>, 
+ <mailto:linux-mediatek-request@lists.infradead.org?subject=unsubscribe>
+List-Archive: <http://lists.infradead.org/pipermail/linux-mediatek/>
+List-Post: <mailto:linux-mediatek@lists.infradead.org>
+List-Help: <mailto:linux-mediatek-request@lists.infradead.org?subject=help>
+List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-mediatek>, 
+ <mailto:linux-mediatek-request@lists.infradead.org?subject=subscribe>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, Ryder Lee <ryder.lee@mediatek.com>, 
-	Felix Fietkau <nbd@nbd.name>, Linux Wireless <linux-wireless@vger.kernel.org>, 
-	Lorenzo Bianconi <lorenzo.bianconi@redhat.com>, Sean Wang <sean.wang@mediatek.com>, 
-	linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Cc: Ryder Lee <ryder.lee@mediatek.com>, Sean Wang <sean.wang@mediatek.com>,
+ Linux Wireless <linux-wireless@vger.kernel.org>,
+ Linux Firmware <linux-firmware@kernel.org>, linux-mediatek@lists.infradead.org,
+ Lorenzo Bianconi <lorenzo.bianconi@redhat.com>, Felix Fietkau <nbd@nbd.name>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Sender: "Linux-mediatek" <linux-mediatek-bounces@lists.infradead.org>
+Errors-To: linux-mediatek-bounces+linux-mediatek=archiver.kernel.org@lists.infradead.org
+Message-ID: <20200517184156.PEkv236lby4Z6LXhaYdm2R45SxYpz720sc8t-blwpE0@z>
 
 Applied and pushed out.
 
@@ -8763,3 +8825,8 @@ On Fri, May 1, 2020 at 7:28 AM Lorenzo Bianconi <lorenzo@kernel.org> wrote:
 > --
 > 2.25.4
 >
+
+_______________________________________________
+Linux-mediatek mailing list
+Linux-mediatek@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-mediatek
