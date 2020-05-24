@@ -1,21 +1,26 @@
-Return-Path: <SRS0=QZ2Y=7G=gmail.com=christianshewitt@kernel.org>
+Return-Path: <SRS0=5Rdv=7G=vger.kernel.org=linux-wireless-owner@kernel.org>
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4D41C433E0
-	for <linux-firmware@archiver.kernel.org>; Sun, 24 May 2020 13:59:47 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id AFB1820787; Sun, 24 May 2020 13:59:47 +0000 (UTC)
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 55AA320776
-	for <linux-firmware@kernel.org>; Sun, 24 May 2020 13:59:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F751C433E0
+	for <linux-wireless@archiver.kernel.org>; Sun, 24 May 2020 14:00:02 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id C6B6C20776
+	for <linux-wireless@archiver.kernel.org>; Sun, 24 May 2020 14:00:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
 	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fDlLc7ll"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 55AA320776
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=christianshewitt@gmail.com
-Received: by mail-wr1-f67.google.com with SMTP id t18so751147wru.6
-        for <linux-firmware@kernel.org>; Sun, 24 May 2020 06:59:46 -0700 (PDT)
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S1729521AbgEXOAA (ORCPT
+        <rfc822;linux-wireless@archiver.kernel.org>);
+        Sun, 24 May 2020 10:00:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43358 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729149AbgEXN7p (ORCPT
+        <rfc822;linux-wireless@vger.kernel.org>);
+        Sun, 24 May 2020 09:59:45 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F3A7C061A0E
+        for <linux-wireless@vger.kernel.org>; Sun, 24 May 2020 06:59:44 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id x6so1198796wrm.13
+        for <linux-wireless@vger.kernel.org>; Sun, 24 May 2020 06:59:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id;
@@ -30,14 +35,14 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
         bh=sUkdMwEBy0Q9GNH1eRv5DYTG3WP6ihlcz+oSf4+EABc=;
-        b=nRpY3tFum9YCTQusQIQ/7An1aBRArExwsbc1ru8p3betujpN1ty95LeM+1ee6/eF1G
-         fan19XzLfKhiItdknSnDKyW8WkOi35J5tPuenCVya3kwlB4Sovt6p8ptau3lewpfm7ib
-         UoYXne+f3HAbxSzG7vA9P7USEJ4DybxiuTdgVemcup62GSMSqDmarc2sKAtvH38DqKvz
-         RvBT4PFCfoUHRETL4k9RnDFh2Tzz6Mc6IoBCptY2rlHNNwWpatQuqT79LbGxlBnGIsC2
-         /9kFLBIvQcS9qAKt8WMEK3AZQRm3qDFUBvA51t6lXnPN9QH52EmKNwMbHeT74sZzmWfF
-         UTPQ==
-X-Gm-Message-State: AOAM533MYXFzATWRasfNvBw4kzKrvJ+mxNUdTDtia1OeQQ8oQS/BVqdl
-	X4kVUO3O/zPhxCBJ4fNiEclIaiV1AlM=
+        b=kToymh2/3Ud7ygwiTPjE8RZ4cFMEV6iQ/XeV1+r04OiT5ZpSf7aUQjfgMR12P9hH1f
+         nxLltYKuQvWrLNsPcL3VY+iTjO1HHhiL114ozNkkunAQ/iyI90fZj4RTMmxkE/RY6c98
+         F+YJjzWvPWaCLQsF5mneJtPmGni4kEyoBoBraAZuvpOTLB83Z+jd1dxA2Nco4/5a55Rm
+         qfD7USygC70zGC77i23GWvab3lfHkCwl0PcxOolmxAvNweJLVO3dtMhxWHiB3nUN2ZtK
+         6zjHZnd981Hz0+och46f2PcjtBIdbo04AMCFSpH13zvUVuQyZwu2GOeU/Hlp47JdJxgL
+         GiEQ==
+X-Gm-Message-State: AOAM5320/aGdF/gqzlGhCB6zNepTfzAu9cBQG5hm/fbtkYrY8Ak0bYQe
+        OcgU099MSEdw/fPlwdqhNWw=
 X-Google-Smtp-Source: ABdhPJxu47WNMYzidadSkNKweDmhioriZep+dw1RphPhUyz3CIaww4XSm7D6B2HCXUgMHp5xVPqpJA==
 X-Received: by 2002:adf:a4d6:: with SMTP id h22mr3965794wrb.300.1590328780626;
         Sun, 24 May 2020 06:59:40 -0700 (PDT)
@@ -45,17 +50,20 @@ Received: from localhost.localdomain ([87.200.95.144])
         by smtp.gmail.com with ESMTPSA id o15sm1703638wmm.31.2020.05.24.06.59.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 24 May 2020 06:59:38 -0700 (PDT)
-From: Christian Hewitt <christianshewitt@gmail.com>
+From:   Christian Hewitt <christianshewitt@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org,
-	linux-wireless@vger.kernel.org,
-	ath10k@lists.infradead.org,
-	Kalle Valo <kvalo@codeaurora.org>
-Cc: Christian Hewitt <christianshewitt@gmail.com>
+To:     linux-firmware@kernel.org, linux-wireless@vger.kernel.org,
+        ath10k@lists.infradead.org, Kalle Valo <kvalo@codeaurora.org>
+Cc:     Christian Hewitt <christianshewitt@gmail.com>
 Subject: [PATCH] ath10k: add SDIO firmware for QCA9377 WiFi
-Date: Sun, 24 May 2020 13:59:33 +0000
-Message-Id: <20200524135933.1623-1-christianshewitt@gmail.com>
+Date:   Sun, 24 May 2020 13:59:33 +0000
+Message-ID: <20200524135933.1623-1-christianshewitt@gmail.com>
 X-Mailer: git-send-email 2.17.1
+Sender: linux-wireless-owner@vger.kernel.org
+Precedence: bulk
+List-ID: <linux-wireless.vger.kernel.org>
+X-Mailing-List: linux-wireless@vger.kernel.org
+Message-ID: <20200524135933.4GWBhLplkitemlTbJLIfn9uJp3lFU1ZFbmuHpQZQNDA@z>
 
 This commit adds the SDIO firmware for ath10k/QCA9377 cards. The file
 is from the Boundary Devices repo [1] and has the same license as the
