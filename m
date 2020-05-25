@@ -1,135 +1,116 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=RIeq=7H=gmail.com=christianshewitt@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DF85C433DF
-	for <linux-firmware@archiver.kernel.org>; Tue, 19 May 2020 11:29:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E4ADC433DF
+	for <linux-firmware@archiver.kernel.org>; Mon, 25 May 2020 05:09:42 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 7D6DA207ED; Tue, 19 May 2020 11:29:38 +0000 (UTC)
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
+	id 89D5820825; Mon, 25 May 2020 05:09:42 +0000 (UTC)
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 5A3D920758
-	for <linux-firmware@kernel.org>; Tue, 19 May 2020 11:29:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589887778;
-	bh=0opTcUFe2aqAFIPfUn19Y0zUkyJ84dcaBdakCGO2/Z4=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=0Pl5KJ8NkSRQuytGpoBa7OoGn7iQ7SGdyLeN6aZJBwFaO1t3Oe3gNY74z+CtEfGcC
-	 9aiR5AZExO5RbGoM8y+iisRA0YBK4RughZ8GNYAGjdlmLwSbI1VxsFgwUAhP0KdktF
-	 33BYdptp5yMDWpfklQX3MPWK5C4Glz8HR6+hMqvU=
-Received: by mail-il1-f177.google.com with SMTP id j3so12994582ilk.11
-        for <linux-firmware@kernel.org>; Tue, 19 May 2020 04:29:38 -0700 (PDT)
-X-Gm-Message-State: AOAM532XgVjBQ/xhzVRAfnTmuAHXcXieav8y6Q+GXR5/KIgRPBP1EJfI
-	ZCPkvc3h2v4EWNz5ud//8mqKd7i1fONDymtZUac=
-X-Google-Smtp-Source: ABdhPJxZABiXkp+ahBUBbX4rBDUX/iW37u+6C+V01I4IvcdrbtyWjH3LrA/eI/Z+koHX3BsYPDjjTklrPVXEXlSBjZQ=
-X-Received: by 2002:a92:5a5d:: with SMTP id o90mr20979512ilb.206.1589887777739;
- Tue, 19 May 2020 04:29:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <77eee10bfa6a63c34085aae12be28943146190a2.camel@coelho.fi>
-In-Reply-To: <77eee10bfa6a63c34085aae12be28943146190a2.camel@coelho.fi>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Tue, 19 May 2020 07:29:27 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA7qtdLVW2Kq85RyF8b-7oD4aFwv2ef4xpREexkx4V+khA@mail.gmail.com>
-Message-ID: <CA+5PVA7qtdLVW2Kq85RyF8b-7oD4aFwv2ef4xpREexkx4V+khA@mail.gmail.com>
-Subject: Re: pull request: iwlwifi firmware updates 2020-05-19
-To: Luca Coelho <luca@coelho.fi>
+	by mail.kernel.org (Postfix) with ESMTPS id 2A2072075F;
+	Mon, 25 May 2020 05:09:42 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MDvMHnHW"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2A2072075F
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=christianshewitt@gmail.com
+Received: by mail-wr1-f66.google.com with SMTP id i15so15837196wrx.10;
+        Sun, 24 May 2020 22:09:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=B7WmPqSxKkGHLwOXcalhC8FQYCxg3ob4TqLkSNgE3ME=;
+        b=MDvMHnHWHRB6j+QHZqtEPXcD9WLeCDcRxBf2nbzu3eDcInxRON5LbVL4t0vdRMxWtf
+         CnmRbsX8kycSD/l6HbtXB1vTKX9hhEUHfoFMZvb1xiw2zol7DR/gpgVjbmaUfvruvZvT
+         CUfISFF2rBD/yNfHc74aOYhUokJ5z1BZtnecDGAwqLt++pV6Z6NpRC4uMpUgCBZbgSfG
+         7xNEEyJIYDCwrJFE/c1gQFXpyvWV3jdHyaMejM/Jop9z+8zLw95LeAnnBY9HSj6Da3zY
+         q37t1x07J3vsvS+uM8j/zVUrQW6B6fUB3DzYt+ibDpZ+t1YW2+a9C1P4KmKPC0Lq7afb
+         cdfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=B7WmPqSxKkGHLwOXcalhC8FQYCxg3ob4TqLkSNgE3ME=;
+        b=QHMgsbVkPMXuS1Uwxe0dwtX5tg5rFJvQ13R8gW2qcbugW8JyXdcY8Am8c2kRcEBImI
+         Ti7Kd2EI3fuwELW4a3xr2bVYWQpvPh1mljVT3e/nr/dw1YUEWBydKJF9h45GJHgED/2j
+         5LIuNtvDBYDXmtub3A8YbugReDdrGZzqFblxtdXZTjeUcPggrXfGTOWDROdY0AXHmX52
+         FQ5daFMMYxAX8NS/Dt+Z/Yu2JbbNCSfWiEgDSWx1WEdZb6wiBHr659HBu/MBErQZbONo
+         fO+4mPxeJi/pWiw68rq1F6b7HiUVFto3rInvZ7cN+V87+gXLyEWFbuWvss0neqOT4+QB
+         omAg==
+X-Gm-Message-State: AOAM533RpGdCxfmBz/iYkTNh1Jtk0vj3h7aWSfRpKbo8223RQ3h+Ecs4
+	yx81C9T0nVgcSMbBYWIpPQkQyYj1
+X-Google-Smtp-Source: ABdhPJyOQH+I+lUOwRriQmpOTtG3236uelfyjcB3kUnnKDiaBAWJ48ynwdAd+AmGoJ3RoGZhUnLYug==
+X-Received: by 2002:adf:ab1b:: with SMTP id q27mr6297475wrc.268.1590383379745;
+        Sun, 24 May 2020 22:09:39 -0700 (PDT)
+Received: from [172.16.20.20] ([87.200.95.144])
+        by smtp.gmail.com with ESMTPSA id a10sm17221451wmf.46.2020.05.24.22.09.37
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 24 May 2020 22:09:39 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.14\))
+Subject: Re: [PATCH] ath10k: add SDIO firmware for QCA9377 WiFi
+From: Christian Hewitt <christianshewitt@gmail.com>
+In-Reply-To: <CA+5PVA5K0naJRhBvmDmArkBWQBCuA6p2yP+pYPMr3dZ47q53aQ@mail.gmail.com>
+Date: Mon, 25 May 2020 09:09:35 +0400
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, linuxwifi <linuxwifi@intel.com>, 
-	"kyle@infradead.org" <kyle@infradead.org>, "ben@decadent.org.uk" <ben@decadent.org.uk>, golan.ben.ami@intel.com
-Content-Type: text/plain; charset="UTF-8"
+Cc: Linux Firmware <linux-firmware@kernel.org>,
+ Linux Wireless <linux-wireless@vger.kernel.org>,
+ ath10k@lists.infradead.org,
+ Kalle Valo <kvalo@codeaurora.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <37BB0344-C9EB-41F5-87E7-D66DA45A488E@gmail.com>
+References: <20200524135933.1623-1-christianshewitt@gmail.com>
+ <CA+5PVA5K0naJRhBvmDmArkBWQBCuA6p2yP+pYPMr3dZ47q53aQ@mail.gmail.com>
+To: Josh Boyer <jwboyer@kernel.org>
+X-Mailer: Apple Mail (2.3445.104.14)
 
-Pulled and pushed out.  Thanks!
 
-josh
+> On 24 May 2020, at 8:34 pm, Josh Boyer <jwboyer@kernel.org> wrote:
+>=20
+> On Sun, May 24, 2020 at 9:59 AM Christian Hewitt
+> <christianshewitt@gmail.com> wrote:
+>>=20
+>> This commit adds the SDIO firmware for ath10k/QCA9377 cards. The file
+>> is from the Boundary Devices repo [1] and has the same license as the
+>> existing firmware-5.bin file. Support for QCA9377 WiFi was merged for
+>> Linux 5.7 [2].
+>>=20
+>> [1] =
+https://github.com/boundarydevices/qca-firmware/tree/bd-sdmac-ath10k
+>> [2] =
+https://github.com/torvalds/linux/commit/6e51b0e4913ca2c93059f73ca477ca30e=
+a95b6a0
+>=20
+> That repo got it from Kalle's untested repo, and didn't carry over the
+> Signed-off-by.  You didn't carry over the Signed-off-by from the repo
+> you got it from.  3 levels of indirection to include a file with a
+> giant notice from an untested sources is a bit too much for me to feel
+> comfortable with.
 
-On Tue, May 19, 2020 at 3:40 AM Luca Coelho <luca@coelho.fi> wrote:
->
-> Hi,
->
-> This contains some new and updated firmwares for all our currently
-> maintained FW binaries.
->
-> Please pull or let me know if there are any issues.
->
-> --
-> Cheers,
-> Luca.
->
->
-> The following changes since commit f8d32e4cc99bcd985dd64892392c42b52c941369:
->
->   rtw88: update firmware information and README (2020-05-17 14:50:01 -0400)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.git tags/iwlwifi-fw-2020-05-19
->
-> for you to fetch changes up to 5ee1c7d65c26b90b796362ac1b5715435e2a1384:
->
->   iwlwifi: update and add new FWs from core50-70 and core52-81 releases (2020-05-19 09:36:28 +0300)
->
-> ----------------------------------------------------------------
-> Update iwlwifi firmwares to Core50-70 and Core52-81
->
-> ----------------------------------------------------------------
-> Luca Coelho (3):
->       iwlwifi: update 8265 FW
->       iwlwifi: update FWs to core47-142 release
->       iwlwifi: update and add new FWs from core50-70 and core52-81 releases
->
->  WHENCE                            |  75 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------
->  iwlwifi-3168-29.ucode             | Bin 1036300 -> 1036288 bytes
->  iwlwifi-7265D-29.ucode            | Bin 1036668 -> 1036656 bytes
->  iwlwifi-8000C-36.ucode            | Bin 2401356 -> 2401100 bytes
->  iwlwifi-8265-36.ucode             | Bin 2414592 -> 2409984 bytes
->  iwlwifi-9000-pu-b0-jf-b0-46.ucode | Bin 1462068 -> 1481104 bytes
->  iwlwifi-9260-th-b0-jf-b0-46.ucode | Bin 1463820 -> 1470272 bytes
->  iwlwifi-Qu-b0-hr-b0-50.ucode      | Bin 0 -> 1103952 bytes
->  iwlwifi-Qu-b0-hr-b0-53.ucode      | Bin 0 -> 1209628 bytes
->  iwlwifi-Qu-b0-hr-b0-55.ucode      | Bin 0 -> 1223144 bytes
->  iwlwifi-Qu-b0-jf-b0-50.ucode      | Bin 0 -> 1053004 bytes
->  iwlwifi-Qu-b0-jf-b0-53.ucode      | Bin 0 -> 1147104 bytes
->  iwlwifi-Qu-b0-jf-b0-55.ucode      | Bin 0 -> 1163672 bytes
->  iwlwifi-Qu-c0-hr-b0-50.ucode      | Bin 0 -> 1103968 bytes
->  iwlwifi-Qu-c0-hr-b0-53.ucode      | Bin 0 -> 1209644 bytes
->  iwlwifi-Qu-c0-hr-b0-55.ucode      | Bin 0 -> 1223160 bytes
->  iwlwifi-Qu-c0-jf-b0-50.ucode      | Bin 0 -> 1053020 bytes
->  iwlwifi-Qu-c0-jf-b0-53.ucode      | Bin 0 -> 1147120 bytes
->  iwlwifi-Qu-c0-jf-b0-55.ucode      | Bin 0 -> 1163688 bytes
->  iwlwifi-QuZ-a0-hr-b0-50.ucode     | Bin 0 -> 1103952 bytes
->  iwlwifi-QuZ-a0-hr-b0-53.ucode     | Bin 0 -> 1209628 bytes
->  iwlwifi-QuZ-a0-hr-b0-55.ucode     | Bin 0 -> 1223140 bytes
->  iwlwifi-QuZ-a0-jf-b0-50.ucode     | Bin 0 -> 1053004 bytes
->  iwlwifi-QuZ-a0-jf-b0-53.ucode     | Bin 0 -> 1147104 bytes
->  iwlwifi-QuZ-a0-jf-b0-55.ucode     | Bin 0 -> 1163668 bytes
->  iwlwifi-cc-a0-50.ucode            | Bin 0 -> 1101228 bytes
->  iwlwifi-cc-a0-53.ucode            | Bin 0 -> 1205332 bytes
->  iwlwifi-cc-a0-55.ucode            | Bin 0 -> 1219356 bytes
->  28 files changed, 69 insertions(+), 6 deletions(-)
->  create mode 100644 iwlwifi-Qu-b0-hr-b0-50.ucode
->  create mode 100644 iwlwifi-Qu-b0-hr-b0-53.ucode
->  create mode 100644 iwlwifi-Qu-b0-hr-b0-55.ucode
->  create mode 100644 iwlwifi-Qu-b0-jf-b0-50.ucode
->  create mode 100644 iwlwifi-Qu-b0-jf-b0-53.ucode
->  create mode 100644 iwlwifi-Qu-b0-jf-b0-55.ucode
->  create mode 100644 iwlwifi-Qu-c0-hr-b0-50.ucode
->  create mode 100644 iwlwifi-Qu-c0-hr-b0-53.ucode
->  create mode 100644 iwlwifi-Qu-c0-hr-b0-55.ucode
->  create mode 100644 iwlwifi-Qu-c0-jf-b0-50.ucode
->  create mode 100644 iwlwifi-Qu-c0-jf-b0-53.ucode
->  create mode 100644 iwlwifi-Qu-c0-jf-b0-55.ucode
->  create mode 100644 iwlwifi-QuZ-a0-hr-b0-50.ucode
->  create mode 100644 iwlwifi-QuZ-a0-hr-b0-53.ucode
->  create mode 100644 iwlwifi-QuZ-a0-hr-b0-55.ucode
->  create mode 100644 iwlwifi-QuZ-a0-jf-b0-50.ucode
->  create mode 100644 iwlwifi-QuZ-a0-jf-b0-53.ucode
->  create mode 100644 iwlwifi-QuZ-a0-jf-b0-55.ucode
->  create mode 100644 iwlwifi-cc-a0-50.ucode
->  create mode 100644 iwlwifi-cc-a0-53.ucode
->  create mode 100644 iwlwifi-cc-a0-55.ucode
+Apologies Josh, I have been using my own repack of the Boundary Devices
+repo and had completely forgotten Kalle=E2=80=99s repo existed and was =
+the
+original source of the file.
+
+> Kalle, is there a reason you didn't send this upstream 3 years ago?
+
+SDIO support is a relatively recent addition to the ath10k driver and
+the commit message in this RFT [1] probably explains why his repo has
+it described as untested.
+
+I=E2=80=99m happy to submit v2 with corrected references or let Kalle =
+handle
+the submission, whichever is best or easiest is fine with me.
+
+Christian
+
+[1] https://patchwork.kernel.org/patch/11162833/=
