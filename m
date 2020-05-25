@@ -1,41 +1,76 @@
-Return-Path: <kvalo@codeaurora.org>
+Return-Path: <SRS0=BuOi=7H=vger.kernel.org=linux-wireless-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_NONE autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6539AC433E1
-	for <linux-firmware@archiver.kernel.org>; Mon, 25 May 2020 11:53:16 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 5967B2087D; Mon, 25 May 2020 11:53:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B942C433DF
+	for <linux-wireless@archiver.kernel.org>; Mon, 25 May 2020 11:53:28 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id 34D5A2071A
+	for <linux-wireless@archiver.kernel.org>; Mon, 25 May 2020 11:53:28 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="DLB7RD9c"
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S2390338AbgEYLx1 (ORCPT
+        <rfc822;linux-wireless@archiver.kernel.org>);
+        Mon, 25 May 2020 07:53:27 -0400
+Received: from mail27.static.mailgun.info ([104.130.122.27]:22924 "EHLO
+        mail27.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2390337AbgEYLx1 (ORCPT
+        <rfc822;linux-wireless@vger.kernel.org>);
+        Mon, 25 May 2020 07:53:27 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1590407606; h=Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Message-ID: In-Reply-To: Date: References: Subject: Cc:
+ To: From: Sender; bh=iZXdIaBh5TLhJdwzVECG/eXlN+wXGrPum4hi8Npf0e4=; b=DLB7RD9cXrYXaDV1mQ0Vr1GpIaLtqKSTMvsmrtW983GGPkpUBjOPNj97unUJFjcKAiUrLUbi
+ p1qaWEicQPAtFEg/6LTT3HEdCgo9+OGXtJDZIZnZq1w1y0ocS5qgkYKGuH0WNwbY2cPBlnD0
+ cVbQsHMkgrGycb3Y7eKh8qHFPX4=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyI3YTAwOSIsICJsaW51eC13aXJlbGVzc0B2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
+ 5ecbb1ac2a41f3ed0014f544 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 25 May 2020 11:53:16
+ GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-	id 26273C433C6; Mon, 25 May 2020 11:53:16 +0000 (UTC)
+        id 1BAB2C433CA; Mon, 25 May 2020 11:53:16 +0000 (UTC)
 Received: from potku.adurom.net (88-114-240-156.elisa-laajakaista.fi [88.114.240.156])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: kvalo)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id 6D8BCC433C6;
-	Mon, 25 May 2020 11:53:13 +0000 (UTC)
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: kvalo)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 6D8BCC433C6;
+        Mon, 25 May 2020 11:53:13 +0000 (UTC)
 DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 6D8BCC433C6
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=kvalo@codeaurora.org
-From: Kalle Valo <kvalo@codeaurora.org>
-To: Christian Hewitt <christianshewitt@gmail.com>
+From:   Kalle Valo <kvalo@codeaurora.org>
+To:     Christian Hewitt <christianshewitt@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Josh Boyer <jwboyer@kernel.org>,  Linux Wireless <linux-wireless@vger.kernel.org>,  ath10k@lists.infradead.org,  Linux Firmware <linux-firmware@kernel.org>
+Cc:     Josh Boyer <jwboyer@kernel.org>,
+        Linux Wireless <linux-wireless@vger.kernel.org>,
+        ath10k@lists.infradead.org,
+        Linux Firmware <linux-firmware@kernel.org>
 Subject: Re: [PATCH] ath10k: add SDIO firmware for QCA9377 WiFi
 References: <20200524135933.1623-1-christianshewitt@gmail.com>
-	<CA+5PVA5K0naJRhBvmDmArkBWQBCuA6p2yP+pYPMr3dZ47q53aQ@mail.gmail.com>
-	<37BB0344-C9EB-41F5-87E7-D66DA45A488E@gmail.com>
-Date: Mon, 25 May 2020 14:53:10 +0300
+        <CA+5PVA5K0naJRhBvmDmArkBWQBCuA6p2yP+pYPMr3dZ47q53aQ@mail.gmail.com>
+        <37BB0344-C9EB-41F5-87E7-D66DA45A488E@gmail.com>
+Date:   Mon, 25 May 2020 14:53:10 +0300
 In-Reply-To: <37BB0344-C9EB-41F5-87E7-D66DA45A488E@gmail.com> (Christian
-	Hewitt's message of "Mon, 25 May 2020 09:09:35 +0400")
+        Hewitt's message of "Mon, 25 May 2020 09:09:35 +0400")
 Message-ID: <871rn89qop.fsf@codeaurora.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.5 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Sender: linux-wireless-owner@vger.kernel.org
+Precedence: bulk
+List-ID: <linux-wireless.vger.kernel.org>
+X-Mailing-List: linux-wireless@vger.kernel.org
+Message-ID: <20200525115310.r1RUKDYfsK7_pQabbwKfs4kpwgLPJz90PUqKxRrMUVc@z>
 
 Christian Hewitt <christianshewitt@gmail.com> writes:
 
