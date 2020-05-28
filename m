@@ -1,26 +1,28 @@
-Return-Path: <SRS0=XYov=7K=plvision.eu=vadym.kochan@kernel.org>
+Return-Path: <SRS0=qXWv=7K=vger.kernel.org=netdev-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-12.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
-	MENTIONS_GIT_HOSTING,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B643C433DF
-	for <linux-firmware@archiver.kernel.org>; Thu, 28 May 2020 15:04:39 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 114F02084C; Thu, 28 May 2020 15:04:39 +0000 (UTC)
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com (mail-eopbgr150110.outbound.protection.outlook.com [40.107.15.110])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 36EDC2075F
-	for <linux-firmware@kernel.org>; Thu, 28 May 2020 15:04:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E3EBC433E0
+	for <netdev@archiver.kernel.org>; Thu, 28 May 2020 15:04:43 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id 590932075F
+	for <netdev@archiver.kernel.org>; Thu, 28 May 2020 15:04:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
 	dkim=pass (1024-bit key) header.d=plvision.eu header.i=@plvision.eu header.b="uC52VpSn"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 36EDC2075F
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=plvision.eu
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=vadym.kochan@plvision.eu
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S2404178AbgE1PEm (ORCPT <rfc822;netdev@archiver.kernel.org>);
+        Thu, 28 May 2020 11:04:42 -0400
+Received: from mail-eopbgr140098.outbound.protection.outlook.com ([40.107.14.98]:50633
+        "EHLO EUR01-VE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2403876AbgE1PEj (ORCPT <rfc822;netdev@vger.kernel.org>);
+        Thu, 28 May 2020 11:04:39 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
  b=P/2H2Nvi73C4klz1srsS1WwXiivZQCha4uXrh1mnEGHiAuE8fUa8vnDPMfcxr+FXA3SUM1AVUpzyIrxcM7+8Tknoh0X77HCTka8oYFVar/VC7nEOs67O9i19pE2/88DBXcy0us3MG2UqnZRuGhGL7w7ttVqUaU9oqwx5gn5yXlV+4O5o9LhnHf40MeGTwjXnpYh7CjKve9XyK2dONqPVx6pWUf8CrcU/u7fLrEJvfo2z5GDWLx6SphCaYVwbuHzGzWgjJgcA+jsYFib1xMATUANc9MpyILvi3X/n/MpNgQV9IIQw3uQPzWwJ6HDFQlwTKcUnViCNO1cTFevH9YWpAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
@@ -47,20 +49,20 @@ Received: from VI1P190MB0399.EURP190.PROD.OUTLOOK.COM
  ([fe80::8149:8652:3746:574f]) by VI1P190MB0399.EURP190.PROD.OUTLOOK.COM
  ([fe80::8149:8652:3746:574f%7]) with mapi id 15.20.3045.018; Thu, 28 May 2020
  15:04:35 +0000
-Date: Thu, 28 May 2020 18:04:31 +0300
-From: Vadym Kochan <vadym.kochan@plvision.eu>
+Date:   Thu, 28 May 2020 18:04:31 +0300
+From:   Vadym Kochan <vadym.kochan@plvision.eu>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Oleksandr Mazur <oleksandr.mazur@plvision.eu>,
-	Serhiy Boiko <serhiy.boiko@plvision.eu>,
-	Serhiy Pshyk <serhiy.pshyk@plvision.eu>,
-	Volodymyr Mytnyk <volodymyr.mytnyk@plvision.eu>,
-	Taras Chornyi <taras.chornyi@plvision.eu>,
-	Andrii Savka <andrii.savka@plvision.eu>,
-	Mickey Rachamim <mickeyr@marvell.com>,
-	Vadym Kochan <vadym.kochan@plvision.eu>,
-	Andrew Lunn <andrew@lunn.ch>, Jiri Pirko <jiri@mellanox.com>
+To:     linux-firmware@kernel.org
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Oleksandr Mazur <oleksandr.mazur@plvision.eu>,
+        Serhiy Boiko <serhiy.boiko@plvision.eu>,
+        Serhiy Pshyk <serhiy.pshyk@plvision.eu>,
+        Volodymyr Mytnyk <volodymyr.mytnyk@plvision.eu>,
+        Taras Chornyi <taras.chornyi@plvision.eu>,
+        Andrii Savka <andrii.savka@plvision.eu>,
+        Mickey Rachamim <mickeyr@marvell.com>,
+        Vadym Kochan <vadym.kochan@plvision.eu>,
+        Andrew Lunn <andrew@lunn.ch>, Jiri Pirko <jiri@mellanox.com>
 Subject: pull: mrvl: add firmware for Prestera ASIC devices
 Message-ID: <20200528150431.GC13898@plvision.eu>
 Content-Type: text/plain; charset=us-ascii
@@ -77,18 +79,14 @@ X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-Correlation-Id: 75aa7240-e1d2-4b24-d96f-08d803186efc
 X-MS-TrafficTypeDiagnostic: VI1P190MB0590:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS:
-	<VI1P190MB05907280FAE96B1528628691958E0@VI1P190MB0590.EURP190.PROD.OUTLOOK.COM>
+X-Microsoft-Antispam-PRVS: <VI1P190MB05907280FAE96B1528628691958E0@VI1P190MB0590.EURP190.PROD.OUTLOOK.COM>
 X-MS-Oob-TLC-OOBClassifiers: OLM:352;
 X-Forefront-PRVS: 0417A3FFD2
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	Z0OY3eiDZ/TsS2j4AUiKgYm2yHCwIHf/FnU9Aea2x9+PGhmxuAbo9GAkyQY1CL4tGeYR/R0HYHIin51GsjSnmYvF24YnX+cyvHTMgF/lJxD3eRV23of4FkegRqhlSDuly8sZ6eRix5/v5JiAQ5mcYfZHFRqR6vh8Jig7w9UmroLI/lBAnJh2w7Ft5y6ZYu+rveYpMICKiwCBNM9QyKOQ1O2w4ACpZxq0qibZQnALuNy/CCd/R5tc0lEoPe1ap5nE81Mx5I7akDMAMzqV6bqLN5gtoqvCX5AIivpQCVFG63wzGBg9Je+uVdGXKA2LCKwz7j1V0qa4r9VXzYa2SCiSC/ct+s8ao6qbmkCeHfG/ba69PyN0l5+LtBUu1+q2b617l0gC6GQLmR+gRudyEIMXkA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1P190MB0399.EURP190.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(346002)(396003)(39830400003)(376002)(136003)(366004)(186003)(26005)(7696005)(508600001)(4326008)(36756003)(8936002)(52116002)(2906002)(33656002)(54906003)(6916009)(316002)(55016002)(86362001)(8676002)(966005)(16526019)(66556008)(44832011)(2616005)(956004)(66946007)(66476007)(8886007)(4744005)(1076003)(5660300002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData:
-	IojViB35SwQT1AJkZWroazVan3xThfFUDWAFH3Qe+qX/EWzBqJ1PNbmsTd8FwBr8WpHbdz5s+i/sxlVXQ4l0wPy/bI+cte3lb8CfWhuvtRjoAu9a6yFRTvtLURnOgiI9IuqhdXyctbChtyMCfeLKSwNiWTYsOBPLzDGItlyNQGxUyF4p8I49Zgdok1Y/lTCpbAzCtbThX9QBdKdjFwSe2BJfvYN55uAeUG3zz2Yh8RfBIXQXeKHr5Xckkon9Hn6J0faePrqIVezLV3/1OmIIxxxykhl2bihPrtX40z4PCdwNSkOWUfMM3rnzuTkEuTaERIEhu5LYhYV83F5BcUaeTXg7e50oN/bTFmaPw/FkXhrurs7NG+k9vUyWqQ6flQEwohdf1WnJ0QoNjTvozN2s46mlGls2SJn6xoeLshMjPxOXFC15aAYosaXb+nyIURvYwsRO2MrD6OzAQccEKosWB0M0X8yuK1LxjIRNrEpBAU0=
+X-Microsoft-Antispam-Message-Info: Z0OY3eiDZ/TsS2j4AUiKgYm2yHCwIHf/FnU9Aea2x9+PGhmxuAbo9GAkyQY1CL4tGeYR/R0HYHIin51GsjSnmYvF24YnX+cyvHTMgF/lJxD3eRV23of4FkegRqhlSDuly8sZ6eRix5/v5JiAQ5mcYfZHFRqR6vh8Jig7w9UmroLI/lBAnJh2w7Ft5y6ZYu+rveYpMICKiwCBNM9QyKOQ1O2w4ACpZxq0qibZQnALuNy/CCd/R5tc0lEoPe1ap5nE81Mx5I7akDMAMzqV6bqLN5gtoqvCX5AIivpQCVFG63wzGBg9Je+uVdGXKA2LCKwz7j1V0qa4r9VXzYa2SCiSC/ct+s8ao6qbmkCeHfG/ba69PyN0l5+LtBUu1+q2b617l0gC6GQLmR+gRudyEIMXkA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1P190MB0399.EURP190.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(346002)(396003)(39830400003)(376002)(136003)(366004)(186003)(26005)(7696005)(508600001)(4326008)(36756003)(8936002)(52116002)(2906002)(33656002)(54906003)(6916009)(316002)(55016002)(86362001)(8676002)(966005)(16526019)(66556008)(44832011)(2616005)(956004)(66946007)(66476007)(8886007)(4744005)(1076003)(5660300002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData: IojViB35SwQT1AJkZWroazVan3xThfFUDWAFH3Qe+qX/EWzBqJ1PNbmsTd8FwBr8WpHbdz5s+i/sxlVXQ4l0wPy/bI+cte3lb8CfWhuvtRjoAu9a6yFRTvtLURnOgiI9IuqhdXyctbChtyMCfeLKSwNiWTYsOBPLzDGItlyNQGxUyF4p8I49Zgdok1Y/lTCpbAzCtbThX9QBdKdjFwSe2BJfvYN55uAeUG3zz2Yh8RfBIXQXeKHr5Xckkon9Hn6J0faePrqIVezLV3/1OmIIxxxykhl2bihPrtX40z4PCdwNSkOWUfMM3rnzuTkEuTaERIEhu5LYhYV83F5BcUaeTXg7e50oN/bTFmaPw/FkXhrurs7NG+k9vUyWqQ6flQEwohdf1WnJ0QoNjTvozN2s46mlGls2SJn6xoeLshMjPxOXFC15aAYosaXb+nyIURvYwsRO2MrD6OzAQccEKosWB0M0X8yuK1LxjIRNrEpBAU0=
 X-OriginatorOrg: plvision.eu
 X-MS-Exchange-CrossTenant-Network-Message-Id: 75aa7240-e1d2-4b24-d96f-08d803186efc
 X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2020 15:04:35.2466
@@ -98,6 +96,11 @@ X-MS-Exchange-CrossTenant-Id: 03707b74-30f3-46b6-a0e0-ff0a7438c9c4
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: d0bs7yLyhGVvJzogB8jIjX44pDdzwXctLTGjsryLjY/aW3ZWRn5gzuDrF47+z2ENPqGLToASSkxYyXvLqfNBTeKUJEXR9mR2ZXiLpLAuHSY=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1P190MB0590
+Sender: netdev-owner@vger.kernel.org
+Precedence: bulk
+List-ID: <netdev.vger.kernel.org>
+X-Mailing-List: netdev@vger.kernel.org
+Message-ID: <20200528150431.yuw9B4lnC4AXmpUQTQFffy7I7CLUA_EC6bWj5tw3t-I@z>
 
 The following changes since commit 8ba6fa665c52093ddc0d81137fc3c82cee2c5ef8:
 
