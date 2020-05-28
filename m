@@ -1,4 +1,4 @@
-Return-Path: <SRS0=qXWv=7K=vger.kernel.org=netdev-owner@kernel.org>
+Return-Path: <SRS0=f73W=7K=vger.kernel.org=linux-kernel-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
@@ -8,20 +8,21 @@ X-Spam-Status: No, score=-12.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E3EBC433E0
-	for <netdev@archiver.kernel.org>; Thu, 28 May 2020 15:04:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C012AC433DF
+	for <linux-kernel@archiver.kernel.org>; Thu, 28 May 2020 15:04:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 590932075F
-	for <netdev@archiver.kernel.org>; Thu, 28 May 2020 15:04:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 980A92089D
+	for <linux-kernel@archiver.kernel.org>; Thu, 28 May 2020 15:04:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
 	dkim=pass (1024-bit key) header.d=plvision.eu header.i=@plvision.eu header.b="uC52VpSn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404178AbgE1PEm (ORCPT <rfc822;netdev@archiver.kernel.org>);
-        Thu, 28 May 2020 11:04:42 -0400
+        id S2404181AbgE1PEn (ORCPT
+        <rfc822;linux-kernel@archiver.kernel.org>);
+        Thu, 28 May 2020 11:04:43 -0400
 Received: from mail-eopbgr140098.outbound.protection.outlook.com ([40.107.14.98]:50633
         "EHLO EUR01-VE1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2403876AbgE1PEj (ORCPT <rfc822;netdev@vger.kernel.org>);
+        id S2403876AbgE1PEj (ORCPT <rfc822;linux-kernel@vger.kernel.org>);
         Thu, 28 May 2020 11:04:39 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
  b=P/2H2Nvi73C4klz1srsS1WwXiivZQCha4uXrh1mnEGHiAuE8fUa8vnDPMfcxr+FXA3SUM1AVUpzyIrxcM7+8Tknoh0X77HCTka8oYFVar/VC7nEOs67O9i19pE2/88DBXcy0us3MG2UqnZRuGhGL7w7ttVqUaU9oqwx5gn5yXlV+4O5o9LhnHf40MeGTwjXnpYh7CjKve9XyK2dONqPVx6pWUf8CrcU/u7fLrEJvfo2z5GDWLx6SphCaYVwbuHzGzWgjJgcA+jsYFib1xMATUANc9MpyILvi3X/n/MpNgQV9IIQw3uQPzWwJ6HDFQlwTKcUnViCNO1cTFevH9YWpAQ==
@@ -96,11 +97,11 @@ X-MS-Exchange-CrossTenant-Id: 03707b74-30f3-46b6-a0e0-ff0a7438c9c4
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: d0bs7yLyhGVvJzogB8jIjX44pDdzwXctLTGjsryLjY/aW3ZWRn5gzuDrF47+z2ENPqGLToASSkxYyXvLqfNBTeKUJEXR9mR2ZXiLpLAuHSY=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1P190MB0590
-Sender: netdev-owner@vger.kernel.org
+Sender: linux-kernel-owner@vger.kernel.org
 Precedence: bulk
-List-ID: <netdev.vger.kernel.org>
-X-Mailing-List: netdev@vger.kernel.org
-Message-ID: <20200528150431.yuw9B4lnC4AXmpUQTQFffy7I7CLUA_EC6bWj5tw3t-I@z>
+List-ID: <linux-kernel.vger.kernel.org>
+X-Mailing-List: linux-kernel@vger.kernel.org
+Message-ID: <20200528150431.eRc66BTonJRX-U_zznUslCjt1xkXUtOHhMRrq4NODSo@z>
 
 The following changes since commit 8ba6fa665c52093ddc0d81137fc3c82cee2c5ef8:
 
