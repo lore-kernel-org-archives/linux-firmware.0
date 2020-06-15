@@ -1,29 +1,32 @@
-Return-Path: <SRS0=H0VG=74=gmail.com=hkallweit1@kernel.org>
+Return-Path: <SRS0=H338=74=vger.kernel.org=netdev-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,UNWANTED_LANGUAGE_BODY,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58CD0C433DF
-	for <linux-firmware@archiver.kernel.org>; Mon, 15 Jun 2020 18:59:01 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 3794C20768; Mon, 15 Jun 2020 18:59:01 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C320920656
-	for <linux-firmware@kernel.org>; Mon, 15 Jun 2020 18:59:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36AF8C433E0
+	for <netdev@archiver.kernel.org>; Mon, 15 Jun 2020 18:59:05 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id 0B5FC20656
+	for <netdev@archiver.kernel.org>; Mon, 15 Jun 2020 18:59:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
 	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FzrdC+4s"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C320920656
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=hkallweit1@gmail.com
-Received: by mail-wm1-f54.google.com with SMTP id q25so662723wmj.0
-        for <linux-firmware@kernel.org>; Mon, 15 Jun 2020 11:59:00 -0700 (PDT)
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S1731419AbgFOS7E (ORCPT <rfc822;netdev@archiver.kernel.org>);
+        Mon, 15 Jun 2020 14:59:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51486 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731371AbgFOS7C (ORCPT
+        <rfc822;netdev@vger.kernel.org>); Mon, 15 Jun 2020 14:59:02 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2411C061A0E
+        for <netdev@vger.kernel.org>; Mon, 15 Jun 2020 11:59:01 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id f185so640495wmf.3
+        for <netdev@vger.kernel.org>; Mon, 15 Jun 2020 11:59:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:subject:to:cc:message-id:date:user-agent:mime-version
@@ -40,14 +43,14 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
          :mime-version:content-language:content-transfer-encoding;
         bh=lvi9BkcUvagg3aC3mnJtRqZflkAiuyM1G8YwzEWAZyU=;
-        b=j3gwoitdzMBUmYcIGBiNHv7PTZj3FEX+ln+59RtvZQELgXtt2AGSr05FTTR9c1cNHK
-         vGrNq6khpExtPeoTbTy0PR2jyo+aZkGwhn2enBSdMTs3WymNlN6RBB6L6v8YYNhCFSr1
-         yu8a3NeWEtFE1L85KUogcugX5iD0vHhWRd/mXldP1l3lMWuuSvT5xI5Y0UgwS9GE54Lb
-         LCdDPQNomlWmDuhwZJpaDLRW0pC4AI16gIpUTBAEMGiw0cVxRay+Zn/v1f1IE3/DVJsi
-         hy3tYRvLEVBs6K5bpfV0fwHmz63zOnvlfJ+yrb8Fk1h6uqJjbR9OYJmHoabDc6IUQKZt
-         GPbw==
-X-Gm-Message-State: AOAM53308q59yBrTUeu8pE/NdMkYpDWJMqrBln0lSIdiCgNc3Gudxy0G
-	kVPxiMUVn9ozbDVlqBMWdI8=
+        b=PFtzIpOBtccZYQKaH0IIT1X2Aq6f74I6XGJH3BtMnzrLQN7vd7s9yCkwd8k5MrbTYY
+         D5w0xFdsOpAjCdwKZUS7ALxL6j452lKdMc6SwbRn57XChg8TZ1qp/MGp+OWkc57XMfSS
+         Z2cHTaENJjRjbnhfpb3bs1ERhFOA30CkyfELJKwpJTtphP57CDhB2UMiGTRe1jL8intN
+         bRNpXdhhPyKcPJh4p9VKGVS41pTdT+EYiiTcYzigjHMiBiDf5JbQXdMnOI9FsHSuBIot
+         jDF6QVhthzEm/FVtBPNO1+KRQtPllDLp6VudM6yb9vPFTr37Pf+bryEJXktKGL6WLoCr
+         ofsw==
+X-Gm-Message-State: AOAM532tvWcejrwp2Esx47zYe1mur3DN//dwINMgB9jAFCIB+Vxt+Dkg
+        V6fPUMoJZ5x20ZFyYxXjVcg3tvQT
 X-Google-Smtp-Source: ABdhPJyHmC26RsemgYWTflybUBIqRGsm7cgnDM0XLVXaRGY3xxFwUvluCfMa0ocXzOXcO9ACYDg7Dw==
 X-Received: by 2002:a1c:230f:: with SMTP id j15mr787945wmj.100.1592247539160;
         Mon, 15 Jun 2020 11:58:59 -0700 (PDT)
@@ -55,20 +58,26 @@ Received: from ?IPv6:2003:ea:8f23:5700:3c0e:16fc:adbe:1400? (p200300ea8f2357003c
         by smtp.googlemail.com with ESMTPSA id c143sm1145510wmd.1.2020.06.15.11.58.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
         Mon, 15 Jun 2020 11:58:58 -0700 (PDT)
-From: Heiner Kallweit <hkallweit1@gmail.com>
+From:   Heiner Kallweit <hkallweit1@gmail.com>
 Subject: [PATCH] rtl_nic: add firmware for RTL8125B
 List-Id: <linux-firmware.lore.kernel.org>
-To: Linux Firmware <linux-firmware@kernel.org>, Chun-Hao Lin
- <hau@realtek.com>, Realtek linux nic maintainers <nic_swsd@realtek.com>
-Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+To:     Linux Firmware <linux-firmware@kernel.org>,
+        Chun-Hao Lin <hau@realtek.com>,
+        Realtek linux nic maintainers <nic_swsd@realtek.com>
+Cc:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>
 Message-ID: <9417f3c4-40ec-9ece-0d83-f1f8c4112478@gmail.com>
-Date: Mon, 15 Jun 2020 20:57:52 +0200
+Date:   Mon, 15 Jun 2020 20:57:52 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+Sender: netdev-owner@vger.kernel.org
+Precedence: bulk
+List-ID: <netdev.vger.kernel.org>
+X-Mailing-List: netdev@vger.kernel.org
+Message-ID: <20200615185752.C4NiP14bKavthiNaoCH-UQ88C54I6MFxV6Vt4pvod_8@z>
 
 This adds firmware for RTL8125B rev.a and RTL8125B rev.b.
 
