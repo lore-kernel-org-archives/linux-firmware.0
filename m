@@ -1,4 +1,4 @@
-Return-Path: <SRS0=KLOV=AH=vger.kernel.org=linux-arm-msm-owner@kernel.org>
+Return-Path: <SRS0=rtH4=AH=vger.kernel.org=linux-kernel-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
@@ -7,34 +7,34 @@ X-Spam-Status: No, score=-10.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82CCAC433E1
-	for <linux-arm-msm@archiver.kernel.org>; Fri, 26 Jun 2020 11:18:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77F29C433E0
+	for <linux-kernel@archiver.kernel.org>; Fri, 26 Jun 2020 11:18:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 569F020FC3
-	for <linux-arm-msm@archiver.kernel.org>; Fri, 26 Jun 2020 11:18:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 53B7320C09
+	for <linux-kernel@archiver.kernel.org>; Fri, 26 Jun 2020 11:18:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="n/sOp3Ag"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="RK6epNig"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728377AbgFZLS3 (ORCPT
-        <rfc822;linux-arm-msm@archiver.kernel.org>);
-        Fri, 26 Jun 2020 07:18:29 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:11407 "EHLO m43-7.mailgun.net"
+        id S1728397AbgFZLSc (ORCPT
+        <rfc822;linux-kernel@archiver.kernel.org>);
+        Fri, 26 Jun 2020 07:18:32 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:63866 "EHLO m43-7.mailgun.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728290AbgFZLS3 (ORCPT <rfc822;linux-arm-msm@vger.kernel.org>);
-        Fri, 26 Jun 2020 07:18:29 -0400
+        id S1728380AbgFZLSc (ORCPT <rfc822;linux-kernel@vger.kernel.org>);
+        Fri, 26 Jun 2020 07:18:32 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1593170308; h=Message-ID: References: In-Reply-To: Subject:
+ s=smtp; t=1593170311; h=Message-ID: References: In-Reply-To: Subject:
  Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
  MIME-Version: Sender; bh=R/qVQcyqrZssNF93sIMJBoDQJNf/6pJPiarQ1ZJDrHo=;
- b=n/sOp3AgQXQPDnQzABtkeUnZYw8Jm63i1M164zgj7KbbB7QMeWKYP3Vr5GMBZuKwR0kP5yCK
- 244jJXJSBimDTV7kkjOK9chzBZB/yfBgbcYm5tonxQDW+X3/gTAkFpnuelTVg3DlM73L7r9/
- AniOrOqs2yNBuMUHY76qTWA2BZ0=
+ b=RK6epNigb1oe5ZfMrsDnLbvgYII5AcbxXbvBlDBgnRus6KL5sZkNLWQ1Ek2o6qZWR2dQu3Tx
+ 5Mrh8E7CJmbE77if4nUi5OnQVJFA7LG49saobjs9esaadjJRGk2/vuv45FRNXazjA+WSpuiO
+ Lb8v/fmmplsGMVFeDzr4qM2dyFI=
 X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyI1MzIzYiIsICJsaW51eC1hcm0tbXNtQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
+X-Mailgun-Sid: WyI0MWYwYSIsICJsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
  smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 5ef5d97fc76a4e7a2a662b43 (version=TLS1.2,
+ 5ef5d97fc76a4e7a2a662b45 (version=TLS1.2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 26 Jun 2020 11:18:23
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
@@ -63,11 +63,11 @@ References: <251806a04b162259103050eb11c48bf1@codeaurora.org>
 Message-ID: <018fa36371d8f679f96abe0af9788da3@codeaurora.org>
 X-Sender: bgodavar@codeaurora.org
 User-Agent: Roundcube Webmail/1.3.9
-Sender: linux-arm-msm-owner@vger.kernel.org
+Sender: linux-kernel-owner@vger.kernel.org
 Precedence: bulk
-List-ID: <linux-arm-msm.vger.kernel.org>
-X-Mailing-List: linux-arm-msm@vger.kernel.org
-Message-ID: <20200626111822.ZuBeX3jqHRr-Xwo-WT_qzEhrFms_33-RTNq_x0tVGqo@z>
+List-ID: <linux-kernel.vger.kernel.org>
+X-Mailing-List: linux-kernel@vger.kernel.org
+Message-ID: <20200626111822.B9vOQRDwxT1o_3XTuN_7TW12o8hsM3D7rwZGhVl1Iwc@z>
 
 + Josh Boyer
 
