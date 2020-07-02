@@ -1,76 +1,79 @@
-Return-Path: <SRS0=JoT4=AK=gmail.com=alexdeucher@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CD28C433E0
-	for <linux-firmware@archiver.kernel.org>; Mon, 29 Jun 2020 19:54:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFBCCC433E0
+	for <linux-firmware@archiver.kernel.org>; Thu,  2 Jul 2020 12:24:36 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 76B3620702; Mon, 29 Jun 2020 19:54:06 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	id C03FC20885; Thu,  2 Jul 2020 12:24:36 +0000 (UTC)
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 11ADC20674;
-	Mon, 29 Jun 2020 19:54:05 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LhKlM4l+"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 11ADC20674
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=alexdeucher@gmail.com
-Received: by mail-wr1-f42.google.com with SMTP id f7so14806113wrw.1;
-        Mon, 29 Jun 2020 12:54:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BA1fOPCo0LdwEmgKrcLlZvKQQaKyWzqqjxn4Ia2LJWI=;
-        b=LhKlM4l+WxcMrZRQnW8Fg8X9JukUQNWDDstyKWsfsFFD2HAsNND3eh0i6DbrutOeuY
-         u71hCO+mJq+iatw3fSyjxEmNPPeFcD1JBA1afviJwSN7n8Qk8H0V55962X26UUHlF+45
-         OTpwahj4wHexxE44cSAzLtiMj74ReQ6sw5lzbtlJ8S5wKmA7MRFlknAnJZ+2buBUxt9q
-         d4AUWIxQDkJSXuA9SA3Y3GdiZzThZ4Z4G7VOXjS6s6F24HEDhOM5HlGVpreyJP1aWJYJ
-         wp60lTEXy4aTcaM3wAJ0QXuHc23pFDUZYcz3fBcjVMC8A5eoSr0/JsnDrLekRZHGYSoX
-         skmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BA1fOPCo0LdwEmgKrcLlZvKQQaKyWzqqjxn4Ia2LJWI=;
-        b=rMlJwv/QM1ol6J8El8ZHOi9FgmQtYfWOQz2WZonhQn21+2ed0rEHSjekE7sdwrg3Iu
-         E/rEvLAsE1qUpgwL6OaoeVBxi1Yb5z04qBHbFIQpkjiPT4pLmUQODy5w8hX8K1i8zeD8
-         T00NDn6OlsIKlP8ruq/N8HCK9xS4QjXObuRKZ8m7u5uAszRC9pWWFTPAl5X8CaX7uCIv
-         HcVs0AkJpoyBbQCvF9uzuWE88LTbdO2tHcgY1f/NYkuInHmgrdTqN8CGA9hafsyXAX11
-         SHMivt7FXTNOZFQxsZPXvxFCtsdv0zpemsjWjl93AVjph1B3pCNZyml4lNi6YMCclgZ3
-         d3AA==
-X-Gm-Message-State: AOAM530L9aqBcMkoLKDvx9oEQWZoOh3UD/sbzkyUEx8hzOetzRiezWcV
-	6i1NxHA26oSv2P3QHJw3Z5UT49e12NgtjwxhXfRzWw==
-X-Google-Smtp-Source: ABdhPJyGDdxvlTLZHXuOF+0AaJzrZWeqv99csu3TvYg0RN9qNRKk6uyDl0nmZWH1Lt13r9aFZ0NRfYwbY7UfTumLOJc=
-X-Received: by 2002:adf:ef89:: with SMTP id d9mr19730281wro.124.1593460444376;
- Mon, 29 Jun 2020 12:54:04 -0700 (PDT)
+	by mail.kernel.org (Postfix) with ESMTPSA id 9D4F320836
+	for <linux-firmware@kernel.org>; Thu,  2 Jul 2020 12:24:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1593692676;
+	bh=8whstkEjA12LDRClJaBZeKJfqll8YMqZQJ/Ac+BDqyQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=talBrkOi91YZwTGkrF1c28cm4nwFqGlhFzocE6RmmU1199TpWCv3FZFQFwHFlJ34E
+	 4cxpCNeJQEWr7YCtyvEuZgtkpmoxlCDDdlaq8dduLuEajeFCYghjYq3dryfL2RFMOD
+	 Iz+of7TQk5dY9xS/RUIdoM7j5jDlph54o3lmjSS0=
+Received: by mail-io1-f47.google.com with SMTP id f23so28660812iof.6
+        for <linux-firmware@kernel.org>; Thu, 02 Jul 2020 05:24:36 -0700 (PDT)
+X-Gm-Message-State: AOAM533c4nkSs3gseh4iBAoPtCG6TddD4Z0oGkPk9at3xYG3VyYY0i2j
+	A3PqMNOmkl5VCdlvZf98X45n1wl+7zsZ2Gr0nAU=
+X-Google-Smtp-Source: ABdhPJymrUHNXeIFfkQ16XmDFJnQaeUZWoqE+c6ydjGkGg5up7AyA1w01B55WLxZHYr5gUHiOOR4z5dXKbPorpXPmRM=
+X-Received: by 2002:a02:a797:: with SMTP id e23mr6650174jaj.81.1593692676131;
+ Thu, 02 Jul 2020 05:24:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <CADnq5_MsOdHrb46f9tcxminQUc_Uqw=zgHHhzLsYdjaW_nFN+g@mail.gmail.com>
- <CA+5PVA4BwVKJQbPMwH05ZXa7Xr-a3AKX-kY-pmLd=OfVVyTKuA@mail.gmail.com>
-In-Reply-To: <CA+5PVA4BwVKJQbPMwH05ZXa7Xr-a3AKX-kY-pmLd=OfVVyTKuA@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 29 Jun 2020 15:53:53 -0400
-Message-ID: <CADnq5_MbzbL3P-sjq=JUJnuTC1yJ=npDtyu7K544Vc2FvMsP+g@mail.gmail.com>
-Subject: Re: amdgpu firmware updates
-To: Josh Boyer <jwboyer@kernel.org>
+References: <251806a04b162259103050eb11c48bf1@codeaurora.org> <018fa36371d8f679f96abe0af9788da3@codeaurora.org>
+In-Reply-To: <018fa36371d8f679f96abe0af9788da3@codeaurora.org>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Thu, 2 Jul 2020 08:24:25 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA5Q90Py9OWoP9aWaJFEMB1wjYoznjiEjtZi2EWkivzKjQ@mail.gmail.com>
+Message-ID: <CA+5PVA5Q90Py9OWoP9aWaJFEMB1wjYoznjiEjtZi2EWkivzKjQ@mail.gmail.com>
+Subject: Re: Update WCN3991 FW with new enhancements
+To: Balakrishna Godavarthi <bgodavar@codeaurora.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>
+Cc: Linux Firmware <linux-firmware@kernel.org>, mka@chromium.org, 
+	"Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>, 
+	BlueZ development <linux-bluetooth@vger.kernel.org>, Hemantg <hemantg@codeaurora.org>, 
+	Linux-arm Msm <linux-arm-msm@vger.kernel.org>, gubbaven@codeaurora.org, 
+	abhishekpandit@chromium.org
 Content-Type: text/plain; charset="UTF-8"
 
-Thanks!
-
-On Mon, Jun 29, 2020 at 3:12 PM Josh Boyer <jwboyer@kernel.org> wrote:
+On Fri, Jun 26, 2020 at 7:18 AM <bgodavar@codeaurora.org> wrote:
 >
-> On Mon, Jun 29, 2020 at 12:55 PM Alex Deucher <alexdeucher@gmail.com> wrote:
+> + Josh Boyer
+>
+> On 2020-06-22 14:35, bgodavar@codeaurora.org wrote:
+> > The following changes since commit
+> > 887d2a103c2bdd267dbca5bed39b1b493d6cbe13:
 > >
-> > The attached patch adds UVD firmware for SI asics.  Please apply!
->
-> Applied and pushed out.
->
-> josh
+> >   linux-firmware: Update firmware file for Intel Bluetooth AX200
+> > (2020-06-10 08:32:52 -0400)
+> >
+> > are available in the git repository at:
+> >
+> >   https://github.com/bgodavar/qca_wcn3991
+> >
+> > for you to fetch changes up to
+> > 24cc617d85a466ba58a94e3040690d0a43c83226:
+> >
+> >   QCA: Update WCN3991 FW files (2020-06-22 14:20:47 +0530)
+> >
+> > ----------------------------------------------------------------
+> > Balakrishna Godavarthi (1):
+> >       QCA: Update WCN3991 FW files
+> >
+> >  qca/crbtfw32.tlv | Bin 95784 -> 125896 bytes
+> >  qca/crnv32.bin   | Bin 5388 -> 5299 bytes
+> >  2 files changed, 0 insertions(+), 0 deletions(-)
+
+Pulled and pushed out.
+
+josh
