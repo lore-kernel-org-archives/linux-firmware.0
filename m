@@ -1,39 +1,42 @@
-Return-Path: <SRS0=Kddv=AV=microchip.com=Ajay.Kathat@kernel.org>
+Return-Path: <SRS0=HO9U=AV=vger.kernel.org=linux-wireless-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FUZZY_CPILL,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+X-Spam-Status: No, score=-6.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	FUZZY_CPILL,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	PDS_BTC_ID,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4971C433DF
-	for <linux-firmware@archiver.kernel.org>; Fri, 10 Jul 2020 05:21:25 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 9F1F62076A; Fri, 10 Jul 2020 05:21:25 +0000 (UTC)
-Received: from esa5.microchip.iphmx.com (esa5.microchip.iphmx.com [216.71.150.166])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5168C20720
-	for <linux-firmware@kernel.org>; Fri, 10 Jul 2020 05:21:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60C07C433DF
+	for <linux-wireless@archiver.kernel.org>; Fri, 10 Jul 2020 05:24:41 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id 21F712076A
+	for <linux-wireless@archiver.kernel.org>; Fri, 10 Jul 2020 05:24:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="uKxXngM+";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="zd2buK6C";
 	dkim=pass (1024-bit key) header.d=microchiptechnology.onmicrosoft.com header.i=@microchiptechnology.onmicrosoft.com header.b="k7U48Fhk"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5168C20720
-Authentication-Results: mail.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=Ajay.Kathat@microchip.com
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S1726774AbgGJFXd (ORCPT
+        <rfc822;linux-wireless@archiver.kernel.org>);
+        Fri, 10 Jul 2020 01:23:33 -0400
+Received: from esa5.microchip.iphmx.com ([216.71.150.166]:29139 "EHLO
+        esa5.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726288AbgGJFV3 (ORCPT
+        <rfc822;linux-wireless@vger.kernel.org>);
+        Fri, 10 Jul 2020 01:21:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1594358486; x=1625894486;
+  t=1594358487; x=1625894487;
   h=from:to:cc:subject:date:message-id:
    content-transfer-encoding:mime-version;
   bh=zkZH/pO6uIu3yT4nvtInYowgmh4p7prYdQhkETnAWrM=;
-  b=uKxXngM+odBx8vWwbNIXSiz2kXMCI0kdjmyRjSgikyUhy0Of9qT5j1yP
-   OkY6M8GxlUfX3IuTFgu5DcnNvpTtGJdn7XhxjAEcy6EFlz3NRAi62C9nm
-   /NE5FhZD/xw0/7tNDyasTHDnBsoVWEsW13a6tVOuRx7XBzEeRbeNEaYD9
-   UO56oogwu5dGabXRWUlXLlA4LOm92tTOMTIPYsS8FtCQEpmbktXsx8Xkw
-   MpmXoXc+HvCic8uXzmHUN33Af+iyg7bsLPGPbaPg4x2K++zF/yRwPNhmS
-   LiAA8AooC18AYPShAmJ8OSJg8FlnEWscf1MjUVG9qbT+aJSKAaJ5svVyJ
+  b=zd2buK6ClD16VHRLt1E0z0F/0wv2YwuhlMLGzOkKwIpt0thi/Z85brTo
+   C3YfLK/NqLnK6RPcTxOHCeCMv6mO3iTIpA7O/XPRNDKPJOb8EYkOMlhfk
+   yR5es68AP27U3o35y4YiNxmoJ+v/Xkiq8WPQokeYcfSIitPL/hYfhjQnv
+   ndDfHqoruf5mIobgJN3Ztz0A1l0QcjwvIFW4vcSRQwZlpSajPaHl6tqg3
+   LPbmaJhtDFrqc4j1s77YITThf/fZCo/eFjQ/0Guql3wCXFQDBJYa++gaj
+   g/MEGeKMiJyc6b6w7ifdsYT0ZunLnqzDDz90WGLzmlTgUQVikgSjhEqOC
    w==;
 IronPort-SDR: BJdV0tLuleQSdgHmvvbDnwt0psLFA+BE8iyQmF+ZQ6b14r2uwrhDTwUpCMHAJpczlAHBmjUJ/x
  7doyXC2iL2Wyb+uh1Dy2evEeszFMc4mhcDlfvdJ1mUygEa7fOYxg6eZprHO7B0givuvIPjpOHV
@@ -77,20 +80,20 @@ Received: from MN2PR11MB4030.namprd11.prod.outlook.com
  ([fe80::3874:6ace:6aec:deed]) by MN2PR11MB4030.namprd11.prod.outlook.com
  ([fe80::3874:6ace:6aec:deed%7]) with mapi id 15.20.3174.022; Fri, 10 Jul 2020
  05:21:21 +0000
-From: <Ajay.Kathat@microchip.com>
+From:   <Ajay.Kathat@microchip.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-CC: <linux-wireless@vger.kernel.org>, <Claudiu.Beznea@microchip.com>,
-	<Sripad.Balwadgi@microchip.com>, <Ajay.Kathat@microchip.com>
+To:     <linux-firmware@kernel.org>
+CC:     <linux-wireless@vger.kernel.org>, <Claudiu.Beznea@microchip.com>,
+        <Sripad.Balwadgi@microchip.com>, <Ajay.Kathat@microchip.com>
 Subject: [PATCH] linux-firmware: wilc1000: add wilc1000 v15.4 FW
 Thread-Topic: [PATCH] linux-firmware: wilc1000: add wilc1000 v15.4 FW
 Thread-Index: AQHWVnnyMM/wUmEtwk+A9mLVe+8m0w==
-Date: Fri, 10 Jul 2020 05:21:21 +0000
+Date:   Fri, 10 Jul 2020 05:21:21 +0000
 Message-ID: <20200710052117.3353-1-ajay.kathat@microchip.com>
 Accept-Language: en-US
 Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
 x-mailer: git-send-email 2.17.1
 authentication-results: kernel.org; dkim=none (message not signed)
  header.d=none;kernel.org; dmarc=none action=none header.from=microchip.com;
@@ -120,6 +123,11 @@ X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
 X-MS-Exchange-CrossTenant-userprincipalname: mWfONR4mj3zx1hNqvb/poO7f3g7AKNpwYlgHNWAC0M+ikJcvPeH0KkFq6APARSh7XhEN6u3Ry4L8yecoRIeGD8uzMUEDHX132f9Orju2H4w=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4128
+Sender: linux-wireless-owner@vger.kernel.org
+Precedence: bulk
+List-ID: <linux-wireless.vger.kernel.org>
+X-Mailing-List: linux-wireless@vger.kernel.org
+Message-ID: <20200710052121.YtuxEmvZjMcc7LPD0x_zvEPQiGw1ytjhpnp5BQbYUFw@z>
 
 From: Ajay Singh <ajay.kathat@microchip.com>
 
