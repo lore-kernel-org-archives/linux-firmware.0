@@ -1,29 +1,30 @@
-Return-Path: <SRS0=QS6/=AZ=realtek.com=hau@kernel.org>
+Return-Path: <SRS0=R3SZ=AZ=vger.kernel.org=netdev-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF27FC433DF
-	for <linux-firmware@archiver.kernel.org>; Tue, 14 Jul 2020 16:30:51 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id AD2CB22464; Tue, 14 Jul 2020 16:30:51 +0000 (UTC)
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B7E1F2242B
-	for <linux-firmware@kernel.org>; Tue, 14 Jul 2020 16:30:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B7E1F2242B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=hau@realtek.com
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE765C433E2
+	for <netdev@archiver.kernel.org>; Tue, 14 Jul 2020 16:30:56 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id A01D22242B
+	for <netdev@archiver.kernel.org>; Tue, 14 Jul 2020 16:30:56 +0000 (UTC)
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S1727775AbgGNQaz (ORCPT <rfc822;netdev@archiver.kernel.org>);
+        Tue, 14 Jul 2020 12:30:55 -0400
+Received: from rtits2.realtek.com ([211.75.126.72]:42379 "EHLO
+        rtits2.realtek.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725890AbgGNQaz (ORCPT
+        <rfc822;netdev@vger.kernel.org>); Tue, 14 Jul 2020 12:30:55 -0400
 Authenticated-By: 
 X-SpamFilter-By: ArmorX SpamTrap 5.69 with qID 06EGUlQA2026549, This message is accepted by code: ctloc85258
 Received: from mail.realtek.com (rtexmb06.realtek.com.tw[172.21.6.99])
-	by rtits2.realtek.com.tw (8.15.2/2.66/5.86) with ESMTPS id 06EGUlQA2026549
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 15 Jul 2020 00:30:47 +0800
+        by rtits2.realtek.com.tw (8.15.2/2.66/5.86) with ESMTPS id 06EGUlQA2026549
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Wed, 15 Jul 2020 00:30:47 +0800
 Received: from RTEXMB04.realtek.com.tw (172.21.6.97) by
  RTEXMB06.realtek.com.tw (172.21.6.99) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -35,28 +36,32 @@ Received: from RTEXMB04.realtek.com.tw (172.21.6.97) by
 Received: from RTEXMB04.realtek.com.tw ([fe80::941:6388:7d34:5c44]) by
  RTEXMB04.realtek.com.tw ([fe80::941:6388:7d34:5c44%3]) with mapi id
  15.01.1779.005; Wed, 15 Jul 2020 00:30:46 +0800
-From: Hau <hau@realtek.com>
+From:   Hau <hau@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: Heiner Kallweit <hkallweit1@gmail.com>,
-        Linux Firmware
-	<linux-firmware@kernel.org>,
+To:     Heiner Kallweit <hkallweit1@gmail.com>,
+        Linux Firmware <linux-firmware@kernel.org>,
         nic_swsd <nic_swsd@realtek.com>
-CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>
 Subject: RE: [PATCH] rtl_nic: update firmware for RTL8125B
 Thread-Topic: [PATCH] rtl_nic: update firmware for RTL8125B
 Thread-Index: AQHWWfMUXnupSXfVO06xF89x5MgABKkHQ4iA
-Date: Tue, 14 Jul 2020 16:30:46 +0000
+Date:   Tue, 14 Jul 2020 16:30:46 +0000
 Message-ID: <6984bfd1f42242bb852706ef0cb36bc1@realtek.com>
 References: <ec13a841-ad71-dbad-6d1c-60470610cdd5@gmail.com>
 In-Reply-To: <ec13a841-ad71-dbad-6d1c-60470610cdd5@gmail.com>
 Accept-Language: zh-TW, en-US
 Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
 x-originating-ip: [172.21.177.157]
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 MIME-Version: 1.0
+Sender: netdev-owner@vger.kernel.org
+Precedence: bulk
+List-ID: <netdev.vger.kernel.org>
+X-Mailing-List: netdev@vger.kernel.org
+Message-ID: <20200714163046.Rp3HN1yepJbBjzZUchsajf7OGGuQ0uamdKwrXU1gMsk@z>
 
 PiANCj4gUmVhbHRlayBwcm92aWRlZCB1cGRhdGVkIHZlcnNpb25zIG9mIFJUTDgxMjVCIHJldi5h
 IGFuZCByZXYuYiBmaXJtd2FyZS4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEhlaW5lciBLYWxsd2Vp
