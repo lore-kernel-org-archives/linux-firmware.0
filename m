@@ -1,4 +1,4 @@
-Return-Path: <SRS0=y5Sx=A3=vger.kernel.org=linux-kernel-owner@kernel.org>
+Return-Path: <SRS0=Zco+=A3=vger.kernel.org=linux-bluetooth-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
@@ -7,21 +7,20 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CBCBC433DF
-	for <linux-kernel@archiver.kernel.org>; Thu, 16 Jul 2020 16:25:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34B5EC433E6
+	for <linux-bluetooth@archiver.kernel.org>; Thu, 16 Jul 2020 16:25:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5B59620739
-	for <linux-kernel@archiver.kernel.org>; Thu, 16 Jul 2020 16:25:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 09D0520739
+	for <linux-bluetooth@archiver.kernel.org>; Thu, 16 Jul 2020 16:25:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
 	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="A5HC3Uku"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729284AbgGPQZ2 (ORCPT
-        <rfc822;linux-kernel@archiver.kernel.org>);
+        id S1729272AbgGPQZ2 (ORCPT
+        <rfc822;linux-bluetooth@archiver.kernel.org>);
         Thu, 16 Jul 2020 12:25:28 -0400
-Received: from mail29.static.mailgun.info ([104.130.122.29]:54266 "EHLO
-        mail29.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729249AbgGPQZ1 (ORCPT
-        <rfc822;linux-kernel@vger.kernel.org>);
+Received: from m43-7.mailgun.net ([69.72.43.7]:36246 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729027AbgGPQZ1 (ORCPT <rfc822;linux-bluetooth@vger.kernel.org>);
         Thu, 16 Jul 2020 12:25:27 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
  s=smtp; t=1594916727; h=Message-ID: Subject: Cc: To: From: Date:
@@ -29,12 +28,12 @@ DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns
  bh=OmL2KI53czE52TZ8+f9g2m5kzP3WpYA0NVG5N/4LwQ4=; b=A5HC3UkucmQB3RuyQOUSPAaavt81okTW5cV2lk9Vpzd7kJCTab6v8ND8CqZaBqqCDjzer/Gf
  rnoAK36Q+DgGYq7/+rmPRtZctG+y0YOwCa8av1k4yb6uOM9DGXcYuv9rDpBV9ST36Y2+LXIS
  2ElhOdoGmUcxZTJfPhGaxRs85nM=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyI0MWYwYSIsICJsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI2MTA3ZSIsICJsaW51eC1ibHVldG9vdGhAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
  smtp-out-n18.prod.us-west-2.postgun.com with SMTP id
- 5f107f70c9bd2efa2effe879 (version=TLS1.2,
+ 5f107f70c9bd2efa2effe878 (version=TLS1.2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 16 Jul 2020 16:25:20
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
@@ -61,11 +60,11 @@ Subject: QCA: Add correct bin file for WCN3991
 Message-ID: <6abd991d5d7d5175f5b7c6b168af770b@codeaurora.org>
 X-Sender: bgodavar@codeaurora.org
 User-Agent: Roundcube Webmail/1.3.9
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: linux-bluetooth-owner@vger.kernel.org
 Precedence: bulk
-List-ID: <linux-kernel.vger.kernel.org>
-X-Mailing-List: linux-kernel@vger.kernel.org
-Message-ID: <20200716162519.OotFBnvwtvjThcn660zIiP3T_GhNTbsk3_HIkIrnsHA@z>
+List-ID: <linux-bluetooth.vger.kernel.org>
+X-Mailing-List: linux-bluetooth@vger.kernel.org
+Message-ID: <20200716162519.fatInvA_SXZfqryXrNZ24O9zAiOoj18MoX4lNDqVcus@z>
 
 The following changes since commit 
 3d3a06f720856cb897a8541951edd0b8f6f54a98:
