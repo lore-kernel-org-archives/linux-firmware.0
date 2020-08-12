@@ -1,28 +1,33 @@
-Return-Path: <SRS0=eG1h=BW=endlessm.com=jian-hong@kernel.org>
+Return-Path: <SRS0=ZArZ=BW=vger.kernel.org=linux-kernel-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MENTIONS_GIT_HOSTING,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46C18C433DF
-	for <linux-firmware@archiver.kernel.org>; Wed, 12 Aug 2020 03:49:27 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 379D320782; Wed, 12 Aug 2020 03:49:27 +0000 (UTC)
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 015992076B
-	for <linux-firmware@kernel.org>; Wed, 12 Aug 2020 03:49:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87214C433DF
+	for <linux-kernel@archiver.kernel.org>; Wed, 12 Aug 2020 03:49:30 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id 629DA2076B
+	for <linux-kernel@archiver.kernel.org>; Wed, 12 Aug 2020 03:49:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
 	dkim=pass (2048-bit key) header.d=endlessm-com.20150623.gappssmtp.com header.i=@endlessm-com.20150623.gappssmtp.com header.b="2Dft5flW"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 015992076B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=endlessm.com
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=jian-hong@endlessm.com
-Received: by mail-pf1-f193.google.com with SMTP id d188so341847pfd.2
-        for <linux-firmware@kernel.org>; Tue, 11 Aug 2020 20:49:26 -0700 (PDT)
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S1726632AbgHLDt3 (ORCPT
+        <rfc822;linux-kernel@archiver.kernel.org>);
+        Tue, 11 Aug 2020 23:49:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32904 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726255AbgHLDt1 (ORCPT
+        <rfc822;linux-kernel@vger.kernel.org>);
+        Tue, 11 Aug 2020 23:49:27 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24A34C06174A
+        for <linux-kernel@vger.kernel.org>; Tue, 11 Aug 2020 20:49:27 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id k18so332169pfp.7
+        for <linux-kernel@vger.kernel.org>; Tue, 11 Aug 2020 20:49:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=endlessm-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:mime-version
@@ -39,14 +44,14 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=iGZ7oH5irgb8vHttyuKAPTbuHfvCyPqoeu6cHuTeExc=;
-        b=geClgUgcMXMXApK5tmg5QhHCOcwkg3MjuSBHMaNkK+pZUmo+baEg7Y3cvNiIMqD4RU
-         dldaI2vszef+YeStNdkkG1knvqBjz0JOTDYZKAqdD/qmdutG2OaUkZVjgXiKFyjmlJo2
-         zcQTNx3oTi75QCQUe5kGI7qajL7tJArlXRbjOgIfOKj05jauZsa2mUOTBU2UHIhWJzF2
-         6+fOmzT+3fyD1qxmnm6PRbSUQGK51tnJn586OmFKCmutV7+LF8DkNqkPvFVITlyqly70
-         njZgutDSQFZ11gT0Yj2Z57n7t6FvfGG2DBS4EV+ta3/Qv/yLA5xlFMwsbHDGgX0lHY0h
-         G7Kg==
-X-Gm-Message-State: AOAM533xN15+9n/usVsBT+j8xkxSfUxJ/BCwnx6UmsMJha8v9Iwsw3Oz
-	5gxxdF1bb9MLmOI+5Jns2QRV8Q==
+        b=jxTdJNxFAwmkfLAZFZXxIPOu9dZGD8LXA5du7ukTWjIMEcDXdjURt+i0xGev6H3XzH
+         ZFZ8BwaegF6bjedl1EC2s37CZbIrRlepo3/ZSSpZzB56cLE8Wu9KxTo2+KYLYVJZ5tp+
+         /Y6a0quwadpEkszrKxVRlzzQBSqN4TQg5andezWohmUwDCwbjaBOgZYP+nO6tjvcNewN
+         uTuBFMDgT9BJ5SdnH3FVJ1scEQgbMtu+KD53Vjp0wVl4g+DO1SFfP3SpwDGJ2vdTJxDW
+         UhwZwUWdgz/mg1qrMzwuvnCh12OgvMyGmmv9aeM5MdJ6ysmdHjgOOvccA7dOUMTDFLkt
+         W8Mg==
+X-Gm-Message-State: AOAM532IQU26MmYuj+0fMCEQfIwEa2Yku9jysJM4d7Xk4i4keqoSI+Ex
+        /BRJmrG+D8wbG3xtgJvH7CGGdA==
 X-Google-Smtp-Source: ABdhPJzrvSzwT2N1BMUiellgv6g/V2xXKQpYD6iLiVgzojCmV6OSSVfry8e6Y++DlMNQvpq9Zj4P5g==
 X-Received: by 2002:aa7:8c42:: with SMTP id e2mr8861014pfd.181.1597204166326;
         Tue, 11 Aug 2020 20:49:26 -0700 (PDT)
@@ -54,28 +59,31 @@ Received: from starnight.localdomain (123-204-46-122.static.seed.net.tw. [123.20
         by smtp.googlemail.com with ESMTPSA id cc23sm413610pjb.48.2020.08.11.20.49.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 11 Aug 2020 20:49:25 -0700 (PDT)
-From: Jian-Hong Pan <jian-hong@endlessm.com>
-To: Kalle Valo <kvalo@codeaurora.org>,
-	Arend van Spriel <arend.vanspriel@broadcom.com>,
-	Franky Lin <franky.lin@broadcom.com>,
-	Hante Meuleman <hante.meuleman@broadcom.com>,
-	Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
-	Wright Feng <wright.feng@cypress.com>
+From:   Jian-Hong Pan <jian-hong@endlessm.com>
+To:     Kalle Valo <kvalo@codeaurora.org>,
+        Arend van Spriel <arend.vanspriel@broadcom.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
+        Wright Feng <wright.feng@cypress.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org,
-	linux-wireless@vger.kernel.org,
-	brcm80211-dev-list.pdl@broadcom.com,
-	brcm80211-dev-list@cypress.com,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jian-Hong Pan <jian-hong@endlessm.com>,
-	Nick Xie <nick@khadas.com>
+Cc:     linux-firmware@kernel.org, linux-wireless@vger.kernel.org,
+        brcm80211-dev-list.pdl@broadcom.com,
+        brcm80211-dev-list@cypress.com, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Jian-Hong Pan <jian-hong@endlessm.com>,
+        Nick Xie <nick@khadas.com>
 Subject: [PATCH] brcm: Add 4356 based AP6356S NVRAM for the khadas VIM2
-Date: Wed, 12 Aug 2020 11:46:12 +0800
-Message-Id: <20200812034611.2944-1-jian-hong@endlessm.com>
+Date:   Wed, 12 Aug 2020 11:46:12 +0800
+Message-ID: <20200812034611.2944-1-jian-hong@endlessm.com>
 X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Sender: linux-kernel-owner@vger.kernel.org
+Precedence: bulk
+List-ID: <linux-kernel.vger.kernel.org>
+X-Mailing-List: linux-kernel@vger.kernel.org
+Message-ID: <20200812034612.jO8vEiQCXsFGgawm4A6x3FtuTGczeqetbfo9Y_424p8@z>
 
 Add a NVRAM file for the wireless module used in khadas VIM2.  This
 source comes from khadas fenix project's commit 022fdc3a1333 ("hwpacks:
