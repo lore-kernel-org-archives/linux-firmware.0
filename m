@@ -1,41 +1,47 @@
-Return-Path: <SRS0=KuJ6=CM=reto-schneider.ch=code@kernel.org>
+Return-Path: <SRS0=vk+s=CM=vger.kernel.org=linux-wireless-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.9 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 921AFC433E2
-	for <linux-firmware@archiver.kernel.org>; Thu,  3 Sep 2020 18:24:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 7CCDB2078E; Thu,  3 Sep 2020 18:24:05 +0000 (UTC)
-X-Greylist: delayed 1579 seconds by postgrey-1.34 at mail.kernel.org; Thu, 03 Sep 2020 18:24:04 UTC
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 819E520716
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=reto-schneider.ch
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=code@reto-schneider.ch
-Received: from mxout012.mail.hostpoint.ch (mxout012.mail.hostpoint.ch [217.26.49.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 819E520716
-	for <linux-firmware@kernel.org>; Thu,  3 Sep 2020 18:24:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1870C433E9
+	for <linux-wireless@archiver.kernel.org>; Thu,  3 Sep 2020 18:24:06 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id 7D81F20716
+	for <linux-wireless@archiver.kernel.org>; Thu,  3 Sep 2020 18:24:06 +0000 (UTC)
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S1726990AbgICSYF (ORCPT
+        <rfc822;linux-wireless@archiver.kernel.org>);
+        Thu, 3 Sep 2020 14:24:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44130 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726543AbgICSYE (ORCPT
+        <rfc822;linux-wireless@vger.kernel.org>);
+        Thu, 3 Sep 2020 14:24:04 -0400
+X-Greylist: delayed 1575 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 03 Sep 2020 11:24:04 PDT
+Received: from mxout012.mail.hostpoint.ch (mxout012.mail.hostpoint.ch [IPv6:2a00:d70:0:e::312])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1928BC061244
+        for <linux-wireless@vger.kernel.org>; Thu,  3 Sep 2020 11:24:03 -0700 (PDT)
 Received: from [10.0.2.46] (helo=asmtp013.mail.hostpoint.ch)
-	by mxout012.mail.hostpoint.ch with esmtp (Exim 4.92.3 (FreeBSD))
-	(envelope-from <code@reto-schneider.ch>)
-	id 1kDtUV-000F7K-Cr; Thu, 03 Sep 2020 19:57:43 +0200
+        by mxout012.mail.hostpoint.ch with esmtp (Exim 4.92.3 (FreeBSD))
+        (envelope-from <code@reto-schneider.ch>)
+        id 1kDtUV-000F7K-Cr; Thu, 03 Sep 2020 19:57:43 +0200
 Received: from [2a02:168:6182:1:cc67:a302:1515:9064]
-	by asmtp013.mail.hostpoint.ch with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.92.3 (FreeBSD))
-	(envelope-from <code@reto-schneider.ch>)
-	id 1kDtUV-000MML-A1; Thu, 03 Sep 2020 19:57:43 +0200
+        by asmtp013.mail.hostpoint.ch with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+        (Exim 4.92.3 (FreeBSD))
+        (envelope-from <code@reto-schneider.ch>)
+        id 1kDtUV-000MML-A1; Thu, 03 Sep 2020 19:57:43 +0200
 X-Authenticated-Sender-Id: reto-schneider@reto-schneider.ch
 Subject: Re: [PATCH v2 0/1] Updating RTL8192CU firmware
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: linux-wireless@vger.kernel.org
+To:     linux-firmware@kernel.org
+Cc:     linux-wireless@vger.kernel.org
 References: <20200323024500.4090-1-code@reto-schneider.ch>
  <20200323225809.11594-1-code@reto-schneider.ch>
-From: Reto Schneider <code@reto-schneider.ch>
+From:   Reto Schneider <code@reto-schneider.ch>
 Autocrypt: addr=code@reto-schneider.ch; prefer-encrypt=mutual; keydata=
  mDMEXsRRExYJKwYBBAHaRw8BAQdAvw3GH8aeA8Pay1QqPdjlETAUDAa8WmHHXZRDk5a0DHa0
  J1JldG8gU2NobmVpZGVyIDxtYWlsQHJldG8tc2NobmVpZGVyLmNoPoiYBBMWCgBAFiEEP2/t
@@ -46,7 +52,7 @@ Autocrypt: addr=code@reto-schneider.ch; prefer-encrypt=mutual; keydata=
  0oCRNDK/uT6PQiWG4AUCXsRREwIbDAUJBaOagAAKCRC/uT6PQiWG4IyHAQCqmjwBTGyVAfLZ
  OVQSUPqSlu/RGcCWPQFEXP+Be2mdNQEA05ScK4+GgAShVE8wUObbpjdl/u5djZF8hEGQR3Ke Vws=
 Message-ID: <2dcb37a5-7d55-716c-bedf-d1270700efab@reto-schneider.ch>
-Date: Thu, 3 Sep 2020 19:57:43 +0200
+Date:   Thu, 3 Sep 2020 19:57:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
@@ -54,6 +60,11 @@ In-Reply-To: <20200323225809.11594-1-code@reto-schneider.ch>
 Content-Type: multipart/mixed;
  boundary="------------A04EF9B4F11FD0BE0C4473A9"
 Content-Language: en-US
+Sender: linux-wireless-owner@vger.kernel.org
+Precedence: bulk
+List-ID: <linux-wireless.vger.kernel.org>
+X-Mailing-List: linux-wireless@vger.kernel.org
+Message-ID: <20200903175743.ifkgdljpEVsPa68FrhZ72_qO93hM5N0k7ckZGxFqlnw@z>
 
 This is a multi-part message in MIME format.
 --------------A04EF9B4F11FD0BE0C4473A9
