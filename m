@@ -1,28 +1,34 @@
-Return-Path: <SRS0=4jd0=CP=endlessm.com=chiu@kernel.org>
+Return-Path: <SRS0=LhDJ=CP=vger.kernel.org=linux-wireless-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,LOTS_OF_MONEY,
-	NORMAL_HTTP_TO_IP,NUMERIC_HTTP_ADDR,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NORMAL_HTTP_TO_IP,NUMERIC_HTTP_ADDR,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B57AC433E2
-	for <linux-firmware@archiver.kernel.org>; Sun,  6 Sep 2020 03:39:47 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 6FEB620782; Sun,  6 Sep 2020 03:39:47 +0000 (UTC)
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1DB3920760
-	for <linux-firmware@kernel.org>; Sun,  6 Sep 2020 03:39:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 197A1C433E2
+	for <linux-wireless@archiver.kernel.org>; Sun,  6 Sep 2020 03:44:11 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id A50AF20760
+	for <linux-wireless@archiver.kernel.org>; Sun,  6 Sep 2020 03:44:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
 	dkim=pass (2048-bit key) header.d=endlessm-com.20150623.gappssmtp.com header.i=@endlessm-com.20150623.gappssmtp.com header.b="adbphgN7"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1DB3920760
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=endlessm.com
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=chiu@endlessm.com
-Received: by mail-pj1-f68.google.com with SMTP id g6so4840996pjl.0
-        for <linux-firmware@kernel.org>; Sat, 05 Sep 2020 20:39:46 -0700 (PDT)
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S1728409AbgIFDkW (ORCPT
+        <rfc822;linux-wireless@archiver.kernel.org>);
+        Sat, 5 Sep 2020 23:40:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34880 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728257AbgIFDjs (ORCPT
+        <rfc822;linux-wireless@vger.kernel.org>);
+        Sat, 5 Sep 2020 23:39:48 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CADC5C061573
+        for <linux-wireless@vger.kernel.org>; Sat,  5 Sep 2020 20:39:47 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id a9so1815932pjg.1
+        for <linux-wireless@vger.kernel.org>; Sat, 05 Sep 2020 20:39:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=endlessm-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
@@ -39,14 +45,14 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
         bh=UA3lQtlVRjd7SMFFTAcC+cBHtPtts8Gi8hVrsD7yeJg=;
-        b=PWTDD/0V65kwsEh+n4q99OPhuiKeu0ALUOdqHDkQm/Y9nHNKAEp197d9CMPFfNtt/I
-         +MZbFWWwclW02iG9s+V9DzoBCmo3Qs0z15j/uha6kp6pD3aeWVBnPc/j5VUiZrmbn+MZ
-         s9dqnOOd3c+t9BA8bpD3yW3+68QkukcGd5PiJ8/xZPWmLSbnmx42Kf9R2I5+EhXC6+lq
-         lvO7i/NgcBdaljDlRDuwAz16UhrQq3K0woUPptNFKMRAK6T38Pu9jVvTOVV/4Vx/8bvM
-         Stf7um5O/iatxx/wyxMmLSGNVprRY4KeRY7q0RyoK7GkCz8ugztsuAjcwH5rNKwcgEIr
-         F8MQ==
-X-Gm-Message-State: AOAM533GCNGVl4UZjPly1zrYILw3sQNE0TlsqzlVCgSolRqdpVUNy0h/
-	q3EL7NIUxV9smoA1Tv1HNX3dZNILnoO053e8RcYRWg==
+        b=fWgyA/ngclOMeONxAAdodAw41L5lbF4vsXO8nrKuZ5+rMBdanic3nhc2ACJ8ZG1af0
+         hgYJziHcJszjkNqKDfn6kduszNZqbPbkj0MV3oZbp0BUgsnIYnHjSA6OrG1o9rwLJYaa
+         YAsLAIUpFq+YxceutP2rFE7ip+dP4jEUDFhWuFU8A1zg4MudbIdxScKkGK56acMIVori
+         YXqfL2fDgmAk8kG1zK8acmnCKBxr9VZtyOvNDQFt/cF5UgW7j2licwjM4imkM54vfka8
+         ZCtL/H/+0iUkiEP8I5UuKJsQClcre9ap5aohoLBtg5ZHFnkXkMtchTb5EU00rI7Z9o0Z
+         0WZA==
+X-Gm-Message-State: AOAM5314uwnKLTQms3Q6UHsTaXR2T+U6ggYS3yJkSgyP7o3swWLgDbRj
+        pxL8Bh5Jvh13kI1O1kcQfKUKJ3spanET5yzHoyoU/pMaGvnU/w==
 X-Google-Smtp-Source: ABdhPJyU5wlyOHm1Nyet6mpDL194ZljhOBPyk1DkE9DfuCG43/8nG0mi/cIwPoyedTVpW5RIWpImBnnWtufceIoUT8I=
 X-Received: by 2002:a17:902:b111:: with SMTP id q17mr14562224plr.202.1599363585171;
  Sat, 05 Sep 2020 20:39:45 -0700 (PDT)
@@ -54,14 +60,20 @@ MIME-Version: 1.0
 References: <20200323024500.4090-1-code@reto-schneider.ch> <20200323225809.11594-1-code@reto-schneider.ch>
  <20200323225809.11594-2-code@reto-schneider.ch>
 In-Reply-To: <20200323225809.11594-2-code@reto-schneider.ch>
-From: Chris Chiu <chiu@endlessm.com>
-Date: Sun, 6 Sep 2020 11:39:33 +0800
+From:   Chris Chiu <chiu@endlessm.com>
+Date:   Sun, 6 Sep 2020 11:39:33 +0800
 Message-ID: <CAB4CAwcj3wNociyMoszY50yWsE=Xy_6JLpYi=kuTj261uat6pA@mail.gmail.com>
 Subject: Re: [PATCH v2 1/1] rtlwifi: v88.2 firmware files for RTL8192CU
-To: Reto Schneider <code@reto-schneider.ch>
+To:     Reto Schneider <code@reto-schneider.ch>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, linux-wireless <linux-wireless@vger.kernel.org>
+Cc:     linux-firmware@kernel.org,
+        linux-wireless <linux-wireless@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Sender: linux-wireless-owner@vger.kernel.org
+Precedence: bulk
+List-ID: <linux-wireless.vger.kernel.org>
+X-Mailing-List: linux-wireless@vger.kernel.org
+Message-ID: <20200906033933.y8eh3JzkOoBeNDpNubeFQXu_sWl0yj-Q4lN3uGjiHSI@z>
 
 On Tue, Mar 24, 2020 at 6:58 AM Reto Schneider <code@reto-schneider.ch> wrote:
 >
