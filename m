@@ -1,65 +1,60 @@
-Return-Path: <SRS0=o+hd=CR=vger.kernel.org=linux-kernel-owner@kernel.org>
+Return-Path: <jcrouse@codeaurora.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.5 required=3.0 tests=BAYES_00,
+	INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EED1C2BBD0
-	for <linux-kernel@archiver.kernel.org>; Tue,  8 Sep 2020 10:17:36 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3A2AD20C09
-	for <linux-kernel@archiver.kernel.org>; Tue,  8 Sep 2020 10:17:36 +0000 (UTC)
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729269AbgIHKRa (ORCPT
-        <rfc822;linux-kernel@archiver.kernel.org>);
-        Tue, 8 Sep 2020 06:17:30 -0400
-Received: from mx2.suse.de ([195.135.220.15]:56218 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729341AbgIHKRW (ORCPT <rfc822;linux-kernel@vger.kernel.org>);
-        Tue, 8 Sep 2020 06:17:22 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id F011BB6B7;
-        Tue,  8 Sep 2020 10:17:11 +0000 (UTC)
-From:   Takashi Iwai <tiwai@suse.de>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B3CBC433E2
+	for <linux-firmware@archiver.kernel.org>; Tue,  8 Sep 2020 17:11:19 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id F1EA6216C4; Tue,  8 Sep 2020 17:11:18 +0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+	id B2310C433FE; Tue,  8 Sep 2020 17:11:18 +0000 (UTC)
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: jcrouse)
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id 01565C433C6;
+	Tue,  8 Sep 2020 17:11:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 01565C433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=jcrouse@codeaurora.org
+Date: Tue, 8 Sep 2020 11:11:14 -0600
+From: Jordan Crouse <jcrouse@codeaurora.org>
 List-Id: <linux-firmware.lore.kernel.org>
-To:     linux-firmware@kernel.org
-Cc:     linux-kernel@vger.kernel.org
-Subject: [PATCH linux-firmware] brcm: Fix a stale symlink for RPi3 model b+
-Date:   Tue,  8 Sep 2020 12:16:56 +0200
-Message-ID: <20200908101656.27835-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.16.4
-Sender: linux-kernel-owner@vger.kernel.org
-Precedence: bulk
-List-ID: <linux-kernel.vger.kernel.org>
-X-Mailing-List: linux-kernel@vger.kernel.org
-Message-ID: <20200908101656.wvWXgcicE8uQEOJGCrmDDWXRCjJwjRqRHKbQiAmWinY@z>
+To: linux-firmware@kernel.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
+Subject: Adreno GPU microcode update
+Message-ID: <20200908171114.GA12080@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: linux-firmware@kernel.org,
+	freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.24 (2015-08-30)
 
-The symlink for brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt
-was wrongly listed with the same subdirectory brcm, and this resulted
-in a stale symlink.  Fix it.
+The following changes since commit d5f9eea5a251d43412b07f5295d03e97b89ac4a5:
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- WHENCE | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  wl18xx: update firmware file 8.9.0.0.83 (2020-09-01 08:07:59 -0400)
 
-diff --git a/WHENCE b/WHENCE
-index 4adac39e28eb..f4af5d01e2c8 100644
---- a/WHENCE
-+++ b/WHENCE
-@@ -2639,7 +2639,7 @@ File: "brcm/brcmfmac43430-sdio.Hampoo-D2D3_Vi8A1.txt"
- File: "brcm/brcmfmac43430-sdio.MUR1DX.txt"
- File: "brcm/brcmfmac43430-sdio.raspberrypi,3-model-b.txt"
- File: "brcm/brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt"
--Link: brcm/brcmfmac43455-sdio.raspberrypi,3-model-a-plus.txt -> brcm/brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt
-+Link: brcm/brcmfmac43455-sdio.raspberrypi,3-model-a-plus.txt -> brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt
- File: "brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.txt"
- File: "brcm/brcmfmac43455-sdio.MINIX-NEO Z83-4.txt"
- File: "brcm/brcmfmac4356-pcie.gpd-win-pocket.txt"
+are available in the Git repository at:
+
+  https://github.com/CosmicPenguin/linux-firmware.git for-master
+
+for you to fetch changes up to f48fec44127f88ce83ea1bcaf5824de4146ca2f9:
+
+  qcom: Add updated a5xx and a6xx microcode (2020-09-08 10:03:36 -0600)
+
+----------------------------------------------------------------
+Jordan Crouse (1):
+      qcom: Add updated a5xx and a6xx microcode
+
+ qcom/a530_pfp.fw | Bin 15876 -> 16144 bytes
+ qcom/a630_sqe.fw | Bin 31316 -> 32056 bytes
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
 -- 
-2.16.4
-
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
