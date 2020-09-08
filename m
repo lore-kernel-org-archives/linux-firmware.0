@@ -1,36 +1,42 @@
-Return-Path: <SRS0=vWTX=CR=suse.de=tiwai@kernel.org>
+Return-Path: <SRS0=o+hd=CR=vger.kernel.org=linux-kernel-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CBA3C433E2
-	for <linux-firmware@archiver.kernel.org>; Tue,  8 Sep 2020 10:17:13 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id E73C8216C4; Tue,  8 Sep 2020 10:17:12 +0000 (UTC)
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8EBB120C09
-	for <linux-firmware@kernel.org>; Tue,  8 Sep 2020 10:17:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8EBB120C09
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=tiwai@suse.de
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EED1C2BBD0
+	for <linux-kernel@archiver.kernel.org>; Tue,  8 Sep 2020 10:17:36 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id 3A2AD20C09
+	for <linux-kernel@archiver.kernel.org>; Tue,  8 Sep 2020 10:17:36 +0000 (UTC)
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S1729269AbgIHKRa (ORCPT
+        <rfc822;linux-kernel@archiver.kernel.org>);
+        Tue, 8 Sep 2020 06:17:30 -0400
+Received: from mx2.suse.de ([195.135.220.15]:56218 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729341AbgIHKRW (ORCPT <rfc822;linux-kernel@vger.kernel.org>);
+        Tue, 8 Sep 2020 06:17:22 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-	by mx2.suse.de (Postfix) with ESMTP id F011BB6B7;
-	Tue,  8 Sep 2020 10:17:11 +0000 (UTC)
-From: Takashi Iwai <tiwai@suse.de>
+        by mx2.suse.de (Postfix) with ESMTP id F011BB6B7;
+        Tue,  8 Sep 2020 10:17:11 +0000 (UTC)
+From:   Takashi Iwai <tiwai@suse.de>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: linux-kernel@vger.kernel.org
+To:     linux-firmware@kernel.org
+Cc:     linux-kernel@vger.kernel.org
 Subject: [PATCH linux-firmware] brcm: Fix a stale symlink for RPi3 model b+
-Date: Tue,  8 Sep 2020 12:16:56 +0200
-Message-Id: <20200908101656.27835-1-tiwai@suse.de>
+Date:   Tue,  8 Sep 2020 12:16:56 +0200
+Message-ID: <20200908101656.27835-1-tiwai@suse.de>
 X-Mailer: git-send-email 2.16.4
+Sender: linux-kernel-owner@vger.kernel.org
+Precedence: bulk
+List-ID: <linux-kernel.vger.kernel.org>
+X-Mailing-List: linux-kernel@vger.kernel.org
+Message-ID: <20200908101656.wvWXgcicE8uQEOJGCrmDDWXRCjJwjRqRHKbQiAmWinY@z>
 
 The symlink for brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt
 was wrongly listed with the same subdirectory brcm, and this resulted
