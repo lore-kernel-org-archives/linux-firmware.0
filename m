@@ -1,39 +1,65 @@
-Return-Path: <jcrouse@codeaurora.org>
+Return-Path: <SRS0=sZe4=CR=vger.kernel.org=linux-arm-msm-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.5 required=3.0 tests=BAYES_00,
-	INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+X-Spam-Status: No, score=-15.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B3CBC433E2
-	for <linux-firmware@archiver.kernel.org>; Tue,  8 Sep 2020 17:11:19 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id F1EA6216C4; Tue,  8 Sep 2020 17:11:18 +0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-	id B2310C433FE; Tue,  8 Sep 2020 17:11:18 +0000 (UTC)
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: jcrouse)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id 01565C433C6;
-	Tue,  8 Sep 2020 17:11:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50233C43461
+	for <linux-arm-msm@archiver.kernel.org>; Tue,  8 Sep 2020 17:13:45 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id 12BD220936
+	for <linux-arm-msm@archiver.kernel.org>; Tue,  8 Sep 2020 17:13:45 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=codeaurora.org header.i=@codeaurora.org header.b="L3ILoWYs";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="VQYNyJxn"
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S1726683AbgIHRMt (ORCPT
+        <rfc822;linux-arm-msm@archiver.kernel.org>);
+        Tue, 8 Sep 2020 13:12:49 -0400
+Received: from a27-188.smtp-out.us-west-2.amazonses.com ([54.240.27.188]:33702
+        "EHLO a27-188.smtp-out.us-west-2.amazonses.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731977AbgIHRLT (ORCPT
+        <rfc822;linux-arm-msm@vger.kernel.org>);
+        Tue, 8 Sep 2020 13:11:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+        s=zsmsymrwgfyinv5wlfyidntwsjeeldzt; d=codeaurora.org; t=1599585079;
+        h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type;
+        bh=63I/CWXUQwQ4/xw3SHOSh+a3A2fsvq0vypwFNw9Go4s=;
+        b=L3ILoWYsKkLDcDRZx5KSPUsEkNSrc8vHFmJ+w7df1trri+AFnN+nK9l9b/oj/z1v
+        +F2PelB659msjkutNbGxG1V0sIIzQDVBGix/Q8o2HIGmrrCk5fwzMhz5JrRwA/XnRtJ
+        uOmVwcEs4kIhDyxIgtUwgotctdfR8lggc8jJe4EM=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+        s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1599585079;
+        h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:Feedback-ID;
+        bh=63I/CWXUQwQ4/xw3SHOSh+a3A2fsvq0vypwFNw9Go4s=;
+        b=VQYNyJxnieRiVfyUO9Ihz8lIv8a/yasU0vn7R6J14bOMIOb168R5dLzg7uLlGbZ5
+        8AZkS54Xlmn2mkSS5VJoioOGxaVEWTnwk8YbsBbTFiY7CyhDv47YGM8UMLXHqu0O0a4
+        rnKuGiKt5I1gG+ZDehYX50AxPuUX9EqgTvEEqO88=
 DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 01565C433C6
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=jcrouse@codeaurora.org
-Date: Tue, 8 Sep 2020 11:11:14 -0600
-From: Jordan Crouse <jcrouse@codeaurora.org>
+Date:   Tue, 8 Sep 2020 17:11:19 +0000
+From:   Jordan Crouse <jcrouse@codeaurora.org>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
+To:     linux-firmware@kernel.org
+Cc:     freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
 Subject: Adreno GPU microcode update
-Message-ID: <20200908171114.GA12080@jcrouse1-lnx.qualcomm.com>
+Message-ID: <010101746eb34f5f-3b16012e-0cb1-43d5-aa5b-af662d8c434e-000000@us-west-2.amazonses.com>
 Mail-Followup-To: linux-firmware@kernel.org,
-	freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
+        freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 User-Agent: Mutt/1.5.24 (2015-08-30)
+X-SES-Outgoing: 2020.09.08-54.240.27.188
+Feedback-ID: 1.us-west-2.CZuq2qbDmUIuT3qdvXlRHZZCpfZqZ4GtG9v3VKgRyF0=:AmazonSES
+Sender: linux-arm-msm-owner@vger.kernel.org
+Precedence: bulk
+List-ID: <linux-arm-msm.vger.kernel.org>
+X-Mailing-List: linux-arm-msm@vger.kernel.org
 
 The following changes since commit d5f9eea5a251d43412b07f5295d03e97b89ac4a5:
 
