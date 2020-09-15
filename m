@@ -1,27 +1,29 @@
-Return-Path: <SRS0=2Cv3=CY=amd.com=John.Allen@kernel.org>
+Return-Path: <SRS0=X/vL=CY=vger.kernel.org=linux-kernel-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MSGID_FROM_MTA_HEADER,
-	NORMAL_HTTP_TO_IP,NUMERIC_HTTP_ADDR,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,NORMAL_HTTP_TO_IP,NUMERIC_HTTP_ADDR,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CB74C43461
-	for <linux-firmware@archiver.kernel.org>; Tue, 15 Sep 2020 18:00:11 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id D8BEC21974; Tue, 15 Sep 2020 18:00:10 +0000 (UTC)
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2043.outbound.protection.outlook.com [40.107.92.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C01812080C;
-	Tue, 15 Sep 2020 18:00:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EBE7C43461
+	for <linux-kernel@archiver.kernel.org>; Tue, 15 Sep 2020 18:39:29 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id 049F820872
+	for <linux-kernel@archiver.kernel.org>; Tue, 15 Sep 2020 18:39:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
 	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="pI6FhpSf"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C01812080C
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=amd.com
-Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=John.Allen@amd.com
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S1728024AbgIOSjY (ORCPT
+        <rfc822;linux-kernel@archiver.kernel.org>);
+        Tue, 15 Sep 2020 14:39:24 -0400
+Received: from mail-bn7nam10on2065.outbound.protection.outlook.com ([40.107.92.65]:17729
+        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727977AbgIOSAV (ORCPT <rfc822;linux-kernel@vger.kernel.org>);
+        Tue, 15 Sep 2020 14:00:21 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
  b=gd4/hhAXv3I6TEyFayb5TN7VvdAbfohJn9uk7L9dXCwSWT9BdVXa2S8cUuQFimc/drg8aKf4Hgw0jYS/3tIdK2c4KwT7WcyexVwSTQenAntHc2Gz6DgO0Yvrv6Jl7R+9QtHk2xjemd+44MeLx5e0MnLxgLaqvBGdO17icuzsK8K+SYY2cMs3kRxVvzOhEBbd4HQL0Sb9RchVgrgRdxWo40+vdgEgte3fAxHg3BQOTXJ5P1UM3nRCxWe4O81CdXZCYerSJ1HGAmTDvFMNHVTG16SpMxzOarN6wBW3s1RVYYQAYlFR2j6yeIO0XKQ94BSUGqw2/EADaGygLRM+nxrqzw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
@@ -48,15 +50,13 @@ Received: from SN1PR12MB2590.namprd12.prod.outlook.com
  ([fe80::119d:6402:3d29:75fc]) by SN1PR12MB2590.namprd12.prod.outlook.com
  ([fe80::119d:6402:3d29:75fc%7]) with mapi id 15.20.3370.019; Tue, 15 Sep 2020
  18:00:06 +0000
-From: John Allen <john.allen@amd.com>
+From:   John Allen <john.allen@amd.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org,
-	jwboyer@kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	thomas.lendacky@amd.com
+To:     linux-firmware@kernel.org, jwboyer@kernel.org
+Cc:     linux-kernel@vger.kernel.org, thomas.lendacky@amd.com
 Subject: [PATCH] linux-firmware: Update AMD SEV firmware
-Date: Tue, 15 Sep 2020 12:59:55 -0500
-Message-Id: <20200915175955.31175-1-john.allen@amd.com>
+Date:   Tue, 15 Sep 2020 12:59:55 -0500
+Message-ID: <20200915175955.31175-1-john.allen@amd.com>
 X-Mailer: git-send-email 2.17.1
 Content-Type: text/plain
 X-ClientProxiedBy: DM6PR03CA0067.namprd03.prod.outlook.com
@@ -72,17 +72,13 @@ X-MS-Office365-Filtering-HT: Tenant
 X-MS-Office365-Filtering-Correlation-Id: bbc7c577-97b6-418a-94ab-08d859a12d9f
 X-MS-TrafficTypeDiagnostic: SN6PR12MB4734:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS:
-	<SN6PR12MB4734DEEA7D942B1BC342644B9A200@SN6PR12MB4734.namprd12.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <SN6PR12MB4734DEEA7D942B1BC342644B9A200@SN6PR12MB4734.namprd12.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:6;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	BqwKGaiNYUY6ZUjkmBRtj/xpahkQdgVAiEOax/vNnbyyr94r940NXVC6SlrEHN+TWqtJv/slYxuve1bdZ1dpw48bNpbPc/5o3VKvBslMsMzx15dVrJe7PmbkEKj9PLq2c6YZsNP9/TJhNMcQTKxgVQRHIdCFFJlMOAVNXyNYH6XrnA1Qq9Ef+V5cPSchMm1qIdEan00mEWSvQMt/1J+xOZnSVZj2IRhHI0NV3JLAO1nGz7WPOkeUmK/UEqlTBcJOYSLLLdLLjiJqr4FqfPPJ1xLJg8YkxeY8Q+70DnehFOiDW8Yi04xNlxrTkYK2Kimy/1j9Gscynuu1f4deqLM2Jh4ex6xEe/+EXAJ1CyVGsZZ05UX9AK3MrKwt1CysHMoS
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2590.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(346002)(39860400002)(396003)(376002)(366004)(7696005)(8936002)(83380400001)(2616005)(4326008)(6666004)(6486002)(5660300002)(36756003)(30864003)(478600001)(52116002)(316002)(8676002)(1076003)(956004)(66476007)(26005)(16526019)(186003)(15650500001)(66946007)(2906002)(44832011)(66556008)(86362001)(579004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData:
-	HNnGqG9hKCgXOTRbK4pyeUDw05aE9B1e+1ToOWBz72eQ60TnqwcrppxSr772W1GbonZj3PHbzghYFtwajGk6cxAnQ1XMbu2eW+K96zeTNA43cH+nvNt+jz2jasBCl5l6s17lVWfMvvoxuIWa4br/Y/0Tn4ZZW0nU7H9088AUkj8bvlmB+7FESIUbqAmx92Ij2j1No9AJjFnaFKfuQYsbRyfIMRfwb3rNr3cdBGIzQI0mk0NYmkm5/Kt3D1JHZRYzADNT4Bl+IBPx1ECYnf4S3gZ6+/woIwNfH00j/EK+X1oaCMUuQIxq3j8YRZacmoxAisfTqarNxzoR59z65d4b8WObiSCzpEeBxQPHJ9rVazUUJodA4IzGaLVxK5Fl+XwYBOF/K8YdT7D8rxh6GgCy+f2RpJo3qzHFo8C461Yj/YrnMI3ie5mwk9R0YwcCw3TNC/DXuhQvss8jejZKb0hiMr2B1OstmBw4DuSQwiv9koihMKOib06QViGJt0TRA3+NHaZxFZ6BykbirT++MJTgIxGEkVsWbgWlz4XEmg+cBtvWtaztF0q8lyAzZ5IC2azPF/sWpNiHeg099WFF+MnIXzjQo59iE9fLqEQMlACO+SytgCMNFUTU3SpLnxuHefpe524yhetFLvDhQMsXxb5uQg==
+X-Microsoft-Antispam-Message-Info: BqwKGaiNYUY6ZUjkmBRtj/xpahkQdgVAiEOax/vNnbyyr94r940NXVC6SlrEHN+TWqtJv/slYxuve1bdZ1dpw48bNpbPc/5o3VKvBslMsMzx15dVrJe7PmbkEKj9PLq2c6YZsNP9/TJhNMcQTKxgVQRHIdCFFJlMOAVNXyNYH6XrnA1Qq9Ef+V5cPSchMm1qIdEan00mEWSvQMt/1J+xOZnSVZj2IRhHI0NV3JLAO1nGz7WPOkeUmK/UEqlTBcJOYSLLLdLLjiJqr4FqfPPJ1xLJg8YkxeY8Q+70DnehFOiDW8Yi04xNlxrTkYK2Kimy/1j9Gscynuu1f4deqLM2Jh4ex6xEe/+EXAJ1CyVGsZZ05UX9AK3MrKwt1CysHMoS
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2590.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(346002)(39860400002)(396003)(376002)(366004)(7696005)(8936002)(83380400001)(2616005)(4326008)(6666004)(6486002)(5660300002)(36756003)(30864003)(478600001)(52116002)(316002)(8676002)(1076003)(956004)(66476007)(26005)(16526019)(186003)(15650500001)(66946007)(2906002)(44832011)(66556008)(86362001)(579004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: HNnGqG9hKCgXOTRbK4pyeUDw05aE9B1e+1ToOWBz72eQ60TnqwcrppxSr772W1GbonZj3PHbzghYFtwajGk6cxAnQ1XMbu2eW+K96zeTNA43cH+nvNt+jz2jasBCl5l6s17lVWfMvvoxuIWa4br/Y/0Tn4ZZW0nU7H9088AUkj8bvlmB+7FESIUbqAmx92Ij2j1No9AJjFnaFKfuQYsbRyfIMRfwb3rNr3cdBGIzQI0mk0NYmkm5/Kt3D1JHZRYzADNT4Bl+IBPx1ECYnf4S3gZ6+/woIwNfH00j/EK+X1oaCMUuQIxq3j8YRZacmoxAisfTqarNxzoR59z65d4b8WObiSCzpEeBxQPHJ9rVazUUJodA4IzGaLVxK5Fl+XwYBOF/K8YdT7D8rxh6GgCy+f2RpJo3qzHFo8C461Yj/YrnMI3ie5mwk9R0YwcCw3TNC/DXuhQvss8jejZKb0hiMr2B1OstmBw4DuSQwiv9koihMKOib06QViGJt0TRA3+NHaZxFZ6BykbirT++MJTgIxGEkVsWbgWlz4XEmg+cBtvWtaztF0q8lyAzZ5IC2azPF/sWpNiHeg099WFF+MnIXzjQo59iE9fLqEQMlACO+SytgCMNFUTU3SpLnxuHefpe524yhetFLvDhQMsXxb5uQg==
 X-OriginatorOrg: amd.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: bbc7c577-97b6-418a-94ab-08d859a12d9f
 X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2590.namprd12.prod.outlook.com
@@ -94,6 +90,11 @@ X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: xyx6rSVjMhvGLJ2S3U2nQctpxUwTP55FzhJqeQ8VfKiag5ujbiqaX3158mZw9UR7UiHP5DOdb3apvPSIKVgeWw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB4734
+Sender: linux-kernel-owner@vger.kernel.org
+Precedence: bulk
+List-ID: <linux-kernel.vger.kernel.org>
+X-Mailing-List: linux-kernel@vger.kernel.org
+Message-ID: <20200915175955.QnHvAc7z0F72GUAhRaNiAXkd498H6phe_8OCZ4AXP7c@z>
 
 Update AMD SEV firmware to version 0.17 build 39 for AMD family 17h
 processors with models in the range 00h to 0fh.
