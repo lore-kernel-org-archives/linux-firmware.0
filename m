@@ -1,56 +1,63 @@
 Return-Path: <SRS0=qiHn=C6=nvidia.com=petrm@kernel.org>
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09744C43463
-	for <linux-firmware@archiver.kernel.org>; Mon, 21 Sep 2020 11:56:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8244CC43466
+	for <linux-firmware@archiver.kernel.org>; Mon, 21 Sep 2020 14:26:40 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id D277020EDD; Mon, 21 Sep 2020 11:56:36 +0000 (UTC)
+	id 5123321D95; Mon, 21 Sep 2020 14:26:40 +0000 (UTC)
 Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com [216.228.121.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8C925214F1
-	for <linux-firmware@kernel.org>; Mon, 21 Sep 2020 11:56:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4B55221D91
+	for <linux-firmware@kernel.org>; Mon, 21 Sep 2020 14:26:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="Z1ALdZ1i"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8C925214F1
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="aHFEY0cr"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4B55221D91
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nvidia.com
 Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=petrm@nvidia.com
 Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-	id <B5f6894be0000>; Mon, 21 Sep 2020 04:55:42 -0700
-Received: from localhost.localdomain (172.20.13.39) by HQMAIL107.nvidia.com
+	id <B5f68b7ea0000>; Mon, 21 Sep 2020 07:25:46 -0700
+Received: from localhost.localdomain (10.124.1.5) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 21 Sep
- 2020 11:55:09 +0000
+ 2020 14:25:48 +0000
 From: Petr Machata <petrm@nvidia.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: <linux-firmware@kernel.org>
 CC: Petr Machata <petrm@nvidia.com>, <mlxsw@nvidia.com>
-Subject: [PATCH linux-firmware] Mellanox: Add new mlxsw_spectrum firmware xx.2008.1312
-Date: Mon, 21 Sep 2020 13:54:25 +0200
-Message-ID: <95399f5d3c3f5cccc13981ec861409d1a79ba5f3.1600688390.git.petrm@nvidia.com>
+Subject: [PATCH linux-firmware v2] Mellanox: Add new mlxsw_spectrum firmware xx.2008.1312
+Date: Mon, 21 Sep 2020 16:25:20 +0200
+Message-ID: <614fca6465864d4751aa8df51300fe732ff9c9f7.1600698156.git.petrm@nvidia.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
  HQMAIL107.nvidia.com (172.20.187.13)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-	t=1600689346; bh=n2k7NEqqEbFvnIVTZkLblNq+ZTmjhuxYMFn7ThQqp1o=;
+	t=1600698350; bh=vtTsRhD7xbfm8RCOZ2wrFzyoEYNnSE79yoME0pQ/4b4=;
 	h=From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
 	 X-ClientProxiedBy;
-	b=Z1ALdZ1i/4ucUKBA1s+O/JxjpsU310wEdxc9UCFHOY/QvTnCl5Vh+SV2krSqXsn52
-	 epVFqpgeA4Gj1GkXafsLPcESIizOt6YOwpGEYzZF8JWFV2pGuzOkqKBrZW71t8aJjI
-	 Oh+af0KZhY1USVG7kB3/VJngYHZCNc55teWWlw0ESllskAkc2KAqCkF7wlcuXNeQI2
-	 7fHknhjPQEc+H1xy/MXWVL27tJ3jewaWo5EWRaZri68ie9+kCp5FFsFn34r7Iv3FBI
-	 NXyE2SEgYzoWcNfSjNgBayoAz0E1fl+FPbjbcCW9Ua1ShQE6pAQPGY4WlOh3SXaIN2
-	 TY2qgIigf3GKQ==
+	b=aHFEY0crpeEkFo/BF2RqiqRJzDBblkP8+YUdMsWNwsAtAfNnbnQg9fpe15t9xQMIS
+	 ehBwqO2jjuojjb0SjDgb700aHbdqhEtc5Y0AqZV7qkNTdkhDbsKYhUKwC0P7znOTcj
+	 rofnLpt/MWYX/eyoMtBnGDQDkzvfAub3b14eKk57d63r56xuRI3ZYdJXMDLRpjl1Q5
+	 hDzJMSa1381XJgTAs5jdbUAIDX0XkaqaPZVXMirONefQT2u9EzAoWToXatBi3Hbqrc
+	 bOqrgQtR8j7qFts1L/9abm6KbvAit3CAAhZYD9oz8mjtpryN8BLVxvvj7qz8ryXK20
+	 JyDdEY0BZuTEw==
 
 Add latest verified version of Mellanox Spectrum-family switch firmware,
 for Spectrum-1 (13.2008.1312), Spectrum-2 (29.2008.1312) and
 Spectrum-3 (30.2008.1312).
 
+This version contains a fix for 10G speed in some platforms.
+
 Signed-off-by: Petr Machata <petrm@nvidia.com>
 ---
+
+Notes:
+    v2:
+    - Rebase.
+
  WHENCE                                     |   3 +++
  mellanox/mlxsw_spectrum-13.2008.1312.mfa2  | Bin 0 -> 1576612 bytes
  mellanox/mlxsw_spectrum2-29.2008.1312.mfa2 | Bin 0 -> 1131284 bytes
@@ -61,13 +68,13 @@ Signed-off-by: Petr Machata <petrm@nvidia.com>
  create mode 100644 mellanox/mlxsw_spectrum3-30.2008.1312.mfa2
 
 diff --git a/WHENCE b/WHENCE
-index 4adac39..aed45e3 100644
+index 0bdb19c..db67232 100644
 --- a/WHENCE
 +++ b/WHENCE
-@@ -4964,6 +4964,9 @@ File: mellanox/mlxsw_spectrum3-30.2007.1168.mfa2
- File: mellanox/mlxsw_spectrum-13.2008.1036.mfa2
- File: mellanox/mlxsw_spectrum2-29.2008.1036.mfa2
- File: mellanox/mlxsw_spectrum3-30.2008.1036.mfa2
+@@ -4967,6 +4967,9 @@ File: mellanox/mlxsw_spectrum3-30.2008.1036.mfa2
+ File: mellanox/mlxsw_spectrum-13.2008.1310.mfa2
+ File: mellanox/mlxsw_spectrum2-29.2008.1310.mfa2
+ File: mellanox/mlxsw_spectrum3-30.2008.1310.mfa2
 +File: mellanox/mlxsw_spectrum-13.2008.1312.mfa2
 +File: mellanox/mlxsw_spectrum2-29.2008.1312.mfa2
 +File: mellanox/mlxsw_spectrum3-30.2008.1312.mfa2
