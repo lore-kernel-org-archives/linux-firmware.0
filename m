@@ -1,151 +1,64 @@
-Return-Path: <SRS0=DKZj=C5=reto-schneider.ch=code@kernel.org>
+Return-Path: <SRS0=qiHn=C6=nvidia.com=petrm@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6006C43463
-	for <linux-firmware@archiver.kernel.org>; Sun, 20 Sep 2020 03:00:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7604DC43463
+	for <linux-firmware@archiver.kernel.org>; Mon, 21 Sep 2020 12:10:57 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 9DA412100A; Sun, 20 Sep 2020 03:00:14 +0000 (UTC)
-Received: from mxout012.mail.hostpoint.ch (mxout012.mail.hostpoint.ch [217.26.49.172])
+	id 4A5FB216C4; Mon, 21 Sep 2020 12:10:57 +0000 (UTC)
+Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com [216.228.121.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0E7EB208C3
-	for <linux-firmware@kernel.org>; Sun, 20 Sep 2020 03:00:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0E7EB208C3
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=reto-schneider.ch
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=code@reto-schneider.ch
-Received: from [10.0.2.44] (helo=asmtp014.mail.hostpoint.ch)
-	by mxout012.mail.hostpoint.ch with esmtp (Exim 4.92.3 (FreeBSD))
-	(envelope-from <code@reto-schneider.ch>)
-	id 1kJpaE-000Olu-Eo; Sun, 20 Sep 2020 05:00:10 +0200
-Received: from [2a02:168:6182:1:c8fe:6df8:e928:a08a]
-	by asmtp014.mail.hostpoint.ch with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.92.3 (FreeBSD))
-	(envelope-from <code@reto-schneider.ch>)
-	id 1kJpaE-0007Pq-Cj; Sun, 20 Sep 2020 05:00:10 +0200
-X-Authenticated-Sender-Id: reto-schneider@reto-schneider.ch
-Subject: Re: [PATCH v2 1/1] rtlwifi: v88.2 firmware files for RTL8192CU
-To: Josh Boyer <jwboyer@kernel.org>, Chris Chiu <chiu@endlessm.com>,
- Larry Finger <Larry.Finger@lwfinger.net>, Jes.Sorensen@gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 05A4120EDD
+	for <linux-firmware@kernel.org>; Mon, 21 Sep 2020 12:10:56 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="IF5nzfwA"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 05A4120EDD
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nvidia.com
+Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=petrm@nvidia.com
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+	id <B5f6898220001>; Mon, 21 Sep 2020 05:10:10 -0700
+Received: from yaviefel (172.20.13.39) by HQMAIL107.nvidia.com (172.20.187.13)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 21 Sep 2020 12:10:54
+ +0000
+References: <95399f5d3c3f5cccc13981ec861409d1a79ba5f3.1600688390.git.petrm@nvidia.com>
+User-agent: mu4e 1.3.3; emacs 26.3
+From: Petr Machata <petrm@nvidia.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Reto Schneider <code@reto-schneider.ch>,
- Linux Firmware <linux-firmware@kernel.org>,
- linux-wireless <linux-wireless@vger.kernel.org>
-References: <20200323024500.4090-1-code@reto-schneider.ch>
- <20200323225809.11594-1-code@reto-schneider.ch>
- <20200323225809.11594-2-code@reto-schneider.ch>
- <CAB4CAwcj3wNociyMoszY50yWsE=Xy_6JLpYi=kuTj261uat6pA@mail.gmail.com>
- <CA+5PVA7WLAGP6oL8pxGvjqHS030LoDTcz5-YDHVjYaYVHOZD2g@mail.gmail.com>
-From: Reto Schneider <code@reto-schneider.ch>
-Autocrypt: addr=mail@reto-schneider.ch; prefer-encrypt=mutual; keydata=
- mDMEXsRRExYJKwYBBAHaRw8BAQdAvw3GH8aeA8Pay1QqPdjlETAUDAa8WmHHXZRDk5a0DHa0
- J1JldG8gU2NobmVpZGVyIDxtYWlsQHJldG8tc2NobmVpZGVyLmNoPoiYBBMWCgBAFiEEP2/t
- baSDn9KAkTQyv7k+j0IlhuAFAl7EURMCGwMFCQWjmoAICwkNCAwHCwoFFQoJCAsEFgMCAQIe
- AQIXgAAKCRC/uT6PQiWG4IsVAP9xonMRrcrTBWFxPMjEYVWUMHi8BssqkzMdc1QQXwpCKwEA
- qdBF1odOUr4SUHVQmadIE5eRpF9MbyBMQdR3ms8DrQ64OARexFETEgorBgEEAZdVAQUBAQdA
- 6PW5+rUjfrKbl3623SR35Drobzij2XjkGFY6zswMz3EDAQgHiH4EGBYKACYWIQQ/b+1tpIOf
- 0oCRNDK/uT6PQiWG4AUCXsRREwIbDAUJBaOagAAKCRC/uT6PQiWG4IyHAQCqmjwBTGyVAfLZ
- OVQSUPqSlu/RGcCWPQFEXP+Be2mdNQEA05ScK4+GgAShVE8wUObbpjdl/u5djZF8hEGQR3Ke Vws=
-Message-ID: <744509e3-d3f6-21bd-3f6b-83a93d88d7df@reto-schneider.ch>
-Date: Sun, 20 Sep 2020 05:00:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+To: <linux-firmware@kernel.org>
+CC: Petr Machata <petrm@nvidia.com>, <mlxsw@nvidia.com>
+Subject: Re: [PATCH linux-firmware] Mellanox: Add new mlxsw_spectrum firmware xx.2008.1312
+In-Reply-To: <95399f5d3c3f5cccc13981ec861409d1a79ba5f3.1600688390.git.petrm@nvidia.com>
+Date: Mon, 21 Sep 2020 14:10:50 +0200
+Message-ID: <87blhzib3p.fsf@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <CA+5PVA7WLAGP6oL8pxGvjqHS030LoDTcz5-YDHVjYaYVHOZD2g@mail.gmail.com>
-Content-Type: multipart/mixed;
- boundary="------------8477E11C88D70A63090BD0B6"
-Content-Language: en-US
+Content-Type: text/plain
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+	t=1600690210; bh=X9oY/FPzApE6SbKWenpL4y/7SfPH/cXrV7fKcwhIr6M=;
+	h=References:User-agent:From:To:CC:Subject:In-Reply-To:Date:
+	 Message-ID:MIME-Version:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	b=IF5nzfwA9bZ2VgUTorQw2qGB5yqa8/JJ22Dbd1NGRylXLANKkhBUoaNPjcPNKg9bb
+	 tQMrUQoUw7u8bx/11PDkkZfRrdtc/UPgys6L2jhNWIf1WbbnmJ42eO00sUWRm9O7At
+	 mT92zScMKzGS/Qm5548f4CKdLh9xBOulYm3oDajBzMhiUG145zkGnb8znnpVaGwgx0
+	 wzLvqLXsLk84224kMyOvapD9CFrn6NvoyTJmMSLltrNl3WwSNVjvhqv4ejjobExXcE
+	 pq4NFkYwgJPCRfay0E39gUqiI8gMpUAUIgXb0ShcM3VZvRfxjDCxMW4dN7Bba4Je9W
+	 y3aRXkdl9+SOA==
 
-This is a multi-part message in MIME format.
---------------8477E11C88D70A63090BD0B6
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
 
-On 9/14/20 3:19 PM, Josh Boyer wrote:
->> On Tue, Mar 24, 2020 at 6:58 AM Reto Schneider <code@reto-schneider.ch> wrote:
->>>
->>> The vendor driver rtl8188C_8192C_usb_linux_v4.0.1_6911.20130308 includes
-> 
-> Where can one get that driver?  It's unclear to me what the terms and
-> conditions around its usage are, and therefore I can't tell if
-> deriving values from this driver are permitted.
+Petr Machata <petrm@nvidia.com> writes:
 
-This driver was available on the official Realtek servers before they
-prevented accessing their FTP servers [0][1]. Luckly, someone mirrored
-its content on GitHub [2], which is also where I got the driver from [3].
+> Add latest verified version of Mellanox Spectrum-family switch firmware,
+> for Spectrum-1 (13.2008.1312), Spectrum-2 (29.2008.1312) and
+> Spectrum-3 (30.2008.1312).
 
-> If you can get an Ack from someone from Realtek, or someone that
-
-I have no contacts to anyone at Realtek. Not sure if "cold" e-mailing
-random people there would be helpful.
-
-> normally maintains the upstream drivers, that would go a long way.
-
-Jes Sorensen, the maintainer of rtl8xxxu redirected me to Chris Chiu in
-order to get (paid) work done on rtl8xxxu (which includes testing this
-FW). Does this help?
-
-Kind regards,
-Reto
-
-[0]
-https://forums.mydigitallife.net/threads/ftp3-realtek-com-tw.72385/#post-1581267
-[1] https://github.com/lwfinger/rtl8188eu/issues/275
-[2] https://github.com/XAIOThaifeng/realtek-linux
-[3]
-https://github.com/XAIOThaifeng/realtek-linux/tree/370738ceb9efa42c31ecdcb4db90ee0d6d064004/RTL8188C_8192C/USB/v4.0
-
---------------8477E11C88D70A63090BD0B6
-Content-Type: application/pgp-keys;
- name="0xBFB93E8F422586E0.asc"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment;
- filename="0xBFB93E8F422586E0.asc"
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-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
-XpxTgY94Its7BZwpBw=3D=3D
-=3D1Ttn
------END PGP PUBLIC KEY BLOCK-----
-
---------------8477E11C88D70A63090BD0B6--
+Apologies, I didn't notice you already took xx.2008.1310. I will rebase
+and send v2 of this.
