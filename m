@@ -1,31 +1,37 @@
-Return-Path: <SRS0=atOV=DA=cadence.com=sjakhade@kernel.org>
+Return-Path: <SRS0=xq/E=DB=lists.freedesktop.org=dri-devel-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C7F7C4363D
-	for <linux-firmware@archiver.kernel.org>; Wed, 23 Sep 2020 15:14:38 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 1008121D7D; Wed, 23 Sep 2020 15:14:38 +0000 (UTC)
-Received: from mx0a-0014ca01.pphosted.com (mx0a-0014ca01.pphosted.com [208.84.65.235])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA309C2D0E2
+	for <dri-devel@archiver.kernel.org>; Thu, 24 Sep 2020 07:19:30 +0000 (UTC)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4ED6C206D9
-	for <linux-firmware@kernel.org>; Wed, 23 Sep 2020 15:14:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0638F20936
+	for <dri-devel@archiver.kernel.org>; Thu, 24 Sep 2020 07:19:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=cadence.com header.i=@cadence.com header.b="Z3BYGvsV";
-	dkim=pass (1024-bit key) header.d=cadence.com header.i=@cadence.com header.b="Ydw7j/O5"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4ED6C206D9
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=cadence.com header.i=@cadence.com header.b="Z3BYGvsV";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=cadence.com header.i=@cadence.com header.b="Ydw7j/O5"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0638F20936
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=cadence.com
-Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=sjakhade@cadence.com
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=dri-devel-bounces@lists.freedesktop.org
+Received: from gabe.freedesktop.org (localhost [127.0.0.1])
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB94F6EAAF;
+	Thu, 24 Sep 2020 07:19:09 +0000 (UTC)
+Received: from mx0a-0014ca01.pphosted.com (mx0a-0014ca01.pphosted.com
+ [208.84.65.235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E7226E923
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 15:14:38 +0000 (UTC)
 Received: from pps.filterd (m0042385.ppops.net [127.0.0.1])
-	by mx0a-0014ca01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 08NF7Xb5027930;
-	Wed, 23 Sep 2020 08:14:36 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com; h=from : to : cc :
+ by mx0a-0014ca01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 08NF7Xb5027930; Wed, 23 Sep 2020 08:14:36 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
+ h=from : to : cc :
  subject : date : message-id : mime-version : content-type; s=proofpoint;
  bh=7OTMAlvE3XK+Hm2S3ILbymBKI76UnjpaZKCRzEoGIks=;
  b=Z3BYGvsVDQz/CY5MvOOi/QCD72UDeIaaxLBVgKFsbjTXKnqWAwDYK0xX737LoIDGlqid
@@ -33,13 +39,14 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com; h=from : to
  fPNZqiaK8TJB43TQUvakobocRmp87CSZSO59E1EkkzjSD5+xBhkfCPA8eFQ0b8W9Q0KI
  vqGjsb/aa/59Pj/9QWI1Zd4P8YD45goLK+c7GvD8Ii8OkjmS/qivMyIIwuVkGOKi0G4E
  OCs0mBZrns5JqOuCvmejd4lBVeSSB52kNafYDDaZrXC0GooKHejlW2lfiMNsOKvhfNcL RQ== 
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2109.outbound.protection.outlook.com [104.47.70.109])
-	by mx0a-0014ca01.pphosted.com with ESMTP id 33nehxx8yy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 23 Sep 2020 08:14:36 -0700
+Received: from nam10-bn7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10lp2109.outbound.protection.outlook.com [104.47.70.109])
+ by mx0a-0014ca01.pphosted.com with ESMTP id 33nehxx8yy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 23 Sep 2020 08:14:36 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
  b=Hci+WVPzmyTcOGOoQTxIwiOSwICsy8anGHuujQ102woMwIc8F8jNFTc7w3ZYH1PSFSARty+ZzVpxhXpdcLmNWOmKOGTnzRp5JYWbcK0xEKOAYZrVMGgTTTrlfwrwea2L64nepnww1d2wbuhWDgjbcgFLNMHoVYrWuQG62Rh9GZXEk/BPhsiGTiBg/CZe81SlKOpBlRZQxRLlEwcbtHqg0ePF/dpPDNQGDxYUxtSvDkIC7W2NZJdkGc+zX1nuLCKfR7nqbyCQlxdV9R9CitsihAQOU7vvZh+fM1NFGOPBocuOdxzaOFK9U4oOIW+8YXu0wZa+xZKkVNft5TfTRBPbpw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
  bh=7OTMAlvE3XK+Hm2S3ILbymBKI76UnjpaZKCRzEoGIks=;
@@ -54,7 +61,8 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
  bh=7OTMAlvE3XK+Hm2S3ILbymBKI76UnjpaZKCRzEoGIks=;
  b=Ydw7j/O5ubcyKP8X4sbIpNmJpfeALOzU5eEd/P7wtvEwW6b28lMtWS4cUyWfPqbO/EL+/T2ztxpz8ZYbT6m3B2jCQcNhdeDXQ/Gzow/l1gigNm+PZ0SjCo7DMLel5cmmPQs1bSwIRj4Wa5QypsJT6sb0qWI4w43/JND1A3/0ID8=
 Received: from DM5PR12CA0023.namprd12.prod.outlook.com (2603:10b6:4:1::33) by
- DM5PR07MB3419.namprd07.prod.outlook.com (2603:10b6:4:67::35) with Microsoft
+ DM5PR07MB3419.namprd07.prod.outlook.com (2603:10b6:4:67::35) with
+ Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.20.3391.13; Wed, 23 Sep 2020 15:14:30 +0000
 Received: from DM6NAM12FT024.eop-nam12.prod.protection.outlook.com
@@ -73,9 +81,10 @@ Received: from rmmaillnx1.cadence.com (199.43.4.23) by
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.20.3412.6 via Frontend Transport; Wed, 23 Sep 2020 15:14:30 +0000
 Received: from maileu3.global.cadence.com (maileu3.cadence.com [10.160.88.99])
-	by rmmaillnx1.cadence.com (8.14.4/8.14.4) with ESMTP id 08NFESbG032737
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=OK);
-	Wed, 23 Sep 2020 11:14:28 -0400
+ by rmmaillnx1.cadence.com (8.14.4/8.14.4) with ESMTP id
+ 08NFESbG032737
+ (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=OK);
+ Wed, 23 Sep 2020 11:14:28 -0400
 X-CrossPremisesHeadersFilteredBySendConnector: maileu3.global.cadence.com
 Received: from maileu3.global.cadence.com (10.160.88.99) by
  maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
@@ -84,56 +93,74 @@ Received: from vleu-orange.cadence.com (10.160.88.83) by
  maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
  15.0.1367.3 via Frontend Transport; Wed, 23 Sep 2020 17:14:27 +0200
 Received: from vleu-orange.cadence.com (localhost.localdomain [127.0.0.1])
-	by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 08NFERr9024838;
-	Wed, 23 Sep 2020 17:14:27 +0200
+ by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 08NFERr9024838;
+ Wed, 23 Sep 2020 17:14:27 +0200
 Received: (from sjakhade@localhost)
-	by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 08NFEQ0F024837;
-	Wed, 23 Sep 2020 17:14:26 +0200
+ by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 08NFEQ0F024837;
+ Wed, 23 Sep 2020 17:14:26 +0200
 From: Swapnil Jakhade <sjakhade@cadence.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: <linux-firmware@kernel.org>
-CC: <dri-devel@lists.freedesktop.org>, <mparab@cadence.com>,
-        <sjakhade@cadence.com>, <yamonkar@cadence.com>,
-        <tomi.valkeinen@ti.com>, <jsarha@ti.com>, <nsekhar@ti.com>,
-        <praneeth@ti.com>, <nikhil.nd@ti.com>
 Subject: [PATCH] linux-firmware: Update firmware for Cadence MHDP8546 DP bridge
 Date: Wed, 23 Sep 2020 17:14:26 +0200
 Message-ID: <1600874066-24800-1-git-send-email-sjakhade@cadence.com>
 X-Mailer: git-send-email 2.4.5
 MIME-Version: 1.0
-Content-Type: text/plain
 X-OrganizationHeadersPreserved: maileu3.global.cadence.com
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-Correlation-Id: a3a3bf16-5145-4071-dfc5-08d85fd35e95
 X-MS-TrafficTypeDiagnostic: DM5PR07MB3419:
-X-Microsoft-Antispam-PRVS: 
-	<DM5PR07MB34192BAFC7C367A5FA7E5D76C5380@DM5PR07MB3419.namprd07.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <DM5PR07MB34192BAFC7C367A5FA7E5D76C5380@DM5PR07MB3419.namprd07.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:2;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	o8hHqtD1bzz9J17Y/22USY6h71SJI4GXDdg8f4TPRqPZmfGj8huBNVE2i3MIDAtmH22JTn901PEBb73fC2sjdWho9euBJ+pWLZX/4HTxjTkQs0uwpPe+Ni6/YXggEBXig5EWt/8C2/BGUIi6hztHXALpF2LGjiwgL0Qct3pFjDivBzcFf/6bA7GCZi8iGbLLp0K/JO3HJ7IBJAQMh99MOQNdpilpeWHS3qj7bFhzPEYsgB9CnYt0KGMNuPp7Lp54Ij9v7glwYM3IWC1MLJPalUpfrNTNVgw9Siw7H6heD1Ycz0LlAkFWYEqbDVvrT5kBsiqSjOjAmTTiDFJjenm8/q98rXwuhAZEsMWgLICG/YQPuO+elL253Exg3M98yQAfWWCenl7eFJBnYVz4XSIC60tsO0pxnR6H6pYJ7g5bGsTQhCRaWWO7ebOx5qt6N8zlQUQ/BaPFzxP+BMWkvxEw/1tMzSoWA0UqLJC0wXzEoEMmvHyPTVErE13iOkZnumZYKwFt23lB3K/2APuNUdT/bQ==
-X-Forefront-Antispam-Report: 
-	CIP:199.43.4.23;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:rmmaillnx1.cadence.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(4636009)(39860400002)(376002)(346002)(396003)(136003)(36092001)(46966005)(86362001)(426003)(8936002)(54906003)(478600001)(82310400003)(356005)(26005)(82740400003)(81166007)(8676002)(15650500001)(70586007)(70206006)(36756003)(316002)(6916009)(83380400001)(2906002)(47076004)(2616005)(42186006)(36906005)(5660300002)(4326008)(30864003)(336012)(186003)(559001)(579004)(123194004)(357404004);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: o8hHqtD1bzz9J17Y/22USY6h71SJI4GXDdg8f4TPRqPZmfGj8huBNVE2i3MIDAtmH22JTn901PEBb73fC2sjdWho9euBJ+pWLZX/4HTxjTkQs0uwpPe+Ni6/YXggEBXig5EWt/8C2/BGUIi6hztHXALpF2LGjiwgL0Qct3pFjDivBzcFf/6bA7GCZi8iGbLLp0K/JO3HJ7IBJAQMh99MOQNdpilpeWHS3qj7bFhzPEYsgB9CnYt0KGMNuPp7Lp54Ij9v7glwYM3IWC1MLJPalUpfrNTNVgw9Siw7H6heD1Ycz0LlAkFWYEqbDVvrT5kBsiqSjOjAmTTiDFJjenm8/q98rXwuhAZEsMWgLICG/YQPuO+elL253Exg3M98yQAfWWCenl7eFJBnYVz4XSIC60tsO0pxnR6H6pYJ7g5bGsTQhCRaWWO7ebOx5qt6N8zlQUQ/BaPFzxP+BMWkvxEw/1tMzSoWA0UqLJC0wXzEoEMmvHyPTVErE13iOkZnumZYKwFt23lB3K/2APuNUdT/bQ==
+X-Forefront-Antispam-Report: CIP:199.43.4.23; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:rmmaillnx1.cadence.com; PTR:InfoDomainNonexistent;
+ CAT:NONE;
+ SFS:(4636009)(39860400002)(376002)(346002)(396003)(136003)(36092001)(46966005)(86362001)(426003)(8936002)(54906003)(478600001)(82310400003)(356005)(26005)(82740400003)(81166007)(8676002)(15650500001)(70586007)(70206006)(36756003)(316002)(6916009)(83380400001)(2906002)(47076004)(2616005)(42186006)(36906005)(5660300002)(4326008)(30864003)(336012)(186003)(559001)(579004)(123194004)(357404004);
+ DIR:OUT; SFP:1101; 
 X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2020 15:14:30.1564
- (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2020 15:14:30.1564 (UTC)
 X-MS-Exchange-CrossTenant-Network-Message-Id: a3a3bf16-5145-4071-dfc5-08d85fd35e95
 X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9;Ip=[199.43.4.23];Helo=[rmmaillnx1.cadence.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DM6NAM12FT024.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9; Ip=[199.43.4.23];
+ Helo=[rmmaillnx1.cadence.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM12FT024.eop-nam12.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR07MB3419
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-09-23_10:2020-09-23,2020-09-23 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0 impostorscore=0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-09-23_10:2020-09-23,
+ 2020-09-23 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check
+ score=0 impostorscore=0
  suspectscore=24 bulkscore=0 spamscore=0 mlxlogscore=634 adultscore=0
  phishscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1011 mlxscore=0
  priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2006250000 definitions=main-2009230123
+X-Mailman-Approved-At: Thu, 24 Sep 2020 07:19:09 +0000
+X-BeenThere: dri-devel@lists.freedesktop.org
+X-Mailman-Version: 2.1.29
+Precedence: list
+List-Id: Direct Rendering Infrastructure - Development
+ <dri-devel.lists.freedesktop.org>
+List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/dri-devel>,
+ <mailto:dri-devel-request@lists.freedesktop.org?subject=unsubscribe>
+List-Archive: <https://lists.freedesktop.org/archives/dri-devel>
+List-Post: <mailto:dri-devel@lists.freedesktop.org>
+List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
+List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
+ <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: mparab@cadence.com, yamonkar@cadence.com, praneeth@ti.com, nsekhar@ti.com,
+ jsarha@ti.com, tomi.valkeinen@ti.com, dri-devel@lists.freedesktop.org,
+ sjakhade@cadence.com, nikhil.nd@ti.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Errors-To: dri-devel-bounces@lists.freedesktop.org
+Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
+Message-ID: <20200923151426.OXSnIaqDU9880i7pm8g8Ib4rT8bVA64lY7E3TBLn4uI@z>
 
 Update firmware for Cadence MHDP8546 DP bridge to version 2.0.0.
 The firmware source code now complies with MISRA2012 and HIS
@@ -1259,3 +1286,7 @@ N319-4!2ceB{{==g*cbo+
 -- 
 2.26.1
 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
