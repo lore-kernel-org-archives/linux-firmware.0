@@ -1,34 +1,49 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=EmE5=DF=lists.freedesktop.org=dri-devel-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14727C2D0A8
-	for <linux-firmware@archiver.kernel.org>; Mon, 28 Sep 2020 15:39:08 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id E30072158C; Mon, 28 Sep 2020 15:39:07 +0000 (UTC)
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF2BBC4727E
+	for <dri-devel@archiver.kernel.org>; Mon, 28 Sep 2020 15:39:12 +0000 (UTC)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id A57552074A
-	for <linux-firmware@kernel.org>; Mon, 28 Sep 2020 15:39:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A0D922074A
+	for <dri-devel@archiver.kernel.org>; Mon, 28 Sep 2020 15:39:10 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="V9ntbPrO"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A0D922074A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=dri-devel-bounces@lists.freedesktop.org
+Received: from gabe.freedesktop.org (localhost [127.0.0.1])
+	by gabe.freedesktop.org (Postfix) with ESMTP id F044B89B29;
+	Mon, 28 Sep 2020 15:39:09 +0000 (UTC)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BA3C88401
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 15:39:08 +0000 (UTC)
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com
+ [209.85.166.171])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id B4E712100A
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 15:39:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601307547;
-	bh=neNf+UKHDhblZCUUMGz6/8FZHS+D15XAujiFc6j4Hag=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=V9ntbPrOWiCBHgUDNMeDoL4X6atx95BexqHtlqtr4zz5ZmE6vs1DmAuR5jr2bYQrW
-	 rLx5VUg/3qk0KhGOWrnqnZTgsQ3IDvuGUGDGGq26jKXhdav/Nvxe6D5MR+73R1LMoZ
-	 vXraakRFF4tpNWqeiRanYOhG0HDvAoNr4FFor1Ew=
-Received: by mail-il1-f175.google.com with SMTP id m9so1674441ila.10
-        for <linux-firmware@kernel.org>; Mon, 28 Sep 2020 08:39:07 -0700 (PDT)
-X-Gm-Message-State: AOAM533GmKIaf1//OVX/UFFWp3XE+VtdyzfPMyuigHx5xGh7ULzGxaz6
-	I3U77ECjpssqXrd+haMoaWgTScyRrtW28rJMi6Q=
+ s=default; t=1601307547;
+ bh=neNf+UKHDhblZCUUMGz6/8FZHS+D15XAujiFc6j4Hag=;
+ h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+ b=V9ntbPrOWiCBHgUDNMeDoL4X6atx95BexqHtlqtr4zz5ZmE6vs1DmAuR5jr2bYQrW
+ rLx5VUg/3qk0KhGOWrnqnZTgsQ3IDvuGUGDGGq26jKXhdav/Nvxe6D5MR+73R1LMoZ
+ vXraakRFF4tpNWqeiRanYOhG0HDvAoNr4FFor1Ew=
+Received: by mail-il1-f171.google.com with SMTP id f15so1705062ilj.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 08:39:07 -0700 (PDT)
+X-Gm-Message-State: AOAM5310srUa0trDTSniYX6NXA2ZIjL7yh3axvkmZny6wjQ2Ewl5HDsJ
+ 3ZH1c1otn8gbHYJ9ZJxlpUUvKqi5dZMf9qEIi30=
 X-Google-Smtp-Source: ABdhPJx9RatenreGizQka0O6hf22SOLTDWJfEqQ4akgdCSK3QiLp4+sF01Keiva7w1f+rF6DcH6W6OB4Rm4GRkIL7T4=
-X-Received: by 2002:a92:4910:: with SMTP id w16mr1677250ila.303.1601307546487;
+X-Received: by 2002:a92:4910:: with SMTP id w16mr1677250ila.303.1601307546487; 
  Mon, 28 Sep 2020 08:39:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <1600874066-24800-1-git-send-email-sjakhade@cadence.com>
@@ -37,14 +52,31 @@ From: Josh Boyer <jwboyer@kernel.org>
 Date: Mon, 28 Sep 2020 11:38:55 -0400
 X-Gmail-Original-Message-ID: <CA+5PVA6HMEOu5BhuYVYJdfy9+cWasjB_4sQx+DzzB-oMwL3ndw@mail.gmail.com>
 Message-ID: <CA+5PVA6HMEOu5BhuYVYJdfy9+cWasjB_4sQx+DzzB-oMwL3ndw@mail.gmail.com>
-Subject: Re: [PATCH] linux-firmware: Update firmware for Cadence MHDP8546 DP bridge
+Subject: Re: [PATCH] linux-firmware: Update firmware for Cadence MHDP8546 DP
+ bridge
 To: Swapnil Jakhade <sjakhade@cadence.com>
+X-BeenThere: dri-devel@lists.freedesktop.org
+X-Mailman-Version: 2.1.29
+Precedence: list
+List-Id: Direct Rendering Infrastructure - Development
+ <dri-devel.lists.freedesktop.org>
+List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/dri-devel>,
+ <mailto:dri-devel-request@lists.freedesktop.org?subject=unsubscribe>
+List-Archive: <https://lists.freedesktop.org/archives/dri-devel>
+List-Post: <mailto:dri-devel@lists.freedesktop.org>
+List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
+List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
+ <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, 
-	DRI mailing list <dri-devel@lists.freedesktop.org>, mparab@cadence.com, yamonkar@cadence.com, 
-	tomi.valkeinen@ti.com, jsarha@ti.com, nsekhar@ti.com, praneeth@ti.com, 
-	nikhil.nd@ti.com
-Content-Type: text/plain; charset="UTF-8"
+Cc: mparab@cadence.com, yamonkar@cadence.com, praneeth@ti.com, nsekhar@ti.com,
+ Linux Firmware <linux-firmware@kernel.org>, jsarha@ti.com,
+ tomi.valkeinen@ti.com, DRI mailing list <dri-devel@lists.freedesktop.org>,
+ nikhil.nd@ti.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Errors-To: dri-devel-bounces@lists.freedesktop.org
+Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
+Message-ID: <20200928153855.2NTApTEBx3A5UrsJd7GWXLWaNx5rGrXmO9GcLLT1zyE@z>
 
 Applied and pushed out.
 
@@ -1176,3 +1208,7 @@ On Wed, Sep 23, 2020 at 11:14 AM Swapnil Jakhade <sjakhade@cadence.com> wrote:
 > --
 > 2.26.1
 >
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
