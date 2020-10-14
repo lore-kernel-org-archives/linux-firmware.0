@@ -1,49 +1,45 @@
-Return-Path: <SRS0=04kx=DV=vger.kernel.org=linux-wireless-owner@kernel.org>
+Return-Path: <SRS0=5i+x=DV=coelho.fi=luca@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0E75C433DF
-	for <linux-wireless@archiver.kernel.org>; Wed, 14 Oct 2020 13:23:00 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6696C22201
-	for <linux-wireless@archiver.kernel.org>; Wed, 14 Oct 2020 13:23:00 +0000 (UTC)
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727717AbgJNNW7 (ORCPT
-        <rfc822;linux-wireless@archiver.kernel.org>);
-        Wed, 14 Oct 2020 09:22:59 -0400
-Received: from paleale.coelho.fi ([176.9.41.70]:55990 "EHLO
-        farmhouse.coelho.fi" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725944AbgJNNW7 (ORCPT
-        <rfc822;linux-wireless@vger.kernel.org>);
-        Wed, 14 Oct 2020 09:22:59 -0400
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 705ABC433E7
+	for <linux-firmware@archiver.kernel.org>; Wed, 14 Oct 2020 14:01:10 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id 3E54B22242; Wed, 14 Oct 2020 14:01:10 +0000 (UTC)
+X-Greylist: delayed 2287 seconds by postgrey-1.34 at mail.kernel.org; Wed, 14 Oct 2020 14:01:09 UTC
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 99C7D2222C
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=coelho.fi
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=luca@coelho.fi
+Received: from farmhouse.coelho.fi (paleale.coelho.fi [176.9.41.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id 99C7D2222C;
+	Wed, 14 Oct 2020 14:01:09 +0000 (UTC)
 Received: from 91-156-6-193.elisa-laajakaista.fi ([91.156.6.193] helo=[192.168.100.69])
-        by farmhouse.coelho.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <luca@coelho.fi>)
-        id 1kSgjy-002W2n-VZ; Wed, 14 Oct 2020 16:22:51 +0300
+	by farmhouse.coelho.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <luca@coelho.fi>)
+	id 1kSgjy-002W2n-VZ; Wed, 14 Oct 2020 16:22:51 +0300
 Message-ID: <c26822c0a6d19869d7eeaa6bf07db1f3298a1984.camel@coelho.fi>
-From:   Luca Coelho <luca@coelho.fi>
+From: Luca Coelho <luca@coelho.fi>
 List-Id: <linux-firmware.lore.kernel.org>
-To:     "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-Cc:     "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "kyle@infradead.org" <kyle@infradead.org>,
-        "jwboyer@kernel.org" <jwboyer@kernel.org>,
-        "ben@decadent.org.uk" <ben@decadent.org.uk>,
-        golan.ben.ami@intel.com
-Date:   Wed, 14 Oct 2020 16:22:49 +0300
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+Cc: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, 
+	"kyle@infradead.org"
+	 <kyle@infradead.org>, "jwboyer@kernel.org" <jwboyer@kernel.org>, 
+	"ben@decadent.org.uk"
+	 <ben@decadent.org.uk>, golan.ben.ami@intel.com
+Date: Wed, 14 Oct 2020 16:22:49 +0300
 Content-Type: multipart/signed; micalg="pgp-sha512";
-        protocol="application/pgp-signature"; boundary="=-JzpqeD+PbrpMeQiIQXgO"
+	protocol="application/pgp-signature"; boundary="=-JzpqeD+PbrpMeQiIQXgO"
 User-Agent: Evolution 3.36.4-2 
 MIME-Version: 1.0
 Subject: pull request: iwlwifi firmware updates 2020-10-14
-Precedence: bulk
-List-ID: <linux-wireless.vger.kernel.org>
-X-Mailing-List: linux-wireless@vger.kernel.org
+Message-ID: <20201014132249.9us-O9oHglS4EoSRD37GuS1VEO3eJ7SDDUYc6IqnxFw@z>
 
 
 --=-JzpqeD+PbrpMeQiIQXgO
