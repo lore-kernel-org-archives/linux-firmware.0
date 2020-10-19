@@ -1,28 +1,33 @@
-Return-Path: <SRS0=WANQ=D2=chromium.org=abhishekpandit@kernel.org>
+Return-Path: <SRS0=wTyq=D2=vger.kernel.org=linux-bluetooth-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E0C8C433E7
-	for <linux-firmware@archiver.kernel.org>; Mon, 19 Oct 2020 21:37:58 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 543A1223FD; Mon, 19 Oct 2020 21:37:58 +0000 (UTC)
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CAA1F2231B
-	for <linux-firmware@kernel.org>; Mon, 19 Oct 2020 21:37:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC9DEC43457
+	for <linux-bluetooth@archiver.kernel.org>; Mon, 19 Oct 2020 21:37:58 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id 46E2B223BF
+	for <linux-bluetooth@archiver.kernel.org>; Mon, 19 Oct 2020 21:37:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
 	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DSvw3cb/"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CAA1F2231B
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=abhishekpandit@chromium.org
-Received: by mail-ua1-f46.google.com with SMTP id r9so320812uat.12
-        for <linux-firmware@kernel.org>; Mon, 19 Oct 2020 14:37:57 -0700 (PDT)
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S1733249AbgJSVh5 (ORCPT
+        <rfc822;linux-bluetooth@archiver.kernel.org>);
+        Mon, 19 Oct 2020 17:37:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52508 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733246AbgJSVh5 (ORCPT
+        <rfc822;linux-bluetooth@vger.kernel.org>);
+        Mon, 19 Oct 2020 17:37:57 -0400
+Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com [IPv6:2607:f8b0:4864:20::92d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 834F5C0613CE
+        for <linux-bluetooth@vger.kernel.org>; Mon, 19 Oct 2020 14:37:57 -0700 (PDT)
+Received: by mail-ua1-x92d.google.com with SMTP id f15so326140uaq.9
+        for <linux-bluetooth@vger.kernel.org>; Mon, 19 Oct 2020 14:37:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
@@ -36,32 +41,38 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
         bh=yBOWxB2321K0nviHMosmjzEKA9rYfYXfMrodT0hpf7A=;
-        b=t1trJnYSsqEf9d+ZKY17C63HAHIeouqguFbGChJnEgxScYCgXCw+fAuVO6iyejXGm0
-         WxY/7fInr6U8ATQp6sUf/rOX0oJio5jXPx9nHOzd/XKUHIFc9ZxduELaZDQarqJWfVhW
-         rP3KnlbZZLlqZxuoEBzkpdFVy9R4C0RblcElhNSVD5pEGJN84QLMN4fVSfRWQbwfaYpZ
-         of1P+W6/XDMA/pNuhtCQDoIuZGijm3YaO3Lz2N4mxXSBcGnKyoM3z38anKtU+db97U3u
-         5/Q3qYLpPHj+K94H7uVx6HH87lVZfm1KGFnFLt334LGLu5v7STaLfUaupKIUABk+JvI4
-         e02Q==
-X-Gm-Message-State: AOAM5302y77rQ2oI9VE9jcEw55Ev6G2X/qvSSMITvVxGmw2wNABk5mkh
-	mRrQg7nWaNXdse9oA+SoiKuK+JODUOgDLZthWPrUXw==
+        b=igGrRpmaZNW0qI/lVgOU8uLwVOTqQEMYes0o1CZAG1qaVaEtALd0ENUcNS9c8Oo/7r
+         UC6/IDbqS3elunuagjFWUjJrtdTXzuQ2PfN4qfUbF6tvLz6oeF8g1bLoQSv6dyjC7HWF
+         g55CBYMHBRC7CSbvayvdSPBsMEGdZ/HWRyIMbnH4LD0LRuoESRbOMEBp0dvZ37dAoQv2
+         9z1LB9c1wEi01w+FaovlPTxqlOWOM2y12GbwhJYaQ2WtCQ0KnhEXaUSA+R/uCZinJlt0
+         b3G7D5rCbEdjyuSpDeKeJ7h2obV5vedwF+aMUMuRcb+TZqzK7UZHyo+9UtWD+dpcwRt4
+         mGrA==
+X-Gm-Message-State: AOAM533dgYvHOLopG3kHGcEhhqpru6W2gBSy7dWvlr3adVw0zOnTdb8n
+        K/MHRzvcbT+it46mjzQ1zL+oD93t+q90B7SykIU4Sg==
 X-Google-Smtp-Source: ABdhPJxOSKFLv6FUdXvwo9Kzlug/3CyRyn12FMtJvyIOznMU9zUml0fNKS/R9+hCxpT/QIBkONVN6WCtnRSRfNkvGrg=
 X-Received: by 2002:ab0:907:: with SMTP id w7mr967440uag.100.1603143476645;
  Mon, 19 Oct 2020 14:37:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <b74ea9cb201bb98691ecbfb3893d2a49@codeaurora.org>
 In-Reply-To: <b74ea9cb201bb98691ecbfb3893d2a49@codeaurora.org>
-From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Date: Mon, 19 Oct 2020 14:37:44 -0700
+From:   Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Date:   Mon, 19 Oct 2020 14:37:44 -0700
 Message-ID: <CANFp7mXMfvHrAcaJhY7q2oZk3MtqOMxLGOEpNc-hnzVSyA+LZA@mail.gmail.com>
 Subject: Re: Update WCN3991 FW file
-To: asitshah@codeaurora.org
+To:     asitshah@codeaurora.org
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, jwboyer@kernel.org, 
-	Matthias Kaehlcke <mka@chromium.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Bluez mailing list <linux-bluetooth@vger.kernel.org>, linux-arm-msm@vger.kernel.org, 
-	Hemantg <hemantg@codeaurora.org>, 
-	Venkata Lakshmi Narayana Gubba <gubbaven@codeaurora.org>, Balakrishna Godavarthi <bgodavar@codeaurora.org>
+Cc:     linux-firmware@kernel.org, jwboyer@kernel.org,
+        Matthias Kaehlcke <mka@chromium.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Bluez mailing list <linux-bluetooth@vger.kernel.org>,
+        linux-arm-msm@vger.kernel.org, Hemantg <hemantg@codeaurora.org>,
+        Venkata Lakshmi Narayana Gubba <gubbaven@codeaurora.org>,
+        Balakrishna Godavarthi <bgodavar@codeaurora.org>
 Content-Type: text/plain; charset="UTF-8"
+Precedence: bulk
+List-ID: <linux-bluetooth.vger.kernel.org>
+X-Mailing-List: linux-bluetooth@vger.kernel.org
+Message-ID: <20201019213744.VlIoICOWPQIGIfMooBpgfzEulUAAnN1-ZD6WDg4cIek@z>
 
 Nack.
 
