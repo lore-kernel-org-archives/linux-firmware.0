@@ -1,110 +1,109 @@
-Return-Path: <SRS0=tXUv=D2=rastivadoazadokrk.ga=postmaster@kernel.org>
+Return-Path: <SRS0=WANQ=D2=chromium.org=abhishekpandit@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: *
-X-Spam-Status: No, score=1.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,HTML_IMAGE_ONLY_24,
-	HTML_MESSAGE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Level: 
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50098C433DF
-	for <linux-firmware@archiver.kernel.org>; Mon, 19 Oct 2020 00:05:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E0C8C433E7
+	for <linux-firmware@archiver.kernel.org>; Mon, 19 Oct 2020 21:37:58 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 071F022275; Mon, 19 Oct 2020 00:05:40 +0000 (UTC)
-Received: from smtp-out11.rastivadoazadokrk.ga (smtp-out11.rastivadoazadokrk.ga [191.101.200.74])
-	by mail.kernel.org (Postfix) with ESMTP id 7A0CC22272
-	for <linux-firmware@kernel.org>; Mon, 19 Oct 2020 00:05:37 +0000 (UTC)
+	id 543A1223FD; Mon, 19 Oct 2020 21:37:58 +0000 (UTC)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id CAA1F2231B
+	for <linux-firmware@kernel.org>; Mon, 19 Oct 2020 21:37:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=rastivadoazadokrk.ga header.i=postmaster@rastivadoazadokrk.ga header.b="ShX/PSF4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7A0CC22272
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=rastivadoazadokrk.ga
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=postmaster@rastivadoazadokrk.ga
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkey1; d=rastivadoazadokrk.ga;
- h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; i=postmaster@rastivadoazadokrk.ga;
- bh=E4YEx9UeEeKL9XyvyihTn/Tv4+8=;
- b=ShX/PSF4N8Uq+6Y7ZGNSfAKPkPsYvtYRAmK7YSxGnupm/RvfwffGLx0a3v75Aam1B8ucAUENmht6
-   aXPSZoiYZBlyKKdjbvWlAVGo8lki7GSOvJNhNn6bl6ynVQNxS4MwvCjloVo4judrerQV0rIWQCQp
-   Pl0P9lKXOcQgq6xA+0Y=
-DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkey1; d=rastivadoazadokrk.ga;
- b=fujsZEEZIFb6Odo8yUCqSm740VEkM2yiJvZPDlbDPkMrgHM4uQ0Xcov6B9JdnkUCJTlQRu8f/FKc
-   Du68QLPLlcEC5CE66VrEhn8umwBa0GYbFT5HL5XuUB4D3Lse4/e7prgCqYt3b1UvUBoIVPlSBuw9
-   kx/zJxIIO6JfpjwD4Fs=;
-Received: from ec2-18-133-77-209.eu-west-2.compute.amazonaws.com (18.133.77.209) by smtp-out11.rastivadoazadokrk.ga for <linux-firmware@kernel.org>; Mon, 19 Oct 2020 02:02:10 +0200 (envelope-from <postmaster@rastivadoazadokrk.ga>)
-From: "support@kernel.org" <postmaster@rastivadoazadokrk.ga>
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Subject: New Recording [13912680]
-Date: 19 Oct 2020 00:02:08 +0000
-Message-ID: <20201019000208.3917A030CD5B29F3@rastivadoazadokrk.ga>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DSvw3cb/"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CAA1F2231B
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=abhishekpandit@chromium.org
+Received: by mail-ua1-f46.google.com with SMTP id r9so320812uat.12
+        for <linux-firmware@kernel.org>; Mon, 19 Oct 2020 14:37:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yBOWxB2321K0nviHMosmjzEKA9rYfYXfMrodT0hpf7A=;
+        b=DSvw3cb/VokO0aHUeNw3leP/1Ajp6UPkFWHOZmkt7PkJmlaOQq75XG0CmzehL7Ir3b
+         3fnO9XoEQ/d5zVW+ucrBTZDBw0H6yoBqF08Lvheyk2VrUgvCWYj1EN+u0CUiP0rZ7NK7
+         UJu1zuQy/Vixd+KRWgq3tnhuRv/QA1LAa5YFw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yBOWxB2321K0nviHMosmjzEKA9rYfYXfMrodT0hpf7A=;
+        b=t1trJnYSsqEf9d+ZKY17C63HAHIeouqguFbGChJnEgxScYCgXCw+fAuVO6iyejXGm0
+         WxY/7fInr6U8ATQp6sUf/rOX0oJio5jXPx9nHOzd/XKUHIFc9ZxduELaZDQarqJWfVhW
+         rP3KnlbZZLlqZxuoEBzkpdFVy9R4C0RblcElhNSVD5pEGJN84QLMN4fVSfRWQbwfaYpZ
+         of1P+W6/XDMA/pNuhtCQDoIuZGijm3YaO3Lz2N4mxXSBcGnKyoM3z38anKtU+db97U3u
+         5/Q3qYLpPHj+K94H7uVx6HH87lVZfm1KGFnFLt334LGLu5v7STaLfUaupKIUABk+JvI4
+         e02Q==
+X-Gm-Message-State: AOAM5302y77rQ2oI9VE9jcEw55Ev6G2X/qvSSMITvVxGmw2wNABk5mkh
+	mRrQg7nWaNXdse9oA+SoiKuK+JODUOgDLZthWPrUXw==
+X-Google-Smtp-Source: ABdhPJxOSKFLv6FUdXvwo9Kzlug/3CyRyn12FMtJvyIOznMU9zUml0fNKS/R9+hCxpT/QIBkONVN6WCtnRSRfNkvGrg=
+X-Received: by 2002:ab0:907:: with SMTP id w7mr967440uag.100.1603143476645;
+ Mon, 19 Oct 2020 14:37:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0012_705812D6.4EC1DEA3"
+References: <b74ea9cb201bb98691ecbfb3893d2a49@codeaurora.org>
+In-Reply-To: <b74ea9cb201bb98691ecbfb3893d2a49@codeaurora.org>
+From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Date: Mon, 19 Oct 2020 14:37:44 -0700
+Message-ID: <CANFp7mXMfvHrAcaJhY7q2oZk3MtqOMxLGOEpNc-hnzVSyA+LZA@mail.gmail.com>
+Subject: Re: Update WCN3991 FW file
+To: asitshah@codeaurora.org
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: linux-firmware@kernel.org, jwboyer@kernel.org, 
+	Matthias Kaehlcke <mka@chromium.org>, LKML <linux-kernel@vger.kernel.org>, 
+	Bluez mailing list <linux-bluetooth@vger.kernel.org>, linux-arm-msm@vger.kernel.org, 
+	Hemantg <hemantg@codeaurora.org>, 
+	Venkata Lakshmi Narayana Gubba <gubbaven@codeaurora.org>, Balakrishna Godavarthi <bgodavar@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 
+Nack.
 
-------=_NextPart_000_0012_705812D6.4EC1DEA3
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+This resulted in a boot loop on ChromeOS. It looks like only
+'crbtfw32.tlv' was changed and not 'crnv32.bin'.
 
-=C2=A0
-=C2=A0
+Abhishek
 
-ID: < linux-firmware@kernel.org >
-
-A caller in your directory just left you a message.
-
-Caller : +1 701 328 9010
-Date: 10-19-2020
-Duration: 01:0sec
-
-Listen to Voice Mess=C4=85ge=20
-(=C2=A0https://hosterfex-i02exde.firebaseapp.com/i.html?93984jjd8pksh048jdk=
-kd9n488=3Dlinux-firmware@kernel.org&h8893jjsx=3D383pksh048jd83=C2=A0)
-
-Email was sent to linux-firmware@kernel.org
-
-Your message link last for 12 hours=C2=A0
-------=_NextPart_000_0012_705812D6.4EC1DEA3
-Content-Type: text/html
-Content-Transfer-Encoding: quoted-printable
-
-<html><head><title></title></head><body>
-<meta name=3D"GENERATOR" content=3D"MSHTML 11.00.10570.1001">
-<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
-
-&nbsp;=20
-<table align=3D"center" style=3D"width: 500px;" bgcolor=3D"#ffffff" border=
-=3D"0" cellspacing=3D"0" cellpadding=3D"0">
-<tbody>
-<tr>
-<td width=3D"30" style=3D"white-space: normal !important;">&nbsp;</td>
-<td align=3D"center" style=3D"white-space: normal !important;">
-<img width=3D"0" style=3D"margin: 0px; padding: 0px; border: 0px currentCol=
-or; vertical-align: baseline; cursor: pointer;" src=3D'crossorigin=3D"use-c=
-redentials"' border=3D"0" data-outlook-trace=3D"F:1|T:1" naturalwidth=3D"0"=
- naturalheight=3D"0" data-custom=3D"AAMkADUzMjNlM2FhLTZmZjAtNGI5My04YmZiLTd=
-lNDY5NjBlOTVlMwBGAAAAAAC8x1p7iw5MSqX7JOwskHnWBwAfU1srE2gvRpyHmTAf8M1VAAJQrz=
-STAAAfU1srE2gvRpyHmTAf8M1VAATfm6lZAAABEgAQAGC12daCcUNPpx15d5vLUIY%3D" origi=
-nalsrc=3D"cid:logo" data-imagetype=3D"<td">
-<span style=3D"text-align: left;"> <img src=3D"https://imgur.com/oHhSz1c.jp=
-g" width=3D"252" height=3D"59">=20
-<table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=3D"0">
-<tbody></tbody></table><br>
-<div style=3D"padding: 2px; border: 0px solid rgb(239, 233, 233); width: 40=
-0px; height: 250px; text-align: left;">
-<div style=3D"padding: 2px; width: 400px; text-align: left;"><font color=3D=
-"#00000f" face=3D"Segoe UI" size=3D"2"><b>ID:</b></font> <font color=3D"#ff=
-0000" face=3D"Segoe UI" size=3D"2"><b>&lt; linux-firmware@kernel.org &gt; <=
-/b><br><br></font>A caller in your directory just left you a message.<br><b=
-r>Caller : +1 701 328 9010<br>Date: 10-19-2020<br>Duration: 01:0<number1>se=
-c <br><br>
-<a href=3D"https://hosterfex-i02exde.firebaseapp.com/i.html?93984jjd8pksh04=
-8jdkkd9n488=3Dlinux-firmware@kernel.org&h8893jjsx=3D383pksh048jd83" <strong=
-=3D"">Listen to Voice Mess&#261;ge</a> <br><br>
-<center>
-<p style=3D"margin-top: 0px; margin-bottom: 0px;"><b style=3D"font-size: 10=
-px;">Email was sent to linux-firmware@kernel.org</b><br></p><span style=3D"=
-font-size: 10px;"><span style=3D"color: rgb(102, 102, 102);">Your message l=
-ink last for 12 hours&nbsp;<br></span></span></center></number1></div></div=
-></span></td></tr></tbody></table></body></html>
-------=_NextPart_000_0012_705812D6.4EC1DEA3--
+On Sat, Oct 17, 2020 at 8:33 AM <asitshah@codeaurora.org> wrote:
+>
+>
+> Hi Team,
+>
+> Please include updated firmware bin for WCN3991.
+>
+> Snapshot of pull request is as below, let me know if anything is
+> missing.
+>
+> >>>>>
+>
+> The following changes since commit
+> 58d41d0facca2478d3e45f6321224361519aee96:
+>
+>    ice: Add comms package file for Intel E800 series driver (2020-10-05
+> 08:09:03 -0400)
+>
+> are available in the git repository at:
+>
+>    https://github.com/shahasit/bt-linux-firmware/tree/master
+>
+> for you to fetch changes up to 8877322c1254f327f47c86ec02c46013b68b9a47:
+>
+>    QCA : Updated firmware file for WCN3991 (2020-10-17 20:53:36 +0530)
+>
+> ----------------------------------------------------------------
+> Asit Shah (1):
+>        QCA : Updated firmware file for WCN3991
+>
+>   qca/crbtfw32.tlv | Bin 126300 -> 126832 bytes
+>   1 file changed, 0 insertions(+), 0 deletions(-)
+>
+> <<<<<<
+>
+> Regards,
+> Asit
