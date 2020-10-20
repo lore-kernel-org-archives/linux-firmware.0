@@ -1,71 +1,100 @@
-Return-Path: <SRS0=VxL7=D3=vger.kernel.org=linux-media-owner@kernel.org>
+Return-Path: <SRS0=VJiZ=D3=lists.infradead.org=linux-arm-kernel-bounces+linux-arm-kernel=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
 	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6320C433DF
-	for <linux-media@archiver.kernel.org>; Tue, 20 Oct 2020 05:48:09 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4B7CC2225F
-	for <linux-media@archiver.kernel.org>; Tue, 20 Oct 2020 05:48:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCF7FC433DF
+	for <linux-arm-kernel@archiver.kernel.org>; Tue, 20 Oct 2020 05:49:17 +0000 (UTC)
+Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id 33FA02225F
+	for <linux-arm-kernel@archiver.kernel.org>; Tue, 20 Oct 2020 05:49:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="Vd09sm2h"
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730342AbgJTFsI (ORCPT <rfc822;linux-media@archiver.kernel.org>);
-        Tue, 20 Oct 2020 01:48:08 -0400
-Received: from z5.mailgun.us ([104.130.96.5]:35672 "EHLO z5.mailgun.us"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730302AbgJTFsI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Oct 2020 01:48:08 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1603172888; h=Message-ID: References: In-Reply-To: Subject:
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="b2ziTygF";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="g8SrnxRD"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 33FA02225F
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-arm-kernel-bounces+linux-arm-kernel=archiver.kernel.org@lists.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:Message-ID:References:In-Reply-To:Subject:To:From:
+	Date:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=2qZw3IrYD52hQhNpFptQcXOrcAex/dXt4OhtB4OJmuo=; b=b2ziTygFOTbDyBHhY5IcoNk/Z
+	AQfYXe/DbMLjfHApnAu6ugMUO8168EPnGm3fN5r0DVmD4jCChSXiRgWdY2LHY9oKAg3/QBO+8pZHw
+	faxz3yTiA+9YCbR1u5A9r7p3ubsoRmwsPib+qc7Lq8cj4EUfWqjgkKVAjwUTjL9/CfYGdn1prUIAv
+	td5dDmdSxY6OWvBcH5Q0pCeoc7rV4ffDufrzW+mXzp7HDLmxdr6hpT388DLZeepHjCXSmhAimaY+W
+	TiA6VHilRAYVn6p1FAPOry0sTCPvSHvv+ql+3oEmh0Y6qscNk4m0CWk0DcHtSHBfPJ7nBHhOsCBGf
+	hJUjoTshQ==;
+Received: from localhost ([::1] helo=merlin.infradead.org)
+	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1kUkV7-0000dA-Bt; Tue, 20 Oct 2020 05:48:01 +0000
+Received: from z5.mailgun.us ([104.130.96.5])
+ by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kUkV3-0000bf-KU
+ for linux-arm-kernel@lists.infradead.org; Tue, 20 Oct 2020 05:47:58 +0000
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1603172877; h=Message-ID: References: In-Reply-To: Subject:
  Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
  MIME-Version: Sender; bh=DlWUKsZMBs5+rfXZncpSLNI7e28fGmiAnheUVzpABSE=;
- b=Vd09sm2hVk3vJKXe+mHPnyPTMvNNbMiLZ8PbgaavCZSaCU/9tt8c6hvhuXIfhj/6E2GCs2ho
- 610qEdcMwrVZ99mW7BSl54yHFs2WHrkcdqbGlPrecS3SZbZ0FvnqkR7OYV9YO4WrThvQmix9
- qk3+jp4RBMBnsb2rrT2xmr2r7nU=
+ b=g8SrnxRDs6rXzvFlb2ZUIVa7XnX98DsC653RuHbRDhi4/+JItHfyrYto9uS5iic/th7eAvPN
+ CPNnFna5voEaPiqOmd2CBoMIzOBNePa3nLqcaBBn628OixqnLqrYxa1GlF8ulnHDTgrQu64J
+ hiQHs95ydeSuZFmDJXzs/A2YP/8=
 X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+X-Mailgun-Sid: WyJiYzAxZiIsICJsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmciLCAiYmU5ZTRhIl0=
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 5f8e7a0c06d81bc48d60382a (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 20 Oct 2020 05:47:55
+ smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
+ 5f8e7a0c42f9861fb1f6fc43 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 20 Oct 2020 05:47:56
  GMT
-Sender: asitshah=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id E36F6C433CB; Tue, 20 Oct 2020 05:47:55 +0000 (UTC)
+ id EAC42C433FE; Tue, 20 Oct 2020 05:47:55 +0000 (UTC)
 Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: asitshah)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 4667DC433C9;
-        Tue, 20 Oct 2020 05:47:55 +0000 (UTC)
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: asitshah)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 4667DC433C9;
+ Tue, 20 Oct 2020 05:47:55 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Tue, 20 Oct 2020 11:17:55 +0530
-From:   asitshah@codeaurora.org
+Date: Tue, 20 Oct 2020 11:17:55 +0530
+From: asitshah@codeaurora.org
 List-Id: <linux-firmware.lore.kernel.org>
-To:     linux-firmware@kernel.org, linux-arm-kernel@lists.infradead.org,
-        mchehab@infradead.org, linux-media@vger.kernel.org,
-        stanimir.varbanov@linaro.org, linux-media-owner@vger.kernel.org
-Cc:     vgarodia@codeaurora.org, dikshita@codeaurora.org
+To: linux-firmware@kernel.org, linux-arm-kernel@lists.infradead.org,
+ mchehab@infradead.org, linux-media@vger.kernel.org,
+ stanimir.varbanov@linaro.org, linux-media-owner@vger.kernel.org
 Subject: Re: Update venus firmware files for v5.4
 In-Reply-To: <290a085b0fb686ce6aacbd02be560e52@codeaurora.org>
 References: <290a085b0fb686ce6aacbd02be560e52@codeaurora.org>
 Message-ID: <dfbf51326d00ae72ed2b6149e7ccf570@codeaurora.org>
 X-Sender: asitshah@codeaurora.org
 User-Agent: Roundcube Webmail/1.3.9
-Precedence: bulk
-List-ID: <linux-media.vger.kernel.org>
-X-Mailing-List: linux-media@vger.kernel.org
-Message-ID: <20201020054755.U7T6d62yvFQ2DSdm6nwN9SozCN6CnfyawbwtLJ3W35k@z>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20201020_014757_689573_BE3F0BC1 
+X-CRM114-Status: GOOD (  16.52  )
+X-BeenThere: linux-arm-kernel@lists.infradead.org
+X-Mailman-Version: 2.1.29
+Precedence: list
+List-Id: <linux-arm-kernel.lists.infradead.org>
+List-Unsubscribe: <http://lists.infradead.org/mailman/options/linux-arm-kernel>, 
+ <mailto:linux-arm-kernel-request@lists.infradead.org?subject=unsubscribe>
+List-Archive: <http://lists.infradead.org/pipermail/linux-arm-kernel/>
+List-Post: <mailto:linux-arm-kernel@lists.infradead.org>
+List-Help: <mailto:linux-arm-kernel-request@lists.infradead.org?subject=help>
+List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-arm-kernel>, 
+ <mailto:linux-arm-kernel-request@lists.infradead.org?subject=subscribe>
+Cc: dikshita@codeaurora.org, vgarodia@codeaurora.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Sender: "linux-arm-kernel" <linux-arm-kernel-bounces@lists.infradead.org>
+Errors-To: linux-arm-kernel-bounces+linux-arm-kernel=archiver.kernel.org@lists.infradead.org
+Message-ID: <20201020054755.jVhB1Usv0NZI-766JD4esagnEc2oavvhpuvU9Zxu8_U@z>
 
 Hi Team,
 
@@ -114,3 +143,8 @@ On 2020-10-08 15:20, asitshah@codeaurora.org wrote:
 > 
 > Regards,
 > Asit
+
+_______________________________________________
+linux-arm-kernel mailing list
+linux-arm-kernel@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
