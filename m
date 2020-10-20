@@ -1,120 +1,85 @@
-Return-Path: <SRS0=wTyq=D2=vger.kernel.org=linux-bluetooth-owner@kernel.org>
+Return-Path: <asitshah@codeaurora.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
+	INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC9DEC43457
-	for <linux-bluetooth@archiver.kernel.org>; Mon, 19 Oct 2020 21:37:58 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 46E2B223BF
-	for <linux-bluetooth@archiver.kernel.org>; Mon, 19 Oct 2020 21:37:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DSvw3cb/"
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733249AbgJSVh5 (ORCPT
-        <rfc822;linux-bluetooth@archiver.kernel.org>);
-        Mon, 19 Oct 2020 17:37:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52508 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733246AbgJSVh5 (ORCPT
-        <rfc822;linux-bluetooth@vger.kernel.org>);
-        Mon, 19 Oct 2020 17:37:57 -0400
-Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com [IPv6:2607:f8b0:4864:20::92d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 834F5C0613CE
-        for <linux-bluetooth@vger.kernel.org>; Mon, 19 Oct 2020 14:37:57 -0700 (PDT)
-Received: by mail-ua1-x92d.google.com with SMTP id f15so326140uaq.9
-        for <linux-bluetooth@vger.kernel.org>; Mon, 19 Oct 2020 14:37:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yBOWxB2321K0nviHMosmjzEKA9rYfYXfMrodT0hpf7A=;
-        b=DSvw3cb/VokO0aHUeNw3leP/1Ajp6UPkFWHOZmkt7PkJmlaOQq75XG0CmzehL7Ir3b
-         3fnO9XoEQ/d5zVW+ucrBTZDBw0H6yoBqF08Lvheyk2VrUgvCWYj1EN+u0CUiP0rZ7NK7
-         UJu1zuQy/Vixd+KRWgq3tnhuRv/QA1LAa5YFw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yBOWxB2321K0nviHMosmjzEKA9rYfYXfMrodT0hpf7A=;
-        b=igGrRpmaZNW0qI/lVgOU8uLwVOTqQEMYes0o1CZAG1qaVaEtALd0ENUcNS9c8Oo/7r
-         UC6/IDbqS3elunuagjFWUjJrtdTXzuQ2PfN4qfUbF6tvLz6oeF8g1bLoQSv6dyjC7HWF
-         g55CBYMHBRC7CSbvayvdSPBsMEGdZ/HWRyIMbnH4LD0LRuoESRbOMEBp0dvZ37dAoQv2
-         9z1LB9c1wEi01w+FaovlPTxqlOWOM2y12GbwhJYaQ2WtCQ0KnhEXaUSA+R/uCZinJlt0
-         b3G7D5rCbEdjyuSpDeKeJ7h2obV5vedwF+aMUMuRcb+TZqzK7UZHyo+9UtWD+dpcwRt4
-         mGrA==
-X-Gm-Message-State: AOAM533dgYvHOLopG3kHGcEhhqpru6W2gBSy7dWvlr3adVw0zOnTdb8n
-        K/MHRzvcbT+it46mjzQ1zL+oD93t+q90B7SykIU4Sg==
-X-Google-Smtp-Source: ABdhPJxOSKFLv6FUdXvwo9Kzlug/3CyRyn12FMtJvyIOznMU9zUml0fNKS/R9+hCxpT/QIBkONVN6WCtnRSRfNkvGrg=
-X-Received: by 2002:ab0:907:: with SMTP id w7mr967440uag.100.1603143476645;
- Mon, 19 Oct 2020 14:37:56 -0700 (PDT)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A20D1C433DF
+	for <linux-firmware@archiver.kernel.org>; Tue, 20 Oct 2020 05:47:57 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id 61B7322282; Tue, 20 Oct 2020 05:47:57 +0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+	id 1DCB5C433C9; Tue, 20 Oct 2020 05:47:57 +0000 (UTC)
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: asitshah)
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id 4667DC433C9;
+	Tue, 20 Oct 2020 05:47:55 +0000 (UTC)
 MIME-Version: 1.0
-References: <b74ea9cb201bb98691ecbfb3893d2a49@codeaurora.org>
-In-Reply-To: <b74ea9cb201bb98691ecbfb3893d2a49@codeaurora.org>
-From:   Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Date:   Mon, 19 Oct 2020 14:37:44 -0700
-Message-ID: <CANFp7mXMfvHrAcaJhY7q2oZk3MtqOMxLGOEpNc-hnzVSyA+LZA@mail.gmail.com>
-Subject: Re: Update WCN3991 FW file
-To:     asitshah@codeaurora.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Tue, 20 Oct 2020 11:17:55 +0530
+From: asitshah@codeaurora.org
 List-Id: <linux-firmware.lore.kernel.org>
-Cc:     linux-firmware@kernel.org, jwboyer@kernel.org,
-        Matthias Kaehlcke <mka@chromium.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Bluez mailing list <linux-bluetooth@vger.kernel.org>,
-        linux-arm-msm@vger.kernel.org, Hemantg <hemantg@codeaurora.org>,
-        Venkata Lakshmi Narayana Gubba <gubbaven@codeaurora.org>,
-        Balakrishna Godavarthi <bgodavar@codeaurora.org>
-Content-Type: text/plain; charset="UTF-8"
-Precedence: bulk
-List-ID: <linux-bluetooth.vger.kernel.org>
-X-Mailing-List: linux-bluetooth@vger.kernel.org
-Message-ID: <20201019213744.VlIoICOWPQIGIfMooBpgfzEulUAAnN1-ZD6WDg4cIek@z>
+To: linux-firmware@kernel.org, linux-arm-kernel@lists.infradead.org,
+ mchehab@infradead.org, linux-media@vger.kernel.org,
+ stanimir.varbanov@linaro.org, linux-media-owner@vger.kernel.org
+Cc: vgarodia@codeaurora.org, dikshita@codeaurora.org
+Subject: Re: Update venus firmware files for v5.4
+In-Reply-To: <290a085b0fb686ce6aacbd02be560e52@codeaurora.org>
+References: <290a085b0fb686ce6aacbd02be560e52@codeaurora.org>
+Message-ID: <dfbf51326d00ae72ed2b6149e7ccf570@codeaurora.org>
+X-Sender: asitshah@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 
-Nack.
+Hi Team,
 
-This resulted in a boot loop on ChromeOS. It looks like only
-'crbtfw32.tlv' was changed and not 'crnv32.bin'.
+Gentle Reminder. Please let me know if anything is missing.
 
-Abhishek
+Regards,
+Asit
 
-On Sat, Oct 17, 2020 at 8:33 AM <asitshah@codeaurora.org> wrote:
->
->
+
+On 2020-10-08 15:20, asitshah@codeaurora.org wrote:
 > Hi Team,
->
-> Please include updated firmware bin for WCN3991.
->
-> Snapshot of pull request is as below, let me know if anything is
+> 
+> Please include updated Venus Firmware bins for v5.4.
+> 
+> Snapshot of pull request is as below, let me know if anything is 
 > missing.
->
-> >>>>>
->
-> The following changes since commit
-> 58d41d0facca2478d3e45f6321224361519aee96:
->
->    ice: Add comms package file for Intel E800 series driver (2020-10-05
-> 08:09:03 -0400)
->
+> 
+>>>>>>> 
+> 
+> The following changes since commit 
+> 00a84c516078defb76fbd57543b8d5c674a9a2be:
+> 
+>   linux-firmware: Update AMD SEV firmware (2020-09-16 08:01:44 -0400)
+> 
 > are available in the git repository at:
->
->    https://github.com/shahasit/bt-linux-firmware/tree/master
->
-> for you to fetch changes up to 8877322c1254f327f47c86ec02c46013b68b9a47:
->
->    QCA : Updated firmware file for WCN3991 (2020-10-17 20:53:36 +0530)
->
+> 
+>   https://github.com/shahasit/video-linux-firmware/tree/master
+> 
+> for you to fetch changes up to 
+> a09b728b77f5e3b335ff85c6c729248e0121f02c:
+> 
+>   qcom : updated venus firmware files for v5.4 (2020-10-08 15:07:59 
+> +0530)
+> 
 > ----------------------------------------------------------------
 > Asit Shah (1):
->        QCA : Updated firmware file for WCN3991
->
->   qca/crbtfw32.tlv | Bin 126300 -> 126832 bytes
->   1 file changed, 0 insertions(+), 0 deletions(-)
->
-> <<<<<<
->
+>       qcom : updated venus firmware files for v5.4
+> 
+>  qcom/venus-5.4/venus.b00 | Bin 212 -> 212 bytes
+>  qcom/venus-5.4/venus.b01 | Bin 6808 -> 6808 bytes
+>  qcom/venus-5.4/venus.b02 | Bin 870812 -> 873100 bytes
+>  qcom/venus-5.4/venus.b03 | Bin 33792 -> 33792 bytes
+>  qcom/venus-5.4/venus.mbn | Bin 916924 -> 919212 bytes
+>  qcom/venus-5.4/venus.mdt | Bin 7020 -> 7020 bytes
+>  6 files changed, 0 insertions(+), 0 deletions(-)
+> 
 > Regards,
 > Asit
