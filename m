@@ -1,131 +1,268 @@
-Return-Path: <SRS0=hWfA=D3=vger.kernel.org=linux-arm-msm-owner@kernel.org>
+Return-Path: <SRS0=SFoC=D5=qca.qualcomm.com=kvalo@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3086AC388F7
-	for <linux-arm-msm@archiver.kernel.org>; Tue, 20 Oct 2020 20:41:24 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ACD2622283
-	for <linux-arm-msm@archiver.kernel.org>; Tue, 20 Oct 2020 20:41:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5DB6C388F2
+	for <linux-firmware@archiver.kernel.org>; Thu, 22 Oct 2020 08:23:16 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id 91DFF21775; Thu, 22 Oct 2020 08:23:16 +0000 (UTC)
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
+	(using TLSv1.2 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id 5B7D32065D
+	for <linux-firmware@kernel.org>; Thu, 22 Oct 2020 08:23:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GoQ+EVKa"
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2409563AbgJTUlX (ORCPT
-        <rfc822;linux-arm-msm@archiver.kernel.org>);
-        Tue, 20 Oct 2020 16:41:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41434 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405124AbgJTUlW (ORCPT
-        <rfc822;linux-arm-msm@vger.kernel.org>);
-        Tue, 20 Oct 2020 16:41:22 -0400
-Received: from mail-vk1-xa35.google.com (mail-vk1-xa35.google.com [IPv6:2607:f8b0:4864:20::a35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AF60C0613CE
-        for <linux-arm-msm@vger.kernel.org>; Tue, 20 Oct 2020 13:41:21 -0700 (PDT)
-Received: by mail-vk1-xa35.google.com with SMTP id m195so805641vkh.11
-        for <linux-arm-msm@vger.kernel.org>; Tue, 20 Oct 2020 13:41:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8oNb4bPuTPJc9IazjKYiO1BrhZxahR3FAJrD2QNpZEE=;
-        b=GoQ+EVKaGML1O0xuJJyCjTyBiaV9U1ZfOBGG8NL6oeTeU5wmSLXa0hXtERape/LFcS
-         qtAE7eYPxGswSe7yyoFdd27uU/nT8A6GhdRO4zLnhYDUh1mpbyNp66Mfg/QfLYOugVpR
-         H07ef9O5BRyU6uQFsy3Yu6D/+/T9GWoSvHj4U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8oNb4bPuTPJc9IazjKYiO1BrhZxahR3FAJrD2QNpZEE=;
-        b=cbdYiZTwhWy7Pj2z7h5/xiTi8hjBm/WKw3sFzBEeKX5q5jhZQG98xnK7pwluFEh5jM
-         SO8yMcHkIfJTuw4dDhOaC0+wvsOrf38xbzwk9VLqNBXF07GfKj7RUfOkEwSsL1Vgm539
-         vLG50/vpCwouMIx5u22awkoKP+V3ojcszC88D36ZGCS7Rdw2sPZoiOOelzel8QWKm6qX
-         EfcZXJRzQhLOGV1xXn+73AQDESBe7Oy2BpZlPNpe0yhrdJnULcMima6zCFSRuVRGHsDS
-         y80DQOstqhrlH6C7MjjKzKYxWfy3xwiuKRz+O85kKYRKHj+hJy2jw8i6n3VMl0d3Y1No
-         nwSA==
-X-Gm-Message-State: AOAM5313FqF6vCtcUGmac0AvALYuQRZ4kyPbtWJsW8ND+5txnaDcxOJi
-        mS1g4rH8FM3yUnbN8QgVKUtVls0S6OrtYXxq41ke3w==
-X-Google-Smtp-Source: ABdhPJzr5l3bDAXW3EOAftEuudCHyMKi5cGy1Hw3cWDeuY2TudVm6cfkI7qnQuUSnjYigue2Up2FbPDYaIBW9jh8e/k=
-X-Received: by 2002:a1f:9d0e:: with SMTP id g14mr2712231vke.2.1603226480594;
- Tue, 20 Oct 2020 13:41:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <b74ea9cb201bb98691ecbfb3893d2a49@codeaurora.org> <CANFp7mXMfvHrAcaJhY7q2oZk3MtqOMxLGOEpNc-hnzVSyA+LZA@mail.gmail.com>
-In-Reply-To: <CANFp7mXMfvHrAcaJhY7q2oZk3MtqOMxLGOEpNc-hnzVSyA+LZA@mail.gmail.com>
-From:   Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Date:   Tue, 20 Oct 2020 13:41:09 -0700
-Message-ID: <CANFp7mWTPLKx=eKxgZvXGEPi5KbphDJnSGZb12Efe_SWTKdDdg@mail.gmail.com>
-Subject: Re: Update WCN3991 FW file
-To:     asitshah@codeaurora.org
+	dkim=pass (1024-bit key) header.d=qca.qualcomm.com header.i=@qca.qualcomm.com header.b="WNDcGFwo";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=qualcomm.onmicrosoft.com header.i=@qualcomm.onmicrosoft.com header.b="UEKG+63e"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5B7D32065D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=qca.qualcomm.com
+Authentication-Results: mail.kernel.org; spf=fail smtp.mailfrom=kvalo@qca.qualcomm.com
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=qca.qualcomm.com; i=@qca.qualcomm.com; q=dns/txt;
+  s=qcdkim; t=1603354995; x=1634890995;
+  h=from:to:cc:subject:date:message-id:
+   content-transfer-encoding:mime-version;
+  bh=bMA3uVKH9bdhkBRZd2euuMcVB6CC+wFTfjNKsINGPsA=;
+  b=WNDcGFwoiR393gbmZjjWB2XeHYZ23uqXrs4RClwXHsbFiBT9aaZs5Xlp
+   x1Kpl+ljvx1Gju68cUsBqfZmfebBIe2Q+hT8D1holHbJoXikcCkiJcEgG
+   xlR2Aoxo4T5YGj5pdN097bkOt1gdyG73UgNoypkeXeX63mPbU6h0pVBq6
+   Y=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 22 Oct 2020 01:23:14 -0700
+X-QCInternal: smtphost
+Received: from nasanexm03h.na.qualcomm.com ([10.85.0.50])
+  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/AES256-SHA; 22 Oct 2020 01:23:11 -0700
+Received: from nasanexm03c.na.qualcomm.com (10.85.0.106) by
+ nasanexm03h.na.qualcomm.com (10.85.0.50) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 22 Oct 2020 01:23:02 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (199.106.107.6)
+ by nasanexm03c.na.qualcomm.com (10.85.0.106) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2 via Frontend Transport; Thu, 22 Oct 2020 01:23:02 -0700
+Received: from BYAPR02MB4567.namprd02.prod.outlook.com (2603:10b6:a03:5f::14)
+ by BY5PR02MB7041.namprd02.prod.outlook.com (2603:10b6:a03:237::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.24; Thu, 22 Oct
+ 2020 08:23:01 +0000
+Received: from BYAPR02MB4567.namprd02.prod.outlook.com
+ ([fe80::e85b:1ca9:6539:4b48]) by BYAPR02MB4567.namprd02.prod.outlook.com
+ ([fe80::e85b:1ca9:6539:4b48%6]) with mapi id 15.20.3477.028; Thu, 22 Oct 2020
+ 08:23:01 +0000
+From: Kalle Valo <kvalo@qca.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc:     linux-firmware@kernel.org, jwboyer@kernel.org,
-        Matthias Kaehlcke <mka@chromium.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Bluez mailing list <linux-bluetooth@vger.kernel.org>,
-        linux-arm-msm@vger.kernel.org, Hemantg <hemantg@codeaurora.org>,
-        Venkata Lakshmi Narayana Gubba <gubbaven@codeaurora.org>,
-        Balakrishna Godavarthi <bgodavar@codeaurora.org>
-Content-Type: text/plain; charset="UTF-8"
-Precedence: bulk
-List-ID: <linux-arm-msm.vger.kernel.org>
-X-Mailing-List: linux-arm-msm@vger.kernel.org
-Message-ID: <20201020204109.N08U469PtVp85FgPC5zzJK-wbej2MoNvK9n8mKQZjEg@z>
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+CC: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+	"ath10k@lists.infradead.org" <ath10k@lists.infradead.org>,
+	"ath11k@lists.infradead.org" <ath11k@lists.infradead.org>
+Subject: [PULL] ath10k & ath11k firmware 20201022
+Thread-Topic: [PULL] ath10k & ath11k firmware 20201022
+Thread-Index: AQHWqEtZwlMQKO5WkE6UyM+YmDsh3A==
+Date: Thu, 22 Oct 2020 08:23:01 +0000
+Message-ID: <BYAPR02MB4567892AD5957F360C01E73F921D0@BYAPR02MB4567.namprd02.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none
+ header.from=qca.qualcomm.com;
+x-originating-ip: [88.114.240.156]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: cd37acb9-9f89-4b58-5ed1-08d87663b0c0
+x-ms-traffictypediagnostic: BY5PR02MB7041:
+x-microsoft-antispam-prvs: <BY5PR02MB704127861DB0560AC4854EAA921D0@BY5PR02MB7041.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2657;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 5ZbV4zxXqi4vbw2dfosXY3ij675OIpNjS3yD0mGK6AV3U7lp/wUAfzcu7V8JWoy+F29DQiiBn39xgL7JcPDT/20GRgJXMYgJT99Vymf3wq2qF3W6Sp5JwrbcPWY+1VQ5VnZflCOb7fvEI7MHs0rGFEza9hNzcWAghz1QLI3h+gBylTT0Y0J8Oxy5CR3zVhsLes62Zqgd3cz7Ug5jOGv7CJ6bpbisMg24QUhH5eMR4jHn+H9aPxpmyCQYw2YnNF3i61RoNKrqwDyuSi5usVmzkX7T0kBzOHO+O/r1PAcPZIi87gxQbIHMKOjH8XNNNLjiROiuCw6QuqMg7bDeCtkE/g==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR02MB4567.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(136003)(346002)(39860400002)(376002)(366004)(4326008)(66476007)(71200400001)(66556008)(316002)(5660300002)(6916009)(91956017)(52536014)(76116006)(66946007)(66446008)(64756008)(54906003)(7696005)(2906002)(4001150100001)(9686003)(6506007)(19627235002)(83380400001)(8676002)(186003)(26005)(8936002)(55016002)(33656002)(478600001)(86362001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: Njmzz7VadKezHxnhlzAYi86x3/W+kJkUbb/P7Smc/M4e8DIbjCdiHKSfiInVlnhsHPcdbLEBT3C9hwFMYDM0N+rx55BaCYRdJEsLOkAZ5vffBYnbOifnbNRH0WvRo5QC2A/m2iK0ljMxTtgH5mKDMwabdlO8Q1ufo/TOwNJHME9osDu/DUu4hc/4y2esIKJj58W9R+ddHFGAKtlIDR/lVzRsk4b33CORdnJrwkqvXxsNPHtoAe9b4yNeYhlprzg7UbspuuSTSSteRrGRsX5MFL8MbPTQlBIOqCIQKXcVU/h3wMqOaQ1XTAf1zuj6SZJ+f7cC4gUv9LiReQ9HL7d7l4UPt3rrEluhN4TahPMX6orZXj0pO2YwoSsQSmiEJWxuZ6usJbJHKib0mh7FTkjNqJS0MlZSr+t+BhLcxHBWnS/FG6ROJ1P7vB6pn+uOqX/uoDc6Ck0/CTnE7zVB+O5Azdtl3EgUCXqFthPvDFdUmD8YJunvln3oJiWEuId791jKnYFmbvVTA8zFm7+uEwNDcnsM4G6T6LoJypXu0Hycgb1zazUXv0C+XFNg2FlVj5Ez+Vdy3A0fR4++8TkVryTSQ43HpmF6YOlEzuWj1hBPvQx9G5MTbSWt21/0Y9P7VSBH+8WXK4p9cVi+6oo54Muetg==
+x-ms-exchange-transport-forked: True
+arc-seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GKNB8HYToKPN1tqucg69S0chNwOoq1V5HkgbCJIUSisA96JAZEG888frfeWIIOad3E29GN8FMhM4BcExTCUSPLRvatN6Hl1xKUA93ttURlVVtSAWuyUbV4cZMhUFxclruTwGAPIZz/byjXYxp+SQ6VQZwEuTBYW6EM9UygM60hHQXyH6COwUxSk0sm67IiPL4nynPyi7qCXuTxIwag7qFnASic+XzbsYRSHsn9h8PrrLt8DCdKA2DIEaj26n+TECowzWkxZRvVUUdcMQAD+CCJBLSfPlfdKlHmlOEmhDH3JQnI9S1VAhEWOVjz3NqoUTyjLDgTPE3F+FiPv1D+l9YQ==
+arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7IVY0bTp8qTNecByNDRJhkGl0UBs/fpSS6sR+JGQxq8=;
+ b=Lt8kOivBchxizeNLi0sAqgBmjDI3I4HfTiOybzN/yxM29Y5n2GXipMBjnJWKFcCdRJwPZBoZijrwZFmsrVnuIIH4x6X0b4gGr6kskBLBIt0868Ab940Vcs7AEpg7OS0Dl7PzN//idCnXmY2hFY4wQEck70NTmRZN0CBZUuxzsnpRtd5bhf+KadmcyP7j3hh9nDFQHNWPId+1K/AD3W2jNl33RTSqvs9T70TBFHJ9Et1XQZOFZspejUvexomMoVmy1jfxdVIq2F9UYDa0ZbtnxCnikOjTXBxRx90at+MbL1Qzzh502TBMM8xTDjpyVXpw0zbA+/qGRWFrxvor1ZwXUw==
+arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=qca.qualcomm.com; dmarc=pass action=none
+ header.from=qca.qualcomm.com; dkim=pass header.d=qca.qualcomm.com; arc=none
+dkim-signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7IVY0bTp8qTNecByNDRJhkGl0UBs/fpSS6sR+JGQxq8=;
+ b=UEKG+63eTKiLM5FpSk0oMeBvlYSr1i4z+OI0dzjo/UiqEhx5BB1SEgrxvThXV/3/00tdGR2BOYqmxByxQEHAnDLR3Ec99efjDeQWx7EplovmAo8qE6VCxRDuJPIy2tgeuj08UkyEyZDjBMr3kzyF9J+Z4i20Dw1PcDcFhV6BJIU=
+x-ms-exchange-crosstenant-authas: Internal
+x-ms-exchange-crosstenant-authsource: BYAPR02MB4567.namprd02.prod.outlook.com
+x-ms-exchange-crosstenant-network-message-id: cd37acb9-9f89-4b58-5ed1-08d87663b0c0
+x-ms-exchange-crosstenant-originalarrivaltime: 22 Oct 2020 08:23:01.1162 (UTC)
+x-ms-exchange-crosstenant-fromentityheader: Hosted
+x-ms-exchange-crosstenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+x-ms-exchange-crosstenant-mailboxtype: HOSTED
+x-ms-exchange-crosstenant-userprincipalname: rmZMLHBIGAnKvDs6QZxxH9DfrcWXuYhpe66ie404nCCYEqXkk/1cl3NNzdKOWRAFHw0iQHsJJ/RS5u5mOsefeQ==
+x-ms-exchange-transport-crosstenantheadersstamped: BY5PR02MB7041
+x-originatororg: qca.qualcomm.com
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 
-It looks like we hadn't merged an earlier update to crnv32.bin in ChromeOS:
-ad1da95 - QCA : Updated firmware files for WCN3991 (3 weeks ago) <Asit Shah>
+Hi linux-firmware maintainers,
 
-After merging that commit, everything is working as expected.
---
+here's a pull request for ath10k and ath11k drivers. For ath10k there is a =
+firmware for new hardware QCA6174 hw3.0 SDIO. For ath11k there are firmware=
+s for new hardware IPQ8074 hw2.0, IPQ6018 hw1.0 and QCA6390 hw2.0. And also=
+ few updates for existing hardware.
 
-Tested-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+I did not include QCA9377 SDIO firmware as I saw Christian submitted a patc=
+h adding that.
 
-On Mon, Oct 19, 2020 at 2:37 PM Abhishek Pandit-Subedi
-<abhishekpandit@chromium.org> wrote:
->
-> Nack.
->
-> This resulted in a boot loop on ChromeOS. It looks like only
-> 'crbtfw32.tlv' was changed and not 'crnv32.bin'.
->
-> Abhishek
->
-> On Sat, Oct 17, 2020 at 8:33 AM <asitshah@codeaurora.org> wrote:
-> >
-> >
-> > Hi Team,
-> >
-> > Please include updated firmware bin for WCN3991.
-> >
-> > Snapshot of pull request is as below, let me know if anything is
-> > missing.
-> >
-> > >>>>>
-> >
-> > The following changes since commit
-> > 58d41d0facca2478d3e45f6321224361519aee96:
-> >
-> >    ice: Add comms package file for Intel E800 series driver (2020-10-05
-> > 08:09:03 -0400)
-> >
-> > are available in the git repository at:
-> >
-> >    https://github.com/shahasit/bt-linux-firmware/tree/master
-> >
-> > for you to fetch changes up to 8877322c1254f327f47c86ec02c46013b68b9a47:
-> >
-> >    QCA : Updated firmware file for WCN3991 (2020-10-17 20:53:36 +0530)
-> >
-> > ----------------------------------------------------------------
-> > Asit Shah (1):
-> >        QCA : Updated firmware file for WCN3991
-> >
-> >   qca/crbtfw32.tlv | Bin 126300 -> 126832 bytes
-> >   1 file changed, 0 insertions(+), 0 deletions(-)
-> >
-> > <<<<<<
-> >
-> > Regards,
-> > Asit
+Please let me know if there are any problems.
+
+Kalle
+
+The following changes since commit 58d41d0facca2478d3e45f6321224361519aee96=
+:
+
+  ice: Add comms package file for Intel E800 series driver (2020-10-05 08:0=
+9:03 -0400)
+
+are available in the git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/kvalo/linux-firmware.git at=
+h10k-20201022
+
+for you to fetch changes up to 60cb7a28a5dce0b7da88498ee752d30b692090ba:
+
+  ath11k: QCA6390 hw2.0: add to WLAN.HST.1.0.1-01740-QCAHSTSWPLZ_V2_TO_X86-=
+1 (2020-10-22 11:06:49 +0300)
+
+----------------------------------------------------------------
+Kalle Valo (11):
+      ath10k: QCA6174 hw3.0: update firmware-6.bin to WLAN.RM.4.4.1-00157-Q=
+CARMSWPZ-1
+      ath10k: QCA6174 hw3.0: update board-2.bin
+      ath10k: QCA9888 hw2.0: update firmware-5.bin to 10.4-3.9.0.2-00131
+      ath10k: QCA9984 hw1.0: update firmware-5.bin to 10.4-3.9.0.2-00131
+      ath10k: QCA6174 hw3.0: add firmware-sdio-6.bin version WLAN.RMH.4.4.1=
+-00077
+      ath11k: IPQ6018 hw1.0: add board-2.bin
+      ath11k: IPQ6018 hw1.0: add to WLAN.HK.2.1.0.1-01238-QCAHKSWPL_SILICON=
+Z-2
+      ath11k: IPQ8074 hw2.0: add board-2.bin
+      ath11k: IPQ8074 hw2.0: add to WLAN.HK.2.1.0.1-01238-QCAHKSWPL_SILICON=
+Z-2
+      ath11k: QCA6390 hw2.0: add board-2.bin
+      ath11k: QCA6390 hw2.0: add to WLAN.HST.1.0.1-01740-QCAHSTSWPLZ_V2_TO_=
+X86-1
+
+ WHENCE                                             |   57 +-
+ ath10k/QCA6174/hw3.0/board-2.bin                   |  Bin 584036 -> 633360=
+ bytes
+ ath10k/QCA6174/hw3.0/firmware-6.bin                |  Bin 700988 -> 702844=
+ bytes
+ ath10k/QCA6174/hw3.0/firmware-sdio-6.bin           |  Bin 0 -> 604416 byte=
+s
+ .../hw3.0/notice_ath10k_firmware-sdio-6.txt        | 1352 ++++++++++++++
+ ath10k/QCA9888/hw2.0/firmware-5.bin                |  Bin 688140 -> 691292=
+ bytes
+ ath10k/QCA9984/hw1.0/firmware-5.bin                |  Bin 675948 -> 679288=
+ bytes
+ ath11k/IPQ6018/hw1.0/Notice.txt                    |  786 ++++++++
+ ath11k/IPQ6018/hw1.0/board-2.bin                   |  Bin 0 -> 787208 byte=
+s
+ ath11k/IPQ6018/hw1.0/m3_fw.b00                     |  Bin 0 -> 148 bytes
+ ath11k/IPQ6018/hw1.0/m3_fw.b01                     |  Bin 0 -> 6712 bytes
+ ath11k/IPQ6018/hw1.0/m3_fw.b02                     |  Bin 0 -> 294912 byte=
+s
+ ath11k/IPQ6018/hw1.0/m3_fw.flist                   |    3 +
+ ath11k/IPQ6018/hw1.0/m3_fw.mdt                     |  Bin 0 -> 6860 bytes
+ ath11k/IPQ6018/hw1.0/q6_fw.b00                     |  Bin 0 -> 340 bytes
+ ath11k/IPQ6018/hw1.0/q6_fw.b01                     |  Bin 0 -> 7000 bytes
+ ath11k/IPQ6018/hw1.0/q6_fw.b02                     |  Bin 0 -> 4696 bytes
+ ath11k/IPQ6018/hw1.0/q6_fw.b03                     |  Bin 0 -> 2357712 byt=
+es
+ ath11k/IPQ6018/hw1.0/q6_fw.b04                     |  Bin 0 -> 370560 byte=
+s
+ ath11k/IPQ6018/hw1.0/q6_fw.b05                     |  Bin 0 -> 175588 byte=
+s
+ ath11k/IPQ6018/hw1.0/q6_fw.b07                     |  Bin 0 -> 8936 bytes
+ ath11k/IPQ6018/hw1.0/q6_fw.b08                     |  Bin 0 -> 409914 byte=
+s
+ ath11k/IPQ6018/hw1.0/q6_fw.flist                   |    8 +
+ ath11k/IPQ6018/hw1.0/q6_fw.mdt                     |  Bin 0 -> 7340 bytes
+ ath11k/IPQ8074/hw2.0/Notice.txt                    |  786 ++++++++
+ ath11k/IPQ8074/hw2.0/board-2.bin                   |  Bin 0 -> 1311380 byt=
+es
+ ath11k/IPQ8074/hw2.0/m3_fw.b00                     |  Bin 0 -> 148 bytes
+ ath11k/IPQ8074/hw2.0/m3_fw.b01                     |  Bin 0 -> 136 bytes
+ ath11k/IPQ8074/hw2.0/m3_fw.b02                     |  Bin 0 -> 327680 byte=
+s
+ ath11k/IPQ8074/hw2.0/m3_fw.flist                   |    3 +
+ ath11k/IPQ8074/hw2.0/m3_fw.mdt                     |  Bin 0 -> 284 bytes
+ ath11k/IPQ8074/hw2.0/q6_fw.b00                     |  Bin 0 -> 340 bytes
+ ath11k/IPQ8074/hw2.0/q6_fw.b01                     |  Bin 0 -> 328 bytes
+ ath11k/IPQ8074/hw2.0/q6_fw.b02                     |  Bin 0 -> 4696 bytes
+ ath11k/IPQ8074/hw2.0/q6_fw.b03                     |  Bin 0 -> 2589264 byt=
+es
+ ath11k/IPQ8074/hw2.0/q6_fw.b04                     |  Bin 0 -> 985504 byte=
+s
+ ath11k/IPQ8074/hw2.0/q6_fw.b05                     |  Bin 0 -> 387076 byte=
+s
+ ath11k/IPQ8074/hw2.0/q6_fw.b07                     |  Bin 0 -> 7048 bytes
+ ath11k/IPQ8074/hw2.0/q6_fw.b08                     |  Bin 0 -> 424524 byte=
+s
+ ath11k/IPQ8074/hw2.0/q6_fw.flist                   |    8 +
+ ath11k/IPQ8074/hw2.0/q6_fw.mdt                     |  Bin 0 -> 668 bytes
+ ath11k/QCA6390/hw2.0/Notice.txt                    | 1971 ++++++++++++++++=
+++++
+ ath11k/QCA6390/hw2.0/amss.bin                      |  Bin 0 -> 3609456 byt=
+es
+ ath11k/QCA6390/hw2.0/board-2.bin                   |  Bin 0 -> 58016 bytes
+ ath11k/QCA6390/hw2.0/m3.bin                        |  Bin 0 -> 266684 byte=
+s
+ 45 files changed, 4971 insertions(+), 3 deletions(-)
+ create mode 100644 ath10k/QCA6174/hw3.0/firmware-sdio-6.bin
+ create mode 100644 ath10k/QCA6174/hw3.0/notice_ath10k_firmware-sdio-6.txt
+ create mode 100644 ath11k/IPQ6018/hw1.0/Notice.txt
+ create mode 100644 ath11k/IPQ6018/hw1.0/board-2.bin
+ create mode 100644 ath11k/IPQ6018/hw1.0/m3_fw.b00
+ create mode 100644 ath11k/IPQ6018/hw1.0/m3_fw.b01
+ create mode 100644 ath11k/IPQ6018/hw1.0/m3_fw.b02
+ create mode 100644 ath11k/IPQ6018/hw1.0/m3_fw.flist
+ create mode 100644 ath11k/IPQ6018/hw1.0/m3_fw.mdt
+ create mode 100644 ath11k/IPQ6018/hw1.0/q6_fw.b00
+ create mode 100644 ath11k/IPQ6018/hw1.0/q6_fw.b01
+ create mode 100644 ath11k/IPQ6018/hw1.0/q6_fw.b02
+ create mode 100644 ath11k/IPQ6018/hw1.0/q6_fw.b03
+ create mode 100644 ath11k/IPQ6018/hw1.0/q6_fw.b04
+ create mode 100644 ath11k/IPQ6018/hw1.0/q6_fw.b05
+ create mode 100644 ath11k/IPQ6018/hw1.0/q6_fw.b07
+ create mode 100644 ath11k/IPQ6018/hw1.0/q6_fw.b08
+ create mode 100644 ath11k/IPQ6018/hw1.0/q6_fw.flist
+ create mode 100644 ath11k/IPQ6018/hw1.0/q6_fw.mdt
+ create mode 100644 ath11k/IPQ8074/hw2.0/Notice.txt
+ create mode 100644 ath11k/IPQ8074/hw2.0/board-2.bin
+ create mode 100644 ath11k/IPQ8074/hw2.0/m3_fw.b00
+ create mode 100644 ath11k/IPQ8074/hw2.0/m3_fw.b01
+ create mode 100644 ath11k/IPQ8074/hw2.0/m3_fw.b02
+ create mode 100644 ath11k/IPQ8074/hw2.0/m3_fw.flist
+ create mode 100644 ath11k/IPQ8074/hw2.0/m3_fw.mdt
+ create mode 100644 ath11k/IPQ8074/hw2.0/q6_fw.b00
+ create mode 100644 ath11k/IPQ8074/hw2.0/q6_fw.b01
+ create mode 100644 ath11k/IPQ8074/hw2.0/q6_fw.b02
+ create mode 100644 ath11k/IPQ8074/hw2.0/q6_fw.b03
+ create mode 100644 ath11k/IPQ8074/hw2.0/q6_fw.b04
+ create mode 100644 ath11k/IPQ8074/hw2.0/q6_fw.b05
+ create mode 100644 ath11k/IPQ8074/hw2.0/q6_fw.b07
+ create mode 100644 ath11k/IPQ8074/hw2.0/q6_fw.b08
+ create mode 100644 ath11k/IPQ8074/hw2.0/q6_fw.flist
+ create mode 100644 ath11k/IPQ8074/hw2.0/q6_fw.mdt
+ create mode 100644 ath11k/QCA6390/hw2.0/Notice.txt
+ create mode 100644 ath11k/QCA6390/hw2.0/amss.bin
+ create mode 100644 ath11k/QCA6390/hw2.0/board-2.bin
+ create mode 100644 ath11k/QCA6390/hw2.0/m3.bin
