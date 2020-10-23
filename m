@@ -7,102 +7,96 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24C61C55179
-	for <linux-firmware@archiver.kernel.org>; Fri, 23 Oct 2020 12:03:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D293C4363A
+	for <linux-firmware@archiver.kernel.org>; Fri, 23 Oct 2020 12:06:01 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id E04C324248; Fri, 23 Oct 2020 12:03:35 +0000 (UTC)
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
+	id 25F3F24248; Fri, 23 Oct 2020 12:06:01 +0000 (UTC)
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id B5CB92225F
-	for <linux-firmware@kernel.org>; Fri, 23 Oct 2020 12:03:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPSA id ED25420EDD
+	for <linux-firmware@kernel.org>; Fri, 23 Oct 2020 12:06:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603454615;
-	bh=jm7AapgYULlmW/oT1clsm4ctQnIZKjRGAHXoHL6I//Y=;
+	s=default; t=1603454761;
+	bh=HM2EfumIMPvy7zLqBOFENGsu/uaB8YcE55+EvPiw+gk=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=TJpSkWzxmRP/T44auGf0p6LEH4N+xtnqPZ3vNMUIVbjoJNwGEamNAuKwbfyFwuaim
-	 kps5+zIaL8OKuOl0HDhBxi20NqNQdI1ObTH4ekv7r8IcHPukg1LKjZiMeqKgGGslNm
-	 CxlGUewBXDf3X5Ys+8yBylSAweraMqGdjzQMXzII=
-Received: by mail-il1-f180.google.com with SMTP id p16so1106019ilq.5
-        for <linux-firmware@kernel.org>; Fri, 23 Oct 2020 05:03:35 -0700 (PDT)
-X-Gm-Message-State: AOAM533Bkb7Zrp1yt9gypw24znLZauUMqLZ5P/muT3mcsE6zq8c+ttlG
-	qE+TsIXZPrBWu5hm6u3pNe+l0BoUTSEYdbj6OVE=
-X-Google-Smtp-Source: ABdhPJwAnUBpqMF9VtaoyTVyPeQwbL06Ghm6ZrHs6tjhFlUSnzJLFWnFrdEA86ONMjO1X6A0Jb225Wrrj3NWpSjbttI=
-X-Received: by 2002:a05:6e02:664:: with SMTP id l4mr1394383ilt.81.1603454615092;
- Fri, 23 Oct 2020 05:03:35 -0700 (PDT)
+	b=l/EC/dkKkUo/mcyxFqdGnHTGBV1YZ7aC5+b9sG3EKZjb5A7K5YAUnEbgY1kBUCQHW
+	 n8kJpdCVPlMtlmnNet5VqHbnC382aDGvRv9tYy5kNuquMQYCAnWKqz1UlQc0u1/0vh
+	 NqybhJDUcn1UGlp4qRrgRZ4oe5vqX2c6GJtoiOo8=
+Received: by mail-io1-f42.google.com with SMTP id p15so1474385ioh.0
+        for <linux-firmware@kernel.org>; Fri, 23 Oct 2020 05:06:00 -0700 (PDT)
+X-Gm-Message-State: AOAM533n6EjRmqxA6XTiquEEB1CvSuYH9SKjwnuUVSfZakgyznUtaWA1
+	Li4Z5I8Bl3WskiR5s8PVjoYk6cS7/Isio53cvFs=
+X-Google-Smtp-Source: ABdhPJzn+egfTDXMlr27EinypWoWWPWlBnjMbBBocaonk7iwpQ3Y7AnNn8F8xoRfuDOhg6PUE8vuGlbLEKobCncET5g=
+X-Received: by 2002:a05:6638:2512:: with SMTP id v18mr1667480jat.106.1603454760266;
+ Fri, 23 Oct 2020 05:06:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <c26822c0a6d19869d7eeaa6bf07db1f3298a1984.camel@coelho.fi>
-In-Reply-To: <c26822c0a6d19869d7eeaa6bf07db1f3298a1984.camel@coelho.fi>
+References: <290a085b0fb686ce6aacbd02be560e52@codeaurora.org> <dfbf51326d00ae72ed2b6149e7ccf570@codeaurora.org>
+In-Reply-To: <dfbf51326d00ae72ed2b6149e7ccf570@codeaurora.org>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Fri, 23 Oct 2020 08:03:24 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA4=R4jJ+jwsj3ayji+PfeV6yVp7T=n1=qF2MUz25iftTQ@mail.gmail.com>
-Message-ID: <CA+5PVA4=R4jJ+jwsj3ayji+PfeV6yVp7T=n1=qF2MUz25iftTQ@mail.gmail.com>
-Subject: Re: pull request: iwlwifi firmware updates 2020-10-14
-To: Luca Coelho <luca@coelho.fi>
+Date: Fri, 23 Oct 2020 08:05:49 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA6aDspcdPFoLR_BbQcPzMpsfo3O6KWiRf+tTuAq11skMQ@mail.gmail.com>
+Message-ID: <CA+5PVA6aDspcdPFoLR_BbQcPzMpsfo3O6KWiRf+tTuAq11skMQ@mail.gmail.com>
+Subject: Re: Update venus firmware files for v5.4
+To: asitshah@codeaurora.org
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, "kyle@infradead.org" <kyle@infradead.org>, 
-	"ben@decadent.org.uk" <ben@decadent.org.uk>, golan.ben.ami@intel.com
+Cc: Linux Firmware <linux-firmware@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+	Mauro Carvalho Chehab <mchehab@infradead.org>, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>, 
+	Stanimir Varbanov <stanimir.varbanov@linaro.org>, linux-media-owner@vger.kernel.org, 
+	vgarodia@codeaurora.org, dikshita@codeaurora.org
 Content-Type: text/plain; charset="UTF-8"
 
 Pulled and pushed out.
 
 josh
 
-On Wed, Oct 14, 2020 at 10:01 AM Luca Coelho <luca@coelho.fi> wrote:
+On Tue, Oct 20, 2020 at 1:47 AM <asitshah@codeaurora.org> wrote:
 >
-> Hi,
+> Hi Team,
 >
-> This contains some new and updated firmwares for all our currently
-> maintained FW binaries.
+> Gentle Reminder. Please let me know if anything is missing.
 >
-> Please pull or let me know if there are any issues.
+> Regards,
+> Asit
 >
-> --
-> Cheers,
-> Luca.
 >
-> The following changes since commit 58d41d0facca2478d3e45f6321224361519aee96:
->
->   ice: Add comms package file for Intel E800 series driver (2020-10-05 08:09:03 -0400)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.git tags/iwlwifi-fw-2020-10-14
->
-> for you to fetch changes up to 4f41e9d6437d03e7ce9279076107dd08f46656f3:
->
->   iwlwifi: update and add new FWs from core56-54 release (2020-10-14 16:07:28 +0300)
->
-> ----------------------------------------------------------------
-> Update iwlwifi firmwares to Core56-54
->
-> ----------------------------------------------------------------
-> Luca Coelho (2):
->       iwlwifi: update 3168, 7265D, 8000C and 8265 firmwares
->       iwlwifi: update and add new FWs from core56-54 release
->
->  WHENCE                            |  36 ++++++++++++++++++++++++++++++------
->  iwlwifi-3168-29.ucode             | Bin 1036288 -> 1036288 bytes
->  iwlwifi-7265D-29.ucode            | Bin 1036656 -> 1036444 bytes
->  iwlwifi-8000C-36.ucode            | Bin 2401100 -> 2428004 bytes
->  iwlwifi-8265-36.ucode             | Bin 2409984 -> 2436632 bytes
->  iwlwifi-9000-pu-b0-jf-b0-46.ucode | Bin 1481104 -> 1512096 bytes
->  iwlwifi-9260-th-b0-jf-b0-46.ucode | Bin 1470272 -> 1483116 bytes
->  iwlwifi-Qu-b0-hr-b0-59.ucode      | Bin 0 -> 1300764 bytes
->  iwlwifi-Qu-b0-jf-b0-59.ucode      | Bin 0 -> 1226208 bytes
->  iwlwifi-Qu-c0-hr-b0-59.ucode      | Bin 0 -> 1300780 bytes
->  iwlwifi-Qu-c0-jf-b0-59.ucode      | Bin 0 -> 1226224 bytes
->  iwlwifi-QuZ-a0-hr-b0-59.ucode     | Bin 0 -> 1299660 bytes
->  iwlwifi-QuZ-a0-jf-b0-59.ucode     | Bin 0 -> 1226064 bytes
->  iwlwifi-cc-a0-59.ucode            | Bin 0 -> 1261280 bytes
->  iwlwifi-ty-a0-gf-a0-59.ucode      | Bin 0 -> 1413868 bytes
->  15 files changed, 30 insertions(+), 6 deletions(-)
->  create mode 100644 iwlwifi-Qu-b0-hr-b0-59.ucode
->  create mode 100644 iwlwifi-Qu-b0-jf-b0-59.ucode
->  create mode 100644 iwlwifi-Qu-c0-hr-b0-59.ucode
->  create mode 100644 iwlwifi-Qu-c0-jf-b0-59.ucode
->  create mode 100644 iwlwifi-QuZ-a0-hr-b0-59.ucode
->  create mode 100644 iwlwifi-QuZ-a0-jf-b0-59.ucode
->  create mode 100644 iwlwifi-cc-a0-59.ucode
->  create mode 100644 iwlwifi-ty-a0-gf-a0-59.ucode
+> On 2020-10-08 15:20, asitshah@codeaurora.org wrote:
+> > Hi Team,
+> >
+> > Please include updated Venus Firmware bins for v5.4.
+> >
+> > Snapshot of pull request is as below, let me know if anything is
+> > missing.
+> >
+> >>>>>>>
+> >
+> > The following changes since commit
+> > 00a84c516078defb76fbd57543b8d5c674a9a2be:
+> >
+> >   linux-firmware: Update AMD SEV firmware (2020-09-16 08:01:44 -0400)
+> >
+> > are available in the git repository at:
+> >
+> >   https://github.com/shahasit/video-linux-firmware/tree/master
+> >
+> > for you to fetch changes up to
+> > a09b728b77f5e3b335ff85c6c729248e0121f02c:
+> >
+> >   qcom : updated venus firmware files for v5.4 (2020-10-08 15:07:59
+> > +0530)
+> >
+> > ----------------------------------------------------------------
+> > Asit Shah (1):
+> >       qcom : updated venus firmware files for v5.4
+> >
+> >  qcom/venus-5.4/venus.b00 | Bin 212 -> 212 bytes
+> >  qcom/venus-5.4/venus.b01 | Bin 6808 -> 6808 bytes
+> >  qcom/venus-5.4/venus.b02 | Bin 870812 -> 873100 bytes
+> >  qcom/venus-5.4/venus.b03 | Bin 33792 -> 33792 bytes
+> >  qcom/venus-5.4/venus.mbn | Bin 916924 -> 919212 bytes
+> >  qcom/venus-5.4/venus.mdt | Bin 7020 -> 7020 bytes
+> >  6 files changed, 0 insertions(+), 0 deletions(-)
+> >
+> > Regards,
+> > Asit
