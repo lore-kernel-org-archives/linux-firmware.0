@@ -1,101 +1,78 @@
-Return-Path: <SRS0=OSQK=D5=vger.kernel.org=linux-wireless-owner@kernel.org>
+Return-Path: <SRS0=FqJP=D6=vger.kernel.org=linux-media-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,MIME_BASE64_TEXT,SPF_HELO_NONE,
+	SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2939C4363A
-	for <linux-wireless@archiver.kernel.org>; Thu, 22 Oct 2020 18:27:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1AB3C388F9
+	for <linux-media@archiver.kernel.org>; Fri, 23 Oct 2020 09:10:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 80989223C7
-	for <linux-wireless@archiver.kernel.org>; Thu, 22 Oct 2020 18:27:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 770552463C
+	for <linux-media@archiver.kernel.org>; Fri, 23 Oct 2020 09:10:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="be+opnsk"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="cvcX2EDi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S368095AbgJVS1A (ORCPT
-        <rfc822;linux-wireless@archiver.kernel.org>);
-        Thu, 22 Oct 2020 14:27:00 -0400
-Received: from z5.mailgun.us ([104.130.96.5]:21658 "EHLO z5.mailgun.us"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2900977AbgJVS1A (ORCPT <rfc822;linux-wireless@vger.kernel.org>);
-        Thu, 22 Oct 2020 14:27:00 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1603391220; h=Content-Type: MIME-Version: Message-ID:
- In-Reply-To: Date: References: Subject: Cc: To: From: Sender;
- bh=Cu7ZTa+xQOns7SwIcrCbeXs+JUnsIByxQOyMwMvN+rU=; b=be+opnskJIouEbHoropSYG/+JUghlJscabuRX/XP92NtpAuR3BAsH1yf80GB/usn7+tdQN0b
- w9DJDH8Xggv2vmRU4e2sHm4rjbLmqbl0fSwtRlnjyaSAHP9AE11TQTpKynxrsb3XRXUSmt+o
- aLvv2Z1o39PE/4bIaECL26dIhT8=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyI3YTAwOSIsICJsaW51eC13aXJlbGVzc0B2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
- 5f91ceda4f8cc67c31142f31 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 22 Oct 2020 18:26:34
- GMT
-Sender: kvalo=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id E25D9C433FF; Thu, 22 Oct 2020 18:26:33 +0000 (UTC)
-Received: from potku.adurom.net (88-114-240-156.elisa-laajakaista.fi [88.114.240.156])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: kvalo)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 27381C433C9;
-        Thu, 22 Oct 2020 18:26:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 27381C433C9
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=kvalo@codeaurora.org
-From:   Kalle Valo <kvalo@codeaurora.org>
+        id S461194AbgJWJKy (ORCPT <rfc822;linux-media@archiver.kernel.org>);
+        Fri, 23 Oct 2020 05:10:54 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:44534 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S461192AbgJWJKy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 23 Oct 2020 05:10:54 -0400
+X-UUID: d68a97bb3f6c473f8f89147e0016c9da-20201023
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=9O9vL8W8ftwpo5r9aL/7yLqe76HJJadkcFJaPM5zdZk=;
+        b=cvcX2EDiBuBfykrTmf4A2XgQvoHaPSKNaX8Tr4Kpgn9H511pmRkacpY/W1G6aQ0oV8hiBXt6OLS1+WlSQ0c72ErIXzMyXBpXefOi3V23frKdE5T8niJzNYwVOJchIl+75FIJPFobftSeJpWSuC4muEtzEKtCGj8lVD5QT3IZUY0=;
+X-UUID: d68a97bb3f6c473f8f89147e0016c9da-20201023
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+        (envelope-from <irui.wang@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1542337966; Fri, 23 Oct 2020 17:10:50 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs02n2.mediatek.inc (172.21.101.101) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 23 Oct 2020 17:10:41 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 23 Oct 2020 17:10:40 +0800
+From:   Irui Wang <irui.wang@mediatek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To:     "linux-firmware\@kernel.org" <linux-firmware@kernel.org>
-Cc:     "linux-wireless\@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "ath11k\@lists.infradead.org" <ath11k@lists.infradead.org>,
-        "ath10k\@lists.infradead.org" <ath10k@lists.infradead.org>
-Subject: Re: [PULL] ath10k & ath11k firmware 20201022
-References: <BYAPR02MB4567892AD5957F360C01E73F921D0@BYAPR02MB4567.namprd02.prod.outlook.com>
-Date:   Thu, 22 Oct 2020 21:26:30 +0300
-In-Reply-To: <BYAPR02MB4567892AD5957F360C01E73F921D0@BYAPR02MB4567.namprd02.prod.outlook.com>
-        (Kalle Valo's message of "Thu, 22 Oct 2020 08:23:01 +0000")
-Message-ID: <87sga65d7t.fsf@codeaurora.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.5 (gnu/linux)
+To:     <linux-firmware@kernel.org>
+CC:     <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-media@vger.kernel.org>, <tiffany.lin@mediatek.com>,
+        <Maoguang.Meng@mediatek.com>, <Longfei.Wang@mediatek.com>,
+        <Yunfei.Dong@mediatek.com>, <Andrew-CT.Chen@mediatek.com>,
+        <erin.lo@mediatek.com>, <PoChun.Lin@mediatek.com>,
+        <irui.wang@mediatek.com>, <srv_heupstream@mediatek.com>
+Subject: pull request: linux-firmware: mediatek: separate venc service thread 
+Date:   Fri, 23 Oct 2020 17:10:25 +0800
+Message-ID: <20201023091026.32066-1-irui.wang@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
 Content-Type: text/plain
+X-TM-SNTS-SMTP: 064E32424A37CD246CCD88A1AB796DE73C6A1480B4CF398B54EE122CF77318612000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
-List-ID: <linux-wireless.vger.kernel.org>
-X-Mailing-List: linux-wireless@vger.kernel.org
-Message-ID: <20201022182630.68zkbrO59Toh671oO1dh4NwGENzbggBabED5h4AUNmA@z>
+List-ID: <linux-media.vger.kernel.org>
+X-Mailing-List: linux-media@vger.kernel.org
 
-Kalle Valo <kvalo@qca.qualcomm.com> writes:
+SGkgbGludXgtZmlybXdhcmUgbWFpbnRhaW5lcnMsDQoNClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBz
+aW5jZSBjb21taXQgNThkNDFkMGZhY2NhMjQ3OGQzZTQ1ZjYzMjEyMjQzNjE1MTlhZWU5NjoNCg0K
+ICBpY2U6IEFkZCBjb21tcyBwYWNrYWdlIGZpbGUgZm9yIEludGVsIEU4MDAgc2VyaWVzIGRyaXZl
+ciAoMjAyMC0xMC0wNSAwODowOTowMyAtMDQwMCkNCg0KYXJlIGF2YWlsYWJsZSBpbiB0aGUgR2l0
+IHJlcG9zaXRvcnkgYXQ6DQoNCiAgaHR0cHM6Ly9naXRodWIuY29tL2lydWktd2FuZy9saW51eF9m
+d192cHVfdjEuMS41LmdpdCB2MS4xLjUNCg0KZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRv
+IDc2Y2VhYzgyM2MzZjVlODY3ZThhMjJkNjUwNTk5M2ZlNDlmNjAyZDk6DQoNCiAgbWVkaWF0ZWs6
+IHNlcGFyYXRlIHZlbmMgc2VydmljZSB0aHJlYWQgKDIwMjAtMTAtMjMgMTY6NDM6NTcgKzA4MDAp
+DQoNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0NCklydWkgV2FuZyAoMSk6DQogICAgICBtZWRpYXRlazogc2VwYXJhdGUgdmVu
+YyBzZXJ2aWNlIHRocmVhZA0KDQogbWVkaWF0ZWsvbXQ4MTczL3ZwdV9kLmJpbiB8IEJpbiAyOTc3
+MTg0IC0+IDI5NzcxODQgYnl0ZXMNCiBtZWRpYXRlay9tdDgxNzMvdnB1X3AuYmluIHwgQmluIDEz
+MTE4MCAtPiAxMzExODAgYnl0ZXMNCiAyIGZpbGVzIGNoYW5nZWQsIDAgaW5zZXJ0aW9ucygrKSwg
+MCBkZWxldGlvbnMoLSkNCg0KDQo=
 
-> Hi linux-firmware maintainers,
->
-> here's a pull request for ath10k and ath11k drivers. For ath10k there
-> is a firmware for new hardware QCA6174 hw3.0 SDIO. For ath11k there
-> are firmwares for new hardware IPQ8074 hw2.0, IPQ6018 hw1.0 and
-> QCA6390 hw2.0. And also few updates for existing hardware.
->
-> I did not include QCA9377 SDIO firmware as I saw Christian submitted a
-> patch adding that.
->
-> Please let me know if there are any problems.
->
-> Kalle
->
-> The following changes since commit 58d41d0facca2478d3e45f6321224361519aee96:
->
->   ice: Add comms package file for Intel E800 series driver (2020-10-05 08:09:03 -0400)
->
-> are available in the git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/kvalo/linux-firmware.git ath10k-20201022
-
-I noticed that ath11k Notice.txt files are not valid utf-8. Please drop
-this pull request, I'll send a fixed one tomorrow.
-
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
