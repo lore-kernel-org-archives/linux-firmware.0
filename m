@@ -2,114 +2,96 @@ Return-Path: <SRS0=tG6t=ED=ti.com=nikhil.nd@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBE80C388F7
-	for <linux-firmware@archiver.kernel.org>; Wed, 28 Oct 2020 17:19:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66A50C4363A
+	for <linux-firmware@archiver.kernel.org>; Wed, 28 Oct 2020 18:43:03 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 6CEC7247D5; Wed, 28 Oct 2020 17:19:30 +0000 (UTC)
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+	id 1E52424812; Wed, 28 Oct 2020 18:43:03 +0000 (UTC)
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 03EB6247CC
-	for <linux-firmware@kernel.org>; Wed, 28 Oct 2020 17:19:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B283424810
+	for <linux-firmware@kernel.org>; Wed, 28 Oct 2020 18:43:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="S3PDiK26"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 03EB6247CC
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="DDXfpE9k"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B283424810
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=nikhil.nd@ti.com
 Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 09SHJQVl069453;
-	Wed, 28 Oct 2020 12:19:26 -0500
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 09SIgwps111356;
+	Wed, 28 Oct 2020 13:42:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1603905566;
-	bh=xw3/OYpYabhSVgmiGBRFSQkrGBCD4qoimkYDCSBz89A=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=S3PDiK26N0dO/2hGt1qpIWTwC9tp+4OUk+JJsqq+kP+ROnRhC8TzS5kxHCIrgTdKp
-	 Zp2G+JU7O+AV7m73F6AYyi8AeJKmEfpFg5GG4qC2D62ufv7Y9YsI0Xll/sLw7wI5t2
-	 K9VAlRb6+xNV0fDKF9SbgxnVBxS2q4cJZFH6cDho=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 09SHJQxJ108689
+	s=ti-com-17Q1; t=1603910578;
+	bh=eUUQz9Q2QCafre6eevRBt7I6qddetRHPjoxk8mGd2wY=;
+	h=From:To:CC:Subject:Date;
+	b=DDXfpE9kd+hfsLt1+CIQFVs1tYkTPZEwwR/whhbsKkEKypWME8K4whVbOWNldKQOp
+	 dKimbOY1wn3ieB8fJwMoWJmscTM7ob2NcXu0ZHmnCw/XPBKiecxHgANjRp+aUz7iZ5
+	 yNZF6HiAA+EUCbsIg1l2aMiUWa2EBlyF0jOnt0I4=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 09SIgwG9106242
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 28 Oct 2020 12:19:26 -0500
-Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+	Wed, 28 Oct 2020 13:42:58 -0500
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 28
- Oct 2020 12:19:26 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ Oct 2020 13:42:58 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 28 Oct 2020 12:19:26 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-	by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 09SHJOkq006523;
-	Wed, 28 Oct 2020 12:19:25 -0500
-Date: Wed, 28 Oct 2020 22:49:24 +0530
+ Frontend Transport; Wed, 28 Oct 2020 13:42:58 -0500
+Received: from NiksLab.india.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+	by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 09SIgsuN094611;
+	Wed, 28 Oct 2020 13:42:55 -0500
 From: Nikhil Devshatwar <nikhil.nd@ti.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
 List-Id: <linux-firmware.lore.kernel.org>
-CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        <linux-firmware@kernel.org>, <linux-media@vger.kernel.org>,
-        Dan Murphy
-	<dmurphy@ti.com>, Benoit Parrot <bparrot@ti.com>,
-        Sekhar Nori
-	<nsekhar@ti.com>
-Subject: Re: [PATCH] vpdma: Move firmware to the toplevel
-Message-ID: <20201028171924.dk2swpi2uzpgz5az@NiksLab>
-References: <20201026200922.12719-1-nikhil.nd@ti.com>
- <20201026210832.GE3756@pendragon.ideasonboard.com>
- <868ff235-20c7-b0c0-df08-3d4582adb544@ti.com>
+To: <linux-firmware@kernel.org>, <linux-media@vger.kernel.org>
+CC: Dan Murphy <dmurphy@ti.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Benoit Parrot <bparrot@ti.com>, Sekhar Nori <nsekhar@ti.com>,
+        Laurent
+ Pinchart <laurent.pinchart@ideasonboard.com>,
+        Nikhil Devshatwar
+	<nikhil.nd@ti.com>
+Subject: [PATCH v2] vpdma: Move firmware to ti directory
+Date: Thu, 29 Oct 2020 00:12:49 +0530
+Message-ID: <20201028184249.11293-1-nikhil.nd@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <868ff235-20c7-b0c0-df08-3d4582adb544@ti.com>
-User-Agent: NeoMutt/20171215
+Content-Type: text/plain
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-On 09:41-20201028, Tomi Valkeinen wrote:
-> On 26/10/2020 23:08, Laurent Pinchart wrote:
-> > Hi Nikhil,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Tue, Oct 27, 2020 at 01:39:22AM +0530, Nikhil Devshatwar wrote:
-> >> Move the vpdma firmware to the toplevel directory so
-> >> that the existing drivers can use it with the same path.
-> >>
-> >> Fixes: 5b30b383ce ("linux-firmware: Add new VPDMA firmware 1b8.bin")
-> >> Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
-> >> ---
-> >>  WHENCE                                         |   2 +-
-> >>  ti-connectivity/vpdma-1b8.bin => vpdma-1b8.bin | Bin
-> > 
-> > I think Tomi meant moving the file to ti/ instead of ti-connectivity/. I
-> > will let him comment on this.
-> 
-> I don't really have a strong opinion here, as I don't know if there are some rules or guidelines
-> about file/dir naming in linux-firmware.
-> 
-> But my argument is:
-> 
-> The fw should either be at the root dir, where the linux driver is already looking for it, OR, if we
-> do move it somewhere, move it to a "right" place. Afaics "ti-connectivity" is totally wrong place,
-> as vpdma has nothing to do with connectivity.
-> 
-> The root dir is a bit bad as "vpdma-1b8.bin" doesn't have TI or such in its name, so even if name
+Current ti-connectivity location for the firmware is not the
+correct place. It has all the wireless connectivity related firmwares.
+Move the vpdma firmware to the ti specific directory.
 
-With this, I am more inclined to put it in ti/ directory.
+Fixes: 5b30b383ce ("linux-firmware: Add new VPDMA firmware 1b8.bin")
+Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+---
+ WHENCE                                |   2 +-
+ {ti-connectivity => ti}/vpdma-1b8.bin | Bin
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename {ti-connectivity => ti}/vpdma-1b8.bin (100%)
 
-> conflict with some other fw feels quite unlikely, the name is still rather vague. And moving is a
-> bit bad as then the current driver won't find the fw...
+diff --git a/WHENCE b/WHENCE
+index 473f6fb..d4efee2 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -2705,7 +2705,7 @@ Licence: Redistributable. See LICENCE.tda7706-firmware.txt for details.
+ 
+ Driver: ti-vpe - Texas Instruments V4L2 driver for Video Processing Engine
+ 
+-File: ti-connectivity/vpdma-1b8.bin
++File: ti/vpdma-1b8.bin
+ 
+ Licence: Redistributable. See LICENCE.ti-tspa for details.
+ 
+diff --git a/ti-connectivity/vpdma-1b8.bin b/ti/vpdma-1b8.bin
+similarity index 100%
+rename from ti-connectivity/vpdma-1b8.bin
+rename to ti/vpdma-1b8.bin
+-- 
+2.17.1
 
-Since the current driver is not getting any firmware anyways, it should
-be fine to move it and update the driver accordingly.
-I will send v2 with the firmware moved to ti/
-
-> 
->  Tomi
-> 
-> -- 
-> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
