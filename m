@@ -1,97 +1,107 @@
-Return-Path: <SRS0=tG6t=ED=ti.com=nikhil.nd@kernel.org>
+Return-Path: <SRS0=P9Ru=EE=ti.com=tomi.valkeinen@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66A50C4363A
-	for <linux-firmware@archiver.kernel.org>; Wed, 28 Oct 2020 18:43:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC0CFC4363A
+	for <linux-firmware@archiver.kernel.org>; Thu, 29 Oct 2020 07:07:47 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 1E52424812; Wed, 28 Oct 2020 18:43:03 +0000 (UTC)
+	id A37BD218AC; Thu, 29 Oct 2020 07:07:47 +0000 (UTC)
 Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B283424810
-	for <linux-firmware@kernel.org>; Wed, 28 Oct 2020 18:43:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 26EB320732
+	for <linux-firmware@kernel.org>; Thu, 29 Oct 2020 07:07:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="DDXfpE9k"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B283424810
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Ois2CnsM"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 26EB320732
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=nikhil.nd@ti.com
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 09SIgwps111356;
-	Wed, 28 Oct 2020 13:42:58 -0500
+Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=tomi.valkeinen@ti.com
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 09T77hAa033099;
+	Thu, 29 Oct 2020 02:07:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1603910578;
-	bh=eUUQz9Q2QCafre6eevRBt7I6qddetRHPjoxk8mGd2wY=;
-	h=From:To:CC:Subject:Date;
-	b=DDXfpE9kd+hfsLt1+CIQFVs1tYkTPZEwwR/whhbsKkEKypWME8K4whVbOWNldKQOp
-	 dKimbOY1wn3ieB8fJwMoWJmscTM7ob2NcXu0ZHmnCw/XPBKiecxHgANjRp+aUz7iZ5
-	 yNZF6HiAA+EUCbsIg1l2aMiUWa2EBlyF0jOnt0I4=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 09SIgwG9106242
+	s=ti-com-17Q1; t=1603955263;
+	bh=xMeGsfNYGAllDn2PyydKL8FowmhOxde2xLuq+IAIcW8=;
+	h=Subject:To:CC:References:From:Date:In-Reply-To;
+	b=Ois2CnsMuVJSULfNIC23UjZhCkO/WXW78eCX0TOtmY0nwLWkPKcW55y+OSjgvl8bp
+	 sKAG2vVZDKpLbwvccU06yKFG77wh+ux80sJMAFrmrIxAi/m6u9vq/mD1K1baMmZqlQ
+	 hVJb8VQY4vrCEmwBn2DFo51HssNwOFOIyy/EfdGE=
+Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 09T77hst052645
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 28 Oct 2020 13:42:58 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 28
- Oct 2020 13:42:58 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+	Thu, 29 Oct 2020 02:07:43 -0500
+Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 29
+ Oct 2020 02:07:43 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 28 Oct 2020 13:42:58 -0500
-Received: from NiksLab.india.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-	by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 09SIgsuN094611;
-	Wed, 28 Oct 2020 13:42:55 -0500
-From: Nikhil Devshatwar <nikhil.nd@ti.com>
+ Frontend Transport; Thu, 29 Oct 2020 02:07:43 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+	by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 09T77f9t104429;
+	Thu, 29 Oct 2020 02:07:42 -0500
+Subject: Re: [PATCH v2] vpdma: Move firmware to ti directory
 List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>, <linux-media@vger.kernel.org>
-CC: Dan Murphy <dmurphy@ti.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Benoit Parrot <bparrot@ti.com>, Sekhar Nori <nsekhar@ti.com>,
-        Laurent
- Pinchart <laurent.pinchart@ideasonboard.com>,
-        Nikhil Devshatwar
-	<nikhil.nd@ti.com>
-Subject: [PATCH v2] vpdma: Move firmware to ti directory
-Date: Thu, 29 Oct 2020 00:12:49 +0530
-Message-ID: <20201028184249.11293-1-nikhil.nd@ti.com>
-X-Mailer: git-send-email 2.17.1
+To: Nikhil Devshatwar <nikhil.nd@ti.com>, <linux-firmware@kernel.org>,
+        <linux-media@vger.kernel.org>
+CC: Dan Murphy <dmurphy@ti.com>, Benoit Parrot <bparrot@ti.com>,
+        Sekhar Nori
+	<nsekhar@ti.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20201028184249.11293-1-nikhil.nd@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <6b7cb928-909f-36fd-3949-ba9fb32f7cfd@ti.com>
+Date: Thu, 29 Oct 2020 09:07:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20201028184249.11293-1-nikhil.nd@ti.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Current ti-connectivity location for the firmware is not the
-correct place. It has all the wireless connectivity related firmwares.
-Move the vpdma firmware to the ti specific directory.
+On 28/10/2020 20:42, Nikhil Devshatwar wrote:
+> Current ti-connectivity location for the firmware is not the
+> correct place. It has all the wireless connectivity related firmwares.
+> Move the vpdma firmware to the ti specific directory.
+> 
+> Fixes: 5b30b383ce ("linux-firmware: Add new VPDMA firmware 1b8.bin")
+> Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+> ---
+>  WHENCE                                |   2 +-
+>  {ti-connectivity => ti}/vpdma-1b8.bin | Bin
+>  2 files changed, 1 insertion(+), 1 deletion(-)
+>  rename {ti-connectivity => ti}/vpdma-1b8.bin (100%)
+> 
+> diff --git a/WHENCE b/WHENCE
+> index 473f6fb..d4efee2 100644
+> --- a/WHENCE
+> +++ b/WHENCE
+> @@ -2705,7 +2705,7 @@ Licence: Redistributable. See LICENCE.tda7706-firmware.txt for details.
+>  
+>  Driver: ti-vpe - Texas Instruments V4L2 driver for Video Processing Engine
+>  
+> -File: ti-connectivity/vpdma-1b8.bin
+> +File: ti/vpdma-1b8.bin
+>  
+>  Licence: Redistributable. See LICENCE.ti-tspa for details.
+>  
+> diff --git a/ti-connectivity/vpdma-1b8.bin b/ti/vpdma-1b8.bin
+> similarity index 100%
+> rename from ti-connectivity/vpdma-1b8.bin
+> rename to ti/vpdma-1b8.bin
 
-Fixes: 5b30b383ce ("linux-firmware: Add new VPDMA firmware 1b8.bin")
-Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
----
- WHENCE                                |   2 +-
- {ti-connectivity => ti}/vpdma-1b8.bin | Bin
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename {ti-connectivity => ti}/vpdma-1b8.bin (100%)
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
-diff --git a/WHENCE b/WHENCE
-index 473f6fb..d4efee2 100644
---- a/WHENCE
-+++ b/WHENCE
-@@ -2705,7 +2705,7 @@ Licence: Redistributable. See LICENCE.tda7706-firmware.txt for details.
- 
- Driver: ti-vpe - Texas Instruments V4L2 driver for Video Processing Engine
- 
--File: ti-connectivity/vpdma-1b8.bin
-+File: ti/vpdma-1b8.bin
- 
- Licence: Redistributable. See LICENCE.ti-tspa for details.
- 
-diff --git a/ti-connectivity/vpdma-1b8.bin b/ti/vpdma-1b8.bin
-similarity index 100%
-rename from ti-connectivity/vpdma-1b8.bin
-rename to ti/vpdma-1b8.bin
+ Tomi
+
 -- 
-2.17.1
-
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
