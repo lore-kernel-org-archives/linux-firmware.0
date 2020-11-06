@@ -1,80 +1,47 @@
-Return-Path: <SRS0=coUE=EL=vger.kernel.org=linux-arm-msm-owner@kernel.org>
+Return-Path: <asitshah@codeaurora.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
+	INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 445F5C4742C
-	for <linux-arm-msm@archiver.kernel.org>; Thu,  5 Nov 2020 07:06:06 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DC83A21556
-	for <linux-arm-msm@archiver.kernel.org>; Thu,  5 Nov 2020 07:06:05 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="qx/CgSDx"
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725298AbgKEHGF (ORCPT
-        <rfc822;linux-arm-msm@archiver.kernel.org>);
-        Thu, 5 Nov 2020 02:06:05 -0500
-Received: from m42-4.mailgun.net ([69.72.42.4]:41581 "EHLO m42-4.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726330AbgKEHGF (ORCPT <rfc822;linux-arm-msm@vger.kernel.org>);
-        Thu, 5 Nov 2020 02:06:05 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1604559964; h=Message-ID: Subject: Cc: To: From: Date:
- Content-Transfer-Encoding: Content-Type: MIME-Version: Sender;
- bh=1Pctgo6qoLaBH5cW9YYonDcMS4/9/r69lL2AMog1LQI=; b=qx/CgSDxOqqHFeAYwr6tJ0AmtWxpN8VlzlCZUiqO/s7CKoUcWd7GxefcaBwgwYLsAtf8ti2k
- Rkh3V3Wakpw0QNxuU938soF7rr4s4kPhaMYDB6d7iWHRWnWwqlWo6PKqvTSSAzY3102YlPk2
- AERCPKQgw0Y6wF3TCxO21Z6zeP0=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyI1MzIzYiIsICJsaW51eC1hcm0tbXNtQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
- 5fa3a45ba6bf6cdf63ff63b5 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 05 Nov 2020 07:06:03
- GMT
-Sender: asitshah=codeaurora.org@mg.codeaurora.org
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B1F7C2D0A3
+	for <linux-firmware@archiver.kernel.org>; Fri,  6 Nov 2020 05:10:28 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id 49CFB2078B; Fri,  6 Nov 2020 05:10:28 +0000 (UTC)
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id DAFAFC433CB; Thu,  5 Nov 2020 07:06:02 +0000 (UTC)
+	id F0673C433CB; Fri,  6 Nov 2020 05:10:27 +0000 (UTC)
 Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: asitshah)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 645CAC433C6;
-        Thu,  5 Nov 2020 07:06:02 +0000 (UTC)
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: asitshah)
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id 7A664C433C8;
+	Fri,  6 Nov 2020 05:10:27 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII;
  format=flowed
 Content-Transfer-Encoding: 7bit
-Date:   Thu, 05 Nov 2020 12:36:02 +0530
-From:   asitshah@codeaurora.org
+Date: Fri, 06 Nov 2020 10:40:27 +0530
+From: asitshah@codeaurora.org
 List-Id: <linux-firmware.lore.kernel.org>
-To:     linux-firmware@kernel.org, jwboyer@kernel.org
-Cc:     mka@chromium.org, linux-kernel@vger.kernel.org,
-        linux-bluetooth@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        hemantg@codeaurora.org, gubbaven@codeaurora.org,
-        abhishekpandit@chromium.org, bgodavar@codeaurora.org
-Subject: Request to Update WCN3991 FW file
-Message-ID: <71acb08c5c7e7b10f4112b350707ee82@codeaurora.org>
+To: linux-firmware@kernel.org, linux-arm-kernel@lists.infradead.org,
+ mchehab@infradead.org, linux-media@vger.kernel.org,
+ stanimir.varbanov@linaro.org, linux-media-owner@vger.kernel.org
+Cc: vgarodia@codeaurora.org, dikshita@codeaurora.org
+Subject: Update venus firmware files for v5.4
+Message-ID: <c1bcb5eedc160e99d65576d431816a41@codeaurora.org>
 X-Sender: asitshah@codeaurora.org
 User-Agent: Roundcube Webmail/1.3.9
-Precedence: bulk
-List-ID: <linux-arm-msm.vger.kernel.org>
-X-Mailing-List: linux-arm-msm@vger.kernel.org
-Message-ID: <20201105070602.em4cDPW56MGCQMU71zoAJe3_puDWJ3NuZRBRKObQ0PQ@z>
 
-Hello Team,
+Hi Team,
 
-Please include updated firmware bins for WCN3991. Change includes 
-updated TLV file to fix BT SSR.
+Please include updated Venus Firmware bins for v5.4.
 
 Snapshot of pull request is as below, let me know if anything is 
 missing.
 
->>>>> 
+>>>>>> 
 
 The following changes since commit 
 dae4b4cd084102cd49c37aa8b579b208028ab025:
@@ -85,21 +52,26 @@ https://github.com/irui-wang/linux_fw_vpu_v1.1.5 into main (2020-10-23
 
 are available in the git repository at:
 
-   https://github.com/shahasit/bt-linux-firmware.git master
+   https://github.com/shahasit/video-linux-firmware/tree/master
 
-for you to fetch changes up to d7793e53b156126f6ea09c8d6e17cc9a8fe0ca77:
+for you to fetch changes up to 8a46c32a26b3f22835543b158877aa0b0e01e8d6:
 
-   QCA : Fixed BT SSR due to command timeout / IO fatal error (2020-11-05 
-12:26:32 +0530)
+   qcom : updated venus firmware files for v5.4 (2020-11-06 10:33:37 
++0530)
 
 ----------------------------------------------------------------
 Asit Shah (1):
-       QCA : Fixed BT SSR due to command timeout / IO fatal error
+       qcom : updated venus firmware files for v5.4
 
-  qca/crbtfw32.tlv | Bin 126832 -> 126892 bytes
-  1 file changed, 0 insertions(+), 0 deletions(-)
+  qcom/venus-5.4/venus.b00 | Bin 212 -> 212 bytes
+  qcom/venus-5.4/venus.b01 | Bin 6808 -> 6808 bytes
+  qcom/venus-5.4/venus.b02 | Bin 873100 -> 873680 bytes
+  qcom/venus-5.4/venus.b03 | Bin 33792 -> 33792 bytes
+  qcom/venus-5.4/venus.mbn | Bin 919212 -> 919792 bytes
+  qcom/venus-5.4/venus.mdt | Bin 7020 -> 7020 bytes
+  6 files changed, 0 insertions(+), 0 deletions(-)
 
-<<<<<
+<<<<<<
 
 Regards,
 Asit
