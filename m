@@ -1,33 +1,29 @@
-Return-Path: <linux-media-owner@kernel.org>
+Return-Path: <SRS0=aQka=ET=gmail.com=jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B13C7C388F7
-	for <linux-media@archiver.kernel.org>; Fri, 13 Nov 2020 15:19:19 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6C0EB2223C
-	for <linux-media@archiver.kernel.org>; Fri, 13 Nov 2020 15:19:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6854C61DD8
+	for <linux-firmware@archiver.kernel.org>; Fri, 13 Nov 2020 15:19:20 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id 8085322249; Fri, 13 Nov 2020 15:19:20 +0000 (UTC)
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id 346BE2223C
+	for <linux-firmware@kernel.org>; Fri, 13 Nov 2020 15:19:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
 	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XQGBaBOS"
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726437AbgKMPTT (ORCPT <rfc822;linux-media@archiver.kernel.org>);
-        Fri, 13 Nov 2020 10:19:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38588 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726336AbgKMPTS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Nov 2020 10:19:18 -0500
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2B18C0613D1;
-        Fri, 13 Nov 2020 07:19:18 -0800 (PST)
-Received: by mail-io1-xd29.google.com with SMTP id m13so10090222ioq.9;
-        Fri, 13 Nov 2020 07:19:18 -0800 (PST)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 346BE2223C
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=jwboyer@gmail.com
+Received: by mail-io1-f41.google.com with SMTP id i18so8631431ioa.3
+        for <linux-firmware@kernel.org>; Fri, 13 Nov 2020 07:19:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
@@ -44,37 +40,33 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
         bh=bqRrT6n4Vt1rS9HMAlB35cwH9rz6tcyPRQ27xyoMdUQ=;
-        b=cSvIdaOhYPKmoxD368yOXN8F5l/BkN1KmbYT1oZK4n/rHGPJSNtWBdFayqrh0L1LbP
-         g41GvCaB3e0KYUD4ey41Oba0v0qTihhVbCl4baVBr8wjP974hw8jH3EXDJ1wkqZbYuvU
-         29Zsi0wP9sZu7kjuyaohAeBZ6pka6iYQE0rJlAw6q0ejBkFm6ME09kIbylPoZfJqzKrK
-         M3CDP74DewtRrlJSv4AmPBS76pzPkV59vTi3Ezb411Q+hctFkMJ7yrtRHxAUL2IwcbbW
-         Ko7DdmBYp7Wo8qbefCQ9Wm2DFHc4vnDDK0SFmr1GHc+9FDLpq8f885d/l+8qjnfOECPj
-         YBcg==
-X-Gm-Message-State: AOAM533IiXE//oRiMVRy834K9U8mNIY08VVRaJamXkZ7jSNGtjoHY0Ut
-        moY7zWnBq3+g2DS69rZVjIov3sKMB9ARkHfvZd0=
+        b=TBpJ3GmjWN38Fb+vTn1D5yNANxW9WOes4OBx6E8DycB5U4WXlXShnYaN1w3yiI0z9L
+         oy9/3LZiOC+h3qVPKCPS2S/tgWipOd1oxnIbvIcXLf4Ar9lWG9VbQnMHEt780g8bdQdI
+         e2HIUXPB4zA8aFG22HvUror+2hG+9cJuML4DTdi0IK2BjbwcWjApYKi87SmgSfULVtMD
+         wkk6SrP3lsXrKozoYtSWB+JQHH9JZxcKkLeJJlLeijqpy26D+m0XgSG9RbSkTRlFSg1/
+         0HNrHCubjgpCuSBvP+RiD4FoIn29MFq95Aw1PhWe3sHV/+ZcpCf2w9a98Qj7NatvFBO+
+         JsJw==
+X-Gm-Message-State: AOAM533QF0LAtuidNcCECfRDKK1Bf91xKYEiKXbsYJQhrfHnYMUDtaMe
+	Ji3aQtr7pC1zONz04jCVtC1xuAHsKkUOi4nV62E=
 X-Google-Smtp-Source: ABdhPJxELH4sk5PYBwRPvCMwn4LRdM8KnpuDJ+4GNlMXPaICm/hjFKFxDXitRZ3K4SAEsvuj64lghL1DAcr7a8/Sl4w=
 X-Received: by 2002:a6b:f816:: with SMTP id o22mr189015ioh.101.1605280756142;
  Fri, 13 Nov 2020 07:19:16 -0800 (PST)
 MIME-Version: 1.0
 References: <c1bcb5eedc160e99d65576d431816a41@codeaurora.org>
 In-Reply-To: <c1bcb5eedc160e99d65576d431816a41@codeaurora.org>
-From:   Josh Boyer <jwboyer@gmail.com>
-Date:   Fri, 13 Nov 2020 10:19:05 -0500
+From: Josh Boyer <jwboyer@gmail.com>
+Date: Fri, 13 Nov 2020 10:19:05 -0500
 Message-ID: <CA+5PVA5eWkyWuG6ehcfsO=h_LSOzyOpdB_d3=y0O6m+jeeobEg@mail.gmail.com>
 Subject: Re: Update venus firmware files for v5.4
-To:     asitshah@codeaurora.org
+To: asitshah@codeaurora.org
 List-Id: <linux-firmware.lore.kernel.org>
-Cc:     Linux Firmware <linux-firmware@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media-owner@vger.kernel.org, vgarodia@codeaurora.org,
-        dikshita@codeaurora.org
+Cc: Linux Firmware <linux-firmware@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+	Mauro Carvalho Chehab <mchehab@infradead.org>, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>, 
+	Stanimir Varbanov <stanimir.varbanov@linaro.org>, linux-media-owner@vger.kernel.org, 
+	vgarodia@codeaurora.org, dikshita@codeaurora.org
 Content-Type: text/plain; charset="UTF-8"
-Precedence: bulk
-List-ID: <linux-media.vger.kernel.org>
-X-Mailing-List: linux-media@vger.kernel.org
+Message-ID: <20201113151905.txBd4jDmzQwOqHAjC0eOdehTCk2SaWRCUhEHvPzl0wE@z>
 
 Pulled and pushed out.
 
