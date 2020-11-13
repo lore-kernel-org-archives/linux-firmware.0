@@ -1,69 +1,181 @@
-Return-Path: <SRS0=ELVB=ET=gz.seaply.cf=info@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: *
-X-Spam-Status: No, score=1.5 required=3.0 tests=BAYES_50,DKIM_INVALID,
-	DKIM_SIGNED,FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,
-	SPF_HELO_NONE,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Level: 
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PULL_REQUEST,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17E3AC388F7
-	for <linux-firmware@archiver.kernel.org>; Fri, 13 Nov 2020 08:54:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A2ECC388F7
+	for <linux-firmware@archiver.kernel.org>; Fri, 13 Nov 2020 15:13:31 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id C0A9D2078D; Fri, 13 Nov 2020 08:54:25 +0000 (UTC)
-X-Greylist: delayed 8106 seconds by postgrey-1.34 at mail.kernel.org; Fri, 13 Nov 2020 08:54:24 UTC
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=gz.seaply.cf header.i=@gz.seaply.cf header.b="NavQgjJM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D31C72076E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=gz.seaply.cf
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=info@gz.seaply.cf
-Received: from gonkoemda.com (unknown [138.68.236.235])
+	id CA8FE22267; Fri, 13 Nov 2020 15:13:30 +0000 (UTC)
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D31C72076E
-	for <linux-firmware@kernel.org>; Fri, 13 Nov 2020 08:54:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=gz.seaply.cf; s=mail; h=Message-Id:Reply-To:Date:From:To:Subject:
-	Content-Description:Content-Transfer-Encoding:MIME-Version:Content-Type;
-	bh=tl131IQ6JACoP16MheQ7MsP4W1YHlFYwp+V5nWF31PU=; b=NavQgjJMWvSFN1JNENNayEkoN4
-	ZQnQVBDJldyf7ueRtBfxY7dpjkY7mOuQgIp7UifXozGpvnqQ8iS6xIeLX3Q6yBCvYINF7J5fAxi5p
-	481DJWeMFo8fKJ3FDor4eApH/5EjVhCLmHMcXNS0v8cSg7mwmuIdOo2Sv5MtRfEYOTZE=;
-Received: from [58.97.229.98] (helo=TIANFACOMPUTER.Home)
-	by gonkoemda.com with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.86_2)
-	(envelope-from <info@gz.seaply.cf>)
-	id 1kdPm7-0003R9-0f
-	for linux-firmware@kernel.org; Fri, 13 Nov 2020 03:29:23 +0000
-Content-Type: text/plain; charset="iso-8859-1"
+	by mail.kernel.org (Postfix) with ESMTPSA id A430A22264
+	for <linux-firmware@kernel.org>; Fri, 13 Nov 2020 15:13:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1605280410;
+	bh=Cd/RzDBv1shHDAc9vanJ7q+WKSHk4QSxwbiLsCoUOiM=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=kknQ3u75JS/+RuIdvRYyJWwr2d83zu3y+R0aQWsh4tVF5PpgFLcKCmyn8G649LUA4
+	 xoKqv9/eSnBhVfppoPYcHLkLxdgR0L9UFHLDjFvudXSpsgj7PTaV546ktKZaG5IwYw
+	 7chTSfbWZT1V+KulQmRwxdn3/2IrafYAwlW3FFfc=
+Received: by mail-io1-f45.google.com with SMTP id n129so10094752iod.5
+        for <linux-firmware@kernel.org>; Fri, 13 Nov 2020 07:13:30 -0800 (PST)
+X-Gm-Message-State: AOAM530+i5n6PZq53SHpMUKFJbDUUbWlPG6y48HMQrNRILcNwpDTXhR/
+	oqqonfiFg/MlaMBUYIAv7lepJYYkj4qm89tZLTI=
+X-Google-Smtp-Source: ABdhPJzO07eZpQlo1Mq/zzgglt+wse/phxhHdd/AHUwRTMGwXmrmPR14qTS+BvXsbbuh5C4lrKHCStACTEdmdZZM2mM=
+X-Received: by 2002:a02:cc3c:: with SMTP id o28mr2221911jap.107.1605280409845;
+ Fri, 13 Nov 2020 07:13:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Good day
+References: <BYAPR02MB4567172F4913F68EE61C7EAC921A0@BYAPR02MB4567.namprd02.prod.outlook.com>
+In-Reply-To: <BYAPR02MB4567172F4913F68EE61C7EAC921A0@BYAPR02MB4567.namprd02.prod.outlook.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Fri, 13 Nov 2020 10:13:18 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA5vc-oHRnso3Zo7UByqKx+Eh7KRtc9XgXub_5sqSjdXtw@mail.gmail.com>
+Message-ID: <CA+5PVA5vc-oHRnso3Zo7UByqKx+Eh7KRtc9XgXub_5sqSjdXtw@mail.gmail.com>
+Subject: Re: [PULL] ath10k & ath11k firmware 20201023
+To: Kalle Valo <kvalo@qca.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-From: info@gz.seaply.cf
-Date: Fri, 13 Nov 2020 10:29:26 +0700
-Reply-To: abbasedelbi57@gmail.com
-X-Antivirus: AVG (VPS 201112-6, 11/12/2020), Outbound message
-X-Antivirus-Status: Clean
-Message-Id: <E1kdPm7-0003R9-0f@gonkoemda.com>
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, 
+	"ath10k@lists.infradead.org" <ath10k@lists.infradead.org>, 
+	"ath11k@lists.infradead.org" <ath11k@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Complement of the day to you and your love ones.
-My name is 
-Abbas Edelbi ,  I was former personal investor and financial consultant adv=
-isers to a Top Politician here in SYRIA ,  And  I am looking for a reliable=
- business partner for investment in your country.
-Tell me more about your country ,  how good it will be to invest in your co=
-untry.
-I will appreciate whatever result you may brief me. Such as buying of prope=
-rties, or real estate and some tourist places or any profitable investment =
-venture that will yield good profit.
- 
-I wait to hear from you soon.
-Regards,
+Pulled and pushed out.
 
-Abbas Edelbi   
+josh
 
--- 
-This email has been checked for viruses by AVG.
-https://www.avg.com
-
+On Fri, Oct 23, 2020 at 11:57 AM Kalle Valo <kvalo@qca.qualcomm.com> wrote:
+>
+> Hi linux-firmware maintainers,
+>
+> here's a pull request for ath10k and ath11k drivers. For ath10k there is a
+> firmware for new hardware QCA6174 hw3.0 SDIO. For ath11k there are
+> firmwares for new hardware IPQ8074 hw2.0, IPQ6018 hw1.0 and QCA6390
+> hw2.0. And also few updates for existing hardware.
+>
+> From previous pull request ath10k-20201022 I fixed the notice files to be
+> valid utf-8 and changed CRLF line endings to LF.
+>
+> Please let me know if there are any problems.
+>
+> Kalle
+>
+> The following changes since commit 58d41d0facca2478d3e45f6321224361519aee96:
+>
+>   ice: Add comms package file for Intel E800 series driver (2020-10-05 08:09:03 -0400)
+>
+> are available in the git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/kvalo/linux-firmware.git ath10k-20201023
+>
+> for you to fetch changes up to d842d8c5892ea1570eacd01cc274436d1c6e676b:
+>
+>   ath11k: QCA6390 hw2.0: add to WLAN.HST.1.0.1-01740-QCAHSTSWPLZ_V2_TO_X86-1 (2020-10-23 18:42:08 +0300)
+>
+> ----------------------------------------------------------------
+> Kalle Valo (11):
+>       ath10k: QCA6174 hw3.0: update firmware-6.bin to WLAN.RM.4.4.1-00157-QCARMSWPZ-1
+>       ath10k: QCA6174 hw3.0: update board-2.bin
+>       ath10k: QCA9888 hw2.0: update firmware-5.bin to 10.4-3.9.0.2-00131
+>       ath10k: QCA9984 hw1.0: update firmware-5.bin to 10.4-3.9.0.2-00131
+>       ath10k: QCA6174 hw3.0: add firmware-sdio-6.bin version WLAN.RMH.4.4.1-00077
+>       ath11k: IPQ6018 hw1.0: add board-2.bin
+>       ath11k: IPQ6018 hw1.0: add to WLAN.HK.2.1.0.1-01238-QCAHKSWPL_SILICONZ-2
+>       ath11k: IPQ8074 hw2.0: add board-2.bin
+>       ath11k: IPQ8074 hw2.0: add to WLAN.HK.2.1.0.1-01238-QCAHKSWPL_SILICONZ-2
+>       ath11k: QCA6390 hw2.0: add board-2.bin
+>       ath11k: QCA6390 hw2.0: add to WLAN.HST.1.0.1-01740-QCAHSTSWPLZ_V2_TO_X86-1
+>
+>  WHENCE                                             |   57 +-
+>  ath10k/QCA6174/hw3.0/board-2.bin                   |  Bin 584036 -> 633360 bytes
+>  ath10k/QCA6174/hw3.0/firmware-6.bin                |  Bin 700988 -> 702844 bytes
+>  ath10k/QCA6174/hw3.0/firmware-sdio-6.bin           |  Bin 0 -> 604416 bytes
+>  .../hw3.0/notice_ath10k_firmware-sdio-6.txt        | 1352 ++++++++++++++
+>  ath10k/QCA9888/hw2.0/firmware-5.bin                |  Bin 688140 -> 691292 bytes
+>  ath10k/QCA9984/hw1.0/firmware-5.bin                |  Bin 675948 -> 679288 bytes
+>  ath11k/IPQ6018/hw1.0/Notice.txt                    |  786 ++++++++
+>  ath11k/IPQ6018/hw1.0/board-2.bin                   |  Bin 0 -> 787208 bytes
+>  ath11k/IPQ6018/hw1.0/m3_fw.b00                     |  Bin 0 -> 148 bytes
+>  ath11k/IPQ6018/hw1.0/m3_fw.b01                     |  Bin 0 -> 6712 bytes
+>  ath11k/IPQ6018/hw1.0/m3_fw.b02                     |  Bin 0 -> 294912 bytes
+>  ath11k/IPQ6018/hw1.0/m3_fw.flist                   |    3 +
+>  ath11k/IPQ6018/hw1.0/m3_fw.mdt                     |  Bin 0 -> 6860 bytes
+>  ath11k/IPQ6018/hw1.0/q6_fw.b00                     |  Bin 0 -> 340 bytes
+>  ath11k/IPQ6018/hw1.0/q6_fw.b01                     |  Bin 0 -> 7000 bytes
+>  ath11k/IPQ6018/hw1.0/q6_fw.b02                     |  Bin 0 -> 4696 bytes
+>  ath11k/IPQ6018/hw1.0/q6_fw.b03                     |  Bin 0 -> 2357712 bytes
+>  ath11k/IPQ6018/hw1.0/q6_fw.b04                     |  Bin 0 -> 370560 bytes
+>  ath11k/IPQ6018/hw1.0/q6_fw.b05                     |  Bin 0 -> 175588 bytes
+>  ath11k/IPQ6018/hw1.0/q6_fw.b07                     |  Bin 0 -> 8936 bytes
+>  ath11k/IPQ6018/hw1.0/q6_fw.b08                     |  Bin 0 -> 409914 bytes
+>  ath11k/IPQ6018/hw1.0/q6_fw.flist                   |    8 +
+>  ath11k/IPQ6018/hw1.0/q6_fw.mdt                     |  Bin 0 -> 7340 bytes
+>  ath11k/IPQ8074/hw2.0/Notice.txt                    |  786 ++++++++
+>  ath11k/IPQ8074/hw2.0/board-2.bin                   |  Bin 0 -> 1311380 bytes
+>  ath11k/IPQ8074/hw2.0/m3_fw.b00                     |  Bin 0 -> 148 bytes
+>  ath11k/IPQ8074/hw2.0/m3_fw.b01                     |  Bin 0 -> 136 bytes
+>  ath11k/IPQ8074/hw2.0/m3_fw.b02                     |  Bin 0 -> 327680 bytes
+>  ath11k/IPQ8074/hw2.0/m3_fw.flist                   |    3 +
+>  ath11k/IPQ8074/hw2.0/m3_fw.mdt                     |  Bin 0 -> 284 bytes
+>  ath11k/IPQ8074/hw2.0/q6_fw.b00                     |  Bin 0 -> 340 bytes
+>  ath11k/IPQ8074/hw2.0/q6_fw.b01                     |  Bin 0 -> 328 bytes
+>  ath11k/IPQ8074/hw2.0/q6_fw.b02                     |  Bin 0 -> 4696 bytes
+>  ath11k/IPQ8074/hw2.0/q6_fw.b03                     |  Bin 0 -> 2589264 bytes
+>  ath11k/IPQ8074/hw2.0/q6_fw.b04                     |  Bin 0 -> 985504 bytes
+>  ath11k/IPQ8074/hw2.0/q6_fw.b05                     |  Bin 0 -> 387076 bytes
+>  ath11k/IPQ8074/hw2.0/q6_fw.b07                     |  Bin 0 -> 7048 bytes
+>  ath11k/IPQ8074/hw2.0/q6_fw.b08                     |  Bin 0 -> 424524 bytes
+>  ath11k/IPQ8074/hw2.0/q6_fw.flist                   |    8 +
+>  ath11k/IPQ8074/hw2.0/q6_fw.mdt                     |  Bin 0 -> 668 bytes
+>  ath11k/QCA6390/hw2.0/Notice.txt                    | 1971 ++++++++++++++++++++
+>  ath11k/QCA6390/hw2.0/amss.bin                      |  Bin 0 -> 3609456 bytes
+>  ath11k/QCA6390/hw2.0/board-2.bin                   |  Bin 0 -> 58016 bytes
+>  ath11k/QCA6390/hw2.0/m3.bin                        |  Bin 0 -> 266684 bytes
+>  45 files changed, 4971 insertions(+), 3 deletions(-)
+>  create mode 100644 ath10k/QCA6174/hw3.0/firmware-sdio-6.bin
+>  create mode 100644 ath10k/QCA6174/hw3.0/notice_ath10k_firmware-sdio-6.txt
+>  create mode 100644 ath11k/IPQ6018/hw1.0/Notice.txt
+>  create mode 100644 ath11k/IPQ6018/hw1.0/board-2.bin
+>  create mode 100644 ath11k/IPQ6018/hw1.0/m3_fw.b00
+>  create mode 100644 ath11k/IPQ6018/hw1.0/m3_fw.b01
+>  create mode 100644 ath11k/IPQ6018/hw1.0/m3_fw.b02
+>  create mode 100644 ath11k/IPQ6018/hw1.0/m3_fw.flist
+>  create mode 100644 ath11k/IPQ6018/hw1.0/m3_fw.mdt
+>  create mode 100644 ath11k/IPQ6018/hw1.0/q6_fw.b00
+>  create mode 100644 ath11k/IPQ6018/hw1.0/q6_fw.b01
+>  create mode 100644 ath11k/IPQ6018/hw1.0/q6_fw.b02
+>  create mode 100644 ath11k/IPQ6018/hw1.0/q6_fw.b03
+>  create mode 100644 ath11k/IPQ6018/hw1.0/q6_fw.b04
+>  create mode 100644 ath11k/IPQ6018/hw1.0/q6_fw.b05
+>  create mode 100644 ath11k/IPQ6018/hw1.0/q6_fw.b07
+>  create mode 100644 ath11k/IPQ6018/hw1.0/q6_fw.b08
+>  create mode 100644 ath11k/IPQ6018/hw1.0/q6_fw.flist
+>  create mode 100644 ath11k/IPQ6018/hw1.0/q6_fw.mdt
+>  create mode 100644 ath11k/IPQ8074/hw2.0/Notice.txt
+>  create mode 100644 ath11k/IPQ8074/hw2.0/board-2.bin
+>  create mode 100644 ath11k/IPQ8074/hw2.0/m3_fw.b00
+>  create mode 100644 ath11k/IPQ8074/hw2.0/m3_fw.b01
+>  create mode 100644 ath11k/IPQ8074/hw2.0/m3_fw.b02
+>  create mode 100644 ath11k/IPQ8074/hw2.0/m3_fw.flist
+>  create mode 100644 ath11k/IPQ8074/hw2.0/m3_fw.mdt
+>  create mode 100644 ath11k/IPQ8074/hw2.0/q6_fw.b00
+>  create mode 100644 ath11k/IPQ8074/hw2.0/q6_fw.b01
+>  create mode 100644 ath11k/IPQ8074/hw2.0/q6_fw.b02
+>  create mode 100644 ath11k/IPQ8074/hw2.0/q6_fw.b03
+>  create mode 100644 ath11k/IPQ8074/hw2.0/q6_fw.b04
+>  create mode 100644 ath11k/IPQ8074/hw2.0/q6_fw.b05
+>  create mode 100644 ath11k/IPQ8074/hw2.0/q6_fw.b07
+>  create mode 100644 ath11k/IPQ8074/hw2.0/q6_fw.b08
+>  create mode 100644 ath11k/IPQ8074/hw2.0/q6_fw.flist
+>  create mode 100644 ath11k/IPQ8074/hw2.0/q6_fw.mdt
+>  create mode 100644 ath11k/QCA6390/hw2.0/Notice.txt
+>  create mode 100644 ath11k/QCA6390/hw2.0/amss.bin
+>  create mode 100644 ath11k/QCA6390/hw2.0/board-2.bin
+>  create mode 100644 ath11k/QCA6390/hw2.0/m3.bin
+>
