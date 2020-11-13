@@ -1,68 +1,95 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <linux-media-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PULL_REQUEST,
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7916EC55ABD
-	for <linux-firmware@archiver.kernel.org>; Fri, 13 Nov 2020 15:18:11 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 525DF22275; Fri, 13 Nov 2020 15:18:11 +0000 (UTC)
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 2F0FA2225E
-	for <linux-firmware@kernel.org>; Fri, 13 Nov 2020 15:18:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1605280691;
-	bh=ELa6/A6IH5SZ58CW/xBfrugiy1Lyc3GwQ5JlAubhoD8=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=w0Q/tj9ezK1Mhp70E2SndVyZirHiqKHbR/fDxT3OJbSDFS1rBNGVSp9umKq/7EJtw
-	 I8ikby77uuTLhOoBIEu5c5bxT1xR1yjWRogkC5ZIg+uaGIYK+5i4YUlFXojGS3Ny5n
-	 q1wF7GC56qzyG1khGTeKT3ZbNdXxqvqaY4H2nmbM=
-Received: by mail-il1-f170.google.com with SMTP id g7so8757405ilr.12
-        for <linux-firmware@kernel.org>; Fri, 13 Nov 2020 07:18:11 -0800 (PST)
-X-Gm-Message-State: AOAM533iFt60n75lnuIJO3vunyeoK8XxiMy3HuKmkrNiUIPVPSD6Lg+U
-	b/z9SW2L4smxL3iIBLe2A8pSskSMAUiU8rQaLaU=
-X-Google-Smtp-Source: ABdhPJxmAyvxd9YQ6yY7BJNKPxJBVBE8O99qgCtfbszweIMnTVv72zH/QWXPPjUPf2CkB6R4wPVLIkjiA/Exir/Cdjc=
-X-Received: by 2002:a92:4846:: with SMTP id v67mr243909ila.206.1605280688729;
- Fri, 13 Nov 2020 07:18:08 -0800 (PST)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B13C7C388F7
+	for <linux-media@archiver.kernel.org>; Fri, 13 Nov 2020 15:19:19 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id 6C0EB2223C
+	for <linux-media@archiver.kernel.org>; Fri, 13 Nov 2020 15:19:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XQGBaBOS"
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S1726437AbgKMPTT (ORCPT <rfc822;linux-media@archiver.kernel.org>);
+        Fri, 13 Nov 2020 10:19:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38588 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726336AbgKMPTS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 13 Nov 2020 10:19:18 -0500
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2B18C0613D1;
+        Fri, 13 Nov 2020 07:19:18 -0800 (PST)
+Received: by mail-io1-xd29.google.com with SMTP id m13so10090222ioq.9;
+        Fri, 13 Nov 2020 07:19:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bqRrT6n4Vt1rS9HMAlB35cwH9rz6tcyPRQ27xyoMdUQ=;
+        b=XQGBaBOSBVueXzyy7FaPrYWdq0ubcfRoz7ooPOP3IY0J25h/knA7nN0MRWA63MOsB8
+         QeqS6PfZft0QkNHlRByM0djLMXG/8NLDrHTHL0ik9wx0jhD2JuCiCT1hmH03CwqDkdY/
+         XvrFAPFStX265jOxEAVijm1w8nxdUYaZo7FUk5U7uo1p2PJWevYSsoZmHmzIuyhm5Zpd
+         K9TS87ZPq1mibZpT9ZbmQJltnqoA+MWqByjDJA6oMePcbzd1gGB+bj35Baj/Qwg5Nz11
+         xUYcPsumR+fBIM7yzUQrBij7X4oG1iCwM/mkvZxBKk/3+PB6znn2QpicwBTOezF3BlxF
+         7VvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bqRrT6n4Vt1rS9HMAlB35cwH9rz6tcyPRQ27xyoMdUQ=;
+        b=cSvIdaOhYPKmoxD368yOXN8F5l/BkN1KmbYT1oZK4n/rHGPJSNtWBdFayqrh0L1LbP
+         g41GvCaB3e0KYUD4ey41Oba0v0qTihhVbCl4baVBr8wjP974hw8jH3EXDJ1wkqZbYuvU
+         29Zsi0wP9sZu7kjuyaohAeBZ6pka6iYQE0rJlAw6q0ejBkFm6ME09kIbylPoZfJqzKrK
+         M3CDP74DewtRrlJSv4AmPBS76pzPkV59vTi3Ezb411Q+hctFkMJ7yrtRHxAUL2IwcbbW
+         Ko7DdmBYp7Wo8qbefCQ9Wm2DFHc4vnDDK0SFmr1GHc+9FDLpq8f885d/l+8qjnfOECPj
+         YBcg==
+X-Gm-Message-State: AOAM533IiXE//oRiMVRy834K9U8mNIY08VVRaJamXkZ7jSNGtjoHY0Ut
+        moY7zWnBq3+g2DS69rZVjIov3sKMB9ARkHfvZd0=
+X-Google-Smtp-Source: ABdhPJxELH4sk5PYBwRPvCMwn4LRdM8KnpuDJ+4GNlMXPaICm/hjFKFxDXitRZ3K4SAEsvuj64lghL1DAcr7a8/Sl4w=
+X-Received: by 2002:a6b:f816:: with SMTP id o22mr189015ioh.101.1605280756142;
+ Fri, 13 Nov 2020 07:19:16 -0800 (PST)
 MIME-Version: 1.0
-References: <71acb08c5c7e7b10f4112b350707ee82@codeaurora.org>
-In-Reply-To: <71acb08c5c7e7b10f4112b350707ee82@codeaurora.org>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Fri, 13 Nov 2020 10:17:57 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA5+Z6S9H__X0DJ17zo+H2dABb5M591qHK4zDcvbBdEXhg@mail.gmail.com>
-Message-ID: <CA+5PVA5+Z6S9H__X0DJ17zo+H2dABb5M591qHK4zDcvbBdEXhg@mail.gmail.com>
-Subject: Re: Request to Update WCN3991 FW file
-To: asitshah@codeaurora.org
+References: <c1bcb5eedc160e99d65576d431816a41@codeaurora.org>
+In-Reply-To: <c1bcb5eedc160e99d65576d431816a41@codeaurora.org>
+From:   Josh Boyer <jwboyer@gmail.com>
+Date:   Fri, 13 Nov 2020 10:19:05 -0500
+Message-ID: <CA+5PVA5eWkyWuG6ehcfsO=h_LSOzyOpdB_d3=y0O6m+jeeobEg@mail.gmail.com>
+Subject: Re: Update venus firmware files for v5.4
+To:     asitshah@codeaurora.org
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, mka@chromium.org, 
-	"Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>, 
-	BlueZ development <linux-bluetooth@vger.kernel.org>, 
-	Linux-arm Msm <linux-arm-msm@vger.kernel.org>, Hemantg <hemantg@codeaurora.org>, 
-	gubbaven@codeaurora.org, abhishekpandit@chromium.org, 
-	Balakrishna Godavarthi <bgodavar@codeaurora.org>
+Cc:     Linux Firmware <linux-firmware@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media-owner@vger.kernel.org, vgarodia@codeaurora.org,
+        dikshita@codeaurora.org
 Content-Type: text/plain; charset="UTF-8"
+Precedence: bulk
+List-ID: <linux-media.vger.kernel.org>
+X-Mailing-List: linux-media@vger.kernel.org
 
 Pulled and pushed out.
 
 josh
 
-On Thu, Nov 5, 2020 at 2:06 AM <asitshah@codeaurora.org> wrote:
+On Fri, Nov 6, 2020 at 12:10 AM <asitshah@codeaurora.org> wrote:
 >
-> Hello Team,
+> Hi Team,
 >
-> Please include updated firmware bins for WCN3991. Change includes
-> updated TLV file to fix BT SSR.
+> Please include updated Venus Firmware bins for v5.4.
 >
 > Snapshot of pull request is as below, let me know if anything is
 > missing.
 >
-> >>>>>
+> >>>>>>
 >
 > The following changes since commit
 > dae4b4cd084102cd49c37aa8b579b208028ab025:
@@ -73,21 +100,26 @@ On Thu, Nov 5, 2020 at 2:06 AM <asitshah@codeaurora.org> wrote:
 >
 > are available in the git repository at:
 >
->    https://github.com/shahasit/bt-linux-firmware.git master
+>    https://github.com/shahasit/video-linux-firmware/tree/master
 >
-> for you to fetch changes up to d7793e53b156126f6ea09c8d6e17cc9a8fe0ca77:
+> for you to fetch changes up to 8a46c32a26b3f22835543b158877aa0b0e01e8d6:
 >
->    QCA : Fixed BT SSR due to command timeout / IO fatal error (2020-11-05
-> 12:26:32 +0530)
+>    qcom : updated venus firmware files for v5.4 (2020-11-06 10:33:37
+> +0530)
 >
 > ----------------------------------------------------------------
 > Asit Shah (1):
->        QCA : Fixed BT SSR due to command timeout / IO fatal error
+>        qcom : updated venus firmware files for v5.4
 >
->   qca/crbtfw32.tlv | Bin 126832 -> 126892 bytes
->   1 file changed, 0 insertions(+), 0 deletions(-)
+>   qcom/venus-5.4/venus.b00 | Bin 212 -> 212 bytes
+>   qcom/venus-5.4/venus.b01 | Bin 6808 -> 6808 bytes
+>   qcom/venus-5.4/venus.b02 | Bin 873100 -> 873680 bytes
+>   qcom/venus-5.4/venus.b03 | Bin 33792 -> 33792 bytes
+>   qcom/venus-5.4/venus.mbn | Bin 919212 -> 919792 bytes
+>   qcom/venus-5.4/venus.mdt | Bin 7020 -> 7020 bytes
+>   6 files changed, 0 insertions(+), 0 deletions(-)
 >
-> <<<<<
+> <<<<<<
 >
 > Regards,
 > Asit
