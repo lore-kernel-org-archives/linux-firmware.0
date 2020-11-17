@@ -1,90 +1,88 @@
-Return-Path: <SRS0=g1ds=EW=gmail.com=larry.finger@kernel.org>
+Return-Path: <SRS0=+/JI=EX=realtek.com=hildawu@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3F5BC2D0A3
-	for <linux-firmware@archiver.kernel.org>; Mon, 16 Nov 2020 17:35:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98318C2D0E4
+	for <linux-firmware@archiver.kernel.org>; Tue, 17 Nov 2020 07:47:29 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id CD0F6222E8; Mon, 16 Nov 2020 17:35:02 +0000 (UTC)
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com [209.85.167.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	id 5051C24655; Tue, 17 Nov 2020 07:47:29 +0000 (UTC)
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 15F252225E;
-	Mon, 16 Nov 2020 17:35:01 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p0LVJHxY"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 15F252225E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lwfinger.net
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=larry.finger@gmail.com
-Received: by mail-oi1-f193.google.com with SMTP id q206so19585515oif.13;
-        Mon, 16 Nov 2020 09:35:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=KF2UZRrwC1HlcKbIsDf+i5LPHa6Z8I4vPzJHQ4amTIw=;
-        b=p0LVJHxYG0liG+Pkw5WjmUBMTaH7ugxQb1e5zMIOTgWgMIzBKmpIskAG3Ksm+h8I+j
-         yiXd1/C0A9u+3Iqa57lSdpdrUT6WSBvD712k8mtssWs18AQZuNV6Vjv997YHcMXjGMMR
-         u4GABahg7/zslba4HPLlMTjTYt+rIIC1Z1OdCOEt2pnpbVbhuwv4POiAZNZj690FzPK+
-         RtIDhRmAlQZH9GgLufUhXfGAFMm339dlolBw0c8cIfv8oBFOp+BnL466alBhYTupIXae
-         qFnDwyTnk+CgjrpGxmCAtf5ctwzU2Y92+WA2ARwb/TrZGP/bug5TRGB1f80GaIO3rkx9
-         GxRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=KF2UZRrwC1HlcKbIsDf+i5LPHa6Z8I4vPzJHQ4amTIw=;
-        b=O8nDzS5DWAE3F2IRHH2YrB9jHPdn5Bvwb7ZU8QnchhTzPjptYb3x9Ml7HiR2A+1l3e
-         lGP8Jsr3qBtxIPEmVU5ty5NYKfjR5/BOW7Ufacca6CEGKHmsP9kZkSXhUhNkOb8dJzlk
-         S9LkgIeacQKvnFTom8wNlDF3ResBs6VR1SywfsuSf+tg3H0AONG/zFG9cfIp/l8NugTk
-         j+UHCRqo3lHJJddUibIQ9yrxGTqYvupYUkbHXpnmq/yDrx+CuG44fi2Vy++lb1dvUUEB
-         n5c2L1jS78EvtnUdC2EXvqxw0zmHvysKhgl/8SXaS84M07ow0UFaFoFLEeFFfMLxqFtc
-         oelg==
-X-Gm-Message-State: AOAM531em+A+7jrxGU7nyefN/cokWvtID/T/bO3u9qC0Z45UXK41GYax
-	9omB6SlcWzvEBFKF1Y43JkwXVhnPYD4=
-X-Google-Smtp-Source: ABdhPJySqK0xvDycYF0hxgRASbz/YRRl61qNuM5FCCvABNLtyVKsA0Sf3vmGyu8sbEoDwqQbz6YZeg==
-X-Received: by 2002:aca:6206:: with SMTP id w6mr388974oib.121.1605548101009;
-        Mon, 16 Nov 2020 09:35:01 -0800 (PST)
-Received: from localhost.localdomain (cpe-24-31-245-230.kc.res.rr.com. [24.31.245.230])
-        by smtp.gmail.com with ESMTPSA id w70sm4882792oiw.29.2020.11.16.09.34.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Nov 2020 09:35:00 -0800 (PST)
-Sender: Larry Finger <larry.finger@gmail.com>
-Subject: Re: [PATCH] rtl_bt: Update RTL8822C BT(UART I/F) FW to 0x059A_25CB
+	by mail.kernel.org (Postfix) with ESMTPS id 77E502463C;
+	Tue, 17 Nov 2020 07:47:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 77E502463C
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
+Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=hildawu@realtek.com
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.73 with qID 0AH7lKFH1008786, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexmb05.realtek.com.tw[172.21.6.98])
+	by rtits2.realtek.com.tw (8.15.2/2.70/5.88) with ESMTPS id 0AH7lKFH1008786
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 17 Nov 2020 15:47:20 +0800
+Received: from RTEXDAG01.realtek.com.tw (172.21.6.100) by
+ RTEXMB05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2044.4; Tue, 17 Nov 2020 15:47:19 +0800
+Received: from RTEXMB04.realtek.com.tw (172.21.6.97) by
+ RTEXDAG01.realtek.com.tw (172.21.6.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2044.4; Tue, 17 Nov 2020 15:47:19 +0800
+Received: from RTEXMB04.realtek.com.tw ([fe80::89f7:e6c3:b043:15fa]) by
+ RTEXMB04.realtek.com.tw ([fe80::89f7:e6c3:b043:15fa%3]) with mapi id
+ 15.01.2044.006; Tue, 17 Nov 2020 15:47:19 +0800
+From: Hilda Wu <hildawu@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: hildawu@realtek.com, linux-firmware@kernel.org
-Cc: jwboyer@kernel.org, max.chou@realtek.com, alex_lu@realsil.com.cn,
- hsinyu_chang@realtek.com, kidman@realtek.com
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+        "linux-firmware@kernel.org"
+	<linux-firmware@kernel.org>
+CC: "jwboyer@kernel.org" <jwboyer@kernel.org>,
+        Max Chou
+	<max.chou@realtek.com>, alex_lu <alex_lu@realsil.com.cn>,
+        Hsin Yu Chang
+	<hsinyu_chang@realtek.com>,
+        KidmanLee <kidman@realtek.com>
+Subject: RE: [PATCH] rtl_bt: Update RTL8822C BT(UART I/F) FW to 0x059A_25CB
+Thread-Topic: [PATCH] rtl_bt: Update RTL8822C BT(UART I/F) FW to 0x059A_25CB
+Thread-Index: AQHWu9z+7gtTqL/X7kqTirq7TA9+xanKf8UAgAFubxA=
+Date: Tue, 17 Nov 2020 07:47:19 +0000
+Message-ID: <6711027507cc4338b962bede254ad546@realtek.com>
 References: <20201116055438.6048-1-hildawu@realtek.com>
-From: Larry Finger <Larry.Finger@lwfinger.net>
-Message-ID: <e9a95a6d-37d8-8d2c-b0f4-2cd22927d00d@lwfinger.net>
-Date: Mon, 16 Nov 2020 11:34:58 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ <e9a95a6d-37d8-8d2c-b0f4-2cd22927d00d@lwfinger.net>
+In-Reply-To: <e9a95a6d-37d8-8d2c-b0f4-2cd22927d00d@lwfinger.net>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [172.21.132.158]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <20201116055438.6048-1-hildawu@realtek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 
-On 11/15/20 11:54 PM, hildawu@realtek.com wrote:
-> From: Hilda Wu <hildawu@realtek.com>
-> 
-> This firmware patch update for Realtek RTL8822C BT controller.(UART I/F)
-> 
-> Release Version:0x059A_25CB
-> 
-> Signed-off-by: Hilda Wu <hildawu@realtek.com>
-> ---
->   rtl_bt/rtl8822cs_fw.bin | Bin 58640 -> 60956 bytes
->   1 file changed, 0 insertions(+), 0 deletions(-)
-
-You need to add this change to WHENCE. NACK
-
-Larry
+SGkgTGFycnksDQoNClRoZSBXSEVOQ0Ugd2FzIGluY2x1ZGVkIHRoZSBydGxfYnQvcnRsODgyMmNz
+X2Z3LmJpbi4NCkZvciBkZXRhaWwsIHBsZWFzZSBjaGVjayB3aXRoIHRoaXMgbGluazoNCmh0dHBz
+Oi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2Zpcm13YXJlL2xpbnV4
+LWZpcm13YXJlLmdpdC9jb21taXQvP2lkPWZjZTYwYTlhODFiZjE0OGI1YzgzMWEzZTMzZmU2NjZj
+OWIzOGZmMjMNCg0KVGhhbmsgeW91IGZvciB5b3VyIHJlbWluZGVyLg0KDQpSZWdhcmRzLA0KSGls
+ZGENCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IExhcnJ5IEZpbmdlciA8bGFy
+cnkuZmluZ2VyQGdtYWlsLmNvbT4gT24gQmVoYWxmIE9mIExhcnJ5IEZpbmdlcg0KU2VudDogVHVl
+c2RheSwgTm92ZW1iZXIgMTcsIDIwMjAgMTozNSBBTQ0KVG86IEhpbGRhIFd1IDxoaWxkYXd1QHJl
+YWx0ZWsuY29tPjsgbGludXgtZmlybXdhcmVAa2VybmVsLm9yZw0KQ2M6IGp3Ym95ZXJAa2VybmVs
+Lm9yZzsgTWF4IENob3UgPG1heC5jaG91QHJlYWx0ZWsuY29tPjsgYWxleF9sdSA8YWxleF9sdUBy
+ZWFsc2lsLmNvbS5jbj47IEhzaW4gWXUgQ2hhbmcgPGhzaW55dV9jaGFuZ0ByZWFsdGVrLmNvbT47
+IEtpZG1hbkxlZSA8a2lkbWFuQHJlYWx0ZWsuY29tPg0KU3ViamVjdDogUmU6IFtQQVRDSF0gcnRs
+X2J0OiBVcGRhdGUgUlRMODgyMkMgQlQoVUFSVCBJL0YpIEZXIHRvIDB4MDU5QV8yNUNCDQoNCk9u
+IDExLzE1LzIwIDExOjU0IFBNLCBoaWxkYXd1QHJlYWx0ZWsuY29tIHdyb3RlOg0KPiBGcm9tOiBI
+aWxkYSBXdSA8aGlsZGF3dUByZWFsdGVrLmNvbT4NCj4gDQo+IFRoaXMgZmlybXdhcmUgcGF0Y2gg
+dXBkYXRlIGZvciBSZWFsdGVrIFJUTDg4MjJDIEJUIGNvbnRyb2xsZXIuKFVBUlQgSS9GKQ0KPiAN
+Cj4gUmVsZWFzZSBWZXJzaW9uOjB4MDU5QV8yNUNCDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBIaWxk
+YSBXdSA8aGlsZGF3dUByZWFsdGVrLmNvbT4NCj4gLS0tDQo+ICAgcnRsX2J0L3J0bDg4MjJjc19m
+dy5iaW4gfCBCaW4gNTg2NDAgLT4gNjA5NTYgYnl0ZXMNCj4gICAxIGZpbGUgY2hhbmdlZCwgMCBp
+bnNlcnRpb25zKCspLCAwIGRlbGV0aW9ucygtKQ0KDQpZb3UgbmVlZCB0byBhZGQgdGhpcyBjaGFu
+Z2UgdG8gV0hFTkNFLiBOQUNLDQoNCkxhcnJ5DQoNCi0tLS0tLVBsZWFzZSBjb25zaWRlciB0aGUg
+ZW52aXJvbm1lbnQgYmVmb3JlIHByaW50aW5nIHRoaXMgZS1tYWlsLg0K
