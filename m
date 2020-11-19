@@ -1,87 +1,112 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=wEzN=EZ=intel.com=kiran.k@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAFD1C388F9
-	for <linux-firmware@archiver.kernel.org>; Thu, 19 Nov 2020 11:29:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13E45C63798
+	for <linux-firmware@archiver.kernel.org>; Thu, 19 Nov 2020 11:33:27 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 887B3246F2; Thu, 19 Nov 2020 11:29:47 +0000 (UTC)
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	id C5ABA2168B; Thu, 19 Nov 2020 11:33:26 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 5BE6D246F1
-	for <linux-firmware@kernel.org>; Thu, 19 Nov 2020 11:29:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1605785387;
-	bh=UqxRK9f7qLEi/770YpvC4BXZx2eEE4aOkdInC6BfFpI=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=A6GSBd6TdX4g3Zr9z3DMU7bnAMllmJxOev0b++TBWWYVUyg1iyCQlfhbax6iOwWyo
-	 LCbDw1+4wVuk52OIgjJ5ThT5lKXWWXzV4JSBApE7EK+X6ob+VpRiQQsAdg673lBTwM
-	 avs/HKEbHYarmSD+xjP3/cf1Cd0vbPMswfgQq2vQ=
-Received: by mail-il1-f174.google.com with SMTP id l12so5060469ilo.1
-        for <linux-firmware@kernel.org>; Thu, 19 Nov 2020 03:29:47 -0800 (PST)
-X-Gm-Message-State: AOAM533nO+tLtECi3KA5vDZ02aPU0DMgu35Gxx4Qcslg5GX1fP+5yoaC
-	fbI4Fqy8Fgz7KvrbT1xqexs9V8t9dU7jcxrNI10=
-X-Google-Smtp-Source: ABdhPJzpQDZq/1/eT4xN8DCi3awniAelI9QkBaylFHHkZBVN7rZhdGn6ytFuXa1UbOmntY3CIJ/P3e5UiYVSrriNrsA=
-X-Received: by 2002:a92:155b:: with SMTP id v88mr244377ilk.303.1605785386403;
- Thu, 19 Nov 2020 03:29:46 -0800 (PST)
-MIME-Version: 1.0
-References: <CADnq5_NeOPVjq7Q1d-sWVuwOrNUbE4F1pxqR6FnCJJregv_uog@mail.gmail.com>
-In-Reply-To: <CADnq5_NeOPVjq7Q1d-sWVuwOrNUbE4F1pxqR6FnCJJregv_uog@mail.gmail.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Thu, 19 Nov 2020 06:29:35 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA63Ywoy+3G-8iLZst4oLNBKt0Tn40yBs__kU+YOHKjWKg@mail.gmail.com>
-Message-ID: <CA+5PVA63Ywoy+3G-8iLZst4oLNBKt0Tn40yBs__kU+YOHKjWKg@mail.gmail.com>
-Subject: Re: updated amdgpu firmware
-To: Alex Deucher <alexdeucher@gmail.com>
+	by mail.kernel.org (Postfix) with ESMTPS id 872C52100A
+	for <linux-firmware@kernel.org>; Thu, 19 Nov 2020 11:33:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 872C52100A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=kiran.k@intel.com
+IronPort-SDR: qYLV7mmyLibo1SgX1w417tZ/5VrqDq5Ji0vx1sROF3Pnh8+CLLBTERVjG7Itv+I9th+uTY501P
+ eAe0jhv0ZfvQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9809"; a="171442950"
+X-IronPort-AV: E=Sophos;i="5.77,490,1596524400"; 
+   d="scan'208";a="171442950"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2020 03:33:25 -0800
+IronPort-SDR: kWLPOm0dD6p8QnKSD0wmugvjLdhrdAZbQIgsegbdLhyGjo/nZQSBNsry57Ux/qgsOFZHfkubCL
+ TzWKT9eH1Q3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,490,1596524400"; 
+   d="scan'208";a="533142967"
+Received: from intel-lenovo-legion-y540-15irh-pg0.iind.intel.com ([10.224.186.95])
+  by fmsmga006.fm.intel.com with ESMTP; 19 Nov 2020 03:33:23 -0800
+From: Kiran K <kiran.k@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, Dave Airlie <airlied@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+To: linux-firmware@kernel.org
+Cc: ravishankar.srivatsa@intel.com,
+	chethan.tumkur.narayan@intel.com,
+	sathish.narasimman@intel.com,
+	Kiran K <kiran.k@intel.com>
+Subject: [PATCH v8 1/5] Bluetooth: btintel: Fix endianness issue for TLV version information
+Date: Thu, 19 Nov 2020 17:04:46 +0530
+Message-Id: <20201119113450.13771-1-kiran.k@intel.com>
+X-Mailer: git-send-email 2.17.1
 
-Applied and pushed out.
+do __le32_to_cpu to tlv data fields to make sure driver runs
+correctly when running on big endian system.
 
-You had a typo in the WHENCE entries (missing the 'h' in cichlid) in
-the last patch that caused this error:
+Signed-off-by: Kiran K <kiran.k@intel.com>
+Reviewed-by: Chethan T N <chethan.tumkur.narayan@intel.com>
+Reviewed-by: Srivatsa Ravishankar <ravishankar.srivatsa@intel.com>
+---
+ drivers/bluetooth/btintel.c | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
 
-[jwboyer@vader linux-firmware]$ ./check_whence.py
-E: amdgpu/sienna_ciclid_ce.bin listed in WHENCE does not exist
-E: amdgpu/sienna_ciclid_dmcub.bin listed in WHENCE does not exist
-E: amdgpu/sienna_ciclid_me.bin listed in WHENCE does not exist
-E: amdgpu/sienna_ciclid_mec.bin listed in WHENCE does not exist
-E: amdgpu/sienna_ciclid_mec2.bin listed in WHENCE does not exist
-E: amdgpu/sienna_ciclid_pfp.bin listed in WHENCE does not exist
-E: amdgpu/sienna_ciclid_rlc.bin listed in WHENCE does not exist
-E: amdgpu/sienna_ciclid_sdma.bin listed in WHENCE does not exist
-E: amdgpu/sienna_ciclid_smc.bin listed in WHENCE does not exist
-E: amdgpu/sienna_ciclid_sos.bin listed in WHENCE does not exist
-E: amdgpu/sienna_ciclid_ta.bin listed in WHENCE does not exist
-E: amdgpu/sienna_ciclid_vcn.bin listed in WHENCE does not exist
-E: amdgpu/sienna_cichlid_ce.bin not listed in WHENCE
-E: amdgpu/sienna_cichlid_dmcub.bin not listed in WHENCE
-E: amdgpu/sienna_cichlid_me.bin not listed in WHENCE
-E: amdgpu/sienna_cichlid_mec.bin not listed in WHENCE
-E: amdgpu/sienna_cichlid_mec2.bin not listed in WHENCE
-E: amdgpu/sienna_cichlid_pfp.bin not listed in WHENCE
-E: amdgpu/sienna_cichlid_rlc.bin not listed in WHENCE
-E: amdgpu/sienna_cichlid_sdma.bin not listed in WHENCE
-E: amdgpu/sienna_cichlid_smc.bin not listed in WHENCE
-E: amdgpu/sienna_cichlid_sos.bin not listed in WHENCE
-E: amdgpu/sienna_cichlid_ta.bin not listed in WHENCE
-E: amdgpu/sienna_cichlid_vcn.bin not listed in WHENCE
-[jwboyer@vader linux-firmware]$
+diff --git a/drivers/bluetooth/btintel.c b/drivers/bluetooth/btintel.c
+index 88ce5f0ffc4b..41ff2071d7ef 100644
+--- a/drivers/bluetooth/btintel.c
++++ b/drivers/bluetooth/btintel.c
+@@ -437,31 +437,38 @@ int btintel_read_version_tlv(struct hci_dev *hdev, struct intel_version_tlv *ver
+ 		tlv = (struct intel_tlv *)skb->data;
+ 		switch (tlv->type) {
+ 		case INTEL_TLV_CNVI_TOP:
+-			version->cnvi_top = get_unaligned_le32(tlv->val);
++			version->cnvi_top =
++				__le32_to_cpu(get_unaligned_le32(tlv->val));
+ 			break;
+ 		case INTEL_TLV_CNVR_TOP:
+-			version->cnvr_top = get_unaligned_le32(tlv->val);
++			version->cnvr_top =
++				__le32_to_cpu(get_unaligned_le32(tlv->val));
+ 			break;
+ 		case INTEL_TLV_CNVI_BT:
+-			version->cnvi_bt = get_unaligned_le32(tlv->val);
++			version->cnvi_bt =
++				__le32_to_cpu(get_unaligned_le32(tlv->val));
+ 			break;
+ 		case INTEL_TLV_CNVR_BT:
+-			version->cnvr_bt = get_unaligned_le32(tlv->val);
++			version->cnvr_bt =
++				__le32_to_cpu(get_unaligned_le32(tlv->val));
+ 			break;
+ 		case INTEL_TLV_DEV_REV_ID:
+-			version->dev_rev_id = get_unaligned_le16(tlv->val);
++			version->dev_rev_id =
++				__le16_to_cpu(get_unaligned_le16(tlv->val));
+ 			break;
+ 		case INTEL_TLV_IMAGE_TYPE:
+ 			version->img_type = tlv->val[0];
+ 			break;
+ 		case INTEL_TLV_TIME_STAMP:
+-			version->timestamp = get_unaligned_le16(tlv->val);
++			version->timestamp =
++				__le16_to_cpu(get_unaligned_le16(tlv->val));
+ 			break;
+ 		case INTEL_TLV_BUILD_TYPE:
+ 			version->build_type = tlv->val[0];
+ 			break;
+ 		case INTEL_TLV_BUILD_NUM:
+-			version->build_num = get_unaligned_le32(tlv->val);
++			version->build_num =
++				__le32_to_cpu(get_unaligned_le32(tlv->val));
+ 			break;
+ 		case INTEL_TLV_SECURE_BOOT:
+ 			version->secure_boot = tlv->val[0];
+-- 
+2.17.1
 
-but I just fixed it in-place.
-
-josh
-
-On Wed, Nov 18, 2020 at 10:00 AM Alex Deucher <alexdeucher@gmail.com> wrote:
->
-> Updated amdgpu firmware for 20.45.  Please apply!
->
-> Thanks,
->
-> Alex
