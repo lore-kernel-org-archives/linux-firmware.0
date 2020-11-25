@@ -1,39 +1,69 @@
-Return-Path: <asitshah@codeaurora.org>
+Return-Path: <linux-media-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED741C5519F
-	for <linux-firmware@archiver.kernel.org>; Wed, 25 Nov 2020 08:41:36 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id AD164208CA; Wed, 25 Nov 2020 08:41:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4FDDC63777
+	for <linux-media@archiver.kernel.org>; Wed, 25 Nov 2020 08:41:38 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id 6936920B1F
+	for <linux-media@archiver.kernel.org>; Wed, 25 Nov 2020 08:41:38 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="NEakJamV"
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S1726684AbgKYIlh (ORCPT <rfc822;linux-media@archiver.kernel.org>);
+        Wed, 25 Nov 2020 03:41:37 -0500
+Received: from z5.mailgun.us ([104.130.96.5]:33753 "EHLO z5.mailgun.us"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726192AbgKYIlh (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 25 Nov 2020 03:41:37 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1606293697; h=Message-ID: Subject: Cc: To: From: Date:
+ Content-Transfer-Encoding: Content-Type: MIME-Version: Sender;
+ bh=zwqctgpIhelDb2//GbJgM8KKbA9HL3WrJCO7IaxcSd4=; b=NEakJamVoYQw4cAKyqset0LV1mdIvKI/bnVOSJYUzOj+rCh2op/WzPR13Nt7iwpbQuU68oK5
+ TGGug6FU3AzjXYIw1ejDF4y017oD7rAGQTKw80Tx9kjDx8ezT4fIvpmNgrDrCkK0WtCQP0iK
+ p8EAHCgUuo9v/NO/6J8mU9uo3a4=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n08.prod.us-west-2.postgun.com with SMTP id
+ 5fbe18c00c9500dc7b9b9fbd (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 25 Nov 2020 08:41:36
+ GMT
+Sender: asitshah=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-	id 5BACCC43460; Wed, 25 Nov 2020 08:41:36 +0000 (UTC)
+        id 647CFC43464; Wed, 25 Nov 2020 08:41:36 +0000 (UTC)
 Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: asitshah)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id DC1EDC43460;
-	Wed, 25 Nov 2020 08:41:35 +0000 (UTC)
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: asitshah)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id DC1EDC43460;
+        Wed, 25 Nov 2020 08:41:35 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII;
  format=flowed
 Content-Transfer-Encoding: 7bit
-Date: Wed, 25 Nov 2020 14:11:35 +0530
-From: asitshah@codeaurora.org
+Date:   Wed, 25 Nov 2020 14:11:35 +0530
+From:   asitshah@codeaurora.org
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org, linux-arm-kernel@lists.infradead.org,
- mchehab@infradead.org, linux-media@vger.kernel.org,
- stanimir.varbanov@linaro.org, linux-media-owner@vger.kernel.org
-Cc: vgarodia@codeaurora.org, dikshita@codeaurora.org,
- sampnimm@codeaurora.org
+To:     linux-firmware@kernel.org, linux-arm-kernel@lists.infradead.org,
+        mchehab@infradead.org, linux-media@vger.kernel.org,
+        stanimir.varbanov@linaro.org, linux-media-owner@vger.kernel.org
+Cc:     vgarodia@codeaurora.org, dikshita@codeaurora.org,
+        sampnimm@codeaurora.org
 Subject: Update venus firmware files for v5.4 and v5.2
 Message-ID: <78c092f9b8d8b3833d7ac4f36253f7d3@codeaurora.org>
 X-Sender: asitshah@codeaurora.org
 User-Agent: Roundcube Webmail/1.3.9
+Precedence: bulk
+List-ID: <linux-media.vger.kernel.org>
+X-Mailing-List: linux-media@vger.kernel.org
+Message-ID: <20201125084135.jgNcP-2B-eUFEg8jrXB9YUTTJyhCGVcAlr5617PuxU8@z>
 
 Hi Team,
 
