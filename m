@@ -1,112 +1,84 @@
-Return-Path: <SRS0=W/nN=E7=lists.freedesktop.org=intel-gfx-bounces@kernel.org>
+Return-Path: <asitshah@codeaurora.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
+	INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B430C63798
-	for <intel-gfx@archiver.kernel.org>; Wed, 25 Nov 2020 01:42:18 +0000 (UTC)
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED741C5519F
+	for <linux-firmware@archiver.kernel.org>; Wed, 25 Nov 2020 08:41:36 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id AD164208CA; Wed, 25 Nov 2020 08:41:36 +0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+	id 5BACCC43460; Wed, 25 Nov 2020 08:41:36 +0000 (UTC)
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C72ED206E5
-	for <intel-gfx@archiver.kernel.org>; Wed, 25 Nov 2020 01:42:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C72ED206E5
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=Intel.com
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=intel-gfx-bounces@lists.freedesktop.org
-Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6929898B6;
-	Wed, 25 Nov 2020 01:42:16 +0000 (UTC)
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E02CA898B6
- for <intel-gfx@lists.freedesktop.org>; Wed, 25 Nov 2020 01:42:15 +0000 (UTC)
-IronPort-SDR: objJwsRWBWFKrunCApkGfzCmL59JOS6YZI+udyuZ9cVy6/GllvhXV1vdKwiWQNf0agtfQjiXCV
- r02CNrwqkFjQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9815"; a="171267732"
-X-IronPort-AV: E=Sophos;i="5.78,367,1599548400"; d="scan'208";a="171267732"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Nov 2020 17:42:15 -0800
-IronPort-SDR: h5ouB8FFVJjUSpj4KiUEhLwhtX5zF0FNZ0KsorprLQCxT3/zm7yGtdSKOW/nbtMMDdXWs1oc6x
- 4V/SBH+bNyGg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,367,1599548400"; d="scan'208";a="327794297"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
- by orsmga003.jf.intel.com with ESMTP; 24 Nov 2020 17:42:14 -0800
-From: John.C.Harrison@Intel.com
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Date: Tue, 24 Nov 2020 17:42:14 -0800
-Message-ID: <20201125014214.3772152-1-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.25.1
+	(Authenticated sender: asitshah)
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id DC1EDC43460;
+	Wed, 25 Nov 2020 08:41:35 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [Intel-gfx] linux firmware PR for i915 GuC v49.0.1
-X-BeenThere: intel-gfx@lists.freedesktop.org
-X-Mailman-Version: 2.1.29
-Precedence: list
-List-Id: Intel graphics driver community testing & development
- <intel-gfx.lists.freedesktop.org>
-List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/intel-gfx>,
- <mailto:intel-gfx-request@lists.freedesktop.org?subject=unsubscribe>
-List-Archive: <https://lists.freedesktop.org/archives/intel-gfx>
-List-Post: <mailto:intel-gfx@lists.freedesktop.org>
-List-Help: <mailto:intel-gfx-request@lists.freedesktop.org?subject=help>
-List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/intel-gfx>,
- <mailto:intel-gfx-request@lists.freedesktop.org?subject=subscribe>
-Cc: jwboyer@kernel.org, intel-gfx@lists.freedesktop.org, kyle@kernel.org,
- ben@decadent.org.uk
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
-Errors-To: intel-gfx-bounces@lists.freedesktop.org
-Sender: "Intel-gfx" <intel-gfx-bounces@lists.freedesktop.org>
-Message-ID: <20201125014214.kmH_bNcLIdUJgvboiBi3bKNcBwS8GSB_c74L044orHU@z>
+Date: Wed, 25 Nov 2020 14:11:35 +0530
+From: asitshah@codeaurora.org
+List-Id: <linux-firmware.lore.kernel.org>
+To: linux-firmware@kernel.org, linux-arm-kernel@lists.infradead.org,
+ mchehab@infradead.org, linux-media@vger.kernel.org,
+ stanimir.varbanov@linaro.org, linux-media-owner@vger.kernel.org
+Cc: vgarodia@codeaurora.org, dikshita@codeaurora.org,
+ sampnimm@codeaurora.org
+Subject: Update venus firmware files for v5.4 and v5.2
+Message-ID: <78c092f9b8d8b3833d7ac4f36253f7d3@codeaurora.org>
+X-Sender: asitshah@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 
-Hi Josh, Kyle, Ben,
+Hi Team,
 
-Kindly add the below i915 changes to linux-firmware.git:
+Please include updated Venus Firmware bins for v5.4 and v5.2 .
 
+Snapshot of pull request is as below, let me know if anything is 
+missing.
 
-The following changes since commit b362fd4cb8963ad75517dbcf424974f65a29a60e:
+>>>>>> 
 
-  Mellanox: Add new mlxsw_spectrum firmware xx.2008.2018 (2020-11-24 09:55:03 -0500)
+The following changes since commit 
+b362fd4cb8963ad75517dbcf424974f65a29a60e:
 
-are available in the Git repository at:
+   Mellanox: Add new mlxsw_spectrum firmware xx.2008.2018 (2020-11-24 
+09:55:03 -0500)
 
-  git://anongit.freedesktop.org/drm/drm-firmware FDO/guc_v49
+are available in the git repository at:
 
-for you to fetch changes up to c487f7dadcd21116613441ed355b764003b3f57b:
+   https://github.com/shahasit/linux-firmware-video/tree/master
 
-  i915: Add GuC firmware v49.0.1 for all platforms (2020-11-24 17:04:17 -0800)
+for you to fetch changes up to e6459dce893a5b8dbf684762d5396acc11149186:
+
+   qcom : updated venus firmware files for v5.2 (2020-11-25 14:02:10 
++0530)
 
 ----------------------------------------------------------------
-John Harrison (2):
-      i915: Remove duplicate KBL DMC entry
-      i915: Add GuC firmware v49.0.1 for all platforms
+Asit Shah (2):
+       qcom : updated venus firmware files for v5.4
+       qcom : updated venus firmware files for v5.2
 
- WHENCE                  |  25 ++++++++++++++++++++++++-
- i915/bxt_guc_49.0.1.bin | Bin 0 -> 196224 bytes
- i915/cml_guc_49.0.1.bin | Bin 0 -> 197184 bytes
- i915/ehl_guc_49.0.1.bin | Bin 0 -> 324160 bytes
- i915/glk_guc_49.0.1.bin | Bin 0 -> 196672 bytes
- i915/icl_guc_49.0.1.bin | Bin 0 -> 324160 bytes
- i915/kbl_guc_49.0.1.bin | Bin 0 -> 197184 bytes
- i915/skl_guc_49.0.1.bin | Bin 0 -> 196288 bytes
- i915/tgl_guc_49.0.1.bin | Bin 0 -> 321792 bytes
- 9 files changed, 24 insertions(+), 1 deletion(-)
- create mode 100644 i915/bxt_guc_49.0.1.bin
- create mode 100644 i915/cml_guc_49.0.1.bin
- create mode 100644 i915/ehl_guc_49.0.1.bin
- create mode 100644 i915/glk_guc_49.0.1.bin
- create mode 100644 i915/icl_guc_49.0.1.bin
- create mode 100644 i915/kbl_guc_49.0.1.bin
- create mode 100644 i915/skl_guc_49.0.1.bin
- create mode 100644 i915/tgl_guc_49.0.1.bin
-_______________________________________________
-Intel-gfx mailing list
-Intel-gfx@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+  qcom/venus-5.2/venus.b00 | Bin 212 -> 212 bytes
+  qcom/venus-5.2/venus.b01 | Bin 6600 -> 6808 bytes
+  qcom/venus-5.2/venus.b02 | Bin 837304 -> 856432 bytes
+  qcom/venus-5.2/venus.b03 | Bin 33640 -> 33648 bytes
+  qcom/venus-5.2/venus.mbn | Bin 883264 -> 902400 bytes
+  qcom/venus-5.2/venus.mdt | Bin 6812 -> 7020 bytes
+  qcom/venus-5.4/venus.b00 | Bin 212 -> 212 bytes
+  qcom/venus-5.4/venus.b01 | Bin 6808 -> 6808 bytes
+  qcom/venus-5.4/venus.b02 | Bin 873680 -> 873704 bytes
+  qcom/venus-5.4/venus.b03 | Bin 33792 -> 33792 bytes
+  qcom/venus-5.4/venus.mbn | Bin 919792 -> 919816 bytes
+  qcom/venus-5.4/venus.mdt | Bin 7020 -> 7020 bytes
+  12 files changed, 0 insertions(+), 0 deletions(-)
+
+<<<<<<
+
+Regards,
+Asit
