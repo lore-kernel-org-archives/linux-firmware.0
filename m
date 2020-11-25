@@ -1,53 +1,70 @@
-Return-Path: <SRS0=MBwk=E7=intel.com=John.C.Harrison@kernel.org>
+Return-Path: <SRS0=W/nN=E7=lists.freedesktop.org=intel-gfx-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-21.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24260C56202
-	for <linux-firmware@archiver.kernel.org>; Wed, 25 Nov 2020 01:42:17 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id D7D14208DB; Wed, 25 Nov 2020 01:42:16 +0000 (UTC)
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B430C63798
+	for <intel-gfx@archiver.kernel.org>; Wed, 25 Nov 2020 01:42:18 +0000 (UTC)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6CDE4206E5;
-	Wed, 25 Nov 2020 01:42:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6CDE4206E5
+	by mail.kernel.org (Postfix) with ESMTPS id C72ED206E5
+	for <intel-gfx@archiver.kernel.org>; Wed, 25 Nov 2020 01:42:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C72ED206E5
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=Intel.com
-Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=John.C.Harrison@intel.com
-IronPort-SDR: 0LjkylqtbqTuLr4sdTUIS4ifrkwqKjfGNKErXk/Pa5auFklbsXGOhpcQnSsHeMc8ffOva22Axx
- fO6kVy/pb8YQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9815"; a="190182031"
-X-IronPort-AV: E=Sophos;i="5.78,367,1599548400"; 
-   d="scan'208";a="190182031"
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=intel-gfx-bounces@lists.freedesktop.org
+Received: from gabe.freedesktop.org (localhost [127.0.0.1])
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6929898B6;
+	Wed, 25 Nov 2020 01:42:16 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E02CA898B6
+ for <intel-gfx@lists.freedesktop.org>; Wed, 25 Nov 2020 01:42:15 +0000 (UTC)
+IronPort-SDR: objJwsRWBWFKrunCApkGfzCmL59JOS6YZI+udyuZ9cVy6/GllvhXV1vdKwiWQNf0agtfQjiXCV
+ r02CNrwqkFjQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9815"; a="171267732"
+X-IronPort-AV: E=Sophos;i="5.78,367,1599548400"; d="scan'208";a="171267732"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2020 17:42:15 -0800
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Nov 2020 17:42:15 -0800
 IronPort-SDR: h5ouB8FFVJjUSpj4KiUEhLwhtX5zF0FNZ0KsorprLQCxT3/zm7yGtdSKOW/nbtMMDdXWs1oc6x
  4V/SBH+bNyGg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,367,1599548400"; 
-   d="scan'208";a="327794297"
+X-IronPort-AV: E=Sophos;i="5.78,367,1599548400"; d="scan'208";a="327794297"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
-  by orsmga003.jf.intel.com with ESMTP; 24 Nov 2020 17:42:14 -0800
+ by orsmga003.jf.intel.com with ESMTP; 24 Nov 2020 17:42:14 -0800
 From: John.C.Harrison@Intel.com
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Cc: jwboyer@kernel.org,
-	kyle@kernel.org,
-	ben@decadent.org.uk,
-	intel-gfx@lists.freedesktop.org
-Subject: linux firmware PR for i915 GuC v49.0.1
 Date: Tue, 24 Nov 2020 17:42:14 -0800
-Message-Id: <20201125014214.3772152-1-John.C.Harrison@Intel.com>
+Message-ID: <20201125014214.3772152-1-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: [Intel-gfx] linux firmware PR for i915 GuC v49.0.1
+X-BeenThere: intel-gfx@lists.freedesktop.org
+X-Mailman-Version: 2.1.29
+Precedence: list
+List-Id: Intel graphics driver community testing & development
+ <intel-gfx.lists.freedesktop.org>
+List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/intel-gfx>,
+ <mailto:intel-gfx-request@lists.freedesktop.org?subject=unsubscribe>
+List-Archive: <https://lists.freedesktop.org/archives/intel-gfx>
+List-Post: <mailto:intel-gfx@lists.freedesktop.org>
+List-Help: <mailto:intel-gfx-request@lists.freedesktop.org?subject=help>
+List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/intel-gfx>,
+ <mailto:intel-gfx-request@lists.freedesktop.org?subject=subscribe>
+Cc: jwboyer@kernel.org, intel-gfx@lists.freedesktop.org, kyle@kernel.org,
+ ben@decadent.org.uk
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Errors-To: intel-gfx-bounces@lists.freedesktop.org
+Sender: "Intel-gfx" <intel-gfx-bounces@lists.freedesktop.org>
+Message-ID: <20201125014214.kmH_bNcLIdUJgvboiBi3bKNcBwS8GSB_c74L044orHU@z>
 
 Hi Josh, Kyle, Ben,
 
@@ -89,3 +106,7 @@ John Harrison (2):
  create mode 100644 i915/kbl_guc_49.0.1.bin
  create mode 100644 i915/skl_guc_49.0.1.bin
  create mode 100644 i915/tgl_guc_49.0.1.bin
+_______________________________________________
+Intel-gfx mailing list
+Intel-gfx@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/intel-gfx
