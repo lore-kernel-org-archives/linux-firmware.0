@@ -1,34 +1,49 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=3jid=FE=lists.freedesktop.org=intel-gfx-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31DD3C64E8A
-	for <linux-firmware@archiver.kernel.org>; Mon, 30 Nov 2020 14:26:38 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id E78A5206B6; Mon, 30 Nov 2020 14:26:37 +0000 (UTC)
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6322BC64E8A
+	for <intel-gfx@archiver.kernel.org>; Mon, 30 Nov 2020 14:26:40 +0000 (UTC)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id BA06220656;
-	Mon, 30 Nov 2020 14:26:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E89AE20656
+	for <intel-gfx@archiver.kernel.org>; Mon, 30 Nov 2020 14:26:39 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="tAEYduZ2"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E89AE20656
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=intel-gfx-bounces@lists.freedesktop.org
+Received: from gabe.freedesktop.org (localhost [127.0.0.1])
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21C086E4CD;
+	Mon, 30 Nov 2020 14:26:39 +0000 (UTC)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E0226E4D0
+ for <intel-gfx@lists.freedesktop.org>; Mon, 30 Nov 2020 14:26:38 +0000 (UTC)
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com
+ [209.85.166.49])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id F39FD20656
+ for <intel-gfx@lists.freedesktop.org>; Mon, 30 Nov 2020 14:26:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1606746397;
-	bh=7ec0oOUrfomFYXbCiVsScTHXfiU8uWHMOIkFXTxyDJ8=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=mJMwezUF/vr2DB/7FxzAmVmeGzlmNt9DYc4ap1fzH9yh5i6GBgRQAkczWdyKf4soV
-	 iDnHtfghJ7AYbH2FMFZOQFPTCiwglHOR4BOVA0xuis+/9E31asAPVGrKMx7MVhWBko
-	 6l6Bn9HDP0sA14bTyHDi1h4Eb2ocrL+FZQ6VAkOQ=
-Received: by mail-io1-f42.google.com with SMTP id o8so11942038ioh.0;
-        Mon, 30 Nov 2020 06:26:37 -0800 (PST)
-X-Gm-Message-State: AOAM531f78IdJkm4et98IeKMRxO/fxu3wC5aa8FDez0rbmBhijoYFmK+
-	wMig59fTZ+I4jQ5TPQO3GRUHesF78xhshRbyKJI=
+ s=default; t=1606746398;
+ bh=7ec0oOUrfomFYXbCiVsScTHXfiU8uWHMOIkFXTxyDJ8=;
+ h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+ b=tAEYduZ2CNe+mGkIrmNLitu8mn/SoUU49A58CVc0sEDpAWFFhTOwco9i0U0iQ7/c/
+ YWCesqyOZUPbpQnXE4OtsW9fWyXqYkwstrIe3e2mVm0NZ5RmA3e+efAcLrnOcYPyzm
+ +hMyeJt7jQNsTFs4RfheWPXfKyw6wW07HF0aRv3Y=
+Received: by mail-io1-f49.google.com with SMTP id r9so11909757ioo.7
+ for <intel-gfx@lists.freedesktop.org>; Mon, 30 Nov 2020 06:26:37 -0800 (PST)
+X-Gm-Message-State: AOAM530XK/fOIgdx+Pz8xdZhRwtGed0g080/7AaA4vhEjrxeiJ2OP2J6
+ fc0nXQ6vpNtmyzt0A2XZpyzzaXaNWtUi8Ysr0JU=
 X-Google-Smtp-Source: ABdhPJwWB82FKrxopzoeOn1FrsRnJtGQfYL5R5cZWtTUtJlW42x8352m3WK3o/eOc7bNT9hZWJng5g7y3/yWYiRIWhs=
-X-Received: by 2002:a02:11c8:: with SMTP id 191mr10069115jaf.107.1606746397065;
+X-Received: by 2002:a02:11c8:: with SMTP id 191mr10069115jaf.107.1606746397065; 
  Mon, 30 Nov 2020 06:26:37 -0800 (PST)
 MIME-Version: 1.0
 References: <20201125014214.3772152-1-John.C.Harrison@Intel.com>
@@ -37,13 +52,29 @@ From: Josh Boyer <jwboyer@kernel.org>
 Date: Mon, 30 Nov 2020 09:26:25 -0500
 X-Gmail-Original-Message-ID: <CA+5PVA5n3C3fzTrLWLAmjqdjnVzxN2ae+fZDRS5Qbqj3UG+iKw@mail.gmail.com>
 Message-ID: <CA+5PVA5n3C3fzTrLWLAmjqdjnVzxN2ae+fZDRS5Qbqj3UG+iKw@mail.gmail.com>
-Subject: Re: linux firmware PR for i915 GuC v49.0.1
 To: John.C.Harrison@intel.com
+Subject: Re: [Intel-gfx] linux firmware PR for i915 GuC v49.0.1
+X-BeenThere: intel-gfx@lists.freedesktop.org
+X-Mailman-Version: 2.1.29
+Precedence: list
+List-Id: Intel graphics driver community testing & development
+ <intel-gfx.lists.freedesktop.org>
+List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/intel-gfx>,
+ <mailto:intel-gfx-request@lists.freedesktop.org?subject=unsubscribe>
+List-Archive: <https://lists.freedesktop.org/archives/intel-gfx>
+List-Post: <mailto:intel-gfx@lists.freedesktop.org>
+List-Help: <mailto:intel-gfx-request@lists.freedesktop.org?subject=help>
+List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/intel-gfx>,
+ <mailto:intel-gfx-request@lists.freedesktop.org?subject=subscribe>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, Kyle McMartin <kyle@kernel.org>, 
-	Ben Hutchings <ben@decadent.org.uk>, 
-	Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Kyle McMartin <kyle@kernel.org>, Ben Hutchings <ben@decadent.org.uk>,
+ Linux Firmware <linux-firmware@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Errors-To: intel-gfx-bounces@lists.freedesktop.org
+Sender: "Intel-gfx" <intel-gfx-bounces@lists.freedesktop.org>
+Message-ID: <20201130142625.yXJ1cM_Dsy-AHao0zLF4v0Vgn0e7hE6Co04iiYogGUk@z>
 
 On Tue, Nov 24, 2020 at 8:42 PM <John.C.Harrison@intel.com> wrote:
 >
@@ -96,3 +127,7 @@ josh
 >  create mode 100644 i915/kbl_guc_49.0.1.bin
 >  create mode 100644 i915/skl_guc_49.0.1.bin
 >  create mode 100644 i915/tgl_guc_49.0.1.bin
+_______________________________________________
+Intel-gfx mailing list
+Intel-gfx@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/intel-gfx
