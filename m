@@ -1,141 +1,111 @@
-Return-Path: <SRS0=3jid=FE=lists.freedesktop.org=intel-gfx-bounces@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-21.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 339C9C64E7B
-	for <intel-gfx@archiver.kernel.org>; Mon, 30 Nov 2020 18:50:00 +0000 (UTC)
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA430C63777
+	for <linux-firmware@archiver.kernel.org>; Mon, 30 Nov 2020 19:09:44 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id AC5BF20825; Mon, 30 Nov 2020 19:09:44 +0000 (UTC)
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E4AEA2073C
-	for <intel-gfx@archiver.kernel.org>; Mon, 30 Nov 2020 18:49:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E4AEA2073C
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=intel-gfx-bounces@lists.freedesktop.org
-Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FCA889B0C;
-	Mon, 30 Nov 2020 18:49:59 +0000 (UTC)
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BFF189B0C
- for <intel-gfx@lists.freedesktop.org>; Mon, 30 Nov 2020 18:49:58 +0000 (UTC)
-IronPort-SDR: wwsGeaqXWWF1d8kerhMlQJYCw7Rdq3FBsrUNamg4npkLVtCbB2Zp5wghmRt1Vs2ocBMl7vrtY8
- ctOvqFTRVzbw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9821"; a="159743769"
-X-IronPort-AV: E=Sophos;i="5.78,382,1599548400"; d="scan'208";a="159743769"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2020 10:49:57 -0800
-IronPort-SDR: FR9J5XZ5jmoNvg/DfiW0e4g1W3GQPtW5kcS6xh4hoC5+mjJtPVCoqi8Z4IswT2qpn6hlAjJ2CB
- mwWSOVEdydrA==
-X-IronPort-AV: E=Sophos;i="5.78,382,1599548400"; d="scan'208";a="549218094"
-Received: from johnharr-mobl1.amr.corp.intel.com (HELO [10.212.134.54])
- ([10.212.134.54])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2020 10:49:57 -0800
-To: Josh Boyer <jwboyer@kernel.org>
-References: <20201125014214.3772152-1-John.C.Harrison@Intel.com>
- <CA+5PVA5n3C3fzTrLWLAmjqdjnVzxN2ae+fZDRS5Qbqj3UG+iKw@mail.gmail.com>
-From: John Harrison <john.c.harrison@intel.com>
-Message-ID: <c0aa4cb2-1374-b90f-e7cc-88bfb17ce04b@intel.com>
-Date: Mon, 30 Nov 2020 10:49:56 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+	by mail.kernel.org (Postfix) with ESMTPSA id 8624920691;
+	Mon, 30 Nov 2020 19:09:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1606763384;
+	bh=n/9Kbytlf6Unp0K3HpFeEsEoB7fVhDNCzKVcttZjn1M=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=Buk2I68PF1y6vSkiBFbwQHDP6F4+hZfr621Dmo9oEkzJW29Ef+sYl+DdmWXWB/UrD
+	 ag4Blv7I8J+p8jIoGBaHP1H5AK+M1io42tbQacqsceqYoeEKxhdjuKXNNfqH+leAIT
+	 V81Qc+HoS/Y1KYP61dH5+1iVReGi7bF7pOeijX80=
+Received: by mail-il1-f170.google.com with SMTP id r17so12359760ilo.11;
+        Mon, 30 Nov 2020 11:09:44 -0800 (PST)
+X-Gm-Message-State: AOAM53137IiUAzn+T5PPs0sOacBMmo8VYsLl0rks/bns+jvor66zM9O2
+	9Mk/4iH5TMVdXpbVD89x0kSyZkSdsWraccQVw0M=
+X-Google-Smtp-Source: ABdhPJzKVGS1UyAPmwaj94OxR5VOUHejZ+z7ic5+1lNvFDsO0ou4QQefST088D6UBrKLYrRvwwmr5gYl3HCotSArW/g=
+X-Received: by 2002:a92:a154:: with SMTP id v81mr20838704ili.85.1606763383900;
+ Mon, 30 Nov 2020 11:09:43 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CA+5PVA5n3C3fzTrLWLAmjqdjnVzxN2ae+fZDRS5Qbqj3UG+iKw@mail.gmail.com>
-Content-Language: en-GB
-Subject: Re: [Intel-gfx] linux firmware PR for i915 GuC v49.0.1
-X-BeenThere: intel-gfx@lists.freedesktop.org
-X-Mailman-Version: 2.1.29
-Precedence: list
-List-Id: Intel graphics driver community testing & development
- <intel-gfx.lists.freedesktop.org>
-List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/intel-gfx>,
- <mailto:intel-gfx-request@lists.freedesktop.org?subject=unsubscribe>
-List-Archive: <https://lists.freedesktop.org/archives/intel-gfx>
-List-Post: <mailto:intel-gfx@lists.freedesktop.org>
-List-Help: <mailto:intel-gfx-request@lists.freedesktop.org?subject=help>
-List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/intel-gfx>,
- <mailto:intel-gfx-request@lists.freedesktop.org?subject=subscribe>
+References: <20201125014214.3772152-1-John.C.Harrison@Intel.com>
+ <CA+5PVA5n3C3fzTrLWLAmjqdjnVzxN2ae+fZDRS5Qbqj3UG+iKw@mail.gmail.com> <c0aa4cb2-1374-b90f-e7cc-88bfb17ce04b@intel.com>
+In-Reply-To: <c0aa4cb2-1374-b90f-e7cc-88bfb17ce04b@intel.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Mon, 30 Nov 2020 14:09:32 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA4zc3wRGv0ZhUSQLpiQs2kbDZN0jbux++JM-i+EFRTeDA@mail.gmail.com>
+Message-ID: <CA+5PVA4zc3wRGv0ZhUSQLpiQs2kbDZN0jbux++JM-i+EFRTeDA@mail.gmail.com>
+Subject: Re: linux firmware PR for i915 GuC v49.0.1
+To: John Harrison <john.c.harrison@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Kyle McMartin <kyle@kernel.org>, Ben Hutchings <ben@decadent.org.uk>,
- Linux Firmware <linux-firmware@kernel.org>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
-Errors-To: intel-gfx-bounces@lists.freedesktop.org
-Sender: "Intel-gfx" <intel-gfx-bounces@lists.freedesktop.org>
-Message-ID: <20201130184956.0fWQQEosM-swlR0hqIQHKz4FmWWLBbXKlspsUMPEtXw@z>
+Cc: Linux Firmware <linux-firmware@kernel.org>, Kyle McMartin <kyle@kernel.org>, 
+	Ben Hutchings <ben@decadent.org.uk>, 
+	Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 11/30/2020 06:26, Josh Boyer wrote:
-> On Tue, Nov 24, 2020 at 8:42 PM <John.C.Harrison@intel.com> wrote:
->> Hi Josh, Kyle, Ben,
->>
->> Kindly add the below i915 changes to linux-firmware.git:
->>
->>
->> The following changes since commit b362fd4cb8963ad75517dbcf424974f65a29a60e:
->>
->>    Mellanox: Add new mlxsw_spectrum firmware xx.2008.2018 (2020-11-24 09:55:03 -0500)
->>
->> are available in the Git repository at:
->>
->>    git://anongit.freedesktop.org/drm/drm-firmware FDO/guc_v49
-> This doesn't exist.  Git complains with:
+On Mon, Nov 30, 2020 at 1:49 PM John Harrison <john.c.harrison@intel.com> wrote:
 >
-> fatal: couldn't find remote ref FDO/guc_v49
+> On 11/30/2020 06:26, Josh Boyer wrote:
+> > On Tue, Nov 24, 2020 at 8:42 PM <John.C.Harrison@intel.com> wrote:
+> >> Hi Josh, Kyle, Ben,
+> >>
+> >> Kindly add the below i915 changes to linux-firmware.git:
+> >>
+> >>
+> >> The following changes since commit b362fd4cb8963ad75517dbcf424974f65a29a60e:
+> >>
+> >>    Mellanox: Add new mlxsw_spectrum firmware xx.2008.2018 (2020-11-24 09:55:03 -0500)
+> >>
+> >> are available in the Git repository at:
+> >>
+> >>    git://anongit.freedesktop.org/drm/drm-firmware FDO/guc_v49
+> > This doesn't exist.  Git complains with:
+> >
+> > fatal: couldn't find remote ref FDO/guc_v49
+> >
+> > Did you just mean guc_v49?
+> >
+> > josh
+> I guess. The FDO part is the name of the remote repo in my local .git.
+> When I tried to create the pull request without that part it gave me an
+> error.
 >
-> Did you just mean guc_v49?
+> Do you need me to resend the email with the 'FDO/' part dropped?
+
+No.  I pulled that tag and pushed it out.  Take a look at the mainline
+repo and make sure it included the 2 commits you wanted.  Should be
+good to go.
+
+josh
+
+> >> for you to fetch changes up to c487f7dadcd21116613441ed355b764003b3f57b:
+> >>
+> >>    i915: Add GuC firmware v49.0.1 for all platforms (2020-11-24 17:04:17 -0800)
+> >>
+> >> ----------------------------------------------------------------
+> >> John Harrison (2):
+> >>        i915: Remove duplicate KBL DMC entry
+> >>        i915: Add GuC firmware v49.0.1 for all platforms
+> >>
+> >>   WHENCE                  |  25 ++++++++++++++++++++++++-
+> >>   i915/bxt_guc_49.0.1.bin | Bin 0 -> 196224 bytes
+> >>   i915/cml_guc_49.0.1.bin | Bin 0 -> 197184 bytes
+> >>   i915/ehl_guc_49.0.1.bin | Bin 0 -> 324160 bytes
+> >>   i915/glk_guc_49.0.1.bin | Bin 0 -> 196672 bytes
+> >>   i915/icl_guc_49.0.1.bin | Bin 0 -> 324160 bytes
+> >>   i915/kbl_guc_49.0.1.bin | Bin 0 -> 197184 bytes
+> >>   i915/skl_guc_49.0.1.bin | Bin 0 -> 196288 bytes
+> >>   i915/tgl_guc_49.0.1.bin | Bin 0 -> 321792 bytes
+> >>   9 files changed, 24 insertions(+), 1 deletion(-)
+> >>   create mode 100644 i915/bxt_guc_49.0.1.bin
+> >>   create mode 100644 i915/cml_guc_49.0.1.bin
+> >>   create mode 100644 i915/ehl_guc_49.0.1.bin
+> >>   create mode 100644 i915/glk_guc_49.0.1.bin
+> >>   create mode 100644 i915/icl_guc_49.0.1.bin
+> >>   create mode 100644 i915/kbl_guc_49.0.1.bin
+> >>   create mode 100644 i915/skl_guc_49.0.1.bin
+> >>   create mode 100644 i915/tgl_guc_49.0.1.bin
 >
-> josh
-I guess. The FDO part is the name of the remote repo in my local .git. 
-When I tried to create the pull request without that part it gave me an 
-error.
-
-Do you need me to resend the email with the 'FDO/' part dropped?
-
-Thanks,
-John.
-
-
-
->
->> for you to fetch changes up to c487f7dadcd21116613441ed355b764003b3f57b:
->>
->>    i915: Add GuC firmware v49.0.1 for all platforms (2020-11-24 17:04:17 -0800)
->>
->> ----------------------------------------------------------------
->> John Harrison (2):
->>        i915: Remove duplicate KBL DMC entry
->>        i915: Add GuC firmware v49.0.1 for all platforms
->>
->>   WHENCE                  |  25 ++++++++++++++++++++++++-
->>   i915/bxt_guc_49.0.1.bin | Bin 0 -> 196224 bytes
->>   i915/cml_guc_49.0.1.bin | Bin 0 -> 197184 bytes
->>   i915/ehl_guc_49.0.1.bin | Bin 0 -> 324160 bytes
->>   i915/glk_guc_49.0.1.bin | Bin 0 -> 196672 bytes
->>   i915/icl_guc_49.0.1.bin | Bin 0 -> 324160 bytes
->>   i915/kbl_guc_49.0.1.bin | Bin 0 -> 197184 bytes
->>   i915/skl_guc_49.0.1.bin | Bin 0 -> 196288 bytes
->>   i915/tgl_guc_49.0.1.bin | Bin 0 -> 321792 bytes
->>   9 files changed, 24 insertions(+), 1 deletion(-)
->>   create mode 100644 i915/bxt_guc_49.0.1.bin
->>   create mode 100644 i915/cml_guc_49.0.1.bin
->>   create mode 100644 i915/ehl_guc_49.0.1.bin
->>   create mode 100644 i915/glk_guc_49.0.1.bin
->>   create mode 100644 i915/icl_guc_49.0.1.bin
->>   create mode 100644 i915/kbl_guc_49.0.1.bin
->>   create mode 100644 i915/skl_guc_49.0.1.bin
->>   create mode 100644 i915/tgl_guc_49.0.1.bin
-
-_______________________________________________
-Intel-gfx mailing list
-Intel-gfx@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/intel-gfx
