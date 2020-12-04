@@ -1,24 +1,24 @@
 Return-Path: <SRS0=44ST=FI=purelifi.com=srini.raju@kernel.org>
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D840BC433FE
-	for <linux-firmware@archiver.kernel.org>; Fri,  4 Dec 2020 05:17:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99128C4361A
+	for <linux-firmware@archiver.kernel.org>; Fri,  4 Dec 2020 05:24:01 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 7B5D522573; Fri,  4 Dec 2020 05:17:05 +0000 (UTC)
-Received: from GBR01-CWL-obe.outbound.protection.outlook.com (mail-cwlgbr01hn2219.outbound.protection.outlook.com [52.100.178.219])
+	id 46B2322573; Fri,  4 Dec 2020 05:24:01 +0000 (UTC)
+Received: from GBR01-CWL-obe.outbound.protection.outlook.com (mail-cwlgbr01hn2213.outbound.protection.outlook.com [52.100.178.213])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ADEF422571
-	for <linux-firmware@kernel.org>; Fri,  4 Dec 2020 05:17:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ADEF422571
+	by mail.kernel.org (Postfix) with ESMTPS id 5C4D022581
+	for <linux-firmware@kernel.org>; Fri,  4 Dec 2020 05:23:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5C4D022581
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=purelifi.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=srini.raju@purelifi.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bukvNl0TSXC697kjuUlcaZ9YnSaJpudDNRgF1KdKNoRAbx+Zv2brRSTbz81ehTqvLij9N7Hxdz05t1XZPCqH4j5A+J542xCIERo77abPxwJcAMEmUKsW+/kMwExitfAbNSFhqYQuqdDjqMUXvqpvmr9W42BN4laquD9mPNvzxU/4KT+k2TjkjMndwh3MZBccniEJg4bV/egtoU5QdJADAv1Qhgp365pauzaKs9CCl+isR30HIb7yOFiMfVxExCJeXywj5Vbw84V/piWaokXCWihSNFwT0MQfdgLyBX4RZf9fL/YK4jxMay/0vyZvSPyDzvW54kEVVYQ/NqAYXR5H3A==
+ b=HaP/wxjCqNQSVhjX2kuu3hdxlEFUsCkUl2POfBJXSPYBtRnI5wpu0oJDw3W2PAc9GzCFC3sI8bXuYeLS9eH4W7Wu+QAzI+Y92GFrUud4pA2Mx4IRnd4EjBcJBAejXUMW3fCDNlb1QiZ7gVGA1sms0cbpPMKJOFLqBzGA2CBam/xEQMOQyMFoWKuXp9AqlUt1z9xjBAFrzhnBlNdPrHDNWGTACjDU0VvvvMPDJP30skANC1QyOJnFSXAMBuwbeLvLLFULSu3RRJkA3p7tQhKrXwXiYTzNFSIIad4sDn2qbNeu15r97J7Fys4HnYWLojoYqlP1N1/u4asBH5xd7fRxow==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
  bh=/nTOrfoFx61DKx1WZnxKJCTlUvhojFzH5NgT6BOPNxM=;
- b=Nrnz/iD9dirSltV1wIViNeJ7KZgjJ7GKNXyWZOWpkOBG5VQdHwBpoy+PbIGYE2Z5KYS9EM9G6nTvatvn4P/AWvDistCAf+vCgX+alePpXMqnjgA5viO77+kO2auYlIUCQftJiY//KV25Mvbk9viaakXrEOAnmx7FR4aQ5N1l3s1fKLg8oofHkCVdFXvEwWwh0L3WVOw24zM2RKT3DyBJWPVCRsSTCUOi9XY+1dVfB36C1SrfBcFu57v8ccgtoY6whE3lbrWdH+n2wpbkC8o4VNb91MD2vnzBiJO84h6uembbVWWXAD8/D9KXT5htSLHT5czNBC6wIg8XdpGBUoS7ug==
+ b=hAOFYS5iVTBuNPV/7U+A6JQKDCnAf1h/V6o1SMhe8kp7p9iSpYHlH6OW98nwXXX6dlmRQI73vwrro2kdKN6KRCKV2nypRPIox5rcvbqjDlmZKRHRh5G3fzjQyt/E8alfbIBwbOKCUzCvjxjHmFtpndRioz1Cjf3775ovYVRKZC/D6lg83JKkvLlE/0tjygb7eVm8ZPFjd0ery2WfW+BrhlgPcOMS/Nv5O638vsB7zalMFhx3QGvzYDmUK8x6RAt6V7DRe3Djt95LnN880pw0U66d7J+ldxUStv5zRrK3GGTANvmjMQRUa1fds88PJrp1FL1mlxE23higSsIF+67wQA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=purelifi.com; dmarc=pass action=none header.from=purelifi.com;
  dkim=pass header.d=purelifi.com; arc=none
@@ -26,79 +26,80 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=purevlc.onmicrosoft.com; s=selector2-purevlc-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
  bh=/nTOrfoFx61DKx1WZnxKJCTlUvhojFzH5NgT6BOPNxM=;
- b=dX19s0eoFGdx36sj0vU2wJMOOMcEvaJBvq8B64VzRzTtqw65lUli7gIyT+FEM4S+WMHVkK6qtePNoWKPyRUH4jdpLaoONU72McoxLHCJM4NkLaz1LSs2LznkwIxVb/nCeqMicFhYuwvA8hZsBQQQw1n7++P9mZ+Lc3yISs6YrPM=
+ b=MlEMYhn+9tArUkaxwTwI3RKlWez2m1VWKItejxrp2UlYKFUYUSWHcQYzLWjBa5fJnH1rvtXxa1ft3Q7rVeyZ3i+x6oQZLcs8sA23potSuRWya67czzZlj4eI/5wxjPZ59IhoUGH7xQtNR2kpFSgpJkGfs+mant83ISRzSU/ZrDM=
 Authentication-Results: kernel.org; dkim=none (message not signed)
  header.d=none;kernel.org; dmarc=none action=none header.from=purelifi.com;
 Received: from CWXP265MB1799.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:3a::14)
- by CWLP265MB2481.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:90::9) with
+ by CWXP265MB0440.GBRP265.PROD.OUTLOOK.COM (2603:10a6:401:6::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Fri, 4 Dec
- 2020 05:15:53 +0000
+ 2020 05:22:35 +0000
 Received: from CWXP265MB1799.GBRP265.PROD.OUTLOOK.COM
  ([fe80::c196:42db:8b87:c1ee]) by CWXP265MB1799.GBRP265.PROD.OUTLOOK.COM
  ([fe80::c196:42db:8b87:c1ee%7]) with mapi id 15.20.3632.018; Fri, 4 Dec 2020
- 05:15:52 +0000
+ 05:22:35 +0000
 From: Srinivasan Raju <srini.raju@purelifi.com>
 To:
 List-Id: <linux-firmware.lore.kernel.org>
 Cc: linux-firmware@kernel.org,
+	mostafa.afgani@purelifi.com,
 	Srinivasan Raju <srini.raju@purelifi.com>
 Subject: [PATCH] linux-firmware: New firmware files for pureLiFi USB devices
-Date: Fri,  4 Dec 2020 10:44:53 +0530
-Message-Id: <20201204051454.204224-1-srini.raju@purelifi.com>
+Date: Fri,  4 Dec 2020 10:51:22 +0530
+Message-Id: <20201204052123.204711-1-srini.raju@purelifi.com>
 X-Mailer: git-send-email 2.25.1
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [103.104.125.239]
-X-ClientProxiedBy: BM1PR01CA0141.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:40::35) To CWXP265MB1799.GBRP265.PROD.OUTLOOK.COM
+X-Originating-IP: [103.104.125.236]
+X-ClientProxiedBy: BM1PR0101CA0023.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:18::33) To CWXP265MB1799.GBRP265.PROD.OUTLOOK.COM
  (2603:10a6:400:3a::14)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (103.104.125.239) by BM1PR01CA0141.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:40::35) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17 via Frontend Transport; Fri, 4 Dec 2020 05:15:14 +0000
+Received: from localhost.localdomain (103.104.125.236) by BM1PR0101CA0023.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:18::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17 via Frontend Transport; Fri, 4 Dec 2020 05:22:01 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a1dea09d-6220-4a96-8e37-08d8981395e1
-X-MS-TrafficTypeDiagnostic: CWLP265MB2481:
+X-MS-Office365-Filtering-Correlation-Id: 4f3f49c2-18e0-43ad-901b-08d8981487f8
+X-MS-TrafficTypeDiagnostic: CWXP265MB0440:
 X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS:
-	<CWLP265MB2481A94A5356F9F4B460F890E0F10@CWLP265MB2481.GBRP265.PROD.OUTLOOK.COM>
+	<CWXP265MB04408CE87C24619DD59A980EE0F10@CWXP265MB0440.GBRP265.PROD.OUTLOOK.COM>
 X-MS-Oob-TLC-OOBClassifiers: OLM:132;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	DAMwwc1ooJ77b89OnOZqbGnwlyYC6vId9xPVgz3T4xZjvm9YJajOBxfr5cROKeIJvb3+7upyUjbVr2p+IOnzBTuk0B5eyz1q+FBiZrevldO0aDPgOqv10B9BymAlosuaN/H801kuRIFwh48eC4bL2fhRUIWW9GEtEok0iBdwUWzAk/5sCazXw7V9Lj+MEe51hel4TI5X1DPujPZdlp/4/lviG/+6KjoODOU5Iw0xS68ArWkFH1D3kQ/CXtIjEedUP8x4EMVjzlJNvIz5le2EXgtXlgKcURafSF74eD1aucySd8/raFH8sDTTCGOu4w97m/QIdAMTR5M4DBSMsbjUoCHPr9gVlS2iUv9Yfq2YbExP/oWRCQtUoOiVr3/avRIbBVHV4A0RZZ1+sB/i2IHBBhXIbeLd/owFaTQVvgR2+2sOAhWSCiYOxqfE4AnhstIrN6vPAGQWT8UAONNgJ4j1YG/3KJEKnsUu+aE8iIZ4mYeqqLKMeaM53mLfBwrb+RQ9lr3LR59loNPRbFu/mFh2GyX+gOmIGsFR4F0/ZWllVGrHq0TWwUm0rdjEogJYMBW/XEjl9UU8V/6n7n2gtxDH7vcptPYen9AX77mFSUfd4UzZR+PORtqpkUkGIAU9qj1Uteirph+vXbb9S51wr5TzXN7NT9cglHgMy9r11Z3Ou573SUvkpEq6YDyYElfrjGHMs07Uma7AlinEBCW7E+ZamMTN1FKb09jbtjFvujv2TZo=
+	YYNBHvmPEIpwbWdIlDWnin3BGa6RVSOwcPeQzNuawaw5dYjCVtVMVACRS+iS8GUPGfIvzyYoiB+fBTYi3Ih9QpcUptwEOI/h5s3u6OVvoHaSR7ISvTXWneS+v76jJ4nbJQLsm7LIUDkHLNSUYB5O4A5KjfqzDQ3UDqftNqYUWFnTBK1mtY4Te/kAtza4O2Ci++NGqhiIud4i3FoAhrQjmsTOUdKZGmzPwtqS1pqdafQ33DTOJ89T1Pbr6SJwvHVkPTDLySqhOAJOBeGgNUS0zftLSdg1q3og+8g4usA4ZhqVbSK/0yLgpJJS/VwvJirLbo8mBvvdIFgV2lWwwxWLg1yTG8RB3C0WNcMxfUBQWZccYb0nsDmfPSvcX4xP9ZOir5r6+4a82lLq8yFjwrAmXODpHAiYWkHEZHdal7hZAl9M/vPSNbLxgZr87I/cYiZBo0r/v1gtgP9/PSH+OwlWpm2Ck8ud7XiQdeOB0ledkjlfpzXsmjDrnx4cwPQq7mRkjOprwXJ3um8cVFRLRpy8uO6D5lNetpSWHIwMgQMlkhyiEyjBf0N62gzPfJ4KhsdwAjWhd2o2m9f74ktX40wQJzuBnR88Guq68HuTEnZhIRM3jVIL0eSvwBYtbjgU1FS6L7VKKwMKeeETBtcuLO6yFSOYwWa16g52j1jAdBkW7Kuubq0Y3PX2lw96DcfFf921obdzIkBC5+wS8Wv8Bgb3Qw+OhkBuOtPjjix3UlpJJqY=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:CWXP265MB1799.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:OSPM;SFS:(6029001)(4636009)(136003)(396003)(376002)(39830400003)(346002)(366004)(8936002)(30864003)(107886003)(5660300002)(109986005)(4000180100002)(26005)(16526019)(186003)(6486002)(1076003)(8676002)(2906002)(2616005)(52116002)(6506007)(956004)(316002)(6512007)(66574015)(4326008)(36756003)(86362001)(45080400002)(66476007)(6666004)(69590400008)(66556008)(478600001)(574094003)(83380400001)(66946007)(5003880100002);DIR:OUT;SFP:1501;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:CWXP265MB1799.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:OSPM;SFS:(6029001)(4636009)(366004)(376002)(396003)(136003)(346002)(39840400004)(66574015)(8936002)(6506007)(8676002)(4000180100002)(83380400001)(478600001)(4326008)(36756003)(52116002)(6512007)(30864003)(2906002)(316002)(2616005)(6666004)(86362001)(45080400002)(1076003)(69590400008)(6486002)(574094003)(5660300002)(186003)(26005)(16526019)(107886003)(109986005)(66476007)(956004)(66556008)(66946007)(5003880100002);DIR:OUT;SFP:1501;
 X-MS-Exchange-AntiSpam-MessageData:
-	=?us-ascii?Q?NHcABjYddrt6AZNByDz1GDrM0aaQUd7RY7UuG8fyZloC5pCnIGsLS5e3ACYv?=
- =?us-ascii?Q?TJD9ie0H4I5T4668U9jPGsfMDHokhqaqQEcaZI2yzpZSW8z6ynPhsNceJFgg?=
- =?us-ascii?Q?cRW4XIJBz5Q1pcIiMTSIAKiQgDuqBdsEKjWWnEvQ16+EXaPZFmtz59eMzHfE?=
- =?us-ascii?Q?TiuSX91+1VejKjAaulV/7IEpSiO6dLg9+6Xly5Qde+ZLw5nhJDSZZ3StBY+e?=
- =?us-ascii?Q?dLhM9AAM++a0Ug/4auYZCfjB+0lwY2K/AjdNPAwkgEbQhE36TWqEU46a6E66?=
- =?us-ascii?Q?2NKF9BHxVgMJLqAnl/MtQAtn6TCOV7pZ7KDwJS06FkAO2EV8sIZapQMZF/xI?=
- =?us-ascii?Q?I7+HWHnPfftFXdB5TbMMSZ0Rae+pGI+kYz36LSC8n4MgP8YA4N8NM7ryAFxo?=
- =?us-ascii?Q?3GNMdr9VrWUB4FVO9OJCcLanBnnmdNS/kB0U5+tGtSJXxP89usij7+g9vQWq?=
- =?us-ascii?Q?IbEIpty7Tjgirq9qJZWpjT9/E7iJQtyNHnbPHXOYBZDuDuHtJYqwGT5Cwewy?=
- =?us-ascii?Q?ET8MThJ/2DNbRTd0mAgZjVhqAZ6D5iFBUBjaFbw8yUQBgv9Fe0qD9e40BNAr?=
- =?us-ascii?Q?yooQKfdR5s4Ct6o21ZFu6L0E6DLQUU8occsEC1Vse/2y4IhALklbZbfWAYM+?=
- =?us-ascii?Q?M2z59/3U1vlsRq+3/y4cAyyy/tlfM6ItTTBm34bJY4krSFglTuC69JGNzt02?=
- =?us-ascii?Q?NA3jPE8c6a4hMm1FUy0o7pO41RBIMO2DJ7QXTDmguaKBiv6Wb+0s2mSKhiUx?=
- =?us-ascii?Q?04QvfRfmeE1sZP4/cazUPyXAoNv9txNsK3V/leZHvDag5riAa6ulm+XvM1im?=
- =?us-ascii?Q?Vc2hrj4R/PzPzswcsDdzwmQ1rS11VAWvjvs7jof/v7ZIO+5VES8GMaSsiP1G?=
- =?us-ascii?Q?qWGYeSXSDvT8Wx6FHlhbn/rysg84nFAGPXGGGB8OqpnIp/6MoF5RgEImiiKc?=
- =?us-ascii?Q?Ui+MMUfMrVpxDZk1x3Dfs4LM/s+S45dnH/0pcATya56lqZ5wfKJEwVbwB/ii?=
- =?us-ascii?Q?kjcK?=
+	=?us-ascii?Q?F6Fj4/+QE6M8k0cjOlR55y+sZW0Dm8OV0UClcLaaAYKR08Izhb3LFhm5yG1A?=
+ =?us-ascii?Q?I4kVx374SOtETx+OKvOG6TLcQuXSeK9ra8wwFylxZP0JTJKeop2LBdDCKNNA?=
+ =?us-ascii?Q?YLp1Tqq19JdY2He1GrqJQY8tCEskWvXY4qPCKor/N2ucAot4cj7rfuwa5ec+?=
+ =?us-ascii?Q?b2lDEjySyHY9/31Y/EFAczrsptXPsb1KL2w672Aa826XcSm6qDFz8WBhklGJ?=
+ =?us-ascii?Q?Il/wEQq3O1foBEb6rTxtvNR8I569Oqs5IaMddZq+mXPpkvuoZZoJzXZYhWMR?=
+ =?us-ascii?Q?hMaWXFxoZr04Uwstie4puolRsQDW/wo5NuGMdGmGeFNn8js8c5VGPIVUDcZE?=
+ =?us-ascii?Q?+L8NFl61hjsaR1N2jsv1+OIeHTMx8ELv2o3rsGIXQh3KI+Kg5srJwS3ExWUh?=
+ =?us-ascii?Q?r/hN8n0AZbXnImF1C0ZH/xbHov8MAKHqWyZsVcgqWLGMq4CwM9L+WiUAgnt+?=
+ =?us-ascii?Q?DLLpUCnm6KLs/oA75LVrW98M3kDUolHzTbTH9FjIXsUfAtnPuhPLlg9EtYOZ?=
+ =?us-ascii?Q?1v56uhV9YZxKd2jrzo2f4znoz/8loaoefZlh0TXFBVinvb4PHPSpYOUprr3s?=
+ =?us-ascii?Q?hrMFKcQeXRwlmoYtlkcVdpe5zc2OuPUNGWk0HRZhgaN103W+y41MEhWwyFIJ?=
+ =?us-ascii?Q?1gnaRrAi+3ZxtBIGFFiX0GUAzHuHmE7RA7FUXZOB6rgAcqnimZh6KQqpmWUY?=
+ =?us-ascii?Q?6ItfwMrkEhtbGMDcCSnpkgKzcpAVc2nY7oyypwHixy0XUqYRpuUpLw7v7CGQ?=
+ =?us-ascii?Q?ioxmREF3At5a10lFBoJ6GZ2Q7++7htmji0+T3T8x/kqPgZTZcEZxqkSKBbZT?=
+ =?us-ascii?Q?IiIM7rLJE5K4WmenwSmOBAAIBcGQVcE/X3qD+UsvJJJ9lRXfxLYqjScc1PVT?=
+ =?us-ascii?Q?G4whNmJj1patvJH8MYHciyGsXljUDttbLNf4f32hth5etnKlfoDM40ZxMjTL?=
+ =?us-ascii?Q?lCCEotgwvIcdw73TrjNGL1KuNTmn4Oib70VXMmveOrCjYf2zvBESpOVHzQGS?=
+ =?us-ascii?Q?HJtk?=
 X-OriginatorOrg: purelifi.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1dea09d-6220-4a96-8e37-08d8981395e1
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4f3f49c2-18e0-43ad-901b-08d8981487f8
 X-MS-Exchange-CrossTenant-AuthSource: CWXP265MB1799.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2020 05:15:52.5475
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2020 05:22:35.0311
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 5cf4eba2-7b8f-4236-bed4-a2ac41f1a6dc
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: e9pImETYwB/GQnrxmN/kBSAyYE8z5vEPS6xzyrjiW8YgJ3sbX+m03mfLLg+OoIjL9US/Z/8A9g5bXh9mkrQUdQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB2481
+X-MS-Exchange-CrossTenant-UserPrincipalName: jwDbyCymEpgZR6+Xa0xzpQe/VeftOyt/GgmCp0uWAsf2tFsfdqX6L8+rvENSDEi1ZE4asHQ07ZTfc/PcS7ojlg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB0440
 
 This patch adds new firmware files for pureLiFi LiFi-X, LiFi-XC, LiFi-XL
 
