@@ -1,39 +1,69 @@
-Return-Path: <sampnimm@codeaurora.org>
+Return-Path: <linux-kernel-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34413C4361B
-	for <linux-firmware@archiver.kernel.org>; Tue,  8 Dec 2020 12:25:43 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id E3AD823A5B; Tue,  8 Dec 2020 12:25:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0502BC4361B
+	for <linux-kernel@archiver.kernel.org>; Tue,  8 Dec 2020 12:26:35 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id AB0D123A52
+	for <linux-kernel@archiver.kernel.org>; Tue,  8 Dec 2020 12:26:34 +0000 (UTC)
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S1728318AbgLHM0d (ORCPT
+        <rfc822;linux-kernel@archiver.kernel.org>);
+        Tue, 8 Dec 2020 07:26:33 -0500
+Received: from so254-31.mailgun.net ([198.61.254.31]:49267 "EHLO
+        so254-31.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726584AbgLHM0d (ORCPT
+        <rfc822;linux-kernel@vger.kernel.org>);
+        Tue, 8 Dec 2020 07:26:33 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1607430374; h=Message-ID: Subject: Cc: To: From: Date:
+ Content-Transfer-Encoding: Content-Type: MIME-Version: Sender;
+ bh=xwubYQmXFozrF3h5pSqCHE8wPqNs2HP3Fa3BhJgvhZ4=; b=v3txPADZcLNIPcRm8UnicnHCyZik051UXP6dmpyPnYZcQoYkx9PpU18D12m3eroIKJIdRWPI
+ plI3usCAvA7or8CnMjbxncplh1HOsbCK+Yx5tf1KN2Q1s93lZRP6rumXQ49fp0nGoEJIrvV8
+ /E4Uc74rODERF6oa0GQH+RKlEEQ=
+X-Mailgun-Sending-Ip: 198.61.254.31
+X-Mailgun-Sid: WyI0MWYwYSIsICJsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 5fcf70c756444c64458a7014 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 08 Dec 2020 12:25:43
+ GMT
+Sender: sampnimm=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-	id A438AC43461; Tue,  8 Dec 2020 12:25:42 +0000 (UTC)
+        id CE299C433C6; Tue,  8 Dec 2020 12:25:42 +0000 (UTC)
 Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: sampnimm)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id 33964C433CA;
-	Tue,  8 Dec 2020 12:25:42 +0000 (UTC)
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: sampnimm)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 33964C433CA;
+        Tue,  8 Dec 2020 12:25:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII;
  format=flowed
 Content-Transfer-Encoding: 7bit
-Date: Tue, 08 Dec 2020 17:55:42 +0530
-From: sampnimm@codeaurora.org
+Date:   Tue, 08 Dec 2020 17:55:42 +0530
+From:   sampnimm@codeaurora.org
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org, jwboyer@kernel.org
-Cc: mka@chromium.org, linux-kernel@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- hemantg@codeaurora.org, gubbaven@codeaurora.org,
- abhishekpandit@chromium.org, bgodavar@codeaurora.org
+To:     linux-firmware@kernel.org, jwboyer@kernel.org
+Cc:     mka@chromium.org, linux-kernel@vger.kernel.org,
+        linux-bluetooth@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        hemantg@codeaurora.org, gubbaven@codeaurora.org,
+        abhishekpandit@chromium.org, bgodavar@codeaurora.org
 Subject: Request to Update WCN3991 FW files
 Message-ID: <d83f762bf0b5e27f624a57c17c9dc3db@codeaurora.org>
 X-Sender: sampnimm@codeaurora.org
 User-Agent: Roundcube Webmail/1.3.9
+Precedence: bulk
+List-ID: <linux-kernel.vger.kernel.org>
+X-Mailing-List: linux-kernel@vger.kernel.org
+Message-ID: <20201208122542.u8qwm8Op-BG-ptq2OkQ91HjXLR-N7cJ4Ll6pf9gwCpU@z>
 
 Hello Team,
 
