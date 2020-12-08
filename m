@@ -1,43 +1,43 @@
 Return-Path: <SRS0=8Txz=FM=purelifi.com=srini.raju@kernel.org>
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A55EC4361B
-	for <linux-firmware@archiver.kernel.org>; Tue,  8 Dec 2020 05:04:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F29CC433FE
+	for <linux-firmware@archiver.kernel.org>; Tue,  8 Dec 2020 11:47:39 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 3582523A61; Tue,  8 Dec 2020 05:04:59 +0000 (UTC)
-Received: from GBR01-CWL-obe.outbound.protection.outlook.com (mail-cwlgbr01hn2224.outbound.protection.outlook.com [52.100.178.224])
+	id 2F6D123A7F; Tue,  8 Dec 2020 11:47:39 +0000 (UTC)
+Received: from GBR01-CWL-obe.outbound.protection.outlook.com (mail-cwlgbr01hn2218.outbound.protection.outlook.com [52.100.178.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2D13D23A5E
-	for <linux-firmware@kernel.org>; Tue,  8 Dec 2020 05:04:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2D13D23A5E
+	by mail.kernel.org (Postfix) with ESMTPS id 8F89F23A79
+	for <linux-firmware@kernel.org>; Tue,  8 Dec 2020 11:47:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8F89F23A79
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=purelifi.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=srini.raju@purelifi.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bVL0R8AIMAQkhJnjYabmNrFTm8wmie6EWsHoLXZQPlXV9oDedFTl224ymhz9cfR+ce/gpCEVwAqosLVOGC63btPak5oysNgSWrWiFT9LCIuQMMd5G3hI3iyJVffS4jHXB2sOT0iy5quXeHFOR74Bq5g1xOyzkkDnr807OWVV21UJJ/GVzAnwGbPgARl2lCncvEzbI8yYPFTsP2nvvxzK0tRi2Eab0ev1db9AfxIaGVvwTZ0CO7/8tXWHkENsnfpe6TVRSRpSgbTEYY0mv4RPgoX1tlOqNpfuSnQLN3Zvs/mDJ68SQUyMmIL/+CTzgAyIVoxOmftdhN4HLIkUxEVpzg==
+ b=DVbK1PFcEhIPiMmQRaxTurVz6c55LZe1yJvteUMFdPKBim7PmhOwXtC5+dgpNkYvnRTm428YBKNbiZyrR/XRu+mukExPn0krkRZsjsx0cyIqqOt/gpvnoUQsGTsbDRyzJE8B39cvPLIlNesCpXMEeYoYV6afp/L2quwDzRaG4EnNBVEnUL+LqRD4pu3r1GfSjgNG/VeatSiuzSYfGouKgk97O5dBikOdSuVMv4TsTei1tZ+jnlB+Gr98vFAk0D72PlEaYN+y/GfOLbKdidEi6cHiJcK/lyhjS2mcOptLlvGrdVocPtCY2RC6nym8AWgj+J4oHisWhrpYRS2OMcyXbg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bhwhrScbJu2LEdKdV/qKxRa8n76FNgrI83s/6JmWHi0=;
- b=kbhW+Cl1XeeJrIpv/v3aF5R0Ex1Ff6dgv4dGc3VoQ5fG/gJAesKv1sCKNTpbHDE8d1dRE7FBpNvMd0URF60prxlarUEmudiEy8imEwuYiXyrMrTvPEhxreZM3qZBb4yPoGK5bnuULqoS/+6b6WSOsloSMANPuG+K5B4fTTBOMxQl3p/zzJ2OCtvXb3zOv2CZ+/d0M/cUN/UKQQ7B+T9p2+R+66r+92sGDnVRKIW9n2zZf5gyY0VWxDwM+IDuhUCtzaIKdS1efXM71RYgUyoily4a/bdw3Dr4RVE04yFXJoRxki0OzpZ9lnZGfibceoV6SdwY7IU2W4+8ZF/TirYLMQ==
+ bh=nFggYCfe1PNaVO2Jv1yaT7rjZYhJB+nlxyK5J/bE3Ls=;
+ b=KxN/B87exAJsNF3c5LoHL9ZGqC9+bWgx/Yo0fU7MBMcK/SzZlMYEuUZFzMLqyiqfRm0WdkRKd4ySZ5+Y2I8D4oqZEBb6CODkVVqP0jw3KF1DaMGc7noLzhkauwgyYwk5XBuLB2aZg16SSOuwkEZbqE3wSwK3qCX0vpbwd4SOfvQcf/nO3xDyT3pJZHx8sIMgkVyDZSMvBGSzvxCClrlzTxMCcGBHfy4JmJfJfYqDQwWvpbVoYc9bXSZU1n28ehAhZKa2aVze42hYfjYFWelwyXKntt+43rfewUmNUkpWzTTc3XgPR5eNKbAB+QMrT6uYpfvN7BY3fpiu3PWWFkbtbw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=purelifi.com; dmarc=pass action=none header.from=purelifi.com;
  dkim=pass header.d=purelifi.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=purevlc.onmicrosoft.com; s=selector2-purevlc-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bhwhrScbJu2LEdKdV/qKxRa8n76FNgrI83s/6JmWHi0=;
- b=mNhdAuOAtvIMCayZySAeon2hRI4adCDAtNlfZihl/IkujpUVKag7NIGcuVBfGLmEftUodf44ezfGzkJpfoiemGEYgf9FwnAbz5acsTKOEdBYJ7isujqSuVQlU+7zaT3XZASf4JWYHEzlbl2j3UvPeBzl+m2vB3lg1HmQ6u9/SkU=
+ bh=nFggYCfe1PNaVO2Jv1yaT7rjZYhJB+nlxyK5J/bE3Ls=;
+ b=a3dceko+4yVLRgy48YFQswL097wIvWASunbp4yEnAA1vnTWlzs+X4195HeSHMJlFJ0X3ED142WyW4E9ISCZjK9VpQNUEg+kJ02UuYH9HnoD1F2vjkABl7PVJ+SBubMbLKC6B2aZBnUtvr8WL/harbDQdzeZInDUugRRv3mHzjPQ=
 Authentication-Results: kernel.org; dkim=none (message not signed)
  header.d=none;kernel.org; dmarc=none action=none header.from=purelifi.com;
 Received: from CWXP265MB1799.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:3a::14)
- by CWLP265MB2178.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:66::16) with
+ by CWLP265MB1955.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:63::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.18; Tue, 8 Dec
- 2020 05:03:51 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Tue, 8 Dec
+ 2020 11:46:31 +0000
 Received: from CWXP265MB1799.GBRP265.PROD.OUTLOOK.COM
  ([fe80::c196:42db:8b87:c1ee]) by CWXP265MB1799.GBRP265.PROD.OUTLOOK.COM
  ([fe80::c196:42db:8b87:c1ee%7]) with mapi id 15.20.3632.023; Tue, 8 Dec 2020
- 05:03:51 +0000
+ 11:46:30 +0000
 From: Srinivasan Raju <srini.raju@purelifi.com>
 To:
 List-Id: <linux-firmware.lore.kernel.org>
@@ -45,71 +45,56 @@ Cc: linux-firmware@kernel.org,
 	mostafa.afgani@purelifi.com,
 	kvalo@codeaurora.org,
 	Srinivasan Raju <srini.raju@purelifi.com>
-Subject: [PATCH] [v3] linux-firmware: New firmware files for pureLiFi USB devices
-Date: Tue,  8 Dec 2020 10:32:16 +0530
-Message-Id: <20201208050217.303153-1-srini.raju@purelifi.com>
+Subject: [PATCH] [v4] linux-firmware: New firmware files for pureLiFi USB devices
+Date: Tue,  8 Dec 2020 17:15:32 +0530
+Message-Id: <20201208114532.348780-1-srini.raju@purelifi.com>
 X-Mailer: git-send-email 2.25.1
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [106.203.23.127]
-X-ClientProxiedBy: MA1PR0101CA0061.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a00:20::23) To CWXP265MB1799.GBRP265.PROD.OUTLOOK.COM
+X-Originating-IP: [103.104.125.255]
+X-ClientProxiedBy: PN2PR01CA0038.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:22::13) To CWXP265MB1799.GBRP265.PROD.OUTLOOK.COM
  (2603:10a6:400:3a::14)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (106.203.23.127) by MA1PR0101CA0061.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:20::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17 via Frontend Transport; Tue, 8 Dec 2020 05:02:59 +0000
+Received: from localhost.localdomain (103.104.125.255) by PN2PR01CA0038.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:22::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.21 via Frontend Transport; Tue, 8 Dec 2020 11:46:10 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 69bb0519-cf7c-4185-1a1f-08d89b368914
-X-MS-TrafficTypeDiagnostic: CWLP265MB2178:
+X-MS-Office365-Filtering-Correlation-Id: 5340ad00-7ce4-4d1a-bd96-08d89b6edc64
+X-MS-TrafficTypeDiagnostic: CWLP265MB1955:
 X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS:
-	<CWLP265MB2178CCEC3F1B1C49EF5F7B23E0CD0@CWLP265MB2178.GBRP265.PROD.OUTLOOK.COM>
+	<CWLP265MB19552C4AEAC3FE894CE0AB58E0CD0@CWLP265MB1955.GBRP265.PROD.OUTLOOK.COM>
 X-MS-Oob-TLC-OOBClassifiers: OLM:68;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	IDl7hJCw+LcNBfe8oqVIdERWs99pJ7Zu3Zfe1Q23pzUSk0wNJTub6qieXofLblZpmRrLXlc4tjVIsVuqYdKa5ftiiM1s7wc+2UrMf5Hv06RPr53nPWOsrZQQuPJF3BYKSEHEuaLjOF0NwgVxHexr0eLBU629yrAL6/Lk7a0LJrzzFbXEC/qm4AFAC8PVe09K4gRouJv8kTo0tzoMyiUUrTnHsu0GABKcZaA0lhQepjXOsWzm95AJ4LB0q0gNRb/e5F9xf88RnDYWoBiAFfgi5EWy5KlGqmFsP6ER+fNt8o4u9NEc1YkeIktjtV4bFC5NSdyS11sh1mPogpiHKLHgsg0UBBXUNvBqY+iipyF/1pIDhVgFtjpbjH6kQyOyv44wFxnOxDh1yZnIfhnT4Vvw+j3/YjUh2nBK4kjdmVJRwzeEXLivq5YnjgH0O/8ST0I4TsAfbnldfhtMPLNOWFFKJKV2pwUm+J/Jnj6QZGGM7hsH42mJdwjcPEtutoi5CEpZSadTts04yjp15D5psFMO4iLiQNc5fg6fU+yv7o9Lc1XY+qIgYX/CcE2OF4q8SNP7IGo05rPTuKRlglFiMQc6yOhJxYS6JF+OtRyWWYrqSjQcDdifFssNN6JRmfyAibk1DV99z3+sc2W7+k8MkvBNGgEtMz2bu+h/Wx2wN4sCdmyhfkSB0srwtCedNPSj7UqChejLldsobcqLINGZYxIsxguHRnZfT+xfVlqRc1P7KIkvo9nfg+qitkRVorNYbIUb
+	eMCaIkZa8GRLt6vBt14CPBSmbDbQjXbmhEOjKue/TelES0BuRhwVYtbZ4ouF8FV1Jk+Y80OVpznx4rdhp9WXA85wgFWSh7oa0GQIii+Q/LXBPN85+4WNGlrYg0iIGYm3P1S9W1NjOfXscGDYCSrJI92XD0oFpiFAPZYK9m+TGngPtUchbf6xBHcXaipOq2PRHi9WyfGc9DLRLTx35+7enDrp4J6yJNPUiE50h7h7I2DbzbmqEGu3cV6PYBmspfzyGo5kd/PK0FlP6x6V/fKi5xVsh023w/W0VjTLZiodJH/khpgpQJTzZkWY1UcoTuBF3+EsLNcmOU5R1MXbEInMvcdufYesOMfhlj6QyfyyH9DymSFIwf4q3sYHZeBqAjIjZYOp4mKrE0o+O9rhwZQtsGbNkTCBlj4hprzwSPzo18/AOXzdKh46nKJFzEUHTe/SHZQnVn1l4tlsnMI33xWhLVjeaTLJQFnFUKjqNnVS4DCBw1kJwWz+OJKmpJcbg9yIv6GPufoBBLOGMCazvziXrbYypcYXUEwubRZK6HQxmKSnbEvbMF2X7TmPinTT3qY4fi8USvmcdciSq7Q1KQQRW9mXMLAWg5pVUNi7/v5xuayVRFHLamG7rkjioOhMlyuWWvF8YtTW9XWQzuq6VhZ4DWkMJgFeQgvzvPaX/EFakGhzEchzETqqVORAoNv/iRo9zchpu5e7caBLobu/e6ub9Ri7QzVIRV1H7QQgYVU7mlixgixuULMBfVXF18KuVmWl
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:CWXP265MB1799.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:OSPM;SFS:(6029001)(4636009)(346002)(376002)(136003)(366004)(26005)(86362001)(55236004)(186003)(109986005)(6666004)(508600001)(34490700003)(83380400001)(1006002)(107886003)(8936002)(1076003)(4000180100002)(4326008)(8676002)(2906002)(2616005)(66946007)(16526019)(6512007)(45080400002)(6506007)(52116002)(66574015)(66476007)(5660300002)(69590400008)(30864003)(956004)(574094003)(66556008)(36756003)(6486002)(5003880100002);DIR:OUT;SFP:1501;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:CWXP265MB1799.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:OSPM;SFS:(6029001)(4636009)(376002)(136003)(366004)(346002)(16526019)(1076003)(69590400008)(8936002)(4326008)(8676002)(4000180100002)(2616005)(52116002)(34490700003)(6506007)(45080400002)(186003)(956004)(107886003)(36756003)(30864003)(66574015)(574094003)(508600001)(5660300002)(26005)(86362001)(6486002)(66946007)(109986005)(6666004)(66476007)(2906002)(66556008)(83380400001)(6512007)(5003880100002);DIR:OUT;SFP:1501;
 X-MS-Exchange-AntiSpam-MessageData:
-	=?us-ascii?Q?h83gcdGy1oN8dJPZKWRVtrMnC9BrvzHI4g5ZbZN7umz4hJDxryTGzUW0nzFA?=
- =?us-ascii?Q?6qaGokMYhfMHAq8f+vLkZB2bkb3hSjEZhDv7OhbjZLo0CZlsMWZw64hqU4Nk?=
- =?us-ascii?Q?WeJ3FHhC/ihEOzSDDlXnQOTkJyQOwZnV0Fw0zEB8LJxu/1jZq+Q9AFo+YPgJ?=
- =?us-ascii?Q?WEjoU3zAZMB5klaeWk5hz3BeYJZZzalsGbc8i1mowO+/aQlWnZeO5MLuVrXn?=
- =?us-ascii?Q?4VgFbNVe6CCcPaqCsEVZxHBDE2fllbVTdiWGqx3e3e0GXgP6xO5PmQyooAPo?=
- =?us-ascii?Q?ytEijkJQO49QGUR7ExCD8uyHaYMGkLPmqEsCtzjTjngoRMPzmc/8wKVHLHm7?=
- =?us-ascii?Q?jrZqk+oCEsRdnRvlhUn+9tax7erBNOpagZ3+FX42GOmmJD8Xg5n5Wn4VnZrb?=
- =?us-ascii?Q?lJgy2rUdlwQdZoBBAoys9azFnhtaIvnVH9sE7xMM/x+Z8h6UCTWx+3oSFser?=
- =?us-ascii?Q?qRZ2ne7c7FKpmIRPJM1S5ztDen0P25iaUUzo5x6YL/XrXjZS3gGy5FsYbv2D?=
- =?us-ascii?Q?o1sqcL5GzA1Zkb854nj3KJRgegU4+BVq4yAeB5iy4bxoVT5XdNFpwacui0nm?=
- =?us-ascii?Q?1AGGuE3BPcH1eYFoc/2JjATcMqQyPBU4x2SlQNpwrJfi80wTmq3dKIjKHUrf?=
- =?us-ascii?Q?c1Jo/xIYe8ZmOiDBP6nG4z7E6nZtRKpCn9gforW7eTxWuTgjtGXA7bbea1i7?=
- =?us-ascii?Q?6oWgFz3eSXlqJQ7qnkgcc33HKCFOdbBbwnWPZ+8oAquy2G0lN9QJkm23GKID?=
- =?us-ascii?Q?CSdLmseyF0TxpztPusYPckVN51gE5r47RipumssIZpPiSobtnSoZFe/C9qxV?=
- =?us-ascii?Q?b+RHtl71aAyNekV1zeu+kHP+hS0eiFGEFchh/OwfQYPHWigFP/Zfk5WvRT3Y?=
- =?us-ascii?Q?R5clDNGHPXOWpdc/kmSFe8dxZ+4ErvARF0PqQVqR02owRjtZOWCb7QvbJm8d?=
- =?us-ascii?Q?tt8EzaxRbnHQgwYdKP5GXzS2J+L3EY/ASalBxQ8uHo58YPu0K3jvjEd+xolU?=
- =?us-ascii?Q?pEea?=
+	/nw6v1pUrBN2E6vqe5L+8fAcnsXWeJgoi5X61XXbox4SqgfIILDfBawT0tlW5kE4XciMmJFoOlRHjZ/hwvbMT5kGOAwEFf6RodgWYYj1AFSXuM7OoAm/ljrWPjK4FvJEG0rI452V+2DxWri3R800lr7y314/zHGIaTCLxDpOPRPmFAwCD7PyLTNMKr3ZMtGaTBhKpq5AndBa2zqc/TDtNYnGoibENEFQGtbXoTTafCnMguia4u54nvz+JwlmjjivgzB2xNBXpUchUqCPtlolwNUMlKTM6bPVo4LQ8q4YyPIb2Dvqji8sJ5e24tBjspc5mB8IR42WuALM+3Gyrusc3YnykR/qXB+Mhe449ukdqlmQFMJyfbpV5p0cE9GhhqCLWWqxq3p5zNzHE3LGbZ7HAA==
 X-OriginatorOrg: purelifi.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 69bb0519-cf7c-4185-1a1f-08d89b368914
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5340ad00-7ce4-4d1a-bd96-08d89b6edc64
 X-MS-Exchange-CrossTenant-AuthSource: CWXP265MB1799.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2020 05:03:50.6212
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2020 11:46:30.5017
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 5cf4eba2-7b8f-4236-bed4-a2ac41f1a6dc
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KsCDmFTnBSIm2w/UoXNEnwt+ka8ykluiSbYzaisuOgsdzzSZ7RaFbUg4/rUZW61S+DL/5YLsTdLIlfBuggYhXg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB2178
+X-MS-Exchange-CrossTenant-UserPrincipalName: x2YczGR+0gHBLvWYLkCmHqwMfheA9ysxxMoSDweC0YqbxI2YdOCfUhCujQbzo5TmmqHNhnZxpZeWoPcRtmj1oA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB1955
 
 This patch adds new firmware files for pureLiFi LiFi-X, LiFi-XC, LiFi-XL
 
 Internal revisions:
-	Firmware: 15460 fpga.bit: 10120 fpga_xc.bit: 15460 Li-Fi-XL.bin: 15460
+	Firmware: 17180
 
 Signed-off-by: Srinivasan Raju <srini.raju@purelifi.com>
 
 ---
+v4:
+ Updated to latest firmware (version 17180)
 v3:
  Added README and changed firmware names to match products
 v2:
@@ -119,14 +104,14 @@ v1:
 ---
  LICENCE.purelifi_firmware |  29 +++++++++++++++++++++++++++++
  WHENCE                    |  10 ++++++++++
- purelifi/LiFi-X.bit       | Bin 0 -> 3825907 bytes
- purelifi/LiFi-XC.bit      | Bin 0 -> 3825906 bytes
+ purelifi/LiFi-X.bin       | Bin 0 -> 3825907 bytes
+ purelifi/LiFi-XC.bin      | Bin 0 -> 3825906 bytes
  purelifi/LiFi-XL.bin      | Bin 0 -> 70228 bytes
  purelifi/README           |   7 +++++++
  6 files changed, 46 insertions(+)
  create mode 100644 LICENCE.purelifi_firmware
- create mode 100644 purelifi/LiFi-X.bit
- create mode 100644 purelifi/LiFi-XC.bit
+ create mode 100644 purelifi/LiFi-X.bin
+ create mode 100644 purelifi/LiFi-XC.bin
  create mode 100644 purelifi/LiFi-XL.bin
  create mode 100644 purelifi/README
 
@@ -166,7 +151,7 @@ index 0000000..caa8a7d
 +TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
 +USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 diff --git a/WHENCE b/WHENCE
-index 687cc2c..88255d2 100644
+index 687cc2c..d4ba586 100644
 --- a/WHENCE
 +++ b/WHENCE
 @@ -5253,3 +5253,13 @@ Driver: prestera - Marvell driver for Prestera family ASIC devices
@@ -178,12 +163,12 @@ index 687cc2c..88255d2 100644
 +
 +Driver: purelifi - Driver for pureLiFi LiFi USB Devices
 +
-+File: purelifi/LiFi-X.bit
-+File: purelifi/LiFi-XC.bit
++File: purelifi/LiFi-X.bin
++File: purelifi/LiFi-XC.bin
 +File: purelifi/LiFi-XL.bin
 +
 +Licence: Redistributable. See LICENCE.purelifi_firmware for details.
-diff --git a/purelifi/LiFi-X.bit b/purelifi/LiFi-X.bit
+diff --git a/purelifi/LiFi-X.bin b/purelifi/LiFi-X.bin
 new file mode 100644
 index 0000000000000000000000000000000000000000..df004a8708670e399e888a0627f4a6cc8730f849
 GIT binary patch
@@ -73772,7 +73757,7 @@ UAprpa`QQBS2LIE*|1S;vA27G|(f|Me
 literal 0
 HcmV?d00001
 
-diff --git a/purelifi/LiFi-XC.bit b/purelifi/LiFi-XC.bit
+diff --git a/purelifi/LiFi-XC.bin b/purelifi/LiFi-XC.bin
 new file mode 100644
 index 0000000000000000000000000000000000000000..5a94d32d72d9bf74bcbfb77edea89ede82282a3c
 GIT binary patch
@@ -147816,13 +147801,13 @@ HcmV?d00001
 
 diff --git a/purelifi/README b/purelifi/README
 new file mode 100644
-index 0000000..eb0dbc5
+index 0000000..106e547
 --- /dev/null
 +++ b/purelifi/README
 @@ -0,0 +1,7 @@
 +LiFi STA firmware for pureLiFi X, XC, and XL USB devices
 +
-+Place the .bin , .bit files in /lib/firmware/purelifi/li_fi_x/
++Place the .bin files in /lib/firmware/purelifi/li_fi_x/
 +
 +mkdir -p /lib/firmware/purelifi/li_fi_x/
 +
