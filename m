@@ -1,66 +1,88 @@
-Return-Path: <SRS0=S8I5=FP=linaro.org=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=a92a=FP=lists.freedesktop.org=dri-devel-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	INCLUDES_PULL_REQUEST,LOCALPART_IN_SUBJECT,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	INCLUDES_PULL_REQUEST,LOCALPART_IN_SUBJECT,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C91F8C433FE
-	for <linux-firmware@archiver.kernel.org>; Fri, 11 Dec 2020 00:46:16 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 9F6F923DE4; Fri, 11 Dec 2020 00:46:16 +0000 (UTC)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59A9FC433FE
+	for <dri-devel@archiver.kernel.org>; Fri, 11 Dec 2020 08:17:39 +0000 (UTC)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2D7C823DB4
-	for <linux-firmware@kernel.org>; Fri, 11 Dec 2020 00:46:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2D7C823DB4
+	by mail.kernel.org (Postfix) with ESMTPS id 0A72823E56
+	for <dri-devel@archiver.kernel.org>; Fri, 11 Dec 2020 08:17:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0A72823E56
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
-Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=dmitry.baryshkov@linaro.org
-Received: by mail-lj1-f173.google.com with SMTP id f11so8958628ljn.2
-        for <linux-firmware@kernel.org>; Thu, 10 Dec 2020 16:46:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=TgFRl4hY2jVegpQsEVcSi759bqYrRdxorewfve1OEAM=;
-        b=WWqd4F0EGETgFArsXDAFcxPg0XMQ+HOwpv7O40kc3nluV/bF9mIIBiW8+Eu0GMg+lo
-         n8PSOfLmU3eZ3MsB4yUyMeT7S58MsYUDqfsVOWIUZGb3FE5EQGp7tZzcG20WDd0UCH2E
-         DE8dURg+HXSDD430Z0yyeoNQ5LcKrgq19v+oKN4pjpei7j8MspKtF6iEs+i80Ieqtx2o
-         ZJ9jPMhO7BwPvPN8kjSLYIkfKSlN7Pm9sMVGFklzKGdHRaCzUU4/ijBYSVOViyqR4Iu6
-         yNFdw/q9aUN2T6X5D0I2I2+Pq9MxP82riNs0/u1CpDQTZfb8E2JbTpJI4KFlDCsw2olI
-         MG/A==
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=dri-devel-bounces@lists.freedesktop.org
+Received: from gabe.freedesktop.org (localhost [127.0.0.1])
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B7EF6ECCB;
+	Fri, 11 Dec 2020 08:16:26 +0000 (UTC)
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DD7F6E506
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 00:46:15 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id f24so8863660ljk.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 16:46:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+ bh=TgFRl4hY2jVegpQsEVcSi759bqYrRdxorewfve1OEAM=;
+ b=WWqd4F0EGETgFArsXDAFcxPg0XMQ+HOwpv7O40kc3nluV/bF9mIIBiW8+Eu0GMg+lo
+ n8PSOfLmU3eZ3MsB4yUyMeT7S58MsYUDqfsVOWIUZGb3FE5EQGp7tZzcG20WDd0UCH2E
+ DE8dURg+HXSDD430Z0yyeoNQ5LcKrgq19v+oKN4pjpei7j8MspKtF6iEs+i80Ieqtx2o
+ ZJ9jPMhO7BwPvPN8kjSLYIkfKSlN7Pm9sMVGFklzKGdHRaCzUU4/ijBYSVOViyqR4Iu6
+ yNFdw/q9aUN2T6X5D0I2I2+Pq9MxP82riNs0/u1CpDQTZfb8E2JbTpJI4KFlDCsw2olI
+ MG/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=TgFRl4hY2jVegpQsEVcSi759bqYrRdxorewfve1OEAM=;
-        b=TF4+pZostO57sEpHtnyCGnv/Se+vy4sGDEZuE0wghNJpjzilGLqeSc8qL6d7B3WRBI
-         KK+u0Aa90CFnLhbzEsF5apO6vlARxGBh26TBOvFlhAyRFp8ZGIWVLzd5CHMg7aM5oMme
-         TR8ibN2yDnwfqg+mlbEbfANwRDx3VUFmy1wla7UD/IdWqK+VGENVNUAQxuJpm054wUz6
-         /ysDUmE8dhiGKIIVeZEc7ifuK8S4N0nrTm7HvAGXgabaWYD1UKOK51ZEcuMZBqaktlNx
-         nr2QpcnzeSIrLhrSCcTRj9U/qNITcFZb87PHjGOQ28ssBi2pB0Qpk5ijCJFBpN2Q4yE9
-         5gzw==
-X-Gm-Message-State: AOAM533/dmfDkdyBKLwS9C5MzZ7O6OPAPA91mo0E0UejnEuEpkbWpCOk
-	PnULgp5SX8e5j6jRewrRpFW9oX+KxZnNbg==
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=TgFRl4hY2jVegpQsEVcSi759bqYrRdxorewfve1OEAM=;
+ b=Qwe7tntAfsZ/+2Xnm1eiFmqqkwnT16PcK6FVc33LBjKI5HdawpMIlYyiCfEz3zZ7ld
+ wpMQQjYq4ogMt+ZHQeQkYqytJE6GDGpXnNYwqlpCrYFaitncS43SkormsOOdCAvOAK98
+ 0Gh0iV/1E3BTF77YIW2SMfmauD8IL/Grz6U0g56vz/zFRuj7BOprZNQRvfzPDBa23abs
+ PsZXJI7Wm12lP/i2b1+/1sRrEYiOJtRcGwriTjnarJyFJPtJMHObLvbcTn5CuJGOECTa
+ URI0mn1d5GHEZhFGsBCYvSU1SqMlJqjNkfgfd1m9CAbmEV11ArJ8U1jACcZ3i39Ng2dC
+ 70jg==
+X-Gm-Message-State: AOAM532vBpD7BclaccGY+kAbHUUD9xZXWr8JO77hwiAMHz9ZpvVl4+M0
+ +3BtnF68vaEC+/HcrJeQRFNTug==
 X-Google-Smtp-Source: ABdhPJyfGzITQ3mb+eij+usHJPbNHtfUfmXccmO08xQzZQht6KMEH+jL6qM5c5dp4ugrWMhfPQcZ9w==
-X-Received: by 2002:a2e:681a:: with SMTP id c26mr4091377lja.412.1607647574097;
-        Thu, 10 Dec 2020 16:46:14 -0800 (PST)
+X-Received: by 2002:a2e:681a:: with SMTP id c26mr4091377lja.412.1607647574097; 
+ Thu, 10 Dec 2020 16:46:14 -0800 (PST)
 Received: from eriador.lumag.spb.ru ([94.25.228.52])
-        by smtp.gmail.com with ESMTPSA id u11sm694953lfq.142.2020.12.10.16.46.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Dec 2020 16:46:13 -0800 (PST)
+ by smtp.gmail.com with ESMTPSA id u11sm694953lfq.142.2020.12.10.16.46.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Dec 2020 16:46:13 -0800 (PST)
 Date: Fri, 11 Dec 2020 03:46:10 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
 Subject: linux-firmware: add firmware for Lontium lt9611uxc DSI to HDMI bridge
 Message-ID: <X9LBUn5KIKVKQGlI@eriador.lumag.spb.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+X-Mailman-Approved-At: Fri, 11 Dec 2020 08:16:07 +0000
+X-BeenThere: dri-devel@lists.freedesktop.org
+X-Mailman-Version: 2.1.29
+Precedence: list
+List-Id: Direct Rendering Infrastructure - Development
+ <dri-devel.lists.freedesktop.org>
+List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/dri-devel>,
+ <mailto:dri-devel-request@lists.freedesktop.org?subject=unsubscribe>
+List-Archive: <https://lists.freedesktop.org/archives/dri-devel>
+List-Post: <mailto:dri-devel@lists.freedesktop.org>
+List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
+List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
+ <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Errors-To: dri-devel-bounces@lists.freedesktop.org
+Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
+Message-ID: <20201211004610.ycko_OUWFr0bRiPdsly6XUVOG1Udt0HasRHX_Zu0q3U@z>
 
 Hello linux-firmware maintainers,
 
@@ -86,3 +108,7 @@ Dmitry Baryshkov (1):
  3 files changed, 10 insertions(+)
  create mode 100644 LICENSE.Lontium
  create mode 100644 lt9611uxc_fw.bin
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
