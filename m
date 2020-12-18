@@ -1,30 +1,43 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=dvvf=FW=lists.freedesktop.org=dri-devel-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C84FC4361B
-	for <linux-firmware@archiver.kernel.org>; Fri, 18 Dec 2020 19:06:35 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 44EFA23B87; Fri, 18 Dec 2020 19:06:35 +0000 (UTC)
-X-Gm-Message-State: AOAM530GNtMPkcI8hou0Vi3MpUUlPgE/P8r90zN45O/bVB1nYPcp+e3r
-	tVdV+84kzjj8xjM8rFGq6n4reV65aTxsMnN1EAw=
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95120C4361B
+	for <dri-devel@archiver.kernel.org>; Fri, 18 Dec 2020 19:06:37 +0000 (UTC)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id 3DB8B23B83
+	for <dri-devel@archiver.kernel.org>; Fri, 18 Dec 2020 19:06:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3DB8B23B83
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=dri-devel-bounces@lists.freedesktop.org
+Received: from gabe.freedesktop.org (localhost [127.0.0.1])
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83FDE89B9F;
+	Fri, 18 Dec 2020 19:06:36 +0000 (UTC)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BD5889B9F
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 19:06:35 +0000 (UTC)
+X-Gm-Message-State: AOAM5315X8fQF8r0Fr4yWnZBuZZm8K4Rb146KOPEo4AZis3gC51tcOpz
+ b80Cq38TcTs0CMPTRKRrRe1JVTmlJTukXAuwFFo=
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1608318395;
-	bh=XqqUPWojYmVPa7mNvfdt2K6nsdL8qf0Nn64FWqOiRfg=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=K8LTNF5EAIrDyyXbJeLPbpVxfZPtM1t9yg9CmbfDklpEk9fQA+2rcQjBGXyOKXWNs
-	 KnG6JEoXiT1DkDaBaIix0tcxqVtbnprR9VZDmQypUz/KB98LQIGKbiV5siz0ebror9
-	 GvUM9JXZLrFckVytdmYbqvoxrhwILRjNreh2HS/00aYqe0Ob1Sl2tlelW36e0KKGq4
-	 KAoPvNRSyiy3RsWLymEdiyQhg9Lccl03FCLahdSAi3HhVsEdua40DOlrj4suZ1qRv3
-	 IIrRTkrleDKt9AzW6gUmWryJtTDSgVyEXwxbJp12eePcIaY+orThiOWXygB0Vjml7y
-	 nQ/jrt8UnY6BA==
+ s=k20201202; t=1608318395;
+ bh=XqqUPWojYmVPa7mNvfdt2K6nsdL8qf0Nn64FWqOiRfg=;
+ h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+ b=K8LTNF5EAIrDyyXbJeLPbpVxfZPtM1t9yg9CmbfDklpEk9fQA+2rcQjBGXyOKXWNs
+ KnG6JEoXiT1DkDaBaIix0tcxqVtbnprR9VZDmQypUz/KB98LQIGKbiV5siz0ebror9
+ GvUM9JXZLrFckVytdmYbqvoxrhwILRjNreh2HS/00aYqe0Ob1Sl2tlelW36e0KKGq4
+ KAoPvNRSyiy3RsWLymEdiyQhg9Lccl03FCLahdSAi3HhVsEdua40DOlrj4suZ1qRv3
+ IIrRTkrleDKt9AzW6gUmWryJtTDSgVyEXwxbJp12eePcIaY+orThiOWXygB0Vjml7y
+ nQ/jrt8UnY6BA==
 X-Google-Smtp-Source: ABdhPJz3HweeVkhoNpDXXFqFCDgm+Kc4nRywUlwowz8nue7LdkTL2NF8tT9eRO6IkY6jUhdwzE1scnHXL/1l4urtg5I=
-X-Received: by 2002:a05:6638:83:: with SMTP id v3mr5077068jao.106.1608318394559;
+X-Received: by 2002:a05:6638:83:: with SMTP id
+ v3mr5077068jao.106.1608318394559; 
  Fri, 18 Dec 2020 11:06:34 -0800 (PST)
 MIME-Version: 1.0
 References: <X9LBUn5KIKVKQGlI@eriador.lumag.spb.ru>
@@ -33,13 +46,30 @@ From: Josh Boyer <jwboyer@kernel.org>
 Date: Fri, 18 Dec 2020 14:06:23 -0500
 X-Gmail-Original-Message-ID: <CA+5PVA58UnGhdurXuQq8=46yr=OvyMfqhRvjbzjBe7KPfRK_TA@mail.gmail.com>
 Message-ID: <CA+5PVA58UnGhdurXuQq8=46yr=OvyMfqhRvjbzjBe7KPfRK_TA@mail.gmail.com>
-Subject: Re: linux-firmware: add firmware for Lontium lt9611uxc DSI to HDMI bridge
+Subject: Re: linux-firmware: add firmware for Lontium lt9611uxc DSI to HDMI
+ bridge
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+X-BeenThere: dri-devel@lists.freedesktop.org
+X-Mailman-Version: 2.1.29
+Precedence: list
+List-Id: Direct Rendering Infrastructure - Development
+ <dri-devel.lists.freedesktop.org>
+List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/dri-devel>,
+ <mailto:dri-devel-request@lists.freedesktop.org?subject=unsubscribe>
+List-Archive: <https://lists.freedesktop.org/archives/dri-devel>
+List-Post: <mailto:dri-devel@lists.freedesktop.org>
+List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
+List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
+ <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, 
-	Linux-arm Msm <linux-arm-msm@vger.kernel.org>, 
-	DRI mailing list <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+Cc: Linux-arm Msm <linux-arm-msm@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Linux Firmware <linux-firmware@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Errors-To: dri-devel-bounces@lists.freedesktop.org
+Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
+Message-ID: <20201218190623.kwDfDpN-7sVhSywI30T9zllO4P8azslGpgw6FmagDLo@z>
 
 Pulled and pushed out.
 
@@ -72,3 +102,7 @@ On Thu, Dec 10, 2020 at 7:46 PM Dmitry Baryshkov
 >  3 files changed, 10 insertions(+)
 >  create mode 100644 LICENSE.Lontium
 >  create mode 100644 lt9611uxc_fw.bin
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
