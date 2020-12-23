@@ -1,61 +1,98 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=ZoV+=F3=realtek.com=hildawu@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31242C4361B
-	for <linux-firmware@archiver.kernel.org>; Sat, 19 Dec 2020 12:49:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 763A6C433E0
+	for <linux-firmware@archiver.kernel.org>; Wed, 23 Dec 2020 05:57:37 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 1441C23ACA; Sat, 19 Dec 2020 12:49:35 +0000 (UTC)
-X-Gm-Message-State: AOAM531iPsLqUurMfvhxwjZVbI/vZOO76O33kidL2e3uk3R4CC8WlDVZ
-	RBvmd6iwBi3NCkoCTterIQHWyUjJmuHQuUcLWU4=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1608382175;
-	bh=e8djgkxKy3il+Ra6JjHmoWDxbc6/7seBHSYyyEP88Vk=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=TOPqx2YwBmq0tFEQ3yBFzXM8ECB2ZIq2lqHwGwB3dhZtMAaq2A7kkeFO5EtDYtAls
-	 Qczb5Sw/iRCenbechVwOSCxLIF/g6ZAnN+ePVEwMt9Du3024PMlphParFPEcrxM5hz
-	 6tjRtxxNFrVANmrU2xLqMMVq9b+nYJL3ZVolsGgE59tqb8ikfO9trtpZDU3yxSmP8p
-	 RfEKDglKAsC6al+6GlbjvWDECMFY8VTHWLQbUv+zBhmG4DFkrs8EmSkXUp+O/dTpBr
-	 hj+MWyDCrh4ybCK6GwnjOzKlj9tg5U7VANjwUgL5N7kQXJJadob6DU0PYamu17n/PW
-	 bTAxMLTjpkE9w==
-X-Google-Smtp-Source: ABdhPJzBc0aj+mDgXP2z1XdUG+RQ8vzMwgvtEu7f+lnnq6cDgxJqkNpafWhN5YSJJlfT6KaXkn8N1VQt+OvYizKQiWc=
-X-Received: by 2002:a92:9eda:: with SMTP id s87mr9135416ilk.85.1608382174357;
- Sat, 19 Dec 2020 04:49:34 -0800 (PST)
-MIME-Version: 1.0
-References: <20201208114532.348780-1-srini.raju@purelifi.com>
- <CA+5PVA5O=i6DW-01eziStVe5O=BwAafb20=4RUAOs8Q1m329LQ@mail.gmail.com> <875z4yrmyo.fsf@codeaurora.org>
-In-Reply-To: <875z4yrmyo.fsf@codeaurora.org>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Sat, 19 Dec 2020 07:49:23 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA6V+LZ5SdW8K1wRMwjaF69n8nQB6oom+71=q_qaNH0OGA@mail.gmail.com>
-Message-ID: <CA+5PVA6V+LZ5SdW8K1wRMwjaF69n8nQB6oom+71=q_qaNH0OGA@mail.gmail.com>
-Subject: Re: [PATCH] [v4] linux-firmware: New firmware files for pureLiFi USB devices
-To: Kalle Valo <kvalo@codeaurora.org>
+	id 47EF622512; Wed, 23 Dec 2020 05:57:37 +0000 (UTC)
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id 559832168B;
+	Wed, 23 Dec 2020 05:57:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 559832168B
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
+Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=hildawu@realtek.com
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.73 with qID 0BN5vWn25016945, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexmb05.realtek.com.tw[172.21.6.98])
+	by rtits2.realtek.com.tw (8.15.2/2.70/5.88) with ESMTPS id 0BN5vWn25016945
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 23 Dec 2020 13:57:32 +0800
+Received: from RTEXDAG02.realtek.com.tw (172.21.6.101) by
+ RTEXMB05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2044.4; Wed, 23 Dec 2020 13:57:32 +0800
+Received: from RTEXDAG02.realtek.com.tw (172.21.6.101) by
+ RTEXDAG02.realtek.com.tw (172.21.6.101) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Wed, 23 Dec 2020 13:57:31 +0800
+Received: from RTEXDAG02.realtek.com.tw ([fe80::89de:3ef2:d607:5db5]) by
+ RTEXDAG02.realtek.com.tw ([fe80::89de:3ef2:d607:5db5%10]) with mapi id
+ 15.01.2106.004; Wed, 23 Dec 2020 13:57:31 +0800
+From: Hilda Wu <hildawu@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Srinivasan Raju <srini.raju@purelifi.com>, Linux Firmware <linux-firmware@kernel.org>, 
-	mostafa.afgani@purelifi.com
-Content-Type: text/plain; charset="UTF-8"
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+        "linux-firmware@kernel.org"
+	<linux-firmware@kernel.org>
+CC: "jwboyer@kernel.org" <jwboyer@kernel.org>,
+        Max Chou
+	<max.chou@realtek.com>,
+        "alex_lu@realsil.com.cn" <alex_lu@realsil.com.cn>,
+        Hsin Yu Chang <hsinyu_chang@realtek.com>,
+        KidmanLee <kidman@realtek.com>
+Subject: RE: [PATCH] rtl_bt: Update RTL8822C BT(UART I/F) FW to 0x059A_25CB
+Thread-Topic: [PATCH] rtl_bt: Update RTL8822C BT(UART I/F) FW to 0x059A_25CB
+Thread-Index: AQHWu9z+7gtTqL/X7kqTirq7TA9+xanKf8UAgAFubxCANx1WUA==
+Date: Wed, 23 Dec 2020 05:57:31 +0000
+Message-ID: <7f6f8aabaf744d94b5facbfd4ddebca3@realtek.com>
+References: <20201116055438.6048-1-hildawu@realtek.com>
+ <e9a95a6d-37d8-8d2c-b0f4-2cd22927d00d@lwfinger.net> 
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [172.21.132.158]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 
-On Sat, Dec 19, 2020 at 7:37 AM Kalle Valo <kvalo@codeaurora.org> wrote:
->
-> Hi,
->
-> Josh Boyer <jwboyer@kernel.org> writes:
->
-> > The README file says the firmware should be in
-> > /lib/firmware/purelifi/li_fi_x/.  Is there a reason you didn't create
-> > the directory structure here so that it's automatically placed in the
-> > proper directory during installation?
-> >
-> > Also, the README file is missing from WHENCE.
->
-> I think it's better to wait that we first review the driver in
-> linux-wireless and only submit the firmware files after that.
-
-OK.  Happy to wait.
-
-josh
+SGkgTGFycnkgJiBNYWludGFpbmVycywNCg0KQWJvdXQgdGhpcyBjb21taXQsIGRvIHlvdSBoYXZl
+IGFueSBmdXJ0aGVyIGNvbW1lbnRzL3N1Z2dlc3Rpb25zIG9uIHRoaXM/DQpJZiB5b3UgaGF2ZSBh
+bnkgcXVlc3Rpb25zIG9yIGNvbmNlcm5zLCBwbGVhc2Uga2luZGx5IGxldCBtZSBrbm93Lg0KVGhh
+bmsgeW91IGZvciB5b3VyIGFzc2lzdGFuY2UuDQoNClJlZ2FyZHMsDQpIaWxkYQ0KDQotLS0tLU9y
+aWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogSGlsZGEgV3UgDQpTZW50OiBUdWVzZGF5LCBOb3Zl
+bWJlciAxNywgMjAyMCAzOjQ3IFBNDQpUbzogJ0xhcnJ5IEZpbmdlcicgPExhcnJ5LkZpbmdlckBs
+d2Zpbmdlci5uZXQ+OyBsaW51eC1maXJtd2FyZUBrZXJuZWwub3JnDQpDYzogandib3llckBrZXJu
+ZWwub3JnOyBNYXggQ2hvdSA8bWF4LmNob3VAcmVhbHRlay5jb20+OyBhbGV4X2x1IDxhbGV4X2x1
+QHJlYWxzaWwuY29tLmNuPjsgSHNpbiBZdSBDaGFuZyA8aHNpbnl1X2NoYW5nQHJlYWx0ZWsuY29t
+PjsgS2lkbWFuTGVlIDxraWRtYW5AcmVhbHRlay5jb20+DQpTdWJqZWN0OiBSRTogW1BBVENIXSBy
+dGxfYnQ6IFVwZGF0ZSBSVEw4ODIyQyBCVChVQVJUIEkvRikgRlcgdG8gMHgwNTlBXzI1Q0INCg0K
+SGkgTGFycnksDQoNClRoZSBXSEVOQ0Ugd2FzIGluY2x1ZGVkIHRoZSBydGxfYnQvcnRsODgyMmNz
+X2Z3LmJpbi4NCkZvciBkZXRhaWwsIHBsZWFzZSBjaGVjayB3aXRoIHRoaXMgbGluazoNCmh0dHBz
+Oi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2Zpcm13YXJlL2xpbnV4
+LWZpcm13YXJlLmdpdC9jb21taXQvP2lkPWZjZTYwYTlhODFiZjE0OGI1YzgzMWEzZTMzZmU2NjZj
+OWIzOGZmMjMNCg0KVGhhbmsgeW91IGZvciB5b3VyIHJlbWluZGVyLg0KDQpSZWdhcmRzLA0KSGls
+ZGENCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IExhcnJ5IEZpbmdlciA8bGFy
+cnkuZmluZ2VyQGdtYWlsLmNvbT4gT24gQmVoYWxmIE9mIExhcnJ5IEZpbmdlcg0KU2VudDogVHVl
+c2RheSwgTm92ZW1iZXIgMTcsIDIwMjAgMTozNSBBTQ0KVG86IEhpbGRhIFd1IDxoaWxkYXd1QHJl
+YWx0ZWsuY29tPjsgbGludXgtZmlybXdhcmVAa2VybmVsLm9yZw0KQ2M6IGp3Ym95ZXJAa2VybmVs
+Lm9yZzsgTWF4IENob3UgPG1heC5jaG91QHJlYWx0ZWsuY29tPjsgYWxleF9sdSA8YWxleF9sdUBy
+ZWFsc2lsLmNvbS5jbj47IEhzaW4gWXUgQ2hhbmcgPGhzaW55dV9jaGFuZ0ByZWFsdGVrLmNvbT47
+IEtpZG1hbkxlZSA8a2lkbWFuQHJlYWx0ZWsuY29tPg0KU3ViamVjdDogUmU6IFtQQVRDSF0gcnRs
+X2J0OiBVcGRhdGUgUlRMODgyMkMgQlQoVUFSVCBJL0YpIEZXIHRvIDB4MDU5QV8yNUNCDQoNCk9u
+IDExLzE1LzIwIDExOjU0IFBNLCBoaWxkYXd1QHJlYWx0ZWsuY29tIHdyb3RlOg0KPiBGcm9tOiBI
+aWxkYSBXdSA8aGlsZGF3dUByZWFsdGVrLmNvbT4NCj4gDQo+IFRoaXMgZmlybXdhcmUgcGF0Y2gg
+dXBkYXRlIGZvciBSZWFsdGVrIFJUTDg4MjJDIEJUIGNvbnRyb2xsZXIuKFVBUlQgSS9GKQ0KPiAN
+Cj4gUmVsZWFzZSBWZXJzaW9uOjB4MDU5QV8yNUNCDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBIaWxk
+YSBXdSA8aGlsZGF3dUByZWFsdGVrLmNvbT4NCj4gLS0tDQo+ICAgcnRsX2J0L3J0bDg4MjJjc19m
+dy5iaW4gfCBCaW4gNTg2NDAgLT4gNjA5NTYgYnl0ZXMNCj4gICAxIGZpbGUgY2hhbmdlZCwgMCBp
+bnNlcnRpb25zKCspLCAwIGRlbGV0aW9ucygtKQ0KDQpZb3UgbmVlZCB0byBhZGQgdGhpcyBjaGFu
+Z2UgdG8gV0hFTkNFLiBOQUNLDQoNCkxhcnJ5DQoNCi0tLS0tLVBsZWFzZSBjb25zaWRlciB0aGUg
+ZW52aXJvbm1lbnQgYmVmb3JlIHByaW50aW5nIHRoaXMgZS1tYWlsLg0K
