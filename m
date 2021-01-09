@@ -6,212 +6,95 @@ X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ADC5C433E0
-	for <linux-firmware@archiver.kernel.org>; Sat,  9 Jan 2021 12:32:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CD5BC433E0
+	for <linux-firmware@archiver.kernel.org>; Sat,  9 Jan 2021 12:33:00 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 4694923A1C; Sat,  9 Jan 2021 12:32:40 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2543B235DD
-	for <linux-firmware@kernel.org>; Sat,  9 Jan 2021 12:32:40 +0000 (UTC)
+	id F107A23A3C; Sat,  9 Jan 2021 12:32:59 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CAE63235DD
+	for <linux-firmware@kernel.org>; Sat,  9 Jan 2021 12:32:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1610195560;
-	bh=bhLtZhvEXLJD7rCl2xp/xFJE153vjDG0ZruPLQLL4/w=;
+	s=k20201202; t=1610195579;
+	bh=Xe5tyDyMXSZ+LkdVk/ka+tGq7PCmqEhmBWo/7r9+CQU=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=XPjut7GttcrgcgQLu2nS3iPpba2E2DsAm/Tx2KlLEeU2N1BRQ4ocg+4RDP0jT0ZYi
-	 1t3YgxVGfBk3bxGbkAEyjmhSdf2nPUZjITIU2qYCAv7CwUE1nY1rNFwO9A/halo/bc
-	 1WIkc9mmb3XuhHuEyypnXfPoeIIRgAJnOBZn5rvnnIT0s/vZ4qjANxw4nwdr1IBgaH
-	 WdEHf2GBT9xfwQSdRNlz5HinnRWx/18hFQiyNq3zqcW96/KuvCjq1nJfoA9W9HZr5i
-	 1YV37aSZk8Yzm2tTeAbYeetLts6ANW1iaGRK4NNQcnhEzgnF/zp/wsj9rSF83Hm1tl
-	 guBljF7iEM3Fw==
-Received: by mail-io1-f53.google.com with SMTP id q137so12649911iod.9
-        for <linux-firmware@kernel.org>; Sat, 09 Jan 2021 04:32:40 -0800 (PST)
-X-Gm-Message-State: AOAM532SI/6hIl3zWj7hsEam/8De1Eamo07s61mdsztL6qhT/K4bn5H2
-	TUP0v0th7SXzvjrjfE9i6CvJT22szO8u/nhlMQA=
-X-Google-Smtp-Source: ABdhPJzXIxLMOIfcB9DmdYyRdu4f8ajF3/Ek/mnEOGTfqsQGFcwy1Qbtz2LHJgZ9SqE/YViZkQi741B46WQE8crKD58=
-X-Received: by 2002:a6b:f112:: with SMTP id e18mr8927141iog.195.1610195559570;
- Sat, 09 Jan 2021 04:32:39 -0800 (PST)
+	b=LZUmQQAFLVtBlY9CCayt/nPw5Z4v1UlI76qXB1couKTFtzAuA0kEXK+RfqjFjY8I1
+	 i02cod8D1wUEGERAOM/IpcbW7e+hjX6vHhAohXBgQ/MR/WdQ5ZPjEuhETg1I0ZRgVm
+	 1ilXwak/4DqsLWGDb3fUtcgO+0dY8hv+ZywHZv8LXNvd+hJgJy/iVq25M7ohyCE+3X
+	 hDVG3qyAghjHm2UZC11J6dMdMFmVAVwWz34d/T54fvtxOeQdM/1+JhqMp3eXTmudUX
+	 7ArICOUli2h2NvXYm3VhcRUJsocfUyFcdPT5ijbu4lzQbixbVm4KFKOZlHm4g+1A3/
+	 emlra3QBhaIIQ==
+Received: by mail-io1-f48.google.com with SMTP id m23so12712386ioy.2
+        for <linux-firmware@kernel.org>; Sat, 09 Jan 2021 04:32:59 -0800 (PST)
+X-Gm-Message-State: AOAM530TQCxAVcoc2pw/p3O3IEQR2krh89pfz66GRhWV4M0I5j9rg0b/
+	iHM5YbNkSfYfC7OFXfqqGUmdDRy+lS4p5PnxRz8=
+X-Google-Smtp-Source: ABdhPJwUPSxrL6b5e6zVwb0qiUh5Y3yjmGZWt8z/uf9bQF+dS6Twyg64hx6n6yFBuxQ1fPC1ulkuYhdsp/B7QCfXb64=
+X-Received: by 2002:a02:b607:: with SMTP id h7mr7623155jam.120.1610195579374;
+ Sat, 09 Jan 2021 04:32:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20210108115513.740899-1-pbrobinson@gmail.com> <20210108115840.GB74017@thinkpad>
-In-Reply-To: <20210108115840.GB74017@thinkpad>
+References: <20210108100029.715329-1-pbrobinson@gmail.com>
+In-Reply-To: <20210108100029.715329-1-pbrobinson@gmail.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Sat, 9 Jan 2021 07:32:28 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA40SV8KJnckvKZ5W9vTRsf4LFPqnOPkV8ammRDQTt798w@mail.gmail.com>
-Message-ID: <CA+5PVA40SV8KJnckvKZ5W9vTRsf4LFPqnOPkV8ammRDQTt798w@mail.gmail.com>
-Subject: Re: [PATCH] brcm: Add NVRAM for Vamrs 96boards Rock960
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Date: Sat, 9 Jan 2021 07:32:48 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA7osJRckrLHM9szEpG-Fwr9LsPr7wibaBRb6d-sZB_FRQ@mail.gmail.com>
+Message-ID: <CA+5PVA7osJRckrLHM9szEpG-Fwr9LsPr7wibaBRb6d-sZB_FRQ@mail.gmail.com>
+Subject: Re: [PATCH] brcm: Update Raspberry Pi 3B+/4B NVRAM for downstream changes
+To: Peter Robinson <pbrobinson@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Peter Robinson <pbrobinson@gmail.com>, Linux Firmware <linux-firmware@kernel.org>, 
-	Sahaj Sarup <sahaj.sarup@linaro.org>
+Cc: Linux Firmware <linux-firmware@kernel.org>, Matthias Brugger <mbrugger@suse.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jan 8, 2021 at 6:58 AM Manivannan Sadhasivam
-<manivannan.sadhasivam@linaro.org> wrote:
+On Fri, Jan 8, 2021 at 5:00 AM Peter Robinson <pbrobinson@gmail.com> wrote:
 >
-> On Fri, Jan 08, 2021 at 11:55:13AM +0000, Peter Robinson wrote:
-> > The 96boards Rock960 has a Cypress 4356 WiFi module, this adds the
-> > a NVRAM based on the downstream NVRAM.
-> >
-> > https://people.linaro.org/~manivannan.sadhasivam/rock960_wifi/brcmfmac4356-sdio.txt
-> >
-> > Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+> The Raspberry Pi Foundation NVRAM files have been updated for a new
+> BT/WiFi coexistence parameter for firmwares newer than 177, now
+> we have new firmwares (7.45.221) from Cypress for the BCM43455
+> update the NVRAM for these parameters.
 >
-> Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> Update the RPi4B NVRAM boardflags3 parameter to match too, which
+> also happens to be what we already have for the RPi3B+.
+>
+> Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+> Cc: Matthias Brugger <mbrugger@suse.com>
 
 Applied and pushed out.
 
 josh
 
+> ---
+>  brcm/brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt | 1 +
+>  brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.txt      | 3 ++-
+>  2 files changed, 3 insertions(+), 1 deletion(-)
 >
-> Thanks,
-> Mani
+> diff --git a/brcm/brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt b/brcm/brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt
+> index ba94f54..e8d6b19 100644
+> --- a/brcm/brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt
+> +++ b/brcm/brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt
+> @@ -13,6 +13,7 @@ boardtype=0x6e4
+>  btc_mode=1
+>  btc_params1=0x7530
+>  btc_params8=0x4e20
+> +btc_params50=0x972c
+>  cbfilttype=1
+>  cckPwrIdxCorr=3
+>  cckTssiDelay=150
+> diff --git a/brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.txt b/brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.txt
+> index 425d293..d5bd530 100644
+> --- a/brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.txt
+> +++ b/brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.txt
+> @@ -7,12 +7,13 @@ aa5g=1
+>  AvVmid_c0=1,165,2,100,2,100,2,100,2,100
+>  boardflags=0x00480201
+>  boardflags2=0x40800000
+> -boardflags3=0x44200100
+> +boardflags3=0x48200100
+>  boardrev=0x1304
+>  boardtype=0x6e4
+>  btc_mode=1
+>  btc_params1=0x7530
+>  btc_params8=0x4e20
+> +btc_params50=0x972c
+>  cbfilttype=1
+>  cckPwrIdxCorr=3
+>  cckTssiDelay=150
+> --
+> 2.29.2
 >
-> > Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > Cc: Sahaj Sarup <sahaj.sarup@linaro.org>
-> > ---
-> >  WHENCE                                   |   1 +
-> >  brcm/brcmfmac4356-sdio.vamrs,rock960.txt | 122 +++++++++++++++++++++++
-> >  2 files changed, 123 insertions(+)
-> >  create mode 100644 brcm/brcmfmac4356-sdio.vamrs,rock960.txt
-> >
-> > diff --git a/WHENCE b/WHENCE
-> > index 676bb18..2602e03 100644
-> > --- a/WHENCE
-> > +++ b/WHENCE
-> > @@ -2713,6 +2713,7 @@ Link: brcm/brcmfmac43455-sdio.raspberrypi,3-model-a-plus.txt -> brcmfmac43455-sd
-> >  File: "brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.txt"
-> >  File: "brcm/brcmfmac43455-sdio.MINIX-NEO Z83-4.txt"
-> >  File: "brcm/brcmfmac4356-pcie.gpd-win-pocket.txt"
-> > +File: brcm/brcmfmac4356-sdio.vamrs,rock960.txt
-> >
-> >  Licence: GPLv2. See GPL-2 for details.
-> >
-> > diff --git a/brcm/brcmfmac4356-sdio.vamrs,rock960.txt b/brcm/brcmfmac4356-sdio.vamrs,rock960.txt
-> > new file mode 100644
-> > index 0000000..4b38c26
-> > --- /dev/null
-> > +++ b/brcm/brcmfmac4356-sdio.vamrs,rock960.txt
-> > @@ -0,0 +1,122 @@
-> > +aa2g=3
-> > +aa5g=3
-> > +aga0=2
-> > +aga1=2
-> > +agbg0=2
-> > +agbg1=2
-> > +antswitch=0
-> > +boardflags=0x02400201
-> > +boardflags2=0x00802000
-> > +boardflags3=0x0000010a
-> > +boardrev=0x1121
-> > +boardtype=0x073e
-> > +cckbw202gpo=0x1222
-> > +cckbw20ul2gpo=0x0000
-> > +ccode=0x5855
-> > +devid=0x43a3
-> > +dot11agduphrpo=0x0
-> > +dot11agduplrpo=0x0
-> > +dot11agofdmhrbw202gpo=0x4444
-> > +extpagain2g=2
-> > +extpagain5g=2
-> > +femctrl=10
-> > +macaddr=00:90:4c:1a:10:01
-> > +manfid=0x2d0
-> > +maxp2ga0=72
-> > +maxp2ga1=71
-> > +maxp5ga0=69,70,69,68
-> > +maxp5ga1=67,67,67,67
-> > +mcsbw202gpo=0x9E644422
-> > +mcsbw205ghpo=0xCC986663
-> > +mcsbw205glpo=0xEEA86661
-> > +mcsbw205gmpo=0xAAA86663
-> > +mcsbw402gpo=0xE9744424
-> > +mcsbw405ghpo=0xEEA86663
-> > +mcsbw405glpo=0xEEB86663
-> > +mcsbw405gmpo=0xECB86663
-> > +mcsbw805ghpo=0xEEA86663
-> > +mcsbw805glpo=0xEEB86663
-> > +mcsbw805gmpo=0xEEA86663
-> > +mcslr5ghpo=0x0000
-> > +mcslr5glpo=0x0000
-> > +mcslr5gmpo=0x0000
-> > +muxenab=0x10
-> > +nocrc=1
-> > +ofdmlrbw202gpo=0x0022
-> > +otpimagesize=502
-> > +pa2ga0=-135,5769,-647
-> > +pa2ga1=-143,6023,-677
-> > +pa5ga0=-183,5746,-697,-172,5801,-685,-176,5707,-680,-180,5445,-659
-> > +pa5ga1=-186,5543,-669,-193,5506,-675,-210,5282,-661,-199,5367,-665
-> > +paprdis=0
-> > +pdgain2g=4
-> > +pdgain5g=4
-> > +pdoffset40ma0=0x0000
-> > +pdoffset40ma1=0x0000
-> > +pdoffset80ma0=0x0000
-> > +pdoffset80ma1=0x0000
-> > +pdoffsetcckma0=0x4
-> > +pdoffsetcckma1=0x4
-> > +phycal_tempdelta=255
-> > +rawtempsense=0x1ff
-> > +regrev=1
-> > +rssicorrnorm5g_c0=1,2,3,1,2,3,6,6,8,6,6,8
-> > +rssicorrnorm5g_c1=1,2,3,2,2,2,7,7,8,7,7,8
-> > +rssicorrnorm_c0=4,4
-> > +rssicorrnorm_c1=4,4
-> > +rxchain=3
-> > +rxgains2gelnagaina0=0
-> > +rxgains2gelnagaina1=0
-> > +rxgains2gtrelnabypa0=0
-> > +rxgains2gtrelnabypa1=0
-> > +rxgains2gtrisoa0=7
-> > +rxgains2gtrisoa1=7
-> > +rxgains5gelnagaina0=0
-> > +rxgains5gelnagaina1=0
-> > +rxgains5ghelnagaina0=0
-> > +rxgains5ghelnagaina1=0
-> > +rxgains5ghtrelnabypa0=0
-> > +rxgains5ghtrelnabypa1=0
-> > +rxgains5ghtrisoa0=12
-> > +rxgains5ghtrisoa1=11
-> > +rxgains5gmelnagaina0=0
-> > +rxgains5gmelnagaina1=0
-> > +rxgains5gmtrelnabypa0=0
-> > +rxgains5gmtrelnabypa1=0
-> > +rxgains5gmtrisoa0=13
-> > +rxgains5gmtrisoa1=11
-> > +rxgains5gtrelnabypa0=0
-> > +rxgains5gtrelnabypa1=0
-> > +rxgains5gtrisoa0=11
-> > +rxgains5gtrisoa1=10
-> > +sb20in40hrpo=0x0
-> > +sb20in40lrpo=0x0
-> > +sb20in80and160hr5ghpo=0x0
-> > +sb20in80and160hr5glpo=0x0
-> > +sb20in80and160hr5gmpo=0x0
-> > +sb20in80and160lr5ghpo=0x0
-> > +sb20in80and160lr5glpo=0x0
-> > +sb20in80and160lr5gmpo=0x0
-> > +sb40and80hr5ghpo=0x0
-> > +sb40and80hr5glpo=0x0
-> > +sb40and80hr5gmpo=0x0
-> > +sb40and80lr5ghpo=0x0
-> > +sb40and80lr5glpo=0x0
-> > +sb40and80lr5gmpo=0x0
-> > +sromrev=11
-> > +subband5gver=0x4
-> > +swctrlmap_2g=0x00001040,0x00004010,0x00004010,0x200010,0xff
-> > +swctrlmap_5g=0x00000202,0x00000101,0x00000101,0x000000,0x47
-> > +swctrlmapext_2g=0x00000000,0x00000000,0x00000000,0x000000,0x000
-> > +swctrlmapext_5g=0x00000000,0x00000000,0x00000000,0x000000,0x000
-> > +tempoffset=255
-> > +temps_hysteresis=15
-> > +temps_period=15
-> > +tempthresh=255
-> > +tssipos2g=1
-> > +tssipos5g=1
-> > +tworangetssi2g=0
-> > +tworangetssi5g=0
-> > +txchain=3
-> > +vendid=0x14e4
-> > +xtalfreq=37400
-> > --
-> > 2.29.2
-> >
