@@ -1,173 +1,185 @@
-Return-Path: <SRS0=yoWC=G2=lists.freedesktop.org=dri-devel-bounces@kernel.org>
+Return-Path: <SRS0=5OBI=G2=gmail.com=pbrobinson@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8137DC433E6
-	for <dri-devel@archiver.kernel.org>; Sat, 23 Jan 2021 09:38:28 +0000 (UTC)
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88C03C433E0
+	for <linux-firmware@archiver.kernel.org>; Sat, 23 Jan 2021 10:26:32 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id 65E3F22D5A; Sat, 23 Jan 2021 10:26:32 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 44D12233FA
-	for <dri-devel@archiver.kernel.org>; Sat, 23 Jan 2021 09:38:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 44D12233FA
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=dri-devel-bounces@lists.freedesktop.org
-Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 900566E169;
-	Sat, 23 Jan 2021 09:38:18 +0000 (UTC)
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B0186EA68
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 22:11:59 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id b26so9627865lff.9
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 14:11:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=jaCvuXTI5++yWrQ5zll4pAoJp7Kw8ngAgVV//NdLCO0=;
- b=Vy+MXcEDaveLQygfFzfes0pLrj0Xd5qsBfSLNxMclb3ohJj7BsLaNGLrPBq6Z2uDa0
- AhQerybNr7LQqyAnD3pMlfF/jeXuo2KjSnIxodI6cHALg4WWlmtnewnZsujZPTSDT3Hm
- vGhEpTJCHNxzUdDRHLcbUT0nI2nK2V/jY5yBE26g4woVsCLKoHI07XnWlLqLYtOuwqoD
- utZOxd0YDDAHqjMc2AI7BD3V4KMRgAfyzMxwMp0N9cpUrA9gQiAsuBtBiw3l6Q0bit3U
- uaRNY0ykMgTk9HOVhVVBbH1Frc4Pc3afpVuTNCoVEwmotJGqDc9C9lnZXmJrudeHZDdl
- JG4w==
+	by mail.kernel.org (Postfix) with ESMTPS id F0F2622D57;
+	Sat, 23 Jan 2021 10:26:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F0F2622D57
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=pbrobinson@gmail.com
+Received: by mail-wr1-f42.google.com with SMTP id l12so7457919wry.2;
+        Sat, 23 Jan 2021 02:26:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xq5KFVYZicx2iKGlTECnoVpP6lpOCiI51x0/PJIY7AY=;
+        b=Wr1g/ccrSuC7R2MG1pYT6fD4jjz8y8wtfPFQcShCmaichWyqFnqqYl700ORAtKGNtK
+         XPYmOneNeDfqnGC3aXtTAFnug2sLuusRIWv6Wzak3Khavif3l8qTRlgnlJhBGbwVdDxu
+         NpkgiOFxB9ZIFczV1WmfxVWCkA+2Y/NJwEGqqDA7q2T5qX8wS0VjHiuldbEZGw5WVdQ/
+         yZqWFayrkGnurEwLTRxc1/cebABPxV+KQTQ6quDw0xrNYZ1laJOsDZ6swbmBwDTjdiHi
+         ncjo4Q4Of1hGWfS38WP7KQeuTSYD1xr9NJrR1IDvYdmRr4uJy3Hwujfz29knS/PWwKI/
+         lHWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
- :mime-version:content-language:content-transfer-encoding;
- bh=jaCvuXTI5++yWrQ5zll4pAoJp7Kw8ngAgVV//NdLCO0=;
- b=RbJ4TZyWgzPGo7arGGw06pLsSH4YGpbXObsnIsjxWaSjG2IdWY8O54LYJOVndMDHyM
- 8KSBEWBnQhGLYvx7LlRk4TQT2mvy7PZ7dRtcBrn0bNRE9pPWiHlVwp8sM9HEczKhhfFf
- OdyvfdVFctsQ1/DajSxDm5x/CtOeCQrMaFxb3cbn8+xE32qrqEPOF7B0S74JqZJlgHrR
- ev1VMOOR5YMlEEvpKWewlihYK/oVPkl/TWc3xBducVOYwvpEu+kTJ6wdVs5OGZ0oL0Te
- UKqKliyGQ5hi/GxgigP7xYX4+nwjaoqSjLAcYVdQsGKgqp7R/hJxNiQ/MBKRo9Mc3azh
- zUqg==
-X-Gm-Message-State: AOAM531ULFBqjwxRekUj2QNFmheASzG4NzmaJFSHh2NbGn5VXG/xIyhi
- GwhVpE7OP1bBTVd4scw6G/ID5I7RMFfA1a5o
-X-Google-Smtp-Source: ABdhPJy8eQHjcrzbrB3xmSPo6CMl85MirfidhUNAX/4Tpe/wgXdajjP1AaYv8WY5pPb8ly3lJ2yl+Q==
-X-Received: by 2002:a05:6512:b12:: with SMTP id
- w18mr1019732lfu.323.1611353517820; 
- Fri, 22 Jan 2021 14:11:57 -0800 (PST)
-Received: from [192.168.1.211] ([188.162.64.145])
- by smtp.gmail.com with ESMTPSA id 6sm1070137ljq.69.2021.01.22.14.11.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Jan 2021 14:11:57 -0800 (PST)
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xq5KFVYZicx2iKGlTECnoVpP6lpOCiI51x0/PJIY7AY=;
+        b=nHmDXOfJrLm9yEc68qWcZDn0lp3K20W/WmcDfcQvEvXO/wFjPmKBXNuhoozCK+kdg/
+         HyW3gWebuZmXlspfoz+FhPj6LimZCK3Z0qNeogpPqhXa7j5HlhT/4Qv33A4ynfDS8iAd
+         6Bf9VpGBF7N8e4vQYCqKu5DOq1XYTl2i5vBkp7Yvvi52oUkzo+C54Iy2jWXcfIFSRxzS
+         +HyqZr1nwQPFRLAP8iNaFLFmDHlTkmrlwAGVTrF7VbBqJaUBpeF9XK1KPDgKp4arZJtB
+         oNmcH29X0ui4f6dnL28d7DoPMR5htgUQB9CpbAKv1aTX63l5bC/FMVhBaH6ycf4wb/br
+         nzAw==
+X-Gm-Message-State: AOAM533tq1IQJB6k7TWVWYjMTq5r9zqflHnGxZrk+VtRAudDm1mit0rP
+	6N2wRd/hMIxjr9yrX3lY6I98Gw5O7Ok=
+X-Google-Smtp-Source: ABdhPJwz5xA51PVXVOGUUDlauW4rydzZl7ksvVi5kEn9ll7D4l0DNVBBMlK6hEmSFoxpSZRfQ24rYg==
+X-Received: by 2002:a5d:53c3:: with SMTP id a3mr8308159wrw.43.1611397590562;
+        Sat, 23 Jan 2021 02:26:30 -0800 (PST)
+Received: from morpheus.home.roving-it.com (f.c.9.1.f.e.c.d.1.e.0.0.2.b.5.5.1.8.6.2.1.1.b.f.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:fb11:2681:55b2:e1:dcef:19cf])
+        by smtp.googlemail.com with ESMTPSA id p18sm14156133wmc.31.2021.01.23.02.26.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Jan 2021 02:26:29 -0800 (PST)
+From: Peter Robinson <pbrobinson@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: linux-firmware for Qualcomm SM8250 platforms
-Message-ID: <b6580306-fbfb-e7ac-aa4e-2476a5ee39da@linaro.org>
-Date: Sat, 23 Jan 2021 01:11:55 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+Cc: jwboyer@kernel.org,
+	Peter Robinson <pbrobinson@gmail.com>
+Subject: [PATCH v2] Add support for compressing firmware in copy-firmware.sh
+Date: Sat, 23 Jan 2021 10:26:25 +0000
+Message-Id: <20210123102625.589472-1-pbrobinson@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Language: en-GB
-X-Mailman-Approved-At: Sat, 23 Jan 2021 09:38:10 +0000
-X-BeenThere: dri-devel@lists.freedesktop.org
-X-Mailman-Version: 2.1.29
-Precedence: list
-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/dri-devel>,
- <mailto:dri-devel-request@lists.freedesktop.org?subject=unsubscribe>
-List-Archive: <https://lists.freedesktop.org/archives/dri-devel>
-List-Post: <mailto:dri-devel@lists.freedesktop.org>
-List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
-List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
- <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Jonathan Marek <jonathan@marek.ca>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
-Errors-To: dri-devel-bounces@lists.freedesktop.org
-Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-Message-ID: <20210122221155.QJM5vIFslhyMHmK7RL0RgPPhfar0qgGIV-bs3ytliGo@z>
+Content-Transfer-Encoding: 8bit
 
-Hello linux-firmware maintainers,
+As of kernel 5.3 there's initial support for loading compressed firmware.
+At this stage the only supported compression methis is "xz -C crc32" but
+this option brings significant benefits.
 
-We'd like to submit firmware for Qualcomm SM8250-based platforms. 
-Firmware successfully tested on Qualcomm Robotics RB5 platform.
+Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+---
 
-The following changes since commit d5288624259300c558480c21a860fcf94187d29d:
+v2: quote filename for xz command
 
-   brcm: Add NVRAM for Vamrs 96boards Rock960 (2021-01-09 07:31:33 -0500)
+ Makefile         |  4 ++++
+ copy-firmware.sh | 47 +++++++++++++++++++++++++++++++----------------
+ 2 files changed, 35 insertions(+), 16 deletions(-)
 
-are available in the Git repository at:
-
-   https://github.com/lumag/linux-firmware qcom-rb5
-
-for you to fetch changes up to df822a848cceb185d2d50a39140ba0c9cd9f33e9::
-
-   qcom: Add venus firmware files for VPU-1.0 (2021-01-23 01:10:05 +0300)
-
-----------------------------------------------------------------
-Dmitry Baryshkov (4):
-       qcom: add firmware files for Adreno a650
-       qcom: Add SM8250 Audio DSP firmware
-       qcom: Add SM8250 Compute DSP firmware
-       qcom: Add venus firmware files for VPU-1.0
-
-  WHENCE                   |  26 ++++++++++++++++++++++++++
-  qcom/a650_gmu.bin        | Bin 0 -> 41548 bytes
-  qcom/a650_sqe.fw         | Bin 0 -> 31488 bytes
-  qcom/sm8250/a650_zap.mbn | Bin 0 -> 13964 bytes
-  qcom/sm8250/adsp.mbn     | Bin 0 -> 15515796 bytes
-  qcom/sm8250/adspr.jsn    |  21 +++++++++++++++++++++
-  qcom/sm8250/adspua.jsn   |  27 +++++++++++++++++++++++++++
-  qcom/sm8250/cdsp.mbn     | Bin 0 -> 5822228 bytes
-  qcom/sm8250/cdspr.jsn    |  21 +++++++++++++++++++++
-  qcom/vpu-1.0/venus.b00   | Bin 0 -> 692 bytes
-  qcom/vpu-1.0/venus.b01   | Bin 0 -> 7528 bytes
-  qcom/vpu-1.0/venus.b02   | Bin 0 -> 300 bytes
-  qcom/vpu-1.0/venus.b03   | Bin 0 -> 20 bytes
-  qcom/vpu-1.0/venus.b04   | Bin 0 -> 20 bytes
-  qcom/vpu-1.0/venus.b05   | Bin 0 -> 20 bytes
-  qcom/vpu-1.0/venus.b06   | Bin 0 -> 20 bytes
-  qcom/vpu-1.0/venus.b07   | Bin 0 -> 24 bytes
-  qcom/vpu-1.0/venus.b08   | Bin 0 -> 16 bytes
-  qcom/vpu-1.0/venus.b09   | Bin 0 -> 883152 bytes
-  qcom/vpu-1.0/venus.b10   | Bin 0 -> 41360 bytes
-  qcom/vpu-1.0/venus.b19   |   1 +
-  qcom/vpu-1.0/venus.mbn   | Bin 0 -> 1973540 bytes
-  qcom/vpu-1.0/venus.mdt   | Bin 0 -> 8220 bytes
-  23 files changed, 96 insertions(+)
-  create mode 100644 qcom/a650_gmu.bin
-  create mode 100644 qcom/a650_sqe.fw
-  create mode 100644 qcom/sm8250/a650_zap.mbn
-  create mode 100644 qcom/sm8250/adsp.mbn
-  create mode 100644 qcom/sm8250/adspr.jsn
-  create mode 100644 qcom/sm8250/adspua.jsn
-  create mode 100644 qcom/sm8250/cdsp.mbn
-  create mode 100644 qcom/sm8250/cdspr.jsn
-  create mode 100644 qcom/vpu-1.0/venus.b00
-  create mode 100644 qcom/vpu-1.0/venus.b01
-  create mode 100644 qcom/vpu-1.0/venus.b02
-  create mode 100644 qcom/vpu-1.0/venus.b03
-  create mode 100644 qcom/vpu-1.0/venus.b04
-  create mode 100644 qcom/vpu-1.0/venus.b05
-  create mode 100644 qcom/vpu-1.0/venus.b06
-  create mode 100644 qcom/vpu-1.0/venus.b07
-  create mode 100644 qcom/vpu-1.0/venus.b08
-  create mode 100644 qcom/vpu-1.0/venus.b09
-  create mode 100644 qcom/vpu-1.0/venus.b10
-  create mode 100644 qcom/vpu-1.0/venus.b19
-  create mode 100644 qcom/vpu-1.0/venus.mbn
-  create mode 100644 qcom/vpu-1.0/venus.mdt
-
-
-
+diff --git a/Makefile b/Makefile
+index e1c362f..9a48471 100644
+--- a/Makefile
++++ b/Makefile
+@@ -11,3 +11,7 @@ check:
+ install:
+ 	mkdir -p $(DESTDIR)$(FIRMWAREDIR)
+ 	./copy-firmware.sh $(DESTDIR)$(FIRMWAREDIR)
++
++installcompress:
++	mkdir -p $(DESTDIR)$(FIRMWAREDIR)
++	./copy-firmware.sh -C $(DESTDIR)$(FIRMWAREDIR)
+diff --git a/copy-firmware.sh b/copy-firmware.sh
+index 9b46b63..0dd2e5c 100755
+--- a/copy-firmware.sh
++++ b/copy-firmware.sh
+@@ -6,6 +6,7 @@
+ 
+ verbose=:
+ prune=no
++compress=no
+ 
+ while test $# -gt 0; do
+     case $1 in
+@@ -19,6 +20,11 @@ while test $# -gt 0; do
+             shift
+             ;;
+ 
++        -C | --compress)
++            compress=yes
++            shift
++            ;;
++
+         *)
+             if test "x$destdir" != "x"; then
+                 echo "ERROR: unknown command-line options: $@"
+@@ -31,40 +37,49 @@ while test $# -gt 0; do
+     esac
+ done
+ 
++if test "x$compress" = "xyes"; then
++    cmpxtn=.xz
++    grep '^File:' WHENCE | sed -e's/^File: *//g' -e's/"//g' | while read f; do
++       test -f "$f" || continue
++       $verbose "compressing $f"
++       xz -C crc32 "$f"
++    done
++fi
++
+ grep '^File:' WHENCE | sed -e's/^File: *//g' -e's/"//g' | while read f; do
+-    test -f "$f" || continue
+-    $verbose "copying file $f"
+-    mkdir -p $destdir/$(dirname "$f")
+-    cp -d "$f" $destdir/"$f"
++    test -f "$f$cmpxtn" || continue
++    $verbose "copying file $f$cmpxtn"
++    mkdir -p $destdir/$(dirname "$f$cmpxtn")
++    cp -d "$f$cmpxtn" $destdir/"$f$cmpxtn"
+ done
+ 
+ grep -E '^Link:' WHENCE | sed -e's/^Link: *//g' -e's/-> //g' | while read f d; do
+-    if test -L "$f"; then
+-        test -f "$destdir/$f" && continue
+-        $verbose "copying link $f"
+-        mkdir -p $destdir/$(dirname "$f")
++    if test -L "$f$cmpxtn"; then
++        test -f "$destdir/$f$cmpxtn" && continue
++        $verbose "copying link $f$cmpxtn"
++        mkdir -p $destdir/$(dirname "$f$cmpxtn")
+         cp -d "$f" $destdir/"$f"
+ 
+         if test "x$d" != "x"; then
+-            target=`readlink "$f"`
++            target=`readlink "$f$cmpxtn"`
+ 
+             if test "x$target" != "x$d"; then
+                 $verbose "WARNING: inconsistent symlink target: $target != $d"
+             else
+                 if test "x$prune" != "xyes"; then
+-                    $verbose "WARNING: unneeded symlink detected: $f"
++                    $verbose "WARNING: unneeded symlink detected: $f$cmpxtn"
+                 else
+-                    $verbose "WARNING: pruning unneeded symlink $f"
+-                    rm -f "$f"
++                    $verbose "WARNING: pruning unneeded symlink $f$cmpxtn"
++                    rm -f "$f$cmpxtn"
+                 fi
+             fi
+         else
+-            $verbose "WARNING: missing target for symlink $f"
++            $verbose "WARNING: missing target for symlink $f$cmpxtn"
+         fi
+     else
+-        $verbose "creating link $f -> $d"
+-        mkdir -p $destdir/$(dirname "$f")
+-        ln -sf "$d" "$destdir/$f"
++        $verbose "creating link $f$cmpxtn -> $d$cmpxtn"
++        mkdir -p $destdir/$(dirname "$f$cmpxtn")
++        ln -sf "$d$cmpxtn" "$destdir/$f$cmpxtn"
+     fi
+ done
+ 
 -- 
-With best wishes
-Dmitry
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+2.29.2
+
