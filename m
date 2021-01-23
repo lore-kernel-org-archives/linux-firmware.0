@@ -1,106 +1,45 @@
-Return-Path: <SRS0=NTS1=G2=lists.infradead.org=linux-mediatek-bounces+linux-mediatek=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=663Z=G2=mediatek.com=sean.wang@kernel.org>
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31384C433E0
-	for <linux-mediatek@archiver.kernel.org>; Sat, 23 Jan 2021 09:20:04 +0000 (UTC)
-Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 684CE23358
-	for <linux-mediatek@archiver.kernel.org>; Sat, 23 Jan 2021 09:20:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 684CE23358
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBBE3C433DB
+	for <linux-firmware@archiver.kernel.org>; Sat, 23 Jan 2021 09:32:59 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id 99A9B239D4; Sat, 23 Jan 2021 09:32:59 +0000 (UTC)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	by mail.kernel.org (Postfix) with ESMTP id 30966233EB;
+	Sat, 23 Jan 2021 09:32:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 30966233EB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mediatek.com
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-mediatek-bounces+linux-mediatek=archiver.kernel.org@lists.infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=tRaVpLjMWEZ5orhlOtoHZL8oy6GuuLwdPs+AxfJzPZs=; b=RjfBc83u5umAwjfWujdmaqHjEA
-	fAJ1xPOB56mX+E+kSWaAHjvR488f/w97KVeunhBPjSGTcoqYlvR3Vz+58xYZ9Gjap5KP3Va6xywC3
-	cOanuwwzQBck1CQ+auGk3wxB7Y983xlYOjXLhJ18Ae+pvf2GMKkfPsYJhs4j4S1zGCXdiirrZ1uBh
-	J736FZW0jhrImKJ0FrrVlTGS8qW4v3IvRrTtGR2Hcs59L/uAkMqnXjBte2V+oEUjfVNgrCuX/Uksl
-	UzbB0E0i7tmoKRcSRRw6mGun4nPOCF8rKexhN1pUuawNvzJ+wTkpqmfXFqx/r7Vy8htkmrxyVRh3x
-	0Nu8GSzQ==;
-Received: from localhost ([::1] helo=merlin.infradead.org)
-	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l3F57-0007Au-A9; Sat, 23 Jan 2021 09:19:45 +0000
-Received: from mailgw02.mediatek.com ([216.200.240.185])
- by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l3F51-0007Ai-Sz
- for linux-mediatek@lists.infradead.org; Sat, 23 Jan 2021 09:19:44 +0000
-X-UUID: 9fd0cef5fcce48ea9c67b8fc7ee814fe-20210123
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=OZMA1lmsjO0v2QIpy7ijgqW4xGurD6YbAxAYQh/LAvg=; 
- b=tcYv59KFBCyQp/eOnYiDKXhoRkzOFsC2Nbdf2iGv2KLB3vaU2SZGxIS/aJu1Hin0B6EhXWnCc88F99Vln2DTD9NvhFknT7GmaRtYlAocQuRwkuEKNBI48BAprEfD0/UyHFUDZCrRMyzxqR1PJcesOq0+62bIOvQrlxIrHZqSl1w=;
-X-UUID: 9fd0cef5fcce48ea9c67b8fc7ee814fe-20210123
-Received: from mtkcas66.mediatek.inc [(172.29.193.44)] by mailgw02.mediatek.com
- (envelope-from <sean.wang@mediatek.com>)
- (musrelay.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 40679790; Sat, 23 Jan 2021 01:19:34 -0800
-Received: from MTKMBS06N1.mediatek.inc (172.21.101.129) by
- MTKMBS62DR.mediatek.inc (172.29.94.18) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sat, 23 Jan 2021 01:19:31 -0800
+Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=sean.wang@mediatek.com
+X-UUID: d1caf148d88f437e83fb2861e2955953-20210123
+X-UUID: d1caf148d88f437e83fb2861e2955953-20210123
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
+	(envelope-from <sean.wang@mediatek.com>)
+	(Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+	with ESMTP id 2114295564; Sat, 23 Jan 2021 17:32:52 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sat, 23 Jan 2021 17:19:29 +0800
+ mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 23 Jan 2021 17:32:49 +0800
 Received: from mtkswgap22.mediatek.inc (172.21.77.33) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Sat, 23 Jan 2021 17:19:29 +0800
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Sat, 23 Jan 2021 17:32:49 +0800
 From: <sean.wang@mediatek.com>
 To: <jwboyer@kernel.org>, <dwmw2@infradead.org>, <ben@decadent.org.uk>,
- <nbd@nbd.name>, <lorenzo.bianconi@redhat.com>
-Subject: [PATCH] linux-firmware: add firmware for MT7921
-Date: Sat, 23 Jan 2021 17:19:27 +0800
-Message-ID: <4d96fd86eb000098580ebed3b66d98ec41ae55e8.1611392981.git.objelf@gmail.com>
+	<nbd@nbd.name>, <lorenzo.bianconi@redhat.com>
+List-Id: <linux-firmware.lore.kernel.org>
+CC: <sean.wang@mediatek.com>, <Soul.Huang@mediatek.com>,
+	<YN.Chen@mediatek.com>, <robin.chiu@mediatek.com>, <ch.yeh@mediatek.com>,
+	<posh.sun@mediatek.com>, <Eric.Liang@mediatek.com>,
+	<linux-firmware@kernel.org>, <linux-wireless@vger.kernel.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2] linux-firmware: add firmware for MT7921
+Date: Sat, 23 Jan 2021 17:32:48 +0800
+Message-ID: <776caca339d638b4a1c556be5b10855696f2ee21.1611394224.git.objelf@gmail.com>
 X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
+Content-Type: text/plain
 X-MTK: N
-X-Spam-Note: CRM114 run bypassed due to message size (790450 bytes)
-X-Spam-Score: -0.2 (/)
-X-Spam-Report: SpamAssassin version 3.4.4 on merlin.infradead.org summary:
- Content analysis details:   (-0.2 points)
- pts rule name              description
- ---- ---------------------- --------------------------------------------------
- 0.0 SPF_HELO_NONE          SPF: HELO does not publish an SPF Record
- -0.0 SPF_PASS               SPF: sender matches SPF record
- 0.0 MIME_BASE64_TEXT       RAW: Message text disguised using base64
- encoding
- -0.1 DKIM_VALID_AU          Message has a valid DKIM or DK signature from
- author's domain
- -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
- 0.1 DKIM_SIGNED            Message has a DKIM or DK signature, not necessarily
- valid
- -0.1 DKIM_VALID_EF          Message has a valid DKIM or DK signature from
- envelope-from domain
- 0.0 UNPARSEABLE_RELAY      Informational: message has unparseable relay
- lines
-X-BeenThere: linux-mediatek@lists.infradead.org
-X-Mailman-Version: 2.1.29
-Precedence: list
-List-Id: <linux-mediatek.lists.infradead.org>
-List-Unsubscribe: <http://lists.infradead.org/mailman/options/linux-mediatek>, 
- <mailto:linux-mediatek-request@lists.infradead.org?subject=unsubscribe>
-List-Archive: <http://lists.infradead.org/pipermail/linux-mediatek/>
-List-Post: <mailto:linux-mediatek@lists.infradead.org>
-List-Help: <mailto:linux-mediatek-request@lists.infradead.org?subject=help>
-List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-mediatek>, 
- <mailto:linux-mediatek-request@lists.infradead.org?subject=subscribe>
-List-Id: <linux-firmware.lore.kernel.org>
-Cc: robin.chiu@mediatek.com, ch.yeh@mediatek.com, Eric.Liang@mediatek.com,
- sean.wang@mediatek.com, linux-wireless@vger.kernel.org,
- linux-kernel@vger.kernel.org, posh.sun@mediatek.com, YN.Chen@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-firmware@kernel.org, Sean
- Wang <objelf@gmail.com>, Soul.Huang@mediatek.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-Sender: "Linux-mediatek" <linux-mediatek-bounces@lists.infradead.org>
-Errors-To: linux-mediatek-bounces+linux-mediatek=archiver.kernel.org@lists.infradead.org
-Message-ID: <20210123091927.xl7AEiqhg1wLDA-BMiEfkQiuPBdGjFauZ9SqbbjCVj8@z>
 
-From: Sean Wang <objelf@gmail.com>
+From: Sean Wang <sean.wang@mediatek.com>
 
 Add binary firmware for MT7921 based devices
 
@@ -110,6 +49,8 @@ File: mediatek/WIFI_RAM_CODE_MT7961_1.bin
 Version: 20210122002730
 
 Signed-off-by: Sean Wang <sean.wang@mediatek.com>
+---
+v2: fix the author to be consistent with signed-off tag
 ---
  WHENCE                                     |  11 +++++++++++
  mediatek/WIFI_MT7961_patch_mcu_1_2_hdr.bin | Bin 0 -> 90464 bytes
@@ -8715,7 +8656,4 @@ HcmV?d00001
 
 -- 
 2.25.1
-_______________________________________________
-Linux-mediatek mailing list
-Linux-mediatek@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-mediatek
+
