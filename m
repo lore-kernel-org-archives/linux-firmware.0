@@ -1,34 +1,47 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=Khpp=HK=lists.freedesktop.org=dri-devel-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B667EC433E0
-	for <linux-firmware@archiver.kernel.org>; Mon,  8 Feb 2021 13:21:48 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 6408864EB1; Mon,  8 Feb 2021 13:21:48 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3B52A64E9C
-	for <linux-firmware@kernel.org>; Mon,  8 Feb 2021 13:21:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F786C433DB
+	for <dri-devel@archiver.kernel.org>; Mon,  8 Feb 2021 13:21:52 +0000 (UTC)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id E423664E9C
+	for <dri-devel@archiver.kernel.org>; Mon,  8 Feb 2021 13:21:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E423664E9C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=dri-devel-bounces@lists.freedesktop.org
+Received: from gabe.freedesktop.org (localhost [127.0.0.1])
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F20F882AF;
+	Mon,  8 Feb 2021 13:21:49 +0000 (UTC)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A69816E8D1
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 13:21:48 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3504664EA1
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 13:21:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1612790508;
-	bh=JCowdY9/swgNvLGKCtYILHUDvwFwe3wlliPaauwJtqo=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=Z0OnUMf1XF6wkRce7+KX5yJEIK6rZnwX/0/uGbV2554m5cIGXXf99QGkLMeuM2fo4
-	 nd+PvQhfz2KCYi5XqodKdoD0PYFGrupII7JGvkT/qoRyvGD26bNaz93mXnYoJMZnRb
-	 XFnWTvefmgX+P1z2gr+Jco4NiaPfHaMatAsoGDDYRSF/B/F66UcGVCq1MZPngEkxbb
-	 ATc163bd6VzzSwq/mqlS9wAs+dmMbqPMJWRaRKdulx3KF8yOrzO6fioAv76GkwLhaW
-	 8mgSRn8dSSdEkZ2xBqvLCaL7F8AFVEHODzDZVS1VsCgjQUrHuQJxbi9NsMQLAW+NEw
-	 PupCXLjtMynFg==
-Received: by mail-il1-f172.google.com with SMTP id e7so12639334ile.7
-        for <linux-firmware@kernel.org>; Mon, 08 Feb 2021 05:21:48 -0800 (PST)
-X-Gm-Message-State: AOAM530+uMGpF3fsF0Sfbvah+oCYxmRzC3B9IA1Zjj6LNRyyjIQBW6IN
-	g080M2gnKWzgIm7/75LbQhxR4Eg0YsFRyZ1puuI=
+ s=k20201202; t=1612790508;
+ bh=JCowdY9/swgNvLGKCtYILHUDvwFwe3wlliPaauwJtqo=;
+ h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+ b=Z0OnUMf1XF6wkRce7+KX5yJEIK6rZnwX/0/uGbV2554m5cIGXXf99QGkLMeuM2fo4
+ nd+PvQhfz2KCYi5XqodKdoD0PYFGrupII7JGvkT/qoRyvGD26bNaz93mXnYoJMZnRb
+ XFnWTvefmgX+P1z2gr+Jco4NiaPfHaMatAsoGDDYRSF/B/F66UcGVCq1MZPngEkxbb
+ ATc163bd6VzzSwq/mqlS9wAs+dmMbqPMJWRaRKdulx3KF8yOrzO6fioAv76GkwLhaW
+ 8mgSRn8dSSdEkZ2xBqvLCaL7F8AFVEHODzDZVS1VsCgjQUrHuQJxbi9NsMQLAW+NEw
+ PupCXLjtMynFg==
+Received: by mail-il1-f177.google.com with SMTP id y17so12627273ili.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Feb 2021 05:21:48 -0800 (PST)
+X-Gm-Message-State: AOAM533LE6JaI7ScKf79sRHEDM19uRCHin8w65OeqrNIjqY/TL9NaZRp
+ wzdw/qQ+ULomAStVaa4jb5K7N9ILIIXuWA839a4=
 X-Google-Smtp-Source: ABdhPJxZjp+8gF8o8padJL0+IzzLbtZUb75SL2CM/u1HRiY8+G7HYRwykHjohne3jzUWkH/+/7nK2pb8nWzP/J4obWU=
-X-Received: by 2002:a05:6e02:1d0b:: with SMTP id i11mr15393249ila.206.1612790507545;
+X-Received: by 2002:a05:6e02:1d0b:: with SMTP id
+ i11mr15393249ila.206.1612790507545; 
  Mon, 08 Feb 2021 05:21:47 -0800 (PST)
 MIME-Version: 1.0
 References: <b6580306-fbfb-e7ac-aa4e-2476a5ee39da@linaro.org>
@@ -39,12 +52,29 @@ X-Gmail-Original-Message-ID: <CA+5PVA7OC5JeW7rug-JXiGRZRtiirGcBf9jj0geJ2ZuQDBGU-
 Message-ID: <CA+5PVA7OC5JeW7rug-JXiGRZRtiirGcBf9jj0geJ2ZuQDBGU-Q@mail.gmail.com>
 Subject: Re: linux-firmware for Qualcomm SM8250 platforms
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+X-BeenThere: dri-devel@lists.freedesktop.org
+X-Mailman-Version: 2.1.29
+Precedence: list
+List-Id: Direct Rendering Infrastructure - Development
+ <dri-devel.lists.freedesktop.org>
+List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/dri-devel>,
+ <mailto:dri-devel-request@lists.freedesktop.org?subject=unsubscribe>
+List-Archive: <https://lists.freedesktop.org/archives/dri-devel>
+List-Post: <mailto:dri-devel@lists.freedesktop.org>
+List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
+List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
+ <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, 
-	linux-arm-msm <linux-arm-msm@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
-	Jonathan Marek <jonathan@marek.ca>, Bjorn Andersson <bjorn.andersson@linaro.org>, 
-	Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Cc: Jonathan Marek <jonathan@marek.ca>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Linux Firmware <linux-firmware@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Errors-To: dri-devel-bounces@lists.freedesktop.org
+Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
+Message-ID: <20210208132136.yPiRU1ceqsYzfX5YP4TO8kQrEgPGIY_4YIMKDR85Ymw@z>
 
 Pulled and pushed out.
 
@@ -129,3 +159,7 @@ On Fri, Jan 22, 2021 at 5:12 PM Dmitry Baryshkov
 > --
 > With best wishes
 > Dmitry
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
