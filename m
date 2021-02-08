@@ -1,27 +1,53 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=Odcq=HK=lists.infradead.org=linux-mediatek-bounces+linux-mediatek=archiver.kernel.org@kernel.org>
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B71BC433DB
-	for <linux-firmware@archiver.kernel.org>; Mon,  8 Feb 2021 13:19:01 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id B7CB964E87; Mon,  8 Feb 2021 13:19:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F421E64E84
-	for <linux-firmware@kernel.org>; Mon,  8 Feb 2021 13:18:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E21EEC433DB
+	for <linux-mediatek@archiver.kernel.org>; Mon,  8 Feb 2021 13:19:33 +0000 (UTC)
+Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id 0709364E7A
+	for <linux-mediatek@archiver.kernel.org>; Mon,  8 Feb 2021 13:19:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0709364E7A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-mediatek-bounces+linux-mediatek=archiver.kernel.org@lists.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
+	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=TX6J2qwgbldRTvfkMDkPk2uAHILd4ACSmPT9SUrvnyo=; b=B3SY0iA00Wv02iJXJHsJt9r8u
+	LdKfaU2Hlw2XG7Hxctnn5VstHy5dq5OaE2kNcjBffbB9HCl83Atl4nY3UpjIG+XVIkdykqlvQ8IPO
+	YqNsjUAw6D91JFxdMEWjl0CLbwqpvtJ0s8QGgM8G09qMcIU/O/G/fjEeGjAXwt21x9VAIRRihb5YO
+	+kCkOi3WDJ4qelo3Ma20Mq/twpRrk0fQaR4FuFi63VyaeKVoEs9aL6IsgcLzDrReEEzpWyiH7aMWD
+	g+sv35G7C13Oh+OT4Yk3/SGADlcFUxRIFTylLfDbmP1mPys0f6ytjpwnXQj6VVZMI7dOd07fQo0ns
+	+p4sB6gnw==;
+Received: from localhost ([::1] helo=merlin.infradead.org)
+	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1l96RY-0005AM-7r; Mon, 08 Feb 2021 13:19:08 +0000
+Received: from mail.kernel.org ([198.145.29.99])
+ by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1l96RR-000597-HP
+ for linux-mediatek@lists.infradead.org; Mon, 08 Feb 2021 13:19:05 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CB1C364E82
+ for <linux-mediatek@lists.infradead.org>; Mon,  8 Feb 2021 13:18:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1612790340;
-	bh=U2UxfFsywH2CegM/v7d7tIC4NEgg7acowe6n1SD7r7M=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=pk0sc9lIPDXoJKE6wENEDS5CanbBKot6IQC/BBBPM5YARSZquBbYj3yppAQN1WINH
-	 t3gdJ58YI03r89VI3SuH3aIcq7gO/d91cMyUfYnroHMV/VXo8jNfj2ymhiAd0rrBkV
-	 OtPDgBxi8firEGxCLBhI8BlH9Gw+2WfoU+8ABGZaW+8hkuqVl5FL7ezrOwg/gobjFN
-	 RkBQIgp/MzWo2xTBODjOa9cqkXMWIxvOelwy+reJVly3VH2+zZ2vq6SH/fd4m0J9YE
-	 VpoEvbHw5zQQKP+pmSPAQo5Lm31dxieKeqdBJ8VbyeRk3/bkjqNcayra7mxZWHnEIo
-	 RFzt5zP2v9ONw==
-Received: by mail-il1-f173.google.com with SMTP id y15so12644043ilj.11
-        for <linux-firmware@kernel.org>; Mon, 08 Feb 2021 05:18:59 -0800 (PST)
-X-Gm-Message-State: AOAM5314ZcYx0ijwYLVbQtZnsELcavn3vtXPt1LEXTh0ZQU3WCrHbH+2
-	yIUyjGYWFD4uZbVi8dlRXF4i8SMyx01j5e2bQ5o=
+ s=k20201202; t=1612790340;
+ bh=U2UxfFsywH2CegM/v7d7tIC4NEgg7acowe6n1SD7r7M=;
+ h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+ b=pk0sc9lIPDXoJKE6wENEDS5CanbBKot6IQC/BBBPM5YARSZquBbYj3yppAQN1WINH
+ t3gdJ58YI03r89VI3SuH3aIcq7gO/d91cMyUfYnroHMV/VXo8jNfj2ymhiAd0rrBkV
+ OtPDgBxi8firEGxCLBhI8BlH9Gw+2WfoU+8ABGZaW+8hkuqVl5FL7ezrOwg/gobjFN
+ RkBQIgp/MzWo2xTBODjOa9cqkXMWIxvOelwy+reJVly3VH2+zZ2vq6SH/fd4m0J9YE
+ VpoEvbHw5zQQKP+pmSPAQo5Lm31dxieKeqdBJ8VbyeRk3/bkjqNcayra7mxZWHnEIo
+ RFzt5zP2v9ONw==
+Received: by mail-il1-f171.google.com with SMTP id e7so12631364ile.7
+ for <linux-mediatek@lists.infradead.org>; Mon, 08 Feb 2021 05:18:59 -0800 (PST)
+X-Gm-Message-State: AOAM532m9DDlj3eys/21iLUPORLFfKEKlEzVyGYZ2uRaNLsst44hZBsG
+ +A/bpES/JMMfKVxMv8yt7Ap89EzdNBMgYLk7Omg=
 X-Google-Smtp-Source: ABdhPJw/6xKHy+To94oqIMBvJAFLlkTFjwBLhaKa+hdHk8suUxy2mRUyKWp7x/ZjT8pZrycj1YhBM1HEyQdPBnk6iEg=
-X-Received: by 2002:a05:6e02:1845:: with SMTP id b5mr15740293ilv.11.1612790338324;
+X-Received: by 2002:a05:6e02:1845:: with SMTP id
+ b5mr15740293ilv.11.1612790338324; 
  Mon, 08 Feb 2021 05:18:58 -0800 (PST)
 MIME-Version: 1.0
 References: <776caca339d638b4a1c556be5b10855696f2ee21.1611394224.git.objelf@gmail.com>
@@ -32,15 +58,50 @@ X-Gmail-Original-Message-ID: <CA+5PVA66JuLBrv2pp9oY6Ro3XYkrNEk8QJQY3ED7PK7werxM1
 Message-ID: <CA+5PVA66JuLBrv2pp9oY6Ro3XYkrNEk8QJQY3ED7PK7werxM1Q@mail.gmail.com>
 Subject: Re: [PATCH v2] linux-firmware: add firmware for MT7921
 To: Sean Wang <sean.wang@mediatek.com>
+X-Spam-Note: CRM114 run bypassed due to message size (594697 bytes)
+X-Spam-Score: -5.8 (-----)
+X-Spam-Report: SpamAssassin version 3.4.4 on merlin.infradead.org summary:
+ Content analysis details:   (-5.8 points)
+ pts rule name              description
+ ---- ---------------------- --------------------------------------------------
+ -5.0 RCVD_IN_DNSWL_HI       RBL: Sender listed at https://www.dnswl.org/,
+ high trust [198.145.29.99 listed in list.dnswl.org]
+ 0.0 SPF_HELO_NONE          SPF: HELO does not publish an SPF Record
+ -0.0 SPF_PASS               SPF: sender matches SPF record
+ 0.1 DKIM_SIGNED            Message has a DKIM or DK signature, not necessarily
+ valid
+ -0.1 DKIM_VALID_AU          Message has a valid DKIM or DK signature from
+ author's domain
+ -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+ -0.1 DKIM_VALID_EF          Message has a valid DKIM or DK signature from
+ envelope-from domain
+ -0.6 DKIMWL_WL_HIGH         DKIMwl.org - High trust sender
+X-BeenThere: linux-mediatek@lists.infradead.org
+X-Mailman-Version: 2.1.29
+Precedence: list
+List-Id: <linux-mediatek.lists.infradead.org>
+List-Unsubscribe: <http://lists.infradead.org/mailman/options/linux-mediatek>, 
+ <mailto:linux-mediatek-request@lists.infradead.org?subject=unsubscribe>
+List-Archive: <http://lists.infradead.org/pipermail/linux-mediatek/>
+List-Post: <mailto:linux-mediatek@lists.infradead.org>
+List-Help: <mailto:linux-mediatek-request@lists.infradead.org?subject=help>
+List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-mediatek>, 
+ <mailto:linux-mediatek-request@lists.infradead.org?subject=subscribe>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: David Woodhouse <dwmw2@infradead.org>, Ben Hutchings <ben@decadent.org.uk>, 
-	Felix Fietkau <nbd@nbd.name>, Lorenzo Bianconi <lorenzo.bianconi@redhat.com>, Soul.Huang@mediatek.com, 
-	YN.Chen@mediatek.com, robin.chiu@mediatek.com, ch.yeh@mediatek.com, 
-	posh.sun@mediatek.com, Eric.Liang@mediatek.com, 
-	Linux Firmware <linux-firmware@kernel.org>, Linux Wireless <linux-wireless@vger.kernel.org>, 
-	linux-mediatek <linux-mediatek@lists.infradead.org>, 
-	"Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Cc: robin.chiu@mediatek.com, David Woodhouse <dwmw2@infradead.org>,
+ Eric.Liang@mediatek.com, Linux Wireless <linux-wireless@vger.kernel.org>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ posh.sun@mediatek.com, YN.Chen@mediatek.com,
+ linux-mediatek <linux-mediatek@lists.infradead.org>,
+ Linux Firmware <linux-firmware@kernel.org>, ch.yeh@mediatek.com,
+ Lorenzo Bianconi <lorenzo.bianconi@redhat.com>,
+ Ben Hutchings <ben@decadent.org.uk>, Soul.Huang@mediatek.com,
+ Felix Fietkau <nbd@nbd.name>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Sender: "Linux-mediatek" <linux-mediatek-bounces@lists.infradead.org>
+Errors-To: linux-mediatek-bounces+linux-mediatek=archiver.kernel.org@lists.infradead.org
+Message-ID: <20210208131844.X1PZydKCNcyYJLwbm7rzXpR3GqLzWa99iTfOb-nOKSE@z>
 
 Applied and pushed out.
 
@@ -8666,3 +8727,8 @@ On Sat, Jan 23, 2021 at 4:32 AM <sean.wang@mediatek.com> wrote:
 > --
 > 2.25.1
 >
+
+_______________________________________________
+Linux-mediatek mailing list
+Linux-mediatek@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-mediatek
