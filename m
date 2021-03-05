@@ -1,134 +1,101 @@
-Return-Path: <SRS0=P3NS=ID=coelho.fi=luca@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+X-Spam-Status: No, score=-20.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC841C433DB
-	for <linux-firmware@archiver.kernel.org>; Fri,  5 Mar 2021 11:01:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43D11C433E0
+	for <linux-firmware@archiver.kernel.org>; Fri,  5 Mar 2021 13:08:33 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id B85CC65019; Fri,  5 Mar 2021 11:01:12 +0000 (UTC)
-X-Greylist: delayed 2059 seconds by postgrey-1.34 at mail.kernel.org; Fri, 05 Mar 2021 11:01:12 UTC
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3411164FDF
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=coelho.fi
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=luca@coelho.fi
-Received: from farmhouse.coelho.fi (paleale.coelho.fi [176.9.41.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3411164FDF;
-	Fri,  5 Mar 2021 11:01:12 +0000 (UTC)
-Received: from 91-156-6-193.elisa-laajakaista.fi ([91.156.6.193] helo=[192.168.100.150])
-	by farmhouse.coelho.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <luca@coelho.fi>)
-	id 1lI7fQ-004PSY-5S; Fri, 05 Mar 2021 12:26:44 +0200
-Message-ID: <3f941262db82a01ff00dbdb405cc315ee4dec480.camel@coelho.fi>
-From: Luca Coelho <luca@coelho.fi>
-List-Id: <linux-firmware.lore.kernel.org>
-To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-Cc: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, 
-	"kyle@infradead.org"
-	 <kyle@infradead.org>, "jwboyer@kernel.org" <jwboyer@kernel.org>, 
-	"ben@decadent.org.uk"
-	 <ben@decadent.org.uk>, golan.ben.ami@intel.com
-Date: Fri, 05 Mar 2021 12:26:05 +0200
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-II/rxtUXLlDKK2EeA/hp"
-User-Agent: Evolution 3.38.3-1 
+	id 1DDA165014; Fri,  5 Mar 2021 13:08:33 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EF30464FE1
+	for <linux-firmware@kernel.org>; Fri,  5 Mar 2021 13:08:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1614949713;
+	bh=won+Zu+s2zJ9WjwM1hlrAZ5e/ynTi8jfRNSnLIcR+0Y=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=e+oSb5u/olo3TI6ywyFq44mJ0vo1FPSWTPsupq0HwiaGjA/Or5wfMCt+wQrPNLVr7
+	 IP5LpLx2X4v68V813pSXUDA+/j+Dwpi9HOzIBLRS3OrFidbEdSCVOOhdC4esIX7Apb
+	 by2M+GxoALBt9yEsTMoqStPgJ6OUpgdLvWCDM2cQ/NV0KZpugae2JzChFnzRMQzap1
+	 L72XVAtmh8mLNC/QWe1ZYf8tL3uQX+B+AK2499akEB/62N1qm7959+NFilCgnro5I9
+	 U78jmq1+S0lvZqcrRGpXxfYoUiBtl9+UDcxuhqIklaG0oxFN6ZJYh1YhNMjORyoMx/
+	 yG98qUwuaipgg==
+Received: by mail-il1-f172.google.com with SMTP id e2so1941345ilu.0
+        for <linux-firmware@kernel.org>; Fri, 05 Mar 2021 05:08:32 -0800 (PST)
+X-Gm-Message-State: AOAM533By5ukSYT9yLsmEfjyy9o9EuhdOuQBbLfEt+yF18TYYMLOjzQR
+	lKROLd6jP35wB2I/wJKaqRi87FacqJJ7FZfNxOA=
+X-Google-Smtp-Source: ABdhPJwkZfwRCMBt0EZHcxDQVjwKr5nRrGSSsH8KaUc5ivLE1aBAmVAfv6EIB2caXkwjlpXbW20AwSCKcKGREBzY1Vg=
+X-Received: by 2002:a05:6e02:216f:: with SMTP id s15mr8924296ilv.81.1614949712437;
+ Fri, 05 Mar 2021 05:08:32 -0800 (PST)
 MIME-Version: 1.0
-Subject: pull request: iwlwifi firmware updates 2021-03-05
-Message-ID: <20210305102605.WyzVvuGij7ck3qBIDM4aDQLMQrC1TJ4HTUJPRKIPPkI@z>
-
-
---=-II/rxtUXLlDKK2EeA/hp
+References: <2833354.gXvVfaC4I7@pc-42>
+In-Reply-To: <2833354.gXvVfaC4I7@pc-42>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Fri, 5 Mar 2021 08:08:20 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA62OvSOkdw_x=oGgXHcD1y5zz9cf0cdthKgGHddH30eRw@mail.gmail.com>
+Message-ID: <CA+5PVA62OvSOkdw_x=oGgXHcD1y5zz9cf0cdthKgGHddH30eRw@mail.gmail.com>
+Subject: Re: pull-request: linux-firmware: silabs: add new firmware for WF200
+To: =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?= <jerome.pouiller@silabs.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: Linux Firmware <linux-firmware@kernel.org>, 
+	Linux Wireless <linux-wireless@vger.kernel.org>, Kalle Valo <kvalo@codeaurora.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Wed, Mar 3, 2021 at 12:27 PM J=C3=A9r=C3=B4me Pouiller
+<jerome.pouiller@silabs.com> wrote:
+>
+> Hello,
+>
+> I know that PRs are less convenient for review, but it seems that my patc=
+h
+> does not want to reach the MLs (because it is too big?).
 
-This contains some new and updated firmwares for all our currently
-maintained FW binaries.
+I got both copies :)  I actually prefer PRs for firmware because
+otherwise it's 1% things we can review and the other 99% is megabytes
+of non-readable stuff anyway.
 
-Please pull or let me know if there are any issues.
+> So, this PR contains only one commit. It adds the firmware for Silabs
+> WF200. This firmware is necessary for the wfx driver currently hosted in
+> the staging/ directory of the Linux kernel.
 
---
-Cheers,
-Luca.
+Pulled and pushed out.
 
+josh
 
-The following changes since commit 5ecd13ffe8e24385cf4f30f3d0dcaff4dfb24de2=
-:
-
-  Mellanox: Add new mlxsw_spectrum firmware xx.2008.2406 (2021-03-03 13:23:=
-49 -0500)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-firmware.gi=
-t iwlwifi-fw-2021-03-05
-
-for you to fetch changes up to 568016467deab716b8a382bf087209b781d4bca7:
-
-  iwlwifi: add new FWs from core59-66 release (2021-03-05 12:18:25 +0200)
-
-----------------------------------------------------------------
-Update iwlwifi firmwares to Core59-66
-
-----------------------------------------------------------------
-Luca Coelho (3):
-      iwlwifi: update 7265D firmware
-      iwlwifi: update 9000-family firmwares
-      iwlwifi: add new FWs from core59-66 release
-
- WHENCE                            |  34 +++++++++++++++++++++++++++++++++-
- iwlwifi-7265D-29.ucode            | Bin 1036444 -> 1036772 bytes
- iwlwifi-9000-pu-b0-jf-b0-46.ucode | Bin 1512096 -> 1514240 bytes
- iwlwifi-9260-th-b0-jf-b0-46.ucode | Bin 1483116 -> 1485556 bytes
- iwlwifi-Qu-b0-hr-b0-62.ucode      | Bin 0 -> 1329296 bytes
- iwlwifi-Qu-b0-jf-b0-62.ucode      | Bin 0 -> 1248672 bytes
- iwlwifi-Qu-c0-hr-b0-62.ucode      | Bin 0 -> 1329312 bytes
- iwlwifi-Qu-c0-jf-b0-62.ucode      | Bin 0 -> 1248688 bytes
- iwlwifi-QuZ-a0-hr-b0-62.ucode     | Bin 0 -> 1328924 bytes
- iwlwifi-QuZ-a0-jf-b0-62.ucode     | Bin 0 -> 1248672 bytes
- iwlwifi-cc-a0-62.ucode            | Bin 0 -> 1292672 bytes
- iwlwifi-ty-a0-gf-a0-62.ucode      | Bin 0 -> 1455104 bytes
- iwlwifi-ty-a0-gf-a0.pnvm          | Bin 0 -> 27456 bytes
- 13 files changed, 33 insertions(+), 1 deletion(-)
- create mode 100644 iwlwifi-Qu-b0-hr-b0-62.ucode
- create mode 100644 iwlwifi-Qu-b0-jf-b0-62.ucode
- create mode 100644 iwlwifi-Qu-c0-hr-b0-62.ucode
- create mode 100644 iwlwifi-Qu-c0-jf-b0-62.ucode
- create mode 100644 iwlwifi-QuZ-a0-hr-b0-62.ucode
- create mode 100644 iwlwifi-QuZ-a0-jf-b0-62.ucode
- create mode 100644 iwlwifi-cc-a0-62.ucode
- create mode 100644 iwlwifi-ty-a0-gf-a0-62.ucode
- create mode 100644 iwlwifi-ty-a0-gf-a0.pnvm
-
-
---=-II/rxtUXLlDKK2EeA/hp
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEF3LNfgb2BPWm68smoUecoho8xfoFAmBCBz0ACgkQoUecoho8
-xfptmg/9EGl6/fLQE6eyDvZsQJsHtvWXizGfVcGHuLXobNGdqse9KhTgdf9KJFsn
-LLWV0x7aHD+QTO+xtMz5OlAoRQ6ELw5/PjNKniz0vz8xXMRquev912NWUOL+Aagg
-CfyQVC7W9q2VoThT2/6pPhh0zK3YInCcRSAOFLf5E6auZqYsoKcs740gx6YT0JlB
-ZryIVqUm3EBqV/bpEvow32UeZ5yF+aWpEmIORYCCwFo/dvb6XrodgwLl2bmkt/yq
-IIHgeA62b/W1llY5Ba4hvvFwdgLgLpok5MrTW/w76DWWrqmDUE0YfntiP9DzDByV
-mq3W9I7ZT6iw/fZSDFk0KMPg5a8J0ZOaUwzECJqd9QFy5eirzR6i0KPAfip+5OB7
-X3qZFTqO1nZHNDxiTxQt5PyRipaieXSFN/0fYHgrmgwg/h89+XzVOHfEoEijq2hU
-EQKFEZZcIDYlVNg0tAKLjG87lDIOfNNoaGe5TujYbwjCegb8rtED1QndxD9Mf9xN
-WDToeFiazx7wZ/dfoR3KJBjAXyD6LUeQoWXDhO9MP+a1073eY5kvTBIK9RFc7YGI
-FKLUARfEQnGEtS7I9numbVEbrmrM8mCJOONBHEVCkQ5peC6loXnIcyE3nKKO5okk
-sHSF7JA99gtUD719JrwkOAJ+ppwCk8spz6agIp2J8kGxOYcljyw=
-=u406
------END PGP SIGNATURE-----
-
---=-II/rxtUXLlDKK2EeA/hp--
-
+>
+> J=C3=A9r=C3=B4me Pouiller
+>
+>
+> The following changes since commit f7915a0c29fee27a310cebd7155b9e3a6eb71a=
+1d:
+>
+>   amdgpu: add initial firmware for green sardine (2021-02-11 09:31:02 -05=
+00)
+>
+> are available in the Git repository at:
+>
+>   git@github.com:jerome-pouiller/linux-firmware.git add-silabs-wf200
+>
+> for you to fetch changes up to 520f71bdedba1b0687b0d9fbd86ff9e84a56677b:
+>
+>   silabs: add new firmware for WF200 (2021-03-02 14:32:33 +0100)
+>
+> ----------------------------------------------------------------
+> J=C3=A9r=C3=B4me Pouiller (1):
+>       silabs: add new firmware for WF200
+>
+>  WHENCE                  |  10 ++++++++++
+>  silabs/LICENCE.wf200    | 115 ++++++++++++++++++++++++++++++++++++++++++=
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  silabs/wfm_wf200_C0.sec | Bin 0 -> 305232 bytes
+>  3 files changed, 125 insertions(+)
+>  create mode 100644 silabs/LICENCE.wf200
+>  create mode 100644 silabs/wfm_wf200_C0.sec
+>
+>
+>
+>
