@@ -1,209 +1,130 @@
-Return-Path: <SRS0=SSn9=II=tmb.nu=tmb@kernel.org>
+Return-Path: <SRS0=LgQV=II=coelho.fi=luca@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,
-	INCLUDES_PATCH,INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1641DC433DB
-	for <linux-firmware@archiver.kernel.org>; Wed, 10 Mar 2021 09:09:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15798C433E6
+	for <linux-firmware@archiver.kernel.org>; Wed, 10 Mar 2021 09:26:50 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id CA01664FFA; Wed, 10 Mar 2021 09:09:46 +0000 (UTC)
-Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch [185.70.40.136])
+	id C3A8764FF7; Wed, 10 Mar 2021 09:26:49 +0000 (UTC)
+Received: from farmhouse.coelho.fi (paleale.coelho.fi [176.9.41.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 955DD64F2D
-	for <linux-firmware@kernel.org>; Wed, 10 Mar 2021 09:09:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 955DD64F2D
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=tmb.nu
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=tmb@tmb.nu
-Date: Wed, 10 Mar 2021 09:09:36 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tmb.nu;
-	s=protonmail; t=1615367381;
-	bh=uKc026Xv2DRMk7ha+MeVpIW+SujfM/e8YMAlVs6VbRE=;
-	h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-	b=jtclYfDexMoFbu37e2ygEuh0v32Y1DFBPdWtJoe/IaZucNDkh9Eh/FVNjz2nM3BUL
-	 6e4kNMdb7LZJXKpL0PHlP0n5w1aD38echU73wy9MMPRNsXUmej6jnXK3TOJfHjYajh
-	 3oJinkrqMSgvrJpX93OtO8ByV5WXJcciYIE58oFQ=
+	by mail.kernel.org (Postfix) with ESMTPS id 33F5D64F7D;
+	Wed, 10 Mar 2021 09:26:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 33F5D64F7D
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=coelho.fi
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=luca@coelho.fi
+Received: from 91-156-6-193.elisa-laajakaista.fi ([91.156.6.193] helo=[192.168.100.150])
+	by farmhouse.coelho.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <luca@coelho.fi>)
+	id 1lJv6z-004SIf-95; Wed, 10 Mar 2021 11:26:38 +0200
+Message-ID: <42eb781e8f89b92ff54a4d65b0916d420eb2a381.camel@coelho.fi>
+From: Luca Coelho <luca@coelho.fi>
 List-Id: <linux-firmware.lore.kernel.org>
-To: Luca Coelho <luca@coelho.fi>, "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-From: Thomas Backlund <tmb@tmb.nu>
-Cc: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, "kyle@infradead.org" <kyle@infradead.org>, "jwboyer@kernel.org" <jwboyer@kernel.org>, "ben@decadent.org.uk" <ben@decadent.org.uk>, golan.ben.ami@intel.com
-Reply-To: Thomas Backlund <tmb@tmb.nu>
-Subject: Re: pull request: iwlwifi firmware updates 2021-03-05-v2
-Message-ID: <69d01bfd-a15f-2ebb-b55a-c6864a065e1f@tmb.nu>
-In-Reply-To: <8e3877efc92f413d47ee1d71a119885c765d7312.camel@coelho.fi>
+To: Thomas Backlund <tmb@tmb.nu>, "linux-firmware@kernel.org"
+	 <linux-firmware@kernel.org>
+Cc: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, 
+	"kyle@infradead.org"
+	 <kyle@infradead.org>, "jwboyer@kernel.org" <jwboyer@kernel.org>, 
+	"ben@decadent.org.uk"
+	 <ben@decadent.org.uk>, golan.ben.ami@intel.com
+Date: Wed, 10 Mar 2021 11:26:35 +0200
+In-Reply-To: <69d01bfd-a15f-2ebb-b55a-c6864a065e1f@tmb.nu>
 References: <8e3877efc92f413d47ee1d71a119885c765d7312.camel@coelho.fi>
+	 <69d01bfd-a15f-2ebb-b55a-c6864a065e1f@tmb.nu>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="b1_DPJuGbkN0f8KNVjknTMk32o5RgDZ11Q2KQ87goxanYI"
+Content-Transfer-Encoding: 8bit
+Subject: Re: pull request: iwlwifi firmware updates 2021-03-05-v2
 
-This is a multi-part message in MIME format.
+Your email was in HTML, so it probably didn't reach the list.
 
---b1_DPJuGbkN0f8KNVjknTMk32o5RgDZ11Q2KQ87goxanYI
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
+On Wed, 2021-03-10 at 09:09 +0000, Thomas Backlund wrote:
+> 
+> More  "issues"...
+> 
+> Den 9.3.2021 kl. 13:57, skrev Luca Coelho:
+> Hi,
+> 
+> This is v2 of my update which contains some new and updated files for
+> all our currently maintained FW binaries.
+> 
+> In v2:
+> 
+>    * Fixed WHENCE so that the new files match, with "62" instead of
+>    "59".
+> 
+> Please pull or let me know if there are any issues.
+> 
+> --
+> Cheers,
+> Luca.
+> 
+> 
+> The following changes since commit
+> 5ecd13ffe8e24385cf4f30f3d0dcaff4dfb24de2:
+> 
+>   Mellanox: Add new mlxsw_spectrum firmware xx.2008.2406 (2021-03-03
+> 13:23:49 -0500)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-
+> firmware.git iwlwifi-fw-2021-03-05-v2
+> 
+> for you to fetch changes up to
+> b46d336044c448987589bd6cf3057f404c5581ad:
+> 
+>   iwlwifi: add new FWs from core59-66 release (2021-03-09 13:51:26
+> +0200)
+> 
+> ----------------------------------------------------------------
+> Update iwlwifi firmwares to Core59-66
+> 
+> ----------------------------------------------------------------
+> Luca Coelho (3):
+>       iwlwifi: update 7265D firmware
+> 
+> This one looks old... stuck in limbo for over 1.5 years... is that
+> correct ?
+> author    Luca Coelho <luciano.coelho@intel.com>    2019-08-23
+> 07:35:14 +0300
+>  committer    Luca Coelho <luciano.coelho@intel.com>    2021-03-05
+> 11:37:56 +0200
 
-TW9yZSAiaXNzdWVzIi4uLgoKRGVuIDkuMy4yMDIxIGtsLiAxMzo1Nywgc2tyZXYgTHVjYSBDb2Vs
-aG86Cgo+IEhpLAo+Cj4gVGhpcyBpcyB2MiBvZiBteSB1cGRhdGUgd2hpY2ggY29udGFpbnMgc29t
-ZSBuZXcgYW5kIHVwZGF0ZWQgZmlsZXMgZm9yCj4gYWxsIG91ciBjdXJyZW50bHkgbWFpbnRhaW5l
-ZCBGVyBiaW5hcmllcy4KPgo+IEluIHYyOgo+Cj4gICAgKiBGaXhlZCBXSEVOQ0Ugc28gdGhhdCB0
-aGUgbmV3IGZpbGVzIG1hdGNoLCB3aXRoICI2MiIgaW5zdGVhZCBvZgo+ICAgICI1OSIuCj4KPiBQ
-bGVhc2UgcHVsbCBvciBsZXQgbWUga25vdyBpZiB0aGVyZSBhcmUgYW55IGlzc3Vlcy4KPgo+IC0t
-Cj4gQ2hlZXJzLAo+IEx1Y2EuCj4KPiBUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2luY2UgY29tbWl0
-IDVlY2QxM2ZmZThlMjQzODVjZjRmMzBmM2QwZGNhZmY0ZGZiMjRkZTI6Cj4KPiAgIE1lbGxhbm94
-OiBBZGQgbmV3IG1seHN3X3NwZWN0cnVtIGZpcm13YXJlIHh4LjIwMDguMjQwNiAoMjAyMS0wMy0w
-MyAxMzoyMzo0OSAtMDUwMCkKPgo+IGFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCByZXBvc2l0b3J5
-IGF0Ogo+Cj4gICBnaXQ6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQv
-aXdsd2lmaS9pd2x3aWZpLWZpcm13YXJlLmdpdCBpd2x3aWZpLWZ3LTIwMjEtMDMtMDUtdjIKPgo+
-IGZvciB5b3UgdG8gZmV0Y2ggY2hhbmdlcyB1cCB0byBiNDZkMzM2MDQ0YzQ0ODk4NzU4OWJkNmNm
-MzA1N2Y0MDRjNTU4MWFkOgo+Cj4gICBpd2x3aWZpOiBhZGQgbmV3IEZXcyBmcm9tIGNvcmU1OS02
-NiByZWxlYXNlICgyMDIxLTAzLTA5IDEzOjUxOjI2ICswMjAwKQo+Cj4gLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+IFVwZGF0
-ZSBpd2x3aWZpIGZpcm13YXJlcyB0byBDb3JlNTktNjYKPgo+IC0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiBMdWNhIENvZWxo
-byAoMyk6Cj4gICAgICAgaXdsd2lmaTogdXBkYXRlIDcyNjVEIGZpcm13YXJlCgpUaGlzIG9uZSBs
-b29rcyBvbGQuLi4gc3R1Y2sgaW4gbGltYm8gZm9yIG92ZXIgMS41IHllYXJzLi4uIGlzIHRoYXQg
-Y29ycmVjdCA/CgphdXRob3IgTHVjYSBDb2VsaG8gWzxsdWNpYW5vLmNvZWxob0BpbnRlbC5jb20+
-XShtYWlsdG86bHVjaWFuby5jb2VsaG9AaW50ZWwuY29tKSAyMDE5LTA4LTIzIDA3OjM1OjE0ICsw
-MzAwCmNvbW1pdHRlciBMdWNhIENvZWxobyBbPGx1Y2lhbm8uY29lbGhvQGludGVsLmNvbT5dKG1h
-aWx0bzpsdWNpYW5vLmNvZWxob0BpbnRlbC5jb20pIDIwMjEtMDMtMDUgMTE6Mzc6NTYgKzAyMDAK
-Cj4gaXdsd2lmaTogdXBkYXRlIDkwMDAtZmFtaWx5IGZpcm13YXJlcwoKVGhpcyBvbmUgYWRkcyBk
-dXBsaWNhdGVkIGZpbGVpbmZvIGluIFdIRU5DRQoKaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIv
-c2NtL2xpbnV4L2tlcm5lbC9naXQvaXdsd2lmaS9saW51eC1maXJtd2FyZS5naXQvY29tbWl0Lz9p
-ZD1hNjcyMDUwNGM4MTJjMWU4YjA5NzlhODFkMTViNmNlNmI0ZDg3YWU3CgppbnN0ZWFkIG9mIHVw
-ZGF0aW5nIGV4aXN0aW5nIG9uZXMuCgo+IGl3bHdpZmk6IGFkZCBuZXcgRldzIGZyb20gY29yZTU5
-LTY2IHJlbGVhc2UKClRoaXMgb25lIHN0aWxsIGFkZHMgc29tZSBkdXBsaWNhdGVkIFdIRU5DRSBz
-dHVmZiBmb3IgKi01OS51Y29kZToKCmh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51
-eC9rZXJuZWwvZ2l0L2l3bHdpZmkvbGludXgtZmlybXdhcmUuZ2l0L2NvbW1pdC8/aWQ9YjQ2ZDMz
-NjA0NGM0NDg5ODc1ODliZDZjZjMwNTdmNDA0YzU1ODFhZAoKK0ZpbGU6IGl3bHdpZmktY2MtYTAt
-NTkudWNvZGUKK1ZlcnNpb246IDU5LjQ5ZWViNTcyLjAKKworRmlsZTogaXdsd2lmaS1RdS1iMC1o
-ci1iMC01OS51Y29kZQorVmVyc2lvbjogNTkuNDllZWI1NzIuMAoKPiBXSEVOQ0UgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgfCAgMzQgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-LQo+ICBpd2x3aWZpLTcyNjVELTI5LnVjb2RlICAgICAgICAgICAgfCBCaW4gMTAzNjQ0NCAtPiAx
-MDM2NzcyIGJ5dGVzCj4gIGl3bHdpZmktOTAwMC1wdS1iMC1qZi1iMC00Ni51Y29kZSB8IEJpbiAx
-NTEyMDk2IC0+IDE1MTQyNDAgYnl0ZXMKPiAgaXdsd2lmaS05MjYwLXRoLWIwLWpmLWIwLTQ2LnVj
-b2RlIHwgQmluIDE0ODMxMTYgLT4gMTQ4NTU1NiBieXRlcwo+ICBpd2x3aWZpLVF1LWIwLWhyLWIw
-LTYyLnVjb2RlICAgICAgfCBCaW4gMCAtPiAxMzI5Mjk2IGJ5dGVzCj4gIGl3bHdpZmktUXUtYjAt
-amYtYjAtNjIudWNvZGUgICAgICB8IEJpbiAwIC0+IDEyNDg2NzIgYnl0ZXMKPiAgaXdsd2lmaS1R
-dS1jMC1oci1iMC02Mi51Y29kZSAgICAgIHwgQmluIDAgLT4gMTMyOTMxMiBieXRlcwo+ICBpd2x3
-aWZpLVF1LWMwLWpmLWIwLTYyLnVjb2RlICAgICAgfCBCaW4gMCAtPiAxMjQ4Njg4IGJ5dGVzCj4g
-IGl3bHdpZmktUXVaLWEwLWhyLWIwLTYyLnVjb2RlICAgICB8IEJpbiAwIC0+IDEzMjg5MjQgYnl0
-ZXMKPiAgaXdsd2lmaS1RdVotYTAtamYtYjAtNjIudWNvZGUgICAgIHwgQmluIDAgLT4gMTI0ODY3
-MiBieXRlcwo+ICBpd2x3aWZpLWNjLWEwLTYyLnVjb2RlICAgICAgICAgICAgfCBCaW4gMCAtPiAx
-MjkyNjcyIGJ5dGVzCj4gIGl3bHdpZmktdHktYTAtZ2YtYTAtNjIudWNvZGUgICAgICB8IEJpbiAw
-IC0+IDE0NTUxMDQgYnl0ZXMKPiAgaXdsd2lmaS10eS1hMC1nZi1hMC5wbnZtICAgICAgICAgIHwg
-QmluIDAgLT4gMjc0NTYgYnl0ZXMKPiAgMTMgZmlsZXMgY2hhbmdlZCwgMzMgaW5zZXJ0aW9ucygr
-KSwgMSBkZWxldGlvbigtKQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgaXdsd2lmaS1RdS1iMC1oci1i
-MC02Mi51Y29kZQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgaXdsd2lmaS1RdS1iMC1qZi1iMC02Mi51
-Y29kZQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgaXdsd2lmaS1RdS1jMC1oci1iMC02Mi51Y29kZQo+
-ICBjcmVhdGUgbW9kZSAxMDA2NDQgaXdsd2lmaS1RdS1jMC1qZi1iMC02Mi51Y29kZQo+ICBjcmVh
-dGUgbW9kZSAxMDA2NDQgaXdsd2lmaS1RdVotYTAtaHItYjAtNjIudWNvZGUKPiAgY3JlYXRlIG1v
-ZGUgMTAwNjQ0IGl3bHdpZmktUXVaLWEwLWpmLWIwLTYyLnVjb2RlCj4gIGNyZWF0ZSBtb2RlIDEw
-MDY0NCBpd2x3aWZpLWNjLWEwLTYyLnVjb2RlCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBpd2x3aWZp
-LXR5LWEwLWdmLWEwLTYyLnVjb2RlCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBpd2x3aWZpLXR5LWEw
-LWdmLWEwLnBudm0=
+Oh, I just reused the commit message from before and edited it as
+needed.  Does it really matter?
 
---b1_DPJuGbkN0f8KNVjknTMk32o5RgDZ11Q2KQ87goxanYI
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: base64
+>       iwlwifi: update 9000-family firmwares
+> 
+> This one adds duplicated fileinfo in WHENCE
+>  
+> https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.git/commit/?id=a6720504c812c1e8b0979a81d15b6ce6b4d87ae7
+> instead of updating existing ones.
 
-PGh0bWw+PGhlYWQ+DQogICAgPG1ldGEgaHR0cC1lcXVpdj0iQ29udGVudC1UeXBlIiBjb250ZW50
-PSJ0ZXh0L2h0bWw7IGNoYXJzZXQ9VVRGLTgiLz4NCiAgPC9oZWFkPg0KICA8Ym9keT4NCiAgICA8
-cD48YnIvPg0KICAgIDwvcD4NCiAgICA8cD5Nb3JlwqAgJiMzNDtpc3N1ZXMmIzM0Oy4uLjxici8+
-DQogICAgPC9wPg0KICAgIDxwPjxici8+DQogICAgPC9wPg0KICAgIDxkaXYgY2xhc3M9Im1vei1j
-aXRlLXByZWZpeCI+RGVuIDkuMy4yMDIxIGtsLiAxMzo1Nywgc2tyZXYgTHVjYQ0KICAgICAgQ29l
-bGhvOjxici8+DQogICAgPC9kaXY+DQogICAgPGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSIgY2l0ZT0i
-bWlkOjhlMzg3N2VmYzkyZjQxM2Q0N2VlMWQ3MWExMTk4ODVjNzY1ZDczMTIuY2FtZWxAY29lbGhv
-LmZpIj4NCiAgICAgIDxwcmUgY2xhc3M9Im1vei1xdW90ZS1wcmUiIHdyYXA9IiI+SGksDQoNClRo
-aXMgaXMgdjIgb2YgbXkgdXBkYXRlIHdoaWNoIGNvbnRhaW5zIHNvbWUgbmV3IGFuZCB1cGRhdGVk
-IGZpbGVzIGZvcg0KYWxsIG91ciBjdXJyZW50bHkgbWFpbnRhaW5lZCBGVyBiaW5hcmllcy4NCg0K
-SW4gdjI6DQoNCiAgICogRml4ZWQgV0hFTkNFIHNvIHRoYXQgdGhlIG5ldyBmaWxlcyBtYXRjaCwg
-d2l0aCAmIzM0OzYyJiMzNDsgaW5zdGVhZCBvZg0KICAgJiMzNDs1OSYjMzQ7Lg0KDQpQbGVhc2Ug
-cHVsbCBvciBsZXQgbWUga25vdyBpZiB0aGVyZSBhcmUgYW55IGlzc3Vlcy4NCg0KLS0NCkNoZWVy
-cywNCkx1Y2EuDQoNCg0KVGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCA1ZWNkMTNm
-ZmU4ZTI0Mzg1Y2Y0ZjMwZjNkMGRjYWZmNGRmYjI0ZGUyOg0KDQogIE1lbGxhbm94OiBBZGQgbmV3
-IG1seHN3X3NwZWN0cnVtIGZpcm13YXJlIHh4LjIwMDguMjQwNiAoMjAyMS0wMy0wMyAxMzoyMzo0
-OSAtMDUwMCkNCg0KYXJlIGF2YWlsYWJsZSBpbiB0aGUgR2l0IHJlcG9zaXRvcnkgYXQ6DQoNCiAg
-Z2l0Oi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2l3bHdpZmkvaXds
-d2lmaS1maXJtd2FyZS5naXQgaXdsd2lmaS1mdy0yMDIxLTAzLTA1LXYyDQoNCmZvciB5b3UgdG8g
-ZmV0Y2ggY2hhbmdlcyB1cCB0byBiNDZkMzM2MDQ0YzQ0ODk4NzU4OWJkNmNmMzA1N2Y0MDRjNTU4
-MWFkOg0KDQogIGl3bHdpZmk6IGFkZCBuZXcgRldzIGZyb20gY29yZTU5LTY2IHJlbGVhc2UgKDIw
-MjEtMDMtMDkgMTM6NTE6MjYgKzAyMDApDQoNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NClVwZGF0ZSBpd2x3aWZpIGZpcm13
-YXJlcyB0byBDb3JlNTktNjYNCg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KTHVjYSBDb2VsaG8gKDMpOg0KICAgICAgaXds
-d2lmaTogdXBkYXRlIDcyNjVEIGZpcm13YXJlPC9wcmU+DQogICAgPC9ibG9ja3F1b3RlPg0KICAg
-IDxwPjxici8+DQogICAgPC9wPg0KICAgIDxwPlRoaXMgb25lIGxvb2tzIG9sZC4uLiBzdHVjayBp
-biBsaW1ibyBmb3Igb3ZlciAxLjUgeWVhcnMuLi4gaXMNCiAgICAgIHRoYXQgY29ycmVjdCA/PGJy
-Lz4NCiAgICA8L3A+DQogICAgPHA+YXV0aG9ywqDCoMKgIEx1Y2EgQ29lbGhvIDxhIGNsYXNzPSJt
-b3otdHh0LWxpbmstcmZjMjM5NkUiIGhyZWY9Im1haWx0bzpsdWNpYW5vLmNvZWxob0BpbnRlbC5j
-b20iPiZsdDtsdWNpYW5vLmNvZWxob0BpbnRlbC5jb20mZ3Q7PC9hPsKgwqDCoA0KICAgICAgMjAx
-OS0wOC0yMyAwNzozNToxNCArMDMwMDxici8+DQogICAgICBjb21taXR0ZXLCoMKgwqAgTHVjYSBD
-b2VsaG8gPGEgY2xhc3M9Im1vei10eHQtbGluay1yZmMyMzk2RSIgaHJlZj0ibWFpbHRvOmx1Y2lh
-bm8uY29lbGhvQGludGVsLmNvbSI+Jmx0O2x1Y2lhbm8uY29lbGhvQGludGVsLmNvbSZndDs8L2E+
-wqDCoMKgDQogICAgICAyMDIxLTAzLTA1IDExOjM3OjU2ICswMjAwPGJyLz4NCiAgICA8L3A+DQog
-ICAgPHA+PGJyLz4NCiAgICA8L3A+DQogICAgPHA+DQogICAgPC9wPg0KICAgIDxibG9ja3F1b3Rl
-IHR5cGU9ImNpdGUiIGNpdGU9Im1pZDo4ZTM4NzdlZmM5MmY0MTNkNDdlZTFkNzFhMTE5ODg1Yzc2
-NWQ3MzEyLmNhbWVsQGNvZWxoby5maSI+DQogICAgICA8cHJlIGNsYXNzPSJtb3otcXVvdGUtcHJl
-IiB3cmFwPSIiPiAgICAgIGl3bHdpZmk6IHVwZGF0ZSA5MDAwLWZhbWlseSBmaXJtd2FyZXM8L3By
-ZT4NCiAgICA8L2Jsb2NrcXVvdGU+DQogICAgPHA+PGJyLz4NCiAgICA8L3A+DQogICAgPHA+VGhp
-cyBvbmUgYWRkcyBkdXBsaWNhdGVkIGZpbGVpbmZvIGluIFdIRU5DRTwvcD4NCiAgICA8cD48YSBj
-bGFzcz0ibW96LXR4dC1saW5rLWZyZWV0ZXh0IiBocmVmPSJodHRwczovL2dpdC5rZXJuZWwub3Jn
-L3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9pd2x3aWZpL2xpbnV4LWZpcm13YXJlLmdpdC9jb21t
-aXQvP2lkPWE2NzIwNTA0YzgxMmMxZThiMDk3OWE4MWQxNWI2Y2U2YjRkODdhZTciPmh0dHBzOi8v
-Z2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2l3bHdpZmkvbGludXgtZmly
-bXdhcmUuZ2l0L2NvbW1pdC8/aWQ9YTY3MjA1MDRjODEyYzFlOGIwOTc5YTgxZDE1YjZjZTZiNGQ4
-N2FlNzwvYT48L3A+DQogICAgPHA+aW5zdGVhZCBvZiB1cGRhdGluZyBleGlzdGluZyBvbmVzLjwv
-cD4NCiAgICA8cD48YnIvPg0KICAgIDwvcD4NCiAgICA8YmxvY2txdW90ZSB0eXBlPSJjaXRlIiBj
-aXRlPSJtaWQ6OGUzODc3ZWZjOTJmNDEzZDQ3ZWUxZDcxYTExOTg4NWM3NjVkNzMxMi5jYW1lbEBj
-b2VsaG8uZmkiPg0KICAgICAgPHByZSBjbGFzcz0ibW96LXF1b3RlLXByZSIgd3JhcD0iIj4gICAg
-ICBpd2x3aWZpOiBhZGQgbmV3IEZXcyBmcm9tIGNvcmU1OS02NiByZWxlYXNlDQo8L3ByZT4NCiAg
-ICA8L2Jsb2NrcXVvdGU+DQogICAgPHA+PGJyLz4NCiAgICA8L3A+DQogICAgPHA+VGhpcyBvbmUg
-c3RpbGwgYWRkcyBzb21lIGR1cGxpY2F0ZWQgV0hFTkNFIHN0dWZmIGZvcsKgICotNTkudWNvZGU6
-PC9wPg0KICAgIDxkaXYgY2xhc3M9ImFkZCI+PGEgY2xhc3M9Im1vei10eHQtbGluay1mcmVldGV4
-dCIgaHJlZj0iaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQv
-aXdsd2lmaS9saW51eC1maXJtd2FyZS5naXQvY29tbWl0Lz9pZD1iNDZkMzM2MDQ0YzQ0ODk4NzU4
-OWJkNmNmMzA1N2Y0MDRjNTU4MWFkIj5odHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGlu
-dXgva2VybmVsL2dpdC9pd2x3aWZpL2xpbnV4LWZpcm13YXJlLmdpdC9jb21taXQvP2lkPWI0NmQz
-MzYwNDRjNDQ4OTg3NTg5YmQ2Y2YzMDU3ZjQwNGM1NTgxYWQ8L2E+PC9kaXY+DQogICAgPGRpdiBj
-bGFzcz0iYWRkIj48YnIvPg0KICAgIDwvZGl2Pg0KICAgIDxkaXYgY2xhc3M9ImFkZCI+K0ZpbGU6
-IGl3bHdpZmktY2MtYTAtNTkudWNvZGU8L2Rpdj4NCiAgICA8ZGl2IGNsYXNzPSJhZGQiPitWZXJz
-aW9uOiA1OS40OWVlYjU3Mi4wPC9kaXY+DQogICAgPGRpdiBjbGFzcz0iYWRkIj4rPC9kaXY+DQog
-ICAgPGRpdiBjbGFzcz0iYWRkIj4rRmlsZTogaXdsd2lmaS1RdS1iMC1oci1iMC01OS51Y29kZTwv
-ZGl2Pg0KICAgIDxkaXYgY2xhc3M9ImFkZCI+K1ZlcnNpb246IDU5LjQ5ZWViNTcyLjA8L2Rpdj4N
-CiAgICA8ZGl2IGNsYXNzPSJhZGQiPjxici8+DQogICAgPC9kaXY+DQogICAgPGRpdiBjbGFzcz0i
-YWRkIj48YnIvPg0KICAgIDwvZGl2Pg0KICAgIDxibG9ja3F1b3RlIHR5cGU9ImNpdGUiIGNpdGU9
-Im1pZDo4ZTM4NzdlZmM5MmY0MTNkNDdlZTFkNzFhMTE5ODg1Yzc2NWQ3MzEyLmNhbWVsQGNvZWxo
-by5maSI+DQogICAgICA8cHJlIGNsYXNzPSJtb3otcXVvdGUtcHJlIiB3cmFwPSIiPiBXSEVOQ0Ug
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMzQgKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrLQ0KIGl3bHdpZmktNzI2NUQtMjkudWNvZGUgICAgICAgICAgICB8IEJpbiAxMDM2
-NDQ0IC0mZ3Q7IDEwMzY3NzIgYnl0ZXMNCiBpd2x3aWZpLTkwMDAtcHUtYjAtamYtYjAtNDYudWNv
-ZGUgfCBCaW4gMTUxMjA5NiAtJmd0OyAxNTE0MjQwIGJ5dGVzDQogaXdsd2lmaS05MjYwLXRoLWIw
-LWpmLWIwLTQ2LnVjb2RlIHwgQmluIDE0ODMxMTYgLSZndDsgMTQ4NTU1NiBieXRlcw0KIGl3bHdp
-ZmktUXUtYjAtaHItYjAtNjIudWNvZGUgICAgICB8IEJpbiAwIC0mZ3Q7IDEzMjkyOTYgYnl0ZXMN
-CiBpd2x3aWZpLVF1LWIwLWpmLWIwLTYyLnVjb2RlICAgICAgfCBCaW4gMCAtJmd0OyAxMjQ4Njcy
-IGJ5dGVzDQogaXdsd2lmaS1RdS1jMC1oci1iMC02Mi51Y29kZSAgICAgIHwgQmluIDAgLSZndDsg
-MTMyOTMxMiBieXRlcw0KIGl3bHdpZmktUXUtYzAtamYtYjAtNjIudWNvZGUgICAgICB8IEJpbiAw
-IC0mZ3Q7IDEyNDg2ODggYnl0ZXMNCiBpd2x3aWZpLVF1Wi1hMC1oci1iMC02Mi51Y29kZSAgICAg
-fCBCaW4gMCAtJmd0OyAxMzI4OTI0IGJ5dGVzDQogaXdsd2lmaS1RdVotYTAtamYtYjAtNjIudWNv
-ZGUgICAgIHwgQmluIDAgLSZndDsgMTI0ODY3MiBieXRlcw0KIGl3bHdpZmktY2MtYTAtNjIudWNv
-ZGUgICAgICAgICAgICB8IEJpbiAwIC0mZ3Q7IDEyOTI2NzIgYnl0ZXMNCiBpd2x3aWZpLXR5LWEw
-LWdmLWEwLTYyLnVjb2RlICAgICAgfCBCaW4gMCAtJmd0OyAxNDU1MTA0IGJ5dGVzDQogaXdsd2lm
-aS10eS1hMC1nZi1hMC5wbnZtICAgICAgICAgIHwgQmluIDAgLSZndDsgMjc0NTYgYnl0ZXMNCiAx
-MyBmaWxlcyBjaGFuZ2VkLCAzMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQogY3JlYXRl
-IG1vZGUgMTAwNjQ0IGl3bHdpZmktUXUtYjAtaHItYjAtNjIudWNvZGUNCiBjcmVhdGUgbW9kZSAx
-MDA2NDQgaXdsd2lmaS1RdS1iMC1qZi1iMC02Mi51Y29kZQ0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBp
-d2x3aWZpLVF1LWMwLWhyLWIwLTYyLnVjb2RlDQogY3JlYXRlIG1vZGUgMTAwNjQ0IGl3bHdpZmkt
-UXUtYzAtamYtYjAtNjIudWNvZGUNCiBjcmVhdGUgbW9kZSAxMDA2NDQgaXdsd2lmaS1RdVotYTAt
-aHItYjAtNjIudWNvZGUNCiBjcmVhdGUgbW9kZSAxMDA2NDQgaXdsd2lmaS1RdVotYTAtamYtYjAt
-NjIudWNvZGUNCiBjcmVhdGUgbW9kZSAxMDA2NDQgaXdsd2lmaS1jYy1hMC02Mi51Y29kZQ0KIGNy
-ZWF0ZSBtb2RlIDEwMDY0NCBpd2x3aWZpLXR5LWEwLWdmLWEwLTYyLnVjb2RlDQogY3JlYXRlIG1v
-ZGUgMTAwNjQ0IGl3bHdpZmktdHktYTAtZ2YtYTAucG52bQ0KPC9wcmU+DQogICAgPC9ibG9ja3F1
-b3RlPg0KDQoNCjwvYm9keT48L2h0bWw+
+Okay, I'll fix it.
 
+>       iwlwifi: add new FWs from core59-66 release
+> 
+> This one still adds some duplicated WHENCE stuff for  *-59.ucode:
+>  
+> https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.git/commit/?id=b46d336044c448987589bd6cf3057f404c5581ad
+> 
+> +File: iwlwifi-cc-a0-59.ucode
+> +Version: 59.49eeb572.0
+> +
+> +File: iwlwifi-Qu-b0-hr-b0-59.ucode
+> +Version: 59.49eeb572.0
 
---b1_DPJuGbkN0f8KNVjknTMk32o5RgDZ11Q2KQ87goxanYI--
+Yep, copy/paste issue again, I'll fix it.
+
+--
+Luca.
 
