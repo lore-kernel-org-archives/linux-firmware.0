@@ -1,131 +1,80 @@
-Return-Path: <SRS0=QfJn=I6=lists.freedesktop.org=dri-devel-bounces@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05634C43460
-	for <dri-devel@archiver.kernel.org>; Thu,  1 Apr 2021 20:11:19 +0000 (UTC)
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C0646610CB
-	for <dri-devel@archiver.kernel.org>; Thu,  1 Apr 2021 20:11:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C0646610CB
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=dri-devel-bounces@lists.freedesktop.org
-Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 250BC6ED0A;
-	Thu,  1 Apr 2021 20:11:18 +0000 (UTC)
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEBD16ED0D
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Apr 2021 20:11:17 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id c6so2038809lji.8
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Apr 2021 13:11:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=mhUDqpSrPGJrUC3y7pqQdiWyabW803L1a+YQHPLvBho=;
- b=S9jguAXDEbC9AQ4Fh8k0nFBU4XeGYh3uwL/9uoFDllELILiT+Yl0sQ3m8R9TCU8Ve9
- 7tUyMZX3ScnYgmyYTtKhSkpHQWRfNTglbiVu4l1Cfn8VWlOCFTtpRTibwAlW80EUWVUr
- zLRQ7X/2H1Dz/LylTy624HG0BPyYp3J5d4jH75ay7aUY+KhCgqbWbXBzViUb5Tt3RmTM
- za5Gg2H1jPHN/jTIXOCQeUenMLvJFAXaE0BtbsIztzX88O2uZJstQm9GThxh9y37dM5a
- C5++qUEmBualHNLppes+DbOAmtYC5hb6P+kEIjj9cx4oS5QJByp/ArIOMcA5391dVe94
- ACSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
- :mime-version:content-language:content-transfer-encoding;
- bh=mhUDqpSrPGJrUC3y7pqQdiWyabW803L1a+YQHPLvBho=;
- b=tX/6OWOGQPeOL+/exwAShBvuztW/2Bg3YNN6mICchxGZynFBmjRiz43V98BDDaRN7U
- Ef661J27J+154Jcjoz+/lCLb+sVvWDAkf/VGUcng3BjakCriTgHjKsdr9B+E7qEjkWak
- S1ew7NUGg4GPiGBZRq4YSOMLYlcugxrCbVakMK9Hxr85MKMk1Fs4DTM6H0xXscNcgrEK
- TtWepZezmxHqEiUEQbE2/IXPgpiL+FW4qrI/N/33jFEW+Uic8gQHlMr6v8d+HyjXamMt
- MWbY98l2Bkv7pCeGo2ay/CUzC+7jgQZi03Y9Q+cTwBjn5R5W8fDrMvD6n0xfWzLJZyPM
- Yiow==
-X-Gm-Message-State: AOAM5322ywYMMdphwVk+6060sYK/viNqg3vqQE4+GeGuGdBVU8U0xSLz
- bAorEq+ecPkzqGPgzGzKkGpmQw==
-X-Google-Smtp-Source: ABdhPJymsHAJUmUiaWVJ2EFdl8kRUFWJKEn+2UlrxStbtaESaHjtQkjEINDn/Wa/DuGHApcP1BxGxg==
-X-Received: by 2002:a2e:981a:: with SMTP id a26mr6388275ljj.204.1617307876092; 
- Thu, 01 Apr 2021 13:11:16 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id w23sm711421lji.127.2021.04.01.13.11.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Apr 2021 13:11:15 -0700 (PDT)
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Update firmware for Qualcomm SM8250 platform
-Message-ID: <63f0c675-d04b-1961-53cd-e621b48dab94@linaro.org>
-Date: Thu, 1 Apr 2021 23:11:15 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0539CC433B4
+	for <linux-firmware@archiver.kernel.org>; Sat,  3 Apr 2021 12:31:02 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id B26026120F; Sat,  3 Apr 2021 12:31:01 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8D874611ED
+	for <linux-firmware@kernel.org>; Sat,  3 Apr 2021 12:31:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1617453061;
+	bh=xIkhapfkM8jw0JH90c1XFJxb+XxZLs8cUkwqJ33xrZw=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=Z5H4uKNN+He6bdyrY7PjWviEFC/ZaJXjOONj4ZzQzUhwzftkgZYn/071fSLraPzp8
+	 e1QZ4PiYaVAsRG1prspAXuZSlMYMiMsclVVDvMMUrTTzCmkIgSxMhJ+xvGdCeb9gq+
+	 ObAtK9tYLkLRi3yXxCoKCyt0I9l5trWRHgSvmJj97MUbfqenCqGYVA6RQWdkE+ypR7
+	 lnknaBFRdRy/Nune20sE/HPF1+5kCTuoHCyNumEe5AOQhoHeTd4dtLGlXVWjJDUyIk
+	 qFVfr1Nbndx4r+0XcbxmmpoL9J20y1xORkRDvrnr6ZxJJv/gnb02X4/1QrBdFl77Ki
+	 3TQ/YzslsVBFQ==
+Received: by mail-io1-f49.google.com with SMTP id f19so7725867ion.3
+        for <linux-firmware@kernel.org>; Sat, 03 Apr 2021 05:31:01 -0700 (PDT)
+X-Gm-Message-State: AOAM531x0VhwFBI8+DXfr8Bt077wtQeNcahsfXpt3l+iK2kplCrl7pMl
+	wwDHX6PFmAZLcFd0eUraEopsRIC6aiWJnAUp2bU=
+X-Google-Smtp-Source: ABdhPJy2mxg2dAlu9bG+r56vdVDxL6HCX4xHip8RkxKQ3ZhiARCL/erOGCidpEzJsNfsU0WTxjWzTdQ0FRC4pwXtzyI=
+X-Received: by 2002:a02:9382:: with SMTP id z2mr16909679jah.120.1617453060985;
+ Sat, 03 Apr 2021 05:31:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Language: en-GB
-X-BeenThere: dri-devel@lists.freedesktop.org
-X-Mailman-Version: 2.1.29
-Precedence: list
-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/dri-devel>,
- <mailto:dri-devel-request@lists.freedesktop.org?subject=unsubscribe>
-List-Archive: <https://lists.freedesktop.org/archives/dri-devel>
-List-Post: <mailto:dri-devel@lists.freedesktop.org>
-List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
-List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
- <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
-Errors-To: dri-devel-bounces@lists.freedesktop.org
-Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-Message-ID: <20210401201115.stkX71kzODcOGviP6NCSqy_k3M3AN3G5oqHzAyBYMWs@z>
+References: <20210325221547.22966-1-hdegoede@redhat.com> <20210325221547.22966-3-hdegoede@redhat.com>
+In-Reply-To: <20210325221547.22966-3-hdegoede@redhat.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Sat, 3 Apr 2021 08:30:50 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA6v+nxBrKRPvP26pCkSw6FkUvLbDQ9DZpzzmwfcBYVKLQ@mail.gmail.com>
+Message-ID: <CA+5PVA6v+nxBrKRPvP26pCkSw6FkUvLbDQ9DZpzzmwfcBYVKLQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] rtl_bt: Add rtl8723bs_config-OBDA0623.bin symlink
+To: Hans de Goede <hdegoede@redhat.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: Linux Firmware <linux-firmware@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hello linux-firmware maintainers,
+All 3 applied and pushed out.
 
-Could you please pull updated firmware for Qualcomm SM8250-based 
-platforms. Firmware successfully tested on Qualcomm Robotics RB5 platform.
+josh
 
-
-The following changes since commit 3f026a2f13a8f130cde849168a111ec80f12e27b:
-
-   rtl_bt: Update RTL8822C BT(UART I/F) FW to 0x59A_76A3 (2021-03-22 
-10:17:18 -0400)
-
-are available in the Git repository at:
-
-   https://github.com/lumag/linux-firmware sm8250-new-fw
-
-for you to fetch changes up to d8fa0cfb4a285d11fd7102efd1763f1be90fac99:
-
-   qcom: sm8250: update remoteproc firmware (2021-04-01 23:05:00 +0300)
-
-----------------------------------------------------------------
-Dmitry Baryshkov (2):
-       qcom: update a650 firmware files
-       qcom: sm8250: update remoteproc firmware
-
-  WHENCE                   |   2 +-
-  qcom/a650_sqe.fw         | Bin 31488 -> 31804 bytes
-  qcom/sm8250/a650_zap.mbn | Bin 13964 -> 13964 bytes
-  qcom/sm8250/adsp.mbn     | Bin 15515796 -> 15515796 bytes
-  qcom/sm8250/cdsp.mbn     | Bin 5822228 -> 5822228 bytes
-  5 files changed, 1 insertion(+), 1 deletion(-)
-
-
-
--- 
-With best wishes
-Dmitry
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+On Thu, Mar 25, 2021 at 6:16 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Some x86/ACPI devices such as the Acer Aspire Switch 10E (SW3-016),
+> use an alternative ACPI hardware-id (HID) for the BT part of the
+> RTL8723BS chip.
+>
+> Instead of using the standard OBDA8723 HID this device uses a HID
+> of OBDA0623. Despite using a different HID it does work fine with
+> the default config settings from the rtl8723bs_config-OBDA8723.bin
+> file. Add a symlink to that file, to fix BT not working on this
+> device due to a missing config file.
+>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  WHENCE | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/WHENCE b/WHENCE
+> index 4483297..4070103 100644
+> --- a/WHENCE
+> +++ b/WHENCE
+> @@ -3717,6 +3717,7 @@ File: rtl_bt/rtl8723a_fw.bin
+>  File: rtl_bt/rtl8723b_fw.bin
+>  File: rtl_bt/rtl8723bs_fw.bin
+>  File: rtl_bt/rtl8723bs_config-OBDA8723.bin
+> +Link: rtl_bt/rtl8723bs_config-OBDA0623.bin -> rtl8723bs_config-OBDA8723.bin
+>  File: rtl_bt/rtl8761a_fw.bin
+>  File: rtl_bt/rtl8812ae_fw.bin
+>  File: rtl_bt/rtl8821a_fw.bin
+> --
+> 2.30.2
+>
