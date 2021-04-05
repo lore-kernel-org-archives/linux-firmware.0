@@ -1,125 +1,55 @@
-Return-Path: <SRS0=c8/2=JA=lists.freedesktop.org=dri-devel-bounces@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AA52C433B4
-	for <dri-devel@archiver.kernel.org>; Sat,  3 Apr 2021 12:32:48 +0000 (UTC)
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CA3126120F
-	for <dri-devel@archiver.kernel.org>; Sat,  3 Apr 2021 12:32:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CA3126120F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=dri-devel-bounces@lists.freedesktop.org
-Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B87C56E14C;
-	Sat,  3 Apr 2021 12:32:46 +0000 (UTC)
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA3CA6E14C;
- Sat,  3 Apr 2021 12:32:45 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A3A9461248;
- Sat,  3 Apr 2021 12:32:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 681E1C433ED
+	for <linux-firmware@archiver.kernel.org>; Mon,  5 Apr 2021 14:41:12 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id 333A9613B2; Mon,  5 Apr 2021 14:41:12 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 15B7A613B1
+	for <linux-firmware@kernel.org>; Mon,  5 Apr 2021 14:41:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1617453162;
- bh=+k9MTodMeEgKogh28jfbdqocaD8da3H88l4U1z6UVL4=;
- h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
- b=LJvwqlNSyh/y4NnsS3g6zqfj4MCQ8dKl27gP+vwqyLrP9kaVKCqN78mQ7IpgqblLm
- F7FkzK2L1SNDc7ARzWKz7dUd6A65/FCJOtIlXJ7HZeXC9Au7EotWKAxlbPEf2dh3nx
- b3N+bmpnYL/pSseRmERfZde4Hzk8ZE5drDIzVTFMZaMZhv42isOw4q9r3SOfTKTUKn
- 8tvMZ6Fg6MdP/hZ5O8yn052RVk19HJssCWqdARseRDODZiykbNrveQePoQ6I0a5PHX
- bIVofga2otPKTb9HFWpO/gHccV8DvPOWfB7LApZ3qXmMboYC93ENMS3lTJGuRWu4R6
- ICb7MIRATXDKg==
-Received: by mail-il1-f171.google.com with SMTP id u2so6625614ilk.1;
- Sat, 03 Apr 2021 05:32:42 -0700 (PDT)
-X-Gm-Message-State: AOAM531Zask20RkQDM37t0ARRMQC6LutP3EQK53spLHxScNvtxRSE4mM
- YlyU+PXKhnDeM4n0ny1JUGOFbJS1LXFPnFgMuYI=
-X-Google-Smtp-Source: ABdhPJwFiMurmXTYUpCztx9/USRE76mk6X912InkXuO6l9LsT7LbYyNicKgRu63mgoMXfJRKUxNqLGz9CU4Kg/Hkr9E=
-X-Received: by 2002:a05:6e02:154c:: with SMTP id
- j12mr13558296ilu.206.1617453162129; 
- Sat, 03 Apr 2021 05:32:42 -0700 (PDT)
+	s=k20201202; t=1617633672;
+	bh=nPoGwxVhVQLQLIh1suWt06t1EHioakFgJEo/BxC6CIc=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=WO6v8z1I20wu4E4vFKxC/aZX1gluyeM2hrhhpIXTlGg2ZbbkxCMQ9/7+hxM5YUOTE
+	 98YuKd1BvLxv/3TPwPFBL8Lk29TqSyOA5WuKczr3/PRsUh/WE1XO3GCdq2IrxPoRUt
+	 k7OvI5/xFAlNhR/R58hvVVVEQi5Kd+0D6nsNYOIPfz42Yv6j9VIqeFTWz/iK+0HwKG
+	 5k8qS06FBXF2KDprov7EXLgUK+HMjSUtxRg/bukElfXeU3vbyJXk++OAxS0rGe5CzP
+	 /YNGnVPGCVE/XJzq+XP7z63NjtuL83YNtFRNUYs4vDCiHxdd9UvTpRsqTmpU/5f3LO
+	 gtc3ei7Jn7V9g==
+Received: by mail-io1-f41.google.com with SMTP id e186so12172626iof.7
+        for <linux-firmware@kernel.org>; Mon, 05 Apr 2021 07:41:12 -0700 (PDT)
+X-Gm-Message-State: AOAM532j9/16rzGhggWGMMg2nOuDcgCFQRmXJXmRZx3LM+mh4h6zP9X8
+	gkK2AS++x8BJbwKpbq59X4DPKne2IUyEJ/wX84Q=
+X-Google-Smtp-Source: ABdhPJzIfWiza9v3iuy1+Q2irhgmvzGUsYVWh8i8ohsFKBpVMmNrs24t85uHkgAF5WF5dLPAFGMDg2hZczBexY/GqCM=
+X-Received: by 2002:a02:5184:: with SMTP id s126mr23955292jaa.107.1617633671566;
+ Mon, 05 Apr 2021 07:41:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <63f0c675-d04b-1961-53cd-e621b48dab94@linaro.org>
-In-Reply-To: <63f0c675-d04b-1961-53cd-e621b48dab94@linaro.org>
+References: <CADnq5_PFqB_WayJ-+JX++fMatGWjnV5LMWgk5P3kvwgQrikkZA@mail.gmail.com>
+In-Reply-To: <CADnq5_PFqB_WayJ-+JX++fMatGWjnV5LMWgk5P3kvwgQrikkZA@mail.gmail.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Sat, 3 Apr 2021 08:32:31 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA6Q_kRu7K++6=+T+ZeR9VJNNgBGvPehF2dqM9YyF+pX=g@mail.gmail.com>
-Message-ID: <CA+5PVA6Q_kRu7K++6=+T+ZeR9VJNNgBGvPehF2dqM9YyF+pX=g@mail.gmail.com>
-Subject: Re: Update firmware for Qualcomm SM8250 platform
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-X-BeenThere: dri-devel@lists.freedesktop.org
-X-Mailman-Version: 2.1.29
-Precedence: list
-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/dri-devel>,
- <mailto:dri-devel-request@lists.freedesktop.org?subject=unsubscribe>
-List-Archive: <https://lists.freedesktop.org/archives/dri-devel>
-List-Post: <mailto:dri-devel@lists.freedesktop.org>
-List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
-List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
- <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Date: Mon, 5 Apr 2021 10:41:00 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA4FKK9hfSdv9XrFDTpy+0vnM9TTay3FoFaa3WD8BoevgQ@mail.gmail.com>
+Message-ID: <CA+5PVA4FKK9hfSdv9XrFDTpy+0vnM9TTay3FoFaa3WD8BoevgQ@mail.gmail.com>
+Subject: Re: New amdgpu firmware for Arcturus GPU
+To: Alex Deucher <alexdeucher@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Linux Firmware <linux-firmware@kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-Errors-To: dri-devel-bounces@lists.freedesktop.org
-Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-Message-ID: <20210403123231.UQnGmI3MHNn2ODQGDZ59zgTea5jz7hllJkgvJ73AT6o@z>
+Cc: Linux Firmware <linux-firmware@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
 Pulled and pushed out.
 
 josh
 
-On Thu, Apr 1, 2021 at 4:11 PM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
+On Mon, Apr 5, 2021 at 9:56 AM Alex Deucher <alexdeucher@gmail.com> wrote:
 >
-> Hello linux-firmware maintainers,
+> Hi, new firmware for the Arcturus GPU.  Please apply!
 >
-> Could you please pull updated firmware for Qualcomm SM8250-based
-> platforms. Firmware successfully tested on Qualcomm Robotics RB5 platform.
+> Thanks,
 >
->
-> The following changes since commit 3f026a2f13a8f130cde849168a111ec80f12e27b:
->
->    rtl_bt: Update RTL8822C BT(UART I/F) FW to 0x59A_76A3 (2021-03-22
-> 10:17:18 -0400)
->
-> are available in the Git repository at:
->
->    https://github.com/lumag/linux-firmware sm8250-new-fw
->
-> for you to fetch changes up to d8fa0cfb4a285d11fd7102efd1763f1be90fac99:
->
->    qcom: sm8250: update remoteproc firmware (2021-04-01 23:05:00 +0300)
->
-> ----------------------------------------------------------------
-> Dmitry Baryshkov (2):
->        qcom: update a650 firmware files
->        qcom: sm8250: update remoteproc firmware
->
->   WHENCE                   |   2 +-
->   qcom/a650_sqe.fw         | Bin 31488 -> 31804 bytes
->   qcom/sm8250/a650_zap.mbn | Bin 13964 -> 13964 bytes
->   qcom/sm8250/adsp.mbn     | Bin 15515796 -> 15515796 bytes
->   qcom/sm8250/cdsp.mbn     | Bin 5822228 -> 5822228 bytes
->   5 files changed, 1 insertion(+), 1 deletion(-)
->
->
->
-> --
-> With best wishes
-> Dmitry
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> Alex
