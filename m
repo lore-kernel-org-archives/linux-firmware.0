@@ -1,127 +1,107 @@
-Return-Path: <SRS0=gq6V=JF=redhat.com=hdegoede@kernel.org>
+Return-Path: <SRS0=xHjc=JF=netronome.com=louis.peens@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,INCLUDES_PATCH,
+	INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DE48C433B4
-	for <linux-firmware@archiver.kernel.org>; Thu,  8 Apr 2021 09:15:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A19EC433B4
+	for <linux-firmware@archiver.kernel.org>; Thu,  8 Apr 2021 12:56:43 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 6DE0461157; Thu,  8 Apr 2021 09:15:39 +0000 (UTC)
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id C645161132; Thu,  8 Apr 2021 12:56:42 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2BB3C6113A
-	for <linux-firmware@kernel.org>; Thu,  8 Apr 2021 09:15:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2BB3C6113A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
-Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=hdegoede@redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1617873338;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LG3F5t41Md6oy4dEp3SWV7WpfWf8g5JLENySth8ajew=;
-	b=bTYI3KdMpHsg65OnNUWdS9LwiTpvGvMzRrvFSrxTM0PfGU0zR57xvk51FudCo28l5SsODn
-	DxYZFlMpYq8cEY/wAS5vZy2Bc8NiswyUZRDk4rfUu5nga96XxbWBjQv29SuuoRfg2GkVwP
-	O6gDjntvJ3BRU67MC66Wvqvzgozvcfo=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-34-WdRNJRCxOTqn0KArkwl6wQ-1; Thu, 08 Apr 2021 05:15:36 -0400
-X-MC-Unique: WdRNJRCxOTqn0KArkwl6wQ-1
-Received: by mail-ed1-f70.google.com with SMTP id a8so726927edt.1
-        for <linux-firmware@kernel.org>; Thu, 08 Apr 2021 02:15:35 -0700 (PDT)
+	by mail.kernel.org (Postfix) with ESMTPS id 45A38610FC
+	for <linux-firmware@kernel.org>; Thu,  8 Apr 2021 12:56:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 45A38610FC
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=netronome.com
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=louis.peens@netronome.com
+Received: by mail-ej1-f49.google.com with SMTP id r12so2873360ejr.5
+        for <linux-firmware@kernel.org>; Thu, 08 Apr 2021 05:56:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=netronome-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=OD6UnlxVFVMuSGfcuSUyQoZ6FhTAjbJ3I19nhjEedvA=;
+        b=DBQtjX1q9k+rWwzxTEJrEXwJSzCuvP2QbaMUkOG3/mkVmLCJoJG2UhohuMZo7IDM9X
+         0oUfIPuRIUkRlREoHZXDg3ippq4PMrRzLvW19izc7rtpOQ6q39JqwMuS6AKu6KGI+qnd
+         EmEVo10SlkWxQcMEF49MtYepZ8Tg379Wm8lrZsAb9fchxSiXtHYkw9BEQyl/glIZtS9U
+         DeiyI4QtZO5DCWlKrTD3FVlC5apfPqISkOhT04JwZYFmXDYMzZthjgQ+sCW9wDKGQw4j
+         7sW61Tn++TymBYALsEozzKHQpg7otA84cSjMAbWL7ypmHNex4UUUUO4hLa0Yi8hWvlE2
+         RcHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=LG3F5t41Md6oy4dEp3SWV7WpfWf8g5JLENySth8ajew=;
-        b=ZUyuLR0zMa9OQyl9VZ/F1BAWnbCrKFH9Q+gH+EK2fvv1TyDjeju/pDKtPEmQe0Xhkk
-         544uAE52NgZmrqFh5n06gjm3/bnYlWK5GOGm7DPWi58LFRWGh9qfOonBvONd7C9Zk40G
-         ZyqYZw/QCPxgv99ThkyiuCFAJ5jz74hWDsKC92WQ/o/hGTU620+DErFXhm29npFKk/Z3
-         5Ic8+YvrhvgQJcfVGinMIWEg16hRNKVY/5+JQqCxjQCsEE5NaxbHvZTX43Yfr+fh05KM
-         dCGsbyStxyH/02of0cOKLBsN3fAfPcB7zwzkCXHbGkVLZpaZXk9f9udboZ0Fn9JoHW3O
-         iggw==
-X-Gm-Message-State: AOAM530vpwupVZEZ8QQuZQ3MgeWZ+wjgPeCQ75DhwKgY6fJ3LxIFVg69
-	GCS4Gy2He5adji9pTn6jM8Ka1tRblvtyBNLdgumbx8Wwgf9erIzFAoq6LR7oJ67VU4jeOw2lQlp
-	CYfyH9zldyyx5qxz1i3aP
-X-Received: by 2002:a17:907:1049:: with SMTP id oy9mr9005103ejb.431.1617873334919;
-        Thu, 08 Apr 2021 02:15:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJycRll/saSkJ6VFuFbM/WQw5xPb090/V2sP+xLj1afXem8eImssz4OqS/2/OF5haZUzhK426g==
-X-Received: by 2002:a17:907:1049:: with SMTP id oy9mr9005088ejb.431.1617873334769;
-        Thu, 08 Apr 2021 02:15:34 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id n10sm3466788ejg.124.2021.04.08.02.15.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Apr 2021 02:15:34 -0700 (PDT)
-Subject: Re: [PATCH] brcm: Link CM4's WiFi firmware with DMI machine name.
-List-Id: <linux-firmware.lore.kernel.org>
-To: jlinton <jeremy.linton@arm.com>, linux-firmware@kernel.org
-Cc: Peter Robinson <pbrobinson@gmail.com>, Josh Boyer <jwboyer@kernel.org>
-References: <20210408032554.5836-1-jeremy.linton@arm.com>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <3a446883-958d-4465-0a68-6b757ad2d694@redhat.com>
-Date: Thu, 8 Apr 2021 11:15:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=OD6UnlxVFVMuSGfcuSUyQoZ6FhTAjbJ3I19nhjEedvA=;
+        b=MCLuYeh2OLZWGsGn50+/Mc51Q2W/fB3/Blgsw0DZThxItGhqnOPRrDh16NNJz3fwl8
+         TMh06O3TyIV4LEidIIpbDD11uxZ31QdnUuww18nvUrdYSkmRG2ngt8qDdkcmPwKIoQle
+         Wp0fqFCnjZ3EFb++gn1fDE045EKc4zk0mB0aQn0BOdLazV18WyGU9d6oj6akKwIcf7RA
+         mhJn95o5Q4nE6heaidPcmUTFC0Wt5tFjS8VgZesgABlK+Y4AkrBIyWPhvyEtg5j6gmc8
+         h7FSn7owkga1TvdPV5TjZDKGGxclblGzcEv2ra5HBp6TSF8FfTKki7ReQWVgZTYAyuBa
+         40mw==
+X-Gm-Message-State: AOAM531GMSo9PzhtcmbqMMhaEiRnqVj++gt5id0PuiLYJer/EeGiocT3
+	iBHAFSifmUG1nBmjhVuuGPBDr9J74bW1H0XU9uSFRtTls0snZg==
+X-Google-Smtp-Source: ABdhPJzGOXGgIcCxg4GG83TwlOAcnSLJkMB11XEKWWDAWxG3ECAm0q//ldXn5MOoJ95/BDSDm37C+IXXTfcpPbGfwEQ=
+X-Received: by 2002:a17:906:3c07:: with SMTP id h7mr10278717ejg.446.1617886600649;
+ Thu, 08 Apr 2021 05:56:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210408032554.5836-1-jeremy.linton@arm.com>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+From: Louis Peens <louis.peens@netronome.com>
+Date: Thu, 8 Apr 2021 14:56:25 +0200
+Message-ID: <CAK0s0=kjP_30nSH2-qa959HNSSX_sGDubyWOe0sYz1RAUJMLtQ@mail.gmail.com>
+Subject: [pull request] Netronome flower firmware update
+List-Id: <linux-firmware.lore.kernel.org>
+To: Linux Firmware <linux-firmware@kernel.org>, oss-drivers@netronome.com
+Content-Type: multipart/alternative; boundary="0000000000001e739505bf75945a"
 
-Hi,
+--0000000000001e739505bf75945a
+Content-Type: text/plain; charset="UTF-8"
 
-On 4/8/21 5:25 AM, jlinton wrote:
-> From: Jeremy Linton <jeremy.linton@arm.com>
-> 
-> The kernel when booted in ACPI mode with SMBIOS/DMI
-> data uses the DMI data to set the machine
-> manufacture/model.
-> 
-> The WiFi driver uses the machine string to select the
-> correct firmware image. Because of this, an additional
-> link to select the correct firmware is needed.
-> 
-> Cc: Hans de Goede <hdegoede@redhat.com>
-> Cc: Peter Robinson <pbrobinson@gmail.com>
-> Cc: Josh Boyer <jwboyer@kernel.org>
-> Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
+The following changes since commit af1ca28f03287b0c60682ab37cc684c773de853f:
 
-Thanks, patch looks good to me:
+  amdgpu: add arcturus firmware (2021-04-05 10:40:08 -0400)
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+are available in the Git repository at:
 
-Regards,
+  https://github.com/Netronome/linux-firmware
 
-Hans
+for you to fetch changes up to 6c419aea3689472787a02d19f62815e08856336d:
 
+  nfp: update Agilio SmartNIC flower firmware to rev AOTC-2.14.A.6
+(2021-04-08 14:44:28 +0200)
 
+----------------------------------------------------------------
+Louis Peens (1):
+      nfp: update Agilio SmartNIC flower firmware to rev AOTC-2.14.A.6
 
-> ---
->  WHENCE | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/WHENCE b/WHENCE
-> index aa96404..1eaee0b 100644
-> --- a/WHENCE
-> +++ b/WHENCE
-> @@ -2723,6 +2723,7 @@ File: "brcm/brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt"
->  Link: brcm/brcmfmac43455-sdio.raspberrypi,3-model-a-plus.txt -> brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt
->  File: "brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.txt"
->  Link: brcm/brcmfmac43455-sdio.Raspberry\ Pi\ Foundation-Raspberry\ Pi\ 4\ Model\ B.txt -> brcmfmac43455-sdio.raspberrypi,4-model-b.txt
-> +Link: brcm/brcmfmac43455-sdio.Raspberry\ Pi\ Foundation-Raspberry\ Pi\ Compute\ Module\ 4.txt -> brcmfmac43455-sdio.raspberrypi,4-model-b.txt
->  File: "brcm/brcmfmac43455-sdio.MINIX-NEO Z83-4.txt"
->  File: "brcm/brcmfmac4356-pcie.gpd-win-pocket.txt"
->  File: brcm/brcmfmac4356-sdio.vamrs,rock960.txt
-> 
+ WHENCE                             |   2 +-
+ netronome/flower/nic_AMDA0058.nffw | Bin 6683216 -> 6857912 bytes
+ netronome/flower/nic_AMDA0096.nffw | Bin 4312000 -> 4417672 bytes
+ netronome/flower/nic_AMDA0097.nffw | Bin 4312000 -> 4417672 bytes
+ netronome/flower/nic_AMDA0099.nffw | Bin 4314368 -> 4420040 bytes
+ 5 files changed, 1 insertion(+), 1 deletion(-)
 
+--0000000000001e739505bf75945a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">The following changes since commit af1ca28f03287b0c60682ab=
+37cc684c773de853f:<br><br>=C2=A0 amdgpu: add arcturus firmware (2021-04-05 =
+10:40:08 -0400)<br><br>are available in the Git repository at:<br><br>=C2=
+=A0 <a href=3D"https://github.com/Netronome/linux-firmware">https://github.=
+com/Netronome/linux-firmware</a> <br><br>for you to fetch changes up to 6c4=
+19aea3689472787a02d19f62815e08856336d:<br><br>=C2=A0 nfp: update Agilio Sma=
+rtNIC flower firmware to rev AOTC-2.14.A.6 (2021-04-08 14:44:28 +0200)<br><=
+br>----------------------------------------------------------------<br>Loui=
+s Peens (1):<br>=C2=A0 =C2=A0 =C2=A0 nfp: update Agilio SmartNIC flower fir=
+mware to rev AOTC-2.14.A.6<br><br>=C2=A0WHENCE =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=
+=A0 2 +-<br>=C2=A0netronome/flower/nic_AMDA0058.nffw | Bin 6683216 -&gt; 68=
+57912 bytes<br>=C2=A0netronome/flower/nic_AMDA0096.nffw | Bin 4312000 -&gt;=
+ 4417672 bytes<br>=C2=A0netronome/flower/nic_AMDA0097.nffw | Bin 4312000 -&=
+gt; 4417672 bytes<br>=C2=A0netronome/flower/nic_AMDA0099.nffw | Bin 4314368=
+ -&gt; 4420040 bytes<br>=C2=A05 files changed, 1 insertion(+), 1 deletion(-=
+)<br></div>
+
+--0000000000001e739505bf75945a--
