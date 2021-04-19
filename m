@@ -1,75 +1,66 @@
-Return-Path: <bounce+a91e02.be9e4a-linux-firmware=kernel.org@codeaurora.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8D0DC433ED
-	for <linux-firmware@archiver.kernel.org>; Mon, 19 Apr 2021 03:09:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD414C433B4
+	for <linux-firmware@archiver.kernel.org>; Mon, 19 Apr 2021 13:49:10 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 7CEF36102A; Mon, 19 Apr 2021 03:09:43 +0000 (UTC)
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1869E61077
-	for <linux-firmware@kernel.org>; Mon, 19 Apr 2021 03:09:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1869E61077
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=bounce+a91e02.be9e4a-linux-firmware=kernel.org@mg.codeaurora.org
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1618801783; h=Message-ID: Subject: To: From: Date:
- Content-Transfer-Encoding: Content-Type: MIME-Version: Sender;
- bh=cuTA2RXLBlanJMc4Fkzz+vAN7R6YyOZr/HPsVC7AczQ=; b=SdJLRTiK5xa84C3wTQqB3rzo2ywU2ObqNGT8/jLjrZ47cdFb0UXMGJoacItJP/alboYfFUEQ
- czD6hwJN0DB2U2/s6R6ZuGtP5srqp8cTysVTPYciEJtzTfCzD+vzVRqrterypf+0yFGJVqea
- 88CwnkVxMczs4Rbxfeogd5K8ytA=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyI3Mjk1MCIsICJsaW51eC1maXJtd2FyZUBrZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
- 607cf467a817abd39a1a8d76 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 19 Apr 2021 03:09:27
- GMT
-Sender: rjliao=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-	id 3950DC4338A; Mon, 19 Apr 2021 03:09:26 +0000 (UTC)
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: rjliao)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id 00A1BC433F1
-	for <linux-firmware@kernel.org>; Mon, 19 Apr 2021 03:09:25 +0000 (UTC)
+	id 94CD761078; Mon, 19 Apr 2021 13:49:10 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7DEB96101E
+	for <linux-firmware@kernel.org>; Mon, 19 Apr 2021 13:49:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1618840150;
+	bh=xChvnDaeZLODBFr1+eWlgmUf1MB0Pt11+mwRDV8R8Ec=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=Alf6+lQ+I8AnRYiTj7OWp9CJ/X0/3SzHSo+VmJNDNyu/GkR+Mg6Mp5T33chVX41ez
+	 nP488W2SeGP8/pOsW/HXivdT8ikLQVPKEpwSppNNPFrk/A9oC9lSw7sNtx+hRYh0iT
+	 OdJT6SQNz7xgnWZJ6U1rENOx85qwIu2f1DJombhhe9AHfpCsDW9Hmt8QyZ7XY0xzxR
+	 mLBPdJJUOcRjjzQv4UGZol4YlYu4v8sAlq2yLcYcbMAhZGlPMaZvIBWM/JLzQiPxUG
+	 cwFOcvq8jrUOR9VN1Lbs8JDYz9XDeyfu+6+ptnMXL9HzBVHY7wBWjFdjWWHEulI2/0
+	 /4uF3ObiSMN2g==
+Received: by mail-il1-f174.google.com with SMTP id c3so22995479ils.5
+        for <linux-firmware@kernel.org>; Mon, 19 Apr 2021 06:49:10 -0700 (PDT)
+X-Gm-Message-State: AOAM532abgFF7rZ4mm1ZmCwT4i5E6uoJzC1D7qWJfFbxBxLBn0S3TUMq
+	AXy9oehUmLqdD0czAx6b4LMREcXROUPg/eqQzH0=
+X-Google-Smtp-Source: ABdhPJxwBHB8SHO8Aq4Du6YqDX/U+FqLdT6DpNRxfxHgiFjiOIH+ew541KsOfqjyFYxl3ZCopx+qw4mnVNMB1PBFrVE=
+X-Received: by 2002:a92:cd43:: with SMTP id v3mr18277449ilq.11.1618840149816;
+ Mon, 19 Apr 2021 06:49:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Mon, 19 Apr 2021 11:09:25 +0800
-From: Rocky Liao <rjliao@codeaurora.org>
+References: <CADnq5_Pd5kfpiPa3T7d5XFqkFZJYzHHbVPBmE_kCqG2dK8wQcg@mail.gmail.com>
+ <CADnq5_MiQzPbtL4z7kTUV37-nJ-FoJYdDq8K23c33m3Rpg643w@mail.gmail.com>
+In-Reply-To: <CADnq5_MiQzPbtL4z7kTUV37-nJ-FoJYdDq8K23c33m3Rpg643w@mail.gmail.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Mon, 19 Apr 2021 09:48:58 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA5F7jaypkz+4f4ao0g=t7gJfDPYST3=Emsid47O=zvv0g@mail.gmail.com>
+Message-ID: <CA+5PVA5F7jaypkz+4f4ao0g=t7gJfDPYST3=Emsid47O=zvv0g@mail.gmail.com>
+Subject: Re: updated amdgpu firmware
+To: Alex Deucher <alexdeucher@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Subject: btusb firmware 20210419
-Message-ID: <dc41d16e192c7e78cdf23463db8483e3@codeaurora.org>
-X-Sender: rjliao@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Cc: Linux Firmware <linux-firmware@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi linux-firmware maintainers,
+Applied and pushed out.
 
-Here's a pull request for btusb bluetooth driver. Please let me know if 
-you have any problems.
+josh
 
-The following changes since commit
-af1ca28f03287b0c60682ab37cc684c773de853f:
-
-    amdgpu: add arcturus firmware (2021-03-18 22:24:41 -0400)
-
-are available in the Git repository at:
-
-    https://github.com/rjliao-qca/qca-btfw.git
-
-for you to fetch changes up to c2968499147efaa071536c81c8c426d36325059a:
-----------------------------------------------------------------
-Rocky Liao (1):
-         QCA: Update Bluetooth firmware for QCA6174 (2021-04-19 10:55:15 
-+0800)
+On Thu, Apr 15, 2021 at 12:28 AM Alex Deucher <alexdeucher@gmail.com> wrote:
+>
+> Hi,
+>
+> Just wanted to make sure this didn't fall through the cracks.
+>
+> Thanks!
+>
+> Alex
+>
+> On Tue, Apr 6, 2021 at 9:15 AM Alex Deucher <alexdeucher@gmail.com> wrote:
+> >
+> > New SMC firmware for navi10 and 14.  Please apply.
+> >
+> > Thanks,
+> >
+> > Alex
