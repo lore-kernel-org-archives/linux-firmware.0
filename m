@@ -7,67 +7,94 @@ X-Spam-Status: No, score=-20.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10802C433B4
-	for <linux-firmware@archiver.kernel.org>; Mon, 19 Apr 2021 13:54:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36331C433ED
+	for <linux-firmware@archiver.kernel.org>; Mon, 19 Apr 2021 13:58:04 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id CD49C61077; Mon, 19 Apr 2021 13:54:57 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B6CA16101E
-	for <linux-firmware@kernel.org>; Mon, 19 Apr 2021 13:54:57 +0000 (UTC)
+	id F3F2B61279; Mon, 19 Apr 2021 13:58:03 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DE52761006
+	for <linux-firmware@kernel.org>; Mon, 19 Apr 2021 13:58:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1618840497;
-	bh=x0E01jGo2s6Ukvyf23U6If/IZDOlmzexWhRhJcE/gHw=;
+	s=k20201202; t=1618840683;
+	bh=5TOHxfqm2ijWU7hgxGlOHyq5Oju76X+fikLS7yoIgsg=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=rbQyZ1n2p6Cj7jVyIxmvuJ+Snt3EccbE+2Km6KmLPUAedU7Xgdxw+IdAlpGe22xv9
-	 u6Hc4QPBAsSPEmi8Fk6c/zT/w7OFvwSX+Sre6ErJ9WlM8oDzASNHNv/3NWEOpMoJGz
-	 Ncb3E4zliqldw+PFqSLO9tKGxGMzTp2BtBr2Ry/402hE9hy2yTXSFYnyKjpt0VjFzJ
-	 GLwRqhgU/RFZXmpfuJR72eKxnmsl6uDZSkqATc9iD7tNdaY7xmybnKSHpnxZwkhxT7
-	 gfoWThkWXcef3BEmFwKVAJWPwi8FjUqKwapQXhRSHioUR6eGQptC0ZhLgTTln9YMt2
-	 pdp6xitB1t1fg==
-Received: by mail-io1-f42.google.com with SMTP id v123so28069377ioe.10
-        for <linux-firmware@kernel.org>; Mon, 19 Apr 2021 06:54:57 -0700 (PDT)
-X-Gm-Message-State: AOAM533AdbI0kfboj32WAWFk85MEioNLHzGt4pdNZ9kTxwhf+MOU+Y5u
-	1osiH+S9A9Jlsi001HzdFpTChT0osI03n5N9d1A=
-X-Google-Smtp-Source: ABdhPJyxI61IBrxfocv2Ksrs4IQSi2wUcYUvglyOd2dgK7FK55LpJfXS+aKGXgOV81Pom+3LD1SyD1856GKKAjEt2as=
-X-Received: by 2002:a02:cc:: with SMTP id 195mr17092792jaa.73.1618840496975;
- Mon, 19 Apr 2021 06:54:56 -0700 (PDT)
+	b=VQaa/mCSCQ4mMkI3YlmSz9R4TpdUL5EU4aaB7c/H0Xm0QQmPOqWNLSfkP5tTr/KXd
+	 bPRzYp1Ul0RJUSBTST5rWI/MlEjCp5HXy+N3xJCIqF2apXvLL4X7ym4wq5oYgkkmVF
+	 RHQxOWuFjITfw8IdJxOYgSd1hYd/XTztkR+aAHkgnZux6B/DPhiU+vCVvIcgXYimhP
+	 SZQy1ZG4bWRPNGwMrOwIXZXEfgYniwUD7OYHPgWTgHC3JHtKrcmk7/zs8TkKJUVgeJ
+	 0+RBoqYhTDvVRRX5MqTTiUIERYyDS/fES/ihUxBhHKJk0LA7z8rqp0bH3/TmNHQkr/
+	 Rr1NtEv6lctSQ==
+Received: by mail-io1-f54.google.com with SMTP id b9so5189535iod.13
+        for <linux-firmware@kernel.org>; Mon, 19 Apr 2021 06:58:03 -0700 (PDT)
+X-Gm-Message-State: AOAM530woVUxc0s7KC9xj4pzEB1lVH5MJqAuOWDM0ekmnrZPCd3x7FXR
+	flJLFlEOSX0AyOVsU3VfShGLumVVkWGa3YbAxhM=
+X-Google-Smtp-Source: ABdhPJxusTdOy1DZxImLOlfSTb44W7WHXHDtgoYpGrvCpFi7mK9lBnM3d1b1ukhi4sNNKuHht1nxubH9DBwXKIO9o+4=
+X-Received: by 2002:a02:cc:: with SMTP id 195mr17106395jaa.73.1618840683167;
+ Mon, 19 Apr 2021 06:58:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAK0s0=kjP_30nSH2-qa959HNSSX_sGDubyWOe0sYz1RAUJMLtQ@mail.gmail.com>
-In-Reply-To: <CAK0s0=kjP_30nSH2-qa959HNSSX_sGDubyWOe0sYz1RAUJMLtQ@mail.gmail.com>
+References: <MW3PR12MB44753AF63DA77A737AE8781ABC739@MW3PR12MB4475.namprd12.prod.outlook.com>
+In-Reply-To: <MW3PR12MB44753AF63DA77A737AE8781ABC739@MW3PR12MB4475.namprd12.prod.outlook.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 19 Apr 2021 09:54:46 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA7d3dq5T6BebRXAQbTnZeUcfMfApmOrjuVrOD5wFt_RnQ@mail.gmail.com>
-Message-ID: <CA+5PVA7d3dq5T6BebRXAQbTnZeUcfMfApmOrjuVrOD5wFt_RnQ@mail.gmail.com>
-Subject: Re: [pull request] Netronome flower firmware update
-To: Louis Peens <louis.peens@netronome.com>
+Date: Mon, 19 Apr 2021 09:57:52 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA5bqGJoJw3njfWfOjHvzDzU2KDz5cHJ4QCexxKe1e8=8A@mail.gmail.com>
+Message-ID: <CA+5PVA5bqGJoJw3njfWfOjHvzDzU2KDz5cHJ4QCexxKe1e8=8A@mail.gmail.com>
+Subject: Re: pull request: linux-firmware: update cxgb4 firmware to 1.25.4.0
+To: Raju Rangoju <rajur@chelsio.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, oss-drivers@netronome.com
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Ramaraju Yelavarthy <ramaraju@chelsio.com>, 
+	Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Pulled and pushed out.
+This fails check_whence
+
+[jwboyer@vader linux-firmware]$ ./check_whence.py
+E: cxgb4/t4fw-1.24.17.0.bin listed in WHENCE does not exist
+E: cxgb4/t5fw-1.24.17.0.bin listed in WHENCE does not exist
+E: cxgb4/t6fw-1.24.17.0.bin listed in WHENCE does not exist
+E: cxgb4/t4fw-1.25.4.0.bin not listed in WHENCE
+E: cxgb4/t5fw-1.25.4.0.bin not listed in WHENCE
+E: cxgb4/t6fw-1.25.4.0.bin not listed in WHENCE
+
+You changed the links in the commits, but didn't adjust the actual
+File entries.  Can you clean that up please?
 
 josh
 
-On Thu, Apr 8, 2021 at 8:56 AM Louis Peens <louis.peens@netronome.com> wrote:
+On Fri, Apr 9, 2021 at 5:45 PM Raju Rangoju <rajur@chelsio.com> wrote:
+>
+> Hi,
+>
+> Can you please pull the new firmware from the following URL?
+> git://git.chelsio.net/pub/git/linux-firmware.git for-upstream
 >
 > The following changes since commit af1ca28f03287b0c60682ab37cc684c773de853f:
 >
 >   amdgpu: add arcturus firmware (2021-04-05 10:40:08 -0400)
 >
-> are available in the Git repository at:
+> are available in the git repository at:
 >
->   https://github.com/Netronome/linux-firmware
+>   git://git.chelsio.net/pub/git/linux-firmware.git for-upstream
 >
-> for you to fetch changes up to 6c419aea3689472787a02d19f62815e08856336d:
+> for you to fetch changes up to 7daedba9b02bfbb47da89c4dae6f20c91a5e5402:
 >
->   nfp: update Agilio SmartNIC flower firmware to rev AOTC-2.14.A.6 (2021-04-08 14:44:28 +0200)
+>   cxgb4: Update firmware to revision 1.25.4.0 (2021-04-09 07:45:27 -0700)
 >
 > ----------------------------------------------------------------
-> Louis Peens (1):
->       nfp: update Agilio SmartNIC flower firmware to rev AOTC-2.14.A.6
+> Raju Rangoju (1):
+>       cxgb4: Update firmware to revision 1.25.4.0
 >
->  WHENCE                             |   2 +-
->  netronome/flower/nic_AMDA0058.nffw | Bin 6683216 -> 6857912 bytes
->  netronome/flower/nic_AMDA0096.nffw | Bin 4312000 -> 4417672 bytes
->  netronome/flower/nic_AMDA0097.nffw | Bin 4312000 -> 4417672 bytes
->  netronome/flower/nic_AMDA0099.nffw | Bin 4314368 -> 4420040 bytes
->  5 files changed, 1 insertion(+), 1 deletion(-)
+>  WHENCE                              |   6 +++---
+>  cxgb4/configs/t6-config-default.txt |   8 ++++++--
+>  cxgb4/t4fw-1.24.17.0.bin            | Bin 568832 -> 0 bytes
+>  cxgb4/t4fw-1.25.4.0.bin             | Bin 0 -> 569856 bytes
+>  cxgb4/t5fw-1.24.17.0.bin            | Bin 672768 -> 0 bytes
+>  cxgb4/t5fw-1.25.4.0.bin             | Bin 0 -> 675328 bytes
+>  cxgb4/t6fw-1.24.17.0.bin            | Bin 727040 -> 0 bytes
+>  cxgb4/t6fw-1.25.4.0.bin             | Bin 0 -> 728064 bytes
+>  8 files changed, 9 insertions(+), 5 deletions(-)
+>  delete mode 100644 cxgb4/t4fw-1.24.17.0.bin
+>  create mode 100644 cxgb4/t4fw-1.25.4.0.bin
+>  delete mode 100644 cxgb4/t5fw-1.24.17.0.bin
+>  create mode 100644 cxgb4/t5fw-1.25.4.0.bin
+>  delete mode 100644 cxgb4/t6fw-1.24.17.0.bin
+>  create mode 100644 cxgb4/t6fw-1.25.4.0.bin
