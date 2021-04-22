@@ -1,139 +1,84 @@
-Return-Path: <SRS0=Uf9A=JT=plvision.eu=vadym.kochan@kernel.org>
+Return-Path: <SRS0=yaD8=JT=ipik.org=spam@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
-	MENTIONS_GIT_HOSTING,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B86A5C433ED
-	for <linux-firmware@archiver.kernel.org>; Thu, 22 Apr 2021 08:30:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BC32C433ED
+	for <linux-firmware@archiver.kernel.org>; Thu, 22 Apr 2021 17:47:57 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 713B16141C; Thu, 22 Apr 2021 08:30:02 +0000 (UTC)
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-eopbgr60107.outbound.protection.outlook.com [40.107.6.107])
+	id 2ED7E613F5; Thu, 22 Apr 2021 17:47:57 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8658D613D1
-	for <linux-firmware@kernel.org>; Thu, 22 Apr 2021 08:30:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8658D613D1
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=plvision.eu
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=vadym.kochan@plvision.eu
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D9oxHksg8YFNNjPdthZf/22dlciKUWS0Gm4mN+mTW0UfJn4lLsfkbVeJqXTYkEprP/gW1LdDbfHVbVK0Ccnn4kCrjRIN2BbBc57dVzY1Iq8gMqKc4IfsZ+BkLMusgxsL2K5zQlHXpIaniAgrimid4x0paIrPfedFPfvFCqcDXstGjUIsd2rO+deJ5+UxqXk1D1xAVNEuTv6stZiUXs9A17+C9kI+OtdP1A+PxlAA1i5RjtztQAb8bNrc1k7KOc7zq0ShQlzrTZ7crLxsK0Ku1sx65oMwa8zBHxJuaxlezu4zfNhzErnSytInaPQirtMAycdL6XAsXEyt3dixGsV37w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aAQHQCwKb4+4yc+7F6ugDOPvG8b6ygREBIq6JC4eYEI=;
- b=I0KfQxdApSYOpWcnydrcsSxbXCqoXyhO6XERmdKaGdyZDoga7k4FWjmbpviNlbov4HkAqBBRE+eviWennqXvrrZ2dMoascG1SvAgtDbOIsf/Ri4AUhEK49pIaIP2yYshjxxn65ZH6n78Qunlo74JEqqUAUoXrATWfkgxEv4b3t8p8kI/Y5Xu3vgzg2mYej/CNB+A7aWLdPVWJrxWGQ3KLQGMEeOynj586kkTDDZDkDFwoJ8yH366pHJ/YGu/tnzRvu0pU5nNYPoSLS70sV4/N8ZD9o3opw5b6kmE8qh+sW+AoS1/vAlMLyRcTFniFfu7PgQr8tKsKFHv9CIj9Z9uEA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=plvision.eu; dmarc=pass action=none header.from=plvision.eu;
- dkim=pass header.d=plvision.eu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=plvision.eu;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aAQHQCwKb4+4yc+7F6ugDOPvG8b6ygREBIq6JC4eYEI=;
- b=TBQTP/Ok4Ch6+37oosY3IcawRV+Ejh7StSxRIk7Ugld3qwWzjIv2VZMEXM+Qy9hLopGOxQ+qj8ELxcwzxQgsfkbPf+Ha4VGvPnhVBh+cF9s9Xv0eSmY9d3abkbjY94iv4cGk7BpEOoFTOsgHdhjUYQT90FGFDZUg7cHIexR1IU0=
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=plvision.eu;
-Received: from HE1P190MB0539.EURP190.PROD.OUTLOOK.COM (2603:10a6:7:56::28) by
- HE1P190MB0026.EURP190.PROD.OUTLOOK.COM (2603:10a6:3:c9::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4042.18; Thu, 22 Apr 2021 08:29:58 +0000
-Received: from HE1P190MB0539.EURP190.PROD.OUTLOOK.COM
- ([fe80::a03e:2330:7686:125c]) by HE1P190MB0539.EURP190.PROD.OUTLOOK.COM
- ([fe80::a03e:2330:7686:125c%7]) with mapi id 15.20.4065.023; Thu, 22 Apr 2021
- 08:29:58 +0000
-Date: Thu, 22 Apr 2021 11:29:55 +0300
-From: Vadym Kochan <vadym.kochan@plvision.eu>
+	by mail.kernel.org (Postfix) with ESMTPS id 11896613B8;
+	Thu, 22 Apr 2021 17:47:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 11896613B8
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ipik.org
+Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=spam@ipik.org
+X-Originating-IP: 88.136.76.194
+Received: from [192.168.19.33] (194.76.136.88.rev.sfr.net [88.136.76.194])
+	(Authenticated sender: sendmail@ipik.org)
+	by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 484E9C0004;
+	Thu, 22 Apr 2021 17:47:51 +0000 (UTC)
+From: Michel Piquemal <spam@ipik.org>
+Subject: Re: brcm: add missing symlink for Pi Zero W NVRAM file
+To: jwboyer@kernel.org
+References: <0c5cfa45-1bc6-3f63-435b-5281529457d4@ipik.org>
+ <CA+5PVA5Zs8iX77chTnZfw38OHbV+Y4G0ib3B-2_+O4oGv9ERzg@mail.gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Oleksandr Mazur <oleksandr.mazur@plvision.eu>,
-	Serhiy Boiko <serhiy.boiko@plvision.eu>,
-	Serhiy Pshyk <serhiy.pshyk@plvision.eu>,
-	Volodymyr Mytnyk <volodymyr.mytnyk@plvision.eu>,
-	Taras Chornyi <taras.chornyi@plvision.eu>,
-	Mickey Rachamim <mickeyr@marvell.com>,
-	Vadym Kochan <vadym.kochan@plvision.eu>
-Subject: [GIT PULL] linux-firmware: mrvl: prestera: Add Marvell Prestera
- Switchdev firmware 3.0 version
-Message-ID: <20210422082955.GA1864@plvision.eu>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [217.20.186.93]
-X-ClientProxiedBy: AM5PR0502CA0008.eurprd05.prod.outlook.com
- (2603:10a6:203:91::18) To HE1P190MB0539.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:7:56::28)
+Cc: linux-firmware@kernel.org
+Message-ID: <5c22e2d0-8397-71d5-0395-e9fac50aeaba@ipik.org>
+Date: Thu, 22 Apr 2021 19:47:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from plvision.eu (217.20.186.93) by AM5PR0502CA0008.eurprd05.prod.outlook.com (2603:10a6:203:91::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.22 via Frontend Transport; Thu, 22 Apr 2021 08:29:57 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: eac7e82e-e9c3-4f71-1ca3-08d90568d039
-X-MS-TrafficTypeDiagnostic: HE1P190MB0026:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS:
-	<HE1P190MB00263933588CCD6F2717137895469@HE1P190MB0026.EURP190.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:378;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	GN1llTU10syNprhZWNMDupBofXNUuPCC5V0lu/utTuXYCA61TG9Ly66Boztj1JxLrMGwKcz4fSEGRGs2uEB0SzqzcowJWcxGpLOR+AmB/ygmKaMysYXmEQp/FisbefKR+IKJQV17Azy7l/BLq3sq+k7uyvmu2xG3naErHBtK+FeuAVpTLZPCVb45NOIs0BuzAEZ0Q2gPeoOsgv9MJ+n5dofcRRGOuaSbzROkzEMC4B4FDVEZjD6n2cLiJBbGnfOXn0rSdW7O8Oe9MYnoMAlj3nzx1qe5TTcEgBtXcbWsW7pJtqBRHFRjhR5oywokegd7h10yN1AmBxQ6D+HkqBZgpbKV/9YbDm+9SUJKmEX4YMRyt4z7H+1EO9hpkEYZ3alWkcyFIlsW+kWdXEnZPvESK9tY+ETVLq0ZhyAz4UijiXOC2FsGM68dQV4IDIruVJRAOjef0EOkwaGgvCHlKAAf7Abp1WhkKM3F+uYKztxTmtUD6cCSmVfTi3ncigiUdvSSpdGhvR5xy07m6HzX1hHwbl1U2widhQNIskNL2drcqak5+97cvYi4P/dbSEgRapIWp/2eE8L/utytNkeuOJXnuDGy51tB466NOKxh+63IOV/SuMlU6T23qRPitj5TnzwBwJP9QvP1j3M4+hQLfhAGERlLuXcA0kyyaKK9sdqENHOHbHZcgUev2hDDDGx0JDBZ7IkG5ReiCcmK55wlqPlMHP3r3qgdck17Bw6sfFsPl+4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HE1P190MB0539.EURP190.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(376002)(136003)(39830400003)(396003)(366004)(346002)(316002)(52116002)(8676002)(8886007)(478600001)(55016002)(16526019)(186003)(54906003)(4744005)(2616005)(4326008)(83380400001)(33656002)(26005)(7696005)(38100700002)(5660300002)(66476007)(2906002)(66556008)(966005)(66946007)(956004)(44832011)(6916009)(36756003)(107886003)(38350700002)(86362001)(1076003)(8936002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData:
-	=?us-ascii?Q?NtVE9SXZrvxUPCmbmDV6Crr0CUzR7kohFub2SFDqjegq5MeToXvAVZPkdhqc?=
- =?us-ascii?Q?cjxmijODmughJLnkeRxsGMJGZquzdsARUjfFFuxJB4DJp36uSxRJpcvGxuQI?=
- =?us-ascii?Q?ADVv2yKkXDNAOU5lG8CaLHYuq9pSYgyXSd+cxMRJbGe9Hi72R8HiG1xYNYWU?=
- =?us-ascii?Q?JMN8W0NTH5m/lJPumQg+q/00a217b8bDBFYMScJR2jVUZzOcnMjYzhaGr9Xb?=
- =?us-ascii?Q?a3/GJDGAKQeTp3peKtFFlcldrOsEC8+uC1xe3cnnBo6oS6y71bw2qlaKLZW/?=
- =?us-ascii?Q?qXyA5a/dcNUepfdB86ukUtr5UJzkNvdPyHdwTwHotbJ3h9ivkyAN8bp/u3yy?=
- =?us-ascii?Q?iEsdcvXQ1S5pX8z5Pg0CMCRHg3GYHgW5coUHbosVP9oSBh4/U62CkqJ17v7J?=
- =?us-ascii?Q?4LySQAxMBxPUFOkgLp0UiEU6MX0Gee2c3LIFMcCDRVUrZNldjb5030H5gcY/?=
- =?us-ascii?Q?Dje9n4BPF6BpIHp9/KeNjFR4AE0Dn5eMUFhQjB+3iHbL8Powj1zdLWDAKR/k?=
- =?us-ascii?Q?XQP9Gr6IFhXb973qYUYAcxUWS2PJaMLWlJmk/eYsvKXNYxPzRyLT6XRu8nOq?=
- =?us-ascii?Q?D/hvra7LIFJdpfuv+0vp+YgYCm6aJFK5BxHC5TSsgYUsYiBQZ2XfZISnWnIz?=
- =?us-ascii?Q?8dlix/DFFdpzdVXmS07psqitP0WE60d7eBpTS59rgYBig0t9rWydlwvw5hLn?=
- =?us-ascii?Q?Yg15MnFbdkyq4nRM/KnwcCZdc1TjiHBnaqA7wB5BXRvUrEI+3U00ZUBXr35/?=
- =?us-ascii?Q?8YynOIqwJwmI7ugEdpwZjp+URZr/m3a3SmHeMhxnKGSmfd5Ht3ME/I70mW/F?=
- =?us-ascii?Q?0gymbcgqFRB0+Sb7U/1T50bNqdFFgf6LZMqBdQgfDu8dcQdgI8mEX1Qr/w98?=
- =?us-ascii?Q?XW4U55sb8511L3voa7F2KP5o1JDJii2x2bV2r8qwq19QLz7hfkuQD4Dc2i4K?=
- =?us-ascii?Q?Gw6X3EZG1wGy3O82FXP50AxFnuIGXJwidlwkjXNeQ2cp90DOAa/lQQTpeaVi?=
- =?us-ascii?Q?WwW1FC6zIPpesPQ9DR5fQDXNSFXv9bzEFxaFMsRqfo84IrZ67s1GllpP7+nq?=
- =?us-ascii?Q?bJTR+3+F9ERjTp4w/62aj1B+F6b/IAibezybG2mkzyRxq5EnpX6MpOfZC9zT?=
- =?us-ascii?Q?+U7nHmmiguJlLgcK1FxKg6AkmC8OdOrmCzLQHwpYqgVnD+MiZ8ZW4pb6ekLb?=
- =?us-ascii?Q?Up1IstFEmRpH6p4bFV+mw5ZfUTnar05Gaa9Fomtez+REo9RDaqCL8+Qz4uNm?=
- =?us-ascii?Q?qiTaA7lTAzukovWMldsf0vbl49DwtvWBfyrceKgwZyDimjGpvFeUmzX8TG2F?=
- =?us-ascii?Q?TGm44CFFczmP5YV1M6YpW+BT?=
-X-OriginatorOrg: plvision.eu
-X-MS-Exchange-CrossTenant-Network-Message-Id: eac7e82e-e9c3-4f71-1ca3-08d90568d039
-X-MS-Exchange-CrossTenant-AuthSource: HE1P190MB0539.EURP190.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2021 08:29:57.8766
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 03707b74-30f3-46b6-a0e0-ff0a7438c9c4
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NClRHwqjirm0m/gtqcgnNaEcOOAsmQtmfAyrFHxm64GQZ6BGNKdGigDiLyo2+JaOAW9hzwVzHTsLfIvV8+6REeKYDgTgo+hWJ3RaFBY84m4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1P190MB0026
+In-Reply-To: <CA+5PVA5Zs8iX77chTnZfw38OHbV+Y4G0ib3B-2_+O4oGv9ERzg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit cfa004c7d82e1903cc88a918ee9b270fb8f47b28:
 
-  amdgpu: update arcturus firmware from 21.10 (2021-04-21 07:09:48 -0400)
+On 21/04/2021 13:23, Josh Boyer wrote:
+> On Mon, Apr 19, 2021 at 1:38 PM Michel Piquemal <spam@ipik.org> wrote:
+>>
+>> Raspberry Pi Zero W has no NVRAM files specified and dmesg reports the
+>> following error at boot:
+>> brcmfmac mmc1:0001:1: Direct firmware load for
+>> brcm/brcmfmac43430-sdio.raspberrypi,model-zero-w.txt failed with error -2
+>>
+>> Pi Zero W uses same wifi BCM43430 module than Pi 3 model B:
+>> symlinking to that Pi 3b NVRAM file fixes the issue, and wifi works as
+>> expected.
+>>
+> Your patch is corrupted and doesn't apply.  Please update your local
+> tree to the latest in git and resend.
+> 
+> josh
+> 
 
-are available in the Git repository at:
+Hi. Apologies it got mangled by mail client; here it is again:
 
-  https://github.com/PLVision/linux-firmware.git mrvl-prestera
+Signed-off-by: Michel Piquemal <spam@ipik.org>
+---
+ WHENCE | 1 +
+ 1 file changed, 1 insertion(+)
 
-for you to fetch changes up to 50d16db2e77332e0e89ec0f9604ab0bb2fbc3c02:
+diff --git a/WHENCE b/WHENCE
+index 9699246..57f7cbb 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -2771,6 +2771,7 @@ Link: brcm/brcmfmac43430-sdio.sinovoip,bpi-m3.txt -> brcmfmac43430-sdio.AP6212.t
+ File: "brcm/brcmfmac43430-sdio.Hampoo-D2D3_Vi8A1.txt"
+ File: "brcm/brcmfmac43430-sdio.MUR1DX.txt"
+ File: "brcm/brcmfmac43430-sdio.raspberrypi,3-model-b.txt"
++Link: brcm/brcmfmac43430-sdio.raspberrypi,model-zero-w.txt -> brcmfmac43430-sdio.raspberrypi,3-model-b.txt
+ File: "brcm/brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt"
+ Link: brcm/brcmfmac43455-sdio.raspberrypi,3-model-a-plus.txt -> brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt
+ File: "brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.txt"
+-- 
+2.28.0
 
-  mrvl: prestera: Add Marvell Prestera Switchdev firmware 3.0 version (2021-04-22 11:23:24 +0300)
-
-----------------------------------------------------------------
-Vadym Kochan (1):
-      mrvl: prestera: Add Marvell Prestera Switchdev firmware 3.0 version
-
- mrvl/prestera/mvsw_prestera_fw-v3.0.img | Bin 0 -> 13721584 bytes
- 1 file changed, 0 insertions(+), 0 deletions(-)
- create mode 100755 mrvl/prestera/mvsw_prestera_fw-v3.0.img
