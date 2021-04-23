@@ -3,74 +3,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PULL_REQUEST,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E65D9C433B4
-	for <linux-firmware@archiver.kernel.org>; Fri, 23 Apr 2021 11:04:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F061C43460
+	for <linux-firmware@archiver.kernel.org>; Fri, 23 Apr 2021 11:05:34 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 9A5F361467; Fri, 23 Apr 2021 11:04:02 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8495C61352
-	for <linux-firmware@kernel.org>; Fri, 23 Apr 2021 11:04:02 +0000 (UTC)
+	id 5295961483; Fri, 23 Apr 2021 11:05:34 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3CBB86147F
+	for <linux-firmware@kernel.org>; Fri, 23 Apr 2021 11:05:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1619175842;
-	bh=r0tZjAM4FxTim5EURPwZpooLs4whuKT/LdaBoey+TBg=;
+	s=k20201202; t=1619175934;
+	bh=Swb51kooA9o11Afris4ngWT837cAiqCLtOJERI6hlvE=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=XHhMoEn+1+voA3d6A3/lCkj8yx8gPuvIMCZdenz1+7j31HjGIYeHMWkWNklE+kf7F
-	 9jC+HXsWniHKzVHTzJT5PCGd9VqMK1DSDTlM+HPRvTnK0btZ0gaOjm2NAL61cCig1x
-	 3YHeJ8dX/FU1xY7TC7fnzoO9eeuun07NeQr7lwH3NMxh15+pbnnYByfTHp1hLvBPoZ
-	 PjRU/4wGPfGBwO5EgaqwL338xpmqipWm+vj9ClcKn8dBHcH9h4NdGZFUSNRpahNwQ0
-	 /A2E8TI+pXn2UVrK/r7w7P5tIul9e95B8/K5TvP7ZxadwVp8aOHQUkYxLLNMjNtA2s
-	 kHoIrDUDc4ssA==
-Received: by mail-il1-f169.google.com with SMTP id c15so40413382ilj.1
-        for <linux-firmware@kernel.org>; Fri, 23 Apr 2021 04:04:02 -0700 (PDT)
-X-Gm-Message-State: AOAM5304fawRMNZcYU1Imf6rfy7mR9y/UGpyl4Wgem1qtjjZhEV8MUU+
-	I9beTyeeFZlFclRuBBoRohWnmg7Co94deMEH7ek=
-X-Google-Smtp-Source: ABdhPJwGKrD0dvOHozpw7XY64ICjI65A2iuFvo705+zDCcJaVjl5cPrlZ5pGrAefh2ijzpF3byWKMl1T+zK5pCUQA0c=
-X-Received: by 2002:a92:d582:: with SMTP id a2mr2386662iln.206.1619175841837;
- Fri, 23 Apr 2021 04:04:01 -0700 (PDT)
+	b=cSqbSyT1bshJTanQOd76kohV/PjXfzIqvJIedz8ts7KyZx00wybT5TF59u50EoFjG
+	 Ba76cz5/eYJqZWtKlNIUAqscv2P5ijmgXKheELMIjC+qKIlraAcEnldV9o1H76HA9f
+	 JldWai41cquN0e2kWNexyZFWb77xXrYKIXnzs25z8YtHHqT0vFPeQgTQRGeEW4B4vg
+	 Zxa16+Z/AemF3Qu1HkA8tvkwqGcectjtR3sxW6sNRr4zIkStpy4OF3d8e6zsCa7Qmg
+	 kp46cD+4n7Y3rsFQwOqGWGM3cRY+OVdxGUsOxLHpVLyrP231T9k71HzzHMCNSsQY1n
+	 Q8qCBzwrtq7OA==
+Received: by mail-il1-f173.google.com with SMTP id l9so4618698ilh.10
+        for <linux-firmware@kernel.org>; Fri, 23 Apr 2021 04:05:34 -0700 (PDT)
+X-Gm-Message-State: AOAM5323Y71uug6Wqkaw0kUM+0yxiQf6kXcf4m8as3F3+kyEkEapnU3H
+	c4aCWnGkzjrrHcadVtLWCqvsp2KL2TDfDfM+c20=
+X-Google-Smtp-Source: ABdhPJzgLM90qNKfn7DNpORP++d5ybmEGCE9s+5lezKyk7xr3BsFz0NRKRzOSpauHm0RberPsjAfo/EFModeEHnv+bY=
+X-Received: by 2002:a05:6e02:160d:: with SMTP id t13mr2559326ilu.85.1619175933543;
+ Fri, 23 Apr 2021 04:05:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210422082955.GA1864@plvision.eu>
-In-Reply-To: <20210422082955.GA1864@plvision.eu>
+References: <0c5cfa45-1bc6-3f63-435b-5281529457d4@ipik.org>
+ <CA+5PVA5Zs8iX77chTnZfw38OHbV+Y4G0ib3B-2_+O4oGv9ERzg@mail.gmail.com> <5c22e2d0-8397-71d5-0395-e9fac50aeaba@ipik.org>
+In-Reply-To: <5c22e2d0-8397-71d5-0395-e9fac50aeaba@ipik.org>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Fri, 23 Apr 2021 07:03:50 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA7z-8sUDPoypQBt61qzVmyU4G_wRg94795HsstSH_i=xQ@mail.gmail.com>
-Message-ID: <CA+5PVA7z-8sUDPoypQBt61qzVmyU4G_wRg94795HsstSH_i=xQ@mail.gmail.com>
-Subject: Re: [GIT PULL] linux-firmware: mrvl: prestera: Add Marvell Prestera
- Switchdev firmware 3.0 version
-To: Vadym Kochan <vadym.kochan@plvision.eu>
+Date: Fri, 23 Apr 2021 07:05:22 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA4_KWgNgvHaUtvoMuzP_XUcAh9jg1Gpj1=9QAkuFNVNrg@mail.gmail.com>
+Message-ID: <CA+5PVA4_KWgNgvHaUtvoMuzP_XUcAh9jg1Gpj1=9QAkuFNVNrg@mail.gmail.com>
+Subject: Re: brcm: add missing symlink for Pi Zero W NVRAM file
+To: Michel Piquemal <spam@ipik.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, netdev <netdev@vger.kernel.org>, 
-	"Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>, 
-	Oleksandr Mazur <oleksandr.mazur@plvision.eu>, Serhiy Boiko <serhiy.boiko@plvision.eu>, 
-	Serhiy Pshyk <serhiy.pshyk@plvision.eu>, Volodymyr Mytnyk <volodymyr.mytnyk@plvision.eu>, 
-	Taras Chornyi <taras.chornyi@plvision.eu>, Mickey Rachamim <mickeyr@marvell.com>
+Cc: Linux Firmware <linux-firmware@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Apr 22, 2021 at 4:30 AM Vadym Kochan <vadym.kochan@plvision.eu> wrote:
+On Thu, Apr 22, 2021 at 1:47 PM Michel Piquemal <spam@ipik.org> wrote:
 >
-> The following changes since commit cfa004c7d82e1903cc88a918ee9b270fb8f47b28:
 >
->   amdgpu: update arcturus firmware from 21.10 (2021-04-21 07:09:48 -0400)
+> On 21/04/2021 13:23, Josh Boyer wrote:
+> > On Mon, Apr 19, 2021 at 1:38 PM Michel Piquemal <spam@ipik.org> wrote:
+> >>
+> >> Raspberry Pi Zero W has no NVRAM files specified and dmesg reports the
+> >> following error at boot:
+> >> brcmfmac mmc1:0001:1: Direct firmware load for
+> >> brcm/brcmfmac43430-sdio.raspberrypi,model-zero-w.txt failed with error -2
+> >>
+> >> Pi Zero W uses same wifi BCM43430 module than Pi 3 model B:
+> >> symlinking to that Pi 3b NVRAM file fixes the issue, and wifi works as
+> >> expected.
+> >>
+> > Your patch is corrupted and doesn't apply.  Please update your local
+> > tree to the latest in git and resend.
+> >
+> > josh
+> >
 >
-> are available in the Git repository at:
->
->   https://github.com/PLVision/linux-firmware.git mrvl-prestera
->
-> for you to fetch changes up to 50d16db2e77332e0e89ec0f9604ab0bb2fbc3c02:
->
->   mrvl: prestera: Add Marvell Prestera Switchdev firmware 3.0 version (2021-04-22 11:23:24 +0300)
+> Hi. Apologies it got mangled by mail client; here it is again:
 
-This adds a new file but doesn't add it to WHENCE.  Can you please fix that up?
+Thanks, applied and pushed out.
 
 josh
 
 >
-> ----------------------------------------------------------------
-> Vadym Kochan (1):
->       mrvl: prestera: Add Marvell Prestera Switchdev firmware 3.0 version
+> Signed-off-by: Michel Piquemal <spam@ipik.org>
+> ---
+>  WHENCE | 1 +
+>  1 file changed, 1 insertion(+)
 >
->  mrvl/prestera/mvsw_prestera_fw-v3.0.img | Bin 0 -> 13721584 bytes
->  1 file changed, 0 insertions(+), 0 deletions(-)
->  create mode 100755 mrvl/prestera/mvsw_prestera_fw-v3.0.img
+> diff --git a/WHENCE b/WHENCE
+> index 9699246..57f7cbb 100644
+> --- a/WHENCE
+> +++ b/WHENCE
+> @@ -2771,6 +2771,7 @@ Link: brcm/brcmfmac43430-sdio.sinovoip,bpi-m3.txt -> brcmfmac43430-sdio.AP6212.t
+>  File: "brcm/brcmfmac43430-sdio.Hampoo-D2D3_Vi8A1.txt"
+>  File: "brcm/brcmfmac43430-sdio.MUR1DX.txt"
+>  File: "brcm/brcmfmac43430-sdio.raspberrypi,3-model-b.txt"
+> +Link: brcm/brcmfmac43430-sdio.raspberrypi,model-zero-w.txt -> brcmfmac43430-sdio.raspberrypi,3-model-b.txt
+>  File: "brcm/brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt"
+>  Link: brcm/brcmfmac43455-sdio.raspberrypi,3-model-a-plus.txt -> brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt
+>  File: "brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.txt"
+> --
+> 2.28.0
+>
