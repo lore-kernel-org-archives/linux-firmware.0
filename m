@@ -1,170 +1,139 @@
-Return-Path: <bounce+a91e02.be9e4a-linux-firmware=kernel.org@codeaurora.org>
+Return-Path: <SRS0=ZQI/=JZ=linaro.org=stanimir.varbanov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C875C433B4
-	for <linux-firmware@archiver.kernel.org>; Wed, 28 Apr 2021 12:33:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5C9BC433ED
+	for <linux-firmware@archiver.kernel.org>; Wed, 28 Apr 2021 13:48:09 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 583C4613AD; Wed, 28 Apr 2021 12:33:30 +0000 (UTC)
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+	id 6F58961444; Wed, 28 Apr 2021 13:48:09 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 30BBD601FE
-	for <linux-firmware@kernel.org>; Wed, 28 Apr 2021 12:33:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 30BBD601FE
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=bounce+a91e02.be9e4a-linux-firmware=kernel.org@mg.codeaurora.org
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1619613210; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=ENha3M3OIA5azU7XEdam5MFdGtjZNcN7P7qlyJYh6Wc=;
- b=bM7HQo3LamKS70fw/lV0H+INzWjLbL4YI6ktBz7Cu+TVg2PlIfI/RTOXctBggv97DbuqtJB4
- xSYxrMWBobl+mL9sqWaaLNJrztItJ4RXGvN5vuAgF1MhCRS5K4Y20AALdzRz/znlDKB9EePg
- lN/AQRaQqT4EXNEyeadT5cTuRhE=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyI3Mjk1MCIsICJsaW51eC1maXJtd2FyZUBrZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
- 60895610e0e9c9a6b6e2875f (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 28 Apr 2021 12:33:20
- GMT
-Sender: smagar=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-	id 234BCC433D3; Wed, 28 Apr 2021 12:33:20 +0000 (UTC)
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: smagar)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id 38BF0C433F1;
-	Wed, 28 Apr 2021 12:33:19 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Wed, 28 Apr 2021 18:03:19 +0530
-From: smagar@codeaurora.org
-To: Josh Boyer <jwboyer@kernel.org>
+	by mail.kernel.org (Postfix) with ESMTPS id 4695161442
+	for <linux-firmware@kernel.org>; Wed, 28 Apr 2021 13:48:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4695161442
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
+Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=stanimir.varbanov@linaro.org
+Received: by mail-ej1-f49.google.com with SMTP id r12so94733527ejr.5
+        for <linux-firmware@kernel.org>; Wed, 28 Apr 2021 06:48:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=NPJFa1yPhrLq0PnWDq7NJrMIFlW4oE6/GyqIVm0OSjQ=;
+        b=o+0LiwxEgpzlqOLtELHEXA0LhFqL5ZRAe5RWrHVf4fx5HL5oZPsMUiB01IzQ/FOCjs
+         Ok7IfxuomUUCB6wFMd3QKtPYxlryhcvc8thhicSD+sXy2t+nIT/AWiZt5qlCBaeaP5qo
+         fQpZ1u2NxaVuhN69Hb55UrUUlhor4wPg2M+1dRJcstJkNaM1zgiX16CHGzxVq6JjvJYy
+         67zM1AlxlSaodd/5ApFXn+BiPez1NksXtekEPrOO/smOWeXvCMFix+FaEQtdim1e9vTA
+         SLjleD/WfW5T1QAOPgTh4gvJwL+WPzs5hSmhW2OECuhL+W2kpcJVQkUt8k7IOBMdHq1Y
+         Iq4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=NPJFa1yPhrLq0PnWDq7NJrMIFlW4oE6/GyqIVm0OSjQ=;
+        b=IFsKLxzYZhKgyG4MyiN+QuwrY7Wu1CUvNC40mbBnDA8wZckR9BRqBjONzsaeUwT8X/
+         AwRxH+oWvCVShoQjooJ50m1NGogZEjHvAxDNKQcrbGfowKPqB3R87L1XQ/zzxBnVcmkg
+         F0ss4E02Iio7G99mbJ7TRLKqeWZuY+DhbahB8ayJR6UEJFBa6wssN+qS5WXAwb6EArNx
+         IsXr/pq+o73v7Tk85I16gPinAlyAPiWwcsZ0ZTy43CZafA2I0zuP3RSwZkCdLyS//Vko
+         IbFp9U25dW71nqajPNBGXGNjgQapkp35zY9odSiCnPP+hTX2/P9OD7BE7oxs6og7r3qY
+         YNgA==
+X-Gm-Message-State: AOAM532bk4EtlYpcJRzqChwLurfROeSLNvqjPIcOKAmA3hjVNQPUwTGv
+	42vJI7QnQNKtaIVlpjJuBSRXrA==
+X-Google-Smtp-Source: ABdhPJxabnOp31u5I9SpC9p+kssNW+G7GHHKzD880x1P41RkZh5iFTBtUN9HN7ZDuWqWDm7pWtS3Eg==
+X-Received: by 2002:a17:906:c297:: with SMTP id r23mr7474073ejz.144.1619617687749;
+        Wed, 28 Apr 2021 06:48:07 -0700 (PDT)
+Received: from [192.168.1.14] (hst-221-20.medicom.bg. [84.238.221.20])
+        by smtp.googlemail.com with ESMTPSA id k12sm4949564edo.50.2021.04.28.06.48.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Apr 2021 06:48:07 -0700 (PDT)
+Subject: Re: Update venus firmware files for v5.4 and venus firmware files for
+ VPU-2.0
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>,
- linux-arm-kernel@lists.infradead.org, Linux Media Mailing List
- <linux-media@vger.kernel.org>, Mauro Carvalho Chehab
- <mchehab@infradead.org>, Stanimir Varbanov <stanimir.varbanov@linaro.org>,
- linux-media-owner@vger.kernel.org, vgarodia@codeaurora.org,
- dikshita@codeaurora.org, adhudase@codeaurora.org, sampnimm@codeaurora.org,
- mansur@codeaurora.org
-Subject: Re: Request to update venus-5.10 FW files
-In-Reply-To: <CA+5PVA7pbgVRpwkM71ToxRwBKfH=j51GrZcz+8Q5H2MpmmL-_w@mail.gmail.com>
-References: <8885c6fbfcc91043a5406cf6e528e0b9@codeaurora.org>
- <CA+5PVA7pbgVRpwkM71ToxRwBKfH=j51GrZcz+8Q5H2MpmmL-_w@mail.gmail.com>
-Message-ID: <69a54323398e54a782c6818e801570fd@codeaurora.org>
-X-Sender: smagar@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+To: smagar@codeaurora.org, linux-firmware@kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ mchehab@infradead.org, linux-media-owner@vger.kernel.org
+Cc: vgarodia@codeaurora.org, dikshita@codeaurora.org,
+ adhudase@codeaurora.org, sampnimm@codeaurora.org, mansur@codeaurora.org
+References: <bee73b3fe8b04c1a2663be0cd3cc7318@codeaurora.org>
+From: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <9eaaec5d-a7d4-1889-5c92-28944b198adc@linaro.org>
+Date: Wed, 28 Apr 2021 16:48:06 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+MIME-Version: 1.0
+In-Reply-To: <bee73b3fe8b04c1a2663be0cd3cc7318@codeaurora.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On 2021-04-21 16:48, Josh Boyer wrote:
-> On Wed, Apr 21, 2021 at 2:59 AM <smagar@codeaurora.org> wrote:
->> 
->> Hello Team,
->> 
->> Please include updated firmware bins for venus-5.10.
->> 
->> Snapshot of pull request is as below, let me know if anything is
->> missing.
->> 
->> 
->> 
->> The following changes since commit
->> 5c893c65b862906a627cea238ae8c2d099027dee:
->> 
->>    Updated Venus firmware files for v5.10 (2021-04-20 11:48:28 +0530)
->> 
->> are available in the git repository at:
->> 
->>    https://github.com/suraj714/linux-firmware-venus.git master
->> 
->> for you to fetch changes up to 
->> 2565c9d2576ce1275206483e106d6fb627ace042:
->> 
->>    qcom :venus_v5.10: updated venus firmware files for v5.10 
->> (2021-04-21
->> 12:04:59 +0530)
->> 
->> ----------------------------------------------------------------
->> smagar (1):
->>        qcom :venus_v5.10: updated venus firmware files for v5.10
->> 
->>   qcom/sc7280/vpu20_1v.b00          | Bin 0 -> 692 bytes
->>   qcom/sc7280/vpu20_1v.b01          | Bin 0 -> 7376 bytes
->>   qcom/sc7280/vpu20_1v.b02          | Bin 0 -> 300 bytes
->>   qcom/sc7280/vpu20_1v.b03          | Bin 0 -> 20 bytes
->>   qcom/sc7280/vpu20_1v.b04          | Bin 0 -> 20 bytes
->>   qcom/sc7280/vpu20_1v.b05          | Bin 0 -> 20 bytes
->>   qcom/sc7280/vpu20_1v.b06          | Bin 0 -> 20 bytes
->>   qcom/sc7280/vpu20_1v.b07          | Bin 0 -> 24 bytes
->>   qcom/sc7280/vpu20_1v.b08          | Bin 0 -> 16 bytes
->>   qcom/sc7280/vpu20_1v.b09          | Bin 0 -> 939184 bytes
->>   qcom/sc7280/vpu20_1v.b10          | Bin 0 -> 42976 bytes
->>   qcom/sc7280/vpu20_1v.b11          |   0
->>   qcom/sc7280/vpu20_1v.b12          |   0
->>   qcom/sc7280/vpu20_1v.b13          |   0
->>   qcom/sc7280/vpu20_1v.b14          |   0
->>   qcom/sc7280/vpu20_1v.b15          |   0
->>   qcom/sc7280/vpu20_1v.b16          |   0
->>   qcom/sc7280/vpu20_1v.b17          |   0
->>   qcom/sc7280/vpu20_1v.b18          |   0
->>   qcom/sc7280/vpu20_1v.b19          |   1 +
->>   qcom/sc7280/vpu20_1v.mbn          | Bin 0 -> 2031188 bytes
->>   qcom/sc7280/vpu20_1v.mdt          | Bin 0 -> 8068 bytes
->>   qcom/sc7280/vpu20_1v_unsigned.mbn | Bin 0 -> 2031188 bytes
+
+
+On 4/28/21 3:32 PM, smagar@codeaurora.org wrote:
+> Hello Team,
 > 
-> This looks weird.  You're adding 23 new files, none of which are
-> mentioned in WHENCE.  Also, why do you have a bunch of 0 byte files?
+> Please include updated firmware bins for venus-5.4 and vpu-2.0.
 > 
-> Is this correct?
+> I have fixed comment and title updated.
 > 
-> josh
+> Removed 0 byte unwanted bins.
 > 
->>   23 files changed, 1 insertion(+)
->>   create mode 100644 qcom/sc7280/vpu20_1v.b00
->>   create mode 100644 qcom/sc7280/vpu20_1v.b01
->>   create mode 100644 qcom/sc7280/vpu20_1v.b02
->>   create mode 100644 qcom/sc7280/vpu20_1v.b03
->>   create mode 100644 qcom/sc7280/vpu20_1v.b04
->>   create mode 100644 qcom/sc7280/vpu20_1v.b05
->>   create mode 100644 qcom/sc7280/vpu20_1v.b06
->>   create mode 100644 qcom/sc7280/vpu20_1v.b07
->>   create mode 100644 qcom/sc7280/vpu20_1v.b08
->>   create mode 100644 qcom/sc7280/vpu20_1v.b09
->>   create mode 100644 qcom/sc7280/vpu20_1v.b10
->>   create mode 100644 qcom/sc7280/vpu20_1v.b11
->>   create mode 100644 qcom/sc7280/vpu20_1v.b12
->>   create mode 100644 qcom/sc7280/vpu20_1v.b13
->>   create mode 100644 qcom/sc7280/vpu20_1v.b14
->>   create mode 100644 qcom/sc7280/vpu20_1v.b15
->>   create mode 100644 qcom/sc7280/vpu20_1v.b16
->>   create mode 100644 qcom/sc7280/vpu20_1v.b17
->>   create mode 100644 qcom/sc7280/vpu20_1v.b18
->>   create mode 100644 qcom/sc7280/vpu20_1v.b19
->>   create mode 100644 qcom/sc7280/vpu20_1v.mbn
->>   create mode 100644 qcom/sc7280/vpu20_1v.mdt
->>   create mode 100644 qcom/sc7280/vpu20_1v_unsigned.mbn
->> 
->> Regards,
->> Suraj Magar
+> Below is combined pull request for venus-5.4 and VPU-2.0.
+> 
+> Please find snapshot of pull request, let me know if anything is missing.
+> 
+> 
+> The following changes since commit
+> 85286184d9df1b03bb76049edcfd87c39ce46e94:
+> 
+>   Merge branch 'for-upstream' of
+> git://git.chelsio.net/pub/git/linux-firmware into main (2021-04-19
+> 11:34:11 -0400)
+> 
+> are available in the git repository at:
+> 
+>   https://github.com/suraj714/linux-firmware-venus.git master
+> 
+> for you to fetch changes up to 6cdef281cd16d967ad89c01af6fdda85529a2d80:
+> 
+>   qcom: Add venus firmware files for VPU-2.0 (2021-04-28 14:42:48 +0530)
+> 
+> ----------------------------------------------------------------
+> smagar (2):
+>       qcom: update venus firmware files for v5.4
+>       qcom: Add venus firmware files for VPU-2.0
+> 
+>  WHENCE                    |  34 +++++++++++++++++++++++++++++++++-
+>  qcom/venus-5.4/venus.b00  | Bin 212 -> 212 bytes
+>  qcom/venus-5.4/venus.b01  | Bin 6808 -> 6808 bytes
+>  qcom/venus-5.4/venus.b02  | Bin 873680 -> 873596 bytes
+>  qcom/venus-5.4/venus.b03  | Bin 33792 -> 33792 bytes
+>  qcom/venus-5.4/venus.mbn  | Bin 919792 -> 919708 bytes
+>  qcom/venus-5.4/venus.mdt  | Bin 7020 -> 7020 bytes
+>  qcom/vpu-2.0/vpu20_1v.b00 | Bin 0 -> 692 bytes
+>  qcom/vpu-2.0/vpu20_1v.b01 | Bin 0 -> 7376 bytes
+>  qcom/vpu-2.0/vpu20_1v.b02 | Bin 0 -> 300 bytes
+>  qcom/vpu-2.0/vpu20_1v.b03 | Bin 0 -> 20 bytes
+>  qcom/vpu-2.0/vpu20_1v.b04 | Bin 0 -> 20 bytes
+>  qcom/vpu-2.0/vpu20_1v.b05 | Bin 0 -> 20 bytes
+>  qcom/vpu-2.0/vpu20_1v.b06 | Bin 0 -> 20 bytes
+>  qcom/vpu-2.0/vpu20_1v.b07 | Bin 0 -> 24 bytes
+>  qcom/vpu-2.0/vpu20_1v.b08 | Bin 0 -> 16 bytes
+>  qcom/vpu-2.0/vpu20_1v.b09 | Bin 0 -> 939184 bytes
+>  qcom/vpu-2.0/vpu20_1v.b10 | Bin 0 -> 42976 bytes
+>  qcom/vpu-2.0/vpu20_1v.b19 |   1 +
+>  qcom/vpu-2.0/vpu20_1v.mbn | Bin 0 -> 2031188 bytes
+>  qcom/vpu-2.0/vpu20_1v.mdt | Bin 0 -> 8068 bytes
 
-Hi Josh,
+Which Venus IP/SoCs use vpu-2.0 firmware? And what is the difference
+with existing vpu-1.0?
 
-I have fixed commit and title updated.
-Removed unwanted bins and 0 byte files, Also updated WHENCE.
-
-Both commit are combined in single pull request.
-Created fresh mail thread for firmware venus-5.4 and vpu-2.0,Please 
-review once and comment it.
-
-
-Regards,
-Suraj
+-- 
+regards,
+Stan
