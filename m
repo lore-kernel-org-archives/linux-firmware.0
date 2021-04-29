@@ -1,139 +1,133 @@
-Return-Path: <bounce+a91e02.be9e4a-linux-firmware=kernel.org@codeaurora.org>
+Return-Path: <SRS0=7Gyg=J2=realtek.com=pkshih@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6FDFC433ED
-	for <linux-firmware@archiver.kernel.org>; Thu, 29 Apr 2021 08:36:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C594CC433B4
+	for <linux-firmware@archiver.kernel.org>; Thu, 29 Apr 2021 09:00:23 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 9F30B61185; Thu, 29 Apr 2021 08:36:11 +0000 (UTC)
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	id 7ABB261424; Thu, 29 Apr 2021 09:00:23 +0000 (UTC)
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D647C61158
-	for <linux-firmware@kernel.org>; Thu, 29 Apr 2021 08:36:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D647C61158
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=bounce+a91e02.be9e4a-linux-firmware=kernel.org@mg.codeaurora.org
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1619685371; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=XErExocfvzioA095Ye/csdwTGte0Z7OiMKiPrNLQVLI=;
- b=pIy/Lst2HPqhpvsNi6TmCHjzhn938GcUlC2/BlhlXTSPWAyc890zkg1iRamO8a+W5buDNPw2
- XKavghPUYWr4/MaxctJTlatFD3KyWac1NKSCgIPKeAwVVrXJqZMGNvrN9QQr/pajBBfmdI8s
- Yej90ARQl/tGK0AwzKFKJzVi2G8=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyI3Mjk1MCIsICJsaW51eC1maXJtd2FyZUBrZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
- 608a6feea817abd39a9a55bc (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 29 Apr 2021 08:35:58
- GMT
-Sender: vgarodia=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-	id 3023AC433F1; Thu, 29 Apr 2021 08:35:57 +0000 (UTC)
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: vgarodia)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id 5A4FFC433D3;
-	Thu, 29 Apr 2021 08:35:56 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date: Thu, 29 Apr 2021 14:05:56 +0530
-From: vgarodia@codeaurora.org
-To: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+	by mail.kernel.org (Postfix) with ESMTPS id A454C61433
+	for <linux-firmware@kernel.org>; Thu, 29 Apr 2021 09:00:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A454C61433
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
+Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=pkshih@realtek.com
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.73 with qID 13T90JLt8014948, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36502.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/2.71/5.88) with ESMTPS id 13T90JLt8014948
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 29 Apr 2021 17:00:19 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXH36502.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 29 Apr 2021 17:00:18 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS04.realtek.com.tw (172.21.6.97) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 29 Apr 2021 16:59:58 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::1d8:ba7d:61ca:bd74]) by
+ RTEXMBS04.realtek.com.tw ([fe80::1d8:ba7d:61ca:bd74%5]) with mapi id
+ 15.01.2106.013; Thu, 29 Apr 2021 16:59:58 +0800
+From: Pkshih <pkshih@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: smagar@codeaurora.org, linux-firmware@kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- mchehab@infradead.org, linux-media-owner@vger.kernel.org,
- dikshita@codeaurora.org, adhudase@codeaurora.org, sampnimm@codeaurora.org,
- mansur@codeaurora.org
-Subject: Re: Update venus firmware files for v5.4 and venus firmware files for
- VPU-2.0
-In-Reply-To: <9eaaec5d-a7d4-1889-5c92-28944b198adc@linaro.org>
-References: <bee73b3fe8b04c1a2663be0cd3cc7318@codeaurora.org>
- <9eaaec5d-a7d4-1889-5c92-28944b198adc@linaro.org>
-Message-ID: <c38ab84b90feddb43b2782fa11ee5189@codeaurora.org>
-X-Sender: vgarodia@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+CC: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
+Subject: Request to update 8852a firmware of rtw89 to v0.13.8.0
+Thread-Topic: Request to update 8852a firmware of rtw89 to v0.13.8.0
+Thread-Index: Adc81c783/PxktaiQ9eK+o93SJZNPg==
+Date: Thu, 29 Apr 2021 08:59:57 +0000
+Message-ID: <57e9f582340545c79a9ab3433e2a4a7d@realtek.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [172.21.69.146]
+x-kse-serverinfo: RTEXMBS04.realtek.com.tw, 9
+x-kse-antivirus-interceptor-info: scan successful
+x-kse-antivirus-info: =?us-ascii?Q?Clean,_bases:_2021/4/29_=3F=3F_07:20:00?=
+x-kse-attachment-filter-triggered-rules: Clean
+x-kse-attachment-filter-triggered-filters: Clean
+x-kse-bulkmessagesfiltering-scan-result: protection disabled
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-KSE-AntiSpam-Outbound-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 04/29/2021 08:42:12
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 10
+X-KSE-AntiSpam-Info: Lua profiles 163406 [Apr 29 2021]
+X-KSE-AntiSpam-Info: Version: 5.9.20.0
+X-KSE-AntiSpam-Info: Envelope from: pkshih@realtek.com
+X-KSE-AntiSpam-Info: LuaCore: 445 445 d5f7ae5578b0f01c45f955a2a751ac25953290c9
+X-KSE-AntiSpam-Info: {Prob_Subject_IP_found}
+X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: realtek.com:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;github.com:7.1.1;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: Rate: 10
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 04/29/2021 08:44:00
+X-KSE-ServerInfo: RTEXH36502.realtek.com.tw, 9
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: protection disabled
+X-KSE-AntiSpam-Outbound-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 04/29/2021 08:42:12
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 10
+X-KSE-AntiSpam-Info: Lua profiles 163406 [Apr 29 2021]
+X-KSE-AntiSpam-Info: Version: 5.9.20.0
+X-KSE-AntiSpam-Info: Envelope from: pkshih@realtek.com
+X-KSE-AntiSpam-Info: LuaCore: 445 445 d5f7ae5578b0f01c45f955a2a751ac25953290c9
+X-KSE-AntiSpam-Info: {Prob_Subject_IP_found}
+X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info:
+	realtek.com:7.1.1;github.com:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: Rate: 10
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 04/29/2021 08:44:00
 
-On 2021-04-28 19:18, Stanimir Varbanov wrote:
-> On 4/28/21 3:32 PM, smagar@codeaurora.org wrote:
->> Hello Team,
->> 
->> Please include updated firmware bins for venus-5.4 and vpu-2.0.
->> 
->> I have fixed comment and title updated.
->> 
->> Removed 0 byte unwanted bins.
->> 
->> Below is combined pull request for venus-5.4 and VPU-2.0.
->> 
->> Please find snapshot of pull request, let me know if anything is 
->> missing.
->> 
->> 
->> The following changes since commit
->> 85286184d9df1b03bb76049edcfd87c39ce46e94:
->> 
->>   Merge branch 'for-upstream' of
->> git://git.chelsio.net/pub/git/linux-firmware into main (2021-04-19
->> 11:34:11 -0400)
->> 
->> are available in the git repository at:
->> 
->>   https://github.com/suraj714/linux-firmware-venus.git master
->> 
->> for you to fetch changes up to 
->> 6cdef281cd16d967ad89c01af6fdda85529a2d80:
->> 
->>   qcom: Add venus firmware files for VPU-2.0 (2021-04-28 14:42:48 
->> +0530)
->> 
->> ----------------------------------------------------------------
->> smagar (2):
->>       qcom: update venus firmware files for v5.4
->>       qcom: Add venus firmware files for VPU-2.0
->> 
->>  WHENCE                    |  34 +++++++++++++++++++++++++++++++++-
->>  qcom/venus-5.4/venus.b00  | Bin 212 -> 212 bytes
->>  qcom/venus-5.4/venus.b01  | Bin 6808 -> 6808 bytes
->>  qcom/venus-5.4/venus.b02  | Bin 873680 -> 873596 bytes
->>  qcom/venus-5.4/venus.b03  | Bin 33792 -> 33792 bytes
->>  qcom/venus-5.4/venus.mbn  | Bin 919792 -> 919708 bytes
->>  qcom/venus-5.4/venus.mdt  | Bin 7020 -> 7020 bytes
->>  qcom/vpu-2.0/vpu20_1v.b00 | Bin 0 -> 692 bytes
->>  qcom/vpu-2.0/vpu20_1v.b01 | Bin 0 -> 7376 bytes
->>  qcom/vpu-2.0/vpu20_1v.b02 | Bin 0 -> 300 bytes
->>  qcom/vpu-2.0/vpu20_1v.b03 | Bin 0 -> 20 bytes
->>  qcom/vpu-2.0/vpu20_1v.b04 | Bin 0 -> 20 bytes
->>  qcom/vpu-2.0/vpu20_1v.b05 | Bin 0 -> 20 bytes
->>  qcom/vpu-2.0/vpu20_1v.b06 | Bin 0 -> 20 bytes
->>  qcom/vpu-2.0/vpu20_1v.b07 | Bin 0 -> 24 bytes
->>  qcom/vpu-2.0/vpu20_1v.b08 | Bin 0 -> 16 bytes
->>  qcom/vpu-2.0/vpu20_1v.b09 | Bin 0 -> 939184 bytes
->>  qcom/vpu-2.0/vpu20_1v.b10 | Bin 0 -> 42976 bytes
->>  qcom/vpu-2.0/vpu20_1v.b19 |   1 +
->>  qcom/vpu-2.0/vpu20_1v.mbn | Bin 0 -> 2031188 bytes
->>  qcom/vpu-2.0/vpu20_1v.mdt | Bin 0 -> 8068 bytes
+Hello,
 
-Suraj, lets make these as generic names venus.bxx. We could confirm on 
-hardware
-with generic binary names.
+Please help to update 8852a firmware.
+This is first time I send a pull request. If anything is wrong, please let =
+me know.
 
-> 
-> Which Venus IP/SoCs use vpu-2.0 firmware? And what is the difference
-> with existing vpu-1.0?
-This is for sc7280.
-vpu-1.0 and vpu-2.0 differs in hardware w.r.t number of hardware 
-processing pipes.
+Thank you
+Ping-Ke
+---
 
-Thanks,
-Vikash
+
+The following changes since commit 2f4f0f826eed328675e8a84b1d80e41a25e94ec4=
+:
+
+  rtw89: 8852a: update fw to v0.13.8.0 (2021-04-29 16:51:35 +0800)
+
+are available in the Git repository at:
+
+  https://github.com/pkshih/linux-firmware.git
+
+for you to fetch changes up to 2f4f0f826eed328675e8a84b1d80e41a25e94ec4:
+
+  rtw89: 8852a: update fw to v0.13.8.0 (2021-04-29 16:51:35 +0800)
+
+----------------------------------------------------------------
