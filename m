@@ -1,301 +1,107 @@
-Return-Path: <bounce+a91e02.be9e4a-linux-firmware=kernel.org@codeaurora.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PULL_REQUEST,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88C92C433B4
-	for <linux-firmware@archiver.kernel.org>; Mon,  3 May 2021 07:30:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55F7BC433B4
+	for <linux-firmware@archiver.kernel.org>; Mon,  3 May 2021 13:07:18 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 69E7061244; Mon,  3 May 2021 07:30:17 +0000 (UTC)
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 704D66120D
-	for <linux-firmware@kernel.org>; Mon,  3 May 2021 07:30:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 704D66120D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=bounce+a91e02.be9e4a-linux-firmware=kernel.org@mg.codeaurora.org
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1620027017; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=bLHkrer1Bf+3ZElThz8QU5D45d9+qkx7tMzvrYQcYLk=;
- b=ZXYVBzdhFaYunk/wwTYJeszvjTvmWEfcZ1XnyThDWorYW/SJ0Gb0Ac3kucCwdrGaJi5FlkB6
- cdyCCg6l+yZWnID0nlZHPVbK5S/zRfJEkS0mnnOn06hL4GQgwdECwoLtvjA7iwkuf45sFeD/
- 7+x5L9PkUgt5EOOuMGoYZFi6HpY=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyI3Mjk1MCIsICJsaW51eC1maXJtd2FyZUBrZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 608fa6842cc44d3aea6ac1ed (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 03 May 2021 07:30:12
- GMT
-Sender: smagar=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-	id 38189C43217; Mon,  3 May 2021 07:30:12 +0000 (UTC)
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: smagar)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id 766DBC433D3;
-	Mon,  3 May 2021 07:30:09 +0000 (UTC)
+	id 183BE61208; Mon,  3 May 2021 13:07:18 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 02B67611AD
+	for <linux-firmware@kernel.org>; Mon,  3 May 2021 13:07:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1620047238;
+	bh=mHYCUssp3J0oFLV8Qj+wt02J/61PQDFfGqTU7ToyTJU=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=hIsM/iBaSqEiAawZbpxetZpIxtHPDJv8CziZA4/zSIxcFE4sVYeAHL4bK1Ht6ILWL
+	 v5TkVfn5gMX5EWd5JjX0XFDJ2NJgIy4DDr6++Zq5xpZP0pebsD7f0EVJYB8aF8KNBv
+	 //RsY5wL2/kDnFqTApjtoY70oDN2VHwQmbTm+hDxvZzk1F19I2qtSSokw4CGifGJ6C
+	 uYaKvbHX4t8QGnfW3tWKes+8BDWPlRDf1ZycpCxpXncZM0umUKrVUruWBl5Z/KbbnH
+	 52pgA9vAtGibz44jRNLcsEbgw6QVGu/EOGR6UO4kXfbMHZZiQ4AS2ai3+nfZuoOGhu
+	 ep7YmO69QpL8w==
+Received: by mail-il1-f180.google.com with SMTP id p15so3630175iln.3
+        for <linux-firmware@kernel.org>; Mon, 03 May 2021 06:07:17 -0700 (PDT)
+X-Gm-Message-State: AOAM533YWggJbNvl/KMe0i8oSfoM6sQVaZTk4nezXZjI4vXgyXYHRXFz
+	AoV2+CL94uWMAhmNLbN6bTnUAIZDXzfJ1GZajRM=
+X-Google-Smtp-Source: ABdhPJyZW8DeEbGExdUNMBTSayH98n9xDCSbg5BQDQk6fEI8E0ErucAQVt5S9X40PWeG5HU8tRO0UtDy6jL5mK402HA=
+X-Received: by 2002:a05:6e02:160d:: with SMTP id t13mr16526977ilu.85.1620047237273;
+ Mon, 03 May 2021 06:07:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date: Mon, 03 May 2021 13:00:09 +0530
-From: smagar@codeaurora.org
-To: vgarodia@codeaurora.org, stanimir.varbanov@linaro.org
+References: <e3fb2ef55263454495ed8b4aabfa77be@intel.com>
+In-Reply-To: <e3fb2ef55263454495ed8b4aabfa77be@intel.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Mon, 3 May 2021 09:07:06 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA4ZcqSyvMg1tsy_gbnLgMzKtsDTJ+mESJcmEFjoGOyttQ@mail.gmail.com>
+Message-ID: <CA+5PVA4ZcqSyvMg1tsy_gbnLgMzKtsDTJ+mESJcmEFjoGOyttQ@mail.gmail.com>
+Subject: Re: I915 updates to be pulled to linux-firmware
+To: "Srivatsa, Anusha" <anusha.srivatsa@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, mchehab@infradead.org,
- linux-media-owner@vger.kernel.org, dikshita@codeaurora.org,
- adhudase@codeaurora.org, sampnimm@codeaurora.org, mansur@codeaurora.org
-Subject: Re: Update venus firmware files for v5.4 and venus firmware files for
- VPU-2.0
-In-Reply-To: <194da82a3a5f2010fadca4fe6960b359@codeaurora.org>
-References: <bee73b3fe8b04c1a2663be0cd3cc7318@codeaurora.org>
- <9eaaec5d-a7d4-1889-5c92-28944b198adc@linaro.org>
- <c38ab84b90feddb43b2782fa11ee5189@codeaurora.org>
- <52ac8a546ecdb6a11b10edf936ba714d@codeaurora.org>
- <194da82a3a5f2010fadca4fe6960b359@codeaurora.org>
-Message-ID: <f2d3176d5e78b50275ad81d37e908d4b@codeaurora.org>
-X-Sender: smagar@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, "ben@decadent.org.uk" <ben@decadent.org.uk>, 
+	Kyle McMartin <kyle@mcmartin.ca>
+Content-Type: text/plain; charset="UTF-8"
 
-On 2021-04-30 13:09, vgarodia@codeaurora.org wrote:
-> On 2021-04-29 17:37, smagar@codeaurora.org wrote:
->> On 2021-04-29 14:05, vgarodia@codeaurora.org wrote:
->>> On 2021-04-28 19:18, Stanimir Varbanov wrote:
->>>> On 4/28/21 3:32 PM, smagar@codeaurora.org wrote:
->>>>> Hello Team,
->>>>> 
->>>>> Please include updated firmware bins for venus-5.4 and vpu-2.0.
->>>>> 
->>>>> I have fixed comment and title updated.
->>>>> 
->>>>> Removed 0 byte unwanted bins.
->>>>> 
->>>>> Below is combined pull request for venus-5.4 and VPU-2.0.
->>>>> 
->>>>> Please find snapshot of pull request, let me know if anything is 
->>>>> missing.
->>>>> 
->>>>> 
->>>>> The following changes since commit
->>>>> 85286184d9df1b03bb76049edcfd87c39ce46e94:
->>>>> 
->>>>>   Merge branch 'for-upstream' of
->>>>> git://git.chelsio.net/pub/git/linux-firmware into main (2021-04-19
->>>>> 11:34:11 -0400)
->>>>> 
->>>>> are available in the git repository at:
->>>>> 
->>>>>   https://github.com/suraj714/linux-firmware-venus.git master
->>>>> 
->>>>> for you to fetch changes up to 
->>>>> 6cdef281cd16d967ad89c01af6fdda85529a2d80:
->>>>> 
->>>>>   qcom: Add venus firmware files for VPU-2.0 (2021-04-28 14:42:48 
->>>>> +0530)
->>>>> 
->>>>> ----------------------------------------------------------------
->>>>> smagar (2):
->>>>>       qcom: update venus firmware files for v5.4
->>>>>       qcom: Add venus firmware files for VPU-2.0
->>>>> 
->>>>>  WHENCE                    |  34 +++++++++++++++++++++++++++++++++-
->>>>>  qcom/venus-5.4/venus.b00  | Bin 212 -> 212 bytes
->>>>>  qcom/venus-5.4/venus.b01  | Bin 6808 -> 6808 bytes
->>>>>  qcom/venus-5.4/venus.b02  | Bin 873680 -> 873596 bytes
->>>>>  qcom/venus-5.4/venus.b03  | Bin 33792 -> 33792 bytes
->>>>>  qcom/venus-5.4/venus.mbn  | Bin 919792 -> 919708 bytes
->>>>>  qcom/venus-5.4/venus.mdt  | Bin 7020 -> 7020 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b00 | Bin 0 -> 692 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b01 | Bin 0 -> 7376 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b02 | Bin 0 -> 300 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b03 | Bin 0 -> 20 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b04 | Bin 0 -> 20 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b05 | Bin 0 -> 20 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b06 | Bin 0 -> 20 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b07 | Bin 0 -> 24 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b08 | Bin 0 -> 16 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b09 | Bin 0 -> 939184 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b10 | Bin 0 -> 42976 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b19 |   1 +
->>>>>  qcom/vpu-2.0/vpu20_1v.mbn | Bin 0 -> 2031188 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.mdt | Bin 0 -> 8068 bytes
->>> 
->>> Suraj, lets make these as generic names venus.bxx. We could confirm 
->>> on hardware
->>> with generic binary names.
->>> 
->>>> 
->>>> Which Venus IP/SoCs use vpu-2.0 firmware? And what is the difference
->>>> with existing vpu-1.0?
->>> This is for sc7280.
->>> vpu-1.0 and vpu-2.0 differs in hardware w.r.t number of hardware
->>> processing pipes.
->>> 
->>> Thanks,
->>> Vikash
->> 
->> 
->> 
->> 
->> Hi Vikash,
->> 
->> As you suggested I did this changes.
->> Below is combined pull request for venus-5.4 and VPU-2.0.
->> Please find snapshot of pull request, let me know if anything is 
->> missing.
->> 
->> 
->> The following changes since commit 
->> 85286184d9df1b03bb76049edcfd87c39ce46e94:
->> 
->>   Merge branch 'for-upstream' of
->> git://git.chelsio.net/pub/git/linux-firmware into main (2021-04-19
->> 11:34:11 -0400)
->> 
->> are available in the git repository at:
->> 
->>   https://github.com/suraj714/linux-firmware-venus.git master
->> 
->> for you to fetch changes up to 
->> 3499110b56ddfe5c66ee7ade8754c4be573cc8a9:
->> 
->>   qcom: Add venus firmware files for VPU-2.0 (2021-04-29 16:59:54 
->> +0530)
->> 
->> ----------------------------------------------------------------
->> smagar (2):
->>       qcom: update venus firmware files for v5.4
->>       qcom: Add venus firmware files for VPU-2.0
->> 
->>  WHENCE                   |  34 +++++++++++++++++++++++++++++++++-
-> 
-> Remove the reference of "vpu20_1v.xxx from WHENCE file. Keep only 
-> venus.xxx.
-> 
->>  qcom/venus-5.4/venus.b00 | Bin 212 -> 212 bytes
->>  qcom/venus-5.4/venus.b01 | Bin 6808 -> 6808 bytes
->>  qcom/venus-5.4/venus.b02 | Bin 873680 -> 873596 bytes
->>  qcom/venus-5.4/venus.b03 | Bin 33792 -> 33792 bytes
->>  qcom/venus-5.4/venus.mbn | Bin 919792 -> 919708 bytes
->>  qcom/venus-5.4/venus.mdt | Bin 7020 -> 7020 bytes
->>  qcom/vpu-2.0/venus.b00   | Bin 0 -> 692 bytes
->>  qcom/vpu-2.0/venus.b01   | Bin 0 -> 7376 bytes
->>  qcom/vpu-2.0/venus.b02   | Bin 0 -> 300 bytes
->>  qcom/vpu-2.0/venus.b03   | Bin 0 -> 20 bytes
->>  qcom/vpu-2.0/venus.b04   | Bin 0 -> 20 bytes
->>  qcom/vpu-2.0/venus.b05   | Bin 0 -> 20 bytes
->>  qcom/vpu-2.0/venus.b06   | Bin 0 -> 20 bytes
->>  qcom/vpu-2.0/venus.b07   | Bin 0 -> 24 bytes
->>  qcom/vpu-2.0/venus.b08   | Bin 0 -> 16 bytes
->>  qcom/vpu-2.0/venus.b09   | Bin 0 -> 939184 bytes
->>  qcom/vpu-2.0/venus.b10   | Bin 0 -> 42976 bytes
->>  qcom/vpu-2.0/venus.b19   |   1 +
->>  qcom/vpu-2.0/venus.mbn   | Bin 0 -> 2031188 bytes
->>  qcom/vpu-2.0/venus.mdt   | Bin 0 -> 8068 bytes
->>  21 files changed, 34 insertions(+), 1 deletion(-)
->>  create mode 100644 qcom/vpu-2.0/venus.b00
->>  create mode 100644 qcom/vpu-2.0/venus.b01
->>  create mode 100644 qcom/vpu-2.0/venus.b02
->>  create mode 100644 qcom/vpu-2.0/venus.b03
->>  create mode 100644 qcom/vpu-2.0/venus.b04
->>  create mode 100644 qcom/vpu-2.0/venus.b05
->>  create mode 100644 qcom/vpu-2.0/venus.b06
->>  create mode 100644 qcom/vpu-2.0/venus.b07
->>  create mode 100644 qcom/vpu-2.0/venus.b08
->>  create mode 100644 qcom/vpu-2.0/venus.b09
->>  create mode 100644 qcom/vpu-2.0/venus.b10
->>  create mode 100644 qcom/vpu-2.0/venus.b19
->>  create mode 100644 qcom/vpu-2.0/venus.mbn
->>  create mode 100644 qcom/vpu-2.0/venus.mdt
->> 
->> 
->> Regards,
->> Suraj
+On Tue, Apr 27, 2021 at 6:04 PM Srivatsa, Anusha
+<anusha.srivatsa@intel.com> wrote:
+>
+> Sending PR for ADL-P:
+>
+>
+>
+> The following changes since commit fa0efeff4894e36b9c3964376f2c99fae101d147:
+>
+>
+>
+>   linux-firmware: Update firmware file for Intel Bluetooth AX210 (2021-04-26 07:00:56 -0400)
+>
+>
+>
+> are available in the Git repository at:
+>
+>
+>
+>   git://anongit.freedesktop.org/drm/drm-firmware adlp_firmware
+>
+>
+>
+> for you to fetch changes up to 726645d0915c8506b491db23d3103f0027055ac5:
+>
+>
+>
+>   i915: Add ADL-P DMC Support (2021-04-27 09:32:13 -0700)
+>
+>
+>
+> ----------------------------------------------------------------
+>
+> Anusha Srivatsa (1):
+>
+>       i915: Add ADL-P DMC Support
 
+This adds two new files but doesn't update WHENCE.  Please correct.
 
+josh
 
-
-Hi Vikash,
-
-As you suggested I did this changes.
-Below is combined pull request for venus-5.4 and VPU-2.0.
-Please find snapshot of pull request, let me know if anything is 
-missing.
-
-
-
-The following changes since commit 
-85286184d9df1b03bb76049edcfd87c39ce46e94:
-
-   Merge branch 'for-upstream' of 
-git://git.chelsio.net/pub/git/linux-firmware into main (2021-04-19 
-11:34:11 -0400)
-
-are available in the git repository at:
-
-   https://github.com/suraj714/linux-firmware-venus.git master
-
-for you to fetch changes up to c7b11ed12b6391097e84babab62802076fd15902:
-
-   qcom: Add venus firmware files for VPU-2.0 (2021-05-03 12:18:45 +0530)
-
-----------------------------------------------------------------
-smagar (2):
-       qcom: update venus firmware files for v5.4
-       qcom: Add venus firmware files for VPU-2.0
-
-  WHENCE                   |  19 ++++++++++++++++++-
-  qcom/venus-5.4/venus.b00 | Bin 212 -> 212 bytes
-  qcom/venus-5.4/venus.b01 | Bin 6808 -> 6808 bytes
-  qcom/venus-5.4/venus.b02 | Bin 873680 -> 873596 bytes
-  qcom/venus-5.4/venus.b03 | Bin 33792 -> 33792 bytes
-  qcom/venus-5.4/venus.mbn | Bin 919792 -> 919708 bytes
-  qcom/venus-5.4/venus.mdt | Bin 7020 -> 7020 bytes
-  qcom/vpu-2.0/venus.b00   | Bin 0 -> 692 bytes
-  qcom/vpu-2.0/venus.b01   | Bin 0 -> 7376 bytes
-  qcom/vpu-2.0/venus.b02   | Bin 0 -> 300 bytes
-  qcom/vpu-2.0/venus.b03   | Bin 0 -> 20 bytes
-  qcom/vpu-2.0/venus.b04   | Bin 0 -> 20 bytes
-  qcom/vpu-2.0/venus.b05   | Bin 0 -> 20 bytes
-  qcom/vpu-2.0/venus.b06   | Bin 0 -> 20 bytes
-  qcom/vpu-2.0/venus.b07   | Bin 0 -> 24 bytes
-  qcom/vpu-2.0/venus.b08   | Bin 0 -> 16 bytes
-  qcom/vpu-2.0/venus.b09   | Bin 0 -> 939184 bytes
-  qcom/vpu-2.0/venus.b10   | Bin 0 -> 42976 bytes
-  qcom/vpu-2.0/venus.b19   |   1 +
-  qcom/vpu-2.0/venus.mbn   | Bin 0 -> 2031188 bytes
-  qcom/vpu-2.0/venus.mdt   | Bin 0 -> 8068 bytes
-  21 files changed, 19 insertions(+), 1 deletion(-)
-  create mode 100644 qcom/vpu-2.0/venus.b00
-  create mode 100644 qcom/vpu-2.0/venus.b01
-  create mode 100644 qcom/vpu-2.0/venus.b02
-  create mode 100644 qcom/vpu-2.0/venus.b03
-  create mode 100644 qcom/vpu-2.0/venus.b04
-  create mode 100644 qcom/vpu-2.0/venus.b05
-  create mode 100644 qcom/vpu-2.0/venus.b06
-  create mode 100644 qcom/vpu-2.0/venus.b07
-  create mode 100644 qcom/vpu-2.0/venus.b08
-  create mode 100644 qcom/vpu-2.0/venus.b09
-  create mode 100644 qcom/vpu-2.0/venus.b10
-  create mode 100644 qcom/vpu-2.0/venus.b19
-  create mode 100644 qcom/vpu-2.0/venus.mbn
-  create mode 100644 qcom/vpu-2.0/venus.mdt
-
-
-
-Thanks,
-Suraj
-
-
-
-
+>
+>
+>
+> i915/adlp_dmc_ver2_09.bin | Bin 0 -> 44636 bytes
+>
+> i915/adlp_dmc_ver2_10.bin | Bin 0 -> 44616 bytes
+>
+> 2 files changed, 0 insertions(+), 0 deletions(-)
+>
+> create mode 100644 i915/adlp_dmc_ver2_09.bin
+>
+> create mode 100644 i915/adlp_dmc_ver2_10.bin
+>
+>
+>
+>
+>
+> Thanks,
+>
+> Anusha
