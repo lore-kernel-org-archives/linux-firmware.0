@@ -1,28 +1,35 @@
-Return-Path: <SRS0=ho/0=KC=cadence.com=pthombar@kernel.org>
+Return-Path: <SRS0=XYF+=KC=lists.freedesktop.org=dri-devel-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1DCBC433B4
-	for <linux-firmware@archiver.kernel.org>; Fri,  7 May 2021 06:00:14 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 928E0613EA; Fri,  7 May 2021 06:00:14 +0000 (UTC)
-Received: from mx0a-0014ca01.pphosted.com (mx0a-0014ca01.pphosted.com [208.84.65.235])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70BB0C433ED
+	for <dri-devel@archiver.kernel.org>; Fri,  7 May 2021 06:00:17 +0000 (UTC)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5528D613E8
-	for <linux-firmware@kernel.org>; Fri,  7 May 2021 06:00:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5528D613E8
+	by mail.kernel.org (Postfix) with ESMTPS id 2F167613EB
+	for <dri-devel@archiver.kernel.org>; Fri,  7 May 2021 06:00:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2F167613EB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=cadence.com
-Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=pthombar@cadence.com
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=dri-devel-bounces@lists.freedesktop.org
+Received: from gabe.freedesktop.org (localhost [127.0.0.1])
+	by gabe.freedesktop.org (Postfix) with ESMTP id 852106ECF6;
+	Fri,  7 May 2021 06:00:16 +0000 (UTC)
+Received: from mx0a-0014ca01.pphosted.com (mx0a-0014ca01.pphosted.com
+ [208.84.65.235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38E496ECF6
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 06:00:14 +0000 (UTC)
 Received: from pps.filterd (m0042385.ppops.net [127.0.0.1])
-	by mx0a-0014ca01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 1475peiT023433;
-	Thu, 6 May 2021 23:00:13 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com; h=from : to : cc :
+ by mx0a-0014ca01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 1475peiT023433; Thu, 6 May 2021 23:00:13 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
+ h=from : to : cc :
  subject : date : message-id : mime-version : content-type; s=proofpoint;
  bh=9t1mNRlumaoHLW+gqvuIeld0ddOAQ5Zldlk89jHPulE=;
  b=OXaPWn8rbfUAxPkwKoIRj1i20u0bo2cUHwYW9I6gVJfxn4mtI/Iwo7mVhSsdwPG554j+
@@ -30,13 +37,14 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com; h=from : to
  HhPApaJ3E0kPCRGkvI35cM6HOP8SOTtZlaHhJQDo4Voh5poynBjCF59cSv93zHAvrCP1
  HSKF5ly8fXXAqyDHQhefUK6HR0aeHumMoc02z2TgFSqIJ/P8WoWTuLHJmYuoCywqN+GH
  q8araKUR4op1+B5BprHG5ifqC/ekTMBRuVx4k40oHnkoHwSxfJQYaYTv/5jGSNEkEllK 9w== 
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2041.outbound.protection.outlook.com [104.47.66.41])
-	by mx0a-0014ca01.pphosted.com with ESMTP id 38csqm11j3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 06 May 2021 23:00:13 -0700
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2041.outbound.protection.outlook.com [104.47.66.41])
+ by mx0a-0014ca01.pphosted.com with ESMTP id 38csqm11j3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 06 May 2021 23:00:13 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
  b=GXRFad0ZpCzIwuKDC+XY3MNeN4d/Ns8O905B6pWRPKfQ+7tBQkSb6EpuTRAtBp4yAswjS3w2tWuzHiwSKFtp04oRhIsFV0hXRIhq92fNleiuJ99r8WU1o/y3Uejqy3/4pL1HYegCidBzA6nCFH0SLaF8AI6FZMJ/bTAJSPnh2JXpd5ALw7pvcljfzBcfrdqhjH083BT0XCsI3HlZYZJsK5nO17vNXfH5XPUUGJJxgJ0ATu8LlDEvwvDAyVwVgE/1g7JLXqtIzmWF2B3RLV7N4bDSKj8MGvd6sMvMBpLmXpZuNlw63O/eyAlyI/jkS7Ny5TtfkLHren+/4yXETE6Xuw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
  bh=9t1mNRlumaoHLW+gqvuIeld0ddOAQ5Zldlk89jHPulE=;
@@ -51,8 +59,8 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
  bh=9t1mNRlumaoHLW+gqvuIeld0ddOAQ5Zldlk89jHPulE=;
  b=jucJKeawRP4Q0ymppD6P/F7oHkh8OJb1LVknrHgKuFiEeHQ4ApkDE9rx/47hwZK3qmV18DqNvfNR6PzNBQtEZiZ1GhklMcmGCC/sjvFNd1DiCEe79oTdeYiLpsUb+9go9CfU9EULfUXOYWnQeKwh+hu4Q6tG0GqApqvhwmuWNPs=
 Received: from MWHPR11CA0046.namprd11.prod.outlook.com (2603:10b6:300:115::32)
- by BYAPR07MB5719.namprd07.prod.outlook.com (2603:10b6:a03:9a::19) with
- Microsoft SMTP Server (version=TLS1_2,
+ by BYAPR07MB5719.namprd07.prod.outlook.com (2603:10b6:a03:9a::19)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.24; Fri, 7 May
  2021 06:00:10 +0000
 Received: from MW2NAM12FT059.eop-nam12.prod.protection.outlook.com
@@ -72,9 +80,10 @@ Received: from wcmailrelayl01.cadence.com (64.207.220.244) by
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.20.4129.11 via Frontend Transport; Fri, 7 May 2021 06:00:08 +0000
 Received: from maileu3.global.cadence.com (maileu3.cadence.com [10.160.88.99])
-	by wcmailrelayl01.cadence.com (8.14.7/8.14.4) with ESMTP id 147606kA225591
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=OK);
-	Thu, 6 May 2021 23:00:07 -0700
+ by wcmailrelayl01.cadence.com (8.14.7/8.14.4) with ESMTP id
+ 147606kA225591
+ (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=OK);
+ Thu, 6 May 2021 23:00:07 -0700
 X-CrossPremisesHeadersFilteredBySendConnector: maileu3.global.cadence.com
 Received: from maileu3.global.cadence.com (10.160.88.99) by
  maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
@@ -83,16 +92,14 @@ Received: from vleu-orange.cadence.com (10.160.88.83) by
  maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
  15.0.1497.2 via Frontend Transport; Fri, 7 May 2021 08:00:06 +0200
 Received: from vleu-orange.cadence.com (localhost.localdomain [127.0.0.1])
-	by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 147605iP003137;
-	Fri, 7 May 2021 08:00:05 +0200
+ by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 147605iP003137;
+ Fri, 7 May 2021 08:00:05 +0200
 Received: (from pthombar@localhost)
-	by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 147605XF003136;
-	Fri, 7 May 2021 08:00:05 +0200
+ by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 147605XF003136;
+ Fri, 7 May 2021 08:00:05 +0200
 From: Parshuram Thombare <pthombar@cadence.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: <linux-firmware@kernel.org>, <dri-devel@lists.freedesktop.org>
-CC: <sjakhade@cadence.com>, <mparab@cadence.com>, <kishon@ti.com>,
-        <nikhil.nd@ti.com>, Parshuram Thombare <pthombar@cadence.com>
 Subject: [PATCH] linux-firmware: update firmware for mhdp8546
 Date: Fri, 7 May 2021 08:00:03 +0200
 Message-ID: <1620367203-3094-1-git-send-email-pthombar@cadence.com>
@@ -104,35 +111,53 @@ X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-Correlation-Id: 0f32fe23-79cc-4bc4-bca7-08d9111d5e91
 X-MS-TrafficTypeDiagnostic: BYAPR07MB5719:
-X-Microsoft-Antispam-PRVS: 
-	<BYAPR07MB5719359555826839CE7E3558C1579@BYAPR07MB5719.namprd07.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <BYAPR07MB5719359555826839CE7E3558C1579@BYAPR07MB5719.namprd07.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:2;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	ZY6lWOx7yKxip/1sDDv1DdqnZ0cRdfo0ZoFEu0HnkLam7dHNjJcAWWzo8kGp6xMIhlbFrDtKMCGnbh7eYBFZuqAQv9DEfatJqZvOLcqNzM9lFdA6kXsZAaNvN8p/4pvRzotAG1iBFMxdHz2r24YFsbT+ySsI7a9hFXrDUXnbWGiRqe8twLofsB+4gqxWC2EUFgCnwJc1QVfTjEc1Fyn7kDZROJLZkPVLW5s9AGlbXvtcoBEfXZVS1VRFAn8QEnhOt23AT8rQGvJaaMsUnsFh7VClyDb4snl82oe8fiyXt/nA6Yw5ewJ3R6OrAZPgIkNhDhhV+uSJ7ePrJXNpz1KgfCNcUbhNJObs+u74WuIyDwpjvhwzSaHWjkGY9ZoGeiU7KDC6NGpYgL3ayJBcO6rAkVCEDXeGfxiyycClgNP8lMn/Ch4WTEWsXTfh20P76fttrFiz+ZPS8rjyykOF1ZF99z2dkq7y2PdrpAnkmkmKHbl+6DDSObCcL3Py8IxRRyopicp+0LcnFJMpMDFZv0FuIu+g1WVc06FInLoqatkUtSALG4kmUJaMo7vAr9V5pjzMAEH+IELzCchIgiUV4gs4TdjwuEnVzIh0eFE/dhLt1BXWowleXd9yQxA6PGvrH+WTQIvBvl2cbS+IA35dD0GoCLTHxc+KRT4YtwkH/tVNrH3YZa/tBHb9Bd5wg0fvrqi9l1eUAl2q38HYpbGeeQBIGQ==
-X-Forefront-Antispam-Report: 
-	CIP:64.207.220.244;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:wcmailrelayl01.cadence.com;PTR:ErrorRetry;CAT:NONE;SFS:(4636009)(136003)(396003)(39860400002)(346002)(376002)(36092001)(46966006)(36840700001)(54906003)(186003)(110136005)(478600001)(42186006)(66574015)(4326008)(86362001)(316002)(36860700001)(26005)(426003)(36756003)(83380400001)(36906005)(8936002)(5660300002)(82310400003)(2906002)(107886003)(15650500001)(82740400003)(336012)(70586007)(2616005)(81166007)(47076005)(70206006)(356005)(8676002)(30864003)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: ZY6lWOx7yKxip/1sDDv1DdqnZ0cRdfo0ZoFEu0HnkLam7dHNjJcAWWzo8kGp6xMIhlbFrDtKMCGnbh7eYBFZuqAQv9DEfatJqZvOLcqNzM9lFdA6kXsZAaNvN8p/4pvRzotAG1iBFMxdHz2r24YFsbT+ySsI7a9hFXrDUXnbWGiRqe8twLofsB+4gqxWC2EUFgCnwJc1QVfTjEc1Fyn7kDZROJLZkPVLW5s9AGlbXvtcoBEfXZVS1VRFAn8QEnhOt23AT8rQGvJaaMsUnsFh7VClyDb4snl82oe8fiyXt/nA6Yw5ewJ3R6OrAZPgIkNhDhhV+uSJ7ePrJXNpz1KgfCNcUbhNJObs+u74WuIyDwpjvhwzSaHWjkGY9ZoGeiU7KDC6NGpYgL3ayJBcO6rAkVCEDXeGfxiyycClgNP8lMn/Ch4WTEWsXTfh20P76fttrFiz+ZPS8rjyykOF1ZF99z2dkq7y2PdrpAnkmkmKHbl+6DDSObCcL3Py8IxRRyopicp+0LcnFJMpMDFZv0FuIu+g1WVc06FInLoqatkUtSALG4kmUJaMo7vAr9V5pjzMAEH+IELzCchIgiUV4gs4TdjwuEnVzIh0eFE/dhLt1BXWowleXd9yQxA6PGvrH+WTQIvBvl2cbS+IA35dD0GoCLTHxc+KRT4YtwkH/tVNrH3YZa/tBHb9Bd5wg0fvrqi9l1eUAl2q38HYpbGeeQBIGQ==
+X-Forefront-Antispam-Report: CIP:64.207.220.244; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:wcmailrelayl01.cadence.com; PTR:ErrorRetry; CAT:NONE;
+ SFS:(4636009)(136003)(396003)(39860400002)(346002)(376002)(36092001)(46966006)(36840700001)(54906003)(186003)(110136005)(478600001)(42186006)(66574015)(4326008)(86362001)(316002)(36860700001)(26005)(426003)(36756003)(83380400001)(36906005)(8936002)(5660300002)(82310400003)(2906002)(107886003)(15650500001)(82740400003)(336012)(70586007)(2616005)(81166007)(47076005)(70206006)(356005)(8676002)(30864003)(36900700001);
+ DIR:OUT; SFP:1101; 
 X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2021 06:00:08.7459
- (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2021 06:00:08.7459 (UTC)
 X-MS-Exchange-CrossTenant-Network-Message-Id: 0f32fe23-79cc-4bc4-bca7-08d9111d5e91
 X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9;Ip=[64.207.220.244];Helo=[wcmailrelayl01.cadence.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	MW2NAM12FT059.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9; Ip=[64.207.220.244];
+ Helo=[wcmailrelayl01.cadence.com]
+X-MS-Exchange-CrossTenant-AuthSource: MW2NAM12FT059.eop-nam12.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR07MB5719
 X-Proofpoint-ORIG-GUID: 7iRleNYTFDqfS2KLyTRYQydqy86YN37X
 X-Proofpoint-GUID: 7iRleNYTFDqfS2KLyTRYQydqy86YN37X
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
- definitions=2021-05-07_01:2021-05-06,2021-05-07 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0 malwarescore=0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-05-07_01:2021-05-06,
+ 2021-05-07 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check
+ score=0 malwarescore=0
  impostorscore=0 spamscore=0 phishscore=0 priorityscore=1501
  lowpriorityscore=0 suspectscore=0 mlxscore=0 mlxlogscore=892 bulkscore=0
  clxscore=1015 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2104190000 definitions=main-2105070044
+X-BeenThere: dri-devel@lists.freedesktop.org
+X-Mailman-Version: 2.1.29
+Precedence: list
+List-Id: Direct Rendering Infrastructure - Development
+ <dri-devel.lists.freedesktop.org>
+List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/dri-devel>,
+ <mailto:dri-devel-request@lists.freedesktop.org?subject=unsubscribe>
+List-Archive: <https://lists.freedesktop.org/archives/dri-devel>
+List-Post: <mailto:dri-devel@lists.freedesktop.org>
+List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
+List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
+ <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: mparab@cadence.com, Parshuram Thombare <pthombar@cadence.com>,
+ kishon@ti.com, nikhil.nd@ti.com, sjakhade@cadence.com
+Errors-To: dri-devel-bounces@lists.freedesktop.org
+Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
+Message-ID: <20210507060003.hBzRvnETE3nPkLLZoAZeP1NEHdAAzaK-xtyU3C_jmBQ@z>
 
 This patch updates mhdp8546 firmware to 2.1.0
 Fix memory leak in HDCP state machine.
