@@ -2,57 +2,81 @@ Return-Path: <pali@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9827AC433ED
-	for <linux-firmware@archiver.kernel.org>; Sat,  8 May 2021 11:20:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C159EC433B4
+	for <linux-firmware@archiver.kernel.org>; Sat,  8 May 2021 11:29:14 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 645B961019; Sat,  8 May 2021 11:20:30 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2A3776102A;
-	Sat,  8 May 2021 11:20:30 +0000 (UTC)
+	id 7461461350; Sat,  8 May 2021 11:29:14 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3EFA96128E;
+	Sat,  8 May 2021 11:29:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1620472830;
-	bh=oKtMmm97FDFFqMJ0V4wgNvrkUFRBez9yw+RqfMZbnTc=;
+	s=k20201202; t=1620473354;
+	bh=gKZTqjiaLtXHr0YowntuiZu3TjJhOG7QyaHYL+925dg=;
 	h=Date:From:To:List-Id:Cc:Subject:References:In-Reply-To:From;
-	b=SVQYEGO1dJAnGIdceHm72OVp5VROFjQ1pYuwsFjM/u+ACmMQnAaFAvVNwhgYBLU+n
-	 nQtUHtEoycMT6AYI2vhPZK6DzHJU7CmAEOAYjwNBd7h64X/myD89uMBsUNE2jhMhKT
-	 DHH0B79rLYGTSZMVC9+rgLliJx5V/32gA3M4jdGg/Svnho21y2At5xdVliZiIBtSJ4
-	 8UJiQ8PxQ/FY1FgwslNkLAMQM3VPkqyp//k8z6QIdjXOyYUwf42VW8+h0GLQ2XSNmX
-	 KvNewNi32SslvRlm0IEvAdRDWrxvAoDC7BQR8ao6DlysP+C1qRJ8fZy4G8hHnX5FRL
-	 RRJlFcKw3MsGg==
+	b=FNUn8a1yWeDeFBKE/gOr19INPJ7EcLEq0mzFGhFCAm7qxYa7OALaun0VwKIDwdHNu
+	 SAsFO++6WXKMHRBNRQoUltGLpCPpKyif9XxOw5gw0pLdGKZBfjBArXmSA6LGWLIyS3
+	 lTnzDvpbjtFYxNPWyG86bRflLw4FQt6yKJgpETQAwSpvrSztoUcKSeFkJI7C1Ho37v
+	 Zx1vx8ks49l3EK8BXMhE2APwZj7SklwpQK+fixoXD7z45s68EBvKdIGPmqcb/3uUkC
+	 tQuSWCzlcD31E1KrwaDb1Kg6a3po4oBIDFaEk79iUUxWlBTTZVbR4behfkkayDBeAZ
+	 AMG60hY54RxPQ==
 Received: by pali.im (Postfix)
-	id 6F59076E; Sat,  8 May 2021 13:20:26 +0200 (CEST)
-Date: Sat, 8 May 2021 13:20:26 +0200
+	id B17A376E; Sat,  8 May 2021 13:29:11 +0200 (CEST)
+Date: Sat, 8 May 2021 13:29:11 +0200
 From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To: Sharvari Harisangam <sharvari.harisangam@nxp.com>
-List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-wireless@vger.kernel.org, linux-firmware@kernel.org,
-	Marek =?utf-8?B?QmVow7pu?= <marek.behun@nic.cz>,
+To: Sharvari Harisangam <sharvari.harisangam@nxp.com>,
 	Ganapathi Bhat <ganapathi.bhat@nxp.com>
-Subject: Re: New firmware 16.68.10.p56 for mwifiex 88W8997 SDIO wifi chip
-Message-ID: <20210508112026.zfeoa7t3qxxrvt6j@pali>
-References: <20201113154727.ndk5pcijd2qdvrrf@pali>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: linux-firmware@kernel.org, l.majewski@majess.pl,
+	Lukasz Majewski <lukma@denx.de>,
+	Marek =?utf-8?B?QmVow7pu?= <marek.behun@nic.cz>
+Subject: Re: wifi: 88W8801: Newest firmware for sd8801_uapsta.bin bug
+Message-ID: <20210508112911.aigklhaw225ftwtj@pali>
+References: <20210507151702.4848a5b3@jawa>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201113154727.ndk5pcijd2qdvrrf@pali>
+In-Reply-To: <20210507151702.4848a5b3@jawa>
 User-Agent: NeoMutt/20180716
 
-Hello Sharvari!
++ Sharvari and Ganapathi
 
-Could you please update firmware for 88W8997 wifi chip in linux-firmware
-repository? On NXP portal is for a longer time newer version.
+To let you know about this mwifiex firmware issue. Could you look at it?
 
-On Friday 13 November 2020 16:47:27 Pali Rohár wrote:
-> Hello Ganapathi,
+On Friday 07 May 2021 15:17:02 Lukasz Majewski wrote:
+> Dear community,
 > 
-> there is a new firmware version 16.68.10.p56 for 88W8997 SDIO wifi chip.
-> Current version of firmware file sdsd8997_combo_v4.bin for this chip in
-> linux-firmware repository is 16.68.1.p197:
+> I would like to report that the version: 14.68.36.p204 of
+> sd8801_uapsta.bin binary (newest, SHA1:
+> ecdfcf8e2ca15f5682ab94fd30ba29fb869b24a7) has the issue with getting
+> channel info (HostCmd_CMD_STA_CONFIGURE command execution).
 > 
-> https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/log/mrvl/sdsd8997_combo_v4.bin
+> As a result the module seems to be stuck and no transmission is
+> performed.
 > 
-> Ganapathi, could you please send an update for this firmware file?
+> The issue is not present in 14.68.36.p146 verson of the firmware.
+> 
+> For reproduction one needs to execute:
+> #! /bin/sh
+> set -x
+> wpa_supplicant -B -i mlan0 -c /etc/wpa_supplicant.conf
+> sleep 3
+> dhclient mlan0
+> 
+> exit 0
+> 
+> 
+> 
+> I'm using the Azurewave AW-NM191NF module (with 88W8801 SoC).
+> 
+> Best regards,
+> 
+> Lukasz Majewski
+> 
+> --
+> 
+> DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+> HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+> Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
