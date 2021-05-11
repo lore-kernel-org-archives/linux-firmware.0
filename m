@@ -1,74 +1,60 @@
-Return-Path: <bounce+a91e02.be9e4a-linux-firmware=kernel.org@codeaurora.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0334C433B4
-	for <linux-firmware@archiver.kernel.org>; Tue, 11 May 2021 18:05:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81C9CC433B4
+	for <linux-firmware@archiver.kernel.org>; Tue, 11 May 2021 18:10:03 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id BD057616ED; Tue, 11 May 2021 18:05:46 +0000 (UTC)
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9692461625
-	for <linux-firmware@kernel.org>; Tue, 11 May 2021 18:05:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9692461625
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=bounce+a91e02.be9e4a-linux-firmware=kernel.org@mg.codeaurora.org
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1620756346; h=Content-Type: MIME-Version: Message-ID:
- In-Reply-To: Date: References: Subject: Cc: To: From: Sender;
- bh=p2I4kJJP91F30kEE+0p2ly+jfTgaa79dWOL/aWL6+ng=; b=mO+5ZB8H4L/RVGqitErwavv8DZwS83GZ/WUT+Q70kn0nRyHrZHhLNoD+BeDCsU40v7d7DCe/
- l8qkaNwHEqLG8EvooYsQl7COmRTXbPAKq2lFIICHrXJ/uqbvgwGIsT4k/lq1bNfwuTsi0y+S
- +Cpc+lss0blNxmBTBSmDFKwsj2Y=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyI3Mjk1MCIsICJsaW51eC1maXJtd2FyZUBrZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
- 609ac768e0211609c40bffb1 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 11 May 2021 18:05:28
- GMT
-Sender: kvalo=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-	id A348DC43460; Tue, 11 May 2021 18:05:28 +0000 (UTC)
-Received: from tynnyri.adurom.net (tynnyri.adurom.net [51.15.11.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: kvalo)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id 981BAC433D3;
-	Tue, 11 May 2021 18:05:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 981BAC433D3
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=kvalo@codeaurora.org
-From: Kalle Valo <kvalo@codeaurora.org>
-To: Pkshih <pkshih@realtek.com>
-List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware\@kernel.org" <linux-firmware@kernel.org>,  "linux-wireless\@vger.kernel.org" <linux-wireless@vger.kernel.org>
-Subject: Re: Request to update 8852a firmware of rtw89 to v0.13.8.0
-References: <57e9f582340545c79a9ab3433e2a4a7d@realtek.com>
-Date: Tue, 11 May 2021 21:05:20 +0300
-In-Reply-To: <57e9f582340545c79a9ab3433e2a4a7d@realtek.com> (Pkshih's message
-	of "Thu, 29 Apr 2021 08:59:57 +0000")
-Message-ID: <87cztx87tr.fsf@tynnyri.adurom.net>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	id 5170B6188B; Tue, 11 May 2021 18:10:03 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3B88C616ED
+	for <linux-firmware@kernel.org>; Tue, 11 May 2021 18:10:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1620756603;
+	bh=GQaCD1F5XIVekrIRlF7EzIHD4+KdT/KLt/SW4BKvahY=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=sNKD05ADUWkSwkFwPTkQ/MQCcdH5qdyo32mQu89wDQEzsQw9s/St/gLQEnu7qQ22j
+	 /3QuVHU9RCuOgxHSBxN3TmH00sWq405ADIyPGD1TcIdUlfRmj/y3Bn25jYEYGBRSCA
+	 /Ek10ntU07tYUldb8VozgAu7PMsVS0B0Kvt6D2L13ZmKTU35Wjicxm9bbKOauREtZz
+	 Utrs7VqXv5GlGi0KKFLrGQx5xlWORL58kC1cMUwSldce9viF95LOn0wu0NYPIpBugh
+	 Xt+dBIBWo4pKBw8gzghBrF0nWKoyQCvDTI43JqV6KoOp9Z4wJ5zKbnviiBGBl/pr9w
+	 8tKUQcEfn1AzQ==
+Received: by mail-il1-f176.google.com with SMTP id j12so17973028ils.4
+        for <linux-firmware@kernel.org>; Tue, 11 May 2021 11:10:03 -0700 (PDT)
+X-Gm-Message-State: AOAM530y2cn9eHC0LnQzA1oXsn7o8MyLTAa8rZe7/p2RLeLk1cp87wJd
+	6OBx/CWsZg8rNyMOOuRVI8guitoLhcMct2uQPBk=
+X-Google-Smtp-Source: ABdhPJyrSFHHatmkUJpQeJKst0O+PmAKqIChm3lHoyrX/CtXdIlwlU/NpGUzElKJ4AqAyYbxV0dnlU3gGakG8zhOpaE=
+X-Received: by 2002:a05:6e02:811:: with SMTP id u17mr26771993ilm.206.1620756602611;
+ Tue, 11 May 2021 11:10:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Message-ID: <20210511180520.4dZzxYMEN5cBFXL5FTUavKus6qZITnxOWmZqqrQz52Y@z>
+References: <57e9f582340545c79a9ab3433e2a4a7d@realtek.com> <87cztx87tr.fsf@tynnyri.adurom.net>
+In-Reply-To: <87cztx87tr.fsf@tynnyri.adurom.net>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Tue, 11 May 2021 14:09:51 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA4=ZfqvTi8_OB-d_QC-xmvjD=y_AV+hMyGjQtuNLGRaoA@mail.gmail.com>
+Message-ID: <CA+5PVA4=ZfqvTi8_OB-d_QC-xmvjD=y_AV+hMyGjQtuNLGRaoA@mail.gmail.com>
+Subject: Re: Request to update 8852a firmware of rtw89 to v0.13.8.0
+To: Kalle Valo <kvalo@codeaurora.org>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: Pkshih <pkshih@realtek.com>, 
+	"linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Pkshih <pkshih@realtek.com> writes:
+On Tue, May 11, 2021 at 2:05 PM Kalle Valo <kvalo@codeaurora.org> wrote:
+>
+> Pkshih <pkshih@realtek.com> writes:
+>
+> > Please help to update 8852a firmware.
+> > This is first time I send a pull request. If anything is wrong, please let me know.
+>
+> rtw89 driver is not in upstream yet, and it has not been reviewed
+> either. I recommend holding off pulling the firmware until the driver is
+> reviewed.
 
-> Please help to update 8852a firmware.
-> This is first time I send a pull request. If anything is wrong, please let me know.
+Too late.  It can always be revised if needed.
 
-rtw89 driver is not in upstream yet, and it has not been reviewed
-either. I recommend holding off pulling the firmware until the driver is
-reviewed.
-
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+josh
