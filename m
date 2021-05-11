@@ -1,26 +1,31 @@
-Return-Path: <SRS0=rdXv=KG=chromium.org=briannorris@kernel.org>
+Return-Path: <linux-wireless-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE082C433ED
-	for <linux-firmware@archiver.kernel.org>; Tue, 11 May 2021 19:11:09 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id B58C061626; Tue, 11 May 2021 19:11:09 +0000 (UTC)
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 70EA861585
-	for <linux-firmware@kernel.org>; Tue, 11 May 2021 19:11:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 70EA861585
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=briannorris@chromium.org
-Received: by mail-ot1-f42.google.com with SMTP id d25-20020a0568300459b02902f886f7dd43so5013065otc.6
-        for <linux-firmware@kernel.org>; Tue, 11 May 2021 12:11:09 -0700 (PDT)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61F06C433B4
+	for <linux-wireless@archiver.kernel.org>; Tue, 11 May 2021 19:11:11 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id 318FF61585
+	for <linux-wireless@archiver.kernel.org>; Tue, 11 May 2021 19:11:11 +0000 (UTC)
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S232054AbhEKTMQ (ORCPT
+        <rfc822;linux-wireless@archiver.kernel.org>);
+        Tue, 11 May 2021 15:12:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56856 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231439AbhEKTMQ (ORCPT
+        <rfc822;linux-wireless@vger.kernel.org>);
+        Tue, 11 May 2021 15:12:16 -0400
+Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com [IPv6:2607:f8b0:4864:20::c36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FCAFC061574
+        for <linux-wireless@vger.kernel.org>; Tue, 11 May 2021 12:11:09 -0700 (PDT)
+Received: by mail-oo1-xc36.google.com with SMTP id l25-20020a4a35190000b029020a54735152so463215ooa.4
+        for <linux-wireless@vger.kernel.org>; Tue, 11 May 2021 12:11:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
@@ -34,40 +39,44 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
         bh=IFnrqDxgmbDsaVUtrV/oF1WpAJvkWaxKP9Bq2K33Wvo=;
-        b=Z+/NzRzSuyMKrgegrf0ok2AJkQkNz2jJmdTgzCrTV1E4/Beccyw3tnxlyqGgr4q0k0
-         IFNmG52CfhAgHMacktvQRaKxHcXAbSfuc4/PuwopFmPx1hYCokgzPwmP5wMFe8nSKgSJ
-         1h0GOYzQl6GFUWihVzXYTWCbD6yABELpH/vTkoS2bVbJGbhZb9eNz2RMSqXCzZssGlqa
-         75ce2aljvZahpHMpigzcIf78/GUX69eAjgv6C/0mH8nv3EuyvjxCLXFgWSy1DYf7vJ+I
-         pFsfhCd+K0SfOEJfqDYpIyKqhMA684R7fvqK9w5RacX9RldzjcrOm4O2NPlfnkVNU2Nk
-         IKNg==
-X-Gm-Message-State: AOAM530lV1t9bscKr1vYSXo+U/ElJjzfqbgCxWuaIva320GIIEc3q1rI
-	i66F5CvZDcpYc87YdjtA0CKnQCIl8YCshQ==
-X-Google-Smtp-Source: ABdhPJz9zgnrB840UeHmuIFKo6Zd5cv/+3I7fzF7NcUKpOozCNbpu34uXq7DaxzBs9WOTqnx+k33KA==
-X-Received: by 2002:a9d:664c:: with SMTP id q12mr27925608otm.76.1620760268242;
+        b=nn3+098i1O7u9rq9igjubXwvXdiFsO8xnuTY3+a7URGQidulfCWE+uuvVJGyqjz0Qb
+         BTJuQlzSgVgMp0fEqVRkP1Ta4/yE8XJDUs3UkEYGqStNFAaaTBJe5201HAfBOFpPNf6/
+         jRSKy9xMDnrHeZKieLzU0xBCNhCcaDkIGcc8QN3PRGOip7/5qD0ItokF2hoQ6GD8mP9n
+         qUaxa8ag84SulX8QRfz1oGzkRg/iQNusxYndvJj+9AuAZCS/uPqzAHVT+yroFEAoV8Pn
+         fsQJnbTXORsynngDpW61EZzHldxuqu/A90OUpEzir+MNooZNui1henC4erN0FxZCDGuo
+         mdgA==
+X-Gm-Message-State: AOAM532+BY7rYVOs3KhIaX9xMjwteGkL7olN4zLdYMMDG6GVt3C/cKXY
+        OMaeTaUHlm1aY+HCs4ZptG0pRD9fXt/N2Q==
+X-Google-Smtp-Source: ABdhPJy/jlr8qg8GG0pOHutqmEOXU5XCJxQCt5kxsBR/CQ7TECykxqqSyXhPAhXefh68hWIgHjIRrw==
+X-Received: by 2002:a4a:e934:: with SMTP id a20mr24802030ooe.27.1620760268325;
         Tue, 11 May 2021 12:11:08 -0700 (PDT)
 Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com. [209.85.210.48])
-        by smtp.gmail.com with ESMTPSA id h6sm1861066oom.21.2021.05.11.12.11.07
-        for <linux-firmware@kernel.org>
+        by smtp.gmail.com with ESMTPSA id y191sm2496763oia.50.2021.05.11.12.11.07
+        for <linux-wireless@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
         Tue, 11 May 2021 12:11:07 -0700 (PDT)
-Received: by mail-ot1-f48.google.com with SMTP id q7-20020a9d57870000b02902a5c2bd8c17so18459556oth.5
-        for <linux-firmware@kernel.org>; Tue, 11 May 2021 12:11:07 -0700 (PDT)
+Received: by mail-ot1-f48.google.com with SMTP id d3-20020a9d29030000b029027e8019067fso18404081otb.13
+        for <linux-wireless@vger.kernel.org>; Tue, 11 May 2021 12:11:07 -0700 (PDT)
 X-Received: by 2002:a05:6830:1bd8:: with SMTP id v24mr27430126ota.203.1620760267068;
  Tue, 11 May 2021 12:11:07 -0700 (PDT)
 MIME-Version: 1.0
 References: <57e9f582340545c79a9ab3433e2a4a7d@realtek.com> <87cztx87tr.fsf@tynnyri.adurom.net>
 In-Reply-To: <87cztx87tr.fsf@tynnyri.adurom.net>
-From: Brian Norris <briannorris@chromium.org>
-Date: Tue, 11 May 2021 12:10:55 -0700
+From:   Brian Norris <briannorris@chromium.org>
+Date:   Tue, 11 May 2021 12:10:55 -0700
 X-Gmail-Original-Message-ID: <CA+ASDXM9YmhMWmttkrCxB0_tf6Kf6Sz=7Yc26CmjZmMUxyxAfw@mail.gmail.com>
 Message-ID: <CA+ASDXM9YmhMWmttkrCxB0_tf6Kf6Sz=7Yc26CmjZmMUxyxAfw@mail.gmail.com>
 Subject: Re: Request to update 8852a firmware of rtw89 to v0.13.8.0
-To: Kalle Valo <kvalo@codeaurora.org>
+To:     Kalle Valo <kvalo@codeaurora.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Pkshih <pkshih@realtek.com>, 
-	"linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
+Cc:     Pkshih <pkshih@realtek.com>,
+        "linux-firmware@kernel.org" <linux-firmware@kernel.org>,
+        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Precedence: bulk
+List-ID: <linux-wireless.vger.kernel.org>
+X-Mailing-List: linux-wireless@vger.kernel.org
+Message-ID: <20210511191055.Wrz2wnwchgquDK3oiFQgc17f4IY4cDxuQGe0QWNsC_4@z>
 
 On Tue, May 11, 2021 at 11:05 AM Kalle Valo <kvalo@codeaurora.org> wrote:
 >
