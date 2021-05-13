@@ -1,109 +1,108 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <linux-wireless-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CCEAC433B4
-	for <linux-firmware@archiver.kernel.org>; Wed, 12 May 2021 11:03:56 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id AD64B613C0; Wed, 12 May 2021 11:03:55 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 97A5E613AA
-	for <linux-firmware@kernel.org>; Wed, 12 May 2021 11:03:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1620817435;
-	bh=cW+ZJ8XAbaA9MNhGC+l5Iuc9po+7aaPCv/rijp3FrwE=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=sAZ2J1RubQ/uY5JHlejfoZ7lhujkBccFRpnuBw8sIih1D/2x5/2HXfv8tG5FRTnPO
-	 9dXuaOI7MTRF6lIGyqMCt2+Rj4Ksw2YJyy53HXfNB7U7aBB8c8jGp1vkmMONjxavAh
-	 7exBLZceHGfPPAB6aIgDlQ7Bbz1fyl1y+lm5wkmt9VR3+7IpzzbNHN6Z8qsgTE3+pq
-	 pvouIhPHV1iGESVCikSKv74mvAgLCLp/5csq+BQvytDyCs34uQNeyQHi8XQfov8vpN
-	 eaqTK3A19HHyEPHdX9QXjJALCXVLNFvARUsm5cpUvcAM8k43udg1zBdP79vlTGfhXN
-	 CT0YOg2J8mthA==
-Received: by mail-io1-f42.google.com with SMTP id l21so21218898iob.1
-        for <linux-firmware@kernel.org>; Wed, 12 May 2021 04:03:55 -0700 (PDT)
-X-Gm-Message-State: AOAM5310ncC8W4OUN3Y0uYdLgvLYTEhqwU/DjiDi98vfyTU+dg9Z88bT
-	mxjM9KiboFhDn2QNViX7C1Md8xThB88ESxRYTRM=
-X-Google-Smtp-Source: ABdhPJx3iGvcCkG/EZ+af79ySsIxzTOiVYE7kZRtypUYkzsiKw0Xou78rJ/SInPt7YQrPDPu7jsgTCCreJxOhaR0Yxw=
-X-Received: by 2002:a05:6602:3146:: with SMTP id m6mr26444575ioy.158.1620817433879;
- Wed, 12 May 2021 04:03:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <c4d8c2f040b368225b72a91e74ee282d9ceab4d5.camel@coelho.fi>
-In-Reply-To: <c4d8c2f040b368225b72a91e74ee282d9ceab4d5.camel@coelho.fi>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Wed, 12 May 2021 07:03:42 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA52PGAiLpsjpEY1kZive4VrkqvZHCpoyC4Wd6W9CCr=Og@mail.gmail.com>
-Message-ID: <CA+5PVA52PGAiLpsjpEY1kZive4VrkqvZHCpoyC4Wd6W9CCr=Og@mail.gmail.com>
-Subject: Re: pull request: iwlwifi firmware updates 2021-05-12
-To: Luca Coelho <luca@coelho.fi>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0C3BC433ED
+	for <linux-wireless@archiver.kernel.org>; Thu, 13 May 2021 06:09:32 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id A7F5761287
+	for <linux-wireless@archiver.kernel.org>; Thu, 13 May 2021 06:09:32 +0000 (UTC)
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S230225AbhEMGKk (ORCPT
+        <rfc822;linux-wireless@archiver.kernel.org>);
+        Thu, 13 May 2021 02:10:40 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:42632 "EHLO
+        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230121AbhEMGKj (ORCPT
+        <rfc822;linux-wireless@vger.kernel.org>);
+        Thu, 13 May 2021 02:10:39 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1620886170; h=Content-Type: MIME-Version: Message-ID:
+ In-Reply-To: Date: References: Subject: Cc: To: From: Sender;
+ bh=DFG9qqEL80a90T6eOVH9GPe7NTWmMeB96ru+p2yxzCI=; b=HV4SCDnfH7bWwz0PXB/2JIPU0b3cvwdXb7spbOZvhi2CXTmW10fNGKj+isvF4cOn2MP6aVYd
+ oPFtEtcJsvJyHU3arYBi2OGXDkj9sHp4ICZxXYQIU9/eljirt6JTIkYXgEV7Tzd/7uhCBtsj
+ gXjFAVrr5pO7pWvFk9LtizDbFPk=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyI3YTAwOSIsICJsaW51eC13aXJlbGVzc0B2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
+ 609cc281a4c86a394a491cc0 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 13 May 2021 06:09:05
+ GMT
+Sender: kvalo=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id C7DF7C4338A; Thu, 13 May 2021 06:09:05 +0000 (UTC)
+Received: from potku.adurom.net (88-114-240-156.elisa-laajakaista.fi [88.114.240.156])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: kvalo)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id AC824C433D3;
+        Thu, 13 May 2021 06:09:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org AC824C433D3
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=kvalo@codeaurora.org
+From:   Kalle Valo <kvalo@codeaurora.org>
+To:     Brian Norris <briannorris@chromium.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, tmb@tmb.nu, 
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, "kyle@infradead.org" <kyle@infradead.org>, 
-	"ben@decadent.org.uk" <ben@decadent.org.uk>, golan.ben.ami@intel.com
-Content-Type: text/plain; charset="UTF-8"
+Cc:     Pkshih <pkshih@realtek.com>,
+        "linux-firmware\@kernel.org" <linux-firmware@kernel.org>,
+        "linux-wireless\@vger.kernel.org" <linux-wireless@vger.kernel.org>
+Subject: Re: Request to update 8852a firmware of rtw89 to v0.13.8.0
+References: <57e9f582340545c79a9ab3433e2a4a7d@realtek.com>
+        <87cztx87tr.fsf@tynnyri.adurom.net>
+        <CA+ASDXM9YmhMWmttkrCxB0_tf6Kf6Sz=7Yc26CmjZmMUxyxAfw@mail.gmail.com>
+Date:   Thu, 13 May 2021 09:09:00 +0300
+In-Reply-To: <CA+ASDXM9YmhMWmttkrCxB0_tf6Kf6Sz=7Yc26CmjZmMUxyxAfw@mail.gmail.com>
+        (Brian Norris's message of "Tue, 11 May 2021 12:10:55 -0700")
+Message-ID: <87tun7i2rn.fsf@codeaurora.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.5 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+Precedence: bulk
+List-ID: <linux-wireless.vger.kernel.org>
+X-Mailing-List: linux-wireless@vger.kernel.org
 
-On Wed, May 12, 2021 at 4:33 AM Luca Coelho <luca@coelho.fi> wrote:
->
-> Hi,
->
-> This contains some new and updated firmwares for all our currently
-> maintained FW binaries.
->
-> Please pull or let me know if there are any issues.
->
-> --
-> Cheers,
-> Luca.
->
->
-> The following changes since commit 7685cf49917b281b8799ba822e97595eeecb26b5:
->
->   nvidia: Update Tegra194 XUSB firmware to v60.09 (2021-05-11 07:48:10 -0400)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.git tags/iwlwifi-fw-2021-05-12
->
-> for you to fetch changes up to 56115b259807e0417f30ef84bc6d2093572e6901:
->
->   iwlwifi: update 8000 family firmwares (2021-05-12 10:53:38 +0300)
->
-> ----------------------------------------------------------------
-> Update iwllwifi firmwaresto Core60-51
->
-> ----------------------------------------------------------------
-> Luca Coelho (3):
->       iwlwifi: add new FWs from core60-51 release
->       iwlwifi: update 9000-family firmwares to core60-51
->       iwlwifi: update 8000 family firmwares
->
->  WHENCE                            |  32 ++++++++++++++++++++++++++++----
->  iwlwifi-8000C-36.ucode            | Bin 2428004 -> 2428004 bytes
->  iwlwifi-8265-36.ucode             | Bin 2436632 -> 2436632 bytes
->  iwlwifi-9000-pu-b0-jf-b0-46.ucode | Bin 1514240 -> 1514876 bytes
->  iwlwifi-9260-th-b0-jf-b0-46.ucode | Bin 1485556 -> 1485620 bytes
->  iwlwifi-Qu-b0-hr-b0-63.ucode      | Bin 0 -> 1334856 bytes
->  iwlwifi-Qu-b0-jf-b0-63.ucode      | Bin 0 -> 1252748 bytes
->  iwlwifi-Qu-c0-hr-b0-63.ucode      | Bin 0 -> 1334872 bytes
->  iwlwifi-Qu-c0-jf-b0-63.ucode      | Bin 0 -> 1252764 bytes
->  iwlwifi-QuZ-a0-hr-b0-63.ucode     | Bin 0 -> 1334804 bytes
->  iwlwifi-QuZ-a0-jf-b0-63.ucode     | Bin 0 -> 1252744 bytes
->  iwlwifi-cc-a0-63.ucode            | Bin 0 -> 1298688 bytes
->  iwlwifi-ty-a0-gf-a0-63.ucode      | Bin 0 -> 1460012 bytes
->  iwlwifi-ty-a0-gf-a0.pnvm          | Bin 27456 -> 27456 bytes
->  14 files changed, 28 insertions(+), 4 deletions(-)
->  create mode 100644 iwlwifi-Qu-b0-hr-b0-63.ucode
->  create mode 100644 iwlwifi-Qu-b0-jf-b0-63.ucode
->  create mode 100644 iwlwifi-Qu-c0-hr-b0-63.ucode
->  create mode 100644 iwlwifi-Qu-c0-jf-b0-63.ucode
->  create mode 100644 iwlwifi-QuZ-a0-hr-b0-63.ucode
->  create mode 100644 iwlwifi-QuZ-a0-jf-b0-63.ucode
->  create mode 100644 iwlwifi-cc-a0-63.ucode
->  create mode 100644 iwlwifi-ty-a0-gf-a0-63.ucode
+Brian Norris <briannorris@chromium.org> writes:
 
-Pulled and pushed out.  Thanks.
+> On Tue, May 11, 2021 at 11:05 AM Kalle Valo <kvalo@codeaurora.org> wrote:
+>>
+>> Pkshih <pkshih@realtek.com> writes:
+>>
+>> > Please help to update 8852a firmware.
+>> > This is first time I send a pull request. If anything is wrong,
+>> > please let me know.
+>>
+>> rtw89 driver is not in upstream yet, and it has not been reviewed
+>> either. I recommend holding off pulling the firmware until the driver is
+>> reviewed.
+>
+> FWIW, preliminary rtw89 firmware was already merged. This is just an update.
+>
+> I also wonder, what's the harm? People like me are actively testing
+> the early versions, and I've done a very barebones amount of review (I
+> hope to do more). It really helps me to have up-to-date firmware
+> published somewhere central -- I guess I can take GitHub instead, but
+> again, why not kernel.org? If anyone else is looking at testing, they
+> know where to get the pieces too, and we can compare results.
 
-josh
+It can create confusion to the users if during review we make changes
+how firmware files are handled. Some drivers have windows style .ini
+files which are not ok in an upstream driver, there could be changes in
+the file format etc.
+
+But I have no strong opinion here, my main motivation is just to try to
+keep things simple for maintaining the "interface" between
+linux-firmware and kernel wireless drivers. My preference is that the
+firmware files are ready for submission when a new driver is submitted
+for review, but the firmware files are submitted only after the driver
+is accepted.
+
+-- 
+https://patchwork.kernel.org/project/linux-wireless/list/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
