@@ -1,73 +1,68 @@
-Return-Path: <linux-wireless-owner@kernel.org>
+Return-Path: <bounce+a91e02.be9e4a-linux-firmware=kernel.org@codeaurora.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 656E9C433B4
-	for <linux-wireless@archiver.kernel.org>; Fri, 14 May 2021 06:22:28 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3BD4561446
-	for <linux-wireless@archiver.kernel.org>; Fri, 14 May 2021 06:22:28 +0000 (UTC)
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232195AbhENGXi (ORCPT
-        <rfc822;linux-wireless@archiver.kernel.org>);
-        Fri, 14 May 2021 02:23:38 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:21272 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232301AbhENGXh (ORCPT <rfc822;linux-wireless@vger.kernel.org>);
-        Fri, 14 May 2021 02:23:37 -0400
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5F52C433B4
+	for <linux-firmware@archiver.kernel.org>; Fri, 14 May 2021 06:22:47 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id C60D761446; Fri, 14 May 2021 06:22:47 +0000 (UTC)
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id 299A7613BC
+	for <linux-firmware@kernel.org>; Fri, 14 May 2021 06:22:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 299A7613BC
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=bounce+a91e02.be9e4a-linux-firmware=kernel.org@mg.codeaurora.org
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1620973346; h=Content-Type: MIME-Version: Message-ID:
+ s=smtp; t=1620973367; h=Content-Type: MIME-Version: Message-ID:
  In-Reply-To: Date: References: Subject: Cc: To: From: Sender;
- bh=D3qOaq3w+lp/P83ZscLwR5pSp+K26+/ZdEw8eZKcRek=; b=e/o/Zfsds+PTcI+2EbiBpyupnOSp5JsZpFb/OutbL9fVeLYjuFTCGsbGzHbrtqG2m0VS6UI7
- k1MrBlDmgyPeRV61Td0uN2kEaANhpw+TOx/um3y7UBMMMfeqMeduB/qsK5zRlgVpecrh8GkI
- 5ssHXeQEcKRhae30EEg/gURLm5E=
+ bh=D3qOaq3w+lp/P83ZscLwR5pSp+K26+/ZdEw8eZKcRek=; b=bdX/sdBzXnb45oEJk+WQ8TE1y67kotAGTLZDp3rXnCXLNBoXCQGuRnoZs3slumZqopznGKjA
+ 9lhOoyok7HTQH7iHC5Mz4p6W6FTYVuwM4ADs0HaRpmQc+lq6qDwtn8CqDZE6ld2IZbRarGVQ
+ kwXPxwC/JelKphR/KAU3pb32864=
 X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyI3YTAwOSIsICJsaW51eC13aXJlbGVzc0B2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+X-Mailgun-Sid: WyI3Mjk1MCIsICJsaW51eC1maXJtd2FyZUBrZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 609e1721e0211609c46f1b59 (version=TLS1.2,
+ smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
+ 609e1721e0211609c46f1b29 (version=TLS1.2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 14 May 2021 06:22:25
  GMT
 Sender: kvalo=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 7A4A9C43460; Fri, 14 May 2021 06:22:25 +0000 (UTC)
+	id 15A31C43460; Fri, 14 May 2021 06:22:25 +0000 (UTC)
 Received: from potku.adurom.net (88-114-240-156.elisa-laajakaista.fi [88.114.240.156])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: kvalo)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 4E93FC4338A;
-        Fri, 14 May 2021 06:22:23 +0000 (UTC)
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: kvalo)
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id 4E93FC4338A;
+	Fri, 14 May 2021 06:22:23 +0000 (UTC)
 DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 4E93FC4338A
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=kvalo@codeaurora.org
-From:   Kalle Valo <kvalo@codeaurora.org>
-To:     Brian Norris <briannorris@chromium.org>
+From: Kalle Valo <kvalo@codeaurora.org>
+To: Brian Norris <briannorris@chromium.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc:     Pkshih <pkshih@realtek.com>,
-        "linux-firmware\@kernel.org" <linux-firmware@kernel.org>,
-        "linux-wireless\@vger.kernel.org" <linux-wireless@vger.kernel.org>
+Cc: Pkshih <pkshih@realtek.com>,  "linux-firmware\@kernel.org" <linux-firmware@kernel.org>,  "linux-wireless\@vger.kernel.org" <linux-wireless@vger.kernel.org>
 Subject: Re: Request to update 8852a firmware of rtw89 to v0.13.8.0
 References: <57e9f582340545c79a9ab3433e2a4a7d@realtek.com>
-        <87cztx87tr.fsf@tynnyri.adurom.net>
-        <CA+ASDXM9YmhMWmttkrCxB0_tf6Kf6Sz=7Yc26CmjZmMUxyxAfw@mail.gmail.com>
-        <87tun7i2rn.fsf@codeaurora.org>
-        <876c29841fcf4d21ab2440cbb5879de2@realtek.com>
-        <CA+ASDXMN__j0x5hN5t98C4k+upOcs+T1=MrivCbxRYa_-ENt_A@mail.gmail.com>
-Date:   Fri, 14 May 2021 09:22:21 +0300
+	<87cztx87tr.fsf@tynnyri.adurom.net>
+	<CA+ASDXM9YmhMWmttkrCxB0_tf6Kf6Sz=7Yc26CmjZmMUxyxAfw@mail.gmail.com>
+	<87tun7i2rn.fsf@codeaurora.org>
+	<876c29841fcf4d21ab2440cbb5879de2@realtek.com>
+	<CA+ASDXMN__j0x5hN5t98C4k+upOcs+T1=MrivCbxRYa_-ENt_A@mail.gmail.com>
+Date: Fri, 14 May 2021 09:22:21 +0300
 In-Reply-To: <CA+ASDXMN__j0x5hN5t98C4k+upOcs+T1=MrivCbxRYa_-ENt_A@mail.gmail.com>
-        (Brian Norris's message of "Thu, 13 May 2021 14:08:53 -0700")
+	(Brian Norris's message of "Thu, 13 May 2021 14:08:53 -0700")
 Message-ID: <87pmxtj0ma.fsf@codeaurora.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.5 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
-Precedence: bulk
-List-ID: <linux-wireless.vger.kernel.org>
-X-Mailing-List: linux-wireless@vger.kernel.org
+Message-ID: <20210514062221.it_x6HSwlq2gIE_Bi9DkKyW1o3jUP14o93NZYbA58QI@z>
 
 Brian Norris <briannorris@chromium.org> writes:
 
