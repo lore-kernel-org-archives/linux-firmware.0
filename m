@@ -2,116 +2,108 @@ Return-Path: <linux-wireless-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 237FFC433B4
-	for <linux-wireless@archiver.kernel.org>; Thu, 13 May 2021 21:09:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 656E9C433B4
+	for <linux-wireless@archiver.kernel.org>; Fri, 14 May 2021 06:22:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E4F3D61439
-	for <linux-wireless@archiver.kernel.org>; Thu, 13 May 2021 21:09:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3BD4561446
+	for <linux-wireless@archiver.kernel.org>; Fri, 14 May 2021 06:22:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233289AbhEMVKS (ORCPT
+        id S232195AbhENGXi (ORCPT
         <rfc822;linux-wireless@archiver.kernel.org>);
-        Thu, 13 May 2021 17:10:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48124 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232569AbhEMVKR (ORCPT
-        <rfc822;linux-wireless@vger.kernel.org>);
-        Thu, 13 May 2021 17:10:17 -0400
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com [IPv6:2607:f8b0:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D226C061574
-        for <linux-wireless@vger.kernel.org>; Thu, 13 May 2021 14:09:07 -0700 (PDT)
-Received: by mail-ot1-x333.google.com with SMTP id d25-20020a0568300459b02902f886f7dd43so11346778otc.6
-        for <linux-wireless@vger.kernel.org>; Thu, 13 May 2021 14:09:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZuUVc+1Gl3iIMPO5R1BBEz+t2k66T/LegE8x91I0Gyo=;
-        b=MjtIaP2wvTeRYdgQ1Gs8+IDchcxKLvy7E6G2XGtqFfPq97cOecV+h0JvW/VNoPKvjw
-         J2xRB+J/L+PELAEN2xaczYu2tlDe/FKQONEWN77Ret1EN+1awO39Fp7HeiU0ZcnTDKTA
-         tg9KM4QX9NNno94xte6GDONQSpnUhSAgIyh4w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZuUVc+1Gl3iIMPO5R1BBEz+t2k66T/LegE8x91I0Gyo=;
-        b=WRm+IhKpePIUTC/lxLC1Dx9ltIj0BrYvGofMYMooey4K2y5J6LVtq3MiKGoObOJI7c
-         zPc8ZdnswCQXp7Fz/X8810ExRs1vyykfF0lNydl8+IVN9c8rFkYDUy6YCqFK1nysE2f9
-         VegHIxerKzGbMKvLrWqKSWFf7TO3AL7xbxmgV/ip1ZbXl6VtQF7C16DavjeT7kGrRdGe
-         vJV+1ri7poc3oHqcRo9r9C558/hsTL0qu+QrlLmahTyRdCpY0LBuMgh1mVwfDhZVQbxi
-         wUwrK6TyLotdVicpwht+S3vnvoDkKLL32Y6Btg3rGVzvCL1Q04aoacvD4ku3xL46AwMO
-         tfeA==
-X-Gm-Message-State: AOAM533IRfIahG9QE9o3iN6uFwjRv9cg+V8yuF7672cQvBaNXzuXzzkx
-        d+XQ2I+AKYtEJGHcZsxgeLv0KhuehyAeDg==
-X-Google-Smtp-Source: ABdhPJzu1tNacG4QUQU0f9BjxNKvdWcX+sN5twG0ESCFC1W2qxyofjIYuztA1PEB/GswJlmS93mGlw==
-X-Received: by 2002:a05:6830:445:: with SMTP id d5mr3993060otc.331.1620940146420;
-        Thu, 13 May 2021 14:09:06 -0700 (PDT)
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com. [209.85.210.41])
-        by smtp.gmail.com with ESMTPSA id o4sm814766oia.36.2021.05.13.14.09.04
-        for <linux-wireless@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 May 2021 14:09:04 -0700 (PDT)
-Received: by mail-ot1-f41.google.com with SMTP id q7-20020a9d57870000b02902a5c2bd8c17so24789253oth.5
-        for <linux-wireless@vger.kernel.org>; Thu, 13 May 2021 14:09:04 -0700 (PDT)
-X-Received: by 2002:a9d:f66:: with SMTP id 93mr36813659ott.229.1620940143875;
- Thu, 13 May 2021 14:09:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <57e9f582340545c79a9ab3433e2a4a7d@realtek.com> <87cztx87tr.fsf@tynnyri.adurom.net>
- <CA+ASDXM9YmhMWmttkrCxB0_tf6Kf6Sz=7Yc26CmjZmMUxyxAfw@mail.gmail.com>
- <87tun7i2rn.fsf@codeaurora.org> <876c29841fcf4d21ab2440cbb5879de2@realtek.com>
-In-Reply-To: <876c29841fcf4d21ab2440cbb5879de2@realtek.com>
-From:   Brian Norris <briannorris@chromium.org>
-Date:   Thu, 13 May 2021 14:08:53 -0700
-X-Gmail-Original-Message-ID: <CA+ASDXMN__j0x5hN5t98C4k+upOcs+T1=MrivCbxRYa_-ENt_A@mail.gmail.com>
-Message-ID: <CA+ASDXMN__j0x5hN5t98C4k+upOcs+T1=MrivCbxRYa_-ENt_A@mail.gmail.com>
-Subject: Re: Request to update 8852a firmware of rtw89 to v0.13.8.0
-To:     Pkshih <pkshih@realtek.com>
+        Fri, 14 May 2021 02:23:38 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:21272 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232301AbhENGXh (ORCPT <rfc822;linux-wireless@vger.kernel.org>);
+        Fri, 14 May 2021 02:23:37 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1620973346; h=Content-Type: MIME-Version: Message-ID:
+ In-Reply-To: Date: References: Subject: Cc: To: From: Sender;
+ bh=D3qOaq3w+lp/P83ZscLwR5pSp+K26+/ZdEw8eZKcRek=; b=e/o/Zfsds+PTcI+2EbiBpyupnOSp5JsZpFb/OutbL9fVeLYjuFTCGsbGzHbrtqG2m0VS6UI7
+ k1MrBlDmgyPeRV61Td0uN2kEaANhpw+TOx/um3y7UBMMMfeqMeduB/qsK5zRlgVpecrh8GkI
+ 5ssHXeQEcKRhae30EEg/gURLm5E=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI3YTAwOSIsICJsaW51eC13aXJlbGVzc0B2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
+ 609e1721e0211609c46f1b59 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 14 May 2021 06:22:25
+ GMT
+Sender: kvalo=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 7A4A9C43460; Fri, 14 May 2021 06:22:25 +0000 (UTC)
+Received: from potku.adurom.net (88-114-240-156.elisa-laajakaista.fi [88.114.240.156])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: kvalo)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 4E93FC4338A;
+        Fri, 14 May 2021 06:22:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 4E93FC4338A
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=kvalo@codeaurora.org
+From:   Kalle Valo <kvalo@codeaurora.org>
+To:     Brian Norris <briannorris@chromium.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc:     Kalle Valo <kvalo@codeaurora.org>,
-        "linux-firmware@kernel.org" <linux-firmware@kernel.org>,
-        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     Pkshih <pkshih@realtek.com>,
+        "linux-firmware\@kernel.org" <linux-firmware@kernel.org>,
+        "linux-wireless\@vger.kernel.org" <linux-wireless@vger.kernel.org>
+Subject: Re: Request to update 8852a firmware of rtw89 to v0.13.8.0
+References: <57e9f582340545c79a9ab3433e2a4a7d@realtek.com>
+        <87cztx87tr.fsf@tynnyri.adurom.net>
+        <CA+ASDXM9YmhMWmttkrCxB0_tf6Kf6Sz=7Yc26CmjZmMUxyxAfw@mail.gmail.com>
+        <87tun7i2rn.fsf@codeaurora.org>
+        <876c29841fcf4d21ab2440cbb5879de2@realtek.com>
+        <CA+ASDXMN__j0x5hN5t98C4k+upOcs+T1=MrivCbxRYa_-ENt_A@mail.gmail.com>
+Date:   Fri, 14 May 2021 09:22:21 +0300
+In-Reply-To: <CA+ASDXMN__j0x5hN5t98C4k+upOcs+T1=MrivCbxRYa_-ENt_A@mail.gmail.com>
+        (Brian Norris's message of "Thu, 13 May 2021 14:08:53 -0700")
+Message-ID: <87pmxtj0ma.fsf@codeaurora.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.5 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-wireless.vger.kernel.org>
 X-Mailing-List: linux-wireless@vger.kernel.org
-Message-ID: <20210513210853.LPWmiHkQUSJ5HxofaIP-dc0BG6VitcjhJPHNC20yHtE@z>
 
-On Thu, May 13, 2021 at 2:38 AM Pkshih <pkshih@realtek.com> wrote:
-> > -----Original Message-----
-> > From: kvalo=codeaurora.org@mg.codeaurora.org [mailto:kvalo=codeaurora.org@mg.codeaurora.org] On
-> > Behalf Of Kalle Valo
+Brian Norris <briannorris@chromium.org> writes:
 
-> > It can create confusion to the users if during review we make changes
-> > how firmware files are handled. Some drivers have windows style .ini
-> > files which are not ok in an upstream driver, there could be changes in
-> > the file format etc.
+> On Thu, May 13, 2021 at 2:38 AM Pkshih <pkshih@realtek.com> wrote:
+>> > -----Original Message-----
+>> > From: kvalo=codeaurora.org@mg.codeaurora.org
+>> > [mailto:kvalo=codeaurora.org@mg.codeaurora.org] On
+>> > Behalf Of Kalle Valo
+>
+>> > It can create confusion to the users if during review we make changes
+>> > how firmware files are handled. Some drivers have windows style .ini
+>> > files which are not ok in an upstream driver, there could be changes in
+>> > the file format etc.
+>
+> Sure, good point. I figured if there's no driver merged anywhere
+> upstream, people (e.g., me) are taking their own life in their hands
+> trying to utilize arbitrary versions from the mailing list. But I
+> could see why you still don't want the potential mismatch.
+>
+>> > But I have no strong opinion here, my main motivation is just to try to
+>> > keep things simple for maintaining the "interface" between
+>> > linux-firmware and kernel wireless drivers. My preference is that the
+>> > firmware files are ready for submission when a new driver is submitted
+>> > for review, but the firmware files are submitted only after the driver
+>> > is accepted.
+>
+> Ack, that's definitely important to me. The first versions had no
+> publicly posted firmware, and at least one person (not me at the time)
+> asked for it. My extension of that is that I don't want to
+> _discourage_ vendors posting their firmware to public repos :)
 
-Sure, good point. I figured if there's no driver merged anywhere
-upstream, people (e.g., me) are taking their own life in their hands
-trying to utilize arbitrary versions from the mailing list. But I
-could see why you still don't want the potential mismatch.
+Yeah, I don't want to discourage posting either. It's just that we don't
+want to do it too early nor too late, which doesn't make it easy for
+submitters :)
 
-> > But I have no strong opinion here, my main motivation is just to try to
-> > keep things simple for maintaining the "interface" between
-> > linux-firmware and kernel wireless drivers. My preference is that the
-> > firmware files are ready for submission when a new driver is submitted
-> > for review, but the firmware files are submitted only after the driver
-> > is accepted.
+-- 
+https://patchwork.kernel.org/project/linux-wireless/list/
 
-Ack, that's definitely important to me. The first versions had no
-publicly posted firmware, and at least one person (not me at the time)
-asked for it. My extension of that is that I don't want to
-_discourage_ vendors posting their firmware to public repos :)
-
-> I think I can maintain the firmware in GitHub before driver is accepted,
-> and add some information about firmware version and link in the cover of
-> patchset. Then, people can take proper firmware.
-
-Sure, that can work.
-
-Thanks,
-Brian
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
