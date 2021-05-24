@@ -1,86 +1,154 @@
-Return-Path: <pali@kernel.org>
+Return-Path: <SRS0=ZDbp=KT=chelsio.com=rajur@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A88EC433B4
-	for <linux-firmware@archiver.kernel.org>; Thu, 20 May 2021 23:41:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9FADC04FF3
+	for <linux-firmware@archiver.kernel.org>; Mon, 24 May 2021 11:00:45 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 18BF760FE5; Thu, 20 May 2021 23:41:49 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D7585611BD;
-	Thu, 20 May 2021 23:41:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1621554109;
-	bh=ij7hF7nHXyPrUR2x/nV1+rcA8bDOR4UcJ8kFv9dnuMU=;
-	h=Date:From:To:List-Id:Cc:Subject:References:In-Reply-To:From;
-	b=HN72ycl3w7JOWbob2FbjGP+kdkntsKvmMaNfQush44OpTBY9futHUkhGhGmPdGEoE
-	 jkof4VptjuH7rrDb6brOjepnv2laVf43SL72b5C0Iz7xr7WbXP5rzhof1jktHkrVuR
-	 uzbo93RrbKyLLGmkj1QreHWiiZmL/XuoiMT6hS3dGQl4kGXdxsKK9McVHvydFuxxDa
-	 1aEWepD5rJp/6uIHyGfCsqgLY5cZUn3c89CoNDFQ02hkBsMobV+BKzb83Q17y/TUGZ
-	 Nqo7d23PBT51RqJno/rurQFQrlsHUE9imlJx+rHXTiRAzfBWYLbFH1RGyUZHi5seQy
-	 PHqDi9tUUVHgg==
-Received: by pali.im (Postfix)
-	id ABA789D1; Fri, 21 May 2021 01:41:46 +0200 (CEST)
-Date: Fri, 21 May 2021 01:41:46 +0200
-From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To: Sharvari Harisangam <sharvari.harisangam@nxp.com>,
-	Brian Norris <briannorris@chromium.org>
+	id C148B610C8; Mon, 24 May 2021 11:00:45 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2130.outbound.protection.outlook.com [40.107.244.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id EC049610A2
+	for <linux-firmware@kernel.org>; Mon, 24 May 2021 11:00:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EC049610A2
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=chelsio.com
+Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=rajur@chelsio.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YuT0uKsU8bYVa7vNBYOldcrwQkFFjizw3MphOWPcH5DqbgjHTJeZjxPMIHm0hSt7xzoSM1LXYVJNMwtRtZHBi9OJvSJKn7aVRaiW5kit21uH/ZCF6owK6VlUTK61kyJ8p22hslAGLVpXi+K6q60NDPtI9IkRI8AfnJtaoEwf21VNm+3clFOx6wYBfTxPPgjE1RpI34uAdFzf6EwAokcKTjrK6riMwqm/ikSiLLTet3BOTYzPfoz8s/WpVpsicXeNFoiPqV9pz1/7B83kw4mrkWexvdo2a+grNBxxUCw9S6vRBwDv/lIfOg8p7eEdxVV+LFpr6rQTVsWGFiXdNVfdCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bnVlcU9zM25biMznX+8cYjdaclvwgWgfkcuQF/5G10w=;
+ b=B73Zgkq02DGEQ5Bvw7Niqp+/v30nNnHEat8v5Kr5LorJQjrOrjdbGgO6xc+fjouZEQLzjYAspnSDjVWOU0U7Da6bzAbt9NDVMMfjmqfPSzGTp4TORaP3SoBtP4IQUfheobvNeEBWdhOGbvVcrVc71iiyTrPhS2shf2jp++zwxwn3izNhm/y7JQESWLXmxUYccYhOwib/FqiAA0xFIiN+2TV0TpFZ5S9u9KKBQCzEwI8Pw0xCf8jMT9BWDNzcXrSwQsU6+a9jQvWfeczdu28jikvP9kpyyMmadCZUsApJxVjpveKgtqkOg3qP6lymHW9HtIHJG1CbEuCVsSV4u5ydeQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=chelsio.com; dmarc=pass action=none header.from=chelsio.com;
+ dkim=pass header.d=chelsio.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chelsious.onmicrosoft.com; s=selector2-chelsious-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bnVlcU9zM25biMznX+8cYjdaclvwgWgfkcuQF/5G10w=;
+ b=Hdpd1vRkkaxldf93r2ARi+WH2MQZP8FuO5IymJoIzXH6xy4YQP7U93BZm2hCNAf/f4U+DYnrYhl/lHdhREv9Y0Zlj42LbuANWHJkXqJmQ19iqln8QYntjPnkztLkbnaMHg8xABy3zO+gJBYV8bxf0N/q+XKRyCY2U6O2Oj4LfB0=
+Received: from BN9PR12MB5321.namprd12.prod.outlook.com (2603:10b6:408:102::20)
+ by BN9PR12MB5323.namprd12.prod.outlook.com (2603:10b6:408:104::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.26; Mon, 24 May
+ 2021 11:00:42 +0000
+Received: from BN9PR12MB5321.namprd12.prod.outlook.com
+ ([fe80::24b4:3771:b03b:980b]) by BN9PR12MB5321.namprd12.prod.outlook.com
+ ([fe80::24b4:3771:b03b:980b%7]) with mapi id 15.20.4150.027; Mon, 24 May 2021
+ 11:00:42 +0000
+From: "Raju  Rangoju" <rajur@chelsio.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>,
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-	Cathy Luo <xiaohua.luo@nxp.com>,
-	Rakesh Parmar <rakesh.parmar@nxp.com>,
-	Mayur Arakere <mayur.arakere@nxp.com>
-Subject: Re: pull-request mwifiex-firmware 2021-05-19
-Message-ID: <20210520234146.vmylm53hw7pax32t@pali>
-References: <DB7PR04MB45387F399B5963BD92C57CA3FC2B9@DB7PR04MB4538.eurprd04.prod.outlook.com>
- <20210519182344.cLtegmJLnF6WKlyVBnC-eLey3yEOgyPu_nRJ_hT3WXk@z>
+To: Josh Boyer <jwboyer@kernel.org>, "linux-firmware@kernel.org"
+	<linux-firmware@kernel.org>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Ramaraju
+ Yelavarthy <ramaraju@chelsio.com>, "Raju  Rangoju" <rajur@chelsio.com>
+Subject: pull request: linux-firmware: update cxgb4 firmware to 1.25.6.0
+Thread-Topic: pull request: linux-firmware: update cxgb4 firmware to 1.25.6.0
+Thread-Index: AddQi/jxg8aJf9XJS5OKMl+ZpgS8xA==
+Date: Mon, 24 May 2021 11:00:42 +0000
+Message-ID:
+ <BN9PR12MB53218D9345EF839962E1E4C9BC269@BN9PR12MB5321.namprd12.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=chelsio.com;
+x-originating-ip: [175.101.22.122]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0fbcb782-57ea-413f-6d27-08d91ea32cb0
+x-ms-traffictypediagnostic: BN9PR12MB5323:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs:
+ <BN9PR12MB53236A0898B1248EC309760EBC269@BN9PR12MB5323.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ 9QMLyVshpABlJKLLqECEOHMdYv3iVu3Nrp2GgXbI0UqreysOV2NnheWNNRmdYhqlXaHTHuYyPCtF6EkIcNKMLByXgGN69hn5fZ9w0uwjW5xyz6S/M8edYiIEwr1Oiu13OMkxn9UuTHLENKmjmY6y40uikyWHDsjsYhUoN1pqG7n6anVdXpvGf2ZHo7QECNLQ2V0zPSomuRjDbCsYu/InQUgKgfxcnr9A1+SkIIYkijA0RCl/YUzBL5XJOzaAyKTZKG5G6shN/leBjHR9RpI2QtMRpjYrABTO8HRvGmIg68TTAAP4qhS5IVPi+t+F7X2BjK/JJxEMP+wBA0HnzbYDx1tNEsu3rfZ8vPlQ1zhyRRSOVmEcIAqXCPJJVF903hp8TIEcR5NqRfiXIoAJ4VOwG0D1n0v6qhvfXQgSersnGCZWK6xPs5A0R+FqMD+o9UBkGPttWbBaXt8mOxuhqzvKh/yIp4NAcNbJOYFEfvNKVHB5WYAI5u15f7RMMnRa7wAHDHkdqlbrfiAktSZ5vTNBJ2MfsLoA/PnUDdQs6MyjFfjCnkkmBghrC7V5PsrnieiR/vA/HaekNs0xGvZLNh74FdzIYpwC086w3t3wNgrZ/i4=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5321.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(366004)(376002)(346002)(39830400003)(396003)(54906003)(4326008)(26005)(6506007)(71200400001)(7696005)(38100700002)(55016002)(107886003)(186003)(8936002)(122000001)(52536014)(15650500001)(2906002)(86362001)(66946007)(64756008)(66476007)(478600001)(83380400001)(316002)(110136005)(76116006)(5660300002)(8676002)(66446008)(66556008)(33656002)(9686003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata:
+ =?us-ascii?Q?MtlYFmiCMahWv+14klGqWz8n4yHGD/V6bVp7aL4m92sSdAMeo48tTL27sIyY?=
+ =?us-ascii?Q?6Hm485Y64iVKMDfqK2l+G3lb2CmMnWc4yE4KckMDQ8ap/ggrPHMtlQ+de7sP?=
+ =?us-ascii?Q?MOd9NCsznsNSKRtLAAd+OclpnPRcr3KtDoXHVMEHic4Tvk7v0EUFWDHUpkLB?=
+ =?us-ascii?Q?OEXjbI30DeVnBXxWQNOdaqLt6vLIY4jd0fp5wzXK5QVXJBWHySDVFgr9/gxt?=
+ =?us-ascii?Q?pEFryXnWOor57xppVbhm/i0MlcADN+C3lCkNIFsYx8hZrN1E6kYYJBfp6ORv?=
+ =?us-ascii?Q?7RZCv/Yi/P7UcSFMRW9DPIwsopOXA4IiwBL0c+Y0Q5+NRZK04koRqXOUXLb4?=
+ =?us-ascii?Q?KzB/wfnN01JxqxHMI6j/ycmKb6i9TQocOTg7SDwyP07UQL/h/jORaffKVQoN?=
+ =?us-ascii?Q?vLCcm/lLH7xkruay3B+PTi1ARY73jDtM7Y90ghPApBAggLyvEXdrP2xESjIk?=
+ =?us-ascii?Q?NQxen6/3HDaimdUL4Ok3+/Z0l7WZCmLHJyz3SOmUlcHnYa3dZ46AvNugPhPJ?=
+ =?us-ascii?Q?KtybxLYLyM8ykb313Hp7p9sJEwAiz/wdorugUPvTdJrXRw/rLnZ04522JeoH?=
+ =?us-ascii?Q?jz7EY5fSHzCVHxEAXi3hW3M7b/GNuvzVXn2B9dzh7prCJWhYE1jxKvJJtdZD?=
+ =?us-ascii?Q?9rbbkI/VdEQeTWkIbRwJZtf8if70NNbjYm/kE/Boarq2v8Ah39A/1LYROJZK?=
+ =?us-ascii?Q?jZRK5fyMQVhJBk26YD2LUviuKfZ6uqOWeyiXTnU5oSOvypPuubmyrh/c2mA1?=
+ =?us-ascii?Q?RUXCINnEBOmEY6JDXucjoZimXkIaXms+QR2EEIRcjZI3ilXEM2/wcudb80Zc?=
+ =?us-ascii?Q?nUcrvM/8h0uzXZMD4a+/ETqqy6InEeqJ/NOE2gKgirVk57w3hGDwdO+5JgOW?=
+ =?us-ascii?Q?BU50cw097DYztiG3lwdMuVi5LAZXV6j++5plgAlwIVo00OrxwOiABSb0mPtc?=
+ =?us-ascii?Q?YnpjBUPE5wQmSdIxqP5YJd5JvX9KFqPH1IO/rASiwcscGOGkzoNXq/b+fk8p?=
+ =?us-ascii?Q?nyIQgypbxeIeu7aiSbOmd7HbzhZ8A7ySOD6wyJ0ocr6k99sf2EMFImWDMCG/?=
+ =?us-ascii?Q?ogbBJLuo1lsgVX/OelcOmbqQIZ6qwz+9ZVjLxiiXN5yT/xH/zBNkJZrdcERQ?=
+ =?us-ascii?Q?gD0+Sk6WCS3gyvN+TQMZO2gfMvisotfgsOvd6JKj0VA1nIdcHvqO1YqSw0Pw?=
+ =?us-ascii?Q?RJGxUHVWqmG8aZUMHJ61JA13AY9wENQ1rCjJmLbM7oo4ZGwokgH2NfXHYWf+?=
+ =?us-ascii?Q?KlkvI5LyipBPe2ym/r3KrYXCNK9E/8bJDAMfxAephMdLdZVVzxLghUIKya2u?=
+ =?us-ascii?Q?pRSNlZcUIHcDlMN74XYMROP/?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210519182344.cLtegmJLnF6WKlyVBnC-eLey3yEOgyPu_nRJ_hT3WXk@z>
-User-Agent: NeoMutt/20180716
+X-OriginatorOrg: chelsio.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5321.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0fbcb782-57ea-413f-6d27-08d91ea32cb0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 May 2021 11:00:42.6663
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 065db76d-a7ae-4c60-b78a-501e8fc17095
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 88mWQifKqzMsUeGuuCZMmfF/N5l5TucXhSwdKQdutNRu1AQJ1jnXXO9p4gRQ3TnqaaUXVWm+IpFjo83Jcn3nDg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5323
 
-On Wednesday 19 May 2021 11:23:44 Brian Norris wrote:
-> On Wed, May 19, 2021 at 7:45 AM Sharvari Harisangam
-> <sharvari.harisangam@nxp.com> wrote:
-> >
-> > The following changes since commit 2a0a062e79b5fe9007e57c0fcd285e683e22373e:
-> >
-> >   linux-firmware: update NXP SDSD-8997 firmware image (2020-08-03 06:51:36 +0530)
-> >
-> > are available in the git repository at:
-> >
-> >   https://github.com/NXP/mwifiex-firmware.git
-> >
-> > for you to fetch changes up to db190ade4569c542cd257a9334f8f8956372f7b3:
-> >
-> >   linux-firmware: update NXP PCIE-USB-8997 firmware image (2021-05-19 12:57:21 -0700)
-> >
-> > ----------------------------------------------------------------
-> > Sharvari Harisangam (1):
-> >       linux-firmware: update NXP PCIE-USB-8997 firmware image
-> >
-> >  WHENCE                       |   2 ++
-> >  nxp/pcieusb8997_combo_v4.bin | Bin 0 -> 638992 bytes
-> >  2 files changed, 2 insertions(+)
-> >  create mode 100644 nxp/pcieusb8997_combo_v4.bin
-> 
-> I appreciate that NXP now owns what was formerly known as Marvell
-> WiFi, but the driver still only recognizes "mrvl/" naming, not "nxp/".
-> Did you actually test that this does anything useful? Or are you
-> planning on submitting driver patches to use the new path? That seems
-> like unnecessary churn to me, and you should just use the old path.
-> 
-> Brian
+Hi,
 
-Hello! For backward compatibility you really need to store this firmware
-file under name "mrvl/pcieusb8997_combo_v4.bin". Moreover this firmware
-filename already exists in linux-firmware tree, so you need to replace
-old version by a new one. Otherwise kernel driver would use old version.
+Can you please pull the new firmware from the following URL?
+git://git.chelsio.net/pub/git/linux-firmware.git for-upstream
 
-https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/mrvl
+Thanks,
+Raju
+
+The following changes since commit f8462923ed8fc874f770b8c6dfad49d39b381f14=
+:
+
+  nvidia: fix symlinks for tu104/tu106 acr unload firmware (2021-05-18 11:0=
+3:08 -0400)
+
+are available in the git repository at:
+
+  git://git.chelsio.net/pub/git/linux-firmware.git for-upstream
+
+for you to fetch changes up to 0c8946d82f059f90199f4926ab55033d8aa9c920:
+
+  cxgb4: Update firmware to revision 1.25.6.0 (2021-05-24 00:51:20 -0700)
+
+----------------------------------------------------------------
+Raju Rangoju (1):
+      cxgb4: Update firmware to revision 1.25.6.0
+
+ WHENCE                                         |  12 ++++++------
+ cxgb4/{t4fw-1.25.4.0.bin =3D> t4fw-1.25.6.0.bin} | Bin 569856 -> 570368 by=
+tes
+ cxgb4/{t5fw-1.25.4.0.bin =3D> t5fw-1.25.6.0.bin} | Bin 675328 -> 675840 by=
+tes
+ cxgb4/t6fw-1.25.4.0.bin                        | Bin 728064 -> 0 bytes
+ cxgb4/t6fw-1.25.6.0.bin                        | Bin 0 -> 730112 bytes
+ 5 files changed, 6 insertions(+), 6 deletions(-)
+ rename cxgb4/{t4fw-1.25.4.0.bin =3D> t4fw-1.25.6.0.bin} (75%)
+ rename cxgb4/{t5fw-1.25.4.0.bin =3D> t5fw-1.25.6.0.bin} (78%)
+ delete mode 100644 cxgb4/t6fw-1.25.4.0.bin
+ create mode 100644 cxgb4/t6fw-1.25.6.0.bin=
