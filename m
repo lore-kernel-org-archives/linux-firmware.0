@@ -1,155 +1,170 @@
-Return-Path: <linux-kernel-owner@kernel.org>
+Return-Path: <SRS0=+QvP=KT=denx.de=lukma@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89F6CC04FF3
-	for <linux-kernel@archiver.kernel.org>; Mon, 24 May 2021 11:00:49 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6DB5A610C7
-	for <linux-kernel@archiver.kernel.org>; Mon, 24 May 2021 11:00:49 +0000 (UTC)
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232575AbhEXLCP (ORCPT <rfc822;linux-kernel@archiver.kernel.org>);
-        Mon, 24 May 2021 07:02:15 -0400
-Received: from mail-mw2nam12on2124.outbound.protection.outlook.com ([40.107.244.124]:63553
-        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232548AbhEXLCM (ORCPT <rfc822;linux-kernel@vger.kernel.org>);
-        Mon, 24 May 2021 07:02:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YuT0uKsU8bYVa7vNBYOldcrwQkFFjizw3MphOWPcH5DqbgjHTJeZjxPMIHm0hSt7xzoSM1LXYVJNMwtRtZHBi9OJvSJKn7aVRaiW5kit21uH/ZCF6owK6VlUTK61kyJ8p22hslAGLVpXi+K6q60NDPtI9IkRI8AfnJtaoEwf21VNm+3clFOx6wYBfTxPPgjE1RpI34uAdFzf6EwAokcKTjrK6riMwqm/ikSiLLTet3BOTYzPfoz8s/WpVpsicXeNFoiPqV9pz1/7B83kw4mrkWexvdo2a+grNBxxUCw9S6vRBwDv/lIfOg8p7eEdxVV+LFpr6rQTVsWGFiXdNVfdCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bnVlcU9zM25biMznX+8cYjdaclvwgWgfkcuQF/5G10w=;
- b=B73Zgkq02DGEQ5Bvw7Niqp+/v30nNnHEat8v5Kr5LorJQjrOrjdbGgO6xc+fjouZEQLzjYAspnSDjVWOU0U7Da6bzAbt9NDVMMfjmqfPSzGTp4TORaP3SoBtP4IQUfheobvNeEBWdhOGbvVcrVc71iiyTrPhS2shf2jp++zwxwn3izNhm/y7JQESWLXmxUYccYhOwib/FqiAA0xFIiN+2TV0TpFZ5S9u9KKBQCzEwI8Pw0xCf8jMT9BWDNzcXrSwQsU6+a9jQvWfeczdu28jikvP9kpyyMmadCZUsApJxVjpveKgtqkOg3qP6lymHW9HtIHJG1CbEuCVsSV4u5ydeQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=chelsio.com; dmarc=pass action=none header.from=chelsio.com;
- dkim=pass header.d=chelsio.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chelsious.onmicrosoft.com; s=selector2-chelsious-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bnVlcU9zM25biMznX+8cYjdaclvwgWgfkcuQF/5G10w=;
- b=Hdpd1vRkkaxldf93r2ARi+WH2MQZP8FuO5IymJoIzXH6xy4YQP7U93BZm2hCNAf/f4U+DYnrYhl/lHdhREv9Y0Zlj42LbuANWHJkXqJmQ19iqln8QYntjPnkztLkbnaMHg8xABy3zO+gJBYV8bxf0N/q+XKRyCY2U6O2Oj4LfB0=
-Received: from BN9PR12MB5321.namprd12.prod.outlook.com (2603:10b6:408:102::20)
- by BN9PR12MB5323.namprd12.prod.outlook.com (2603:10b6:408:104::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.26; Mon, 24 May
- 2021 11:00:42 +0000
-Received: from BN9PR12MB5321.namprd12.prod.outlook.com
- ([fe80::24b4:3771:b03b:980b]) by BN9PR12MB5321.namprd12.prod.outlook.com
- ([fe80::24b4:3771:b03b:980b%7]) with mapi id 15.20.4150.027; Mon, 24 May 2021
- 11:00:42 +0000
-From:   "Raju  Rangoju" <rajur@chelsio.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1FC1C04FF3
+	for <linux-firmware@archiver.kernel.org>; Mon, 24 May 2021 12:56:27 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id C9FD1613AD; Mon, 24 May 2021 12:56:27 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id 9BE5D60234;
+	Mon, 24 May 2021 12:56:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9BE5D60234
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=denx.de
+Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lukma@denx.de
+Received: from ktm (85-222-111-42.dynamic.chello.pl [85.222.111.42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: lukma@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id C29C282B00;
+	Mon, 24 May 2021 14:56:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1621860985;
+	bh=e7D6uNBHdkSH9UFcfcBOizeawq7A3Yhafyl/7AbHPdM=;
+	h=Date:From:To:Cc:Subject:From;
+	b=UHyl+pL1URIpBTDOow10OG1cLTjejpPrTcq9vL4G54vHNHvainIEYO31CvCKTzGgK
+	 rxvHveBp69jOkwz239QZWgENEtJE69SSkwBGqifm0iaCKVO33yrth6RBdq+0oDqeDS
+	 IM7ERQJ0FQt6i9WsEbQsAWd+LdvVNjncXmgbQV8w5oSZK9yvzHERd4MAswdyaRyviM
+	 QvG+mfHxmbnxaNegw78OEqhGgvjsc0gmy0Y77M1iL9uFKp2HH+vnhR7Q/dnc7W6IPW
+	 Wg/71c8NGZFAoliAOejpR6VZA13A+vffHstTYQ+4lgt4T9ssjRBCndsdIifZPs19jW
+	 YcDqqo67CmczQ==
+Date: Mon, 24 May 2021 14:56:17 +0200
+From: Lukasz Majewski <lukma@denx.de>
 List-Id: <linux-firmware.lore.kernel.org>
-To:     Josh Boyer <jwboyer@kernel.org>,
-        "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Ramaraju Yelavarthy <ramaraju@chelsio.com>,
-        "Raju Rangoju" <rajur@chelsio.com>
-Subject: pull request: linux-firmware: update cxgb4 firmware to 1.25.6.0
-Thread-Topic: pull request: linux-firmware: update cxgb4 firmware to 1.25.6.0
-Thread-Index: AddQi/jxg8aJf9XJS5OKMl+ZpgS8xA==
-Date:   Mon, 24 May 2021 11:00:42 +0000
-Message-ID: <BN9PR12MB53218D9345EF839962E1E4C9BC269@BN9PR12MB5321.namprd12.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=chelsio.com;
-x-originating-ip: [175.101.22.122]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 0fbcb782-57ea-413f-6d27-08d91ea32cb0
-x-ms-traffictypediagnostic: BN9PR12MB5323:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BN9PR12MB53236A0898B1248EC309760EBC269@BN9PR12MB5323.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 9QMLyVshpABlJKLLqECEOHMdYv3iVu3Nrp2GgXbI0UqreysOV2NnheWNNRmdYhqlXaHTHuYyPCtF6EkIcNKMLByXgGN69hn5fZ9w0uwjW5xyz6S/M8edYiIEwr1Oiu13OMkxn9UuTHLENKmjmY6y40uikyWHDsjsYhUoN1pqG7n6anVdXpvGf2ZHo7QECNLQ2V0zPSomuRjDbCsYu/InQUgKgfxcnr9A1+SkIIYkijA0RCl/YUzBL5XJOzaAyKTZKG5G6shN/leBjHR9RpI2QtMRpjYrABTO8HRvGmIg68TTAAP4qhS5IVPi+t+F7X2BjK/JJxEMP+wBA0HnzbYDx1tNEsu3rfZ8vPlQ1zhyRRSOVmEcIAqXCPJJVF903hp8TIEcR5NqRfiXIoAJ4VOwG0D1n0v6qhvfXQgSersnGCZWK6xPs5A0R+FqMD+o9UBkGPttWbBaXt8mOxuhqzvKh/yIp4NAcNbJOYFEfvNKVHB5WYAI5u15f7RMMnRa7wAHDHkdqlbrfiAktSZ5vTNBJ2MfsLoA/PnUDdQs6MyjFfjCnkkmBghrC7V5PsrnieiR/vA/HaekNs0xGvZLNh74FdzIYpwC086w3t3wNgrZ/i4=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5321.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(366004)(376002)(346002)(39830400003)(396003)(54906003)(4326008)(26005)(6506007)(71200400001)(7696005)(38100700002)(55016002)(107886003)(186003)(8936002)(122000001)(52536014)(15650500001)(2906002)(86362001)(66946007)(64756008)(66476007)(478600001)(83380400001)(316002)(110136005)(76116006)(5660300002)(8676002)(66446008)(66556008)(33656002)(9686003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?MtlYFmiCMahWv+14klGqWz8n4yHGD/V6bVp7aL4m92sSdAMeo48tTL27sIyY?=
- =?us-ascii?Q?6Hm485Y64iVKMDfqK2l+G3lb2CmMnWc4yE4KckMDQ8ap/ggrPHMtlQ+de7sP?=
- =?us-ascii?Q?MOd9NCsznsNSKRtLAAd+OclpnPRcr3KtDoXHVMEHic4Tvk7v0EUFWDHUpkLB?=
- =?us-ascii?Q?OEXjbI30DeVnBXxWQNOdaqLt6vLIY4jd0fp5wzXK5QVXJBWHySDVFgr9/gxt?=
- =?us-ascii?Q?pEFryXnWOor57xppVbhm/i0MlcADN+C3lCkNIFsYx8hZrN1E6kYYJBfp6ORv?=
- =?us-ascii?Q?7RZCv/Yi/P7UcSFMRW9DPIwsopOXA4IiwBL0c+Y0Q5+NRZK04koRqXOUXLb4?=
- =?us-ascii?Q?KzB/wfnN01JxqxHMI6j/ycmKb6i9TQocOTg7SDwyP07UQL/h/jORaffKVQoN?=
- =?us-ascii?Q?vLCcm/lLH7xkruay3B+PTi1ARY73jDtM7Y90ghPApBAggLyvEXdrP2xESjIk?=
- =?us-ascii?Q?NQxen6/3HDaimdUL4Ok3+/Z0l7WZCmLHJyz3SOmUlcHnYa3dZ46AvNugPhPJ?=
- =?us-ascii?Q?KtybxLYLyM8ykb313Hp7p9sJEwAiz/wdorugUPvTdJrXRw/rLnZ04522JeoH?=
- =?us-ascii?Q?jz7EY5fSHzCVHxEAXi3hW3M7b/GNuvzVXn2B9dzh7prCJWhYE1jxKvJJtdZD?=
- =?us-ascii?Q?9rbbkI/VdEQeTWkIbRwJZtf8if70NNbjYm/kE/Boarq2v8Ah39A/1LYROJZK?=
- =?us-ascii?Q?jZRK5fyMQVhJBk26YD2LUviuKfZ6uqOWeyiXTnU5oSOvypPuubmyrh/c2mA1?=
- =?us-ascii?Q?RUXCINnEBOmEY6JDXucjoZimXkIaXms+QR2EEIRcjZI3ilXEM2/wcudb80Zc?=
- =?us-ascii?Q?nUcrvM/8h0uzXZMD4a+/ETqqy6InEeqJ/NOE2gKgirVk57w3hGDwdO+5JgOW?=
- =?us-ascii?Q?BU50cw097DYztiG3lwdMuVi5LAZXV6j++5plgAlwIVo00OrxwOiABSb0mPtc?=
- =?us-ascii?Q?YnpjBUPE5wQmSdIxqP5YJd5JvX9KFqPH1IO/rASiwcscGOGkzoNXq/b+fk8p?=
- =?us-ascii?Q?nyIQgypbxeIeu7aiSbOmd7HbzhZ8A7ySOD6wyJ0ocr6k99sf2EMFImWDMCG/?=
- =?us-ascii?Q?ogbBJLuo1lsgVX/OelcOmbqQIZ6qwz+9ZVjLxiiXN5yT/xH/zBNkJZrdcERQ?=
- =?us-ascii?Q?gD0+Sk6WCS3gyvN+TQMZO2gfMvisotfgsOvd6JKj0VA1nIdcHvqO1YqSw0Pw?=
- =?us-ascii?Q?RJGxUHVWqmG8aZUMHJ61JA13AY9wENQ1rCjJmLbM7oo4ZGwokgH2NfXHYWf+?=
- =?us-ascii?Q?KlkvI5LyipBPe2ym/r3KrYXCNK9E/8bJDAMfxAephMdLdZVVzxLghUIKya2u?=
- =?us-ascii?Q?pRSNlZcUIHcDlMN74XYMROP/?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+To: linux-firmware@kernel.org, Sharvari Harisangam
+ <sharvari.harisangam@nxp.com>, Ganapathi Bhat <ganapathi.bhat@nxp.com>
+Cc: Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>, Marek =?UTF-8?B?QmVow7pu?=
+ <marek.behun@nic.cz>, l.majewski@majess.pl
+Subject: wifi: 88W8801: AP mode crash in sd8801_uapsta.bin firmware (Linux
+ v5.4.yy)
+Message-ID: <20210524145617.4975fe6d@ktm>
+Organization: denx.de
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-OriginatorOrg: chelsio.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5321.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0fbcb782-57ea-413f-6d27-08d91ea32cb0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 May 2021 11:00:42.6663
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 065db76d-a7ae-4c60-b78a-501e8fc17095
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 88mWQifKqzMsUeGuuCZMmfF/N5l5TucXhSwdKQdutNRu1AQJ1jnXXO9p4gRQ3TnqaaUXVWm+IpFjo83Jcn3nDg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5323
-Precedence: bulk
-List-ID: <linux-kernel.vger.kernel.org>
-X-Mailing-List: linux-kernel@vger.kernel.org
-Message-ID: <20210524110042.lx_bEQBMEbKh0gCc7oRKtxba5PHlcQ0d7F18Kt0_Hoc@z>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ boundary="Sig_/_PHa2hG7KK0GmShB7GIoZxJ"; protocol="application/pgp-signature"
+X-Virus-Scanned: clamav-milter 0.102.4 at phobos.denx.de
+X-Virus-Status: Clean
 
-Hi,
+--Sig_/_PHa2hG7KK0GmShB7GIoZxJ
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Can you please pull the new firmware from the following URL?
-git://git.chelsio.net/pub/git/linux-firmware.git for-upstream
+Dear Community,
 
-Thanks,
-Raju
+I'm testing the 88W8801 SoC based module. I'm trying to set it to AP
+mode.
 
-The following changes since commit f8462923ed8fc874f770b8c6dfad49d39b381f14=
-:
+Unfortunately with those verions of FW:
+info: MWIFIEX VERSION: mwifiex 1.0 (14.76.36.p139) and 14.68.36.p146
+the hostapd is not working (for the latter FW STA works, for former
+don't - I've reported this in the other mail).
 
-  nvidia: fix symlinks for tu104/tu106 acr unload firmware (2021-05-18 11:0=
-3:08 -0400)
 
-are available in the git repository at:
+How to reproduce:
+-----------------
+hostapd -d -B -i mlan0 /etc/hostapd.conf
 
-  git://git.chelsio.net/pub/git/linux-firmware.git for-upstream
+Kernel:
+Kernel 5.4.24 (stable tree)
 
-for you to fetch changes up to 0c8946d82f059f90199f4926ab55033d8aa9c920:
 
-  cxgb4: Update firmware to revision 1.25.6.0 (2021-05-24 00:51:20 -0700)
+Error:
+mwifiex_cmd_timeout_func: Timeout cmd id =3D 0xb1, act =3D 0x0
+which corresponds to: HostCmd_CMD_UAP_BSS_START
 
-----------------------------------------------------------------
-Raju Rangoju (1):
-      cxgb4: Update firmware to revision 1.25.6.0
+More verbose output:
 
- WHENCE                                         |  12 ++++++------
- cxgb4/{t4fw-1.25.4.0.bin =3D> t4fw-1.25.6.0.bin} | Bin 569856 -> 570368 by=
-tes
- cxgb4/{t5fw-1.25.4.0.bin =3D> t5fw-1.25.6.0.bin} | Bin 675328 -> 675840 by=
-tes
- cxgb4/t6fw-1.25.4.0.bin                        | Bin 728064 -> 0 bytes
- cxgb4/t6fw-1.25.6.0.bin                        | Bin 0 -> 730112 bytes
- 5 files changed, 6 insertions(+), 6 deletions(-)
- rename cxgb4/{t4fw-1.25.4.0.bin =3D> t4fw-1.25.6.0.bin} (75%)
- rename cxgb4/{t5fw-1.25.4.0.bin =3D> t5fw-1.25.6.0.bin} (78%)
- delete mode 100644 cxgb4/t6fw-1.25.4.0.bin
- create mode 100644 cxgb4/t6fw-1.25.6.0.bin=
+mwifiex_sdio mmc0:0001:1: mwifiex_cmd_timeout_func: Timeout cmd id =3D
+0xb1, act =3D 0x0 mwifiex_sdio mmc0:0001:1: num_data_h2c_failure =3D 0
+mwifiex_sdio mmc0:0001:1: num_cmd_h2c_failure =3D 0
+mwifiex_sdio mmc0:0001:1: is_cmd_timedout =3D 1
+mwifiex_sdio mmc0:0001:1: num_tx_timeout =3D 0
+mwifiex_sdio mmc0:0001:1: last_cmd_index =3D 4
+mwifiex_sdio mmc0:0001:1: last_cmd_id: 28 00 28 00 5b 00 b0 00 b1 00
+mwifiex_sdio mmc0:0001:1: last_cmd_act: 13 00 13 00 01 00 01 00 00 00
+mwifiex_sdio mmc0:0001:1: last_cmd_resp_index =3D 3
+mwifiex_sdio mmc0:0001:1: last_cmd_resp_id: 28 80 28 80 5b 80 b0 80 28
+80 mwifiex_sdio mmc0:0001:1: last_event_index =3D 4
+mwifiex_sdio mmc0:0001:1: last_event: 00 00 0b 00 0a 00 0b 00 0a 00
+mwifiex_sdio mmc0:0001:1: data_sent=3D0 cmd_sent=3D1
+mwifiex_sdio mmc0:0001:1: ps_mode=3D1 ps_state=3D0
+mwifiex_sdio mmc0:0001:1: Failed to start the BSS
+mwifiex_sdio mmc0:0001:1: Failed to start AP
+mwifiex_sdio mmc0:0001:1: =3D=3D=3Dmwifiex driverinfo dump start=3D=3D=3D
+mwifiex_sdio mmc0:0001:1: info: MWIFIEX VERSION: mwifiex 1.0
+(14.76.36.p139) mwifiex_sdio mmc0:0001:1: SDIO register dump start
+
+Afteterward, any attempt to communicat with the module ends with:
+mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
+and reboot is required.
+
+
+cat /etc/hostapd.conf=20
+interface=3Dmlan0
+channel=3D1
+driver=3Dnl80211
+ssid=3Dimx6ullevk
+auth_algs=3D1
+ignore_broadcast_ssid=3D0
+hw_mode=3Dg
+wpa=3D2
+wpa_passphrase=3Dfoofoofoo
+wpa_key_mgmt=3DWPA-PSK
+
+
+
+There a document regarding using the STA mode for 88W8801 from NXP:
+"How to integrate Linux driver of 88W8801 To i.MX6ULL-EVK And
+L5.4.70_2.3.0 BSP"
+Written by:
+NXP CAS-TIC Wireless MCU Team, Weidong Sun 05/16/2021
+
+
+It uses similar FW version (p160 vs p146) - 14.68.36.p160, but only
+with STA working (the AP mode is not presented as working one - it is
+apparentlty not tested).
+In the above document some proprietary (not mwifiex) wi-fi driver
+was used for the test.
+
+Working STA for 14.68.36.p146 (and probably p160) is what I see with
+mwifiex driver.=20
+
+I'm wondering if anybody managed to have the AP (hostapd) mode working
+with this SoC with any known FW version?
+
+Thanks in advance for sharing the knowledge.
+
+Best regards,
+
+Lukasz Majewski
+
+--
+
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
+
+--Sig_/_PHa2hG7KK0GmShB7GIoZxJ
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAmCronEACgkQAR8vZIA0
+zr3CaQf/Ro6JNSBT2LbzeczCiA2hPy6mTNgbdcjVhIDjja+L/tnlLW2neixD+sCK
+59p6nN2O19GX/1ppSANHXa1kwwVB5aIy/RK2kg/tKR72UnK2d8m3CFuCPmhHSNrq
+QbTE8+4hIIdW+AKdAZBoiPnrROMOi3QY8RFV6SAicaQvU/VM+qW1ig7oWqwhVten
+K8b0hUl+LelwdauaEk9JaYIekq4KWD9rxvShEg1zSmq3gwWHGewxNRhuiMP5jJTQ
+V5E//STDU842oWPipf3dFM+I/BohOjLeNFhmKufMmjJFkuFkmlbXMUC/rOakSg27
+Bt8n6TDJ5t9gvthhXFlPH+GXuNgH9A==
+=KUAD
+-----END PGP SIGNATURE-----
+
+--Sig_/_PHa2hG7KK0GmShB7GIoZxJ--
