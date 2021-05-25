@@ -1,212 +1,136 @@
-Return-Path: <SRS0=+QvP=KT=denx.de=lukma@kernel.org>
+Return-Path: <SRS0=eXje=KU=nxp.com=sharvari.harisangam@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A3AFC04FF3
-	for <linux-firmware@archiver.kernel.org>; Mon, 24 May 2021 12:58:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AEF0C2B9F8
+	for <linux-firmware@archiver.kernel.org>; Tue, 25 May 2021 06:42:50 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 6435B613B0; Mon, 24 May 2021 12:58:26 +0000 (UTC)
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	id 31DCA61408; Tue, 25 May 2021 06:42:50 +0000 (UTC)
+Received: from EUR02-HE1-obe.outbound.protection.outlook.com (mail-eopbgr10051.outbound.protection.outlook.com [40.107.1.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DCE7D611CE;
-	Mon, 24 May 2021 12:58:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DCE7D611CE
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=denx.de
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lukma@denx.de
-Received: from ktm (85-222-111-42.dynamic.chello.pl [85.222.111.42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: lukma@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 1889082E91;
-	Mon, 24 May 2021 14:58:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1621861103;
-	bh=/y4uPeHVIdugTOvG0cA9UMwNjcF6UnMUJzAyN+oGERM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=QeOg0HSW6bmAAmTTtuycaB07bddFzikuGnB3pUDfGVLnJaDnnGt3C644jjk4+eYY1
-	 9ppmhKZXZ948LJVT5DDlncFMZP+mhKPp4171y183xS1OzpLGIS0FIX3f16bJbLYM9K
-	 8zMXXl+PFxfe3ku30tIvw5zeN1iVb0iM2oVqDyPM82ds9TBZGwksbx5scyhXJJkEWZ
-	 5bPuhJani6DwfqWYOA12jbj0BshrRx64axtodwH/xxXY8fimUBOmJtmxJaH36wnC8A
-	 /yP7P6ZhhsO/QrPWhVmBWpvaZFm94lb8DC5a1+QK37UkVXKwWKVOdoEMFwWH7izz0N
-	 6zi9ylb9odV2w==
-Date: Mon, 24 May 2021 14:58:22 +0200
-From: Lukasz Majewski <lukma@denx.de>
-To: Sharvari Harisangam <sharvari.harisangam@nxp.com>, Ganapathi Bhat
- <ganapathi.bhat@nxp.com>
+	by mail.kernel.org (Postfix) with ESMTPS id C52CC611C9
+	for <linux-firmware@kernel.org>; Tue, 25 May 2021 06:42:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C52CC611C9
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nxp.com
+Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=sharvari.harisangam@nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OsvsHMIPf71BejdYArTIVpTSOD2cqeCowT2A8WiivLBP99AjcPaOOMx2klL8TK0vXZxXi3+nB2LP0ZPEbC8l+oNIQQouaIBaLTky2vLdRYvykwZFZF/2j7+JTBpTD3p4i7AEVnRgOafmtGojgfp3FoTQPR3w413g2LkAnWj5XJSRTrYexrTWnDi4TN3an5Nkh/9bMUIBpDI5Ii4J6ysZpzVsg63zX1fr1HsUJG3XzWzheD04vwmdBlelxHO4hjdZnNg8LwmRRaikMTjHNBQNH0Ksq90TAUle8gaEErq7KrTBDfAYsV6bF2mdHu76qar1WtMLqQKPKKCSq+5CpzY9+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Re9pHfSAL7QL3U/UKbkHCPtl309UdCEL5k4C55GqpRs=;
+ b=JRLeKgn9SnpFRgRIwoFM3FaGEWfGxYeF6W87K1wQ/Zwv4UcLgEfR2a6QtRCuf9czBbeKIxAb1pIZWAQd66GoMrHY++uYr155cmobKmydBuz2mECcVyY9w4Qzx2RY0d9CTumpapLUDaIKlqcRsFaG8B8Gk3CE2gaV6o0Ge9jhbSuhzZS/ItzU06xbx6z9fff5a2qvwBYbwOSAuI51FzZSXKDAwLcEKwTMVOibSDGO4QBYNFLbQXKjFBm8uJ3RzaX9PFYpqKnjM+aGdsoc6NThVwptJneACFMacZWyhQLdnklFwLVfGcENJa3qYcOMEqPbTQT8Pr2WV3K9ld51jFmJVA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Re9pHfSAL7QL3U/UKbkHCPtl309UdCEL5k4C55GqpRs=;
+ b=Gfayf0vrqKTzso4nLbv0YC5XyW5LyHUR4z9Ap6BuiFqqhkeYfJSAMvE69NeLhp+h1D56XG3vyJn5sxPGtIoqX4rz0mdMj51pqEhr4ENzu34d3ji+I3g8QHznf55aTQ9hIq5Nro1bj0owN3azxHzJdCDEyAmlBtVQ5j6BU37xuOg=
+Received: from DB7PR04MB4538.eurprd04.prod.outlook.com (2603:10a6:5:2e::18) by
+ DB8PR04MB7148.eurprd04.prod.outlook.com (2603:10a6:10:12d::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4150.23; Tue, 25 May 2021 06:42:47 +0000
+Received: from DB7PR04MB4538.eurprd04.prod.outlook.com
+ ([fe80::74dd:4a7a:3f72:c85b]) by DB7PR04MB4538.eurprd04.prod.outlook.com
+ ([fe80::74dd:4a7a:3f72:c85b%4]) with mapi id 15.20.4150.027; Tue, 25 May 2021
+ 06:42:47 +0000
+From: Sharvari Harisangam <sharvari.harisangam@nxp.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>, linux-firmware@kernel.org,
- l.majewski@majess.pl, Marek =?UTF-8?B?QmVow7pu?= <marek.behun@nic.cz>
-Subject: Re: wifi: 88W8801: Newest firmware for sd8801_uapsta.bin bug
-Message-ID: <20210524145822.5ac95365@ktm>
-In-Reply-To: <20210510105402.3bbc16fe@jawa>
-References: <20210507151702.4848a5b3@jawa>
-	<20210508112911.aigklhaw225ftwtj@pali>
-	<20210508113734.4kdyt6z6xsjtrrq2@pali>
-	<20210510105402.3bbc16fe@jawa>
-Organization: denx.de
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_/bhF0.esFXNFn.GevDR0_y2n"; protocol="application/pgp-signature"
-X-Virus-Scanned: clamav-milter 0.102.4 at phobos.denx.de
-X-Virus-Status: Clean
-
---Sig_/bhF0.esFXNFn.GevDR0_y2n
-Content-Type: text/plain; charset=UTF-8
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+CC: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, Cathy
+ Luo <xiaohua.luo@nxp.com>, Rakesh Parmar <rakesh.parmar@nxp.com>, Mayur
+ Arakere <mayur.arakere@nxp.com>
+Subject: pull-request mwifiex-firmware 2021-05-25
+Thread-Topic: pull-request mwifiex-firmware 2021-05-25
+Thread-Index: AddRMRR92hX51an2SCObLVa46U9J2w==
+Date: Tue, 25 May 2021 06:42:47 +0000
+Message-ID:
+ <DB7PR04MB4538AF222036C6549FF460EBFC259@DB7PR04MB4538.eurprd04.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [116.75.139.158]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: bcaa4e29-5b83-4257-0644-08d91f484f2d
+x-ms-traffictypediagnostic: DB8PR04MB7148:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs:
+ <DB8PR04MB7148969DB7EFB8D6E4CE82FEFC259@DB8PR04MB7148.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:330;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ uQdjyGlBZBWa5K93ZCrNiPgj5qZKZsSznze5M48jXY9US0S1epZOaD+Tfser0Uoz8TyT7UQG/Con5yC2GsmsXVVwscUFJwuqDRcyO8cliIyg4ANLDxodINzwXznQuj84g+F6emhZEKmnQj4IOhI71xDMV+84ez9vP7oxDvwoKv91FwSooPVNpHHEE7/WQD6kmo6665r0w4rBBWzTijpmoMvBp/5wFktymL8oHVIXayCMgVUnLgAVwChl95TFUgVBFmRX9+7EicZMyPOT/WS4rL4M9RrrGikzBmYEGzxbEdo54R9iyxHTJaJe+8IiIWZ1rvJepsMw61zZeba34xui3OMQkb+zB974UnoDwMVcqGRaWPdEcwMG234GTpc94K8Ty4vpk/F3RfoYcueJS7FsTjEQna/U5GvR5tkaxLzghViqCECZJKPz2+yVIBrjVpoCq0Hun542ydAntDS/Mi9xpEJku7nH3/o2WyPdw6IFdO/jqA4Rvbon303jTeRDRB4B6gdoKYPIbqPSqmd8ViNWPqlJ4jHs9GeZni2tdIs4m7rBmTx4eiqfjSb01NPleL8oormJmGSwabXYm3SkoVSDQlXe3CVAhuVhkERlO3ekwQ1RIGca37P3S5OjckVQyf3qRxhbbwQT5/jwlCuyf2t0nwVbBX6Y+7Wzz0Z8R5UaDp4F90119vTb7t6YCUDd3Kdd1KYcPdQUqa/p+2NQ0iMmz8uWzmM72PdaHNXKUT9yfmc=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR04MB4538.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(39860400002)(396003)(366004)(136003)(2906002)(66446008)(54906003)(38100700002)(316002)(966005)(6506007)(122000001)(44832011)(26005)(4326008)(52536014)(66556008)(64756008)(86362001)(66476007)(76116006)(5660300002)(8936002)(4744005)(9686003)(55236004)(478600001)(8676002)(71200400001)(6916009)(7696005)(55016002)(83380400001)(66946007)(33656002)(186003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata:
+ =?us-ascii?Q?JVg7OlSTQLg4zAQtTBuAhmtgXt5AMxck9pxTi7slJmxzqIlfpUsUlFDDnY3t?=
+ =?us-ascii?Q?9SMmrimBHR6eTdAWcXqyhwfrKFx4kla19uslqgo9YxklE5cTb1XkYSGq5SwW?=
+ =?us-ascii?Q?Zo+vN6jbbWEDHxPA0ZA5NfK1xWrJKZhjIxBZwHUlBZqGfa7aT2DZ7HvTwuj1?=
+ =?us-ascii?Q?Yz9/Nvqx+1pwMvtaogfnC1F8uTK9P+NzKu9zolLzA2ie2q0rLKrkFsAzqFLd?=
+ =?us-ascii?Q?iVKojEZjr1jvjRkrJ39dZbu6EEtEUZiFQhD4xBTGLOWG+E+DQTmF1D5SBwhL?=
+ =?us-ascii?Q?NafITb77H5taQ3PhrPcLp2CZhKCiDKp+5FMMHZFsjiUiWyrQbDuuWo4S9oWv?=
+ =?us-ascii?Q?9GBxTCkm5nXMcGoRwVceQBQWi5EmpRrGFNYwHgXtZkvQnVbUiNWkS1KdMdzN?=
+ =?us-ascii?Q?InzVOaWDkG5sVGGwrI4hl6oaT3wnizzT6kVZsZwqhoQyWyu3DUQoxi7HGuHE?=
+ =?us-ascii?Q?fd9klc5oMCYa31mokF1I+q3CHydPSwlI3NQbbUuGnxMRS2MmwPOzr6y1oCGi?=
+ =?us-ascii?Q?rNRqyq0LKDEjNtvIuQKfp0rL560PhDBqM8TY/cuBoa+/icMD4Fv/D966U5Ya?=
+ =?us-ascii?Q?LN1pr4dGxYt9S6pEyBmHIw2YVZFS4oI7dnOwQZi3vKuk2hVO41/4dB6WB9NC?=
+ =?us-ascii?Q?lDTE0IMuqD4QJKYkubApzKYvPyNBvIgReLrWt3CMw/yWaEdjbxWzghyDTNfG?=
+ =?us-ascii?Q?gJoNKorsfwcOp/Jirr1BfjHx2qgoe4x/NOKEX1z+AwJDjea1PO4Bg5Kvm2Yd?=
+ =?us-ascii?Q?neGxGY2af+UA0bBzftRsy/fkGaeLxPGgUchzVWchqnbylgWthzCRG+46rWVM?=
+ =?us-ascii?Q?B74Xi9rHb3KXtEXw84mNQEhX24dRgfsWRwRMjq5FnNAVsrNep6PeDIf91mik?=
+ =?us-ascii?Q?pRKNnTZWaB5sqNcCxt07idU2NuadmzAZ/Z+fe4KmpAulFqQt5sR3brBnF36D?=
+ =?us-ascii?Q?uUPmdg37FPD5DETF/kW78njG2BWCCrgv+vb0k7u3VrxJOpQJ6xSIKSq6MRe4?=
+ =?us-ascii?Q?9Xk+ciagUxdrq81q/JhjbbsdPUQIBZve/T+AUumjaboICtWuxWScTKiv7CNW?=
+ =?us-ascii?Q?hQW9buy1KstpmvNDq7aUbkarslw0lBrz6tOmzd6+468lJisTDi7e+MYk80/E?=
+ =?us-ascii?Q?rmxxeeePbQ63u0cENGVDZcjkJoqo+8868sLHuR0ZhKLmSB5kaTvZ7D9VF3gV?=
+ =?us-ascii?Q?CgP7QUg8KX6QHT6ndQFGQG4g9hdMjM5Vxj1MvpV2icBsnNcaBHP/Lb3dhNZS?=
+ =?us-ascii?Q?YqUlHIvSj0G+W9VXxe6IQwhlUqIYunGFTWzWKkgLdA2b34Arb204XIvu1HDq?=
+ =?us-ascii?Q?EaOGHDW21rUnSunjDN21Bx23?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB7PR04MB4538.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bcaa4e29-5b83-4257-0644-08d91f484f2d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 May 2021 06:42:47.5688
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0o/Au5fUhU7m7Or7V9BoHDOvnbKbA6rX5RPepQlwZIRraHNNZqFxpJysVy7VkrCrGRpa9tWZnsibUzP1w/5daEPAmowdxUGm07nnnO5VVtI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB7148
 
-Dear Ganapathi and Sharvari
+The following changes since commit db190ade4569c542cd257a9334f8f8956372f7b3=
+:
 
-> Hi Pali,
->=20
-> > On Saturday 08 May 2021 13:29:11 Pali Roh=C3=A1r wrote: =20
-> > > + Sharvari and Ganapathi
-> > >=20
-> > > To let you know about this mwifiex firmware issue. Could you look
-> > > at it?
-> > >=20
-> > > On Friday 07 May 2021 15:17:02 Lukasz Majewski wrote:   =20
-> > > > Dear community,
-> > > >=20
-> > > > I would like to report that the version: 14.68.36.p204 of
-> > > > sd8801_uapsta.bin binary (newest, SHA1:
-> > > > ecdfcf8e2ca15f5682ab94fd30ba29fb869b24a7) has the issue with
-> > > > getting channel info (HostCmd_CMD_STA_CONFIGURE command
-> > > > execution).
-> > > >=20
-> > > > As a result the module seems to be stuck and no transmission is
-> > > > performed.
-> > > >=20
-> > > > The issue is not present in 14.68.36.p146 verson of the
-> > > > firmware.=20
-> >=20
-> > And FYI, NXP has newer version 14.76.36.p139 of this
-> > sd8801_uapsta.bin firmware in their mwifiex-firmware github
-> > repository:
-> >=20
-> > https://github.com/NXP/mwifiex-firmware/commit/c38b125a920a695d360b62e8=
-b1f7fb1c4e1afd46
-> >=20
-> > I hope that Sharvari or Ganapathi brings some light in this
-> > issue... =20
->=20
-> Thanks for sharing this issue with NXP developers.
->=20
-> >=20
-> > Lukasz, meanwhile could you try to check if this new firmware
-> > version has this issue fixed?
-> >  =20
->=20
-> It looks like the issue is still there (even new errors pops up when
-> compared to the original one):
->=20
-> root@mx6ul:~# dmesg|grep sdio
-> [   29.025231] mwifiex_sdio mmc0:0001:1: info: FW download over, size
-> 262660 bytes [   29.310488] mwifiex_sdio mmc0:0001:1: WLAN FW is
-> active [   29.390778] mwifiex_sdio mmc0:0001:1: CMD_RESP: cmd 0x242
-> error, result=3D0x2 [   29.398245] mwifiex_sdio mmc0:0001:1:
-> mwifiex_process_cmdresp: cmd 0x242 failed during       initialization
-> [   29.707952] mwifiex_sdio mmc0:0001:1: info: MWIFIEX VERSION:
-> mwifiex 1.0 (14.76.36.p139) [   29.717360] mwifiex_sdio mmc0:0001:1:
-> driver_version =3D mwifiex 1.0 (14.76.36.p139)=20
->=20
-> root@mx6ul:~# ./tst_sdio.sh=20
-> + wpa_supplicant -B -i mlan0 -c /etc/wpa_supplicant.conf
-> Successfully initialized wpa_supplicant
-> + sleep 3
-> [  251.425350] mwifiex_sdio mmc0:0001:1: CMD_RESP: cmd 0x107 error,
-> result=3D0x2
-> + udhcpc -i mlan0
-> udhcpc: started, v1.31.1
-> udhcpc: sending discover
-> [  256.476210] mwifiex_sdio mmc0:0001:1: CMD_RESP: cmd 0x107 error,
-> result=3D0x2 udhcpc: sending discover
-> udhcpc: sending discover
-> [  261.497057] mwifiex_sdio mmc0:0001:1: CMD_RESP: cmd 0x107 error,
-> result=3D0x2 [  261.507859] ieee80211 phy0: sched_scan start :
-> n_ssids=3D1 n_match_sets=3D1 [  261.515872] ieee80211 phy0: n_channels=3D=
-13
-> interval=3D10 ie_len=3D0
->=20
->=20
-> Please pay attention to the new "cmd 0x107 error, result=3D0x2" issue
-> with this new FW version.
+  linux-firmware: update NXP PCIE-USB-8997 firmware image (2021-05-19 12:57=
+:21 -0700)
 
-Is there any update on this issue? Ganapathi and Sharvari, have you
-managed to make the STA mode working on with the newest FW for 88W8801 ?
+are available in the git repository at:
 
-Thanks in advance for sharing the knowledge.
+  https://github.com/NXP/mwifiex-firmware.git
 
->=20
-> > > > For reproduction one needs to execute:
-> > > > #! /bin/sh
-> > > > set -x
-> > > > wpa_supplicant -B -i mlan0 -c /etc/wpa_supplicant.conf
-> > > > sleep 3
-> > > > dhclient mlan0
-> > > >=20
-> > > > exit 0
-> > > >=20
-> > > >=20
-> > > >=20
-> > > > I'm using the Azurewave AW-NM191NF module (with 88W8801 SoC).
-> > > >=20
-> > > > Best regards,
-> > > >=20
-> > > > Lukasz Majewski
-> > > >=20
-> > > > --
-> > > >=20
-> > > > DENX Software Engineering GmbH,      Managing Director: Wolfgang
-> > > > Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194
-> > > > Groebenzell, Germany Phone: (+49)-8142-66989-59 Fax:
-> > > > (+49)-8142-66989-80 Email: lukma@denx.de   =20
->=20
->=20
->=20
-> Best regards,
->=20
-> Lukasz Majewski
->=20
-> --
->=20
-> DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-> HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-> Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email:
-> lukma@denx.de
+for you to fetch changes up to 267febb1c43c119a7a65ddabc2c33c28a7803324:
 
+  linux-firmware: update Marvell 8897/8997 firmware images (2021-05-25 05:0=
+9:25 -0700)
 
+----------------------------------------------------------------
+Sharvari Harisangam (1):
+      linux-firmware: update Marvell 8897/8997 firmware images
 
-Best regards,
-
-Lukasz Majewski
-
---
-
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
-
---Sig_/bhF0.esFXNFn.GevDR0_y2n
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAmCrou4ACgkQAR8vZIA0
-zr1/+wgAqCupdEHs7Dv7qhVV24x5kCUDzMkJt6fOr8MFtsChPJhhUZTGGp1WZBZw
-pnqWL4Mg/AojBaiejaiZLrVjDdR/Kgyk0XPr4SYAuWN/nvHbCWsfyPYzrFv0k2NQ
-dNaaqJNgHXaPniuAJk4K694AwBvr4QJlf30gd/L1nEYjElGD3wdDgzw1shhpB0F1
-CQotu+M7ADx71QVvrJwiqjE7hFplbGQVRe6rdD4PbH3edXybZVQnAEmu/Aqp96+D
-xva1BBvJSDTPnUr4FCJb6yzPSaxaRlUgE5Je0LI8YHGGlpS0dewFLgSWKavdyK9v
-Tv6Il5Apon2X0ExJPL/ke7ZQbk8D8g==
-=mDAt
------END PGP SIGNATURE-----
-
---Sig_/bhF0.esFXNFn.GevDR0_y2n--
+ mrvl/pcieusb8997_combo_v4.bin | Bin 634228 -> 638992 bytes
+ mrvl/sd8897_uapsta.bin        | Bin 701072 -> 717068 bytes
+ 2 files changed, 0 insertions(+), 0 deletions(-)
