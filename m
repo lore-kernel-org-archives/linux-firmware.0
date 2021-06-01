@@ -1,104 +1,175 @@
-Return-Path: <bounce+a91e02.be9e4a-linux-firmware=kernel.org@codeaurora.org>
+Return-Path: <SRS0=eatA=K3=nxp.com=sharvari.harisangam@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64943C47082
-	for <linux-firmware@archiver.kernel.org>; Mon, 31 May 2021 06:08:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C257AC4708F
+	for <linux-firmware@archiver.kernel.org>; Tue,  1 Jun 2021 07:43:57 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 32CFB610A6; Mon, 31 May 2021 06:08:02 +0000 (UTC)
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	id 9974A613A9; Tue,  1 Jun 2021 07:43:57 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2074.outbound.protection.outlook.com [40.107.20.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BC369610A0
-	for <linux-firmware@kernel.org>; Mon, 31 May 2021 06:08:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BC369610A0
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=bounce+a91e02.be9e4a-linux-firmware=kernel.org@mg.codeaurora.org
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1622441281; h=Message-ID: References: In-Reply-To: Subject:
- To: From: Date: Content-Transfer-Encoding: Content-Type: MIME-Version:
- Sender; bh=z5kT8jbLa3B1j37fixvUFNYR47YyTWR8hYfpWxX1dCA=; b=xhb9xhyk+GRADzZX2u3jhAVu/cJ1FpKXt9ZgXEG8wJn1x6hOPwnk+ScdJobcuzNoEs10tdes
- eQtInxWcdP8+ciZwupP9vjcsiTiO7GS5wR1nWza058s5mvSVj1pz/oVmZ+aCfdDwjgq3xIK6
- 6fXpgGjaYjKozhvE712bLI3b5Ow=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyI3Mjk1MCIsICJsaW51eC1maXJtd2FyZUBrZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
- 60b47d406ddc3305c40a19bd (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 31 May 2021 06:08:00
- GMT
-Sender: rjliao=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-	id 73C3EC4338A; Mon, 31 May 2021 06:07:59 +0000 (UTC)
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: rjliao)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id 3A37EC433D3
-	for <linux-firmware@kernel.org>; Mon, 31 May 2021 06:07:59 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date: Mon, 31 May 2021 14:07:59 +0800
-From: Rocky Liao <rjliao@codeaurora.org>
+	by mail.kernel.org (Postfix) with ESMTPS id 4C3886139A;
+	Tue,  1 Jun 2021 07:43:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4C3886139A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nxp.com
+Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=sharvari.harisangam@nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=R/3v7hC9Dp8Vz0DyAjBioB47XHGsSzPj6ffF8DzpOffNoCknRZX7hywk6ffKzeavVxAq1d66Z2o9r6IqTdokuEGgfaVAtr82bKW96TPUAuBfGpFno6ODyyuCZTH+SqtxNDpz72h1SeGbSRhufZ2C7BcJym4dec+HRhUjFHZAOJzynhDzSqqgjvjoXSwzcx0or6Js8CM+9t52g7hpGuGuxmaJaDGKbozLA4E1qfPNdTe+W02QfV3pImXTEud2QgBgEWxaJKpQQxjzncjNy1Vau1ZpBByaTlW2qCHd7g+hOHaMY9Ff6BCYjBvDTsALyHSurF/iNYwDWu2YE3vjp9wOLg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nbPI4qDkEN6f2gvQ1vX5aIv/vKo3I6kbWSwR6R3FBR8=;
+ b=OPf4TXMaDRozbTt1PTdxH+GjRNQh8+Xr0s80e2kMXkMU0baLoTJR3pcbU1fbaw+ayV8NAbdbX3SwKe3XrGqX2OQfkE/kYpsPHfxTctYHbVyZHL+kKlzqlC9GFBWixZ3yYX+Rh7YAlUhG1V0vPcH6popVYcd7IVzBoGpiOlM7wQKTK0OBe9xBmhSwJ0qGFq7DZu7VswX5fqJmaf2q4ByPT/+Eh61H/E9duZPNGjQ9ufd8FdEnLjEGsHVqnnNF3rZeN1B9NXceZxYzRnyXvOwk7yXcaCyc4UtqoROpSCczvvMN9FiCl0WCqMgkOGJp/ku1guaQlOOSPg2Ym7KKTKI0zg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nbPI4qDkEN6f2gvQ1vX5aIv/vKo3I6kbWSwR6R3FBR8=;
+ b=GzNMseCwEF7tZTeGKUoGsdKThaoDErErGFYpbFek2OZaJYmA2if9Vh6Q6QN+JfOVYHrh1OObnjyeHbtuO8Ceaku9WFNk0xzlIhYR5JTfI4o+cBk2yVlsy6lhy/K4uhgQFtdWdzth3iydVnZjHNgGNB2hh2ZZcfbSyB7D2mW/wfw=
+Received: from DB7PR04MB4538.eurprd04.prod.outlook.com (2603:10a6:5:2e::18) by
+ DB7PR04MB3978.eurprd04.prod.outlook.com (2603:10a6:5:1a::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4173.21; Tue, 1 Jun 2021 07:43:55 +0000
+Received: from DB7PR04MB4538.eurprd04.prod.outlook.com
+ ([fe80::3c19:872c:5f5:e3fd]) by DB7PR04MB4538.eurprd04.prod.outlook.com
+ ([fe80::3c19:872c:5f5:e3fd%7]) with mapi id 15.20.4173.030; Tue, 1 Jun 2021
+ 07:43:55 +0000
+From: Sharvari Harisangam <sharvari.harisangam@nxp.com>
+To: =?iso-8859-1?Q?Pali_Roh=E1r?= <pali@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Subject: Re: btqca firmware 20210525
-In-Reply-To: <12c9ae4818ee072ea81d4fe2e6438b5f@codeaurora.org>
-References: <a7032e79a0456a4375453613ffab47fc@codeaurora.org>
- <12c9ae4818ee072ea81d4fe2e6438b5f@codeaurora.org>
-Message-ID: <ea5b7ab62b5f03091b1551e9d387100e@codeaurora.org>
-X-Sender: rjliao@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+CC: "linux-firmware@kernel.org" <linux-firmware@kernel.org>,
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, Cathy Luo
+	<xiaohua.luo@nxp.com>, Rakesh Parmar <rakesh.parmar@nxp.com>
+Subject: RE: [EXT] Re: pull-request mwifiex-firmware 2021-05-25
+Thread-Topic: [EXT] Re: pull-request mwifiex-firmware 2021-05-25
+Thread-Index: AddRMRR92hX51an2SCObLVa46U9J2wCG7L8AANtAzVA=
+Date: Tue, 1 Jun 2021 07:43:55 +0000
+Message-ID:
+ <DB7PR04MB4538C0AFF34981AEC26C54EFFC3E9@DB7PR04MB4538.eurprd04.prod.outlook.com>
+References:
+ <DB7PR04MB4538AF222036C6549FF460EBFC259@DB7PR04MB4538.eurprd04.prod.outlook.com>
+ <20210527230526.2skr7pxcpxam3vga@pali>
+In-Reply-To: <20210527230526.2skr7pxcpxam3vga@pali>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [116.75.139.158]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 859b113e-93b2-4b18-dcec-08d924d1024e
+x-ms-traffictypediagnostic: DB7PR04MB3978:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs:
+ <DB7PR04MB39784286219E6CC5BD0FEC8BFC3E9@DB7PR04MB3978.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:345;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ o3bp4zEpvo1175f0t0HmipTcx7ftlLylOmVJM70F+2QQOzIGQQV/vo1XiQhFwI7uW7PMvT4FGunm9+Epm0FbdAVT+OfioZt/1jDNZJEuMZSgGd1Vyts1XG+HrKb/5drQeQb9zjmKe/e0bmc+EhlY3MyoEDYHKEq+ZtBiiQfogK7AwkmENMIPNxwV1ENfT72lmOEMF1GoDQFKcOiXFuiIfyyQ9zg4VxhtWIbWUZBFdWuabNKAG01VOxgIZi4Xbvx0vSn0KrJAv1sKK1yAArqT1an07ZIziR714Pwfmt5ltPzH4qlgDivajZXjeO4TAbYevmByxPLiksRDKCzK2NBntaVfyUtAXeuMweUbQu4zx6tEVjpI6nEOa+x3MVV6ipEBQlbAL9dxqDB/5/zhz5nLta2j+umtuhM68S8t9EMQwEsDCV9rJDM4wBUXvvGC0sl/Bpeov/8LbvfNg/pKoJ2jF39IconzmYwjfAyD+pSJXfgLzdqpxpvGee0YjqWsApvMQoqUiMNd9pRUDzjs69cT0FZ7O9QwpTgClTe5BSIj7dVx37FssUnk138aRsabfudeylSHAXhya75Be/j8RktHBVPQH9E79VBUE9OEo5C7j0sEA6v27nB8C6o8R3jjhHiGIY5CgYFcY8o+Dx8Sq2w0+PxxIdwgfaclEFT7BzGB18YnZuPA33+1X2dE7wqBW16Cs5umyREFYfBOtjnxLSMy3VeWn5AvLOpHwspBxK3TM1s=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR04MB4538.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(366004)(396003)(39860400002)(136003)(376002)(76116006)(5660300002)(33656002)(66946007)(64756008)(44832011)(55236004)(6916009)(52536014)(122000001)(26005)(66556008)(66476007)(186003)(86362001)(2906002)(66446008)(966005)(9686003)(54906003)(4326008)(83380400001)(45080400002)(8676002)(66574015)(55016002)(478600001)(71200400001)(53546011)(7696005)(6506007)(316002)(8936002)(38100700002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata:
+ =?iso-8859-1?Q?kNdBJvRIIne69MnBATVmFW4Bfw8VTiwwCYZmZ6m6L0wA5w3OmW7a7cAQIg?=
+ =?iso-8859-1?Q?kCHwQWkwOeGiExgreoOVA8yKm4Jh2mU1ixwvWKFf4F/JWdeySk7JgKXHmA?=
+ =?iso-8859-1?Q?/MN5jhK9nreBmErNljUnR2cxlajeU50BEpKyMa9e6hJ/p6ZjMLXn7a6o9m?=
+ =?iso-8859-1?Q?moh2OrkOY3b5bBOlHmYmgQD4jhWg2XOFbnRYLKCnMcThHObJscT/bJC2OL?=
+ =?iso-8859-1?Q?kC9URS8zSCsOkny/wn/O395YaqCq4cBoRa+tPPjlV/kNvOZAt/PUR8sVxR?=
+ =?iso-8859-1?Q?g+rvvp19bCp91hRqUwRD8L9gsudNImTKdt4+WWqWFPIb3rEFgbLH+ZpucU?=
+ =?iso-8859-1?Q?vES4rRHTBcFE9aWtXdNavmGVf8BfSRrSDoBu/efnZ4okmy3tpI/UMBMnoj?=
+ =?iso-8859-1?Q?5eQOVUL1HUMjCsb+bPcqSJ4N58RSEZHV32xrWOUMmNf+QE6B8Vl3pa2dQe?=
+ =?iso-8859-1?Q?0vVI+sxJOr18ZCb9bgQYJc/PJl2befbfpVb2LHkDLHtQKzn2vkZNSguqKD?=
+ =?iso-8859-1?Q?Y2dBO9Qvk4lm5MoG5cXbRogidt9lgKcEUWFFy3zhwiF8axUHFBMU3L2ZC1?=
+ =?iso-8859-1?Q?5C623Yr/ec+ytxPnDOuSOyXcK1tpdCARhI7DkEky6YMM6LRoP5JpI+nCPc?=
+ =?iso-8859-1?Q?oUwYSwnP0n26iF4r4rRt4M3uW2NO0yfkvGrCBbSZN7gxEWEObI1UMI96Ec?=
+ =?iso-8859-1?Q?hGKNupNDu9NmBPHH4yHAkoEJa4YUW3EwAen1GB+RJwMJyWo6UA5mtaf1yC?=
+ =?iso-8859-1?Q?Nnbl+ioSvLixUT3Kd6ZpeIHpIYwua5Nk3H7ZkCLlX/jpSTbdFk/Jpafl4g?=
+ =?iso-8859-1?Q?Y4qhF6T8/+REcH/4AKE1X0rmDZp+pa8ON7s33wiN4iEPi07nuWyuX8AK4q?=
+ =?iso-8859-1?Q?MKVa1h4JLSys9VJpyxsska8n9f3Mg0Xpu1sTY0iC2IXBk000IOtNh8VTT1?=
+ =?iso-8859-1?Q?MiJkjp2HYTFPN5KHoX4TF2+XiytxTgyk6wWk/6HTXyFvmw4KL22iIArhGT?=
+ =?iso-8859-1?Q?wL9UcUXYBef+Lm5RFHcC3AFZlCl4yBpkr028UxwNzCIJTdLDssbsfPx1+9?=
+ =?iso-8859-1?Q?pFY4WrcooFdvUmp7uleC3lVhu4hfHUv795ZfQKkEOTPRzHX1XvOmIZEtWX?=
+ =?iso-8859-1?Q?IErzz7GVgu0TmmuF2DjwUWDx58RIuDZyrTqbvs36O8heH9tpy4mPR4YEw6?=
+ =?iso-8859-1?Q?S+7NZsMnJSg+8bn1HL6oVzZl3DZVN40ZU6UxZzdkBfdY3uo7MZx1PIJ8ac?=
+ =?iso-8859-1?Q?1k1WTsAKPEwKaOIT+5nTJTtoBK/aU4+JazQArtyO0eKm2+HmQtV8oGpew3?=
+ =?iso-8859-1?Q?9PBbKJcjYyW5B3gjY/lHemXrVsl3dh/jWTs+0Kf/UbgNnVFN7zWkoZ4dhg?=
+ =?iso-8859-1?Q?owndln05k+?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB7PR04MB4538.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 859b113e-93b2-4b18-dcec-08d924d1024e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jun 2021 07:43:55.4783
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jtDIVQTW7j9uPtAw1lk9fDv42C9RidwwraHIu0i9SmOoRU1Vjz+Dw0omEGXHliiuoRDyxTjDIbx1cpoIzCiMobEioy51Ruy7qbgp5JmgkFo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB3978
 
-Hi,
+We are planning to update the firmware in phases.
 
-Add one more pull request:
+Thanks,
+Sharvari
 
-commit-id: 4adb20b44c1aa98eff0f6c8311a9611b1c6db3a6
-
-Rocky Liao (1):
-          QCA: Add Bluetooth firmware for WCN685x (2021-05-31 13:49:24 
-+0800)
-
-在 2021-05-27 16:44，Rocky Liao 写道：
-> Hi,
-> 
-> Add one more pull request in the same
-> https://github.com/rjliao-qca/qca-btfw.git:
-> 
-> commit-id: 48237834129d17f9d77301f4c6ec4afc0c83fbac
-> ----------------------------------------------------------------
-> Rocky Liao (1):
->          QCA: Update Bluetooth firmware for QCA6174 (2021-05-27 
-> 16:31:22 +0800)
-> 
-> 
-> 在 2021-05-25 17:48，Rocky Liao 写道：
->> Hi linux-firmware maintainers,
->> 
->> Here's a pull request for btqca bluetooth driver. Please let me know
->> if you have any problems.
->> 
->> The following changes since commit
->> f8462923ed8fc874f770b8c6dfad49d39b381f14:
->> 
->>    nvidia: fix symlinks for tu104/tu106 acr unload firmware
->> (2021-05-18 16:36:31 +1000)
->> 
->> are available in the Git repository at:
->> 
->>    https://github.com/rjliao-qca/qca-btfw.git
->> 
->> for you to fetch changes up to 
->> 293c78917c8113b7e3193733cb15d8f66b0249c7:
->> ----------------------------------------------------------------
->> Rocky Liao (1):
->>         QCA: Update Bluetooth firmware for QCA6390 (2021-05-25 
->> 17:36:19 +0800)
+> -----Original Message-----
+> From: Pali Roh=E1r <pali@kernel.org>
+> Sent: Friday, May 28, 2021 4:35 AM
+> To: Sharvari Harisangam <sharvari.harisangam@nxp.com>
+> Cc: linux-firmware@kernel.org; linux-wireless@vger.kernel.org; Cathy Luo
+> <xiaohua.luo@nxp.com>; Rakesh Parmar <rakesh.parmar@nxp.com>; Mayur
+> Arakere <mayur.arakere@nxp.com>
+> Subject: [EXT] Re: pull-request mwifiex-firmware 2021-05-25
+>=20
+> Caution: EXT Email
+>=20
+> On Tuesday 25 May 2021 06:42:47 Sharvari Harisangam wrote:
+> > The following changes since commit
+> db190ade4569c542cd257a9334f8f8956372f7b3:
+> >
+> >   linux-firmware: update NXP PCIE-USB-8997 firmware image (2021-05-19
+> 12:57:21 -0700)
+> >
+> > are available in the git repository at:
+> >
+> >
+> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgithu=
+b.co
+> m%2FNXP%2Fmwifiex-
+> firmware.git&amp;data=3D04%7C01%7Csharvari.harisangam%40nxp.com%7C23c
+> cf252b3cf4bb04e9508d92163ed1b%7C686ea1d3bc2b4c6fa92cd99c5c301635%7
+> C0%7C0%7C637577535329511768%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC
+> 4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&a
+> mp;sdata=3DiUx3hV9qMv36jIz8wT22NbKoqbwNvylhmNT6ElRd9jg%3D&amp;reser
+> ved=3D0
+> >
+> > for you to fetch changes up to
+> 267febb1c43c119a7a65ddabc2c33c28a7803324:
+> >
+> >   linux-firmware: update Marvell 8897/8997 firmware images (2021-05-25
+> 05:09:25 -0700)
+> >
+> > ----------------------------------------------------------------
+> > Sharvari Harisangam (1):
+> >       linux-firmware: update Marvell 8897/8997 firmware images
+> >
+> >  mrvl/pcieusb8997_combo_v4.bin | Bin 634228 -> 638992 bytes
+> >  mrvl/sd8897_uapsta.bin        | Bin 701072 -> 717068 bytes
+> >  2 files changed, 0 insertions(+), 0 deletions(-)
+>=20
+> Hello and thank you for this pull request!
+>=20
+> Could you send update also for other 8997 firmware variant files?
+>=20
+> sdsd8997_combo_v4.bin
+> usbusb8997_combo_v4.bin
+> pcieuart8997_combo_v4.bin
