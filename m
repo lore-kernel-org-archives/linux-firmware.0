@@ -1,24 +1,25 @@
-Return-Path: <SRS0=cj44=MB=chelsio.com=rajur@kernel.org>
+Return-Path: <linux-kernel-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3C9BC07E99
-	for <linux-firmware@archiver.kernel.org>; Fri,  9 Jul 2021 11:05:25 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 89608613D6; Fri,  9 Jul 2021 11:05:25 +0000 (UTC)
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2108.outbound.protection.outlook.com [40.107.243.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E22F461249;
-	Fri,  9 Jul 2021 11:05:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E22F461249
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=chelsio.com
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=rajur@chelsio.com
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BC3FC07E99
+	for <linux-kernel@archiver.kernel.org>; Fri,  9 Jul 2021 11:05:28 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id 60A2361249
+	for <linux-kernel@archiver.kernel.org>; Fri,  9 Jul 2021 11:05:28 +0000 (UTC)
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S230024AbhGILII (ORCPT <rfc822;linux-kernel@archiver.kernel.org>);
+        Fri, 9 Jul 2021 07:08:08 -0400
+Received: from mail-dm6nam12on2114.outbound.protection.outlook.com ([40.107.243.114]:39392
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229641AbhGILIH (ORCPT <rfc822;linux-kernel@vger.kernel.org>);
+        Fri, 9 Jul 2021 07:08:07 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
  b=HKFk2BRI20XHJpuYzKO3Qippl8gD2OPcOS9xBgDojcl4z6mAZJUdGz9Y0CDOXnnUnh/Tz3Pv2Y8BMPRhrTM0KVZaZldJmejuRnY+rEFRIPhxBji2oK1zyBRXErEjKqu59avHu0cvnFL/rhmAwUeRLl6kCz82Oup6w8rF+U2I8Giika0wTQDyMLPpziKVR4Gz6r28ReQU8HKsQBR0Co09zPAH3HAaY33/0mEUQXqM+OvA1POFrM044wOxCHF50g/6EMlZLfQZ5GsIkD+MfM76e2ozuWtFauFrFrTC96fWmCD5MxL4Tp8aSSNPOnRVc1ci537uMSwm/ByKYfGQyy0xAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
@@ -43,40 +44,36 @@ Received: from BN9PR12MB5321.namprd12.prod.outlook.com
  ([fe80::5c18:2c80:2e44:1fb7]) by BN9PR12MB5321.namprd12.prod.outlook.com
  ([fe80::5c18:2c80:2e44:1fb7%5]) with mapi id 15.20.4308.023; Fri, 9 Jul 2021
  11:05:22 +0000
-From: "Raju  Rangoju" <rajur@chelsio.com>
+From:   "Raju  Rangoju" <rajur@chelsio.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: Josh Boyer <jwboyer@kernel.org>, "linux-firmware@kernel.org"
-	<linux-firmware@kernel.org>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Ramaraju
- Yelavarthy <ramaraju@chelsio.com>, "Raju  Rangoju" <rajur@chelsio.com>
+To:     Josh Boyer <jwboyer@kernel.org>,
+        "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Ramaraju Yelavarthy <ramaraju@chelsio.com>,
+        "Raju Rangoju" <rajur@chelsio.com>
 Subject: pull request: linux-firmware: update cxgb4 firmware to 1.26.0.0
 Thread-Topic: pull request: linux-firmware: update cxgb4 firmware to 1.26.0.0
 Thread-Index: Add0snUMvCC4/zNUSJaMLTWOmh6eBg==
-Date: Fri, 9 Jul 2021 11:05:22 +0000
-Message-ID:
- <BN9PR12MB5321B78120F39E6FE2D46798BC189@BN9PR12MB5321.namprd12.prod.outlook.com>
+Date:   Fri, 9 Jul 2021 11:05:22 +0000
+Message-ID: <BN9PR12MB5321B78120F39E6FE2D46798BC189@BN9PR12MB5321.namprd12.prod.outlook.com>
 Accept-Language: en-US
 Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
 authentication-results: kernel.org; dkim=none (message not signed)
  header.d=none;kernel.org; dmarc=none action=none header.from=chelsio.com;
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-correlation-id: d3985762-5ab1-46e7-d2e6-08d942c97258
 x-ms-traffictypediagnostic: BN9PR12MB5179:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs:
- <BN9PR12MB51796B56135BF2A30AB5FE84BC189@BN9PR12MB5179.namprd12.prod.outlook.com>
+x-microsoft-antispam-prvs: <BN9PR12MB51796B56135BF2A30AB5FE84BC189@BN9PR12MB5179.namprd12.prod.outlook.com>
 x-ms-oob-tlc-oobclassifiers: OLM:8882;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- 88C8HfIJwhFi6abgpPcY6PuqFiA/q1H/Mc9+N/jmGtVEfsiM4k468Z1O6qZUK1eFvRCprm3PyWPLQhbD4VyI1sO5Euaggi6GfX636kUyE984L1wAHGqt+qFdlU/t22yK3nkRnPuCsyUCFvoArlNtrivZ8F+dx73oukj+cSkTlOkmcyeI1Rq7q9Kq/AaEm7hrWA1sKhEYOoZ8J5/KMvFFEoQKQKqePH2Ul3EIjZEDm9/mSuQbY0EqDFX65pPanmo+pEddS+PLbd0VptVwnoDyxpKexidLxoncyd68//kthed2NlKhUvcoeDv9zU9VevXYzM8aQ/pOfGwrI/2T5RgcgPJdQ8pmetORv7RNyC++W0ilZL5lZG+lJEE07I1qsgD2ZJT76GyB3ocbbzxfwfsUvs0jxPHGNK/zu/b7JcPNNa+R4mQZSUqaztvDJj9KR73wrxtMOQsfm+FtQYg9TycgFNXDpeq3I1Wtd3l9fFwFPK+KJ6k95OxpGWBag79d0IgXiaMIaUDPLNciErgURrmdsDZI4IQ6ViHv8A7asVQdzVu9RrMxybuqXCqIAzaZzoxAQ5olAAEx0q+UZxRDMWUgvq+5Oz6VnMoju647wk2IHeW/CCXS2ibdF3VzU3/7j673YpILgzGrFN8vTxg8EOy3Kw==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5321.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(39840400004)(376002)(366004)(136003)(346002)(396003)(26005)(76116006)(64756008)(66446008)(7696005)(66946007)(66476007)(15650500001)(4326008)(186003)(8936002)(66556008)(71200400001)(9686003)(52536014)(8676002)(5660300002)(86362001)(6506007)(83380400001)(316002)(55016002)(38100700002)(33656002)(122000001)(107886003)(478600001)(54906003)(110136005)(2906002);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: 88C8HfIJwhFi6abgpPcY6PuqFiA/q1H/Mc9+N/jmGtVEfsiM4k468Z1O6qZUK1eFvRCprm3PyWPLQhbD4VyI1sO5Euaggi6GfX636kUyE984L1wAHGqt+qFdlU/t22yK3nkRnPuCsyUCFvoArlNtrivZ8F+dx73oukj+cSkTlOkmcyeI1Rq7q9Kq/AaEm7hrWA1sKhEYOoZ8J5/KMvFFEoQKQKqePH2Ul3EIjZEDm9/mSuQbY0EqDFX65pPanmo+pEddS+PLbd0VptVwnoDyxpKexidLxoncyd68//kthed2NlKhUvcoeDv9zU9VevXYzM8aQ/pOfGwrI/2T5RgcgPJdQ8pmetORv7RNyC++W0ilZL5lZG+lJEE07I1qsgD2ZJT76GyB3ocbbzxfwfsUvs0jxPHGNK/zu/b7JcPNNa+R4mQZSUqaztvDJj9KR73wrxtMOQsfm+FtQYg9TycgFNXDpeq3I1Wtd3l9fFwFPK+KJ6k95OxpGWBag79d0IgXiaMIaUDPLNciErgURrmdsDZI4IQ6ViHv8A7asVQdzVu9RrMxybuqXCqIAzaZzoxAQ5olAAEx0q+UZxRDMWUgvq+5Oz6VnMoju647wk2IHeW/CCXS2ibdF3VzU3/7j673YpILgzGrFN8vTxg8EOy3Kw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5321.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(39840400004)(376002)(366004)(136003)(346002)(396003)(26005)(76116006)(64756008)(66446008)(7696005)(66946007)(66476007)(15650500001)(4326008)(186003)(8936002)(66556008)(71200400001)(9686003)(52536014)(8676002)(5660300002)(86362001)(6506007)(83380400001)(316002)(55016002)(38100700002)(33656002)(122000001)(107886003)(478600001)(54906003)(110136005)(2906002);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?91Xur9KNfaJs7OyIfW2gdzx8jNjatCz1W5djI7kFst7z6o+D/QYYz5A81Dnr?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?91Xur9KNfaJs7OyIfW2gdzx8jNjatCz1W5djI7kFst7z6o+D/QYYz5A81Dnr?=
  =?us-ascii?Q?QXMX6RUJ71d/oTCMZDzQSE3DZMMXl9/GGiEto4III03BXgxoigkRqC4GYUle?=
  =?us-ascii?Q?11jVc6RqbhXO5rkVDq2/eAV9Whp6E+oZ6nRKdACLo8r2fTl4EPKzEx+a5MkI?=
  =?us-ascii?Q?8Ypnzi1LAhiDwoHelKogl/GNhHM4WAhUctlOti/WwDJOLobIW3APLLKUaWAQ?=
@@ -113,6 +110,10 @@ X-MS-Exchange-CrossTenant-id: 065db76d-a7ae-4c60-b78a-501e8fc17095
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
 X-MS-Exchange-CrossTenant-userprincipalname: Ix259rdldpn9Eltsnx6kFmF+zNMALVM9Z0EN03hHl/c2U3chzRCbEHseLMsm7kud/+5XUOeefAP8V787nrtRQQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5179
+Precedence: bulk
+List-ID: <linux-kernel.vger.kernel.org>
+X-Mailing-List: linux-kernel@vger.kernel.org
+Message-ID: <20210709110522.F30qAlit667tzYT7B1f-XZmLzlKE6KrMOXrwwRTUprA@z>
 
 Hi,
 
