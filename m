@@ -7,81 +7,91 @@ X-Spam-Status: No, score=-20.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 073A5C636CD
-	for <linux-firmware@archiver.kernel.org>; Fri, 16 Jul 2021 11:48:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6553EC07E95
+	for <linux-firmware@archiver.kernel.org>; Fri, 16 Jul 2021 11:50:52 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id DAFA5613FD; Fri, 16 Jul 2021 11:48:34 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C4708613FB
-	for <linux-firmware@kernel.org>; Fri, 16 Jul 2021 11:48:34 +0000 (UTC)
+	id 4694C613FE; Fri, 16 Jul 2021 11:50:52 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 30179613FD;
+	Fri, 16 Jul 2021 11:50:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1626436114;
-	bh=GGGC9Fvgk/gTl3Rhlt02Aim+WaxDFg0a3DDBSh92AwI=;
+	s=k20201202; t=1626436252;
+	bh=xcNbzUM0jOKcvRuRK2UanANiRRhD1nezF/UVAx3PB2g=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=MGJ3ULOVecjT679K2Xswnxw3De8W/ZkTOoGgAC7400VwsnnVtwxndnXw/bhRP8ZWI
-	 eI2uXZuQnUSVJOgWJQTsUEWiUohshIeibJorGmkTFdLLUXtI5Y5xIj5n6WUbDbyxb4
-	 sRoMafyO+wWubQRDUXej/IOA9QYrTpC/XNbHQQOCEjZ5otlxhn1ppQ1YB/NFDnRhRV
-	 PykragQw/cGeXFmRxCAEnZXUBHk3VtmsT+myqEPjTvhyjxpcvR4PLniwcYhekdL9cH
-	 Md1eZbfEWahK0QoC5p/HTcdhxXV31XgQrQ4zSZUu8jxnt9uG1tP8wRWlIZnuW46ktE
-	 1U7nhA2Wir/QA==
-Received: by mail-il1-f176.google.com with SMTP id b6so7979529iln.12
-        for <linux-firmware@kernel.org>; Fri, 16 Jul 2021 04:48:34 -0700 (PDT)
-X-Gm-Message-State: AOAM532qJvpfLoyBQESdLGdlrcxJKhOi7LPsY0rt0DQXoiG1aJ5pYwgK
-	cnsZN5TjVE20OMilzPqpU6kDQUieTaBRw4cshyM=
-X-Google-Smtp-Source: ABdhPJydRJJE3RK1J7r60My+DC+BlgGRtN5kfOP5IvfE8kzDN7svBv7U1oondY1CCCNn5rMRtuYEQEfn4lRFPJWp9Yo=
-X-Received: by 2002:a92:507:: with SMTP id q7mr1995482ile.81.1626436114310;
- Fri, 16 Jul 2021 04:48:34 -0700 (PDT)
+	b=SKp/RMdUhP6S7qVSnkyb1QyYWdbeHQKlh1/YrsYIUBlSW+YJX5cg1+A5X/tuA3TWg
+	 Z2oErahvE5lLdC1R/uH/pabssrSOgsOuz3jGBxR0yVP8WFwPA7828YWZlfuXcfGpq1
+	 0/h+kKkoa56ev1eVAbomQqBPKdjbdIs2KCFSZHT38yn93chOKa3pCkCEQ8GeQLGZwp
+	 eOiw0wQ5okcWdOJ6Bxa/4RU0brNDGpF5ew2riPLvURnWXQJ+FlmwEnJWbPp5ytUxR/
+	 BVGUC8WYSnc1Yka7RHm1pAEGsNWifimgM7KaEvSw8DJaUdxQTMbVaaXInyrQuBSlCC
+	 sAXVD+APgoOTg==
+Received: by mail-io1-f50.google.com with SMTP id k11so10274311ioa.5;
+        Fri, 16 Jul 2021 04:50:52 -0700 (PDT)
+X-Gm-Message-State: AOAM530hOOlk0VeOCYiNsfdkIMjKGnOhVmU+6iO4AvrcgpXo4OqvmJiV
+	/VGZ8CPX+wLdONBFBqj79cQ2M0u/G5BbJ/Q1Aco=
+X-Google-Smtp-Source: ABdhPJy6zOSVr9MJ3cW46LUnC7WNx2PLe3w1izhq0r6Y5fbxSQIM5Sss+eX1SEH5y8PgE1vMH2C9KmS0/ga4Nyw0bEM=
+X-Received: by 2002:a05:6638:3292:: with SMTP id f18mr8806184jav.120.1626436251664;
+ Fri, 16 Jul 2021 04:50:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <BN9PR12MB5321B78120F39E6FE2D46798BC189@BN9PR12MB5321.namprd12.prod.outlook.com>
-In-Reply-To: <BN9PR12MB5321B78120F39E6FE2D46798BC189@BN9PR12MB5321.namprd12.prod.outlook.com>
+References: <20210708175025.333468-1-John.C.Harrison@Intel.com>
+In-Reply-To: <20210708175025.333468-1-John.C.Harrison@Intel.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Fri, 16 Jul 2021 07:48:23 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA7H0gyNgzHbUE7JoPTdevmTFSYvHuEcVFgaft8v_7WTtw@mail.gmail.com>
-Message-ID: <CA+5PVA7H0gyNgzHbUE7JoPTdevmTFSYvHuEcVFgaft8v_7WTtw@mail.gmail.com>
-Subject: Re: pull request: linux-firmware: update cxgb4 firmware to 1.26.0.0
-To: Raju Rangoju <rajur@chelsio.com>
+Date: Fri, 16 Jul 2021 07:50:40 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA5Z5_kgsOwvrW8KYSs=E9X=qqZKLRCNGMdj3MYWg1QmuA@mail.gmail.com>
+Message-ID: <CA+5PVA5Z5_kgsOwvrW8KYSs=E9X=qqZKLRCNGMdj3MYWg1QmuA@mail.gmail.com>
+Subject: Re: PR for new GuC v62.0.3 and HuC v7.9.3 binaries
+To: John.C.Harrison@intel.com
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Ramaraju Yelavarthy <ramaraju@chelsio.com>
+Cc: linux-firmware@kernel.org, kyle@kernel.org, ben@decadent.org.uk, 
+	intel-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jul 9, 2021 at 7:05 AM Raju Rangoju <rajur@chelsio.com> wrote:
+On Thu, Jul 8, 2021 at 1:50 PM <John.C.Harrison@intel.com> wrote:
 >
-> Hi,
->
-> Can you please pull the new firmware from the following URL?
->
-> git://git.chelsio.net/pub/git/linux-firmware.git for-upstream
->
-> Thanks,
-> Raju
->
-> ------
 > The following changes since commit d79c26779d459063b8052b7fe0a48bce4e08d0d9:
 >
 >   amdgpu: update vcn firmware for green sardine for 21.20 (2021-06-29 07:26:03 -0400)
 >
-> are available in the git repository at:
+> are available in the Git repository at:
 >
->   git://git.chelsio.net/pub/git/linux-firmware.git for-upstream
+>   git://anongit.freedesktop.org/drm/drm-firmware guc_62.0_huc_7.9
 >
-> for you to fetch changes up to 99cd4f9425cb0ecba3e46f0ccae70f760ceb0e27:
+> for you to fetch changes up to f4d897acd200190350a5f2148316c51c6c57bc9b:
 >
->   cxgb4: Update firmware to revision 1.26.0.0 (2021-07-09 03:55:45 -0700)
+>   firmware/i915/guc: Add HuC v7.9.3 for TGL & DG1 (2021-06-29 14:20:03 -0700)
 >
 > ----------------------------------------------------------------
-> Raju Rangoju (1):
->       cxgb4: Update firmware to revision 1.26.0.0
->
->  WHENCE                                         |  12 ++++++------
->  cxgb4/{t4fw-1.25.6.0.bin => t4fw-1.26.0.0.bin} | Bin 570368 -> 570368 bytes
->  cxgb4/{t5fw-1.25.6.0.bin => t5fw-1.26.0.0.bin} | Bin 675840 -> 675840 bytes
->  cxgb4/{t6fw-1.25.6.0.bin => t6fw-1.26.0.0.bin} | Bin 730112 -> 729088 bytes
->  4 files changed, 6 insertions(+), 6 deletions(-)
->  rename cxgb4/{t4fw-1.25.6.0.bin => t4fw-1.26.0.0.bin} (77%)
->  rename cxgb4/{t5fw-1.25.6.0.bin => t5fw-1.26.0.0.bin} (72%)
->  rename cxgb4/{t6fw-1.25.6.0.bin => t6fw-1.26.0.0.bin} (61%)
-> -----
+> John Harrison (3):
+>       firmware/i915/guc: Add GuC v62.0.0 for all platforms
+>       firmware/i915/guc: Add GuC v62.0.3 for ADL-P
+>       firmware/i915/guc: Add HuC v7.9.3 for TGL & DG1
 
 Pulled and pushed out.
 
 josh
+
+>
+>  WHENCE                   |  38 +++++++++++++++++++++++++++++++++++++-
+>  i915/adlp_guc_62.0.3.bin | Bin 0 -> 336704 bytes
+>  i915/bxt_guc_62.0.0.bin  | Bin 0 -> 199616 bytes
+>  i915/cml_guc_62.0.0.bin  | Bin 0 -> 200448 bytes
+>  i915/dg1_guc_62.0.0.bin  | Bin 0 -> 315648 bytes
+>  i915/dg1_huc_7.9.3.bin   | Bin 0 -> 589888 bytes
+>  i915/ehl_guc_62.0.0.bin  | Bin 0 -> 327488 bytes
+>  i915/glk_guc_62.0.0.bin  | Bin 0 -> 200000 bytes
+>  i915/icl_guc_62.0.0.bin  | Bin 0 -> 327488 bytes
+>  i915/kbl_guc_62.0.0.bin  | Bin 0 -> 200448 bytes
+>  i915/skl_guc_62.0.0.bin  | Bin 0 -> 199552 bytes
+>  i915/tgl_guc_62.0.0.bin  | Bin 0 -> 326016 bytes
+>  i915/tgl_huc_7.9.3.bin   | Bin 0 -> 589888 bytes
+>  13 files changed, 37 insertions(+), 1 deletion(-)
+>  create mode 100644 i915/adlp_guc_62.0.3.bin
+>  create mode 100644 i915/bxt_guc_62.0.0.bin
+>  create mode 100644 i915/cml_guc_62.0.0.bin
+>  create mode 100644 i915/dg1_guc_62.0.0.bin
+>  create mode 100644 i915/dg1_huc_7.9.3.bin
+>  create mode 100644 i915/ehl_guc_62.0.0.bin
+>  create mode 100644 i915/glk_guc_62.0.0.bin
+>  create mode 100644 i915/icl_guc_62.0.0.bin
+>  create mode 100644 i915/kbl_guc_62.0.0.bin
+>  create mode 100644 i915/skl_guc_62.0.0.bin
+>  create mode 100644 i915/tgl_guc_62.0.0.bin
+>  create mode 100644 i915/tgl_huc_7.9.3.bin
