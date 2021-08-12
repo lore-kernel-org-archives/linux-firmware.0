@@ -1,91 +1,82 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=7SJJ=ND=gmail.com=alexdeucher@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PULL_REQUEST,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-1.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72788C4338F
-	for <linux-firmware@archiver.kernel.org>; Thu, 12 Aug 2021 13:22:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88BBCC4338F
+	for <linux-firmware@archiver.kernel.org>; Thu, 12 Aug 2021 13:23:29 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 4C445610A3; Thu, 12 Aug 2021 13:22:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3609E610A8
-	for <linux-firmware@kernel.org>; Thu, 12 Aug 2021 13:22:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1628774573;
-	bh=tynl5AYKWJaUu0TrPV5+W4YypknPcQS59y8a0irFQJg=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=uE4RPn//8NWZYPLLGu5o+xoZBVMvTHjIlv9/OPo2pxek0p9rozeAXejXEBRdYq9jj
-	 6eM84saWNiskEE96mBgIWye0sZaSKz4DVUUluZCzgsAgDuBjZeziUwreFi4kiFd0De
-	 2GB4xxyY4cfDtSsZTjQ6yyaMkTu+KAu3dKeEFtO2c66MnifSY0yCEYnqU5+luXe2xJ
-	 Q6AheerhO37MhYWVB0d9TBsy3TzgGMxi6ZmhGkrwFjEJODJcyrKPmfOBrFRY+bKVPC
-	 XtELzqnO/4nYEMdTMH7FZ/+qAwCmUWxmXEfDMpIa1ipqrMeasc8dfn3vna5jSCZLOy
-	 VAt3mcKnWTKWg==
-Received: by mail-il1-f180.google.com with SMTP id k3so6876268ilu.2
-        for <linux-firmware@kernel.org>; Thu, 12 Aug 2021 06:22:53 -0700 (PDT)
-X-Gm-Message-State: AOAM532o2ArJZmu49FO07QD/9WwpwrWNDlPlTqco8E0Lwg0KaAD5qKdE
-	JuFVEUdn6qPL4J1/TOqLcOuTo6YzKaRuUFtfTLs=
-X-Google-Smtp-Source: ABdhPJzZNKqtWLPCSGMEgVEOhJEop998MHEY3yHynYbmOH4STn4zwEaSHpppSRBJqMzgv4hnicPh2AN1WJZ3oV78eGI=
-X-Received: by 2002:a05:6e02:1947:: with SMTP id x7mr2987345ilu.85.1628774572619;
- Thu, 12 Aug 2021 06:22:52 -0700 (PDT)
+	id 61A3161059; Thu, 12 Aug 2021 13:23:29 +0000 (UTC)
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id 355F660FC3;
+	Thu, 12 Aug 2021 13:23:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 355F660FC3
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f42.google.com with SMTP id v10-20020a9d604a0000b02904fa9613b53dso7666539otj.6;
+        Thu, 12 Aug 2021 06:23:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GpgHpCj+pBoX9xD7Gih37lnJROX+0nld8N349toKgUY=;
+        b=DrIkS0QiV3HfEys0faUXdspgNRxzwVyGl+WyAdDpquW0PjPB5uNllZnsO88wf44qzl
+         viNMqWHryK8Ry+DtQi1RTChjo+i5wpXOR8hEO0fcJRckDkfX9FAWHARKoayY9u3Xl1oT
+         /8QONFJ2QWqGdzDtg++D26ZpJA0BrW1iCG2zm0NVfeJBzNv5JMkI3r6X9kyQNi9Xd9Vk
+         JFMF82wM2QV7pK6CGKZlzBy618Z974I1+xCzvwwnIK+0AvTgtKs0f8j7TkiAm7Pp9lTS
+         4fbzlQU+Zhsl4jn2O+lBTaYz78H4abOQqau+62z3AZT1C7pGKDUCiu7lwKgnCFXLLaDi
+         a8vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GpgHpCj+pBoX9xD7Gih37lnJROX+0nld8N349toKgUY=;
+        b=mbmp/jw2sXABYEz9OLWr3sKW+FDPe+cbSLyd/64tmdMow0OX3pj1y2QCULTPAhOV+O
+         Y3+osd+srY0C4I04H3+ePWIZzbOuJDTxwRfMoEoLGDww3m9VTq8eOyV4WVJj7WA2fd+b
+         RhBJAKSITDtDfiA3a2VYGDCrWa3NRwFUJIVh0JYn1rA5eFI5+i0K0Ii0Gmgt/nIbSKEU
+         LGJMyFFnep77GDbvbWxDNCE7eaE3ow2za8fAsiekdvmYELPDX7Vr5+/pZ/NuAYMSGXAE
+         SIqEqesKUxaeguIFI0uxgunMIRLdp3zPSAevmqKCDsn3wfgewoVkkNg5KHnj2sXhnikc
+         B2pw==
+X-Gm-Message-State: AOAM532aM15JZ7iWOJAlNyQ5xuO9C5cIj+DABMGxaxAqV5W+jg5jfcsG
+	T79dAjlbG+JFkk1uizJ7VyLPtE0xAb5lrDejPz2hy/hA
+X-Google-Smtp-Source: ABdhPJysBGW6OhjHHejIWtuMtl6pJYRtoSff1wRj8PMAiR/nevd6vHVoBGpiVGikW0EjLMqv1gGxCUw6HygL4UlC9gk=
+X-Received: by 2002:a05:6830:1e78:: with SMTP id m24mr3430265otr.23.1628774608468;
+ Thu, 12 Aug 2021 06:23:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <0a05c2062052704d788511cf7edd874d@codeaurora.org>
-In-Reply-To: <0a05c2062052704d788511cf7edd874d@codeaurora.org>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Thu, 12 Aug 2021 09:22:00 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA6q9ph=3nC4oDyHvuutqzMAqDjtTWahLN1xaZy=0sXJmQ@mail.gmail.com>
-Message-ID: <CA+5PVA6q9ph=3nC4oDyHvuutqzMAqDjtTWahLN1xaZy=0sXJmQ@mail.gmail.com>
-Subject: Re: Request to update WCN3991 FW file
-To: smagar@codeaurora.org
+References: <CADnq5_OA2C=yQfgtrhU4Gw5vYRXPUyPyPc+AP0qPsKQ41PUULQ@mail.gmail.com>
+ <CA+5PVA5PwY0FiK5CRfBp_Mj9QDkX2VOV=8qm2uVUTJk+hSR4xQ@mail.gmail.com>
+In-Reply-To: <CA+5PVA5PwY0FiK5CRfBp_Mj9QDkX2VOV=8qm2uVUTJk+hSR4xQ@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 12 Aug 2021 09:23:17 -0400
+Message-ID: <CADnq5_Oir8_Q=GMFdwSCTC6aGBL7XcPuAVJS+aMbZo0rCBREGA@mail.gmail.com>
+Subject: Re: AMDGPU firmware updates for raven APUs
+To: Josh Boyer <jwboyer@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, mka@chromium.org, 
-	"Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>, linux-bluethoth@vger.kernel.org, 
-	Linux-arm Msm <linux-arm-msm@vger.kernel.org>, Hemantg <hemantg@codeaurora.org>, 
-	abhishekpandit@chromium.org, Balakrishna Godavarthi <bgodavar@codeaurora.org>, 
-	adhudase@codeaurora.org, sampnimm@codeaurora.org
+Cc: Linux Firmware <linux-firmware@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Pulled and pushed out.
+Thanks!
 
-josh
+Alex
 
-On Thu, Aug 12, 2021 at 4:05 AM <smagar@codeaurora.org> wrote:
+On Thu, Aug 12, 2021 at 9:22 AM Josh Boyer <jwboyer@kernel.org> wrote:
 >
-> Hi Team,
+> Applied and pushed out.
 >
+> josh
 >
-> Please include updated firmware bins for WCN3991. Change includes
-> updated TLV file.
->
-> Snapshot of pull request is as below, let me know if anything is
-> missing.
->
->
->
-> The following changes since commit
-> 168452ee695b5edb9deb641059bc110b9c5e8fc7:
->
->    Merge tag 'iwlwifi-fw-2021-07-19' of
-> git://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware
-> into main (2021-07-19 14:35:47 -0400)
->
-> are available in the git repository at:
->
->    https://github.com/suraj714/linux-firmware-BT master
->
-> for you to fetch changes up to 6a3a985022e1194045fc46a249ca29f8bf2fb427:
->
->    QCA : Updated firmware files for WCN3991 (2021-08-12 10:03:49 +0530)
->
-> ----------------------------------------------------------------
-> smagar (1):
->        QCA : Updated firmware files for WCN3991
->
->   qca/crbtfw32.tlv | Bin 126772 -> 126036 bytes
->   1 file changed, 0 insertions(+), 0 deletions(-)
->
->
-> Regards,
-> Suraj Magar
+> On Wed, Aug 11, 2021 at 5:30 PM Alex Deucher <alexdeucher@gmail.com> wrote:
+> >
+> > Hi,
+> >
+> > Updated SDMA firmware to fix stability issues on raven APUs.  Please apply!
+> >
+> > Thanks,
+> >
+> > Alex
