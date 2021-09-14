@@ -1,49 +1,45 @@
-Return-Path: <linux-wireless-owner@kernel.org>
+Return-Path: <SRS0=RMdH=OE=coelho.fi=luca@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EB4DC433EF
-	for <linux-wireless@archiver.kernel.org>; Tue, 14 Sep 2021 08:19:40 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2035360F24
-	for <linux-wireless@archiver.kernel.org>; Tue, 14 Sep 2021 08:19:40 +0000 (UTC)
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229964AbhINIUz (ORCPT
-        <rfc822;linux-wireless@archiver.kernel.org>);
-        Tue, 14 Sep 2021 04:20:55 -0400
-Received: from paleale.coelho.fi ([176.9.41.70]:60554 "EHLO
-        farmhouse.coelho.fi" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229699AbhINIUz (ORCPT
-        <rfc822;linux-wireless@vger.kernel.org>);
-        Tue, 14 Sep 2021 04:20:55 -0400
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E3CCC433FE
+	for <linux-firmware@archiver.kernel.org>; Tue, 14 Sep 2021 08:19:41 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id 25847610F9; Tue, 14 Sep 2021 08:19:41 +0000 (UTC)
+Received: from farmhouse.coelho.fi (paleale.coelho.fi [176.9.41.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id C854E60F24;
+	Tue, 14 Sep 2021 08:19:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C854E60F24
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=coelho.fi
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=coelho.fi
 Received: from 91-156-6-193.elisa-laajakaista.fi ([91.156.6.193] helo=[192.168.100.150])
-        by farmhouse.coelho.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <luca@coelho.fi>)
-        id 1mQ3f9-000CZF-51; Tue, 14 Sep 2021 11:19:32 +0300
+	by farmhouse.coelho.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <luca@coelho.fi>)
+	id 1mQ3f9-000CZF-51; Tue, 14 Sep 2021 11:19:32 +0300
 Message-ID: <cf74966169f716164a7e642edc1aae8cdb7417c6.camel@coelho.fi>
-From:   Luca Coelho <luca@coelho.fi>
+From: Luca Coelho <luca@coelho.fi>
 List-Id: <linux-firmware.lore.kernel.org>
-To:     "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-Cc:     "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "kyle@infradead.org" <kyle@infradead.org>,
-        "jwboyer@kernel.org" <jwboyer@kernel.org>,
-        "ben@decadent.org.uk" <ben@decadent.org.uk>,
-        golan.ben.ami@intel.com
-Date:   Tue, 14 Sep 2021 11:19:29 +0300
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+Cc: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, 
+	"kyle@infradead.org"
+	 <kyle@infradead.org>, "jwboyer@kernel.org" <jwboyer@kernel.org>, 
+	"ben@decadent.org.uk"
+	 <ben@decadent.org.uk>, golan.ben.ami@intel.com
+Date: Tue, 14 Sep 2021 11:19:29 +0300
 Content-Type: multipart/signed; micalg="pgp-sha512";
-        protocol="application/pgp-signature"; boundary="=-OoVwIcVBLWdLW1vLW5NT"
+	protocol="application/pgp-signature"; boundary="=-OoVwIcVBLWdLW1vLW5NT"
 User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
 Subject: pull request: iwlwifi firmware updates 2021-09-14
-Precedence: bulk
-List-ID: <linux-wireless.vger.kernel.org>
-X-Mailing-List: linux-wireless@vger.kernel.org
+Message-ID: <20210914081929.WaxqO0jkUuL33Y-kurgLPoyYZWiUzTJgYBwdHEu7sfE@z>
 
 
 --=-OoVwIcVBLWdLW1vLW5NT
