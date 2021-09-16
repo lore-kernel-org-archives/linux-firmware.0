@@ -1,45 +1,50 @@
-Return-Path: <SRS0=nrM2=OG=coelho.fi=luca@kernel.org>
+Return-Path: <linux-wireless-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE077C433F5
-	for <linux-firmware@archiver.kernel.org>; Thu, 16 Sep 2021 12:25:24 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id D7E3B6008E; Thu, 16 Sep 2021 12:25:24 +0000 (UTC)
-Received: from farmhouse.coelho.fi (paleale.coelho.fi [176.9.41.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7598960F25;
-	Thu, 16 Sep 2021 12:25:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 7598960F25
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=coelho.fi
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=coelho.fi
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB2FBC433F5
+	for <linux-wireless@archiver.kernel.org>; Thu, 16 Sep 2021 12:25:28 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id 9C59C60F25
+	for <linux-wireless@archiver.kernel.org>; Thu, 16 Sep 2021 12:25:28 +0000 (UTC)
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S239303AbhIPM0s (ORCPT
+        <rfc822;linux-wireless@archiver.kernel.org>);
+        Thu, 16 Sep 2021 08:26:48 -0400
+Received: from paleale.coelho.fi ([176.9.41.70]:33736 "EHLO
+        farmhouse.coelho.fi" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S239473AbhIPM0q (ORCPT
+        <rfc822;linux-wireless@vger.kernel.org>);
+        Thu, 16 Sep 2021 08:26:46 -0400
 Received: from 91-156-6-193.elisa-laajakaista.fi ([91.156.6.193] helo=[192.168.100.150])
-	by farmhouse.coelho.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <luca@coelho.fi>)
-	id 1mQqS4-000F6O-RK; Thu, 16 Sep 2021 15:25:17 +0300
+        by farmhouse.coelho.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <luca@coelho.fi>)
+        id 1mQqS4-000F6O-RK; Thu, 16 Sep 2021 15:25:17 +0300
 Message-ID: <8ddba225f68405b5d4ed8b6cd9dcd05a03f532e4.camel@coelho.fi>
-From: Luca Coelho <luca@coelho.fi>
+From:   Luca Coelho <luca@coelho.fi>
 List-Id: <linux-firmware.lore.kernel.org>
-To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-Cc: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, 
-	"kyle@infradead.org"
-	 <kyle@infradead.org>, "jwboyer@kernel.org" <jwboyer@kernel.org>, 
-	"ben@decadent.org.uk"
-	 <ben@decadent.org.uk>, golan.ben.ami@intel.com, You-Sheng Yang
-	 <vicamo.yang@canonical.com>
-Date: Thu, 16 Sep 2021 15:25:15 +0300
+To:     "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+Cc:     "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "kyle@infradead.org" <kyle@infradead.org>,
+        "jwboyer@kernel.org" <jwboyer@kernel.org>,
+        "ben@decadent.org.uk" <ben@decadent.org.uk>,
+        golan.ben.ami@intel.com, You-Sheng Yang <vicamo.yang@canonical.com>
+Date:   Thu, 16 Sep 2021 15:25:15 +0300
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-XvG4qb72zJkmqPpFD9ur"
+        protocol="application/pgp-signature"; boundary="=-XvG4qb72zJkmqPpFD9ur"
 User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
 Subject: pull request: iwlwifi firmware updates 2021-09-14 v2
+Precedence: bulk
+List-ID: <linux-wireless.vger.kernel.org>
+X-Mailing-List: linux-wireless@vger.kernel.org
+Message-ID: <20210916122515.x5oIQ9oF9-FjEuZMDpkbeK7lhVhE4zDZGwytdiC8_Xk@z>
 
 
 --=-XvG4qb72zJkmqPpFD9ur
