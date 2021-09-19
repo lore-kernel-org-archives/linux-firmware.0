@@ -1,106 +1,94 @@
-Return-Path: <SRS0=I8vo=OH=gmail.com=vicamo@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-21.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72577C433F5
-	for <linux-firmware@archiver.kernel.org>; Fri, 17 Sep 2021 03:05:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6837EC433F5
+	for <linux-firmware@archiver.kernel.org>; Sun, 19 Sep 2021 18:21:53 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 5BAD6611C8; Fri, 17 Sep 2021 03:05:36 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1711F61019;
-	Fri, 17 Sep 2021 03:05:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1711F61019
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=canonical.com
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f176.google.com with SMTP id w19so7741555pfn.12;
-        Thu, 16 Sep 2021 20:05:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=RTIBZcrHfgJRG/qPnwrsIiHxUCIqeKEyFFMD3ajkpps=;
-        b=MjTxzhKx2i4cZKH349iVw96UtjrksO6cNpv0QjPvTiDd+oOMX9ZvwflK5iX3hj2k+w
-         CRlh4jvo8KR2r/wa+FkSA/41WwCjkwMXNxuqcqCOPlxl37UkB8ZUC2w9NaGnFDWbpTaQ
-         RzH7WbXGollrmexBMmii66zz0LWKUM34VHqIL5FjxWLzb8WS3d/F1yC0QHTDrrwBdxxr
-         2VI3J+yQvCvFq+tnQrlZxgn16HWjEksHVgni/VAwU7pd2Mj1ouiIwbCeuXuwOb8EKTTg
-         GSheuJ9U13nuHoY5gDnp8ilgL2VzC1vO5Ttp34UuYMwcXNjZbsVOIBq+ohQxbyyDlUiB
-         EmCw==
-X-Gm-Message-State: AOAM530ubh4cEYJxuTxPhaW2Melue9qGKpWuat5niMRjduWFGG+lecl3
-	zvsbk3rFAwGDfqCtwD08Zwg=
-X-Google-Smtp-Source: ABdhPJzjx4ozIroyvDi280lCL65EEhatbzzs93E8RHqCIyeireUVIDeOWH/DhZmC4d0dwEmU1LpfSw==
-X-Received: by 2002:a63:5f08:: with SMTP id t8mr7883774pgb.353.1631847935461;
-        Thu, 16 Sep 2021 20:05:35 -0700 (PDT)
-Received: from [192.168.0.242] (218-173-145-126.dynamic-ip.hinet.net. [218.173.145.126])
-        by smtp.gmail.com with ESMTPSA id q1sm4104993pfj.132.2021.09.16.20.05.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Sep 2021 20:05:35 -0700 (PDT)
-Subject: Re: pull request: iwlwifi firmware updates 2021-09-14 v2
-List-Id: <linux-firmware.lore.kernel.org>
-To: Luca Coelho <luca@coelho.fi>,
- "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-Cc: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
- "kyle@infradead.org" <kyle@infradead.org>,
- "jwboyer@kernel.org" <jwboyer@kernel.org>,
- "ben@decadent.org.uk" <ben@decadent.org.uk>, golan.ben.ami@intel.com
-References: <8ddba225f68405b5d4ed8b6cd9dcd05a03f532e4.camel@coelho.fi>
-From: You-Sheng Yang <vicamo.yang@canonical.com>
-Message-ID: <576a9cff-b1aa-a46e-9e1a-bf99f46ddd8d@canonical.com>
-Date: Fri, 17 Sep 2021 11:05:32 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+	id 486B1611C8; Sun, 19 Sep 2021 18:21:53 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 30E6260FED
+	for <linux-firmware@kernel.org>; Sun, 19 Sep 2021 18:21:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1632075713;
+	bh=hx9nthhTb6ZfVaKH8nAMSOF3Z2vUl2g1SwwHUNrKocI=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=XIGbbyeVUCVbEbP3RIaAeEJWJughOgWomlQBDbqAvPKu48TslxbMt4Yn5OOHxURwD
+	 q9ZBU0djaYYk61QaJ/f6qlkfEVdHw7PhE5Fp0qJj/6gmw4tPCfyc6ZUh+zEjzKXPOT
+	 2hNFNC/Z9upwATrEna/pi+u0LPTBb+Pg1BjiJ4sh3w2/QHBtUxGQYJDPv6cE7yKYRX
+	 7AJxKjS0KBaSD38QMB4Nez5eg9FCB98QQt2hI637Ytw8uUX5otwqxZd3rykM9ha5YL
+	 VSUiJn1kjlmeBpXUtL8wb9lnbQjhDDpu8pD2IFvlweyXgIYoDvZyh4vUrJPbOBCOJa
+	 TJW0RbkDHySfA==
+Received: by mail-io1-f45.google.com with SMTP id f6so19245788iox.0
+        for <linux-firmware@kernel.org>; Sun, 19 Sep 2021 11:21:53 -0700 (PDT)
+X-Gm-Message-State: AOAM5325tLs2ZHcCXsjRk5lNdhiUg4rtcwEkbG+q0ssUwP6kn5BJskfc
+	ihfs1I8C8JCbwBNllcfNEwml/qlcRl4zqxJDS9M=
+X-Google-Smtp-Source: ABdhPJz+mq8IkCbHFXCcjBBjS7UoZyJEj8nPiHigNBbuRR5v+GRn1Tg5fz4w+JuVFa7Hy2cygejlS3I18bl3pNr8cY0=
+X-Received: by 2002:a05:6638:1b2:: with SMTP id b18mr747080jaq.95.1632075712619;
+ Sun, 19 Sep 2021 11:21:52 -0700 (PDT)
 MIME-Version: 1.0
+References: <8ddba225f68405b5d4ed8b6cd9dcd05a03f532e4.camel@coelho.fi>
 In-Reply-To: <8ddba225f68405b5d4ed8b6cd9dcd05a03f532e4.camel@coelho.fi>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Sun, 19 Sep 2021 14:21:41 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA4NsR3fby_yKjyrkYxee_m1QKfnPG8Zp_BFZOFQ_XeTvg@mail.gmail.com>
+Message-ID: <CA+5PVA4NsR3fby_yKjyrkYxee_m1QKfnPG8Zp_BFZOFQ_XeTvg@mail.gmail.com>
+Subject: Re: pull request: iwlwifi firmware updates 2021-09-14 v2
+To: Luca Coelho <luca@coelho.fi>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, "kyle@infradead.org" <kyle@infradead.org>, 
+	"ben@decadent.org.uk" <ben@decadent.org.uk>, golan.ben.ami@intel.com, 
+	You-Sheng Yang <vicamo.yang@canonical.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Verified. Works for us. Thank you.
-
-On 9/16/21 8:25 PM, Luca Coelho wrote:
+On Thu, Sep 16, 2021 at 8:25 AM Luca Coelho <luca@coelho.fi> wrote:
+>
 > Hi,
-> 
+>
 > I had typos in the WHENCE file in my previous pull request.  I have
 > fixed that and here's v2.
-> 
+>
 > This pull request contains a single patch that adds firmware binaries
 > to support one more device family in iwlwifi, namely So SOCs with Gf,
 > Hr and Jf radio modules.  This replaces the previous patch that we
 > reverted.
-> 
+>
 > Please pull or let me know if there are any issues.
-> 
+>
 > --
 > Cheers,
 > Luca.
-> 
-> 
+>
+>
 > The following changes since commit 198ac651f46b7d4efd660a1f5ab4f93ca422947d:
-> 
+>
 >   amdgpu: add initial firmware for Yellow Carp (2021-09-15 09:03:35 -0400)
-> 
+>
 > are available in the Git repository at:
-> 
+>
 >   git://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.git tags/iwlwifi-fw-2021-09-14-v2
-> 
+
+Pulled and pushed out.
+
+josh
+
+>
 > for you to fetch changes up to 0324161cb0723fccf5d7659114851cf8c1b1cda6:
-> 
+>
 >   iwlwifi: add FWs for new So device types with multiple RF modules (2021-09-16 15:19:45 +0300)
-> 
+>
 > ----------------------------------------------------------------
 > Add iwlwifi firmware binaries for So with Gf, Hr and Jf.
-> 
+>
 > ----------------------------------------------------------------
 > Luca Coelho (1):
 >       iwlwifi: add FWs for new So device types with multiple RF modules
-> 
+>
 >  WHENCE                       |  11 +++++++++++
 >  iwlwifi-so-a0-gf-a0-64.ucode | Bin 0 -> 1515812 bytes
 >  iwlwifi-so-a0-gf-a0.pnvm     | Bin 0 -> 41804 bytes
@@ -111,4 +99,4 @@ On 9/16/21 8:25 PM, Luca Coelho wrote:
 >  create mode 100644 iwlwifi-so-a0-gf-a0.pnvm
 >  create mode 100644 iwlwifi-so-a0-hr-b0-64.ucode
 >  create mode 100644 iwlwifi-so-a0-jf-b0-64.ucode
-> 
+>
