@@ -1,39 +1,34 @@
-Return-Path: <SRS0=beGZ=OK=lists.freedesktop.org=intel-gfx-bounces@kernel.org>
+Return-Path: <SRS0=eZ4H=OK=intel.com=anusha.srivatsa@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,INCLUDES_PATCH,
-	INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE45DC433EF
-	for <intel-gfx@archiver.kernel.org>; Mon, 20 Sep 2021 21:57:04 +0000 (UTC)
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 106EEC433F5
+	for <linux-firmware@archiver.kernel.org>; Mon, 20 Sep 2021 21:57:06 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id EAE65603E5; Mon, 20 Sep 2021 21:57:05 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 90109603E5
-	for <intel-gfx@archiver.kernel.org>; Mon, 20 Sep 2021 21:57:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 90109603E5
+	by mail.kernel.org (Postfix) with ESMTPS id 8227B60555;
+	Mon, 20 Sep 2021 21:57:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 8227B60555
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.freedesktop.org
-Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BC566E88F;
-	Mon, 20 Sep 2021 21:57:04 +0000 (UTC)
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2D756E88F
- for <intel-gfx@lists.freedesktop.org>; Mon, 20 Sep 2021 21:57:02 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="221354488"
+Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=intel.com
+X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="202738745"
 X-IronPort-AV: E=Sophos;i="5.85,309,1624345200"; 
- d="scan'208,217";a="221354488"
+   d="scan'208,217";a="202738745"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 14:57:02 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2021 14:57:02 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.85,309,1624345200"; 
- d="scan'208,217";a="511546766"
+   d="scan'208,217";a="511546766"
 Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
- by fmsmga008.fm.intel.com with ESMTP; 20 Sep 2021 14:57:02 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 20 Sep 2021 14:57:02 -0700
 Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
  fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -49,38 +44,25 @@ From: "Srivatsa, Anusha" <anusha.srivatsa@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
 CC: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Kyle
- McMartin" <kyle@mcmartin.ca>, "ben@decadent.org.uk" <ben@decadent.org.uk>, 
- Josh Boyer <jwboyer@kernel.org>
+ McMartin" <kyle@mcmartin.ca>, "ben@decadent.org.uk" <ben@decadent.org.uk>,
+	Josh Boyer <jwboyer@kernel.org>
+Subject: i915 Updates - ADLP DMC v2.12
 Thread-Topic: i915 Updates - ADLP DMC v2.12
 Thread-Index: AdeuadhvX8AM48SmRzy5AL2Oj2Itiw==
 Date: Mon, 20 Sep 2021 21:57:01 +0000
 Message-ID: <c5ec6f413e4940c486505b2d511d091d@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
 dlp-version: 11.6.200.16
 dlp-product: dlpe-windows
 dlp-reaction: no-action
 x-originating-ip: [10.22.254.132]
 Content-Type: multipart/alternative;
- boundary="_000_c5ec6f413e4940c486505b2d511d091dintelcom_"
+	boundary="_000_c5ec6f413e4940c486505b2d511d091dintelcom_"
 MIME-Version: 1.0
-Subject: [Intel-gfx] i915 Updates - ADLP DMC v2.12
-X-BeenThere: intel-gfx@lists.freedesktop.org
-X-Mailman-Version: 2.1.29
-Precedence: list
-List-Id: Intel graphics driver community testing & development
- <intel-gfx.lists.freedesktop.org>
-List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/intel-gfx>,
- <mailto:intel-gfx-request@lists.freedesktop.org?subject=unsubscribe>
-List-Archive: <https://lists.freedesktop.org/archives/intel-gfx>
-List-Post: <mailto:intel-gfx@lists.freedesktop.org>
-List-Help: <mailto:intel-gfx-request@lists.freedesktop.org?subject=help>
-List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/intel-gfx>,
- <mailto:intel-gfx-request@lists.freedesktop.org?subject=subscribe>
-Errors-To: intel-gfx-bounces@lists.freedesktop.org
-Sender: "Intel-gfx" <intel-gfx-bounces@lists.freedesktop.org>
+Message-ID: <20210920215701.T3Hg_qHonNzcq3arrO15Sd-cpd-y6b1Z8VEzJM8Wyjc@z>
 
 --_000_c5ec6f413e4940c486505b2d511d091dintelcom_
 Content-Type: text/plain; charset="us-ascii"
