@@ -1,44 +1,99 @@
-Return-Path: <SRS0=84S1=OK=mediatek.com=mark-yw.chen@kernel.org>
+Return-Path: <SRS0=XaoX=OK=lists.infradead.org=linux-mediatek-bounces+linux-mediatek=archiver.kernel.org@kernel.org>
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6769CC433F5
-	for <linux-firmware@archiver.kernel.org>; Mon, 20 Sep 2021 15:31:01 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id 4A004610CE; Mon, 20 Sep 2021 15:31:01 +0000 (UTC)
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E477C433F5
+	for <linux-mediatek@archiver.kernel.org>; Mon, 20 Sep 2021 15:31:39 +0000 (UTC)
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CDCD660F38;
-	Mon, 20 Sep 2021 15:30:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org CDCD660F38
+	by mail.kernel.org (Postfix) with ESMTPS id EB6A1610CE
+	for <linux-mediatek@archiver.kernel.org>; Mon, 20 Sep 2021 15:31:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org EB6A1610CE
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mediatek.com
-Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=mediatek.com
-X-UUID: 9a02df743f9d454693ff54cd66211daf-20210920
-X-UUID: 9a02df743f9d454693ff54cd66211daf-20210920
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
-	(envelope-from <mark-yw.chen@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1872851900; Mon, 20 Sep 2021 23:30:50 +0800
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:CC
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=GCp9QszywAHuFJ1vM73G/h3RTeZoU3bB1I8pXXqTBjg=; b=0Rd3mfksY1irdk
+	av3xXFMy8pysaP77DUzZ/74zGm1nqQR2bW9qlmIiQ+WOCf17HGwyiyIoXRFS6sXvLqTwLPXgMS3pC
+	+bcuGVj+epyOGtARjTAh/V49eoe7DsDbcwFcpyJIOTUylz5v81e76qw0oQyMTCzjde+rt/xXRpqs0
+	yEZptrlFKJ315S9nJpi3SbcM0koTV/xF3Z0MNsbC7W3ibHTw1GXE8q+uG8uIG3tR2xDb+w9zRdgFA
+	FqLy6tof1hRn8sDVFcr0Wc3JWLvuyMueHCnqhI3XHNn6219hF+dQZ3eoq1GEz2nh2AF190aWA3oWC
+	bYDgW+ElUYYG6P4Q0ozQ==;
+Received: from localhost ([::1] helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1mSLG9-002DWu-Gq; Mon, 20 Sep 2021 15:31:09 +0000
+Received: from mailgw01.mediatek.com ([216.200.240.184])
+ by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mSLG1-002DVc-Sz
+ for linux-mediatek@lists.infradead.org; Mon, 20 Sep 2021 15:31:07 +0000
+X-UUID: ce6af82b3366456cb62f484eefea4db7-20210920
+X-UUID: ce6af82b3366456cb62f484eefea4db7-20210920
+Received: from mtkcas66.mediatek.inc [(172.29.193.44)] by mailgw01.mediatek.com
+ (envelope-from <mark-yw.chen@mediatek.com>)
+ (musrelay.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 915400018; Mon, 20 Sep 2021 08:30:53 -0700
+Received: from mtkmbs05n1.mediatek.inc (172.21.101.15) by
+ MTKMBS62N1.mediatek.inc (172.29.193.41) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 20 Sep 2021 08:30:51 -0700
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
  mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
  15.0.1497.2; Mon, 20 Sep 2021 23:30:47 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 20 Sep 2021 23:30:47 +0800
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Mon, 20 Sep 2021 23:30:47 +0800
 From: <mark-yw.chen@mediatek.com>
 To: <jwboyer@kernel.org>, <marcel@holtmann.org>, <johan.hedberg@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
 CC: <linux-bluetooth@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <linux-firmware@kernel.org>,
-	<koro.chen@mediatek.com>, <Mark-YW.Chen@mediatek.com>,
-	<josephsih@google.com>, <will-cy.lee@mediatek.com>, <michaelfsun@google.com>,
-	mark-yw.chen <mark-yw.chen@mediatek.com>
-Subject: [PATCH] linux-firmware: update frimware for mediatek bluetooth chip (MT7921)
+ <linux-kernel@vger.kernel.org>, <linux-firmware@kernel.org>,
+ <koro.chen@mediatek.com>, <Mark-YW.Chen@mediatek.com>,
+ <josephsih@google.com>, <will-cy.lee@mediatek.com>, <michaelfsun@google.com>, 
+ mark-yw.chen <mark-yw.chen@mediatek.com>
+Subject: [PATCH] linux-firmware: update frimware for mediatek bluetooth chip
+ (MT7921)
 Date: Mon, 20 Sep 2021 23:30:40 +0800
 Message-ID: <20210920153040.4284-1-mark-yw.chen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: text/plain
 X-MTK: N
+X-Spam-Note: CRM114 run bypassed due to message size (990780 bytes)
+X-Spam-Score: 0.0 (/)
+X-Spam-Report: Spam detection software,
+ running on the system "bombadil.infradead.org", 
+ has NOT identified this incoming email as spam.  The original
+ message has been attached to this so you can view it or label
+ similar future email.  If you have any questions, see
+ the administrator of that system for details.
+ Content preview: From: "mark-yw.chen" <mark-yw.chen@mediatek.com> Update
+ binary
+ firmware for MT7921 BT devices. * Support Bluetooth Quality Report. -> The
+ firmware support Quality monitoring mode, Approaching LSTO and Audio Choppy.
+ Content analysis details:   (0.0 points, 5.0 required)
+ pts rule name              description
+ ---- ---------------------- --------------------------------------------------
+ -0.0 SPF_PASS               SPF: sender matches SPF record
+ 0.0 SPF_HELO_NONE          SPF: HELO does not publish an SPF Record
+ 0.0 UNPARSEABLE_RELAY      Informational: message has unparseable relay
+ lines
+X-BeenThere: linux-mediatek@lists.infradead.org
+X-Mailman-Version: 2.1.34
+Precedence: list
+List-Id: <linux-mediatek.lists.infradead.org>
+List-Unsubscribe: <http://lists.infradead.org/mailman/options/linux-mediatek>, 
+ <mailto:linux-mediatek-request@lists.infradead.org?subject=unsubscribe>
+List-Archive: <http://lists.infradead.org/pipermail/linux-mediatek/>
+List-Post: <mailto:linux-mediatek@lists.infradead.org>
+List-Help: <mailto:linux-mediatek-request@lists.infradead.org?subject=help>
+List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-mediatek>, 
+ <mailto:linux-mediatek-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Sender: "Linux-mediatek" <linux-mediatek-bounces@lists.infradead.org>
+Errors-To: linux-mediatek-bounces+linux-mediatek=archiver.kernel.org@lists.infradead.org
+Message-ID: <20210920153040.9_erFrjxjP32p0WAPARP1miiARHYalgEwqYN3ortwQY@z>
 
 From: "mark-yw.chen" <mark-yw.chen@mediatek.com>
 
@@ -14819,3 +14874,8 @@ H*m3_0cw@A6
 -- 
 2.18.0
 
+
+_______________________________________________
+Linux-mediatek mailing list
+Linux-mediatek@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-mediatek
