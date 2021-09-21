@@ -1,251 +1,65 @@
-Return-Path: <SRS0=eZ4H=OK=intel.com=anusha.srivatsa@kernel.org>
+Return-Path: <SRS0=pujl=OL=mk.vjsnys.top=mk2@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,INCLUDES_PATCH,
-	INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Level: *
+X-Spam-Status: No, score=1.1 required=3.0 tests=BAYES_50,
+	HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 106EEC433F5
-	for <linux-firmware@archiver.kernel.org>; Mon, 20 Sep 2021 21:57:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3524BC433F5
+	for <linux-firmware@archiver.kernel.org>; Tue, 21 Sep 2021 14:51:32 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id EAE65603E5; Mon, 20 Sep 2021 21:57:05 +0000 (UTC)
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8227B60555;
-	Mon, 20 Sep 2021 21:57:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 8227B60555
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
-Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=intel.com
-X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="202738745"
-X-IronPort-AV: E=Sophos;i="5.85,309,1624345200"; 
-   d="scan'208,217";a="202738745"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2021 14:57:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,309,1624345200"; 
-   d="scan'208,217";a="511546766"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
-  by fmsmga008.fm.intel.com with ESMTP; 20 Sep 2021 14:57:02 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Mon, 20 Sep 2021 14:57:02 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Mon, 20 Sep 2021 14:57:01 -0700
-Received: from fmsmsx611.amr.corp.intel.com ([10.18.126.91]) by
- fmsmsx611.amr.corp.intel.com ([10.18.126.91]) with mapi id 15.01.2242.012;
- Mon, 20 Sep 2021 14:57:01 -0700
-From: "Srivatsa, Anusha" <anusha.srivatsa@intel.com>
+	id 105D5611C6; Tue, 21 Sep 2021 14:51:32 +0000 (UTC)
+Received: from mk.vjsnys.top (unknown [106.12.185.17])
+	by mail.kernel.org (Postfix) with ESMTP id BCF3C60F36
+	for <linux-firmware@kernel.org>; Tue, 21 Sep 2021 14:51:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BCF3C60F36
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=sourceherb.com
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=mk.vjsnys.top
+Received: from BF-202008051613 (115.199.162.73) by mk.vjsnys.top id h97on40e97co for <linux-firmware@kernel.org>; Tue, 21 Sep 2021 22:51:29 +0800 (envelope-from <mk2@mk.vjsnys.top>)
+From: "Tom Fan" <tom@sourceherb.com>
+Subject: Coenzyme Q10 98% HPLC FOB =?UTF-8?B?UHJpY2XvvJokNDM0L0tH?= ,2 ton
+ inventory.
 List-Id: <linux-firmware.lore.kernel.org>
-To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-CC: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Kyle
- McMartin" <kyle@mcmartin.ca>, "ben@decadent.org.uk" <ben@decadent.org.uk>,
-	Josh Boyer <jwboyer@kernel.org>
-Subject: i915 Updates - ADLP DMC v2.12
-Thread-Topic: i915 Updates - ADLP DMC v2.12
-Thread-Index: AdeuadhvX8AM48SmRzy5AL2Oj2Itiw==
-Date: Mon, 20 Sep 2021 21:57:01 +0000
-Message-ID: <c5ec6f413e4940c486505b2d511d091d@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-dlp-version: 11.6.200.16
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-x-originating-ip: [10.22.254.132]
-Content-Type: multipart/alternative;
-	boundary="_000_c5ec6f413e4940c486505b2d511d091dintelcom_"
+To: linux-firmware@kernel.org
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Message-ID: <20210920215701.T3Hg_qHonNzcq3arrO15Sd-cpd-y6b1Z8VEzJM8Wyjc@z>
+Content-Transfer-Encoding: base64
+Sender: mk2@mk.vjsnys.top
+Reply-To: tom@sourceherb.com
+Date: Tue, 21 Sep 2021 22:51:29 +0800
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
+Content-Disposition: inline
+Message-Id: <20210921145130.BCF3C60F36@mail.kernel.org>
 
---_000_c5ec6f413e4940c486505b2d511d091dintelcom_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-Hi josh, Ben, Kyle
-Kindly add the below i915 changes to linux-firmware:
-linux-firmware: add frimware for mediatek bluetooth chip (MT7922) (2021-09-=
-13 11:35:49 -0400)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-firmware adlp_dmc_2_12
-
-for you to fetch changes up to 09ab718bfa2b32a2186dd8f9e39e0cc9a9df7170:
-
-  i915: Update ADLP DMC v2.12 (2021-09-14 14:42:47 -0700)
-
-----------------------------------------------------------------
-Anusha Srivatsa (1):
-      i915: Update ADLP DMC v2.12
-
-WHENCE                    |   3 +++
-i915/adlp_dmc_ver2_12.bin | Bin 0 -> 72104 bytes
-2 files changed, 3 insertions(+)
-create mode 100644 i915/adlp_dmc_ver2_12.bin
-
-Thanks,
-Anusha
-
-
---_000_c5ec6f413e4940c486505b2d511d091dintelcom_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Consolas;
-	panose-1:2 11 6 9 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
-break-word">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333">Hi josh=
-, Ben, Kyle<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333">Kindly =
-add the below i915 changes to linux-firmware:<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333">linux-f=
-irmware: add frimware for mediatek bluetooth chip (MT7922) (2021-09-13 11:3=
-5:49 -0400)<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333"><o:p>&n=
-bsp;</o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333">are ava=
-ilable in the Git repository at:<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333"><o:p>&n=
-bsp;</o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333">&nbsp; =
-git://anongit.freedesktop.org/drm/drm-firmware adlp_dmc_2_12<o:p></o:p></sp=
-an></p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333"><o:p>&n=
-bsp;</o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333">for you=
- to fetch changes up to 09ab718bfa2b32a2186dd8f9e39e0cc9a9df7170:<o:p></o:p=
-></span></p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333"><o:p>&n=
-bsp;</o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333">&nbsp; =
-i915: Update ADLP DMC v2.12 (2021-09-14 14:42:47 -0700)<o:p></o:p></span></=
-p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333"><o:p>&n=
-bsp;</o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333">-------=
----------------------------------------------------------<o:p></o:p></span>=
-</p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333">Anusha =
-Srivatsa (1):<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333">&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp; i915: Update ADLP DMC v2.12<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333"><o:p>&n=
-bsp;</o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333">WHENCE&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; 3 &#43;&#43;&#43;<o:p>=
-</o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333">i915/ad=
-lp_dmc_ver2_12.bin | Bin 0 -&gt; 72104 bytes<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333">2 files=
- changed, 3 insertions(&#43;)<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333">create =
-mode 100644 i915/adlp_dmc_ver2_12.bin<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333"><o:p>&n=
-bsp;</o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333">Thanks,=
-<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:7.5pt;line-height:10.75pt;bac=
-kground:white;word-break:break-all">
-<span style=3D"font-size:10.0pt;font-family:Consolas;color:#333333">Anusha<=
-o:p></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
-
---_000_c5ec6f413e4940c486505b2d511d091dintelcom_--
+SGkgLCBNeSBmcmllbmQNCkhvcGUgeW91IGFyZSB3ZWxsICENClRoaXMgaXMgU09VUkNFSEVSQi0t
+LVRvbS4g77u/DQpIb3BlIHRvIGVzdGFibGlzaCBjb29wZXJhdGlvbiB3aXRoIHlvdXIgY29tcGFu
+eSENCk91ciBtYWluIHByb2R1Y3RzIGxpc3Q6DQpDb2VuenltZSBRMTAgOTglIEZPQiBQcmljZe+8
+miQ0MzQvS0cgLDIgdG9uIGludmVudG9yeS4NCg0KUGxlYXNlIGNoZWNrIE91ciBFdXJvcGVhbiB3
+YXJlaG91c2UgcHJvZHVjdHMgbGlzdCA6DQpQUywgTWlsayBUaGlzdGxlIEV4dHJhY3QgaGFzIGlu
+Y3JlYXNlZCBhIGxvdCBpbiBDaGluZXNlIG1hcmtldCBkdWUgdG8gcmF3IG1hdGVyaWFscyBzaG9y
+dGFnZS4NClRyaWJ1bHVzIGlzIFRIQyBmcmVlLg0KT3RoZXIgcHJvZHVjdHMgYXJlIGNvbXBseSB3
+aXRoIEVVIHJlZ3VsYXRpb25zLg0KSWYgeW91IG5lZWQgd2UgY2FuIHNlbmQgeW91IHdpdGggbG9j
+YWwgc2VydmljZS4NCkFueSBxdWVzdGlvbiBvciBkZW1hbmQgd291bGQgYmUgaGlnaGx5IGFwcHJl
+Y2lhdGVkLg0KTWlsayBUaGlzdGxlIEV4dHJhY3QgU2lseW1hcmlu4omlODAlDQpUcmlidWx1cyBU
+ZXJyZXN0cmlzIEV4dHJhY3QsVG90YWwgc2Fwb25pbnPiiaU0NSVVVixUSEMgRnJlZQ0KRWNoaW5h
+Y2VhIEV4dHJhY3QsIFBvbHlwaGVub2ziiaU0JSBVVg0KUm9zZUhpcCBFeHRyYWN0IHJhdGlvDQpT
+Y2hpc2FuZHJhIGV4dHJhY3QgcmF0aW8NClNjaGlzYW5kcmEgZXh0cmFjdCBTY2hpemFuZHJpbuKJ
+pTIlDQpNdWxiZXJyeSBMZWFmIEV4dHJhY3QsIEROSuKJpTElIEhQTEMNClNjdXRlbGxhcmlhIFJv
+b3QgRXh0cmFjdA0KQmxhY2sgR2FybGljIEV4dHJhY3QsIFBvbHlwaGVub2ziiaUxJSBVVg0KT2xp
+dmUgTGVhZiBFeHRyYWN0IE9sZXVyb3BlaW7iiaUyMCUNCk1hdGNoIHRlYSBwb3dkZXIgLENhdGVj
+aGlu4omlMjUlLEVHQ0fiiaUxMSUgSFBMQw0KU3VuZGV3IEV4dHJhY3QNCkVsZGVyYmVycnkgRXh0
+cmFjdCwgVG90YWwgZmxhdm9uZeKJpTIlVVYsV2F0ZXIgc29sdWJsZQ0KQWNhaSBCZXJyeSBFeHRy
+YWN0DQpBY2Vyb2xhIENoZXJyeSBFeHRyYWN0DQpBcnRpY2hvY2tlIEV4dHJhY3QgQ3luYXJpbuKJ
+pTIuNSAlDQpCb3N3ZWxsaWEgU2VycmF0YSBFeHRyYWN0IEJvc3dlbGxpYyBBY2lk4omlNjUgJQ0K
+SG9wZSBjb3VsZCBnaXZlIG1lIGEgQ2hhbmNlIH4hDQpQbGVhc2UgaGF2ZSBhIGNoZWNrIC4NCldh
+aXRpbmcgeW91IGEgZ29vZCBuZXdzLg0KVGhhbmtzLg0KSVNPOTAwMToyMDE1IGFuZCBLb3NoZXIg
+Y2VydGlmaWVkIG1hbnVmYWN0dXJlci4gMTB5ZWFycyBleHBlcmllbmNlIG9uIHBsYW50IGV4dHJh
+Y3RzIHByb2R1Y3Rpb24NClRvbSBGYW4NCkdlbmVyYWwgbWFuYWdlcg0KSEFOR1pIT1UgU09VUkNF
+IEhFUkIgQklPLVRFQ0ggQ08uLExURA0KQUREOiBST09NIDgwMC0yMSwgM1JEIEJVSUxESU5HIE5P
+LiAxNixMT05HVEFOIFJPQUQsIENBTkdRSUFOIFNUUkVFVCwgWVVIQU5HIERJU1RSSUNULCBIQU5H
+WkhPVSwgWkhFSklBTkcsQ0hJTkENClRlbDorMDA4NiAxNTA2ODE0NDA0Nw0KU2t5cGUgOiBmYW4u
+eW91bGluDQpodHRwczovL3NvdXJjZWhlcmIuZW4ubWFkZS1pbi1jaGluYS5jb20vDQp3d3cuc291
+cmNlaGVyYi5jb20NCg==
