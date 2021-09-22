@@ -1,57 +1,45 @@
-Return-Path: <SRS0=SRY8=OL=linkscen.top=info4@kernel.org>
+Return-Path: <SRS0=paga=OM=qualityservice.top=info9@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: *
-X-Spam-Status: No, score=1.1 required=3.0 tests=BAYES_50,
+X-Spam-Status: No, score=1.0 required=3.0 tests=BAYES_50,
 	HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EA40C433EF
-	for <linux-firmware@archiver.kernel.org>; Tue, 21 Sep 2021 16:46:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B550DC433EF
+	for <linux-firmware@archiver.kernel.org>; Wed, 22 Sep 2021 07:48:35 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 74AB361184; Tue, 21 Sep 2021 16:46:00 +0000 (UTC)
-Received: from server5.ocgcng.top (unknown [106.12.201.181])
-	by mail.kernel.org (Postfix) with ESMTP id B06D760E52
-	for <linux-firmware@kernel.org>; Tue, 21 Sep 2021 16:45:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B06D760E52
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=domilink.com
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linkscen.top
-Received: from admini-PC (59.42.120.115) by server5.ocgcng.top id h9864e0e97cg for <linux-firmware@kernel.org>; Wed, 22 Sep 2021 00:45:50 +0800 (envelope-from <info4@linkscen.top>)
-From: "Joy Cheu" <sales@domilink.com>
-Subject: RE:Original GPS manufacturer 2G 4G Trackers with competitive price
+	id 8C640610A1; Wed, 22 Sep 2021 07:48:35 +0000 (UTC)
+Received: from server4.dfcvcci.top (unknown [106.13.62.170])
+	by mail.kernel.org (Postfix) with ESMTP id 79D9360F6B
+	for <linux-firmware@kernel.org>; Wed, 22 Sep 2021 07:48:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 79D9360F6B
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=xunpomc.com
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=qualityservice.top
+From: "Nancy" <sales04@xunpomc.com>
+Subject: Crimping Machine
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
 Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Sender: info4@linkscen.top
-Reply-To: sales@domilink.com
-Date: Wed, 22 Sep 2021 00:45:49 +0800
+Sender: info9@qualityservice.top
+Reply-To: sales04@xunpomc.com
+Date: Wed, 22 Sep 2021 15:48:25 +0800
 X-Priority: 3
 X-MSMail-Priority: Normal
 X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
 Content-Disposition: inline
-Message-Id: <20210921164559.B06D760E52@mail.kernel.org>
+Message-Id: <20210922074834.79D9360F6B@mail.kernel.org>
 
-SGVsbG8gRGlyZWN0b3IhDQoNCkhlcmUgSm95IENoZXUgb2YgR3Vhbmd6aG91IFpUSU5GTywgYSBy
-ZWxpYWJsZSBDaGluYeKAmXMgR1BTIFRSQUNLRVIgYW5kIHNvbHV0aW9ucyBwcm92aWRlci4gDQog
-ICAgDQpBcmUgeW91IG5vdyBsb29raW5nIGZvciBjb21wZXRpdGl2ZSAyRyY0RyBHUFMgVFJBQ0tF
-UlM/IExldCdzIHRhbGsgZm9yIG1vcmU/DQogIA0KDQoNCg0KDQogDQpQLlMuIFlvdXIgY29udGFj
-dCBpcyB3ZWxsIHNoYXJlZCBieSBteSBwYXJ0bmVyLiBJZiB5b3UgZG8gbm90IG5lZWQgR1BTIHRy
-YWNrZXJzLCB5b3UgY2FuIHJlcGx5IGRpcmVjdGx5IChubyBuZWVkKS4gSSB3aWxsIG5vdCBkaXN0
-dXJiIHlvdSBpbiB0aGUgZnV0dXJlLg0KDQoNCkhvbm9yczoNCkhpZ2ggdGVjaCBFbnRlcnByaXNl
-IA0KRGlyZWN0b3IgdW5pdCBvZiBHdWFuZ2RvbmcgSU9UIGF1dGhvcml0eSANCk9mZiBjYW1wdXMg
-cHJhY3RpY2UgYmFzZSBvZiBHdWFuZ2RvbmcgVW5pdmVyc2l0eSBvZiBUZWNobm9sb2d5DQogDQpP
-dXIgYWR2YW50YWdlOg0KMSBUaGUgd29ybGQgc21hbGxlc3QgIDRHIGdwcyB0cmFja2VyDQoyIElu
-dGVybmF0aW9uYWwgcm9hbWluZyBTaW0gY2FyZCBjYW4gYmUgdXNlZCBpbiA2MiBjb3VudHJpZXMu
-DQozIFJlbGlhYmxlIEdQUyBjaGlwc2V0IHN1cHBseSB0byBzZWN1cmUgdGhlIHByb2R1Y3Rpb24g
-YW5kIHNoaXBwaW5nIHRlcm0NCjQgQ2hlYXAgQ2hpbmEgVW5pY29tIEludGVybmF0aW9uYWwgUm9h
-bWluZyBTaW0gQ2FyZCBmZWVzIA0KNSBQbGF0Zm9ybSBzZXJ2aWNlIGZlZXMgZnJlZSBmb3IgdGhl
-IGZpcnN0IHllYXINCjYgSGlnaCBjb3N0IHBlcmZvcm1hbmNlIEdQUyB0cmFja2VycygyRyY0RykN
-CjcgTm8gTU9RDQo4IFNwZWNpYWwgYWdlbnQgYW5kIE9FTSBjdXN0b21lcnMgd2VsY29tZQ0KOSBQ
-ZXJmZWN0IHBsYXRmb3JtIHRyYWNraW5nIHNlcnZpY2UoZGV0YWlscyBpbXByb3ZlbWVudCkNCiAN
-Cg0KIA0KIA0KQmVzdCByZWdhcmRzLA0KIA0KSm95IENoZXUgDQpNYXJrZXRpbmcgTWFuYWdlcg0K
-DQpEdW9taSBUZWNobm9sb2d5IENvLixMdGQgDQpHdWFuZ3pob3UgWlRJTkZPIFRlY2hub2xvZ3kg
-Q28uLEx0ZCANCk1vYjorODYgMTMyIDg2ODc1NzIxDQp3aGF0c2FwcDorODYgMTUyNTgzNjgxNjIN
-CndlY2hhdDogdml2aWRfam95DQpzYWxlcyBAIGRvbWlsaW5rIC5jb20NCnd3dyAuIGRvbWlsaW5r
-IC4gY29tDQo=
+RGVhciBQdXJjaGFzaW5nIE1hbmFnZXIsDQoNCkhlbGxvLCB0aGlzIGlzIE5hbmN5IGZyb20gWFVO
+UE8gY29tcGFueSwgb3VyIGNvbXBhbnkgaXMgYSBwcm9mZXNzaW9uYWwgY3JpbXBpbmcgbWFjaGlu
+ZSBtYW51ZmFjdHVyZXIgd2l0aCA1IHllYXJz4oCYcyAgZXhwZXJpZW5jZS4gR2xhZCB0byBnZXQg
+eW91ciBjb250YWN0IGluZm8gZnJvbSBDYW5hZGEgbWFydCENCg0KU28gd2Ugd2FudCB0byBhdmFp
+bCBvdXJzZWx2ZXMgb2Ygb3Bwb3J0dW5pdHkgZXN0YWJsaXNoaW5nIGJ1c2luZXNzIHJlbGF0aW9u
+IHdpdGggeW91Lg0KUGxlYXNlIGxpbmsgb3VyIGNvbXBhbnkgd2ViIHNpdGU6IHd3dy54dW5wby5h
+bGliYWJhLmVuLmNvbSAgaWYgeW91IHdhbnQgdG8ga25vdyBtb3JlIGFib3V0IG91ciBwcm9kdWN0
+cy4gTG9va2luZyBmb3J3YXJkIHRvIHlvdXIgcmVwbHkuDQoNCg0KWW91cnMgc2luY2VyZQ0KTmFu
+Y3kNCg0KQ29tcGFueSBOYW1lOiBHWiBYVU5QTyBNYWNoaW5lcnkgRXF1aXBtZW50IENvLiwgTHRk
+DQpUZWw6ICA4NjEzMzEyODQ1MDMxDQpXaGF0c2FwcDogIDg2MTMzMTI4NDUwMzENCldlY2hhdDog
+IDEzMzEyODQ1MDMxDQpRUTogIDI0NDgyMjY1NTYNCg==
