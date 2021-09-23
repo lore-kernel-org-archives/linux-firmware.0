@@ -1,34 +1,46 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=HC+g=ON=lists.freedesktop.org=intel-gfx-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PULL_REQUEST,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6F2EC433EF
-	for <linux-firmware@archiver.kernel.org>; Thu, 23 Sep 2021 16:40:38 +0000 (UTC)
-Received: by mail.kernel.org (Postfix)
-	id CE6E96115A; Thu, 23 Sep 2021 16:40:38 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B5808610D1
-	for <linux-firmware@kernel.org>; Thu, 23 Sep 2021 16:40:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED6A4C433FE
+	for <intel-gfx@archiver.kernel.org>; Thu, 23 Sep 2021 16:40:40 +0000 (UTC)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id BA33A60EE5
+	for <intel-gfx@archiver.kernel.org>; Thu, 23 Sep 2021 16:40:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BA33A60EE5
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.freedesktop.org
+Received: from gabe.freedesktop.org (localhost [127.0.0.1])
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EA156E0D9;
+	Thu, 23 Sep 2021 16:40:40 +0000 (UTC)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA4D56E0D9
+ for <intel-gfx@lists.freedesktop.org>; Thu, 23 Sep 2021 16:40:38 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B30EA6105A
+ for <intel-gfx@lists.freedesktop.org>; Thu, 23 Sep 2021 16:40:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1632415238;
-	bh=V1cWZb0nJ3xV2ilEt8lFy8OBkxvOxBktcmuhLF+tzbw=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=nYq0OiFr0bPM7cNwAZ1ruB7BQVh+e6Z5ky/sbWrUHtqUVjAd/B301Vc0muwMdL9XK
-	 2xswMHJhbG6bgrBQs8i72ar6bwBZ1GfwVKXfjSwsbz6Wie9SK6hknw0QTRurgftZ/V
-	 ZwZ56dR+1hwEYjfESVq3lP+Yv5LrvFOrGTHfjeAmGcenFE6dgdGnft+e2R0pFBr4/K
-	 UUqi0WKN06N2+BvgMXiqQoDN32l3qw72cwZ84Dd3eMrQKZVGLS0oGgFZvCXEaFICKj
-	 PQmcNt+srxCfj3+4jiwJqBdjC4XFwpdwwPvv0PHEwnF/YRCOFFTItW6ztECdZK7zpC
-	 WtVQKsY0oNpBA==
-Received: by mail-io1-f51.google.com with SMTP id b78so3556553iof.2
-        for <linux-firmware@kernel.org>; Thu, 23 Sep 2021 09:40:38 -0700 (PDT)
-X-Gm-Message-State: AOAM532QZpNpyLZgzQy+zQAc11VjhIjARO2wnm+dyutoJtuKXbiSSddf
-	4k+StvzUiveN6Q/KYie5L9ILwyjYWENiL5qW3kk=
+ s=k20201202; t=1632415238;
+ bh=V1cWZb0nJ3xV2ilEt8lFy8OBkxvOxBktcmuhLF+tzbw=;
+ h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+ b=nYq0OiFr0bPM7cNwAZ1ruB7BQVh+e6Z5ky/sbWrUHtqUVjAd/B301Vc0muwMdL9XK
+ 2xswMHJhbG6bgrBQs8i72ar6bwBZ1GfwVKXfjSwsbz6Wie9SK6hknw0QTRurgftZ/V
+ ZwZ56dR+1hwEYjfESVq3lP+Yv5LrvFOrGTHfjeAmGcenFE6dgdGnft+e2R0pFBr4/K
+ UUqi0WKN06N2+BvgMXiqQoDN32l3qw72cwZ84Dd3eMrQKZVGLS0oGgFZvCXEaFICKj
+ PQmcNt+srxCfj3+4jiwJqBdjC4XFwpdwwPvv0PHEwnF/YRCOFFTItW6ztECdZK7zpC
+ WtVQKsY0oNpBA==
+Received: by mail-io1-f49.google.com with SMTP id n71so8995790iod.0
+ for <intel-gfx@lists.freedesktop.org>; Thu, 23 Sep 2021 09:40:38 -0700 (PDT)
+X-Gm-Message-State: AOAM533ZX8eUYhoQZVmLpKey8kfy4wztJpphzjh3ZAH8/8M1LjEkA/50
+ p3HdhoKWwpPFym0b8Gylr1PcOpJdbrUioPauOzA=
 X-Google-Smtp-Source: ABdhPJxRzDS0jvjRFMzDM1+kAhCWeYgZVzxurLt3Cy3a9zZM1KfMR5r+yzDhH7VQpK0CZFppda2hmo235rJFGSRI2X4=
-X-Received: by 2002:a5d:9601:: with SMTP id w1mr4714503iol.209.1632415238195;
+X-Received: by 2002:a5d:9601:: with SMTP id w1mr4714503iol.209.1632415238195; 
  Thu, 23 Sep 2021 09:40:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <c5ec6f413e4940c486505b2d511d091d@intel.com>
@@ -37,13 +49,29 @@ From: Josh Boyer <jwboyer@kernel.org>
 Date: Thu, 23 Sep 2021 12:40:27 -0400
 X-Gmail-Original-Message-ID: <CA+5PVA5C4PqcFfLNxzEHBFchALTvsmLoKw+TFy4Fu4zVzXAt_w@mail.gmail.com>
 Message-ID: <CA+5PVA5C4PqcFfLNxzEHBFchALTvsmLoKw+TFy4Fu4zVzXAt_w@mail.gmail.com>
-Subject: Re: i915 Updates - ADLP DMC v2.12
 To: "Srivatsa, Anusha" <anusha.srivatsa@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
 Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
-	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, Kyle McMartin <kyle@mcmartin.ca>, 
-	"ben@decadent.org.uk" <ben@decadent.org.uk>
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ Kyle McMartin <kyle@mcmartin.ca>, 
+ "ben@decadent.org.uk" <ben@decadent.org.uk>
 Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [Intel-gfx] i915 Updates - ADLP DMC v2.12
+X-BeenThere: intel-gfx@lists.freedesktop.org
+X-Mailman-Version: 2.1.29
+Precedence: list
+List-Id: Intel graphics driver community testing & development
+ <intel-gfx.lists.freedesktop.org>
+List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/intel-gfx>,
+ <mailto:intel-gfx-request@lists.freedesktop.org?subject=unsubscribe>
+List-Archive: <https://lists.freedesktop.org/archives/intel-gfx>
+List-Post: <mailto:intel-gfx@lists.freedesktop.org>
+List-Help: <mailto:intel-gfx-request@lists.freedesktop.org?subject=help>
+List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/intel-gfx>,
+ <mailto:intel-gfx-request@lists.freedesktop.org?subject=subscribe>
+Errors-To: intel-gfx-bounces@lists.freedesktop.org
+Sender: "Intel-gfx" <intel-gfx-bounces@lists.freedesktop.org>
+Message-ID: <20210923164027.ccMP-tuKhQetOafQXVFeYGI1BjW_fPYgEZ3szoirEBk@z>
 
 On Mon, Sep 20, 2021 at 5:57 PM Srivatsa, Anusha
 <anusha.srivatsa@intel.com> wrote:
