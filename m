@@ -1,57 +1,67 @@
-Return-Path: <SRS0=cCBo=ON=hopkinw.top=mk1@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: *
-X-Spam-Status: No, score=1.1 required=3.0 tests=BAYES_50,
-	HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Level: 
+X-Spam-Status: No, score=-16.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PULL_REQUEST,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDDC0C433EF
-	for <linux-firmware@archiver.kernel.org>; Thu, 23 Sep 2021 00:58:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6F2EC433EF
+	for <linux-firmware@archiver.kernel.org>; Thu, 23 Sep 2021 16:40:38 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id BB46461090; Thu, 23 Sep 2021 00:58:08 +0000 (UTC)
-X-Greylist: delayed 601 seconds by postgrey-1.37 at mail.kernel.org; Thu, 23 Sep 2021 00:58:07 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org EA95D60F0F
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=care-optical.com
-Authentication-Results: mail.kernel.org; spf=fail smtp.mailfrom=hopkinw.top
-Received: from info.hopkinw.top (unknown [43.226.73.137])
-	by mail.kernel.org (Postfix) with ESMTP id EA95D60F0F
-	for <linux-firmware@kernel.org>; Thu, 23 Sep 2021 00:58:07 +0000 (UTC)
-Received: from careopticalB (183.17.233.169) by info.hopkinw.top id h9f8i00e97c1 for <linux-firmware@kernel.org>; Thu, 23 Sep 2021 08:47:58 +0800 (envelope-from <mk1@hopkinw.top>)
-From: "Careoptical" <hopkinwong@care-optical.com>
-Subject: dental loupes and lights manufacturer
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Content-Type: text/plain; charset=UTF-8
+	id CE6E96115A; Thu, 23 Sep 2021 16:40:38 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B5808610D1
+	for <linux-firmware@kernel.org>; Thu, 23 Sep 2021 16:40:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1632415238;
+	bh=V1cWZb0nJ3xV2ilEt8lFy8OBkxvOxBktcmuhLF+tzbw=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=nYq0OiFr0bPM7cNwAZ1ruB7BQVh+e6Z5ky/sbWrUHtqUVjAd/B301Vc0muwMdL9XK
+	 2xswMHJhbG6bgrBQs8i72ar6bwBZ1GfwVKXfjSwsbz6Wie9SK6hknw0QTRurgftZ/V
+	 ZwZ56dR+1hwEYjfESVq3lP+Yv5LrvFOrGTHfjeAmGcenFE6dgdGnft+e2R0pFBr4/K
+	 UUqi0WKN06N2+BvgMXiqQoDN32l3qw72cwZ84Dd3eMrQKZVGLS0oGgFZvCXEaFICKj
+	 PQmcNt+srxCfj3+4jiwJqBdjC4XFwpdwwPvv0PHEwnF/YRCOFFTItW6ztECdZK7zpC
+	 WtVQKsY0oNpBA==
+Received: by mail-io1-f51.google.com with SMTP id b78so3556553iof.2
+        for <linux-firmware@kernel.org>; Thu, 23 Sep 2021 09:40:38 -0700 (PDT)
+X-Gm-Message-State: AOAM532QZpNpyLZgzQy+zQAc11VjhIjARO2wnm+dyutoJtuKXbiSSddf
+	4k+StvzUiveN6Q/KYie5L9ILwyjYWENiL5qW3kk=
+X-Google-Smtp-Source: ABdhPJxRzDS0jvjRFMzDM1+kAhCWeYgZVzxurLt3Cy3a9zZM1KfMR5r+yzDhH7VQpK0CZFppda2hmo235rJFGSRI2X4=
+X-Received: by 2002:a5d:9601:: with SMTP id w1mr4714503iol.209.1632415238195;
+ Thu, 23 Sep 2021 09:40:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Sender: mk1@hopkinw.top
-Reply-To: hopkinwong@care-optical.com
-Date: Thu, 23 Sep 2021 08:47:39 +0800
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
-Content-Disposition: inline
-Message-Id: <20210923005807.EA95D60F0F@mail.kernel.org>
+References: <c5ec6f413e4940c486505b2d511d091d@intel.com>
+In-Reply-To: <c5ec6f413e4940c486505b2d511d091d@intel.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Thu, 23 Sep 2021 12:40:27 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA5C4PqcFfLNxzEHBFchALTvsmLoKw+TFy4Fu4zVzXAt_w@mail.gmail.com>
+Message-ID: <CA+5PVA5C4PqcFfLNxzEHBFchALTvsmLoKw+TFy4Fu4zVzXAt_w@mail.gmail.com>
+Subject: Re: i915 Updates - ADLP DMC v2.12
+To: "Srivatsa, Anusha" <anusha.srivatsa@intel.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
+	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, Kyle McMartin <kyle@mcmartin.ca>, 
+	"ben@decadent.org.uk" <ben@decadent.org.uk>
+Content-Type: text/plain; charset="UTF-8"
 
-RGVhcnMgDQpIb3cgYXJlIHlvdSEgR2l2ZSBvdXIgYmVzdCByZWdhcmRzIGFuZCB3aXNoZXMgdG8g
-eW91IGFuZCB5b3Vycy4NCg0KV2UgYXJlIHByb2Zlc3Npb25hbCBvcHRpY2FsIHByb2R1Y3RzIG1h
-bnVmYWN0dXJlciwgZm9jdXNpbmcgb24gcHJvZHVjaW5nIHN1cGVyIHF1YWxpdHkgZGVudGFsIGxv
-dXBlcyBzdXJnaWNhbCBsb3VwZXMgYW5kIGxpZ2h0cy4gIA0KDQp3ZSBjYW4gc3VwcGx5IGJlbG93
-IGxvdXBlcyB3aXRoIGRpZmZlcmVudCB3b3JraW5nIGRpc3RhbmNlOg0KKiBDdXN0b20gbWFkZSBU
-VEwgbG91cGVzIA0KKiBGbGlwIFVwIGxvdXBlcyANCiogSGVhZGJhbmQgTG91cGVzDQoqIENsaXAg
-T24gbG91cGVzDQoNCmFsbCB0aGUgbG91cGVzIGFyZSBzdXBlciBoaWdoIHF1YWxpdHkgd2l0aCBv
-cHRpb25hbCB3b3JraW5nIGRpc3RhbmNlLiB3ZSBjYW4gc2hpcCB0byB3b3JsZHdpZGUuIA0KbWFu
-dWZhY3R1cmVyIGRpcmVjdCBwcmljZSxmYXN0IHNoaXBwaW5nLCBxdWFsaXR5IHdhcnJhbnR5LGN1
-c3RvbSBtYWRlLCBhY2NlcHQgcmV0dXJuaW5nIGZvciBleGNoYW5naW5nIG9yIHJlZnVuZCwNCg0K
-V2Ugc2luY2VyZWx5IGRvIGhvcGUgdGhhdCB5b3UgY2FuIGJlIGludGVyZXN0ZWQgaW4gb3VyIGxv
-dXBlcyBhbmQgbGlnaHQsIG1hbnVmYWN0dXJlciBkaXJlY3QgcHJpY2UsIGZhc3Qgc2hpcHBpbmcs
-IHF1YWxpdHkgd2FycmFudHkuIGdvb2QgYWZ0ZXIgc2FsZSBzZXJ2aWNlLCANCg0Kd2UgYWxzbyBt
-YWtlIE9FTSBvcmRlciBmb3Igc29tZSBicmFuZHMsIGlmIHlvdSBhcmUgZGVudGFsIHN1cmdpY2Fs
-IGxvdXBlcyBsaWdodHMgd2hvbGVzYWxlIG9yIGRpc3RyaWJ1dG9yLCBwbGVhc2UgY29udGFjdCB1
-cywgeW91IGNhbiBnZXQgZmlyc3QgaGFuZCBkaXN0cmlidXRvciBwcmljZSBhbmQgT0VNIG9yZGVy
-IHNlcnZpY2UuDQogDQppZiB5b3UgaGF2ZSBhbnkgcmVxdWlyZW1lbnRzLCBwbGVhc2UgZG9uJ3Qg
-aGVzaXRhdCB0byBjb250YWN0IHVzDQoNCnRoYW5rcyBhbmQgcmVnYXJkcw0Kc2luY2VyZWx5DQpD
-QVJFIE9QVElDQUwgSU5EVVNUUklBTCBDTy4sDQpvZmZpY2FsIHdlYnNpdGU6ICAgICAgICAgICAg
-ICAgICAgd3d3LmNhcmUtb3B0aWNhbC5jb20NCmxvdXBlcyYgbGlnaHQgb25saW5lIHNob3A6IHd3
-dy5vcHRpY2FsLXdvcmxkLmNvbSANCg==
+On Mon, Sep 20, 2021 at 5:57 PM Srivatsa, Anusha
+<anusha.srivatsa@intel.com> wrote:
+>
+> Hi josh, Ben, Kyle
+>
+> Kindly add the below i915 changes to linux-firmware:
+>
+> linux-firmware: add frimware for mediatek bluetooth chip (MT7922) (2021-09-13 11:35:49 -0400)
+>
+>
+>
+> are available in the Git repository at:
+>
+>
+>
+>   git://anongit.freedesktop.org/drm/drm-firmware adlp_dmc_2_12
+
+Pulled and pushed out.
+
+josh
