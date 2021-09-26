@@ -1,116 +1,160 @@
-Return-Path: <pali@kernel.org>
+Return-Path: <SRS0=XsoU=OQ=redhat.com=hdegoede@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2590AC433EF
-	for <linux-firmware@archiver.kernel.org>; Sun, 26 Sep 2021 10:43:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40767C433EF
+	for <linux-firmware@archiver.kernel.org>; Sun, 26 Sep 2021 10:50:38 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id EEE55610A2; Sun, 26 Sep 2021 10:43:08 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B4AB56108E;
-	Sun, 26 Sep 2021 10:43:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1632652988;
-	bh=EZ6+HzzMrVMSLfFDPKTe/04zODwgGt7O+akW5I8ESOA=;
-	h=Date:From:To:List-Id:Cc:Subject:References:In-Reply-To:From;
-	b=N/+PqFK4Vl0BVQNQdl2l9Hy+V9nLA8MKgfe6XnWzAzg7TTR+aZ3SF3Ahe+QPA0OWS
-	 p4T5IVnDVaz6twPAFGUSD+acNaH6ViqeKu7tbIZjadAd68t1IzlEy0ZhQvnxIsk1FD
-	 ebQl+2GJ0e6HQj01PZ9TorszsIQdF+PnC+pjELW/rdUazV6L23mBqKy5QS5qPdxFS8
-	 Ey0h7bH3a6VG0HQ1NFT0371KCwjFcHtG4g83hzCsifGL9gYniNfwirDkIiS0FkJdnB
-	 t9k5gnVWCN387n4iqh9STP+MwbpUin7Sm5rWsIs7AyNmv4QhXgAMBgciSBmzvyl6tp
-	 fjMaBtSTgTFBw==
-Received: by pali.im (Postfix)
-	id 787D060D; Sun, 26 Sep 2021 12:43:06 +0200 (CEST)
-Date: Sun, 26 Sep 2021 12:43:06 +0200
-From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To: Josh Boyer <jwboyer@kernel.org>,
-	Sharvari Harisangam <sharvari.harisangam@nxp.com>
+	id 1863961019; Sun, 26 Sep 2021 10:50:38 +0000 (UTC)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id D39F16108E
+	for <linux-firmware@kernel.org>; Sun, 26 Sep 2021 10:50:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D39F16108E
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1632653437;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=AGpKzBFXznTj59hWhSGZ/94aKIjtpoDINQfxEJqLJjU=;
+	b=gykX9kK9Xqda94e78ONI4CtRydCpLDL4bEEvDEuoBmmvHk3ewIAD59mJTrVWoEumiqD7Gz
+	cwttOh7Wd5BrR4Frj3OoIH5IS0jXsxfq2UdCAkbTZwe62W7SHq8/Gf455sTK7f6niJxwKM
+	q2hauLDOQOMMGDstZcD9O9pSX/WIihs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-160-WJiV44cbMIaxnY8L2aiaig-1; Sun, 26 Sep 2021 06:50:33 -0400
+X-MC-Unique: WJiV44cbMIaxnY8L2aiaig-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3EB9802947;
+	Sun, 26 Sep 2021 10:50:32 +0000 (UTC)
+Received: from x1.localdomain.com (unknown [10.39.192.91])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id DE56C5BAE7;
+	Sun, 26 Sep 2021 10:50:31 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, linux-wireless@vger.kernel.org,
-	=?utf-8?Q?G=C3=A9rald?= Kerma <gandalf@gk2.net>,
-	Rakesh Parmar <rakesh.parmar@nxp.com>,
-	Cathy Luo <xiaohua.luo@nxp.com>, zhiyuan.yang@nxp.com,
-	prashanthkrishnan.ranganathan@nxp.com,
-	Ganapathi Bhat <ganapathi017@gmail.com>, zheng.cao@nxp.com
-Subject: Re: mwifiex 1.0 (16.68.10.p159) - PCIEUSB-8997 firmware is buggy
-Message-ID: <20210926104306.xocctztsuspx6oji@pali>
-References: <edeb34bc-7c85-7f1d-79e4-e3e21df86334@gk2.net>
- <fe75e8f2-6f12-052a-81ed-38122b87f1f6@gk2.net>
+To: Josh Boyer <jwboyer@kernel.org>,
+	linux-firmware@kernel.org
+Cc: Hans de Goede <hdegoede@redhat.com>
+Subject: [PATCH] brcm: Add 43455 based AP6255 NVRAM for the ACEPC T8 Mini PC
+Date: Sun, 26 Sep 2021 12:50:30 +0200
+Message-Id: <20210926105030.6198-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <fe75e8f2-6f12-052a-81ed-38122b87f1f6@gk2.net>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset="US-ASCII"
 
-Hello Josh, Sharvari and other from NXP!
+Add a NVRAM file for the Ampak AP6255 Wifi/BT module as used
+on the ACEPC T8 Mini PC This file is based on the existing
+"brcm/brcmfmac43455-sdio.MINIX-NEO Z83-4.txt" NVRAM file with
+the values adjusted for the Minix Neo Z83-4 Mini PC
 
-On Saturday 25 September 2021 19:23:48 Gérald Kerma wrote:
-> Correcting old marvell address to new nxp...
-> 
-> Le 25/09/2021 à 19:19, Gérald Kerma a écrit :
-> > Héllo All,
-> >
-> > I made some few tests on EspressoBin-Ultra from GlobalScaleTechnologies,
-> > because of problem with the WiFi.
-> >
-> > I have done some quick tests on all the firmware of PCIEUSB-8997 using
-> > the pcieuart8997_combo_v4.bin on OpenWrt 21.02.x
-> >
-> > Here is a summary of the tests :
-> > - W16.68.10.p159 = KO
-> > - W16.68.1.p195 = KO
-> > - V16.68.1.p145 = OK
-> > - 16.68.1.p140 = OK
-> > - 16.68.1.p133 = OK
-> > - 16.68.1.p97 = OK
-> > - 16.68.1.p70 = KO
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ WHENCE                               |  1 +
+ brcm/brcmfmac43455-sdio.acepc-t8.txt | 73 ++++++++++++++++++++++++++++
+ 2 files changed, 74 insertions(+)
+ create mode 100644 brcm/brcmfmac43455-sdio.acepc-t8.txt
 
-From this user test result can be seen that last two versions of
-pcieusb8997_combo_v4.bin firmware file for 8997 wifi+bt card with
-official mainline linux kernel driver mwifiex were not properly tested
-internally in NXP and are causing serious issues which make 8997 card
-basically unusable.
+diff --git a/WHENCE b/WHENCE
+index 3321033..16eaaa4 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -2847,6 +2847,7 @@ File: "brcm/brcmfmac43430-sdio.Hampoo-D2D3_Vi8A1.txt"
+ File: "brcm/brcmfmac43430-sdio.MUR1DX.txt"
+ File: "brcm/brcmfmac43430-sdio.raspberrypi,3-model-b.txt"
+ Link: brcm/brcmfmac43430-sdio.raspberrypi,model-zero-w.txt -> brcmfmac43430-sdio.raspberrypi,3-model-b.txt
++File: "brcm/brcmfmac43455-sdio.acepc-t8.txt"
+ File: "brcm/brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt"
+ Link: brcm/brcmfmac43455-sdio.raspberrypi,3-model-a-plus.txt -> brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt
+ File: "brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.txt"
+diff --git a/brcm/brcmfmac43455-sdio.acepc-t8.txt b/brcm/brcmfmac43455-sdio.acepc-t8.txt
+new file mode 100644
+index 0000000..8698316
+--- /dev/null
++++ b/brcm/brcmfmac43455-sdio.acepc-t8.txt
+@@ -0,0 +1,73 @@
++# SPDX-License-Identifier: GPL-2.0+
++# (C) Copyright 2018 Linaro Ltd
++# NVRAM config file for the Ampak AP6255 43455 WiFi/BT module found on the
++# ACEPC T8 (aka W8 pro) and the T11, as well as for the Cyberbook T116 tablet
++AvVmid_c0=0,157,1,126,1,126,1,126,1,126
++aa2g=1
++aa5g=1
++boardflags2=0x40000000
++boardflags3=0x48200100
++boardflags=0x00080201
++boardrev=0x1304
++boardtype=0x6e4
++ccode=X2
++deadman_to=481500000
++devid=0x43ab
++dot11agofdmhrbw202gpo=0x1553
++ed_thresh2g=-54
++ed_thresh5g=-54
++extpagain2g=2
++extpagain5g=2
++femctrl=0
++itrsw=1
++ltecxfnsel=0x22
++ltecxgcigpio=0x32
++ltecxmux=0
++ltecxpadnum=0x0504
++macaddr=00:90:4c:c5:12:38
++manfid=0x2d0
++maxp2ga0=64
++maxp5ga0=80,82,76,77
++mcsbw202gpo=0x99355533
++mcsbw205ghpo=0x99855000
++mcsbw205glpo=0x99755000
++mcsbw205gmpo=0x9df55000
++mcsbw405ghpo=0xd9755000
++mcsbw405glpo=0xb8555000
++mcsbw405gmpo=0xed955000
++mcsbw805ghpo=0xd9555000
++mcsbw805glpo=0xc8555000
++mcsbw805gmpo=0xe9555000
++nocrc=1
++ofdmlrbw202gpo=0x0033
++pa2ga0=-112,6296,-662
++pa2ga1=-165,3699,-515
++pa5ga0=-143,6016,-683,-141,6013,-678,-137,5988,-670,-136,5982,-670
++pa5ga1=-161,3544,-499,-166,3543,-497,-169,3569,-497,-171,3598,-498
++pdoffset2g40ma0=10
++pdoffset40ma0=0xaaaa
++pdoffset80ma0=0xaaaa
++prodid=0x06e4
++regrev=1
++rxchain=1
++rxgains2gelnagaina0=0
++rxgains2gtrelnabypa0=0
++rxgains2gtrisoa0=0
++rxgains5gelnagaina0=0
++rxgains5gtrelnabypa0=0
++rxgains5gtrisoa0=0
++sd_gpout=0
++sd_gpval=0
++sromrev=11
++swctrlmap_2g=0x00040004,0x00020002,0x00040004,0x010a02,0x1ff
++swctrlmap_5g=0x00100010,0x00200020,0x00100010,0x010a02,0x2f4
++swctrlmapext_2g=0x00000000,0x00000000,0x00000000,0x000000,0x000
++swctrlmapext_5g=0x00000000,0x00000000,0x00000000,0x000000,0x000
++tssipos2g=1
++tssipos5g=1
++tworangetssi2g=1
++tworangetssi5g=1
++txchain=1
++vcodivmode=1
++vendid=0x14e4
++xtalfreq=37400
+-- 
+2.31.1
 
-Sharvari and other NXP developers: Do you have some internal testing of
-this pcieusb8997_combo_v4.bin firmware for PCIe+USB variant of 8997
-wifi chips? Or are you aware of this issue and do you have in NXP some
-workaround for it (e.g. at driver level)? Could you please look at this
-serious issue and try to debug firmware and release a new version, as
-this is obvious fatal error in firmware itself?
-
-Josh, how you in linux-firmware repository handle such, I must say,
-"fatal issues"? Wait for vendor fixes or revert problematic commits? Or
-something else?
-
-Because when users starts upgrading linux-firmware packages in their
-downstream distributions then basically wifi cards on this 8997 chips
-with official mwifiex driver stops working.
-
-> > REF (and all details of tests) :
-> > https://github.com/NXP/mwifiex-firmware/issues/1
-> >
-> >
-> > Broken firmware :
-> >
-> > Version |W16.68.1.p195| of |pcieusb8997_combo_v4.bin| was included into
-> > linux-firmware repository by this pull request:
-> > https://lore.kernel.org/all/CA+5PVA5yQbjg3vaT7F8120B6ngLn7+sZC0OWt0KoUiQR9hS4FA@mail.gmail.com/
-> > <https://lore.kernel.org/all/CA+5PVA5yQbjg3vaT7F8120B6ngLn7+sZC0OWt0KoUiQR9hS4FA@mail.gmail.com/>
-> >
-> > And latest version |W16.68.10.p159| of |pcieusb8997_combo_v4.bin| by
-> > this pull request:
-> > https://lore.kernel.org/linux-firmware/CA+5PVA5on7+CRtEV7tThPxgucwt3W9i-tEXm4cgH-AmMB-Jrtg@mail.gmail.com/
-> > <https://lore.kernel.org/linux-firmware/CA+5PVA5on7+CRtEV7tThPxgucwt3W9i-tEXm4cgH-AmMB-Jrtg@mail.gmail.com/>
-> >
-> > Olders looks to works better.
-> >
-> > In quick tests, they allow more than 1 clients at a time !
-> >
-> > I am still testing the V16.68.1.p145 and report the results after some
-> > longer use...
-> >
-> > Hopes it will help...
-> > Regards,
-> > Gérald Kerma
-> > gandalf(at)gk2(dot)net
-> 
