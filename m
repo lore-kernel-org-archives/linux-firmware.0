@@ -1,151 +1,61 @@
-Return-Path: <SRS0=7/5G=OS=gk2.net=gandalf@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DFDCC433EF
-	for <linux-firmware@archiver.kernel.org>; Tue, 28 Sep 2021 12:05:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 699A1C433EF
+	for <linux-firmware@archiver.kernel.org>; Tue, 28 Sep 2021 13:25:46 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id EA504611C7; Tue, 28 Sep 2021 12:05:47 +0000 (UTC)
-X-Greylist: delayed 1200 seconds by postgrey-1.37 at mail.kernel.org; Tue, 28 Sep 2021 12:05:46 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E7CE0611CA
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=gk2.net
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=gk2.net
-Received: from 5.mo561.mail-out.ovh.net (5.mo561.mail-out.ovh.net [87.98.178.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E7CE0611CA
-	for <linux-firmware@kernel.org>; Tue, 28 Sep 2021 12:05:46 +0000 (UTC)
-Received: from player778.ha.ovh.net (unknown [10.108.16.96])
-	by mo561.mail-out.ovh.net (Postfix) with ESMTP id 1136322FE4
-	for <linux-firmware@kernel.org>; Tue, 28 Sep 2021 11:30:12 +0000 (UTC)
-Received: from gk2.net (unknown [37.170.183.88])
-	(Authenticated sender: gerald@gk2.net)
-	by player778.ha.ovh.net (Postfix) with ESMTPSA id 1A8C922A6E4CF;
-	Tue, 28 Sep 2021 11:30:01 +0000 (UTC)
-Authentication-Results:garm.ovh; auth=pass (GARM-96R001bf3ecc99-ba58-4dc4-9046-37a91be984a8,
-                    94B5299ECA40CDB0CE45354D369727CF5433755B) smtp.auth=gerald@gk2.net
-X-OVh-ClientIp:37.170.183.88
-Subject: Re: mwifiex 1.0 (16.68.10.p159) - PCIEUSB-8997 firmware is buggy
-From: =?UTF-8?Q?G=c3=a9rald_Kerma?= <gandalf@gk2.net>
-List-Id: <linux-firmware.lore.kernel.org>
-To: Linux Wireless <linux-wireless@vger.kernel.org>,
- Linux Firmware <linux-firmware@kernel.org>
-Cc: Sharvari Harisangam <sharvari.harisangam@nxp.com>,
- Rakesh Parmar <rakesh.parmar@nxp.com>, Cathy Luo <xiaohua.luo@nxp.com>,
- prashanthkrishnan.ranganathan@nxp.com,
- Ganapathi Bhat <ganapathi017@gmail.com>, zheng.cao@nxp.com,
- =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
- Josh Boyer <jwboyer@kernel.org>
-References: <edeb34bc-7c85-7f1d-79e4-e3e21df86334@gk2.net>
- <fe75e8f2-6f12-052a-81ed-38122b87f1f6@gk2.net>
- <20210926104306.xocctztsuspx6oji@pali>
- <CA+5PVA4AGa09+X2A4zPU2MKWburCtiddb3cpSJh9H-JTO=fJKg@mail.gmail.com>
- <1a47cb59-24e2-3393-b028-ad820d7dad9a@gk2.net>
-Message-ID: <ec6a626e-3033-9e13-82e1-b534d9ad8ca2@gk2.net>
-Date: Tue, 28 Sep 2021 13:30:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+	id 4DAB6611BD; Tue, 28 Sep 2021 13:25:46 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 380C0611CA
+	for <linux-firmware@kernel.org>; Tue, 28 Sep 2021 13:25:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1632835546;
+	bh=GScXnmV8j2rAtqwNerakvuz4e7oreNB0aFEKx7ZzRok=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=i1ew8qyeoWehsASZQjkSKy6csVOFUWzbbd7/1NQU03quWYkWRm1jxYpZzr6AxA+IO
+	 RfZfu0asb0Z9Ab0ylIxq6kQZhL8C5UIYrZkFXrkYYqej8mJEDvde9jNLIxGIPO4bbT
+	 YFw3dIEjAUBPoD48+5DCPpHk78acH3IpUHkVTW3jlIj1O6X0pAJUg2Al9n8ZkVY+mK
+	 GsOImpLnG66rjpH+2QVS7gDpRK7lr/83yy31Z/aLNvuF58e2b6HzI+sUc6atwD8Bu7
+	 sYBwXcEkZnz9ra9ZY65Xx0CHZOaISsm+EdcWVCPiarlODeJMoRYS2dVUQpuYEgIAxt
+	 PylLkIbzU0kVg==
+Received: by mail-il1-f179.google.com with SMTP id y15so2182193ilu.12
+        for <linux-firmware@kernel.org>; Tue, 28 Sep 2021 06:25:46 -0700 (PDT)
+X-Gm-Message-State: AOAM533PMcUkEwjMnfrhdg9cIQlReAZlErttnEnfAlwujrRPlNLQOUYW
+	Hn255FkUWZapIoiX/ejot3cb/hRifupJK42KOm0=
+X-Google-Smtp-Source: ABdhPJwyDUo1ilKvPjqsx3arEPMzsLzkhFyTumBpkTakmki87sA6/3iNbmKtyJ+fPRwLfzpnPgl2nTs+/6edH5Dxg1M=
+X-Received: by 2002:a05:6e02:20c2:: with SMTP id 2mr4826946ilq.97.1632835545080;
+ Tue, 28 Sep 2021 06:25:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1a47cb59-24e2-3393-b028-ad820d7dad9a@gk2.net>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: fr
-X-Ovh-Tracer-Id: 18213682794498546495
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudektddgfeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffhvfhfkffffgggjggtgfesthekredttdefjeenucfhrhhomhepiforrhgrlhgupgfmvghrmhgruceoghgrnhgurghlfhesghhkvddrnhgvtheqnecuggftrfgrthhtvghrnhepteeuieeltedugfdvveefjefhtedttdduieefuedugedugeethfduvdehueehgfevnecuffhomhgrihhnpehgihhthhhusgdrtghomhdpkhgvrhhnvghlrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrudejtddrudekfedrkeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeejkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrghnuggrlhhfsehgkhdvrdhnvghtpdhrtghpthhtoheplhhinhhugidqfhhirhhmfigrrhgvsehkvghrnhgvlhdrohhrgh
+References: <CADnq5_PWupF8Np2J50OAW-fYN7yAYgqdpZhbNjxqG+aLT3HDtA@mail.gmail.com>
+ <CADnq5_OR1sQv8=MFzxGFyXHothkFskfTb6TMJS1b7JoAP4A1dg@mail.gmail.com>
+In-Reply-To: <CADnq5_OR1sQv8=MFzxGFyXHothkFskfTb6TMJS1b7JoAP4A1dg@mail.gmail.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Tue, 28 Sep 2021 09:25:33 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA444kChTvKzfXTyWy6=nVrFczodnhfdmwkn4i2x+gY0dg@mail.gmail.com>
+Message-ID: <CA+5PVA444kChTvKzfXTyWy6=nVrFczodnhfdmwkn4i2x+gY0dg@mail.gmail.com>
+Subject: Re: amdgpu VCN firmware updates
+To: Alex Deucher <alexdeucher@gmail.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: Linux Firmware <linux-firmware@kernel.org>, 
+	Veerabadhran Gopalakrishnan <veerabadhran.gopalakrishnan@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 
-To be more correct :
-older firmware allow more than 1 client at a time !
-The two latest do not allow more than 1 client at a time...
+All patches applied and pushed out.  Thanks.
 
-Regards,
-Gérald
+josh
 
-Le 28/09/2021 à 13:26, Gérald Kerma a écrit :
-> Héllo all,
+On Mon, Sep 27, 2021 at 4:02 PM Alex Deucher <alexdeucher@gmail.com> wrote:
 >
-> A quick reply, just to correct a mistype sentence about the issue !
+> A few more VCN updates attached.  Please apply them as well.
 >
-> Le 27/09/2021 à 15:47, Josh Boyer a écrit :
->> On Sun, Sep 26, 2021 at 6:43 AM Pali Rohár <pali@kernel.org> wrote:
->>> Hello Josh, Sharvari and other from NXP!
->>>
->>> On Saturday 25 September 2021 19:23:48 Gérald Kerma wrote:
->>>> Correcting old marvell address to new nxp...
->>>>
->>>> Le 25/09/2021 à 19:19, Gérald Kerma a écrit :
->>>>> Héllo All,
->>>>>
->>>>> I made some few tests on EspressoBin-Ultra from GlobalScaleTechnologies,
->>>>> because of problem with the WiFi.
->>>>>
->>>>> I have done some quick tests on all the firmware of PCIEUSB-8997 using
->>>>> the pcieuart8997_combo_v4.bin on OpenWrt 21.02.x
->>>>>
->>>>> Here is a summary of the tests :
->>>>> - W16.68.10.p159 = KO
->>>>> - W16.68.1.p195 = KO
->>>>> - V16.68.1.p145 = OK
->>>>> - 16.68.1.p140 = OK
->>>>> - 16.68.1.p133 = OK
->>>>> - 16.68.1.p97 = OK
->>>>> - 16.68.1.p70 = KO
->>> From this user test result can be seen that last two versions of
->>> pcieusb8997_combo_v4.bin firmware file for 8997 wifi+bt card with
->>> official mainline linux kernel driver mwifiex were not properly tested
->>> internally in NXP and are causing serious issues which make 8997 card
->>> basically unusable.
->>>
->>> Sharvari and other NXP developers: Do you have some internal testing of
->>> this pcieusb8997_combo_v4.bin firmware for PCIe+USB variant of 8997
->>> wifi chips? Or are you aware of this issue and do you have in NXP some
->>> workaround for it (e.g. at driver level)? Could you please look at this
->>> serious issue and try to debug firmware and release a new version, as
->>> this is obvious fatal error in firmware itself?
->>>
->>> Josh, how you in linux-firmware repository handle such, I must say,
->>> "fatal issues"? Wait for vendor fixes or revert problematic commits? Or
->>> something else?
->> We can revert if we need to, but I think it's not quite that simple.
->>
->>> Because when users starts upgrading linux-firmware packages in their
->>> downstream distributions then basically wifi cards on this 8997 chips
->>> with official mwifiex driver stops working.
->> The first broken version was committed in Feb of 2019.  That's
->> approaching 3 years ago.  Given that this is binary firmware, I have
->> no idea what else may or may not be included in the updates in the
->> meantime.
->>
->> josh
->>
->>>>> REF (and all details of tests) :
->>>>> https://github.com/NXP/mwifiex-firmware/issues/1
->>>>>
->>>>>
->>>>> Broken firmware :
->>>>>
->>>>> Version |W16.68.1.p195| of |pcieusb8997_combo_v4.bin| was included into
->>>>> linux-firmware repository by this pull request:
->>>>> https://lore.kernel.org/all/CA+5PVA5yQbjg3vaT7F8120B6ngLn7+sZC0OWt0KoUiQR9hS4FA@mail.gmail.com/
->>>>> <https://lore.kernel.org/all/CA+5PVA5yQbjg3vaT7F8120B6ngLn7+sZC0OWt0KoUiQR9hS4FA@mail.gmail.com/>
->>>>>
->>>>> And latest version |W16.68.10.p159| of |pcieusb8997_combo_v4.bin| by
->>>>> this pull request:
->>>>> https://lore.kernel.org/linux-firmware/CA+5PVA5on7+CRtEV7tThPxgucwt3W9i-tEXm4cgH-AmMB-Jrtg@mail.gmail.com/
->>>>> <https://lore.kernel.org/linux-firmware/CA+5PVA5on7+CRtEV7tThPxgucwt3W9i-tEXm4cgH-AmMB-Jrtg@mail.gmail.com/>
->>>>>
->>>>> Olders looks to works better.
->>>>>
->>>>> In quick tests, they allow more than 1 clients at a time !
-> In quick tests, they do *NOT* allow more than only 1 client at a time !
+> Thanks,
 >
->>>>> I am still testing the V16.68.1.p145 and report the results after some
->>>>> longer use...
->>>>>
->>>>> Hopes it will help...
->>>>> Regards,
->>>>> Gérald Kerma
->>>>> gandalf(at)gk2(dot)net
-> Gérald
-
+> Alex
+>
+> On Mon, Sep 27, 2021 at 2:04 PM Alex Deucher <alexdeucher@gmail.com> wrote:
+> >
+> > New VCN firmwares for AMD APUs.  Please apply!
+> >
+> > Thanks,
+> >
+> > Alex
