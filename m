@@ -1,70 +1,105 @@
-Return-Path: <SRS0=Mxir=PA=gmail.com=vicamo@kernel.org>
+Return-Path: <SRS0=pvWl=PB=realtek.com=pkshih@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A24DFC433EF
-	for <linux-firmware@archiver.kernel.org>; Tue, 12 Oct 2021 17:09:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18CF0C433EF
+	for <linux-firmware@archiver.kernel.org>; Wed, 13 Oct 2021 09:46:02 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 8A9E761076; Tue, 12 Oct 2021 17:09:14 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	id EAD2C60F21; Wed, 13 Oct 2021 09:46:01 +0000 (UTC)
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 456A460F38;
-	Tue, 12 Oct 2021 17:09:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 456A460F38
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=canonical.com
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f180.google.com with SMTP id m14so100922pfc.9;
-        Tue, 12 Oct 2021 10:09:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=91nycAB/daKJpetGgoEdS89QH9eAYjPCQksJukAVryI=;
-        b=x27lMwo/rsd2Q1w4luCze8waEV4/PGaSfGU6VtgSJn8YbnVmCnIEQh7iV6rA+cC8gU
-         FrVmIVct5Exn5PShQ1EoSTGVmrQP5LzEzxoWdKtFpOqdvt1y2Pcfb4YWGMmhbURvy4Q+
-         LHqpoBl6fUNTB4CPdmxctXxK4GXcv+gJ6858psy5n8FEVHwZefcXjHF5vA3w/NfUamv9
-         alLg17nYkK6XPUeO2xB3Qs5q06Ne7ISVIopx0qTgQ+wZbMi2HYi7O1jDw3RjeskzR4rH
-         CO1xDr+E1abZK88G7et4NTZCB2Tie35GRDGSr3RL4rXjCBMmXCwGFU7ibXNh2i8pecjH
-         Hbcw==
-X-Gm-Message-State: AOAM531dcrg1I2v/RETc4Bud+TcGKi4RDvvVDerbEM2gMlOrfljH7JLy
-	HPuExDpSoLZb4kGK5hRPACb/Iz3yDms=
-X-Google-Smtp-Source: ABdhPJxOyRigB3w0hNOvt+iqx7y9/NSms/Sff46PvGaCtZ+byob8AvlFsX8onJQGkJLb1nlxEY+0sA==
-X-Received: by 2002:a62:641:0:b0:44b:74bb:294c with SMTP id 62-20020a620641000000b0044b74bb294cmr33771925pfg.12.1634058553533;
-        Tue, 12 Oct 2021 10:09:13 -0700 (PDT)
-Received: from [192.168.0.242] (218-173-165-98.dynamic-ip.hinet.net. [218.173.165.98])
-        by smtp.gmail.com with ESMTPSA id k22sm3766541pji.2.2021.10.12.10.09.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Oct 2021 10:09:13 -0700 (PDT)
-Message-ID: <ab40cd13-63ab-0247-13f2-e349d88c243d@canonical.com>
-Date: Wed, 13 Oct 2021 01:09:10 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.2
-Subject: Re: amdgpu firmware
-Content-Language: en-US
+	by mail.kernel.org (Postfix) with ESMTPS id 535DC606A5
+	for <linux-firmware@kernel.org>; Wed, 13 Oct 2021 09:46:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 535DC606A5
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
+Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=realtek.com
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.73 with qID 19D9jxpvF004789, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36503.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/2.71/5.88) with ESMTPS id 19D9jxpvF004789
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 13 Oct 2021 17:45:59 +0800
+Received: from RTEXMBS02.realtek.com.tw (172.21.6.95) by
+ RTEXH36503.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.14; Wed, 13 Oct 2021 17:45:58 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS02.realtek.com.tw (172.21.6.95) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Wed, 13 Oct 2021 17:45:58 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::cdd5:82a3:e854:7098]) by
+ RTEXMBS04.realtek.com.tw ([fe80::cdd5:82a3:e854:7098%5]) with mapi id
+ 15.01.2106.013; Wed, 13 Oct 2021 17:45:58 +0800
+From: Pkshih <pkshih@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: Alex Deucher <alexdeucher@gmail.com>, Josh Boyer <jwboyer@kernel.org>,
- Linux Firmware <linux-firmware@kernel.org>
-References: <CADnq5_NNuBcZWd66TcuTevyajrw5X2q2+KURtQwS4AhZoPwmZw@mail.gmail.com>
-From: You-Sheng Yang <vicamo.yang@canonical.com>
-In-Reply-To: <CADnq5_NNuBcZWd66TcuTevyajrw5X2q2+KURtQwS4AhZoPwmZw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+CC: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
+Subject: pull request: rtw89: 8852a: update fw to v0.13.30.0
+Thread-Topic: pull request: rtw89: 8852a: update fw to v0.13.30.0
+Thread-Index: AdfAFs+Noya6ABOFSO2DBhPxcrac4Q==
+Date: Wed, 13 Oct 2021 09:45:58 +0000
+Message-ID: <b3dc77916dc7486eb312e1e44119116b@realtek.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [172.21.69.188]
+x-kse-serverinfo: RTEXMBS02.realtek.com.tw, 9
+x-kse-attachmentfiltering-interceptor-info: no applicable attachment filtering
+ rules found
+x-kse-antivirus-interceptor-info: scan successful
+x-kse-antivirus-info: =?us-ascii?Q?Clean,_bases:_2021/10/13_=3F=3F_06:20:00?=
+x-kse-bulkmessagesfiltering-scan-result: protection disabled
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-KSE-ServerInfo: RTEXH36503.realtek.com.tw, 9
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: protection disabled
+X-KSE-AntiSpam-Outbound-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 10/13/2021 09:34:45
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 0
+X-KSE-AntiSpam-Info: Lua profiles 166685 [Oct 13 2021]
+X-KSE-AntiSpam-Info: Version: 5.9.20.0
+X-KSE-AntiSpam-Info: Envelope from: pkshih@realtek.com
+X-KSE-AntiSpam-Info: LuaCore: 463 463 5854868460de3f0d8e8c0a4df98aeb05fb764a09
+X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info:
+	github.com:7.1.1;realtek.com:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: Rate: 0
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 10/13/2021 09:38:00
 
-On 9/25/21 03:55, Alex Deucher wrote:
-> Hi,
-> 
-> The attached patch adds initial support for beige goby, a GPU from
-> AMD.  Please apply.
-> 
-> Thanks,
-> 
-> Alex
-> 
+Hi,
 
-I've tested this against an AMD Beige Goby [1002:743f]. Works for me.
+Update firmware of rtw89 driver that get merged.
 
-Thanks,
-You-Sheng Yang
+Ping-Ke
+
+--
+
+The following changes since commit ec17b637b7ab928ca7ebc0389e0e3921f1cc7d17=
+:
+
+  rtw89: 8852a: update fw to v0.13.30.0 (2021-10-13 17:40:46 +0800)
+
+are available in the Git repository at:
+
+  https://github.com/pkshih/linux-firmware.git
+
+for you to fetch changes up to ec17b637b7ab928ca7ebc0389e0e3921f1cc7d17:
+
+  rtw89: 8852a: update fw to v0.13.30.0 (2021-10-13 17:40:46 +0800)
+
+----------------------------------------------------------------
+
