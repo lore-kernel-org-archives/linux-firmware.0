@@ -1,105 +1,67 @@
-Return-Path: <SRS0=pvWl=PB=realtek.com=pkshih@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18CF0C433EF
-	for <linux-firmware@archiver.kernel.org>; Wed, 13 Oct 2021 09:46:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28630C433EF
+	for <linux-firmware@archiver.kernel.org>; Mon, 18 Oct 2021 13:10:44 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id EAD2C60F21; Wed, 13 Oct 2021 09:46:01 +0000 (UTC)
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 535DC606A5
-	for <linux-firmware@kernel.org>; Wed, 13 Oct 2021 09:46:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 535DC606A5
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
-Authentication-Results: mail.kernel.org; spf=tempfail smtp.mailfrom=realtek.com
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.73 with qID 19D9jxpvF004789, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36503.realtek.com.tw[172.21.6.25])
-	by rtits2.realtek.com.tw (8.15.2/2.71/5.88) with ESMTPS id 19D9jxpvF004789
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 13 Oct 2021 17:45:59 +0800
-Received: from RTEXMBS02.realtek.com.tw (172.21.6.95) by
- RTEXH36503.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.14; Wed, 13 Oct 2021 17:45:58 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS02.realtek.com.tw (172.21.6.95) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Wed, 13 Oct 2021 17:45:58 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::cdd5:82a3:e854:7098]) by
- RTEXMBS04.realtek.com.tw ([fe80::cdd5:82a3:e854:7098%5]) with mapi id
- 15.01.2106.013; Wed, 13 Oct 2021 17:45:58 +0800
-From: Pkshih <pkshih@realtek.com>
-List-Id: <linux-firmware.lore.kernel.org>
-To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-CC: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
-Subject: pull request: rtw89: 8852a: update fw to v0.13.30.0
-Thread-Topic: pull request: rtw89: 8852a: update fw to v0.13.30.0
-Thread-Index: AdfAFs+Noya6ABOFSO2DBhPxcrac4Q==
-Date: Wed, 13 Oct 2021 09:45:58 +0000
-Message-ID: <b3dc77916dc7486eb312e1e44119116b@realtek.com>
-Accept-Language: en-US, zh-TW
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-originating-ip: [172.21.69.188]
-x-kse-serverinfo: RTEXMBS02.realtek.com.tw, 9
-x-kse-attachmentfiltering-interceptor-info: no applicable attachment filtering
- rules found
-x-kse-antivirus-interceptor-info: scan successful
-x-kse-antivirus-info: =?us-ascii?Q?Clean,_bases:_2021/10/13_=3F=3F_06:20:00?=
-x-kse-bulkmessagesfiltering-scan-result: protection disabled
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	id F2EFB61074; Mon, 18 Oct 2021 13:10:43 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DC3346103D
+	for <linux-firmware@kernel.org>; Mon, 18 Oct 2021 13:10:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1634562643;
+	bh=/bSqBAJe1qdSUvT9gTyiZIzUjPyMZNB7W1gizTQcUn8=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=eLI/F2b9GneWWfoa3s5u3KM3qfpwtHH8WXrZxFqDnjp0CHk4aTvWenthHWJKCGHRU
+	 XBKwokj6sURxvQ5YflBupJ/WO25j1fVC4h2QnWf8X45vVrwxeJQOG6C5bcwoeWVDXK
+	 7ndUY3pXp6iOIXiY3tYTcEdY93LY2/DyfuRbLMGuk5yqnPQLjPvmFOFp6c/BryKt1K
+	 ytb9KNzrBbsPpo2Ax3txVc62FlPZxmI24lC7K/pPswmcgfWg4N09AA8jF1w/6H09bc
+	 z3zH0JXgZf0uD7HxDXcLzDeWwQUXddXeh27Mqd7L1UicG2NE5zDNhQJLQiyytLhgzF
+	 ChW3uvaFlnMOA==
+Received: by mail-io1-f50.google.com with SMTP id m20so16128017iol.4
+        for <linux-firmware@kernel.org>; Mon, 18 Oct 2021 06:10:43 -0700 (PDT)
+X-Gm-Message-State: AOAM530AKFNmqST6Y6BqCzNdGAPBc5fqMF5Pe+kB+LKv7IxI3OCr5jgA
+	zCqfx+2VxHmUo7ltzN5ZOQnZWsx/7NxxOOcKvuQ=
+X-Google-Smtp-Source: ABdhPJx/VjnsAHJOCLtoz8JguJSAfFH6ceap6Rfx6Y6mIT5OXBNMoYgxasIaf7dWxpRhg0kqFNP3iXzycqAkefPHZw0=
+X-Received: by 2002:a05:6638:632:: with SMTP id h18mr18878552jar.76.1634562643269;
+ Mon, 18 Oct 2021 06:10:43 -0700 (PDT)
 MIME-Version: 1.0
-X-KSE-ServerInfo: RTEXH36503.realtek.com.tw, 9
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: protection disabled
-X-KSE-AntiSpam-Outbound-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 10/13/2021 09:34:45
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 0
-X-KSE-AntiSpam-Info: Lua profiles 166685 [Oct 13 2021]
-X-KSE-AntiSpam-Info: Version: 5.9.20.0
-X-KSE-AntiSpam-Info: Envelope from: pkshih@realtek.com
-X-KSE-AntiSpam-Info: LuaCore: 463 463 5854868460de3f0d8e8c0a4df98aeb05fb764a09
-X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info:
-	github.com:7.1.1;realtek.com:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
-X-KSE-AntiSpam-Info: Rate: 0
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 10/13/2021 09:38:00
+References: <b3dc77916dc7486eb312e1e44119116b@realtek.com>
+In-Reply-To: <b3dc77916dc7486eb312e1e44119116b@realtek.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Mon, 18 Oct 2021 09:10:32 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA5qbQEr5d-dKa77vQWmztyRc_JrBi2WTCNcuL4BCQ=z7Q@mail.gmail.com>
+Message-ID: <CA+5PVA5qbQEr5d-dKa77vQWmztyRc_JrBi2WTCNcuL4BCQ=z7Q@mail.gmail.com>
+Subject: Re: pull request: rtw89: 8852a: update fw to v0.13.30.0
+To: Pkshih <pkshih@realtek.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+On Wed, Oct 13, 2021 at 5:46 AM Pkshih <pkshih@realtek.com> wrote:
+>
+> Hi,
+>
+> Update firmware of rtw89 driver that get merged.
+>
+> Ping-Ke
+>
+> --
+>
+> The following changes since commit ec17b637b7ab928ca7ebc0389e0e3921f1cc7d17:
+>
+>   rtw89: 8852a: update fw to v0.13.30.0 (2021-10-13 17:40:46 +0800)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/pkshih/linux-firmware.git
+>
+> for you to fetch changes up to ec17b637b7ab928ca7ebc0389e0e3921f1cc7d17:
+>
+>   rtw89: 8852a: update fw to v0.13.30.0 (2021-10-13 17:40:46 +0800)
 
-Update firmware of rtw89 driver that get merged.
+Is this from the 8852AE-0.13.30.0 branch?  The github repo defaults to
+8852AE-v6 which does not have this commit.
 
-Ping-Ke
-
---
-
-The following changes since commit ec17b637b7ab928ca7ebc0389e0e3921f1cc7d17=
-:
-
-  rtw89: 8852a: update fw to v0.13.30.0 (2021-10-13 17:40:46 +0800)
-
-are available in the Git repository at:
-
-  https://github.com/pkshih/linux-firmware.git
-
-for you to fetch changes up to ec17b637b7ab928ca7ebc0389e0e3921f1cc7d17:
-
-  rtw89: 8852a: update fw to v0.13.30.0 (2021-10-13 17:40:46 +0800)
-
-----------------------------------------------------------------
-
+josh
