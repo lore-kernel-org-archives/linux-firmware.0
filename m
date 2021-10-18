@@ -1,100 +1,61 @@
-Return-Path: <SRS0=fNpG=PG=lists.infradead.org=linux-mediatek-bounces+linux-mediatek=archiver.kernel.org@kernel.org>
+Return-Path: <linux-wireless-owner@kernel.org>
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9A1EC433F5
-	for <linux-mediatek@archiver.kernel.org>; Mon, 18 Oct 2021 05:12:48 +0000 (UTC)
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 36B566103B
-	for <linux-mediatek@archiver.kernel.org>; Mon, 18 Oct 2021 05:12:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 36B566103B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mediatek.com
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:CC
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=X740KNxrNZwOOO4zxw1J9Duagb5w8NBE6noOnIV4CSI=; b=3w+NdtKymPRv07
-	Q7+xTIwYvhRUeJK7PLj+vXCcMVwR+0xDa8jJvR+VN4YaIVpPfxgSe/V5ljM+BhsT4ljMyxkd4NVvD
-	d956Ekv4TcRqT5CDDm15Wao+v8sxyAfFrS/SaEDuWJvp4DkKrNsqSXALYHnU3LMdFY8uMSQiauTuA
-	e/p5WbWxLMdZHQ41VwlXpLVDcqFb8ZlzGxe+1UUJ8WVYoKbdr84VAh7DQWEJv4BLoMxVZBemtcWxA
-	J7n3oG/CvzzVvEIX3x7Trwtyq/oQaaS8WMvcCwqnJsOietrhzKBgPkjjRTIbC5JrpnWPdKa0IkS0Y
-	FivK2kHIQyZVj2M2t9jg==;
-Received: from localhost ([::1] helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mcKwj-00EA89-Lv; Mon, 18 Oct 2021 05:12:25 +0000
-Received: from mailgw01.mediatek.com ([216.200.240.184])
- by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mcKwa-00EA4O-VX
- for linux-mediatek@lists.infradead.org; Mon, 18 Oct 2021 05:12:23 +0000
-X-UUID: f9fa423cc3504adaa878f61e011010c3-20211017
-X-UUID: f9fa423cc3504adaa878f61e011010c3-20211017
-Received: from mtkcas67.mediatek.inc [(172.29.193.45)] by mailgw01.mediatek.com
- (envelope-from <deren.wu@mediatek.com>)
- (musrelay.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1571782614; Sun, 17 Oct 2021 22:12:10 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97F1CC433EF
+	for <linux-wireless@archiver.kernel.org>; Mon, 18 Oct 2021 05:20:03 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id 9E98A60FD9
+	for <linux-wireless@archiver.kernel.org>; Mon, 18 Oct 2021 05:20:02 +0000 (UTC)
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S229583AbhJRFWL (ORCPT
+        <rfc822;linux-wireless@archiver.kernel.org>);
+        Mon, 18 Oct 2021 01:22:11 -0400
+Received: from mailgw02.mediatek.com ([216.200.240.185]:32528 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229533AbhJRFWG (ORCPT
+        <rfc822;linux-wireless@vger.kernel.org>);
+        Mon, 18 Oct 2021 01:22:06 -0400
+X-UUID: 5720fae6317f449b8c0471be35f66817-20211017
+X-UUID: 5720fae6317f449b8c0471be35f66817-20211017
+Received: from mtkcas66.mediatek.inc [(172.29.193.44)] by mailgw02.mediatek.com
+        (envelope-from <deren.wu@mediatek.com>)
+        (musrelay.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 601014965; Sun, 17 Oct 2021 22:19:51 -0700
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
  MTKMBS62DR.mediatek.inc (172.29.94.18) with Microsoft SMTP Server (TLS) id
  15.0.1497.2; Sun, 17 Oct 2021 22:12:07 -0700
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Mon, 18 Oct 2021 13:12:06 +0800
-From: Deren Wu <Deren.Wu@mediatek.com>
-To: <jwboyer@kernel.org>, <dwmw2@infradead.org>, <ben@decadent.org.uk>, Felix
- Fietkau <nbd@nbd.name>, Lorenzo Bianconi <lorenzo.bianconi@redhat.com>
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 18 Oct 2021 13:12:06 +0800
+From:   Deren Wu <Deren.Wu@mediatek.com>
+To:     <jwboyer@kernel.org>, <dwmw2@infradead.org>, <ben@decadent.org.uk>,
+        Felix Fietkau <nbd@nbd.name>,
+        Lorenzo Bianconi <lorenzo.bianconi@redhat.com>
 List-Id: <linux-firmware.lore.kernel.org>
-CC: Mark-YW Chen <Mark-YW.Chen@mediatek.com>, Sean Wang
- <sean.wang@mediatek.com>, Soul Huang <Soul.Huang@mediatek.com>, YN Chen
- <YN.Chen@mediatek.com>, Deren Wu <Deren.Wu@mediatek.com>, KM Lin
- <km.lin@mediatek.com>, Robin Chiu <robin.chiu@mediatek.com>, CH Yeh
- <ch.yeh@mediatek.com>, Posh Sun <posh.sun@mediatek.com>, Eric Liang
- <Eric.Liang@mediatek.com>, Glenn Tung <glenn.tung@mediatek.com>,
- linux-firmware <linux-firmware@kernel.org>, linux-wireless
- <linux-wireless@vger.kernel.org>, linux-mediatek
- <linux-mediatek@lists.infradead.org>, linux-kernel
- <linux-kernel@vger.kernel.org>, Deren Wu <deren.wu@mediatek.com>
+CC:     Mark-YW Chen <Mark-YW.Chen@mediatek.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Soul Huang <Soul.Huang@mediatek.com>,
+        YN Chen <YN.Chen@mediatek.com>,
+        Deren Wu <Deren.Wu@mediatek.com>, KM Lin <km.lin@mediatek.com>,
+        Robin Chiu <robin.chiu@mediatek.com>,
+        CH Yeh <ch.yeh@mediatek.com>, Posh Sun <posh.sun@mediatek.com>,
+        Eric Liang <Eric.Liang@mediatek.com>,
+        Glenn Tung <glenn.tung@mediatek.com>,
+        linux-firmware <linux-firmware@kernel.org>,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        linux-mediatek <linux-mediatek@lists.infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Deren Wu <deren.wu@mediatek.com>
 Subject: [PATCH] linux-firmware: update firmware for MT7921 WiFi device
-Date: Mon, 18 Oct 2021 13:11:16 +0800
+Date:   Mon, 18 Oct 2021 13:11:16 +0800
 Message-ID: <d9d62bb96f76528ea109874939434bab8edb3e0f.1634533058.git.deren.wu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-X-MTK: N
-X-Spam-Note: CRM114 run bypassed due to message size (716470 bytes)
-X-Spam-Score: 0.0 (/)
-X-Spam-Report: Spam detection software,
- running on the system "bombadil.infradead.org", 
- has NOT identified this incoming email as spam.  The original
- message has been attached to this so you can view it or label
- similar future email.  If you have any questions, see
- the administrator of that system for details.
- Content preview: From: Deren Wu <deren.wu@mediatek.com> Update binary firmware
- for MT7921 WiFi devices File: mediatek/WIFI_MT7961_patch_mcu_1_2_hdr.bin
- Version: 20211014150838a File: mediatek/WIFI_RAM_CODE_MT7961_1.bin Version:
- 20211014150922 
- Content analysis details:   (0.0 points, 5.0 required)
- pts rule name              description
- ---- ---------------------- --------------------------------------------------
- -0.0 SPF_PASS               SPF: sender matches SPF record
- 0.0 SPF_HELO_NONE          SPF: HELO does not publish an SPF Record
- 0.0 UNPARSEABLE_RELAY      Informational: message has unparseable relay
- lines
-X-BeenThere: linux-mediatek@lists.infradead.org
-X-Mailman-Version: 2.1.34
-Precedence: list
-List-Id: <linux-mediatek.lists.infradead.org>
-List-Unsubscribe: <http://lists.infradead.org/mailman/options/linux-mediatek>, 
- <mailto:linux-mediatek-request@lists.infradead.org?subject=unsubscribe>
-List-Archive: <http://lists.infradead.org/pipermail/linux-mediatek/>
-List-Post: <mailto:linux-mediatek@lists.infradead.org>
-List-Help: <mailto:linux-mediatek-request@lists.infradead.org?subject=help>
-List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-mediatek>, 
- <mailto:linux-mediatek-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-Sender: "Linux-mediatek" <linux-mediatek-bounces@lists.infradead.org>
-Errors-To: linux-mediatek-bounces+linux-mediatek=archiver.kernel.org@lists.infradead.org
+Content-Type: text/plain
+X-MTK:  N
+Precedence: bulk
+List-ID: <linux-wireless.vger.kernel.org>
+X-Mailing-List: linux-wireless@vger.kernel.org
+Message-ID: <20211018051116.TYjJdrBTVRXoN6NZMiaRT7xGBOAICQ3MlPAAeuDrhK4@z>
 
 From: Deren Wu <deren.wu@mediatek.com>
 
@@ -10790,8 +10751,3 @@ lC@pLvwLFh7r+o5=S@fH0sIol5!C>&EiC*I|gPnV<{tsF5?BoCd
 -- 
 2.18.0
 
-
-_______________________________________________
-Linux-mediatek mailing list
-Linux-mediatek@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-mediatek
