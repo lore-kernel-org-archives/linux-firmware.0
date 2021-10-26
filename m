@@ -2,17 +2,17 @@ Return-Path: <SRS0=m442=PO=gwmfgs.top=info11@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 611A3C433EF
-	for <linux-firmware@archiver.kernel.org>; Tue, 26 Oct 2021 10:25:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73891C433F5
+	for <linux-firmware@archiver.kernel.org>; Tue, 26 Oct 2021 10:25:41 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 4196E60E75; Tue, 26 Oct 2021 10:25:40 +0000 (UTC)
+	id 5479E60187; Tue, 26 Oct 2021 10:25:41 +0000 (UTC)
 Received: from info.gwmfgs.top (unknown [106.13.144.19])
-	by mail.kernel.org (Postfix) with ESMTP id 59ED460187
-	for <linux-firmware@kernel.org>; Tue, 26 Oct 2021 10:25:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 59ED460187
+	by mail.kernel.org (Postfix) with ESMTP id 732F660D07
+	for <linux-firmware@kernel.org>; Tue, 26 Oct 2021 10:25:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 732F660D07
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=care-optical.com
 Authentication-Results: mail.kernel.org; spf=fail smtp.mailfrom=gwmfgs.top
-Received: from careopticalB (61.145.151.192) by info.gwmfgs.top id hevbq60e97cr for <linux-firmware@kernel.org>; Tue, 26 Oct 2021 18:25:38 +0800 (envelope-from <info11@gwmfgs.top>)
+Received: from careopticalB (61.145.151.192) by info.gwmfgs.top id hevbq80e97cl for <linux-firmware@kernel.org>; Tue, 26 Oct 2021 18:25:38 +0800 (envelope-from <info11@gwmfgs.top>)
 From: "CareOptical" <hopkinwong@care-optical.com>
 Subject: dental loupes surgical loupes and light
 List-Id: <linux-firmware.lore.kernel.org>
@@ -22,12 +22,12 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Sender: info11@gwmfgs.top
 Reply-To: hopkinwong@care-optical.com
-Date: Tue, 26 Oct 2021 18:25:37 +0800
+Date: Tue, 26 Oct 2021 18:25:38 +0800
 X-Priority: 3
 X-MSMail-Priority: Normal
 X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
 Content-Disposition: inline
-Message-Id: <20211026102539.59ED460187@mail.kernel.org>
+Message-Id: <20211026102540.732F660D07@mail.kernel.org>
 
 RGVhcnMgDQoNCkhvdyBhcmUgeW91ISBHaXZlIG91ciBiZXN0IHJlZ2FyZHMgYW5kIHdpc2hlcyB0
 byB5b3UgYW5kIHlvdXJzLg0KV2UgKENhcmUgb3B0aWNhbCBJbmR1c3RyaWFsIENvLiwpIGFyZSBw
