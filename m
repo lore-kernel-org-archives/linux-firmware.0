@@ -1,44 +1,42 @@
-Return-Path: <linux-wireless-owner@kernel.org>
+Return-Path: <SRS0=00gq=PU=coelho.fi=luca@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AE0AC433F5
-	for <linux-wireless@archiver.kernel.org>; Mon,  1 Nov 2021 13:58:17 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2CA8260E8C
-	for <linux-wireless@archiver.kernel.org>; Mon,  1 Nov 2021 13:58:17 +0000 (UTC)
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231828AbhKAOAt (ORCPT
-        <rfc822;linux-wireless@archiver.kernel.org>);
-        Mon, 1 Nov 2021 10:00:49 -0400
-Received: from paleale.coelho.fi ([176.9.41.70]:35632 "EHLO
-        farmhouse.coelho.fi" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229826AbhKAOAq (ORCPT
-        <rfc822;linux-wireless@vger.kernel.org>);
-        Mon, 1 Nov 2021 10:00:46 -0400
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08169C433F5
+	for <linux-firmware@archiver.kernel.org>; Mon,  1 Nov 2021 14:18:53 +0000 (UTC)
+Received: by mail.kernel.org (Postfix)
+	id D9C2461051; Mon,  1 Nov 2021 14:18:52 +0000 (UTC)
+X-Greylist: delayed 1237 seconds by postgrey-1.37 at mail.kernel.org; Mon, 01 Nov 2021 14:18:52 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 89EF860ED5
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=coelho.fi
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=coelho.fi
+Received: from farmhouse.coelho.fi (paleale.coelho.fi [176.9.41.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id 89EF860ED5;
+	Mon,  1 Nov 2021 14:18:52 +0000 (UTC)
 Received: from 91-156-6-193.elisa-laajakaista.fi ([91.156.6.193] helo=[192.168.100.150])
-        by farmhouse.coelho.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <luca@coelho.fi>)
-        id 1mhXp5-000iIT-Ru; Mon, 01 Nov 2021 15:58:04 +0200
+	by farmhouse.coelho.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <luca@coelho.fi>)
+	id 1mhXp5-000iIT-Ru; Mon, 01 Nov 2021 15:58:04 +0200
 Message-ID: <19391a6dd10076e3a64aff20d68a9a37ac56e794.camel@coelho.fi>
-From:   Luca Coelho <luca@coelho.fi>
+From: Luca Coelho <luca@coelho.fi>
 List-Id: <linux-firmware.lore.kernel.org>
-To:     "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-Cc:     "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "kyle@infradead.org" <kyle@infradead.org>,
-        "jwboyer@kernel.org" <jwboyer@kernel.org>,
-        "ben@decadent.org.uk" <ben@decadent.org.uk>,
-        golan.ben.ami@intel.com, You-Sheng Yang <vicamo.yang@canonical.com>
-Date:   Mon, 01 Nov 2021 15:58:01 +0200
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+Cc: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, 
+	"kyle@infradead.org"
+	 <kyle@infradead.org>, "jwboyer@kernel.org" <jwboyer@kernel.org>, 
+	"ben@decadent.org.uk"
+	 <ben@decadent.org.uk>, golan.ben.ami@intel.com, You-Sheng Yang
+	 <vicamo.yang@canonical.com>
+Date: Mon, 01 Nov 2021 15:58:01 +0200
 Content-Type: multipart/signed; micalg="pgp-sha512";
-        protocol="application/pgp-signature"; boundary="=-fqXG1n+632xPSiT2yZO8"
+	protocol="application/pgp-signature"; boundary="=-fqXG1n+632xPSiT2yZO8"
 User-Agent: Evolution 3.42.0-2 
 MIME-Version: 1.0
 Subject: pull request: iwlwifi firmware updates 2021-11-01
-Precedence: bulk
-List-ID: <linux-wireless.vger.kernel.org>
-X-Mailing-List: linux-wireless@vger.kernel.org
+Message-ID: <20211101135801.2Q8dziqtUQA0WBW0tlQWhyXbFBnc_2cRS5NBjrk-qOY@z>
 
 
 --=-fqXG1n+632xPSiT2yZO8
