@@ -1,42 +1,55 @@
-Return-Path: <SRS0=BQzA=PX=qualityservice.top=info10@kernel.org>
+Return-Path: <SRS0=Tghz=PY=gwmfgs.top=info3@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFE5BC433F5
-	for <linux-firmware@archiver.kernel.org>; Thu,  4 Nov 2021 02:53:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ED4DC433EF
+	for <linux-firmware@archiver.kernel.org>; Fri,  5 Nov 2021 01:25:58 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 95402611CB; Thu,  4 Nov 2021 02:53:07 +0000 (UTC)
-Received: from server5.ocgcng.top (unknown [106.12.201.181])
-	by mail.kernel.org (Postfix) with ESMTP id 92411611CA
-	for <linux-firmware@kernel.org>; Thu,  4 Nov 2021 02:53:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 92411611CA
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=xunpomc.com
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=qualityservice.top
-Received: from DESKTOP-4OS10V1 (113.65.208.24) by server5.ocgcng.top id hgd5h40e97cg for <linux-firmware@kernel.org>; Thu, 4 Nov 2021 10:53:05 +0800 (envelope-from <info10@qualityservice.top>)
-From: "Nancy" <sales04@xunpomc.com>
-Subject: Crimping Machine
+	id 6FB0E61186; Fri,  5 Nov 2021 01:25:58 +0000 (UTC)
+Received: from info.gwmfgs.top (unknown [106.13.144.19])
+	by mail.kernel.org (Postfix) with ESMTP id 403DA61183
+	for <linux-firmware@kernel.org>; Fri,  5 Nov 2021 01:25:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 403DA61183
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=care-optical.com
+Authentication-Results: mail.kernel.org; spf=fail smtp.mailfrom=gwmfgs.top
+Received: from careopticalB (61.145.150.67) by info.gwmfgs.top id hgi4260e97cv for <linux-firmware@kernel.org>; Fri, 5 Nov 2021 09:25:47 +0800 (envelope-from <info3@gwmfgs.top>)
+From: "CareOptical" <hopkinwong@care-optical.com>
+Subject: surgical loupes lights manufacturer
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
 Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Sender: info10@qualityservice.top
-Reply-To: sales04@xunpomc.com
-Date: Thu, 4 Nov 2021 10:53:05 +0800
+Sender: info3@gwmfgs.top
+Reply-To: hopkinwong@care-optical.com
+Date: Fri, 5 Nov 2021 09:25:37 +0800
 X-Priority: 3
 X-MSMail-Priority: Normal
 X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
 Content-Disposition: inline
-Message-Id: <20211104025306.92411611CA@mail.kernel.org>
+Message-Id: <20211105012555.403DA61183@mail.kernel.org>
 
-RGVhciBQdXJjaGFzaW5nIE1hbmFnZXIsDQoNCkhlbGxvLCB0aGlzIGlzIE5hbmN5IGZyb20gWFVO
-UE8gY29tcGFueSwgb3VyIGNvbXBhbnkgaXMgYSBwcm9mZXNzaW9uYWwgY3JpbXBpbmcgbWFjaGlu
-ZSBtYW51ZmFjdHVyZXIgd2l0aCA1IHllYXJz4oCYcyAgZXhwZXJpZW5jZS4gR2xhZCB0byBnZXQg
-eW91ciBjb250YWN0IGluZm8gZnJvbSBDYW5hZGEgbWFydCENCg0KU28gd2Ugd2FudCB0byBhdmFp
-bCBvdXJzZWx2ZXMgb2Ygb3Bwb3J0dW5pdHkgZXN0YWJsaXNoaW5nIGJ1c2luZXNzIHJlbGF0aW9u
-IHdpdGggeW91Lg0KUGxlYXNlIGxpbmsgb3VyIGNvbXBhbnkgd2ViIHNpdGU6IHd3dy54dW5wby5h
-bGliYWJhLmVuLmNvbSAgaWYgeW91IHdhbnQgdG8ga25vdyBtb3JlIGFib3V0IG91ciBwcm9kdWN0
-cy4gTG9va2luZyBmb3J3YXJkIHRvIHlvdXIgcmVwbHkuDQoNCg0KWW91cnMgc2luY2VyZQ0KTmFu
-Y3kNCg0KQ29tcGFueSBOYW1lOiBHWiBYVU5QTyBNYWNoaW5lcnkgRXF1aXBtZW50IENvLiwgTHRk
-DQpUZWw6ICA4NjEzMzEyODQ1MDMxDQpXaGF0c2FwcDogIDg2MTMzMTI4NDUwMzENCldlY2hhdDog
-IDEzMzEyODQ1MDMxDQpRUTogIDI0NDgyMjY1NTYNCg==
+RGVhcnMgDQoNCkhvdyBhcmUgeW91ISBHaXZlIG91ciBiZXN0IHJlZ2FyZHMgYW5kIHdpc2hlcyB0
+byB5b3UgYW5kIHlvdXJzLg0KV2UgKENhcmUgb3B0aWNhbCBJbmR1c3RyaWFsIENvLiwpIGFyZSBw
+cm9mZXNzaW9uYWwgb3B0aWNhbCBwcm9kdWN0cyBtYW51ZmFjdHVyZXIsIGZvY3VzaW5nIG9uIHBy
+b2R1Y2luZyBzdXBlciBxdWFsaXR5IHN1cmdpY2FsIGxvdXBlcyBsaWdodHMuSW4gdGhlIHBhc3Qg
+eWVhcnMsIHdlIGhhdmUgZXhwb3J0ZWQgb3VyIGxvdXBlcyBhbmQgbGlnaHRzIHRvIG1hbnkgY291
+bnRyaWVzLiANCldlIHNpbmNlcmVseSBkbyBob3BlIHRoYXQgeW91IGNhbiBiZSBpbnRlcmVzdGVk
+IGluIG91ciBzdXJnaWNhbGxvdXBlcyBhbmQgbGlnaHRzLCBtYW51ZmFjdHVyZXIgZGlyZWN0IHBy
+aWNlLCBmYXN0IHNoaXBwaW5nLCBxdWFsaXR5IHdhcnJhbnR5LiBnb29kIGFmdGVyIHNhbGUgc2Vy
+dmljZSwgDQogDQpSZWdhcmRpbmcgdGhlIHN1cmdpY2FsIGxvdXBlcyBhbmQgbGlnaHRzLCB0aGVy
+ZSBhcmUgZGlmZmVyZW50IHN0eWxlOiBjdXN0b20gbWFkZSBUVEwgTG91cGVzLCBGbGlwIHVwIExv
+dXBlcywgaGVhZGJhbmQgbG91cGVzIGFuZCBjbGlwIG9uIGxvdXBlcyB3aXRoIGRpZmZlcmVudCB3
+b3JraW5nIGRpc3RhbmNlLiBwb3J0c2FibGUgc3VyZ2ljYWwgbGlnaHRzIGFuZCBoZWFkYmFuZCBz
+dXJnaWNhbCBoZWFkbGlnaHRzLg0KDQp5b3UgY2FuIG9yZGVyIGRpcmVjdCBmcm9tIG91ciB3ZWJz
+aXRlIDogd3d3Lm9wdGljYWwtd29ybGQuY29tIA0KYXMgYSByZWFsIG1hbnVmYWN0dWVyLCB3ZSBh
+bHNvIG1ha2UgT0VNIG9yZGVyIGZvciBzb21lIGJyYW5kcywgaWYgeW91IGFyZSBzdXJnaWNhbCBs
+b3VwZXMgd2hvbGVzYWxlIG9yIGRpc3RyaWJ1dG9yLCBwbGVhc2UgY29udGFjdCB1cywgd2UgY2Fu
+IHN1cHBseSBsb3VwZXMgYW5kIGxpZ2h0IHRvIHlvdSB3aXRoIGRpc3RyaWJ1dG9yIHByaWNlIGFu
+ZCBzZXJ2aWNlLiANCiANCmlmIHlvdSBoYXZlIGFueSBxdWVzZHRpb24sIHBsZWFzZSBkb24ndCBo
+ZXNpdGF0ZSB0byBjb250YWN0IHVzDQp0aGFuayBhbmQgcmVncmRzDQpzaW5jZXJlbHkNCkhvcGtp
+biBXb25nDQpDQVJFIE9QVElDQUwgSU5EVVNUUklBTCBDTy4sDQphZGQ6IDEyMDEgTWVpemhvdSBC
+dWlsZGluZyxMb25nemh1IEF2ZW51ZQ0KICAgICAgICBOYW5zaGFuIERpc3RyaWN0LHNoZW56aGVu
+IDUxODA1NSxDaGluYQ0KVGVsOiAgMDA4Ni03NTUtODYxMDE4OTkNCndlYnNpdGU6ICAgICAgICAg
+ICAgIHd3dy5jYXJlLW9wdGljYWwuY29tIA0Kb25saW5lIHNob3A6ICAgICAgIHd3dy5vcHRpY2Fs
+LXdvcmxkLmNvbQ0KDQogDQo=
