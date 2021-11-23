@@ -4,63 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7EA6AC433F5
-	for <linux-firmware@archiver.kernel.org>; Tue, 23 Nov 2021 17:25:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C78FC433F5
+	for <linux-firmware@archiver.kernel.org>; Tue, 23 Nov 2021 17:26:20 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id 4115B60F9D; Tue, 23 Nov 2021 17:25:04 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2A05960F41
-	for <linux-firmware@kernel.org>; Tue, 23 Nov 2021 17:25:04 +0000 (UTC)
+	id F35AD60F6F; Tue, 23 Nov 2021 17:26:19 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DD6C760F6B
+	for <linux-firmware@kernel.org>; Tue, 23 Nov 2021 17:26:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1637688304;
-	bh=PKMtWaxTDGF8chPucmyCcNbLogkXsi7a2e9q8qxM7m0=;
+	s=k20201202; t=1637688379;
+	bh=+eXdvDlGRi4+cPViSYcoqa2i2CXtnKAxh1JnBg86qDo=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=Oj9K6c1hDeWf7EUq9nAV5UGXyLQi3oB1eGq7ABcfwyEtTHev+2VgC8WjmfK2Xpvnh
-	 DMClcNizcVFsBZuZ6ZH0JhmH5KExdVlyJRjxE2egL94gv8PQJsYXQUeRsg+GiHqKmU
-	 IWQVqRzvrwS160GH7RhFHrOefLPKHm3fW8P5NF4s/n7B1S7sHzN854yFNRCsflgzYG
-	 sokypBRei8jZmFq1tGCg0zDaTz+N5oMKI7EMDORfFJj1cDMMhkwtwdJmqjGTyztxRV
-	 pKxx09Po98Bf+h0ahpTCB2MnxdBdMJL+IPLgPRZFHYEkqdSGNGRpPtI+PgLNG0oYyh
-	 bFLJn6+oMq90Q==
-Received: by mail-il1-f180.google.com with SMTP id h23so22452080ila.4
-        for <linux-firmware@kernel.org>; Tue, 23 Nov 2021 09:25:04 -0800 (PST)
-X-Gm-Message-State: AOAM53050JQdeOOL0OJzHzHkvh7BPpojqTsMoVsF4/vLJDRE0G20Tw2D
-	mimXotoeZpN9rWiIWceC2Xh92gpZVDmaqt4fLDs=
-X-Google-Smtp-Source: ABdhPJyWvMGMIrKrvhlGorQk5kEOYA4ZxEXragtWj3qEsox83jVLJKreEboiE1ztb5AZ/GJEhp2MSj5/0fO0LPUj9ZE=
-X-Received: by 2002:a05:6e02:12e2:: with SMTP id l2mr7694996iln.251.1637688303574;
- Tue, 23 Nov 2021 09:25:03 -0800 (PST)
+	b=rpyIp+1Kv13kYY9vTGL7/+HXtCnnCxw7CVqQN7ltUk6QSePzB9+6W2uLx6Hitk7gn
+	 jjAfkqzCeS/OmeAcS8qiw3dmePkJJ3Yb9mx5yVjla7wMZeFCXQPIOMPvme6KHWT/Zm
+	 HpIULNnDzpYhAcwg3ni+HPBde3UYXASLnIrAUfBN3P9mqpLTPUTBebGUEYlURookIF
+	 Ir8IMPP4XrU7M8O1INqxT4rVB5QbUnHEpFXtItQ1xNFGwCbfulioCTVECgabwsLy2j
+	 UOfW86eAtkMr2nwRG2rozDK4+3+JqwLRb16t0RmqTLI7I5TTQVXv5BgoIwW4a4+BEE
+	 DCWcr2pRscxoQ==
+Received: by mail-il1-f170.google.com with SMTP id w4so11327063ilv.12
+        for <linux-firmware@kernel.org>; Tue, 23 Nov 2021 09:26:19 -0800 (PST)
+X-Gm-Message-State: AOAM530p+Sg+Y7pp9eslpTgCthZ6dtHvcMcmMondYLsUp3E7qkM7QeAF
+	96n4DG+9dkbvQyaWv63Cb59snvnyxy0/lTuS24c=
+X-Google-Smtp-Source: ABdhPJw0KFy6SdLPHX04KDy4m1j/bs4AjSHYlm81azhpg1157dCdtRQ3hGmvl888DwIwisHiw9MpG7loG7Hhj89rJhc=
+X-Received: by 2002:a92:cda2:: with SMTP id g2mr6710422ild.2.1637688379281;
+ Tue, 23 Nov 2021 09:26:19 -0800 (PST)
 MIME-Version: 1.0
-References: <d11597264d04b8e21a425ffb48372c5c@codeaurora.org>
-In-Reply-To: <d11597264d04b8e21a425ffb48372c5c@codeaurora.org>
+References: <SJ0PR18MB4009A38C84F0529CFA8B8FD3B29B9@SJ0PR18MB4009.namprd18.prod.outlook.com>
+In-Reply-To: <SJ0PR18MB4009A38C84F0529CFA8B8FD3B29B9@SJ0PR18MB4009.namprd18.prod.outlook.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Tue, 23 Nov 2021 12:24:52 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA4x75_MwvuzZumRLmerRm5-nY6HZCH95vQddnWhexQBSg@mail.gmail.com>
-Message-ID: <CA+5PVA4x75_MwvuzZumRLmerRm5-nY6HZCH95vQddnWhexQBSg@mail.gmail.com>
-Subject: Re: btqca firmware 20211117
-To: tjiang@codeaurora.org
+Date: Tue, 23 Nov 2021 12:26:08 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA75Xk==5o-PXahCTN=+rBgG595UO-nQ-bfhUQE3sBzXYg@mail.gmail.com>
+Message-ID: <CA+5PVA75Xk==5o-PXahCTN=+rBgG595UO-nQ-bfhUQE3sBzXYg@mail.gmail.com>
+Subject: Re: [GIT PULL v2] linux-firmware: mrvl: prestera: Update Marvell
+ Prestera Switchdev v4.0
+To: "Volodymyr Mytnyk [C]" <vmytnyk@marvell.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	Oleksandr Mazur <oleksandr.mazur@plvision.eu>, Serhiy Boiko <serhiy.boiko@plvision.eu>, 
+	Serhiy Pshyk <serhiy.pshyk@plvision.eu>, Volodymyr Mytnyk <volodymyr.mytnyk@plvision.eu>, 
+	Taras Chornyi <taras.chornyi@plvision.eu>, Mickey Rachamim <mickeyr@marvell.com>, 
+	Vadym Kochan <vadym.kochan@plvision.eu>, Yevhen Orlov <yevhen.orlov@plvision.eu>
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Nov 17, 2021 at 3:28 AM <tjiang@codeaurora.org> wrote:
+On Thu, Nov 18, 2021 at 10:41 AM Volodymyr Mytnyk [C]
+<vmytnyk@marvell.com> wrote:
 >
-> Hi linux-firmware maintainers,
+> The following changes since commit f5d519563ac9d2d1f382a817aae5ec5473811ac8:
 >
-> Here's a pull request for btqca bluetooth driver. Please let me know if
-> you have any problems.
+>   linux-firmware: Update AMD cpu microcode (2021-11-15 12:49:19 -0500)
 >
-> The following changes since commit
-> f5d519563ac9d2d1f382a817aae5ec5473811ac8
+> are available in the git repository at:
 >
-> linux-firmware: Update AMD cpu microcode
+>   https://github.com/PLVision/linux-firmware.git prestera-v4.0
 >
-> are available in the Git repository at:
+> for you to fetch changes up to 77e72100290150317c3a29baddf97f8fd27b58b4:
 >
-> https://github.com/tjiang123/qca-btfw.git
+>   mrvl: prestera: Update Marvell Prestera Switchdev v4.0 (2021-11-18 17:05:16 +0200)
 >
-> for you to fetch changes up to 73a13f4d8d6059768f1090a95c43b8b5333b58db:
+> ----------------------------------------------------------------
+> Changes in V2:
+>   - Add entry into WHENCE
 >
-> Tim Jiang:
-> QCA: Add Bluetooth firmware for WCN685x
+> Volodymyr Mytnyk (1):
+>       mrvl: prestera: Update Marvell Prestera Switchdev v4.0
 
-Pulled and pushed out.  Thanks.
+Pulled and pushed out.
 
 josh
+
+>
+>  WHENCE                                  |   1 +
+>  mrvl/prestera/mvsw_prestera_fw-v4.0.img | Bin 0 -> 14965408 bytes
+>  2 files changed, 1 insertion(+)
+>  create mode 100644 mrvl/prestera/mvsw_prestera_fw-v4.0.img
