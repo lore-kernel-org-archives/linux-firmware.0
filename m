@@ -1,52 +1,52 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=u/QX=QL=mkbalance.top=bounce-248-245660-248-248@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8CFFC433F5
-	for <linux-firmware@archiver.kernel.org>; Tue, 23 Nov 2021 17:29:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9DA24C433EF
+	for <linux-firmware@archiver.kernel.org>; Wed, 24 Nov 2021 02:20:31 +0000 (UTC)
 Received: by mail.kernel.org (Postfix)
-	id ACC2E60F6F; Tue, 23 Nov 2021 17:29:21 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 96F7360F58;
-	Tue, 23 Nov 2021 17:29:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1637688561;
-	bh=WyceQFx9V1PlTLIPU/zmSumXCjdDVXWkL8cG2NsQPZQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=Xeb38TDRYfX0YxT+hjtw4I0yfAklv6ioxlKDbnWiS50OCqhFGyexHZdiS50u7mWZe
-	 N+0nMHoqVSya65niAc/S+hfw7ufq++1G5QqoHNTwrmzDYdUFXioljSvb643VcMbHdd
-	 0F+yhDsbLH+qz/h4zc5134nxVk8Lurcg54Yb/JpDdRAhdI0hZ+7vKjj9dQvnHAcH98
-	 B2TJmBplRMLrFfu1sB/BFKGkYISJBHpbDZEVBZh4sOrYUCvtdOOnU8nS/2UjKcdco9
-	 ivyjFK1cgSVvtfXCe/qm4fjffXWieCZbwISEh8AGwksnaNlwH864Hkr+AXUZJKx8du
-	 /M3gOVpIbz4Bg==
-Received: by mail-io1-f48.google.com with SMTP id x6so7171963iol.13;
-        Tue, 23 Nov 2021 09:29:21 -0800 (PST)
-X-Gm-Message-State: AOAM5326gZmapbUO/n+gtNgduBCIEaa6/w32MEZjMHN3S0oKHaJUez4g
-	xaEk6aon240RUfv0sF3J5NPHZuf5KRlva6n/tOk=
-X-Google-Smtp-Source: ABdhPJwG87WAQLh9pOMsanwFnt10WAWiOEmzvkRC7ExfVQAcoZVxkIY2tpZCy7yRupPlLV8wAjKYK3ls+ppNshtsLSM=
-X-Received: by 2002:a5d:888c:: with SMTP id d12mr6953105ioo.175.1637688561027;
- Tue, 23 Nov 2021 09:29:21 -0800 (PST)
-MIME-Version: 1.0
-References: <CADnq5_OCO3y0RhOTWB8yDhTKU3Ge98azCnEQx9nayDvFPR4U7g@mail.gmail.com>
-In-Reply-To: <CADnq5_OCO3y0RhOTWB8yDhTKU3Ge98azCnEQx9nayDvFPR4U7g@mail.gmail.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Tue, 23 Nov 2021 12:29:09 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA6WispQ0FdMK5J1wp+7r7SvUp1aNgp5CauJELCisQa-HQ@mail.gmail.com>
-Message-ID: <CA+5PVA6WispQ0FdMK5J1wp+7r7SvUp1aNgp5CauJELCisQa-HQ@mail.gmail.com>
-Subject: Re: updated amdgpu firmware
-To: Alex Deucher <alexdeucher@gmail.com>
+	id 5CACF60F58; Wed, 24 Nov 2021 02:20:31 +0000 (UTC)
+Received: from server2.ocgcng.top (unknown [180.76.100.18])
+	by mail.kernel.org (Postfix) with ESMTP id 93DBD60F51
+	for <linux-firmware@kernel.org>; Wed, 24 Nov 2021 02:20:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 93DBD60F51
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=4usourcing.ltd
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=mkbalance.top
+Received: from 116.85.25.40 (116.85.25.40) by server2.ocgcng.top id hjmgms0e97c2 for <linux-firmware@kernel.org>; Wed, 24 Nov 2021 10:20:29 +0800 (envelope-from <bounce-248-245660-248-248@mkbalance.top>)
+Date: Wed, 24 Nov 2021 10:20:28 +0800
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, Josh Boyer <jwboyer@kernel.org>, 
-	Zhan Liu <zhan.liu@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+From: Limo <limo@4usourcing.ltd>
+Reply-to: Limo <limo@4usourcing.ltd>
+Subject: new fidget spinners wholesale
+Message-ID: <5a1b977e84362a0d0ad9e973c626354e@116.85.25.40>
+X-Priority: 3
+X-Mailer: Email Sending System
+X-Complaints-To: admin@qq.com
+List-Unsubscribe: <http://116.85.25.40/MKLimo/u.php?p=rt/rs/1p8/rt/rt/rs>
+X-MessageID: MXx8fHwxMjA0fHx8fGxpbnV4LWZpcm13YXJlQGtlcm5lbC5vcmd8fHx8MXx8fHwxfHx8fDA%3D
+X-Report-Abuse: <http://116.85.25.40/MKLimo/report_abuse.php?mid=MXx8fHwxMjA0fHx8fGxpbnV4LWZpcm13YXJlQGtlcm5lbC5vcmd8fHx8MXx8fHwxfHx8fDA%3D>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Thu, Nov 18, 2021 at 3:06 PM Alex Deucher <alexdeucher@gmail.com> wrote:
->
-> Hi,
->
-> Updated amdgpu firmware for vangogh.  Please apply!
+Dear =E4=B9=89=E4=B9=8C=E5=B8=82=E7=92=9F=E5=B7=9E=E8=BF=9B=E5=87=BA=E5=8F=
+=A3,
 
-Applied and pushed out.  Thanks.
+This is Limo, we've got some new fidget spinners,=20
+all spinners are 100% inspected before shipped it out,=20
+welcome to contact with us for details.Thanks.
 
-josh
+Best Regards,
+Limo
+4USOURCING LTD./YIWU JINGZHOU IMPORT&EXPORT LTD.
+Add.: Room 8403,4th floor of A2 Building,Heyi=20
+E-commerce Industrial Park,Beiyuan Street,Yiwu,Zhejiang,China
+M: 0086-15999856258 / Skype: limo0222 /=20
+Q: 1657521758 / WeChat: limo6258/WhatsApp:+86-15999856258
+https://fb.watch/9tlcfmcKV9/
+https://www.linkedin.com/company/4usourcing
+http://116.85.25.40/MKLimo/u.php?p=3Drt/rs/1p8/rt/rt/rs
+
