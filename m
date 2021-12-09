@@ -1,132 +1,76 @@
-Return-Path: <SRS0=MpDW=Q2=narfation.org=sven@kernel.org>
+Return-Path: <bounce+a91e02.be9e4a-linux-firmware=kernel.org@codeaurora.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 43DA1C433EF
-	for <linux-firmware@archiver.kernel.org>; Thu,  9 Dec 2021 09:21:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26371C433F5
+	for <linux-firmware@archiver.kernel.org>; Thu,  9 Dec 2021 09:48:02 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 0596EC341C8; Thu,  9 Dec 2021 09:21:18 +0000 (UTC)
-Received: from dvalin.narfation.org (dvalin.narfation.org [213.160.73.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id D9B6BC341CA; Thu,  9 Dec 2021 09:48:02 +0000 (UTC)
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A0AA9C004DD;
-	Thu,  9 Dec 2021 09:21:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A0AA9C004DD
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=narfation.org
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=narfation.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=narfation.org;
-	s=20121; t=1639041665;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HKfoBlRfsPWUt5hnOkqJORTtA2aNncI/9GyUqXURfVQ=;
-	b=wKzcE01/NZcjkvW5RMDJ2EPP36tRpCwo0vG+t7E/66evxG9D5lx0y5VQQy0B0RJQVXUuTV
-	PMg/f8kgcqOf9Rjek3YnAqQrTtjYbOU11faThswZXApeD559sjQqLDfG8DxN2GSVne3gTb
-	kuRGeiKZ5cjpBgKY5dNeZPO7aDduZRU=
-From: Sven Eckelmann <sven@narfation.org>
-To: jwboyer@kernel.org, dwmw2@infradead.org, ben@decadent.org.uk, Felix Fietkau <nbd@nbd.name>, Lorenzo Bianconi <lorenzo.bianconi@redhat.com>, Deren Wu <Deren.Wu@mediatek.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 514F4C004DD
+	for <linux-firmware@kernel.org>; Thu,  9 Dec 2021 09:48:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 514F4C004DD
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=mg.codeaurora.org
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1639043282; h=Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Date: Message-ID: Cc: Subject: From: To: Sender;
+ bh=6+f59zGixyXbOVFNB/3KDBqLwrszbyyVjv2vNsJ2ylI=; b=a2xoKLS0Bv5ZG+izG9584zfPnyjOmi5m7t6owL+Mc9WPMecSwsvpk383Ihlt6jPNgSHnwjFO
+ lhkacV6+MSam68hGoikIIUFUfSDYPACGaRq0lTL9DinEivIxS5CJ86YCvhtjq038Sw6KV1tm
+ P7omynH+Ut7W72kVhiMk1elGpr0=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyI3Mjk1MCIsICJsaW51eC1maXJtd2FyZUBrZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n09.prod.us-east-1.postgun.com with SMTP id
+ 61b1d0d191ff7f02683b6ee3 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 09 Dec 2021 09:48:01
+ GMT
+Sender: zijuhu=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+	id A643AC4360C; Thu,  9 Dec 2021 09:48:00 +0000 (UTC)
+Received: from [10.231.195.33] (unknown [180.166.53.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: zijuhu)
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id 8A3CCC4338F;
+	Thu,  9 Dec 2021 09:47:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 8A3CCC4338F
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Mark-YW Chen <Mark-YW.Chen@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, Soul Huang <Soul.Huang@mediatek.com>, YN Chen <YN.Chen@mediatek.com>, Deren Wu <Deren.Wu@mediatek.com>, KM Lin <km.lin@mediatek.com>, Robin Chiu <robin.chiu@mediatek.com>, CH Yeh <ch.yeh@mediatek.com>, Posh Sun <posh.sun@mediatek.com>, Eric Liang <Eric.Liang@mediatek.com>, jemele@google.com, linux-firmware <linux-firmware@kernel.org>, linux-wireless <linux-wireless@vger.kernel.org>, linux-mediatek <linux-mediatek@lists.infradead.org>, linux-kernel <linux-kernel@vger.kernel.org>, Deren Wu <deren.wu@mediatek.com>, jf@simonwunderlich.de
-Subject: Re: [PATCH] linux-firmware: update firmware for MT7921 WiFi device
-Date: Thu, 09 Dec 2021 10:21:02 +0100
-Message-ID: <2314855.OJx0zA1Pyt@ripper>
-In-Reply-To: <67f30cd5235e2065e6c20cfb4662e4ac72ef6395.1639037336.git.deren.wu@mediatek.com>
-References: <67f30cd5235e2065e6c20cfb4662e4ac72ef6395.1639037336.git.deren.wu@mediatek.com>
+To: linux-firmware@kernel.org
+From: Zijun Hu <zijuhu@codeaurora.org>
+Subject: QCA Bluetooth WCN685x firmware pull request
+Cc: Rocky Liao <rjliao@codeaurora.org>, ", tjiang"@codeaurora.org
+Message-ID: <e8aacdd6-061b-f604-ff28-badd90ae7bfa@codeaurora.org>
+Date: Thu, 9 Dec 2021 17:47:57 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart3341260.rLAWO6SjPS"; micalg="pgp-sha512"; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---nextPart3341260.rLAWO6SjPS
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Sven Eckelmann <sven@narfation.org>
-To: jwboyer@kernel.org, dwmw2@infradead.org, ben@decadent.org.uk, Felix Fietkau <nbd@nbd.name>, Lorenzo Bianconi <lorenzo.bianconi@redhat.com>, Deren Wu <Deren.Wu@mediatek.com>
-List-Id: <linux-firmware.lore.kernel.org>
-Cc: Mark-YW Chen <Mark-YW.Chen@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, Soul Huang <Soul.Huang@mediatek.com>, YN Chen <YN.Chen@mediatek.com>, Deren Wu <Deren.Wu@mediatek.com>, KM Lin <km.lin@mediatek.com>, Robin Chiu <robin.chiu@mediatek.com>, CH Yeh <ch.yeh@mediatek.com>, Posh Sun <posh.sun@mediatek.com>, Eric Liang <Eric.Liang@mediatek.com>, jemele@google.com, linux-firmware <linux-firmware@kernel.org>, linux-wireless <linux-wireless@vger.kernel.org>, linux-mediatek <linux-mediatek@lists.infradead.org>, linux-kernel <linux-kernel@vger.kernel.org>, Deren Wu <deren.wu@mediatek.com>, jf@simonwunderlich.de
-Subject: Re: [PATCH] linux-firmware: update firmware for MT7921 WiFi device
-Date: Thu, 09 Dec 2021 10:21:02 +0100
-Message-ID: <2314855.OJx0zA1Pyt@ripper>
-In-Reply-To: <67f30cd5235e2065e6c20cfb4662e4ac72ef6395.1639037336.git.deren.wu@mediatek.com>
-References: <67f30cd5235e2065e6c20cfb4662e4ac72ef6395.1639037336.git.deren.wu@mediatek.com>
+Hi linux-firmware maintainers,
 
-On Thursday, 9 December 2021 09:24:11 CET Deren Wu wrote:
-> From: Deren Wu <deren.wu@mediatek.com>
-> 
-> Update binary firmware for MT7921 WiFi devices
-> 
-> File: mediatek/WIFI_MT7961_patch_mcu_1_2_hdr.bin
-> Version: 20211129210838a
-> File: mediatek/WIFI_RAM_CODE_MT7961_1.bin
-> Version: 20211129210917
+Here's a pull request for btqca bluetooth driver. Please let me know if you have any problems.
 
-Thank you for the firmware update. With this firmware and the mt76.git 
-commit 678071ef7029 ("mt76: mt7615: clear mcu error interrupt status on 
-mt7663") + hostapd commit 14ab4a816c68 ("Reject ap_vendor_elements if
-its length is odd") , I was able to connect to an 6GHz AP:
+The following changes since commit
+commit b0e898fbaf377c99a36aac6fdeb7250003648ca4
+    linux-firmware: Update firmware file for Intel Bluetooth 9462 (Tue Nov 23 10:29:13 2021 +0530)
 
-    $ cat > station_sae_test.conf << "EOF"
-    country=US
-    network={
-            scan_ssid=1
-            ssid="Maverick6g"
-            key_mgmt=SAE
-            psk="testtest"
-            proto=RSN
-            ieee80211w=2
-            beacon_int=100
-    }
-    EOF
+are available in the Git repository at:
 
-    $ ip link set up dev wlp5s0
-    $ ./wpa_supplicant -D nl80211 -i wlp6s0 -c ~/station_sae_test.cfg -B
-    $ iw dev wlp5s0 link
-    Connected to 00:03:7f:12:8c:8c (on wlp5s0)
-            SSID: Maverick6g
-            freq: 6115
-            RX: 3092674 bytes (26805 packets)
-            TX: 114756 bytes (1073 packets)
-            signal: -49 dBm
-            rx bitrate: 1080.6 MBit/s 80MHz HE-MCS 10 HE-NSS 2 HE-GI 0 HE-DCM 0
-            tx bitrate: 6.5 MBit/s MCS 0
-    
-            bss flags:      short-slot-time
-            dtim period:    2
-            beacon int:     100
-    $ ping ff02::1%wlp5s0
-    ....
-     
+   https://github.com/zijun-hu/qca-btfw.git
 
-Just as note: It is still not possible to see beacons when using the card in 
-monitor mode.
-
-Tested-by: Sven Eckelmann <sven@narfation.org>
-
-Kind regards,
-	Svem
---nextPart3341260.rLAWO6SjPS
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEF10rh2Elc9zjMuACXYcKB8Eme0YFAmGxyn4ACgkQXYcKB8Em
-e0YICA/9HP/KgPvp7hf4CLElCGNnekR8cj2P6tEOYqIpQwvmG+FfxVSBESzKJDbL
-jb0U+dnm9hooIkgX/UPcaSiiaDPRzek3xqZyaFvl4aZRN3iK64ovTt4ytDrGmBi6
-Ew5kI7vevnAjt/RDYNKCPobGqmjKyslCezJnReNAVTlk7v0R5fiX2i+mwsKv3GB0
-mzpVEaIoWsKuYHwhypHF1l2Ay2SuRRpnORQg2DyfWwd5bU39Q7kN/r4nybhPjJ+W
-QUA6sYhx/p09c/SzJo9lL+vBVbrBzZwxGTaCdGi7i0EoEMblIcmruB3d3OHam5y/
-uBwOy6E46PIStRfw3vbq38ZBM10g3z4qjA/OgfSUBY3kTF/PcLUDwnMaYqKgFAcp
-W7MfHa0tpDixKTortPic7QBzp8KGvsAYfXWvN7xSVZCVbZZBRHqCaBYW7dVPC/9M
-CNiGZj90gUqLDnLirm/O/K3UvMJqZYqhVula3BxNSIkL1TczyBtIZDQYF4iRwfIb
-XTJX8eVpcij9DCuMOEp0guQ5ogbgP/+OG6E6RUlw9eX9KcjZl+a+BsCyy90J4m0P
-d2sxR6qMwa8NoV7cF0iyoEyhVpEs9FPzLXWRhM4dDIR5FRObMTaFsmXrgQKwxOL7
-q2lQra2dtTU5Az11mZd0WxqPFr9/sbBIWjSv6V+vZy5PEb1HqBI=
-=syZA
------END PGP SIGNATURE-----
-
---nextPart3341260.rLAWO6SjPS--
-
+for you to fetch changes up to e79f6d3fdf79d7f4938b5b107213937c044035fc:
+----------------------------------------------------------------
+Zijun Hu (1):
+        QCA: Update Bluetooth WCN685x firmware to 2.1.0-00297 (Thu Dec 9 16:09:53 2021 +0800)
 
 
