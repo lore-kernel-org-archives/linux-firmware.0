@@ -2,30 +2,30 @@ Return-Path: <SRS0=mZRU=Q2=mediatek.com=mark-yw.chen@kernel.org>
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 301D5C433EF
-	for <linux-firmware@archiver.kernel.org>; Thu,  9 Dec 2021 08:31:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA0BCC433F5
+	for <linux-firmware@archiver.kernel.org>; Thu,  9 Dec 2021 08:38:22 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 12BFAC341C3; Thu,  9 Dec 2021 08:31:36 +0000 (UTC)
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	id 84D32C341CB; Thu,  9 Dec 2021 08:38:22 +0000 (UTC)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 1B8B3C004DD;
-	Thu,  9 Dec 2021 08:30:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 1B8B3C004DD
+	by smtp.kernel.org (Postfix) with ESMTPS id AC383C341C3;
+	Thu,  9 Dec 2021 08:37:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org AC383C341C3
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=mediatek.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 53d6deba894c4f9d8b5726c5055c3a3a-20211209
-X-UUID: 53d6deba894c4f9d8b5726c5055c3a3a-20211209
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
+X-UUID: 65b08b0731ff440894472a7907e5500a-20211209
+X-UUID: 65b08b0731ff440894472a7907e5500a-20211209
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
 	(envelope-from <mark-yw.chen@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1552511113; Thu, 09 Dec 2021 16:27:56 +0800
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+	with ESMTP id 363230568; Thu, 09 Dec 2021 16:37:10 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 9 Dec 2021 16:27:53 +0800
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 9 Dec 2021 16:37:07 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 9 Dec 2021 16:27:52 +0800
+ Transport; Thu, 9 Dec 2021 16:37:07 +0800
 From: <mark-yw.chen@mediatek.com>
 To: <jwboyer@kernel.org>, <marcel@holtmann.org>, <johan.hedberg@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
@@ -34,9 +34,9 @@ CC: <linux-bluetooth@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
 	<koro.chen@mediatek.com>, <Mark-YW.Chen@mediatek.com>,
 	<will-cy.lee@mediatek.com>, <deren.wu@mediatek.com>, <yn.chen@mediatek.com>,
 	Mark Chen <mark-yw.chen@mediatek.com>
-Subject: [PATCH] linux-firmware: update frimware for mediatek bluetooth chip (MT7921)
-Date: Thu, 9 Dec 2021 16:27:31 +0800
-Message-ID: <20211209082731.27808-1-mark-yw.chen@mediatek.com>
+Subject: [PATCH v2] linux-firmware: update frimware for mediatek bluetooth chip (MT7921)
+Date: Thu, 9 Dec 2021 16:37:06 +0800
+Message-ID: <20211209083706.28193-1-mark-yw.chen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -52,9 +52,23 @@ Version: 20211129211059
 
 Signed-off-by: Mark Chen <mark-yw.chen@mediatek.com>
 ---
+ WHENCE                                  |   2 +-
  mediatek/BT_RAM_CODE_MT7961_1_2_hdr.bin | Bin 518062 -> 513582 bytes
- 1 file changed, 0 insertions(+), 0 deletions(-)
+ 2 files changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/WHENCE b/WHENCE
+index 6172b9f..e8f3b62 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -5229,7 +5229,7 @@ Licence: Redistributable. See LICENCE.mediatek for details.
+ Driver: mt7921 - MediaTek MT7921 bluetooth chipset
+ 
+ File: mediatek/BT_RAM_CODE_MT7961_1_2_hdr.bin
+-Version: 20211018131102
++Version: 20211129211059
+ 
+ Licence: Redistributable. See LICENCE.mediatek for details.
+ 
 diff --git a/mediatek/BT_RAM_CODE_MT7961_1_2_hdr.bin b/mediatek/BT_RAM_CODE_MT7961_1_2_hdr.bin
 index 54b5981889bc0d6e46c509836025349f27010e37..67c0f5bf377425467f61c810aa2c4e8ff8589172 100644
 GIT binary patch
