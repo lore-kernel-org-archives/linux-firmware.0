@@ -4,81 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0374DC433F5
-	for <linux-firmware@archiver.kernel.org>; Thu, 16 Dec 2021 14:42:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4E504C433F5
+	for <linux-firmware@archiver.kernel.org>; Thu, 16 Dec 2021 14:43:41 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id E4D6CC36B06; Thu, 16 Dec 2021 14:42:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE5C9C36AE9
-	for <linux-firmware@kernel.org>; Thu, 16 Dec 2021 14:42:37 +0000 (UTC)
+	id 3BD70C36AE6; Thu, 16 Dec 2021 14:43:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2611FC36AE5
+	for <linux-firmware@kernel.org>; Thu, 16 Dec 2021 14:43:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1639665757;
-	bh=4JUKpaIBe8PoC5ZXlQFADt2QQag2FPsgDYJ9my2kZUw=;
+	s=k20201202; t=1639665821;
+	bh=HUoRYGTo8eHHN8Z7vLhau/1lZa2atY9owZBoBS570IQ=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=M1L3sWxl59Ll38VHcVgl4pit00jItu7NJyMADfEE4ozqH15dlmLUkqwCkEWAjY2r5
-	 GTQoBT10FQtdCMQFTcBUn5HIPxWux2CGC2WFm3LYFGSE8SbHoTJR9ql3ubh3uX31rU
-	 KrtSc2GMjNXCkpt/qi8Hktx7eURbIbPOwycWtX+Gvhg7gQu8Ww3l7nXS/bXrZI9k6k
-	 u5klDE/py/cwHKPcT7UKogXIwpwgvBpvwl8iCn56Hl8+QAr/WI1bnPGkgBdygB1P1v
-	 cJub/1GdvSbHZBQ/F4Zk1Sk+DSFtmurjJlePUpg5sH4Dx0hP0Onq2sG1PTxVNnQjlT
-	 KnyMYR9R00gbw==
-Received: by mail-io1-f52.google.com with SMTP id p23so35447101iod.7
-        for <linux-firmware@kernel.org>; Thu, 16 Dec 2021 06:42:37 -0800 (PST)
-X-Gm-Message-State: AOAM530gvgROqY9Ycdc7PY+vh1IELFJOFNTqHyhNO/fgSK7xCHeafX0m
-	anuRhpARoH6ozi3r19A1br7oA8YnjHyJxhF6QXI=
-X-Google-Smtp-Source: ABdhPJyHsdoc9uGDzyAjEi2R4YESFuYqlFbf40jEBF1Bjm5E8mPLX6TocLNmCQrUbRrjnfF5Jho7U9ZWILBZX8w6rwE=
-X-Received: by 2002:a5d:888c:: with SMTP id d12mr9346845ioo.175.1639665757086;
- Thu, 16 Dec 2021 06:42:37 -0800 (PST)
+	b=CVS6uqCiylufdO9MKYfpkYE1HJVWSKN587A397wXtFL/TTjgHPl2eQXAhLSbnbVbe
+	 /bDFnT4PrkpzAbHMEDyJX5en+jyF3hr38bZwFEPpOFDGF3PmGmjQ1IZqhDoqirSasL
+	 ndMAOSV1WiDLYgggYr2l5bDEQtfo3XjpJPNazaMzuJLFTDOfNArhmNJFcscjP3ogbP
+	 evmW+pmRrUQs6WcuJhbSqldGWMg9xdxVgkDWOLdCglx44hqvPPkHxeFAfe5AmxSd1u
+	 /feE0W4VcYnoll3K2RPuzbPMLV/QcJnJncnQqNuitS/ewbfMyeU1dweZ04s+3jP44u
+	 A/w4uN1rMUe/w==
+Received: by mail-io1-f44.google.com with SMTP id k21so35406729ioh.4
+        for <linux-firmware@kernel.org>; Thu, 16 Dec 2021 06:43:41 -0800 (PST)
+X-Gm-Message-State: AOAM530cXGgfUMopDgo0deGzSaIgqxry8C+0lcSR+tiuQsKRyWq9RNvk
+	3yKvkpeWd4obqzP/CGKDorDviGOoAAvm7SjAAfQ=
+X-Google-Smtp-Source: ABdhPJzqJ6CYrsvw3JytZg3eeYbJC841CPBQYMicFrUMGTlQBFAZekPsivrjr/zGd8i+3gXgoxDhJGNDYd0e1HvI2SA=
+X-Received: by 2002:a05:6638:dcd:: with SMTP id m13mr9790790jaj.254.1639665820362;
+ Thu, 16 Dec 2021 06:43:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20211206140932.GA3035@chelsio.com>
-In-Reply-To: <20211206140932.GA3035@chelsio.com>
+References: <0f133129ea034a3da510651fde85c29c@realtek.com>
+In-Reply-To: <0f133129ea034a3da510651fde85c29c@realtek.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Thu, 16 Dec 2021 09:42:26 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA6mFs2OAszh-AtpVJvXLBHoi6NNaEDcd3CxWkroG7dERQ@mail.gmail.com>
-Message-ID: <CA+5PVA6mFs2OAszh-AtpVJvXLBHoi6NNaEDcd3CxWkroG7dERQ@mail.gmail.com>
-Subject: Re: pull request: linux-firmware: update cxgb4 firmware to 1.26.4.0
-To: Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>
+Date: Thu, 16 Dec 2021 09:43:29 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA6HcazzZHnqPZxCkRrTSwpEx+OEy-3PiPM=ypB12aZh4Q@mail.gmail.com>
+Message-ID: <CA+5PVA6HcazzZHnqPZxCkRrTSwpEx+OEy-3PiPM=ypB12aZh4Q@mail.gmail.com>
+Subject: Re: pull request: rtw89: 8852a: update fw to v0.13.33.0
+To: Pkshih <pkshih@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, 
-	"Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>, Ramaraju Yelavarthy <ramaraju@chelsio.com>
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
 Pulled and pushed out.
 
 josh
 
-On Mon, Dec 6, 2021 at 9:13 AM Rahul Lakkireddy
-<rahul.lakkireddy@chelsio.com> wrote:
+On Thu, Dec 9, 2021 at 3:38 AM Pkshih <pkshih@realtek.com> wrote:
 >
-> Please pull the new Chelsio firmware from the following URL.
+> Hi,
 >
-> git://git.chelsio.net/pub/git/linux-firmware.git for-upstream
+> Update firmware of rtw89 driver to 0.13.33.0
 >
-> Thanks,
-> Rahul
+> Thank you
+> Ping-Ke
 >
+> ---
 >
-> The following changes since commit b0e898fbaf377c99a36aac6fdeb7250003648ca4:
+> The following changes since commit 4a7e1f5cabaebe5c044b94b91149f35471d1e983:
 >
->   linux-firmware: Update firmware file for Intel Bluetooth 9462 (2021-11-23 12:31:45 -0500)
+>   rtw89: 8852a: update fw to v0.13.33.0 (2021-12-06 16:03:37 +0800)
 >
-> are available in the git repository at:
+> are available in the Git repository at:
 >
->   git://git.chelsio.net/pub/git/linux-firmware.git for-upstream
+>   https://github.com/pkshih/linux-firmware.git
 >
-> for you to fetch changes up to 38e72a0f98306c4ddb9608d68bf92f0caf5f1ce9:
+> for you to fetch changes up to 4a7e1f5cabaebe5c044b94b91149f35471d1e983:
 >
->   cxgb4: Update firmware to revision 1.26.4.0 (2021-12-06 05:07:25 -0800)
+>   rtw89: 8852a: update fw to v0.13.33.0 (2021-12-06 16:03:37 +0800)
 >
 > ----------------------------------------------------------------
-> Rahul Lakkireddy (1):
->       cxgb4: Update firmware to revision 1.26.4.0
 >
->  WHENCE                                         |  12 ++++++------
->  cxgb4/t4fw-1.26.2.0.bin                        | Bin 570368 -> 0 bytes
->  cxgb4/t4fw-1.26.4.0.bin                        | Bin 0 -> 570880 bytes
->  cxgb4/{t5fw-1.26.2.0.bin => t5fw-1.26.4.0.bin} | Bin 676352 -> 676352 bytes
->  cxgb4/{t6fw-1.26.2.0.bin => t6fw-1.26.4.0.bin} | Bin 729088 -> 729600 bytes
->  5 files changed, 6 insertions(+), 6 deletions(-)
->  delete mode 100644 cxgb4/t4fw-1.26.2.0.bin
->  create mode 100644 cxgb4/t4fw-1.26.4.0.bin
->  rename cxgb4/{t5fw-1.26.2.0.bin => t5fw-1.26.4.0.bin} (77%)
->  rename cxgb4/{t6fw-1.26.2.0.bin => t6fw-1.26.4.0.bin} (64%)
