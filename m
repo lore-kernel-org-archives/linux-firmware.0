@@ -1,71 +1,48 @@
-Return-Path: <SRS0=SdJ2=RT=chelsio.com=rahul.lakkireddy@kernel.org>
+Return-Path: <SRS0=gpbf=RU=as-kouhou.org=mw2pbyqaxj@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71CEFC433F5
-	for <linux-firmware@archiver.kernel.org>; Mon,  3 Jan 2022 17:27:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 896B8C433EF
+	for <linux-firmware@archiver.kernel.org>; Tue,  4 Jan 2022 03:23:15 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 39167C36AEB; Mon,  3 Jan 2022 17:27:39 +0000 (UTC)
-Received: from stargate.chelsio.com (stargate.chelsio.com [12.32.117.8])
+	id 4E7F3C36AF3; Tue,  4 Jan 2022 03:23:15 +0000 (UTC)
+Received: from as-kouhou.org (as-kouhou.org [60.43.215.207])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 2074AC36AED;
-	Mon,  3 Jan 2022 17:27:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 2074AC36AED
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=chelsio.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=chelsio.com
-Received: from localhost (scalar.blr.asicdesigners.com [10.193.185.94])
-	by stargate.chelsio.com (8.14.7/8.14.7) with ESMTP id 203HRRsf008814;
-	Mon, 3 Jan 2022 09:27:28 -0800
-Date: Mon, 3 Jan 2022 22:53:21 +0530
-From: Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id E0746C36AEF
+	for <linux-firmware@kernel.org>; Tue,  4 Jan 2022 03:23:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org E0746C36AEF
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=kankousei.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=as-kouhou.org
+Received: by as-kouhou.org (Postfix, from userid 31819)
+	id 28B8DC10AF63; Tue,  4 Jan 2022 12:23:04 +0900 (JST)
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Cc: linux-kernel@vger.kernel.org, jwboyer@kernel.org, ramaraju@chelsio.com,
-        rahul.lakkireddy@chelsio.com
-Subject: pull request: linux-firmware: update cxgb4 firmware to 1.26.6.0
-Message-ID: <20220103172319.GA11176@chelsio.com>
+Subject: =?UTF-8?B?4p2k77iPIFlvdSBoYXZlIHVucmVhZCBtZXNzYWdlcyBmcm8=?=  =?UTF-8?B?bSBDaHJpc3RpZSAoMikhIENsaWNrIEhlcmU6IGh0dA==?=  =?UTF-8?B?cDovL2JpdC5kby9mU1lUcj92YnZzIOKdpO+4j+anmOOAgOOBiuWVj+OBhA==?=  =?UTF-8?B?5ZCI44KP44Gb44KS6aCC44GN44G+44GX44Gm44GC44KK44GM44Go44GG44GU?=  =?UTF-8?B?44GW44GE44G+44GZ?=
+Date: Tue, 4 Jan 2022 03:23:04 +0000
+From: =?UTF-8?B?5YWo5Zu977yh44O777yz5Y2U5Lw=?= <kankousei@kankousei.org>
+Message-ID: <ad6527c85a7bb08084fb48958fa71211@as-kouhou.org>
+X-Priority: 3
+X-Mailer: PHPMailer (phpmailer.sourceforge.net) [version 2.0.4]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 
-Please pull the new Chelsio firmware from the following URL.
+❤️ You have unread messages from Christie (2)! Click Here: http://bit.do/fSYTr?vbvs ❤️ 様
 
-  git://git.chelsio.net/pub/git/linux-firmware.git for-upstream
+この度は、全国Ａ・Ｓ協会へのお問い合わせを頂き、誠にありがとうございます。
+ご送信頂きました内容は下記の通りです。ご確認下さい。
 
-Thanks,
-Rahul
+差出人: ❤️ You have unread messages from Christie (2)! Click Here: http://bit.do/fSYTr?vbvs ❤️ 
+メールアドレスlinux-firmware@kernel.org
+題名: ajfj26d
 
-The following changes since commit 57d6b9507e28ac4803ea4aa4dba9592c889d6733:
+メッセージ本文:
+vzhqyhc
 
-  cnm: add chips&media wave521c firmware. (2021-12-29 08:43:43 -0500)
 
-are available in the git repository at:
+--
+このメールは 全国A・S協会 http://as-kouhou.org/ のお問い合わせフォームから送信されました
 
-  git://git.chelsio.net/pub/git/linux-firmware.git for-upstream
-
-for you to fetch changes up to 9e89f3b81e3258e7bffdc0ed18a5c56b1cbf3e3e:
-
-  cxgb4: Update firmware to revision 1.26.6.0 (2022-01-03 08:37:13 -0800)
-
-----------------------------------------------------------------
-Rahul Lakkireddy (1):
-      cxgb4: Update firmware to revision 1.26.6.0
-
- WHENCE                  |  12 ++++++------
- cxgb4/t4fw-1.26.4.0.bin | Bin 570880 -> 0 bytes
- cxgb4/t4fw-1.26.6.0.bin | Bin 0 -> 570880 bytes
- cxgb4/t5fw-1.26.4.0.bin | Bin 676352 -> 0 bytes
- cxgb4/t5fw-1.26.6.0.bin | Bin 0 -> 676352 bytes
- cxgb4/t6fw-1.26.4.0.bin | Bin 729600 -> 0 bytes
- cxgb4/t6fw-1.26.6.0.bin | Bin 0 -> 729600 bytes
- 7 files changed, 6 insertions(+), 6 deletions(-)
- delete mode 100644 cxgb4/t4fw-1.26.4.0.bin
- create mode 100644 cxgb4/t4fw-1.26.6.0.bin
- delete mode 100644 cxgb4/t5fw-1.26.4.0.bin
- create mode 100644 cxgb4/t5fw-1.26.6.0.bin
- delete mode 100644 cxgb4/t6fw-1.26.4.0.bin
- create mode 100644 cxgb4/t6fw-1.26.6.0.bin
