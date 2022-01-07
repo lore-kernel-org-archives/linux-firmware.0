@@ -4,85 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9C19C433F5
-	for <linux-firmware@archiver.kernel.org>; Fri,  7 Jan 2022 12:20:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EE979C433EF
+	for <linux-firmware@archiver.kernel.org>; Fri,  7 Jan 2022 12:26:36 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 7181EC36AEF; Fri,  7 Jan 2022 12:20:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B421C36AE0
-	for <linux-firmware@kernel.org>; Fri,  7 Jan 2022 12:20:57 +0000 (UTC)
+	id BB377C36AE5; Fri,  7 Jan 2022 12:26:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A480AC36AE0
+	for <linux-firmware@kernel.org>; Fri,  7 Jan 2022 12:26:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1641558057;
-	bh=bwkqrpRoFOFdWCKUjlRgGuxEFsj/DVHBOM4zz12bTzQ=;
+	s=k20201202; t=1641558396;
+	bh=gCzLs7Z6/jb5/LhUi1dj53BlX2+ojjgM5ssneDILpR0=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=gnFAadOAg9KRYF3yHOmQvEjZ+R//8i3/zTfraX+aw6O3lGPYZNzbvGItFBtJBTlpl
-	 4dlE60hUXEYm+q6yT5dSabk3oJXHiR4q074xe2AT9RzFfcoCKZtBMOD7Qk3eCyBCIK
-	 jLN7yTjG+UEkJonhkKvaouS6UC/gDOtt7FHrEM4YVype43NfzCUAyJ4ChbfkrVFVFv
-	 +2amkOoyV+ozsZkMHtkGgIx91ynO497tfv5VzoMxNMNYLxsfR5UMbQiI0r1Qc7OlLJ
-	 hZOQmjhPX8QTAx85N6ZagAu/Kdby1pkTy2P0YESOcnhgtAHBaL8WRrZC3HzmJ9azef
-	 raCWH0UQ+vZcA==
-Received: by mail-io1-f41.google.com with SMTP id x6so6773956iol.13
-        for <linux-firmware@kernel.org>; Fri, 07 Jan 2022 04:20:57 -0800 (PST)
-X-Gm-Message-State: AOAM533iZ8MhgaUEBortmnasRYvQUYUVmdO/fdta7b5xTVbUhLn601CZ
-	gLBZvhBcqfIP7ABUiHjKjD077uoJtcDjCqgZ7H8=
-X-Google-Smtp-Source: ABdhPJyYbfuP4jbmre2Rn+CBNYehhmCyneoOpzCWpA5gSp3piA9KEMdQzYhl5QtzmHXxmZm0hyJJFDoDJ/x6o52cjqg=
-X-Received: by 2002:a05:6602:2f09:: with SMTP id q9mr2693534iow.55.1641558056602;
- Fri, 07 Jan 2022 04:20:56 -0800 (PST)
+	b=dnvUmMRXJ036GZB/LbgF2JZPCny/NoJQTaTxUtLsoF2pqkVD5+isdlR9166PhoL7o
+	 hezYXjlTyTm2A4o7luEWEofuW8JwMLIW2gqbCpyfdshPdx8MpTDd5z0S4IatyETQdo
+	 dHJm4cCNkBPFsODg3WrFc3Sof+dPB5eJEKm2V+th5/6JFuBLtdH+aIvxXll6f8gv+V
+	 W7EL7mxkqjr/W5gyLsZ1x6QA/jv1sjvYvsBLXGnkm8+OpJJayT4ZCYC6wIzLbm5OSh
+	 5Tm7J2tNnNOeuxeJ4OPrbqRfkuGAs2fdLnaLEaOSMLP0BWDhuuLIb3lTvZuf98JoYf
+	 S1NjKPlD+xTTg==
+Received: by mail-io1-f49.google.com with SMTP id 19so6870169ioz.4
+        for <linux-firmware@kernel.org>; Fri, 07 Jan 2022 04:26:36 -0800 (PST)
+X-Gm-Message-State: AOAM533hM1B5UNtsLk5NkRGHUVrJ8OUbh/pnz6F2cR3TFUficjEClH1z
+	44FHPV/lJO8LHnR4Vvr4hOP6UOqCfmPNZ2mld00=
+X-Google-Smtp-Source: ABdhPJymaIVwENcVy6S8XU71Suozvw83PXVYdRUsOPA6dDbsS9WWcv0cc2yDIqm1+WWwD3/VWLmmFI66My8DT4KmITM=
+X-Received: by 2002:a05:6638:44f:: with SMTP id r15mr29385488jap.254.1641558395878;
+ Fri, 07 Jan 2022 04:26:35 -0800 (PST)
 MIME-Version: 1.0
-References: <20220103172319.GA11176@chelsio.com>
-In-Reply-To: <20220103172319.GA11176@chelsio.com>
+References: <5029a137-0b82-bb66-b1f9-47fd0676aa54@codeaurora.org>
+In-Reply-To: <5029a137-0b82-bb66-b1f9-47fd0676aa54@codeaurora.org>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Fri, 7 Jan 2022 07:20:45 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA5nE6ODRs7LygDcDkzP2P+4Vw0cGaC0GJ4BH-XvsVfyPA@mail.gmail.com>
-Message-ID: <CA+5PVA5nE6ODRs7LygDcDkzP2P+4Vw0cGaC0GJ4BH-XvsVfyPA@mail.gmail.com>
-Subject: Re: pull request: linux-firmware: update cxgb4 firmware to 1.26.6.0
-To: Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>
+Date: Fri, 7 Jan 2022 07:26:25 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA4qFX3Gv_kuWEpe_mof=PE0CGuK4WE3bbbyCkDpPabDFg@mail.gmail.com>
+Message-ID: <CA+5PVA4qFX3Gv_kuWEpe_mof=PE0CGuK4WE3bbbyCkDpPabDFg@mail.gmail.com>
+Subject: Re: QCA Bluetooth WCN685x firmware pull request at 2022/01/04
+To: Zijun Hu <zijuhu@codeaurora.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, 
-	"Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>, Ramaraju Yelavarthy <ramaraju@chelsio.com>
+Cc: Linux Firmware <linux-firmware@kernel.org>, Rocky Liao <rjliao@codeaurora.org>, 
+	tjiang@codeaurora.org, Zijun Hu <quic_zijuhu@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jan 3, 2022 at 12:27 PM Rahul Lakkireddy
-<rahul.lakkireddy@chelsio.com> wrote:
+On Tue, Jan 4, 2022 at 4:36 AM Zijun Hu <zijuhu@codeaurora.org> wrote:
 >
-> Please pull the new Chelsio firmware from the following URL.
+> Hi linux-firmware maintainers,
 >
->   git://git.chelsio.net/pub/git/linux-firmware.git for-upstream
+> Here's a pull request for btqca bluetooth driver. Please let me know if you have any problems.
 >
-> Thanks,
-> Rahul
+> The following changes since commit
+> commit 57d6b9507e28ac4803ea4aa4dba9592c889d6733
+>     cnm: add chips&media wave521c firmware. (Mon Dec 27 09:07:08 2021 +0000)
 >
-> The following changes since commit 57d6b9507e28ac4803ea4aa4dba9592c889d6733:
+> are available in the Git repository at:
 >
->   cnm: add chips&media wave521c firmware. (2021-12-29 08:43:43 -0500)
+>    https://github.com/zijun-hu/qca-btfw.git
 >
-> are available in the git repository at:
->
->   git://git.chelsio.net/pub/git/linux-firmware.git for-upstream
+> for you to fetch changes up to 17fe7809058ad5949c12d80bf446e726f9e9f782:
+> ----------------------------------------------------------------
+> Zijun Hu (1):
+>         QCA: Add Bluetooth nvm file for WCN685x (Tue Jan 4 14:14:51 2022 +0800)
 
-Pulled and pushed out.
+There are actually 3 commits on your main branch that will be merged,
+not just this one.  They are:
+
+17fe7809058ad5949c12d80bf446e726f9e9f782 QCA: Add Bluetooth nvm file for WCN685x
+72af07ecad7646f84e49222596ad09bcebe223d9 QCA: Update Bluetooth WCN685x
+2.1 firmware to 2.1.0-00324
+7411d2bf5afa895c6440ca2f935a50a74245eee7 QCA: Update Bluetooth WCN685x
+2.0 firmware to 2.0.0-00609
+
+Is that what you wanted with this pull request?
 
 josh
-
->
-> for you to fetch changes up to 9e89f3b81e3258e7bffdc0ed18a5c56b1cbf3e3e:
->
->   cxgb4: Update firmware to revision 1.26.6.0 (2022-01-03 08:37:13 -0800)
->
-> ----------------------------------------------------------------
-> Rahul Lakkireddy (1):
->       cxgb4: Update firmware to revision 1.26.6.0
->
->  WHENCE                  |  12 ++++++------
->  cxgb4/t4fw-1.26.4.0.bin | Bin 570880 -> 0 bytes
->  cxgb4/t4fw-1.26.6.0.bin | Bin 0 -> 570880 bytes
->  cxgb4/t5fw-1.26.4.0.bin | Bin 676352 -> 0 bytes
->  cxgb4/t5fw-1.26.6.0.bin | Bin 0 -> 676352 bytes
->  cxgb4/t6fw-1.26.4.0.bin | Bin 729600 -> 0 bytes
->  cxgb4/t6fw-1.26.6.0.bin | Bin 0 -> 729600 bytes
->  7 files changed, 6 insertions(+), 6 deletions(-)
->  delete mode 100644 cxgb4/t4fw-1.26.4.0.bin
->  create mode 100644 cxgb4/t4fw-1.26.6.0.bin
->  delete mode 100644 cxgb4/t5fw-1.26.4.0.bin
->  create mode 100644 cxgb4/t5fw-1.26.6.0.bin
->  delete mode 100644 cxgb4/t6fw-1.26.4.0.bin
->  create mode 100644 cxgb4/t6fw-1.26.6.0.bin
