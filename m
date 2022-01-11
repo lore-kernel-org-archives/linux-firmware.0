@@ -1,38 +1,125 @@
-Return-Path: <SRS0=C/y4=R3=cjjmrnr.top=info2@kernel.org>
+Return-Path: <SRS0=DgLQ=R3=coelho.fi=luca@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2ECBC433F5
-	for <linux-firmware@archiver.kernel.org>; Tue, 11 Jan 2022 08:29:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B92EAC433EF
+	for <linux-firmware@archiver.kernel.org>; Tue, 11 Jan 2022 08:30:49 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 85B71C36AEF; Tue, 11 Jan 2022 08:29:59 +0000 (UTC)
-Received: from server1.cjjmrnr.top (unknown [120.48.22.238])
-	by smtp.kernel.org (Postfix) with ESMTP id D0E69C36AE3
-	for <linux-firmware@kernel.org>; Tue, 11 Jan 2022 08:29:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D0E69C36AE3
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=anime-baby.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=cjjmrnr.top
-Received: from Pc-202005051821 (183.31.27.205) by server1.cjjmrnr.top id hrl00a0e97cp for <linux-firmware@kernel.org>; Tue, 11 Jan 2022 16:29:37 +0800 (envelope-from <info2@cjjmrnr.top>)
-From: "Anita" <AnitaLiang@anime-baby.com>
-Subject: Re: Silicone bag-Free samples
+	id 76AB0C36AF2; Tue, 11 Jan 2022 08:30:49 +0000 (UTC)
+Received: from farmhouse.coelho.fi (paleale.coelho.fi [176.9.41.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id A41F1C36AE9;
+	Tue, 11 Jan 2022 08:30:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A41F1C36AE9
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=coelho.fi
+Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=coelho.fi
+Received: from 91-155-254-253.elisa-laajakaista.fi ([91.155.254.253] helo=[192.168.100.150])
+	by farmhouse.coelho.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <luca@coelho.fi>)
+	id 1n7CYE-001aBz-50; Tue, 11 Jan 2022 10:30:43 +0200
+Message-ID: <39ee0e148eb24523830b766da9c637c41ad3673c.camel@coelho.fi>
+From: Luca Coelho <luca@coelho.fi>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Content-Type: text/plain; charset=UTF-8
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+Cc: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, 
+	"kyle@infradead.org"
+	 <kyle@infradead.org>, "jwboyer@kernel.org" <jwboyer@kernel.org>, 
+	"ben@decadent.org.uk"
+	 <ben@decadent.org.uk>, golan.ben.ami@intel.com, You-Sheng Yang
+	 <vicamo.yang@canonical.com>, luca@coelho.fi
+Date: Tue, 11 Jan 2022 10:30:39 +0200
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-dINLJ9GLSlSS2le+06Cu"
+User-Agent: Evolution 3.42.2-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Sender: info2@cjjmrnr.top
-Reply-To: AnitaLiang@anime-baby.com
-Date: Tue, 11 Jan 2022 16:29:44 +0800
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
-Content-Disposition: inline
-Message-Id: <20220111082957.D0E69C36AE3@smtp.kernel.org>
+Subject: pull request: iwlwifi firmware updates 2022-01-11
 
-SGV5IGd1eSwNCktWSyBzaWxpY29uZSBwcm9kdWN0cyBtYW51ZmFjdHVyZXIgaGVyZSwgZXhwb3J0
-aW5nIFNJTElDT05FIEZPT0QgQkFHIHdpdGggZ29vZCBxdWFsaXR5IGFuZCBsb3cgcHJpY2UgaW4g
-Q2hpbmEuDQogDQpDYWxsIG1lLCBsZXQncyB0YWxrIGRldGFpbHMuDQoNClJnZHMsDQpBbml0YQ0K
-DQpDZWxsIHBob25lOiArODYgMTUxMTMyOTkzOTINCldoYXRzYXBwOiAgKzg2IDEzNzkwNDExODkx
-DQo=
+
+--=-dINLJ9GLSlSS2le+06Cu
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+This contains some new and updated firmwares for all our currently
+maintained FW binaries.
+
+This adds firmwares from an older stable branch, because this version
+is what is support in v5.15 LTS.  Sorry for not including this in my
+previous pull-request, but only today I realized they were missing.
+
+Please pull or let me know if there are any issues.
+
+--
+Cheers,
+Luca.
+
+
+The following changes since commit 13fc9c285a399932f5a6205b827cf690b4a3c29b=
+:
+
+  Merge tag 'iwlwifi-fw-2022-01-10-v2' of git://git.kernel.org/pub/scm/linu=
+x/kernel/git/iwlwifi/linux-firmware into main (2022-01-10 13:20:21 -0500)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.git =
+tags/iwlwifi-fw-2022-01-11
+
+for you to fetch changes up to 76e8373e07753ebe406f314894f6eae9f8493dfe:
+
+  iwlwifi: add new FWs from core63-136 release (2022-01-11 10:23:38 +0200)
+
+----------------------------------------------------------------
+Update and add iwlwifi firmware binaries for release Core63-136
+
+----------------------------------------------------------------
+Luca Coelho (1):
+      iwlwifi: add new FWs from core63-136 release
+
+ WHENCE                        |  23 ++++++++++++++++++++++-
+ iwlwifi-Qu-b0-hr-b0-66.ucode  | Bin 0 -> 1344220 bytes
+ iwlwifi-Qu-b0-jf-b0-66.ucode  | Bin 0 -> 1262312 bytes
+ iwlwifi-Qu-c0-hr-b0-66.ucode  | Bin 0 -> 1344236 bytes
+ iwlwifi-Qu-c0-jf-b0-66.ucode  | Bin 0 -> 1262328 bytes
+ iwlwifi-QuZ-a0-hr-b0-66.ucode | Bin 0 -> 1344216 bytes
+ iwlwifi-QuZ-a0-jf-b0-66.ucode | Bin 0 -> 1262244 bytes
+ iwlwifi-cc-a0-66.ucode        | Bin 0 -> 1307180 bytes
+ iwlwifi-ty-a0-gf-a0-66.ucode  | Bin 1477864 -> 1481960 bytes
+ 9 files changed, 22 insertions(+), 1 deletion(-)
+ create mode 100644 iwlwifi-Qu-b0-hr-b0-66.ucode
+ create mode 100644 iwlwifi-Qu-b0-jf-b0-66.ucode
+ create mode 100644 iwlwifi-Qu-c0-hr-b0-66.ucode
+ create mode 100644 iwlwifi-Qu-c0-jf-b0-66.ucode
+ create mode 100644 iwlwifi-QuZ-a0-hr-b0-66.ucode
+ create mode 100644 iwlwifi-QuZ-a0-jf-b0-66.ucode
+ create mode 100644 iwlwifi-cc-a0-66.ucode
+
+
+--=-dINLJ9GLSlSS2le+06Cu
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEF3LNfgb2BPWm68smoUecoho8xfoFAmHdQC8ACgkQoUecoho8
+xfp++BAAtKtg9DelR3nkQdk3PZvqf9JNXPUFxrx24qVLbelcDwsUgS+vPWVxyoHS
+ncFmI9YjzZYeKAb6tghMU0WBIEjfne/cjiz3cn0BtWurOgmxZOTHlukuz8UBxSHX
+r8v58vVp32CCVJrvPSHE526uh11va3EEV44F9SoD0ij0WulFKa8c5UYVmDz2BtOq
+KPIDuQYZpGknwrt6fxbL1OTdjX9OpKwNSYX+mNdfcB6roDyu/TpBL6aKM+kPu8V7
+EZEn1IEnGMP4VOoLc/b9M0v0CfZDEgZmaWNALCFuLp15xROm0pL1x5maM5TIGEvn
++kn48SVxiC2L5vp0BP+8W6PqrzszpGQ1Anbvx10OVhNUTM1D/P7tThS3IrLE4+KX
+d8MdsRaMv9Eu5dLX+3BV+ffSXv9rMxRWNrflM8V1v9z4Cvt25WCYusjRhjPajC47
+RAGIAo5ofzQ62DMFn1edlZvqtGlcT3M0bEIpP7W4zlLRmmQaEyD+HN/OL7VmMYAo
+r3XNh716I/Xr7B9VE8ExI4WuclUFwDCDxNO7y/lZkt7XRkqxmt2b8+znMQNtHyIt
+jzUdpBXZxRjSWu7cnfNRfn9OxMjGVJgf85CO+9Sw40gO3c2cTJ9AOxeD1pNVYWbD
+pYLFiem2gMdFVnD+vhbvTgIDmuLcJmFDRyMNDtUoiAKIeG0vONY=
+=AX1R
+-----END PGP SIGNATURE-----
+
+--=-dINLJ9GLSlSS2le+06Cu--
