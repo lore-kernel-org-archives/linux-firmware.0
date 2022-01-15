@@ -1,166 +1,93 @@
-Return-Path: <SRS0=ZIai=R6=gk2.net=gandalf@kernel.org>
+Return-Path: <SRS0=UhXm=R7=intel.com=John.C.Harrison@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 28192C4332F
-	for <linux-firmware@archiver.kernel.org>; Fri, 14 Jan 2022 18:32:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8543FC433EF
+	for <linux-firmware@archiver.kernel.org>; Sat, 15 Jan 2022 00:03:55 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id E41F6C36AE9; Fri, 14 Jan 2022 18:32:47 +0000 (UTC)
-Received: from 19.mo582.mail-out.ovh.net (19.mo582.mail-out.ovh.net [188.165.56.177])
+	id 4B68EC36AED; Sat, 15 Jan 2022 00:03:55 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id B6BCCC36AE5
-	for <linux-firmware@kernel.org>; Fri, 14 Jan 2022 18:32:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org B6BCCC36AE5
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=gk2.net
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gk2.net
-Received: from player687.ha.ovh.net (unknown [10.108.16.251])
-	by mo582.mail-out.ovh.net (Postfix) with ESMTP id 7997623321
-	for <linux-firmware@kernel.org>; Fri, 14 Jan 2022 18:32:35 +0000 (UTC)
-Received: from gk2.net (82-65-221-177.subs.proxad.net [82.65.221.177])
-	(Authenticated sender: gerald@gk2.net)
-	by player687.ha.ovh.net (Postfix) with ESMTPSA id 290C7264AC403;
-	Fri, 14 Jan 2022 18:32:25 +0000 (UTC)
-Authentication-Results:garm.ovh; auth=pass (GARM-95G0010a3a2227-d285-4286-9c04-f3c8c0383686,
-                    191AC0B3D9F265F0EBDA6C7C6CC780C2151EEFFD) smtp.auth=gerald@gk2.net
-X-OVh-ClientIp:82.65.221.177
-Subject: Re: mwifiex 1.0 (16.68.10.p159) - PCIEUSB-8997 firmware is buggy
-To: =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
- Sharvari Harisangam <sharvari.harisangam@nxp.com>,
- Rakesh Parmar <rakesh.parmar@nxp.com>, Cathy Luo <xiaohua.luo@nxp.com>,
- prashanthkrishnan.ranganathan@nxp.com, zheng.cao@nxp.com
+	by smtp.kernel.org (Postfix) with ESMTPS id 29B30C36AE7;
+	Sat, 15 Jan 2022 00:03:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 29B30C36AE7
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=Intel.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1642205034; x=1673741034;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=fRBRqTxEx+BL3S0gUUc8sK1XSmUMURLrleL6ieCDm3Y=;
+  b=KfpRLc7CHguu66SJZxYLpjzX7QKh1mY6pCWWKhE1lrNbaPJ3ju1Go3EA
+   2LQWWOqWo6XFyBa4gD2gDf01P05OfWeQCyRw/9KPdT505H7KSzAKeHUlx
+   jRhcxGjBdI+Rt2TsnJ3zWJM0Xs0f2fM/Iv6wwqwjyRojzR4UzbYJe9Y9j
+   wh6iklSL2QvQ7EH62/6yXmfwu10+Ssqi+m3sdsoNG1d9I0vUpapnRSmCL
+   taHp/2M2rPoC7bDQdEjxFpxms4m1jyc976g3GN1kcFQ0pgiL5bnsQfah2
+   ZjcT/2t4jxFQsq0u+fan+HkTbogzOkeE/AJTssiZjqSubS3/vD2G+GCvA
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10227"; a="243169055"
+X-IronPort-AV: E=Sophos;i="5.88,290,1635231600"; 
+   d="scan'208";a="243169055"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2022 16:03:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,290,1635231600"; 
+   d="scan'208";a="614500477"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
+  by FMSMGA003.fm.intel.com with ESMTP; 14 Jan 2022 16:03:53 -0800
+From: John.C.Harrison@Intel.com
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>,
- Linux Wireless <linux-wireless@vger.kernel.org>,
- Ganapathi Bhat <ganapathi017@gmail.com>, Josh Boyer <jwboyer@kernel.org>
-References: <edeb34bc-7c85-7f1d-79e4-e3e21df86334@gk2.net>
- <fe75e8f2-6f12-052a-81ed-38122b87f1f6@gk2.net>
- <20210926104306.xocctztsuspx6oji@pali>
- <CA+5PVA4AGa09+X2A4zPU2MKWburCtiddb3cpSJh9H-JTO=fJKg@mail.gmail.com>
- <20220114170051.sx2p6m2ihrv3ojzt@pali>
-From: =?UTF-8?Q?G=c3=a9rald_Kerma?= <gandalf@gk2.net>
-Message-ID: <494e74b9-6d1e-3c6a-405f-0f7afb6bbeac@gk2.net>
-Date: Fri, 14 Jan 2022 19:32:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+To: linux-firmware@kernel.org
+Cc: jwboyer@kernel.org,
+	kyle@kernel.org,
+	ben@decadent.org.uk,
+	intel-gfx@lists.freedesktop.org
+Subject: [CI] PR for new GuC v69.0.3
+Date: Fri, 14 Jan 2022 16:03:53 -0800
+Message-Id: <20220115000353.1812714-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20220114170051.sx2p6m2ihrv3ojzt@pali>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: fr
-X-Ovh-Tracer-Id: 13962003273441467138
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrtdehgdduudegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepiforrhgrlhgupgfmvghrmhgruceoghgrnhgurghlfhesghhkvddrnhgvtheqnecuggftrfgrthhtvghrnhepteeffeevieeltdehtdfhlefftdehkeeuvdekjefhheeujefhgfeileelheegtdfhnecuffhomhgrihhnpehgihhthhhusgdrtghomhdpkhgvrhhnvghlrdhorhhgnecukfhppedtrddtrddtrddtpdekvddrieehrddvvddurddujeejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehplhgrhigvrheikeejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghgrnhgurghlfhesghhkvddrnhgvthdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhfihhrmhifrghrvgeskhgvrhhnvghlrdhorhhg
 
-Héllo all,
+The following changes since commit b0e898fbaf377c99a36aac6fdeb7250003648ca4:
 
-Thanks again Pali to get this been up again...
+  linux-firmware: Update firmware file for Intel Bluetooth 9462 (2021-11-23 12:31:45 -0500)
 
-Le 14/01/2022 à 18:00, Pali Rohár a écrit :
-> NXP people: Sharvari, Rakesh, Cathy, Zheng: could you please look at
-> this issue? It is really serous!
->
-> On Monday 27 September 2021 09:47:23 Josh Boyer wrote:
->> On Sun, Sep 26, 2021 at 6:43 AM Pali Rohár <pali@kernel.org> wrote:
->>> Hello Josh, Sharvari and other from NXP!
->>>
->>> On Saturday 25 September 2021 19:23:48 Gérald Kerma wrote:
->>>> Correcting old marvell address to new nxp...
->>>>
->>>> Le 25/09/2021 à 19:19, Gérald Kerma a écrit :
->>>>> Héllo All,
->>>>>
->>>>> I made some few tests on EspressoBin-Ultra from GlobalScaleTechnologies,
->>>>> because of problem with the WiFi.
->>>>>
->>>>> I have done some quick tests on all the firmware of PCIEUSB-8997 using
->>>>> the pcieuart8997_combo_v4.bin on OpenWrt 21.02.x
->>>>>
->>>>> Here is a summary of the tests :
->>>>> - W16.68.10.p159 = KO
->>>>> - W16.68.1.p195 = KO
->>>>> - V16.68.1.p145 = OK
->>>>> - 16.68.1.p140 = OK
->>>>> - 16.68.1.p133 = OK
->>>>> - 16.68.1.p97 = OK
->>>>> - 16.68.1.p70 = KO
->>>  From this user test result can be seen that last two versions of
->>> pcieusb8997_combo_v4.bin firmware file for 8997 wifi+bt card with
->>> official mainline linux kernel driver mwifiex were not properly tested
->>> internally in NXP and are causing serious issues which make 8997 card
->>> basically unusable.
->>>
->>> Sharvari and other NXP developers: Do you have some internal testing of
->>> this pcieusb8997_combo_v4.bin firmware for PCIe+USB variant of 8997
->>> wifi chips? Or are you aware of this issue and do you have in NXP some
->>> workaround for it (e.g. at driver level)? Could you please look at this
->>> serious issue and try to debug firmware and release a new version, as
->>> this is obvious fatal error in firmware itself?
->>>
->>> Josh, how you in linux-firmware repository handle such, I must say,
->>> "fatal issues"? Wait for vendor fixes or revert problematic commits? Or
->>> something else?
->> We can revert if we need to, but I think it's not quite that simple.
->>
->>> Because when users starts upgrading linux-firmware packages in their
->>> downstream distributions then basically wifi cards on this 8997 chips
->>> with official mwifiex driver stops working.
->> The first broken version was committed in Feb of 2019.  That's
->> approaching 3 years ago.  Given that this is binary firmware, I have
->> no idea what else may or may not be included in the updates in the
->> meantime.
->>
->> josh
-> Josh, as Gérald wrote, current binary in linux-firmware repository is
-> unusable. And there is no reply from NXP for 3 months.
->
-> You are right that nobody knows what is in firmware binary, but working
-> binary is at least usable than non-working binary.
->
-> So I would really suggest to start reverting non-working firmware files
-> if NXP does not respond in few days.
->
-> Gérald, what is your opinion? Do you see other way how to make mainline
-> linux driver work (again)?
+are available in the Git repository at:
 
-I am really lost on this, Marvell do not answer at all.
-NXP give me some buggy answer, no NDA possible with me and my own company...
-No share about any works already public !
-So my only proposal will be poor !
+  git://anongit.freedesktop.org/drm/drm-firmware guc_v69.0.3
 
-May be we can confirm my own test by some other technical testers and 
-look to get the less buggy, because they all, more or less, again to the 
-mainline !
+for you to fetch changes up to 548b304a35b77cd43c1242e0eae68f775bd0df2a:
 
+  i915: Add GuC v69.0.3 for all platforms (2021-12-15 13:28:54 -0800)
 
->>>>> REF (and all details of tests) :
->>>>> https://github.com/NXP/mwifiex-firmware/issues/1
->>>>>
->>>>>
->>>>> Broken firmware :
->>>>>
->>>>> Version |W16.68.1.p195| of |pcieusb8997_combo_v4.bin| was included into
->>>>> linux-firmware repository by this pull request:
->>>>> https://lore.kernel.org/all/CA+5PVA5yQbjg3vaT7F8120B6ngLn7+sZC0OWt0KoUiQR9hS4FA@mail.gmail.com/
->>>>> <https://lore.kernel.org/all/CA+5PVA5yQbjg3vaT7F8120B6ngLn7+sZC0OWt0KoUiQR9hS4FA@mail.gmail.com/>
->>>>>
->>>>> And latest version |W16.68.10.p159| of |pcieusb8997_combo_v4.bin| by
->>>>> this pull request:
->>>>> https://lore.kernel.org/linux-firmware/CA+5PVA5on7+CRtEV7tThPxgucwt3W9i-tEXm4cgH-AmMB-Jrtg@mail.gmail.com/
->>>>> <https://lore.kernel.org/linux-firmware/CA+5PVA5on7+CRtEV7tThPxgucwt3W9i-tEXm4cgH-AmMB-Jrtg@mail.gmail.com/>
->>>>>
->>>>> Olders looks to works better.
->>>>>
->>>>> In quick tests, they allow more than 1 clients at a time !
->>>>>
->>>>> I am still testing the V16.68.1.p145 and report the results after some
->>>>> longer use...
->>>>>
->>>>> Hopes it will help...
->>>>> Regards,
->>>>> Gérald Kerma
->>>>> gandalf(at)gk2(dot)net
+----------------------------------------------------------------
+John Harrison (1):
+      i915: Add GuC v69.0.3 for all platforms
 
+ WHENCE                   |  30 ++++++++++++++++++++++++++++++
+ i915/adlp_guc_69.0.3.bin | Bin 0 -> 356416 bytes
+ i915/bxt_guc_69.0.3.bin  | Bin 0 -> 216768 bytes
+ i915/cml_guc_69.0.3.bin  | Bin 0 -> 217664 bytes
+ i915/dg1_guc_69.0.3.bin  | Bin 0 -> 323968 bytes
+ i915/ehl_guc_69.0.3.bin  | Bin 0 -> 343360 bytes
+ i915/glk_guc_69.0.3.bin  | Bin 0 -> 217216 bytes
+ i915/icl_guc_69.0.3.bin  | Bin 0 -> 343360 bytes
+ i915/kbl_guc_69.0.3.bin  | Bin 0 -> 217664 bytes
+ i915/skl_guc_69.0.3.bin  | Bin 0 -> 216704 bytes
+ i915/tgl_guc_69.0.3.bin  | Bin 0 -> 343296 bytes
+ 11 files changed, 30 insertions(+)
+ create mode 100644 i915/adlp_guc_69.0.3.bin
+ create mode 100644 i915/bxt_guc_69.0.3.bin
+ create mode 100644 i915/cml_guc_69.0.3.bin
+ create mode 100644 i915/dg1_guc_69.0.3.bin
+ create mode 100644 i915/ehl_guc_69.0.3.bin
+ create mode 100644 i915/glk_guc_69.0.3.bin
+ create mode 100644 i915/icl_guc_69.0.3.bin
+ create mode 100644 i915/kbl_guc_69.0.3.bin
+ create mode 100644 i915/skl_guc_69.0.3.bin
+ create mode 100644 i915/tgl_guc_69.0.3.bin
