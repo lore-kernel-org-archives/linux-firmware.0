@@ -1,93 +1,103 @@
-Return-Path: <SRS0=UhXm=R7=intel.com=John.C.Harrison@kernel.org>
+Return-Path: <SRS0=dPYr=SB=qualityservice.top=info9@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8543FC433EF
-	for <linux-firmware@archiver.kernel.org>; Sat, 15 Jan 2022 00:03:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5798AC4332F
+	for <linux-firmware@archiver.kernel.org>; Mon, 17 Jan 2022 09:59:22 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 4B68EC36AED; Sat, 15 Jan 2022 00:03:55 +0000 (UTC)
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 29B30C36AE7;
-	Sat, 15 Jan 2022 00:03:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 29B30C36AE7
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=Intel.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1642205034; x=1673741034;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=fRBRqTxEx+BL3S0gUUc8sK1XSmUMURLrleL6ieCDm3Y=;
-  b=KfpRLc7CHguu66SJZxYLpjzX7QKh1mY6pCWWKhE1lrNbaPJ3ju1Go3EA
-   2LQWWOqWo6XFyBa4gD2gDf01P05OfWeQCyRw/9KPdT505H7KSzAKeHUlx
-   jRhcxGjBdI+Rt2TsnJ3zWJM0Xs0f2fM/Iv6wwqwjyRojzR4UzbYJe9Y9j
-   wh6iklSL2QvQ7EH62/6yXmfwu10+Ssqi+m3sdsoNG1d9I0vUpapnRSmCL
-   taHp/2M2rPoC7bDQdEjxFpxms4m1jyc976g3GN1kcFQ0pgiL5bnsQfah2
-   ZjcT/2t4jxFQsq0u+fan+HkTbogzOkeE/AJTssiZjqSubS3/vD2G+GCvA
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10227"; a="243169055"
-X-IronPort-AV: E=Sophos;i="5.88,290,1635231600"; 
-   d="scan'208";a="243169055"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2022 16:03:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,290,1635231600"; 
-   d="scan'208";a="614500477"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
-  by FMSMGA003.fm.intel.com with ESMTP; 14 Jan 2022 16:03:53 -0800
-From: John.C.Harrison@Intel.com
+	id 28132C36AF3; Mon, 17 Jan 2022 09:59:22 +0000 (UTC)
+Received: from server4.ffssun.top (unknown [106.13.230.78])
+	by smtp.kernel.org (Postfix) with ESMTP id 60608C36AE3
+	for <linux-firmware@kernel.org>; Mon, 17 Jan 2022 09:59:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 60608C36AE3
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=golden-universe.cn
+Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=qualityservice.top
+Received: from PC-20190307QNBE (120.229.115.109) by server4.ffssun.top id hskuvi0e97c6 for <linux-firmware@kernel.org>; Mon, 17 Jan 2022 17:58:49 +0800 (envelope-from <info9@qualityservice.top>)
+From: "Mr. Harold Xie" <gu002@golden-universe.cn>
+Subject: test
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Cc: jwboyer@kernel.org,
-	kyle@kernel.org,
-	ben@decadent.org.uk,
-	intel-gfx@lists.freedesktop.org
-Subject: [CI] PR for new GuC v69.0.3
-Date: Fri, 14 Jan 2022 16:03:53 -0800
-Message-Id: <20220115000353.1812714-1-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.25.1
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: base64
+Sender: info9@qualityservice.top
+Reply-To: gu002@golden-universe.cn
+Date: Mon, 17 Jan 2022 17:58:48 +0800
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
+Content-Disposition: inline
+Message-Id: <20220117095921.60608C36AE3@smtp.kernel.org>
 
-The following changes since commit b0e898fbaf377c99a36aac6fdeb7250003648ca4:
-
-  linux-firmware: Update firmware file for Intel Bluetooth 9462 (2021-11-23 12:31:45 -0500)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-firmware guc_v69.0.3
-
-for you to fetch changes up to 548b304a35b77cd43c1242e0eae68f775bd0df2a:
-
-  i915: Add GuC v69.0.3 for all platforms (2021-12-15 13:28:54 -0800)
-
-----------------------------------------------------------------
-John Harrison (1):
-      i915: Add GuC v69.0.3 for all platforms
-
- WHENCE                   |  30 ++++++++++++++++++++++++++++++
- i915/adlp_guc_69.0.3.bin | Bin 0 -> 356416 bytes
- i915/bxt_guc_69.0.3.bin  | Bin 0 -> 216768 bytes
- i915/cml_guc_69.0.3.bin  | Bin 0 -> 217664 bytes
- i915/dg1_guc_69.0.3.bin  | Bin 0 -> 323968 bytes
- i915/ehl_guc_69.0.3.bin  | Bin 0 -> 343360 bytes
- i915/glk_guc_69.0.3.bin  | Bin 0 -> 217216 bytes
- i915/icl_guc_69.0.3.bin  | Bin 0 -> 343360 bytes
- i915/kbl_guc_69.0.3.bin  | Bin 0 -> 217664 bytes
- i915/skl_guc_69.0.3.bin  | Bin 0 -> 216704 bytes
- i915/tgl_guc_69.0.3.bin  | Bin 0 -> 343296 bytes
- 11 files changed, 30 insertions(+)
- create mode 100644 i915/adlp_guc_69.0.3.bin
- create mode 100644 i915/bxt_guc_69.0.3.bin
- create mode 100644 i915/cml_guc_69.0.3.bin
- create mode 100644 i915/dg1_guc_69.0.3.bin
- create mode 100644 i915/ehl_guc_69.0.3.bin
- create mode 100644 i915/glk_guc_69.0.3.bin
- create mode 100644 i915/icl_guc_69.0.3.bin
- create mode 100644 i915/kbl_guc_69.0.3.bin
- create mode 100644 i915/skl_guc_69.0.3.bin
- create mode 100644 i915/tgl_guc_69.0.3.bin
+RGVhciBuZXcgYW5kIG9sZCBjdXN0b21lcnMsIGRpc3Rpbmd1aXNoZWQgcGFydG5lcnMsDQpGaXJz
+dCBvZiBhbGwsIHRoYW5rIHlvdSBmb3IgeW91ciBjb25zaXN0ZW50IHN1cHBvcnQgYW5kIGNvb3Bl
+cmF0aW9uLiAyMDIxIHdpbGwgYmUgYSBwZXJmZWN0IGVuZGluZy4gT3VyIHNhbGVzIGhhdmUgYWxz
+byBhY2hpZXZlZCB0cmVtZW5kb3VzIGdyb3d0aCwgdGhhbmsgeW91IGZvciB5b3VyIHN1cHBvcnQh
+DQpIb3BlIHRvIGdldCB5b3VyIGNvbnRpbnVlZCBzdXBwb3J0IGluIHRoZSBmdXR1cmUhIFdlIHdp
+bGwgY29udGludWUgdG8gcHJvdmlkZSBoaWdoLXF1YWxpdHkgcHJvZHVjdHMgYW5kIHNlcnZpY2Vz
+LCBhcyB3ZWxsIGFzIHRoZSBuZXdseSBkZXZlbG9wZWQgcHJvZHVjdHMgYW5kIHRoZSBtb3N0IHBv
+cHVsYXIgYXJ0aWZpY2lhbCBwbGFudHMsIGFydGlmaWNpYWwgZmxvd2VycyBhbmQgdHJlZXMuIE5v
+IG1hdHRlciB3aGF0IHlvdXIgbmVlZHMgYXJlLCB3ZSBob3BlIHlvdSBjYW4gcHV0IHRoZW0gZm9y
+d2FyZCBpbiB0aW1lLiBEdWUgdG8gdGhlIGltcGFjdCBvZiB0aGUgZXBpZGVtaWMsIHlvdSBjYW5u
+b3QgY29tZSB0byBvdXIgZmFjdG9yeSBvciBtb2RlbCByb29tIHRvIHBlcnNvbmFsbHkgY2hvb3Nl
+IHRoZSBwcm9kdWN0cyB5b3UgbGlrZS4gV2UgaG9wZSB5b3UgY2FuIHByb3ZpZGUgeW91ciBvd24g
+cHJvZHVjdCBwaWN0dXJlcyBvciBnbyB0byB1cy4gQ2hvb3NlIHRoZSBwcm9kdWN0cyB5b3UgbGlr
+ZSBvbiB0aGUgQWxpYmFiYSB3ZWJzaXRlLiBPciB5b3UgaGF2ZSBhbHJlYWR5IHB1cmNoYXNlZCBm
+cm9tIHVzLCBhbmQgdGhlIGdvb2QgcHJvZHVjdHMgc29sZCBhcmUgYWRkZWQgYW5kIHJlLW9yZGVy
+ZWQuIFdlIHN1cHBvcnQgeW91ciBmdWxsIGNhYmluZXQgb3JkZXIgb3IgYnVsayBvcmRlci4NCldo
+ZXRoZXIgaXQgaXMgd2VkZGluZyBmbG93ZXIgcHJvZHVjdHMgb3IgaW5kb29yIGFuZCBvdXRkb29y
+IGFydGlmaWNpYWwgcGxhbnQgdHJlZXMsIGJvbnNhaSwgcmF0dGFuLCB3YWxsIGhhbmdpbmdzLCB0
+dXJmLCBkZXNlcnQgZ3JlZW4gcGxhbnRzLCBvciBob3RlbCBhbmQgaG9tZSBkZWNvcmF0aW9uIHBy
+b2R1Y3RzLCB3ZSBjYW4gdGFpbG9yIGl0IGZvciB5b3UuDQpZb3UgYXJlIHdlbGNvbWUgdG8gY29u
+c2lkZXIgb3JkZXJzIGZvciB0aGUgZmlyc3QgaGFsZiBvZiAyMDIyIG9yIHRoZSB3aG9sZSB5ZWFy
+LiBXZSBhcmUgaGVyZSB3YWl0aW5nIGZvciB5b3VyIHJlcGx5LCB0aGFuayB5b3UhIFBsZWFzZSBz
+ZWxlY3QgeW91ciBmYXZvcml0ZSBwcm9kdWN0cyBmcm9tIG91ciBwcm9kdWN0IGNhdGFsb2cgb3Ig
+cXVvdGF0aW9uIGZvcm0gdGhhdCBJIHNlbnQgeW91Lg0KV2VsY29tZSB0byB2aXNpdCBvdXIgd2Vi
+c2l0ZSBodHRwczovL2ppbmNoZW5nb25neWkuZW4uYWxpYmFiYS5jb20vIG9yIGh0dHBzOi8vd3d3
+LmpjLTg4LmNvbQ0KUGxlYXNlIGFkZCBteSBXZUNoYXQgb3IgY2FsbCBtZSwgMDA4Ni0xMzQyMzAw
+NTUzMg0KT3IgZW1haWwgbWU6IGd1MDAyQGdvbGRlbi11bml2ZXJzZS5jbiBvciA1MTcxMTI2NTVA
+cXEuY29tIA0KDQoNClRoYW5rIHlvdSB2ZXJ5IG11Y2ggZm9yIHlvdXIga2luZCByZXBseS4NClll
+cyxXZSBhcmUgYWxzbyBtYW51ZmFjdHVyZXJzLCB3ZSBoYXZlIG1hbnkgY3VzdG9tZXJzIGluIGRp
+ZmZlcmVudCBjb3VudHJpZXMsaW4gQnJhemlsIHdlIGhhdmUgRmxvcmUgQXJ0ZSBhbmQgb3RoZXJz
+LCBpbiBCZWxnaXVtIHdlIGhhdmUgSmFzYWNvIGFuZCBvdGhlcnMsIGluIEdlcm1hbnkgd2UgaGF2
+ZSBHYXNwZXIgYW5kIG90aGVycywgaW4gSXRhbHkgd2UgaGF2ZSBBcnBpbWV4IGFuZCBvdGhlcnMs
+IGluIEZyYW5jZSB3ZSBoYXZlIEdpRmkgYW5kIExWIGFuZCBvdGhlcnMsIGluIHRoZSBOZXRoZXJs
+YW5kcyB3ZSBoYXZlIEhvZ3dvbmluZyBhbmQgb3RoZXJzLCBpbiBQb3J0dWdhbCB3ZSBoYXZlIER1
+ZmlsIGFuZCBvdGhlcnMsICBpbiBCZWxnaXVtIHdlIGhhdmUgSmFzY28gYW5kIFlpbHRleCBhbmQg
+b3RoZXJzLCBpbiBBdXN0cmFsaWEgd2UgaGF2ZSBUYXJnZXQgYW5kIG90aGVycywgaW4gdGhlIE1p
+ZGRsZSBFYXN0IHdlIGhhdmUgTHVMdSBDZW50ZXIgYW5kIGluIEtTQSB3ZSBoYXZlIEJpbiBTaGlo
+b24gR3JvdXAgYW5kIG90aGVycywgaW4gVUFFIHdlIGhhdmUgSHVkYSBJbXBleCBhbmQgQXphbHlh
+IEZsb3dlcnMgYW5kIG90aGVycywgaW4gSW5kaWEgd2UgaGF2ZSBHcmVlbiBHYWxsZXJ5IGFuZCBv
+dGhlcnMsIGluIEtvcmVhIHdlIGhhdmUgQlRDIGFuZCBVUExJRkUgYW5kIFBob2VuaXggSUMgYW5k
+IG90aGVycywgYW5kIHNvIG9uLg0KDQoNCldlIGFyZSB2ZXJ5IGhhcHB5IHRvIGhhdmUgdGhlIGNo
+YW5jZSB0byBjb29wZXJhdGUgd2l0aCB5b3UgYW5kIHdlIHByb21pc2UgdG8gc3VwcGx5IHRoZSBn
+b29kIHF1YWxpdHkgZ29vZHMgd2l0aCB2ZXJ5IHJlYXNvbmFibGUgcHJpY2VzIGFuZCBmYXN0IGRl
+bGl2ZXJ5IHRpbWUuDQpUaGFuayB5b3UgYW5kIHdhaXRpbmcgZm9yIHlvdXIgZWFybGllciByZXBs
+eSENCg0KDQoNCg0KDQoNCg0KLS0NCi0tDQoNClRoYW5rIHlvdSBhbmQgQmVzdCByZWdhcmRzDQot
+LS0tLS0tLS0tLS0tLS0tLS0NCk1yLiBIYXJvbGQgWGllIA0KU2FsZXMgTWFuYWdlciBvZiBKaW5j
+aGVuIEFydHMgJiBDcmFmdHMgQ28uLCBMdGQuDQpBZGRyZXNzOlNoaXBhaSBUb3duLCBEb25nZ3Vh
+biwgR3Vhbmdkb25nLCBDaGluYS4gUG9zdCBDb2RlOiA1MjMwMDAgICBXaGVjaGF0IG5vLjogODYt
+MTM0MjMwMDU1MzIgb3IgMTM0MzQwNzg1NTYNClRlbCAmIE1vYmlsZTogODYtMTM0MjMwMDU1MzIg
+IG9yICAxMzQzNDA3ODU1Ng0KRS1tYWlsOiBndTAwMkBnb2xkZW4tdW5pdmVyc2UuY24gIG9yIDUx
+NzExMjY1NUBxcS5jb20gDQpocHB0Oi8vd3d3LmpjLTg4LmNvbSAgIG5ldyBpdGVtcyBoZXJlDQpB
+bGliYWJhIHdlYnNpdGU6IGh0dHBzOi8vamluY2hlbmdvbmd5aS5lbi5hbGliYWJhLmNvbS8NCkRv
+bmdndWFuIGppbmNoZW4gQXJ0cyBhbmQgQ3JhZnRzIENvLiwgTFRELiBJcyBhIGNvbXBhbnkgc3Bl
+Y2lhbGl6aW5nIGluIGFydGlmaWNpYWwgcGxhbnRzIGFuZCBhcnRpZmljaWFsIGZsb3dlcnMgYW5k
+IGFydGlmaWNpYWwgcGxhbnQgd2FsbHMsIHN1Y2ggYXMgZmliZXJnbGFzcyBrZWxwIHRyZWVzLCBj
+b2NvbnV0IGp1aWNlIHRyZWVzLCBwaW5lIG5lZWRsZXMsIGFyZWNhIHRyZWVzLCBIYXdhaWlhbiB0
+cmVlcywgY2hlcnJ5IHRyZWVzLCBwZWFjaCB0cmVlcyBhbmQgc28gb24uIFRoZSBzaW11bGF0aW9u
+IHBsYW50IHdhbGwsIHRoZSBnYXJkZW4gcm9ja2VyeSBwcm9qZWN0IHJlYWwgZXN0YXRlIGFmZm9y
+ZXN0YXRpb24gZmxvd2VyIGFydCBzb2Z0IGRlY29yYXRpb24gcHJvamVjdC4NCkppbmNoZW4gY3Jh
+ZnRzIGZvciBtYW55IGxhcmdlIGhvdGVscyBhdCBob21lIGFuZCBhYnJvYWQsIHN1cGVybWFya2V0
+cywgc3F1YXJlcywgcmVhbCBlc3RhdGUsIGFtdXNlbWVudCBwbGFjZXMsIHJlc29ydHMsIHByb3Zp
+ZGUgbGFuZHNjYXBlIGRlc2lnbiBhbmQgaW5zdGFsbGF0aW9uLCBoYXMgYmVlbiBmcmllbmRzIGF0
+IGhvbWUgYW5kIGFicm9hZCBwcmFpc2UgYW5kIHRydXN0IQ0KSmluY2hlbiBjcmFmdHMgaXMgYSBw
+cm9mZXNzaW9uYWwgcHJvZHVjdGlvbiBzZXJ2aWNlIGZvciB0aGUgZG9tZXN0aWMgYW5kIGV4cG9y
+dCBoaWdoLWVuZCBtYXJrZXQsIHRoZSBleHBvcnQgb2YgYSBzZXJpZXMgb2YgaGlnaC1lbmQgaW5k
+b29yIGFuZCBvdXRkb29yIHNpbXVsYXRpb24gcGxhbnRzLiBXZSBoYXZlIGJlZW4gd29ya2luZyBo
+YXJkIHRvIGNyZWF0ZSBtb3JlIHVuaXF1ZSBwcm9kdWN0cyBmb3IgZnJpZW5kcyBhdCBob21lIGFu
+ZCBhYnJvYWQuIENob29zaW5nIGppbmNoZW4gY3JhZnRzIGlzIG91ciBwcmlkZSEgV2UgaGF2ZSBi
+ZWVuIHdob2xlaGVhcnRlZGx5IHNlcnZpbmcgZXZlcnkgY3VzdG9tZXIsIHlvdXIgc2F0aXNmYWN0
+aW9uIGlzIG91ciBwdXJzdWl0IQ0K
