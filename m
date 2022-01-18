@@ -4,86 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0718C433F5
-	for <linux-firmware@archiver.kernel.org>; Tue, 18 Jan 2022 14:44:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C0E4C433F5
+	for <linux-firmware@archiver.kernel.org>; Tue, 18 Jan 2022 14:46:37 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 9D1D0C340E2; Tue, 18 Jan 2022 14:44:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86E8FC340E5
-	for <linux-firmware@kernel.org>; Tue, 18 Jan 2022 14:44:40 +0000 (UTC)
+	id 59D0AC340E7; Tue, 18 Jan 2022 14:46:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42993C340E2;
+	Tue, 18 Jan 2022 14:46:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1642517080;
-	bh=TDkwP8VBKtiNnT+mTATiMg8TBiQWoMHRZB3Fmr6r6oY=;
+	s=k20201202; t=1642517197;
+	bh=5kkrKBsUFQ5KqEZdSRQoGGjkQplGcsNhMAuPb6M2P5c=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=hUuwWLWz7ECRWUPamJBmmpcT6OhrSHpjfIamiLvKJY3sTvY+aEq8pd4jCS216KmM1
-	 guWywQsl1arsm/kihvMaukVVg4wobscNUq1oaKCoRjw0NV2nHWHVnoEYivK4X87Tr9
-	 fL/rTZhiuqzJQZrlAJv77P3FXahxvcO0OeQE9lZAy/JlqEpJd0Ot/trGY2+iB0k/yq
-	 J/lHBll4xg5Y/d8BSv3nht86/LI1gQLepo2r693bwJ+PwBCaqPu9rXW5MdyxLNRUsq
-	 dR5dA3u4Zc9GF6pZWVrRQgbSkeldbEtNVOLXs81ox8bdlpninKPm2vpMg29yyTK8Td
-	 p4u3T1RBalpQQ==
-Received: by mail-il1-f169.google.com with SMTP id u5so13465438ilq.9
-        for <linux-firmware@kernel.org>; Tue, 18 Jan 2022 06:44:40 -0800 (PST)
-X-Gm-Message-State: AOAM532QJNVL7VXgjAAr6TGIgcuCVvbGYA3CQpuIXVC9iCJqUPnMSzPr
-	YiB64Af2A6K22164HX/y2prXjRZfZDrXSLs5mj0=
-X-Google-Smtp-Source: ABdhPJzWN3HfFYXvNQ9Ib23yW6isEWwHfMq4Ghegkg+0YlCrmFzxESzPdwS0YVUoQHipwBMODqOkVEG3H3C3HNZ9m98=
-X-Received: by 2002:a05:6e02:1c25:: with SMTP id m5mr14022632ilh.251.1642517079733;
- Tue, 18 Jan 2022 06:44:39 -0800 (PST)
+	b=lUUgd8F7EO723yTMrJxA/RWCysATHCQaSooHrX4Mblss1B3YcL375FQtb2Zvx0/jO
+	 JF7z2BLd2KXc+5u1pGtgZIJ+b1TlteLFvf1wzq7oiosbqrUATWdoSII1IakKHlwlCR
+	 Q7YsOXMqFWz0K6ZmU5RHsddy5F/60YW7x+biD0BEPeLp9CXObWMoRC/pg+NBQmbYYi
+	 U5nNHb+zeyQgLBo6JY8r9zxBwS/7joaJlnI8qOrEtmpgx1Q59/1QWut7bKgQnxPgWj
+	 eeXm9DDm4vcrACc6JylhPsK4xOtx3HeuzFLiJo3wvuPNw7PY9N+fcl9kb5/dWgah3d
+	 6LQ/qTepu+t4g==
+Received: by mail-il1-f178.google.com with SMTP id a18so11365931ilq.6;
+        Tue, 18 Jan 2022 06:46:37 -0800 (PST)
+X-Gm-Message-State: AOAM53103Lx8ktPLKQkKWn+yILhTf4SLETWY4Q7YS0xJlEahY0AV3gKT
+	Jn4snGl6axtpzaWBC24GEsCpIwK+E9D+KxahtXM=
+X-Google-Smtp-Source: ABdhPJx97WVAx/RkAF5HM0hpBC80DikdOuCxM0y+/dfoIZ3jCYW7zOiGfrP1VqxXMDvQgPN7I2SPFOYZMrVfBh03qbA=
+X-Received: by 2002:a05:6e02:1c25:: with SMTP id m5mr14028384ilh.251.1642517196463;
+ Tue, 18 Jan 2022 06:46:36 -0800 (PST)
 MIME-Version: 1.0
-References: <5029a137-0b82-bb66-b1f9-47fd0676aa54@codeaurora.org>
- <CA+5PVA4qFX3Gv_kuWEpe_mof=PE0CGuK4WE3bbbyCkDpPabDFg@mail.gmail.com> <7c078a1a6a9d5d834b30f252706e517e@codeaurora.org>
-In-Reply-To: <7c078a1a6a9d5d834b30f252706e517e@codeaurora.org>
+References: <20220115000353.1812714-1-John.C.Harrison@Intel.com>
+In-Reply-To: <20220115000353.1812714-1-John.C.Harrison@Intel.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Tue, 18 Jan 2022 09:44:29 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA6cLQZ7SkSWAZ5aLrDK_c+WfpB6WyKthZjw_Hrt1Q4-aA@mail.gmail.com>
-Message-ID: <CA+5PVA6cLQZ7SkSWAZ5aLrDK_c+WfpB6WyKthZjw_Hrt1Q4-aA@mail.gmail.com>
-Subject: Re: QCA Bluetooth WCN685x firmware pull request at 2022/01/04
-To: Zijun Hu <zijuhu@codeaurora.org>
+Date: Tue, 18 Jan 2022 09:46:25 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA7J1TU6Q+QptVDp-wMp7URoiYDox+Qp7Di0QDLhJVCxYw@mail.gmail.com>
+Message-ID: <CA+5PVA7J1TU6Q+QptVDp-wMp7URoiYDox+Qp7Di0QDLhJVCxYw@mail.gmail.com>
+Subject: Re: [CI] PR for new GuC v69.0.3
+To: John Harrison <John.C.Harrison@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, Rocky Liao <rjliao@codeaurora.org>, 
-	tjiang@codeaurora.org, Zijun Hu <quic_zijuhu@quicinc.com>
+Cc: Linux Firmware <linux-firmware@kernel.org>, Kyle McMartin <kyle@kernel.org>, 
+	Ben Hutchings <ben@decadent.org.uk>, 
+	Intel Graphics Development <intel-gfx@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
 
 Pulled and pushed out.
 
 josh
 
-On Thu, Jan 13, 2022 at 3:12 AM <zijuhu@codeaurora.org> wrote:
+On Fri, Jan 14, 2022 at 7:03 PM <John.C.Harrison@intel.com> wrote:
 >
-> On 2022-01-07 20:26, Josh Boyer wrote:
-> > On Tue, Jan 4, 2022 at 4:36 AM Zijun Hu <zijuhu@codeaurora.org> wrote:
-> >>
-> >> Hi linux-firmware maintainers,
-> >>
-> >> Here's a pull request for btqca bluetooth driver. Please let me know
-> >> if you have any problems.
-> >>
-> >> The following changes since commit
-> >> commit 57d6b9507e28ac4803ea4aa4dba9592c889d6733
-> >>     cnm: add chips&media wave521c firmware. (Mon Dec 27 09:07:08 2021
-> >> +0000)
-> >>
-> >> are available in the Git repository at:
-> >>
-> >>    https://github.com/zijun-hu/qca-btfw.git
-> >>
-> >> for you to fetch changes up to
-> >> 17fe7809058ad5949c12d80bf446e726f9e9f782:
-> >> ----------------------------------------------------------------
-> >> Zijun Hu (1):
-> >>         QCA: Add Bluetooth nvm file for WCN685x (Tue Jan 4 14:14:51
-> >> 2022 +0800)
-> >
-> > There are actually 3 commits on your main branch that will be merged,
-> > not just this one.  They are:
-> >
-> > 17fe7809058ad5949c12d80bf446e726f9e9f782 QCA: Add Bluetooth nvm file
-> > for WCN685x
-> > 72af07ecad7646f84e49222596ad09bcebe223d9 QCA: Update Bluetooth WCN685x
-> > 2.1 firmware to 2.1.0-00324
-> > 7411d2bf5afa895c6440ca2f935a50a74245eee7 QCA: Update Bluetooth WCN685x
-> > 2.0 firmware to 2.0.0-00609
-> >
-> > Is that what you wanted with this pull request?
-> yes, there are 3 commits to merge.
-> thank you
-> >
-> > josh
+> The following changes since commit b0e898fbaf377c99a36aac6fdeb7250003648ca4:
+>
+>   linux-firmware: Update firmware file for Intel Bluetooth 9462 (2021-11-23 12:31:45 -0500)
+>
+> are available in the Git repository at:
+>
+>   git://anongit.freedesktop.org/drm/drm-firmware guc_v69.0.3
+>
+> for you to fetch changes up to 548b304a35b77cd43c1242e0eae68f775bd0df2a:
+>
+>   i915: Add GuC v69.0.3 for all platforms (2021-12-15 13:28:54 -0800)
+>
+> ----------------------------------------------------------------
+> John Harrison (1):
+>       i915: Add GuC v69.0.3 for all platforms
+>
+>  WHENCE                   |  30 ++++++++++++++++++++++++++++++
+>  i915/adlp_guc_69.0.3.bin | Bin 0 -> 356416 bytes
+>  i915/bxt_guc_69.0.3.bin  | Bin 0 -> 216768 bytes
+>  i915/cml_guc_69.0.3.bin  | Bin 0 -> 217664 bytes
+>  i915/dg1_guc_69.0.3.bin  | Bin 0 -> 323968 bytes
+>  i915/ehl_guc_69.0.3.bin  | Bin 0 -> 343360 bytes
+>  i915/glk_guc_69.0.3.bin  | Bin 0 -> 217216 bytes
+>  i915/icl_guc_69.0.3.bin  | Bin 0 -> 343360 bytes
+>  i915/kbl_guc_69.0.3.bin  | Bin 0 -> 217664 bytes
+>  i915/skl_guc_69.0.3.bin  | Bin 0 -> 216704 bytes
+>  i915/tgl_guc_69.0.3.bin  | Bin 0 -> 343296 bytes
+>  11 files changed, 30 insertions(+)
+>  create mode 100644 i915/adlp_guc_69.0.3.bin
+>  create mode 100644 i915/bxt_guc_69.0.3.bin
+>  create mode 100644 i915/cml_guc_69.0.3.bin
+>  create mode 100644 i915/dg1_guc_69.0.3.bin
+>  create mode 100644 i915/ehl_guc_69.0.3.bin
+>  create mode 100644 i915/glk_guc_69.0.3.bin
+>  create mode 100644 i915/icl_guc_69.0.3.bin
+>  create mode 100644 i915/kbl_guc_69.0.3.bin
+>  create mode 100644 i915/skl_guc_69.0.3.bin
+>  create mode 100644 i915/tgl_guc_69.0.3.bin
