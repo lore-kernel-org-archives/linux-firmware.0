@@ -1,93 +1,103 @@
-Return-Path: <SRS0=Kbhs=SD=em7952.kwatra.me=bounces+6493901-e9dc-linux-firmware=kernel.org@kernel.org>
+Return-Path: <SRS0=0qy5=SD=qualityservice.top=info7@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1DAA0C433F5
-	for <linux-firmware@archiver.kernel.org>; Wed, 19 Jan 2022 07:06:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2D2E2C433F5
+	for <linux-firmware@archiver.kernel.org>; Wed, 19 Jan 2022 10:30:43 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id DB82AC340E3; Wed, 19 Jan 2022 07:06:20 +0000 (UTC)
-Received: from xtrwsqzf.outbound-mail.sendgrid.net (xtrwsqzf.outbound-mail.sendgrid.net [167.89.100.239])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id B23CFC004E1
-	for <linux-firmware@kernel.org>; Wed, 19 Jan 2022 07:06:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org B23CFC004E1
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=kwatra.me
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=em7952.kwatra.me
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwatra.me;
-	h=mime-version:from:subject:to:content-type:content-transfer-encoding;
-	s=s1; bh=xmAi0EWW26Zs8J4dlwViVvibJhcsxkp6hsHbcYPUFZA=;
-	b=SfQpibqU6t5SxiOdes/HZLN6NnBDCHlQhEOQITcvbUKBTemDJzea0ogMcsmEqvb8wUKN
-	ywIxZVRdtd8PiFoN0DS06QKQx5zPEcEv6DgJ4ES/4VeYoNCs7OwdpxvYreXNE85Hw+BpIr
-	tIKdbRce/f438xXwHCvhRxEFDsZ/ngexx9X3yK9RMJD/SY1BbaOCl0iJ358Lpcys4OoxMH
-	G0Z0+qDeodrRHZS3KbsjaTq4OB7jDOrqieTm+Dxy6sBxcugBlkzMKaaIPZYDVhc30DfhiD
-	l/FTWa4c5USWSUpaBD8s0i9MqXD0FVz2qUVg3IDSojo1sXIsjT1/Qi6gjqLRD/0g==
-Received: by filterdrecv-7bc86b958d-qrvxl with SMTP id filterdrecv-7bc86b958d-qrvxl-1-61E7B86A-4D
-        2022-01-19 07:06:18.673951491 +0000 UTC m=+12041144.037027756
-Received: from mail-lf1-f43.google.com (unknown)
-	by geopod-ismtpd-3-2 (SG)
-	with ESMTP id O91mfOj0QwGtr3cDsvQwHg
-	for <linux-firmware@kernel.org>;
-	Wed, 19 Jan 2022 07:06:18.346 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id x22so5399379lfd.10
-        for <linux-firmware@kernel.org>; Tue, 18 Jan 2022 23:06:18 -0800 (PST)
-X-Gm-Message-State: AOAM530ogF39CFx1XjZw2VPl7bUdpRm7+xCRC3TTKUbCmJpM213pdVjh
-	U2XVc9v9Ap9Krpc+pBKYLkwjs+SbQTHUyxUKZzU=
-X-Google-Smtp-Source: ABdhPJwxJQZ1uPY53GmccvDtA293DZ4gH36cfUuv+N8hCCNcdM6MhABF5wprZxDVmuOrJ+kZNyH1aXDoNxhBBnSuD6k=
-X-Received: by 2002:a19:c214:: with SMTP id l20mr25007109lfc.321.1642575977326;
- Tue, 18 Jan 2022 23:06:17 -0800 (PST)
-MIME-Version: 1.0
-From: Kabir Kwatra <kabir@kwatra.me>
-Date: Wed, 19 Jan 2022 07:06:18 +0000 (UTC)
-X-Gmail-Original-Message-ID: <CAHm2Bk47EqXkwrkue02p86+WtPpAgL0325FanGd5EoBVLrGPmg@mail.gmail.com>
-Message-ID: <CAHm2Bk47EqXkwrkue02p86+WtPpAgL0325FanGd5EoBVLrGPmg@mail.gmail.com>
-Subject: Trivial WHENCE delisting
-X-SG-EID: 
- =?us-ascii?Q?9Agss2mUk5MiAtUFp+WGzTInWLw6YiR4tI1T7d2XjJLS1jVT0DZAQeNNCHBEkM?=
- =?us-ascii?Q?jdD=2F9naBdEtWHeaeCDAxC3EGbwTfKLwjLG4UXUM?=
- =?us-ascii?Q?LbawnJfC0+5t2iNDoBWJsojagqQQwf69mKAHhQc?=
- =?us-ascii?Q?Qp3qW9Ayuo4UsmFHqkd3C=2Fidp2lLYf6=2FD8xJHyN?=
- =?us-ascii?Q?u5nXRRLsGG+XZ9IFu=2FV2QeSwV2NpYKRK2YdRsgl?=
- =?us-ascii?Q?9f87P=2F1JfZzH8mLYTfz6MXhE7xIku7ji7uMOHF?=
+	id EBC35C340E1; Wed, 19 Jan 2022 10:30:42 +0000 (UTC)
+Received: from server4.coddta.top (unknown [106.12.113.142])
+	by smtp.kernel.org (Postfix) with ESMTP id 2A0E4C004E1
+	for <linux-firmware@kernel.org>; Wed, 19 Jan 2022 10:30:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 2A0E4C004E1
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=golden-universe.cn
+Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=qualityservice.top
+Received: from PC-20190307QNBE (120.229.115.109) by server4.coddta.top id hsvk540e97cb for <linux-firmware@kernel.org>; Wed, 19 Jan 2022 18:30:13 +0800 (envelope-from <info7@qualityservice.top>)
+From: "Mr. Harold Xie" <gu002@golden-universe.cn>
+Subject: test
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-X-Entity-ID: +cyaVTnoPVPqVjsec9xrgg==
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Sender: info7@qualityservice.top
+Reply-To: gu002@golden-universe.cn
+Date: Wed, 19 Jan 2022 18:30:12 +0800
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
+Content-Disposition: inline
+Message-Id: <20220119103042.2A0E4C004E1@smtp.kernel.org>
 
-The following changes since commit 8d8c6e9d9eb5402295c434603007377487458fef:
-
-  iwlwifi: add new FWs from core66-88 release (2022-01-10 14:37:12 +0200)
-
-are available in the Git repository at:
-
-  git@github.com:Kab1r/linux-firmware.git
-
-for you to fetch changes up to a3c806d02be2aed1dde1064a24a0c204c60c95a3:
-
-  fix: remove nonexistent files from WHENCE (2022-01-18 22:59:46 -0800)
-
-----------------------------------------------------------------
-Kabir Kwatra (1):
-      fix: remove nonexistent files from WHENCE
-
- WHENCE | 4 ----
- 1 file changed, 4 deletions(-)
-
-diff --git a/WHENCE b/WHENCE
-index 3352a59..bf53aa9 100644
---- a/WHENCE
-+++ b/WHENCE
-@@ -1273,10 +1273,6 @@ Version: 68.01d30b0c.0
- File: iwlwifi-so-a0-jf-b0-68.ucode
- Version: 68.01d30b0c.0
-
--File: iwlwifi-s0-a0-gf-a0.pnvm
--
--File: iwlwifi-s0-a0-gf4-a0.pnvm
--
- File: iwlwifi-ty-a0-gf-a0.pnvm
-
- Licence: Redistributable. See LICENCE.iwlwifi_firmware for details
+RGVhciBuZXcgYW5kIG9sZCBjdXN0b21lcnMsIGRpc3Rpbmd1aXNoZWQgcGFydG5lcnMsDQpGaXJz
+dCBvZiBhbGwsIHRoYW5rIHlvdSBmb3IgeW91ciBjb25zaXN0ZW50IHN1cHBvcnQgYW5kIGNvb3Bl
+cmF0aW9uLiAyMDIxIHdpbGwgYmUgYSBwZXJmZWN0IGVuZGluZy4gT3VyIHNhbGVzIGhhdmUgYWxz
+byBhY2hpZXZlZCB0cmVtZW5kb3VzIGdyb3d0aCwgdGhhbmsgeW91IGZvciB5b3VyIHN1cHBvcnQh
+DQpIb3BlIHRvIGdldCB5b3VyIGNvbnRpbnVlZCBzdXBwb3J0IGluIHRoZSBmdXR1cmUhIFdlIHdp
+bGwgY29udGludWUgdG8gcHJvdmlkZSBoaWdoLXF1YWxpdHkgcHJvZHVjdHMgYW5kIHNlcnZpY2Vz
+LCBhcyB3ZWxsIGFzIHRoZSBuZXdseSBkZXZlbG9wZWQgcHJvZHVjdHMgYW5kIHRoZSBtb3N0IHBv
+cHVsYXIgYXJ0aWZpY2lhbCBwbGFudHMsIGFydGlmaWNpYWwgZmxvd2VycyBhbmQgdHJlZXMuIE5v
+IG1hdHRlciB3aGF0IHlvdXIgbmVlZHMgYXJlLCB3ZSBob3BlIHlvdSBjYW4gcHV0IHRoZW0gZm9y
+d2FyZCBpbiB0aW1lLiBEdWUgdG8gdGhlIGltcGFjdCBvZiB0aGUgZXBpZGVtaWMsIHlvdSBjYW5u
+b3QgY29tZSB0byBvdXIgZmFjdG9yeSBvciBtb2RlbCByb29tIHRvIHBlcnNvbmFsbHkgY2hvb3Nl
+IHRoZSBwcm9kdWN0cyB5b3UgbGlrZS4gV2UgaG9wZSB5b3UgY2FuIHByb3ZpZGUgeW91ciBvd24g
+cHJvZHVjdCBwaWN0dXJlcyBvciBnbyB0byB1cy4gQ2hvb3NlIHRoZSBwcm9kdWN0cyB5b3UgbGlr
+ZSBvbiB0aGUgQWxpYmFiYSB3ZWJzaXRlLiBPciB5b3UgaGF2ZSBhbHJlYWR5IHB1cmNoYXNlZCBm
+cm9tIHVzLCBhbmQgdGhlIGdvb2QgcHJvZHVjdHMgc29sZCBhcmUgYWRkZWQgYW5kIHJlLW9yZGVy
+ZWQuIFdlIHN1cHBvcnQgeW91ciBmdWxsIGNhYmluZXQgb3JkZXIgb3IgYnVsayBvcmRlci4NCldo
+ZXRoZXIgaXQgaXMgd2VkZGluZyBmbG93ZXIgcHJvZHVjdHMgb3IgaW5kb29yIGFuZCBvdXRkb29y
+IGFydGlmaWNpYWwgcGxhbnQgdHJlZXMsIGJvbnNhaSwgcmF0dGFuLCB3YWxsIGhhbmdpbmdzLCB0
+dXJmLCBkZXNlcnQgZ3JlZW4gcGxhbnRzLCBvciBob3RlbCBhbmQgaG9tZSBkZWNvcmF0aW9uIHBy
+b2R1Y3RzLCB3ZSBjYW4gdGFpbG9yIGl0IGZvciB5b3UuDQpZb3UgYXJlIHdlbGNvbWUgdG8gY29u
+c2lkZXIgb3JkZXJzIGZvciB0aGUgZmlyc3QgaGFsZiBvZiAyMDIyIG9yIHRoZSB3aG9sZSB5ZWFy
+LiBXZSBhcmUgaGVyZSB3YWl0aW5nIGZvciB5b3VyIHJlcGx5LCB0aGFuayB5b3UhIFBsZWFzZSBz
+ZWxlY3QgeW91ciBmYXZvcml0ZSBwcm9kdWN0cyBmcm9tIG91ciBwcm9kdWN0IGNhdGFsb2cgb3Ig
+cXVvdGF0aW9uIGZvcm0gdGhhdCBJIHNlbnQgeW91Lg0KV2VsY29tZSB0byB2aXNpdCBvdXIgd2Vi
+c2l0ZSBodHRwczovL2ppbmNoZW5nb25neWkuZW4uYWxpYmFiYS5jb20vIG9yIGh0dHBzOi8vd3d3
+LmpjLTg4LmNvbQ0KUGxlYXNlIGFkZCBteSBXZUNoYXQgb3IgY2FsbCBtZSwgMDA4Ni0xMzQyMzAw
+NTUzMg0KT3IgZW1haWwgbWU6IGd1MDAyQGdvbGRlbi11bml2ZXJzZS5jbiBvciA1MTcxMTI2NTVA
+cXEuY29tIA0KDQoNClRoYW5rIHlvdSB2ZXJ5IG11Y2ggZm9yIHlvdXIga2luZCByZXBseS4NClll
+cyxXZSBhcmUgYWxzbyBtYW51ZmFjdHVyZXJzLCB3ZSBoYXZlIG1hbnkgY3VzdG9tZXJzIGluIGRp
+ZmZlcmVudCBjb3VudHJpZXMsaW4gQnJhemlsIHdlIGhhdmUgRmxvcmUgQXJ0ZSBhbmQgb3RoZXJz
+LCBpbiBCZWxnaXVtIHdlIGhhdmUgSmFzYWNvIGFuZCBvdGhlcnMsIGluIEdlcm1hbnkgd2UgaGF2
+ZSBHYXNwZXIgYW5kIG90aGVycywgaW4gSXRhbHkgd2UgaGF2ZSBBcnBpbWV4IGFuZCBvdGhlcnMs
+IGluIEZyYW5jZSB3ZSBoYXZlIEdpRmkgYW5kIExWIGFuZCBvdGhlcnMsIGluIHRoZSBOZXRoZXJs
+YW5kcyB3ZSBoYXZlIEhvZ3dvbmluZyBhbmQgb3RoZXJzLCBpbiBQb3J0dWdhbCB3ZSBoYXZlIER1
+ZmlsIGFuZCBvdGhlcnMsICBpbiBCZWxnaXVtIHdlIGhhdmUgSmFzY28gYW5kIFlpbHRleCBhbmQg
+b3RoZXJzLCBpbiBBdXN0cmFsaWEgd2UgaGF2ZSBUYXJnZXQgYW5kIG90aGVycywgaW4gdGhlIE1p
+ZGRsZSBFYXN0IHdlIGhhdmUgTHVMdSBDZW50ZXIgYW5kIGluIEtTQSB3ZSBoYXZlIEJpbiBTaGlo
+b24gR3JvdXAgYW5kIG90aGVycywgaW4gVUFFIHdlIGhhdmUgSHVkYSBJbXBleCBhbmQgQXphbHlh
+IEZsb3dlcnMgYW5kIG90aGVycywgaW4gSW5kaWEgd2UgaGF2ZSBHcmVlbiBHYWxsZXJ5IGFuZCBv
+dGhlcnMsIGluIEtvcmVhIHdlIGhhdmUgQlRDIGFuZCBVUExJRkUgYW5kIFBob2VuaXggSUMgYW5k
+IG90aGVycywgYW5kIHNvIG9uLg0KDQoNCldlIGFyZSB2ZXJ5IGhhcHB5IHRvIGhhdmUgdGhlIGNo
+YW5jZSB0byBjb29wZXJhdGUgd2l0aCB5b3UgYW5kIHdlIHByb21pc2UgdG8gc3VwcGx5IHRoZSBn
+b29kIHF1YWxpdHkgZ29vZHMgd2l0aCB2ZXJ5IHJlYXNvbmFibGUgcHJpY2VzIGFuZCBmYXN0IGRl
+bGl2ZXJ5IHRpbWUuDQpUaGFuayB5b3UgYW5kIHdhaXRpbmcgZm9yIHlvdXIgZWFybGllciByZXBs
+eSENCg0KDQoNCg0KLS0NCi0tDQoNClRoYW5rIHlvdSBhbmQgQmVzdCByZWdhcmRzDQotLS0tLS0t
+LS0tLS0tLS0tLS0NCk1yLiBIYXJvbGQgWGllIA0KU2FsZXMgTWFuYWdlciBvZiBKaW5jaGVuIEFy
+dHMgJiBDcmFmdHMgQ28uLCBMdGQuDQpBZGRyZXNzOlNoaXBhaSBUb3duLCBEb25nZ3VhbiwgR3Vh
+bmdkb25nLCBDaGluYS4gUG9zdCBDb2RlOiA1MjMwMDAgICBXaGVjaGF0IG5vLjogODYtMTM0MjMw
+MDU1MzIgb3IgMTM0MzQwNzg1NTYNClRlbCAmIE1vYmlsZTogODYtMTM0MjMwMDU1MzIgIG9yICAx
+MzQzNDA3ODU1Ng0KRS1tYWlsOiBndTAwMkBnb2xkZW4tdW5pdmVyc2UuY24gIG9yIDUxNzExMjY1
+NUBxcS5jb20gDQpocHB0Oi8vd3d3LmpjLTg4LmNvbSAgIG5ldyBpdGVtcyBoZXJlDQpBbGliYWJh
+IHdlYnNpdGU6IGh0dHBzOi8vamluY2hlbmdvbmd5aS5lbi5hbGliYWJhLmNvbS8NCkRvbmdndWFu
+IGppbmNoZW4gQXJ0cyBhbmQgQ3JhZnRzIENvLiwgTFRELiBJcyBhIGNvbXBhbnkgc3BlY2lhbGl6
+aW5nIGluIGFydGlmaWNpYWwgcGxhbnRzIGFuZCBhcnRpZmljaWFsIGZsb3dlcnMgYW5kIGFydGlm
+aWNpYWwgcGxhbnQgd2FsbHMsIHN1Y2ggYXMgZmliZXJnbGFzcyBrZWxwIHRyZWVzLCBjb2NvbnV0
+IGp1aWNlIHRyZWVzLCBwaW5lIG5lZWRsZXMsIGFyZWNhIHRyZWVzLCBIYXdhaWlhbiB0cmVlcywg
+Y2hlcnJ5IHRyZWVzLCBwZWFjaCB0cmVlcyBhbmQgc28gb24uIFRoZSBzaW11bGF0aW9uIHBsYW50
+IHdhbGwsIHRoZSBnYXJkZW4gcm9ja2VyeSBwcm9qZWN0IHJlYWwgZXN0YXRlIGFmZm9yZXN0YXRp
+b24gZmxvd2VyIGFydCBzb2Z0IGRlY29yYXRpb24gcHJvamVjdC4NCkppbmNoZW4gY3JhZnRzIGZv
+ciBtYW55IGxhcmdlIGhvdGVscyBhdCBob21lIGFuZCBhYnJvYWQsIHN1cGVybWFya2V0cywgc3F1
+YXJlcywgcmVhbCBlc3RhdGUsIGFtdXNlbWVudCBwbGFjZXMsIHJlc29ydHMsIHByb3ZpZGUgbGFu
+ZHNjYXBlIGRlc2lnbiBhbmQgaW5zdGFsbGF0aW9uLCBoYXMgYmVlbiBmcmllbmRzIGF0IGhvbWUg
+YW5kIGFicm9hZCBwcmFpc2UgYW5kIHRydXN0IQ0KSmluY2hlbiBjcmFmdHMgaXMgYSBwcm9mZXNz
+aW9uYWwgcHJvZHVjdGlvbiBzZXJ2aWNlIGZvciB0aGUgZG9tZXN0aWMgYW5kIGV4cG9ydCBoaWdo
+LWVuZCBtYXJrZXQsIHRoZSBleHBvcnQgb2YgYSBzZXJpZXMgb2YgaGlnaC1lbmQgaW5kb29yIGFu
+ZCBvdXRkb29yIHNpbXVsYXRpb24gcGxhbnRzLiBXZSBoYXZlIGJlZW4gd29ya2luZyBoYXJkIHRv
+IGNyZWF0ZSBtb3JlIHVuaXF1ZSBwcm9kdWN0cyBmb3IgZnJpZW5kcyBhdCBob21lIGFuZCBhYnJv
+YWQuIENob29zaW5nIGppbmNoZW4gY3JhZnRzIGlzIG91ciBwcmlkZSEgV2UgaGF2ZSBiZWVuIHdo
+b2xlaGVhcnRlZGx5IHNlcnZpbmcgZXZlcnkgY3VzdG9tZXIsIHlvdXIgc2F0aXNmYWN0aW9uIGlz
+IG91ciBwdXJzdWl0IQ0K
