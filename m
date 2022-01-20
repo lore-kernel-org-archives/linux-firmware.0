@@ -1,44 +1,66 @@
-Return-Path: <SRS0=dvus=SE=korabora.ngo=joinus@kernel.org>
+Return-Path: <SRS0=yiEE=SE=wx30.wadax.ne.jp=kyosaraku-com@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A2A1C433EF
-	for <linux-firmware@archiver.kernel.org>; Thu, 20 Jan 2022 11:32:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 08FD7C433EF
+	for <linux-firmware@archiver.kernel.org>; Thu, 20 Jan 2022 11:45:34 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C626EC340E2; Thu, 20 Jan 2022 11:32:40 +0000 (UTC)
-Received: from mail-relayf9d6f057.chios.panth.io (mail-relayf9d6f057.chios.panth.io [162.242.166.107])
-	by smtp.kernel.org (Postfix) with ESMTP id D7C94C340E0
-	for <linux-firmware@kernel.org>; Thu, 20 Jan 2022 11:32:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D7C94C340E0
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=korabora.ngo
-Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=korabora.ngo
-Received: from appserver-ef8853db-php-6095d2fc080e46b6a7b3c03a9f2988b1 (81.58.122.34.bc.googleusercontent.com [34.122.58.81])
-	by mail-relayf9d6f057.chios.panth.io (Postfix) with ESMTPSA id E1F88D72B8
-	for <linux-firmware@kernel.org>; Tue, 18 Jan 2022 16:48:38 +0000 (UTC)
-Received: by appserver-ef8853db-php-6095d2fc080e46b6a7b3c03a9f2988b1 (sSMTP sendmail emulation); Tue, 18 Jan 2022 16:48:38 +0000
-Date: Tue, 18 Jan 2022 16:48:38 +0000
+	id D00E4C340E2; Thu, 20 Jan 2022 11:45:34 +0000 (UTC)
+Received: from wx30.wadax.ne.jp (wx30.wadax.ne.jp [202.218.232.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 392B4C340E5
+	for <linux-firmware@kernel.org>; Thu, 20 Jan 2022 11:45:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 392B4C340E5
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=kyosaraku.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=wx30.wadax.ne.jp
+Received: by wx30.wadax.ne.jp (Postfix, from userid 949)
+	id 22BBAC005E; Thu, 20 Jan 2022 20:45:25 +0900 (JST)
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Subject: Form submission from: Sign Up
-X-PHP-Originating-Script: 0:mimemail.module
+Subject: =?UTF-8?B?44GK5ZWP44GE5ZCI44Gb44GC44KK44GM44Go44GG44GU44GW44GE44G+44GZ?=
+X-PHP-Originating-Script: 949:class-phpmailer.php
+Date: Thu, 20 Jan 2022 11:45:25 +0000
+From: =?UTF-8?B?5Lqs6Iy25qW9?= <info@kyosaraku.com>
+Reply-To: info@kyosaraku.com
+Message-ID: <1a7208d0caa83a27e91bbdcb5a2e3cea@kyosaraku.com>
+X-Mailer: PHPMailer 5.2.22 (https://github.com/PHPMailer/PHPMailer)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8Bit
-X-Mailer: Drupal Webform (PHP/5.6.40)
-Sender: "KoraBora - Join Us" <joinus@korabora.ngo>
-From: "KoraBora - Join Us" <joinus@korabora.ngo>
-Message-Id: <20220120113239.D7C94C340E0@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Submitted on Tuesday, January 18, 2022 - 20:48
-Submitted by anonymous user: 185.100.87.139
-Submitted values are:
+❤️ Betty want to meet you! Click Here: http://inx.lv/D4CI?v9okh ❤️様
 
-NAME: ❤️ You have unread messages from Angela (2)! Click Here: https://ggle.io/4ZMY?mqqly ❤️
-E-MAIL: linux-firmware@kernel.org
-campaign: Yes
+お問い合わせありがとうございます。
+本メールは、お客様にお問い合わせ内容をご確認して頂くために送信される、
+自動送信メールです。
 
+2〜3日たっても返信がない場合はお手数ですが
+再度メールを送信していただくか、
+お電話にてお問い合わせいただきますようお願い申し上げます。
 
-The results of this submission may be viewed at:
-http://korabora.ngo/node/19/submission/828494
+このメールに心当たりのない場合や、ご不明な点がございましたら
+info@kyosaraku.comまでご連絡ください。
+
+■お問い合わせ内容
+====
+お名前: ❤️ Betty want to meet you! Click Here: http://inx.lv/D4CI?v9okh ❤️
+メールアドレス: linux-firmware@kernel.org
+電話番号: 290862153844
+
+メッセージ本文:
+ppv2rs
+
+====
+
+---------
+煎茶体験 京茶楽
+
+〒604‐8236
+京都市中京区錦小路通
+堀川東入三文字町580
+TEL：075-748-1233
+---------
+
