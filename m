@@ -4,71 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5EAA2C433F5
-	for <linux-firmware@archiver.kernel.org>; Mon, 24 Jan 2022 11:50:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C887EC433FE
+	for <linux-firmware@archiver.kernel.org>; Mon, 24 Jan 2022 11:55:45 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 2659CC340E4; Mon, 24 Jan 2022 11:50:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11509C340E7
-	for <linux-firmware@kernel.org>; Mon, 24 Jan 2022 11:50:52 +0000 (UTC)
+	id 91E70C340E7; Mon, 24 Jan 2022 11:55:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C9DFC340E4
+	for <linux-firmware@kernel.org>; Mon, 24 Jan 2022 11:55:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1643025052;
-	bh=dtna8m+btPB2/Jq72ySCwE7Yi66Sc7kVeNMwNy+Egrg=;
+	s=k20201202; t=1643025345;
+	bh=CalkI3uPKp5wsa9TSeS2x38Jw5wkzQmEXHR4Av3y+z8=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=jKY8/GAHECsqYAYI39O+f8gTiy8VEBiD4okolXR44nXfNTz2N7FVYy1wnjWkb1nkd
-	 Ova3clyr3tc7WzDfNv2azpXfgrOnNHM5gYKZ26fg7xugV/7iS5nKs4PknIdK+kRAC7
-	 m9PCjZM1cannpHtkvZraNMa7xg9jVMAqQPZGp5iXthQAb4KYRuYjrE5F2pK8A/TiON
-	 mhWXTj/RO2q6/+MFb74vexNR3HiC1+u5Y3ANkZTJskUVAydQ2XUIMGib2LO3IO7QcJ
-	 coKcSXkPuNR/RHrvgwcvwp6ZWKe4pggfXQcHwso7zLQfkGVcFv8JQ70YxUDec8+DEa
-	 vwSf1qalUPeZA==
-Received: by mail-io1-f44.google.com with SMTP id d188so4792158iof.7
-        for <linux-firmware@kernel.org>; Mon, 24 Jan 2022 03:50:52 -0800 (PST)
-X-Gm-Message-State: AOAM5301gc7gdWU/EvepFgYMkABMJ9EqsL06WWrxyq1YNwAVvkcPkfjh
-	xQdZSjjRckFhfWUhblJXcrwbMXE0ZirHLHrbhkM=
-X-Google-Smtp-Source: ABdhPJzlxUFdNDdF8/iZYYps4UG0ix/9h+43CKjvbNVLb1BLBA17f3nms3JKQVpkih8EFFgZXL/G+Df2V+zNfsjrZcQ=
-X-Received: by 2002:a02:9991:: with SMTP id a17mr3274565jal.144.1643025051236;
- Mon, 24 Jan 2022 03:50:51 -0800 (PST)
+	b=SyBN0Q5/R0EyED1VO3+dOGzRmh7HCvgwLt1KgirO9P6t0BwutSOaVN6NwAYcZhoDV
+	 nUP7lV5NmT0GqW+Qbdav/edPiQjpEMMNFgzKRAkUbWwB7gp+Gw9Gkh848P0mFmha7A
+	 l6pbwAyIN8sxhyrT8LYjmLl9/h4tlP1QMQEEM7ekfDFhAubIvgc51ejmJqFOjpr6z4
+	 pMkcxXc/Kg/WRWzEfQ7En8XtaAtIB1wf7gcq5khpoQVHVkPkBcKZJh1sSEO9oEdE3w
+	 dXy2cp/wTiwLeFQhmOKI5CZUikv6P6Fsz3QlidUrU0fwD9JsOlSnsl9t3/XgkY7wgw
+	 u9pCMX7wPgTkw==
+Received: by mail-il1-f176.google.com with SMTP id u6so4997485iln.3
+        for <linux-firmware@kernel.org>; Mon, 24 Jan 2022 03:55:45 -0800 (PST)
+X-Gm-Message-State: AOAM533qMXELgYqNukWxcDRQeKu1lirX0B1s9zfUgM/3Z9eNv8qVbSxX
+	nAvyVKVXQ6J64Whb/c7joy5f/5+5qF27FbNvwls=
+X-Google-Smtp-Source: ABdhPJz8wjzzvkP2jDIwv31lt43AsQjCkD5Y71QCxqT+BTfaAZPDu4Hux9OwvJ0XZPDp4euCIqvMSNmRGp9wpBlFIKQ=
+X-Received: by 2002:a05:6e02:12e2:: with SMTP id l2mr8586718iln.243.1643025344686;
+ Mon, 24 Jan 2022 03:55:44 -0800 (PST)
 MIME-Version: 1.0
-References: <20220122125029.22195-1-irui.wang@mediatek.com>
-In-Reply-To: <20220122125029.22195-1-irui.wang@mediatek.com>
+References: <CAHm2Bk47EqXkwrkue02p86+WtPpAgL0325FanGd5EoBVLrGPmg@mail.gmail.com>
+In-Reply-To: <CAHm2Bk47EqXkwrkue02p86+WtPpAgL0325FanGd5EoBVLrGPmg@mail.gmail.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 24 Jan 2022 06:50:40 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA5Vg9h2kK6_xO2Nz2nw=u29i0=C1WOkbQjXDA0-DZhjOw@mail.gmail.com>
-Message-ID: <CA+5PVA5Vg9h2kK6_xO2Nz2nw=u29i0=C1WOkbQjXDA0-DZhjOw@mail.gmail.com>
-Subject: Re: pull request: linux-firmware: mediatek: Update MT8173 VPU
-To: Irui Wang <irui.wang@mediatek.com>
+Date: Mon, 24 Jan 2022 06:55:34 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA4X1OMeiw1gSa3Ji4-TqPob5roJzGW4xTfBMVz3qcLgSg@mail.gmail.com>
+Message-ID: <CA+5PVA4X1OMeiw1gSa3Ji4-TqPob5roJzGW4xTfBMVz3qcLgSg@mail.gmail.com>
+Subject: Re: Trivial WHENCE delisting
+To: Kabir Kwatra <kabir@kwatra.me>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, 
-	linux-mediatek <linux-mediatek@lists.infradead.org>, linux-arm-kernel@lists.infradead.org, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, Tiffany Lin <tiffany.lin@mediatek.com>, 
-	Maoguang Meng <Maoguang.Meng@mediatek.com>, Longfei Wang <Longfei.Wang@mediatek.com>, 
-	Yunfei Dong <Yunfei.Dong@mediatek.com>, Andrew-CT.Chen@mediatek.com, 
-	Erin Lo <erin.lo@mediatek.com>, PoChun.Lin@mediatek.com, srv_heupstream@mediatek.com
+Cc: Linux Firmware <linux-firmware@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Jan 22, 2022 at 7:50 AM Irui Wang <irui.wang@mediatek.com> wrote:
+On Wed, Jan 19, 2022 at 2:06 AM Kabir Kwatra <kabir@kwatra.me> wrote:
 >
-> Hi linux-firmware maintainers,
+> The following changes since commit 8d8c6e9d9eb5402295c434603007377487458fef:
 >
-> The following changes since commit 0c6a7b3bf728b95c8b7b95328f94335e2bb2c967:
->
->   linux-firmware: Update firmware file for Intel Bluetooth 9260 (2022-01-19 11:16:28 -0500)
+>   iwlwifi: add new FWs from core66-88 release (2022-01-10 14:37:12 +0200)
 >
 > are available in the Git repository at:
 >
->   https://github.com/irui-wang/linux_fw_vpu_v1.1.7.git v1.1.7
+>   git@github.com:Kab1r/linux-firmware.git
 >
-> for you to fetch changes up to 70390331db03113fd7fe1dff195b135a7f2ad840:
+> for you to fetch changes up to a3c806d02be2aed1dde1064a24a0c204c60c95a3:
 >
->   linux-firmware: mediatek: Update MT8173 VPU firmware to v1.1.7 (2022-01-22 20:30:38 +0800)
+>   fix: remove nonexistent files from WHENCE (2022-01-18 22:59:46 -0800)
 >
 > ----------------------------------------------------------------
-> Irui Wang (1):
->       linux-firmware: mediatek: Update MT8173 VPU firmware to v1.1.7
+> Kabir Kwatra (1):
+>       fix: remove nonexistent files from WHENCE
 >
->  mediatek/mt8173/vpu_d.bin | Bin 2977184 -> 2977184 bytes
->  mediatek/mt8173/vpu_p.bin | Bin 131180 -> 131180 bytes
->  2 files changed, 0 insertions(+), 0 deletions(-)
+>  WHENCE | 4 ----
+>  1 file changed, 4 deletions(-)
+>
+> diff --git a/WHENCE b/WHENCE
+> index 3352a59..bf53aa9 100644
+> --- a/WHENCE
+> +++ b/WHENCE
+> @@ -1273,10 +1273,6 @@ Version: 68.01d30b0c.0
+>  File: iwlwifi-so-a0-jf-b0-68.ucode
+>  Version: 68.01d30b0c.0
+>
+> -File: iwlwifi-s0-a0-gf-a0.pnvm
+> -
+> -File: iwlwifi-s0-a0-gf4-a0.pnvm
+> -
 
-Pulled and pushed out.
+These entries don't exist in the main branch.  They're named
+appropriately for files that exist.
 
 josh
