@@ -1,341 +1,336 @@
-Return-Path: <SRS0=+bE7=SM=xqktgi.cn=Amazon@kernel.org>
+Return-Path: <SRS0=kJ3r=SM=gk2.net=gandalf@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 80713C433F5
-	for <linux-firmware@archiver.kernel.org>; Fri, 28 Jan 2022 05:38:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52187C433EF
+	for <linux-firmware@archiver.kernel.org>; Fri, 28 Jan 2022 08:13:18 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 3A7C1C340E7; Fri, 28 Jan 2022 05:38:13 +0000 (UTC)
-Received: from xqktgi.cn (unknown [134.122.198.216])
+	id 188A5C340E0; Fri, 28 Jan 2022 08:13:18 +0000 (UTC)
+Received: from 9.mo550.mail-out.ovh.net (9.mo550.mail-out.ovh.net [178.32.108.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A4AEBC340E0
-	for <linux-firmware@kernel.org>; Fri, 28 Jan 2022 05:38:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A4AEBC340E0
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=xqktgi.cn
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=xqktgi.cn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=defult; d=xqktgi.cn;
- h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
- i=Amazon@xqktgi.cn;
- bh=CBFvBZV1zg2VV10tAMDgMcG0ANcORxaiKa7Eij1FgLg=;
- b=QdqNAVD3QMrfDoDt9BLopJymqJE/UMNIuQifqAJwpMm27mJPUqgHZ0QvB8maVhN7wcjQuHeInEmc
-   4UaYCtU37yMPjPcfgAaixptPaxUeXM1Qv2sVXE+5YzlVXPKptyIbxiU/XObeECoykgcz21eL6S9o
-   Yn91Byc+IAsNY3Q8O7M=
-From: Amazon.co.jp <Amazon@xqktgi.cn>
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware <linux-firmware@kernel.org>
-Subject: =?utf-8?B?W+mHjeimgV3vvJrjgJBBbWF6b27jg5fjg6njgqTjg6DkvJrosrvjga7jgYo=?=
-	=?utf-8?B?5pSv5omV44GE5pa55rOV44Gr5ZWP6aGM44GM44GC44KK44G+44GZ44CR?=
-Date: Fri, 28 Jan 2022 13:37:57 +0800
-Message-ID: <00f303d57a01$a2fc40ae$b1494852$@ens>
+	by smtp.kernel.org (Postfix) with ESMTPS id 9D1B3C340EB
+	for <linux-firmware@kernel.org>; Fri, 28 Jan 2022 08:13:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 9D1B3C340EB
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=gk2.net
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gk2.net
+Received: from player798.ha.ovh.net (unknown [10.110.171.30])
+	by mo550.mail-out.ovh.net (Postfix) with ESMTP id 04F1B240BC
+	for <linux-firmware@kernel.org>; Fri, 28 Jan 2022 08:13:02 +0000 (UTC)
+Received: from gk2.net (82-65-221-177.subs.proxad.net [82.65.221.177])
+	(Authenticated sender: gerald@gk2.net)
+	by player798.ha.ovh.net (Postfix) with ESMTPSA id B4BF31E087C33;
+	Fri, 28 Jan 2022 08:12:53 +0000 (UTC)
+Authentication-Results:garm.ovh; auth=pass (GARM-99G0033d16c4c9-ba84-492e-9f9e-6b37831bfc1f,
+                    869B11A1C8907FED5015E1D7C2BC0F03D03E48FD) smtp.auth=gerald@gk2.net
+X-OVh-ClientIp:82.65.221.177
+Message-ID: <a44578df-7f63-62ad-809f-a34a0e39a7ee@gk2.net>
+Date: Fri, 28 Jan 2022 09:12:52 +0100
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_07A2_013A3712.130F0660"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [EXT] Re: mwifiex 1.0 (16.68.10.p159) - PCIEUSB-8997 firmware is
+ buggy
+Content-Language: fr
+To: James Cao <james.cao@nxp.com>, =?UTF-8?Q?Pali_Roh=c3=a1r?=
+ <pali@kernel.org>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: Prashanth Ranganathan <prashanthkrishnan.ranganathan@nxp.com>,
+ Sharvari Harisangam <sharvari.harisangam@nxp.com>,
+ Rakesh Parmar <rakesh.parmar@nxp.com>, Cathy Luo <xiaohua.luo@nxp.com>,
+ Linux Firmware <linux-firmware@kernel.org>,
+ Linux Wireless <linux-wireless@vger.kernel.org>,
+ Josh Boyer <jwboyer@kernel.org>
+References: <edeb34bc-7c85-7f1d-79e4-e3e21df86334@gk2.net>
+ <fe75e8f2-6f12-052a-81ed-38122b87f1f6@gk2.net>
+ <20210926104306.xocctztsuspx6oji@pali>
+ <CA+5PVA4AGa09+X2A4zPU2MKWburCtiddb3cpSJh9H-JTO=fJKg@mail.gmail.com>
+ <20220114170051.sx2p6m2ihrv3ojzt@pali>
+ <AS8PR04MB9192076DB3CB59EC049B7B9CFB549@AS8PR04MB9192.eurprd04.prod.outlook.com>
+ <20220120193041.fmmmd77ingjvyqe4@pali>
+ <AS8PR04MB8419C8377C9458ADA340AC24E0209@AS8PR04MB8419.eurprd04.prod.outlook.com>
+ <20220127121514.daptjsxkgrt5zlov@pali>
+ <849ea3f2-a6c1-8814-3713-4d8b14db5029@gk2.net>
+ <AS8PR04MB8419A1473C69E9869471EC17E0219@AS8PR04MB8419.eurprd04.prod.outlook.com>
+From: =?UTF-8?Q?G=c3=a9rald_Kerma?= <gandalf@gk2.net>
+In-Reply-To: <AS8PR04MB8419A1473C69E9869471EC17E0219@AS8PR04MB8419.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 11929472465641790293
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrfeeggdduudefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfesthekredttdefjeenucfhrhhomhepiforrhgrlhgupgfmvghrmhgruceoghgrnhgurghlfhesghhkvddrnhgvtheqnecuggftrfgrthhtvghrnhepvdelveejffdufedtueffkeefgfduveelkeduudfgvdeigfduteekuedtfefgfeffnecuffhomhgrihhnpehgihhthhhusgdrtghomhdpohhuthhlohhokhdrtghomhdpkhgvrhhnvghlrdhorhhgnecukfhppedtrddtrddtrddtpdekvddrieehrddvvddurddujeejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehplhgrhigvrhejleekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghgrnhgurghlfhesghhkvddrnhgvthdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhfihhrmhifrghrvgeskhgvrhhnvghlrdhorhhg
 
-This is a multi-part message in MIME format.
+Héllo James,
 
-------=_NextPart_000_07A2_013A3712.130F0660
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+So bad to hear from no source possible !
+About binaries, I cannot get the latest published one from NXP.
+The support answer me I need a NDA.
+The support then refuse my proposal of NDA !
+I may understand proprietary license, but as a user, I cannot get 
+nothing at all !
 
-44GK5a6i5qeY44Gu44GU55m76Yyy44Gu44GK5pSv5omV44GE5pa55rOV44Gr44Ko44Op44O844GM
-55m655Sf44GX44G+44GX44Gf44CCDQoNCg0KDQoNCg0KIA0KDQrjgYrmlK/miZXmlrnms5Xjgavl
-lY/poYzjgYzjgYLjgorjgIHjg5fjg6njgqTjg6DnibnlhbjjgpLjgZTliKnnlKjjgYTjgZ/jgaDj
-gZHjgarjgYTnirbms4HjgafjgZnjgIIg5qeYDQoNCkFtYXpvbuODl+ODqeOCpOODoOOCkuOBlOWI
-qeeUqOOBhOOBn+OBoOOBjeOBguOCiuOBjOOBqOOBhuOBlOOBluOBhOOBvuOBmeOAgiDjg5fjg6nj
-gqTjg6DjgbjnmbvpjLLjga7pmpvjgavoqK3lrprjgYTjgZ/jgaDjgYTjgZ/jgYrmlK/miZXjgYTm
-lrnms5Xoqo3oqLzjga7mrrXpmo7jgavjgqjjg6njg7zjgYznmbrnlJ/jgZfjgb7jgZfjgZ/jgILj
-gZ3jga7jgZ/jgoHjgIHnj77lnKjjgIHjgYrlrqLmp5jjgavjga/jg5fjg6njgqTjg6DkvJrlk6Hn
-ibnlhbjjgpLjgZTliKnnlKjjgYTjgZ/jgaDjgZHjgb7jgZvjgpPjgILnibnlhbjjgpLjgZTliKnn
-lKjjgYTjgZ/jgaDjgY/jgavjga/jgIEg77yT5pel6ZaT5Lul5YaF44Gr44GK5pSv5omV44GE5pa5
-5rOV44Gu5YaN55m76Yyy44KS44GK6aGY44GE44GE44Gf44GX44G+44GZ44CC44GK5a6i5qeY44Gu
-44GK5pSv5omV44GE5pa55rOV44Gr44Ki44Kv44K744K5ICBBbWF6b27jg5fjg6njgqTjg6Djgavn
-mbvpjLLjgZfjgZ9BbWF6b24uY28uanDjga7jgqLjgqvjgqbjg7Pjg4jjgpLkvb/nlKjjgZfjgabj
-grXjgqTjg7PjgqTjg7MgIOeZu+mMsua4iOOBv+OBruOBiuaUr+aJleaJi+auteOBruacieWKueac
-n+mZkOOCkuabtOaWsOOAgeOBvuOBn+OBr+aWsOOBl+OBhOaUr+aJleOBhOaJi+auteOCkui/veWK
-oOOBl+OAgeOAjOS8muWToeeJueWFuOOBqOOBiuaUr+aJleOBhOaWueazleOBrueiuuiqjeOAjeOD
-nOOCv+ODs+OCkuOCr+ODquODg+OCrw0KDQogIOS8muWToeeJueWFuOOBqOOBiuaUr+aJleOBhOaW
-ueazleOBrueiuuiqjSAgDQoNCg0K44Ko44Op44O844Gu5Y6f5Zug44Gv5qeY44CF44Gn44GZ44GM
-44CB5pys44Ko44Op44O844GM55m655Sf44GZ44KL5L6L44Go44GX44Gm44Gv44CB44GK5pSv5omV
-44GE5pa55rOV44Gu5pyJ5Yq55pyf6ZmQ44GM5YiH44KM44Gm44GE44KL5aC05ZCI44GM5aSa44GP
-6KaL5Y+X44GR44KJ44KM44G+44GZ44CC6Kmz57Sw44Gu5Y6f5Zug44Gr44Gk44GN44G+44GX44Gm
-44Gv44GU55m76Yyy44GE44Gf44Gg44GE44Gf44GK5pSv5omV5omL5q6144Gu5o+Q5L6b5Lya56S+
-77yI44Kv44Os44K444OD44OI5Lya56S+562J77yJ44Gr44GK5ZWP5ZCI44Gb5LiL44GV44GE44CC
-IA0KDQrvvJPml6XplpPku6XlhoXjgavjgYrmlK/miZXjgYTmlrnms5XjgYzlho3nmbvpjLLjgZXj
-gozjgarjgYTloLTlkIjjgIHjgZTnmbvpjLLjga5BbWF6b24g44OX44Op44Kk44Og5Lya5ZOh6LOH
-5qC844Gv6Ieq5YuV55qE44Gr44Kt44Oj44Oz44K744Or44GV44KM44G+44GZ44CCDQrku4rlvozj
-gajjgoJBbWF6b24uY28uanDjgpLjgojjgo3jgZfjgY/jgYrpoZjjgYTjgYTjgZ/jgZfjgb7jgZnj
-gIINCg0KDQoNCg0KwqkgMjAyMiBBbWF6b24uY29tLCBJbmMuIG9yIGl0cyBhZmZpbGlhdGVzLiBB
-bGwgcmlnaHRzIHJlc2VydmVkLiBBbWF6b24sIA0KQW1hem9uLmNvLmpwLCBBbWF6b24gUHJpbWUs
-IFByaW1lIOOBiuOCiOOBs0FtYXpvbi5jby5qcCDjga7jg63jgrTjga9BbWF6b24uY29tLCBJbmMu
-DQrjgb7jgZ/jga/jgZ3jga7plqLpgKPkvJrnpL7jga7llYbmqJnjgafjgZnjgIINCkFtYXpvbi5j
-b20sIDQxMCBUZXJyeSBBdmVudWUgTi4sIFNlYXR0bGUsIFdBIDk4MTA5LTUyMTAgDQoNCuOBk+OB
-ruODoeODg+OCu+ODvOOCuOOBryAg44Gr6YCB5L+h44GV44KM44G+44GX44Gf44CCDQo=
+Regarding the issue, you can see the full details of my tests, and I 
+just edit to add a brief summary at the first comment of the following 
+issue:
+https://github.com/NXP/mwifiex-firmware/issues/1
 
-------=_NextPart_000_07A2_013A3712.130F0660
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+Please, look at it.
+It is full detailed.
+If anything missing, please, ask what you need.
 
-PCFET0NUWVBFIEhUTUwgUFVCTElDICItLy9XM0MvL0RURCBIVE1MIDQuMCBUcmFuc2l0aW9uYWwv
-L0VOIj4NCjxIVE1MPjxIRUFEPg0KPE1FVEEgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0
-Zi04IiBodHRwLWVxdWl2PUNvbnRlbnQtVHlwZT4NCjxNRVRBIG5hbWU9R0VORVJBVE9SIGNvbnRl
-bnQ9Ik1TSFRNTCAxMS4wMC45NjAwLjE5NDMxIj48L0hFQUQ+DQo8Qk9EWT4NCjxUQUJMRSANCnN0
-eWxlPSJXSElURS1TUEFDRTogbm9ybWFsOyBXT1JELVNQQUNJTkc6IDBweDsgVEVYVC1UUkFOU0ZP
-Uk06IG5vbmU7IENPTE9SOiByZ2IoNDksNTMsNTkpOyBGT05UOiAxNHB4LzIycHggTGF0bywgTGF0
-bywgJ09wZW4gU2FucycsIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgV0lET1dTOiAxOyBMRVRURVIt
-U1BBQ0lORzogbm9ybWFsOyBURVhULUlOREVOVDogMHB4OyAtd2Via2l0LXRleHQtc3Ryb2tlLXdp
-ZHRoOiAwcHgiIA0KY2VsbFNwYWNpbmc9MCBjZWxsUGFkZGluZz0wPg0KICA8VEJPRFk+DQogIDxU
-Uj4NCiAgICA8VEQgY2xhc3M9d2lkdGgzMzAgYmdDb2xvcj0jZWFlZGVkIHZBbGlnbj10b3Agd2lk
-dGg9NTAwIGFsaWduPWxlZnQ+DQogICAgICA8Q0VOVEVSIGNsYXNzPWhpZGUgDQogICAgICBzdHls
-ZT0iRk9OVC1TSVpFOiAxMHB4OyBGT05ULUZBTUlMWTogQXJpYWwsIEhlbHZldGljYSwgc2Fucy1z
-ZXJpZjsgQ09MT1I6IHJnYigyMTMsMjE5LDIxOSk7IExJTkUtSEVJR0hUOiAxNnB4Ij48Rk9OVCAN
-CiAgICAgIGNvbG9yPWJsYWNrPuOBiuWuouanmOOBruOBlOeZu+mMsuOBruOBiuaUr+aJleOBhOaW
-ueazleOBq+OCqOODqeODvOOBjOeZuueUn+OBl+OBvuOBl+OBn+OAgjwvRk9OVD48L0NFTlRFUj48
-L1REPjwvVFI+PC9UQk9EWT48L1RBQkxFPg0KPFRBQkxFIA0Kc3R5bGU9IldISVRFLVNQQUNFOiBu
-b3JtYWw7IFdPUkQtU1BBQ0lORzogMHB4OyBURVhULVRSQU5TRk9STTogbm9uZTsgQ09MT1I6IHJn
-Yig0OSw1Myw1OSk7IEZPTlQ6IDE0cHgvMjJweCBMYXRvLCBMYXRvLCAnT3BlbiBTYW5zJywgSGVs
-dmV0aWNhLCBzYW5zLXNlcmlmOyBXSURPV1M6IDE7IExFVFRFUi1TUEFDSU5HOiBub3JtYWw7IFRF
-WFQtSU5ERU5UOiAwcHg7IC13ZWJraXQtdGV4dC1zdHJva2Utd2lkdGg6IDBweCIgDQpjZWxsU3Bh
-Y2luZz0wIGNlbGxQYWRkaW5nPTA+DQogIDxUQk9EWT4NCiAgPFRSPg0KICAgIDxURCBjbGFzcz0i
-d2lkdGgzMzAgaGVpZ2h0NCIgc3R5bGU9IkxJTkUtSEVJR0hUOiA1cHgiIGJnQ29sb3I9I2VhZWRl
-ZCANCiAgICBoZWlnaHQ9NSB3aWR0aD01MDA+PElNRyANCiAgICAgIHN0eWxlPSJPVkVSRkxPVzog
-aGlkZGVuOyBCT1JERVItVE9QOiAwcHg7IEJPUkRFUi1SSUdIVDogMHB4OyBCT1JERVItQk9UVE9N
-OiAwcHg7IEJPUkRFUi1MRUZUOiAwcHg7IFZJU0lCSUxJVFk6IGhpZGRlbiAhaW1wb3J0YW50IiAN
-CiAgICAgIGFsdD0iIiANCiAgICAgIHNyYz0iaHR0cHM6Ly9pbWFnZXMtbmEuc3NsLWltYWdlcy1h
-bWF6b24uY29tL2ltYWdlcy9HLzAxL2UtbWFpbC9pbWcxNC9zaGFyZHMvaW1nL2JmZC9zcC5naWYi
-IA0KICAgICAgd2lkdGg9MSBoZWlnaHQ9MT48L1REPjwvVFI+PC9UQk9EWT48L1RBQkxFPg0KPFRB
-QkxFIA0Kc3R5bGU9IldISVRFLVNQQUNFOiBub3JtYWw7IFdPUkQtU1BBQ0lORzogMHB4OyBURVhU
-LVRSQU5TRk9STTogbm9uZTsgQ09MT1I6IHJnYig0OSw1Myw1OSk7IEZPTlQ6IDE0cHgvMjJweCBM
-YXRvLCBMYXRvLCAnT3BlbiBTYW5zJywgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBXSURPV1M6IDE7
-IExFVFRFUi1TUEFDSU5HOiBub3JtYWw7IFRFWFQtSU5ERU5UOiAwcHg7IC13ZWJraXQtdGV4dC1z
-dHJva2Utd2lkdGg6IDBweCIgDQpjZWxsU3BhY2luZz0wIGNlbGxQYWRkaW5nPTA+DQogIDxUQk9E
-WT4NCiAgPFRSPg0KICAgIDxURCBjbGFzcz1oZWlnaHQxOCBzdHlsZT0iTElORS1IRUlHSFQ6IDE3
-cHgiIGhlaWdodD0xNz48SU1HIA0KICAgICAgc3R5bGU9Ik9WRVJGTE9XOiBoaWRkZW47IEJPUkRF
-Ui1UT1A6IDBweDsgQk9SREVSLVJJR0hUOiAwcHg7IEJPUkRFUi1CT1RUT006IDBweDsgQk9SREVS
-LUxFRlQ6IDBweDsgVklTSUJJTElUWTogaGlkZGVuICFpbXBvcnRhbnQiIA0KICAgICAgYWx0PSIi
-IA0KICAgICAgc3JjPSJodHRwczovL2ltYWdlcy1uYS5zc2wtaW1hZ2VzLWFtYXpvbi5jb20vaW1h
-Z2VzL0cvMDEvZS1tYWlsL2ltZzE0L3NoYXJkcy9pbWcvYmZkL3NwLmdpZiIgDQogICAgICB3aWR0
-aD0xIGhlaWdodD0xPjwvVEQ+PC9UUj48L1RCT0RZPjwvVEFCTEU+DQo8VEFCTEUgDQpzdHlsZT0i
-V0hJVEUtU1BBQ0U6IG5vcm1hbDsgV09SRC1TUEFDSU5HOiAwcHg7IFRFWFQtVFJBTlNGT1JNOiBu
-b25lOyBDT0xPUjogcmdiKDQ5LDUzLDU5KTsgRk9OVDogMTRweC8yMnB4IExhdG8sIExhdG8sICdP
-cGVuIFNhbnMnLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IFdJRE9XUzogMTsgTEVUVEVSLVNQQUNJ
-Tkc6IG5vcm1hbDsgVEVYVC1JTkRFTlQ6IDBweDsgLXdlYmtpdC10ZXh0LXN0cm9rZS13aWR0aDog
-MHB4IiANCmNlbGxTcGFjaW5nPTAgY2VsbFBhZGRpbmc9MD4NCiAgPFRCT0RZPg0KICA8VFI+DQog
-ICAgPFREIHdpZHRoPTQwPjwvVEQ+DQogICAgPFREIHdpZHRoPTQyND4NCiAgICAgIDxUQUJMRSBj
-ZWxsU3BhY2luZz0wIGNlbGxQYWRkaW5nPTA+DQogICAgICAgIDxUQk9EWT4NCiAgICAgICAgPFRS
-Pg0KICAgICAgICAgIDxURCB3aWR0aD02ND48SU1HIGNsYXNzPWhhdXRvIGJvcmRlcj0wIGhzcGFj
-ZT0wIGFsdD0iUHJpbWUgbG9nbyIgDQogICAgICAgICAgICBzcmM9Imh0dHBzOi8vbS5tZWRpYS1h
-bWF6b24uY29tL2ltYWdlcy9HLzA5L21hcmtldGluZy9wcmltZS9uZXdfbG9nb3MvUHJpbWVfTG9n
-b19UcmFuc3BhcmVudF9jcm9wcGVkLl9DQjQ2ODUwNjIxM18ucG5nIiANCiAgICAgICAgICAgIHdp
-ZHRoPSIxMDAlIj48L1REPg0KICAgICAgICAgIDxURCB3aWR0aD0zND48L1REPjwvVFI+PC9UQk9E
-WT48L1RBQkxFPjwvVEQ+DQogICAgPFREIHdpZHRoPTQwPjwvVEQ+PC9UUj48L1RCT0RZPjwvVEFC
-TEU+DQo8VEFCTEUgDQpzdHlsZT0iV0hJVEUtU1BBQ0U6IG5vcm1hbDsgV09SRC1TUEFDSU5HOiAw
-cHg7IFRFWFQtVFJBTlNGT1JNOiBub25lOyBDT0xPUjogcmdiKDQ5LDUzLDU5KTsgRk9OVDogMTRw
-eC8yMnB4IExhdG8sIExhdG8sICdPcGVuIFNhbnMnLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IFdJ
-RE9XUzogMTsgTEVUVEVSLVNQQUNJTkc6IG5vcm1hbDsgVEVYVC1JTkRFTlQ6IDBweDsgLXdlYmtp
-dC10ZXh0LXN0cm9rZS13aWR0aDogMHB4IiANCmNlbGxTcGFjaW5nPTAgY2VsbFBhZGRpbmc9MD4N
-CiAgPFRCT0RZPg0KICA8VFI+DQogICAgPFREIGNsYXNzPSJ3aWR0aDMzMCBoZWlnaHQ5IiBzdHls
-ZT0iTElORS1IRUlHSFQ6IDlweCIgYmdDb2xvcj0jZmZmZmZmIA0KICAgIGhlaWdodD05IHdpZHRo
-PTUwMD48SU1HIA0KICAgICAgc3R5bGU9Ik9WRVJGTE9XOiBoaWRkZW47IEJPUkRFUi1UT1A6IDBw
-eDsgQk9SREVSLVJJR0hUOiAwcHg7IEJPUkRFUi1CT1RUT006IDBweDsgQk9SREVSLUxFRlQ6IDBw
-eDsgVklTSUJJTElUWTogaGlkZGVuICFpbXBvcnRhbnQiIA0KICAgICAgYWx0PSIiIA0KICAgICAg
-c3JjPSJodHRwczovL2ltYWdlcy1uYS5zc2wtaW1hZ2VzLWFtYXpvbi5jb20vaW1hZ2VzL0cvMDEv
-ZS1tYWlsL2ltZzE0L3NoYXJkcy9pbWcvYmZkL3NwLmdpZiIgDQogICAgICB3aWR0aD0xIGhlaWdo
-dD0xPjwvVEQ+PC9UUj48L1RCT0RZPjwvVEFCTEU+DQo8VEFCTEUgY2xhc3M9d2lkdGgzMzAgDQpz
-dHlsZT0iV0hJVEUtU1BBQ0U6IG5vcm1hbDsgV09SRC1TUEFDSU5HOiAwcHg7IFRFWFQtVFJBTlNG
-T1JNOiBub25lOyBDT0xPUjogcmdiKDQ5LDUzLDU5KTsgRk9OVDogMTRweC8yMnB4IExhdG8sIExh
-dG8sICdPcGVuIFNhbnMnLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IFdJRE9XUzogMTsgTEVUVEVS
-LVNQQUNJTkc6IG5vcm1hbDsgVEVYVC1JTkRFTlQ6IDBweDsgLXdlYmtpdC10ZXh0LXN0cm9rZS13
-aWR0aDogMHB4IiANCmNlbGxTcGFjaW5nPTAgY2VsbFBhZGRpbmc9MCB3aWR0aD01MDA+DQogIDxU
-Qk9EWT4NCiAgPFRSPg0KICAgIDxURCBjbGFzcz0iYmxvY2sgd2lkdGgzMzAiIHdpZHRoPTUwMCBh
-bGlnbj1jZW50ZXI+PEEgDQogICAgICBzdHlsZT0iVEVYVC1ERUNPUkFUSU9OOiBub25lOyBDT0xP
-UjogcmdiKDI1NSwxNTMsMCkiIA0KICAgICAgaHJlZj0iaHR0cHM6Ly93d3cuYW1hem9uLmNvLmpw
-L2dwL3IuaHRtbD9DPTJXUFdCUVVKRU9VN1QmYW1wO0s9MzlQVTIxWkJJS1hNNyZhbXA7TT11cm46
-cnRuOm1zZzoyMDIxMDgxOTExMDcyMTNkMDY3NjQ4ZDBhYTQ5NGViNjAzNDUxZTljMzBwMGZlJmFt
-cDtSPVBIUUdETkRMVEVJOSZhbXA7VD1DJmFtcDtVPWh0dHBzJTNBJTJGJTJGd3d3LmFtYXpvbi5j
-by5qcCUyRmdwJTJGcHJpbWVjZW50cmFsJTJGZWRpdFBheW1lbnRQcmVmZXJlbmNlJTNGaWUlM0RV
-VEY4JTI2cmVmXyUzRHBlXzIyMzAzNjJfNDAxNTc0MTQyX3BlX2JwX3N1YnNjcmlwdGlvblBsYW5J
-RF91cGRhdGUlMjYmYW1wO0g9OEhQSk5JN0ZPV0FBTzdMOERYT1FaU0NFV05NQSZhbXA7cmVmXz1w
-ZV8yMjMwMzYyXzQwMTU3NDE0Ml9wZV9icF9zdWJzY3JpcHRpb25QbGFuSURfdXBkYXRlIj48L0E+
-PElNRyANCiAgICAgIGJvcmRlcj0wIGhzcGFjZT0wIGFsdD1BbWF6b24uY28uanAgDQogICAgICBz
-cmM9Imh0dHBzOi8vbS5tZWRpYS1hbWF6b24uY29tL2ltYWdlcy9HLzA5L21hcmtldGluZy9wcmlt
-ZS9yZXRlbnRpb24vZW1haWwvd2VsY29tZV9lbWFpbC8xMjYyNTM0X3ByaW1lX3dlbGNvbWVfNTAw
-eDE2OS5fQ0I0MDQ2OTQ1NDlfLmpwZyIgDQogICAgICBhbGlnbj1iYXNlbGluZT4mbmJzcDs8L1RE
-PjwvVFI+PC9UQk9EWT48L1RBQkxFPg0KPFRBQkxFIA0Kc3R5bGU9IldISVRFLVNQQUNFOiBub3Jt
-YWw7IFdPUkQtU1BBQ0lORzogMHB4OyBURVhULVRSQU5TRk9STTogbm9uZTsgQ09MT1I6IHJnYig0
-OSw1Myw1OSk7IEZPTlQ6IDE0cHgvMjJweCBMYXRvLCBMYXRvLCAnT3BlbiBTYW5zJywgSGVsdmV0
-aWNhLCBzYW5zLXNlcmlmOyBXSURPV1M6IDE7IExFVFRFUi1TUEFDSU5HOiBub3JtYWw7IFRFWFQt
-SU5ERU5UOiAwcHg7IC13ZWJraXQtdGV4dC1zdHJva2Utd2lkdGg6IDBweCIgDQpjZWxsU3BhY2lu
-Zz0wIGNlbGxQYWRkaW5nPTA+DQogIDxUQk9EWT4NCiAgPFRSPg0KICAgIDxURCBjbGFzcz0id2lk
-dGgzMzAgaGVpZ2h0MTMiIHN0eWxlPSJMSU5FLUhFSUdIVDogMTNweCIgYmdDb2xvcj0jZmZmZmZm
-IA0KICAgIGhlaWdodD0xMyB3aWR0aD01MDA+PElNRyANCiAgICAgIHN0eWxlPSJPVkVSRkxPVzog
-aGlkZGVuOyBCT1JERVItVE9QOiAwcHg7IEJPUkRFUi1SSUdIVDogMHB4OyBCT1JERVItQk9UVE9N
-OiAwcHg7IEJPUkRFUi1MRUZUOiAwcHg7IFZJU0lCSUxJVFk6IGhpZGRlbiAhaW1wb3J0YW50IiAN
-CiAgICAgIGFsdD0iIiANCiAgICAgIHNyYz0iaHR0cHM6Ly9pbWFnZXMtbmEuc3NsLWltYWdlcy1h
-bWF6b24uY29tL2ltYWdlcy9HLzAxL2UtbWFpbC9pbWcxNC9zaGFyZHMvaW1nL2JmZC9zcC5naWYi
-IA0KICAgICAgd2lkdGg9MSBoZWlnaHQ9MT48L1REPjwvVFI+PC9UQk9EWT48L1RBQkxFPg0KPFRB
-QkxFIA0Kc3R5bGU9IldISVRFLVNQQUNFOiBub3JtYWw7IFdPUkQtU1BBQ0lORzogMHB4OyBURVhU
-LVRSQU5TRk9STTogbm9uZTsgQ09MT1I6IHJnYig0OSw1Myw1OSk7IEZPTlQ6IDE0cHgvMjJweCBM
-YXRvLCBMYXRvLCAnT3BlbiBTYW5zJywgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBXSURPV1M6IDE7
-IExFVFRFUi1TUEFDSU5HOiBub3JtYWw7IFRFWFQtSU5ERU5UOiAwcHg7IC13ZWJraXQtdGV4dC1z
-dHJva2Utd2lkdGg6IDBweCIgDQpjZWxsU3BhY2luZz0wIGNlbGxQYWRkaW5nPTA+DQogIDxUQk9E
-WT4NCiAgPFRSPg0KICAgIDxURCB3aWR0aD00MD48L1REPg0KICAgIDxURCBjbGFzcz13aWR0aDMy
-MyB2QWxpZ249dG9wIHdpZHRoPTQyNCBhbGlnbj1sZWZ0PjxCIA0KICAgICAgY2xhc3M9ImZvbnQy
-MiBsaW5lMjkiIA0KICAgICAgc3R5bGU9IkZPTlQtU0laRTogMjRweDsgRk9OVC1GQU1JTFk6IEFy
-aWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IENPTE9SOiByZ2IoMTcsMTcsMTcpOyBMSU5FLUhF
-SUdIVDogMzFweCI+DQogICAgICA8Q0VOVEVSPjxTUEFOIA0KICAgICAgc3R5bGU9IkZPTlQtU0la
-RTogMTlweCI+44GK5pSv5omV5pa55rOV44Gr5ZWP6aGM44GM44GC44KK44CB44OX44Op44Kk44Og
-54m55YW444KS44GU5Yip55So44GE44Gf44Gg44GR44Gq44GE54q25rOB44Gn44GZ44CCPC9TUEFO
-PjwvQ0VOVEVSPjwvQj4NCiAgICAgIDxDRU5URVI+PEIgY2xhc3M9ImZvbnQyMiBsaW5lMjkiIA0K
-ICAgICAgc3R5bGU9IkZPTlQtU0laRTogMjRweDsgRk9OVC1GQU1JTFk6IEFyaWFsLCBIZWx2ZXRp
-Y2EsIHNhbnMtc2VyaWY7IENPTE9SOiByZ2IoMTcsMTcsMTcpOyBMSU5FLUhFSUdIVDogMzFweCI+
-PFNQQU4gDQogICAgICBzdHlsZT0iRk9OVC1TSVpFOiAxMnB4Ij4NCiAgICAgIDxDRU5URVI+Jm5i
-c3A7PC9DRU5URVI+PC9TUEFOPjwvQj4NCiAgICAgIDxUQUJMRSBjZWxsU3BhY2luZz0wIGNlbGxQ
-YWRkaW5nPTA+DQogICAgICAgIDxUQk9EWT4NCiAgICAgICAgPFRSPg0KICAgICAgICAgIDxURCBj
-bGFzcz0id2lkdGgzMzAgaGVpZ2h0MjUiIHN0eWxlPSJMSU5FLUhFSUdIVDogMjVweCIgDQogICAg
-ICAgICAgYmdDb2xvcj0jZmZmZmZmIGhlaWdodD0yNSB3aWR0aD00MjQ+PElNRyANCiAgICAgICAg
-ICAgIHN0eWxlPSJPVkVSRkxPVzogaGlkZGVuOyBCT1JERVItVE9QOiAwcHg7IEJPUkRFUi1SSUdI
-VDogMHB4OyBCT1JERVItQk9UVE9NOiAwcHg7IEJPUkRFUi1MRUZUOiAwcHg7IFZJU0lCSUxJVFk6
-IGhpZGRlbiAhaW1wb3J0YW50IiANCiAgICAgICAgICAgIGFsdD0iIiANCiAgICAgICAgICAgIHNy
-Yz0iaHR0cHM6Ly9pbWFnZXMtbmEuc3NsLWltYWdlcy1hbWF6b24uY29tL2ltYWdlcy9HLzAxL2Ut
-bWFpbC9pbWcxNC9zaGFyZHMvaW1nL2JmZC9zcC5naWYiIA0KICAgICAgICAgICAgd2lkdGg9MSBo
-ZWlnaHQ9MT48U1BBTiANCiAgICAgICAgICAgIHN0eWxlPSJGT05ULVNJWkU6IDEycHg7IEZPTlQt
-RkFNSUxZOiBBcmlhbCI+5qeYPC9TUEFOPjxCUj48QlI+PFNQQU4gDQogICAgICAgICAgICBzdHls
-ZT0iRk9OVC1TSVpFOiAxM3B4Ij48U1BBTiBzdHlsZT0iRk9OVC1TSVpFOiAxM3B4Ij48U1BBTiAN
-CiAgICAgICAgICAgIHN0eWxlPSJGT05ULVNJWkU6IDEzcHgiPg0KICAgICAgICAgICAgPERJViBj
-bGFzcz0iZm9udDEyIGxpbmUxNiIgDQogICAgICAgICAgICBzdHlsZT0iRk9OVC1GQU1JTFk6IEFy
-aWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IENPTE9SOiByZ2IoMTcsMTcsMTcpOyBMSU5FLUhF
-SUdIVDogMjBweCIgDQogICAgICAgICAgICBhbGlnbj1sZWZ0PjxTUEFOIA0KICAgICAgICAgICAg
-c3R5bGU9IkZPTlQtU0laRTogMTJweCI+QW1hem9u44OX44Op44Kk44Og44KS44GU5Yip55So44GE
-44Gf44Gg44GN44GC44KK44GM44Go44GG44GU44GW44GE44G+44GZ44CCJm5ic3A7PC9TUEFOPjxT
-UEFOIA0KICAgICAgICAgICAgc3R5bGU9IkZPTlQtU0laRTogMjFweCI+PFNQQU4gc3R5bGU9IkZP
-TlQtU0laRTogMTlweCI+PFNQQU4gDQogICAgICAgICAgICBzdHlsZT0iRk9OVC1TSVpFOiAxMnB4
-Ij48U1BBTiANCiAgICAgICAgICAgIHN0eWxlPSJGT05ULVNJWkU6IDEycHgiPjwvU1BBTj48L1NQ
-QU4+PC9TUEFOPjwvU1BBTj48L0RJVj4NCiAgICAgICAgICAgIDxESVYgY2xhc3M9ImZvbnQxMiBs
-aW5lMTYiIA0KICAgICAgICAgICAgc3R5bGU9IkZPTlQtRkFNSUxZOiBBcmlhbCwgSGVsdmV0aWNh
-LCBzYW5zLXNlcmlmOyBDT0xPUjogcmdiKDE3LDE3LDE3KTsgTElORS1IRUlHSFQ6IDIwcHgiPjxT
-UEFOIA0KICAgICAgICAgICAgc3R5bGU9IkZPTlQtU0laRTogMTJweCI+44OX44Op44Kk44Og44G4
-55m76Yyy44Gu6Zqb44Gr6Kit5a6a44GE44Gf44Gg44GE44Gf44GK5pSv5omV44GE5pa55rOV6KqN
-6Ki844Gu5q616ZqO44GrPFNQQU4gDQogICAgICAgICAgICBzdHlsZT0iRk9OVC1TSVpFOiAxMnB4
-OyBGT05ULUZBTUlMWTogQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgV0hJVEUtU1BBQ0U6
-IG5vcm1hbDsgV09SRC1TUEFDSU5HOiAwcHg7IFRFWFQtVFJBTlNGT1JNOiBub25lOyBGTE9BVDog
-bm9uZTsgRk9OVC1XRUlHSFQ6IDQwMDsgQ09MT1I6IHJnYigxNywxNywxNyk7IEZPTlQtU1RZTEU6
-IG5vcm1hbDsgT1JQSEFOUzogMjsgV0lET1dTOiAyOyBESVNQTEFZOiBpbmxpbmUgIWltcG9ydGFu
-dDsgTEVUVEVSLVNQQUNJTkc6IG5vcm1hbDsgQkFDS0dST1VORC1DT0xPUjogcmdiKDI1NSwyNTUs
-MjU1KTsgVEVYVC1JTkRFTlQ6IDBweDsgLXdlYmtpdC10ZXh0LXN0cm9rZS13aWR0aDogMHB4OyBm
-b250LXZhcmlhbnQtbGlnYXR1cmVzOiBub3JtYWwiPuOCqDwvU1BBTj7jg6njg7zjgYznmbrnlJ/j
-gZfjgb7jgZfjgZ/jgILjgZ3jga7jgZ/jgoHjgIHnj77lnKjjgIHjgYrlrqLmp5jjgavjga/jg5fj
-g6njgqTjg6DkvJrlk6HnibnlhbjjgpLjgZTliKnnlKjjgYTjgZ/jgaDjgZHjgb7jgZvjgpPjgILn
-ibnlhbjjgpLjgZTliKnnlKjjgYTjgZ/jgaDjgY/jgavjga/jgIEgDQogICAgICAgICAgICDvvJPm
-l6XplpPku6XlhoXjgavjgYrmlK/miZXjgYTmlrnms5Xjga7lho3nmbvpjLLjgpLjgYrpoZjjgYTj
-gYTjgZ/jgZfjgb7jgZnjgII8L1NQQU4+PC9ESVY+DQogICAgICAgICAgICA8RElWIGNsYXNzPSJm
-b250MTIgbGluZTE2IiANCiAgICAgICAgICAgIHN0eWxlPSJGT05ULUZBTUlMWTogQXJpYWwsIEhl
-bHZldGljYSwgc2Fucy1zZXJpZjsgQ09MT1I6IHJnYigxNywxNywxNyk7IExJTkUtSEVJR0hUOiAy
-MHB4Ij48L0RJVj4NCiAgICAgICAgICAgIDxESVYgY2xhc3M9ImZvbnQxMiBsaW5lMTYiIA0KICAg
-ICAgICAgICAgc3R5bGU9IkZPTlQtRkFNSUxZOiBBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlm
-OyBDT0xPUjogcmdiKDE3LDE3LDE3KTsgTElORS1IRUlHSFQ6IDIwcHgiPg0KICAgICAgICAgICAg
-PE9MPg0KICAgICAgICAgICAgICA8TEk+PFNQQU4gc3R5bGU9IkZPTlQtU0laRTogMTJweCI+44GK
-5a6i5qeY44Gu44GK5pSv5omV44GE5pa55rOV44Gr44Ki44Kv44K744K5Jm5ic3A7PC9TUEFOPiAN
-CiAgICAgICAgICAgICAgPExJPjxTUEFOIA0KICAgICAgICAgICAgICBzdHlsZT0iRk9OVC1TSVpF
-OiAxMnB4Ij5BbWF6b27jg5fjg6njgqTjg6DjgavnmbvpjLLjgZfjgZ9BbWF6b24uY28uanDjga7j
-gqLjgqvjgqbjg7Pjg4jjgpLkvb/nlKjjgZfjgabjgrXjgqTjg7PjgqTjg7M8L1NQQU4+IA0KDQog
-ICAgICAgICAgICAgIDxMST48U1BBTiANCiAgICAgICAgICAgICAgc3R5bGU9IkZPTlQtU0laRTog
-MTJweCI+Jm5ic3A755m76Yyy5riI44G/44Gu44GK5pSv5omV5omL5q6144Gu5pyJ5Yq55pyf6ZmQ
-44KS5pu05paw44CB44G+44Gf44Gv5paw44GX44GE5pSv5omV44GE5omL5q6144KS6L+95Yqg44GX
-44CB44CM5Lya5ZOh54m55YW444Go44GK5pSv5omV44GE5pa55rOV44Gu56K66KqN44CN44Oc44K/
-44Oz44KS44Kv44Oq44OD44KvPC9TUEFOPjwvTEk+PC9PTD48L0RJVj48L1NQQU4+PC9TUEFOPjwv
-U1BBTj48L1REPjwvVFI+PC9UQk9EWT48L1RBQkxFPjwvQ0VOVEVSPjwvVEQ+PC9UUj48L1RCT0RZ
-PjwvVEFCTEU+DQo8VEFCTEUgDQpzdHlsZT0iV0hJVEUtU1BBQ0U6IG5vcm1hbDsgV09SRC1TUEFD
-SU5HOiAwcHg7IFRFWFQtVFJBTlNGT1JNOiBub25lOyBDT0xPUjogcmdiKDQ5LDUzLDU5KTsgRk9O
-VDogMTRweC8yMnB4IExhdG8sIExhdG8sICdPcGVuIFNhbnMnLCBIZWx2ZXRpY2EsIHNhbnMtc2Vy
-aWY7IFdJRE9XUzogMTsgTEVUVEVSLVNQQUNJTkc6IG5vcm1hbDsgVEVYVC1JTkRFTlQ6IDBweDsg
-LXdlYmtpdC10ZXh0LXN0cm9rZS13aWR0aDogMHB4IiANCmNlbGxTcGFjaW5nPTAgY2VsbFBhZGRp
-bmc9MCBhbGlnbj1jZW50ZXI+DQogIDxUQk9EWT4NCiAgPFRSPg0KICAgIDxURCBjbGFzcz13aWR0
-aDEwIHdpZHRoPTIwPjwvVEQ+DQogICAgPFREIGNsYXNzPXdpZHRoMzEwIHZBbGlnbj10b3Agd2lk
-dGg9NDUwIGFsaWduPWNlbnRlcj4NCiAgICAgIDxUQUJMRSBjZWxsU3BhY2luZz0wIGNlbGxQYWRk
-aW5nPTEwIHdpZHRoPTI4MCBiZ0NvbG9yPSNmZmZmZmY+DQogICAgICAgIDxUQk9EWT4NCiAgICAg
-ICAgPFRSPg0KICAgICAgICAgIDxURCBzdHlsZT0iQ09MT1I6IHJnYig0OCw1Nyw2Nik7IERJU1BM
-QVk6IGJsb2NrOyBib3JkZXItcmFkaXVzOiA1cHgiIA0KICAgICAgICAgIGJnQ29sb3I9I2ZmYzQz
-NSBhbGlnbj1jZW50ZXI+PEEgDQogICAgICAgICAgICBzdHlsZT0iRk9OVC1TSVpFOiAxNnB4OyBU
-RVhULURFQ09SQVRJT046IG5vbmU7IEZPTlQtRkFNSUxZOiBBcmlhbCwgc2Fucy1zZXJpZjsgV0lE
-VEg6IDI2MHB4OyBGT05ULVdFSUdIVDogYm9sZDsgQ09MT1I6IHJnYig0OCw1Nyw2Nik7IERJU1BM
-QVk6IGlubGluZS1ibG9jazsgTElORS1IRUlHSFQ6IDIwcHgiIA0KICAgICAgICAgICAgaHJlZj0i
-aHR0cHM6Ly9hbWF6b24uY28uanAuZ3h5YnAuY24vIj4mbmJzcDsmbmJzcDvkvJrlk6Hnibnlhbjj
-gajjgYrmlK/miZXjgYTmlrnms5Xjga7norroqo0mbmJzcDsmbmJzcDs8L0E+PC9URD48L1RSPjwv
-VEJPRFk+PC9UQUJMRT48L1REPg0KICAgIDxURCBjbGFzcz13aWR0aDEwIHdpZHRoPTI1PjwvVEQ+
-PC9UUj48L1RCT0RZPjwvVEFCTEU+DQo8VEFCTEUgDQpzdHlsZT0iV0hJVEUtU1BBQ0U6IG5vcm1h
-bDsgV09SRC1TUEFDSU5HOiAwcHg7IFRFWFQtVFJBTlNGT1JNOiBub25lOyBDT0xPUjogcmdiKDQ5
-LDUzLDU5KTsgRk9OVDogMTRweC8yMnB4IExhdG8sIExhdG8sICdPcGVuIFNhbnMnLCBIZWx2ZXRp
-Y2EsIHNhbnMtc2VyaWY7IFdJRE9XUzogMTsgTEVUVEVSLVNQQUNJTkc6IG5vcm1hbDsgVEVYVC1J
-TkRFTlQ6IDBweDsgLXdlYmtpdC10ZXh0LXN0cm9rZS13aWR0aDogMHB4IiANCmNlbGxTcGFjaW5n
-PTAgY2VsbFBhZGRpbmc9MD4NCiAgPFRCT0RZPg0KICA8VFI+DQogICAgPFREIHdpZHRoPTQwPjwv
-VEQ+DQogICAgPFREIGNsYXNzPXdpZHRoMzIzIHZBbGlnbj10b3Agd2lkdGg9NDI0IGFsaWduPWxl
-ZnQ+DQogICAgICA8RElWIGNsYXNzPSJmb250MTIgbGluZTE2IiANCiAgICAgIHN0eWxlPSJGT05U
-LVNJWkU6IDE1cHg7IEZPTlQtRkFNSUxZOiBBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBD
-T0xPUjogcmdiKDE3LDE3LDE3KTsgTElORS1IRUlHSFQ6IDIwcHgiPjxTUEFOIA0KICAgICAgc3R5
-bGU9IkZPTlQtU0laRTogMTNweCI+PFNQQU4gc3R5bGU9IkZPTlQtU0laRTogMTNweCI+PFNQQU4g
-DQogICAgICBzdHlsZT0iRk9OVC1TSVpFOiAxM3B4Ij4NCiAgICAgIDxQIGNsYXNzPSJmb250MTIg
-bGluZTE2IiANCiAgICAgIHN0eWxlPSJGT05ULUZBTUlMWTogQXJpYWwsIEhlbHZldGljYSwgc2Fu
-cy1zZXJpZjsgQ09MT1I6IHJnYigxNywxNywxNyk7IExJTkUtSEVJR0hUOiAyMHB4Ij48U1BBTiAN
-CiAgICAgIHN0eWxlPSJGT05ULVNJWkU6IDEycHgiPuOCqOODqeODvOOBruWOn+WboOOBr+anmOOA
-heOBp+OBmeOBjOOAgeacrOOCqOODqeODvOOBjOeZuueUn+OBmeOCi+S+i+OBqOOBl+OBpuOBr+OA
-geOBiuaUr+aJleOBhOaWueazleOBruacieWKueacn+mZkOOBjOWIh+OCjOOBpuOBhOOCi+WgtOWQ
-iOOBjOWkmuOBj+imi+WPl+OBkeOCieOCjOOBvuOBmeOAguips+e0sOOBruWOn+WboOOBq+OBpOOB
-jeOBvuOBl+OBpuOBr+OBlOeZu+mMsuOBhOOBn+OBoOOBhOOBn+OBiuaUr+aJleaJi+auteOBruaP
-kOS+m+S8muekvu+8iOOCr+ODrOOCuOODg+ODiOS8muekvuetie+8ieOBq+OBiuWVj+WQiOOBm+S4
-i+OBleOBhOOAgjwvU1BBTj48U1BBTiANCiAgICAgIGNsYXNzPUFwcGxlLWNvbnZlcnRlZC1zcGFj
-ZT4mbmJzcDs8L1NQQU4+PEJSPjxCUj48U1BBTiANCiAgICAgIHN0eWxlPSJGT05ULVNJWkU6IDEy
-cHgiPu+8k+aXpemWk+S7peWGheOBq+OBiuaUr+aJleOBhOaWueazleOBjOWGjeeZu+mMsuOBleOC
-jOOBquOBhOWgtOWQiOOAgeOBlOeZu+mMsuOBrkFtYXpvbiANCiAgICAgIOODl+ODqeOCpOODoOS8
-muWToeizh+agvOOBr+iHquWLleeahOOBq+OCreODo+ODs+OCu+ODq+OBleOCjOOBvuOBmeOAgjxC
-Uj7ku4rlvozjgajjgoJBbWF6b24uY28uanDjgpLjgojjgo3jgZfjgY/jgYrpoZjjgYTjgYTjgZ/j
-gZfjgb7jgZnjgII8QlI+PC9TUEFOPjwvUD48L1NQQU4+PC9TUEFOPjwvU1BBTj48L0RJVj48L1RE
-PjwvVFI+PC9UQk9EWT48L1RBQkxFPg0KPFRBQkxFIA0Kc3R5bGU9IldISVRFLVNQQUNFOiBub3Jt
-YWw7IFdPUkQtU1BBQ0lORzogMHB4OyBURVhULVRSQU5TRk9STTogbm9uZTsgQ09MT1I6IHJnYig0
-OSw1Myw1OSk7IEZPTlQ6IDE0cHgvMjJweCBMYXRvLCBMYXRvLCAnT3BlbiBTYW5zJywgSGVsdmV0
-aWNhLCBzYW5zLXNlcmlmOyBXSURPV1M6IDE7IExFVFRFUi1TUEFDSU5HOiBub3JtYWw7IFRFWFQt
-SU5ERU5UOiAwcHg7IC13ZWJraXQtdGV4dC1zdHJva2Utd2lkdGg6IDBweCIgDQpjZWxsU3BhY2lu
-Zz0wIGNlbGxQYWRkaW5nPTAgYmdDb2xvcj0jZWFlZGVkPg0KICA8VEJPRFk+DQogIDxUUj4NCiAg
-ICA8VEQgY2xhc3M9aGVpZ2h0MjEgDQogICAgc3R5bGU9IkJPUkRFUi1UT1A6IHJnYigyMTMsMjE5
-LDIxOSkgMnB4IHNvbGlkOyBMSU5FLUhFSUdIVDogMjFweCIgaGVpZ2h0PTIxIA0KICAgIHdpZHRo
-PTUwMD48SU1HIA0KICAgICAgc3R5bGU9Ik9WRVJGTE9XOiBoaWRkZW47IEJPUkRFUi1UT1A6IDBw
-eDsgQk9SREVSLVJJR0hUOiAwcHg7IEJPUkRFUi1CT1RUT006IDBweDsgQk9SREVSLUxFRlQ6IDBw
-eDsgVklTSUJJTElUWTogaGlkZGVuICFpbXBvcnRhbnQiIA0KICAgICAgYWx0PSIiIA0KICAgICAg
-c3JjPSJodHRwczovL2ltYWdlcy1uYS5zc2wtaW1hZ2VzLWFtYXpvbi5jb20vaW1hZ2VzL0cvMDEv
-ZS1tYWlsL2ltZzE0L3NoYXJkcy9pbWcvYmZkL3NwLmdpZiIgDQogICAgICB3aWR0aD0xIGhlaWdo
-dD0xPjwvVEQ+PC9UUj48L1RCT0RZPjwvVEFCTEU+DQo8VEFCTEUgDQpzdHlsZT0iV0hJVEUtU1BB
-Q0U6IG5vcm1hbDsgV09SRC1TUEFDSU5HOiAwcHg7IFRFWFQtVFJBTlNGT1JNOiBub25lOyBDT0xP
-UjogcmdiKDQ5LDUzLDU5KTsgRk9OVDogMTRweC8yMnB4IExhdG8sIExhdG8sICdPcGVuIFNhbnMn
-LCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IFdJRE9XUzogMTsgTEVUVEVSLVNQQUNJTkc6IG5vcm1h
-bDsgVEVYVC1JTkRFTlQ6IDBweDsgLXdlYmtpdC10ZXh0LXN0cm9rZS13aWR0aDogMHB4IiANCmNl
-bGxTcGFjaW5nPTAgY2VsbFBhZGRpbmc9MCBiZ0NvbG9yPSNlYWVkZWQ+DQogIDxUQk9EWT4NCiAg
-PFRSPg0KICAgIDxURCBjbGFzcz13aWR0aDYgd2lkdGg9NDA+PC9URD4NCiAgICA8VEQgY2xhc3M9
-d2lkdGgzMTggdkFsaWduPXRvcCB3aWR0aD00MjQgYWxpZ249Y2VudGVyPjwvVEQ+DQogICAgPFRE
-IGNsYXNzPXdpZHRoNiB3aWR0aD00MD48L1REPjwvVFI+PC9UQk9EWT48L1RBQkxFPg0KPFRBQkxF
-IA0Kc3R5bGU9IldISVRFLVNQQUNFOiBub3JtYWw7IFdPUkQtU1BBQ0lORzogMHB4OyBURVhULVRS
-QU5TRk9STTogbm9uZTsgQ09MT1I6IHJnYig0OSw1Myw1OSk7IEZPTlQ6IDE0cHgvMjJweCBMYXRv
-LCBMYXRvLCAnT3BlbiBTYW5zJywgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBXSURPV1M6IDE7IExF
-VFRFUi1TUEFDSU5HOiBub3JtYWw7IFRFWFQtSU5ERU5UOiAwcHg7IC13ZWJraXQtdGV4dC1zdHJv
-a2Utd2lkdGg6IDBweCIgDQpjZWxsU3BhY2luZz0wIGNlbGxQYWRkaW5nPTAgYmdDb2xvcj0jZWFl
-ZGVkPg0KICA8VEJPRFk+DQogIDxUUj4NCiAgICA8VEQgY2xhc3M9d2lkdGgzMzAgdkFsaWduPXRv
-cCB3aWR0aD01MDAgYWxpZ249bGVmdD4NCiAgICAgIDxESVYgDQogICAgICBzdHlsZT0iRk9OVC1T
-SVpFOiAxMXB4OyBGT05ULUZBTUlMWTogQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgRk9O
-VC1XRUlHSFQ6IG5vcm1hbDsgQ09MT1I6IHJnYigxMDgsMTE5LDEyMCk7IExJTkUtSEVJR0hUOiAx
-NnB4Ij48U1BBTiANCiAgICAgIHN0eWxlPSJGT05ULVNJWkU6IDEwcHgiPsKpIDIwMjIgQW1hem9u
-LmNvbSwgSW5jLiBvciBpdHMgYWZmaWxpYXRlcy4gQWxsIA0KICAgICAgcmlnaHRzIHJlc2VydmVk
-LiBBbWF6b24sPFNQQU4gDQogICAgICBjbGFzcz1BcHBsZS1jb252ZXJ0ZWQtc3BhY2U+Jm5ic3A7
-PC9TUEFOPjxCUj5BbWF6b24uY28uanAsIEFtYXpvbiBQcmltZSwgDQogICAgICBQcmltZSDjgYrj
-gojjgbNBbWF6b24uY28uanAg44Gu44Ot44K044GvQW1hem9uLmNvbSwgDQogICAgICBJbmMuPEJS
-PuOBvuOBn+OBr+OBneOBrumWoumAo+S8muekvuOBruWVhuaomeOBp+OBmeOAgjxCUj5BbWF6b24u
-Y29tLCA0MTAgVGVycnkgQXZlbnVlIE4uLCBTZWF0dGxlLCBXQSANCiAgICAgIDk4MTA5LTUyMTAm
-bmJzcDs8L1NQQU4+PEJSPjxCUj48U1BBTiANCiAgICAgIHN0eWxlPSJGT05ULVNJWkU6IDEwcHgi
-PuOBk+OBruODoeODg+OCu+ODvOOCuOOBryZuYnNwOyANCuOBq+mAgeS/oeOBleOCjOOBvuOBl+OB
-n+OAgjwvU1BBTj48L0RJVj48L1REPjwvVFI+PC9UQk9EWT48L1RBQkxFPjwvQk9EWT48L0hUTUw+
-DQo=
+Regards,
+Gérald Kerma
+CyberMind.FR
 
-------=_NextPart_000_07A2_013A3712.130F0660--
+Le 28/01/2022 à 01:58, James Cao a écrit :
+> Hi Gérald, Pali,
+>
+> For NXP Wi-Fi/BT FW, we only have binary release, which is under 
+> proprietary license.
+>
+> Regarding the issue, which kind of adapter (PCIe-USB or PCIe-UART) did 
+> you use? Suppose PCIe-USB/PCIe-UART FW may not work on 
+> PCIe-UART/PCIe-USB board. What's the failure symptom?
+>
+> Thanks,
+> James
+>
+> ------------------------------------------------------------------------
+> *From:* Gérald Kerma <gandalf@gk2.net>
+> *Sent:* Thursday, January 27, 2022 6:50 AM
+> *To:* Pali Rohár <pali@kernel.org>; James Cao <james.cao@nxp.com>
+> *Cc:* Prashanth Ranganathan <prashanthkrishnan.ranganathan@nxp.com>; 
+> Sharvari Harisangam <sharvari.harisangam@nxp.com>; Rakesh Parmar 
+> <rakesh.parmar@nxp.com>; Cathy Luo <xiaohua.luo@nxp.com>; Linux 
+> Firmware <linux-firmware@kernel.org>; Linux Wireless 
+> <linux-wireless@vger.kernel.org>; Josh Boyer <jwboyer@kernel.org>
+> *Subject:* [EXT] Re: mwifiex 1.0 (16.68.10.p159) - PCIEUSB-8997 
+> firmware is buggy
+> Caution: EXT Email
+>
+> Héllo James,
+>
+> As Pali wrote, if fimrware requires signing NDA, I can propose my own
+> collaboration to NXP !
+>
+> I am still okay to help, in anyway, with testing or more...
+> Please, feel free to contact me.
+>
+> Gérald Kerma
+> CyberMind.FR
+> gandalf(at)gk2(dot)net
+> 00.33.651.27.66.88
+>
+> PS: I add my answer which was lost for some of the CC... (sorry)...
+>
+>
+> Le 27/01/2022 à 13:15, Pali Rohár a écrit :
+> > Hello James!
+> >
+> > Thank you for reply, but this is something which we did not want to 
+> hear :-(
+> >
+> > There is an issue in the latest pcieuart8997_combo_v4.bin firmware file
+> > which NXP sent to linux-firmware repository and it is really needed to
+> > fix this issue. It was sent by NXP, so it is expected that NXP do it.
+> > And because it is binary-only file, people outside of NXP cannot do it.
+> >
+> > Would you be able to look at this firmware issue as the last thing?
+> >
+> > Or as Gérald wrote, could NXP provide source code of that firmware? So
+> > people outside of NXP could look at it? If firmware requires signing NDA
+> > (either individually or via company), then some professional skilled
+> > kernel developers can do it.
+> Le 27/01/2022 à 02:13, Gérald Kerma a écrit :
+>  > Héllo James,
+>  >
+>  > Was it only ever supported ?
+>  >
+>  > May be NXP can free and share the firmware source to the community,
+> and let anyone who care try to debug it ?
+>  >
+>  > As far as my tests shown, the mwifiex driver never has work
+> correctly, and none version is sufficiently stable to be state as working.
+>  >
+>  > Please, NXP, take cares of your end clients !
+>  > Be simple, be smart, be respectuous, give us the source…
+>  >
+>  > Thanks in advance,
+>  > Gérald Kerma
+>  >
+>  > [%]<\@~{
+> > On Wednesday 26 January 2022 23:28:48 James Cao wrote:
+> >> Hi Pali,
+> >>
+> >> NXP doesn't have a plan to support mwifiex driver anymore. How 
+> should we handle this kind of retired project in upstream?
+> >>
+> >> Thanks,
+> >> James
+> >>
+> >> ________________________________
+> >> From: Pali Rohár <pali@kernel.org>
+> >> Sent: Thursday, January 20, 2022 11:30 AM
+> >> To: Prashanth Ranganathan <prashanthkrishnan.ranganathan@nxp.com>
+> >> Cc: Sharvari Harisangam <sharvari.harisangam@nxp.com>; Rakesh 
+> Parmar <rakesh.parmar@nxp.com>; Cathy Luo <xiaohua.luo@nxp.com>; James 
+> Cao <james.cao@nxp.com>; Linux Firmware <linux-firmware@kernel.org>; 
+> Linux Wireless <linux-wireless@vger.kernel.org>; Gérald Kerma 
+> <gandalf@gk2.net>; Ganapathi Bhat <ganapathi017@gmail.com>; Josh Boyer 
+> <jwboyer@kernel.org>
+> >> Subject: [EXT] Re: mwifiex 1.0 (16.68.10.p159) - PCIEUSB-8997 
+> firmware is buggy
+> >>
+> >> Caution: EXT Email
+> >>
+> >> Hello Prashanth!
+> >>
+> >> Thank you for reply. Did you have a time to check this issue?
+> >>
+> >> Gérald did a great testing which shows that version W16.68.1.p195 and
+> >> higher of pcieuart8997_combo_v4.bin firmware does not work.
+> >>
+> >> On Friday 14 January 2022 17:11:18 Prashanth Ranganathan wrote:
+> >>> Hi Pali,
+> >>> Please allow me to check this and respond ASAP.
+> >>> Best,
+> >>> Prashanth
+> >>> ________________________________
+> >>> From: Pali Rohár <pali@kernel.org>
+> >>> Sent: Friday, January 14, 2022 9:00 AM
+> >>> To: Sharvari Harisangam <sharvari.harisangam@nxp.com>; Rakesh 
+> Parmar <rakesh.parmar@nxp.com>; Cathy Luo <xiaohua.luo@nxp.com>; 
+> Prashanth Ranganathan <prashanthkrishnan.ranganathan@nxp.com>; James 
+> Cao <james.cao@nxp.com>
+> >>> Cc: Linux Firmware <linux-firmware@kernel.org>; Linux Wireless 
+> <linux-wireless@vger.kernel.org>; Gérald Kerma <gandalf@gk2.net>; 
+> Ganapathi Bhat <ganapathi017@gmail.com>; Josh Boyer <jwboyer@kernel.org>
+> >>> Subject: [EXT] Re: mwifiex 1.0 (16.68.10.p159) - PCIEUSB-8997 
+> firmware is buggy
+> >>>
+> >>> Caution: EXT Email
+> >>>
+> >>> NXP people: Sharvari, Rakesh, Cathy, Zheng: could you please look at
+> >>> this issue? It is really serous!
+> >>>
+> >>> On Monday 27 September 2021 09:47:23 Josh Boyer wrote:
+> >>>> On Sun, Sep 26, 2021 at 6:43 AM Pali Rohár <pali@kernel.org> wrote:
+> >>>>> Hello Josh, Sharvari and other from NXP!
+> >>>>>
+> >>>>> On Saturday 25 September 2021 19:23:48 Gérald Kerma wrote:
+> >>>>>> Correcting old marvell address to new nxp...
+> >>>>>>
+> >>>>>> Le 25/09/2021 à 19:19, Gérald Kerma a écrit :
+> >>>>>>> Héllo All,
+> >>>>>>>
+> >>>>>>> I made some few tests on EspressoBin-Ultra from 
+> GlobalScaleTechnologies,
+> >>>>>>> because of problem with the WiFi.
+> >>>>>>>
+> >>>>>>> I have done some quick tests on all the firmware of 
+> PCIEUSB-8997 using
+> >>>>>>> the pcieuart8997_combo_v4.bin on OpenWrt 21.02.x
+> >>>>>>>
+> >>>>>>> Here is a summary of the tests :
+> >>>>>>> - W16.68.10.p159 = KO
+> >>>>>>> - W16.68.1.p195 = KO
+> >>>>>>> - V16.68.1.p145 = OK
+> >>>>>>> - 16.68.1.p140 = OK
+> >>>>>>> - 16.68.1.p133 = OK
+> >>>>>>> - 16.68.1.p97 = OK
+> >>>>>>> - 16.68.1.p70 = KO
+> >>>>>  From this user test result can be seen that last two versions of
+> >>>>> pcieusb8997_combo_v4.bin firmware file for 8997 wifi+bt card with
+> >>>>> official mainline linux kernel driver mwifiex were not properly 
+> tested
+> >>>>> internally in NXP and are causing serious issues which make 8997 
+> card
+> >>>>> basically unusable.
+> >>>>>
+> >>>>> Sharvari and other NXP developers: Do you have some internal 
+> testing of
+> >>>>> this pcieusb8997_combo_v4.bin firmware for PCIe+USB variant of 8997
+> >>>>> wifi chips? Or are you aware of this issue and do you have in 
+> NXP some
+> >>>>> workaround for it (e.g. at driver level)? Could you please look 
+> at this
+> >>>>> serious issue and try to debug firmware and release a new 
+> version, as
+> >>>>> this is obvious fatal error in firmware itself?
+> >>>>>
+> >>>>> Josh, how you in linux-firmware repository handle such, I must say,
+> >>>>> "fatal issues"? Wait for vendor fixes or revert problematic 
+> commits? Or
+> >>>>> something else?
+> >>>> We can revert if we need to, but I think it's not quite that simple.
+> >>>>
+> >>>>> Because when users starts upgrading linux-firmware packages in their
+> >>>>> downstream distributions then basically wifi cards on this 8997 
+> chips
+> >>>>> with official mwifiex driver stops working.
+> >>>> The first broken version was committed in Feb of 2019.  That's
+> >>>> approaching 3 years ago.  Given that this is binary firmware, I have
+> >>>> no idea what else may or may not be included in the updates in the
+> >>>> meantime.
+> >>>>
+> >>>> josh
+> >>> Josh, as Gérald wrote, current binary in linux-firmware repository is
+> >>> unusable. And there is no reply from NXP for 3 months.
+> >>>
+> >>> You are right that nobody knows what is in firmware binary, but 
+> working
+> >>> binary is at least usable than non-working binary.
+> >>>
+> >>> So I would really suggest to start reverting non-working firmware 
+> files
+> >>> if NXP does not respond in few days.
+> >>>
+> >>> Gérald, what is your opinion? Do you see other way how to make 
+> mainline
+> >>> linux driver work (again)?
+> >>>
+> >>>>>>> REF (and all details of tests) :
+> >>>>>>> 
+> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2FNXP%2Fmwifiex-firmware%2Fissues%2F1&amp;data=04%7C01%7Cjames.cao%40nxp.com%7C3e471c7a71b14e82d4bd08d9e1a4689d%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C1%7C637788918532760222%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=jeHkO95c2IlIftGxZGaTDOj5em2dU%2FCiIcSPM4NitUk%3D&amp;reserved=0 
+> <https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2FNXP%2Fmwifiex-firmware%2Fissues%2F1&amp;data=04%7C01%7Cjames.cao%40nxp.com%7C3e471c7a71b14e82d4bd08d9e1a4689d%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C1%7C637788918532760222%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=jeHkO95c2IlIftGxZGaTDOj5em2dU%2FCiIcSPM4NitUk%3D&amp;reserved=0>
+> >>>>>>>
+> >>>>>>>
+> >>>>>>> Broken firmware :
+> >>>>>>>
+> >>>>>>> Version |W16.68.1.p195| of |pcieusb8997_combo_v4.bin| was 
+> included into
+> >>>>>>> linux-firmware repository by this pull request:
+> >>>>>>> 
+> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fall%2FCA%2B5PVA5yQbjg3vaT7F8120B6ngLn7%2BsZC0OWt0KoUiQR9hS4FA%40mail.gmail.com%2F&amp;data=04%7C01%7Cjames.cao%40nxp.com%7C3e471c7a71b14e82d4bd08d9e1a4689d%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C1%7C637788918532760222%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=tTxWzBFlt0tg1sRwXSapYPdG61BME5f%2B3K7dwSUHRZo%3D&amp;reserved=0 
+> <https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fall%2FCA%2B5PVA5yQbjg3vaT7F8120B6ngLn7%2BsZC0OWt0KoUiQR9hS4FA%40mail.gmail.com%2F&amp;data=04%7C01%7Cjames.cao%40nxp.com%7C3e471c7a71b14e82d4bd08d9e1a4689d%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C1%7C637788918532760222%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=tTxWzBFlt0tg1sRwXSapYPdG61BME5f%2B3K7dwSUHRZo%3D&amp;reserved=0>
+> >>>>>>> 
+> <https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fall%2FCA%2B5PVA5yQbjg3vaT7F8120B6ngLn7%2BsZC0OWt0KoUiQR9hS4FA%40mail.gmail.com%2F&amp;data=04%7C01%7Cjames.cao%40nxp.com%7C3e471c7a71b14e82d4bd08d9e1a4689d%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C1%7C637788918532760222%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=tTxWzBFlt0tg1sRwXSapYPdG61BME5f%2B3K7dwSUHRZo%3D&amp;reserved=0 
+> <https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fall%2FCA%2B5PVA5yQbjg3vaT7F8120B6ngLn7%2BsZC0OWt0KoUiQR9hS4FA%40mail.gmail.com%2F&amp;data=04%7C01%7Cjames.cao%40nxp.com%7C3e471c7a71b14e82d4bd08d9e1a4689d%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C1%7C637788918532760222%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=tTxWzBFlt0tg1sRwXSapYPdG61BME5f%2B3K7dwSUHRZo%3D&amp;reserved=0>>
+> >>>>>>>
+> >>>>>>> And latest version |W16.68.10.p159| of 
+> |pcieusb8997_combo_v4.bin| by
+> >>>>>>> this pull request:
+> >>>>>>> 
+> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flinux-firmware%2FCA%2B5PVA5on7%2BCRtEV7tThPxgucwt3W9i-tEXm4cgH-AmMB-Jrtg%40mail.gmail.com%2F&amp;data=04%7C01%7Cjames.cao%40nxp.com%7C3e471c7a71b14e82d4bd08d9e1a4689d%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C1%7C637788918532760222%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=LNx2xSp39whINLxyrkgoyNeb53YjX6s1QjyonB5iJUE%3D&amp;reserved=0 
+> <https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flinux-firmware%2FCA%2B5PVA5on7%2BCRtEV7tThPxgucwt3W9i-tEXm4cgH-AmMB-Jrtg%40mail.gmail.com%2F&amp;data=04%7C01%7Cjames.cao%40nxp.com%7C3e471c7a71b14e82d4bd08d9e1a4689d%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C1%7C637788918532760222%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=LNx2xSp39whINLxyrkgoyNeb53YjX6s1QjyonB5iJUE%3D&amp;reserved=0>
+> >>>>>>> 
+> <https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flinux-firmware%2FCA%2B5PVA5on7%2BCRtEV7tThPxgucwt3W9i-tEXm4cgH-AmMB-Jrtg%40mail.gmail.com%2F&amp;data=04%7C01%7Cjames.cao%40nxp.com%7C3e471c7a71b14e82d4bd08d9e1a4689d%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C1%7C637788918532760222%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=LNx2xSp39whINLxyrkgoyNeb53YjX6s1QjyonB5iJUE%3D&amp;reserved=0 
+> <https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flinux-firmware%2FCA%2B5PVA5on7%2BCRtEV7tThPxgucwt3W9i-tEXm4cgH-AmMB-Jrtg%40mail.gmail.com%2F&amp;data=04%7C01%7Cjames.cao%40nxp.com%7C3e471c7a71b14e82d4bd08d9e1a4689d%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C1%7C637788918532760222%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=LNx2xSp39whINLxyrkgoyNeb53YjX6s1QjyonB5iJUE%3D&amp;reserved=0>>
+> >>>>>>>
+> >>>>>>> Olders looks to works better.
+> >>>>>>>
+> >>>>>>> In quick tests, they allow more than 1 clients at a time !
+> >>>>>>>
+> >>>>>>> I am still testing the V16.68.1.p145 and report the results 
+> after some
+> >>>>>>> longer use...
+> >>>>>>>
+> >>>>>>> Hopes it will help...
+> >>>>>>> Regards,
+> >>>>>>> Gérald Kerma
+> >>>>>>> gandalf(at)gk2(dot)net
+>
 
