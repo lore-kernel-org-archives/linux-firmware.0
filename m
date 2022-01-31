@@ -1,42 +1,42 @@
-Return-Path: <SRS0=2kTa=SO=aof15f4.cn=Amazonjp-account@kernel.org>
+Return-Path: <SRS0=KBKD=SP=pm04v0v.cn=Amazonjp-update@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D33CC433F5
-	for <linux-firmware@archiver.kernel.org>; Sun, 30 Jan 2022 04:27:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1EB8FC433EF
+	for <linux-firmware@archiver.kernel.org>; Mon, 31 Jan 2022 02:59:25 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id D70A0C340EE; Sun, 30 Jan 2022 04:27:54 +0000 (UTC)
-Received: from aof15f4.cn (unknown [134.122.198.241])
+	id CC429C340EE; Mon, 31 Jan 2022 02:59:25 +0000 (UTC)
+Received: from pm04v0v.cn (unknown [134.122.198.254])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 133DAC340E4
-	for <linux-firmware@kernel.org>; Sun, 30 Jan 2022 04:27:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 133DAC340E4
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=aof15f4.cn
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=aof15f4.cn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=defult; d=aof15f4.cn;
+	by smtp.kernel.org (Postfix) with ESMTPS id DEBD8C340E4
+	for <linux-firmware@kernel.org>; Mon, 31 Jan 2022 02:59:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org DEBD8C340E4
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=pm04v0v.cn
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=pm04v0v.cn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=defult; d=pm04v0v.cn;
  h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
- i=Amazonjp-account@aof15f4.cn;
- bh=G7V7B9WmNseTBeyow2uuLbd0AY/yWbGV1PZwQd5CKQ0=;
- b=HlSBtpYMRusNUDNauZ1QOaTVVUFYDpu9Pzge4KKXzVQvyK2fsk5jkBN/iwE7wfdLNBRg6Em4a/vN
-   ajYzP9l4+CbgqIHW3FxjRis9zdm8TjD0wjMPg5hZXWLdUyTBQI0GRejHORyNtSraTIv59UiHf0Qg
-   YrcM4tgE45eeXk43RQ4=
-From: Amazon.co.jp <Amazonjp-account@aof15f4.cn>
+ i=Amazonjp-update@pm04v0v.cn;
+ bh=5Xen80NCdKAqhcIpQBqgyMG9HuuWUl58AfTfudmU1mA=;
+ b=mUDEYoOWbDWTLpbtLMvqrlpKjZdhPUKV7dCOzT5NnYfTKuejcXH4esRYtI5s7umOlC6uTbhAzUcn
+   IUTailqUT6dyXOuSoQFsSELpIUVLFqWy8VP6IowyzYJffvPuVGAJdxFW3TUzcTO69ojuylLs/4zv
+   N/Lm7Yn1Y7E1NPeaOJQ=
+From: Amazon.co.jp <Amazonjp-update@pm04v0v.cn>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware <linux-firmware@kernel.org>
 Subject: =?utf-8?B?W+mHjeimgV3vvJrjgJBBbWF6b27jg5fjg6njgqTjg6DkvJrosrvjga7jgYo=?=
 	=?utf-8?B?5pSv5omV44GE5pa55rOV44Gr5ZWP6aGM44GM44GC44KK44G+44GZ44CR?=
-Date: Sun, 30 Jan 2022 12:17:26 +0800
-Message-ID: <0004b55e78a6$99c476a8$e5c1975b$@ylzopwnsi>
+Date: Mon, 31 Jan 2022 10:48:59 +0800
+Message-ID: <00e1c3ce47e8$76615d30$61ba195d$@xcr>
 MIME-Version: 1.0
 Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_092A_01796C67.1F756400"
+	boundary="----=_NextPart_000_0271_01A6B747.12E107D0"
 
 This is a multi-part message in MIME format.
 
-------=_NextPart_000_092A_01796C67.1F756400
+------=_NextPart_000_0271_01A6B747.12E107D0
 Content-Type: text/plain;
 	charset="utf-8"
 Content-Transfer-Encoding: base64
@@ -75,7 +75,7 @@ Lg0K44G+44Gf44Gv44Gd44Gu6Zai6YCj5Lya56S+44Gu5ZWG5qiZ44Gn44GZ44CCDQpBbWF6b24u
 Y29tLCA0MTAgVGVycnkgQXZlbnVlIE4uLCBTZWF0dGxlLCBXQSA5ODEwOS01MjEwIA0KDQrjgZPj
 ga7jg6Hjg4Pjgrvjg7zjgrjjga8gIOOBq+mAgeS/oeOBleOCjOOBvuOBl+OBn+OAgg0K
 
-------=_NextPart_000_092A_01796C67.1F756400
+------=_NextPart_000_0271_01A6B747.12E107D0
 Content-Type: text/html;
 	charset="utf-8"
 Content-Transfer-Encoding: base64
@@ -337,5 +337,5 @@ IDEwcHgiPuOBk+OBruODoeODg+OCu+ODvOOCuOOBryZuYnNwOyANCuOBq+mAgeS/oeOBleOCjOOB
 vuOBl+OBn+OAgjwvU1BBTj48L0RJVj48L1REPjwvVFI+PC9UQk9EWT48L1RBQkxFPjwvQk9EWT48
 L0hUTUw+DQo=
 
-------=_NextPart_000_092A_01796C67.1F756400--
+------=_NextPart_000_0271_01A6B747.12E107D0--
 
