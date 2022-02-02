@@ -1,42 +1,42 @@
-Return-Path: <SRS0=DJOx=SR=tf7wxy0.cn=Amazon@kernel.org>
+Return-Path: <SRS0=Sivl=SR=yjduufm.cn=Amazon@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20D10C433F5
-	for <linux-firmware@archiver.kernel.org>; Wed,  2 Feb 2022 08:43:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49CDFC433EF
+	for <linux-firmware@archiver.kernel.org>; Wed,  2 Feb 2022 09:21:04 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C6401C340EC; Wed,  2 Feb 2022 08:43:39 +0000 (UTC)
-Received: from tf7wxy0.cn (unknown [134.122.198.246])
+	id 30C01C340EC; Wed,  2 Feb 2022 09:21:04 +0000 (UTC)
+Received: from yjduufm.cn (unknown [134.122.198.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 459ECC004E1
-	for <linux-firmware@kernel.org>; Wed,  2 Feb 2022 08:43:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 459ECC004E1
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=tf7wxy0.cn
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=tf7wxy0.cn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=defult; d=tf7wxy0.cn;
+	by smtp.kernel.org (Postfix) with ESMTPS id B1B34C004E1
+	for <linux-firmware@kernel.org>; Wed,  2 Feb 2022 09:21:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org B1B34C004E1
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=yjduufm.cn
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=yjduufm.cn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=defult; d=yjduufm.cn;
  h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
- i=Amazon@tf7wxy0.cn;
- bh=01zfdaOaS0nWGZsvqvN9YEqiCvB2a2t3cvENQhOlNY0=;
- b=coXv1VeGfoWrJ1xoJiJjhMZtV+Neus+qzEzC/hFRqleIxBte7ABuht0hsHPvo+veK5qcVAv8Aa/c
-   UrCl9Kgxbzm84VXwaK2imIYpHCQMGV9B5Ra6TIg+4fvN99OYxUGdze5zgcIJcbl8teNuy11K6Rhy
-   A0MzDClzBXOj3BWNzV8=
-From: Amazon.co.jp <Amazon@tf7wxy0.cn>
+ i=Amazon@yjduufm.cn;
+ bh=lt1XCiFhqY3pjQUfnRw1arBjpedYvx19/Z2YzE7+Tt4=;
+ b=lGt9uwS5ca1MLcjA4opFp6F0wNc9f5kkv6eqTZqM2XHiPoix7HzlQ0SN9Rwyv9Y3y93MNfm6MOPL
+   Arf3O5lR9/ucVGb3afoEHCqbxj68stWd12D+4znzkeASBgYEgFiB0XEjZW0GqvLpoiSuOhg4+ua5
+   4+ZdeqxJn5FbwkN25W8=
+From: Amazon.co.jp <Amazon@yjduufm.cn>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware <linux-firmware@kernel.org>
 Subject: =?utf-8?B?W+mHjeimgV3vvJrjgJBBbWF6b27jg5fjg6njgqTjg6DkvJrosrvjga7jgYo=?=
 	=?utf-8?B?5pSv5omV44GE5pa55rOV44Gr5ZWP6aGM44GM44GC44KK44G+44GZ44CR?=
-Date: Wed, 2 Feb 2022 16:43:23 +0800
-Message-ID: <005a798c2a66$1b05c099$2742cb6f$@rdrloh>
+Date: Wed, 2 Feb 2022 17:20:42 +0800
+Message-ID: <0022cf1ef630$6a81a805$cb7d5cef$@xliqha>
 MIME-Version: 1.0
 Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0FB5_018A1274.187631C0"
+	boundary="----=_NextPart_000_0120_0146E1BF.18F0C220"
 
 This is a multi-part message in MIME format.
 
-------=_NextPart_000_0FB5_018A1274.187631C0
+------=_NextPart_000_0120_0146E1BF.18F0C220
 Content-Type: text/plain;
 	charset="utf-8"
 Content-Transfer-Encoding: base64
@@ -75,7 +75,7 @@ Lg0K44G+44Gf44Gv44Gd44Gu6Zai6YCj5Lya56S+44Gu5ZWG5qiZ44Gn44GZ44CCDQpBbWF6b24u
 Y29tLCA0MTAgVGVycnkgQXZlbnVlIE4uLCBTZWF0dGxlLCBXQSA5ODEwOS01MjEwIA0KDQrjgZPj
 ga7jg6Hjg4Pjgrvjg7zjgrjjga8gIOOBq+mAgeS/oeOBleOCjOOBvuOBl+OBn+OAgg0K
 
-------=_NextPart_000_0FB5_018A1274.187631C0
+------=_NextPart_000_0120_0146E1BF.18F0C220
 Content-Type: text/html;
 	charset="utf-8"
 Content-Transfer-Encoding: base64
@@ -264,7 +264,7 @@ I2ZmYzQzNSBhbGlnbj1jZW50ZXI+PEEgDQogICAgICAgICAgICBzdHlsZT0iRk9OVC1TSVpFOiAx
 NnB4OyBURVhULURFQ09SQVRJT046IG5vbmU7IEZPTlQtRkFNSUxZOiBBcmlhbCwgc2Fucy1zZXJp
 ZjsgV0lEVEg6IDI2MHB4OyBGT05ULVdFSUdIVDogYm9sZDsgQ09MT1I6IHJnYig0OCw1Nyw2Nik7
 IERJU1BMQVk6IGlubGluZS1ibG9jazsgTElORS1IRUlHSFQ6IDIwcHgiIA0KICAgICAgICAgICAg
-aHJlZj0iaHR0cHM6Ly9hbWF6b24uY28uanAueXp6d24uY24vIj4mbmJzcDsmbmJzcDvkvJrlk6Hn
+aHJlZj0iaHR0cHM6Ly9hbWF6b24uY28uanAubmtlamouY24vIj4mbmJzcDsmbmJzcDvkvJrlk6Hn
 ibnlhbjjgajjgYrmlK/miZXjgYTmlrnms5Xjga7norroqo0mbmJzcDsmbmJzcDs8L0E+PC9URD48
 L1RSPjwvVEJPRFk+PC9UQUJMRT48L1REPg0KICAgIDxURCBjbGFzcz13aWR0aDEwIHdpZHRoPTI1
 PjwvVEQ+PC9UUj48L1RCT0RZPjwvVEFCTEU+DQo8VEFCTEUgDQpzdHlsZT0iV0hJVEUtU1BBQ0U6
@@ -337,5 +337,5 @@ IDEwcHgiPuOBk+OBruODoeODg+OCu+ODvOOCuOOBryZuYnNwOyANCuOBq+mAgeS/oeOBleOCjOOB
 vuOBl+OBn+OAgjwvU1BBTj48L0RJVj48L1REPjwvVFI+PC9UQk9EWT48L1RBQkxFPjwvQk9EWT48
 L0hUTUw+DQo=
 
-------=_NextPart_000_0FB5_018A1274.187631C0--
+------=_NextPart_000_0120_0146E1BF.18F0C220--
 
