@@ -1,366 +1,274 @@
-Return-Path: <SRS0=oC9G=S2=denx.de=lukma@kernel.org>
+Return-Path: <pali@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14BECC433EF
-	for <linux-firmware@archiver.kernel.org>; Fri, 11 Feb 2022 11:12:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 28F2FC433F5
+	for <linux-firmware@archiver.kernel.org>; Fri, 11 Feb 2022 11:28:17 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id E1739C340EE; Fri, 11 Feb 2022 11:12:35 +0000 (UTC)
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 74384C340E9;
-	Fri, 11 Feb 2022 11:12:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 74384C340E9
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=denx.de
-Received: from ktm (85-222-111-42.dynamic.chello.pl [85.222.111.42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: lukma@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 1336783881;
-	Fri, 11 Feb 2022 12:12:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1644577951;
-	bh=YFS2LYtl+H1MQj/Hedm28dLTeEdcDzfx2IYorK63Cs8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Pin7wQFmAeEY85EVf85k5btwa9mNNTWEYfPRyd1fTgwVPcqway18GZJl0H/DiysYT
-	 OTkEofnUF1Z2HO/7+Cz7jfpy6P7HY3px5slg68IVmIdN+I1ZH/2XujQ/UKE4ViOuFl
-	 s2KyzS3iQjRmNMz/KnptVWSIVDcENnjDDK/RwRlzGNVw4Gr85lrhfhi6L9+cIc2pmW
-	 ZSJ98cqehyDqdnQ+ANYVTFbJngxI1Z0cMRLYj/FgQfcI4sOx8f53ruTpX+qC98x6jf
-	 YAxV7tD3wR9r4dWJqVV8cQORKKGZIDps0F10WeRupoAFT4x3JHn/h8nsdgWf0SQQRJ
-	 A7Zg92/Cchtfg==
-Date: Fri, 11 Feb 2022 12:12:24 +0100
-From: Lukasz Majewski <lukma@denx.de>
-To: Sharvari Harisangam <sharvari.harisangam@nxp.com>, Ganapathi Bhat
- <ganapathi.bhat@nxp.com>
+	id 12CE2C340EE; Fri, 11 Feb 2022 11:28:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 969EAC340E9;
+	Fri, 11 Feb 2022 11:28:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1644578897;
+	bh=MuWqLsPBer6OyRUO8+JpPPhKXdXHwAHR6VB2cgGSCtY=;
+	h=Date:From:To:List-Id:Cc:Subject:References:In-Reply-To:From;
+	b=BpbG/rF0iREgF+0tZfCHRUlMnhGSYpCgO0f4hYkI9H+Nm9LJFsqYn8YqrFecTY+S5
+	 Ne5gxc93F0Hw76i3mn+5fwB7+k6wOHPgTtDhzi+9CrjI5ywQ4CaLie5HmoJ8q4dxzx
+	 Xve4KL7eFWHtF/SXfxzKH3KIdoUewUDiA4CF8PWaZBch5z1RqHq9suMdu63q3stTCs
+	 Y9lrsc+0hl8y8yrqIIB1YI8SA/fMHNfR9FwYpfma0cwLOmYq1KrTBlmWyZNwJA8RnP
+	 t5/lbJ81rXo+PmXXwzKLjdT1IasXyEPMwERDdPo1T1xaEDCgBE20a3fovWAko2jgTi
+	 v1YjghM8n64Pw==
+Received: by pali.im (Postfix)
+	id D8A2E6E9; Fri, 11 Feb 2022 12:28:13 +0100 (CET)
+Date: Fri, 11 Feb 2022 12:28:13 +0100
+From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To: James Cao <james.cao@nxp.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>, linux-firmware@kernel.org,
- l.majewski@majess.pl, Marek =?UTF-8?B?QmVow7pu?= <marek.behun@nic.cz>
-Subject: Re: wifi: 88W8801: Newest firmware for sd8801_uapsta.bin bug
-Message-ID: <20220211121224.42ea2868@ktm>
-In-Reply-To: <20210524145822.5ac95365@ktm>
-References: <20210507151702.4848a5b3@jawa>
-	<20210508112911.aigklhaw225ftwtj@pali>
-	<20210508113734.4kdyt6z6xsjtrrq2@pali>
-	<20210510105402.3bbc16fe@jawa>
-	<20210524145822.5ac95365@ktm>
-Organization: denx.de
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Cc: =?utf-8?Q?G=C3=A9rald?= Kerma <gandalf@gk2.net>,
+	Prashanth Ranganathan <prashanthkrishnan.ranganathan@nxp.com>,
+	Sharvari Harisangam <sharvari.harisangam@nxp.com>,
+	Rakesh Parmar <rakesh.parmar@nxp.com>,
+	Cathy Luo <xiaohua.luo@nxp.com>,
+	Linux Firmware <linux-firmware@kernel.org>,
+	Linux Wireless <linux-wireless@vger.kernel.org>,
+	Josh Boyer <jwboyer@kernel.org>
+Subject: Re: mwifiex 1.0 (16.68.10.p159) - PCIEUSB-8997 firmware is buggy
+Message-ID: <20220211112813.qhgxmtq6onfq6jah@pali>
+References: <fe75e8f2-6f12-052a-81ed-38122b87f1f6@gk2.net>
+ <20210926104306.xocctztsuspx6oji@pali>
+ <CA+5PVA4AGa09+X2A4zPU2MKWburCtiddb3cpSJh9H-JTO=fJKg@mail.gmail.com>
+ <20220114170051.sx2p6m2ihrv3ojzt@pali>
+ <AS8PR04MB9192076DB3CB59EC049B7B9CFB549@AS8PR04MB9192.eurprd04.prod.outlook.com>
+ <20220120193041.fmmmd77ingjvyqe4@pali>
+ <AS8PR04MB8419C8377C9458ADA340AC24E0209@AS8PR04MB8419.eurprd04.prod.outlook.com>
+ <20220127121514.daptjsxkgrt5zlov@pali>
+ <849ea3f2-a6c1-8814-3713-4d8b14db5029@gk2.net>
+ <AS8PR04MB8419A1473C69E9869471EC17E0219@AS8PR04MB8419.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_/rfW66X5SLnj8Pm2egsrH=gI"; protocol="application/pgp-signature"
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
-
---Sig_/rfW66X5SLnj8Pm2egsrH=gI
-Content-Type: multipart/mixed; boundary="MP_/l/0lSN1u_tx0Y6giGYDOT1H"
-
---MP_/l/0lSN1u_tx0Y6giGYDOT1H
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <AS8PR04MB8419A1473C69E9869471EC17E0219@AS8PR04MB8419.eurprd04.prod.outlook.com>
+User-Agent: NeoMutt/20180716
 
-Dear Ganapathi and Sharvari
+Hello James!
 
-> Dear Ganapathi and Sharvari
->=20
-> > Hi Pali,
-> >  =20
-> > > On Saturday 08 May 2021 13:29:11 Pali Roh=C3=A1r wrote:   =20
-> > > > + Sharvari and Ganapathi
-> > > >=20
-> > > > To let you know about this mwifiex firmware issue. Could you
-> > > > look at it?
-> > > >=20
-> > > > On Friday 07 May 2021 15:17:02 Lukasz Majewski wrote:     =20
-> > > > > Dear community,
-> > > > >=20
-> > > > > I would like to report that the version: 14.68.36.p204 of
-> > > > > sd8801_uapsta.bin binary (newest, SHA1:
-> > > > > ecdfcf8e2ca15f5682ab94fd30ba29fb869b24a7) has the issue with
-> > > > > getting channel info (HostCmd_CMD_STA_CONFIGURE command
-> > > > > execution).
-> > > > >=20
-> > > > > As a result the module seems to be stuck and no transmission
-> > > > > is performed.
-> > > > >=20
-> > > > > The issue is not present in 14.68.36.p146 verson of the
-> > > > > firmware.  =20
-> > >=20
-> > > And FYI, NXP has newer version 14.76.36.p139 of this
-> > > sd8801_uapsta.bin firmware in their mwifiex-firmware github
-> > > repository:
-> > >=20
-> > > https://github.com/NXP/mwifiex-firmware/commit/c38b125a920a695d360b62=
-e8b1f7fb1c4e1afd46
-> > >=20
-> > > I hope that Sharvari or Ganapathi brings some light in this
-> > > issue...   =20
-> >=20
-> > Thanks for sharing this issue with NXP developers.
-> >  =20
-> > >=20
-> > > Lukasz, meanwhile could you try to check if this new firmware
-> > > version has this issue fixed?
-> > >    =20
-> >=20
-> > It looks like the issue is still there (even new errors pops up when
-> > compared to the original one):
-> >=20
-> > root@mx6ul:~# dmesg|grep sdio
-> > [   29.025231] mwifiex_sdio mmc0:0001:1: info: FW download over,
-> > size 262660 bytes [   29.310488] mwifiex_sdio mmc0:0001:1: WLAN FW
-> > is active [   29.390778] mwifiex_sdio mmc0:0001:1: CMD_RESP: cmd
-> > 0x242 error, result=3D0x2 [   29.398245] mwifiex_sdio mmc0:0001:1:
-> > mwifiex_process_cmdresp: cmd 0x242 failed during
-> > initialization [   29.707952] mwifiex_sdio mmc0:0001:1: info:
-> > MWIFIEX VERSION: mwifiex 1.0 (14.76.36.p139) [   29.717360]
-> > mwifiex_sdio mmc0:0001:1: driver_version =3D mwifiex 1.0
-> > (14.76.36.p139)=20
-> >=20
-> > root@mx6ul:~# ./tst_sdio.sh=20
-> > + wpa_supplicant -B -i mlan0 -c /etc/wpa_supplicant.conf
-> > Successfully initialized wpa_supplicant
-> > + sleep 3
-> > [  251.425350] mwifiex_sdio mmc0:0001:1: CMD_RESP: cmd 0x107 error,
-> > result=3D0x2
-> > + udhcpc -i mlan0
-> > udhcpc: started, v1.31.1
-> > udhcpc: sending discover
-> > [  256.476210] mwifiex_sdio mmc0:0001:1: CMD_RESP: cmd 0x107 error,
-> > result=3D0x2 udhcpc: sending discover
-> > udhcpc: sending discover
-> > [  261.497057] mwifiex_sdio mmc0:0001:1: CMD_RESP: cmd 0x107 error,
-> > result=3D0x2 [  261.507859] ieee80211 phy0: sched_scan start :
-> > n_ssids=3D1 n_match_sets=3D1 [  261.515872] ieee80211 phy0:
-> > n_channels=3D13 interval=3D10 ie_len=3D0
-> >=20
-> >=20
-> > Please pay attention to the new "cmd 0x107 error, result=3D0x2" issue
-> > with this new FW version. =20
->=20
-> Is there any update on this issue? Ganapathi and Sharvari, have you
-> managed to make the STA mode working on with the newest FW for
-> 88W8801 ?
+The issue which Gérald observing is that firmware version W16.68.1.p195
+or new is unable to start access point on PCIe-USB 8997.
 
-It looks like there was no update on the linux-firmware repository for
-sd8801_uapsta.bin binary in the official linux-firmware tree.
+As Gérald wrote in that NXP ticket on github, error message is
+following:
 
-I can share that I've tested: 14.68.36.p160 version with mwifiex driver
-on 5.4.y kernel and the STA mode works.
+[56066.999853] mwifiex_pcie 0000:01:00.0: CMD_RESP: cmd 0xb1 error, result=0x1
+[56067.007152] mwifiex_pcie 0000:01:00.0: Failed to start the BSS
+[56067.013195] mwifiex_pcie 0000:01:00.0: Failed to start AP
 
-The used NXP soc is imx6ull, and wi-fi is SDIO connected 88W8801.
+Older firmware versions (e.g. V16.68.1.p145) are working fine.
 
-However, there is the issue with AP mode. Please find attached logs and
-reproduction procedure.
+James, do you need some more information?
 
-Is there any schedule for releasing new FW for this wifi chip?
+Pali
 
->=20
-> Thanks in advance for sharing the knowledge.
->=20
-> >  =20
-> > > > > For reproduction one needs to execute:
-> > > > > #! /bin/sh
-> > > > > set -x
-> > > > > wpa_supplicant -B -i mlan0 -c /etc/wpa_supplicant.conf
-> > > > > sleep 3
-> > > > > dhclient mlan0
-> > > > >=20
-> > > > > exit 0
-> > > > >=20
-> > > > >=20
-> > > > >=20
-> > > > > I'm using the Azurewave AW-NM191NF module (with 88W8801 SoC).
-> > > > >=20
-> > > > > Best regards,
-> > > > >=20
-> > > > > Lukasz Majewski
-> > > > >=20
-> > > > > --
-> > > > >=20
-> > > > > DENX Software Engineering GmbH,      Managing Director:
-> > > > > Wolfgang Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194
-> > > > > Groebenzell, Germany Phone: (+49)-8142-66989-59 Fax:
-> > > > > (+49)-8142-66989-80 Email: lukma@denx.de     =20
-> >=20
-> >=20
-> >=20
-> > Best regards,
-> >=20
-> > Lukasz Majewski
-> >=20
-> > --
-> >=20
-> > DENX Software Engineering GmbH,      Managing Director: Wolfgang
-> > Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell,
-> > Germany Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email:
-> > lukma@denx.de =20
->=20
->=20
->=20
-> Best regards,
->=20
-> Lukasz Majewski
->=20
-> --
->=20
-> DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-> HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-> Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email:
-> lukma@denx.de
-
-
-
-
-Best regards,
-
-Lukasz Majewski
-
---
-
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
-
---MP_/l/0lSN1u_tx0Y6giGYDOT1H
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment; filename=AP_88W8801-issue-lukma.txt
-
-Linux 5.4.24
-Driver mwifiex (open source)
-Status: STA works as expected, AP (FW issue)
-hostapd v2.9
-Wifi: 88W8801 (azzure)
-SoC - imx6ull
-
-cat /etc/hostapd.conf=20
-interface=3Dmlan0
-channel=3D1
-driver=3Dnl80211
-ssid=3Dimx6ullevk
-auth_algs=3D1
-ignore_broadcast_ssid=3D0
-hw_mode=3Dg
-wpa=3D2
-wpa_passphrase=3Dfoofoofoo
-wpa_key_mgmt=3DWPA-PSK
-
-Logs after boot up:
-
-[   21.334518] mwifiex_sdio mmc0:0001:1: info: FW download over, size 26018=
-4 bytes
-[   21.567047] mwifiex_sdio mmc0:0001:1: WLAN FW is active
-[   21.610346] mwifiex_sdio mmc0:0001:1: CMD_RESP: cmd 0x242 error, result=
-=3D0x2
-[   21.610495] mwifiex_sdio mmc0:0001:1: mwifiex_process_cmdresp: cmd 0x242=
- failed during       initialization
-[   21.699920] mwifiex_sdio mmc0:0001:1: info: MWIFIEX VERSION: mwifiex 1.0=
- (14.68.36.p160)=20
-[   21.699946] mwifiex_sdio mmc0:0001:1: driver_version =3D mwifiex 1.0 (14=
-.68.36.p160)=20
-
-hostapd -d -B -i mlan0 /etc/hostapd.conf
-
-
-[  127.849506] mwifiex_sdio mmc0:0001:1: mwifiex_cmd_timeout_func: Timeout =
-cmd id =3D 0xb1, act =3D 0x0
-[  127.849536] mwifiex_sdio mmc0:0001:1: num_data_h2c_failure =3D 0
-[  127.849554] mwifiex_sdio mmc0:0001:1: num_cmd_h2c_failure =3D 0
-[  127.849569] mwifiex_sdio mmc0:0001:1: is_cmd_timedout =3D 1
-[  127.849582] mwifiex_sdio mmc0:0001:1: num_tx_timeout =3D 0
-[  127.849598] mwifiex_sdio mmc0:0001:1: last_cmd_index =3D 4
-[  127.849617] mwifiex_sdio mmc0:0001:1: last_cmd_id: 28 00 28 00 5b 00 b0 =
-00 b1 00
-[  127.849635] mwifiex_sdio mmc0:0001:1: last_cmd_act: 13 00 13 00 01 00 01=
- 00 00 00
-[  127.849650] mwifiex_sdio mmc0:0001:1: last_cmd_resp_index =3D 3
-[  127.849665] mwifiex_sdio mmc0:0001:1: last_cmd_resp_id: 28 80 28 80 5b 8=
-0 b0 80 28 80
-[  127.849679] mwifiex_sdio mmc0:0001:1: last_event_index =3D 4
-[  127.849695] mwifiex_sdio mmc0:0001:1: last_event: 00 00 0b 00 0a 00 0b 0=
-0 0a 00
-[  127.849709] mwifiex_sdio mmc0:0001:1: data_sent=3D0 cmd_sent=3D1
-[  127.849726] mwifiex_sdio mmc0:0001:1: ps_mode=3D1 ps_state=3D0
-[  127.850131] mwifiex_sdio mmc0:0001:1: Failed to start the BSS
-[  127.850154] mwifiex_sdio mmc0:0001:1: Failed to start AP
-[  127.851443] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
-[  127.851470] mwifiex_sdio mmc0:0001:1: deleting the crypto keys
-[  127.851980] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
-[  127.852004] mwifiex_sdio mmc0:0001:1: deleting the crypto keys
-[  127.852477] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
-[  127.852500] mwifiex_sdio mmc0:0001:1: deleting the crypto keys
-[  127.852975] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
-[  127.852996] mwifiex_sdio mmc0:0001:1: deleting the crypto keys
-[  127.865552] mwifiex_sdio mmc0:0001:1: =3D=3D=3Dmwifiex driverinfo dump s=
-tart=3D=3D=3D
-[  127.865593] mwifiex_sdio mmc0:0001:1: info: MWIFIEX VERSION: mwifiex 1.0=
- (14.68.36.p160)
-[  127.865645] mwifiex_sdio mmc0:0001:1: SDIO register dump start
-[  127.866398] mwifiex_sdio mmc0:0001:1: SDIO Func0 (0x0-0x9): 32 02 02 02 =
-03 00 00 02 03 00
-[  127.867807] mwifiex_sdio mmc0:0001:1: SDIO Func1 (0x0-0x9): 02 3f 03 00 =
-00 00 ff 0f ad 00
-[  127.868155] mwifiex_sdio mmc0:0001:1: SDIO Func1: (0x28) 00 (0x30) 08 (0=
-x34) 07 (0x38) 10 (0x3c) 00
-[  127.868859] mwifiex_sdio mmc0:0001:1: SDIO Func1 (0x60-0x6a): dc fe c8 0=
-0 c1 02 07 47 46 00 20
-[  127.907493] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
-[  127.907737] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
-[  127.907756] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
-[  128.075589] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
-[  128.075623] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
-[  128.075664] mwifiex_sdio mmc0:0001:1: mlan0: changing to 2 not supported
-[  128.075995] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
-[  128.076286] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
-[  128.076599] mwifiex_sdio mmc0:0001:1: mlan0: changing to 2 not supported
-[  128.099476] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
-[  128.099503] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
-[  128.099732] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
-[  128.099752] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
-[  128.118086] mwifiex_sdio mmc0:0001:1: SDIO Func1 (0x60-0x6a): dc fe c8 0=
-0 c1 02 07 47 46 00 20
-[  128.118124] mwifiex_sdio mmc0:0001:1: SDIO register dump end
-[  128.118437] mwifiex_sdio mmc0:0001:1: =3D=3D=3Dmwifiex driverinfo dump e=
-nd=3D=3D=3D
-[  128.118465] mwifiex_sdio mmc0:0001:1: =3D=3D mwifiex dump information to=
- /sys/class/devcoredump start
-[  128.122393] mwifiex_sdio mmc0:0001:1: =3D=3D mwifiex dump information to=
- /sys/class/devcoredump end
-[  128.131774] mwifiex_sdio mmc0:0001:1: info: shutdown mwifiex...
-[  128.167775] mwifiex_sdio mmc0:0001:1: PREP_CMD: card is removed
-[  129.161305] mwifiex_sdio mmc0:0001:1: info: FW download over, size 26018=
-4 bytes
-[  129.399453] mwifiex_sdio mmc0:0001:1: WLAN FW is active
-[  129.436070] mwifiex_sdio mmc0:0001:1: CMD_RESP: cmd 0x242 error, result=
-=3D0x2
-[  129.436228] mwifiex_sdio mmc0:0001:1: mwifiex_process_cmdresp: cmd 0x242=
- failed during       initialization
-[  129.517345] mwifiex_sdio mmc0:0001:1: info: MWIFIEX VERSION: mwifiex 1.0=
- (14.68.36.p160)
-[  129.517371] mwifiex_sdio mmc0:0001:1: driver_version =3D mwifiex 1.0 (14=
-.68.36.p160)
-
---MP_/l/0lSN1u_tx0Y6giGYDOT1H--
-
---Sig_/rfW66X5SLnj8Pm2egsrH=gI
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAmIGRJgACgkQAR8vZIA0
-zr2zcgf+L9EW5goPZL6No3qFY/FPLc8Gph5U9HvtJSpMFa+lhUwtplxbiFO9fXtb
-q4VJchhdtOa0RAZUBhEkwFXUYc+1dgtmgvO34seN1hagVnM2F7IDIHvUuUNQeh2N
-GMALz9VVi2PGWA+GDOGFk5sk8o+7Zi19hlwfkGSJ+uMDC17a+jsIx6/zIMm0+ZLF
-37c5QqPohT+CGRy2MAHJ+Azul6sh4JWztAOO49Jve08T+XuwgEm3sACGXtswLIP5
-yikUxXw3oa/yetNpA2zQr7G/GbEP5Xzs5mDoto8kdlMMMn+g/Gwje0UXHQJTWKca
-ydojiSn0XaIQgJxIn85mAtsWFPp10g==
-=/NEQ
------END PGP SIGNATURE-----
-
---Sig_/rfW66X5SLnj8Pm2egsrH=gI--
+On Friday 28 January 2022 00:58:59 James Cao wrote:
+> Hi Gérald, Pali,
+> 
+> For NXP Wi-Fi/BT FW, we only have binary release, which is under proprietary license.
+> 
+> Regarding the issue, which kind of adapter (PCIe-USB or PCIe-UART) did you use? Suppose PCIe-USB/PCIe-UART FW may not work on PCIe-UART/PCIe-USB board. What's the failure symptom?
+> 
+> Thanks,
+> James
+> 
+> ________________________________
+> From: Gérald Kerma <gandalf@gk2.net>
+> Sent: Thursday, January 27, 2022 6:50 AM
+> To: Pali Rohár <pali@kernel.org>; James Cao <james.cao@nxp.com>
+> Cc: Prashanth Ranganathan <prashanthkrishnan.ranganathan@nxp.com>; Sharvari Harisangam <sharvari.harisangam@nxp.com>; Rakesh Parmar <rakesh.parmar@nxp.com>; Cathy Luo <xiaohua.luo@nxp.com>; Linux Firmware <linux-firmware@kernel.org>; Linux Wireless <linux-wireless@vger.kernel.org>; Josh Boyer <jwboyer@kernel.org>
+> Subject: [EXT] Re: mwifiex 1.0 (16.68.10.p159) - PCIEUSB-8997 firmware is buggy
+> 
+> Caution: EXT Email
+> 
+> Héllo James,
+> 
+> As Pali wrote, if fimrware requires signing NDA, I can propose my own
+> collaboration to NXP !
+> 
+> I am still okay to help, in anyway, with testing or more...
+> Please, feel free to contact me.
+> 
+> Gérald Kerma
+> CyberMind.FR
+> gandalf(at)gk2(dot)net
+> 00.33.651.27.66.88
+> 
+> PS: I add my answer which was lost for some of the CC... (sorry)...
+> 
+> 
+> Le 27/01/2022 à 13:15, Pali Rohár a écrit :
+> > Hello James!
+> >
+> > Thank you for reply, but this is something which we did not want to hear :-(
+> >
+> > There is an issue in the latest pcieuart8997_combo_v4.bin firmware file
+> > which NXP sent to linux-firmware repository and it is really needed to
+> > fix this issue. It was sent by NXP, so it is expected that NXP do it.
+> > And because it is binary-only file, people outside of NXP cannot do it.
+> >
+> > Would you be able to look at this firmware issue as the last thing?
+> >
+> > Or as Gérald wrote, could NXP provide source code of that firmware? So
+> > people outside of NXP could look at it? If firmware requires signing NDA
+> > (either individually or via company), then some professional skilled
+> > kernel developers can do it.
+> Le 27/01/2022 à 02:13, Gérald Kerma a écrit :
+>  > Héllo James,
+>  >
+>  > Was it only ever supported ?
+>  >
+>  > May be NXP can free and share the firmware source to the community,
+> and let anyone who care try to debug it ?
+>  >
+>  > As far as my tests shown, the mwifiex driver never has work
+> correctly, and none version is sufficiently stable to be state as working.
+>  >
+>  > Please, NXP, take cares of your end clients !
+>  > Be simple, be smart, be respectuous, give us the source…
+>  >
+>  > Thanks in advance,
+>  > Gérald Kerma
+>  >
+>  > [%]<\@~{
+> > On Wednesday 26 January 2022 23:28:48 James Cao wrote:
+> >> Hi Pali,
+> >>
+> >> NXP doesn't have a plan to support mwifiex driver anymore. How should we handle this kind of retired project in upstream?
+> >>
+> >> Thanks,
+> >> James
+> >>
+> >> ________________________________
+> >> From: Pali Rohár <pali@kernel.org>
+> >> Sent: Thursday, January 20, 2022 11:30 AM
+> >> To: Prashanth Ranganathan <prashanthkrishnan.ranganathan@nxp.com>
+> >> Cc: Sharvari Harisangam <sharvari.harisangam@nxp.com>; Rakesh Parmar <rakesh.parmar@nxp.com>; Cathy Luo <xiaohua.luo@nxp.com>; James Cao <james.cao@nxp.com>; Linux Firmware <linux-firmware@kernel.org>; Linux Wireless <linux-wireless@vger.kernel.org>; Gérald Kerma <gandalf@gk2.net>; Ganapathi Bhat <ganapathi017@gmail.com>; Josh Boyer <jwboyer@kernel.org>
+> >> Subject: [EXT] Re: mwifiex 1.0 (16.68.10.p159) - PCIEUSB-8997 firmware is buggy
+> >>
+> >> Caution: EXT Email
+> >>
+> >> Hello Prashanth!
+> >>
+> >> Thank you for reply. Did you have a time to check this issue?
+> >>
+> >> Gérald did a great testing which shows that version W16.68.1.p195 and
+> >> higher of pcieuart8997_combo_v4.bin firmware does not work.
+> >>
+> >> On Friday 14 January 2022 17:11:18 Prashanth Ranganathan wrote:
+> >>> Hi Pali,
+> >>> Please allow me to check this and respond ASAP.
+> >>> Best,
+> >>> Prashanth
+> >>> ________________________________
+> >>> From: Pali Rohár <pali@kernel.org>
+> >>> Sent: Friday, January 14, 2022 9:00 AM
+> >>> To: Sharvari Harisangam <sharvari.harisangam@nxp.com>; Rakesh Parmar <rakesh.parmar@nxp.com>; Cathy Luo <xiaohua.luo@nxp.com>; Prashanth Ranganathan <prashanthkrishnan.ranganathan@nxp.com>; James Cao <james.cao@nxp.com>
+> >>> Cc: Linux Firmware <linux-firmware@kernel.org>; Linux Wireless <linux-wireless@vger.kernel.org>; Gérald Kerma <gandalf@gk2.net>; Ganapathi Bhat <ganapathi017@gmail.com>; Josh Boyer <jwboyer@kernel.org>
+> >>> Subject: [EXT] Re: mwifiex 1.0 (16.68.10.p159) - PCIEUSB-8997 firmware is buggy
+> >>>
+> >>> Caution: EXT Email
+> >>>
+> >>> NXP people: Sharvari, Rakesh, Cathy, Zheng: could you please look at
+> >>> this issue? It is really serous!
+> >>>
+> >>> On Monday 27 September 2021 09:47:23 Josh Boyer wrote:
+> >>>> On Sun, Sep 26, 2021 at 6:43 AM Pali Rohár <pali@kernel.org> wrote:
+> >>>>> Hello Josh, Sharvari and other from NXP!
+> >>>>>
+> >>>>> On Saturday 25 September 2021 19:23:48 Gérald Kerma wrote:
+> >>>>>> Correcting old marvell address to new nxp...
+> >>>>>>
+> >>>>>> Le 25/09/2021 à 19:19, Gérald Kerma a écrit :
+> >>>>>>> Héllo All,
+> >>>>>>>
+> >>>>>>> I made some few tests on EspressoBin-Ultra from GlobalScaleTechnologies,
+> >>>>>>> because of problem with the WiFi.
+> >>>>>>>
+> >>>>>>> I have done some quick tests on all the firmware of PCIEUSB-8997 using
+> >>>>>>> the pcieuart8997_combo_v4.bin on OpenWrt 21.02.x
+> >>>>>>>
+> >>>>>>> Here is a summary of the tests :
+> >>>>>>> - W16.68.10.p159 = KO
+> >>>>>>> - W16.68.1.p195 = KO
+> >>>>>>> - V16.68.1.p145 = OK
+> >>>>>>> - 16.68.1.p140 = OK
+> >>>>>>> - 16.68.1.p133 = OK
+> >>>>>>> - 16.68.1.p97 = OK
+> >>>>>>> - 16.68.1.p70 = KO
+> >>>>>  From this user test result can be seen that last two versions of
+> >>>>> pcieusb8997_combo_v4.bin firmware file for 8997 wifi+bt card with
+> >>>>> official mainline linux kernel driver mwifiex were not properly tested
+> >>>>> internally in NXP and are causing serious issues which make 8997 card
+> >>>>> basically unusable.
+> >>>>>
+> >>>>> Sharvari and other NXP developers: Do you have some internal testing of
+> >>>>> this pcieusb8997_combo_v4.bin firmware for PCIe+USB variant of 8997
+> >>>>> wifi chips? Or are you aware of this issue and do you have in NXP some
+> >>>>> workaround for it (e.g. at driver level)? Could you please look at this
+> >>>>> serious issue and try to debug firmware and release a new version, as
+> >>>>> this is obvious fatal error in firmware itself?
+> >>>>>
+> >>>>> Josh, how you in linux-firmware repository handle such, I must say,
+> >>>>> "fatal issues"? Wait for vendor fixes or revert problematic commits? Or
+> >>>>> something else?
+> >>>> We can revert if we need to, but I think it's not quite that simple.
+> >>>>
+> >>>>> Because when users starts upgrading linux-firmware packages in their
+> >>>>> downstream distributions then basically wifi cards on this 8997 chips
+> >>>>> with official mwifiex driver stops working.
+> >>>> The first broken version was committed in Feb of 2019.  That's
+> >>>> approaching 3 years ago.  Given that this is binary firmware, I have
+> >>>> no idea what else may or may not be included in the updates in the
+> >>>> meantime.
+> >>>>
+> >>>> josh
+> >>> Josh, as Gérald wrote, current binary in linux-firmware repository is
+> >>> unusable. And there is no reply from NXP for 3 months.
+> >>>
+> >>> You are right that nobody knows what is in firmware binary, but working
+> >>> binary is at least usable than non-working binary.
+> >>>
+> >>> So I would really suggest to start reverting non-working firmware files
+> >>> if NXP does not respond in few days.
+> >>>
+> >>> Gérald, what is your opinion? Do you see other way how to make mainline
+> >>> linux driver work (again)?
+> >>>
+> >>>>>>> REF (and all details of tests) :
+> >>>>>>> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2FNXP%2Fmwifiex-firmware%2Fissues%2F1&amp;data=04%7C01%7Cjames.cao%40nxp.com%7C3e471c7a71b14e82d4bd08d9e1a4689d%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C1%7C637788918532760222%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=jeHkO95c2IlIftGxZGaTDOj5em2dU%2FCiIcSPM4NitUk%3D&amp;reserved=0
+> >>>>>>>
+> >>>>>>>
+> >>>>>>> Broken firmware :
+> >>>>>>>
+> >>>>>>> Version |W16.68.1.p195| of |pcieusb8997_combo_v4.bin| was included into
+> >>>>>>> linux-firmware repository by this pull request:
+> >>>>>>> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fall%2FCA%2B5PVA5yQbjg3vaT7F8120B6ngLn7%2BsZC0OWt0KoUiQR9hS4FA%40mail.gmail.com%2F&amp;data=04%7C01%7Cjames.cao%40nxp.com%7C3e471c7a71b14e82d4bd08d9e1a4689d%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C1%7C637788918532760222%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=tTxWzBFlt0tg1sRwXSapYPdG61BME5f%2B3K7dwSUHRZo%3D&amp;reserved=0
+> >>>>>>> <https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fall%2FCA%2B5PVA5yQbjg3vaT7F8120B6ngLn7%2BsZC0OWt0KoUiQR9hS4FA%40mail.gmail.com%2F&amp;data=04%7C01%7Cjames.cao%40nxp.com%7C3e471c7a71b14e82d4bd08d9e1a4689d%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C1%7C637788918532760222%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=tTxWzBFlt0tg1sRwXSapYPdG61BME5f%2B3K7dwSUHRZo%3D&amp;reserved=0>
+> >>>>>>>
+> >>>>>>> And latest version |W16.68.10.p159| of |pcieusb8997_combo_v4.bin| by
+> >>>>>>> this pull request:
+> >>>>>>> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flinux-firmware%2FCA%2B5PVA5on7%2BCRtEV7tThPxgucwt3W9i-tEXm4cgH-AmMB-Jrtg%40mail.gmail.com%2F&amp;data=04%7C01%7Cjames.cao%40nxp.com%7C3e471c7a71b14e82d4bd08d9e1a4689d%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C1%7C637788918532760222%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=LNx2xSp39whINLxyrkgoyNeb53YjX6s1QjyonB5iJUE%3D&amp;reserved=0
+> >>>>>>> <https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flinux-firmware%2FCA%2B5PVA5on7%2BCRtEV7tThPxgucwt3W9i-tEXm4cgH-AmMB-Jrtg%40mail.gmail.com%2F&amp;data=04%7C01%7Cjames.cao%40nxp.com%7C3e471c7a71b14e82d4bd08d9e1a4689d%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C1%7C637788918532760222%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=LNx2xSp39whINLxyrkgoyNeb53YjX6s1QjyonB5iJUE%3D&amp;reserved=0>
+> >>>>>>>
+> >>>>>>> Olders looks to works better.
+> >>>>>>>
+> >>>>>>> In quick tests, they allow more than 1 clients at a time !
+> >>>>>>>
+> >>>>>>> I am still testing the V16.68.1.p145 and report the results after some
+> >>>>>>> longer use...
+> >>>>>>>
+> >>>>>>> Hopes it will help...
+> >>>>>>> Regards,
+> >>>>>>> Gérald Kerma
+> >>>>>>> gandalf(at)gk2(dot)net
+> 
