@@ -1,393 +1,366 @@
-Return-Path: <SRS0=IQAG=S2=winmarketresearchs.com=caiden@kernel.org>
+Return-Path: <SRS0=oC9G=S2=denx.de=lukma@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C188CC433F5
-	for <linux-firmware@archiver.kernel.org>; Fri, 11 Feb 2022 10:03:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14BECC433EF
+	for <linux-firmware@archiver.kernel.org>; Fri, 11 Feb 2022 11:12:35 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 7DBA3C340ED; Fri, 11 Feb 2022 10:03:49 +0000 (UTC)
-Received: from smtpproxy21.qq.com (smtpbg704.qq.com [203.205.195.105])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id E1739C340EE; Fri, 11 Feb 2022 11:12:35 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 5A779C340E9
-	for <linux-firmware@kernel.org>; Fri, 11 Feb 2022 10:03:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 5A779C340E9
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=winmarketresearchs.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=winmarketresearchs.com
-X-QQ-GoodBg: 2
-X-QQ-SSF: 00400000000000F0
-X-QQ-FEAT: Zf2po6e9he55GkK5cVVf/ylSw6qpH3+d/hu5YXvysMrVcZ7KjKEOtiKDeJdky
-	EkDi/8BTviajydX2BlIdNqA1PqEEgw3UA1jZWXH6zJUt+4J3BoeRPrF3FB0Zad7knTYCPHv
-	PhHRK7zOJ8zlJsxPfmkmrXOG/EtUkXSPvwlATppkI1fAvRznSAxnEWpyKqq4WTVKB7oaeMf
-	9NgfZYSk+n13swWvxH0sXHAr9zmrgnACSlduQzo5MbeCzFx7EXFOJwhavfh4q0RNzqCsRgg
-	doIoHU/y0thNVY/VBPFDY1qU0cy8niMwwuvS7vfx7aOUabJqV3RzK3zq41FDPZ/75XHGxoM
-	9FM2BKJWzrzcffIps91PArRIC4dhq1olalX9mG67igYFFCU8ivSek2KwU5Ts5Qb1zSp6LA7
-X-QQ-BUSINESS-ORIGIN: 2
-X-Originating-IP: 113.101.165.18
-X-QQ-STYLE: 
-X-QQ-mid: logic539t1644573761t610348
-From: "=?utf-8?B?Q2FpZGVu?=" <caiden@winmarketresearchs.com>
-Subject: Automotive MCU Chip Market Outlook 2022,It helps you understand the whole industry
-Mime-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_62063441_1CA24040_0E07B5A0"
-Content-Transfer-Encoding: 8Bit
-Date: Fri, 11 Feb 2022 18:02:40 +0800
-X-Priority: 3
-Message-ID: <tencent_782B985102250D7C3186BBF3@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-X-QQ-SENDSIZE: 520
-Received: from qq.com (unknown [127.0.0.1])
-	by smtp.qq.com (ESMTP) with SMTP
-	id ; Fri, 11 Feb 2022 18:02:57 +0800 (CST)
-Feedback-ID: logic:winmarketresearchs.com:qybgforeign:qybgforeign2
+	by smtp.kernel.org (Postfix) with ESMTPS id 74384C340E9;
+	Fri, 11 Feb 2022 11:12:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 74384C340E9
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=denx.de
+Received: from ktm (85-222-111-42.dynamic.chello.pl [85.222.111.42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: lukma@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 1336783881;
+	Fri, 11 Feb 2022 12:12:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1644577951;
+	bh=YFS2LYtl+H1MQj/Hedm28dLTeEdcDzfx2IYorK63Cs8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Pin7wQFmAeEY85EVf85k5btwa9mNNTWEYfPRyd1fTgwVPcqway18GZJl0H/DiysYT
+	 OTkEofnUF1Z2HO/7+Cz7jfpy6P7HY3px5slg68IVmIdN+I1ZH/2XujQ/UKE4ViOuFl
+	 s2KyzS3iQjRmNMz/KnptVWSIVDcENnjDDK/RwRlzGNVw4Gr85lrhfhi6L9+cIc2pmW
+	 ZSJ98cqehyDqdnQ+ANYVTFbJngxI1Z0cMRLYj/FgQfcI4sOx8f53ruTpX+qC98x6jf
+	 YAxV7tD3wR9r4dWJqVV8cQORKKGZIDps0F10WeRupoAFT4x3JHn/h8nsdgWf0SQQRJ
+	 A7Zg92/Cchtfg==
+Date: Fri, 11 Feb 2022 12:12:24 +0100
+From: Lukasz Majewski <lukma@denx.de>
+To: Sharvari Harisangam <sharvari.harisangam@nxp.com>, Ganapathi Bhat
+ <ganapathi.bhat@nxp.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: "=?gb18030?B?bGludXgtZmlybXdhcmU=?=" <linux-firmware@kernel.org>
-X-QQ-Bgrelay: 1
+Cc: Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>, linux-firmware@kernel.org,
+ l.majewski@majess.pl, Marek =?UTF-8?B?QmVow7pu?= <marek.behun@nic.cz>
+Subject: Re: wifi: 88W8801: Newest firmware for sd8801_uapsta.bin bug
+Message-ID: <20220211121224.42ea2868@ktm>
+In-Reply-To: <20210524145822.5ac95365@ktm>
+References: <20210507151702.4848a5b3@jawa>
+	<20210508112911.aigklhaw225ftwtj@pali>
+	<20210508113734.4kdyt6z6xsjtrrq2@pali>
+	<20210510105402.3bbc16fe@jawa>
+	<20210524145822.5ac95365@ktm>
+Organization: denx.de
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ boundary="Sig_/rfW66X5SLnj8Pm2egsrH=gI"; protocol="application/pgp-signature"
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 
-This is a multi-part message in MIME format.
+--Sig_/rfW66X5SLnj8Pm2egsrH=gI
+Content-Type: multipart/mixed; boundary="MP_/l/0lSN1u_tx0Y6giGYDOT1H"
 
-------=_NextPart_62063441_1CA24040_0E07B5A0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+--MP_/l/0lSN1u_tx0Y6giGYDOT1H
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 
-SGksTXkgRnJpZW5kLA0KDQpJJ20gQWxsZW4mbmJzcDtmcm9tIFdNUmVzZWFyY2guV2UgcHVi
-bGlzaGVkIEEgTWFya2V0IFJlcG9ydCBvbiBBdXRvbW90aXZlIE1DVSBDaGlwJm5ic3A7KDIw
-MjIpJm5ic3A7Zm9yIFlvdSBhbmQgQ29tcGV0aXRvcnMuIElmIHlvdSBoYXZlIGZ1cnRoZXIg
-aW50ZXJlc3QgaW4gdGhpcyByZXBvcnQgb3IgcmVsYXRlZCByZXBvcnRzLCB3ZSB3b3VsZCBi
-ZSBoYXBweSB0byBzaGFyZSB0aGUgZnJlZSZuYnNwO3NhbXBsZSByZXBvcnQgZm9yIHlvdXIg
-cmVmZXJlbmNlLg0KDQpQbGF5ZXJzLCBzdGFrZWhvbGRlcnMsIGFuZCBvdGhlciBwYXJ0aWNp
-cGFudHMgaW4gdGhlIEF1dG9tb3RpdmUgTUNVIENoaXAmbmJzcDttYXJrZXQgd2lsbCBiZSBh
-YmxlIHRvIGdhaW4gdGhlIHVwcGVyIGhhbmQgYXMgdGhleSB1c2UgdGhlIHJlcG9ydCBhcyBh
-IHBvd2VyZnVsIHJlc291cmNlLiBUaGUgc2VnbWVudGFsIGFuYWx5c2lzIGZvY3VzZXMgb24g
-cHJvZHVjdGlvbiBjYXBhY2l0eSwgcmV2ZW51ZSBhbmQgZm9yZWNhc3QgYnkgVHlwZSBhbmQg
-YnkgQXBwbGljYXRpb24gZm9yIHRoZSBwZXJpb2QgMjAxNi0yMDI3Lg0KDQpUaGUgZm9sbG93
-aW5nIG1hbnVmYWN0dXJlcnMgYXJlIGNvdmVyZWQgaW4gdGhpcyByZXBvcnQ6DQoNCkluZmlu
-ZW9uDQoNCk5YUCBTZW1pY29uZHVjdG9ycw0KDQpSZW5lc2FzIEVsZWN0cm9uaWNzDQoNClNU
-IE1pY3JvZWxlY3Ryb25pY3MNCg0KVGV4YXMgSW5zdHJ1bWVudHMNCg0KQm9zY2gNCg0KT04g
-U2VtaWNvbmR1Y3Rvcg0KDQpCWUQgU2VtaWNvbmR1Y3Rvcg0KDQpBdXRvQ2hpcHMgSW5jDQoN
-ClNoZW56aGVuIEFsbHlzdGFyDQoNCkNoaXBPTg0KDQpTaGVuemhlbiBTaW5lbWljcm8NCg0K
-Q2hpcHdheXMNCg0KTWljcm9jaGlwDQoNCi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
-Li4NCg0KKE1vcmUgY29tcGFuaWVzIHRoYXQgbm90IGxpc3RlZCBoZXJlIGFyZSBhbHNvIGF2
-YWlsYWJsZeKApikNCg0KTWF5YmUgaXQgd2lsbCBiZSBoZWxwZnVsIHRvIHRoZSBtYXJrZXRp
-bmcgZGFwYXJ0bWVudCBvciB0aGUgcGVyc29uIGluIGNoYXJnZSBvZiB5b3VyIGNvbXBhbnku
-IFdlIHdvdWxkIGJlIGdyYXRlZnVsIGlmIHlvdSBjb3VsZCBmb3J3YXJkIGl0Lg0KDQotLS0t
-LS0tLS0tLS0tLS0tLS0NCg0KQmVzdCBSZWdhcmRzLA0KDQpWaWMgTWFya2V0IFJlc2VhcmNo
-IENvLixMdGQuDQoNCkFsbGVuJm5ic3A7fCBTYWxlcy1NYW5hZ2VyDQoNClRlbDorODYtMTMx
-Njg4ODY2MTYNCg0KRW1haWw6IGFsbGVuQHZpY21hcmtldHJlc2VhcmNoLmNvbQ0KDQombmJz
-cDs=
+Dear Ganapathi and Sharvari
 
-------=_NextPart_62063441_1CA24040_0E07B5A0
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+> Dear Ganapathi and Sharvari
+>=20
+> > Hi Pali,
+> >  =20
+> > > On Saturday 08 May 2021 13:29:11 Pali Roh=C3=A1r wrote:   =20
+> > > > + Sharvari and Ganapathi
+> > > >=20
+> > > > To let you know about this mwifiex firmware issue. Could you
+> > > > look at it?
+> > > >=20
+> > > > On Friday 07 May 2021 15:17:02 Lukasz Majewski wrote:     =20
+> > > > > Dear community,
+> > > > >=20
+> > > > > I would like to report that the version: 14.68.36.p204 of
+> > > > > sd8801_uapsta.bin binary (newest, SHA1:
+> > > > > ecdfcf8e2ca15f5682ab94fd30ba29fb869b24a7) has the issue with
+> > > > > getting channel info (HostCmd_CMD_STA_CONFIGURE command
+> > > > > execution).
+> > > > >=20
+> > > > > As a result the module seems to be stuck and no transmission
+> > > > > is performed.
+> > > > >=20
+> > > > > The issue is not present in 14.68.36.p146 verson of the
+> > > > > firmware.  =20
+> > >=20
+> > > And FYI, NXP has newer version 14.76.36.p139 of this
+> > > sd8801_uapsta.bin firmware in their mwifiex-firmware github
+> > > repository:
+> > >=20
+> > > https://github.com/NXP/mwifiex-firmware/commit/c38b125a920a695d360b62=
+e8b1f7fb1c4e1afd46
+> > >=20
+> > > I hope that Sharvari or Ganapathi brings some light in this
+> > > issue...   =20
+> >=20
+> > Thanks for sharing this issue with NXP developers.
+> >  =20
+> > >=20
+> > > Lukasz, meanwhile could you try to check if this new firmware
+> > > version has this issue fixed?
+> > >    =20
+> >=20
+> > It looks like the issue is still there (even new errors pops up when
+> > compared to the original one):
+> >=20
+> > root@mx6ul:~# dmesg|grep sdio
+> > [   29.025231] mwifiex_sdio mmc0:0001:1: info: FW download over,
+> > size 262660 bytes [   29.310488] mwifiex_sdio mmc0:0001:1: WLAN FW
+> > is active [   29.390778] mwifiex_sdio mmc0:0001:1: CMD_RESP: cmd
+> > 0x242 error, result=3D0x2 [   29.398245] mwifiex_sdio mmc0:0001:1:
+> > mwifiex_process_cmdresp: cmd 0x242 failed during
+> > initialization [   29.707952] mwifiex_sdio mmc0:0001:1: info:
+> > MWIFIEX VERSION: mwifiex 1.0 (14.76.36.p139) [   29.717360]
+> > mwifiex_sdio mmc0:0001:1: driver_version =3D mwifiex 1.0
+> > (14.76.36.p139)=20
+> >=20
+> > root@mx6ul:~# ./tst_sdio.sh=20
+> > + wpa_supplicant -B -i mlan0 -c /etc/wpa_supplicant.conf
+> > Successfully initialized wpa_supplicant
+> > + sleep 3
+> > [  251.425350] mwifiex_sdio mmc0:0001:1: CMD_RESP: cmd 0x107 error,
+> > result=3D0x2
+> > + udhcpc -i mlan0
+> > udhcpc: started, v1.31.1
+> > udhcpc: sending discover
+> > [  256.476210] mwifiex_sdio mmc0:0001:1: CMD_RESP: cmd 0x107 error,
+> > result=3D0x2 udhcpc: sending discover
+> > udhcpc: sending discover
+> > [  261.497057] mwifiex_sdio mmc0:0001:1: CMD_RESP: cmd 0x107 error,
+> > result=3D0x2 [  261.507859] ieee80211 phy0: sched_scan start :
+> > n_ssids=3D1 n_match_sets=3D1 [  261.515872] ieee80211 phy0:
+> > n_channels=3D13 interval=3D10 ie_len=3D0
+> >=20
+> >=20
+> > Please pay attention to the new "cmd 0x107 error, result=3D0x2" issue
+> > with this new FW version. =20
+>=20
+> Is there any update on this issue? Ganapathi and Sharvari, have you
+> managed to make the STA mode working on with the newest FW for
+> 88W8801 ?
 
-PGRpdj48Zm9udD48cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1m
-YW1pbHk6IOW+rui9r+mbhem7kTsgZm9udC1zaXplOiAxMC41cHQ7Ij5IaSxNeSBGcmllbmQs
-PC9zcGFuPjwvYj48Yj48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6IOW+rui9r+mbhem7kTsg
-Zm9udC1zaXplOiAxMC41cHQ7Ij48bzpwPjwvbzpwPjwvc3Bhbj48L2I+PC9wPjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJtc28tc3BhY2VydW46J3llcyc7Zm9udC1mYW1p
-bHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAwcHQ7DQptc28tZm9udC1rZXJuaW5n
-OjEuMDAwMHB0OyI+SSdtIDwvc3Bhbj48c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMn
-O2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTtmb250LXNpemU6MTAuNTAwMHB0Ow0KbXNvLWZv
-bnQta2VybmluZzoxLjAwMDBwdDsiPkFsbGVuPC9zcGFuPjxzcGFuIHN0eWxlPSJtc28tc3Bh
-Y2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAw
-cHQ7DQptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+Jm5ic3A7ZnJvbSBXTVJlc2VhcmNo
-LldlIHB1Ymxpc2hlZCBBIE1hcmtldCBSZXBvcnQgb24gPC9zcGFuPjxiPjxzcGFuIHN0eWxl
-PSJmb250LWZhbWlseTog5b6u6L2v6ZuF6buROyBjb2xvcjogcmdiKDAsIDAsIDI1NSk7IGZv
-bnQtc2l6ZTogMTAuNXB0OyBiYWNrZ3JvdW5kLWltYWdlOiBpbml0aWFsOyBiYWNrZ3JvdW5k
-LXBvc2l0aW9uOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXNpemU6IGluaXRpYWw7IGJhY2tncm91
-bmQtcmVwZWF0OiBpbml0aWFsOyBiYWNrZ3JvdW5kLWF0dGFjaG1lbnQ6IGluaXRpYWw7IGJh
-Y2tncm91bmQtb3JpZ2luOiBpbml0aWFsOyBiYWNrZ3JvdW5kLWNsaXA6IGluaXRpYWw7Ij5B
-dXRvbW90aXZlIE1DVSBDaGlwPC9zcGFuPjwvYj48Yj48c3BhbiBzdHlsZT0iZm9udC1mYW1p
-bHk6IOW+rui9r+mbhem7kTsgY29sb3I6IHJnYigwLCAwLCAyNTUpOyBmb250LXNpemU6IDEw
-LjVwdDsgYmFja2dyb3VuZC1pbWFnZTogaW5pdGlhbDsgYmFja2dyb3VuZC1wb3NpdGlvbjog
-aW5pdGlhbDsgYmFja2dyb3VuZC1zaXplOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXJlcGVhdDog
-aW5pdGlhbDsgYmFja2dyb3VuZC1hdHRhY2htZW50OiBpbml0aWFsOyBiYWNrZ3JvdW5kLW9y
-aWdpbjogaW5pdGlhbDsgYmFja2dyb3VuZC1jbGlwOiBpbml0aWFsOyI+Jm5ic3A7KDwvc3Bh
-bj48L2I+PGI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiDlvq7ova/pm4Xpu5E7IGNvbG9y
-OiByZ2IoMCwgMCwgMjU1KTsgZm9udC1zaXplOiAxMC41cHQ7IGJhY2tncm91bmQtaW1hZ2U6
-IGluaXRpYWw7IGJhY2tncm91bmQtcG9zaXRpb246IGluaXRpYWw7IGJhY2tncm91bmQtc2l6
-ZTogaW5pdGlhbDsgYmFja2dyb3VuZC1yZXBlYXQ6IGluaXRpYWw7IGJhY2tncm91bmQtYXR0
-YWNobWVudDogaW5pdGlhbDsgYmFja2dyb3VuZC1vcmlnaW46IGluaXRpYWw7IGJhY2tncm91
-bmQtY2xpcDogaW5pdGlhbDsiPjIwMjI8L3NwYW4+PC9iPjxiPjxzcGFuIHN0eWxlPSJmb250
-LWZhbWlseTog5b6u6L2v6ZuF6buROyBjb2xvcjogcmdiKDAsIDAsIDI1NSk7IGZvbnQtc2l6
-ZTogMTAuNXB0OyBiYWNrZ3JvdW5kLWltYWdlOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXBvc2l0
-aW9uOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXNpemU6IGluaXRpYWw7IGJhY2tncm91bmQtcmVw
-ZWF0OiBpbml0aWFsOyBiYWNrZ3JvdW5kLWF0dGFjaG1lbnQ6IGluaXRpYWw7IGJhY2tncm91
-bmQtb3JpZ2luOiBpbml0aWFsOyBiYWNrZ3JvdW5kLWNsaXA6IGluaXRpYWw7Ij4pPC9zcGFu
-PjwvYj48c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9
-r+mbhem7kTtmb250LXNpemU6MTAuNTAwMHB0Ow0KbXNvLWZvbnQta2VybmluZzoxLjAwMDBw
-dDsiPiZuYnNwO2ZvciBZb3UgYW5kIENvbXBldGl0b3JzLiBJZiB5b3UgaGF2ZSBmdXJ0aGVy
-IGludGVyZXN0IGluIHRoaXMgcmVwb3J0IG9yIHJlbGF0ZWQgcmVwb3J0cywgd2Ugd291bGQg
-YmUgaGFwcHkgdG8gc2hhcmUgdGhlIGZyZWU8L3NwYW4+PHNwYW4gc3R5bGU9Im1zby1zcGFj
-ZXJ1bjoneWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBw
-dDsNCm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij4mbmJzcDs8L3NwYW4+PHNwYW4gc3R5
-bGU9Im1zby1zcGFjZXJ1bjoneWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1z
-aXplOjEwLjUwMDBwdDsNCm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij5zYW1wbGUgcmVw
-b3J0IGZvciB5b3VyIHJlZmVyZW5jZS48L3NwYW4+PHNwYW4gc3R5bGU9Im1zby1zcGFjZXJ1
-bjoneWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBwdDsN
-Cm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij48bzpwPjwvbzpwPjwvc3Bhbj48L3A+PHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9Im1zby1zcGFjZXJ1bjoneWVzJztmb250
-LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBwdDsNCm1zby1mb250LWtl
-cm5pbmc6MS4wMDAwcHQ7Ij5QbGF5ZXJzLCBzdGFrZWhvbGRlcnMsIGFuZCBvdGhlciBwYXJ0
-aWNpcGFudHMgaW4gdGhlIDwvc3Bhbj48c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMn
-O2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTtmb250LXNpemU6MTAuNTAwMHB0Ow0KbXNvLWZv
-bnQta2VybmluZzoxLjAwMDBwdDsiPkF1dG9tb3RpdmUgTUNVIENoaXA8L3NwYW4+PHNwYW4g
-c3R5bGU9Im1zby1zcGFjZXJ1bjoneWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9u
-dC1zaXplOjEwLjUwMDBwdDsNCm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij4mbmJzcDtt
-YXJrZXQgd2lsbCBiZSBhYmxlIHRvIGdhaW4gdGhlIHVwcGVyIGhhbmQgYXMgdGhleSB1c2Ug
-dGhlIHJlcG9ydCBhcyBhIHBvd2VyZnVsIHJlc291cmNlLiBUaGUgc2VnbWVudGFsIGFuYWx5
-c2lzIGZvY3VzZXMgb24gcHJvZHVjdGlvbiBjYXBhY2l0eSwgcmV2ZW51ZSBhbmQgZm9yZWNh
-c3QgYnkgVHlwZSBhbmQgYnkgQXBwbGljYXRpb24gZm9yIHRoZSBwZXJpb2QgMjAxNi0yMDI3
-Ljwvc3Bhbj48c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+
-rui9r+mbhem7kTtmb250LXNpemU6MTAuNTAwMHB0Ow0KbXNvLWZvbnQta2VybmluZzoxLjAw
-MDBwdDsiPjxvOnA+PC9vOnA+PC9zcGFuPjwvcD48cCBjbGFzcz0iMTYiPjxiPjxzcGFuIHN0
-eWxlPSJmb250LWZhbWlseTog5b6u6L2v6ZuF6buROyBmb250LXNpemU6IDEwLjVwdDsgYmFj
-a2dyb3VuZC1pbWFnZTogaW5pdGlhbDsgYmFja2dyb3VuZC1wb3NpdGlvbjogaW5pdGlhbDsg
-YmFja2dyb3VuZC1zaXplOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXJlcGVhdDogaW5pdGlhbDsg
-YmFja2dyb3VuZC1hdHRhY2htZW50OiBpbml0aWFsOyBiYWNrZ3JvdW5kLW9yaWdpbjogaW5p
-dGlhbDsgYmFja2dyb3VuZC1jbGlwOiBpbml0aWFsOyI+VGhlIGZvbGxvd2luZyBtYW51ZmFj
-dHVyZXJzIGFyZSBjb3ZlcmVkIGluIHRoaXMgcmVwb3J0Ojwvc3Bhbj48L2I+PGI+PHNwYW4g
-c3R5bGU9ImZvbnQtZmFtaWx5OiDlvq7ova/pm4Xpu5E7IGZvbnQtc2l6ZTogMTAuNXB0OyBi
-YWNrZ3JvdW5kLWltYWdlOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXBvc2l0aW9uOiBpbml0aWFs
-OyBiYWNrZ3JvdW5kLXNpemU6IGluaXRpYWw7IGJhY2tncm91bmQtcmVwZWF0OiBpbml0aWFs
-OyBiYWNrZ3JvdW5kLWF0dGFjaG1lbnQ6IGluaXRpYWw7IGJhY2tncm91bmQtb3JpZ2luOiBp
-bml0aWFsOyBiYWNrZ3JvdW5kLWNsaXA6IGluaXRpYWw7Ij48bzpwPjwvbzpwPjwvc3Bhbj48
-L2I+PC9wPjxwIGNsYXNzPSIxNiI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiDlvq7o
-va/pm4Xpu5E7IGZvbnQtc2l6ZTogMTAuNXB0OyBiYWNrZ3JvdW5kLWltYWdlOiBpbml0aWFs
-OyBiYWNrZ3JvdW5kLXBvc2l0aW9uOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXNpemU6IGluaXRp
-YWw7IGJhY2tncm91bmQtcmVwZWF0OiBpbml0aWFsOyBiYWNrZ3JvdW5kLWF0dGFjaG1lbnQ6
-IGluaXRpYWw7IGJhY2tncm91bmQtb3JpZ2luOiBpbml0aWFsOyBiYWNrZ3JvdW5kLWNsaXA6
-IGluaXRpYWw7Ij5JbmZpbmVvbjwvc3Bhbj48L2I+PGI+PHNwYW4gc3R5bGU9ImZvbnQtZmFt
-aWx5OiDlvq7ova/pm4Xpu5E7IGZvbnQtc2l6ZTogMTAuNXB0OyBiYWNrZ3JvdW5kLWltYWdl
-OiBpbml0aWFsOyBiYWNrZ3JvdW5kLXBvc2l0aW9uOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXNp
-emU6IGluaXRpYWw7IGJhY2tncm91bmQtcmVwZWF0OiBpbml0aWFsOyBiYWNrZ3JvdW5kLWF0
-dGFjaG1lbnQ6IGluaXRpYWw7IGJhY2tncm91bmQtb3JpZ2luOiBpbml0aWFsOyBiYWNrZ3Jv
-dW5kLWNsaXA6IGluaXRpYWw7Ij48bzpwPjwvbzpwPjwvc3Bhbj48L2I+PC9wPjxwIGNsYXNz
-PSIxNiI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiDlvq7ova/pm4Xpu5E7IGZvbnQt
-c2l6ZTogMTAuNXB0OyBiYWNrZ3JvdW5kLWltYWdlOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXBv
-c2l0aW9uOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXNpemU6IGluaXRpYWw7IGJhY2tncm91bmQt
-cmVwZWF0OiBpbml0aWFsOyBiYWNrZ3JvdW5kLWF0dGFjaG1lbnQ6IGluaXRpYWw7IGJhY2tn
-cm91bmQtb3JpZ2luOiBpbml0aWFsOyBiYWNrZ3JvdW5kLWNsaXA6IGluaXRpYWw7Ij5OWFAg
-U2VtaWNvbmR1Y3RvcnM8L3NwYW4+PC9iPjxiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTog
-5b6u6L2v6ZuF6buROyBmb250LXNpemU6IDEwLjVwdDsgYmFja2dyb3VuZC1pbWFnZTogaW5p
-dGlhbDsgYmFja2dyb3VuZC1wb3NpdGlvbjogaW5pdGlhbDsgYmFja2dyb3VuZC1zaXplOiBp
-bml0aWFsOyBiYWNrZ3JvdW5kLXJlcGVhdDogaW5pdGlhbDsgYmFja2dyb3VuZC1hdHRhY2ht
-ZW50OiBpbml0aWFsOyBiYWNrZ3JvdW5kLW9yaWdpbjogaW5pdGlhbDsgYmFja2dyb3VuZC1j
-bGlwOiBpbml0aWFsOyI+PG86cD48L286cD48L3NwYW4+PC9iPjwvcD48cCBjbGFzcz0iMTYi
-PjxiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTog5b6u6L2v6ZuF6buROyBmb250LXNpemU6
-IDEwLjVwdDsgYmFja2dyb3VuZC1pbWFnZTogaW5pdGlhbDsgYmFja2dyb3VuZC1wb3NpdGlv
-bjogaW5pdGlhbDsgYmFja2dyb3VuZC1zaXplOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXJlcGVh
-dDogaW5pdGlhbDsgYmFja2dyb3VuZC1hdHRhY2htZW50OiBpbml0aWFsOyBiYWNrZ3JvdW5k
-LW9yaWdpbjogaW5pdGlhbDsgYmFja2dyb3VuZC1jbGlwOiBpbml0aWFsOyI+UmVuZXNhcyBF
-bGVjdHJvbmljczwvc3Bhbj48L2I+PGI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiDlvq7o
-va/pm4Xpu5E7IGZvbnQtc2l6ZTogMTAuNXB0OyBiYWNrZ3JvdW5kLWltYWdlOiBpbml0aWFs
-OyBiYWNrZ3JvdW5kLXBvc2l0aW9uOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXNpemU6IGluaXRp
-YWw7IGJhY2tncm91bmQtcmVwZWF0OiBpbml0aWFsOyBiYWNrZ3JvdW5kLWF0dGFjaG1lbnQ6
-IGluaXRpYWw7IGJhY2tncm91bmQtb3JpZ2luOiBpbml0aWFsOyBiYWNrZ3JvdW5kLWNsaXA6
-IGluaXRpYWw7Ij48bzpwPjwvbzpwPjwvc3Bhbj48L2I+PC9wPjxwIGNsYXNzPSIxNiI+PGI+
-PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiDlvq7ova/pm4Xpu5E7IGZvbnQtc2l6ZTogMTAu
-NXB0OyBiYWNrZ3JvdW5kLWltYWdlOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXBvc2l0aW9uOiBp
-bml0aWFsOyBiYWNrZ3JvdW5kLXNpemU6IGluaXRpYWw7IGJhY2tncm91bmQtcmVwZWF0OiBp
-bml0aWFsOyBiYWNrZ3JvdW5kLWF0dGFjaG1lbnQ6IGluaXRpYWw7IGJhY2tncm91bmQtb3Jp
-Z2luOiBpbml0aWFsOyBiYWNrZ3JvdW5kLWNsaXA6IGluaXRpYWw7Ij5TVCBNaWNyb2VsZWN0
-cm9uaWNzPC9zcGFuPjwvYj48Yj48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6IOW+rui9r+mb
-hem7kTsgZm9udC1zaXplOiAxMC41cHQ7IGJhY2tncm91bmQtaW1hZ2U6IGluaXRpYWw7IGJh
-Y2tncm91bmQtcG9zaXRpb246IGluaXRpYWw7IGJhY2tncm91bmQtc2l6ZTogaW5pdGlhbDsg
-YmFja2dyb3VuZC1yZXBlYXQ6IGluaXRpYWw7IGJhY2tncm91bmQtYXR0YWNobWVudDogaW5p
-dGlhbDsgYmFja2dyb3VuZC1vcmlnaW46IGluaXRpYWw7IGJhY2tncm91bmQtY2xpcDogaW5p
-dGlhbDsiPjxvOnA+PC9vOnA+PC9zcGFuPjwvYj48L3A+PHAgY2xhc3M9IjE2Ij48Yj48c3Bh
-biBzdHlsZT0iZm9udC1mYW1pbHk6IOW+rui9r+mbhem7kTsgZm9udC1zaXplOiAxMC41cHQ7
-IGJhY2tncm91bmQtaW1hZ2U6IGluaXRpYWw7IGJhY2tncm91bmQtcG9zaXRpb246IGluaXRp
-YWw7IGJhY2tncm91bmQtc2l6ZTogaW5pdGlhbDsgYmFja2dyb3VuZC1yZXBlYXQ6IGluaXRp
-YWw7IGJhY2tncm91bmQtYXR0YWNobWVudDogaW5pdGlhbDsgYmFja2dyb3VuZC1vcmlnaW46
-IGluaXRpYWw7IGJhY2tncm91bmQtY2xpcDogaW5pdGlhbDsiPlRleGFzIEluc3RydW1lbnRz
-PC9zcGFuPjwvYj48Yj48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6IOW+rui9r+mbhem7kTsg
-Zm9udC1zaXplOiAxMC41cHQ7IGJhY2tncm91bmQtaW1hZ2U6IGluaXRpYWw7IGJhY2tncm91
-bmQtcG9zaXRpb246IGluaXRpYWw7IGJhY2tncm91bmQtc2l6ZTogaW5pdGlhbDsgYmFja2dy
-b3VuZC1yZXBlYXQ6IGluaXRpYWw7IGJhY2tncm91bmQtYXR0YWNobWVudDogaW5pdGlhbDsg
-YmFja2dyb3VuZC1vcmlnaW46IGluaXRpYWw7IGJhY2tncm91bmQtY2xpcDogaW5pdGlhbDsi
-PjxvOnA+PC9vOnA+PC9zcGFuPjwvYj48L3A+PHAgY2xhc3M9IjE2Ij48Yj48c3BhbiBzdHls
-ZT0iZm9udC1mYW1pbHk6IOW+rui9r+mbhem7kTsgZm9udC1zaXplOiAxMC41cHQ7IGJhY2tn
-cm91bmQtaW1hZ2U6IGluaXRpYWw7IGJhY2tncm91bmQtcG9zaXRpb246IGluaXRpYWw7IGJh
-Y2tncm91bmQtc2l6ZTogaW5pdGlhbDsgYmFja2dyb3VuZC1yZXBlYXQ6IGluaXRpYWw7IGJh
-Y2tncm91bmQtYXR0YWNobWVudDogaW5pdGlhbDsgYmFja2dyb3VuZC1vcmlnaW46IGluaXRp
-YWw7IGJhY2tncm91bmQtY2xpcDogaW5pdGlhbDsiPkJvc2NoPC9zcGFuPjwvYj48Yj48c3Bh
-biBzdHlsZT0iZm9udC1mYW1pbHk6IOW+rui9r+mbhem7kTsgZm9udC1zaXplOiAxMC41cHQ7
-IGJhY2tncm91bmQtaW1hZ2U6IGluaXRpYWw7IGJhY2tncm91bmQtcG9zaXRpb246IGluaXRp
-YWw7IGJhY2tncm91bmQtc2l6ZTogaW5pdGlhbDsgYmFja2dyb3VuZC1yZXBlYXQ6IGluaXRp
-YWw7IGJhY2tncm91bmQtYXR0YWNobWVudDogaW5pdGlhbDsgYmFja2dyb3VuZC1vcmlnaW46
-IGluaXRpYWw7IGJhY2tncm91bmQtY2xpcDogaW5pdGlhbDsiPjxvOnA+PC9vOnA+PC9zcGFu
-PjwvYj48L3A+PHAgY2xhc3M9IjE2Ij48Yj48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6IOW+
-rui9r+mbhem7kTsgZm9udC1zaXplOiAxMC41cHQ7IGJhY2tncm91bmQtaW1hZ2U6IGluaXRp
-YWw7IGJhY2tncm91bmQtcG9zaXRpb246IGluaXRpYWw7IGJhY2tncm91bmQtc2l6ZTogaW5p
-dGlhbDsgYmFja2dyb3VuZC1yZXBlYXQ6IGluaXRpYWw7IGJhY2tncm91bmQtYXR0YWNobWVu
-dDogaW5pdGlhbDsgYmFja2dyb3VuZC1vcmlnaW46IGluaXRpYWw7IGJhY2tncm91bmQtY2xp
-cDogaW5pdGlhbDsiPk9OIFNlbWljb25kdWN0b3I8L3NwYW4+PC9iPjxiPjxzcGFuIHN0eWxl
-PSJmb250LWZhbWlseTog5b6u6L2v6ZuF6buROyBmb250LXNpemU6IDEwLjVwdDsgYmFja2dy
-b3VuZC1pbWFnZTogaW5pdGlhbDsgYmFja2dyb3VuZC1wb3NpdGlvbjogaW5pdGlhbDsgYmFj
-a2dyb3VuZC1zaXplOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXJlcGVhdDogaW5pdGlhbDsgYmFj
-a2dyb3VuZC1hdHRhY2htZW50OiBpbml0aWFsOyBiYWNrZ3JvdW5kLW9yaWdpbjogaW5pdGlh
-bDsgYmFja2dyb3VuZC1jbGlwOiBpbml0aWFsOyI+PG86cD48L286cD48L3NwYW4+PC9iPjwv
-cD48cCBjbGFzcz0iMTYiPjxiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTog5b6u6L2v6ZuF
-6buROyBmb250LXNpemU6IDEwLjVwdDsgYmFja2dyb3VuZC1pbWFnZTogaW5pdGlhbDsgYmFj
-a2dyb3VuZC1wb3NpdGlvbjogaW5pdGlhbDsgYmFja2dyb3VuZC1zaXplOiBpbml0aWFsOyBi
-YWNrZ3JvdW5kLXJlcGVhdDogaW5pdGlhbDsgYmFja2dyb3VuZC1hdHRhY2htZW50OiBpbml0
-aWFsOyBiYWNrZ3JvdW5kLW9yaWdpbjogaW5pdGlhbDsgYmFja2dyb3VuZC1jbGlwOiBpbml0
-aWFsOyI+QllEIFNlbWljb25kdWN0b3I8L3NwYW4+PC9iPjxiPjxzcGFuIHN0eWxlPSJmb250
-LWZhbWlseTog5b6u6L2v6ZuF6buROyBmb250LXNpemU6IDEwLjVwdDsgYmFja2dyb3VuZC1p
-bWFnZTogaW5pdGlhbDsgYmFja2dyb3VuZC1wb3NpdGlvbjogaW5pdGlhbDsgYmFja2dyb3Vu
-ZC1zaXplOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXJlcGVhdDogaW5pdGlhbDsgYmFja2dyb3Vu
-ZC1hdHRhY2htZW50OiBpbml0aWFsOyBiYWNrZ3JvdW5kLW9yaWdpbjogaW5pdGlhbDsgYmFj
-a2dyb3VuZC1jbGlwOiBpbml0aWFsOyI+PG86cD48L286cD48L3NwYW4+PC9iPjwvcD48cCBj
-bGFzcz0iMTYiPjxiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTog5b6u6L2v6ZuF6buROyBm
-b250LXNpemU6IDEwLjVwdDsgYmFja2dyb3VuZC1pbWFnZTogaW5pdGlhbDsgYmFja2dyb3Vu
-ZC1wb3NpdGlvbjogaW5pdGlhbDsgYmFja2dyb3VuZC1zaXplOiBpbml0aWFsOyBiYWNrZ3Jv
-dW5kLXJlcGVhdDogaW5pdGlhbDsgYmFja2dyb3VuZC1hdHRhY2htZW50OiBpbml0aWFsOyBi
-YWNrZ3JvdW5kLW9yaWdpbjogaW5pdGlhbDsgYmFja2dyb3VuZC1jbGlwOiBpbml0aWFsOyI+
-QXV0b0NoaXBzIEluYzwvc3Bhbj48L2I+PGI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiDl
-vq7ova/pm4Xpu5E7IGZvbnQtc2l6ZTogMTAuNXB0OyBiYWNrZ3JvdW5kLWltYWdlOiBpbml0
-aWFsOyBiYWNrZ3JvdW5kLXBvc2l0aW9uOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXNpemU6IGlu
-aXRpYWw7IGJhY2tncm91bmQtcmVwZWF0OiBpbml0aWFsOyBiYWNrZ3JvdW5kLWF0dGFjaG1l
-bnQ6IGluaXRpYWw7IGJhY2tncm91bmQtb3JpZ2luOiBpbml0aWFsOyBiYWNrZ3JvdW5kLWNs
-aXA6IGluaXRpYWw7Ij48bzpwPjwvbzpwPjwvc3Bhbj48L2I+PC9wPjxwIGNsYXNzPSIxNiI+
-PGI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiDlvq7ova/pm4Xpu5E7IGZvbnQtc2l6ZTog
-MTAuNXB0OyBiYWNrZ3JvdW5kLWltYWdlOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXBvc2l0aW9u
-OiBpbml0aWFsOyBiYWNrZ3JvdW5kLXNpemU6IGluaXRpYWw7IGJhY2tncm91bmQtcmVwZWF0
-OiBpbml0aWFsOyBiYWNrZ3JvdW5kLWF0dGFjaG1lbnQ6IGluaXRpYWw7IGJhY2tncm91bmQt
-b3JpZ2luOiBpbml0aWFsOyBiYWNrZ3JvdW5kLWNsaXA6IGluaXRpYWw7Ij5TaGVuemhlbiBB
-bGx5c3Rhcjwvc3Bhbj48L2I+PGI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiDlvq7ova/p
-m4Xpu5E7IGZvbnQtc2l6ZTogMTAuNXB0OyBiYWNrZ3JvdW5kLWltYWdlOiBpbml0aWFsOyBi
-YWNrZ3JvdW5kLXBvc2l0aW9uOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXNpemU6IGluaXRpYWw7
-IGJhY2tncm91bmQtcmVwZWF0OiBpbml0aWFsOyBiYWNrZ3JvdW5kLWF0dGFjaG1lbnQ6IGlu
-aXRpYWw7IGJhY2tncm91bmQtb3JpZ2luOiBpbml0aWFsOyBiYWNrZ3JvdW5kLWNsaXA6IGlu
-aXRpYWw7Ij48bzpwPjwvbzpwPjwvc3Bhbj48L2I+PC9wPjxwIGNsYXNzPSIxNiI+PGI+PHNw
-YW4gc3R5bGU9ImZvbnQtZmFtaWx5OiDlvq7ova/pm4Xpu5E7IGZvbnQtc2l6ZTogMTAuNXB0
-OyBiYWNrZ3JvdW5kLWltYWdlOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXBvc2l0aW9uOiBpbml0
-aWFsOyBiYWNrZ3JvdW5kLXNpemU6IGluaXRpYWw7IGJhY2tncm91bmQtcmVwZWF0OiBpbml0
-aWFsOyBiYWNrZ3JvdW5kLWF0dGFjaG1lbnQ6IGluaXRpYWw7IGJhY2tncm91bmQtb3JpZ2lu
-OiBpbml0aWFsOyBiYWNrZ3JvdW5kLWNsaXA6IGluaXRpYWw7Ij5DaGlwT048L3NwYW4+PC9i
-PjxiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTog5b6u6L2v6ZuF6buROyBmb250LXNpemU6
-IDEwLjVwdDsgYmFja2dyb3VuZC1pbWFnZTogaW5pdGlhbDsgYmFja2dyb3VuZC1wb3NpdGlv
-bjogaW5pdGlhbDsgYmFja2dyb3VuZC1zaXplOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXJlcGVh
-dDogaW5pdGlhbDsgYmFja2dyb3VuZC1hdHRhY2htZW50OiBpbml0aWFsOyBiYWNrZ3JvdW5k
-LW9yaWdpbjogaW5pdGlhbDsgYmFja2dyb3VuZC1jbGlwOiBpbml0aWFsOyI+PG86cD48L286
-cD48L3NwYW4+PC9iPjwvcD48cCBjbGFzcz0iMTYiPjxiPjxzcGFuIHN0eWxlPSJmb250LWZh
-bWlseTog5b6u6L2v6ZuF6buROyBmb250LXNpemU6IDEwLjVwdDsgYmFja2dyb3VuZC1pbWFn
-ZTogaW5pdGlhbDsgYmFja2dyb3VuZC1wb3NpdGlvbjogaW5pdGlhbDsgYmFja2dyb3VuZC1z
-aXplOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXJlcGVhdDogaW5pdGlhbDsgYmFja2dyb3VuZC1h
-dHRhY2htZW50OiBpbml0aWFsOyBiYWNrZ3JvdW5kLW9yaWdpbjogaW5pdGlhbDsgYmFja2dy
-b3VuZC1jbGlwOiBpbml0aWFsOyI+U2hlbnpoZW4gU2luZW1pY3JvPC9zcGFuPjwvYj48Yj48
-c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6IOW+rui9r+mbhem7kTsgZm9udC1zaXplOiAxMC41
-cHQ7IGJhY2tncm91bmQtaW1hZ2U6IGluaXRpYWw7IGJhY2tncm91bmQtcG9zaXRpb246IGlu
-aXRpYWw7IGJhY2tncm91bmQtc2l6ZTogaW5pdGlhbDsgYmFja2dyb3VuZC1yZXBlYXQ6IGlu
-aXRpYWw7IGJhY2tncm91bmQtYXR0YWNobWVudDogaW5pdGlhbDsgYmFja2dyb3VuZC1vcmln
-aW46IGluaXRpYWw7IGJhY2tncm91bmQtY2xpcDogaW5pdGlhbDsiPjxvOnA+PC9vOnA+PC9z
-cGFuPjwvYj48L3A+PHAgY2xhc3M9IjE2Ij48Yj48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6
-IOW+rui9r+mbhem7kTsgZm9udC1zaXplOiAxMC41cHQ7IGJhY2tncm91bmQtaW1hZ2U6IGlu
-aXRpYWw7IGJhY2tncm91bmQtcG9zaXRpb246IGluaXRpYWw7IGJhY2tncm91bmQtc2l6ZTog
-aW5pdGlhbDsgYmFja2dyb3VuZC1yZXBlYXQ6IGluaXRpYWw7IGJhY2tncm91bmQtYXR0YWNo
-bWVudDogaW5pdGlhbDsgYmFja2dyb3VuZC1vcmlnaW46IGluaXRpYWw7IGJhY2tncm91bmQt
-Y2xpcDogaW5pdGlhbDsiPkNoaXB3YXlzPC9zcGFuPjwvYj48Yj48c3BhbiBzdHlsZT0iZm9u
-dC1mYW1pbHk6IOW+rui9r+mbhem7kTsgZm9udC1zaXplOiAxMC41cHQ7IGJhY2tncm91bmQt
-aW1hZ2U6IGluaXRpYWw7IGJhY2tncm91bmQtcG9zaXRpb246IGluaXRpYWw7IGJhY2tncm91
-bmQtc2l6ZTogaW5pdGlhbDsgYmFja2dyb3VuZC1yZXBlYXQ6IGluaXRpYWw7IGJhY2tncm91
-bmQtYXR0YWNobWVudDogaW5pdGlhbDsgYmFja2dyb3VuZC1vcmlnaW46IGluaXRpYWw7IGJh
-Y2tncm91bmQtY2xpcDogaW5pdGlhbDsiPjxvOnA+PC9vOnA+PC9zcGFuPjwvYj48L3A+PHAg
-Y2xhc3M9IjE2Ij48Yj48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6IOW+rui9r+mbhem7kTsg
-Zm9udC1zaXplOiAxMC41cHQ7IGJhY2tncm91bmQtaW1hZ2U6IGluaXRpYWw7IGJhY2tncm91
-bmQtcG9zaXRpb246IGluaXRpYWw7IGJhY2tncm91bmQtc2l6ZTogaW5pdGlhbDsgYmFja2dy
-b3VuZC1yZXBlYXQ6IGluaXRpYWw7IGJhY2tncm91bmQtYXR0YWNobWVudDogaW5pdGlhbDsg
-YmFja2dyb3VuZC1vcmlnaW46IGluaXRpYWw7IGJhY2tncm91bmQtY2xpcDogaW5pdGlhbDsi
-Pk1pY3JvY2hpcDwvc3Bhbj48L2I+PGI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiDlvq7o
-va/pm4Xpu5E7IGZvbnQtc2l6ZTogMTAuNXB0OyBiYWNrZ3JvdW5kLWltYWdlOiBpbml0aWFs
-OyBiYWNrZ3JvdW5kLXBvc2l0aW9uOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXNpemU6IGluaXRp
-YWw7IGJhY2tncm91bmQtcmVwZWF0OiBpbml0aWFsOyBiYWNrZ3JvdW5kLWF0dGFjaG1lbnQ6
-IGluaXRpYWw7IGJhY2tncm91bmQtb3JpZ2luOiBpbml0aWFsOyBiYWNrZ3JvdW5kLWNsaXA6
-IGluaXRpYWw7Ij48bzpwPjwvbzpwPjwvc3Bhbj48L2I+PC9wPjxwIGNsYXNzPSIxNiI+PGI+
-PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiDlvq7ova/pm4Xpu5E7IGZvbnQtc2l6ZTogMTAu
-NXB0OyBiYWNrZ3JvdW5kLWltYWdlOiBpbml0aWFsOyBiYWNrZ3JvdW5kLXBvc2l0aW9uOiBp
-bml0aWFsOyBiYWNrZ3JvdW5kLXNpemU6IGluaXRpYWw7IGJhY2tncm91bmQtcmVwZWF0OiBp
-bml0aWFsOyBiYWNrZ3JvdW5kLWF0dGFjaG1lbnQ6IGluaXRpYWw7IGJhY2tncm91bmQtb3Jp
-Z2luOiBpbml0aWFsOyBiYWNrZ3JvdW5kLWNsaXA6IGluaXRpYWw7Ij4uLi4uLi4uLi4uLi4u
-Li4uLi4uLi4uLi4uLi4uLi4uPC9zcGFuPjwvYj48Yj48c3BhbiBzdHlsZT0iZm9udC1mYW1p
-bHk6IOW+rui9r+mbhem7kTsgZm9udC1zaXplOiAxMC41cHQ7IGJhY2tncm91bmQtaW1hZ2U6
-IGluaXRpYWw7IGJhY2tncm91bmQtcG9zaXRpb246IGluaXRpYWw7IGJhY2tncm91bmQtc2l6
-ZTogaW5pdGlhbDsgYmFja2dyb3VuZC1yZXBlYXQ6IGluaXRpYWw7IGJhY2tncm91bmQtYXR0
-YWNobWVudDogaW5pdGlhbDsgYmFja2dyb3VuZC1vcmlnaW46IGluaXRpYWw7IGJhY2tncm91
-bmQtY2xpcDogaW5pdGlhbDsiPjxvOnA+PC9vOnA+PC9zcGFuPjwvYj48L3A+PHAgY2xhc3M9
-IjE2Ij48Yj48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6IOW+rui9r+mbhem7kTsgZm9udC1z
-aXplOiAxMC41cHQ7IGJhY2tncm91bmQtaW1hZ2U6IGluaXRpYWw7IGJhY2tncm91bmQtcG9z
-aXRpb246IGluaXRpYWw7IGJhY2tncm91bmQtc2l6ZTogaW5pdGlhbDsgYmFja2dyb3VuZC1y
-ZXBlYXQ6IGluaXRpYWw7IGJhY2tncm91bmQtYXR0YWNobWVudDogaW5pdGlhbDsgYmFja2dy
-b3VuZC1vcmlnaW46IGluaXRpYWw7IGJhY2tncm91bmQtY2xpcDogaW5pdGlhbDsiPihNb3Jl
-IGNvbXBhbmllcyB0aGF0IG5vdCBsaXN0ZWQgaGVyZSBhcmUgYWxzbyBhdmFpbGFibGXigKYp
-PC9zcGFuPjwvYj48Yj48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6IOW+rui9r+mbhem7kTsg
-Zm9udC1zaXplOiAxMC41cHQ7IGJhY2tncm91bmQtaW1hZ2U6IGluaXRpYWw7IGJhY2tncm91
-bmQtcG9zaXRpb246IGluaXRpYWw7IGJhY2tncm91bmQtc2l6ZTogaW5pdGlhbDsgYmFja2dy
-b3VuZC1yZXBlYXQ6IGluaXRpYWw7IGJhY2tncm91bmQtYXR0YWNobWVudDogaW5pdGlhbDsg
-YmFja2dyb3VuZC1vcmlnaW46IGluaXRpYWw7IGJhY2tncm91bmQtY2xpcDogaW5pdGlhbDsi
-PjxvOnA+PC9vOnA+PC9zcGFuPjwvYj48L3A+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
-c3R5bGU9Im1zby1zcGFjZXJ1bjoneWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9u
-dC1zaXplOjEwLjUwMDBwdDsNCm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij5NYXliZSBp
-dCB3aWxsIGJlIGhlbHBmdWwgdG8gdGhlIG1hcmtldGluZyBkYXBhcnRtZW50IG9yIHRoZSBw
-ZXJzb24gaW4gY2hhcmdlIG9mIHlvdXIgY29tcGFueS4gV2Ugd291bGQgYmUgZ3JhdGVmdWwg
-aWYgeW91IGNvdWxkIGZvcndhcmQgaXQuPC9zcGFuPjxzcGFuIHN0eWxlPSJtc28tc3BhY2Vy
-dW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAwcHQ7
-DQptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+PG86cD48L286cD48L3NwYW4+PC9wPjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJtc28tc3BhY2VydW46J3llcyc7Zm9u
-dC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAwcHQ7DQptc28tZm9udC1r
-ZXJuaW5nOjEuMDAwMHB0OyI+LS0tLS0tLS0tLS0tLS0tLS0tPC9zcGFuPjxzcGFuIHN0eWxl
-PSJtc28tc3BhY2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6
-ZToxMC41MDAwcHQ7DQptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+PG86cD48L286cD48
-L3NwYW4+PC9wPjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW46IDBwdDsgcGFk
-ZGluZzogMHB0OyI+PGEgbmFtZT0iT0xFX0xJTksxIj48L2E+PGI+PHNwYW4gc3R5bGU9ImZv
-bnQtZmFtaWx5OiDlvq7ova/pm4Xpu5E7IGxldHRlci1zcGFjaW5nOiAwLjVwdDsgZm9udC1z
-aXplOiAxMC41cHQ7Ij5CZXN0IFJlZ2FyZHMsPC9zcGFuPjwvYj48Yj48c3BhbiBzdHlsZT0i
-Zm9udC1mYW1pbHk6IOW+rui9r+mbhem7kTsgbGV0dGVyLXNwYWNpbmc6IDAuNXB0OyBmb250
-LXNpemU6IDEwLjVwdDsiPjxvOnA+PC9vOnA+PC9zcGFuPjwvYj48L3A+PHAgY2xhc3M9Ik1z
-b05vcm1hbCIgc3R5bGU9Im1hcmdpbjogMHB0OyBwYWRkaW5nOiAwcHQ7Ij48Yj48c3BhbiBz
-dHlsZT0iZm9udC1mYW1pbHk6IOW+rui9r+mbhem7kTsgbGV0dGVyLXNwYWNpbmc6IDAuNXB0
-OyBmb250LXNpemU6IDEwLjVwdDsiPlZpYyBNYXJrZXQgUmVzZWFyY2ggQ28uLEx0ZC48L3Nw
-YW4+PC9iPjxiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTog5b6u6L2v6ZuF6buROyBsZXR0
-ZXItc3BhY2luZzogMC41cHQ7IGZvbnQtc2l6ZTogMTAuNXB0OyI+PG86cD48L286cD48L3Nw
-YW4+PC9iPjwvcD48cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luOiAwcHQ7IHBh
-ZGRpbmc6IDBwdDsiPjxiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTog5b6u6L2v6ZuF6buR
-OyBjb2xvcjogcmdiKDAsIDAsIDI1NSk7IGxldHRlci1zcGFjaW5nOiAwLjVwdDsgZm9udC1z
-aXplOiAxMC41cHQ7Ij5BbGxlbjwvc3Bhbj48L2I+PGI+PHNwYW4gc3R5bGU9ImZvbnQtZmFt
-aWx5OiDlvq7ova/pm4Xpu5E7IGxldHRlci1zcGFjaW5nOiAwLjVwdDsgZm9udC1zaXplOiAx
-MC41cHQ7Ij4mbmJzcDt8IFNhbGVzLU1hbmFnZXI8L3NwYW4+PC9iPjxiPjxzcGFuIHN0eWxl
-PSJmb250LWZhbWlseTog5b6u6L2v6ZuF6buROyBsZXR0ZXItc3BhY2luZzogMC41cHQ7IGZv
-bnQtc2l6ZTogMTAuNXB0OyI+PG86cD48L286cD48L3NwYW4+PC9iPjwvcD48cCBjbGFzcz0i
-TXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luOiAwcHQ7IHBhZGRpbmc6IDBwdDsiPjxiPjxzcGFu
-IHN0eWxlPSJmb250LWZhbWlseTog5b6u6L2v6ZuF6buROyBsZXR0ZXItc3BhY2luZzogMC41
-cHQ7IGZvbnQtc2l6ZTogMTAuNXB0OyI+VGVsOis4Ni0xMzE2ODg4NjYxNjwvc3Bhbj48L2I+
-PGI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiDlvq7ova/pm4Xpu5E7IGxldHRlci1zcGFj
-aW5nOiAwLjVwdDsgZm9udC1zaXplOiAxMC41cHQ7Ij48bzpwPjwvbzpwPjwvc3Bhbj48L2I+
-PC9wPjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW46IDBwdDsgcGFkZGluZzog
-MHB0OyI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiDlvq7ova/pm4Xpu5E7IGxldHRl
-ci1zcGFjaW5nOiAwLjVwdDsgZm9udC1zaXplOiAxMC41cHQ7Ij5FbWFpbDogPC9zcGFuPjwv
-Yj48YSBocmVmPSJtYWlsdG86YWxsZW5AdmljbWFya2V0cmVzZWFyY2guY29tIj48Yj48dT48
-c3BhbiBjbGFzcz0iMTUiIHN0eWxlPSJmb250LWZhbWlseTog5b6u6L2v6ZuF6buROyBjb2xv
-cjogcmdiKDAsIDAsIDApOyBsZXR0ZXItc3BhY2luZzogMC41cHQ7IGZvbnQtc2l6ZTogMTAu
-NXB0OyI+YWxsZW5AdmljbWFya2V0cmVzZWFyY2guY29tPC9zcGFuPjwvdT48L2I+PC9hPjxi
-PjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTog5b6u6L2v6ZuF6buROyBsZXR0ZXItc3BhY2lu
-ZzogMC41cHQ7IGZvbnQtc2l6ZTogMTAuNXB0OyI+PG86cD48L286cD48L3NwYW4+PC9iPjwv
-cD48cCBjbGFzcz0icCIgc3R5bGU9Im1hcmdpbi10b3A6MC4wMDAwcHQ7bWFyZ2luLXJpZ2h0
-OjAuMDAwMHB0O21hcmdpbi1ib3R0b206MC4wMDAwcHQ7DQpwYWRkaW5nOjBwdCAwcHQgMHB0
-IDBwdCA7bXNvLXBhZ2luYXRpb246d2lkb3ctb3JwaGFuO21zby1saW5lLWhlaWdodC1hbHQ6
-MTJwdDsiPjxiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTog5b6u6L2v6ZuF6buROyBjb2xv
-cjogcmdiKDAsIDAsIDI1NSk7IGxldHRlci1zcGFjaW5nOiAwLjVwdDsgZm9udC1zaXplOiAx
-MC41cHQ7Ij48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L2I+PC9wPjwvZm9udD48L2Rpdj48
-ZGl2PjxpbmNsdWRldGFpbD48IS0tPCFbZW5kaWZdLS0+PC9pbmNsdWRldGFpbD48L2Rpdj4=
+It looks like there was no update on the linux-firmware repository for
+sd8801_uapsta.bin binary in the official linux-firmware tree.
 
-------=_NextPart_62063441_1CA24040_0E07B5A0--
+I can share that I've tested: 14.68.36.p160 version with mwifiex driver
+on 5.4.y kernel and the STA mode works.
+
+The used NXP soc is imx6ull, and wi-fi is SDIO connected 88W8801.
+
+However, there is the issue with AP mode. Please find attached logs and
+reproduction procedure.
+
+Is there any schedule for releasing new FW for this wifi chip?
+
+>=20
+> Thanks in advance for sharing the knowledge.
+>=20
+> >  =20
+> > > > > For reproduction one needs to execute:
+> > > > > #! /bin/sh
+> > > > > set -x
+> > > > > wpa_supplicant -B -i mlan0 -c /etc/wpa_supplicant.conf
+> > > > > sleep 3
+> > > > > dhclient mlan0
+> > > > >=20
+> > > > > exit 0
+> > > > >=20
+> > > > >=20
+> > > > >=20
+> > > > > I'm using the Azurewave AW-NM191NF module (with 88W8801 SoC).
+> > > > >=20
+> > > > > Best regards,
+> > > > >=20
+> > > > > Lukasz Majewski
+> > > > >=20
+> > > > > --
+> > > > >=20
+> > > > > DENX Software Engineering GmbH,      Managing Director:
+> > > > > Wolfgang Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194
+> > > > > Groebenzell, Germany Phone: (+49)-8142-66989-59 Fax:
+> > > > > (+49)-8142-66989-80 Email: lukma@denx.de     =20
+> >=20
+> >=20
+> >=20
+> > Best regards,
+> >=20
+> > Lukasz Majewski
+> >=20
+> > --
+> >=20
+> > DENX Software Engineering GmbH,      Managing Director: Wolfgang
+> > Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell,
+> > Germany Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email:
+> > lukma@denx.de =20
+>=20
+>=20
+>=20
+> Best regards,
+>=20
+> Lukasz Majewski
+>=20
+> --
+>=20
+> DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+> HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+> Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email:
+> lukma@denx.de
 
 
 
+
+Best regards,
+
+Lukasz Majewski
+
+--
+
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
+
+--MP_/l/0lSN1u_tx0Y6giGYDOT1H
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment; filename=AP_88W8801-issue-lukma.txt
+
+Linux 5.4.24
+Driver mwifiex (open source)
+Status: STA works as expected, AP (FW issue)
+hostapd v2.9
+Wifi: 88W8801 (azzure)
+SoC - imx6ull
+
+cat /etc/hostapd.conf=20
+interface=3Dmlan0
+channel=3D1
+driver=3Dnl80211
+ssid=3Dimx6ullevk
+auth_algs=3D1
+ignore_broadcast_ssid=3D0
+hw_mode=3Dg
+wpa=3D2
+wpa_passphrase=3Dfoofoofoo
+wpa_key_mgmt=3DWPA-PSK
+
+Logs after boot up:
+
+[   21.334518] mwifiex_sdio mmc0:0001:1: info: FW download over, size 26018=
+4 bytes
+[   21.567047] mwifiex_sdio mmc0:0001:1: WLAN FW is active
+[   21.610346] mwifiex_sdio mmc0:0001:1: CMD_RESP: cmd 0x242 error, result=
+=3D0x2
+[   21.610495] mwifiex_sdio mmc0:0001:1: mwifiex_process_cmdresp: cmd 0x242=
+ failed during       initialization
+[   21.699920] mwifiex_sdio mmc0:0001:1: info: MWIFIEX VERSION: mwifiex 1.0=
+ (14.68.36.p160)=20
+[   21.699946] mwifiex_sdio mmc0:0001:1: driver_version =3D mwifiex 1.0 (14=
+.68.36.p160)=20
+
+hostapd -d -B -i mlan0 /etc/hostapd.conf
+
+
+[  127.849506] mwifiex_sdio mmc0:0001:1: mwifiex_cmd_timeout_func: Timeout =
+cmd id =3D 0xb1, act =3D 0x0
+[  127.849536] mwifiex_sdio mmc0:0001:1: num_data_h2c_failure =3D 0
+[  127.849554] mwifiex_sdio mmc0:0001:1: num_cmd_h2c_failure =3D 0
+[  127.849569] mwifiex_sdio mmc0:0001:1: is_cmd_timedout =3D 1
+[  127.849582] mwifiex_sdio mmc0:0001:1: num_tx_timeout =3D 0
+[  127.849598] mwifiex_sdio mmc0:0001:1: last_cmd_index =3D 4
+[  127.849617] mwifiex_sdio mmc0:0001:1: last_cmd_id: 28 00 28 00 5b 00 b0 =
+00 b1 00
+[  127.849635] mwifiex_sdio mmc0:0001:1: last_cmd_act: 13 00 13 00 01 00 01=
+ 00 00 00
+[  127.849650] mwifiex_sdio mmc0:0001:1: last_cmd_resp_index =3D 3
+[  127.849665] mwifiex_sdio mmc0:0001:1: last_cmd_resp_id: 28 80 28 80 5b 8=
+0 b0 80 28 80
+[  127.849679] mwifiex_sdio mmc0:0001:1: last_event_index =3D 4
+[  127.849695] mwifiex_sdio mmc0:0001:1: last_event: 00 00 0b 00 0a 00 0b 0=
+0 0a 00
+[  127.849709] mwifiex_sdio mmc0:0001:1: data_sent=3D0 cmd_sent=3D1
+[  127.849726] mwifiex_sdio mmc0:0001:1: ps_mode=3D1 ps_state=3D0
+[  127.850131] mwifiex_sdio mmc0:0001:1: Failed to start the BSS
+[  127.850154] mwifiex_sdio mmc0:0001:1: Failed to start AP
+[  127.851443] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
+[  127.851470] mwifiex_sdio mmc0:0001:1: deleting the crypto keys
+[  127.851980] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
+[  127.852004] mwifiex_sdio mmc0:0001:1: deleting the crypto keys
+[  127.852477] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
+[  127.852500] mwifiex_sdio mmc0:0001:1: deleting the crypto keys
+[  127.852975] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
+[  127.852996] mwifiex_sdio mmc0:0001:1: deleting the crypto keys
+[  127.865552] mwifiex_sdio mmc0:0001:1: =3D=3D=3Dmwifiex driverinfo dump s=
+tart=3D=3D=3D
+[  127.865593] mwifiex_sdio mmc0:0001:1: info: MWIFIEX VERSION: mwifiex 1.0=
+ (14.68.36.p160)
+[  127.865645] mwifiex_sdio mmc0:0001:1: SDIO register dump start
+[  127.866398] mwifiex_sdio mmc0:0001:1: SDIO Func0 (0x0-0x9): 32 02 02 02 =
+03 00 00 02 03 00
+[  127.867807] mwifiex_sdio mmc0:0001:1: SDIO Func1 (0x0-0x9): 02 3f 03 00 =
+00 00 ff 0f ad 00
+[  127.868155] mwifiex_sdio mmc0:0001:1: SDIO Func1: (0x28) 00 (0x30) 08 (0=
+x34) 07 (0x38) 10 (0x3c) 00
+[  127.868859] mwifiex_sdio mmc0:0001:1: SDIO Func1 (0x60-0x6a): dc fe c8 0=
+0 c1 02 07 47 46 00 20
+[  127.907493] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
+[  127.907737] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
+[  127.907756] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
+[  128.075589] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
+[  128.075623] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
+[  128.075664] mwifiex_sdio mmc0:0001:1: mlan0: changing to 2 not supported
+[  128.075995] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
+[  128.076286] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
+[  128.076599] mwifiex_sdio mmc0:0001:1: mlan0: changing to 2 not supported
+[  128.099476] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
+[  128.099503] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
+[  128.099732] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
+[  128.099752] mwifiex_sdio mmc0:0001:1: PREP_CMD: FW is in bad state
+[  128.118086] mwifiex_sdio mmc0:0001:1: SDIO Func1 (0x60-0x6a): dc fe c8 0=
+0 c1 02 07 47 46 00 20
+[  128.118124] mwifiex_sdio mmc0:0001:1: SDIO register dump end
+[  128.118437] mwifiex_sdio mmc0:0001:1: =3D=3D=3Dmwifiex driverinfo dump e=
+nd=3D=3D=3D
+[  128.118465] mwifiex_sdio mmc0:0001:1: =3D=3D mwifiex dump information to=
+ /sys/class/devcoredump start
+[  128.122393] mwifiex_sdio mmc0:0001:1: =3D=3D mwifiex dump information to=
+ /sys/class/devcoredump end
+[  128.131774] mwifiex_sdio mmc0:0001:1: info: shutdown mwifiex...
+[  128.167775] mwifiex_sdio mmc0:0001:1: PREP_CMD: card is removed
+[  129.161305] mwifiex_sdio mmc0:0001:1: info: FW download over, size 26018=
+4 bytes
+[  129.399453] mwifiex_sdio mmc0:0001:1: WLAN FW is active
+[  129.436070] mwifiex_sdio mmc0:0001:1: CMD_RESP: cmd 0x242 error, result=
+=3D0x2
+[  129.436228] mwifiex_sdio mmc0:0001:1: mwifiex_process_cmdresp: cmd 0x242=
+ failed during       initialization
+[  129.517345] mwifiex_sdio mmc0:0001:1: info: MWIFIEX VERSION: mwifiex 1.0=
+ (14.68.36.p160)
+[  129.517371] mwifiex_sdio mmc0:0001:1: driver_version =3D mwifiex 1.0 (14=
+.68.36.p160)
+
+--MP_/l/0lSN1u_tx0Y6giGYDOT1H--
+
+--Sig_/rfW66X5SLnj8Pm2egsrH=gI
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAmIGRJgACgkQAR8vZIA0
+zr2zcgf+L9EW5goPZL6No3qFY/FPLc8Gph5U9HvtJSpMFa+lhUwtplxbiFO9fXtb
+q4VJchhdtOa0RAZUBhEkwFXUYc+1dgtmgvO34seN1hagVnM2F7IDIHvUuUNQeh2N
+GMALz9VVi2PGWA+GDOGFk5sk8o+7Zi19hlwfkGSJ+uMDC17a+jsIx6/zIMm0+ZLF
+37c5QqPohT+CGRy2MAHJ+Azul6sh4JWztAOO49Jve08T+XuwgEm3sACGXtswLIP5
+yikUxXw3oa/yetNpA2zQr7G/GbEP5Xzs5mDoto8kdlMMMn+g/Gwje0UXHQJTWKca
+ydojiSn0XaIQgJxIn85mAtsWFPp10g==
+=/NEQ
+-----END PGP SIGNATURE-----
+
+--Sig_/rfW66X5SLnj8Pm2egsrH=gI--
