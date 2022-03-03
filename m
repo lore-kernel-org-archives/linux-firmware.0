@@ -1,139 +1,130 @@
-Return-Path: <SRS0=6XPL=TN=w1.fi=j@kernel.org>
+Return-Path: <SRS0=+muq=TO=coelho.fi=luca@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75C8AC433F5
-	for <linux-firmware@archiver.kernel.org>; Wed,  2 Mar 2022 17:50:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 02E61C433F5
+	for <linux-firmware@archiver.kernel.org>; Thu,  3 Mar 2022 11:11:38 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 42948C340ED; Wed,  2 Mar 2022 17:50:30 +0000 (UTC)
-Received: from mail.w1.fi (mail.w1.fi [212.71.239.96])
+	id C2085C340EF; Thu,  3 Mar 2022 11:11:38 +0000 (UTC)
+Received: from farmhouse.coelho.fi (paleale.coelho.fi [176.9.41.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A69BDC004E1;
-	Wed,  2 Mar 2022 17:50:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A69BDC004E1
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=w1.fi
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=w1.fi
-Received: from localhost (localhost [127.0.0.1])
-	by mail.w1.fi (Postfix) with ESMTP id 9C0CD10FB1;
-	Wed,  2 Mar 2022 17:50:18 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at w1.fi
-Received: from mail.w1.fi ([127.0.0.1])
-	by localhost (mail.w1.fi [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id XhKH9mXcoUA0; Wed,  2 Mar 2022 17:50:16 +0000 (UTC)
-Received: by jm (sSMTP sendmail emulation); Wed, 02 Mar 2022 19:50:14 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=w1.fi; s=default;
-	t=1646243416; bh=hjH28rMHWPqV8u0M5BGXXoiITE9qsVcforZPtpPdcFI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vnqwv9F++gHGVjfVTdR6PEJoJ+v6+hnA5LTehj8YD7vvxvVAhJH1h1DBxo+9ANJEt
-	 iC+XiV4ASw3VfN7HoVnSmIP4WpgXmnOvN/7WF2qSc6eLHxSQkH6G3zx7LRnh6sFHrk
-	 43u1B3UnmLuNPLRfhGQfCK2PXtmzG2uk2a9BRZkq0Me1syNXuUXSqO0up2yIfygOqX
-	 OebZMG+RTuLXAq7EoWajL8HwlrT4kVqdFU9+tGN4OMbA7oG2pHFKPNaulUfDXO70yS
-	 5uD9XljTn7OR939AXTOF5uk4V3WEa++BTHtLIDjWdkShvaqJ5oSFT1I8QseeSxU09C
-	 mFmkNJ/D/0+UQ==
-Date: Wed, 2 Mar 2022 19:50:14 +0200
-From: Jouni Malinen <j@w1.fi>
-To: Josh Boyer <jwboyer@kernel.org>
+	by smtp.kernel.org (Postfix) with ESMTPS id A5C0EC004E1;
+	Thu,  3 Mar 2022 11:11:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A5C0EC004E1
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=coelho.fi
+Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=coelho.fi
+Received: from 91-156-4-241.elisa-laajakaista.fi ([91.156.4.241] helo=[192.168.100.150])
+	by farmhouse.coelho.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <luca@coelho.fi>)
+	id 1nPjMZ-000PsW-Ld;
+	Thu, 03 Mar 2022 13:11:19 +0200
+Message-ID: <af43569b2247f7aff44b1ea3680d88dbe083d78d.camel@coelho.fi>
+From: Luca Coelho <luca@coelho.fi>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Kalle Valo <kvalo@kernel.org>,
-	"linux-firmware@kernel.org" <linux-firmware@kernel.org>,
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-	"ath11k@lists.infradead.org" <ath11k@lists.infradead.org>
-Subject: Re: [PULL] ath11k firmware 20211223
-Message-ID: <20220302175014.GA14801@w1.fi>
-References: <BYAPR02MB4567669033A210A78AC397E9927E9@BYAPR02MB4567.namprd02.prod.outlook.com>
- <CA+5PVA4WEuJDB3OCKfYK-BPaccpVWd9t_au9S7MCEtpy7cdF-A@mail.gmail.com>
- <87ee4brodv.fsf@kernel.org>
- <CA+5PVA5DJmwPqpz8F9iDbJKcF1hDBRLdDT4URgSaiEcjet74Kw@mail.gmail.com>
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+Cc: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, 
+	"kyle@infradead.org"
+	 <kyle@infradead.org>, "jwboyer@kernel.org" <jwboyer@kernel.org>, 
+	"ben@decadent.org.uk"
+	 <ben@decadent.org.uk>, golan.ben.ami@intel.com, You-Sheng Yang
+	 <vicamo.yang@canonical.com>, luca@coelho.fi
+Date: Thu, 03 Mar 2022 13:11:13 +0200
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-Fx5l+HB6KXwGexffRz51"
+User-Agent: Evolution 3.43.2-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+5PVA5DJmwPqpz8F9iDbJKcF1hDBRLdDT4URgSaiEcjet74Kw@mail.gmail.com>
-
-On Fri, Feb 18, 2022 at 10:55:37AM -0500, Josh Boyer wrote:
-> On Thu, Feb 10, 2022 at 5:45 AM Kalle Valo <kvalo@kernel.org> wrote:
-> > > On Thu, Dec 23, 2021 at 9:03 AM Kalle Valo <kvalo@qca.qualcomm.com> wrote:
-> > >>
-> > >>  WHENCE                           |   14 +-
-> > >>  ath11k/IPQ6018/hw1.0/Notice.txt  |   48 +-
-
-> > > These Notice files seem problematic.  They're clearly well intended,
-> > > but they have language that alludes to an agreement with Atheros and a
-> > > confidential nature to some of the files.  Specifically:
-> > >
-> > > "...your use of these software
-> > > components together with the Qualcomm Atheros software (Qualcomm
-> > > Atheros software hereinafter referred to as “Software”) is
-> > > subject to the terms of your agreement from Qualcomm Atheros."
-> > >
-> > > Nobody has an opportunity to agree to anything with Atheros when they
-> > > consume the files from linux-firmware.  There's also no explicit grant
-> > > of redistribution for any of these files.
-
-This is not the license; this is a description of the notice.txt file
-containing the notices to cover the 3rd party license requirements for
-attribution/notices included in redistribution of those parts.
-
-> > So this file we are discussing is the notice.txt file. In the WHENCE
-> > file the actual license for ath11k is:
-> >
-> > Licence: Redistributable. See LICENSE.QualcommAtheros_ath10k for details
-
-And this is where the license is and this includes license to
-redistribute.
-
-> Then is the notice.txt file needed at all?  If a user or distribution
-> were to install this firmware, is the expectation that the notice.txt
-> file also be installed?
-
-Those 3rd party license might require various notifications to be
-included for notification/attribution purposes, so I would expect the
-notice.txt file to be redistributed whenever the firmware image is
-redistributed.
-
-> > Does that cover your concerns about redistribution?
-> 
-> Not really.  I understand the logic, but if the binding license for
-> the firmware is LICENSE.QualcommAtheros_ath10k but we still need
-> notice.txt for some reason, they conflict.  It's ambiguous at best.
-
-Could you please be more specific on where you see a conflict? Maybe
-this would be clearer if the WHENCE file would not mark the notice.txt
-files with the "License: <file>" lines since these are not the license
-for the firmware binary and then there would be a single "License:" line
-pointing out the exact license that applies?
-
-Would the following in WHENCE work for you?
-
-Driver: ath11k - Qualcomm Technologies 802.11ax chipset support
-
-File: ath11k/IPQ6018/hw1.0/board-2.bin
-...
-Version: WLAN.HK.2.1.0.1-01238-QCAHKSWPL_SILICONZ-2
-Notice: ath11k/IPQ6018/hw1.0/Notice.txt
-...
-File: ath11k/QCA6390/hw2.0/m3.bin
-Version: WLAN.HST.1.0.1-01740-QCAHSTSWPLZ_V2_TO_X86-1
-Notice: ath11k/QCA6390/hw2.0/Notice.txt
-
-Licence: Redistributable. See LICENSE.QualcommAtheros_ath10k for details
+Subject: pull request: iwlwifi firmware updates 2022-03-03
 
 
-In other words, there would be only a single "License:" line and one
-"Notice:" line for each firmware version? The license itself (i.e.,
-LICENSE.QualcommAtheros_ath10k) is same for all the versions while the
-set of notices (i.e., those notice.txt files) can be different based on
-what is included in the particular build.
+--=-Fx5l+HB6KXwGexffRz51
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> > I'm still working on your other comment about notice.txt, will get back
-> > on that later.
+Hi,
 
-This part about clearly identifying the files should be clear now, but
-it would be good to resolve that part about the notice.txt files in
-general before sending out an updated pull request.
+This contains some new and updated firmwares for all our currently
+maintained FW binaries.
 
--- 
-Jouni Malinen                                            PGP id EFC895FA
+Please pull or let me know if there are any issues.
+
+--
+Cheers,
+Luca.
+
+
+The following changes since commit ee0667aa201e7d725ec87b1e4cf08de1d748d64f=
+:
+
+  amdgpu: update raven2 VCN firmware (2022-02-28 09:44:17 -0500)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.git =
+tags/iwlwifi-fw-2022-03-03
+
+for you to fetch changes up to ba104c67dfb838e892b6b4c72569aa7f1ee955a2:
+
+  iwlwifi: add new FWs from core68-60 release (2022-03-03 13:00:52 +0200)
+
+----------------------------------------------------------------
+Update and add iwlwifi firmware binaries for release Core68-60
+
+----------------------------------------------------------------
+Luca Coelho (2):
+      iwlwifi: update 9000-family firmwares to core68-60
+      iwlwifi: add new FWs from core68-60 release
+
+ WHENCE                            |  40 ++++++++++++++++++++++++++++++++++=
+++++--
+ iwlwifi-9000-pu-b0-jf-b0-46.ucode | Bin 1519544 -> 1520208 bytes
+ iwlwifi-9260-th-b0-jf-b0-46.ucode | Bin 1490376 -> 1491056 bytes
+ iwlwifi-Qu-b0-hr-b0-71.ucode      | Bin 0 -> 1364312 bytes
+ iwlwifi-Qu-b0-jf-b0-71.ucode      | Bin 0 -> 1285192 bytes
+ iwlwifi-Qu-c0-hr-b0-71.ucode      | Bin 0 -> 1364328 bytes
+ iwlwifi-Qu-c0-jf-b0-71.ucode      | Bin 0 -> 1285208 bytes
+ iwlwifi-QuZ-a0-hr-b0-71.ucode     | Bin 0 -> 1364308 bytes
+ iwlwifi-cc-a0-71.ucode            | Bin 0 -> 1322288 bytes
+ iwlwifi-so-a0-gf-a0-71.ucode      | Bin 0 -> 1550124 bytes
+ iwlwifi-so-a0-gf-a0.pnvm          | Bin 41808 -> 41808 bytes
+ iwlwifi-so-a0-gf4-a0-71.ucode     | Bin 0 -> 1566352 bytes
+ iwlwifi-so-a0-gf4-a0.pnvm         | Bin 21576 -> 28064 bytes
+ iwlwifi-ty-a0-gf-a0-71.ucode      | Bin 0 -> 1494024 bytes
+ iwlwifi-ty-a0-gf-a0.pnvm          | Bin 41588 -> 41588 bytes
+ 15 files changed, 38 insertions(+), 2 deletions(-)
+ create mode 100644 iwlwifi-Qu-b0-hr-b0-71.ucode
+ create mode 100644 iwlwifi-Qu-b0-jf-b0-71.ucode
+ create mode 100644 iwlwifi-Qu-c0-hr-b0-71.ucode
+ create mode 100644 iwlwifi-Qu-c0-jf-b0-71.ucode
+ create mode 100644 iwlwifi-QuZ-a0-hr-b0-71.ucode
+ create mode 100644 iwlwifi-cc-a0-71.ucode
+ create mode 100644 iwlwifi-so-a0-gf-a0-71.ucode
+ create mode 100644 iwlwifi-so-a0-gf4-a0-71.ucode
+ create mode 100644 iwlwifi-ty-a0-gf-a0-71.ucode
+
+
+--=-Fx5l+HB6KXwGexffRz51
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEF3LNfgb2BPWm68smoUecoho8xfoFAmIgolEACgkQoUecoho8
+xfqU3A//W5vr+/Qyl+n0yYniUQhH60YMBTwiNIUm6FPm/2FwpB9e1FTQZKl7fs9W
+jskD4xVktMbyF4ikxf3EgzsclBGgQlLBK6zZLpmYhv9OdYUljVZfDbuhE9GFQ8Ns
+Loz4ys1SpvaB6F6KqP74uyK6/AEitioELbW+eA51WsBv+o5zEGcu3RbBcLgTpTtx
+HYjdaamzRN9C2tLMynRMAAIigzP6vu6+agAFsA0r4nbwmNMdWrw1dSR47H0Ek08F
+fyXOUmXiuPa4lGJrZpn6hKC88iivdLMOtFj54dBz+CCpBggf1Lyde1WT6L6WcpeR
+80Z09S1amLV+LD/ciXpFtR8xzwf50CL8MYRz8ZbxvU/dQtzDaoMuzS6km4Zz3UFy
+sgV+4483/C23IG4tP9qBvVdFAS/zDDeIzJqxH24eztFolRV39M716QOJ7wBYVrYe
+MqBVOA3ncSQyT3j5f0w9ECjkcN+nm5/sl6K+ZjLq925DE2MIcZ6qUeFxoKUKS7yW
+pe6cSGPeCpquAjJEy/ymaZ3ccRB5gNUs25REBnMfan6YCVizI7dbOIVmkiWKoRSX
+vdNu51FR7j0q5JKJvPxctHjnzbNo4wSufQdZhETb3hbIsVwFsvAsLYT+29vP6UUs
+ad/zkT6pUV/+3hGfVmL2lvAcrUCBmcxK6BIKrwZQOlFYR8HgPL8=
+=BUx7
+-----END PGP SIGNATURE-----
+
+--=-Fx5l+HB6KXwGexffRz51--
