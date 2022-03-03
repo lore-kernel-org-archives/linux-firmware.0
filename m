@@ -2,34 +2,31 @@ Return-Path: <SRS0=IEBu=TO=mediatek.com=shayne.chen@kernel.org>
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B8EB1C433F5
-	for <linux-firmware@archiver.kernel.org>; Thu,  3 Mar 2022 06:47:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16654C433EF
+	for <linux-firmware@archiver.kernel.org>; Thu,  3 Mar 2022 07:03:19 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 777B3C340F0; Thu,  3 Mar 2022 06:47:42 +0000 (UTC)
+	id C4330C340E9; Thu,  3 Mar 2022 07:03:19 +0000 (UTC)
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 70487C004E1;
-	Thu,  3 Mar 2022 06:46:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 70487C004E1
+	by smtp.kernel.org (Postfix) with ESMTPS id 59D85C004E1;
+	Thu,  3 Mar 2022 07:01:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 59D85C004E1
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 7dda4bd9698342a3a530e11be9dbd13c-20220303
-X-UUID: 7dda4bd9698342a3a530e11be9dbd13c-20220303
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
+X-UUID: cbf733a503ee4d81862a4b6e7be29a78-20220303
+X-UUID: cbf733a503ee4d81862a4b6e7be29a78-20220303
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw02.mediatek.com
 	(envelope-from <shayne.chen@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-	with ESMTP id 568435397; Thu, 03 Mar 2022 14:45:53 +0800
-Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Thu, 3 Mar 2022 14:45:51 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb01.mediatek.inc
- (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 3 Mar
- 2022 14:45:48 +0800
+	with ESMTP id 708992750; Thu, 03 Mar 2022 15:01:24 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Thu, 3 Mar 2022 15:01:21 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 3 Mar 2022 14:45:47 +0800
+ Transport; Thu, 3 Mar 2022 15:01:21 +0800
 From: Shayne Chen <shayne.chen@mediatek.com>
 To: Josh Boyer <jwboyer@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
@@ -38,9 +35,9 @@ CC: Felix Fietkau <nbd@nbd.name>, Lorenzo Bianconi <lorenzo@kernel.org>,
 	<ryder.lee@mediatek.com>, Evelyn Tsai <evelyn.tsai@mediatek.com>,
 	linux-mediatek <linux-mediatek@lists.infradead.org>, Shayne Chen
 	<shayne.chen@mediatek.com>
-Subject: [PATCH] linux-firmware: add firmware for MT7986
-Date: Thu, 3 Mar 2022 14:44:25 +0800
-Message-ID: <20220303064425.22572-1-shayne.chen@mediatek.com>
+Subject: [PATCH v2] linux-firmware: add firmware for MT7986
+Date: Thu, 3 Mar 2022 15:00:42 +0800
+Message-ID: <20220303070042.23524-1-shayne.chen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -50,7 +47,9 @@ This patch adds firmware files v21110113 for MT7986 WiFi.
 
 Signed-off-by: Shayne Chen <shayne.chen@mediatek.com>
 ---
- WHENCE                                 |  19 +++++++++++++++++++
+v2: update description in WHENCE
+---
+ WHENCE                                 |  21 ++++++++++++++++++++-
  mediatek/mt7986_eeprom_mt7975_dual.bin | Bin 0 -> 4096 bytes
  mediatek/mt7986_eeprom_mt7976.bin      | Bin 0 -> 4096 bytes
  mediatek/mt7986_eeprom_mt7976_dbdc.bin | Bin 0 -> 4096 bytes
@@ -60,7 +59,7 @@ Signed-off-by: Shayne Chen <shayne.chen@mediatek.com>
  mediatek/mt7986_wa.bin                 | Bin 0 -> 505008 bytes
  mediatek/mt7986_wm.bin                 | Bin 0 -> 2221772 bytes
  mediatek/mt7986_wm_mt7975.bin          | Bin 0 -> 2221772 bytes
- 10 files changed, 19 insertions(+)
+ 10 files changed, 20 insertions(+), 1 deletion(-)
  create mode 100644 mediatek/mt7986_eeprom_mt7975_dual.bin
  create mode 100644 mediatek/mt7986_eeprom_mt7976.bin
  create mode 100644 mediatek/mt7986_eeprom_mt7976_dbdc.bin
@@ -72,9 +71,18 @@ Signed-off-by: Shayne Chen <shayne.chen@mediatek.com>
  create mode 100644 mediatek/mt7986_wm_mt7975.bin
 
 diff --git a/WHENCE b/WHENCE
-index 03c1b7a..78121f0 100644
+index 2394c51..78121f0 100644
 --- a/WHENCE
 +++ b/WHENCE
+@@ -5315,7 +5315,7 @@ Licence: Redistributable. See LICENCE.mediatek for details.
+ 
+ --------------------------------------------------------------------------
+ 
+-Driver: mt7915e - MediaTek Wireless MACs for MT7915/MT7916
++Driver: mt7915e - MediaTek Wireless MACs for MT7915/MT7916/MT7986
+ 
+ File: mediatek/mt7915_wm.bin
+ Version: 20211222184052
 @@ -5337,6 +5337,25 @@ Version: 20211230135620a
  File: mediatek/mt7916_eeprom.bin
  Version: 20211130
