@@ -1,88 +1,109 @@
-Return-Path: <SRS0=tVEl=TP=realtek.com=pkshih@kernel.org>
+Return-Path: <SRS0=8UFl=TP=nbisqeq.cn=eki-netjp-account@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 68412C433EF
-	for <linux-firmware@archiver.kernel.org>; Fri,  4 Mar 2022 05:00:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54DFFC433EF
+	for <linux-firmware@archiver.kernel.org>; Fri,  4 Mar 2022 08:49:51 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 31648C340F0; Fri,  4 Mar 2022 05:00:04 +0000 (UTC)
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	id 0C071C340EF; Fri,  4 Mar 2022 08:49:51 +0000 (UTC)
+Received: from nbisqeq.cn (unknown [143.92.45.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A5CEDC340E9
-	for <linux-firmware@kernel.org>; Fri,  4 Mar 2022 04:59:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A5CEDC340E9
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.73 with qID 2244xfXA3031539, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36504.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/2.71/5.88) with ESMTPS id 2244xfXA3031539
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 4 Mar 2022 12:59:41 +0800
-Received: from RTEXMBS05.realtek.com.tw (172.21.6.98) by
- RTEXH36504.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Fri, 4 Mar 2022 12:59:41 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Thu, 3 Mar 2022 20:59:40 -0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::35e4:d9d1:102d:605e]) by
- RTEXMBS04.realtek.com.tw ([fe80::35e4:d9d1:102d:605e%5]) with mapi id
- 15.01.2308.020; Fri, 4 Mar 2022 12:59:40 +0800
-From: Pkshih <pkshih@realtek.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 16860C340E9
+	for <linux-firmware@kernel.org>; Fri,  4 Mar 2022 08:49:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 16860C340E9
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=nbisqeq.cn
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=nbisqeq.cn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=default; d=nbisqeq.cn;
+ h=Message-ID:From:To:Subject:Date:MIME-Version:Content-Type;
+ i=eki-netjp-account@nbisqeq.cn;
+ bh=Vau/l+Hf96UpmQLAspQUZZPkdyciJ/mFHc4UTD6SN+k=;
+ b=o6Dt8YPqCxBwXbFC/Ji13cBAHAunjjXTevu6FNJh/e+cBzSeKv2vXP22oaJSkLX9qUKZrUX5RiE2
+   q4XEsWjIVRS2p9j67yjrRM3bnAtlADYqZzYEVvYFIixRvTFxFdYW0SSmyP1yM/KUT4tSSVxbz7zd
+   CgwUFw8yQHrQarljf1E=
+Message-ID: <20220304163937546610@nbisqeq.cn>
+From: =?utf-8?B?44GI44GN44Gt44Gj44Go?= <eki-netjp-account@nbisqeq.cn>
 List-Id: <linux-firmware.lore.kernel.org>
-To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-CC: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "Kevin
- Yang" <kevin_yang@realtek.com>
-Subject: pull request: rtw89: 8852a: update fw to v0.13.36.0
-Thread-Topic: pull request: rtw89: 8852a: update fw to v0.13.36.0
-Thread-Index: AdgvhJKVLNsz8wrESaCjQiDabAWV3Q==
-Date: Fri, 4 Mar 2022 04:59:40 +0000
-Message-ID: <da10ed115e1a4cfa82a6ace518cb3c57@realtek.com>
-Accept-Language: en-US, zh-TW
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-originating-ip: [172.21.69.188]
-x-kse-serverinfo: RTEXMBS05.realtek.com.tw, 9
-x-kse-attachmentfiltering-interceptor-info: no applicable attachment filtering
- rules found
-x-kse-antivirus-interceptor-info: scan successful
-x-kse-antivirus-info: =?us-ascii?Q?Clean,_bases:_2022/3/3_=3F=3F_08:25:00?=
-x-kse-bulkmessagesfiltering-scan-result: protection disabled
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+To: <linux-firmware@kernel.org>
+Subject: =?utf-8?B?W+OBiOOBjeOBreOBo+OBqF3norroqo3jgZXjgozjgZ/mg4XloLE=?=
+Date: Fri, 4 Mar 2022 16:39:24 +0800
 MIME-Version: 1.0
-X-KSE-ServerInfo: RTEXH36504.realtek.com.tw, 9
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: protection disabled
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0D1D_014BC39E.116717D0"
 
-Hi,
+This is a multi-part message in MIME format.
 
-Update firmware of rtw89 driver to v0.13.36.0
+------=_NextPart_000_0D1D_014BC39E.116717D0
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Thank you
-Ping-Ke
+W+OBiOOBjeOBreOBo+OBqF3jga7jgqLjgqvjgqbjg7Pjg4jliLbpmZDjgZXjgozjgabjgYTjgb7j
+gZks6YCa5bi444Gu5L2/55So44Gr5b2x6Z+/44KS5LiO44GI44Gq44GE44Gf44KB44GrLA0K5Lul
+5LiL44Gu44Oq44Oz44Kv44KS44Kv44Oq44OD44Kv44GX44Gm44CB6Zai6YCj5oOF5aCx44KS44Gn
+44GN44KL44Gg44GR5pep44GP56K66KqN44GX44Gm44GP44Gg44GV44GELA0KMTLmmYLplpPku6Xl
+hoXjgavjgZTlv5zli5/jgYTjgZ/jgaDjgZHjgarjgYTloLTlkIjjga/jgIHjgZTkuI3kvr/jgpLj
+gYrjgYvjgZHjgZfjgabnlLPjgZfoqLPjgZTjgZbjgYTjgb7jgZvjgpPjgIINCi0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLQ0K56K66KqN44GV44KM44Gf5oOF5aCxDQotLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0NCuOBiuWVj+OBhOWQiOOCj+OBm+WFiA0K44GI44GN44Gt44Gj44Go44Ki44OJ44OQ44Kk
+44K244Oq44O844K744Oz44K/44O8DQpURUzjgIAwNTcwLTAxMDEzOQ0K5bm05Lit54Sh5LyR44CA
+OTowMO+9njE4OjAwDQrjgrXjgqTjg4jpgYvllrbCt+euoeeQhg0KSlLmnbHml6XmnKzjg43jg4Pj
+g4jjg6/jg7zjgq8NCioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
+KioqKioqKioqKg0KDQrigLvjgZPjga7jg6Hjg7zjg6vjga/pgIHkv6HlsILnlKjjgafjgZnjgIIN
+CuOAgOOBk+OBruOCouODieODrOOCueOBq+mAgeS/oeOBhOOBn+OBoOOBhOOBpuOCgui/lOS/oeOB
+hOOBn+OBl+OBi+OBreOBvuOBmeOBruOBp+OAgeOBguOCieOBi+OBmOOCgeOBlOS6huaJv+mhmOOB
+hOOBvuOBmeOAgg0K4oC744Gq44GK44CB44GU5LiN5piO44Gq54K544Gr44Gk44GN44G+44GX44Gm
+44Gv44CB44GK5omL5pWw44Gn44GZ44GM44CBDQrjgYjjgY3jga3jgaPjgajjgqLjg4njg5DjgqTj
+grbjg6rjg7zjgrvjg7Pjgr/jg7zjgYrllY/jgYTlkIjjgo/jgZvjgY/jgaDjgZXjgYTjgII=
 
----
-The following changes since commit 7f866a1f1da1de427fe2e2875d2c380460080b2f=
-:
+------=_NextPart_000_0D1D_014BC39E.116717D0
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-  rtw89: 8852a: update fw to v0.13.36.0 (2022-03-04 11:49:01 +0800)
+PCFET0NUWVBFIEhUTUwgUFVCTElDICItLy9XM0MvL0RURCBIVE1MIDQuMCBUcmFuc2l0aW9uYWwv
+L0VOIj4NCjxIVE1MPjxIRUFEPg0KPE1FVEEgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0
+Zi04IiBodHRwLWVxdWl2PUNvbnRlbnQtVHlwZT4NCjxNRVRBIG5hbWU9R0VORVJBVE9SIGNvbnRl
+bnQ9Ik1TSFRNTCAxMS4wMC4xMDU3MC4xMDAxIj48L0hFQUQ+DQo8Qk9EWT4NCjxQPlvjgYjjgY3j
+ga3jgaPjgahd44Gu44Ki44Kr44Km44Oz44OI5Yi26ZmQ44GV44KM44Gm44GE44G+44GZLOmAmuW4
+uOOBruS9v+eUqOOBq+W9semfv+OCkuS4juOBiOOBquOBhOOBn+OCgeOBqyw8QlI+5Lul5LiL44Gu
+44Oq44Oz44Kv44KS44Kv44Oq44OD44Kv44GX44Gm44CB6Zai6YCj5oOF5aCx44KS44Gn44GN44KL
+44Gg44GR5pep44GP56K66KqN44GX44Gm44GP44Gg44GV44GELDxCUj4xMuaZgumWk+S7peWGheOB
+q+OBlOW/nOWLn+OBhOOBn+OBoOOBkeOBquOBhOWgtOWQiOOBr+OAgeOBlOS4jeS+v+OCkuOBiuOB
+i+OBkeOBl+OBpueUs+OBl+ios+OBlOOBluOBhOOBvuOBm+OCk+OAgjwvUD4NCjxQPi0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLTwvUD4NCjxQPjxBIGhyZWY9Imh0dHBzOi8vd3d3LmVraS1uZXQuY29t
+LmhteXU0a2MuY24iPueiuuiqjeOBleOCjOOBn+aDheWgsTwvQT48L1A+DQo8UD4tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS08L1A+PEZPTlQgZmFjZT1BcmlhbD4NCjxQIA0Kc3R5bGU9IkJPWC1TSVpJ
+Tkc6IGJvcmRlci1ib3g7IFBBRERJTkctQk9UVE9NOiAwcHg7IFBBRERJTkctVE9QOiAwcHg7IFBB
+RERJTkctTEVGVDogMHB4OyBNQVJHSU46IDBweDsgUEFERElORy1SSUdIVDogMHB4Ij7jgYrllY/j
+gYTlkIjjgo/jgZvlhYg8L1A+DQo8UCANCnN0eWxlPSJCT1gtU0laSU5HOiBib3JkZXItYm94OyBQ
+QURESU5HLUJPVFRPTTogMHB4OyBQQURESU5HLVRPUDogMHB4OyBQQURESU5HLUxFRlQ6IDBweDsg
+TUFSR0lOOiAwcHg7IFBBRERJTkctUklHSFQ6IDBweCI+44GI44GN44Gt44Gj44Go44Ki44OJ44OQ
+44Kk44K244Oq44O844K744Oz44K/44O8PC9QPg0KPFAgDQpzdHlsZT0iQk9YLVNJWklORzogYm9y
+ZGVyLWJveDsgUEFERElORy1CT1RUT006IDBweDsgUEFERElORy1UT1A6IDBweDsgUEFERElORy1M
+RUZUOiAwcHg7IE1BUkdJTjogMHB4OyBQQURESU5HLVJJR0hUOiAwcHgiPlRFTOOAgDA1NzAtMDEw
+MTM5PEJSPuW5tOS4reeEoeS8keOAgDk6MDDvvZ4xODowMDwvUD4NCjxQIA0Kc3R5bGU9IkJPWC1T
+SVpJTkc6IGJvcmRlci1ib3g7IFBBRERJTkctQk9UVE9NOiAwcHg7IFBBRERJTkctVE9QOiAwcHg7
+IFBBRERJTkctTEVGVDogMHB4OyBNQVJHSU46IDBweDsgUEFERElORy1SSUdIVDogMHB4Ij7jgrXj
+gqTjg4jpgYvllrbCt+euoeeQhjwvUD4NCjxQIA0Kc3R5bGU9IkJPWC1TSVpJTkc6IGJvcmRlci1i
+b3g7IFBBRERJTkctQk9UVE9NOiAwcHg7IFBBRERJTkctVE9QOiAwcHg7IFBBRERJTkctTEVGVDog
+MHB4OyBNQVJHSU46IDBweDsgUEFERElORy1SSUdIVDogMHB4Ij5KUuadseaXpeacrOODjeODg+OD
+iOODr+ODvOOCrzwvUD48L0ZPTlQ+DQo8UCANCnN0eWxlPSJCT1gtU0laSU5HOiBib3JkZXItYm94
+OyBQQURESU5HLUJPVFRPTTogMHB4OyBQQURESU5HLVRPUDogMHB4OyBQQURESU5HLUxFRlQ6IDBw
+eDsgTUFSR0lOOiAwcHg7IFBBRERJTkctUklHSFQ6IDBweCI+PEZPTlQgDQpmYWNlPUFyaWFsPioq
+KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKjwvRk9O
+VD48Rk9OVCANCmZhY2U9QXJpYWw+PC9QPg0KPFAgDQpzdHlsZT0iQk9YLVNJWklORzogYm9yZGVy
+LWJveDsgUEFERElORy1CT1RUT006IDBweDsgUEFERElORy1UT1A6IDBweDsgUEFERElORy1MRUZU
+OiAwcHg7IE1BUkdJTjogMHB4OyBQQURESU5HLVJJR0hUOiAwcHgiPjxCUj7igLvjgZPjga7jg6Hj
+g7zjg6vjga/pgIHkv6HlsILnlKjjgafjgZnjgII8QlI+44CA44GT44Gu44Ki44OJ44Os44K544Gr
+6YCB5L+h44GE44Gf44Gg44GE44Gm44KC6L+U5L+h44GE44Gf44GX44GL44Gt44G+44GZ44Gu44Gn
+44CB44GC44KJ44GL44GY44KB44GU5LqG5om/6aGY44GE44G+44GZ44CCPEJSPuKAu+OBquOBiuOA
+geOBlOS4jeaYjuOBqueCueOBq+OBpOOBjeOBvuOBl+OBpuOBr+OAgeOBiuaJi+aVsOOBp+OBmeOB
+jOOAgTxCUj7jgYjjgY3jga3jgaPjgajjgqLjg4njg5DjgqTjgrbjg6rjg7zjgrvjg7Pjgr/jg7zj
+gYrllY/jgYTlkIjjgo/jgZvjgY/jgaDjgZXjgYTjgII8L0ZPTlQ+PC9QPjwvQk9EWT48L0hUTUw+
+DQo=
 
-are available in the Git repository at:
-
-  https://github.com/pkshih/linux-firmware.git
-
-for you to fetch changes up to 7f866a1f1da1de427fe2e2875d2c380460080b2f:
-
-  rtw89: 8852a: update fw to v0.13.36.0 (2022-03-04 11:49:01 +0800)
-
-----------------------------------------------------------------
+------=_NextPart_000_0D1D_014BC39E.116717D0--
 
