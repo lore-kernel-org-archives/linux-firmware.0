@@ -1,112 +1,182 @@
-Return-Path: <SRS0=rD2R=TP=w1.fi=j@kernel.org>
+Return-Path: <SRS0=WAiz=TP=tiiuakk.cn=eki-netjp-update-account@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5ADFEC433F5
-	for <linux-firmware@archiver.kernel.org>; Fri,  4 Mar 2022 16:14:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4BCD4C433EF
+	for <linux-firmware@archiver.kernel.org>; Fri,  4 Mar 2022 21:09:52 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 2E4BBC36AE3; Fri,  4 Mar 2022 16:14:39 +0000 (UTC)
-Received: from mail.w1.fi (mail.w1.fi [212.71.239.96])
+	id 226E2C340EE; Fri,  4 Mar 2022 21:09:52 +0000 (UTC)
+Received: from tiiuakk.cn (unknown [134.122.198.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 4310AC340E9;
-	Fri,  4 Mar 2022 16:14:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 4310AC340E9
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=w1.fi
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=w1.fi
-Received: from localhost (localhost [127.0.0.1])
-	by mail.w1.fi (Postfix) with ESMTP id 51DDD10FB4;
-	Fri,  4 Mar 2022 16:14:34 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at w1.fi
-Received: from mail.w1.fi ([127.0.0.1])
-	by localhost (mail.w1.fi [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id P9vLXmuBVv2o; Fri,  4 Mar 2022 16:14:32 +0000 (UTC)
-Received: by jm (sSMTP sendmail emulation); Fri, 04 Mar 2022 18:14:30 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=w1.fi; s=default;
-	t=1646410472; bh=sh6teZAZ3oJ+RZRi/ZWxXm7sa16SJJdvz6GBv9UqROM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YIAgIey9p0cF/SwHZr3hxa1ELsBOI7P+2YxLRWab0bL9WenHxMZsMLKtdtYuiJ7Zx
-	 grVYkJzbierYa0vNkJTni7Wx9LBISomeIMSGkVSfgsbM1LTNKpPGxq/rGCckNezgXz
-	 CI7tgCKk5dYFOJoi+hgtHlIJi9nSjXDesgaFSaGZmfYt81d3NAhNYMF1Hb328V+BiY
-	 JaGMsgqOjkFCDPWVdsl8iwDM1BLFAgrP6pzEgKWeSeVtfJT0i+5CZlXJm4+J0tBoso
-	 /QFIezkS9iFLk+WS2w8ATSjYILGuqrR+zUBvfdgfTdP8I3rAdCxFTwW6CMr0cKyRHG
-	 +1ZIkNHhkBg5w==
-Date: Fri, 4 Mar 2022 18:14:30 +0200
-From: Jouni Malinen <j@w1.fi>
-To: Josh Boyer <jwboyer@kernel.org>
+	by smtp.kernel.org (Postfix) with ESMTPS id 5EAD1C340E9
+	for <linux-firmware@kernel.org>; Fri,  4 Mar 2022 21:09:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 5EAD1C340E9
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=tiiuakk.cn
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=tiiuakk.cn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=defult; d=tiiuakk.cn;
+ h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+ i=eki-netjp-update-account@tiiuakk.cn;
+ bh=4UJR4TSh+SsZgOCQqv5tsoUSbNLyuhbsyy9WoW2kd4w=;
+ b=jRolsqhxGFr3Wk6RVs+/t1mu+wNGKHkwJRbaXQlXJXP8BldLCEd9YvuelBr87xLNxOyfW3VwNzOG
+   9J5rwvuG1T63qPpL3wsSjeSny20kUS4I5BKTgpzUk6gGmjfTUuurdGhTeA122rl9ZT33gSjzjQLM
+   2aZVsF2JIyRIWmtrzG0=
+From: eki-net.com <eki-netjp-update-account@tiiuakk.cn>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Kalle Valo <kvalo@kernel.org>,
-	"linux-firmware@kernel.org" <linux-firmware@kernel.org>,
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-	"ath11k@lists.infradead.org" <ath11k@lists.infradead.org>
-Subject: Re: [PULL] ath11k firmware 20211223
-Message-ID: <20220304161430.GA430462@w1.fi>
-References: <BYAPR02MB4567669033A210A78AC397E9927E9@BYAPR02MB4567.namprd02.prod.outlook.com>
- <CA+5PVA4WEuJDB3OCKfYK-BPaccpVWd9t_au9S7MCEtpy7cdF-A@mail.gmail.com>
- <87ee4brodv.fsf@kernel.org>
- <CA+5PVA5DJmwPqpz8F9iDbJKcF1hDBRLdDT4URgSaiEcjet74Kw@mail.gmail.com>
- <20220302175014.GA14801@w1.fi>
- <CA+5PVA6R6F=VqAZRf=xDwGcC+cpqLY1kStkoHck53XiLURVyaw@mail.gmail.com>
+To: linux-firmware <linux-firmware@kernel.org>
+Subject: =?utf-8?B?44CQ6YeN6KaB44CR44GI44GN44Gt44Gj44Go44Ki44Kr44Km44Oz44OI44Gu6Ieq5YuV6YCA5Lya5Yem?=
+	=?utf-8?B?55CG44Gr44Gk44GE44Gm?=
+Date: Sat, 5 Mar 2022 04:59:45 +0800
+Message-ID: <004e287a069c$8ebd50f5$bd51f70a$@eprrbu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+5PVA6R6F=VqAZRf=xDwGcC+cpqLY1kStkoHck53XiLURVyaw@mail.gmail.com>
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0F24_010FD73B.1998AE30"
 
-On Fri, Mar 04, 2022 at 08:04:26AM -0500, Josh Boyer wrote:
-> On Wed, Mar 2, 2022 at 12:50 PM Jouni Malinen <j@w1.fi> wrote:
-> > Would the following in WHENCE work for you?
-> >
-> > Driver: ath11k - Qualcomm Technologies 802.11ax chipset support
-> >
-> > File: ath11k/IPQ6018/hw1.0/board-2.bin
-> > ...
-> > Version: WLAN.HK.2.1.0.1-01238-QCAHKSWPL_SILICONZ-2
-> > Notice: ath11k/IPQ6018/hw1.0/Notice.txt
-> 
-> We'd have to teach copy-firmware.sh what to do with a "Notice:" key.
-> Is there a reason "File:" wouldn't work?  The intention is to install
-> the notices alongside the binaries, so that would accomplish it.
+This is a multi-part message in MIME format.
 
-Yeah, that sounds reasonable to me. From copying/installing/distribution
-view point, these can really be handled in the exact same way as the
-actual firmware binaries in practice.
+------=_NextPart_000_0F24_010FD73B.1998AE30
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-> > In other words, there would be only a single "License:" line and one
-> > "Notice:" line for each firmware version? The license itself (i.e.,
-> > LICENSE.QualcommAtheros_ath10k) is same for all the versions while the
-> > set of notices (i.e., those notice.txt files) can be different based on
-> > what is included in the particular build.
-> 
-> Yes, that would help.  Would you be able to adjust the existing
-> entries for ath firmware in the same way?
+DQoNCg0KDQoNCg0KDQrml6XpoIPjgojjgorjgIzjgYjjgY3jga3jgaPjgajjgI3jgpLjgZTliKnn
+lKjjgYTjgZ/jgaDjgY3jgYLjgorjgYzjgajjgYbjgZTjgZbjgYTjgb7jgZnjgIINCg0K44CM44GI
+44GN44Gt44Gj44Go44CN44GvIDIwMjIg5bm0IDLmnIggMDYg5pelKOaXpSnjgavjgrXjg7zjg5Pj
+grnjgpLjg6rjg4vjg6Xjg7zjgqLjg6vjgYTjgZ/jgZfjgb7jgZfjgZ/jgILjgZPjgowg44Gr5Ly0
+44GE44CB44CM44GI44GN44Gt44Gj44Go44CN5Yip55So6KaP57SE44O75Lya5ZOh6KaP57SE44KS
+5aSJ5pu044GX44CB5pyA5b6M44Gr44Ot44Kw44Kk44Oz44KS44GX44Gf5pel44KI44KK6LW3566X
+44GXIOOBpu+8kuW5tOS7peS4iuOAjOOBiOOBjeOBreOBo+OBqOOAjeOBruOBlOWIqeeUqO+8iOOD
+reOCsOOCpOODs++8ieOBjOeiuuiqjeOBp+OBjeOBquOBhOOAjOOBiOOBjeOBreOBo+OBqOOAjeOC
+ouOCq+OCpuODs+ODiCDjga/jgIHoh6rli5XnmoTjgavpgIDkvJrlh6bnkIbjgZXjgZvjgabjgYTj
+gZ/jgaDjgY/jgZPjgajjgajjgYTjgZ/jgZfjgb7jgZfjgZ/jgILjgarjgYrjgIHlr77osaHjgqLj
+gqvjgqbjg7Pjg4jjga7oh6rli5XpgIDkvJrlh6bnkIbjgpLjgIHmnKzopo/ntITjgavln7rjgaXj
+gY3jgIEyMDIyIOW5tCAyIOaciCAyMCDml6Uo5pyIKeOCiOOCiumghuasoeOAgeWun+aWveOBleOB
+m+OBpuOBhOOBn+OBoOOBjeOBvuOBmeOAgg0KDQrvvJLlubTku6XkuIrjg63jgrDjgqTjg7PjgZfj
+gabjgYTjgarjgYTjgYrlrqLjgZXjgb7jgafjgIHku4rlvozjgoLjgIzjgYjjgY3jga3jgaPjgajj
+gI3jgpLjgZTliKnnlKjjgYTjgZ/jgaDjgZHjgovloLTlkIgg44Gv44CBMjAyMiDlubQgMyDmnIgg
+NiDml6Uo5pyIKeOCiOOCiuOCguWJjeOBq+OAgeS4gOW6puODreOCsOOCpOODs+aTjeS9nOOCkuOB
+iumhmOOBhOOBhOOBn+OBl+OBvuOBmeOAgg0KDQrih5Ljg63jgrDjgqTjg7Pjga/jgZPjgaHjgokN
+Cg0K4oC744GI44GN44Gt44Gj44Go44OI44OD44OX44Oa44O844K45Y+z5LiK44Gu44Ot44Kw44Kk
+44Oz44Oc44K/44Oz44KI44KK44Ot44Kw44Kk44Oz44GX44Gm44GP44Gg44GV44GE44CCDQoNCiDj
+gYrllY/jgYTlkIjjgo/jgZvlhYgNCiDjgYjjgY3jga3jgaPjgajjgrXjg53jg7zjg4jjgrvjg7Pj
+gr/jg7wNCiBURUwgMDUwLTIwMTYtNTAwMA0KIOWPl+S7mOaZgumWkyA45pmCMDDliIbvvZ4yMuaZ
+gjAw5YiGDQog44K144Kk44OI6YGL5Za244O7566h55CGDQogSlLmnbHml6XmnKzjg43jg4Pjg4jj
+grnjg4bjg7zjgrfjg6fjg7MNCi0tLS0tLS0tLS0tLS0tLS0tLS0tDQoNCuOBquOBiuOAgeOCouOC
+q+OCpuODs+ODiOOBjOmAgOS8muWHpueQhuOBleOCjOOBn+WgtOWQiOOCguOAgeaWsOOBn+OBq+OC
+ouOCq+OCpuODs+ODiOeZu+mMsu+8iOeEoeaWmeeZu+mMsu+8ieOBl+OBpuOBhOOBnyDjgaDjgY/j
+gZPjgajjgafjgZnjgZDjgavjgIzjgYjjgY3jga3jgaPjgajjgI3jgpLjgZTliKnnlKjjgYTjgZ/j
+gaDjgY/jgZPjgajjgYzjgafjgY3jgb7jgZnjga7jgafjgIHku4rlvozjgoLjgZTmhJvpoafjgYTj
+gZ8g44Gg44GR44G+44GZ44KI44GG44KI44KN44GX44GP44GK6aGY44GE44GE44Gf44GX44G+44GZ
+44CCDQoNCg0KDQoNCg0KDQogQ29weXJpZ2h0IMKpIEpSIEVhc3QgTmV0IFN0YXRpb24gQ28uLEx0
+ZC4gQWxsIFJpZ2h0cyBSZXNlcnZlZC4NCg==
 
-Yes, I'll work with Kalle to update the existing ath* WLAN cases.
+------=_NextPart_000_0F24_010FD73B.1998AE30
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-> > > > I'm still working on your other comment about notice.txt, will get back
-> > > > on that later.
-> >
-> > This part about clearly identifying the files should be clear now, but
-> > it would be good to resolve that part about the notice.txt files in
-> > general before sending out an updated pull request.
-> 
-> Given these were merged in the past, perhaps I'm being overly
-> pedantic.  If we can mark them as Files or Notices instead of
-> Licenses, I won't hold it up.  It leaves me slightly confused why
-> attribution files need to reference agreements with Qualcomm, splatter
-> Confidential and Proprietary throughout the file, and reference
-> COPYING and README in reference to GPLv2 when the BSD license was
-> clearly chosen.  Perhaps that could be cleaned up in the future.
+PCFET0NUWVBFIEhUTUwgUFVCTElDICItLy9XM0MvL0RURCBIVE1MIDQuMCBUcmFuc2l0aW9uYWwv
+L0VOIj4NCjxIVE1MPjxIRUFEPg0KPE1FVEEgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0
+Zi04IiBodHRwLWVxdWl2PUNvbnRlbnQtVHlwZT4NCjxNRVRBIG5hbWU9R0VORVJBVE9SIGNvbnRl
+bnQ9Ik1TSFRNTCAxMS4wMC45NjAwLjE5NDMxIj48L0hFQUQ+DQo8Qk9EWT4NCjxQIA0Kc3R5bGU9
+IldISVRFLVNQQUNFOiBub3JtYWw7IFdPUkQtU1BBQ0lORzogMHB4OyBURVhULVRSQU5TRk9STTog
+bm9uZTsgQ09MT1I6IHJnYig0OSw1Myw1OSk7IEZPTlQ6IDE0cHgvMjJweCBWZXJkYW5hLCAnTWlj
+cm9zb2Z0IFlhaGVpJywgU2ltU3VuLCBzYW5zLXNlcmlmOyBXSURPV1M6IDE7IExFVFRFUi1TUEFD
+SU5HOiBub3JtYWw7IFRFWFQtSU5ERU5UOiAwcHg7IC13ZWJraXQtdGV4dC1zdHJva2Utd2lkdGg6
+IDBweCI+PElNRyANCmlkPWNpZDowMDAwMkZBNzc4N0ZfMDVBQzc4NzdfMDQ5ODVFODUgYm9yZGVy
+PTAgaHNwYWNlPTAgYWx0PSIiIA0Kc3JjPSJtYWlsbWFzdGVyOi8vd2VidWkvbWFpbHBhcnQvMi8y
+NjYvbG9nb19la2luZXQucG5nIiBhbGlnbj1iYXNlbGluZT48QlI+PC9QPg0KPFAgDQpzdHlsZT0i
+V0hJVEUtU1BBQ0U6IG5vcm1hbDsgV09SRC1TUEFDSU5HOiAwcHg7IFRFWFQtVFJBTlNGT1JNOiBu
+b25lOyBDT0xPUjogcmdiKDQ5LDUzLDU5KTsgRk9OVDogMTRweC8yMnB4IFZlcmRhbmEsICdNaWNy
+b3NvZnQgWWFoZWknLCBTaW1TdW4sIHNhbnMtc2VyaWY7IFdJRE9XUzogMTsgTEVUVEVSLVNQQUNJ
+Tkc6IG5vcm1hbDsgVEVYVC1JTkRFTlQ6IDBweDsgLXdlYmtpdC10ZXh0LXN0cm9rZS13aWR0aDog
+MHB4Ij48QlI+PC9QPg0KPFAgDQpzdHlsZT0iV0hJVEUtU1BBQ0U6IG5vcm1hbDsgV09SRC1TUEFD
+SU5HOiAwcHg7IFRFWFQtVFJBTlNGT1JNOiBub25lOyBDT0xPUjogcmdiKDQ5LDUzLDU5KTsgRk9O
+VDogMTRweC8yMnB4IFZlcmRhbmEsICdNaWNyb3NvZnQgWWFoZWknLCBTaW1TdW4sIHNhbnMtc2Vy
+aWY7IFdJRE9XUzogMTsgTEVUVEVSLVNQQUNJTkc6IG5vcm1hbDsgVEVYVC1JTkRFTlQ6IDBweDsg
+LXdlYmtpdC10ZXh0LXN0cm9rZS13aWR0aDogMHB4Ij7ml6XpoIPjgojjgorjgIzjgYjjgY3jga3j
+gaPjgajjgI3jgpLjgZTliKnnlKjjgYTjgZ/jgaDjgY3jgYLjgorjgYzjgajjgYbjgZTjgZbjgYTj
+gb7jgZnjgII8L1A+DQo8UCANCnN0eWxlPSJXSElURS1TUEFDRTogbm9ybWFsOyBXT1JELVNQQUNJ
+Tkc6IDBweDsgVEVYVC1UUkFOU0ZPUk06IG5vbmU7IENPTE9SOiByZ2IoNDksNTMsNTkpOyBGT05U
+OiAxNHB4LzIycHggVmVyZGFuYSwgJ01pY3Jvc29mdCBZYWhlaScsIFNpbVN1biwgc2Fucy1zZXJp
+ZjsgV0lET1dTOiAxOyBMRVRURVItU1BBQ0lORzogbm9ybWFsOyBURVhULUlOREVOVDogMHB4OyAt
+d2Via2l0LXRleHQtc3Ryb2tlLXdpZHRoOiAwcHgiPuOAjOOBiOOBjeOBreOBo+OBqOOAjeOBryAN
+CjIwMjIg5bm0IDLmnIggMDYg5pelKOaXpSnjgavjgrXjg7zjg5PjgrnjgpLjg6rjg4vjg6Xjg7zj
+gqLjg6vjgYTjgZ/jgZfjgb7jgZfjgZ/jgILjgZPjgowg44Gr5Ly044GE44CB44CM44GI44GN44Gt
+44Gj44Go44CN5Yip55So6KaP57SE44O75Lya5ZOh6KaP57SE44KS5aSJ5pu044GX44CB5pyA5b6M
+44Gr44Ot44Kw44Kk44Oz44KS44GX44Gf5pel44KI44KK6LW3566X44GXIA0K44Gm77yS5bm05Lul
+5LiK44CM44GI44GN44Gt44Gj44Go44CN44Gu44GU5Yip55So77yI44Ot44Kw44Kk44Oz77yJ44GM
+56K66KqN44Gn44GN44Gq44GE44CM44GI44GN44Gt44Gj44Go44CN44Ki44Kr44Km44Oz44OIIA0K
+44Gv44CB6Ieq5YuV55qE44Gr6YCA5Lya5Yem55CG44GV44Gb44Gm44GE44Gf44Gg44GP44GT44Go
+44Go44GE44Gf44GX44G+44GX44Gf44CC44Gq44GK44CB5a++6LGh44Ki44Kr44Km44Oz44OI44Gu
+6Ieq5YuV6YCA5Lya5Yem55CG44KS44CB5pys6KaP57SE44Gr5Z+644Gl44GN44CBMjAyMiDlubQg
+MiDmnIggMjAgDQrml6Uo5pyIKeOCiOOCiumghuasoeOAgeWun+aWveOBleOBm+OBpuOBhOOBn+OB
+oOOBjeOBvuOBmeOAgjwvUD4NCjxQIA0Kc3R5bGU9IldISVRFLVNQQUNFOiBub3JtYWw7IFdPUkQt
+U1BBQ0lORzogMHB4OyBURVhULVRSQU5TRk9STTogbm9uZTsgQ09MT1I6IHJnYig0OSw1Myw1OSk7
+IEZPTlQ6IDE0cHgvMjJweCBWZXJkYW5hLCAnTWljcm9zb2Z0IFlhaGVpJywgU2ltU3VuLCBzYW5z
+LXNlcmlmOyBXSURPV1M6IDE7IExFVFRFUi1TUEFDSU5HOiBub3JtYWw7IFRFWFQtSU5ERU5UOiAw
+cHg7IC13ZWJraXQtdGV4dC1zdHJva2Utd2lkdGg6IDBweCI+77yS5bm05Lul5LiK44Ot44Kw44Kk
+44Oz44GX44Gm44GE44Gq44GE44GK5a6i44GV44G+44Gn44CB5LuK5b6M44KC44CM44GI44GN44Gt
+44Gj44Go44CN44KS44GU5Yip55So44GE44Gf44Gg44GR44KL5aC05ZCIIA0K44Gv44CBMjAyMiDl
+ubQgMyDmnIggNiDml6Uo5pyIKeOCiOOCiuOCguWJjeOBq+OAgeS4gOW6puODreOCsOOCpOODs+aT
+jeS9nOOCkuOBiumhmOOBhOOBhOOBn+OBl+OBvuOBmeOAgjwvUD4NCjxQIA0Kc3R5bGU9IldISVRF
+LVNQQUNFOiBub3JtYWw7IFdPUkQtU1BBQ0lORzogMHB4OyBURVhULVRSQU5TRk9STTogbm9uZTsg
+Q09MT1I6IHJnYig0OSw1Myw1OSk7IEZPTlQ6IDE0cHgvMjJweCBWZXJkYW5hLCAnTWljcm9zb2Z0
+IFlhaGVpJywgU2ltU3VuLCBzYW5zLXNlcmlmOyBXSURPV1M6IDE7IExFVFRFUi1TUEFDSU5HOiBu
+b3JtYWw7IFRFWFQtSU5ERU5UOiAwcHg7IC13ZWJraXQtdGV4dC1zdHJva2Utd2lkdGg6IDBweCI+
+PEZPTlQgDQpzaXplPTQ+PFNUUk9ORz7ih5I8QSBocmVmPSJodHRwczovL2VraS1uZXQuY29tLmdm
+bmttLmNuLyI+44Ot44Kw44Kk44Oz44Gv44GT44Gh44KJPC9BPjwvU1RST05HPjwvRk9OVD48QSAN
+CmhyZWY9Imh0dHBzOi8vd3d3LmJhaWR1LmNvbS8iPjwvQT48L1A+DQo8UCANCnN0eWxlPSJXSElU
+RS1TUEFDRTogbm9ybWFsOyBXT1JELVNQQUNJTkc6IDBweDsgVEVYVC1UUkFOU0ZPUk06IG5vbmU7
+IENPTE9SOiByZ2IoNDksNTMsNTkpOyBGT05UOiAxNHB4LzIycHggVmVyZGFuYSwgJ01pY3Jvc29m
+dCBZYWhlaScsIFNpbVN1biwgc2Fucy1zZXJpZjsgV0lET1dTOiAxOyBMRVRURVItU1BBQ0lORzog
+bm9ybWFsOyBURVhULUlOREVOVDogMHB4OyAtd2Via2l0LXRleHQtc3Ryb2tlLXdpZHRoOiAwcHgi
+PuKAu+OBiOOBjeOBreOBo+OBqOODiOODg+ODl+ODmuODvOOCuOWPs+S4iuOBruODreOCsOOCpOOD
+s+ODnOOCv+ODs+OCiOOCiuODreOCsOOCpOODs+OBl+OBpuOBj+OBoOOBleOBhOOAgjwvUD4NCjxQ
+IA0Kc3R5bGU9IldISVRFLVNQQUNFOiBub3JtYWw7IFdPUkQtU1BBQ0lORzogMHB4OyBURVhULVRS
+QU5TRk9STTogbm9uZTsgQ09MT1I6IHJnYig0OSw1Myw1OSk7IEZPTlQ6IDE0cHgvMjJweCBWZXJk
+YW5hLCAnTWljcm9zb2Z0IFlhaGVpJywgU2ltU3VuLCBzYW5zLXNlcmlmOyBXSURPV1M6IDE7IExF
+VFRFUi1TUEFDSU5HOiBub3JtYWw7IFRFWFQtSU5ERU5UOiAwcHg7IC13ZWJraXQtdGV4dC1zdHJv
+a2Utd2lkdGg6IDBweCI+Jm5ic3A744GK5ZWP44GE5ZCI44KP44Gb5YWIPEJSPiZuYnNwO+OBiOOB
+jeOBreOBo+OBqOOCteODneODvOODiOOCu+ODs+OCv+ODvDxCUj4mbmJzcDtURUwgDQowNTAtMjAx
+Ni01MDAwPEJSPiZuYnNwO+WPl+S7mOaZgumWkyANCjjmmYIwMOWIhu+9njIy5pmCMDDliIY8QlI+
+Jm5ic3A744K144Kk44OI6YGL5Za244O7566h55CGPEJSPiZuYnNwO0pS5p2x5pel5pys44ON44OD
+44OI44K544OG44O844K344On44OzPEJSPi0tLS0tLS0tLS0tLS0tLS0tLS0tPC9QPg0KPFAgDQpz
+dHlsZT0iV0hJVEUtU1BBQ0U6IG5vcm1hbDsgV09SRC1TUEFDSU5HOiAwcHg7IFRFWFQtVFJBTlNG
+T1JNOiBub25lOyBDT0xPUjogcmdiKDQ5LDUzLDU5KTsgRk9OVDogMTRweC8yMnB4IFZlcmRhbmEs
+ICdNaWNyb3NvZnQgWWFoZWknLCBTaW1TdW4sIHNhbnMtc2VyaWY7IFdJRE9XUzogMTsgTEVUVEVS
+LVNQQUNJTkc6IG5vcm1hbDsgVEVYVC1JTkRFTlQ6IDBweDsgLXdlYmtpdC10ZXh0LXN0cm9rZS13
+aWR0aDogMHB4Ij7jgarjgYrjgIHjgqLjgqvjgqbjg7Pjg4jjgYzpgIDkvJrlh6bnkIbjgZXjgozj
+gZ/loLTlkIjjgoLjgIHmlrDjgZ/jgavjgqLjgqvjgqbjg7Pjg4jnmbvpjLLvvIjnhKHmlpnnmbvp
+jLLvvInjgZfjgabjgYTjgZ8gDQrjgaDjgY/jgZPjgajjgafjgZnjgZDjgavjgIzjgYjjgY3jga3j
+gaPjgajjgI3jgpLjgZTliKnnlKjjgYTjgZ/jgaDjgY/jgZPjgajjgYzjgafjgY3jgb7jgZnjga7j
+gafjgIHku4rlvozjgoLjgZTmhJvpoafjgYTjgZ8g44Gg44GR44G+44GZ44KI44GG44KI44KN44GX
+44GP44GK6aGY44GE44GE44Gf44GX44G+44GZ44CCPC9QPg0KPFAgDQpzdHlsZT0iV0hJVEUtU1BB
+Q0U6IG5vcm1hbDsgV09SRC1TUEFDSU5HOiAwcHg7IFRFWFQtVFJBTlNGT1JNOiBub25lOyBDT0xP
+UjogcmdiKDQ5LDUzLDU5KTsgRk9OVDogMTRweC8yMnB4IFZlcmRhbmEsICdNaWNyb3NvZnQgWWFo
+ZWknLCBTaW1TdW4sIHNhbnMtc2VyaWY7IFdJRE9XUzogMTsgTEVUVEVSLVNQQUNJTkc6IG5vcm1h
+bDsgVEVYVC1JTkRFTlQ6IDBweDsgLXdlYmtpdC10ZXh0LXN0cm9rZS13aWR0aDogMHB4Ij48L1A+
+DQo8UCANCnN0eWxlPSJXSElURS1TUEFDRTogbm9ybWFsOyBXT1JELVNQQUNJTkc6IDBweDsgVEVY
+VC1UUkFOU0ZPUk06IG5vbmU7IENPTE9SOiByZ2IoNDksNTMsNTkpOyBGT05UOiAxNHB4LzIycHgg
+VmVyZGFuYSwgJ01pY3Jvc29mdCBZYWhlaScsIFNpbVN1biwgc2Fucy1zZXJpZjsgV0lET1dTOiAx
+OyBMRVRURVItU1BBQ0lORzogbm9ybWFsOyBURVhULUlOREVOVDogMHB4OyAtd2Via2l0LXRleHQt
+c3Ryb2tlLXdpZHRoOiAwcHgiPjxCUj48L1A+DQo8UCANCnN0eWxlPSJXSElURS1TUEFDRTogbm9y
+bWFsOyBXT1JELVNQQUNJTkc6IDBweDsgVEVYVC1UUkFOU0ZPUk06IG5vbmU7IENPTE9SOiByZ2Io
+NDksNTMsNTkpOyBGT05UOiAxNHB4LzIycHggVmVyZGFuYSwgJ01pY3Jvc29mdCBZYWhlaScsIFNp
+bVN1biwgc2Fucy1zZXJpZjsgV0lET1dTOiAxOyBMRVRURVItU1BBQ0lORzogbm9ybWFsOyBURVhU
+LUlOREVOVDogMHB4OyAtd2Via2l0LXRleHQtc3Ryb2tlLXdpZHRoOiAwcHgiIA0KYWxpZ249Y2Vu
+dGVyPjxTUEFOIA0Kc3R5bGU9IkZPTlQtU0laRTogMTFweDsgRk9OVC1GQU1JTFk6ICdOb3RvIFNl
+cmlmIEphcGFuZXNlJywgc2Fucy1zZXJpZjsgV0hJVEUtU1BBQ0U6IG5vcm1hbDsgV09SRC1TUEFD
+SU5HOiAwcHg7IFRFWFQtVFJBTlNGT1JNOiBub25lOyBGTE9BVDogbm9uZTsgRk9OVC1XRUlHSFQ6
+IDQwMDsgQ09MT1I6IHJnYig1MSw1MSw1MSk7IEZPTlQtU1RZTEU6IG5vcm1hbDsgVEVYVC1BTElH
+TjogY2VudGVyOyBPUlBIQU5TOiAyOyBXSURPV1M6IDI7IERJU1BMQVk6IGlubGluZSAhaW1wb3J0
+YW50OyBMRVRURVItU1BBQ0lORzogbm9ybWFsOyBCQUNLR1JPVU5ELUNPTE9SOiByZ2IoMjQ1LDI0
+NSwyNDUpOyBURVhULUlOREVOVDogMHB4OyAtd2Via2l0LXRleHQtc3Ryb2tlLXdpZHRoOiAwcHg7
+IGZvbnQtdmFyaWFudC1saWdhdHVyZXM6IG5vcm1hbCI+Jm5ic3A7Q29weXJpZ2h0IA0KwqkgSlIg
+RWFzdCBOZXQgU3RhdGlvbiBDby4sTHRkLiBBbGwgUmlnaHRzIFJlc2VydmVkLjwvU1BBTj48L1A+
+PC9CT0RZPjwvSFRNTD4NCg==
 
-Thanks. We'll remove most of the unnecessary information from the new
-notice.txt files and that should get rid of many of the potentially
-confusing parts. If that cleanup leaves something confusing in place,
-we are open to cleaning these up further in followup patches, but it
-would be nice to be able to get the updated versions into
-linux-firmware.git without much more additional delay and yes, this
-would be with the File: instead of Licence: entries for the notice.txt
-files.
+------=_NextPart_000_0F24_010FD73B.1998AE30--
 
--- 
-Jouni Malinen                                            PGP id EFC895FA
