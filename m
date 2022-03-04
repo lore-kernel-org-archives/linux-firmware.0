@@ -1,109 +1,58 @@
-Return-Path: <SRS0=8UFl=TP=nbisqeq.cn=eki-netjp-account@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54DFFC433EF
-	for <linux-firmware@archiver.kernel.org>; Fri,  4 Mar 2022 08:49:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 66232C433EF
+	for <linux-firmware@archiver.kernel.org>; Fri,  4 Mar 2022 12:31:47 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 0C071C340EF; Fri,  4 Mar 2022 08:49:51 +0000 (UTC)
-Received: from nbisqeq.cn (unknown [143.92.45.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 16860C340E9
-	for <linux-firmware@kernel.org>; Fri,  4 Mar 2022 08:49:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 16860C340E9
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=nbisqeq.cn
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=nbisqeq.cn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=default; d=nbisqeq.cn;
- h=Message-ID:From:To:Subject:Date:MIME-Version:Content-Type;
- i=eki-netjp-account@nbisqeq.cn;
- bh=Vau/l+Hf96UpmQLAspQUZZPkdyciJ/mFHc4UTD6SN+k=;
- b=o6Dt8YPqCxBwXbFC/Ji13cBAHAunjjXTevu6FNJh/e+cBzSeKv2vXP22oaJSkLX9qUKZrUX5RiE2
-   q4XEsWjIVRS2p9j67yjrRM3bnAtlADYqZzYEVvYFIixRvTFxFdYW0SSmyP1yM/KUT4tSSVxbz7zd
-   CgwUFw8yQHrQarljf1E=
-Message-ID: <20220304163937546610@nbisqeq.cn>
-From: =?utf-8?B?44GI44GN44Gt44Gj44Go?= <eki-netjp-account@nbisqeq.cn>
-List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-Subject: =?utf-8?B?W+OBiOOBjeOBreOBo+OBqF3norroqo3jgZXjgozjgZ/mg4XloLE=?=
-Date: Fri, 4 Mar 2022 16:39:24 +0800
+	id 2BC75C340F3; Fri,  4 Mar 2022 12:31:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 164D1C340E9
+	for <linux-firmware@kernel.org>; Fri,  4 Mar 2022 12:31:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1646397107;
+	bh=eyvAhI909JUNCU7oG+S7+8ykpE9ER3gHuE9H4ebhHZM=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=Um7q5yuhY8GjE5Q8iU/l31zFCjc6LrbV3t6UyVGysqp5/rrJHBBYcvKPg7nUFaof8
+	 Z0R2srjlNiM59Q20YeFhzQTDd3/OJsUngCxV6q7DOaZuLAONYgOe/jz80gp57SIHd/
+	 VEPy7w9M1EoosBpB8bxlzRxni1JqX0njYKMP+OT1g1BaeV7nqozNC7UGdyDG48HCBQ
+	 YTxcjp2zDEyfhOm+aRyRVN9buWB9qneteJUjxu9NsD8lbst0jO4wSNj7wAuRNnhEfA
+	 yIGQw8Zaw14n0ZEZMdSfTz4FvuZNi66Jtvswh8Z3XfR6whVNJ14rD2U9cu3Jcu7xz9
+	 /Oe6xCzeVT8TA==
+Received: by mail-il1-f179.google.com with SMTP id 9so6385450ily.11
+        for <linux-firmware@kernel.org>; Fri, 04 Mar 2022 04:31:47 -0800 (PST)
+X-Gm-Message-State: AOAM531K7F3kAbA3IlzTwnargeRXgk//qv5Ldh7GgGj4WHgnNOvdmclH
+	W8lBZ1Cn3t4Xulbdb6s2JEclfcCQR4ziN1HEjRg=
+X-Google-Smtp-Source: ABdhPJw6rlqB94it7C35ZKof9I7LtAyMSmWAVmCVuA3ATCkXflqwmolpjdg7I3/KhxbJrKYvZXmYED0zmIEzLkCJVSk=
+X-Received: by 2002:a05:6e02:1687:b0:2c2:787c:b35e with SMTP id
+ f7-20020a056e02168700b002c2787cb35emr34524914ila.2.1646397106248; Fri, 04 Mar
+ 2022 04:31:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0D1D_014BC39E.116717D0"
+References: <CADnq5_MQjQtFref9XX3gaePFTEkisiKxNM37Hg7_4qqcye6Z4w@mail.gmail.com>
+In-Reply-To: <CADnq5_MQjQtFref9XX3gaePFTEkisiKxNM37Hg7_4qqcye6Z4w@mail.gmail.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Fri, 4 Mar 2022 07:31:34 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA5ZHRDHXZ-1MpF9dxbZv1DL_mS+7cHciOfKE+XxLzFh5g@mail.gmail.com>
+Message-ID: <CA+5PVA5ZHRDHXZ-1MpF9dxbZv1DL_mS+7cHciOfKE+XxLzFh5g@mail.gmail.com>
+Subject: Re: amdgpu firmwares updates
+To: Alex Deucher <alexdeucher@gmail.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: Linux Firmware <linux-firmware@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-This is a multi-part message in MIME format.
+On Tue, Mar 1, 2022 at 8:53 AM Alex Deucher <alexdeucher@gmail.com> wrote:
+>
+> Updated firmwares for various IP blocks.  Please apply!
 
-------=_NextPart_000_0D1D_014BC39E.116717D0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+The 4th patch had an error:
 
-W+OBiOOBjeOBreOBo+OBqF3jga7jgqLjgqvjgqbjg7Pjg4jliLbpmZDjgZXjgozjgabjgYTjgb7j
-gZks6YCa5bi444Gu5L2/55So44Gr5b2x6Z+/44KS5LiO44GI44Gq44GE44Gf44KB44GrLA0K5Lul
-5LiL44Gu44Oq44Oz44Kv44KS44Kv44Oq44OD44Kv44GX44Gm44CB6Zai6YCj5oOF5aCx44KS44Gn
-44GN44KL44Gg44GR5pep44GP56K66KqN44GX44Gm44GP44Gg44GV44GELA0KMTLmmYLplpPku6Xl
-hoXjgavjgZTlv5zli5/jgYTjgZ/jgaDjgZHjgarjgYTloLTlkIjjga/jgIHjgZTkuI3kvr/jgpLj
-gYrjgYvjgZHjgZfjgabnlLPjgZfoqLPjgZTjgZbjgYTjgb7jgZvjgpPjgIINCi0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLQ0K56K66KqN44GV44KM44Gf5oOF5aCxDQotLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0NCuOBiuWVj+OBhOWQiOOCj+OBm+WFiA0K44GI44GN44Gt44Gj44Go44Ki44OJ44OQ44Kk
-44K244Oq44O844K744Oz44K/44O8DQpURUzjgIAwNTcwLTAxMDEzOQ0K5bm05Lit54Sh5LyR44CA
-OTowMO+9njE4OjAwDQrjgrXjgqTjg4jpgYvllrbCt+euoeeQhg0KSlLmnbHml6XmnKzjg43jg4Pj
-g4jjg6/jg7zjgq8NCioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKg0KDQrigLvjgZPjga7jg6Hjg7zjg6vjga/pgIHkv6HlsILnlKjjgafjgZnjgIIN
-CuOAgOOBk+OBruOCouODieODrOOCueOBq+mAgeS/oeOBhOOBn+OBoOOBhOOBpuOCgui/lOS/oeOB
-hOOBn+OBl+OBi+OBreOBvuOBmeOBruOBp+OAgeOBguOCieOBi+OBmOOCgeOBlOS6huaJv+mhmOOB
-hOOBvuOBmeOAgg0K4oC744Gq44GK44CB44GU5LiN5piO44Gq54K544Gr44Gk44GN44G+44GX44Gm
-44Gv44CB44GK5omL5pWw44Gn44GZ44GM44CBDQrjgYjjgY3jga3jgaPjgajjgqLjg4njg5DjgqTj
-grbjg6rjg7zjgrvjg7Pjgr/jg7zjgYrllY/jgYTlkIjjgo/jgZvjgY/jgaDjgZXjgYTjgII=
+[jwboyer@vader linux-firmware]$ ./check_whence.py
+E: amdgpu/sdma_5_2_7_sdma.bin listed in WHENCE does not exist
+E: amdgpu/sdma_5_2_7.bin not listed in WHENCE
+[jwboyer@vader linux-firmware]$
 
-------=_NextPart_000_0D1D_014BC39E.116717D0
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+I just adjusted the name in WHENCE to match the binary file name
+locally and pushed the set out.
 
-PCFET0NUWVBFIEhUTUwgUFVCTElDICItLy9XM0MvL0RURCBIVE1MIDQuMCBUcmFuc2l0aW9uYWwv
-L0VOIj4NCjxIVE1MPjxIRUFEPg0KPE1FVEEgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0
-Zi04IiBodHRwLWVxdWl2PUNvbnRlbnQtVHlwZT4NCjxNRVRBIG5hbWU9R0VORVJBVE9SIGNvbnRl
-bnQ9Ik1TSFRNTCAxMS4wMC4xMDU3MC4xMDAxIj48L0hFQUQ+DQo8Qk9EWT4NCjxQPlvjgYjjgY3j
-ga3jgaPjgahd44Gu44Ki44Kr44Km44Oz44OI5Yi26ZmQ44GV44KM44Gm44GE44G+44GZLOmAmuW4
-uOOBruS9v+eUqOOBq+W9semfv+OCkuS4juOBiOOBquOBhOOBn+OCgeOBqyw8QlI+5Lul5LiL44Gu
-44Oq44Oz44Kv44KS44Kv44Oq44OD44Kv44GX44Gm44CB6Zai6YCj5oOF5aCx44KS44Gn44GN44KL
-44Gg44GR5pep44GP56K66KqN44GX44Gm44GP44Gg44GV44GELDxCUj4xMuaZgumWk+S7peWGheOB
-q+OBlOW/nOWLn+OBhOOBn+OBoOOBkeOBquOBhOWgtOWQiOOBr+OAgeOBlOS4jeS+v+OCkuOBiuOB
-i+OBkeOBl+OBpueUs+OBl+ios+OBlOOBluOBhOOBvuOBm+OCk+OAgjwvUD4NCjxQPi0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLTwvUD4NCjxQPjxBIGhyZWY9Imh0dHBzOi8vd3d3LmVraS1uZXQuY29t
-LmhteXU0a2MuY24iPueiuuiqjeOBleOCjOOBn+aDheWgsTwvQT48L1A+DQo8UD4tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS08L1A+PEZPTlQgZmFjZT1BcmlhbD4NCjxQIA0Kc3R5bGU9IkJPWC1TSVpJ
-Tkc6IGJvcmRlci1ib3g7IFBBRERJTkctQk9UVE9NOiAwcHg7IFBBRERJTkctVE9QOiAwcHg7IFBB
-RERJTkctTEVGVDogMHB4OyBNQVJHSU46IDBweDsgUEFERElORy1SSUdIVDogMHB4Ij7jgYrllY/j
-gYTlkIjjgo/jgZvlhYg8L1A+DQo8UCANCnN0eWxlPSJCT1gtU0laSU5HOiBib3JkZXItYm94OyBQ
-QURESU5HLUJPVFRPTTogMHB4OyBQQURESU5HLVRPUDogMHB4OyBQQURESU5HLUxFRlQ6IDBweDsg
-TUFSR0lOOiAwcHg7IFBBRERJTkctUklHSFQ6IDBweCI+44GI44GN44Gt44Gj44Go44Ki44OJ44OQ
-44Kk44K244Oq44O844K744Oz44K/44O8PC9QPg0KPFAgDQpzdHlsZT0iQk9YLVNJWklORzogYm9y
-ZGVyLWJveDsgUEFERElORy1CT1RUT006IDBweDsgUEFERElORy1UT1A6IDBweDsgUEFERElORy1M
-RUZUOiAwcHg7IE1BUkdJTjogMHB4OyBQQURESU5HLVJJR0hUOiAwcHgiPlRFTOOAgDA1NzAtMDEw
-MTM5PEJSPuW5tOS4reeEoeS8keOAgDk6MDDvvZ4xODowMDwvUD4NCjxQIA0Kc3R5bGU9IkJPWC1T
-SVpJTkc6IGJvcmRlci1ib3g7IFBBRERJTkctQk9UVE9NOiAwcHg7IFBBRERJTkctVE9QOiAwcHg7
-IFBBRERJTkctTEVGVDogMHB4OyBNQVJHSU46IDBweDsgUEFERElORy1SSUdIVDogMHB4Ij7jgrXj
-gqTjg4jpgYvllrbCt+euoeeQhjwvUD4NCjxQIA0Kc3R5bGU9IkJPWC1TSVpJTkc6IGJvcmRlci1i
-b3g7IFBBRERJTkctQk9UVE9NOiAwcHg7IFBBRERJTkctVE9QOiAwcHg7IFBBRERJTkctTEVGVDog
-MHB4OyBNQVJHSU46IDBweDsgUEFERElORy1SSUdIVDogMHB4Ij5KUuadseaXpeacrOODjeODg+OD
-iOODr+ODvOOCrzwvUD48L0ZPTlQ+DQo8UCANCnN0eWxlPSJCT1gtU0laSU5HOiBib3JkZXItYm94
-OyBQQURESU5HLUJPVFRPTTogMHB4OyBQQURESU5HLVRPUDogMHB4OyBQQURESU5HLUxFRlQ6IDBw
-eDsgTUFSR0lOOiAwcHg7IFBBRERJTkctUklHSFQ6IDBweCI+PEZPTlQgDQpmYWNlPUFyaWFsPioq
-KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKjwvRk9O
-VD48Rk9OVCANCmZhY2U9QXJpYWw+PC9QPg0KPFAgDQpzdHlsZT0iQk9YLVNJWklORzogYm9yZGVy
-LWJveDsgUEFERElORy1CT1RUT006IDBweDsgUEFERElORy1UT1A6IDBweDsgUEFERElORy1MRUZU
-OiAwcHg7IE1BUkdJTjogMHB4OyBQQURESU5HLVJJR0hUOiAwcHgiPjxCUj7igLvjgZPjga7jg6Hj
-g7zjg6vjga/pgIHkv6HlsILnlKjjgafjgZnjgII8QlI+44CA44GT44Gu44Ki44OJ44Os44K544Gr
-6YCB5L+h44GE44Gf44Gg44GE44Gm44KC6L+U5L+h44GE44Gf44GX44GL44Gt44G+44GZ44Gu44Gn
-44CB44GC44KJ44GL44GY44KB44GU5LqG5om/6aGY44GE44G+44GZ44CCPEJSPuKAu+OBquOBiuOA
-geOBlOS4jeaYjuOBqueCueOBq+OBpOOBjeOBvuOBl+OBpuOBr+OAgeOBiuaJi+aVsOOBp+OBmeOB
-jOOAgTxCUj7jgYjjgY3jga3jgaPjgajjgqLjg4njg5DjgqTjgrbjg6rjg7zjgrvjg7Pjgr/jg7zj
-gYrllY/jgYTlkIjjgo/jgZvjgY/jgaDjgZXjgYTjgII8L0ZPTlQ+PC9QPjwvQk9EWT48L0hUTUw+
-DQo=
-
-------=_NextPart_000_0D1D_014BC39E.116717D0--
-
+josh
