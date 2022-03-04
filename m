@@ -1,80 +1,112 @@
-Return-Path: <SRS0=QnlO=TP=canonical.com=vicamo.yang@kernel.org>
+Return-Path: <SRS0=rD2R=TP=w1.fi=j@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F150FC433EF
-	for <linux-firmware@archiver.kernel.org>; Fri,  4 Mar 2022 15:01:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5ADFEC433F5
+	for <linux-firmware@archiver.kernel.org>; Fri,  4 Mar 2022 16:14:39 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id DA932C340F2; Fri,  4 Mar 2022 15:01:12 +0000 (UTC)
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+	id 2E4BBC36AE3; Fri,  4 Mar 2022 16:14:39 +0000 (UTC)
+Received: from mail.w1.fi (mail.w1.fi [212.71.239.96])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 298EDC36AE3
-	for <linux-firmware@kernel.org>; Fri,  4 Mar 2022 15:01:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 298EDC36AE3
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=canonical.com
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 51DB23F1CB
-	for <linux-firmware@kernel.org>; Fri,  4 Mar 2022 15:01:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1646406069;
-	bh=DmFax3LZSalpFiojoEblp62J4NHH+vngrBt4SmdiErg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type;
-	b=Q3wO/qOvPkWDr7iQwb9qVGxT8m2hGm5rgXLi2V1tefH0W2JjcCm1nPnQpaLf8BDvZ
-	 9zH+bWSfThoNp807IY0Z6ReKGTvGey+Y11zdX7I8Ej/atVZHpKw8O0BUduoXHSYXsS
-	 KuAA9C0LAVPRDa7lS55RAQdlJQUo5wY/tpzunaZ/otYvkBVvJ6s9XgdMYkPrlC+Xdx
-	 jhazFtHZBtW1zDW9IpGBCrN870bsKl+jFaW4gk/QABfHQUxF7eYEOEyeUEEPkcngX8
-	 VGIuTp4BymsVSaIdOyJACrrrLsCoBLxA/WMdF3x4d2Pjgg5O0hsvCZaAxOAy0Swcm5
-	 aMay+lKjspukw==
-Received: by mail-io1-f70.google.com with SMTP id k10-20020a5d91ca000000b006414a00b160so5594849ior.18
-        for <linux-firmware@kernel.org>; Fri, 04 Mar 2022 07:01:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DmFax3LZSalpFiojoEblp62J4NHH+vngrBt4SmdiErg=;
-        b=rBHmOPW9Ii0WOB+yXfz/LzoQs37iQNeQ+8I820fmU/xWGLD2Q0tFRmYYtbZJtEeVly
-         di5z/6Ulvvld/HIGbHYbWVIggmhONITwZ+Dj1aEMrZ3nrpA8MyWlnIzEcVebrNPetWvb
-         jV9cBzLfa56JPIIYa4wfd42UD3ErXAQzFHFLt0pZ4tK0pNQp7Sh6bIKzI8TQBcz545Ur
-         HvkX8Nn/13QK5ve6bPE1VrRdbTbeAz7zpjibS3ZNDiRxVV4W45BTM52vpnq+82lfp8Dp
-         ZsSlzEZ8YqZ5Paqt6VlyubnienQmRwORHCQilaPk7hONwNfzGGR3UIofpA0Q61+cwG8b
-         Samg==
-X-Gm-Message-State: AOAM530SJQkbNs9d0LXftbZiwpFjdbhXvZUXt0QhE1S2xc3/JFsXUMqy
-	eKIzrl0YlQTj4NkAy3YK2ACouOubamFGQCPnjzpD2aoS3zZL2veZguCQH6fBw5DGjj/0Lq6D5Rq
-	0iKQ9Xft33Ahfauj9IJLFPwyVPD3EcPZDd3rSMC275mMSYHK5Yz/wtw==
-X-Received: by 2002:a05:6638:381a:b0:314:e62:27dc with SMTP id i26-20020a056638381a00b003140e6227dcmr33584974jav.59.1646406068097;
-        Fri, 04 Mar 2022 07:01:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJweoydln7fzPdEY100TIffp0fujFa/bOcsOFqp3xnwoWcYigiVMEOySmhXMqgNtW3yRswh8+zAP90k9dC5gapc=
-X-Received: by 2002:a05:6638:381a:b0:314:e62:27dc with SMTP id
- i26-20020a056638381a00b003140e6227dcmr33584954jav.59.1646406067875; Fri, 04
- Mar 2022 07:01:07 -0800 (PST)
-MIME-Version: 1.0
-References: <af43569b2247f7aff44b1ea3680d88dbe083d78d.camel@coelho.fi>
- <CA+5PVA4BbLaze8-c4R-8LESA9UhsDAJu3_FK4GZKUpVUkPKDrQ@mail.gmail.com> <CA+rHWAL+JDKJVvocS_JX6CtJ4JUDf_wRMCQ-T1ejw+gT2LOekg@mail.gmail.com>
-In-Reply-To: <CA+rHWAL+JDKJVvocS_JX6CtJ4JUDf_wRMCQ-T1ejw+gT2LOekg@mail.gmail.com>
-From: You-Sheng Yang <vicamo.yang@canonical.com>
-Date: Fri, 4 Mar 2022 23:00:56 +0800
-Message-ID: <CA+rHWA+RsguE_UsdCN8QfotvfTSt9VUkY5DM4nvU=bZQRMHvJA@mail.gmail.com>
-Subject: Re: pull request: iwlwifi firmware updates 2022-03-03
+	by smtp.kernel.org (Postfix) with ESMTPS id 4310AC340E9;
+	Fri,  4 Mar 2022 16:14:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 4310AC340E9
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=w1.fi
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=w1.fi
+Received: from localhost (localhost [127.0.0.1])
+	by mail.w1.fi (Postfix) with ESMTP id 51DDD10FB4;
+	Fri,  4 Mar 2022 16:14:34 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at w1.fi
+Received: from mail.w1.fi ([127.0.0.1])
+	by localhost (mail.w1.fi [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id P9vLXmuBVv2o; Fri,  4 Mar 2022 16:14:32 +0000 (UTC)
+Received: by jm (sSMTP sendmail emulation); Fri, 04 Mar 2022 18:14:30 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=w1.fi; s=default;
+	t=1646410472; bh=sh6teZAZ3oJ+RZRi/ZWxXm7sa16SJJdvz6GBv9UqROM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YIAgIey9p0cF/SwHZr3hxa1ELsBOI7P+2YxLRWab0bL9WenHxMZsMLKtdtYuiJ7Zx
+	 grVYkJzbierYa0vNkJTni7Wx9LBISomeIMSGkVSfgsbM1LTNKpPGxq/rGCckNezgXz
+	 CI7tgCKk5dYFOJoi+hgtHlIJi9nSjXDesgaFSaGZmfYt81d3NAhNYMF1Hb328V+BiY
+	 JaGMsgqOjkFCDPWVdsl8iwDM1BLFAgrP6pzEgKWeSeVtfJT0i+5CZlXJm4+J0tBoso
+	 /QFIezkS9iFLk+WS2w8ATSjYILGuqrR+zUBvfdgfTdP8I3rAdCxFTwW6CMr0cKyRHG
+	 +1ZIkNHhkBg5w==
+Date: Fri, 4 Mar 2022 18:14:30 +0200
+From: Jouni Malinen <j@w1.fi>
 To: Josh Boyer <jwboyer@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Luca Coelho <luca@coelho.fi>, "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, "kyle@infradead.org" <kyle@infradead.org>, 
-	"ben@decadent.org.uk" <ben@decadent.org.uk>, golan.ben.ami@intel.com
-Content-Type: text/plain; charset="UTF-8"
+Cc: Kalle Valo <kvalo@kernel.org>,
+	"linux-firmware@kernel.org" <linux-firmware@kernel.org>,
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+	"ath11k@lists.infradead.org" <ath11k@lists.infradead.org>
+Subject: Re: [PULL] ath11k firmware 20211223
+Message-ID: <20220304161430.GA430462@w1.fi>
+References: <BYAPR02MB4567669033A210A78AC397E9927E9@BYAPR02MB4567.namprd02.prod.outlook.com>
+ <CA+5PVA4WEuJDB3OCKfYK-BPaccpVWd9t_au9S7MCEtpy7cdF-A@mail.gmail.com>
+ <87ee4brodv.fsf@kernel.org>
+ <CA+5PVA5DJmwPqpz8F9iDbJKcF1hDBRLdDT4URgSaiEcjet74Kw@mail.gmail.com>
+ <20220302175014.GA14801@w1.fi>
+ <CA+5PVA6R6F=VqAZRf=xDwGcC+cpqLY1kStkoHck53XiLURVyaw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+5PVA6R6F=VqAZRf=xDwGcC+cpqLY1kStkoHck53XiLURVyaw@mail.gmail.com>
 
-On Fri, Mar 4, 2022 at 10:58 PM You-Sheng Yang
-<vicamo.yang@canonical.com> wrote:
+On Fri, Mar 04, 2022 at 08:04:26AM -0500, Josh Boyer wrote:
+> On Wed, Mar 2, 2022 at 12:50 PM Jouni Malinen <j@w1.fi> wrote:
+> > Would the following in WHENCE work for you?
+> >
+> > Driver: ath11k - Qualcomm Technologies 802.11ax chipset support
+> >
+> > File: ath11k/IPQ6018/hw1.0/board-2.bin
+> > ...
+> > Version: WLAN.HK.2.1.0.1-01238-QCAHKSWPL_SILICONZ-2
+> > Notice: ath11k/IPQ6018/hw1.0/Notice.txt
+> 
+> We'd have to teach copy-firmware.sh what to do with a "Notice:" key.
+> Is there a reason "File:" wouldn't work?  The intention is to install
+> the notices alongside the binaries, so that would accomplish it.
 
-Wrong thread. Sorry.
+Yeah, that sounds reasonable to me. From copying/installing/distribution
+view point, these can really be handled in the exact same way as the
+actual firmware binaries in practice.
+
+> > In other words, there would be only a single "License:" line and one
+> > "Notice:" line for each firmware version? The license itself (i.e.,
+> > LICENSE.QualcommAtheros_ath10k) is same for all the versions while the
+> > set of notices (i.e., those notice.txt files) can be different based on
+> > what is included in the particular build.
+> 
+> Yes, that would help.  Would you be able to adjust the existing
+> entries for ath firmware in the same way?
+
+Yes, I'll work with Kalle to update the existing ath* WLAN cases.
+
+> > > > I'm still working on your other comment about notice.txt, will get back
+> > > > on that later.
+> >
+> > This part about clearly identifying the files should be clear now, but
+> > it would be good to resolve that part about the notice.txt files in
+> > general before sending out an updated pull request.
+> 
+> Given these were merged in the past, perhaps I'm being overly
+> pedantic.  If we can mark them as Files or Notices instead of
+> Licenses, I won't hold it up.  It leaves me slightly confused why
+> attribution files need to reference agreements with Qualcomm, splatter
+> Confidential and Proprietary throughout the file, and reference
+> COPYING and README in reference to GPLv2 when the BSD license was
+> clearly chosen.  Perhaps that could be cleaned up in the future.
+
+Thanks. We'll remove most of the unnecessary information from the new
+notice.txt files and that should get rid of many of the potentially
+confusing parts. If that cleanup leaves something confusing in place,
+we are open to cleaning these up further in followup patches, but it
+would be nice to be able to get the updated versions into
+linux-firmware.git without much more additional delay and yes, this
+would be with the File: instead of Licence: entries for the notice.txt
+files.
 
 -- 
-Regards,
-You-Sheng Yang
+Jouni Malinen                                            PGP id EFC895FA
