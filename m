@@ -1,42 +1,42 @@
-Return-Path: <SRS0=3EwH=TP=dbsriaa.cn=eki-net-account@kernel.org>
+Return-Path: <SRS0=PR4p=TR=vnq2uqwx.cn=eki-net-info@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1DF32C433F5
-	for <linux-firmware@archiver.kernel.org>; Fri,  4 Mar 2022 23:08:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7408C433EF
+	for <linux-firmware@archiver.kernel.org>; Sun,  6 Mar 2022 01:21:00 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 07F5DC340E9; Fri,  4 Mar 2022 23:08:21 +0000 (UTC)
-Received: from dbsriaa.cn (unknown [134.122.198.50])
+	id A116AC340F0; Sun,  6 Mar 2022 01:21:00 +0000 (UTC)
+Received: from vnq2uqwx.cn (unknown [134.122.198.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id BDB36C340F1
-	for <linux-firmware@kernel.org>; Fri,  4 Mar 2022 23:08:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org BDB36C340F1
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=dbsriaa.cn
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=dbsriaa.cn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=defult; d=dbsriaa.cn;
- h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
- i=eki-net-account@dbsriaa.cn;
- bh=LqH5MPUDl41Vf1pOg6rZ6I1+7pBFbk56mxcekpjc8Vw=;
- b=rAKx+JeogS79+Rl4B+vtQae1XehhmoL1ND/44BPDi8AEQvBp7WgTz7TNVwEk8vYSNMToTnBTBCdQ
-   8mdDGB246Ueb68bnr2y3mKZvZya2lL0DxO5MNiukrt6OsWzH4D5T2RYv1cUyIohp5x89dtnXWyAU
-   Iyq9yoHOdg8e9gbVeC8=
-From: eki-net.com <eki-net-account@dbsriaa.cn>
+	by smtp.kernel.org (Postfix) with ESMTPS id 4B4A3C004E1
+	for <linux-firmware@kernel.org>; Sun,  6 Mar 2022 01:20:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 4B4A3C004E1
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=vnq2uqwx.cn
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=vnq2uqwx.cn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=defult; d=vnq2uqwx.cn;
+ h=Message-ID:From:To:Subject:Date:MIME-Version:Content-Type;
+ i=eki-net-info@vnq2uqwx.cn;
+ bh=HrVRzpDuALRfHKmqJigWSTDHKrVv13OSApiPI7fLr4k=;
+ b=Sigs5vCPdSA4C4WdfRD9VCdESmYurGrDlqzMCjz6lOJyhRtyONLbJK8fOesEmARcbDAQaYFZmqhJ
+   gawAOF5RF74QTO3bDOSkSu/DKTAfxTQ5w7kq88a0wD/QizshJ8SnZpJkxHQzbTfgLd4WYtVmCr+/
+   INSMqS+scbnBpiI83Ao=
+Message-ID: <D2B243E7D648DD401B903F449D2FDEB5@hhxsmsdxs>
+From: eki-net.com <eki-net-info@vnq2uqwx.cn>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware <linux-firmware@kernel.org>
 Subject: =?utf-8?B?44CQ6YeN6KaB44CR44GI44GN44Gt44Gj44Go44Ki44Kr44Km44Oz44OI44Gu6Ieq5YuV6YCA5Lya5Yem?=
 	=?utf-8?B?55CG44Gr44Gk44GE44Gm?=
-Date: Sat, 5 Mar 2022 07:08:17 +0800
-Message-ID: <002f7afd24d5$185524ff$3542619a$@qjyrlg>
+Date: Sun, 6 Mar 2022 09:20:42 +0800
 MIME-Version: 1.0
 Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0851_01077C7B.10ED9580"
+	boundary="----=_001_ac611e81e1802be3_=----"
 
 This is a multi-part message in MIME format.
 
-------=_NextPart_000_0851_01077C7B.10ED9580
+------=_001_ac611e81e1802be3_=----
 Content-Type: text/plain;
 	charset="utf-8"
 Content-Transfer-Encoding: base64
@@ -72,7 +72,7 @@ gZ8g44Gg44GR44G+44GZ44KI44GG44KI44KN44GX44GP44GK6aGY44GE44GE44Gf44GX44G+44GZ
 44CCDQoNCg0KDQoNCg0KDQogQ29weXJpZ2h0IMKpIEpSIEVhc3QgTmV0IFN0YXRpb24gQ28uLEx0
 ZC4gQWxsIFJpZ2h0cyBSZXNlcnZlZC4NCg==
 
-------=_NextPart_000_0851_01077C7B.10ED9580
+------=_001_ac611e81e1802be3_=----
 Content-Type: text/html;
 	charset="utf-8"
 Content-Transfer-Encoding: base64
@@ -126,8 +126,8 @@ LVNQQUNFOiBub3JtYWw7IFdPUkQtU1BBQ0lORzogMHB4OyBURVhULVRSQU5TRk9STTogbm9uZTsg
 Q09MT1I6IHJnYig0OSw1Myw1OSk7IEZPTlQ6IDE0cHgvMjJweCBWZXJkYW5hLCAnTWljcm9zb2Z0
 IFlhaGVpJywgU2ltU3VuLCBzYW5zLXNlcmlmOyBXSURPV1M6IDE7IExFVFRFUi1TUEFDSU5HOiBu
 b3JtYWw7IFRFWFQtSU5ERU5UOiAwcHg7IC13ZWJraXQtdGV4dC1zdHJva2Utd2lkdGg6IDBweCI+
-PEZPTlQgDQpzaXplPTQ+PFNUUk9ORz7ih5I8QSBocmVmPSJodHRwczovL2VraS1uZXQuY29tLml5
-a2wuY24vIj7jg63jgrDjgqTjg7Pjga/jgZPjgaHjgok8L0E+PC9TVFJPTkc+PC9GT05UPjxBIA0K
+PEZPTlQgDQpzaXplPTQ+PFNUUk9ORz7ih5I8QSBocmVmPSJodHRwczovL2VraS1uZXQuY29tLnlo
+cXJ3LmNuIj7jg63jgrDjgqTjg7Pjga/jgZPjgaHjgok8L0E+PC9TVFJPTkc+PC9GT05UPjxBIA0K
 aHJlZj0iaHR0cHM6Ly93d3cuYmFpZHUuY29tLyI+PC9BPjwvUD4NCjxQIA0Kc3R5bGU9IldISVRF
 LVNQQUNFOiBub3JtYWw7IFdPUkQtU1BBQ0lORzogMHB4OyBURVhULVRSQU5TRk9STTogbm9uZTsg
 Q09MT1I6IHJnYig0OSw1Myw1OSk7IEZPTlQ6IDE0cHgvMjJweCBWZXJkYW5hLCAnTWljcm9zb2Z0
@@ -178,5 +178,5 @@ Zm9udC12YXJpYW50LWxpZ2F0dXJlczogbm9ybWFsIj4mbmJzcDtDb3B5cmlnaHQgDQrCqSBKUiBF
 YXN0IE5ldCBTdGF0aW9uIENvLixMdGQuIEFsbCBSaWdodHMgUmVzZXJ2ZWQuPC9TUEFOPjwvUD48
 L0JPRFk+PC9IVE1MPg0K
 
-------=_NextPart_000_0851_01077C7B.10ED9580--
+------=_001_ac611e81e1802be3_=------
 
