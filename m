@@ -1,119 +1,79 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <kvalo@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4EFA6C433F5
-	for <linux-firmware@archiver.kernel.org>; Wed,  9 Mar 2022 12:29:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4BAACC433F5
+	for <linux-firmware@archiver.kernel.org>; Wed,  9 Mar 2022 13:44:35 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 1A37AC340F9; Wed,  9 Mar 2022 12:29:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0505EC340F5
-	for <linux-firmware@kernel.org>; Wed,  9 Mar 2022 12:29:30 +0000 (UTC)
+	id 22202C340EE; Wed,  9 Mar 2022 13:44:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4953C340E8;
+	Wed,  9 Mar 2022 13:44:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1646828970;
-	bh=qFfXbjO/IuTqLZSktDznYsZrYo3Gc74UYZq/P1VayS0=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=todDn2TZ2DG46etodhsoFqd0mOe79DGQhgpBtEYYDrSRohaqvA2qicuhxuxjMqkDR
-	 9Xw6D9UhxaNSTWroje58B0QdfLBf58wjYM0HHX6iFCI0G8Pe9iiQD8YRz81sivER4a
-	 aRp82fDdtUVDGI0He46MnL9C8Cz7hBThoeGXpvDfPLAzZf3n29eHcCsGAxHiKk49o6
-	 jI8iw3O4Q3M/5xNNgWFXLFUkHNGwCHVK4nLP1239efKCTMUZFwbz+hCtE6BMI/sa/9
-	 tSpOVOmeXBuJn4AhtOfA9glpwtjMDrlhi7cA3xaJDroDS3hvz5DKO6QD2K5qqHVfcQ
-	 bO5XSE4DY9Uvg==
-Received: by mail-io1-f48.google.com with SMTP id 195so2581638iou.0
-        for <linux-firmware@kernel.org>; Wed, 09 Mar 2022 04:29:29 -0800 (PST)
-X-Gm-Message-State: AOAM532nuMCZH0td9RM2Mxnb2kXIHPOBkDbXdPCJ1LE/HLtvBCmCOoJY
-	/haMys1dKrqBecWfJVGdbNKJZii0RLBLJCGjOF4=
-X-Google-Smtp-Source: ABdhPJypVfvmEWX58Nrc42BepFkPwhlFgAdsRWzT9g/SW9XoNZaKmPMeoBMUXiptqdztyQIjal5mEKzW91wX1S5kH3w=
-X-Received: by 2002:a05:6638:260f:b0:317:d73e:3038 with SMTP id
- m15-20020a056638260f00b00317d73e3038mr7261517jat.144.1646828969162; Wed, 09
- Mar 2022 04:29:29 -0800 (PST)
-MIME-Version: 1.0
-References: <45c8a31b79f538425f9524b0d65c002e1e24fc16.camel@coelho.fi>
-In-Reply-To: <45c8a31b79f538425f9524b0d65c002e1e24fc16.camel@coelho.fi>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Wed, 9 Mar 2022 07:29:18 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA7fQLuQ3E+AWrVyEmXEKYTYkTCHHDbwHfsQzuiXSMAFxA@mail.gmail.com>
-Message-ID: <CA+5PVA7fQLuQ3E+AWrVyEmXEKYTYkTCHHDbwHfsQzuiXSMAFxA@mail.gmail.com>
-Subject: Re: pull request: iwlwifi firmware updates 2022-03-03-v2
-To: Luca Coelho <luca@coelho.fi>
+	s=k20201202; t=1646833475;
+	bh=pl1KHIlT6GwiOI215OcZKClk++sM4YBz+P+rfeVAvxk=;
+	h=From:To:List-Id:Cc:Subject:References:Date:In-Reply-To:From;
+	b=MJP+xLoHJIUJPsWool9cBFcTv++AQxXh2dZS7XuwTOJMldLIGJUCzM9J1wxpfFoL0
+	 Dlmwjdu67nNXPWM6ogRDGE6mFBtZ5a3XEOyShh9mmeGbSpg5d8IKxgYkVi4ywDhUy8
+	 s2vfDfcex6NHReTV0CxHjhXQrp4RpTLZCpMcKwnnn9T9XHFJ3/tKNWji+/iYhxtzzC
+	 akgUN0Pg2WLB55wsShQDC/VgROzy6LyZ9MJhNqLwuptiFGRisxhUuj72/hu3WgCpa5
+	 zPRbx82jeozJcMLj5BsSMyxhx/DWAF+UkZQSgb6aObbI0O/ilRLERGLZ+2xLo67Dgc
+	 wdBSbz9LAzR9Q==
+From: Kalle Valo <kvalo@kernel.org>
+To: Josh Boyer <jwboyer@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, "kyle@infradead.org" <kyle@infradead.org>, 
-	"ben@decadent.org.uk" <ben@decadent.org.uk>, golan.ben.ami@intel.com, 
-	You-Sheng Yang <vicamo.yang@canonical.com>
-Content-Type: text/plain; charset="UTF-8"
+Cc: "linux-firmware\@kernel.org" <linux-firmware@kernel.org>,  "linux-wireless\@vger.kernel.org" <linux-wireless@vger.kernel.org>,  "ath10k\@lists.infradead.org" <ath10k@lists.infradead.org>,  "ath11k\@lists.infradead.org" <ath11k@lists.infradead.org>
+Subject: Re: [PULL] ath10k & ath11k firmware 20220307
+References: <BYAPR02MB4567574A7FBBA13037C4283692089@BYAPR02MB4567.namprd02.prod.outlook.com>
+	<CA+5PVA7UGLCSvTuDdxKUU65sV8GG1JjoMSAeLuJGo6Afq9xE6w@mail.gmail.com>
+Date: Wed, 09 Mar 2022 15:44:27 +0200
+In-Reply-To: <CA+5PVA7UGLCSvTuDdxKUU65sV8GG1JjoMSAeLuJGo6Afq9xE6w@mail.gmail.com>
+	(Josh Boyer's message of "Wed, 9 Mar 2022 07:28:25 -0500")
+Message-ID: <875yons0jo.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Tue, Mar 8, 2022 at 1:43 AM Luca Coelho <luca@coelho.fi> wrote:
->
-> Hi,
->
-> This contains some new and updated firmwares for all our currently
-> maintained FW binaries.
->
-> In v2 I added three missing binaries that I had forgotten to commit.
->
-> Please pull or let me know if there are any issues.
->
-> --
-> Cheers,
-> Luca.
->
->
-> The following changes since commit ee0667aa201e7d725ec87b1e4cf08de1d748d64f:
->
->   amdgpu: update raven2 VCN firmware (2022-02-28 09:44:17 -0500)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.git tags/iwlwifi-fw-2022-03-03-v2
->
-> for you to fetch changes up to 8f9285cca830cb709439ee2cf14d0519d155983b:
->
->   iwlwifi: add new FWs from core68-60 release (2022-03-08 08:39:39 +0200)
->
-> ----------------------------------------------------------------
-> Update and add iwlwifi firmware binaries for release Core68-60
->
-> ----------------------------------------------------------------
-> Luca Coelho (2):
->       iwlwifi: update 9000-family firmwares to core68-60
->       iwlwifi: add new FWs from core68-60 release
+Josh Boyer <jwboyer@kernel.org> writes:
 
-Pulled and pushed out.  Thanks.
-
-josh
-
+> On Mon, Mar 7, 2022 at 12:37 PM Kalle Valo <kvalo@qca.qualcomm.com> wrote:
+>>
+>> Hi,
+>>
+>> Here is a small pull request to use "File:" on all ath10k and ath11k notice.txt files and add support for
+>> WCN6855 hw2.0 and hw2.1 hardware families. Please let me know if there are any problems.
+>>
+>> Kalle
+>>
+>> The following changes since commit f011ccb490f952ea35e9ce4d73ca9b7d0d2453c3:
+>>
+>>   linux-firmware: add firmware for MT7986 (2022-03-04 08:43:26 -0500)
+>>
+>> are available in the Git repository at:
+>>
+>>   git://git.kernel.org/pub/scm/linux/kernel/git/kvalo/linux-firmware.git ath10k-20220307
+>>
+>> for you to fetch changes up to e8bc0db413b4ab7f8e540ffa17991ff61252de9c:
+>>
+>>   ath11k: add links for WCN6855 hw2.1 (2022-03-07 19:18:22 +0200)
+>>
+>> ----------------------------------------------------------------
+>> Kalle Valo (4):
+>>       ath10k/ath11k: mark notice.txt as "File:"
+>>       ath11k: WCN6855 hw2.0: add board-2.bin and regdb.bin
+>>       ath11k: WCN6855 hw2.0: add WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3
+>>       ath11k: add links for WCN6855 hw2.1
 >
->  WHENCE                            |  40 ++++++++++++++++++++++++++++++++++++++--
->  iwlwifi-9000-pu-b0-jf-b0-46.ucode | Bin 1519544 -> 1520208 bytes
->  iwlwifi-9260-th-b0-jf-b0-46.ucode | Bin 1490376 -> 1491056 bytes
->  iwlwifi-Qu-b0-hr-b0-71.ucode      | Bin 0 -> 1364312 bytes
->  iwlwifi-Qu-b0-jf-b0-71.ucode      | Bin 0 -> 1285192 bytes
->  iwlwifi-Qu-c0-hr-b0-71.ucode      | Bin 0 -> 1364328 bytes
->  iwlwifi-Qu-c0-jf-b0-71.ucode      | Bin 0 -> 1285208 bytes
->  iwlwifi-QuZ-a0-hr-b0-71.ucode     | Bin 0 -> 1364308 bytes
->  iwlwifi-QuZ-a0-jf-b0-71.ucode     | Bin 0 -> 1285188 bytes
->  iwlwifi-cc-a0-71.ucode            | Bin 0 -> 1322288 bytes
->  iwlwifi-so-a0-gf-a0-71.ucode      | Bin 0 -> 1550124 bytes
->  iwlwifi-so-a0-gf-a0.pnvm          | Bin 41808 -> 41808 bytes
->  iwlwifi-so-a0-gf4-a0-71.ucode     | Bin 0 -> 1566352 bytes
->  iwlwifi-so-a0-gf4-a0.pnvm         | Bin 21576 -> 28064 bytes
->  iwlwifi-so-a0-hr-b0-71.ucode      | Bin 0 -> 1456960 bytes
->  iwlwifi-so-a0-jf-b0-71.ucode      | Bin 0 -> 1400056 bytes
->  iwlwifi-ty-a0-gf-a0-71.ucode      | Bin 0 -> 1494024 bytes
->  iwlwifi-ty-a0-gf-a0.pnvm          | Bin 41588 -> 41588 bytes
->  18 files changed, 38 insertions(+), 2 deletions(-)
->  create mode 100644 iwlwifi-Qu-b0-hr-b0-71.ucode
->  create mode 100644 iwlwifi-Qu-b0-jf-b0-71.ucode
->  create mode 100644 iwlwifi-Qu-c0-hr-b0-71.ucode
->  create mode 100644 iwlwifi-Qu-c0-jf-b0-71.ucode
->  create mode 100644 iwlwifi-QuZ-a0-hr-b0-71.ucode
->  create mode 100644 iwlwifi-QuZ-a0-jf-b0-71.ucode
->  create mode 100644 iwlwifi-cc-a0-71.ucode
->  create mode 100644 iwlwifi-so-a0-gf-a0-71.ucode
->  create mode 100644 iwlwifi-so-a0-gf4-a0-71.ucode
->  create mode 100644 iwlwifi-so-a0-hr-b0-71.ucode
->  create mode 100644 iwlwifi-so-a0-jf-b0-71.ucode
->  create mode 100644 iwlwifi-ty-a0-gf-a0-71.ucode
->
+> Pulled and pushed out.  Thank you for working with me on this.
+
+Great, thanks for pulling!
+
+Next I need to get the rest of notice.txt files cleaned up and then I'll
+send a second pull request with updates and new firmwares. But that will
+take some time, it's a tedious process.
+
+-- 
+https://patchwork.kernel.org/project/linux-wireless/list/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
