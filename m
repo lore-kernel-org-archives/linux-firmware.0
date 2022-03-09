@@ -1,138 +1,91 @@
-Return-Path: <SRS0=pDtz=TT=coelho.fi=luca@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D700FC433F5
-	for <linux-firmware@archiver.kernel.org>; Tue,  8 Mar 2022 06:43:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7C1D1C433F5
+	for <linux-firmware@archiver.kernel.org>; Wed,  9 Mar 2022 12:28:37 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C1E50C340EC; Tue,  8 Mar 2022 06:43:31 +0000 (UTC)
-Received: from farmhouse.coelho.fi (paleale.coelho.fi [176.9.41.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 0141EC340EB;
-	Tue,  8 Mar 2022 06:43:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 0141EC340EB
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=coelho.fi
-Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=coelho.fi
-Received: from 91-156-4-241.elisa-laajakaista.fi ([91.156.4.241] helo=[192.168.100.150])
-	by farmhouse.coelho.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <luca@coelho.fi>)
-	id 1nRTZ4-000Sqr-1x;
-	Tue, 08 Mar 2022 08:43:23 +0200
-Message-ID: <45c8a31b79f538425f9524b0d65c002e1e24fc16.camel@coelho.fi>
-From: Luca Coelho <luca@coelho.fi>
-List-Id: <linux-firmware.lore.kernel.org>
-To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-Cc: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, 
-	"kyle@infradead.org"
-	 <kyle@infradead.org>, "jwboyer@kernel.org" <jwboyer@kernel.org>, 
-	"ben@decadent.org.uk"
-	 <ben@decadent.org.uk>, golan.ben.ami@intel.com, You-Sheng Yang
-	 <vicamo.yang@canonical.com>, luca@coelho.fi
-Date: Tue, 08 Mar 2022 08:43:21 +0200
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-na8/cI+Rd8DeUMS0vFJ5"
-User-Agent: Evolution 3.43.2-2 
+	id 4252BC340F6; Wed,  9 Mar 2022 12:28:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A758C340F3
+	for <linux-firmware@kernel.org>; Wed,  9 Mar 2022 12:28:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1646828917;
+	bh=LHAIB28Kz3tNaYpxdWarxfSrRGCmeqElibWd2WIzOys=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=TzMcVxnl+zskvXgWuPvR+EXDnMqL5n8MWfXRrr83lsZuw4+jzSfhlV+k2qvcSa+Ik
+	 9yYZXNA51C0Jy5rC4UJ53Z6nP9FnUUDnJ3iEEcvMGDrUjliWRpK2Brxsqqs+Px461J
+	 A6Vbwz6t4O7dykF44NTrw9OC7FZAjaqsroSfudFNqNmzFXKksf1DSRpTTv3hsClx5G
+	 k20J6mCTeRe1nFAKEwVV7Q5cKjj/Mfv7zjc1wXCNHmhmJxYTIN7NAGGuaj3QHKe+dN
+	 +oELvlqPJ2skW/+nyFS89vFrgHEM72rOhhE4rPCHX7uTT7NJmdo3lK9Lb4ZQ78s6Vw
+	 5fFDRFJ/5WL0w==
+Received: by mail-il1-f170.google.com with SMTP id j12so1374947ils.0
+        for <linux-firmware@kernel.org>; Wed, 09 Mar 2022 04:28:37 -0800 (PST)
+X-Gm-Message-State: AOAM532hC/G1p5Wu7fmdWJRclUQymwehdyUL9vkWacQeHDXgtN291McP
+	21nyIWsu3VCZBoqu35NIrf7UuGmssH0GI7bxz04=
+X-Google-Smtp-Source: ABdhPJzG2p3OSIkkJVGwKtr2MBYB5qyILPfU4tzVnDLbVWmtOONDKP0tu+TM623kHFkvrhjx7973lHhN2S7cgqAQ1Zc=
+X-Received: by 2002:a05:6e02:1688:b0:2c6:4a85:a1bf with SMTP id
+ f8-20020a056e02168800b002c64a85a1bfmr10991305ila.243.1646828916333; Wed, 09
+ Mar 2022 04:28:36 -0800 (PST)
 MIME-Version: 1.0
-Subject: pull request: iwlwifi firmware updates 2022-03-03-v2
-
-
---=-na8/cI+Rd8DeUMS0vFJ5
+References: <BYAPR02MB4567574A7FBBA13037C4283692089@BYAPR02MB4567.namprd02.prod.outlook.com>
+In-Reply-To: <BYAPR02MB4567574A7FBBA13037C4283692089@BYAPR02MB4567.namprd02.prod.outlook.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Wed, 9 Mar 2022 07:28:25 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA7UGLCSvTuDdxKUU65sV8GG1JjoMSAeLuJGo6Afq9xE6w@mail.gmail.com>
+Message-ID: <CA+5PVA7UGLCSvTuDdxKUU65sV8GG1JjoMSAeLuJGo6Afq9xE6w@mail.gmail.com>
+Subject: Re: [PULL] ath10k & ath11k firmware 20220307
+To: Kalle Valo <kvalo@qca.qualcomm.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, 
+	"ath10k@lists.infradead.org" <ath10k@lists.infradead.org>, 
+	"ath11k@lists.infradead.org" <ath11k@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Mon, Mar 7, 2022 at 12:37 PM Kalle Valo <kvalo@qca.qualcomm.com> wrote:
+>
+> Hi,
+>
+> Here is a small pull request to use "File:" on all ath10k and ath11k notice.txt files and add support for
+> WCN6855 hw2.0 and hw2.1 hardware families. Please let me know if there are any problems.
+>
+> Kalle
+>
+> The following changes since commit f011ccb490f952ea35e9ce4d73ca9b7d0d2453c3:
+>
+>   linux-firmware: add firmware for MT7986 (2022-03-04 08:43:26 -0500)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/kvalo/linux-firmware.git ath10k-20220307
+>
+> for you to fetch changes up to e8bc0db413b4ab7f8e540ffa17991ff61252de9c:
+>
+>   ath11k: add links for WCN6855 hw2.1 (2022-03-07 19:18:22 +0200)
+>
+> ----------------------------------------------------------------
+> Kalle Valo (4):
+>       ath10k/ath11k: mark notice.txt as "File:"
+>       ath11k: WCN6855 hw2.0: add board-2.bin and regdb.bin
+>       ath11k: WCN6855 hw2.0: add WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3
+>       ath11k: add links for WCN6855 hw2.1
 
-This contains some new and updated firmwares for all our currently
-maintained FW binaries.
+Pulled and pushed out.  Thank you for working with me on this.
 
-In v2 I added three missing binaries that I had forgotten to commit.
+josh
 
-Please pull or let me know if there are any issues.
-
---
-Cheers,
-Luca.
-
-
-The following changes since commit ee0667aa201e7d725ec87b1e4cf08de1d748d64f=
-:
-
-  amdgpu: update raven2 VCN firmware (2022-02-28 09:44:17 -0500)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.git =
-tags/iwlwifi-fw-2022-03-03-v2
-
-for you to fetch changes up to 8f9285cca830cb709439ee2cf14d0519d155983b:
-
-  iwlwifi: add new FWs from core68-60 release (2022-03-08 08:39:39 +0200)
-
-----------------------------------------------------------------
-Update and add iwlwifi firmware binaries for release Core68-60
-
-----------------------------------------------------------------
-Luca Coelho (2):
-      iwlwifi: update 9000-family firmwares to core68-60
-      iwlwifi: add new FWs from core68-60 release
-
- WHENCE                            |  40 ++++++++++++++++++++++++++++++++++=
-++++--
- iwlwifi-9000-pu-b0-jf-b0-46.ucode | Bin 1519544 -> 1520208 bytes
- iwlwifi-9260-th-b0-jf-b0-46.ucode | Bin 1490376 -> 1491056 bytes
- iwlwifi-Qu-b0-hr-b0-71.ucode      | Bin 0 -> 1364312 bytes
- iwlwifi-Qu-b0-jf-b0-71.ucode      | Bin 0 -> 1285192 bytes
- iwlwifi-Qu-c0-hr-b0-71.ucode      | Bin 0 -> 1364328 bytes
- iwlwifi-Qu-c0-jf-b0-71.ucode      | Bin 0 -> 1285208 bytes
- iwlwifi-QuZ-a0-hr-b0-71.ucode     | Bin 0 -> 1364308 bytes
- iwlwifi-QuZ-a0-jf-b0-71.ucode     | Bin 0 -> 1285188 bytes
- iwlwifi-cc-a0-71.ucode            | Bin 0 -> 1322288 bytes
- iwlwifi-so-a0-gf-a0-71.ucode      | Bin 0 -> 1550124 bytes
- iwlwifi-so-a0-gf-a0.pnvm          | Bin 41808 -> 41808 bytes
- iwlwifi-so-a0-gf4-a0-71.ucode     | Bin 0 -> 1566352 bytes
- iwlwifi-so-a0-gf4-a0.pnvm         | Bin 21576 -> 28064 bytes
- iwlwifi-so-a0-hr-b0-71.ucode      | Bin 0 -> 1456960 bytes
- iwlwifi-so-a0-jf-b0-71.ucode      | Bin 0 -> 1400056 bytes
- iwlwifi-ty-a0-gf-a0-71.ucode      | Bin 0 -> 1494024 bytes
- iwlwifi-ty-a0-gf-a0.pnvm          | Bin 41588 -> 41588 bytes
- 18 files changed, 38 insertions(+), 2 deletions(-)
- create mode 100644 iwlwifi-Qu-b0-hr-b0-71.ucode
- create mode 100644 iwlwifi-Qu-b0-jf-b0-71.ucode
- create mode 100644 iwlwifi-Qu-c0-hr-b0-71.ucode
- create mode 100644 iwlwifi-Qu-c0-jf-b0-71.ucode
- create mode 100644 iwlwifi-QuZ-a0-hr-b0-71.ucode
- create mode 100644 iwlwifi-QuZ-a0-jf-b0-71.ucode
- create mode 100644 iwlwifi-cc-a0-71.ucode
- create mode 100644 iwlwifi-so-a0-gf-a0-71.ucode
- create mode 100644 iwlwifi-so-a0-gf4-a0-71.ucode
- create mode 100644 iwlwifi-so-a0-hr-b0-71.ucode
- create mode 100644 iwlwifi-so-a0-jf-b0-71.ucode
- create mode 100644 iwlwifi-ty-a0-gf-a0-71.ucode
-
-
---=-na8/cI+Rd8DeUMS0vFJ5
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEF3LNfgb2BPWm68smoUecoho8xfoFAmIm+wkACgkQoUecoho8
-xfplmBAArPJM6ePM1BFMib4oA/2cWyP8HSoQwlv8l2qKJW8q4rbA+wjCrr6cD1C0
-+ox1qMZZK6L1rLNMuL+xqRUSSUmIv+4AFKTkW5hjtu2a61GhHnLrSv4fSlhxtKe4
-GaEOYgmJ8sKyoNx9sB6qm3yDNSo9cd2MZAMYKZYT7TKxzBAr+lUxcfaFC831aeDt
-bsBnkRSHd9h9OeKrVvL3eZxyfbPQw8yNW9kx3ERiF63CM06Ga0jdaWDrg8EYRt/b
-4DyT4aL4yL8WHyhD+vz2tWR1DUOrmGBL0byTcn9Nxg4bUJ4EaZ3CGdNV0YVA+zpL
-4dERjm5vP3awEsw+pC+W1Hk8AkU60tsdAomt79VItp8JgqHvmQu6FehFaagN9TNd
-LuGkXLoan2g76DWqW2wdr1KnP41z9yFdWam9Q78XL+w21YDyIZtIhdB2KpCcWKaT
-yXX/ltwJeu/zDkdT8f1Cw3VeaS+CphtaQEyp4ob9+krfFvnWq5LB6llnKwC9PuoF
-QhL03pXJcmawQkYkI4oS8vFfd6ySltAp3TBwIR7a2PsX5lywN1Q0/o1hN+/sJn+F
-uxNDseQ4tdzU4YNox96kxPvzpBd9p6KtNlhvV1vr5tlI16mTDAZgouN88YntHnIb
-1sHOTLtql/ZtqLtB/TY6bkffutdPIiq75ZNKIs60HBrbfCL8qxM=
-=Fg0s
------END PGP SIGNATURE-----
-
---=-na8/cI+Rd8DeUMS0vFJ5--
+>
+>  WHENCE                           |   46 +-
+>  ath11k/WCN6855/hw2.0/Notice.txt  | 3658 ++++++++++++++++++++++++++++++++++++++
+>  ath11k/WCN6855/hw2.0/amss.bin    |  Bin 0 -> 4972544 bytes
+>  ath11k/WCN6855/hw2.0/board-2.bin |  Bin 0 -> 1322820 bytes
+>  ath11k/WCN6855/hw2.0/m3.bin      |  Bin 0 -> 266684 bytes
+>  ath11k/WCN6855/hw2.0/regdb.bin   |  Bin 0 -> 24310 bytes
+>  6 files changed, 3686 insertions(+), 18 deletions(-)
+>  create mode 100644 ath11k/WCN6855/hw2.0/Notice.txt
+>  create mode 100644 ath11k/WCN6855/hw2.0/amss.bin
+>  create mode 100644 ath11k/WCN6855/hw2.0/board-2.bin
+>  create mode 100644 ath11k/WCN6855/hw2.0/m3.bin
+>  create mode 100644 ath11k/WCN6855/hw2.0/regdb.bin
