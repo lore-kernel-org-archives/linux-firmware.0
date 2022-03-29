@@ -1,47 +1,170 @@
-Return-Path: <SRS0=tWFa=UH=linkscen.top=info3@kernel.org>
+Return-Path: <SRS0=72Ay=UI=travelinn666.com=info+bounce_6242ec229f686729273601@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 049D2C433EF
-	for <linux-firmware@archiver.kernel.org>; Mon, 28 Mar 2022 15:54:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71BA2C433EF
+	for <linux-firmware@archiver.kernel.org>; Tue, 29 Mar 2022 11:35:04 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C6754C004DD; Mon, 28 Mar 2022 15:54:21 +0000 (UTC)
-Received: from server3.coddta.top (unknown [106.13.229.241])
-	by smtp.kernel.org (Postfix) with ESMTP id 9072FC34100
-	for <linux-firmware@kernel.org>; Mon, 28 Mar 2022 15:54:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 9072FC34100
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=linkscen.top
-Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=linkscen.top
-Received: from DESKTOP-CGPE1HK (113.65.30.97) by server3.coddta.top id h87d2o0e97c5 for <linux-firmware@kernel.org>; Mon, 28 Mar 2022 23:54:09 +0800 (envelope-from <info3@linkscen.top>)
-From: "info3@linkscen.top" <info3@linkscen.top>
-Subject: Re: New order 100W bluetooth speaker
+	id 1E617C340F0; Tue, 29 Mar 2022 11:35:04 +0000 (UTC)
+Received: from mail.travelinn666.com (mail.travelinn666.com [193.233.207.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 6A268C2BBE4
+	for <linux-firmware@kernel.org>; Tue, 29 Mar 2022 11:34:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 6A268C2BBE4
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=travelinn666.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=travelinn666.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=1648457492.travelinn666;
+ d=travelinn666.com;
+ h=Message-ID:Date:Subject:From:Reply-To:To:MIME-Version:Content-Type:
+ List-Unsubscribe; i=info@travelinn666.com;
+ bh=1bJtzUNvch81bCba1lg1GWjprTO1oMPxes9ZLe8Zv5k=;
+ b=BAdSnzW/18Kly3kvls8VbaHoAHhamPDSoMezZ3d15Y/ZwCqeUM2y0dLcJUBYx+ZBOpSwLXZ0jTtm
+   eZlnvvtXYqpJMbaRyZcHBss6pCB7QKBxlOBWtSXJZ+izk4uczScHR3dsifiYJNFHANf/ICl8pDMu
+   +8tpZCQ9q43sH8Cqnho=
+Message-ID: <88c0e3573021893db0e7e5ef0168558d@ex.travelinn666.com>
+Date: Tue, 29 Mar 2022 11:22:42 +0000
+Subject: Airbnb global home stay booking
+From: travelinn 666 <info@travelinn666.com>
+Reply-To: info@travelinn666.com
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Sender: info3@linkscen.top
-Reply-To: info3@linkscen.top
-Date: Mon, 28 Mar 2022 23:54:09 +0800
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
-Content-Disposition: inline
-Message-Id: <20220328155420.9072FC34100@smtp.kernel.org>
+Content-Type: multipart/alternative;
+ boundary="_=_swift_1648552962_f15ca03c2ebd742eae3b4715ff5bb108_=_"
+X-EMAIL-ID: 3
+Precedence: Bulk
+List-Unsubscribe: <mailto:info+unsubscribe_6242ec229f686729273601@travelinn666.com>,
+ <https://ex.travelinn666.com/email/unsubscribe/6242ec229f686729273601>
 
-VDMwMCAgMTIwVyAgYmx1ZXRvb3RoIHNwZWFrZXINCjEuIE11bHRpLXBvaW50IHBhaXJpbmcsIHRo
-aXMgc3BlYWtlciBzdXBwb3J0IDEwMHBjcyBzcGVha2VycyBjb25uZWN0IHdpdGggZWFjaCBvdGhl
-ciBhdCBtb3N0DQoyLkJ1aWx0IGluIDFwY3MgcG93ZXIgYW1wbGlmaWVyIGFuZCBEU1AgdGVjaG5v
-bG9neSwgRVEgYWRqdXN0bWVudCB0byBtZWV0IHRoZSByZXF1aXJlbWVudCBmcm9tIGRpZmZlcmVu
-dCBwZW9wbGUNCjMgLiBCdWlsdCBpbiA0cGNzIGRyaXZlciB1bml0LCAyLjJzb3VuZCBjaGFubmVs
-IA0KKDJQQ1Nsb3cgZnJlcXVlbmN5LDJQQ1NoaWdoIGZyZXF1ZW5jeSkNCjQgLjEwNDAwbUFoIGJh
-dHRlcnkgY2FwYWNpdHkNCjUuRml2ZSBraW5kcyBvZiBwbGF5IG1vZGUNClNwZWFrZXI6DQpUaGUg
-c2hvY2tpbmcgZGVlcCBiYXNzIGdpdmVzIHlvdSBpbW1lcnNpdmUgZXhwZXJpZW5jZSBvZiBtdXNp
-YyBhbmQgdmlkZW87DQpUaGUgYmVhdXRpZnVsIGFuZCBicmlzayB0cmVibGUgdm9pY2Ugd2lsbCB0
-aW5nbGUgeW91ciBoZWFydCBhbmQgdG91Y2ggeW91ciBzb3VsOw0KVGhlIHN0ZWFkeSBhbmQgc3Ry
-b25nIHNvdW5kIHdhdmVzIHNob3cgdGhlIHRocmlsbGluZyBwb3dlciAscHJvdmlkaW5nIGEgbGl2
-ZS1tdXNpYy1lbmpveW1lbnQuDQpXb3VubGQgeW91IGxpa2UgZnJlZSBzYW1wbGVzPw0KaWYgeW91
-IGFyZSBpbnRlcmVzdGVkIGluIG91ciBwcm9kdWN0cw0KcGxzIGNvbnRhY3Qgd2l0aCB1cw0KdGhh
-bmtzDQo=
+
+--_=_swift_1648552962_f15ca03c2ebd742eae3b4715ff5bb108_=_
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Airbnb global home stay booking is 30-50% off=EF=BC=81
+
+Minimum charge =
+=EF=BC=84300=C2=A0
+
+Reviews =C2=A05+
+
+whatapp=EF=BC=9A+44 078885850=
+98
+
+Valid only for booking through Whatsapp 011-1615 8738 or Facebook=
+
+inbox :)
+
+Book fast to enjoy this limited promotion =F0=9F=A5=B3 We =
+miss you so much!
+
+=F0=9F=93=9EAny Booking/ Inquires
+:https://ex.trav=
+elinn666.com/r/fca42745c7e89aec2f0fe0628?ct=3DYTo1OntzOjY6InNvdXJjZSI7YToyO=
+ntpOjA7czo1OiJlbWFpbCI7aToxO2k6Mzt9czo1OiJlbWFpbCI7aTozO3M6NDoic3RhdCI7czoy=
+MjoiNjI0MmVjMjI5ZjY4NjcyOTI3MzYwMSI7czo0OiJsZWFkIjtzOjU6IjExMTcyIjtzOjc6ImN=
+oYW5uZWwiO2E6MTp7czo1OiJlbWFpbCI7aTozO319&
+
+Unsubscribe to no longer re=
+ceive emails from us.
+
+--_=_swift_1648552962_f15ca03c2ebd742eae3b4715ff5bb108_=_
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!doctype html>
+<html xmlns=3D"http://www.w3.org/1999/xhtml" xmlns:v=3D"urn:schemas-microso=
+ft-com:vml" xmlns:o=3D"urn:schemas-microsoft-com:office:office">
+
+<head>
+  <title>
+  </title>
+  <!--[if !mso]><!-->
+  <meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
+  <!--<![endif]-->
+  <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8">
+  <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D=
+1">
+  <style type=3D"text/css">
+    #outlook a {
+      padding: 0;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+
+    table,
+    td {
+      border-collapse: collapse;
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+    }
+
+    img {
+      border: 0;
+      height: auto;
+      line-height: 100%;
+      outline: none;
+      text-decoration: none;
+      -ms-interpolation-mode: bicubic;
+    }
+
+    p {
+      display: block;
+      margin: 13px 0;
+    }
+  </style>
+  <!--[if mso]>
+        <noscript>
+        <xml>
+        <o:OfficeDocumentSettings>
+          <o:AllowPNG/>
+          <o:PixelsPerInch>96</o:PixelsPerInch>
+        </o:OfficeDocumentSettings>
+        </xml>
+        </noscript>
+        <![endif]-->
+  <!--[if lte mso 11]>
+        <style type=3D"text/css">
+          .mj-outlook-group-fix { width:100% !important; }
+        </style>
+        <![endif]-->
+  <style type=3D"text/css">
+  </style>
+</head>
+
+<body style=3D"word-spacing:normal;">
+  <div style=3D"">
+    <!-- Company Header -->
+    <mj-text>
+      <p>Airbnb global home stay booking is 30-50% off=EF=BC=81</p>
+      <p>Minimum charge =EF=BC=84300&nbsp;</p>
+      <p>Reviews &nbsp;5+</p>
+      <p>whatapp=EF=BC=9A+44 07888585098</p>
+      <p>Valid only for booking through Whatsapp 011-1615 8738 or Facebook =
+inbox :)</p>
+      <p>Book fast to enjoy this limited promotion =F0=9F=A5=B3 We miss you=
+ so much!</p>
+      <p>=F0=9F=93=9EAny Booking/ Inquires :https://api.whatsapp.com/send?p=
+hone=3D+4407888585098</p>
+      <p><br />
+        <br />
+        <span style=3D"color:#838383"><a href=3D"https://ex.travelinn666.co=
+m/email/unsubscribe/6242ec229f686729273601">Unsubscribe</a> to no longer re=
+ceive emails from us.</span></p>
+    </mj-text>
+  </div>
+<img height=3D"1" width=3D"1" src=3D"https://ex.travelinn666.com/email/6242=
+ec229f686729273601.gif" alt=3D"" /></body>
+
+</html>
+
+--_=_swift_1648552962_f15ca03c2ebd742eae3b4715ff5bb108_=_--
+
