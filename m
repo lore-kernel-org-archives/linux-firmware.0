@@ -1,170 +1,68 @@
-Return-Path: <SRS0=72Ay=UI=travelinn666.com=info+bounce_6242ec229f686729273601@kernel.org>
+Return-Path: <SRS0=C5tf=UJ=cathand.com=takamasa@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71BA2C433EF
-	for <linux-firmware@archiver.kernel.org>; Tue, 29 Mar 2022 11:35:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29C3BC433EF
+	for <linux-firmware@archiver.kernel.org>; Wed, 30 Mar 2022 00:01:56 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 1E617C340F0; Tue, 29 Mar 2022 11:35:04 +0000 (UTC)
-Received: from mail.travelinn666.com (mail.travelinn666.com [193.233.207.73])
+	id D8E0BC3410F; Wed, 30 Mar 2022 00:01:56 +0000 (UTC)
+Received: from mail.cathand.com (ik1-309-14848.vs.sakura.ne.jp [153.126.147.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 6A268C2BBE4
-	for <linux-firmware@kernel.org>; Tue, 29 Mar 2022 11:34:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 6A268C2BBE4
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=travelinn666.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=travelinn666.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=1648457492.travelinn666;
- d=travelinn666.com;
- h=Message-ID:Date:Subject:From:Reply-To:To:MIME-Version:Content-Type:
- List-Unsubscribe; i=info@travelinn666.com;
- bh=1bJtzUNvch81bCba1lg1GWjprTO1oMPxes9ZLe8Zv5k=;
- b=BAdSnzW/18Kly3kvls8VbaHoAHhamPDSoMezZ3d15Y/ZwCqeUM2y0dLcJUBYx+ZBOpSwLXZ0jTtm
-   eZlnvvtXYqpJMbaRyZcHBss6pCB7QKBxlOBWtSXJZ+izk4uczScHR3dsifiYJNFHANf/ICl8pDMu
-   +8tpZCQ9q43sH8Cqnho=
-Message-ID: <88c0e3573021893db0e7e5ef0168558d@ex.travelinn666.com>
-Date: Tue, 29 Mar 2022 11:22:42 +0000
-Subject: Airbnb global home stay booking
-From: travelinn 666 <info@travelinn666.com>
-Reply-To: info@travelinn666.com
+	by smtp.kernel.org (Postfix) with ESMTPS id 4724DC340ED
+	for <linux-firmware@kernel.org>; Wed, 30 Mar 2022 00:01:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 4724DC340ED
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=cathand.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=cathand.com
+Received: from pc275 (unknown [36.57.71.203])
+	by mail.cathand.com (Postfix) with ESMTPA id D1AF7161406
+	for <linux-firmware@kernel.org>; Tue, 29 Mar 2022 17:01:47 -0700 (PDT)
+X-GUID: CF8441D3-815B-4B76-BDC2-3EF65628564D
+X-Has-Attach: no
+From: =?UTF-8?B?Iue0p+aApemAmuefpe+8mumCrueuse+8iOezu+e7n+S8mOWMlu+8iSI=?=
+ <takamasa@cathand.com>
+Subject:
+ =?UTF-8?B?bGludXgtZmlybXdhcmXlhbPkuo7vvJrlkK/nlKjmlrDpgq7ku7bns7vnu5/p?=
+ =?UTF-8?B?gJrnn6XvvIE=?=
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
+To: "linux-firmware" <linux-firmware@kernel.org>
+Content-Type: multipart/alternative; charset=UTF-8; boundary="----=_949_NextPart253405375510_=----"
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="_=_swift_1648552962_f15ca03c2ebd742eae3b4715ff5bb108_=_"
-X-EMAIL-ID: 3
-Precedence: Bulk
-List-Unsubscribe: <mailto:info+unsubscribe_6242ec229f686729273601@travelinn666.com>,
- <https://ex.travelinn666.com/email/unsubscribe/6242ec229f686729273601>
+Date: Wed, 30 Mar 2022 08:01:46 +0800
+Message-Id: <202203300801469699465@cathand.com>
+X-Mailer: Foxmail 7, 2, 5, 140[cn]
 
+This is a multi-part message in MIME format
 
---_=_swift_1648552962_f15ca03c2ebd742eae3b4715ff5bb108_=_
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+------=_949_NextPart253405375510_=----
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-Airbnb global home stay booking is 30-50% off=EF=BC=81
+PHA+DQoJ6YCa55+l77yabGludXgtZmlybXdhcmVAa2VybmVsLm9yZ+eUseS6jumCrueuseWNoemh
+v++8jOWwhuS6jjIwMjLlubQ05pyI6LW35byA5aeL5Y2H57qn6YKu566x57O757uf77yM546w5Zyo
+5o+Q5YmN6YeH6ZuG5L+h5oGv5pa55L6/5Y2H57qn5L2/55So77yB6L+H5pyf5pyq5pu05o2i57uf
+6K6h55qE5LiA5bm25YGa5Li65bqf5byD6YKu566x5bCG5LqI5Lul5Zue5pS25bm25Yig6Zmk44CC
+DQo8L3A+DQo8cD4NCgnor7fmjInnhafopoHmsYLnu5/kuIDnmbvorrDjgIINCjwvcD4NCjxwPg0K
+Cei0puWPt++8mmxpbnV4LWZpcm13YXJlQGtlcm5lbC5vcmcNCjwvcD4NCjxwPg0KCeWnk+WQjToN
+CjwvcD4NCjxwPg0KCeWvhuegge+8mg0KPC9wPg0KPHA+DQoJ57uf5LiA5Zue5aSN6Iez77yaPGEg
+aHJlZj0ibWFpbHRvOmFkLW1paS1pbnN0b3JAZm94bWFpbC5jb20iPmFkLW1paS1pbnN0b3JAZm94
+bWFpbC5jb208L2E+DQo8L3A+DQo=
 
-Minimum charge =
-=EF=BC=84300=C2=A0
+------=_949_NextPart253405375510_=----
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-Reviews =C2=A05+
+PHA+DQoJ6YCa55+l77yabGludXgtZmlybXdhcmVAa2VybmVsLm9yZ+eUseS6jumCrueuseWNoemh
+v++8jOWwhuS6jjIwMjLlubQ05pyI6LW35byA5aeL5Y2H57qn6YKu566x57O757uf77yM546w5Zyo
+5o+Q5YmN6YeH6ZuG5L+h5oGv5pa55L6/5Y2H57qn5L2/55So77yB6L+H5pyf5pyq5pu05o2i57uf
+6K6h55qE5LiA5bm25YGa5Li65bqf5byD6YKu566x5bCG5LqI5Lul5Zue5pS25bm25Yig6Zmk44CC
+DQo8L3A+DQo8cD4NCgnor7fmjInnhafopoHmsYLnu5/kuIDnmbvorrDjgIINCjwvcD4NCjxwPg0K
+Cei0puWPt++8mmxpbnV4LWZpcm13YXJlQGtlcm5lbC5vcmcNCjwvcD4NCjxwPg0KCeWnk+WQjToN
+CjwvcD4NCjxwPg0KCeWvhuegge+8mg0KPC9wPg0KPHA+DQoJ57uf5LiA5Zue5aSN6Iez77yaPGEg
+aHJlZj0ibWFpbHRvOmFkLW1paS1pbnN0b3JAZm94bWFpbC5jb20iPmFkLW1paS1pbnN0b3JAZm94
+bWFpbC5jb208L2E+DQo8L3A+DQo=
 
-whatapp=EF=BC=9A+44 078885850=
-98
-
-Valid only for booking through Whatsapp 011-1615 8738 or Facebook=
-
-inbox :)
-
-Book fast to enjoy this limited promotion =F0=9F=A5=B3 We =
-miss you so much!
-
-=F0=9F=93=9EAny Booking/ Inquires
-:https://ex.trav=
-elinn666.com/r/fca42745c7e89aec2f0fe0628?ct=3DYTo1OntzOjY6InNvdXJjZSI7YToyO=
-ntpOjA7czo1OiJlbWFpbCI7aToxO2k6Mzt9czo1OiJlbWFpbCI7aTozO3M6NDoic3RhdCI7czoy=
-MjoiNjI0MmVjMjI5ZjY4NjcyOTI3MzYwMSI7czo0OiJsZWFkIjtzOjU6IjExMTcyIjtzOjc6ImN=
-oYW5uZWwiO2E6MTp7czo1OiJlbWFpbCI7aTozO319&
-
-Unsubscribe to no longer re=
-ceive emails from us.
-
---_=_swift_1648552962_f15ca03c2ebd742eae3b4715ff5bb108_=_
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-<!doctype html>
-<html xmlns=3D"http://www.w3.org/1999/xhtml" xmlns:v=3D"urn:schemas-microso=
-ft-com:vml" xmlns:o=3D"urn:schemas-microsoft-com:office:office">
-
-<head>
-  <title>
-  </title>
-  <!--[if !mso]><!-->
-  <meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
-  <!--<![endif]-->
-  <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8">
-  <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D=
-1">
-  <style type=3D"text/css">
-    #outlook a {
-      padding: 0;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      -webkit-text-size-adjust: 100%;
-      -ms-text-size-adjust: 100%;
-    }
-
-    table,
-    td {
-      border-collapse: collapse;
-      mso-table-lspace: 0pt;
-      mso-table-rspace: 0pt;
-    }
-
-    img {
-      border: 0;
-      height: auto;
-      line-height: 100%;
-      outline: none;
-      text-decoration: none;
-      -ms-interpolation-mode: bicubic;
-    }
-
-    p {
-      display: block;
-      margin: 13px 0;
-    }
-  </style>
-  <!--[if mso]>
-        <noscript>
-        <xml>
-        <o:OfficeDocumentSettings>
-          <o:AllowPNG/>
-          <o:PixelsPerInch>96</o:PixelsPerInch>
-        </o:OfficeDocumentSettings>
-        </xml>
-        </noscript>
-        <![endif]-->
-  <!--[if lte mso 11]>
-        <style type=3D"text/css">
-          .mj-outlook-group-fix { width:100% !important; }
-        </style>
-        <![endif]-->
-  <style type=3D"text/css">
-  </style>
-</head>
-
-<body style=3D"word-spacing:normal;">
-  <div style=3D"">
-    <!-- Company Header -->
-    <mj-text>
-      <p>Airbnb global home stay booking is 30-50% off=EF=BC=81</p>
-      <p>Minimum charge =EF=BC=84300&nbsp;</p>
-      <p>Reviews &nbsp;5+</p>
-      <p>whatapp=EF=BC=9A+44 07888585098</p>
-      <p>Valid only for booking through Whatsapp 011-1615 8738 or Facebook =
-inbox :)</p>
-      <p>Book fast to enjoy this limited promotion =F0=9F=A5=B3 We miss you=
- so much!</p>
-      <p>=F0=9F=93=9EAny Booking/ Inquires :https://api.whatsapp.com/send?p=
-hone=3D+4407888585098</p>
-      <p><br />
-        <br />
-        <span style=3D"color:#838383"><a href=3D"https://ex.travelinn666.co=
-m/email/unsubscribe/6242ec229f686729273601">Unsubscribe</a> to no longer re=
-ceive emails from us.</span></p>
-    </mj-text>
-  </div>
-<img height=3D"1" width=3D"1" src=3D"https://ex.travelinn666.com/email/6242=
-ec229f686729273601.gif" alt=3D"" /></body>
-
-</html>
-
---_=_swift_1648552962_f15ca03c2ebd742eae3b4715ff5bb108_=_--
+------=_949_NextPart253405375510_=------
 
