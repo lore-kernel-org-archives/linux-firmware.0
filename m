@@ -2,52 +2,55 @@ Return-Path: <SRS0=2/ZF=UL=intel.com=kiran.k@kernel.org>
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97F94C433F5
-	for <linux-firmware@archiver.kernel.org>; Fri,  1 Apr 2022 09:53:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E35EC433EF
+	for <linux-firmware@archiver.kernel.org>; Fri,  1 Apr 2022 09:54:39 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 383A2C34113; Fri,  1 Apr 2022 09:53:40 +0000 (UTC)
+	id 6575FC34110; Fri,  1 Apr 2022 09:54:39 +0000 (UTC)
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 0F3F2C2BBE4
-	for <linux-firmware@kernel.org>; Fri,  1 Apr 2022 09:53:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 0F3F2C2BBE4
+	by smtp.kernel.org (Postfix) with ESMTPS id 040DBC3410F
+	for <linux-firmware@kernel.org>; Fri,  1 Apr 2022 09:53:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 040DBC3410F
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648806788; x=1680342788;
-  h=from:to:cc:subject:date:message-id;
-  bh=Z/01SwZWFRnqRJ5ThwNma95kqkdfQrxxw5Nhu2rQZ5o=;
-  b=ZGz7F3A1+aOOZaXGvXenHh3mpREFb2SWMozRN8fvAz1O3Sj8fxge9Bfj
-   mzCDgdlXQ3rM6w0uhAbu7kEMeX7F3TppvnVMjs0hZ3mh2ziksZc2RADFX
-   yuzzI5FE5Ky8m6TJqA3M4R+y57qghe2BhX9f9pg95HcbWIkYsmpyrZaPU
-   RokIWaxo/IN95lq5UwQFjb+VnZ6CEp2Fr0InkbIkrz2Gn8Z9cFy31NSob
-   ieOVjakDa+OwNS/DLWoYO9fELkEI74207zplFbKwP1RL5EcS3MHokJ1ST
-   o4b0TcxJzyugjSPYGh7ofHSNDcd0NRaDpla+QgeAxzAZy5xD1/2DI5Qns
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10303"; a="240031425"
+  t=1648806807; x=1680342807;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references;
+  bh=v7e4qcE6HXPZdJcHgukQjb37prqpZSIINTr8vvd3aEA=;
+  b=CoNmd/euECdrJSkFXK1P9TDWX8+VwnyU46e6qkUXSh9YlBON4hgLzA83
+   gE/LrbfJ4ch6cWq+J8eS1LNVU0hHcBegw9OyPjwY36P3WgAtbPQDCbvGV
+   Jy3lRmro584e0kmzULv5By8mAaIXy8UUtbZVhpcjeCs4544rcrmajIMUC
+   J7TBDPOMK272KksU+GFRuJ+wBSEWxtE7TnszDxP5da4XLTsYSQPCNb00x
+   y+bIrD8a2Cmt3+ZcuJxmsULkr0iiVNY6DosVMdLWQ0fqGnB41mBU5pSsn
+   Oe7ZJj6g+cp+2b/w70QiTTJmWu+Wjlsm0RzyQ+0Bwxu3dwtaFdQ1cYL/r
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10303"; a="240031432"
 X-IronPort-AV: E=Sophos;i="5.90,226,1643702400"; 
-   d="scan'208";a="240031425"
+   d="scan'208";a="240031432"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2022 02:53:06 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2022 02:53:10 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.90,226,1643702400"; 
-   d="scan'208";a="606654693"
+   d="scan'208";a="606654708"
 Received: from intel-lenovo-legion-y540-15irh-pg0.iind.intel.com ([10.224.186.95])
-  by fmsmga008.fm.intel.com with ESMTP; 01 Apr 2022 02:53:03 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 01 Apr 2022 02:53:07 -0700
 From: Kiran K <kiran.k@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
 Cc: ravishankar.srivatsa@intel.com,
 	Kiran K <kiran.k@intel.com>
-Subject: [PATCH v1 01/13] linux-firmware: Update firmware file for Intel Bluetooth 9260
-Date: Fri,  1 Apr 2022 15:30:01 +0530
-Message-Id: <20220401100013.12804-1-kiran.k@intel.com>
+Subject: [PATCH v1 02/13] linux-firmware: Update firmware file for Intel Bluetooth 9560
+Date: Fri,  1 Apr 2022 15:30:02 +0530
+Message-Id: <20220401100013.12804-2-kiran.k@intel.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220401100013.12804-1-kiran.k@intel.com>
+References: <20220401100013.12804-1-kiran.k@intel.com>
 
-This patch updates the firmware file for Intel Bluetooth 9260
-Also it is known as Intel ThunderPeak (ThP2).
+This patch updates the firmware file for Intel Bluetooth 9560
+Also it is known as Intel JeffersonPeak (JfP2).
 
 FW Build: REL20182
 
@@ -56,33 +59,33 @@ Release Version: 22.130.1.1
 Signed-off-by: Kiran K <kiran.k@intel.com>
 ---
  WHENCE                |   8 ++++----
- intel/ibt-18-16-1.sfi | Bin 674872 -> 674952 bytes
- intel/ibt-18-2.sfi    | Bin 674872 -> 674952 bytes
+ intel/ibt-17-16-1.sfi | Bin 674872 -> 674952 bytes
+ intel/ibt-17-2.sfi    | Bin 674872 -> 674952 bytes
  3 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/WHENCE b/WHENCE
-index 8f37cc3d2bad..42b2f4e9e60c 100644
+index 42b2f4e9e60c..7dfccc284c74 100644
 --- a/WHENCE
 +++ b/WHENCE
-@@ -3901,13 +3901,13 @@ Version: BT_JeffersonPeak_A0_B0_REL0201
- File: intel/ibt-17-1.ddc
+@@ -3885,13 +3885,13 @@ Version: BT_WindStormPeak_REL1299
+ File: intel/ibt-12-16.sfi
+ Version: BT_WindStormPeak_REL1299
+ File: intel/ibt-17-16-1.sfi
+-Version: BT_JeffersonPeak_B0_B0_REL20142
++Version: BT_JeffersonPeak_B0_B0_REL20182
+ File: intel/ibt-17-16-1.ddc
+-Version: BT_JeffersonPeak_B0_B0_REL20142
++Version: BT_JeffersonPeak_B0_B0_REL20182
+ File: intel/ibt-17-2.sfi
+-Version: BT_JeffersonPeak_B0_B0_REL20142
++Version: BT_JeffersonPeak_B0_B0_REL20182
+ File: intel/ibt-17-2.ddc
+-Version: BT_JeffersonPeak_B0_B0_REL20142
++Version: BT_JeffersonPeak_B0_B0_REL20182
+ File: intel/ibt-17-0-1.sfi
  Version: BT_JeffersonPeak_A0_B0_REL0201
- File: intel/ibt-18-16-1.sfi
--Version: BT_ThunderPeak_B0_B0_REL20142
-+Version: BT_ThunderPeak_B0_B0_REL20182
- File: intel/ibt-18-16-1.ddc
--Version: BT_ThunderPeak_B0_B0_REL20142
-+Version: BT_ThunderPeak_B0_B0_REL20182
- File: intel/ibt-18-2.sfi
--Version: BT_ThunderPeak_B0_B0_REL20142
-+Version: BT_ThunderPeak_B0_B0_REL20182
- File: intel/ibt-18-2.ddc
--Version: BT_ThunderPeak_B0_B0_REL20142
-+Version: BT_ThunderPeak_B0_B0_REL20182
- File: intel/ibt-18-0-1.sfi
- Version: BT_ThunderPeak_A0_B0_REL0201
- File: intel/ibt-18-0-1.ddc
-diff --git a/intel/ibt-18-16-1.sfi b/intel/ibt-18-16-1.sfi
+ File: intel/ibt-17-0-1.ddc
+diff --git a/intel/ibt-17-16-1.sfi b/intel/ibt-17-16-1.sfi
 index efac159e8e94c9a32e46413239b1831f74c3891c..838b9b6bf47e8ecef42ed2f37b5adc4615fbb9fb 100644
 GIT binary patch
 delta 147579
@@ -4472,7 +4475,7 @@ zzmlrKLaqr|mwtd<=%>Nd>jIY8AFwn1HP{~-EM@>;CkJRbYy5@h%)xpLRNsD7?@7F>
 z|MM${PiC1<s;Od#`+V<{>J*7h8?5$WI|qxFGjVGZ5*Z5}shYM9ioMm%Oc|oKiTuji
 xv=0Y?@<>i(d2~)y`R<D7Ezvpr?*%!1UC7*qBcDGrL`{(CE`5M}AFEmN{{Y=+qH_QM
 
-diff --git a/intel/ibt-18-2.sfi b/intel/ibt-18-2.sfi
+diff --git a/intel/ibt-17-2.sfi b/intel/ibt-17-2.sfi
 index efac159e8e94c9a32e46413239b1831f74c3891c..838b9b6bf47e8ecef42ed2f37b5adc4615fbb9fb 100644
 GIT binary patch
 delta 147579
