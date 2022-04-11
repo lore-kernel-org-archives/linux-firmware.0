@@ -1,72 +1,81 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=nLgf=UV=gmail.com=alexdeucher@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3279C433EF
-	for <linux-firmware@archiver.kernel.org>; Mon, 11 Apr 2022 13:11:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0CC68C433EF
+	for <linux-firmware@archiver.kernel.org>; Mon, 11 Apr 2022 16:51:15 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B0EE3C385AC; Mon, 11 Apr 2022 13:11:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B9BFC385A4
-	for <linux-firmware@kernel.org>; Mon, 11 Apr 2022 13:11:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1649682692;
-	bh=4xJp5ayEkL1rkv0YZry6+V39FNge8pyIHEgWuMnKLJ8=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=ANVnl0hciFsRpT3+Pz5GS64JbvWezL8CowZ2fwne8m15ksqeHAioojqtlOkQvDdZp
-	 AGwh4MDOlJeO0iMWXHkZgVcM3Q+TxsyfbinHyUzXjGzpeR7W36g9bm1ulh1RHqAuqT
-	 bLztypr2y/FQwgSTsy3qJ7d1GsAN5TvB/lnMcSl8fKERWrTXd7KDJNnCCMaRD4q90C
-	 8fzwQt0pjQ6HMMpFmwg5gbZHjIR2bqDQpP2T85rrENj65z0rhj2/ppPjeFLDH5jKR8
-	 z2uh5uQ0Vxuzvx7Nlef8YNjJs0/lwKiJqXqWti2WQBwZs9WjgnuKxLydAY/rnGdW2V
-	 6Ef9trTz7wXYg==
-Received: by mail-io1-f50.google.com with SMTP id k25so18548714iok.8
-        for <linux-firmware@kernel.org>; Mon, 11 Apr 2022 06:11:32 -0700 (PDT)
-X-Gm-Message-State: AOAM531jL2uh2MVR2cY4GOfPdYPRVq8GX8WhcOkTkIdKF523oXXzD1eW
-	Wte1KRLpVyuR7C9F/qcGMrwSVOmxXx+Evi2AJnQ=
-X-Google-Smtp-Source: ABdhPJyzV3x2bWZaTufPAzv2zecyCld8iJbjMJtigE1TjFRKkXu2FSTJr0G8zMUaqKGMFPagHk5W7weYtn1S4UoPpp4=
-X-Received: by 2002:a6b:b704:0:b0:649:eccd:d46a with SMTP id
- h4-20020a6bb704000000b00649eccdd46amr12602597iof.55.1649682691704; Mon, 11
- Apr 2022 06:11:31 -0700 (PDT)
+	id D9868C385A9; Mon, 11 Apr 2022 16:51:15 +0000 (UTC)
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 3C5B2C385A4;
+	Mon, 11 Apr 2022 16:51:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 3C5B2C385A4
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oi1-f175.google.com with SMTP id q189so16413701oia.9;
+        Mon, 11 Apr 2022 09:51:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=c79iJ0igXcMczluWi3ILy2rZFxGKJIEi8e1td7jcOjU=;
+        b=LVbwcmGW2DDly4ZQyVZsRICxpgsr7wgHsK4grBcJdUAVYmaW8184nKDWCleq8qhGyv
+         THufQTXBqMEHe5sQQXU4nG+7rsAGvw3jN9rGHq/Qdh6mVapnAvlvscmeBr1p3/6lTTTW
+         ndszsdUcKM/+N3QnsSTudjeDIlS31dQAK49/mkacQI357C9i9BYSV7BRz05aLNesvH7U
+         GVYhs6hCBZ2aq1cYLgFXC1PHJmER075GEFMC2JQJR3vY2DO5+1JGgwWhN5MxT/JmMJ+u
+         vB4bZmq8NjeqOH85Y1mKkaxVeXEwRjx9ZUtoSwOEcRRQA7HcEHYSpq/rGf0po0eHPFMO
+         q8kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=c79iJ0igXcMczluWi3ILy2rZFxGKJIEi8e1td7jcOjU=;
+        b=5zQmRFeCTYIufdzr6jOfLK2+ac3xXnUpR6j05CB+gREb/5+UpFjvXBSppHzTK0OxhN
+         p8kbdcNDLnGZQrFBp7l1iHAJfc9IsItJ6CeqhNqDpiGxMmKcsTQbS78y6QX/bk3JCWst
+         hPn84YJ7GAQdIiFap2FznTk2R57NY9E/QAlsbMh6OJW0TDeblT6i3QCyXqznuBNDyYW8
+         n/aAF1T1lwwAqLTIrjaF8H6/frIZEgHjGOi+dvFLa5Bhyy5kClGZP2n1x+H1bTfjJrMw
+         9+l4HFmX/luQz7HrEWa6vJ254VRmv6TaX3RjEdXYnHmSYoHiiwsb2mPotq/lXG4LDAbx
+         sEng==
+X-Gm-Message-State: AOAM531UTw+MF2VuXwFQluurvNW9HdTDc8kgQth2FXOBbu0k+IWnZ8YM
+	yze6vTPYFPIhNBrvPhR2RsqmPDpcxX2a5aYnWgY3euPQ
+X-Google-Smtp-Source: ABdhPJxITOx0dpP9AKpGbQ4b/nj526Jfy9E8rVtv0OVEfftOQAMhQSHKDfmN6JLjMGknFT5X+78fs9B8WGypNxN8FqI=
+X-Received: by 2002:a05:6808:199e:b0:2f9:d699:6ad0 with SMTP id
+ bj30-20020a056808199e00b002f9d6996ad0mr40939oib.200.1649695873305; Mon, 11
+ Apr 2022 09:51:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220411120545.20066-1-yunfei.dong@mediatek.com>
-In-Reply-To: <20220411120545.20066-1-yunfei.dong@mediatek.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 11 Apr 2022 09:11:21 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA6KtJpppj2hj9CmSyG6cf4KkttF3acox0j+U8VLcZzopQ@mail.gmail.com>
-Message-ID: <CA+5PVA6KtJpppj2hj9CmSyG6cf4KkttF3acox0j+U8VLcZzopQ@mail.gmail.com>
-Subject: Re: pull request: linux-firmware: Create Mediatek MT8192 SCP firmware
-To: Yunfei Dong <yunfei.dong@mediatek.com>
+References: <CADnq5_Ni5nEa5s05qheqJBeFeHDDgXsPpoUjCj1CWdhyeeyx3Q@mail.gmail.com>
+ <CADnq5_MpX61+uWHnPZsePD4ABZop6vGLvfBLNWWxrL+myY6tZg@mail.gmail.com> <CA+5PVA74QR+vUdYi7LJtVzyBN-qu3jXfi8r=E+FsbVjCBd9cAA@mail.gmail.com>
+In-Reply-To: <CA+5PVA74QR+vUdYi7LJtVzyBN-qu3jXfi8r=E+FsbVjCBd9cAA@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 11 Apr 2022 12:51:02 -0400
+Message-ID: <CADnq5_P8yD6BJ=0oCsZwv5p9E_5Nr7aQV415-9d29aSSwhoYJw@mail.gmail.com>
+Subject: Re: Updated amdgpu VCN firmware
+To: Josh Boyer <jwboyer@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, 
-	linux-mediatek <linux-mediatek@lists.infradead.org>, linux-arm-kernel@lists.infradead.org, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, tinghan.shen@mediatek.com, 
-	Irui Wang <irui.wang@mediatek.com>, srv_heupstream@mediatek.com
+Cc: Linux Firmware <linux-firmware@kernel.org>, Boyuan Zhang <boyuan.zhang@amd.com>, 
+	Deepak.Sharma@amd.com, Leo Liu <leo.liu@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Apr 11, 2022 at 8:05 AM Yunfei Dong <yunfei.dong@mediatek.com> wrote:
+On Mon, Apr 11, 2022 at 7:06 AM Josh Boyer <jwboyer@kernel.org> wrote:
 >
-> The following changes since commit 681281e49fb6778831370e5d94e6e1d97f0752d6:
+> On Wed, Mar 30, 2022 at 3:48 PM Alex Deucher <alexdeucher@gmail.com> wrote:
+> >
+> > Hi, I just wanted to make sure this patch didn't get missed.  As an
+> > aside, would it be possible to get direct commit access so I could
+> > apply these patches myself (and help with other firmware patches that
+> > come in)?
 >
->   amdgpu: update PSP 13.0.8 firmware (2022-03-18 07:35:54 -0400)
+> Apologies for the delay.  I was away from the keyboard for a while.
+> All are applied and pushed out.
 >
-> are available in the Git repository at:
->
->   https://github.com/yunfeidongmediatek/linux_fw_scp_8192 v1
->
-> for you to fetch changes up to ae8dfb4a5d4c6028ee1fca04b374b0e03ec35360:
->
->   mediatek: Add mt8192 SCP firmware (2022-04-11 20:00:24 +0800)
->
-> ----------------------------------------------------------------
-> Yunfei Dong (1):
->       mediatek: Add mt8192 SCP firmware
->
->  WHENCE                  |   3 +++
->  mediatek/mt8192/scp.img | Bin 0 -> 309436 bytes
->  2 files changed, 3 insertions(+)
->  create mode 100644 mediatek/mt8192/scp.img
+> I'm not opposed to taking on more maintainers, but I probably need to
+> writeup a README on how to do it.  I'll send you an email once that's
+> done.
 
-Pulled and pushed out.  Thanks.
+Thanks, much appreciated.  Will look forward to the README.
 
-josh
+Alex
