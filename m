@@ -1,49 +1,118 @@
-Return-Path: <SRS0=jOBu=UW=vivian1.xyz=info@kernel.org>
+Return-Path: <kvalo@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F07D0C433F5
-	for <linux-firmware@archiver.kernel.org>; Tue, 12 Apr 2022 05:10:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0517BC433EF
+	for <linux-firmware@archiver.kernel.org>; Wed, 13 Apr 2022 08:26:49 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B06CCC385A8; Tue, 12 Apr 2022 05:10:11 +0000 (UTC)
-Received: from info.vivian1.xyz (unknown [122.254.92.150])
-	by smtp.kernel.org (Postfix) with ESMTP id BD817C385A6
-	for <linux-firmware@kernel.org>; Tue, 12 Apr 2022 05:10:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org BD817C385A6
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=bx-group.com
-Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=vivian1.xyz
-Received: from WINMICR-0PNGNG2 (113.93.242.131) by info.vivian1.xyz id hak4bq0e97cm for <linux-firmware@kernel.org>; Tue, 12 Apr 2022 05:06:04 +0000 (envelope-from <info@vivian1.xyz>)
-From: "cindy" <cindy@bx-group.com>
-Subject: Re:BX Houseware new product
+	id CADCCC385A3; Wed, 13 Apr 2022 08:26:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 521F1C385A4;
+	Wed, 13 Apr 2022 08:26:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1649838409;
+	bh=hIyq4Gb4PP99jpcAzfsg+lS1WxLFv/QJQK2V9zCys78=;
+	h=From:To:List-Id:Cc:Subject:References:Date:In-Reply-To:From;
+	b=tuoEbO0Q9c5BhlgVi84ZlbkNnar9CPUcd5pC8H8r0okGZsdX0aHOU0vZFSJKcbBFj
+	 1BwTJHXpu6Ekvyui9U4ahgbpxhiF6+weNU7pvwJiggGX0FurezqkuHG56zaNsIw8rm
+	 ZVDQwd/kyTHfyn9fH3kdHlL5auKeuYe7qTK53xDUgvjYvsftQwIuw16scRz6SSvv0A
+	 7BF6MGg8CBCXrWvZrZpc7sM6Y8bAgg1UKAPQ17Zdvrpa0RIB6bZXEBwf0iZmeta64k
+	 DuKnvPulmddE+kCZujy0vPHUCe9N+dW2eIGYr8I64HoK7sFVlNpX8dgk4uHgK50aw+
+	 HEVz+osBFlXdA==
+From: Kalle Valo <kvalo@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Content-Type: text/plain; charset=UTF-8
+Cc: Jouni Malinen <j@w1.fi>,  Josh Boyer <jwboyer@kernel.org>,  "linux-firmware\@kernel.org" <linux-firmware@kernel.org>,  "linux-wireless\@vger.kernel.org" <linux-wireless@vger.kernel.org>,  "ath11k\@lists.infradead.org" <ath11k@lists.infradead.org>
+Subject: Re: [PULL] ath11k firmware 20211223
+References: <BYAPR02MB4567669033A210A78AC397E9927E9@BYAPR02MB4567.namprd02.prod.outlook.com>
+	<CA+5PVA4WEuJDB3OCKfYK-BPaccpVWd9t_au9S7MCEtpy7cdF-A@mail.gmail.com>
+	<87ee4brodv.fsf@kernel.org>
+	<CA+5PVA5DJmwPqpz8F9iDbJKcF1hDBRLdDT4URgSaiEcjet74Kw@mail.gmail.com>
+	<20220302175014.GA14801@w1.fi>
+	<CA+5PVA6R6F=VqAZRf=xDwGcC+cpqLY1kStkoHck53XiLURVyaw@mail.gmail.com>
+	<20220304161430.GA430462@w1.fi> <s5h1qytw0rw.wl-tiwai@suse.de>
+Date: Wed, 13 Apr 2022 11:26:43 +0300
+In-Reply-To: <s5h1qytw0rw.wl-tiwai@suse.de> (Takashi Iwai's message of "Wed,
+	23 Mar 2022 09:06:43 +0100")
+Message-ID: <87h76xmlrw.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Sender: info@vivian1.xyz
-Reply-To: cindy@bx-group.com
-Date: Tue, 12 Apr 2022 13:10:06 +0800
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
-Content-Disposition: inline
-Message-Id: <20220412051008.BD817C385A6@smtp.kernel.org>
+Content-Type: text/plain
 
-SGkgICwNClRoaXMgaXMgQ2luZHkgZnJvbSBCWCBIb3VzZXdhcmUuIEl0IGhhcyBiZWVuIHNvbWUg
-dGltZSBzaW5jZSB0aGUgbGFzdCB0YWxrIGF0IHRoZSBDYW50b24gZmFpci4NCk5vdywgSSdkIGxp
-a2UgdG8gcmVjb21tZW5kIGEgSE9ULVNFTExJTkcgU0VSSUVTIHRvIHlvdSEgQW5vdGhlciBVUyBj
-dXN0b21lciBnYXZlIG1lIGEgYmlnIG9yZGVyIGluIHRoaXMgbW9kZWwuIFdvdWxkIHlvdSBsaWtl
-IHRvIGhhdmUgYSB0cnkgaW4geW91IHN0YXRlPw0KU2FtcGxlcyBhbHJlYWR5IHByZXBhcmVkLCBj
-YW4gYmUgc2VudCB0byB5b3UgYXNhcC4NCkhvcGUgd2UgY2FuIGRlYWwhDQoNCmh0dHA6Ly9tLnFw
-aWMuY24vcHNjPy9WMTJkNFYyNzJWU3I3MS9icVFmVno1eXJyR1lTWE12S3IuY3FiWThzQlpOZ0dk
-UUdLRnZVWHFZVjRTdHFrMUNQb0ZXQ1NjRE92STRLTkxjVjFsY3RhV05sYXNRU2JIVzduM0ZzRFhn
-SWIqUWlhSjJJQ2kwNTJlKmN1WSEvbW51bGwmYm89N2dMMEFRQUFBQUFCQnprISZyZj1waG90b2xp
-c3QmdD01DQoNCktpbmQgcmVnYXJkcywNCkNpbmR5ICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgDQpTZW5pb3IgU2FsZXMgUmVwcmVz
-ZW50YXRpdmUNCiBCYWl4aWFuZyBIb3VzZXdhcmUgY28uLGx0ZC4gKEppYW5nbWVuKQ0KUm9vbTEx
-MDVBLCBTZWN0aW9uIEIsIE5vLjk4LCBKaWFuc2hlIDJuZCBSb2FkLCBKaWFuZ21lbiwgR3Vhbmdk
-b25nLCA1MjkwMDAsIENoaW5hDQpUZWw6ICs4Ni03NTAtIDM5ODEyNTUgICAgDQpNYi9XZWNoYXQ6
-ICs4Ni0gMTUwMTUwNDE5NzAgIA0KRW1haWw6IGNpbmR5QGJ4LWdyb3VwLmNvbSANCndlYnNpdGU6
-IHd3dy5ieC1ncm91cC5jb20NCg==
+Takashi Iwai <tiwai@suse.de> writes:
+
+> On Fri, 04 Mar 2022 17:14:30 +0100,
+> Jouni Malinen wrote:
+>> 
+>> On Fri, Mar 04, 2022 at 08:04:26AM -0500, Josh Boyer wrote:
+>> > On Wed, Mar 2, 2022 at 12:50 PM Jouni Malinen <j@w1.fi> wrote:
+>> > > Would the following in WHENCE work for you?
+>> > >
+>> > > Driver: ath11k - Qualcomm Technologies 802.11ax chipset support
+>> > >
+>> > > File: ath11k/IPQ6018/hw1.0/board-2.bin
+>> > > ...
+>> > > Version: WLAN.HK.2.1.0.1-01238-QCAHKSWPL_SILICONZ-2
+>> > > Notice: ath11k/IPQ6018/hw1.0/Notice.txt
+>> > 
+>> > We'd have to teach copy-firmware.sh what to do with a "Notice:" key.
+>> > Is there a reason "File:" wouldn't work?  The intention is to install
+>> > the notices alongside the binaries, so that would accomplish it.
+>> 
+>> Yeah, that sounds reasonable to me. From copying/installing/distribution
+>> view point, these can really be handled in the exact same way as the
+>> actual firmware binaries in practice.
+>> 
+>> > > In other words, there would be only a single "License:" line and one
+>> > > "Notice:" line for each firmware version? The license itself (i.e.,
+>> > > LICENSE.QualcommAtheros_ath10k) is same for all the versions while the
+>> > > set of notices (i.e., those notice.txt files) can be different based on
+>> > > what is included in the particular build.
+>> > 
+>> > Yes, that would help.  Would you be able to adjust the existing
+>> > entries for ath firmware in the same way?
+>> 
+>> Yes, I'll work with Kalle to update the existing ath* WLAN cases.
+>> 
+>> > > > > I'm still working on your other comment about notice.txt, will get back
+>> > > > > on that later.
+>> > >
+>> > > This part about clearly identifying the files should be clear now, but
+>> > > it would be good to resolve that part about the notice.txt files in
+>> > > general before sending out an updated pull request.
+>> > 
+>> > Given these were merged in the past, perhaps I'm being overly
+>> > pedantic.  If we can mark them as Files or Notices instead of
+>> > Licenses, I won't hold it up.  It leaves me slightly confused why
+>> > attribution files need to reference agreements with Qualcomm, splatter
+>> > Confidential and Proprietary throughout the file, and reference
+>> > COPYING and README in reference to GPLv2 when the BSD license was
+>> > clearly chosen.  Perhaps that could be cleaned up in the future.
+>> 
+>> Thanks. We'll remove most of the unnecessary information from the new
+>> notice.txt files and that should get rid of many of the potentially
+>> confusing parts. If that cleanup leaves something confusing in place,
+>> we are open to cleaning these up further in followup patches, but it
+>> would be nice to be able to get the updated versions into
+>> linux-firmware.git without much more additional delay and yes, this
+>> would be with the File: instead of Licence: entries for the notice.txt
+>> files.
+>
+> The problem of "File:" is that it's more or less intended to be
+> installed as the firmware files themselves, i.e. they are installed in
+> /lib/firmware/* that can be loaded to the kernel.  Putting such a
+> random (document) file there makes me a bit nervous.
+>
+> We may introduce another tag to list up misc document files
+> (e.g. "Doc:" or whatever)?  Distros can pick up them and put to the
+> appropriate places in the package, too.
+
+What about "Notice:" which I proposed above? To me "Doc:" sounds like an
+optional file, which notice.txt files are not. That's why I prefer
+"Notice:".
+
+-- 
+https://patchwork.kernel.org/project/linux-wireless/list/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
