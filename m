@@ -1,103 +1,88 @@
-Return-Path: <SRS0=sU6d=UX=linaro.org=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=Cyag=UY=mediatek.com=tinghan.shen@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F393C433F5
-	for <linux-firmware@archiver.kernel.org>; Wed, 13 Apr 2022 23:48:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05A28C433EF
+	for <linux-firmware@archiver.kernel.org>; Thu, 14 Apr 2022 06:48:31 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C4214C385A6; Wed, 13 Apr 2022 23:48:49 +0000 (UTC)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	id B8C5CC385A1; Thu, 14 Apr 2022 06:48:31 +0000 (UTC)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id DBD97C385A3
-	for <linux-firmware@kernel.org>; Wed, 13 Apr 2022 23:48:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org DBD97C385A3
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f178.google.com with SMTP id bn33so4081508ljb.6
-        for <linux-firmware@kernel.org>; Wed, 13 Apr 2022 16:48:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ORBNSb55HLrQXXkE7Gee3v6upYJe8NBlLeoTQT4L488=;
-        b=qVr99L287eaB0tbftUfAAeP/Uy4c/WBia3R1tOnTUUEPfTnI0+o3JZuJZKwXKtC79t
-         1OMEUeHlZNJWLtfdVT4LWmFdg6nrk64/zPVhH/RsAuLh/7hl1ov0eiWarg9wLqxSkgc8
-         TXvKAXHijgPFcqfUf6N5iuQQAs8cfB7SsOYfm9bLMwgjISDEn0WrgQuhOS8+NWaoNfUM
-         nOJe951Pyo4ZmOe+gnXXHq1RjFgTkuZpy0ZJljMCtz2pKNBKMh2MlDccpCRCeNcfR+R8
-         CQwTTo9DBgtL3nW5+KGFAN9vVCVkFWPahVdFHFJt3LpeotpviOcIfFithdw9OO8Rf+bX
-         S6gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ORBNSb55HLrQXXkE7Gee3v6upYJe8NBlLeoTQT4L488=;
-        b=1aQzzEp9ubc4567j1GLsn93D4IhtESg9iKysLHUXLgkE46nTPFYsBf8KHbj6ErHHNE
-         /c+3GgiSzPADE3uf7dpnr+Xrfiv7zBVHE9gg3Ic1h45iRqUctXmjqqyU0XV6eaczUNYK
-         DdCsUlitRLGoCj9OEG7v1gAWx/tRKvzT2yibh0ml5DEM+hHiYu9ldWIFrgp5NcMjr/C8
-         qNAyma4/5+GBQbcBVLJkd10A6FV9nMcncuupS/OxbyEGTsuxR978UO3D2lovTyN+Ugap
-         7CwqdjqRkc+9fGa/ViJTfie2uYFrtfnJ4vfB6rs/hD/Jjnjs04P8f1ExpmF3q6qH3IiQ
-         2Fnw==
-X-Gm-Message-State: AOAM531ZYPOijKis0qikA3UnlzQFNborYxMZgpmCgXxqVeagUSVPFaag
-	l7AaGs/25g0ukmwZdANBwVQSXTg9hl3ErQ==
-X-Google-Smtp-Source: ABdhPJwBaiLZCv1bv96pZqmIezsxQUGweUw4jgihNGi3bblfXt8xxbHpETMPKm0FIDy9S57g3rf68A==
-X-Received: by 2002:a2e:9241:0:b0:24b:63e8:1cd with SMTP id v1-20020a2e9241000000b0024b63e801cdmr68170ljg.390.1649893726644;
-        Wed, 13 Apr 2022 16:48:46 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125])
-        by smtp.gmail.com with ESMTPSA id l20-20020a056512111400b0044aba8206ccsm41901lfg.253.2022.04.13.16.48.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Apr 2022 16:48:46 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+	by smtp.kernel.org (Postfix) with ESMTPS id DA78DC385A5
+	for <linux-firmware@kernel.org>; Thu, 14 Apr 2022 06:48:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org DA78DC385A5
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 4005545082aa4246960c90e677792933-20220414
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4,REQID:c7afce9a-6c71-4232-b502-fd030d6f3145,OB:0,LO
+	B:0,IP:0,URL:0,TC:0,Content:-20,EDM:-30,RT:0,SF:95,FILE:0,RULE:Release_Ham
+	,ACTION:release,TS:45
+X-CID-INFO: VERSION:1.1.4,REQID:c7afce9a-6c71-4232-b502-fd030d6f3145,OB:0,LOB:
+	0,IP:0,URL:0,TC:0,Content:-20,EDM:-30,RT:0,SF:95,FILE:0,RULE:Release_Ham,A
+	CTION:release,TS:45
+X-CID-META: VersionHash:faefae9,CLOUDID:33105a78-0afa-4dca-bdec-ca54c998425a,C
+	OID:aa5bc31544ca,Recheck:0,SF:13|15|28|17|19|48,TC:nil,Content:0,EDM:2,Fil
+	e:nil,QS:0,BEC:nil
+X-UUID: 4005545082aa4246960c90e677792933-20220414
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+	(envelope-from <tinghan.shen@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+	with ESMTP id 1064366547; Thu, 14 Apr 2022 14:48:23 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Thu, 14 Apr 2022 14:48:21 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 14 Apr 2022 14:48:21 +0800
+Message-ID: <b6e1b4b7b5f894cf77a60768e445218805fbb681.camel@mediatek.com>
+Subject: pull request: linux-firmware: Create Mediatek MT8195 SCP firmware
+From: Tinghan Shen <tinghan.shen@mediatek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: linux-arm-msm@vger.kernel.org,
-	Bjorn Andersson <bjorn.andersson@linaro.org>
-Subject: [PULL] qcom: add firmware for APQ8096 SoC
-Date: Thu, 14 Apr 2022 02:48:45 +0300
-Message-Id: <20220413234845.276726-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
+To: <linux-firmware@kernel.org>
+CC: <linux-mediatek@lists.infradead.org>, <rongchang@google.com>,
+	<yunfei.dong@mediatek.com>, <shawnku@google.com>, <stevecho@google.com>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	<srv_heupstream@mediatek.com>
+Date: Thu, 14 Apr 2022 14:48:21 +0800
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 
-Hi linux-firmware maintainers,
+Hi,
 
-Please pull the audio and modem DSP firmware for the Qualcomm APQ8096 platform.
-The firmware files come from Dragonboard 820c BSP available at [1] or directly
-from Qualcomm at [2] (registration is required).
+Add new SCP firmware for MediaTek MT8195.
+Thank you!
 
-[1] http://releases.linaro.org/96boards/dragonboard820c/qualcomm/firmware/linux-board-support-package-r01700.1.zip
-[2] https://developer.qualcomm.com/download/db820c/linux-board-support-package-r01700.1.zip
 
+Regards,
+TingHan
+
+---
 The following changes since commit 8a2d811764e7fcc9e2862549f91487770b70563b:
 
   rtl_bt: Add firmware and config files for RTL8852C (2022-04-13 07:10:23 -0400)
 
 are available in the Git repository at:
 
-  https://github.com/lumag/linux-firmware apq8096
+  https://github.com/tinghan-shen/linux_fw_scp v14454.8.0
 
-for you to fetch changes up to afc44bb26f7656e4bda1b63e530f787ffefb7609:
+for you to fetch changes up to 10612bd12e4778069aff50caad9431002f92e374:
 
-  qcom: apq8096: add modem firmware (2022-04-14 02:34:16 +0300)
+  mediatek: Add mt8195 SCP firmware (2022-04-14 14:03:33 +0800)
 
 ----------------------------------------------------------------
-Dmitry Baryshkov (2):
-      qcom: apq8096: add aDSP firmware
-      qcom: apq8096: add modem firmware
+Tinghan Shen (1):
+      mediatek: Add mt8195 SCP firmware
 
- WHENCE                  |   6 ++++++
- qcom/apq8096/adsp.mbn   | Bin 0 -> 10533521 bytes
- qcom/apq8096/adspr.jsn  |  21 +++++++++++++++++++++
- qcom/apq8096/adspua.jsn |  21 +++++++++++++++++++++
- qcom/apq8096/mba.mbn    | Bin 0 -> 213888 bytes
- qcom/apq8096/modem.mbn  | Bin 0 -> 7434352 bytes
- qcom/apq8096/modemr.jsn |  21 +++++++++++++++++++++
- 7 files changed, 69 insertions(+)
- create mode 100644 qcom/apq8096/adsp.mbn
- create mode 100644 qcom/apq8096/adspr.jsn
- create mode 100644 qcom/apq8096/adspua.jsn
- create mode 100644 qcom/apq8096/mba.mbn
- create mode 100644 qcom/apq8096/modem.mbn
- create mode 100644 qcom/apq8096/modemr.jsn
+ WHENCE                  |   2 ++
+ mediatek/mt8195/scp.img | Bin 0 -> 429668 bytes
+ 2 files changed, 2 insertions(+)
+ create mode 100644 mediatek/mt8195/scp.img
+
