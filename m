@@ -1,47 +1,47 @@
-Return-Path: <SRS0=irR1=UY=cars-manager.com=webmaster@kernel.org>
+Return-Path: <SRS0=UkvC=U4=yennyu.xyz=info@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C45EC433EF
-	for <linux-firmware@archiver.kernel.org>; Thu, 14 Apr 2022 11:09:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 535F3C433F5
+	for <linux-firmware@archiver.kernel.org>; Mon, 18 Apr 2022 08:37:34 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 67F7DC385A9; Thu, 14 Apr 2022 11:09:01 +0000 (UTC)
-Received: from ns205832.ip-94-23-34.eu (ns205832.ip-94-23-34.eu [94.23.34.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id AD42BC385A8
-	for <linux-firmware@kernel.org>; Thu, 14 Apr 2022 11:08:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org AD42BC385A8
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=cars-manager.com
-Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=cars-manager.com
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by ns205832.ip-94-23-34.eu (Postfix) with ESMTP id 7D53042C1D54
-	for <linux-firmware@kernel.org>; Thu, 14 Apr 2022 13:08:56 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at ns205832.ip-94-23-34.eu
-Received: from ns205832.ip-94-23-34.eu ([127.0.0.1])
-	by localhost (ns205832.ip-94-23-34.eu [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 7JVyMQJ3luuF for <linux-firmware@kernel.org>;
-	Thu, 14 Apr 2022 13:08:56 +0200 (CEST)
-Received: by ns205832.ip-94-23-34.eu (Postfix, from userid 5009)
-	id 1D0C942C1D55; Thu, 14 Apr 2022 13:08:56 +0200 (CEST)
+	id 22863C385A1; Mon, 18 Apr 2022 08:37:34 +0000 (UTC)
+Received: from info.yennyu.xyz (unknown [180.76.137.99])
+	by smtp.kernel.org (Postfix) with ESMTP id 9C6F8C385A7
+	for <linux-firmware@kernel.org>; Mon, 18 Apr 2022 08:37:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 9C6F8C385A7
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=bx-group.com
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=yennyu.xyz
+Received: from WINMICR-0PNGNG2 (113.93.242.48) by info.yennyu.xyz id hbkhkm0e97ch for <linux-firmware@kernel.org>; Mon, 18 Apr 2022 16:37:30 +0800 (envelope-from <info@yennyu.xyz>)
+From: "cindy" <cindy@bx-group.com>
+Subject: Re:BX Houseware new product
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Subject: Compte Cars Manager
-X-PHP-Originating-Script: 5009:inscription.php
-From: noreply@cars-manager.com
-Message-Id: <20220414110856.1D0C942C1D55@ns205832.ip-94-23-34.eu>
-Date: Thu, 14 Apr 2022 13:08:56 +0200 (CEST)
+Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Sender: info@yennyu.xyz
+Reply-To: cindy@bx-group.com
+Date: Mon, 18 Apr 2022 16:37:20 +0800
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
+Content-Disposition: inline
+Message-Id: <20220418083731.9C6F8C385A7@smtp.kernel.org>
 
-Bienvenue y69d2im !
-
-Vos pilotes sont prêts à honorer les couleurs de l'équipe 💝 Nikki sent you a private message. View message: https://telegra.ph/insta-sex-04-14?dep2 💝 !
-
-Pour activer votre compte sur le site Cars-Manager.com, veuillez cliquez sur le lien suivant :
-https://www.cars-manager.com/?page=validation_compte&mail=0f13c03173895b5af98b9eb65e16fe70
-
-Bonne chance à vous !
-
-Sportivement,
-Cars-manager.com 
+SGkgLA0KDQpSZWNvbW1lbmQgYSBIT1QtU0VMTElORyBCQU1CT08gTElEIFRSQVNIIENBTiB0byB5
+b3UhIEFub3RoZXIgVVMgY3VzdG9tZXIgZ2F2ZSBtZSBhIGJpZyBvcmRlciBpbiB0aGlzIG1vZGVs
+LiBXb3VsZCB5b3UgbGlrZSB0byBoYXZlIGEgdHJ5IGluIHlvdSBzdGF0ZT8NClNhbXBsZXMgYWxy
+ZWFkeSBwcmVwYXJlZCwgY2FuIGJlIHNlbnQgdG8geW91IGFzYXAuDQpIb3BlIHdlIGNhbiBkZWFs
+IQ0KDQpodHRwOi8vbS5xcGljLmNuL3BzYz8vVjEyZDRWMjcyVlNyNzEvYnFRZlZ6NXlyckdZU1hN
+dktyLmNxYlk4c0JaTmdHZFFHS0Z2VVhxWVY0U3RxazFDUG9GV0NTY0RPdkk0S05MY1YxbGN0YVdO
+bGFzUVNiSFc3bjNGc0RYZ0liKlFpYUoySUNpMDUyZSpjdVkhL21udWxsJmJvPTdnTDBBUUFBQUFB
+QkJ6ayEmcmY9cGhvdG9saXN0JnQ9NQ0KIA0KS2luZCByZWdhcmRzLA0KQ2luZHkgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICANClNl
+bmlvciBTYWxlcyBSZXByZXNlbnRhdGl2ZQ0KIEJhaXhpYW5nIEhvdXNld2FyZSBjby4sbHRkLiAo
+SmlhbmdtZW4pDQpSb29tMTEwNUEsIFNlY3Rpb24gQiwgTm8uOTgsIEppYW5zaGUgMm5kIFJvYWQs
+IEppYW5nbWVuLCBHdWFuZ2RvbmcsIDUyOTAwMCwgQ2hpbmENClRlbDogKzg2LTc1MC0gMzk4MTI1
+NSAgICANCk1iL1dlY2hhdDogKzg2LSAxNTAxNTA0MTk3MCAgDQpFbWFpbDogY2luZHlAYngtZ3Jv
+dXAuY29tIA0Kd2Vic2l0ZTogd3d3LmJ4LWdyb3VwLmNvbQ0K
