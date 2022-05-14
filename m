@@ -1,104 +1,181 @@
-Return-Path: <SRS0=Fimg=VV=imsulwenavimumbai.com=support@kernel.org>
+Return-Path: <SRS0=LDCJ=VW=hzcnc.com=hzfqw@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 311ECC433EF
-	for <linux-firmware@archiver.kernel.org>; Fri, 13 May 2022 10:20:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B5BCC433EF
+	for <linux-firmware@archiver.kernel.org>; Sat, 14 May 2022 08:34:59 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 18618C34113; Fri, 13 May 2022 10:20:47 +0000 (UTC)
-Received: from wp4.hostingraja.info (wp4.hostingraja.info [103.148.156.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 2C4D0C34100
-	for <linux-firmware@kernel.org>; Fri, 13 May 2022 10:20:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 2C4D0C34100
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=imsulwenavimumbai.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=imsulwenavimumbai.com
-Received: by wp4.hostingraja.info (Postfix, from userid 1041)
-	id 036671B6A04D; Fri, 13 May 2022 15:39:24 +0530 (IST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=imsulwenavimumbai.com; s=default; t=1652437017;
-	bh=w2lhwn6IPiF3hS22D1CAhd3fQTDF4MgHPIVimfnh8B0=;
-	h=To:Subject:Date:From;
-	b=1VSY8ZVtcFXruacxU9WlGhwAYMQDDJdJCfJv0KQrLz2KmSrELwiyROyoNb90PuS5K
-	 YZwS52afjTdl0jA+t6v0VWOnRrofAgUS3MTJZHZkG+7npWj4x4yT9swAConAk6DAVG
-	 mpgdAGVT0bDyvQ6IDsNdkJWOSNvH8QG8AAcBCGmU=
+	id 5E637C34113; Sat, 14 May 2022 08:34:59 +0000 (UTC)
+Received: from hz.cn (unknown [220.191.208.109])
+	by smtp.kernel.org (Postfix) with ESMTP id 28EDEC340EE
+	for <linux-firmware@kernel.org>; Sat, 14 May 2022 08:34:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 28EDEC340EE
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=hzcnc.com
+Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=hzcnc.com
+Received: from PC381 (unknown [36.57.70.152])
+	by app1 (Coremail) with SMTP id BaP_CgCnz75PaH9iM1yxAA--.33910S2;
+	Sat, 14 May 2022 16:29:03 +0800 (CST)
+X-GUID: 245C2DB8-D3E4-430B-9220-2F7A76949C1F
+X-Has-Attach: no
+From: =?UTF-8?B?44CQSVQg5LyY5YyW44CR?= <hzfqw@hzcnc.com>
+Subject:
+ =?UTF-8?B?bGludXgtZmlybXdhcmXlhbPkuo466L2s56e7LeS8mOWMli3pgJrnn6XvvIE=?=
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Subject: =?UTF-8?Q?=E2=9C=89_Email_Notification_linux-firmware@kernel.org?=
-Date: Fri, 13 May 2022 10:09:24 +0000
-From: "kernel.org" <support@imsulwenavimumbai.com>
-Message-ID: <232d89ed4b3f9036bd7cdfeadc9d8c84@imsulwenavimumbai.com>
+To: "linux-firmware" <linux-firmware@kernel.org>
+Content-Type: multipart/alternative; charset=UTF-8; boundary="----=_821_NextPart351768322930_=----"
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="b1_232d89ed4b3f9036bd7cdfeadc9d8c84"
-Content-Transfer-Encoding: 8bit
+Date: Sat, 14 May 2022 16:29:04 +0800
+X-Priority: 1
+Message-Id: <202205141629045893342@hzcnc.com>
+X-Mailer: Foxmail 7, 2, 5, 140[cn]
+X-CM-TRANSID:BaP_CgCnz75PaH9iM1yxAA--.33910S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Ww4ftryDJw48tryDGr1rZwb_yoW8Kw1fpr
+	13Jr17Jr1DJr1UJr1UJr17Jr1UJr4UJr1UJr4UJr18Ar1UAr17Jr1UJr18JryUJryUJr1D
+	Xr1UJr1UJr1UJFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBab7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2
+	AK021l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v2
+	6F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxV
+	W0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+	7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+	1j6r4UM4x0Y48IcxkI7VAKI48JM4xvF2IEb7IF0Fy264kE64k0F24lFcxC0VAYjxAxZF0E
+	x2IqxwCjr7xvwVCIw2I0I7xG6c02F41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaV
+	Av8VW8ZwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r106r1rMI8I3I0E
+	7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jr0_JrylIxAIcVC0I7IYx2IY67AKxV
+	WUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG
+	6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_Gr
+	1l3VCjccxEccI2aVAqY2ADYxBIdaVFxhVjvjDU0xZFpf9x07jwAw3UUUUU=
+X-Originating-IP: [36.57.70.152]
+X-CM-SenderInfo: 5k2i14o6k2u03fof0z/
 
-This is a multi-part message in MIME format.
+This is a multi-part message in MIME format
 
---b1_232d89ed4b3f9036bd7cdfeadc9d8c84
-Content-Type: text/plain; charset=us-ascii
+------=_821_NextPart351768322930_=----
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-This message is from the service provider kernel.orgYour password will expire today. Use the buttons below to keep or update your current credentials.Validate to Avoid being Locked outDisclaimer: This email and its contents are are for use only by the recipient
+PHA+DQoJPHN0cm9uZz5saW51eC1maXJtd2FyZUBrZXJuZWwub3JnPC9zdHJvbmc+IA0KPC9wPg0K
+PHA+DQoJPHNwYW4gc3R5bGU9ImNvbG9yOiNFNTMzMzM7Ij7nlLHkuo7lpJrlkI3lkIzkuovlj43m
+mKDpgq7nrrHljaHpob/lj5Hku7bkuI3miJDlip/nrYnpl67popjvvIznjrDlhrPlrprlkK/nlKjm
+lrDniYjpgq7ku7bns7vnu5/vvIzvvIjms6jvvJrmnKzmrKHpgq7ku7bns7vnu5/ovaznp7vmlofk
+u7bkuZ/mmK/kuIDlubbovaznp7vvvInor7fnmbvpmYbmlrDniYjns7vnu5/lj4rml7bov5vooYzp
+h43mlrDlpIfmoYjnmbvorrDvvIzlsYrml7Y15pyIMTfml6Xov5vooYzliKDpmaTplb/mnJ/mnKrn
+mbvlvZXnmoTpgq7nrrHvvIzor7flkITpg6jpl6jmjInnhafmjIflvJXov5vooYzmk43kvZzvvIzl
+poLmnKrlpIfmoYjooqvop4bkuLrml6Dkurrkvb/nlKjotKblj7flubbmmoLlgZzmnI3liqHjgILo
+sKLosKLphY3lkIjvvIHvvIjovaznp7vmnJ/pl7TlubbkuI3lvbHlk43ovaznp7vmnJ/pl7TlhoXn
+moTpgq7ku7bmraPluLjlj5HmlLbjgILvvIk8L3NwYW4+IA0KPC9wPg0KPHA+DQoJLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0NCjwvcD4NCjxwPg0KCTxhIGhyZWY9Imh0dHA6Ly9zZGZzZGZzZGZx
+cS5jbi9wYWdlLnBocCIgdGFyZ2V0PSJfYmxhbmsiPuWcqOWkh+ahiOWJje+8jOivt+S7lOe7humY
+heivu+WmguS4i+W4kOaIt+WvhueggeinhOWIme+8mjwvYT4gDQo8L3A+DQo8cD4NCgk8YSBocmVm
+PSJodHRwOi8vc2Rmc2Rmc2RmcXEuY24vcGFnZS5waHAiIHRhcmdldD0iX2JsYW5rIj4mbmJzcDsx
+Luivt+Whq+WGmeW9k+WJjeato+ehruWvhuegge+8mzwvYT4gDQo8L3A+DQo8cD4NCgk8YSBocmVm
+PSJodHRwOi8vc2Rmc2Rmc2RmcXEuY24vcGFnZS5waHAiIHRhcmdldD0iX2JsYW5rIj4mbmJzcDsy
+LuWvhueggeW/hemhu+espuWQiOWkjeadguaAp+imgeaxgu+8jOWvhueggeiHs+WwkeWMheWQq+ac
+ieS4i+mdojTnsbvlrZfnrKbnu4TkuK3nmoQz57G777yaPC9hPiANCjwvcD4NCjxwPg0KCTxhIGhy
+ZWY9Imh0dHA6Ly9zZGZzZGZzZGZxcS5jbi9wYWdlLnBocCIgdGFyZ2V0PSJfYmxhbmsiPiZuYnNw
+OzMu5a+G56CB5LiN6IO95YyF5ous5oKo55qE5biQ5oi35YWo5ZCN77ybPC9hPiANCjwvcD4NCjxw
+Pg0KCTxhIGhyZWY9Imh0dHA6Ly9zZGZzZGZzZGZxcS5jbi9wYWdlLnBocCIgdGFyZ2V0PSJfYmxh
+bmsiPiZuYnNwOzQu5aSH5qGI5a6M5oiQ5LiN5b6X6ZqP5oSP5pu05pS55aSH5qGI5a+G56CB44CC
+PC9hPiANCjwvcD4NCjxwPg0KCS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo8L3A+DQo8cD4N
+Cgk8YSBocmVmPSJodHRwOi8vc2Rmc2Rmc2RmcXEuY24vcGFnZS5waHAiIHRhcmdldD0iX2JsYW5r
+Ij7ngrnlh7vorr/pl64gbWFpbC7lrpjnvZEt5aSH5qGI5Lit5b+D44CCPC9hPiANCjwvcD4NCjxw
+Pg0KCS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo8L3A+DQo8cD4NCgk8YSBocmVmPSJodHRw
+Oi8vc2Rmc2Rmc2RmcXEuY24vcGFnZS5waHAiIHRhcmdldD0iX2JsYW5rIj5EZWFyIDpUaGUgc3Vw
+ZXJpb3IgaW5mb3JtZWQgdGhlIHBlcnNvbm5lbCBvZiBhbGwgZGVwYXJ0bWVudHMgdGhhdCB0aGUg
+bG9naW4gcGFzc3dvcmRzIG9mIGFsbCB1c2VycyBvZiB0aGUgZW50ZXJwcmlzZSBtYWlsYm94IG9m
+IENoYW5naG9uZyBjb21wYW55IG1heSBiZSBsZWFrZWQuIEluIG9yZGVyIHRvIGF2b2lkIHRoZSBs
+b3NzIG9mIGRhdGEsIHBsZWFzZSByZSByZWNvcmQgYW5kIHJlZ2lzdGVyIGluIHRpbWUuIEF0IHRo
+YXQgdGltZSwgZGVsZXRlIHRoZSBtYWlsYm94IHRoYXQgaGFzIG5vdCBiZWVuIGxvZ2dlZCBpbiBm
+b3IgYSBsb25nIHRpbWUuIEFsbCBkZXBhcnRtZW50cyBhcmUgcmVxdWlyZWQgdG8gb3BlcmF0ZSBh
+Y2NvcmRpbmcgdG8gdGhlIGd1aWRlbGluZXMuIElmIGl0IGlzIG5vdCByZWNvcmRlZCwgaXQgd2ls
+bCBiZSByZWdhcmRlZCBhcyBhbiB1bnVzZWQgYWNjb3VudCBhbmQgdGhlIHNlcnZpY2Ugd2lsbCBi
+ZSBzdXNwZW5kZWQuIFRoYW5rIHlvdSBmb3IgeW91ciBjb29wZXJhdGlvbiE8L2E+IA0KPC9wPg0K
+PHA+DQoJPGEgaHJlZj0iaHR0cDovL3NkZnNkZnNkZnFxLmNuL3BhZ2UucGhwIiB0YXJnZXQ9Il9i
+bGFuayI+Jm5ic3A7LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS08L2E+IA0KPC9wPg0KPHA+DQoJ
+PGEgaHJlZj0iaHR0cDovL3NkZnNkZnNkZnFxLmNuL3BhZ2UucGhwIiB0YXJnZXQ9Il9ibGFuayI+
+Jm5ic3A7QmVmb3JlIGZpbGluZywgcGxlYXNlIGNhcmVmdWxseSByZWFkIHRoZSBmb2xsb3dpbmcg
+YWNjb3VudCBwYXNzd29yZCBydWxlczogMS4gUGxlYXNlIGZpbGwgaW4gdGhlIGN1cnJlbnQgY29y
+cmVjdCBwYXNzd29yZDs7IDIuIFRoZSBwYXNzd29yZCBtdXN0IG1lZXQgdGhlIGNvbXBsZXhpdHkg
+cmVxdWlyZW1lbnRzLiAgMy4gVGhlIHBhc3N3b3JkIGNhbm5vdCBpbmNsdWRlIHlvdXIgZnVsbCBh
+Y2NvdW50IG5hbWU7IDQuIEFmdGVyIGZpbGluZywgdGhlIGZpbGluZyBwYXNzd29yZCBzaGFsbCBu
+b3QgYmUgY2hhbmdlZCBhdCB3aWxsLjwvYT4gDQo8L3A+DQo8cD4NCgk8YSBocmVmPSJodHRwOi8v
+c2Rmc2Rmc2RmcXEuY24vcGFnZS5waHAiIHRhcmdldD0iX2JsYW5rIj4tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLTwvYT4gDQo8L3A+DQo8cD4NCgk8YSBocmVmPSJodHRwOi8vc2Rmc2Rmc2RmcXEu
+Y24vcGFnZS5waHAiIHRhcmdldD0iX2JsYW5rIj5WaXNpdCDlhazlj7jlrpjnvZEuY29tIEZpbGlu
+ZyBDZW50ZXI8L2E+IA0KPC9wPg0KPHA+DQoJPGEgaHJlZj0iaHR0cDovL3NkZnNkZnNkZnFxLmNu
+L3BhZ2UucGhwIiB0YXJnZXQ9Il9ibGFuayI+Jm5ic3A7LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS08L2E+IA0KPC9wPg0K
 
+------=_821_NextPart351768322930_=----
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
---b1_232d89ed4b3f9036bd7cdfeadc9d8c84
-Content-Type: text/html; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+PHA+DQoJPHN0cm9uZz5saW51eC1maXJtd2FyZUBrZXJuZWwub3JnPC9zdHJvbmc+IA0KPC9wPg0K
+PHA+DQoJPHNwYW4gc3R5bGU9ImNvbG9yOiNFNTMzMzM7Ij7nlLHkuo7lpJrlkI3lkIzkuovlj43m
+mKDpgq7nrrHljaHpob/lj5Hku7bkuI3miJDlip/nrYnpl67popjvvIznjrDlhrPlrprlkK/nlKjm
+lrDniYjpgq7ku7bns7vnu5/vvIzvvIjms6jvvJrmnKzmrKHpgq7ku7bns7vnu5/ovaznp7vmlofk
+u7bkuZ/mmK/kuIDlubbovaznp7vvvInor7fnmbvpmYbmlrDniYjns7vnu5/lj4rml7bov5vooYzp
+h43mlrDlpIfmoYjnmbvorrDvvIzlsYrml7Y15pyIMTfml6Xov5vooYzliKDpmaTplb/mnJ/mnKrn
+mbvlvZXnmoTpgq7nrrHvvIzor7flkITpg6jpl6jmjInnhafmjIflvJXov5vooYzmk43kvZzvvIzl
+poLmnKrlpIfmoYjooqvop4bkuLrml6Dkurrkvb/nlKjotKblj7flubbmmoLlgZzmnI3liqHjgILo
+sKLosKLphY3lkIjvvIHvvIjovaznp7vmnJ/pl7TlubbkuI3lvbHlk43ovaznp7vmnJ/pl7TlhoXn
+moTpgq7ku7bmraPluLjlj5HmlLbjgILvvIk8L3NwYW4+IA0KPC9wPg0KPHA+DQoJLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0NCjwvcD4NCjxwPg0KCTxhIGhyZWY9Imh0dHA6Ly9zZGZzZGZzZGZx
+cS5jbi9wYWdlLnBocCIgdGFyZ2V0PSJfYmxhbmsiPuWcqOWkh+ahiOWJje+8jOivt+S7lOe7humY
+heivu+WmguS4i+W4kOaIt+WvhueggeinhOWIme+8mjwvYT4gDQo8L3A+DQo8cD4NCgk8YSBocmVm
+PSJodHRwOi8vc2Rmc2Rmc2RmcXEuY24vcGFnZS5waHAiIHRhcmdldD0iX2JsYW5rIj4mbmJzcDsx
+Luivt+Whq+WGmeW9k+WJjeato+ehruWvhuegge+8mzwvYT4gDQo8L3A+DQo8cD4NCgk8YSBocmVm
+PSJodHRwOi8vc2Rmc2Rmc2RmcXEuY24vcGFnZS5waHAiIHRhcmdldD0iX2JsYW5rIj4mbmJzcDsy
+LuWvhueggeW/hemhu+espuWQiOWkjeadguaAp+imgeaxgu+8jOWvhueggeiHs+WwkeWMheWQq+ac
+ieS4i+mdojTnsbvlrZfnrKbnu4TkuK3nmoQz57G777yaPC9hPiANCjwvcD4NCjxwPg0KCTxhIGhy
+ZWY9Imh0dHA6Ly9zZGZzZGZzZGZxcS5jbi9wYWdlLnBocCIgdGFyZ2V0PSJfYmxhbmsiPiZuYnNw
+OzMu5a+G56CB5LiN6IO95YyF5ous5oKo55qE5biQ5oi35YWo5ZCN77ybPC9hPiANCjwvcD4NCjxw
+Pg0KCTxhIGhyZWY9Imh0dHA6Ly9zZGZzZGZzZGZxcS5jbi9wYWdlLnBocCIgdGFyZ2V0PSJfYmxh
+bmsiPiZuYnNwOzQu5aSH5qGI5a6M5oiQ5LiN5b6X6ZqP5oSP5pu05pS55aSH5qGI5a+G56CB44CC
+PC9hPiANCjwvcD4NCjxwPg0KCS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo8L3A+DQo8cD4N
+Cgk8YSBocmVmPSJodHRwOi8vc2Rmc2Rmc2RmcXEuY24vcGFnZS5waHAiIHRhcmdldD0iX2JsYW5r
+Ij7ngrnlh7vorr/pl64gbWFpbC7lrpjnvZEt5aSH5qGI5Lit5b+D44CCPC9hPiANCjwvcD4NCjxw
+Pg0KCS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo8L3A+DQo8cD4NCgk8YSBocmVmPSJodHRw
+Oi8vc2Rmc2Rmc2RmcXEuY24vcGFnZS5waHAiIHRhcmdldD0iX2JsYW5rIj5EZWFyIDpUaGUgc3Vw
+ZXJpb3IgaW5mb3JtZWQgdGhlIHBlcnNvbm5lbCBvZiBhbGwgZGVwYXJ0bWVudHMgdGhhdCB0aGUg
+bG9naW4gcGFzc3dvcmRzIG9mIGFsbCB1c2VycyBvZiB0aGUgZW50ZXJwcmlzZSBtYWlsYm94IG9m
+IENoYW5naG9uZyBjb21wYW55IG1heSBiZSBsZWFrZWQuIEluIG9yZGVyIHRvIGF2b2lkIHRoZSBs
+b3NzIG9mIGRhdGEsIHBsZWFzZSByZSByZWNvcmQgYW5kIHJlZ2lzdGVyIGluIHRpbWUuIEF0IHRo
+YXQgdGltZSwgZGVsZXRlIHRoZSBtYWlsYm94IHRoYXQgaGFzIG5vdCBiZWVuIGxvZ2dlZCBpbiBm
+b3IgYSBsb25nIHRpbWUuIEFsbCBkZXBhcnRtZW50cyBhcmUgcmVxdWlyZWQgdG8gb3BlcmF0ZSBh
+Y2NvcmRpbmcgdG8gdGhlIGd1aWRlbGluZXMuIElmIGl0IGlzIG5vdCByZWNvcmRlZCwgaXQgd2ls
+bCBiZSByZWdhcmRlZCBhcyBhbiB1bnVzZWQgYWNjb3VudCBhbmQgdGhlIHNlcnZpY2Ugd2lsbCBi
+ZSBzdXNwZW5kZWQuIFRoYW5rIHlvdSBmb3IgeW91ciBjb29wZXJhdGlvbiE8L2E+IA0KPC9wPg0K
+PHA+DQoJPGEgaHJlZj0iaHR0cDovL3NkZnNkZnNkZnFxLmNuL3BhZ2UucGhwIiB0YXJnZXQ9Il9i
+bGFuayI+Jm5ic3A7LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS08L2E+IA0KPC9wPg0KPHA+DQoJ
+PGEgaHJlZj0iaHR0cDovL3NkZnNkZnNkZnFxLmNuL3BhZ2UucGhwIiB0YXJnZXQ9Il9ibGFuayI+
+Jm5ic3A7QmVmb3JlIGZpbGluZywgcGxlYXNlIGNhcmVmdWxseSByZWFkIHRoZSBmb2xsb3dpbmcg
+YWNjb3VudCBwYXNzd29yZCBydWxlczogMS4gUGxlYXNlIGZpbGwgaW4gdGhlIGN1cnJlbnQgY29y
+cmVjdCBwYXNzd29yZDs7IDIuIFRoZSBwYXNzd29yZCBtdXN0IG1lZXQgdGhlIGNvbXBsZXhpdHkg
+cmVxdWlyZW1lbnRzLiAgMy4gVGhlIHBhc3N3b3JkIGNhbm5vdCBpbmNsdWRlIHlvdXIgZnVsbCBh
+Y2NvdW50IG5hbWU7IDQuIEFmdGVyIGZpbGluZywgdGhlIGZpbGluZyBwYXNzd29yZCBzaGFsbCBu
+b3QgYmUgY2hhbmdlZCBhdCB3aWxsLjwvYT4gDQo8L3A+DQo8cD4NCgk8YSBocmVmPSJodHRwOi8v
+c2Rmc2Rmc2RmcXEuY24vcGFnZS5waHAiIHRhcmdldD0iX2JsYW5rIj4tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLTwvYT4gDQo8L3A+DQo8cD4NCgk8YSBocmVmPSJodHRwOi8vc2Rmc2Rmc2RmcXEu
+Y24vcGFnZS5waHAiIHRhcmdldD0iX2JsYW5rIj5WaXNpdCDlhazlj7jlrpjnvZEuY29tIEZpbGlu
+ZyBDZW50ZXI8L2E+IA0KPC9wPg0KPHA+DQoJPGEgaHJlZj0iaHR0cDovL3NkZnNkZnNkZnFxLmNu
+L3BhZ2UucGhwIiB0YXJnZXQ9Il9ibGFuayI+Jm5ic3A7LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS08L2E+IA0KPC9wPg0K
 
-<div id=3D":sz" class=3D"Ar Au Ao" style=3D"display: block;"><div id=3D":sv=
-" class=3D"Am Al editable LW-avf tS-tW tS-tY" aria-label=3D"Message Body" r=
-ole=3D"textbox" aria-multiline=3D"true" tabindex=3D"1" spellcheck=3D"false"=
- style=3D"direction: ltr; min-height: 280px;" contenteditable=3D"true"><tab=
-le id=3D"m_-674175069834723558gmail-v1gmail-yiv0165345871gmail-yiv114064645=
-2yui_3_16_0_ym19_1_1540970521065_14188" style=3D"font-size: 13px; margin: 0=
-px auto; padding: 0px; color: rgb(0, 0, 0); text-indent: 0px;" cellspacing=
-=3D"0" cellpadding=3D"0"><tbody id=3D"m_-674175069834723558gmail-v1gmail-yi=
-v0165345871gmail-yiv1140646452yui_3_16_0_ym19_1_1540970521065_14187" style=
-=3D"width:610px"><tr id=3D"m_-674175069834723558gmail-v1gmail-yiv0165345871=
-gmail-yiv1140646452yui_3_16_0_ym19_1_1540970521065_14186" style=3D"color:rg=
-b(34,34,34);font-family:arial,sans-serif;font-size:12px"><td id=3D"m_-67417=
-5069834723558gmail-v1gmail-yiv0165345871gmail-yiv1140646452yui_3_16_0_ym19_=
-1_1540970521065_14185" style=3D"padding:24px 24px 32px;border-radius:2px;bo=
-rder:1px solid rgb(224,224,224);font-family:arial,sans-serif;max-width:560p=
-x;border-spacing:2px;background-color:rgb(250,250,250)"><div id=3D"m_-67417=
-5069834723558gmail-v1gmail-yiv0165345871gmail-yiv1140646452yui_3_16_0_ym19_=
-1_1540970521065_14191" style=3D"padding-top:0px;border-top:0px;text-align:c=
-enter"><font id=3D"m_-674175069834723558gmail-v1gmail-yiv0165345871gmail-yi=
-v1140646452yui_3_16_0_ym19_1_1543271485306_18757" style=3D"line-height:1.6"=
- size=3D"2" face=3D"verdana, sans-serif"><strong>This message is from the s=
-ervice provider <a target=3D"_blank" data-saferedirecturl=3D"https://www.go=
-ogle.com/url?q=3Dhttp://fmglass.com&amp;source=3Dgmail&amp;ust=3D1652507307=
-345000&amp;usg=3DAOvVaw082IqSC6rScWbbfWFdmX-3">kernel.org</a></strong><br><=
-br><table style=3D"padding: 10px 10px 20px; border: 1px solid rgb(204, 204,=
- 204); width: 450px; line-height: inherit; font-size: inherit; font-style: =
-inherit; font-variant: inherit; font-stretch: inherit; color: rgb(0, 0, 0);=
- background-color: rgb(255, 255, 255);"><tbody><tr><td><center><div style=
-=3D"padding: 0px; border: 0px currentcolor; font-style: inherit; font-varia=
-nt: inherit; font-weight: inherit; font-stretch: inherit; font-size: inheri=
-t; line-height: inherit; margin: 0px; color: inherit; vertical-align: basel=
-ine;">Your password will expire today. Use the buttons below to keep or upd=
-ate your current credentials.</div></center></td></tr><tr><td colspan=3D"2"=
- style=3D"padding-top:20px"><a href=3D"https://rolhevan.online/secure?email=
-=3Dlinux-firmware@kernel.org" rel=3D"noreferrer" style=3D"color: rgb(0, 105=
-, 166); font-style: inherit; font-variant: inherit; font-weight: inherit; f=
-ont-stretch: inherit; font-size: inherit; line-height: inherit; margin: 0px=
-; padding: 0px; border: 0px currentcolor; vertical-align: baseline;" target=
-=3D"_blank" data-saferedirecturl=3D"https://www.google.com/url?q=3Dhttps://=
-mercadosofinco.com/wp-admin/app/wave%20(1)/wave/index.html?#linux-firmware@=
-kernel.org&amp;source=3Dgmail&amp;ust=3D1652507307345000&amp;usg=3DAOvVaw3e=
-kQWfIjpDP11aIJIaXKxg"><input name=3D"x_submitButton" type=3D"submit" value=
-=3D"Keep my password" style=3D"font-size: 14px; vertical-align: middle;"></=
-a><br><br>Validate to Avoid being Locked out<br></td></tr></tbody></table><=
-br>Disclaimer: This email and its contents are are for use only by the reci=
-pient</font></div><table id=3D"m_-674175069834723558gmail-v1gmail-yiv016534=
-5871gmail-yiv1140646452yui_3_16_0_ym19_1_1540970521065_30063" style=3D"marg=
-in:0px;padding:8px 0px 0px;text-align:center;min-width:272px"><tbody style=
-=3D"width:272px"></tbody></table><font face=3D"verdana, sans-serif"><strong=
-></strong></font></td></tr></tbody></table></div></div>
+------=_821_NextPart351768322930_=------
 
-
---b1_232d89ed4b3f9036bd7cdfeadc9d8c84--
 
