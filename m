@@ -1,68 +1,49 @@
-Return-Path: <SRS0=OnKT=V3=vps5616.inmotionhosting.com=somal3@kernel.org>
+Return-Path: <SRS0=GJka=V7=qualityservice.top=info1@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C879DC433EF
-	for <linux-firmware@archiver.kernel.org>; Thu, 19 May 2022 23:38:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB4D7C433F5
+	for <linux-firmware@archiver.kernel.org>; Mon, 23 May 2022 07:30:43 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 7736BC34113; Thu, 19 May 2022 23:38:18 +0000 (UTC)
-Received: from vps5616.inmotionhosting.com (vps5616.inmotionhosting.com [70.39.233.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id B7CE1C385AA
-	for <linux-firmware@kernel.org>; Thu, 19 May 2022 23:38:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org B7CE1C385AA
-Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=vps5616.inmotionhosting.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=somalidoc.com; s=default; h=Date:Message-ID:Content-Transfer-Encoding:
-	Content-Type:From:MIME-Version:Subject:To:Sender:Reply-To:Cc:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=43+EMZTKxm+6LioSwoRPZDm9U4HtfUEd3p/JAOAoC1k=; b=fX/pudLZosDuzZdHsM37zB3vbU
-	DR0w77JeH8Rg7XbsKDrS8hCGG2xWh0lrt/E6aZS+kFz/9g8lGkcKqD0P+gXKvk5PgrYdRiLljXd34
-	G1WtJsk31YlJMjEF47QtP5d4r;
-Received: from somal3 by vps5616.inmotionhosting.com with local (Exim 4.93)
-	(envelope-from <somal3@vps5616.inmotionhosting.com>)
-	id 1nrpic-0004SH-24
-	for linux-firmware@kernel.org; Thu, 19 May 2022 19:38:10 -0400
+	id 7D9E4C385A9; Mon, 23 May 2022 07:30:43 +0000 (UTC)
+Received: from server2.coddta.top (unknown [120.48.1.41])
+	by smtp.kernel.org (Postfix) with ESMTP id 4E984C385AA
+	for <linux-firmware@kernel.org>; Mon, 23 May 2022 07:30:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 4E984C385AA
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=yesoulchina.com
+Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=qualityservice.top
+Received: from LAPTOP-2DSSA9LT (222.79.24.90) by server2.coddta.top id hhcs220e97cs for <linux-firmware@kernel.org>; Mon, 23 May 2022 15:30:34 +0800 (envelope-from <info1@qualityservice.top>)
+From: "YESOUL" <yijuanliu@yesoulchina.com>
+Subject: FUJIAN YESOUL HEALTH TECHNOLOGY
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Subject: Website recommendation by =?iso-8859-1?Q?=F0=9F=98=8D?= Abby just viewed your profile! More info: https://wondergirl22.page.link/29hQ?5lcyb =?iso-8859-1?Q?=F0=9F=98=8D?= k4m1c8
-X-PHP-Script: somalidoc.com/tf/index.php for 142.4.205.238
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-From: "=?iso-8859-1?Q?=F0=9F=98=8D?= Abby just viewed your profile! More info: https://wondergirl22.page.link/29hQ?5lcyb =?iso-8859-1?Q?=F0=9F=98=8D?= k4m1c8" <linux-firmware@kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: 7bit
-Message-ID: <rc5lnm.ehwj3t@somalidoc.com>
-Date: Thu, 19 May 2022 19:38:10 -0400
-X-OutGoing-Spam-Status: No, score=0.8
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - vps5616.inmotionhosting.com
-X-AntiAbuse: Original Domain - kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [505 505] / [47 12]
-X-AntiAbuse: Sender Address Domain - vps5616.inmotionhosting.com
-X-Get-Message-Sender-Via: vps5616.inmotionhosting.com: authenticated_id: somal3/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: vps5616.inmotionhosting.com: somal3
+Content-Transfer-Encoding: base64
+Sender: info1@qualityservice.top
+Reply-To: yijuanliu@yesoulchina.com
+Date: Mon, 23 May 2022 15:30:32 +0800
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
+Content-Disposition: inline
+Message-Id: <20220523073041.4E984C385AA@smtp.kernel.org>
 
-fgj2z3
-
-
-http://www.somalidoc.com/
-
------------------------------------------
-This e-mail has been sent by 😍 Abby just viewed your profile!
-More info: https://wondergirl22.page.link/29hQ?5lcyb 😍 k4m1c8
-(linux-firmware@kernel.org).
-
-
-Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like
-Gecko) Chrome/47.0.2526.73 Safari/537.36 OPR/34.0.2036.31
-
-142.4.205.238 (exit-ca.x86txt.com)
-
-2022-05-19 (16:38:10)
-
+SG9wZSB5b3UgYXJlIHdlbGwuIFRoaXMgaXMgT2xpdmlhIGZyb20gWUVTT1VMIENoaW5hLg0KDQoN
+CldlIGFyZSBhIHByb2Zlc3Npb25hbCBmYWN0b3J5IG9mIGV4ZXJjaXNlIGZpdG5lc3MgaW5kb29y
+IGJpa2Vz77yMYW5kIE91ciBvdXRwdXQgaXMgNTAwLDAwMCBwY3MgcGVyIHllYXIuDQoNCg0KT3Vy
+IE1vZGVsIGlzIHRoZSBzYW1lICBhcyBQZWxvdG9uIC5Vc2VycyBjYW4gY29ubmVjdCBvdXIgZXF1
+aXBtZW50IHRvIG91ciBZZXNvdWwgc3BvcnRzIGFwcCBieSBibHVldG9vdGguICAgDQoNCg0KV2Ug
+YWxzbyBjb29wZXJhdGUgd2l0aCBYSUFPTUkgZm9yIGEgbG9uZyB0aW1lLCBhbmQgaXMgdGhlIG9u
+ZSBvZiBzdXBwbGllciBvZiB0aGVtLg0KDQoNCkFjdHVhbGx5IHdlIGhhdmUgb3RoZXIgbW9kZWxz
+IGZpdG5lc3MgbWFjaGluZSwgc3VjaCBhcyByb3dpbmcgbWFjaGluZSwgZWxsaXB0aWNhbCwgYWJk
+b21pbmFsIHJvbGxlciwgbWFzc2FnZSBmYXNjaWEgZ3VuIGV0Yy4gICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgDQoNCk91ciBB
+cHAgaGF2ZSBkaXZlcnNpZmllZCBmdW5jdGlvbnMsc3VjaCBhcyBsaXZlIGJyb2FkY2FzdCwgb24t
+ZGVtYW5kIGJyb2FkY2FzdCBhbmQgYWN0dWFsIHJpZGluZyBmb3IgdXNlcnMgdG8gdXNlIGF0IGhv
+bWU7DQoNCk5vdyB3ZSBhcmUgbG9va2luZyBmb3IgZXhjZWxsZW50IHBhcnRuZXJzIGluIHZhcmlv
+dXMgY291bnRyaWVzIGFuZCBob3BlIHRvIGdldCBpbiB0b3VjaCB3aXRoIHlvdS4NCg0KDQpMb29r
+aW5nIGZvcndhcmQgdG8geW91ciBraW5kbHkgcmVwbHksIGFuZCBob3BlIHRoYXQgd2UgY2FuIGhh
+dmUgY2hhbmNlIHRvIHdvcmsgdG9nZXRoZXIuDQoNCktpbmRseSByZWdhcmRzDQoNCk9saXZpYQ0K
