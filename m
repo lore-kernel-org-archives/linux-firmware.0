@@ -1,49 +1,46 @@
-Return-Path: <SRS0=GJka=V7=qualityservice.top=info1@kernel.org>
+Return-Path: <SRS0=LHvy=V7=gmail.com=loan.funding@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB4D7C433F5
-	for <linux-firmware@archiver.kernel.org>; Mon, 23 May 2022 07:30:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8389FC433EF
+	for <linux-firmware@archiver.kernel.org>; Mon, 23 May 2022 10:48:16 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 7D9E4C385A9; Mon, 23 May 2022 07:30:43 +0000 (UTC)
-Received: from server2.coddta.top (unknown [120.48.1.41])
-	by smtp.kernel.org (Postfix) with ESMTP id 4E984C385AA
-	for <linux-firmware@kernel.org>; Mon, 23 May 2022 07:30:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 4E984C385AA
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=yesoulchina.com
-Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=qualityservice.top
-Received: from LAPTOP-2DSSA9LT (222.79.24.90) by server2.coddta.top id hhcs220e97cs for <linux-firmware@kernel.org>; Mon, 23 May 2022 15:30:34 +0800 (envelope-from <info1@qualityservice.top>)
-From: "YESOUL" <yijuanliu@yesoulchina.com>
-Subject: FUJIAN YESOUL HEALTH TECHNOLOGY
+	id 5779FC385AA; Mon, 23 May 2022 10:48:16 +0000 (UTC)
+Received: from gmail.com (unknown [141.98.10.23])
+	by smtp.kernel.org (Postfix) with ESMTP id D2EDDC385A9
+	for <linux-firmware@kernel.org>; Mon, 23 May 2022 10:48:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D2EDDC385A9
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=gmail.com
+Reply-To: loan.funding@financier.com
+From: Russi Vincent <loan.funding@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Content-Type: text/plain; charset=UTF-8
+Subject: Viable Funding
+Date: 23 May 2022 12:48:12 +0200
+Message-ID: <20220523124812.EADDE80570FF9782@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Sender: info1@qualityservice.top
-Reply-To: yijuanliu@yesoulchina.com
-Date: Mon, 23 May 2022 15:30:32 +0800
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
-Content-Disposition: inline
-Message-Id: <20220523073041.4E984C385AA@smtp.kernel.org>
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-SG9wZSB5b3UgYXJlIHdlbGwuIFRoaXMgaXMgT2xpdmlhIGZyb20gWUVTT1VMIENoaW5hLg0KDQoN
-CldlIGFyZSBhIHByb2Zlc3Npb25hbCBmYWN0b3J5IG9mIGV4ZXJjaXNlIGZpdG5lc3MgaW5kb29y
-IGJpa2Vz77yMYW5kIE91ciBvdXRwdXQgaXMgNTAwLDAwMCBwY3MgcGVyIHllYXIuDQoNCg0KT3Vy
-IE1vZGVsIGlzIHRoZSBzYW1lICBhcyBQZWxvdG9uIC5Vc2VycyBjYW4gY29ubmVjdCBvdXIgZXF1
-aXBtZW50IHRvIG91ciBZZXNvdWwgc3BvcnRzIGFwcCBieSBibHVldG9vdGguICAgDQoNCg0KV2Ug
-YWxzbyBjb29wZXJhdGUgd2l0aCBYSUFPTUkgZm9yIGEgbG9uZyB0aW1lLCBhbmQgaXMgdGhlIG9u
-ZSBvZiBzdXBwbGllciBvZiB0aGVtLg0KDQoNCkFjdHVhbGx5IHdlIGhhdmUgb3RoZXIgbW9kZWxz
-IGZpdG5lc3MgbWFjaGluZSwgc3VjaCBhcyByb3dpbmcgbWFjaGluZSwgZWxsaXB0aWNhbCwgYWJk
-b21pbmFsIHJvbGxlciwgbWFzc2FnZSBmYXNjaWEgZ3VuIGV0Yy4gICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgDQoNCk91ciBB
-cHAgaGF2ZSBkaXZlcnNpZmllZCBmdW5jdGlvbnMsc3VjaCBhcyBsaXZlIGJyb2FkY2FzdCwgb24t
-ZGVtYW5kIGJyb2FkY2FzdCBhbmQgYWN0dWFsIHJpZGluZyBmb3IgdXNlcnMgdG8gdXNlIGF0IGhv
-bWU7DQoNCk5vdyB3ZSBhcmUgbG9va2luZyBmb3IgZXhjZWxsZW50IHBhcnRuZXJzIGluIHZhcmlv
-dXMgY291bnRyaWVzIGFuZCBob3BlIHRvIGdldCBpbiB0b3VjaCB3aXRoIHlvdS4NCg0KDQpMb29r
-aW5nIGZvcndhcmQgdG8geW91ciBraW5kbHkgcmVwbHksIGFuZCBob3BlIHRoYXQgd2UgY2FuIGhh
-dmUgY2hhbmNlIHRvIHdvcmsgdG9nZXRoZXIuDQoNCktpbmRseSByZWdhcmRzDQoNCk9saXZpYQ0K
+Hello,
+
+Atten: linux-firmware@kernel.org
+
+Our company, as a private Money lending firm, is currently=20
+looking forward to lending money for real estate investors,=20
+start-up loan, personal loan, purchase, fix & flip, Buy & Hold=20
+and funding for a contract at a reasonable interest rate of 5%.=20
+Our loan terms are from 6months to a max period of 30yrs. We=E2=80=99re=20
+flexible, we would be happy to receive an Executive summary to=20
+see if you have any viable project we can finance. There are no=20
+prepayment penalties and we have different payment schedules.=20
+Contact me to get started.
+
+RUSSI VINCENT
+
+Phone :(702) 389-6911
+loan.funding@financier.com
