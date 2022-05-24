@@ -1,60 +1,60 @@
-Return-Path: <SRS0=xI99=V7=gmail.com=pbrobinson@kernel.org>
+Return-Path: <SRS0=DC0f=WA=gmail.com=pbrobinson@kernel.org>
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5EC2C433F5
-	for <linux-firmware@archiver.kernel.org>; Mon, 23 May 2022 22:44:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2601EC433F5
+	for <linux-firmware@archiver.kernel.org>; Tue, 24 May 2022 08:00:26 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 4CDF2C385A9; Mon, 23 May 2022 22:44:44 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	id E5C56C34100; Tue, 24 May 2022 08:00:25 +0000 (UTC)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id E893FC385AA;
-	Mon, 23 May 2022 22:39:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org E893FC385AA
+	by smtp.kernel.org (Postfix) with ESMTPS id C8508C34115;
+	Tue, 24 May 2022 07:55:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C8508C34115
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f52.google.com with SMTP id 2-20020a1c0202000000b003974edd7c56so12159wmc.2;
-        Mon, 23 May 2022 15:39:40 -0700 (PDT)
+Received: by mail-ej1-f41.google.com with SMTP id rq11so11500398ejc.4;
+        Tue, 24 May 2022 00:55:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=MJt5WNfVq52K1JptPiUyy6VXqEssmmoJzMyLGvtqClI=;
-        b=CVmiWNhMvfumMeOAENMRbvR3BEmfbRQKCnfWebwqwGN09gjXTrZCf8RsgVnBJtCEZw
-         zOVvkmEPAUYX8Y/eS5fWcOZrB+ewYyNaLa/UsEctZkwOt6xI98Jih+0x1VzkyqbWJJPp
-         CR0mBcQ6lUnmxRTriOQ0mvmg+B4qjnawaEc5krwKlePxvL8aV+sPvx6zo1UKfhqFXkpl
-         Yax4zDe/3Wht6vG0of5ITx+U0OlN5o5DuUr2Up2qJUZEk6PwSodaxJDQHeOWQtPcULaN
-         FYLNogb3+6sCpY6wIB8+qowDdARGusnTEPTvzZZppHJo4vDzZjwSqum9AiSCzAQ4YH5n
-         ftAg==
+        bh=9zzAvKmvSmLH6w2CzotGOwwlgTngV0UrgYFiG16kdRE=;
+        b=NYNUj84RoJzZ1eGOU3RZKuvg+Nn7uBYEBnS0gTxpBpOHhy2/Yf1KCeSH1qbaIFw8b5
+         GHKkNGJAT8lIPpRWPx867vbQDgu2xXx0Ag8ps2hBoqb53/5uQRYBcsnvV53Fbxj7mXYK
+         vRz+xCTs0WGp9JwPPOvb1VqblHxj97RZGCXyeWaoiz1GTmpk5Ote+6Q6n8a5GFttfuYb
+         aREbT1oTp2e/MUibEOdoGLcAcV0K5kPg2B0EDhELfKmEVSvppmy9SsQkKTGTJ9+6060F
+         1SgqhpaV5L0TwurwseNrBXF1tR0VSdYSu45EeUjy7uBCyTUQ4PvVLYY04I25nSZObcyb
+         VrCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=MJt5WNfVq52K1JptPiUyy6VXqEssmmoJzMyLGvtqClI=;
-        b=2b5rrX9jOHS1Pe4DKmg2BemOSUgL44kahXpos+k+B4mZdmv7kyhfdqOVSXUXPY1tpp
-         bZ6PDYkvSBCgDLyErgFJLjbe+DM0qtvk1BjB3Xg+f5/cWmbewy2wVFxvH2BrE4n6+U1t
-         6QQ8dF9M85dUIgeScm1Wb6JiYuRKD0paQ8Tkj7tCAbR8dh+1qn1r3I5Y+ixWpEyaTFgW
-         Sz7KroDH0osXRGfQ9xtEOu4rOrFjei1wS8vtzg0lpQOXFWfCrNsecowQlEMWmTX3fOtQ
-         Z2tbg+oHqfyn3kyZ1RFrOnt/+QfqAigFYThKnd0fmNn7T02O61B9GPdz1E21Pv9xeaTH
-         Gwzg==
-X-Gm-Message-State: AOAM531rxH8xMrzirCDsEUF4O3wOscA7x0WTukPr7RGf8RE4ZxVYyKNd
-	866WJB7HJQT0AHnFiCMvNzNkpLSgMxo=
-X-Google-Smtp-Source: ABdhPJz/qw+iV6lmGSPmxDhlyiYr+ljUBkbhPTCS8p9Fkm3i+QyeyWAN7UXkM4DKWTvuUswvJ6UQwQ==
-X-Received: by 2002:a05:600c:4f52:b0:394:63eb:ad27 with SMTP id m18-20020a05600c4f5200b0039463ebad27mr1061512wmq.35.1653345575543;
-        Mon, 23 May 2022 15:39:35 -0700 (PDT)
+        bh=9zzAvKmvSmLH6w2CzotGOwwlgTngV0UrgYFiG16kdRE=;
+        b=dPZS6A6wEM6QtM89pVQjUB8VQmP4hHYPOi92puPCXMuNuYXGJfSDza6480+K81n5pR
+         3r90YHGIkL0cEbHLCLGabw4UZO0G0CjPwfI7fN/UwZXS9w8YKaOO6GinkCt4swzFy4UR
+         CcwLpzjETa4zgNSkErLC7L0HxKkklsIZ7Kkr7l64PLgVJnBsnwWlKA1M5nF125JuWRJz
+         kP/LFjYXeNbk17e7ecoCGgkyyHJxxcbBn1A1Ifs7ZHkfw2JPrPCdWMkZ5UiR6N9VAugn
+         CLTNX3UfSjHUIyBkmHsEqibjS8/KJ2RgXQvntN0m9h6t+T5h+7d/KYrQcE56NdNnHd/s
+         PW5g==
+X-Gm-Message-State: AOAM533T2XWfHlVLtJ25yvETBPtgIikoQrhzvl99mub2Srmp1YR9sDLa
+	7WK9dLcFw61Jr5lKSpKwuQ5P++0mOmE=
+X-Google-Smtp-Source: ABdhPJzcfN2IZO8OKBn50lbPS75qYCzRWPrZ4OIT+YeqWyK/SevoXs+c8MHFtpPxrlBhUl3uC2Vvxw==
+X-Received: by 2002:a17:907:7b85:b0:6fd:d799:ef4e with SMTP id ne5-20020a1709077b8500b006fdd799ef4emr23395244ejc.319.1653378916547;
+        Tue, 24 May 2022 00:55:16 -0700 (PDT)
 Received: from morpheus.home.roving-it.com (3.e.2.0.0.0.0.0.0.0.0.0.0.0.0.0.1.8.6.2.1.1.b.f.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:fb11:2681::2e3])
-        by smtp.googlemail.com with ESMTPSA id u9-20020adfb209000000b0020c5253d925sm11475136wra.113.2022.05.23.15.39.12
+        by smtp.googlemail.com with ESMTPSA id jy1-20020a170907762100b006f3ef214dfbsm7027430ejc.97.2022.05.24.00.54.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 May 2022 15:39:30 -0700 (PDT)
+        Tue, 24 May 2022 00:55:10 -0700 (PDT)
 From: Peter Robinson <pbrobinson@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
 Cc: jwboyer@kernel.org,
 	Peter Robinson <pbrobinson@gmail.com>
-Subject: [PATCH] iwlwifi: remove old unsupported 3160/7260/7265/8000/8265 firmware
-Date: Mon, 23 May 2022 23:39:04 +0100
-Message-Id: <20220523223905.37749-1-pbrobinson@gmail.com>
+Subject: [PATCH v2] iwlwifi: remove old unsupported 3160/7260/7265/8000/8265 firmware
+Date: Tue, 24 May 2022 08:54:55 +0100
+Message-Id: <20220524075456.56422-1-pbrobinson@gmail.com>
 X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -68,6 +68,10 @@ The upstream linux commits were 4b87e5af638b and 15098803d3877
 
 Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
 ---
+
+v2: Update WHENCE
+
+ WHENCE                 |  92 -----------------------------------------
  iwlwifi-3160-10.ucode  | Bin 609892 -> 0 bytes
  iwlwifi-3160-12.ucode  | Bin 683996 -> 0 bytes
  iwlwifi-3160-13.ucode  | Bin 688616 -> 0 bytes
@@ -98,7 +102,7 @@ Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
  iwlwifi-8000C-16.ucode | Bin 2351636 -> 0 bytes
  iwlwifi-8000C-21.ucode | Bin 2394060 -> 0 bytes
  iwlwifi-8265-21.ucode  | Bin 2389968 -> 0 bytes
- 30 files changed, 0 insertions(+), 0 deletions(-)
+ 31 files changed, 92 deletions(-)
  delete mode 100644 iwlwifi-3160-10.ucode
  delete mode 100644 iwlwifi-3160-12.ucode
  delete mode 100644 iwlwifi-3160-13.ucode
@@ -130,6 +134,139 @@ Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
  delete mode 100644 iwlwifi-8000C-21.ucode
  delete mode 100644 iwlwifi-8265-21.ucode
 
+diff --git a/WHENCE b/WHENCE
+index bf2e2ef..76d2a3f 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -862,92 +862,15 @@ Version: 18.168.6.1
+ File: iwlwifi-2000-6.ucode
+ Version: 18.168.6.1
+ 
+-File: iwlwifi-7260-7.ucode
+-Version: 22.1.7.0
+-
+-File: iwlwifi-7260-8.ucode
+-Version: 22.24.8.0
+-
+-File: iwlwifi-7260-9.ucode
+-Version: 25.228.9.0
+-
+-File: iwlwifi-7260-10.ucode
+-Version: 23.15.10.0
+-
+-File: iwlwifi-7260-12.ucode
+-Version: 25.17.12.0
+-
+-File: iwlwifi-7260-13.ucode
+-Version: 25.30.13.0
+-
+-File: iwlwifi-7260-16.ucode
+-Version: 16.242414.0
+-
+ File: iwlwifi-7260-17.ucode
+ Version: 17.bfb58538.0
+ 
+-File: iwlwifi-3160-7.ucode
+-Version: 22.1.7.0
+-
+-File: iwlwifi-3160-8.ucode
+-Version: 22.24.8.0
+-
+-File: iwlwifi-3160-9.ucode
+-Version: 25.228.9.0
+-
+-File: iwlwifi-3160-10.ucode
+-Version: 23.15.10.0
+-
+-File: iwlwifi-3160-12.ucode
+-Version: 25.17.12.0
+-
+-File: iwlwifi-3160-13.ucode
+-Version: 25.30.13.0
+-
+-File: iwlwifi-3160-16.ucode
+-Version: 16.242414.0
+-
+ File: iwlwifi-3160-17.ucode
+ Version: 17.bfb58538.0
+ 
+-File: iwlwifi-7265-8.ucode
+-Version: 22.24.8.0
+-
+-File: iwlwifi-7265-9.ucode
+-Version: 25.228.9.0
+-
+-File: iwlwifi-7265-10.ucode
+-Version: 23.15.10.0
+-
+-File: iwlwifi-7265-12.ucode
+-Version: 25.17.12.0
+-
+-File: iwlwifi-7265-13.ucode
+-Version: 25.30.13.0
+-
+-File: iwlwifi-7265-16.ucode
+-Version: 16.242414.0
+-
+ File: iwlwifi-7265-17.ucode
+ Version: 17.bfb58538.0
+ 
+-Link: iwlwifi-7265D-10.ucode -> iwlwifi-7265-10.ucode
+-
+-File: iwlwifi-7265D-12.ucode
+-Version: 25.17.12.0
+-
+-File: iwlwifi-7265D-13.ucode
+-Version: 25.30.13.0
+-
+-File: iwlwifi-7265D-16.ucode
+-Version: 16.242414.0
+-
+-File: iwlwifi-7265D-17.ucode
+-Version: 17.352738.0
+-
+-File: iwlwifi-7265D-21.ucode
+-Version: 21.302800.0
+-
+ File: iwlwifi-7265D-22.ucode
+ Version: 22.391740.0
+ 
+@@ -957,9 +880,6 @@ Version: 27.541033.0
+ File: iwlwifi-7265D-29.ucode
+ Version: 29.f2390aa8.0
+ 
+-File: iwlwifi-3168-21.ucode
+-Version: 21.302800.0
+-
+ File: iwlwifi-3168-22.ucode
+ Version: 22.391740.0
+ 
+@@ -969,15 +889,6 @@ Version: 27.541033.0
+ File: iwlwifi-3168-29.ucode
+ Version: 29.0bd893f3.0
+ 
+-File: iwlwifi-8000C-13.ucode
+-Version: 25.30.13.0
+-
+-File: iwlwifi-8000C-16.ucode
+-Version: 16.242414.0
+-
+-File: iwlwifi-8000C-21.ucode
+-Version: 21.302800.0
+-
+ File: iwlwifi-8000C-22.ucode
+ Version: 22.391740.0
+ 
+@@ -993,9 +904,6 @@ Version: 34.610288.0
+ File: iwlwifi-8000C-36.ucode
+ Version: 36.ca7b901d.0
+ 
+-File: iwlwifi-8265-21.ucode
+-Version: 21.302800.0
+-
+ File: iwlwifi-8265-22.ucode
+ Version: 22.391740.0
+ 
 diff --git a/iwlwifi-3160-10.ucode b/iwlwifi-3160-10.ucode
 deleted file mode 100644
 index 843d4d48edf1f98c9b9225619a88869e345f7057..0000000000000000000000000000000000000000
