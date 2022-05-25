@@ -4,17 +4,17 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1AA1FC433F5
-	for <linux-firmware@archiver.kernel.org>; Wed, 25 May 2022 08:34:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BC84BC433F5
+	for <linux-firmware@archiver.kernel.org>; Wed, 25 May 2022 10:40:33 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id E6AFFC34117; Wed, 25 May 2022 08:34:53 +0000 (UTC)
-Received: from server1.ffssun.top (unknown [180.76.240.226])
-	by smtp.kernel.org (Postfix) with ESMTP id AE059C385B8
-	for <linux-firmware@kernel.org>; Wed, 25 May 2022 08:34:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org AE059C385B8
+	id 79A5FC34118; Wed, 25 May 2022 10:40:33 +0000 (UTC)
+Received: from server5.ffssun.top (unknown [106.12.108.247])
+	by smtp.kernel.org (Postfix) with ESMTP id 40CD3C385B8
+	for <linux-firmware@kernel.org>; Wed, 25 May 2022 10:40:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 40CD3C385B8
 Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=yesoulchina.com
 Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=qualityservice.top
-Received: from LAPTOP-2DSSA9LT (222.79.24.90) by server1.ffssun.top id hhnl2k0e97co for <linux-firmware@kernel.org>; Wed, 25 May 2022 16:34:48 +0800 (envelope-from <info1@qualityservice.top>)
+Received: from LAPTOP-2DSSA9LT (222.79.24.90) by server5.ffssun.top id hho3pu0e97cg for <linux-firmware@kernel.org>; Wed, 25 May 2022 18:40:23 +0800 (envelope-from <info1@qualityservice.top>)
 From: "YESOUL" <yijuanliu@yesoulchina.com>
 Subject: FUJIAN YESOUL HEALTH TECHNOLOGY
 List-Id: <linux-firmware.lore.kernel.org>
@@ -24,12 +24,12 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Sender: info1@qualityservice.top
 Reply-To: yijuanliu@yesoulchina.com
-Date: Wed, 25 May 2022 16:34:45 +0800
+Date: Wed, 25 May 2022 18:40:20 +0800
 X-Priority: 3
 X-MSMail-Priority: Normal
 X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
 Content-Disposition: inline
-Message-Id: <20220525083450.AE059C385B8@smtp.kernel.org>
+Message-Id: <20220525104031.40CD3C385B8@smtp.kernel.org>
 
 SG9wZSB5b3UgYXJlIHdlbGwuIFRoaXMgaXMgT2xpdmlhIGZyb20gWUVTT1VMIENoaW5hLg0KDQoN
 CldlIGFyZSBhIHByb2Zlc3Npb25hbCBmYWN0b3J5IG9mIGV4ZXJjaXNlIGZpdG5lc3MgaW5kb29y
