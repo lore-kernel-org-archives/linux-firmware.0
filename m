@@ -4,90 +4,125 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33A63C433F5
-	for <linux-firmware@archiver.kernel.org>; Tue, 31 May 2022 16:56:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3199BC4332F
+	for <linux-firmware@archiver.kernel.org>; Tue, 31 May 2022 17:02:11 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 18BCBC3411F; Tue, 31 May 2022 16:56:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03287C3411D
-	for <linux-firmware@kernel.org>; Tue, 31 May 2022 16:56:08 +0000 (UTC)
+	id ED70AC341CA; Tue, 31 May 2022 17:02:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7E85C36AE3
+	for <linux-firmware@kernel.org>; Tue, 31 May 2022 17:02:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654016169;
-	bh=O7ipYc08a1ud4PjM8jqwqP/HB7ejnhs+7FiRg2RkfLU=;
+	s=k20201202; t=1654016530;
+	bh=HE3a6dkv7iQufqls/Hkm1B1bdjW+NVvhphTJaVAobto=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=ARiBuyJNKGzgJxTFlEh85RbXEWiAvTBEBYqj51JzXFx6PIVpDQSWsRY1Xb83VdGT1
-	 LBpbaFpxD0dARTBGBpkBN3x6CqL5NLBLtrQtmHeIcavQfnsbUo60w+kD7VBykl0zoj
-	 U9JWDVMO9/1RnSops7og4rVrWikJjFgdP+wSIiedWwR3Jvf8wEEaID0TDbfV34FJqY
-	 k/iqr9rCl23AHjJN6k1MGgIk5zxGssd+s31tGRXjmDsgbOkaOeBcf+XIDBI97pJKSx
-	 tmbYBxtaoaCizpg8iejPhaZVjMeCG9dLAO10G4vzhrLNC6srqoJvYRJvGxgTbcrXBH
-	 au++AavwSQZfQ==
-Received: by mail-il1-f172.google.com with SMTP id p1so3972046ilj.9
-        for <linux-firmware@kernel.org>; Tue, 31 May 2022 09:56:08 -0700 (PDT)
-X-Gm-Message-State: AOAM531v3Fg6JnX3VGlhyBs9hqqFXlC1QCfJhtaH+KpvlwhWEGStspNd
-	I9RMT3CGuIFEehKBB8zCkrQPlWufAkj0t9xrQZ8=
-X-Google-Smtp-Source: ABdhPJxW+nTmxFvqbYpDjoFa7oeGIavAu7C0DnzXXxPNcupiot1bCXCkfM4+/OZWL4MT60K33XCTLL5unppXnmNnBqQ=
-X-Received: by 2002:a05:6e02:1bef:b0:2d3:c3d5:823d with SMTP id
- y15-20020a056e021bef00b002d3c3d5823dmr1602680ilv.2.1654016168137; Tue, 31 May
- 2022 09:56:08 -0700 (PDT)
+	b=FckNjD5vhS0tf0HiMKIDz4e6iVhnqROgcgs0DDg9aFoKH74pZZxbxVaqQMgSToXB5
+	 yoT8jqF2G6Ka4b0uSFEljtxdEj5zfOEAX9Og41bnxBzKxFUMSqJoS/q873NGd+t6Jc
+	 EQC7ynE1gOfbP2EycpxIZq63xPenzWnAhnqG0C5FPfdEdCobK+yRQKmo/lTa+JMlD8
+	 DP5QfODn6TWjlBsvuf3cTLqUHerPQcpjglP3WuCsVk1dkerR7fdb+4a7HjxkkQjf86
+	 lntomsKqvwjzVFy1TrtvBqEFDYhM9pg8MtBTH20fHl7m9rlVXO7ZHBD7y9lBy96GIL
+	 B/k8jmrZ2PnBg==
+Received: by mail-io1-f46.google.com with SMTP id i9so1354131ioa.6
+        for <linux-firmware@kernel.org>; Tue, 31 May 2022 10:02:10 -0700 (PDT)
+X-Gm-Message-State: AOAM53088TITuGX67bmtLnLXK76mcQlJ4azjlhvC/fzPgSUkyH6+koCI
+	bLZSkTsLVxNA+XROv+EE63t5GleIGgPN1mZHQcA=
+X-Google-Smtp-Source: ABdhPJwWzQlH2ntG0AbHzCxf4vxGQnKfQy62dvnInW700nn6LivVFR9M0xIDEhN2PnVTcPgQ+V050mliJaHGI13f2Sc=
+X-Received: by 2002:a05:6638:1605:b0:32e:d891:5d63 with SMTP id
+ x5-20020a056638160500b0032ed8915d63mr20931875jas.144.1654016530009; Tue, 31
+ May 2022 10:02:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <BYAPR02MB4567904C36E83634CB0ED09292DD9@BYAPR02MB4567.namprd02.prod.outlook.com>
-In-Reply-To: <BYAPR02MB4567904C36E83634CB0ED09292DD9@BYAPR02MB4567.namprd02.prod.outlook.com>
+References: <PR2PR09MB310088EA719E6D7CA5C268F1A8C69@PR2PR09MB3100.eurprd09.prod.outlook.com>
+In-Reply-To: <PR2PR09MB310088EA719E6D7CA5C268F1A8C69@PR2PR09MB3100.eurprd09.prod.outlook.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Tue, 31 May 2022 12:55:57 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA4UzaOXNentsgrgeqOV0N+qPpnvBmTuwDOS0fzb6bCGjQ@mail.gmail.com>
-Message-ID: <CA+5PVA4UzaOXNentsgrgeqOV0N+qPpnvBmTuwDOS0fzb6bCGjQ@mail.gmail.com>
-Subject: Re: [PULL linux-firmware] ath10k & ath11k firmware 20220530
-To: Kalle Valo <kvalo@qca.qualcomm.com>
+Date: Tue, 31 May 2022 13:01:59 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA7=T5TmkubRtFhmAVPzTHdWFnNeU3B-VH-HZJNMhLBtLg@mail.gmail.com>
+Message-ID: <CA+5PVA7=T5TmkubRtFhmAVPzTHdWFnNeU3B-VH-HZJNMhLBtLg@mail.gmail.com>
+Subject: Re: [PATCH] Makefile: replace mkdir by install
+To: Konrad Weihmann <kweihmann@outlook.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, 
-	"ath10k@lists.infradead.org" <ath10k@lists.infradead.org>, 
-	"ath11k@lists.infradead.org" <ath11k@lists.infradead.org>
+Cc: Linux Firmware <linux-firmware@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, May 30, 2022 at 9:08 AM Kalle Valo <kvalo@qca.qualcomm.com> wrote:
+On Mon, May 9, 2022 at 6:25 AM Konrad Weihmann <kweihmann@outlook.com> wrote:
 >
-> Hi,
+> mkdir -p creates paths that are bound to user's settings and therefore
+> can lead to different file mode bits of the base paths accross different
+> machines.
+> Use install instead, as this tool is not prone to such behavior.
 >
-> Here's a new pull request for ath10k and ath11k. Here I'm adding a missing board file for
-> WCN3990, otherwise just regular firmware and board file updates.
->
-> Please let me know if there are any problems.
->
-> Kalle
->
-> The following changes since commit 251d29004ffce3462779dbd08073a2cd8dfd2087:
->
->   amdgpu: update beige goby firmware for 22.10 (2022-05-16 15:25:38 -0400)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/kvalo/linux-firmware.git ath10k-20220530
->
-> for you to fetch changes up to 82b0ef7166e2b7f9d12e7745a2af4e4c75c1aea8:
->
->   ath11k: WCN6855 hw2.0: update to WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.9 (2022-05-30 16:01:56 +0300)
->
-> ----------------------------------------------------------------
-> Kalle Valo (7):
->       ath10k: WCN3990 hw1.0: add board-2.bin
->       ath10k: QCA4019 hw1.0: update board-2.bin
->       ath10k: QCA9888 hw2.0: update firmware-5.bin to 10.4-3.9.0.2-00157
->       ath10k: QCA9888 hw2.0: update board-2.bin
->       ath10k: QCA9984 hw1.0: update firmware-5.bin to 10.4-3.9.0.2-00157
->       WHENCE: ath11k: move regdb.bin before board-2.bin
->       ath11k: WCN6855 hw2.0: update to WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.9
+> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
 
-Pulled and pushed out.
+Applied and pushed out.
 
 josh
 
+> ---
+>  Makefile                      | 2 +-
+>  carl9170fw/toolchain/Makefile | 4 ++--
+>  copy-firmware.sh              | 6 +++---
+>  3 files changed, 6 insertions(+), 6 deletions(-)
 >
->  WHENCE                              |  11 ++++++-----
->  ath10k/QCA4019/hw1.0/board-2.bin    | Bin 1129788 -> 1154076 bytes
->  ath10k/QCA9888/hw2.0/board-2.bin    | Bin 133540 -> 145684 bytes
->  ath10k/QCA9888/hw2.0/firmware-5.bin | Bin 693604 -> 693700 bytes
->  ath10k/QCA9984/hw1.0/firmware-5.bin | Bin 681568 -> 681672 bytes
->  ath10k/WCN3990/hw1.0/board-2.bin    | Bin 0 -> 461060 bytes
->  ath11k/WCN6855/hw2.0/amss.bin       | Bin 4972544 -> 4972544 bytes
->  7 files changed, 6 insertions(+), 5 deletions(-)
->  create mode 100644 ath10k/WCN3990/hw1.0/board-2.bin
+> diff --git a/Makefile b/Makefile
+> index e1c362f..83a0ec6 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -9,5 +9,5 @@ check:
+>         @./check_whence.py
+>
+>  install:
+> -       mkdir -p $(DESTDIR)$(FIRMWAREDIR)
+> +       install -d $(DESTDIR)$(FIRMWAREDIR)
+>         ./copy-firmware.sh $(DESTDIR)$(FIRMWAREDIR)
+> diff --git a/carl9170fw/toolchain/Makefile b/carl9170fw/toolchain/Makefile
+> index 2b25ffe..aaea8e8 100644
+> --- a/carl9170fw/toolchain/Makefile
+> +++ b/carl9170fw/toolchain/Makefile
+> @@ -46,14 +46,14 @@ src/gcc-$(GCC_VER): src/$(GCC_TAR) src/newlib-$(NEWLIB_VER)
+>         ln -s $(BASEDIR)/src/newlib-$(NEWLIB_VER)/libgloss $@
+>
+>  binutils: src/binutils-$(BINUTILS_VER)
+> -       mkdir -p build/binutils
+> +       install -d build/binutils
+>         cd build/binutils; \
+>         $(BASEDIR)/$</configure --target=sh-elf --prefix=$(BASEDIR)/inst; \
+>         $(MAKE) -j3; \
+>         $(MAKE) install
+>
+>  gcc: src/gcc-$(GCC_VER) binutils
+> -       mkdir -p build/gcc
+> +       install -d build/gcc
+>         cd build/gcc; \
+>         $(BASEDIR)/$</configure --target=sh-elf --prefix=$(BASEDIR)/inst -enable-languages=c --without-pkgversion --with-newlib; \
+>         $(MAKE) -j3; \
+> diff --git a/copy-firmware.sh b/copy-firmware.sh
+> index 9b46b63..bbacb92 100755
+> --- a/copy-firmware.sh
+> +++ b/copy-firmware.sh
+> @@ -34,7 +34,7 @@ done
+>  grep '^File:' WHENCE | sed -e's/^File: *//g' -e's/"//g' | while read f; do
+>      test -f "$f" || continue
+>      $verbose "copying file $f"
+> -    mkdir -p $destdir/$(dirname "$f")
+> +    install -d $destdir/$(dirname "$f")
+>      cp -d "$f" $destdir/"$f"
+>  done
+>
+> @@ -42,7 +42,7 @@ grep -E '^Link:' WHENCE | sed -e's/^Link: *//g' -e's/-> //g' | while read f d; d
+>      if test -L "$f"; then
+>          test -f "$destdir/$f" && continue
+>          $verbose "copying link $f"
+> -        mkdir -p $destdir/$(dirname "$f")
+> +        install -d $destdir/$(dirname "$f")
+>          cp -d "$f" $destdir/"$f"
+>
+>          if test "x$d" != "x"; then
+> @@ -63,7 +63,7 @@ grep -E '^Link:' WHENCE | sed -e's/^Link: *//g' -e's/-> //g' | while read f d; d
+>          fi
+>      else
+>          $verbose "creating link $f -> $d"
+> -        mkdir -p $destdir/$(dirname "$f")
+> +        install -d $destdir/$(dirname "$f")
+>          ln -sf "$d" "$destdir/$f"
+>      fi
+>  done
+> --
+> 2.25.1
+>
