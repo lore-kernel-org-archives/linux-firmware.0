@@ -4,84 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05AE2C433EF
-	for <linux-firmware@archiver.kernel.org>; Tue, 31 May 2022 16:52:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33A63C433F5
+	for <linux-firmware@archiver.kernel.org>; Tue, 31 May 2022 16:56:09 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id ADEA9C3411F; Tue, 31 May 2022 16:52:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 981A3C34114
-	for <linux-firmware@kernel.org>; Tue, 31 May 2022 16:52:44 +0000 (UTC)
+	id 18BCBC3411F; Tue, 31 May 2022 16:56:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03287C3411D
+	for <linux-firmware@kernel.org>; Tue, 31 May 2022 16:56:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654015964;
-	bh=E9l+4wbI4asavBc5pnWPjVFqZBEExJu/9vGkep6QRec=;
+	s=k20201202; t=1654016169;
+	bh=O7ipYc08a1ud4PjM8jqwqP/HB7ejnhs+7FiRg2RkfLU=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=MKen71mIIUGkQyACeWrm/fh9oRH9Ghornbzmj53Nc0LgkqAusCBkSobtkFXM2NvI3
-	 YxulTIKWwhgfZbNS3/LBMvKdzGofBRvlCUWg/4vSwmcZMwcszN0SrqMCSIUlnI6Nzv
-	 937Fdhl9e/ZBAFwbwiPwOi+J7nPfEbO6rdgoZl2vLmBl81gBfEdqmaWI8PhC58zXLG
-	 EUGhAAD9fiChcu6ddJU3CVwXxa/l+/bOCwZY3gRTLW7e3K8i9wM6OCUe9lrU6STTxf
-	 reRHP3AzaYEDuTTNBrTRZj3ki6Ck4WP6HynYhlK1iUATvgxBjVTF+VXpKJ5ZExrZIr
-	 dLxTtMjKcpRvw==
-Received: by mail-il1-f170.google.com with SMTP id 3so10004205ily.2
-        for <linux-firmware@kernel.org>; Tue, 31 May 2022 09:52:44 -0700 (PDT)
-X-Gm-Message-State: AOAM532aqxQVmQ+p1jRr/6ySAIG007waEnFJy0Pj9pDcGyi6o0G7MgMg
-	82L24d37fhjB2DEA8L0R7LOuRPsQrJ/KSOT4BdE=
-X-Google-Smtp-Source: ABdhPJwPN3Fv4nlBfQbNLWJgiSicj0Ho1ri1wLgzU2tmAhKdSOatk5nuGFcPuRR4G8J6XNNuKfPUGte7HDaP6sLZ+4c=
-X-Received: by 2002:a05:6e02:1c45:b0:2d3:bb0c:9559 with SMTP id
- d5-20020a056e021c4500b002d3bb0c9559mr2956251ilg.251.1654015963719; Tue, 31
- May 2022 09:52:43 -0700 (PDT)
+	b=ARiBuyJNKGzgJxTFlEh85RbXEWiAvTBEBYqj51JzXFx6PIVpDQSWsRY1Xb83VdGT1
+	 LBpbaFpxD0dARTBGBpkBN3x6CqL5NLBLtrQtmHeIcavQfnsbUo60w+kD7VBykl0zoj
+	 U9JWDVMO9/1RnSops7og4rVrWikJjFgdP+wSIiedWwR3Jvf8wEEaID0TDbfV34FJqY
+	 k/iqr9rCl23AHjJN6k1MGgIk5zxGssd+s31tGRXjmDsgbOkaOeBcf+XIDBI97pJKSx
+	 tmbYBxtaoaCizpg8iejPhaZVjMeCG9dLAO10G4vzhrLNC6srqoJvYRJvGxgTbcrXBH
+	 au++AavwSQZfQ==
+Received: by mail-il1-f172.google.com with SMTP id p1so3972046ilj.9
+        for <linux-firmware@kernel.org>; Tue, 31 May 2022 09:56:08 -0700 (PDT)
+X-Gm-Message-State: AOAM531v3Fg6JnX3VGlhyBs9hqqFXlC1QCfJhtaH+KpvlwhWEGStspNd
+	I9RMT3CGuIFEehKBB8zCkrQPlWufAkj0t9xrQZ8=
+X-Google-Smtp-Source: ABdhPJxW+nTmxFvqbYpDjoFa7oeGIavAu7C0DnzXXxPNcupiot1bCXCkfM4+/OZWL4MT60K33XCTLL5unppXnmNnBqQ=
+X-Received: by 2002:a05:6e02:1bef:b0:2d3:c3d5:823d with SMTP id
+ y15-20020a056e021bef00b002d3c3d5823dmr1602680ilv.2.1654016168137; Tue, 31 May
+ 2022 09:56:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <BN0PR02MB7950BE0DF597C420F4FAC5ECF9D79@BN0PR02MB7950.namprd02.prod.outlook.com>
-In-Reply-To: <BN0PR02MB7950BE0DF597C420F4FAC5ECF9D79@BN0PR02MB7950.namprd02.prod.outlook.com>
+References: <BYAPR02MB4567904C36E83634CB0ED09292DD9@BYAPR02MB4567.namprd02.prod.outlook.com>
+In-Reply-To: <BYAPR02MB4567904C36E83634CB0ED09292DD9@BYAPR02MB4567.namprd02.prod.outlook.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Tue, 31 May 2022 12:52:33 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA7hdmFGEtOa672QVYgaX-Pmv3w+2vexo7-CXqmUabT40Q@mail.gmail.com>
-Message-ID: <CA+5PVA7hdmFGEtOa672QVYgaX-Pmv3w+2vexo7-CXqmUabT40Q@mail.gmail.com>
-Subject: Re: qca: Add firmware files for BT chip WCN6750
-To: "SURAJ ASHOK MAGAR (Temp) (QUIC)" <quic_smagar@quicinc.com>
+Date: Tue, 31 May 2022 12:55:57 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA4UzaOXNentsgrgeqOV0N+qPpnvBmTuwDOS0fzb6bCGjQ@mail.gmail.com>
+Message-ID: <CA+5PVA4UzaOXNentsgrgeqOV0N+qPpnvBmTuwDOS0fzb6bCGjQ@mail.gmail.com>
+Subject: Re: [PULL linux-firmware] ath10k & ath11k firmware 20220530
+To: Kalle Valo <kvalo@qca.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, "mka@chromium.org" <mka@chromium.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-bluethooth@vger.kernel.org" <linux-bluethooth@vger.kernel.org>, 
-	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>, 
-	"Sai Teja Aluvala (Temp) (QUIC)" <quic_saluvala@quicinc.com>, 
-	"Balakrishna Godavarthi (QUIC)" <quic_bgodavar@quicinc.com>, 
-	"Atul Dhudase (QUIC)" <quic_adhudase@quicinc.com>
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, 
+	"ath10k@lists.infradead.org" <ath10k@lists.infradead.org>, 
+	"ath11k@lists.infradead.org" <ath11k@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, May 24, 2022 at 5:12 AM SURAJ ASHOK MAGAR (Temp) (QUIC)
-<quic_smagar@quicinc.com> wrote:
+On Mon, May 30, 2022 at 9:08 AM Kalle Valo <kvalo@qca.qualcomm.com> wrote:
 >
-> Hello Team,
+> Hi,
 >
+> Here's a new pull request for ath10k and ath11k. Here I'm adding a missing board file for
+> WCN3990, otherwise just regular firmware and board file updates.
 >
+> Please let me know if there are any problems.
 >
-> Please include firmware bins for WCN6750. Change includes updated TLV files to fix BT SSR.
->
-> Snapshot of pull request is as below, let me know if anything is missing.
->
+> Kalle
 >
 > The following changes since commit 251d29004ffce3462779dbd08073a2cd8dfd2087:
 >
 >   amdgpu: update beige goby firmware for 22.10 (2022-05-16 15:25:38 -0400)
 >
-> are available in the git repository at:
+> are available in the Git repository at:
 >
->   https://github.com/suraj714/BT-firmware.git main
+>   git://git.kernel.org/pub/scm/linux/kernel/git/kvalo/linux-firmware.git ath10k-20220530
 >
-> for you to fetch changes up to dc13213e37cf49bc88e024b37a23e39d22b3d5fa:
+> for you to fetch changes up to 82b0ef7166e2b7f9d12e7745a2af4e4c75c1aea8:
 >
->       qca: Add firmware files for BT chip WCN6750.     This commit will add required firmware files for WCN6750. (2022-05-17 15:46:00 +0530)
-
-These already exist.  So they aren't being added, they're being
-updated.  Is that correct?
-
+>   ath11k: WCN6855 hw2.0: update to WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.9 (2022-05-30 16:01:56 +0300)
+>
 > ----------------------------------------------------------------
->
-> Suraj Magar (1):
->
->       qca: Add firmware files for BT chip WCN6750.
->
->       This commit will add required firmware files for WCN6750.
+> Kalle Valo (7):
+>       ath10k: WCN3990 hw1.0: add board-2.bin
+>       ath10k: QCA4019 hw1.0: update board-2.bin
+>       ath10k: QCA9888 hw2.0: update firmware-5.bin to 10.4-3.9.0.2-00157
+>       ath10k: QCA9888 hw2.0: update board-2.bin
+>       ath10k: QCA9984 hw1.0: update firmware-5.bin to 10.4-3.9.0.2-00157
+>       WHENCE: ath11k: move regdb.bin before board-2.bin
+>       ath11k: WCN6855 hw2.0: update to WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.9
 
-Can you add some information in the commit message about what is being updated?
+Pulled and pushed out.
 
 josh
+
+>
+>  WHENCE                              |  11 ++++++-----
+>  ath10k/QCA4019/hw1.0/board-2.bin    | Bin 1129788 -> 1154076 bytes
+>  ath10k/QCA9888/hw2.0/board-2.bin    | Bin 133540 -> 145684 bytes
+>  ath10k/QCA9888/hw2.0/firmware-5.bin | Bin 693604 -> 693700 bytes
+>  ath10k/QCA9984/hw1.0/firmware-5.bin | Bin 681568 -> 681672 bytes
+>  ath10k/WCN3990/hw1.0/board-2.bin    | Bin 0 -> 461060 bytes
+>  ath11k/WCN6855/hw2.0/amss.bin       | Bin 4972544 -> 4972544 bytes
+>  7 files changed, 6 insertions(+), 5 deletions(-)
+>  create mode 100644 ath10k/WCN3990/hw1.0/board-2.bin
