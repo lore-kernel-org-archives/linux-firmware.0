@@ -4,59 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73DC5CCA47A
-	for <linux-firmware@archiver.kernel.org>; Tue, 14 Jun 2022 12:37:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7552C43334
+	for <linux-firmware@archiver.kernel.org>; Tue, 14 Jun 2022 12:48:21 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 46A23C3411D; Tue, 14 Jun 2022 12:37:31 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	id 78E68C3411F; Tue, 14 Jun 2022 12:48:21 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 67024C3411B;
-	Tue, 14 Jun 2022 12:37:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 67024C3411B
+	by smtp.kernel.org (Postfix) with ESMTPS id BE747C3411B;
+	Tue, 14 Jun 2022 12:48:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org BE747C3411B
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id e5so4596704wma.0;
-        Tue, 14 Jun 2022 05:37:30 -0700 (PDT)
+Received: by mail-wr1-f51.google.com with SMTP id k19so11124683wrd.8;
+        Tue, 14 Jun 2022 05:48:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=hfrv2RROS+B3A6Q0/QMltLANvmFoU82h30nny/RhW70=;
-        b=OAMLJu7LLtowkx89JnPSfTRGIZfqzC/iEb8E0qvB2vMPQ9jTUNU8BaIWxIxN/Qt9Hl
-         CJYZxWf9MGTHzTjpNKasiLGAH0LaM80Bj6OQRkFA8h+crHDp1+rSBrG55XR30t8VKm6D
-         tOv0ecAp3QE9Sf9uOFDwFyybE/eBSCQQBurfSOVSe+Qf4uFUvmhRoL1UTZivEBVUWzLa
-         3l2QoFPe/JnaqsmOm1SyGJfnKVqI2uvp4/7+GjmbSJ0WYrHZWAxRnZDuErg+36gygi1f
-         nJUbsD33sSfDnwI56btcHK9V+ULACbnPbEWn58/5pscrH7wdJGHkEzJ4kG5bvoaF1ggW
-         6SxA==
+        b=lbBGzUNE6CAdRxjCWR1qYzUBLZyqqjnUnTFIp5+pfmJAVJiHwA7rpK2uTJjtmt5Gv2
+         Kj1IV6aB3pn8WV8K1ol51JyMvpgC6VVpjrp1MrIJIZWx8rahr7hSfQQ0/TaezgOQotNl
+         dlYE/yqczaqtkqhqLc8klqX7Qk4S+zSC+BVRcun+O93Mi8sUzR70CORakFSVm3h0fzDM
+         G6KdjvnM2dAG2OQkWCYO0ndYccd9LOsSFUaJsM25MOXBY1DHeFXe52N4usSVVpHgbj0q
+         vhLLnPUTPAYaCVvWJd8K4d1f3VnwXMfeD2t57BjpC4D42/Fb9Js0JiLuPkHR2GhC5x5a
+         uq7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=hfrv2RROS+B3A6Q0/QMltLANvmFoU82h30nny/RhW70=;
-        b=N2Jn7oK3K2kPxTiKOizKYJ+pTHstQC4sx2zGvQXudkqOiytwMTZ/0sEo7n9MXru/bC
-         2nEgbKWQDgLhmIfS0cUA4RjbQaANiGN9n+5pz52MUZG1pRLnJY3BnemOiGAo85Qabnaq
-         rov9vvZrhdwxJTT5R3EO4X/mtK4q4PgjI9wmREIB0yfoW+X5S2Ik1XxdTd2Nx0vTMp1H
-         FX8zBc73Qhu5/dtAse8BNDC3VclSbhhmgyCat8KYqqqJ3DB8Y5aHyg1p5fgXL04N42V2
-         5IZUMcQk3jpbGvrjSmN/v+WVyYlcK3F2rh+St1an4NcOdjfrlVx9+TA5H9ynHP9qW/VT
-         +73w==
-X-Gm-Message-State: AOAM533VGfy6qgFEa/CAIO4ajbxEJ1r+q7M8jlwwGnT00HFfVt3VY992
-	qnK4B4WsxzI8K6Xa0LD5mB3D1TznVzM=
-X-Google-Smtp-Source: ABdhPJzxi5g0qJ/cb1txjldxFRDIoz6JbB9Tey9M5xJBEgQS4KKvwLZz+TFsaVtHMrkzKLdTp6UIcw==
-X-Received: by 2002:a05:600c:acb:b0:397:bdb:ffea with SMTP id c11-20020a05600c0acb00b003970bdbffeamr3991639wmr.56.1655210248428;
-        Tue, 14 Jun 2022 05:37:28 -0700 (PDT)
+        b=kHvLdSbwGWqDEEG8+kWpGrcCqM4ERpbIKuuSkTPAHcYXhfIl4uIInyMOXPN6oVkGlo
+         SXaXlknTcUAduCEnlZ8h4JcHCw+s5+JBNHAGoP8BvnIC8bMdB58wtLPCogzGN+k+tnpJ
+         0k/p/plyIbQJuj4DXOhEJ2WcpdGew8DpDiXOzliXl7sAidlEFwJKuhnn9rPCHf4BPZBO
+         44MFKwKKyZzlTXcwddY4XoZ9TmoLuO7CpBFiC9sUmdqcJPJ8eClYSgO3T3Q+Vb8Lbuna
+         tXhR24aMe0HyjYwdKDvwOQVx/gHNcaaCRg12hM929V4tNkpr94l5hJLgWmSEArdX7Cxn
+         ZQMg==
+X-Gm-Message-State: AJIora9R3iljuNnEMbRXp9VDweoJFCrCidCpzG1Wf5GV9Yg30D/Tkm8a
+	hqDIIHVfj2x6+5CsxVwiWHXGOAsWP6c=
+X-Google-Smtp-Source: AGRyM1t3AJcQOvuLXc1VAKJTaJoYuo/oU84CHWPCFnKvBlBLfRB9EhjTZq93mFPFJcglCWOPc/XCXg==
+X-Received: by 2002:a5d:4c86:0:b0:210:2e6e:3a93 with SMTP id z6-20020a5d4c86000000b002102e6e3a93mr4829519wrs.185.1655210898986;
+        Tue, 14 Jun 2022 05:48:18 -0700 (PDT)
 Received: from morpheus.home.roving-it.com (3.e.2.0.0.0.0.0.0.0.0.0.0.0.0.0.1.8.6.2.1.1.b.f.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:fb11:2681::2e3])
-        by smtp.googlemail.com with ESMTPSA id h7-20020a05600016c700b0020c7ec0fdf4sm13928642wrf.117.2022.06.14.05.37.27
+        by smtp.googlemail.com with ESMTPSA id l29-20020a05600c1d1d00b0039c3056c3dfsm22569349wms.27.2022.06.14.05.48.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jun 2022 05:37:28 -0700 (PDT)
+        Tue, 14 Jun 2022 05:48:18 -0700 (PDT)
 From: Peter Robinson <pbrobinson@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
 Cc: jwboyer@kernel.org,
 	Peter Robinson <pbrobinson@gmail.com>
 Subject: [PATCH] Remove the Pine64 Quartz copy of the RPi NVRAM
-Date: Tue, 14 Jun 2022 13:37:18 +0100
-Message-Id: <20220614123718.3946267-1-pbrobinson@gmail.com>
+Date: Tue, 14 Jun 2022 13:48:16 +0100
+Message-Id: <20220614124816.3948304-1-pbrobinson@gmail.com>
 X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
