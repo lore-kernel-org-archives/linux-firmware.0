@@ -2,59 +2,62 @@ Return-Path: <SRS0=vNik=XG=mediatek.com=ryder.lee@kernel.org>
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 288E5C433EF
-	for <linux-firmware@archiver.kernel.org>; Fri,  1 Jul 2022 00:53:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55BE2C43334
+	for <linux-firmware@archiver.kernel.org>; Fri,  1 Jul 2022 06:39:12 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id DC3CBC341C7; Fri,  1 Jul 2022 00:53:10 +0000 (UTC)
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	id 0BC98C3411E; Fri,  1 Jul 2022 06:39:12 +0000 (UTC)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 2749AC34115;
-	Fri,  1 Jul 2022 00:52:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 2749AC34115
+	by smtp.kernel.org (Postfix) with ESMTPS id 474BBC341C6;
+	Fri,  1 Jul 2022 06:38:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 474BBC341C6
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: f1d93c628a1a46f397d787ac3aadb056-20220701
+X-UUID: 9a06b5542f2f49488a656bec8226dff9-20220701
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.7,REQID:09c30a11-a256-4147-8683-66cd98b53c07,OB:0,LO
+X-CID-O-INFO: VERSION:1.1.7,REQID:edaee5d9-3fdb-442c-a857-d55498127ef1,OB:0,LO
 	B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
 	ION:release,TS:-5
-X-CID-META: VersionHash:87442a2,CLOUDID:fa213c86-57f0-47ca-ba27-fe8c57fbf305,C
+X-CID-META: VersionHash:87442a2,CLOUDID:00ec4586-57f0-47ca-ba27-fe8c57fbf305,C
 	OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
 	,QS:nil,BEC:nil,COL:1
-X-UUID: f1d93c628a1a46f397d787ac3aadb056-20220701
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
+X-UUID: 9a06b5542f2f49488a656bec8226dff9-20220701
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
 	(envelope-from <ryder.lee@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-	with ESMTP id 1129287290; Fri, 01 Jul 2022 08:52:28 +0800
+	with ESMTP id 1664184154; Fri, 01 Jul 2022 14:38:26 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
- Fri, 1 Jul 2022 08:52:26 +0800
+ Fri, 1 Jul 2022 14:38:24 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
  mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.3 via Frontend Transport; Fri, 1 Jul 2022 08:52:26 +0800
+ 15.2.792.3 via Frontend Transport; Fri, 1 Jul 2022 14:38:23 +0800
 From: Ryder Lee <ryder.lee@mediatek.com>
 To: Josh Boyer <jwboyer@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
 CC: Felix Fietkau <nbd@nbd.name>, Lorenzo Bianconi
-	<lorenzo.bianconi@redhat.com>, Shayne Chen <shayne.chen@mediatek.com>,
-	"Evelyn Tsai" <evelyn.tsai@mediatek.com>, <linux-firmware@kernel.org>,
+	<lorenzo.bianconi@redhat.com>, Shayne Chen <shayne.chen@mediatek.com>, Evelyn
+ Tsai <evelyn.tsai@mediatek.com>, <linux-firmware@kernel.org>,
 	<linux-mediatek@lists.infradead.org>, Ryder Lee <ryder.lee@mediatek.com>
-Subject: [PATCH] linux-firmware: update firmware for MT7622 WiFi device
-Date: Fri, 1 Jul 2022 08:52:24 +0800
+Subject: [PATCH v2] linux-firmware: update firmware for MT7622 WiFi device
+Date: Fri, 1 Jul 2022 14:38:23 +0800
 Message-ID: <ef90ff10187e30a8ea9180f4098a36319907e6b8.1656636174.git.ryder.lee@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
+Message-ID: <20220701063823.11k7_dR-kpARMEWz_Igicdw86VKUolP6RnMV4LVR1B4@z>
 
 Update binary firmware for MT7622 WiFi devices.
 
 Base	: CL@89338
-Patches	: CL@90991
+Patches	: CL@90991,CL@90993
 
 Signed-off-by: Ryder Lee <ryder.lee@mediatek.com>
+---
+change since v2 - update commit message
 ---
  WHENCE                 |   2 +-
  mediatek/mt7622_n9.bin | Bin 300072 -> 300376 bytes
