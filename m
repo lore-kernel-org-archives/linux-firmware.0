@@ -1,51 +1,69 @@
-Return-Path: <SRS0=XsYt=XK=qualityservice.top=info3@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B6D3C433EF
-	for <linux-firmware@archiver.kernel.org>; Tue,  5 Jul 2022 06:14:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA8FFC433EF
+	for <linux-firmware@archiver.kernel.org>; Tue,  5 Jul 2022 15:29:38 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 2D891C341C7; Tue,  5 Jul 2022 06:14:03 +0000 (UTC)
-Received: from server2.ffssun.top (unknown [120.48.7.195])
-	by smtp.kernel.org (Postfix) with ESMTP id 1ED8FC341CD
-	for <linux-firmware@kernel.org>; Tue,  5 Jul 2022 06:13:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 1ED8FC341CD
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=szvif.com
-Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=qualityservice.top
-Received: from DESKTOP-SE8E3UA (113.73.107.107) by server2.ffssun.top id hofbac0e97c7 for <linux-firmware@kernel.org>; Tue, 5 Jul 2022 14:13:42 +0800 (envelope-from <info3@qualityservice.top>)
-From: "Eva-VITA" <vitazs01@szvif.com>
-Subject: Best shipping rate from China to USA Canada Australia
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Content-Type: text/plain; charset=UTF-8
+	id 733A4C341CE; Tue,  5 Jul 2022 15:29:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E51CC341CA
+	for <linux-firmware@kernel.org>; Tue,  5 Jul 2022 15:29:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1657034978;
+	bh=2CjkaCskZ/VGE230bmTruOf6EFaVlqpwO7Uu+ZRQ1AU=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=BgUD6YtmOuCl6Ub8o037p7OsYZmTdAYEa+1cSkJ3rmr6Et4MQIub1CE+ZhxQb/OFy
+	 6g4aPxSWFuEDmnuiv1uX1NQJxD96+3hJL3raVvVWnhqsW83qD1SpLQ56yzy6wKseVu
+	 0mbjVb9ZB8OKq+F6zyBPwZMNtjCDXZgbcXWtheUdXZVjHei6vCDoGuhOIb6+LiDkdL
+	 WEK0wZvp6zpq6+ZgmNY0TYblQ5lUqzPQB/XlLPBCbfJohbCVVt2aFUv3jPOGGJADj1
+	 OGdYliBiyjo4YYl+9OIoCdqIf1n0NFbWDjQTV3zBAXrF6VmDY73o16B5gggPBvebOd
+	 32KX7fbAHcA6g==
+Received: by mail-il1-f170.google.com with SMTP id p9so7442222ilj.7
+        for <linux-firmware@kernel.org>; Tue, 05 Jul 2022 08:29:38 -0700 (PDT)
+X-Gm-Message-State: AJIora9/3yhBj2sdCZ4U5wa5eA7M7+nMehBx6IxaxKi7FWIMADJd0B8c
+	7rR44zBlPbsOi0JyrRoeRifGmX5nT/1hmIkiAQM=
+X-Google-Smtp-Source: AGRyM1txFUPY7N0y55/i/a+0/mmY79R96CanGwNGs2ngtuxMyq8bl0JciYRZ1UwmJUx3s+VS/9NTf5yYGyXuThiWb+4=
+X-Received: by 2002:a05:6e02:1b86:b0:2da:bf51:1d47 with SMTP id
+ h6-20020a056e021b8600b002dabf511d47mr19960785ili.218.1657034977449; Tue, 05
+ Jul 2022 08:29:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Sender: info3@qualityservice.top
-Reply-To: vitazs01@szvif.com
-Date: Tue, 5 Jul 2022 14:13:42 +0800
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
-Content-Disposition: inline
-Message-Id: <20220705061358.1ED8FC341CD@smtp.kernel.org>
+References: <8fa3de7a18829a865933c4d4ab2b49f6e60a1054.camel@realtek.com>
+In-Reply-To: <8fa3de7a18829a865933c4d4ab2b49f6e60a1054.camel@realtek.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Tue, 5 Jul 2022 11:29:26 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA5xtwoyPKPi6fDYtVjOauOPvMWYXy+s81WTevw5RdvSng@mail.gmail.com>
+Message-ID: <CA+5PVA5xtwoyPKPi6fDYtVjOauOPvMWYXy+s81WTevw5RdvSng@mail.gmail.com>
+Subject: Re: pull request: rtw88: 8822c: Update normal firmware to v9.9.13
+To: Ping-Ke Shih <pkshih@realtek.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, Bernie Huang <phhuang@realtek.com>
+Content-Type: text/plain; charset="UTF-8"
 
-SGVsbG8gZGVhciwgDQpHb29kIGRheSENClRoaXMgaXMgRXZhIGZyb20gVml0YSBsb2dpc3RpYyBj
-b21wYW55LiANCldlIGhhdmUgY29udHJhY3RlZCB3aXRoIHNoaXBwaW5nIGNvbXBhbnk6IEVNQy9N
-U0svT05FL1NJVEMvV0FOSEFJL1pJTS4uIA0Kc28gdGhlIHNwYWNlIGFuZCBlcXVpcG1lbnQgaXMg
-Z3VhcmFudGVlZCwgYWxzbyB0aGUgYmVzdCBwcmljZSBmb3IgeW91ISANCk5vdyB3ZSBoYXZlIGJy
-YW5jaHMgaW4gemhvbmdzaGFuLCBjaGFuZ3NoYSwgZnVzaGFuLiBhbmQgb3VyIG1haW4gb2ZmaWNl
-IGluIFNoZW56aGVuIEx1b0h1Lg0KV2UgZG9pbmcgb25lIHN0b3Agc2VydmljZXMgaW5jbHVkZWQ6
-IHBpY2stdXAsIGxvYWRpbmcsIHRydWNrLCBjdXN0b20sIHNoaXBwaW5nIGFuZCBjbGVhcmFuY2Us
-IGRlbGl2ZXIgdG8geW91ciBkb29yIGFzIHdlbGwuDQoNCkV2YSBMZWUgICBTYWxlcyBtYW5hZ2Vy
-DQpWaXRhIEludGVybmF0aW9uYWwgRnJlaWdodCBDb21wYW55IEx0ZC4oWlMgYnJhbmNoKQ0K5rex
-5Zyz5biC5rGH5o236YCa5Zu96ZmF6LSn6L+Q5Luj55CG5pyJ6ZmQ5YWs5Y+45Lit5bGx5YiG5YWs
-5Y+4ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDlnLDlnYDvvJrlub/kuJznnIHkuK3lsbHl
-uILmuK/lj6PplYfkuJbnuqrkuJzot68x5Y+35L+d5Yip5bm/5Zy65YaZ5a2X5qW8OOalvDgwNeaI
-vw0KQWRkOiBSbTgwNSBQb2x5IHBsYXphLCBHdWFuZ0tvdSB0b3duLCB6aG9uZ3NoYW4gY2l0eSwg
-R3VhbmdEb25nLCBDaGluYQ0KTW9iaWxlOiAwMDg2LTE1OTE0NjEyNjk2IFFROjE1MzI1MzA3Mg0K
-V2VjaGF0L3doYXRzYXBwOiAwMDg2IDE1OTE0NjEyNjk2DQpFbWFpbDp2aXRhenMwMUBzenZpZi5j
-b20NCndlYnNpdGU6d3d3LnN6dmlmLmNvbQ0KaHR0cHM6Ly9zenZpZi5lbi5hbGliYWJhLmNvbS8N
-Cg==
+Pulled and pushed out.  Thank you.
+
+josh
+
+On Thu, Jun 23, 2022 at 7:48 AM Ping-Ke Shih <pkshih@realtek.com> wrote:
+>
+> Hi,
+>
+> Update 8822c firmware of rtw88 driver to 9.9.12/9.9.13.
+>
+> Thank you
+> Ping-Ke
+>
+> ---
+> The following changes since commit 7eef50f83896dc574582d69a36a643722365b04c:
+>
+>   rtw88: 8822c: Update normal firmware to v9.9.13 (2022-06-23 19:39:58 +0800)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/pkshih/linux-firmware.git
+>
+> for you to fetch changes up to 7eef50f83896dc574582d69a36a643722365b04c:
+>
+>   rtw88: 8822c: Update normal firmware to v9.9.13 (2022-06-23 19:39:58 +0800)
