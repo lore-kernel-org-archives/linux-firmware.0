@@ -1,311 +1,288 @@
-Return-Path: <SRS0=/VxX=XM=denx.de=lukma@kernel.org>
+Return-Path: <SRS0=wHwx=XM=kontron.com=Thomas.Schaefer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B1E2C433EF
-	for <linux-firmware@archiver.kernel.org>; Thu,  7 Jul 2022 08:10:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4BE4C43334
+	for <linux-firmware@archiver.kernel.org>; Thu,  7 Jul 2022 13:49:26 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 6F2BDC341C0; Thu,  7 Jul 2022 08:10:37 +0000 (UTC)
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	id C00A7C341C8; Thu,  7 Jul 2022 13:49:26 +0000 (UTC)
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-eopbgr70111.outbound.protection.outlook.com [40.107.7.111])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 143BDC3411E;
-	Thu,  7 Jul 2022 08:10:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 143BDC3411E
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=denx.de
-Received: from wsk (85-222-111-42.dynamic.chello.pl [85.222.111.42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: lukma@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 351C484507;
-	Thu,  7 Jul 2022 10:10:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1657181433;
-	bh=F02RWdPOKtlEMnwd49Dna7d23ap6EWEjSyahzXwaoCA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=enL96hgCTQrEgHQmnZrBVMZ1E8x+axDZDAahDa4zeC6ZXTzaPugIVkkXC3MDVaTA+
-	 VOQg0TKxCElarMrnVd20e0q986WHR1cLBAToG+5qFaNnhrScxHgniHW5M2sAJorpNV
-	 +n8UorG5TJA5353HW3x1QbsIJr1ZbGWvRDXfE/2Up2Doj8/joZ6iS6qT2qpmJ4JaAc
-	 q2gIs1FNj1U/Vs3bqU/WjqHwHDzvxyh8QKPO5yvVsAD+CzH1wN2VI0Be7GAmfXJfNU
-	 93/ZEzKiVMswhIvoefnKyzlVeF7NTpUzYBUQLSCMks9Zw8Hku9SVSGSgRFDBQAOtsH
-	 3VSooRY30K0Ww==
-Date: Thu, 7 Jul 2022 10:10:26 +0200
-From: Lukasz Majewski <lukma@denx.de>
-To: Thomas Schaefer <Thomas.Schaefer@kontron.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 203F7C3411E;
+	Thu,  7 Jul 2022 13:49:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 203F7C3411E
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=kontron.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=kontron.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FFsiW8jSdq5Y34Hp8qyXKqPXtG2PiwQIEYrXw80qgTdU/4+j0YNH6Z+6NPzi9gN68i4PpqMmf8pxhCXMKj8P7kaLtr25K9XDMM2OZh4TwhBnHJYEcEcfAB+Y9+rI02kE3Vf7G4EIkndIgdjykFVZ74tzIfzxBW7kItXobt/n+sj/tTm/AC5E7p7kvNx/XWKgtEkKEzGmyad32/w0xq14eAu5vB3uOeBKw1DHL88bSImQ3pjIFXOvrPBiwjCM2b2agCFdJc80OrqD8T07EoX9EKLMRSIlt1JV0bT+LSSgiU5A0E7s4DZeey/myHPJaZVGoA2M3f31jnS93irV9+YjFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zTsmMme9K2/4J+ATIp+ka9En9JMkGTgd3+GAw5JED7E=;
+ b=HN/y4jrEJqfUQBSv/U+rldZHBWbcBmqhEYG1cDY8nbx8Kr8K2MB2bklhgV+EucYbccgbntExKR7Cf0nmd7+n3IIWsNRToYiwMIIeT+zLrifxrooFHbfYPp1g+Rdw4LY2n3yLibBkvOeN8e3Y5E7dbm0QPcb0KgAVIThw5Fhe51Y+MIl/7QpFTuK3Woa7gVyB5iME7HDtBFyVQncerGnJZtOioNj9lkGOJMDUVQimSzQcgyQR1mD+3wecXq6WobRk+CMs5zsEnlDYn5XQrp3yIkOvD+Jl2d+NNqKZNX7zOpbv8RskZm+WfWYZ6CZl6tz1TVD159O4q57/R18yuDadbw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kontron.com; dmarc=pass action=none header.from=kontron.com;
+ dkim=pass header.d=kontron.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com;
+ s=selector2-mysnt-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zTsmMme9K2/4J+ATIp+ka9En9JMkGTgd3+GAw5JED7E=;
+ b=h2ojp49f39nKaaHYOJIXp88qRqwyF6pSt5PPagVeI4FCJjwq1zuSTvJNdX+706ON4fEigemNc3lZK9rEUs0NgnaFpoyhXBmEQk3YsQ7c01djofJADuxajk1Xe6tJBBeSd2eKIo1YGkJ4o0oQb52ATw1u3Ibrq6/SKToWa63tFk8=
+Received: from AM0PR10MB2082.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:46::22)
+ by AM6PR10MB2725.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:a1::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.17; Thu, 7 Jul
+ 2022 13:49:20 +0000
+Received: from AM0PR10MB2082.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::acac:2:cfd2:84f5]) by AM0PR10MB2082.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::acac:2:cfd2:84f5%4]) with mapi id 15.20.5417.016; Thu, 7 Jul 2022
+ 13:49:20 +0000
+From: Thomas Schaefer <Thomas.Schaefer@kontron.com>
+To: Lukasz Majewski <lukma@denx.de>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "sharvari.harisangam@nxp.com" <sharvari.harisangam@nxp.com>,
- "ganapathi.bhat@nxp.com" <ganapathi.bhat@nxp.com>,
- "linux-firmware@kernel.org" <linux-firmware@kernel.org>, "pali@kernel.org"
- <pali@kernel.org>, "marek.behun@nic.cz" <marek.behun@nic.cz>
-Subject: Re: wifi: 88W8801: Newest firmware for sd8801_uapsta.bin bug
-Message-ID: <20220707101026.06462dcb@wsk>
-In-Reply-To: <AM0PR10MB20821250660BE6D170C20694F7809@AM0PR10MB2082.EURPRD10.PROD.OUTLOOK.COM>
-References: <AM0PR10MB20821250660BE6D170C20694F7809@AM0PR10MB2082.EURPRD10.PROD.OUTLOOK.COM>
-Organization: denx.de
-X-Mailer: Claws Mail 3.19.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+CC: "sharvari.harisangam@nxp.com" <sharvari.harisangam@nxp.com>,
+	"ganapathi.bhat@nxp.com" <ganapathi.bhat@nxp.com>,
+	"linux-firmware@kernel.org" <linux-firmware@kernel.org>, "pali@kernel.org"
+	<pali@kernel.org>, "marek.behun@nic.cz" <marek.behun@nic.cz>
+Subject: AW: wifi: 88W8801: Newest firmware for sd8801_uapsta.bin bug
+Thread-Topic: wifi: 88W8801: Newest firmware for sd8801_uapsta.bin bug
+Thread-Index: AQHYkdkJBduGzKkJAUGn5pa45GMh9q1y5zyA
+Date: Thu, 7 Jul 2022 13:49:20 +0000
+Message-ID:
+ <AM0PR10MB2082F59D505ADF9A6ECEC1F6F7839@AM0PR10MB2082.EURPRD10.PROD.OUTLOOK.COM>
+References:
+ <AM0PR10MB20821250660BE6D170C20694F7809@AM0PR10MB2082.EURPRD10.PROD.OUTLOOK.COM>
+ <20220707101026.06462dcb@wsk>
+In-Reply-To: <20220707101026.06462dcb@wsk>
+Accept-Language: en-US
+Content-Language: de-DE
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=kontron.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: fce68f69-9d6d-4fb2-aad0-08da601f7e47
+x-ms-traffictypediagnostic: AM6PR10MB2725:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ fBNifIxZRRtoYbdX05nQojOL5ifRkWYGRM07lnxJGLtYyQ8vIjz/Kg9lEhgloEtsaSUNm5U1wFliLS8ox/xCmOSGoQXnbsIashtBtTlbZLAk7M6hM+Tdvjvb4M5lWuTuMZUFZUjMunx3O+SNQpvQx5wRV7RlNFaYeaRzBy6kUQuJui5N6PhWju+PJBGgDegNxHwkJHVzeNMwn8uWrVPnSkCwEAWvh3DX33vngDSbBNmLCuyNMZ6/3+JqkZK9YHuq+rBTBeQTgyDfAaxuUxECnOOVZlcA5urw5QnCkjzJosxZ4a494K96MzP/wzS3Mllx4KYyTxaTAhJG0VgQsCYhS4Yy6utQSFjip/UGucAoUUEAsyWZjHtw0IGk+dCp0r02bXl2kCSyibitwRZm4Ge5fbdGdx5NJNWbPuBSLyG6PujQiBefjhDc/rUgdc87EglrdkMYkfggge2a637xu/RWDmMbX+oDay42olJmcD1S83dPEkJtOnRMu8IA+V71Yan+HJo5yKzix4vVtdoJKYrLzEJsKic0x9ySCNK3M4fAOgiJFOdu74OH0BiOwHBBCMNn72NR9UkOrXn5nbiJv5brwmaH5KCa3QW2tQnEZPTtyHecYti5y+oWi9qopPs47XhcSXHqeSZjbGV9nj0qLFBgGSqniyfOVfzf271ar3vZU5scIw/6kNG6d1LqDiL5JyPjqoesW81rbTlHG1a+8pYWVNDdHnJHYrQgcKN1yjRwrFBaJ+gdTZlIbD243MFTenSjfvB+rqn2puunoAtlPu9+wUK/kpQNBVhgiX+p+aqLMqb361UZql9kHb4CJmV4eThQ+6Jp70YPPCHcBM7m1ATFYsdcBO3J6iNQDo5w4UTL0aIy9Uw/kaqOan+ma7AThwDc
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR10MB2082.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(136003)(346002)(366004)(39860400002)(396003)(4326008)(6506007)(966005)(478600001)(33656002)(8936002)(7696005)(86362001)(52536014)(2906002)(26005)(41300700001)(9686003)(5660300002)(38100700002)(38070700005)(64756008)(66574015)(186003)(55016003)(66556008)(83380400001)(71200400001)(122000001)(76116006)(66946007)(66446008)(66476007)(6916009)(54906003)(316002)(8676002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?cVpJRmZHWGl1WXlLeksvWUhhVWVxVVBFNUtpL3RGT1JiWEF0dlNyWmdBQUcw?=
+ =?utf-8?B?cHBhdXZKVXg0aXpmVG9mZzdpYmlxMWNrZzBnUVQ4cWxFakdsWGVOOGtidjRP?=
+ =?utf-8?B?YWJwS0ViWUhzQks3VFZFaXJ0eXhZNGt6VHYwWlZOMUI0MnV6MHpCMmpobURj?=
+ =?utf-8?B?eGpGRlNqRDBZYXZ0cXRUdFFqcGYrY2oyVnBBZDZzb2k3eSttYTdUc1JCd0kw?=
+ =?utf-8?B?WTNCSFpKN2wrV3J3L0FEZy9NZ3FnSGxxbG04M05DMGZ6YmRoMURpWmRFYWY2?=
+ =?utf-8?B?NXFFWUZrTVp0M3lLN0FZM1lZMGdlbE5EblZncFplZ0RrbWFCdmRpTjIwVkoz?=
+ =?utf-8?B?bVUvNkNxUEpRTVVmWnVzS0ZhVlJXdXFFM09YR3lYL2Ewd2ZNZUxERFRZcXdE?=
+ =?utf-8?B?VGlEaTBwenc3czA2VXh1Q2ZYcnhBZVRwMWp0aTdJYnRXamY0TmU4QU11R0l1?=
+ =?utf-8?B?bGN2Sk1mOExwM0NWckFYczJvWkRCYkp2N0M3TXdYdHhuRlloT1Z2cVlRU0dY?=
+ =?utf-8?B?dnhNd0l2YTNaVy9OdzVjTjR6Unk5eHhTYVNtUEQzQmNjNnU3Qm1NSXBscTlD?=
+ =?utf-8?B?L1NJZUtiaU42SHBrWE5nVktPQ2pFZWdpN3VhcEZXY1FQa3c2TFRyUFFvWkd3?=
+ =?utf-8?B?K2k0QWV2dXlwUE5uWjlhaDhzSGdCOHhiUVk3dEw3aEMvclNEL2ZPYkVHSUhH?=
+ =?utf-8?B?L1M2aHBNWmdYY050S2pZVE1JSWx1VU1kaEs3M0Mra0d1VFcwYjVQcFRCa2VD?=
+ =?utf-8?B?VUZheEdKWEJENnJSK0RJTnhMVXh6UGpMVCtPNnFjNWRJQTVrdnYrVWxvMjds?=
+ =?utf-8?B?TG96eU84RXRqTUhxdUxySDlRNlhhTDA3aXdGRlpHYWU1Sm1XYkRDZSs2YWNV?=
+ =?utf-8?B?T1lpckdoNDlHZ0t0NDlEZzVLbWpQdlI1NUJZRmhSdGZMME5UK29HYkdCWTdQ?=
+ =?utf-8?B?ZUwvMDFrdERGYlBwSnZWVzk5QW5PS1dpbzJCbVJTcm9Zc3dhTitNMEdERitN?=
+ =?utf-8?B?ZHVwM3g3SW5zcXFlUFpZVnBJUUVTUURCTmR6T2NEbEZ6ZUJsdG90Y2pKMTJm?=
+ =?utf-8?B?cFhPNVRKWlBxQ3ZPcEtVWkNzWGV4TkdYd01HVUZjWXRPY0dVVWpnM2J4N2RH?=
+ =?utf-8?B?YmQvUy9xdzM1L3lhbllMZVdWcnFHSkptRHNzSmdkZ25TSTI0QUcrVkpHeGFh?=
+ =?utf-8?B?MTJ2N0J3bEpOY3BianFGdno3VzJPZkJuU042RnRKRW85bFdCdXB5bFRmQ0sw?=
+ =?utf-8?B?Y0tuaG1XVFprWkVSK0hkMXdZVEhaZ2puUFFWM2VmQ1Jua08wQUVrclp1dTU4?=
+ =?utf-8?B?aFdMajFvcStsMWNZeUF5ZDZFTDRPeHRQdTlnYk1ZLzhac28xR0RoTktGQkoz?=
+ =?utf-8?B?RU1TSjhhRDM5MldSaUJaR0pmR0puVDNXR1k0L20rWmNMci9EL2tWZGxEYjBF?=
+ =?utf-8?B?a1puWnMzSmZvMnFoNmIybkNaTmxFVWtBaUw5ZTRNOWU3dzN2NVFBNzdsUjRS?=
+ =?utf-8?B?amd3bUk5OGY4Mm05Q1JtU3ZSQWFXMlZqZkpCUTJ0b1JIWGlBdCtTZEo5cTZ6?=
+ =?utf-8?B?VFc5eGpYVCtzWFo5OGZtcW1OWnAwQ2lHd1VJZ0dtNS9jVXI2QlU3YkhuQlgw?=
+ =?utf-8?B?OWFsYjEvQmdvWGo3MkVqd3ZWeTRtMzJPQnhyTVROSG1zZDBaMUE5Q1JIRVFS?=
+ =?utf-8?B?ZnozRHdQMENXcFhheHlDeFZsUzQvbkxhNW9maDFlclNGbHdLemFuQ1FOVUl5?=
+ =?utf-8?B?YkdVQ0NHS1dWS3JXVTI5QUs5RTRLM2ttb1lNVG44R2JDZmcvRFlCZTFVcXd0?=
+ =?utf-8?B?N3ZDVHlNaTduR0ZzQVIyblJpRXFKMzh5N1Bwc3cvYUJ3RmFUa1orR0w1NDQr?=
+ =?utf-8?B?TXdCRXlPak5nQTZmVUoxKytEUGYvaTdEc3A3T1VPTDhyV0IweGtuTFBkbCt5?=
+ =?utf-8?B?dHk5QjEvRUFzNm1BWkVLdEFhRnl0L28rMElEcDE1L202SnJyTEk3RlhDTytL?=
+ =?utf-8?B?UUhUWDZkOXdDMGgydHdyYjcvbW5LbWxhdmY5TngwbDRWdGlHTGlidDVKMGUx?=
+ =?utf-8?B?Rmk2OTZsYXFlZ2pMVkRkT2RiT2RjOFRSc3Z6VW5BUWhXdElqbDRReTdmNjhK?=
+ =?utf-8?B?Y05HbGd4cXBtUHU5Y2thSEhQNk1BY1RBQmNsd1h2cU9uSWYzNndpc2wzUlo4?=
+ =?utf-8?B?Zmc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/ATXev9HRkHN0EA8/t3.OmeI";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
+X-OriginatorOrg: kontron.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR10MB2082.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: fce68f69-9d6d-4fb2-aad0-08da601f7e47
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jul 2022 13:49:20.4912
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: nz3dW6IHHSu7KEUeoOqGEAmgDWxAF7Qm256q5ZeRQcpBCM2MbBkcxwD3+kj83L4m6Fow5FSd3UPLJavjf/X3iSUF/VwWxjJr4F7EJ3Ds0is=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR10MB2725
 
---Sig_/ATXev9HRkHN0EA8/t3.OmeI
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-Hi Thomas,
-
-> Hi Lukasz,
->=20
-> > Dear Ganapathi and Sharvari
-> >  =20
-> > > Dear Ganapathi and Sharvari
-> > >  =20
-> > > > Hi Pali,
-> > > >    =20
-> > > > > On Saturday 08 May 2021 13:29:11 Pali Roh=C3=A1r wrote:     =20
-> > > > > > + Sharvari and Ganapathi
-> > > > > >=20
-> > > > > > To let you know about this mwifiex firmware issue. Could you
-> > > > > > look at it?
-> > > > > >=20
-> > > > > > On Friday 07 May 2021 15:17:02 Lukasz Majewski wrote:
-> > > > > > =20
-> > > > > > > Dear community,
-> > > > > > >=20
-> > > > > > > I would like to report that the version: 14.68.36.p204 of
-> > > > > > > sd8801_uapsta.bin binary (newest, SHA1:
-> > > > > > > ecdfcf8e2ca15f5682ab94fd30ba29fb869b24a7) has the issue
-> > > > > > > with getting channel info (HostCmd_CMD_STA_CONFIGURE
-> > > > > > > command execution).
-> > > > > > >=20
-> > > > > > > As a result the module seems to be stuck and no
-> > > > > > > transmission is performed.
-> > > > > > >=20
-> > > > > > > The issue is not present in 14.68.36.p146 verson of the
-> > > > > > > firmware.    =20
-> > > > >=20
-> > > > > And FYI, NXP has newer version 14.76.36.p139 of this
-> > > > > sd8801_uapsta.bin firmware in their mwifiex-firmware github
-> > > > > repository:
-> > > > >=20
-> > > > > https://github.com/NXP/mwifiex-firmware/commit/c38b125a920a695d36=
-0b62e8b1f7fb1c4e1afd46
-> > > > >=20
-> > > > > I hope that Sharvari or Ganapathi brings some light in this
-> > > > > issue...     =20
-> > > >=20
-> > > > Thanks for sharing this issue with NXP developers.
-> > > >    =20
-> > > > >=20
-> > > > > Lukasz, meanwhile could you try to check if this new firmware
-> > > > > version has this issue fixed?
-> > > > >      =20
-> > > >=20
-> > > > It looks like the issue is still there (even new errors pops up
-> > > > when compared to the original one):
-> > > >=20
-> > > > root@mx6ul:~# dmesg|grep sdio
-> > > > [   29.025231] mwifiex_sdio mmc0:0001:1: info: FW download over,
-> > > > size 262660 bytes [   29.310488] mwifiex_sdio mmc0:0001:1: WLAN
-> > > > FW is active [   29.390778] mwifiex_sdio mmc0:0001:1: CMD_RESP:
-> > > > cmd 0x242 error, result=3D0x2 [   29.398245] mwifiex_sdio
-> > > > mmc0:0001:1: mwifiex_process_cmdresp: cmd 0x242 failed during
-> > > > initialization [   29.707952] mwifiex_sdio mmc0:0001:1: info:
-> > > > MWIFIEX VERSION: mwifiex 1.0 (14.76.36.p139) [   29.717360]
-> > > > mwifiex_sdio mmc0:0001:1: driver_version =3D mwifiex 1.0
-> > > > (14.76.36.p139)=20
-> > > >=20
-> > > > root@mx6ul:~# ./tst_sdio.sh=20
-> > > > + wpa_supplicant -B -i mlan0 -c /etc/wpa_supplicant.conf
-> > > > Successfully initialized wpa_supplicant
-> > > > + sleep 3
-> > > > [  251.425350] mwifiex_sdio mmc0:0001:1: CMD_RESP: cmd 0x107
-> > > > error, result=3D0x2
-> > > > + udhcpc -i mlan0
-> > > > udhcpc: started, v1.31.1
-> > > > udhcpc: sending discover
-> > > > [  256.476210] mwifiex_sdio mmc0:0001:1: CMD_RESP: cmd 0x107
-> > > > error, result=3D0x2 udhcpc: sending discover
-> > > > udhcpc: sending discover
-> > > > [  261.497057] mwifiex_sdio mmc0:0001:1: CMD_RESP: cmd 0x107
-> > > > error, result=3D0x2 [  261.507859] ieee80211 phy0: sched_scan
-> > > > start : n_ssids=3D1 n_match_sets=3D1 [  261.515872] ieee80211 phy0:
-> > > > n_channels=3D13 interval=3D10 ie_len=3D0
-> > > >=20
-> > > >=20
-> > > > Please pay attention to the new "cmd 0x107 error, result=3D0x2"
-> > > > issue with this new FW version.   =20
-> > >=20
-> > > Is there any update on this issue? Ganapathi and Sharvari, have
-> > > you managed to make the STA mode working on with the newest FW for
-> > > 88W8801 ? =20
-> >=20
-> > It looks like there was no update on the linux-firmware repository
-> > for sd8801_uapsta.bin binary in the official linux-firmware tree.
-> >=20
-> > I can share that I've tested: 14.68.36.p160 version with mwifiex
-> > driver on 5.4.y kernel and the STA mode works.
-> >=20
-> > The used NXP soc is imx6ull, and wi-fi is SDIO connected 88W8801.
-> >=20
-> > However, there is the issue with AP mode. Please find attached logs
-> > and reproduction procedure.
-> >=20
-> > Is there any schedule for releasing new FW for this wifi chip?
-> >  =20
->=20
-> I'm facing similar problems with i.MX8MN EVK and u-blox wireless SDIO
-> module with 88W8801 SoC and mwifiex_sdio driver for linux 5.15.28
-> kernel. I tried firmware 14.68.36.p204 and 14.68.36.p60. I'm not able
-> to establish a WPA protected link using wpa_supplicant.
->=20
-
-My impression is that those FWs from mwifiex-firmware repo just don't
-work.
-
-> You mentioned that you have tested with 14.68.36.p160 and
-> 14.68.36.p146 firmware versions without having issues in STA mode.
-> Where did you get these firmware versions?
->=20
-
-I think that:
-1. 14.68.36.p160 I got from the archive:
-SD-UAPSTA-8801-U16-MMC-W14.68.36.p160-C4X14687_R0-MGPL.zip
-
-(I think it has been received by my customer from NXP's FAE).
-
-2. The other one - IIRC I got from NXP's support.nxp.com page when I
-filled question regarding this issue.
-
-> I was not able to find them neither in linux-firmware,
-> mwifiex-firmware nor imx-firmware repositories.
->=20
-
-Maybe NXP could upload one of those to the aforementioned repositories?
-
-Last but not least if you would like to use this chip as AP -=20
-/usr/sbin/iw phy phy0 interface add uap0 type __ap
-
-otherwise it will not work.
-
-> > >=20
-> > > Thanks in advance for sharing the knowledge.
-> > >  =20
-> > > >    =20
-> > > > > > > For reproduction one needs to execute:
-> > > > > > > #! /bin/sh
-> > > > > > > set -x
-> > > > > > > wpa_supplicant -B -i mlan0 -c /etc/wpa_supplicant.conf
-> > > > > > > sleep 3
-> > > > > > > dhclient mlan0
-> > > > > > >=20
-> > > > > > > exit 0
-> > > > > > >=20
-> > > > > > >=20
-> > > > > > >=20
-> > > > > > > I'm using the Azurewave AW-NM191NF module (with 88W8801
-> > > > > > > SoC).
-> > > > > > >=20
-> > > > > > > Best regards,
-> > > > > > >=20
-> > > > > > > Lukasz Majewski
-> > > > > > >=20
-> > > > > > > --
-> > > > > > >=20
-> > > > > > > DENX Software Engineering GmbH,      Managing Director:
-> > > > > > > Wolfgang Denk HRB 165235 Munich, Office: Kirchenstr.5,
-> > > > > > > D-82194 Groebenzell, Germany Phone: (+49)-8142-66989-59
-> > > > > > > Fax: (+49)-8142-66989-80 Email: lukma@denx.de       =20
-> > > >=20
-> > > >=20
-> > > >=20
-> > > > Best regards,
-> > > >=20
-> > > > Lukasz Majewski
-> > > >=20
-> > > > --
-> > > >=20
-> > > > DENX Software Engineering GmbH,      Managing Director: Wolfgang
-> > > > Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194
-> > > > Groebenzell, Germany Phone: (+49)-8142-66989-59 Fax:
-> > > > (+49)-8142-66989-80 Email: lukma@denx.de   =20
-> > >=20
-> > >=20
-> > >=20
-> > > Best regards,
-> > >=20
-> > > Lukasz Majewski
-> > >=20
-> > > --
-> > >=20
-> > > DENX Software Engineering GmbH,      Managing Director: Wolfgang
-> > > Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194
-> > > Groebenzell, Germany Phone: (+49)-8142-66989-59 Fax:
-> > > (+49)-8142-66989-80 Email: lukma@denx.de =20
-> >=20
-> >=20
-> >=20
-> >=20
-> > Best regards,
-> >=20
-> > Lukasz Majewski
-> >=20
-> > --
-> >=20
-> > DENX Software Engineering GmbH,      Managing Director: Wolfgang
-> > Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell,
-> > Germany Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email:
-> > lukma@denx.de =20
->=20
-> Best regards,
-> Thomas
->=20
->=20
-> Thomas Sch=C3=A4fer
-> SW Design Engineer
->=20
-> Kontron Europe GmbH
-> Heinrich-Barth-Stra=C3=9Fe 1-1a | 66115 Saarbr=C3=BCcken | Germany
-> thomas.schaefer@kontron.com
->=20
-> Kontron | Member of the S&T Group
->=20
-> Please find our mandatory legal statement
-> https://www.kontron.com/en/imprint Please find our mandatory privacy
-> statement https://www.kontron.com/en/privacy-statement
->=20
-
-
-
-
-Best regards,
-
-Lukasz Majewski
-
---
-
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
-
---Sig_/ATXev9HRkHN0EA8/t3.OmeI
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAmLGlPIACgkQAR8vZIA0
-zr1+gwf/Xu7bc1VVEYh+1DgTGfX876dowz1n5E0Vv8W0a5/w+U+l9BOnkneBEzBk
-Pymu3zXch2NtImjxo+uiNpcsEScCZA1wc5UgVBKgSGoJu1RkeulSoRZAWvxWCjm+
-BOIB+jLLkL2B4dK6iT66WGz4KGv3alVZdlFDp5q/k5e3ESUoubNiSM9tvTectAni
-o//65uxkPS9kEIxhyOc0kpacIqJZtyaAkhPt+iqvtWz+Auu8/9Om4gGaXkoHvsXp
-h5UuiYhBexQNhzuDibv0tySrtJB6HrxnVo6swC2Dn+LzW1Zvh36uAEhsJUPKpiGe
-JLLo8/uEnnNTbScnz5yimiMKjI1HJA==
-=ZOHp
------END PGP SIGNATURE-----
-
---Sig_/ATXev9HRkHN0EA8/t3.OmeI--
+SGkgTHVrYXN6LA0KDQo+IEhpIFRob21hcywNCj4gDQo+ID4gSGkgTHVrYXN6LA0KPiA+IA0KPiA+
+ID4gRGVhciBHYW5hcGF0aGkgYW5kIFNoYXJ2YXJpDQo+ID4gPiAgIA0KPiA+ID4gPiBEZWFyIEdh
+bmFwYXRoaSBhbmQgU2hhcnZhcmkNCj4gPiA+ID4gICANCj4gPiA+ID4gPiBIaSBQYWxpLA0KPiA+
+ID4gPiA+ICAgICANCj4gPiA+ID4gPiA+IE9uIFNhdHVyZGF5IDA4IE1heSAyMDIxIDEzOjI5OjEx
+IFBhbGkgUm9ow6FyIHdyb3RlOiAgICAgIA0KPiA+ID4gPiA+ID4gPiArIFNoYXJ2YXJpIGFuZCBH
+YW5hcGF0aGkNCj4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+IFRvIGxldCB5b3Uga25vdyBh
+Ym91dCB0aGlzIG13aWZpZXggZmlybXdhcmUgaXNzdWUuIENvdWxkIHlvdSANCj4gPiA+ID4gPiA+
+ID4gbG9vayBhdCBpdD8NCj4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+IE9uIEZyaWRheSAw
+NyBNYXkgMjAyMSAxNToxNzowMiBMdWthc3ogTWFqZXdza2kgd3JvdGU6DQo+ID4gPiA+ID4gPiA+
+ICANCj4gPiA+ID4gPiA+ID4gPiBEZWFyIGNvbW11bml0eSwNCj4gPiA+ID4gPiA+ID4gPiANCj4g
+PiA+ID4gPiA+ID4gPiBJIHdvdWxkIGxpa2UgdG8gcmVwb3J0IHRoYXQgdGhlIHZlcnNpb246IDE0
+LjY4LjM2LnAyMDQgb2YgDQo+ID4gPiA+ID4gPiA+ID4gc2Q4ODAxX3VhcHN0YS5iaW4gYmluYXJ5
+IChuZXdlc3QsIFNIQTE6DQo+ID4gPiA+ID4gPiA+ID4gZWNkZmNmOGUyY2ExNWY1NjgyYWI5NGZk
+MzBiYTI5ZmI4NjliMjRhNykgaGFzIHRoZSBpc3N1ZSANCj4gPiA+ID4gPiA+ID4gPiB3aXRoIGdl
+dHRpbmcgY2hhbm5lbCBpbmZvIChIb3N0Q21kX0NNRF9TVEFfQ09ORklHVVJFIA0KPiA+ID4gPiA+
+ID4gPiA+IGNvbW1hbmQgZXhlY3V0aW9uKS4NCj4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+
+ID4gPiBBcyBhIHJlc3VsdCB0aGUgbW9kdWxlIHNlZW1zIHRvIGJlIHN0dWNrIGFuZCBubyANCj4g
+PiA+ID4gPiA+ID4gPiB0cmFuc21pc3Npb24gaXMgcGVyZm9ybWVkLg0KPiA+ID4gPiA+ID4gPiA+
+IA0KPiA+ID4gPiA+ID4gPiA+IFRoZSBpc3N1ZSBpcyBub3QgcHJlc2VudCBpbiAxNC42OC4zNi5w
+MTQ2IHZlcnNvbiBvZiB0aGUNCj4gPiA+ID4gPiA+ID4gPiBmaXJtd2FyZS4gICAgIA0KPiA+ID4g
+PiA+ID4gDQo+ID4gPiA+ID4gPiBBbmQgRllJLCBOWFAgaGFzIG5ld2VyIHZlcnNpb24gMTQuNzYu
+MzYucDEzOSBvZiB0aGlzIA0KPiA+ID4gPiA+ID4gc2Q4ODAxX3VhcHN0YS5iaW4gZmlybXdhcmUg
+aW4gdGhlaXIgbXdpZmlleC1maXJtd2FyZSBnaXRodWINCj4gPiA+ID4gPiA+IHJlcG9zaXRvcnk6
+DQo+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+IGh0dHBzOi8vZ2l0aHViLmNvbS9OWFAvbXdpZmll
+eC1maXJtd2FyZS9jb21taXQvYzM4YjEyNWE5MjBhNjk1DQo+ID4gPiA+ID4gPiBkMzYwYjYyZThi
+MWY3ZmIxYzRlMWFmZDQ2DQo+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+IEkgaG9wZSB0aGF0IFNo
+YXJ2YXJpIG9yIEdhbmFwYXRoaSBicmluZ3Mgc29tZSBsaWdodCBpbiB0aGlzDQo+ID4gPiA+ID4g
+PiBpc3N1ZS4uLiAgICAgIA0KPiA+ID4gPiA+IA0KPiA+ID4gPiA+IFRoYW5rcyBmb3Igc2hhcmlu
+ZyB0aGlzIGlzc3VlIHdpdGggTlhQIGRldmVsb3BlcnMuDQo+ID4gPiA+ID4gICAgIA0KPiA+ID4g
+PiA+ID4gDQo+ID4gPiA+ID4gPiBMdWthc3osIG1lYW53aGlsZSBjb3VsZCB5b3UgdHJ5IHRvIGNo
+ZWNrIGlmIHRoaXMgbmV3IGZpcm13YXJlIA0KPiA+ID4gPiA+ID4gdmVyc2lvbiBoYXMgdGhpcyBp
+c3N1ZSBmaXhlZD8NCj4gPiA+ID4gPiA+ICAgICAgIA0KPiA+ID4gPiA+IA0KPiA+ID4gPiA+IEl0
+IGxvb2tzIGxpa2UgdGhlIGlzc3VlIGlzIHN0aWxsIHRoZXJlIChldmVuIG5ldyBlcnJvcnMgcG9w
+cyB1cCANCj4gPiA+ID4gPiB3aGVuIGNvbXBhcmVkIHRvIHRoZSBvcmlnaW5hbCBvbmUpOg0KPiA+
+ID4gPiA+IA0KPiA+ID4gPiA+IHJvb3RAbXg2dWw6fiMgZG1lc2d8Z3JlcCBzZGlvDQo+ID4gPiA+
+ID4gWyAgIDI5LjAyNTIzMV0gbXdpZmlleF9zZGlvIG1tYzA6MDAwMToxOiBpbmZvOiBGVyBkb3du
+bG9hZCBvdmVyLA0KPiA+ID4gPiA+IHNpemUgMjYyNjYwIGJ5dGVzIFsgICAyOS4zMTA0ODhdIG13
+aWZpZXhfc2RpbyBtbWMwOjAwMDE6MTogV0xBTg0KPiA+ID4gPiA+IEZXIGlzIGFjdGl2ZSBbICAg
+MjkuMzkwNzc4XSBtd2lmaWV4X3NkaW8gbW1jMDowMDAxOjE6IENNRF9SRVNQOg0KPiA+ID4gPiA+
+IGNtZCAweDI0MiBlcnJvciwgcmVzdWx0PTB4MiBbICAgMjkuMzk4MjQ1XSBtd2lmaWV4X3NkaW8N
+Cj4gPiA+ID4gPiBtbWMwOjAwMDE6MTogbXdpZmlleF9wcm9jZXNzX2NtZHJlc3A6IGNtZCAweDI0
+MiBmYWlsZWQgZHVyaW5nDQo+ID4gPiA+ID4gaW5pdGlhbGl6YXRpb24gWyAgIDI5LjcwNzk1Ml0g
+bXdpZmlleF9zZGlvIG1tYzA6MDAwMToxOiBpbmZvOg0KPiA+ID4gPiA+IE1XSUZJRVggVkVSU0lP
+TjogbXdpZmlleCAxLjAgKDE0Ljc2LjM2LnAxMzkpIFsgICAyOS43MTczNjBdDQo+ID4gPiA+ID4g
+bXdpZmlleF9zZGlvIG1tYzA6MDAwMToxOiBkcml2ZXJfdmVyc2lvbiA9IG13aWZpZXggMS4wDQo+
+ID4gPiA+ID4gKDE0Ljc2LjM2LnAxMzkpDQo+ID4gPiA+ID4gDQo+ID4gPiA+ID4gcm9vdEBteDZ1
+bDp+IyAuL3RzdF9zZGlvLnNoDQo+ID4gPiA+ID4gKyB3cGFfc3VwcGxpY2FudCAtQiAtaSBtbGFu
+MCAtYyAvZXRjL3dwYV9zdXBwbGljYW50LmNvbmYNCj4gPiA+ID4gPiBTdWNjZXNzZnVsbHkgaW5p
+dGlhbGl6ZWQgd3BhX3N1cHBsaWNhbnQNCj4gPiA+ID4gPiArIHNsZWVwIDMNCj4gPiA+ID4gPiBb
+ICAyNTEuNDI1MzUwXSBtd2lmaWV4X3NkaW8gbW1jMDowMDAxOjE6IENNRF9SRVNQOiBjbWQgMHgx
+MDcgDQo+ID4gPiA+ID4gZXJyb3IsIHJlc3VsdD0weDINCj4gPiA+ID4gPiArIHVkaGNwYyAtaSBt
+bGFuMA0KPiA+ID4gPiA+IHVkaGNwYzogc3RhcnRlZCwgdjEuMzEuMQ0KPiA+ID4gPiA+IHVkaGNw
+Yzogc2VuZGluZyBkaXNjb3Zlcg0KPiA+ID4gPiA+IFsgIDI1Ni40NzYyMTBdIG13aWZpZXhfc2Rp
+byBtbWMwOjAwMDE6MTogQ01EX1JFU1A6IGNtZCAweDEwNyANCj4gPiA+ID4gPiBlcnJvciwgcmVz
+dWx0PTB4MiB1ZGhjcGM6IHNlbmRpbmcgZGlzY292ZXINCj4gPiA+ID4gPiB1ZGhjcGM6IHNlbmRp
+bmcgZGlzY292ZXINCj4gPiA+ID4gPiBbICAyNjEuNDk3MDU3XSBtd2lmaWV4X3NkaW8gbW1jMDow
+MDAxOjE6IENNRF9SRVNQOiBjbWQgMHgxMDcgDQo+ID4gPiA+ID4gZXJyb3IsIHJlc3VsdD0weDIg
+WyAgMjYxLjUwNzg1OV0gaWVlZTgwMjExIHBoeTA6IHNjaGVkX3NjYW4gDQo+ID4gPiA+ID4gc3Rh
+cnQgOiBuX3NzaWRzPTEgbl9tYXRjaF9zZXRzPTEgWyAgMjYxLjUxNTg3Ml0gaWVlZTgwMjExIHBo
+eTA6DQo+ID4gPiA+ID4gbl9jaGFubmVscz0xMyBpbnRlcnZhbD0xMCBpZV9sZW49MA0KPiA+ID4g
+PiA+IA0KPiA+ID4gPiA+IA0KPiA+ID4gPiA+IFBsZWFzZSBwYXkgYXR0ZW50aW9uIHRvIHRoZSBu
+ZXcgImNtZCAweDEwNyBlcnJvciwgcmVzdWx0PTB4MiINCj4gPiA+ID4gPiBpc3N1ZSB3aXRoIHRo
+aXMgbmV3IEZXIHZlcnNpb24uICAgIA0KPiA+ID4gPiANCj4gPiA+ID4gSXMgdGhlcmUgYW55IHVw
+ZGF0ZSBvbiB0aGlzIGlzc3VlPyBHYW5hcGF0aGkgYW5kIFNoYXJ2YXJpLCBoYXZlIA0KPiA+ID4g
+PiB5b3UgbWFuYWdlZCB0byBtYWtlIHRoZSBTVEEgbW9kZSB3b3JraW5nIG9uIHdpdGggdGhlIG5l
+d2VzdCBGVyBmb3INCj4gPiA+ID4gODhXODgwMSA/ICANCj4gPiA+IA0KPiA+ID4gSXQgbG9va3Mg
+bGlrZSB0aGVyZSB3YXMgbm8gdXBkYXRlIG9uIHRoZSBsaW51eC1maXJtd2FyZSByZXBvc2l0b3J5
+IA0KPiA+ID4gZm9yIHNkODgwMV91YXBzdGEuYmluIGJpbmFyeSBpbiB0aGUgb2ZmaWNpYWwgbGlu
+dXgtZmlybXdhcmUgdHJlZS4NCj4gPiA+IA0KPiA+ID4gSSBjYW4gc2hhcmUgdGhhdCBJJ3ZlIHRl
+c3RlZDogMTQuNjguMzYucDE2MCB2ZXJzaW9uIHdpdGggbXdpZmlleCANCj4gPiA+IGRyaXZlciBv
+biA1LjQueSBrZXJuZWwgYW5kIHRoZSBTVEEgbW9kZSB3b3Jrcy4NCj4gPiA+IA0KPiA+ID4gVGhl
+IHVzZWQgTlhQIHNvYyBpcyBpbXg2dWxsLCBhbmQgd2ktZmkgaXMgU0RJTyBjb25uZWN0ZWQgODhX
+ODgwMS4NCj4gPiA+IA0KPiA+ID4gSG93ZXZlciwgdGhlcmUgaXMgdGhlIGlzc3VlIHdpdGggQVAg
+bW9kZS4gUGxlYXNlIGZpbmQgYXR0YWNoZWQgbG9ncyANCj4gPiA+IGFuZCByZXByb2R1Y3Rpb24g
+cHJvY2VkdXJlLg0KPiA+ID4gDQo+ID4gPiBJcyB0aGVyZSBhbnkgc2NoZWR1bGUgZm9yIHJlbGVh
+c2luZyBuZXcgRlcgZm9yIHRoaXMgd2lmaSBjaGlwPw0KPiA+ID4gICANCj4gPiANCj4gPiBJJ20g
+ZmFjaW5nIHNpbWlsYXIgcHJvYmxlbXMgd2l0aCBpLk1YOE1OIEVWSyBhbmQgdS1ibG94IHdpcmVs
+ZXNzIFNESU8gDQo+ID4gbW9kdWxlIHdpdGggODhXODgwMSBTb0MgYW5kIG13aWZpZXhfc2RpbyBk
+cml2ZXIgZm9yIGxpbnV4IDUuMTUuMjggDQo+ID4ga2VybmVsLiBJIHRyaWVkIGZpcm13YXJlIDE0
+LjY4LjM2LnAyMDQgYW5kIDE0LjY4LjM2LnA2MC4gSSdtIG5vdCBhYmxlIA0KPiA+IHRvIGVzdGFi
+bGlzaCBhIFdQQSBwcm90ZWN0ZWQgbGluayB1c2luZyB3cGFfc3VwcGxpY2FudC4NCj4gPiANCj4g
+DQo+IE15IGltcHJlc3Npb24gaXMgdGhhdCB0aG9zZSBGV3MgZnJvbSBtd2lmaWV4LWZpcm13YXJl
+IHJlcG8ganVzdCBkb24ndCB3b3JrLg0KPiANCj4gPiBZb3UgbWVudGlvbmVkIHRoYXQgeW91IGhh
+dmUgdGVzdGVkIHdpdGggMTQuNjguMzYucDE2MCBhbmQNCj4gPiAxNC42OC4zNi5wMTQ2IGZpcm13
+YXJlIHZlcnNpb25zIHdpdGhvdXQgaGF2aW5nIGlzc3VlcyBpbiBTVEEgbW9kZS4NCj4gPiBXaGVy
+ZSBkaWQgeW91IGdldCB0aGVzZSBmaXJtd2FyZSB2ZXJzaW9ucz8NCj4gPiANCj4gDQo+IEkgdGhp
+bmsgdGhhdDoNCj4gMS4gMTQuNjguMzYucDE2MCBJIGdvdCBmcm9tIHRoZSBhcmNoaXZlOg0KPiBT
+RC1VQVBTVEEtODgwMS1VMTYtTU1DLVcxNC42OC4zNi5wMTYwLUM0WDE0Njg3X1IwLU1HUEwuemlw
+DQo+IA0KDQpJIGFsc28gZm91bmQgdGhlIGhpbnQgdG8gdGhpcyB6aXAgZmlsZSBpbiBOWFBzIFdp
+RmlfQlRfSW50ZWdyYXRpb24gZG9jdW1lbnQgZm9yIHRoZSA4OFc4ODAxIChodHRwczovL2NvbW11
+bml0eS5ueHAuY29tL3Q1L1dpcmVsZXNzLUNvbm5lY3Rpdml0eS1Lbm93bGVkZ2UvV2lGaS1CVC1J
+bnRlZ3JldGlvbi04OFc4ODAxLVRvLWlNWDZVTEwtRVZLLUw1LTQtNzAtMi0zLTAvdGEtcC8xMjc3
+MjAyKSwgYnV0IHRoZSBsaW5rIGhlcmVpbiBzZWVtcyB0byBiZSBubyBsb25nZXIgYXZhaWxhYmxl
+Li4uDQoNCj4gKEkgdGhpbmsgaXQgaGFzIGJlZW4gcmVjZWl2ZWQgYnkgbXkgY3VzdG9tZXIgZnJv
+bSBOWFAncyBGQUUpLg0KPiANCj4gMi4gVGhlIG90aGVyIG9uZSAtIElJUkMgSSBnb3QgZnJvbSBO
+WFAncyBzdXBwb3J0Lm54cC5jb20gcGFnZSB3aGVuIEkgZmlsbGVkIHF1ZXN0aW9uIHJlZ2FyZGlu
+ZyB0aGlzIGlzc3VlLg0KPiANCj4gPiBJIHdhcyBub3QgYWJsZSB0byBmaW5kIHRoZW0gbmVpdGhl
+ciBpbiBsaW51eC1maXJtd2FyZSwgDQo+ID4gbXdpZmlleC1maXJtd2FyZSBub3IgaW14LWZpcm13
+YXJlIHJlcG9zaXRvcmllcy4NCj4gPiANCj4gDQo+IE1heWJlIE5YUCBjb3VsZCB1cGxvYWQgb25l
+IG9mIHRob3NlIHRvIHRoZSBhZm9yZW1lbnRpb25lZCByZXBvc2l0b3JpZXM/DQo+IExhc3QgYnV0
+IG5vdCBsZWFzdCBpZiB5b3Ugd291bGQgbGlrZSB0byB1c2UgdGhpcyBjaGlwIGFzIEFQIC0gL3Vz
+ci9zYmluL2l3IHBoeSBwaHkwIGludGVyZmFjZSBhZGQgdWFwMCB0eXBlIF9fYXANCj4gb3RoZXJ3
+aXNlIGl0IHdpbGwgbm90IHdvcmsuDQo+IA0KDQpPSywgd2Ugd2lsbCBnbyBvbiB3aXRoIDE0LjY4
+LjM2LnA2MCB3aGljaCBpcyByZXBvcnRlZCB0byB3b3JrIGJldHRlciBpbiBTVEEgbW9kZSBjb21w
+YXJlZCB0byANCnAyMDQgZm9yIG5vdyB1bnRpbCBhbiB1cGRhdGVkIHZlcnNpb24gZnJvbSBOWFAg
+d2lsbCBiZSBhdmFpbGFibGUuDQoNCkFueXdheSwgaXQgc2VlbXMgdGhhdCB3ZSBhcmUgZmFjaW5n
+IGFsc28gc29tZSBzaWduYWwgaW50ZWdyaXR5IHByb2JsZW1zIGluIG91ciBzZXR1cCB3aGVuIGFk
+YXB0aW5nIGZyb20gRVZLDQp1U0QgY29ubmVjdG9yIHRvIHdpZGUgU0RJTyBjb25uZWN0b3Igb2Yg
+dGhlIFdpRmkgbW9kdWxlLiBBZGFwdGVyIGNvbm5lY3Rpb24gc2VlbXMgdG8gYmUgcXVpdGUgdW5z
+dGFibGUsDQpzbyB3ZSB3aWxsIGNvbnRpbnVlIHRvIGludmVzdGlnYXRlIGluIHRoaXMgZGlyZWN0
+aW9uLg0KDQoNClRoYW5rcywNClRob21hcw0KDQo+ID4gPiA+IA0KPiA+ID4gPiBUaGFua3MgaW4g
+YWR2YW5jZSBmb3Igc2hhcmluZyB0aGUga25vd2xlZGdlLg0KPiA+ID4gPiAgIA0KPiA+ID4gPiA+
+ICAgICANCj4gPiA+ID4gPiA+ID4gPiBGb3IgcmVwcm9kdWN0aW9uIG9uZSBuZWVkcyB0byBleGVj
+dXRlOg0KPiA+ID4gPiA+ID4gPiA+ICMhIC9iaW4vc2gNCj4gPiA+ID4gPiA+ID4gPiBzZXQgLXgN
+Cj4gPiA+ID4gPiA+ID4gPiB3cGFfc3VwcGxpY2FudCAtQiAtaSBtbGFuMCAtYyAvZXRjL3dwYV9z
+dXBwbGljYW50LmNvbmYgDQo+ID4gPiA+ID4gPiA+ID4gc2xlZXAgMyBkaGNsaWVudCBtbGFuMA0K
+PiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiA+IGV4aXQgMA0KPiA+ID4gPiA+ID4gPiA+
+IA0KPiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiA+IEknbSB1c2luZyB0aGUgQXp1cmV3
+YXZlIEFXLU5NMTkxTkYgbW9kdWxlICh3aXRoIDg4Vzg4MDEgDQo+ID4gPiA+ID4gPiA+ID4gU29D
+KS4NCj4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiBCZXN0IHJlZ2FyZHMsDQo+ID4g
+PiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gTHVrYXN6IE1hamV3c2tpDQo+ID4gPiA+ID4g
+PiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gLS0NCj4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+
+ID4gPiBERU5YIFNvZnR3YXJlIEVuZ2luZWVyaW5nIEdtYkgsICAgICAgTWFuYWdpbmcgRGlyZWN0
+b3I6DQo+ID4gPiA+ID4gPiA+ID4gV29sZmdhbmcgRGVuayBIUkIgMTY1MjM1IE11bmljaCwgT2Zm
+aWNlOiBLaXJjaGVuc3RyLjUsDQo+ID4gPiA+ID4gPiA+ID4gRC04MjE5NCBHcm9lYmVuemVsbCwg
+R2VybWFueSBQaG9uZTogKCs0OSktODE0Mi02Njk4OS01OQ0KPiA+ID4gPiA+ID4gPiA+IEZheDog
+KCs0OSktODE0Mi02Njk4OS04MCBFbWFpbDogbHVrbWFAZGVueC5kZSAgICAgICAgDQo+ID4gPiA+
+ID4gDQo+ID4gPiA+ID4gQmVzdCByZWdhcmRzLA0KPiA+ID4gPiA+IA0KPiA+ID4gPiA+IEx1a2Fz
+eiBNYWpld3NraQ0KPiA+ID4gPiA+IA0KPiA+ID4gPiA+IC0tDQo+ID4gPiA+ID4gDQo+ID4gPiA+
+ID4gREVOWCBTb2Z0d2FyZSBFbmdpbmVlcmluZyBHbWJILCAgICAgIE1hbmFnaW5nIERpcmVjdG9y
+OiBXb2xmZ2FuZw0KPiA+ID4gPiA+IERlbmsgSFJCIDE2NTIzNSBNdW5pY2gsIE9mZmljZTogS2ly
+Y2hlbnN0ci41LCBELTgyMTk0IA0KPiA+ID4gPiA+IEdyb2ViZW56ZWxsLCBHZXJtYW55IFBob25l
+OiAoKzQ5KS04MTQyLTY2OTg5LTU5IEZheDoNCj4gPiA+ID4gPiAoKzQ5KS04MTQyLTY2OTg5LTgw
+IEVtYWlsOiBsdWttYUBkZW54LmRlICAgIA0KPiA+ID4gPiANCj4gPiA+ID4gQmVzdCByZWdhcmRz
+LA0KPiA+ID4gPiANCj4gPiA+ID4gTHVrYXN6IE1hamV3c2tpDQo+ID4gPiA+IA0KPiA+ID4gPiAt
+LQ0KPiA+ID4gPiANCj4gPiA+ID4gREVOWCBTb2Z0d2FyZSBFbmdpbmVlcmluZyBHbWJILCAgICAg
+IE1hbmFnaW5nIERpcmVjdG9yOiBXb2xmZ2FuZw0KPiA+ID4gPiBEZW5rIEhSQiAxNjUyMzUgTXVu
+aWNoLCBPZmZpY2U6IEtpcmNoZW5zdHIuNSwgRC04MjE5NCBHcm9lYmVuemVsbCwgDQo+ID4gPiA+
+IEdlcm1hbnkgUGhvbmU6ICgrNDkpLTgxNDItNjY5ODktNTkgRmF4Og0KPiA+ID4gPiAoKzQ5KS04
+MTQyLTY2OTg5LTgwIEVtYWlsOiBsdWttYUBkZW54LmRlDQo+ID4gPiANCj4gPiA+IA0KPiA+ID4g
+QmVzdCByZWdhcmRzLA0KPiA+ID4gDQo+ID4gPiBMdWthc3ogTWFqZXdza2kNCj4gPiA+IA0KPiA+
+ID4gLS0NCj4gPiA+IA0KPiA+ID4gREVOWCBTb2Z0d2FyZSBFbmdpbmVlcmluZyBHbWJILCAgICAg
+IE1hbmFnaW5nIERpcmVjdG9yOiBXb2xmZ2FuZw0KPiA+ID4gRGVuayBIUkIgMTY1MjM1IE11bmlj
+aCwgT2ZmaWNlOiBLaXJjaGVuc3RyLjUsIEQtODIxOTQgR3JvZWJlbnplbGwsIA0KPiA+ID4gR2Vy
+bWFueSBQaG9uZTogKCs0OSktODE0Mi02Njk4OS01OSBGYXg6ICgrNDkpLTgxNDItNjY5ODktODAg
+RW1haWw6DQo+ID4gPiBsdWttYUBkZW54LmRlDQo+ID4gDQo+ID4gQmVzdCByZWdhcmRzLA0KPiA+
+IFRob21hcw0KPiA+IA0KPiA+IA0KPiA+IFRob21hcyBTY2jDpGZlcg0KPiA+IFNXIERlc2lnbiBF
+bmdpbmVlcg0KPiA+IA0KPiA+IEtvbnRyb24gRXVyb3BlIEdtYkgNCj4gPiBIZWlucmljaC1CYXJ0
+aC1TdHJhw59lIDEtMWEgfCA2NjExNSBTYWFyYnLDvGNrZW4gfCBHZXJtYW55IA0KPiA+IHRob21h
+cy5zY2hhZWZlckBrb250cm9uLmNvbQ0KPiA+IA0KPiA+IEtvbnRyb24gfCBNZW1iZXIgb2YgdGhl
+IFMmVCBHcm91cA0KPiA+IA0KPiA+IFBsZWFzZSBmaW5kIG91ciBtYW5kYXRvcnkgbGVnYWwgc3Rh
+dGVtZW50IA0KPiA+IGh0dHBzOi8vd3d3LmtvbnRyb24uY29tL2VuL2ltcHJpbnQgUGxlYXNlIGZp
+bmQgb3VyIG1hbmRhdG9yeSBwcml2YWN5IA0KPiA+IHN0YXRlbWVudCBodHRwczovL3d3dy5rb250
+cm9uLmNvbS9lbi9wcml2YWN5LXN0YXRlbWVudA0KPiA+IA0KPiANCj4gDQo+IA0KPiANCj4gQmVz
+dCByZWdhcmRzLA0KPiANCj4gTHVrYXN6IE1hamV3c2tpDQo+IA0KPiAtLQ0KPiANCj4gREVOWCBT
+b2Z0d2FyZSBFbmdpbmVlcmluZyBHbWJILCAgICAgIE1hbmFnaW5nIERpcmVjdG9yOiBXb2xmZ2Fu
+ZyBEZW5rDQo+IEhSQiAxNjUyMzUgTXVuaWNoLCBPZmZpY2U6IEtpcmNoZW5zdHIuNSwgRC04MjE5
+NCBHcm9lYmVuemVsbCwgR2VybWFueQ0KPiBQaG9uZTogKCs0OSktODE0Mi02Njk4OS01OSBGYXg6
+ICgrNDkpLTgxNDItNjY5ODktODAgRW1haWw6IGx1a21hQGRlbnguZGUNCg0K
