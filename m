@@ -4,83 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5BD64C433EF
-	for <linux-firmware@archiver.kernel.org>; Sun, 10 Jul 2022 13:22:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1CD01C43334
+	for <linux-firmware@archiver.kernel.org>; Tue, 12 Jul 2022 11:32:51 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 23BAAC341CB; Sun, 10 Jul 2022 13:22:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E73EC341CD
-	for <linux-firmware@kernel.org>; Sun, 10 Jul 2022 13:22:44 +0000 (UTC)
+	id D7672C341CD; Tue, 12 Jul 2022 11:32:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C224FC341CB
+	for <linux-firmware@kernel.org>; Tue, 12 Jul 2022 11:32:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1657459364;
-	bh=4Z/rg8vPfD40VWTe2PdSrQciAabYkep+/EpNDanm6rI=;
+	s=k20201202; t=1657625571;
+	bh=RkbBOghJL1TsOiYx+iK7b2TbeY2PR1PfOLd6qhz3t5s=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=aLbLfQ9urlSr/gLRvGC925121ht34BF2eSbo/u0BvEOUeJ6zskZJvvUGVfIL2KjLj
-	 yK4fDk2DjfMPDQIeetkLGNUTzaxohhbOJWhS7Hka4Y/rC2z14PBAZpUs2IFOmhZT46
-	 z2lrKhRV8ENz9msmKjUE446UYuvquOPLQMRFZvcf0wuVYUVleKItpTE2dgCND8sQZE
-	 +oLPH4cSzKl53YBULmKo5PgWqV6K06t8+Mz7vsCpL5m59VaonPLlbUZIel4S9B+njP
-	 1F0DCTOKiQhUPpGf2Oa9YEuT3NTSVQUBqU956laDIq77Q2milGnSmbVXwC9BD2vD0s
-	 V+sEbSlwhVZ0A==
-Received: by mail-io1-f50.google.com with SMTP id v185so2831544ioe.11
-        for <linux-firmware@kernel.org>; Sun, 10 Jul 2022 06:22:43 -0700 (PDT)
-X-Gm-Message-State: AJIora87D4P5RDnAPOHiQfR6sDcIfn9JvkaPaZAeXWjXYP4fdcXPNzuK
-	I2ecjTpQiWSdUuaV8xRY80I22a6O6XCniTituOk=
-X-Google-Smtp-Source: AGRyM1s9jK7GNxXJP+Mw64ctb7WbO9Ls4ftO6cNWqL+nYHXXm5rbPOqeATBqr1+pMIn1LsPrG8Q0H3yt8xSZ3eD0mNc=
-X-Received: by 2002:a05:6638:d96:b0:33c:d6f8:4a8c with SMTP id
- l22-20020a0566380d9600b0033cd6f84a8cmr7715714jaj.146.1657459363127; Sun, 10
- Jul 2022 06:22:43 -0700 (PDT)
+	b=fkgLpBXHZ/PEM4MBGhpS1AWDn7xF/cgZmZ1gL19x+GkgMKkG9kW7I+3Oqk10qMf1C
+	 k7xCyFLDzPboSo1kdJd1I3nwVfXHIQDd7OmgnFzFATkPLY39OmN0M3mGL/ihSehyLF
+	 jomw1iWzb/PP4kIYY9GoEm4+QHUsppgS0nGzzVYpiJW2Trk2XFp4WYShbaxY8poL/V
+	 1RFODb6bcKEzAhLqW/EulGQlj8uetjXd0fPkM/gkYoZ/UnaThvqUGfzE1a03B1BET7
+	 mTqGgzINXHaQ+c9ve0yGD+7kkJT9X8F3eIqOFfO1YyEPdnoDMR/QOmsPx+8sTOPmPq
+	 KsSFpxeMjzLVg==
+Received: by mail-io1-f53.google.com with SMTP id z81so7573002iof.0
+        for <linux-firmware@kernel.org>; Tue, 12 Jul 2022 04:32:51 -0700 (PDT)
+X-Gm-Message-State: AJIora/TG/hl7ENer6iucfaiz0s6ouHXkJ+12AWEby7Tk8ObgRAHlOnD
+	ptfLDbNqN3t0KIKnxLju2hJH9lj2bZRfVvR8Vf4=
+X-Google-Smtp-Source: AGRyM1vZ8dpiaJlbldTQdj4Wo1azvtZXjv/IIqyDsNCuA1qXhgqAMr9LzJlgyGIs1XJmEuwlgB38gxxkwVy8fKytFkU=
+X-Received: by 2002:a05:6638:218d:b0:33f:5821:f84 with SMTP id
+ s13-20020a056638218d00b0033f58210f84mr5688903jaj.303.1657625570915; Tue, 12
+ Jul 2022 04:32:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220708160951.132-1-mario.limonciello@amd.com> <CALeDE9Nfi9zhbS9ZnAAg5o9EU6OS0FNchBfLUpiMgV33cCUGRg@mail.gmail.com>
-In-Reply-To: <CALeDE9Nfi9zhbS9ZnAAg5o9EU6OS0FNchBfLUpiMgV33cCUGRg@mail.gmail.com>
+References: <20220709043338.GA316680@0c7a33013940>
+In-Reply-To: <20220709043338.GA316680@0c7a33013940>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Sun, 10 Jul 2022 09:22:32 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA5-P3zNq=V05R1z8Qy2TSJMMbp7RMHfRRSs-bNk3y86Cw@mail.gmail.com>
-Message-ID: <CA+5PVA5-P3zNq=V05R1z8Qy2TSJMMbp7RMHfRRSs-bNk3y86Cw@mail.gmail.com>
-Subject: Re: [PATCH] WHENCE: Correct dangling symlinks
-To: Peter Robinson <pbrobinson@gmail.com>
+Date: Tue, 12 Jul 2022 07:32:40 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA6qHdBvq8nX1TN8mfO0kgb0EbzR2ABwAUWfG2Y1BvHJBQ@mail.gmail.com>
+Message-ID: <CA+5PVA6qHdBvq8nX1TN8mfO0kgb0EbzR2ABwAUWfG2Y1BvHJBQ@mail.gmail.com>
+Subject: Re: [PATCH] Correct WHENCE entry for AW-CM256SM firmware
+To: Rudi Heitbaum <rudi@heitbaum.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Mario Limonciello <mario.limonciello@amd.com>, Linux Firmware <linux-firmware@kernel.org>
+Cc: Linux Firmware <linux-firmware@kernel.org>, Peter Robinson <pbrobinson@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jul 8, 2022 at 12:31 PM Peter Robinson <pbrobinson@gmail.com> wrote:
+On Sat, Jul 9, 2022 at 12:33 AM Rudi Heitbaum <rudi@heitbaum.com> wrote:
 >
-> On Fri, Jul 8, 2022 at 5:10 PM Mario Limonciello
-> <mario.limonciello@amd.com> wrote:
-> >
-> > The symlink direction was wrong for some brcm firmware.
-> >
-> > Fixes: f8a2651a ("Link some devices that ship with the AW-CM256SM")
-> > Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> Reviewed-by: Peter Robinson <pbrobinson@gmail.com>
+> The check_whence script doesn't fail, but installation of the firmware
+> is not successful because the link is reversed.
 >
-> Face palm, good catch, thanks!
+> Signed-off-by: Rudi Heitbaum <rudi@heitbaum.com>
 
-Applied and pushed out.
+Thanks, but this is already fixed via:
+
+commit dfa29317dd78f3a18f37ef8063efe9d2659e6387 (HEAD -> main, origin/main)
+Author: Mario Limonciello <mario.limonciello@amd.com>
+Date:   Fri Jul 8 11:09:51 2022 -0500
+
+    WHENCE: Correct dangling symlinks
+
+    The symlink direction was wrong for some brcm firmware.
+
+    Fixes: f8a2651a ("Link some devices that ship with the AW-CM256SM")
+    Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+    Reviewed-by: Peter Robinson <pbrobinson@gmail.com>
+    Signed-off-by: Josh Boyer <jwboyer@kernel.org>
 
 josh
 
-> > ---
-> >  WHENCE | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/WHENCE b/WHENCE
-> > index 14f3472e..14d0a877 100644
-> > --- a/WHENCE
-> > +++ b/WHENCE
-> > @@ -2820,10 +2820,10 @@ Link: brcm/brcmfmac4356-sdio.firefly,firefly-rk3399.txt -> brcmfmac4356-sdio.AP6
-> >  Link: brcm/brcmfmac4356-sdio.khadas,vim2.txt -> brcmfmac4356-sdio.AP6356S.txt
-> >  Link: brcm/brcmfmac4356-sdio.vamrs,rock960.txt -> brcmfmac4356-sdio.AP6356S.txt
-> >  File: brcm/brcmfmac43455-sdio.AW-CM256SM.txt
-> > -Link: brcm/brcmfmac43455-sdio.AW-CM256SM.txt -> brcmfmac43455-sdio.beagle,am5729-beagleboneai.txt
-> > -Link: brcm/brcmfmac43455-sdio.AW-CM256SM.txt -> brcmfmac43455-sdio.pine64,pinebook-pro.txt
-> > -Link: brcm/brcmfmac43455-sdio.AW-CM256SM.txt -> brcmfmac43455-sdio.pine64,pinephone-pro.txt
-> > -Link: brcm/brcmfmac43455-sdio.AW-CM256SM.txt -> brcmfmac43455-sdio.pine64,quartz64-b.txt
-> > +Link: brcmfmac43455-sdio.beagle,am5729-beagleboneai.txt -> brcm/brcmfmac43455-sdio.AW-CM256SM.txt
-> > +Link: brcmfmac43455-sdio.pine64,pinebook-pro.txt -> brcm/brcmfmac43455-sdio.AW-CM256SM.txt
-> > +Link: brcmfmac43455-sdio.pine64,pinephone-pro.txt -> brcm/brcmfmac43455-sdio.AW-CM256SM.txt
-> > +Link: brcmfmac43455-sdio.pine64,quartz64-b.txt -> brcm/brcmfmac43455-sdio.AW-CM256SM.txt
-> >
-> >  Licence: GPLv2. See GPL-2 for details.
-> >
-> > --
-> > 2.34.1
-> >
+> ---
+>  WHENCE | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/WHENCE b/WHENCE
+> index 14f3472..545fcd7 100644
+> --- a/WHENCE
+> +++ b/WHENCE
+> @@ -2820,10 +2820,10 @@ Link: brcm/brcmfmac4356-sdio.firefly,firefly-rk3399.txt -> brcmfmac4356-sdio.AP6
+>  Link: brcm/brcmfmac4356-sdio.khadas,vim2.txt -> brcmfmac4356-sdio.AP6356S.txt
+>  Link: brcm/brcmfmac4356-sdio.vamrs,rock960.txt -> brcmfmac4356-sdio.AP6356S.txt
+>  File: brcm/brcmfmac43455-sdio.AW-CM256SM.txt
+> -Link: brcm/brcmfmac43455-sdio.AW-CM256SM.txt -> brcmfmac43455-sdio.beagle,am5729-beagleboneai.txt
+> -Link: brcm/brcmfmac43455-sdio.AW-CM256SM.txt -> brcmfmac43455-sdio.pine64,pinebook-pro.txt
+> -Link: brcm/brcmfmac43455-sdio.AW-CM256SM.txt -> brcmfmac43455-sdio.pine64,pinephone-pro.txt
+> -Link: brcm/brcmfmac43455-sdio.AW-CM256SM.txt -> brcmfmac43455-sdio.pine64,quartz64-b.txt
+> +Link: brcm/brcmfmac43455-sdio.beagle,am5729-beagleboneai.txt -> brcmfmac43455-sdio.AW-CM256SM.txt
+> +Link: brcm/brcmfmac43455-sdio.pine64,pinebook-pro.txt -> brcmfmac43455-sdio.AW-CM256SM.txt
+> +Link: brcm/brcmfmac43455-sdio.pine64,pinephone-pro.txt -> brcmfmac43455-sdio.AW-CM256SM.txt
+> +Link: brcm/brcmfmac43455-sdio.pine64,quartz64-b.txt -> brcmfmac43455-sdio.AW-CM256SM.txt
+>
+>  Licence: GPLv2. See GPL-2 for details.
+>
+> --
+> 2.25.1
+>
