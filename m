@@ -1,56 +1,88 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=oRI0=XZ=myqhix.shop=c-smart-account-update@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00B5FC43334
-	for <linux-firmware@archiver.kernel.org>; Tue, 19 Jul 2022 10:44:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E583CC433EF
+	for <linux-firmware@archiver.kernel.org>; Wed, 20 Jul 2022 16:13:15 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id BCCAEC341CB; Tue, 19 Jul 2022 10:44:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7728C341CE
-	for <linux-firmware@kernel.org>; Tue, 19 Jul 2022 10:44:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1658227495;
-	bh=nkiOpQrFjTwEqKC3Go3BQ7913AldxNFFHCq4MeLedec=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=bxZs7xwPLqutDBzCediV4THnxRE1VHn/WuEUih43kdSaGdRUNvAAXAwjDcTKgiGYj
-	 Z/Ey6cQ808dtIoQTxm6gZnk1uv5h9WGOVCNLKQTTFyrQizI981iypEI2NMiauLaFR6
-	 lNoMwJso0BX4b6dSAgOGTBE03gvi895alMK9k4tHKj1ZeKmxjKSTgjEObfW8vb76qs
-	 v1Cw1DFWuWgbTK030qVGijaeRmnfqTA6aagbAYeeMBoy0Fy6Vx+ZuOt8PJo1HnG4SS
-	 aTGBeLc+S6YBTpQMuR3f6CrVo5D5k9Uh65scgPVsXSFdFzTCgAEXCOOOA/bGITA7Wx
-	 oN9Et2sPCmD8w==
-Received: by mail-il1-f171.google.com with SMTP id i5so33761ila.6
-        for <linux-firmware@kernel.org>; Tue, 19 Jul 2022 03:44:55 -0700 (PDT)
-X-Gm-Message-State: AJIora+xxqd1sRBlAK8Uh170BGPVzNnQVA1VPgs4oBVoRqoOBWCIqX62
-	8XrY9Z5VJqhFMwAr6IR75OzyRPmb7xivFoMUWYc=
-X-Google-Smtp-Source: AGRyM1tjRR6M0OWgru4MXMAzcnwef4d19f8+nTxl7XxA97NZDYhtvQvQm+c7b3Bf5hFqWQYJMVisIqTNQo1IcEXDpw8=
-X-Received: by 2002:a05:6e02:1b89:b0:2dc:9e66:e98e with SMTP id
- h9-20020a056e021b8900b002dc9e66e98emr15447451ili.218.1658227494747; Tue, 19
- Jul 2022 03:44:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <CADnq5_M8qck27Rm9WWO+dQY4s9z6qH9Yindc-hmqyS9=vKVpFg@mail.gmail.com>
-In-Reply-To: <CADnq5_M8qck27Rm9WWO+dQY4s9z6qH9Yindc-hmqyS9=vKVpFg@mail.gmail.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Tue, 19 Jul 2022 06:44:44 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA74wYdpWbHNrT2Sb=8VdCV-s6eH3PcdNX+n1B-=rXr3-Q@mail.gmail.com>
-Message-ID: <CA+5PVA74wYdpWbHNrT2Sb=8VdCV-s6eH3PcdNX+n1B-=rXr3-Q@mail.gmail.com>
-Subject: Re: amdgpu firmware updates for 22.20
-To: Alex Deucher <alexdeucher@gmail.com>
+	id BC676C341C7; Wed, 20 Jul 2022 16:13:15 +0000 (UTC)
+Received: from myqhix.shop (myqhix.shop [116.63.236.191])
+	by smtp.kernel.org (Postfix) with ESMTP id 16BE9C3411E
+	for <linux-firmware@kernel.org>; Wed, 20 Jul 2022 16:13:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 16BE9C3411E
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=myqhix.shop
+Received: from yjm (unknown [27.156.205.216])
+	by myqhix.shop (Postfix) with ESMTPA id 45258C1BC8
+	for <linux-firmware@kernel.org>; Thu, 21 Jul 2022 00:13:00 +0800 (CST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 myqhix.shop 45258C1BC8
+Date: Thu, 21 Jul 2022 00:12:53 +0800
+From: "2022-07-21 00:13:00" <linux-firmware@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To: <linux-firmware@kernel.org>
+Subject: =?utf-8?B?5Zyo5a6F5Yuk5YuZ44Gr6YGp44GX44Gf44Ki44Or44OQ44Kk44OI44Gn44GZYw==?=
+Message-ID: <20220721001300873748@myqhix.shop>
+X-mailer: Foxmail 6, 13, 102, 15 [cn]
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="=====003_Dragon725284768587_====="
 
-All applied and pushed out.  Thanks.
+This is a multi-part message in MIME format.
 
-josh
+--=====003_Dragon725284768587_=====
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Mon, Jul 18, 2022 at 2:35 PM Alex Deucher <alexdeucher@gmail.com> wrote:
->
-> Hi,
->
-> Updated amdgpu firmware.  Please apply.
->
-> Thanks,
->
-> Alex
+5b+c5Yuf44GZ44KLTElORe+8iElE77yJ77yaYTk1ODUNCiAgICAgICAgICANCuiBt+eoru+8muiH
+quWuheOBq+OBhOOBquOBjOOCieWlveOBjeOBquaZgumWk+OBp09LDQogICAgICBb5qWt5YuZ5aeU
+6KiXXeOCquODs+ODqeOCpOODs+OCouODq+ODkOOCpOODiOOAgeWVhuW6l+OBruS6uuawl+OCkumr
+mOOCgeOCiw0KDQrloLHphazvvJrmr47ml6XlhavkuIflhobjgYvjgonljYHkuIflhoYNCg0K5L2c
+5qWt5pmC6ZaT77yaW+alreWLmeWnlOiol10wMDowMO+9njAwOjAwDQrlnKjlroXjg6/jg7zjgq/j
+gavjgarjgorjgb7jgZnjga7jgafjgIENCuOBguOBquOBn+OBruOBlOmDveWQiOOBq+WQiOOCj+OB
+m+OBpueEoeeQhuOBruOBquOBhOevhOWbsuOBpw0K5LuV5LqL44KS6KGM44Gj44Gm44GP44Gg44GV
+44GE44CCDQrjgZToh6rliIbjga7lpb3jgY3jgarjgr/jgqTjg5/jg7PjgrDjgIENCuWlveOBjeOB
+quOBiuS7leS6i+OBruOBv+OCkuOBmeOCi+OBoOOBkeOBp09L44Gn44GZ44CCICAgDQoNCue1jOmo
+k+ODu+izh+agvO+8miDimIXlrabnlJ/jg7vjg5Xjg6rjg7zjgr/jg7zjg7vml6LlqZrogIXjga7m
+lrnjgIHnmobjgZXjgpPlpKfmrZPov47vvIENCuKYheW/heimgee1jOmok+ODu+izh+agvOOBr+OB
+lOOBluOBhOOBvuOBm+OCk+OAgg0K4piF5bGl5q205pu45LiN6KaB44CB5p2l56S+5LiN6KaBDQri
+mIXmnKrntYzpqJPlpKfmrZPov47imIUNCuS4u+WppuOCkuOBr+OBmOOCgeOAgVfjg6/jg7zjgqvj
+g7zjgarjgakNCjIw5Luj772eNDDku6Pjgb7jgafluYXluoPjgYTlsaTjga7jgrnjgr/jg4Pjg5Xj
+gYzlpJrmlbDmtLvouo3kuK3vvIENCuKAu+epuuOBhOOBn+aZgumWk+OBq+OBiuWwj+mBo+OBhOeo
+vOOBjuOBquOBqeOAgemDveWQiOOBq+WQiOOCj+OBm+OBpuOBiuS7leS6i+WPr+iDveOBp+OBmeOA
+gg==
+--=====003_Dragon725284768587_=====
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
+
+PCFET0NUWVBFIEhUTUwgUFVCTElDICItLy9XM0MvL0RURCBIVE1MIDQuMCBUcmFuc2l0aW9uYWwv
+L0VOIj4NCjxIVE1MIHhtbG5zOm8+PEhFQUQ+DQo8TUVUQSBjb250ZW50PSJ0ZXh0L2h0bWw7IGNo
+YXJzZXQ9dXRmLTgiIGh0dHAtZXF1aXY9Q29udGVudC1UeXBlPg0KPE1FVEEgbmFtZT1HRU5FUkFU
+T1IgY29udGVudD0iTVNIVE1MIDExLjAwLjEwNTcwLjEwMDEiPjwvSEVBRD4NCjxCT0RZPg0KPFA+
+5b+c5Yuf44GZ44KLTElORe+8iElE77yJ77yaYTk1ODU8L1A+DQo8UD4mbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgPC9QPg0KPFA+6IG356iu77ya
+6Ieq5a6F44Gr44GE44Gq44GM44KJ5aW944GN44Gq5pmC6ZaT44GnT0s8L1A+DQo8UD4mbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgW+alreWLmeWnlOiol13jgqrjg7Pjg6njgqTjg7PjgqLj
+g6vjg5DjgqTjg4jjgIHllYblupfjga7kurrmsJfjgpLpq5jjgoHjgos8L1A+DQo8UD4mbmJzcDs8
+L1A+DQo8UD7loLHphazvvJrmr47ml6XlhavkuIflhobjgYvjgonljYHkuIflhoY8L1A+DQo8UD4m
+bmJzcDs8L1A+DQo8UD7kvZzmpa3mmYLplpPvvJpb5qWt5YuZ5aeU6KiXXTAwOjAw772eMDA6MDA8
+L1A+DQo8UD7lnKjlroXjg6/jg7zjgq/jgavjgarjgorjgb7jgZnjga7jgafjgIE8L1A+DQo8UD7j
+gYLjgarjgZ/jga7jgZTpg73lkIjjgavlkIjjgo/jgZvjgabnhKHnkIbjga7jgarjgYTnr4Tlm7Lj
+gac8L1A+DQo8UD7ku5XkuovjgpLooYzjgaPjgabjgY/jgaDjgZXjgYTjgII8L1A+DQo8UD7jgZTo
+h6rliIbjga7lpb3jgY3jgarjgr/jgqTjg5/jg7PjgrDjgIE8L1A+DQo8UD7lpb3jgY3jgarjgYrk
+u5Xkuovjga7jgb/jgpLjgZnjgovjgaDjgZHjgadPS+OBp+OBmeOAgiZuYnNwOyZuYnNwOyA8L1A+
+DQo8UD4mbmJzcDs8L1A+DQo8UD7ntYzpqJPjg7vos4fmoLzvvJog4piF5a2m55Sf44O744OV44Oq
+44O844K/44O844O75pei5ama6ICF44Gu5pa544CB55qG44GV44KT5aSn5q2T6L+O77yBPC9QPg0K
+PFA+4piF5b+F6KaB57WM6aiT44O76LOH5qC844Gv44GU44GW44GE44G+44Gb44KT44CCPC9QPg0K
+PFA+4piF5bGl5q205pu45LiN6KaB44CB5p2l56S+5LiN6KaBPC9QPg0KPFA+4piF5pyq57WM6aiT
+5aSn5q2T6L+O4piFPC9QPg0KPFA+5Li75amm44KS44Gv44GY44KB44CBV+ODr+ODvOOCq+ODvOOB
+quOBqTwvUD4NCjxQPjIw5Luj772eNDDku6Pjgb7jgafluYXluoPjgYTlsaTjga7jgrnjgr/jg4Pj
+g5XjgYzlpJrmlbDmtLvouo3kuK3vvIE8L1A+DQo8UD7igLvnqbrjgYTjgZ/mmYLplpPjgavjgYrl
+sI/pgaPjgYTnqLzjgY7jgarjganjgIHpg73lkIjjgavlkIjjgo/jgZvjgabjgYrku5Xkuovlj6/o
+g73jgafjgZnjgII8L1A+PC9CT0RZPjwvSFRNTD4NCg==
+
+--=====003_Dragon725284768587_=====--
+
