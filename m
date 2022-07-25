@@ -4,84 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9463CC433EF
-	for <linux-firmware@archiver.kernel.org>; Mon, 25 Jul 2022 18:15:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0C5B9C43334
+	for <linux-firmware@archiver.kernel.org>; Mon, 25 Jul 2022 18:16:35 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 7BF83C341CD; Mon, 25 Jul 2022 18:15:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65B57C341D0
-	for <linux-firmware@kernel.org>; Mon, 25 Jul 2022 18:15:58 +0000 (UTC)
+	id C982BC341D2; Mon, 25 Jul 2022 18:16:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B484BC341CD
+	for <linux-firmware@kernel.org>; Mon, 25 Jul 2022 18:16:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1658772958;
-	bh=agwYaHzbPK1VDytUTtodWqQ0MWkJCgfOTTaATnI0EHU=;
+	s=k20201202; t=1658772995;
+	bh=Mp3iM0M8mdUrM5E9Xp/Iqj0FszKHC6Sd3+CgHabv5M8=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=bKJ/6KXy1/PoqQ34/iVJ2Agab81iYX08r1gfm7lXaTHsXqyHbwX25f39jtNDCpdaZ
-	 oPdj/czBnuL2lzxefs3jS20t5gsMRKmLtM16fSjOEjTeKOiVottfwz0VAJVxiLjPE4
-	 /1Q/IMq0B61pSS5ambMqWgDESDuaOeWkV6Ogr9AXYyZ/StGQAr0AdhRKtdwdGliH0m
-	 ZxmVG9XbteMYgZAPOB4EftFQm69Y1FpAUng2BuT+OY9d4Dl+qihVavu/MdkFtroPQZ
-	 3wqlv38qi6iKASGQnQEGz+RoP1loWmUTQZPBnqvva9Cyt7bDF8rNBMFYHTmewDiHet
-	 w160U7tnThdBA==
-Received: by mail-il1-f174.google.com with SMTP id i5so6119445ila.6
-        for <linux-firmware@kernel.org>; Mon, 25 Jul 2022 11:15:58 -0700 (PDT)
-X-Gm-Message-State: AJIora/id86OKLaKBHnVL2CVZ40OIKeZohUZfIcWbYXBlCvpKslzY/LE
-	otCcZh9GQh94ERPviE6SDoQvMmpkWyJVfnkJgmU=
-X-Google-Smtp-Source: AGRyM1utbjTU1C9uhbSuRLSz4HE51dpqipV7dPRpR3rKxUCJvmO4NYWEao1eshc6X5HBgkWJLwRwK539LOnwcgWYbfM=
-X-Received: by 2002:a05:6e02:1aa5:b0:2dc:8302:5dc3 with SMTP id
- l5-20020a056e021aa500b002dc83025dc3mr5005700ilv.243.1658772957560; Mon, 25
- Jul 2022 11:15:57 -0700 (PDT)
+	b=pgx11z7IIHsAQW5mpqHHRiyaE/L59Nb57tp7UbOrCt2XJWSt2PEFJcKwYFDCndhiW
+	 dPjdWIS2ffDacJknbHEwo/Py27m35rxtKX5r6TfLQP4VJQW8QvEoB4nK5NtfrUoYZw
+	 QB2EdxMqfwNIqeGczNuZXKlh8BjyZwaB2Dsd7VDpRMhE32PI4dl8iUasREjy2pGxaT
+	 u2kwwU5tcMB9Ls9V2001EpgTKOjB27xnSdehsKxEaNVfycyMkI7gkWWYrS/jNh2Ggy
+	 Ztfb4rKrQRub1kv+/RksFBkjT3BVdd1iEEy+vvku/LYCY5G429PVWwAoGaOdRZS2cf
+	 oC/0VWniHktHw==
+Received: by mail-il1-f182.google.com with SMTP id 1so6093403ill.11
+        for <linux-firmware@kernel.org>; Mon, 25 Jul 2022 11:16:35 -0700 (PDT)
+X-Gm-Message-State: AJIora9FkCXvUxYb4t+h0OLtqYXgqFI1QUZXnWX8NUUQoCMZLXI220WA
+	3O6m1rEL0x8xAGXzgZQJ1Frcyd1vVQZn3lGfQWU=
+X-Google-Smtp-Source: AGRyM1vaRuXmFn2bmJDQZPDJ+9/r1Wj4RC0M0UPGXELbpNZMNeNFGI3NSkbMRK5COQOl9Jic5UvC2JhJsPypNaGJKDs=
+X-Received: by 2002:a05:6e02:17cd:b0:2dd:8678:3637 with SMTP id
+ z13-20020a056e0217cd00b002dd86783637mr304820ilu.97.1658772994937; Mon, 25 Jul
+ 2022 11:16:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <42437b6fc5dac19bf23f9806dfbe6915e055397b.camel@mediatek.com>
-In-Reply-To: <42437b6fc5dac19bf23f9806dfbe6915e055397b.camel@mediatek.com>
+References: <CADnq5_M8qck27Rm9WWO+dQY4s9z6qH9Yindc-hmqyS9=vKVpFg@mail.gmail.com>
+ <CA+5PVA74wYdpWbHNrT2Sb=8VdCV-s6eH3PcdNX+n1B-=rXr3-Q@mail.gmail.com> <CADnq5_N5qZW3c_YUaAB2_9zp6kYHSfVR4KopexkFSi02W6nZbg@mail.gmail.com>
+In-Reply-To: <CADnq5_N5qZW3c_YUaAB2_9zp6kYHSfVR4KopexkFSi02W6nZbg@mail.gmail.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 25 Jul 2022 14:15:46 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA6uJtrzZZ=k0g6u1ycTm-oXSuuUoddSG8rUebGftnKu5g@mail.gmail.com>
-Message-ID: <CA+5PVA6uJtrzZZ=k0g6u1ycTm-oXSuuUoddSG8rUebGftnKu5g@mail.gmail.com>
-Subject: Re: pull request: linux-firmware: Update Mediatek MT8183/MT8192/MT8195
- SCP firmware
-To: Tinghan Shen <tinghan.shen@mediatek.com>
+Date: Mon, 25 Jul 2022 14:16:24 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA5QBn1iFS8r-Lun7wEn55iRhxBWhZVhJk-X8sP_Bmq=ag@mail.gmail.com>
+Message-ID: <CA+5PVA5QBn1iFS8r-Lun7wEn55iRhxBWhZVhJk-X8sP_Bmq=ag@mail.gmail.com>
+Subject: Re: amdgpu firmware updates for 22.20
+To: Alex Deucher <alexdeucher@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, 
-	linux-mediatek <linux-mediatek@lists.infradead.org>, Yunfei Dong <yunfei.dong@mediatek.com>, 
-	Shawn Ku <shawnku@google.com>, Project_Global_Chrome_Upstream_Group@mediatek.com, 
-	Justin.Yeh@mediatek.com, "allen-kh.cheng" <Allen-KH.Cheng@mediatek.com>
+Cc: Linux Firmware <linux-firmware@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jul 22, 2022 at 4:29 AM Tinghan Shen <tinghan.shen@mediatek.com> wrote:
->
-> Hi maintainers,
->
-> Update SCP firmware for MediaTek MT8183/MT8192/MT8195.
-> Thank you!
->
->
-> Regards,
-> TingHan
->
-> ---
->
-> The following changes since commit 4421586e8e95ce789cb6b3f1af98962bfef74c7b:
->
->   amdgpu: update renoir to release 22.20 (2022-07-19 06:44:08 -0400)
->
-> are available in the Git repository at:
->
->   https://github.com/tinghan-shen/linux_fw_scp mtk-scp-20220722
->
-> for you to fetch changes up to 56cf6461a82b08facd41154f7c44a19f0a085f66:
->
->   mediatek: Update mt8183/mt8192/mt8195 SCP firmware (2022-07-22 16:16:27 +0800)
->
-> ----------------------------------------------------------------
-> Tinghan Shen (1):
->       mediatek: Update mt8183/mt8192/mt8195 SCP firmware
-
-Pulled and pushed out.  Thanks.
+Applied and pushed out.
 
 josh
 
+On Fri, Jul 22, 2022 at 2:10 PM Alex Deucher <alexdeucher@gmail.com> wrote:
 >
->  WHENCE                  |   6 +++---
->  mediatek/mt8183/scp.img | Bin 1032064 -> 1030776 bytes
->  mediatek/mt8192/scp.img | Bin 327968 -> 328096 bytes
->  mediatek/mt8195/scp.img | Bin 429668 -> 429820 bytes
->  4 files changed, 3 insertions(+), 3 deletions(-)
+> Thanks.  Unfortunately, I accidentally added a yellow carp file to the beige goby commit that should not have been there.  Please apply this partial revert patch.  Sorry about that.
 >
+> Alex
+>
+>
+> On Tue, Jul 19, 2022 at 6:44 AM Josh Boyer <jwboyer@kernel.org> wrote:
+>>
+>> All applied and pushed out.  Thanks.
+>>
+>> josh
+>>
+>> On Mon, Jul 18, 2022 at 2:35 PM Alex Deucher <alexdeucher@gmail.com> wrote:
+>> >
+>> > Hi,
+>> >
+>> > Updated amdgpu firmware.  Please apply.
+>> >
+>> > Thanks,
+>> >
+>> > Alex
