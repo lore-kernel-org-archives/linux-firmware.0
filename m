@@ -1,95 +1,122 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=/mSl=YB=cirrus.com=prvs=120867bca9=vitaly.rodionov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF9F3C43334
-	for <linux-firmware@archiver.kernel.org>; Tue, 26 Jul 2022 10:56:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9672CC04A68
+	for <linux-firmware@archiver.kernel.org>; Thu, 28 Jul 2022 10:37:50 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B54A1C341C8; Tue, 26 Jul 2022 10:56:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A7B6C341CD
-	for <linux-firmware@kernel.org>; Tue, 26 Jul 2022 10:56:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1658832982;
-	bh=QwZULy9PDS7/n0AJDOiFE/UfiB0Wi8miKrbrTwdJ0hQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=TVQKmsXThAREbKxebqt2UAdVNJsMPlqDOmHis+j8kFAnIF/gDrWJOx6dr3vlIn7eP
-	 +QrneFPOOXLm4eRxhIuGg/27qQjOOzjD+J+EVTmCQLtZ0l+SUKYvUxr4lZVPt5W5V9
-	 h1jaskABeM8RfAr3lbI+Hk/rvUfT8RJflkDTW0KnCocwKoBqO4xJeweEhgEK6C+ztD
-	 5Tw8SnMEE/GXFhSeRTiiJLhl3Od8NvD4lGOjmVpfyIs0miyiYxl2rh//b8FWeEqXHA
-	 IXo3KRHn6gzebxRP872t/6N+nZln+RIfrX8Z+HBFtEDyBsuQuniL4eK9cYV166Davk
-	 qfvvvPY/w5vhg==
-Received: by mail-il1-f176.google.com with SMTP id y13so6974448ilv.5
-        for <linux-firmware@kernel.org>; Tue, 26 Jul 2022 03:56:22 -0700 (PDT)
-X-Gm-Message-State: AJIora+ClatVwnLJWxUUW2dxPEef+zhH8PtzzOoQSotrSz6DF2oFaYmM
-	ododjh89bbqx2eCR0IMfUEFgNtSMXqiCvDiTx7Y=
-X-Google-Smtp-Source: AGRyM1vU77rIJ+3nYsRDPEjgFf4z7qhG+Aa9Iosg6gDwOEzQK7GOC0ARoUaE1MZ0FjwLDx1rjvFRWBlYTQRhqxK5JP8=
-X-Received: by 2002:a05:6e02:1aa5:b0:2dc:8302:5dc3 with SMTP id
- l5-20020a056e021aa500b002dc83025dc3mr6051251ilv.243.1658832981754; Tue, 26
- Jul 2022 03:56:21 -0700 (PDT)
+	id 5DA56C433D7; Thu, 28 Jul 2022 10:37:50 +0000 (UTC)
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 28D3FC433D6
+	for <linux-firmware@kernel.org>; Thu, 28 Jul 2022 10:37:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 28D3FC433D6
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=cirrus.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=cirrus.com
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26S84P7x013301
+	for <linux-firmware@kernel.org>; Thu, 28 Jul 2022 05:37:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=message-id : date :
+ mime-version : to : cc : from : subject : content-type :
+ content-transfer-encoding; s=PODMain02222019;
+ bh=x5fo9nVw2qLbXXRY+CWoyE3ZRNaMIPXv6uj5rkBvkts=;
+ b=FxZqqdcSaMjj/5zYxSiQnWEimEIQuNODRtbVcc+SoB3ToTV+/oTPN4Js70VTVwYloL2H
+ U8eRM63C3utSdUpuVUrEQZUrhRjFmVAo/5Zs7T0CHwlnXKbDWBa3hvBfAFFkDDw/jC4J
+ kbKmUO2YPksoxjks1pb9wmvD8ob5R3Mcv0Fn0M03QsiyzZAclTvI4PiWxrG3H3K7QhR4
+ 3YvbKYvr7DUa/NMd+oZ9IQhfqDv5lKCkIRy30V3haUHAUgstRbUiPhAAIyKVt2yzcury
+ 0WxwKgPJexO7us0B/vUeH4aiobUE1z7oR/q2zPZeI0NRzc+IJ7fxl9srUpntDVBZVtjc 9A== 
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3hgddp6csk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <linux-firmware@kernel.org>; Thu, 28 Jul 2022 05:37:47 -0500
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.9; Thu, 28 Jul
+ 2022 05:37:46 -0500
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.9 via Frontend
+ Transport; Thu, 28 Jul 2022 05:37:46 -0500
+Received: from [198.90.202.102] (lon-sw-dsktp002.ad.cirrus.com [198.90.202.102])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 24F632C5;
+	Thu, 28 Jul 2022 10:37:46 +0000 (UTC)
+Message-ID: <4f8ed799-7011-fe97-b606-4bcaa4e80ca3@cirrus.com>
+Date: Thu, 28 Jul 2022 11:37:46 +0100
 MIME-Version: 1.0
-References: <CAHrc+6k2hy20_3yrTGBsp9n3c2t0wkZymd1e+EiU_R_R3phD4g@mail.gmail.com>
- <CA+5PVA47kz3y=xCsnsQdj8XeJV+HaKPRVSOnan6BWSwfABQ_dw@mail.gmail.com> <CALYqZ9mo_naXWaR-+vKRCQNA_YN3d-znNVwwSqnLfoPiFz8G5g@mail.gmail.com>
-In-Reply-To: <CALYqZ9mo_naXWaR-+vKRCQNA_YN3d-znNVwwSqnLfoPiFz8G5g@mail.gmail.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Tue, 26 Jul 2022 06:56:10 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA6ZEPLk=1a5YKrWsw0FYSXV0hw62H7Pg-cPZomxcyUa2Q@mail.gmail.com>
-Message-ID: <CA+5PVA6ZEPLk=1a5YKrWsw0FYSXV0hw62H7Pg-cPZomxcyUa2Q@mail.gmail.com>
-Subject: Re: New pull request?
-To: Eric Debief <debief@digigram.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Content-Language: en-US
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: =?UTF-8?B?TG/Dr2MgQm9pc3N5?= <boissy@digigram.com>, 
-	Linux Firmware <linux-firmware@kernel.org>, Yoann Lubiato <lubiato@digigram.com>
-Content-Type: text/plain; charset="UTF-8"
+To: <linux-firmware@kernel.org>
+CC: <patches@opensource.cirrus.com>
+From: Vitaly Rodionov <vitaly.rodionov@cirrus.com>
+Subject: [PULL v2 linux-firmware] Add firmware for Cirrus CS35L41
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-GUID: d8NiohBa1GuorxWusobduQwXdfSBp3L6
+X-Proofpoint-ORIG-GUID: d8NiohBa1GuorxWusobduQwXdfSBp3L6
+X-Proofpoint-Spam-Reason: safe
 
-On Tue, Jul 26, 2022 at 2:57 AM Eric Debief <debief@digigram.com> wrote:
->
-> Hi Josh,
->
-> Thanks for your quick reply and your help.
-> We will follow your advice.
->
-> Could we come back to you if we have any questions ?
+Hi,
 
-Yes, of course.
+We are adding firmware files to support Cirrus Logic smart amplifier
+CS35L41
 
-josh
+Please, let me know if there are any problems.
 
-> Le lun. 25 juil. 2022 =C3=A0 20:23, Josh Boyer <jwboyer@kernel.org> a =C3=
-=A9crit :
->>
->> On Thu, Jul 21, 2022 at 4:23 AM Lo=C3=AFc Boissy <boissy@digigram.com> w=
-rote:
->> >
->> > Hello,
->> > I am Lo=C3=AFc BOISSY. I work for Digigram company in France.
->> > Digigram is an audio card manufacturer for professional customers.
->> >
->> > Our old cards used specific firmware files.
->> > These files were provided by the alsa-firmware package.
->> > But it seems that this package is now deprecated and replaced by linux=
--firmware package.
->> > Do you confirm that?
->>
->> Generally speaking, new firmware that is used by drivers in the Linux
->> kernel would be added to the linux-firmware project under a license
->> that permits redistribution.
->>
->> The alsa-firmware package still exists for some old cards and that
->> firmware hasn't been migrated to the linux-firmware repo.
->>
->> > If yes, How can we push our firmwares files? Just by sending them to y=
-ou?
->>
->> If they are net new firmware files, you can follow the README file for
->> the project to send new submissions:
->>
->> https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.=
-git/tree/README
->>
->> A pull request from a GitHub or Gitlab style git forge is also acceptabl=
-e.
->>
->> josh
+Thanks,
+
+Vitaly
+
+changes since version 1:
+
+Corrected LICENSE.cirrus
+
+
+The following changes since commit 150864a4d73e8c448eb1e2c68e65f07635fe1a66=
+:
+
+   amdgpu partially revert "amdgpu: update beige goby to release 22.20"
+(2022-07-25 14:16:04 -0400)
+
+are available in the Git repository at:
+
+   https://github.com/CirrusLogic/linux-firmware.git for-upstream
+
+for you to fetch changes up to ec6db1824cd5b95471ff469d3ed4593b02ac58bc:
+
+   linux-firmware: Add firmware for Cirrus CS35L41 (2022-07-28 11:26:03
++0100)
+
+----------------------------------------------------------------
+Vitaly Rodionov (1):
+       linux-firmware: Add firmware for Cirrus CS35L41
+
+  LICENSE.cirrus                    | 282
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
++++++++++++++++++++
+  WHENCE                            |=C2=A0 16 ++++++++++
+  cirrus/cs35l41-dsp1-spk-prot.bin  | Bin 0 -> 948 bytes
+  cirrus/cs35l41-dsp1-spk-prot.wmfw | Bin 0 -> 34056 bytes
+  4 files changed, 298 insertions(+)
+  create mode 100644 LICENSE.cirrus
+  create mode 100644 cirrus/cs35l41-dsp1-spk-prot.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-prot.wmfw
+
+
+
+This message and any attachments may contain privileged and confidential in=
+formation that is intended solely for the person(s) to whom it is addressed=
+. If you are not an intended recipient you must not: read; copy; distribute=
+; discuss; take any action in or make any reliance upon the contents of thi=
+s message; nor open or read any attachment. If you have received this messa=
+ge in error, please notify us as soon as possible on the following telephon=
+e number and destroy this message including any attachments. Thank you. Cir=
+rus Logic International (UK) Ltd and Cirrus Logic International Semiconduct=
+or Ltd are companies registered in Scotland, with registered numbers SC0898=
+39 and SC495735 respectively. Our registered office is at 7B Nightingale Wa=
+y, Quartermile, Edinburgh, EH3 9EG, UK. Tel: +44 (0)131 272 7000. cirrus.co=
+m
