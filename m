@@ -4,109 +4,135 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6224AC00140
-	for <linux-firmware@archiver.kernel.org>; Wed, 10 Aug 2022 11:57:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AACAAC00140
+	for <linux-firmware@archiver.kernel.org>; Wed, 10 Aug 2022 11:59:26 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 23102C433B5; Wed, 10 Aug 2022 11:57:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D98FC433C1
-	for <linux-firmware@kernel.org>; Wed, 10 Aug 2022 11:57:31 +0000 (UTC)
+	id 92B94C4347C; Wed, 10 Aug 2022 11:59:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D939C433D7
+	for <linux-firmware@kernel.org>; Wed, 10 Aug 2022 11:59:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1660132652;
-	bh=yQtGcMn7SMCIGh2DFd3kGpXYZ8o8iIDNpa78EFvVMj4=;
+	s=k20201202; t=1660132766;
+	bh=BS1BoX9+LNtkMDpoZKGQhyHyRd/R0fr+YjgW3IjF2Zs=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=qeO0ETi/EDRZtah3zU8crAyhwCH1kLfR6XqjQcC5haXSORKOljIfV4EfLVxa3IGSg
-	 3M1XwSwYlOPcwdm2wWhekluVyE9kzGecMkVw6qEtpXa3HdaPFfRuK3SfMJu88GnKM9
-	 g1BUK6hdYLUJbPBJ6NlDvNFV0nWSUlMvAoNefH9Z1eaPSzNS0kX5Vbj2MtaHpDCrHq
-	 jQrmkwlOR1ZbYBrPz5wsfS0slknX8xSDg25OsLLwmUEv6IiToHJ9l1Qk+F+7EtL0AN
-	 c/bFNbFnnevmDFKwKZW9HrqM1lVrbcm7A/3YE0ZTJbC91SlG7xWuHDAKMDk9N+CgLW
-	 9OWEurWEimFbg==
-Received: by mail-il1-f180.google.com with SMTP id j20so8131128ila.6
-        for <linux-firmware@kernel.org>; Wed, 10 Aug 2022 04:57:31 -0700 (PDT)
-X-Gm-Message-State: ACgBeo3tsasN12gfWymZJcKiMpLILqPiR5bm4lEzB608U80GEbN2xITf
-	HwwD3MU5QbCN4q6K7H5hxj01Q/QZi0cxBHlQLMU=
-X-Google-Smtp-Source: AA6agR5XnC7j30wEa7Vkeez3Wt//xcnW0gefuef5tGHAPYhySzFW9fE1dc6OZKmMbqYqd1HJnEGIYsfO47HIVEcjZbA=
-X-Received: by 2002:a05:6e02:1b86:b0:2df:f7e:b780 with SMTP id
- h6-20020a056e021b8600b002df0f7eb780mr12267805ili.218.1660132651106; Wed, 10
- Aug 2022 04:57:31 -0700 (PDT)
+	b=nvKUq93ZXr3RTt1TWoW5+8uz4/SoNCY94qkOdk63PXjTP+fsLadXEGCblwbTZi9yt
+	 byG2PJf6fkSbfcHB9x6sEAmtreQq7FSLRzM317s/BzcjxAlFP5i2i0mFdIr+O97f8v
+	 p3qTVTlGJ8QdA5rwne2v3qAAj9eMDrI3ojHp4FF16ZsSNotTsVL5WT8kTnB+pWDRoH
+	 tzz461eeVc6jSNLzX8LiF11XvNOtLOcoKoo2t7ua2UXF487Lj6HrpjMp+B+zTcPRGt
+	 eTk+lsethc5f3+aPU6bv4pGie4iYUDql8i8Z7fLyEPZUDB7/FZekPJtl3Wu4BpdHl6
+	 o1H3zG4E1jyPA==
+Received: by mail-io1-f52.google.com with SMTP id y82so5084993iof.7
+        for <linux-firmware@kernel.org>; Wed, 10 Aug 2022 04:59:26 -0700 (PDT)
+X-Gm-Message-State: ACgBeo1bLuTaxwdwntnBreCpBfdKyaq2wd0CVPA1Z1hzenyfvS6qXFyE
+	dpEIsNs7jti+MonLhxrUl5M+374Qg+TWHbp3ybs=
+X-Google-Smtp-Source: AA6agR6PrpyUSJk4ml1x3OWJJmtGDSJML8XSuIswHSuoed1afjC0AGtoegSPrt+R48stXu3ofp/XOU/x2yEJtZ1xqts=
+X-Received: by 2002:a05:6638:1612:b0:342:7bee:3422 with SMTP id
+ x18-20020a056638161200b003427bee3422mr13253927jas.144.1660132765624; Wed, 10
+ Aug 2022 04:59:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220809202950.297935-1-john.allen@amd.com>
-In-Reply-To: <20220809202950.297935-1-john.allen@amd.com>
+References: <BN0PR02MB7950BE2F9D2FBFF3B1C5E499F9629@BN0PR02MB7950.namprd02.prod.outlook.com>
+In-Reply-To: <BN0PR02MB7950BE2F9D2FBFF3B1C5E499F9629@BN0PR02MB7950.namprd02.prod.outlook.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Wed, 10 Aug 2022 07:57:20 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA4eMozwhKqTG07bRSf2XAuFkvVNGNu+HTjtRuQLJyHprw@mail.gmail.com>
-Message-ID: <CA+5PVA4eMozwhKqTG07bRSf2XAuFkvVNGNu+HTjtRuQLJyHprw@mail.gmail.com>
-Subject: Re: [PATCH] Add amd-ucode README file
-To: John Allen <john.allen@amd.com>
+Date: Wed, 10 Aug 2022 07:59:14 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA5fufLasAGheLv6GPf2qs-OWyLovgsyD1aZu66X+aV6bQ@mail.gmail.com>
+Message-ID: <CA+5PVA5fufLasAGheLv6GPf2qs-OWyLovgsyD1aZu66X+aV6bQ@mail.gmail.com>
+Subject: Re: qca: Update firmware files for BT chip WCN6750.
+To: "SURAJ ASHOK MAGAR (Temp) (QUIC)" <quic_smagar@quicinc.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, linux-kernel@vger.kernel.org
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
+	"linux-bluethooth@vger.kernel.org" <linux-bluethooth@vger.kernel.org>, "mka@chromium.org" <mka@chromium.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>, 
+	"Sai Teja Aluvala (Temp) (QUIC)" <quic_saluvala@quicinc.com>, 
+	Balakrishna Godavarthi <bgodavar@qti.qualcomm.com>, 
+	"Atul Dhudase (QUIC)" <quic_adhudase@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Aug 9, 2022 at 4:30 PM John Allen <john.allen@amd.com> wrote:
+On Tue, Aug 9, 2022 at 5:18 AM SURAJ ASHOK MAGAR (Temp) (QUIC)
+<quic_smagar@quicinc.com> wrote:
 >
-> Create new README file describing the microcode patch levels included in the
-> microcode container files in the amd-ucode directory.
+> Hello Team,
 >
-> Signed-off-by: John Allen <john.allen@amd.com>
-> ---
->  amd-ucode/README | 41 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 41 insertions(+)
->  create mode 100644 amd-ucode/README
+>
+>
+> Please include firmware bins for WCN6750.
+>
+>
+>
+> Changes includes updated firmware files with:
+>
+>      Add on Features support for QHS and QCM
+>
+>      Bug Fix for RSSI calculation
+>
+>      IOT bug fixes related to power level during streaming
+>
+>      Braktooth issue fix
+>
+>
+>
+> Snapshot of pull request is as below, let me know if anything is missing.
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+> The following changes since commit 150864a4d73e8c448eb1e2c68e65f07635fe1a66:
+>
+>
+>
+>   amdgpu partially revert "amdgpu: update beige goby to release 22.20" (2022-07-25 14:16:04 -0400)
+>
+>
+>
+> are available in the Git repository at:
+>
+>
+>
+>   https://github.com/suraj714/BT-Upstream.git main
 
-This wasn't added to WHENCE and it caused check_whence.py to fail.  I
-amended the patch to add an entry and pushed it out.
-
-https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/?id=89ec6198f13d1007563ff87aae5de209e993be07
+Pulled and pushed out.  Thanks.
 
 josh
 
 >
-> diff --git a/amd-ucode/README b/amd-ucode/README
-> new file mode 100644
-> index 0000000..f1ad2bb
-> --- /dev/null
-> +++ b/amd-ucode/README
-> @@ -0,0 +1,41 @@
-> +This repository includes microcode container files for family 15h, 16h,
-> +17h, and 19h AMD CPUs. Microcode patches for families earlier than 15h are
-> +included in the microcode_amd.bin microcode container file. The microcode
-> +patches included in an AMD CPU microcode container file can be listed using
-> +the script in the following git repository:
-> +https://github.com/AMDESE/amd_ucode_info
-> +
-> +The microcode patches included in the container files in this directory are
-> +listed below:
-> +
-> +Microcode patches in microcode_amd.bin:
-> +  Family=0x10 Model=0x02 Stepping=0x02: Patch=0x01000083 Length=960 bytes
-> +  Family=0x10 Model=0x02 Stepping=0x0a: Patch=0x01000084 Length=960 bytes
-> +  Family=0x10 Model=0x06 Stepping=0x02: Patch=0x010000c7 Length=960 bytes
-> +  Family=0x10 Model=0x05 Stepping=0x03: Patch=0x010000c8 Length=960 bytes
-> +  Family=0x10 Model=0x09 Stepping=0x01: Patch=0x010000d9 Length=960 bytes
-> +  Family=0x10 Model=0x08 Stepping=0x00: Patch=0x010000da Length=960 bytes
-> +  Family=0x10 Model=0x05 Stepping=0x02: Patch=0x010000db Length=960 bytes
-> +  Family=0x10 Model=0x0a Stepping=0x00: Patch=0x010000dc Length=960 bytes
-> +  Family=0x11 Model=0x03 Stepping=0x01: Patch=0x02000032 Length=512 bytes
-> +  Family=0x12 Model=0x01 Stepping=0x00: Patch=0x03000027 Length=960 bytes
-> +  Family=0x14 Model=0x01 Stepping=0x00: Patch=0x05000029 Length=1568 bytes
-> +  Family=0x14 Model=0x02 Stepping=0x00: Patch=0x05000119 Length=1568 bytes
-> +
-> +Microcode patches in microcode_amd_fam15h.bin:
-> +  Family=0x15 Model=0x01 Stepping=0x02: Patch=0x0600063e Length=2592 bytes
-> +  Family=0x15 Model=0x02 Stepping=0x00: Patch=0x06000852 Length=2592 bytes
-> +  Family=0x15 Model=0x10 Stepping=0x01: Patch=0x06001119 Length=2592 bytes
-> +
-> +Microcode patches in microcode_amd_fam16h.bin:
-> +  Family=0x16 Model=0x00 Stepping=0x01: Patch=0x0700010f Length=3458 bytes
-> +
-> +Microcode patches in microcode_amd_fam17h.bin:
-> +  Family=0x17 Model=0x08 Stepping=0x02: Patch=0x0800820d Length=3200 bytes
-> +  Family=0x17 Model=0x01 Stepping=0x02: Patch=0x0800126e Length=3200 bytes
-> +  Family=0x17 Model=0x31 Stepping=0x00: Patch=0x08301055 Length=3200 bytes
-> +
-> +Microcode patches in microcode_amd_fam19h.bin:
-> +  Family=0x19 Model=0x01 Stepping=0x00: Patch=0x0a001058 Length=5568 bytes
-> +  Family=0x19 Model=0x01 Stepping=0x01: Patch=0x0a001173 Length=5568 bytes
-> +  Family=0x19 Model=0x01 Stepping=0x02: Patch=0x0a001229 Length=5568 bytes
-> --
-> 2.25.1
+>
+>
+> for you to fetch changes up to 4f8f67efcdea8b875de75293f57825b32846739b:
+>
+>
+>
+>   qca: Update firmware files for BT chip WCN6750.      This commit will update required firmware files for WCN6750. (2022-08-09 14:31:29 +0530)
+>
+>
+>
+> ----------------------------------------------------------------
+>
+> Suraj Magar (1):
+>
+>       qca: Update firmware files for BT chip WCN6750.      This commit will update required firmware files for WCN6750.
+>
+>
+>
+> qca/msbtfw11.mbn | Bin 155568 -> 162224 bytes
+>
+> qca/msbtfw11.tlv | Bin 143356 -> 150012 bytes
+>
+> qca/msnv11.bin   | Bin 5827 -> 5827 bytes
+>
+> 3 files changed, 0 insertions(+), 0 deletions(-)
+>
+>
+>
+> Regards,
+>
+> Suraj Magar.
+>
 >
