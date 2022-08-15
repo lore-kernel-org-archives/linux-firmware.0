@@ -1,98 +1,104 @@
-Return-Path: <SRS0=YATI=YT=mediatek.com=tinghan.shen@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3627DC00140
-	for <linux-firmware@archiver.kernel.org>; Mon, 15 Aug 2022 09:13:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A2206C00140
+	for <linux-firmware@archiver.kernel.org>; Mon, 15 Aug 2022 12:55:28 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id F41B1C433B5; Mon, 15 Aug 2022 09:13:31 +0000 (UTC)
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id CB310C433C1
-	for <linux-firmware@kernel.org>; Mon, 15 Aug 2022 09:13:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org CB310C433C1
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 6014dc707ebd49aaaca115439d4d0447-20220815
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Transfer-Encoding:MIME-Version:Content-Type:Date:CC:To:From:Subject:Message-ID; bh=Mi+Gi9iTKDF5VQ28kqgllLcvUnQ8Tb329H1uS9EjtlE=;
-	b=ompUNrqlFCQ1HnnPRMJloeFlT0SfAQyDinwJCGlcK4tYGyc/+w1IdkDZwtNo6QkwPtrW0/21DApgukeljawR7iLVV9J68jUDRgo4TQDXK7dZTC75cw6hPD1SfAVQlRQ7k1KoFSlJv2nOo2sXNbTvZ4pxuRTIanMyIfdU0f1i1YQ=;
-X-CID-UNFAMILIAR: 1
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.9,REQID:b7a77f26-2589-480b-8a32-0a4f53900816,OB:0,LO
-	B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Releas
-	e_Ham,ACTION:release,TS:95
-X-CID-INFO: VERSION:1.1.9,REQID:b7a77f26-2589-480b-8a32-0a4f53900816,OB:0,LOB:
-	0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Spam_GS9
-	81B3D,ACTION:quarantine,TS:95
-X-CID-META: VersionHash:3d8acc9,CLOUDID:5895b19c-da39-4e3b-a854-56c7d2111b46,C
-	OID:8e3ceb7852c1,Recheck:0,SF:28|16|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 6014dc707ebd49aaaca115439d4d0447-20220815
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
-	(envelope-from <tinghan.shen@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-	with ESMTP id 1409255464; Mon, 15 Aug 2022 17:13:25 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Mon, 15 Aug 2022 17:13:23 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 15 Aug 2022 17:13:23 +0800
-Message-ID: <bee56d689e67b4bb4d46d14d07e93ab212a6bb6b.camel@mediatek.com>
-Subject: [PULL linux-firmware] mediatek mt8186 SOF firmware v0.2.0
-From: Tinghan Shen <tinghan.shen@mediatek.com>
-List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-CC: <linux-mediatek@lists.infradead.org>, <chunxu.li@mediatek.com>,
-	<allen-kh.cheng@mediatek.com>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>
-Date: Mon, 15 Aug 2022 17:13:23 +0800
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+	id 67A7FC433C1; Mon, 15 Aug 2022 12:55:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52244C433D6
+	for <linux-firmware@kernel.org>; Mon, 15 Aug 2022 12:55:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1660568128;
+	bh=my/7x34XgCbJZn338LHjCfW2he/bTb1lZIRjSMX+Fsc=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=ZUpYYnoDFKE+Q4B6TYa9iw62vKDxnPekkw1y5oVimJVoTKY8/CwCwrzwnLnAWvmkC
+	 A3iucJ7ehf1Fr8iIcoRfDpPvUMnY6st/taTT9+85s7infDT1TCAatiuL+hWFSRF6KY
+	 3n5B2W4SkL68Lwn7riNRoPVmHwgqPYeHOH8wtPgPr8cRr/1+0nbzDML94sOcsVy1Xk
+	 sOZlRpoulrI7GQ1KgxCJemRqq9Hn5FvTwPIOaW7jjSRx6VNG7+FW+/gezfH7AneOKi
+	 Ezwsouc6P/CGDBZmMF8mWq0zWiTdh44fFqSVvQ4nok9gc5ZxZ8JZRugl+gyaZQWPGO
+	 bNITsAz3IpjjA==
+Received: by mail-il1-f177.google.com with SMTP id x2so3742567ilp.10
+        for <linux-firmware@kernel.org>; Mon, 15 Aug 2022 05:55:28 -0700 (PDT)
+X-Gm-Message-State: ACgBeo1Un9ZbwX/CFPM8UJfoPewiXyGeOefD/D4i1YeZrB5Pq9LA8nhb
+	TfULcI7kmYf01d5SdTFEpdPAQlDtql+VcpBufSI=
+X-Google-Smtp-Source: AA6agR6LW7iaM7aemoLZ4Q84kSXqkA62HbOyodjtStC3W3pI1/dBJZk0UjGsLJbjs66WOY5Pwkb88vBntDYBuEBsPn8=
+X-Received: by 2002:a92:d70f:0:b0:2e1:5734:d586 with SMTP id
+ m15-20020a92d70f000000b002e15734d586mr7064261iln.251.1660568127432; Mon, 15
+ Aug 2022 05:55:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+References: <DM5PR02MB3686017F1E5D47CDE88F9BE2ED649@DM5PR02MB3686.namprd02.prod.outlook.com>
+ <DM5PR02MB3686865C387271B9EA8143D8ED689@DM5PR02MB3686.namprd02.prod.outlook.com>
+In-Reply-To: <DM5PR02MB3686865C387271B9EA8143D8ED689@DM5PR02MB3686.namprd02.prod.outlook.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Mon, 15 Aug 2022 08:55:16 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA4O+xVuGC1phdRjZvM_AekeCYatMZCnYBMASZs+BrbtqA@mail.gmail.com>
+Message-ID: <CA+5PVA4O+xVuGC1phdRjZvM_AekeCYatMZCnYBMASZs+BrbtqA@mail.gmail.com>
+Subject: Re: btqca firmware 20220811
+To: "Tim Jiang (QUIC)" <quic_tjiang@quicinc.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi maintainers,
+On Mon, Aug 15, 2022 at 4:04 AM Tim Jiang (QUIC)
+<quic_tjiang@quicinc.com> wrote:
+>
+> Linux-firmware maintainers:
+>
+>   Any update on this ? thank you.
 
-This pull request adds new MediatekTek firmware for MT8186 SOF.
+Pulled and pushed out.
 
-Please let me know if there are any problems.
+josh
 
-Best regards,
-TingHan
-
----
-
-The following changes since commit ad5ae82019480dc1feffb538c118397a40934e62:
-
-  Merge branch 'main' of https://github.com/suraj714/BT-Upstream (2022-08-10 07:58:34 -0400)
-
-are available in the Git repository at:
-
-  https://github.com/tinghan-shen/linux_fw_scp mt8186-sof-20220815
-
-for you to fetch changes up to 12ca0753342651fa2ab640deffde5e51b0dd9868:
-
-  mediatek: Add new mt8186 SOF firmware (2022-08-15 16:43:11 +0800)
-
-----------------------------------------------------------------
-Tinghan Shen (1):
-      mediatek: Add new mt8186 SOF firmware
-
- WHENCE                                              |  21 +++++++++++++++++++++
- mediatek/sof/sof-mt8186-mt6366-da7219-max98357.tplg | Bin 0 -> 16191 bytes
- mediatek/sof/sof-mt8186-mt6366-rt1019-rt5682s.tplg  | Bin 0 -> 16191 bytes
- mediatek/sof/sof-mt8186.ri                          | Bin 0 -> 128712 bytes
- 4 files changed, 21 insertions(+)
- create mode 100644 mediatek/sof/sof-mt8186-mt6366-da7219-max98357.tplg
- create mode 100644 mediatek/sof/sof-mt8186-mt6366-rt1019-rt5682s.tplg
- create mode 100644 mediatek/sof/sof-mt8186.ri
-
-
-
+>
+>
+>
+> Regards.
+>
+> Tim
+>
+>
+>
+>
+>
+> From: Tim Jiang
+> Sent: Thursday, August 11, 2022 9:26 PM
+> To: linux-firmware@kernel.org
+> Subject: btqca firmware 20220811
+>
+>
+>
+> Hi linux-firmware maintainers,
+>
+>
+>
+> Here's a pull request for btqca bluetooth driver. Please let me know if you have any problems.
+>
+>
+>
+> The following changes since commit
+>
+> ad5ae82019480dc1feffb538c118397a40934e62:
+>
+>
+>
+>    Merge branch 'main' of https://github.com/suraj714/BT-Upstream
+>
+>
+>
+> are available in the Git repository at:
+>
+>
+>
+>    https://github.com/tjiang123/qca-btfw1
+>
+>
+>
+> for you to fetch changes up to 1ee415b64dc6a057d1c8e82a8fa4236198e0d00e:
+>
+> ----------------------------------------------------------------
+>
+>         QCA: Update Bluetooth WCN685x 2.1 firmware to 2.1.0-00438
