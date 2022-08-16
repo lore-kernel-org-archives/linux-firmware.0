@@ -1,120 +1,110 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=Vzom=YU=mediatek.com=tinghan.shen@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 35040C00140
-	for <linux-firmware@archiver.kernel.org>; Mon, 15 Aug 2022 13:03:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C6B5C00140
+	for <linux-firmware@archiver.kernel.org>; Tue, 16 Aug 2022 01:43:28 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id E7B89C433B5; Mon, 15 Aug 2022 13:03:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDCC2C433D7
-	for <linux-firmware@kernel.org>; Mon, 15 Aug 2022 13:03:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1660568587;
-	bh=9RapcVpviEHeofxzbE1k9KkhvwnPl+8hZoJerVMaVj8=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=PWJgTaUmV8/ROWvWDkCwkKZBGeWDiip8/QsXRPTmkLvqm4L6ATS/seE2BvY/cTqve
-	 aiqRAypBnErwYHqAGrtsysxjYo+UAfjCCUNHAOIwY7bRLWIwH6xWTevkA8xGD4vJEz
-	 oq0nx5lTszBor8tLiQM/PZXM/ZhKCNXFHRdP5oPsFXWpH5/4wpi2TPGeOlhohn+2NX
-	 5ZmF+KFskroA4sSdZA3uzYo+1PYB1IIqhDCUeGUMmGiBNkwj/dU4ftStiK2Th5iupq
-	 qWp/gNqEVc3ej6fet3vdIjRicQ8qRRB/GQW8VpDS9GyMULgNCGks0q/99YmyT9Y9r7
-	 uBbAMyP2iacnw==
-Received: by mail-io1-f50.google.com with SMTP id i77so2262231ioa.7
-        for <linux-firmware@kernel.org>; Mon, 15 Aug 2022 06:03:07 -0700 (PDT)
-X-Gm-Message-State: ACgBeo1GjDKG6fDwdMttV5TooyERC/C+UDvfgmQczms46MVxKmqIHkhj
-	ocQAZh7I4vmU+kb7ElAGACtO54OF9VB1SNp1xYc=
-X-Google-Smtp-Source: AA6agR6HUrnFvlxW3L1qWRQyqIc0zenVb0EN/8WkdYN2JrrIAaXESEa05fc1oUJldfJ/QSw6DBshl/nV98HhDDEkxgA=
-X-Received: by 2002:a5d:9408:0:b0:688:189d:267f with SMTP id
- v8-20020a5d9408000000b00688189d267fmr2773484ion.55.1660568586894; Mon, 15 Aug
- 2022 06:03:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <9a79936b-70e2-f964-55ac-e2be8e9346ed@lenovo.com>
- <CA+5PVA6NCSn6ZsVELY0-mW9v82n6Xro2eVkMAcx=LppgMMC2UQ@mail.gmail.com> <c0fcdd91-ad52-0c69-4f6b-343cc8c8da56@lenovo.com>
-In-Reply-To: <c0fcdd91-ad52-0c69-4f6b-343cc8c8da56@lenovo.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 15 Aug 2022 09:02:56 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA4cJRfCLK_-irY7c0M1-_PR1AHxVCYqhX=FpDR8ewA6pQ@mail.gmail.com>
-Message-ID: <CA+5PVA4cJRfCLK_-irY7c0M1-_PR1AHxVCYqhX=FpDR8ewA6pQ@mail.gmail.com>
-Subject: Re: [External] Re: qcom: Add firmware for Lenovo ThinkPad X13s
-To: Mark Pearson <markpearson@lenovo.com>
+	id 11790C433D6; Tue, 16 Aug 2022 01:43:28 +0000 (UTC)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id A514EC433C1;
+	Tue, 16 Aug 2022 01:43:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A514EC433C1
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 5c61116fe9fe481b8bc7983289451683-20220816
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=eD5G5vRYVeJTazLCvxqkE8EG2fzJX8GMm55+IwwZtjk=;
+	b=WyF2llk3+edmEQ+6bmqY4N/UmVzyfb2qwg9ISMB6mGZt54sEcqQDU+vT4jiFBld0qvz8PnHaeqEZKrwzHkcvgElwSHar0yHK8CJNIb85A+qjZilpiS/PYuvEUBUWW9PFNVhxYn65H3VRvWvkxZb9QqbuPrWYrcRma3xNkJzk434=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.9,REQID:4d310654-5048-436b-a863-a22edd5e0497,OB:0,LO
+	B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_H
+	am,ACTION:release,TS:0
+X-CID-META: VersionHash:3d8acc9,CLOUDID:59f0c09c-da39-4e3b-a854-56c7d2111b46,C
+	OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
+	,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 5c61116fe9fe481b8bc7983289451683-20220816
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw02.mediatek.com
+	(envelope-from <tinghan.shen@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+	with ESMTP id 960259297; Tue, 16 Aug 2022 09:43:17 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Tue, 16 Aug 2022 09:43:16 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 16 Aug 2022 09:43:15 +0800
+Message-ID: <ca48295d59f23b68ef48b303e8d3e065ac95378e.camel@mediatek.com>
+Subject: Re: [PULL linux-firmware] mediatek mt8186 SOF firmware v0.2.0
+From: Tinghan Shen <tinghan.shen@mediatek.com>
+To: Josh Boyer <jwboyer@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, bjorn.andersson@linaro.org
+CC: <linux-firmware@kernel.org>, <linux-mediatek@lists.infradead.org>,
+	<chunxu.li@mediatek.com>, <allen-kh.cheng@mediatek.com>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>
+Date: Tue, 16 Aug 2022 09:43:16 +0800
+In-Reply-To: <CA+5PVA5_tj63z8izA_wigVtXzCUDSbuAhgtpVS6psSBdSXJ1dg@mail.gmail.com>
+References: <bee56d689e67b4bb4d46d14d07e93ab212a6bb6b.camel@mediatek.com>
+	 <CA+5PVA5_tj63z8izA_wigVtXzCUDSbuAhgtpVS6psSBdSXJ1dg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 
-On Thu, Aug 4, 2022 at 7:53 AM Mark Pearson <markpearson@lenovo.com> wrote:
->
-> Hi Josh,
->
-> On 8/4/22 07:50, Josh Boyer wrote:
-> > On Wed, Aug 3, 2022 at 4:37 PM Mark Pearson <markpearson@lenovo.com> wrote:
-> >>
-> >> The following changes since commit 150864a4d73e8c448eb1e2c68e65f07635fe1a66:
-> >>
-> >>   amdgpu partially revert "amdgpu: update beige goby to release 22.20"
-> >> (2022-07-25 14:16:04 -0400)
-> >>
-> >> are available in the Git repository at:
-> >>
-> >>   https://github.com/mrhpearson/linux-firmware lenovo-thinkpad-x13s
-> >>
-> >> for you to fetch changes up to 4ae4ae88918928e15006eb129ad981aa58216b59:
-> >>
-> >>   qcom: Add firmware for Lenovo ThinkPad X13s (2022-08-03 16:29:07 -0400)
-> >>
-> >> ----------------------------------------------------------------
-> >> Mark Pearson (1):
-> >>       qcom: Add firmware for Lenovo ThinkPad X13s
-> >>
-> >>  WHENCE                             |   8 ++++++++
-> >>  qcom/LENOVO/21BX/adspr.jsn         |  28 ++++++++++++++++++++++++++++
-> >>  qcom/LENOVO/21BX/adspua.jsn        |  29 +++++++++++++++++++++++++++++
-> >>  qcom/LENOVO/21BX/battmgr.jsn       |  22 ++++++++++++++++++++++
-> >>  qcom/LENOVO/21BX/cdspr.jsn         |  22 ++++++++++++++++++++++
-> >>  qcom/LENOVO/21BX/qcadsp8280.mbn    | Bin 0 -> 14367860 bytes
-> >>  qcom/LENOVO/21BX/qccdsp8280.mbn    | Bin 0 -> 3575808 bytes
-> >>  qcom/LENOVO/21BX/qcdxkmsuc8280.mbn | Bin 0 -> 14392 bytes
-> >>  qcom/LENOVO/21BX/qcslpi8280.mbn    | Bin 0 -> 6213632 bytes
-> >>  9 files changed, 109 insertions(+)
-> >>  create mode 100644 qcom/LENOVO/21BX/adspr.jsn
-> >>  create mode 100644 qcom/LENOVO/21BX/adspua.jsn
-> >>  create mode 100644 qcom/LENOVO/21BX/battmgr.jsn
-> >>  create mode 100644 qcom/LENOVO/21BX/cdspr.jsn
-> >>  create mode 100755 qcom/LENOVO/21BX/qcadsp8280.mbn
-> >>  create mode 100755 qcom/LENOVO/21BX/qccdsp8280.mbn
-> >>  create mode 100755 qcom/LENOVO/21BX/qcdxkmsuc8280.mbn
-> >>  create mode 100755 qcom/LENOVO/21BX/qcslpi8280.mbn
-> >> [banther@p1g4 linux-firmware]$ git log -1
-> >> commit 4ae4ae88918928e15006eb129ad981aa58216b59 (HEAD ->
-> >> lenovo-thinkpad-x13s)
-> >> Author: Mark Pearson <markpearson@lenovo.com>
-> >> Date:   Wed Aug 3 13:49:42 2022 -0400
-> >>
-> >>     qcom: Add firmware for Lenovo ThinkPad X13s
-> >>
-> >>     Add runtime loaded firmware for the audio, compute and sensor DSPs, as
-> >>     well as the zap shader for the GPU on the Lenovo ThinkPad X13s.
-> >>
-> >>     The files are placed under qcom/ as some distributions distribute
-> >>     linux-firmware as multiple packages and the qcom-specific package will
-> >>     be needed to provide some of the shared GPU files.
-> >>
-> >>     Signed-off-by: Mark Pearson <markpearson@lenovo.com>
-> >
-> > Just so I make sure I understand, is the firmware provided by Qualcomm
-> > itself, or did Lenovo author it?  As of right now, it looks like
-> > Lenovo releasing Qualcomm firmware under the existing LICENSE.qcom,
-> > which is slightly odd.  Normally we'd like to see a Signed-off-by or
-> > Reviewed-by statement from the owner of the firmware if a partner
-> > company is releasing it to ensure it was intended to be released.
-> >
-> > josh
-> The firmware is from Qualcomm but is done for Lenovo for the X13s.
->
-> My understanding is we (Lenovo) are the 'owner'. I have discussed
-> releasing this with Qualcomm and they are supporting us with this and
-> have approved me doing this release.
+On Mon, 2022-08-15 at 09:01 -0400, Josh Boyer wrote:
+> On Mon, Aug 15, 2022 at 5:13 AM Tinghan Shen <tinghan.shen@mediatek.com> wrote:
+> > 
+> > Hi maintainers,
+> > 
+> > This pull request adds new MediatekTek firmware for MT8186 SOF.
+> > 
+> > Please let me know if there are any problems.
+> > 
+> > Best regards,
+> > TingHan
+> > 
+> > ---
+> > 
+> > The following changes since commit ad5ae82019480dc1feffb538c118397a40934e62:
+> > 
+> >   Merge branch 'main' of 
+> > https://urldefense.com/v3/__https://github.com/suraj714/BT-Upstream__;!!CTRNKA9wMg0ARbw!1yTVOC7UDhMs-zna3kGo4Pq4k6mbowX_CHWQLh_iIdpK3fQ2bZEwZd0e2XNzAwQPNFc$
+> >   (2022-08-10 07:58:34 -0400)
+> > 
+> > are available in the Git repository at:
+> > 
+> >   
+> > https://urldefense.com/v3/__https://github.com/tinghan-shen/linux_fw_scp__;!!CTRNKA9wMg0ARbw!1yTVOC7UDhMs-zna3kGo4Pq4k6mbowX_CHWQLh_iIdpK3fQ2bZEwZd0e2XNzSAFZtnA$
+> >   mt8186-sof-20220815
+> > 
+> > for you to fetch changes up to 12ca0753342651fa2ab640deffde5e51b0dd9868:
+> > 
+> >   mediatek: Add new mt8186 SOF firmware (2022-08-15 16:43:11 +0800)
+> > 
+> > ----------------------------------------------------------------
+> > Tinghan Shen (1):
+> >       mediatek: Add new mt8186 SOF firmware
+> > 
+> >  WHENCE                                              |  21 +++++++++++++++++++++
+> 
+> Pulled and pushed out.
+> 
+> I noticed several of the Mediatek entries in WHENCE all put the
+> license information in the WHENCE file, but LICENCE.mediatek also
+> exists with the same terms.  Can we clean up WHENCE and just have all
+> the entries reference that file?
+> 
+> josh
 
-Pulled and pushed out.
+No problem. I hadn't noticed that file before.
+I'll send another pull request to clean it.
 
-josh
+Best regards,
+TingHan
+
