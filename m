@@ -1,100 +1,183 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=12fK=ZR=replies.scaleyourprofit.com=bounce+4f0e87.61586e-linux-firmware=kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69BB4C6FA82
-	for <linux-firmware@archiver.kernel.org>; Tue, 13 Sep 2022 12:03:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07AC2ECAAD3
+	for <linux-firmware@archiver.kernel.org>; Wed, 14 Sep 2022 06:30:23 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 26116C433B5; Tue, 13 Sep 2022 12:03:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1067CC433C1
-	for <linux-firmware@kernel.org>; Tue, 13 Sep 2022 12:03:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1663070608;
-	bh=qW0G24e6hNeWfW9LFMbUPWRMkqk5Jdwt3+QyWMLYJjY=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=RUCpTUgeaXiJZlhzLia5mRpYLH3UPrO27TklaC5MbWl/c0KkGiFZyJbrzxVD1v3DS
-	 1tjGJuJGekh/fK1HkF6u+A8Hwz/KL8NUBNoZRFYvs9xdzwjAilozmalcu1eMgobxq3
-	 t6QtTcbwo++XF1aQ9XwlOfXDnRINHT1E1cRU1IhFEgbVzUiuEiNFp8fqx13BHsYFAg
-	 z3DCVVzfnS319X1m8VEiX96i2ZArsbspKQWYykbHh33amY0VDmwOd+We9EAeNYNj4B
-	 YtkCfSO/q+2ajS+C4W+Gp9kOpJVDMlAj/sOLqTwJpogYtdY8Vp6tsv0ipmMS/lCGHB
-	 fyDuNEvzJD69A==
-Received: by mail-ot1-f52.google.com with SMTP id d25-20020a9d72d9000000b00655d70a1aeaso4826715otk.3
-        for <linux-firmware@kernel.org>; Tue, 13 Sep 2022 05:03:27 -0700 (PDT)
-X-Gm-Message-State: ACgBeo2w9OnmxbK4KhFJEOj2DD/iZd0qNZGdMhlhI9iOIBkobUDHdevI
-	IGZ58Q5cNE5PQU1eE/CI1oC00zFE4HKr9ZaJBJs=
-X-Google-Smtp-Source: AA6agR7tRwbOdHgs99qYS39hS9ng50oiUB97Nu20OJyw5DQdWzHOJBLDQpqec856WiMIoot8ukhG7WflGLtF6ZzjXzI=
-X-Received: by 2002:a05:6830:44ac:b0:63a:e6e0:e905 with SMTP id
- r44-20020a05683044ac00b0063ae6e0e905mr12826412otv.160.1663070607166; Tue, 13
- Sep 2022 05:03:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220912162852.16815-1-mario.limonciello@amd.com>
-In-Reply-To: <20220912162852.16815-1-mario.limonciello@amd.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Tue, 13 Sep 2022 08:03:16 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA7-k6ps7oeC++rJ+eH67XOoeGE9eYu54goZ-8EULzmupw@mail.gmail.com>
-Message-ID: <CA+5PVA7-k6ps7oeC++rJ+eH67XOoeGE9eYu54goZ-8EULzmupw@mail.gmail.com>
-Subject: Re: [PATCH 0/6] Updates for amdgpu
-To: Mario Limonciello <mario.limonciello@amd.com>
+	id AFD7AC433C1; Wed, 14 Sep 2022 06:30:23 +0000 (UTC)
+Received: from pc232-14.mailgun.net (pc232-14.mailgun.net [143.55.232.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id DD411C433D7
+	for <linux-firmware@kernel.org>; Wed, 14 Sep 2022 06:30:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org DD411C433D7
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=scaleyourprofit.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=replies.scaleyourprofit.com
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=replies.scaleyourprofit.com;
+ q=dns/txt; s=smtp; t=1663137020; x=1663223420; h=Message-Id: Reply-To:
+ To: To: From: From: Subject: Subject: Content-Type: Mime-Version: Date:
+ Sender: Sender; bh=vr++T4OAPTmxUotDrlGybQyv4UPd/467zDKVnHjhgek=; b=q0QXKUB4+SQLdxNdeu7R8zVs5F0TMHGT1ykHEdkvHmIPelJuQnqe9N9iJT0hBcwp8+l8VT7L
+ saayamSFgjG7OhIGPP9QVwicknCXFN9MuF3VnzQqT9IPpvLMC/bcSD/tNSvINgwkc1x2QQt6
+ 9SF+ylSX5t58Y5CCcZZFBRG4Z2s=
+X-Mailgun-Sending-Ip: 143.55.232.14
+X-Mailgun-Sid: WyIzOTI4NyIsImxpbnV4LWZpcm13YXJlQGtlcm5lbC5vcmciLCI2MTU4NmUiXQ==
+Received: from <unknown> (<unknown> []) by 9eded89de351 with HTTP id
+ 632174f92e38ece30d3218cb; Wed, 14 Sep 2022 06:30:17 GMT
+Sender: joey=scaleyourprofit.com@replies.scaleyourprofit.com
+Date: Wed, 14 Sep 2022 06:30:17 +0000
+Mime-Version: 1.0
+Content-Type: multipart/alternative; boundary="a9063ff382796a03c3980323224aff4527be8deb56a883aa279d31d138b5"
+Subject: Will your SaaS survive the recession? Here's the answers you need.
+From: Joey Xoto <joey@scaleyourprofit.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, 
-	Alexander Deucher <Alexander.Deucher@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+To: linux-firmware@kernel.org
+Reply-To: joey@replies.scaleyourprofit.com
+Feedback-Id: b39a5ea9-e849-4a54-a00e-b9010d9881ea:linux-firmware@kernel.org:workflow:nwYa4QutevHoVFsHR4ni
+X-Mailgun-Variables: {"c_id": "FjDfvXLjZeY0cgqTPic4", "email_type":
+ "workflow", "email_type_id": "b39a5ea9-e849-4a54-a00e-b9010d9881ea",
+ "loc_id": "nwYa4QutevHoVFsHR4ni"}
+Message-Id: <20220914063017.8d47c06bba75c36a@replies.scaleyourprofit.com>
 
-On Mon, Sep 12, 2022 at 12:28 PM Mario Limonciello
-<mario.limonciello@amd.com> wrote:
->
-> Hi,
->
-> In this series it introduces support for some new IP blocks that
-> are to be used in upcoming programs and with newer kernel versions
-> that support them.
->
-> Also a new Rembrandt (Yellow Carp) DMCUB firmware is included that
-> helps with some problems with USB4 DPIA.
->
-> Mario Limonciello (6):
->   amdgpu: add firmware for DCN 3.1.5 IP block
->   amdgpu: add firmware for GC 10.3.6 IP block
->   amdgpu: add firmware for PSP 13.0.5 IP block
->   amdgpu: add firmware for SDMA 5.2.6 IP block
->   amdgpu: add firmware for VCN 3.1.2 IP block
->   amdgpu: update yellow carp DMCUB firmware
+--a9063ff382796a03c3980323224aff4527be8deb56a883aa279d31d138b5
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-All 6 applied and pushed out.  Thanks.
+Hi Redkey!
 
-josh
 
->
->  WHENCE                       |  12 ++++++++++++
->  amdgpu/dcn_3_1_5_dmcub.bin   | Bin 0 -> 176912 bytes
->  amdgpu/gc_10_3_6_ce.bin      | Bin 0 -> 263296 bytes
->  amdgpu/gc_10_3_6_me.bin      | Bin 0 -> 263424 bytes
->  amdgpu/gc_10_3_6_mec.bin     | Bin 0 -> 268592 bytes
->  amdgpu/gc_10_3_6_mec2.bin    | Bin 0 -> 268592 bytes
->  amdgpu/gc_10_3_6_pfp.bin     | Bin 0 -> 263424 bytes
->  amdgpu/gc_10_3_6_rlc.bin     | Bin 0 -> 177088 bytes
->  amdgpu/psp_13_0_5_asd.bin    | Bin 0 -> 168448 bytes
->  amdgpu/psp_13_0_5_ta.bin     | Bin 0 -> 201728 bytes
->  amdgpu/psp_13_0_5_toc.bin    | Bin 0 -> 1792 bytes
->  amdgpu/sdma_5_2_6.bin        | Bin 0 -> 34048 bytes
->  amdgpu/vcn_3_1_2.bin         | Bin 0 -> 569808 bytes
->  amdgpu/yellow_carp_dmcub.bin | Bin 231696 -> 232720 bytes
->  14 files changed, 12 insertions(+)
->  create mode 100644 amdgpu/dcn_3_1_5_dmcub.bin
->  create mode 100644 amdgpu/gc_10_3_6_ce.bin
->  create mode 100644 amdgpu/gc_10_3_6_me.bin
->  create mode 100644 amdgpu/gc_10_3_6_mec.bin
->  create mode 100644 amdgpu/gc_10_3_6_mec2.bin
->  create mode 100644 amdgpu/gc_10_3_6_pfp.bin
->  create mode 100644 amdgpu/gc_10_3_6_rlc.bin
->  create mode 100644 amdgpu/psp_13_0_5_asd.bin
->  create mode 100644 amdgpu/psp_13_0_5_ta.bin
->  create mode 100644 amdgpu/psp_13_0_5_toc.bin
->  create mode 100644 amdgpu/sdma_5_2_6.bin
->  create mode 100644 amdgpu/vcn_3_1_2.bin
->
-> --
-> 2.25.1
->
+I=E2=80=99ve just shot a video that shows you why traditional SaaS sales te=
+chniques are dead.
+
+The oncoming recession means you must...
+
+ADAPT. OR DIE. [http://email.replies.scaleyourprofit.com/c/eJxNjzFvwyAUhH9N=
+2LAAAzYDQ6TKytChraqq6RI9w3NCgo2LnTj593W2SrecTqfvzh2Ct835pbt9v55_cM_c8ffzLTh=
+JYnLPbFj2IN-vM9526auZdh9yCAR7CPEwP0a0S8qXLqaFBCuYEMxwyXTJeFXUXlaO6baFSrlSw0=
+ayjGMMOBWTg4iPdM1jTl2YC5d6crK6Uwqc8pprjqAQpZDacCUroUylWhLtaZ7HTbndiGbVBDC1j=
+z7fn_3Vg4dxpilTH5BkG8NwvdMu5H6BjCv9gnnAWKR8_Hfg-bEtzYoDQ7GWhkpQkgJjSFvDOPOm=
+rtc5BC3XuuRlxQQj3mquao1_AP9lxg]
+
+If you=E2=80=99re using free trials and hitting dozens of product demos a d=
+ay...
+
+Stop now.
+
+I=E2=80=99m gonna show you how to drive crazy sales to your SaaS without ev=
+er having to do a product demo or give away free trials ever
+again
+
+Watch this video to see how (it won't cost you anything) [http://email.repl=
+ies.scaleyourprofit.com/c/eJxNjzFvwyAUhH9N2LAAAzYDQ6TKytChraqq6RI9w3NCgo2Ln=
+Tj593W2SrecTqfvzh2Ct835pbt9v55_cM_c8ffzLThJYnLPbFj2IN-vM9526auZdh9yCAR7CPEw=
+P0a0S8qXLqaFBCuYEMxwyXTJeFXUXlaO6baFSrlSw0ayjGMMOBWTg4iPdM1jTl2YC5d6crK6Uwq=
+c8pprjqAQpZDacCUroUylWhLtaZ7HTbndiGbVBDC1jz7fn_3Vg4dxpilTH5BkG8NwvdMu5H6BjC=
+v9gnnAWKR8_Hfg-bEtzYoDQ7GWhkpQkgJjSFvDOPOmrtc5BC3XuuRlxQQj3mquao1_AP9lxg]
+
+
+This is going to change the way you sell in your SaaS and transform your en=
+tire organization.
+
+Oh, and it=E2=80=99s free :)
+
+
+Enjoy!
+
+Joey
+
+
+ 1. These are the same strategies I=E2=80=99ve used in my own SaaS doing $7=
+m ARR.
+
+This is the real deal, you can see more *on this page here [http://email.re=
+plies.scaleyourprofit.com/c/eJxNjzFvwyAUhH9N2LAAAzYDQ6TKytChraqq6RI9w3NCgo2=
+LnTj593W2SrecTqfvzh2Ct835pbt9v55_cM_c8ffzLThJYnLPbFj2IN-vM9526auZdh9yCAR7CP=
+EwP0a0S8qXLqaFBCuYEMxwyXTJeFXUXlaO6baFSrlSw0ayjGMMOBWTg4iPdM1jTl2YC5d6crK6U=
+wqc8pprjqAQpZDacCUroUylWhLtaZ7HTbndiGbVBDC1jz7fn_3Vg4dxpilTH5BkG8NwvdMu5H6B=
+jCv9gnnAWKR8_Hfg-bEtzYoDQ7GWhkpQkgJjSFvDOPOmrtc5BC3XuuRlxQQj3mquao1_AP9lxg]=
+*
+
+
+
+
+
+
+
+We aim to provide excellent value, however if you'd prefer not to hear from=
+ us again click here
+[http://email.replies.scaleyourprofit.com/c/eJxNT0FqwzAQfE10s1nJsiwddCi0JpQ=
+e2hJK00uQ5XWiRLEc2Y6b31e-FXZgmdllZuzBtbo-P3f377fzD-7BHm-7d2c58cGuWr_sDf-YJ7=
+xvw1c9bj957whejfOH6TGgXkK8dD4sxGkGjIGiHEQBtMplyysLomlMVdpCmA2HiIN3OOajNR4fY=
+Y5DDJ2bchuu5KTBKmaEKIzgsrWsAWVKjqpAiqXtjCJen6ZpGDfF04bVabzrL-P6jNM4uwnXdaUT=
+dvLltl360_JKok5382_WuXhdTMSU44KxR5-HePxXZW3bFMkTjcpQcpXx5J8ZAMwaBRRaJSVFQ1D=
+TlJIWFTAgrRa0lAL_AJ9xac8] to unsubscribe
+--a9063ff382796a03c3980323224aff4527be8deb56a883aa279d31d138b5
+Content-Type: text/html; charset="ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<div style=3D"font-family: verdana, geneva; font-size: 11pt;"><html><head><=
+style>body{font-family: sans-serif;}</style></head><body><html><head><style=
+>body{font-family: sans-serif;}</style></head><body><p><span style=3D"font-=
+weight: 400;">Hi Redkey!</span></p>
+<br />
+<p><span style=3D"font-weight: 400;">I&rsquo;ve just shot a video that show=
+s you why traditional SaaS sales techniques are dead.</span></p>
+<p><span style=3D"font-weight: 400;">The oncoming recession means you must.=
+=2E.</span></p>
+<p><a href=3D"http://email.replies.scaleyourprofit.com/c/eJxNjzFvwyAUhH9N2L=
+AAAzYDQ6TKytChraqq6RI9w3NCgo2LnTj593W2SrecTqfvzh2Ct835pbt9v55_cM_c8ffzLThJY=
+nLPbFj2IN-vM9526auZdh9yCAR7CPEwP0a0S8qXLqaFBCuYEMxwyXTJeFXUXlaO6baFSrlSw0ay=
+jGMMOBWTg4iPdM1jTl2YC5d6crK6Uwqc8pprjqAQpZDacCUroUylWhLtaZ7HTbndiGbVBDC1jz7=
+fn_3Vg4dxpilTH5BkG8NwvdMu5H6BjCv9gnnAWKR8_Hfg-bEtzYoDQ7GWhkpQkgJjSFvDOPOmrt=
+c5BC3XuuRlxQQj3mquao1_AP9lxg"><span style=3D"font-weight: 400;">ADAPT. OR D=
+IE.</span></a></p>
+<p><span style=3D"font-weight: 400;">If you&rsquo;re using free trials and =
+hitting dozens of product demos a day...</span></p>
+<p><span style=3D"font-weight: 400;">Stop now.</span></p>
+<p><span style=3D"font-weight: 400;">I&rsquo;m gonna show you how to drive =
+crazy sales to your SaaS without ever having to do a product demo or give a=
+way free trials </span><span style=3D"font-weight: 400;">ever again</span><=
+/p>
+<p><a href=3D"http://email.replies.scaleyourprofit.com/c/eJxNjzFvwyAUhH9N2L=
+AAAzYDQ6TKytChraqq6RI9w3NCgo2LnTj593W2SrecTqfvzh2Ct835pbt9v55_cM_c8ffzLThJY=
+nLPbFj2IN-vM9526auZdh9yCAR7CPEwP0a0S8qXLqaFBCuYEMxwyXTJeFXUXlaO6baFSrlSw0ay=
+jGMMOBWTg4iPdM1jTl2YC5d6crK6Uwqc8pprjqAQpZDacCUroUylWhLtaZ7HTbndiGbVBDC1jz7=
+fn_3Vg4dxpilTH5BkG8NwvdMu5H6BjCv9gnnAWKR8_Hfg-bEtzYoDQ7GWhkpQkgJjSFvDOPOmrt=
+c5BC3XuuRlxQQj3mquao1_AP9lxg"><span style=3D"font-weight: 400;">Watch this =
+video to see how (it won't cost you anything)</span></a></p>
+<br />
+<p><span style=3D"font-weight: 400;">This is going to change the way you se=
+ll in your SaaS and transform your entire organization.</span></p>
+<p><span style=3D"font-weight: 400;">Oh, and it&rsquo;s free :)</span></p>
+<br />
+<p><span style=3D"font-weight: 400;">Enjoy!</span></p>
+<p><span style=3D"font-weight: 400;">Joey</span></p>
+<br />
+<ol>
+<li><span style=3D"font-weight: 400;"> These are the same strategies I&rsqu=
+o;ve used in my own SaaS doing $7m ARR.</span></li>
+</ol>
+<p><span style=3D"font-weight: 400;">This is the real deal, you can see mor=
+e *<a href=3D"http://email.replies.scaleyourprofit.com/c/eJxNjzFvwyAUhH9N2L=
+AAAzYDQ6TKytChraqq6RI9w3NCgo2LnTj593W2SrecTqfvzh2Ct835pbt9v55_cM_c8ffzLThJY=
+nLPbFj2IN-vM9526auZdh9yCAR7CPEwP0a0S8qXLqaFBCuYEMxwyXTJeFXUXlaO6baFSrlSw0ay=
+jGMMOBWTg4iPdM1jTl2YC5d6crK6Uwqc8pprjqAQpZDacCUroUylWhLtaZ7HTbndiGbVBDC1jz7=
+fn_3Vg4dxpilTH5BkG8NwvdMu5H6BjCv9gnnAWKR8_Hfg-bEtzYoDQ7GWhkpQkgJjSFvDOPOmrt=
+c5BC3XuuRlxQQj3mquao1_AP9lxg">on this page here</a>*<br /><br /><br /><br /=
+><br /><br /><br /><br />We aim to provide excellent value, however if you'=
+d prefer not to hear from us again click <a href=3D"http://email.replies.sc=
+aleyourprofit.com/c/eJxNT0FqwzAQfE10s1nJsiwddCi0JpQe2hJK00uQ5XWiRLEc2Y6b31e=
+-FXZgmdllZuzBtbo-P3f377fzD-7BHm-7d2c58cGuWr_sDf-YJ7xvw1c9bj957whejfOH6TGgXk=
+K8dD4sxGkGjIGiHEQBtMplyysLomlMVdpCmA2HiIN3OOajNR4fYY5DDJ2bchuu5KTBKmaEKIzgs=
+rWsAWVKjqpAiqXtjCJen6ZpGDfF04bVabzrL-P6jNM4uwnXdaUTdvLltl360_JKok5382_WuXhd=
+TMSU44KxR5-HePxXZW3bFMkTjcpQcpXx5J8ZAMwaBRRaJSVFQ1DTlJIWFTAgrRa0lAL_AJ9xac8=
+">here</a> to unsubscribe<br /></span></p><img width=3D"1px" height=3D"1px"=
+ alt=3D"" src=3D"http://email.replies.scaleyourprofit.com/o/eJxNzrFOwzAQgOG=
+nwVuic-Jc4sEbqjowAEKIslQX-1zcOnFwkoa-PXRj_qVfnz0GZ3bnR3_9eDp_8gHs6fvtOVglYr=
+L3Nm4HUi_rwtd9et_N-1c1BsEDhXhcbhObLeWLj2kTwVRQVaClAqxBtmXnVGsB-57axtZIDwoyT=
+zHwXM6WIt_SmqecfFhKmwbxZSyRUq7DtmfsfYVaAioELx1779GJbGIY15_ChzxslPnveOE8cixT=
+Pv1D3d19ralh0gV3SheKGlUQABe9BglOd51kEmwkYi3rFioQzqBsOuRft61YJA"></body></ht=
+ml></body></html></div>
+--a9063ff382796a03c3980323224aff4527be8deb56a883aa279d31d138b5--
