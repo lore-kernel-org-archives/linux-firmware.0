@@ -1,100 +1,222 @@
-Return-Path: <SRS0=oq2c=ZT=mediatek.com=tinghan.shen@kernel.org>
+Return-Path: <SRS0=EzvO=ZT=replies.scaleyourprofit.com=bounce+4f0e87.61586e-linux-firmware=kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4906C32771
-	for <linux-firmware@archiver.kernel.org>; Fri, 16 Sep 2022 03:22:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2F0D5C54EE9
+	for <linux-firmware@archiver.kernel.org>; Fri, 16 Sep 2022 06:31:04 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 8B624C433C1; Fri, 16 Sep 2022 03:22:31 +0000 (UTC)
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id EEA70C433C1; Fri, 16 Sep 2022 06:31:03 +0000 (UTC)
+Received: from pc232-11.mailgun.net (pc232-11.mailgun.net [143.55.232.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 1388AC433D6
-	for <linux-firmware@kernel.org>; Fri, 16 Sep 2022 03:22:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 1388AC433D6
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 62ea881d66f14da58282c7fad21b4f3f-20220916
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=lEXUBFRQRamXHA1KTyZBS3QBLnZ3z3zGas0T/X/92HY=;
-	b=lNu8Drg9XWK5m1VzjzMGnYsOzTBo9f1HEkWyqS1oIykJb83TtAzqmWQNpjBa4Pmxo+I5SipC+svVxcufcgGKMOhdKEvcWQfRrNPv4RMIXm/XsZC4Zv1Ks89Lz8VhLt58K5h5S7zkKll5uSgt/hIWxH6o+EgRB82AsTFJ0ug5Ctw=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11,REQID:64763d8e-cc53-4ebe-9053-ff76db591dd9,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:39a5ff1,CLOUDID:6487d27b-ea28-4199-b57e-003c7d60873a,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 62ea881d66f14da58282c7fad21b4f3f-20220916
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
-	(envelope-from <tinghan.shen@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-	with ESMTP id 1103245745; Fri, 16 Sep 2022 11:22:21 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
- Fri, 16 Sep 2022 11:22:20 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.15 via Frontend Transport; Fri, 16 Sep 2022 11:22:20 +0800
-From: Tinghan Shen <tinghan.shen@mediatek.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 3A7C8C43470
+	for <linux-firmware@kernel.org>; Fri, 16 Sep 2022 06:31:02 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; dmarc=permerror header.from=scaleyourprofit.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=replies.scaleyourprofit.com
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=replies.scaleyourprofit.com;
+ q=dns/txt; s=smtp; t=1663309861; x=1663396261; h=Message-Id: Reply-To:
+ To: To: From: From: Subject: Subject: Content-Type: Mime-Version: Date:
+ Sender: Sender; bh=M1KrJpz9P8HvRClWfz3XzWSwrKaFCroLB3u/SgB9v0E=; b=HGuR/bAus9YcrfmLYIxpj5oXVlqL5M0s+jx5t6GiBNOSU30nyJIJttLeuvr1wP87u/IH8fKt
+ wJ6ivKueMM9XEr+1JZXoBjNIb2Xx/1mDKNHemFKn4xeb6Ycx2y/ajUGWq0ZZELsONmeeFJKx
+ fTskpnlKNPJUiWGIxLQa0lgj6eI=
+X-Mailgun-Sending-Ip: 143.55.232.11
+X-Mailgun-Sid: WyIzOTI4NyIsImxpbnV4LWZpcm13YXJlQGtlcm5lbC5vcmciLCI2MTU4NmUiXQ==
+Received: from <unknown> (<unknown> []) by
+ api-n10.prod.us-east-1.postgun.com with HTTP id 6324182524419d072794fd27;
+ Fri, 16 Sep 2022 06:31:01 GMT
+Sender: joey=scaleyourprofit.com@replies.scaleyourprofit.com
+Date: Fri, 16 Sep 2022 06:31:01 +0000
+Mime-Version: 1.0
+Content-Type: multipart/alternative; boundary="d7a44c599d801129d2f536fcdd2f341260cb3dc87bed071a02f01da78ae2"
+Subject: Why most SaaS companies will NOT scale in 2023 (don't ignore this)
+From: Joey Xoto <joey@scaleyourprofit.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-CC: <linux-mediatek@lists.infradead.org>, <chunxu.li@mediatek.com>,
-	<allen-kh.cheng@mediatek.com>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	<angelogioacchino.delregno@collabora.com>, Tinghan Shen
-	<tinghan.shen@mediatek.com>
-Subject: [PULL linux-firmware] Update mediatek mt81xx SOF firmware
-Date: Fri, 16 Sep 2022 11:21:46 +0800
-Message-ID: <20220916032146.17774-1-tinghan.shen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+To: linux-firmware@kernel.org
+Feedback-Id: b39a5ea9-e849-4a54-a00e-b9010d9881ea:linux-firmware@kernel.org:workflow:nwYa4QutevHoVFsHR4ni
+Reply-To: joey@replies.scaleyourprofit.com
+X-Mailgun-Variables: {"c_id":"FjDfvXLjZeY0cgqTPic4", "email_type":"workflow",
+ "email_type_id":"b39a5ea9-e849-4a54-a00e-b9010d9881ea",
+ "loc_id":"nwYa4QutevHoVFsHR4ni"}
+Message-Id: <20220916063101.57ac8fecc715c2ac@replies.scaleyourprofit.com>
 
-Hi maintainers,
+--d7a44c599d801129d2f536fcdd2f341260cb3dc87bed071a02f01da78ae2
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-This pull request adds new MediatekTek MT8195 SOF firmware and 
-updates MT8186 SOF firmware.
+I've got a game changer for your SaaS today.
 
-Please let me know if there is any problem.
+If 2023 is the year to scale up your business, you need to watch this video=
+=2E
 
-Best regards,
-TingHan
+Don't waste your time on reading anymore
 
----
+Just go watch the video now [http://email.replies.scaleyourprofit.com/c/eJx=
+NTztPwzAY_DX15sjvxIOHSqjqwAAIIcpSufbn1K0TBydt6L8nkRiQbrqX7twxerO7PIX75_PlCw=
+7Etd_vL9EJlLJbtX4-WPF6m-C-zx-7cf8m-oigszEdp8cAZs7lGlKeUTSMMEY0VURxSmgla-uaA=
+M7VVDpm3UaQAkOKMFajswke-VaGkkOcKpc7dDbBO74ECJNeeGk5MCmEo6FmNfOs9iiZ8zQN44Zv=
+N2y3YK2JfZughd6Pa8sfCbh74NHaEVNUzOK5_eAQSzfbAsuMK5QeUpVL--_JevbEtZVgNYZGaCy=
+sFNgSAvikCSVeNw0Fi8BQpTgnulEUeaOobBT8AqqwahY]
 
-The following changes since commit f09bebf31b0590bdc875d7236aa705279510cfd0:
+Need more details?
 
-  amdgpu: update yellow carp DMCUB firmware (2022-09-13 08:02:23 -0400)
+Let me ask you something.
 
-are available in the Git repository at:
+Is your SaaS a truly 'hands off'=C2=A0business?
 
-  https://github.com/tinghan-shen/linux_fw_scp mtk-20220915
+We've all heard the saying...
 
-for you to fetch changes up to 78cff08a90dff21fe6f5f2f961d12604bd125e95:
+Work on your business, not in your business.
 
-  mediatek: Add new mt8195 SOF firmware (2022-09-16 10:42:01 +0800)
+The sad truth though is that almost 9 out of 10 founders are never truly fr=
+ee of their business...
 
-----------------------------------------------------------------
-Tinghan Shen (2):
-      mediatek: Update mt8186 SOF firmware
-      mediatek: Add new mt8195 SOF firmware
+Most SaaS companies fail to ever scale simple because they:
 
- WHENCE                                                                                      |  11 ++++++++---
- mediatek/{sof/sof-mt8186-mt6366-da7219-max98357.tplg => sof-tplg/sof-mt8186.tplg}           | Bin
- .../sof-mt8186-mt6366-rt1019-rt5682s.tplg => sof-tplg/sof-mt8195-mt6359-rt1019-rt5682.tplg} | Bin 16191 -> 16191 bytes
- mediatek/sof/sof-mt8186.ldc                                                                 | Bin 0 -> 48436 bytes
- mediatek/sof/sof-mt8186.ri                                                                  | Bin 128712 -> 128712 bytes
- mediatek/sof/sof-mt8195.ldc                                                                 | Bin 0 -> 40568 bytes
- mediatek/sof/sof-mt8195.ri                                                                  | Bin 0 -> 100740 bytes
- 7 files changed, 8 insertions(+), 3 deletions(-)
- rename mediatek/{sof/sof-mt8186-mt6366-da7219-max98357.tplg => sof-tplg/sof-mt8186.tplg} (100%)
- rename mediatek/{sof/sof-mt8186-mt6366-rt1019-rt5682s.tplg => sof-tplg/sof-mt8195-mt6359-rt1019-rt5682.tplg} (86%)
- create mode 100644 mediatek/sof/sof-mt8186.ldc
- create mode 100644 mediatek/sof/sof-mt8195.ldc
- create mode 100644 mediatek/sof/sof-mt8195.ri
+- Fail to hire the right people
+- Don't have the right processes in place=C2=A0
+- Don't have "ready-to-scale" systems
 
+On top of that, the SaaS market right now is tough.
+
+Investors aren't deploying capital.
+
+Good employees are harder to find and even harder to keep.
+
+The industry is more challenging than it ever has been.
+
+But fear not...
+
+Today, I=E2=80=99m going to show you the 3 keys to creating true scalabilit=
+y in your SaaS company that will allow you to:=C2=A0
+
+- Grow MRR on on auto-pilot =C2=A0
+- Navigate the looming financial crisis
+- Building an A-PLAYER team
+- Unstick yourself from your business
+- Go from founder to exec operator
+
+If you ready to scale your business beyond the 6 or 7 figure ARR mark.
+
+You need to watch this video [LINK]
+
+This video is free :)
+
+You have nothing to lose and everything
+to gain.
+
+Enjoy,
+Joey
+
+P.S. This is the content I wish somebody showed me when I first launched my=
+ SaaS company.
+
+It=E2=80=99s taken 7+ years and $35,000,000 in sales to learn these lessons=
+=2E
+
+Today you can get them from me for free.
+
+Go watch the video here [http://email.replies.scaleyourprofit.com/c/eJxNTzt=
+PwzAY_DX15sjvxIOHSqjqwAAIIcpSufbn1K0TBydt6L8nkRiQbrqX7twxerO7PIX75_PlCw7Etd=
+_vL9EJlLJbtX4-WPF6m-C-zx-7cf8m-oigszEdp8cAZs7lGlKeUTSMMEY0VURxSmgla-uaAM7VV=
+Dpm3UaQAkOKMFajswke-VaGkkOcKpc7dDbBO74ECJNeeGk5MCmEo6FmNfOs9iiZ8zQN44ZvN2y3=
+YK2JfZughd6Pa8sfCbh74NHaEVNUzOK5_eAQSzfbAsuMK5QeUpVL--_JevbEtZVgNYZGaCysFNg=
+SAvikCSVeNw0Fi8BQpTgnulEUeaOobBT8AqqwahY]=C2=A0
+
+
+
+
+
+
+
+We aim to provide excellent value, however if you'd prefer not to hear from=
+ us again click here
+[http://email.replies.scaleyourprofit.com/c/eJxNj81qwzAQhJ8mutnoz4p00KHQBlN=
+6aEsoTS9BlleJYsVyZDlu3r72rbALy-x8MGOPvtW7y7O7f79dfuCA7em2f_eWoxDt-uvng-EfU4=
+Z7Hb92Y_3Je4_ganw45scAeo6pcyHOyGuKKcWKCCwYwaSstsZKB9ZuSWWpsRuOEwzBw1iO1gR4x=
+CkNKTqfSxuv6KwX1FVYOCu4FbJlhhtBOWEUcCMYbVDQ55yHccOeNnS3TPB9N64w5HHyGdZzlZfd=
+y5dbPffn-RUlvfim38L5dJ1NgiVHB6mHUMZ0-ldlbdswZSowqgDJVcFNxQuDMRSNwgS3SkoCBoE=
+mQjCGlRQEtVqQSgr4A5BMaZ8] to unsubscribe
+--d7a44c599d801129d2f536fcdd2f341260cb3dc87bed071a02f01da78ae2
+Content-Type: text/html; charset="ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<div style=3D"font-family: verdana, geneva; font-size: 11pt;"><html><head><=
+style>body{font-family: sans-serif;}</style></head><body><html><head><style=
+>body{font-family: sans-serif;}</style></head><body><span style=3D"font-fam=
+ily: arial, helvetica, sans-serif;">I've got a game changer for your SaaS t=
+oday.<br /><br />If 2023 is the year to scale up your business, you need to=
+ watch this video.<br /><br />Don't waste your time on reading anymore<br /=
+><br /><a href=3D"http://email.replies.scaleyourprofit.com/c/eJxNTztPwzAY_D=
+X15sjvxIOHSqjqwAAIIcpSufbn1K0TBydt6L8nkRiQbrqX7twxerO7PIX75_PlCw7Etd_vL9EJl=
+LJbtX4-WPF6m-C-zx-7cf8m-oigszEdp8cAZs7lGlKeUTSMMEY0VURxSmgla-uaAM7VVDpm3UaQ=
+AkOKMFajswke-VaGkkOcKpc7dDbBO74ECJNeeGk5MCmEo6FmNfOs9iiZ8zQN44ZvN2y3YK2JfZu=
+ghd6Pa8sfCbh74NHaEVNUzOK5_eAQSzfbAsuMK5QeUpVL--_JevbEtZVgNYZGaCysFNgSAvikCS=
+VeNw0Fi8BQpTgnulEUeaOobBT8AqqwahY">Just go watch the video now</a><br /><br=
+ />Need more details?<br /><br />Let me ask you something.<br /><br />Is yo=
+ur SaaS a truly<em> 'hands off'&nbsp;</em>business?<br /><br />We've all he=
+ard the saying...<br /><br />Work on your business, not in your business.<b=
+r /><br />The sad truth though is that almost 9 out of 10 founders are neve=
+r truly free of their business...<br /><br />Most SaaS companies fail to ev=
+er scale simple because they:<br /><br />- Fail to hire the right people<br=
+ />- Don't have the right processes in place&nbsp;<br />- Don't have "ready=
+-to-scale" systems<br /><br />On top of that, the SaaS market right now is =
+tough.<br /><br />Investors aren't deploying capital.<br /><br />Good emplo=
+yees are harder to find and <em>even harder</em> to keep.<br /><br />The in=
+dustry is more challenging than it ever has been.<br /><br />But fear not..=
+=2E<br /><br />Today, </span><span style=
+=3D"font-family: arial, helvetica, sa=
+ns-serif;">I&rsquo;m going to show you the 3 keys to creating </span><span =
+style=3D"font-family: arial, helvetica, sans-serif;">true scalability in yo=
+ur SaaS company that will allow you to:&nbsp;<br /></span><br /><strong><sp=
+an style=3D"font-family: arial, helvetica, sans-serif;">- </span></strong><=
+span style=3D"font-family: arial, helvetica, sans-serif;">Grow </span><stro=
+ng><span style=3D"font-family: arial, helvetica, sans-serif;"><span style=
+=3D"text-decoration: underline;">MRR on on auto-pilot</span> &nbsp;</span><=
+/strong><br /><span style=3D"font-family: arial, helvetica, sans-serif;">- =
+Navigate the looming financial crisis</span><br /><span style=3D"font-famil=
+y: arial, helvetica, sans-serif;">- Building an A-PLAYER team</span><br /><=
+strong><span style=3D"font-family: arial, helvetica, sans-serif;">- Unstick=
+ yourself from your business</span></strong><br /><span style=3D"font-famil=
+y: arial, helvetica, sans-serif;"><strong>- </strong>Go from <strong>founde=
+r to <span style=3D"text-decoration: underline;">exec operator</span></stro=
+ng><br /><br /></span><span style=3D"font-family: arial, helvetica, sans-se=
+rif;">If you ready to scale your business beyond the 6 or 7 figure ARR </sp=
+an><span style=3D"font-family: arial, helvetica, sans-serif;">mark.<br /><b=
+r /></span><span style=3D"font-family: arial, helvetica, sans-serif;">You n=
+eed to watch this video [LINK]<br /><br /></span><span style=3D"font-family=
+: arial, helvetica, sans-serif;">This video is free :)<br /><br />You have =
+nothing to lose and everything</span><br /><span style=3D"font-family: aria=
+l, helvetica, sans-serif;">to gain.</span><br /><br /><span style=3D"font-f=
+amily: arial, helvetica, sans-serif;">Enjoy,<br /></span><span style=3D"fon=
+t-family: arial, helvetica, sans-serif;">Joey<br /><br /></span><span style=
+=3D"font-family: arial, helvetica, sans-serif;">P.S. This is the content I =
+wish somebody showed me w</span><span style=3D"font-family: arial, helvetic=
+a, sans-serif;">hen I first launched my SaaS company.<br /><br /></span><sp=
+an style=3D"font-family: arial, helvetica, sans-serif;">It&rsquo;s taken 7+=
+ years and $35,000,000 in sales to learn these </span><span style=3D"font-f=
+amily: arial, helvetica, sans-serif;">lessons.<br /><br /></span><span styl=
+e=3D"font-family: arial, helvetica, sans-serif;">Today you can get them fro=
+m me for free.<br /><br /></span><span style=3D"font-family: arial, helveti=
+ca, sans-serif;"><a href=3D"http://email.replies.scaleyourprofit.com/c/eJxN=
+TztPwzAY_DX15sjvxIOHSqjqwAAIIcpSufbn1K0TBydt6L8nkRiQbrqX7twxerO7PIX75_PlCw7=
+Etd_vL9EJlLJbtX4-WPF6m-C-zx-7cf8m-oigszEdp8cAZs7lGlKeUTSMMEY0VURxSmgla-uaAM=
+7VVDpm3UaQAkOKMFajswke-VaGkkOcKpc7dDbBO74ECJNeeGk5MCmEo6FmNfOs9iiZ8zQN44ZvN=
+2y3YK2JfZughd6Pa8sfCbh74NHaEVNUzOK5_eAQSzfbAsuMK5QeUpVL--_JevbEtZVgNYZGaCys=
+FNgSAvikCSVeNw0Fi8BQpTgnulEUeaOobBT8AqqwahY">Go watch the video here</a>&nb=
+sp;<br /><br /><br /><br /><br /><br /><br /><br />We aim to provide excell=
+ent value, however if you'd prefer not to hear from us again click <a href=
+=3D"http://email.replies.scaleyourprofit.com/c/eJxNj81qwzAQhJ8mutnoz4p00KHQ=
+BlN6aEsoTS9BlleJYsVyZDlu3r72rbALy-x8MGOPvtW7y7O7f79dfuCA7em2f_eWoxDt-uvng-E=
+fU4Z7Hb92Y_3Je4_ganw45scAeo6pcyHOyGuKKcWKCCwYwaSstsZKB9ZuSWWpsRuOEwzBw1iO1g=
+R4xCkNKTqfSxuv6KwX1FVYOCu4FbJlhhtBOWEUcCMYbVDQ55yHccOeNnS3TPB9N64w5HHyGdZzl=
+Zfdy5dbPffn-RUlvfim38L5dJ1NgiVHB6mHUMZ0-ldlbdswZSowqgDJVcFNxQuDMRSNwgS3SkoC=
+BoEmQjCGlRQEtVqQSgr4A5BMaZ8">here</a> to unsubscribe<br /></span><img width=
+=3D"1px" height=3D"1px" alt=3D"" src=3D"http://email.replies.scaleyourprofi=
+t.com/o/eJxNjrFuwyAUAL-mbLbew4BhYIuiDB3aqqqaLhHBj5QEGxfbcfP3TbbOpzudP8TObs-=
+bcP18Pn_RHvzp5_0lesFS9g82rHsnXpeZrrv8sZ12b2KIjHoX02G-jWTXXC4h5ZVFy4FzMKhANQ=
+hYy9Z5Hcj7FqXnzj8JKDSmSFM9eZfolpcylhziXPvcs2_bckNBoBFSY6fubhM8dVwL2SIYUqzYF=
+Ifltwqx9KsrdC9eqAyU6lxO_6Ye38fGOEnOVKSFqYSTonIAVB0NIHRGayTHyKJSTQNGK2SdVSi1=
+oj-S91ey"></body></html></body></html></div>
+--d7a44c599d801129d2f536fcdd2f341260cb3dc87bed071a02f01da78ae2--
