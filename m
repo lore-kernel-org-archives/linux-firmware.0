@@ -1,224 +1,154 @@
-Return-Path: <SRS0=wm40=ZY=replies.scaleyourprofit.com=bounce+4f0e87.61586e-linux-firmware=kernel.org@kernel.org>
+Return-Path: <SRS0=0j1l=ZY=canonical.com=juerg.haefliger@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39C62ECAAD8
-	for <linux-firmware@archiver.kernel.org>; Wed, 21 Sep 2022 06:33:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A5D1ECAAD8
+	for <linux-firmware@archiver.kernel.org>; Wed, 21 Sep 2022 08:44:48 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 020B3C433C1; Wed, 21 Sep 2022 06:33:55 +0000 (UTC)
-Received: from pc232-11.mailgun.net (pc232-11.mailgun.net [143.55.232.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	id 58987C433B5; Wed, 21 Sep 2022 08:44:48 +0000 (UTC)
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 93849C433D6
-	for <linux-firmware@kernel.org>; Wed, 21 Sep 2022 06:33:53 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; dmarc=permerror header.from=scaleyourprofit.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=replies.scaleyourprofit.com
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=replies.scaleyourprofit.com;
- q=dns/txt; s=smtp; t=1663742032; x=1663828432; h=Message-Id: Reply-To:
- To: To: From: From: Subject: Subject: Content-Type: Mime-Version: Date:
- Sender: Sender; bh=gy1g8z9BrulzF2/1djwu12RkHlULVzX0KnIiAKTDOgg=; b=Miq0BstAvJWWYnuiw78hHhyh3A8ofvJNjgqaZLdcmC0aBAcHOclJu0Qx+jbGtDnsC6uvwHur
- 3R4J5YPFl8J4Vlyl+zTme0UbsBfoA48YByQvkLROD2h3yKBnXUgxDF9S25ofVdm59YA/imMF
- kB/QpBZsnv4IaaQqI19Z7RJLPTc=
-X-Mailgun-Sending-Ip: 143.55.232.11
-X-Mailgun-Sid: WyIzOTI4NyIsImxpbnV4LWZpcm13YXJlQGtlcm5lbC5vcmciLCI2MTU4NmUiXQ==
-Received: from <unknown> (<unknown> []) by
- api-n13.prod.us-east-1.postgun.com with HTTP id 632aafb986e4377685757952;
- Wed, 21 Sep 2022 06:31:21 GMT
-Sender: joey=scaleyourprofit.com@replies.scaleyourprofit.com
-Date: Wed, 21 Sep 2022 06:31:21 +0000
-Mime-Version: 1.0
-Content-Type: multipart/alternative; boundary="d294326b9fe48f1e13baedc67d4f70ef7cfef0be22cb8e657510a269f727"
-Subject: How I bootstrapped my SaaS to $35M (and made it recession-proof)
-From: Joey Xoto <joey@scaleyourprofit.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id F0283C433C1
+	for <linux-firmware@kernel.org>; Wed, 21 Sep 2022 08:44:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org F0283C433C1
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=canonical.com
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com [209.85.218.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 55B1F3F138
+	for <linux-firmware@kernel.org>; Wed, 21 Sep 2022 08:44:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1663749878;
+	bh=DqH0K51UyTYbMdPeDdb50Ry7JZRrT9mZT8SvU172pnE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=Qk2ks4B2Qz+f4q2OYBpupBke2gYlu6lJiAzkbkjPMSOEEuCJlfegA2s5zyVK6SRrT
+	 cSHamZoPS01sI0wO1cCG8n+IIRkDQXuy1uUNCakKi9b2I+Dp0d050TUWDJi7fGBTjD
+	 6OvvT2ueRRFM+RTf+WCVcuLzyAdqB9DguMx+np8R+lGCNwMFNZAnyl+5R/zeUTO5AZ
+	 ZL/Ai+GMRVEOFh1Fn/755OepLNP4Px2m8JjyLH1ijvrg8YoeanbXLGrMnBs87ihmhA
+	 5Ztj29Qfhww2HlK1SEBr6bZhNCY8Uymdq0qEVV964Yh1geJuUdu8jEX+r27teu2xpY
+	 aUnXfqv6bTywA==
+Received: by mail-ej1-f72.google.com with SMTP id xc12-20020a170907074c00b007416699ea14so2734621ejb.19
+        for <linux-firmware@kernel.org>; Wed, 21 Sep 2022 01:44:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:organization:references:in-reply-to:message-id:subject
+         :cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=DqH0K51UyTYbMdPeDdb50Ry7JZRrT9mZT8SvU172pnE=;
+        b=sAA2RDKwh04P3BIqK5DJQ0gTepui6EHrB/QVyK3EFMoP5GT2mU39GbGhd06FRrwt8T
+         UCwy79BtGHw0eqaMn72zxMg9GFYU1Mleq3OdG68DwtuAlUmHbI/M/QWyEcl0viljpXw6
+         NdPbXi7yv9afbBsErDTJCnCotu5BVV8WqYHFixnPokSmJ29oVleYh4l5WqCChNiv0U0M
+         sgINw/WRxpsyXG0Y/epvwmqGemZT6BQNFuVL/RfhpCFS+Izx2N/pjhnMYfwN5v/NaniB
+         S73mJXAncdlGTzI52y01JODoluniw4OlS3SFRFG7x6D7hOhNScb2V+6mW0M5yV8exMpM
+         0VZQ==
+X-Gm-Message-State: ACrzQf0OSE1+E1kVk3eEQULn2Ky8cEFJkO74RuFsA3X/gOmNOTNcc8H7
+	l8h/SKoMc5cG1Rtu58WkJAtV4/Y9XVhLV8FMilPx6zQwG5FgTyrXaq8cpbgaFR2qyFel0YpBTgp
+	mfG6vdsV/KeJGP/Ubcbhmx+v6nu4oY+P1dWcYxQ==
+X-Received: by 2002:a05:6402:440d:b0:450:de54:3fcf with SMTP id y13-20020a056402440d00b00450de543fcfmr23466755eda.312.1663749878095;
+        Wed, 21 Sep 2022 01:44:38 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5FW8Ihpne98QK7GKfHf3O43P8AlLC1ErQ10ZILYuYb6+RHESHYxpgqfolFFnhgsAZzdZkxNw==
+X-Received: by 2002:a05:6402:440d:b0:450:de54:3fcf with SMTP id y13-20020a056402440d00b00450de543fcfmr23466739eda.312.1663749877878;
+        Wed, 21 Sep 2022 01:44:37 -0700 (PDT)
+Received: from smeagol ([194.191.244.86])
+        by smtp.gmail.com with ESMTPSA id b10-20020aa7df8a000000b0044e01e2533asm1429972edy.43.2022.09.21.01.44.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Sep 2022 01:44:37 -0700 (PDT)
+Date: Wed, 21 Sep 2022 10:44:34 +0200
+From: Juerg Haefliger <juerg.haefliger@canonical.com>
+To: Josh Boyer <jwboyer@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Feedback-Id: 07159b66-1214-4eac-b163-48a50418745f:linux-firmware@kernel.org:workflow:nwYa4QutevHoVFsHR4ni
-Reply-To: joey@replies.scaleyourprofit.com
-X-Mailgun-Variables: {"c_id":"FjDfvXLjZeY0cgqTPic4", "email_type":"workflow",
- "email_type_id":"07159b66-1214-4eac-b163-48a50418745f",
- "loc_id":"nwYa4QutevHoVFsHR4ni"}
-Message-Id: <20220921063121.ef42df0541517180@replies.scaleyourprofit.com>
+Cc: Linux Firmware <linux-firmware@kernel.org>, Peter Robinson
+ <pbrobinson@fedoraproject.org>, Takashi Iwai <tiwai@suse.com>,
+ contact@laurentcarlier.com, mpagano@gentoo.org, "Limonciello, Mario"
+ <Mario.Limonciello@amd.com>, Jared Dominguez <jaredz@redhat.com>, Alex
+ Deucher <alexdeucher@gmail.com>, Benjamin Tissoires
+ <benjamin.tissoires@redhat.com>, "Linux-Kernel@Vger. Kernel. Org"
+ <linux-kernel@vger.kernel.org>
+Subject: Re: linux-firmware signed commits; does anyone care?
+Message-ID: <20220921104434.2529c45d@smeagol>
+In-Reply-To: <CA+5PVA5ymJ-ghhhCfEBPxBynucF3gD+nHVNwcZkC5bsVotatDQ@mail.gmail.com>
+References: <CA+5PVA5ymJ-ghhhCfEBPxBynucF3gD+nHVNwcZkC5bsVotatDQ@mail.gmail.com>
+Organization: Canonical Ltd
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="Sig_/SMLZX+r.Pk4dPIyz4DXcpay";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
 
---d294326b9fe48f1e13baedc67d4f70ef7cfef0be22cb8e657510a269f727
-Content-Type: text/plain; charset="utf-8"
+--Sig_/SMLZX+r.Pk4dPIyz4DXcpay
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Hey Redkey,
+I don't care much about GPG signed commits so dropping them is fine by me.
 
-Are you a SaaS business owner?
-
-Are you worred abou the oncoming=C2=A0
-financial crisis whilst trying to scale?
-
-If yes, I want to show you how I
-bootstrapped my SaaS to 8-figures
-with lean team (and no sales people).
+...Juerg
 
 
-Go watch this video [http://email.replies.scaleyourprofit.com/c/eJxNT8tugzA=
-Q_Jr4BvJjbcjBh0QVzaFS26iqml4ibNaJEwdTA6H5-8Kt0u5qNDMrzdijb3R1eXL3r5fLNx6oPf=
-18vHkLJES7aO10qOF9HPC-i59Vv9tD6wneah-Ow6NDPcV0dSFOxGtOOadrzqgSjLMcHfDGUQlMs=
-oKVdAU0YRc89nlv64CPOKYuReeH3MYbOWvZOAHGNUIaaZQFDsyUaKlwFsx8SNDnYej6ldiseDVP=
-8O21X55x6Ec_4AIXet79-nW7c9XzhiQ928bfzPl0m-qEc4wrphZDHtPpX5OlLC2YXBulsjk_ZIC=
-1zQxTIoOylhRYWYB0BDVTShTAqeCk0YrJUuEfmCxnyA] to see how I did it.
+> Some time ago, we went back to doing ~monthly releases for
+> linux-firmware primarily to help distributions package firmware in a
+> simpler manner.  We GPG sign the tarballs, as is good practice, but as
+> part of reintroducing the tarballs we also started having a
+> linux-firmware maintainer GPG sign *every* commit done by a
+> maintainer.  The intention there was that because we're dealing with
+> binary blobs we really have no recourse to see changes unlike a source
+> code repo.  The signed commits at least provides a measure for
+> interested people to ensure the repo itself is only being committed to
+> by a recognized maintainer and it isn't compromised (in theory).  The
+> downside is that pull requests are merged non-ff and we wind up
+> signing the merge commit.
+>=20
+> The question at hand though, is does anyone care about the GPG signed
+> commits?  It's not clear to me this practice is even noticed nor if it
+> is bringing any value to this project.  Since we've started this
+> practice, I am literally the only one committing to the repo and while
+> it isn't hard to do I want to know if it's actually useful to anyone.
+>=20
+> I ask for two separate reasons.  The first is that a group of
+> interested firmware submitters is looking at modernizing the workflow
+> for the linux-firmware project and moving to a merge request workflow
+> instead of submitting giant binary blob patches via email.  This would
+> allow us to put some CI in place for simple checks to the WHENCE file,
+> etc.  Doing this while still having GPG signed commits isn't
+> impossible but it certainly complicates things a bit, and would likely
+> require a trusted bot to sign commits.  That has implications on
+> secret storage and changes the dynamic on trust levels that make the
+> whole thing even more questionable.
+>=20
+> The second reason is that even if people are validating the GPG signed
+> commits, it's not exactly user friendly.  I've been looking at
+> sigstore and recor and that might be a better solution in the long run
+> if we do want to utilize something like the current scheme.
+>=20
+> I'll still GPG sign the tarballs, but I'd like to propose dropping our
+> current self-imposed requirement that all commits are GPG signed.
+> Thoughts?
+>=20
+> josh
 
 
-In the video, I walk you through how I've
-done $35M in sales + $7M annual
-recurring in my SaaS business
+--Sig_/SMLZX+r.Pk4dPIyz4DXcpay
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-=2E.. and I did it:
+-----BEGIN PGP SIGNATURE-----
 
-- Without any outside investment=C2=A0
-- Without having a sales team=C2=A0
-- Without doing any product demos
+iQIzBAEBCgAdFiEEhZfU96IuprviLdeLD9OLCQumQrcFAmMqzvIACgkQD9OLCQum
+QreUbw//Qs3WlJnIyQRd4qkIDZUZH+d+Qn9dDXPXCWKP4n60mm2oqZQaSBCLombt
+Lba5wqFF6Zva9lmo22Tg4ojBkt8KgmYSW0SRgJLOJV6iHBI/x+WiWG6aklSvAGIv
+Q8F/H6HbkXCHak1wiNb8f5XsBMsYE8BwqUELY65emfSBJhS2aZ1I2buHX7w5j011
+gWXZI2gbMmUyF616WqMcpbNxdo+CRb1Y4n9EgZBnU3fNyY/dTeQaH6FNAooCEWRa
+KGw49nX2uIZoYRh7NBuU106GT4RGXQiQ8zgCpB+8WpA3Qw9Yxtpu3unL0KMbdZMa
+9XKwEWIV7d/jSRUWrDRGXtn+YSv8uXwOf9PfxtZNiw7aqiI7iG7j2gIpaWWjkV75
+osRzI/jWLKrxDRh1ucz5AM9vSM4GSzKM/Fpi+PyjD0RtTsCcIkKi9cCem/vjMqjs
+AqZBI+l4lkuy3D1Kf3z0G64ILeoHz3t1ww1tPoWJhMjvya07Oni+vJeKnIENCKf0
+hoMtFeQ/ePm9lkq1/bsFVrydEqWS0aQJg+9zO8cBswVgwJTyot2BM596Vloxp0i1
+qD8aoVaBweI72IDUmTUkzF5Y5NW4aYcNpe29nRL4qKXhghwUvexpE8G1M+IXsswn
+IT+xcsk7Pk0cQwEvxVQiFsIhljukuPsXB307iylfMkEFBpfgQ7c=
+=vITi
+-----END PGP SIGNATURE-----
 
-And to add to that...
-
-We've built up a userbase of 251,228
-paying customers,=C2=A0without using
-any free trial offers.
-
-Sounds too good to be true, right?
-
-Well I'm going to show you exactly how I did it...
-
-
-[http://email.replies.scaleyourprofit.com/c/eJxNUU2P0zAQ_TXJzZE9dvxxyAF2Vfa=
-A0LJCiOWy8sc4devGIUlbyq_HBQ5IM3OY9_T0Zp5_S2HYHR7j5dvHw3d8pX788eU5edHm4u_YdH=
-214vN5w8tT-bpbn17ElFo82ZTfttuMw7Usx5jLtU0DUABqgFHJGbAOo4AQaS9YzxTTtBF0wTknX=
-LvV24y3cl7mpcS0db6c2v1gTETmlac--ODQRRN01KqPHCVzzLR52G_bvDb8XQO7WjEt6OyK61YW=
-O2I3ljJmtHNa74qVcKF1uNr7NO4zXjATZ_0Rp9DZeV7nsv0jltr1YLulMjXQw-746Tm8_HIPftx=
-_uB2cegB--wN4e5ptGv-yGEQFVgdiDAgirODEgKZEK2sxcCnBsIbvbN4a_njCkGwDsgo0_P1Wqo=
-26FZqFoHokLApHhKSKGNUDEVRoD4BeYWyXIafp_JPUg09Xu2B95RGXCXNXlvG_NO6BUcV646QkN=
-YPqCa0njklOhLY9FUwr0ccWByYlVwIohzYMkvVa4m8zBKPE]
-
-
-
-Go here [http://email.replies.scaleyourprofit.com/c/eJxNT8tugzAQ_Jr4BvJjbcj=
-Bh0QVzaFS26iqml4ibNaJEwdTA6H5-8Kt0u5qNDMrzdijb3R1eXL3r5fLNx6oPf18vHkLJES7aO=
-10qOF9HPC-i59Vv9tD6wneah-Ow6NDPcV0dSFOxGtOOadrzqgSjLMcHfDGUQlMsoKVdAU0YRc89=
-nlv64CPOKYuReeH3MYbOWvZOAHGNUIaaZQFDsyUaKlwFsx8SNDnYej6ldiseDVP8O21X55x6Ec_=
-4AIXet79-nW7c9XzhiQ928bfzPl0m-qEc4wrphZDHtPpX5OlLC2YXBulsjk_ZIC1zQxTIoOylhR=
-YWYB0BDVTShTAqeCk0YrJUuEfmCxnyA] to watch the video right now.
-
-
-Enjoy!
-
-Joey Xoto (Mr X)
-
-
-
-P.S. The video isn't too long and there's
-a VERY nice surprise right around
-the 1-minute mark.
-
-My results aren't typical and I'm not
-implying you can duplicate them.
-
-I'm just showing you what's worked for me.
-
-
-
-Go watch the video right here [http://email.replies.scaleyourprofit.com/c/e=
-JxNT8tugzAQ_Jr4BvJjbcjBh0QVzaFS26iqml4ibNaJEwdTA6H5-8Kt0u5qNDMrzdijb3R1eXL3=
-r5fLNx6oPf18vHkLJES7aO10qOF9HPC-i59Vv9tD6wneah-Ow6NDPcV0dSFOxGtOOadrzqgSjLM=
-cHfDGUQlMsoKVdAU0YRc89nlv64CPOKYuReeH3MYbOWvZOAHGNUIaaZQFDsyUaKlwFsx8SNDnYe=
-j6ldiseDVP8O21X55x6Ec_4AIXet79-nW7c9XzhiQ928bfzPl0m-qEc4wrphZDHtPpX5OlLC2YX=
-Bulsjk_ZIC1zQxTIoOylhRYWYB0BDVTShTAqeCk0YrJUuEfmCxnyA]
-
-
-
-
-
-
-
-
-We aim to provide excellent value, however if you'd prefer not to hear from=
- us again click here
-[http://email.replies.scaleyourprofit.com/c/eJxNj0trwzAQhH9NdLPRY_XIwYdCCDn=
-00JZS6l6KIq8SJYrlynLc_Pvat8IOLDO7MJ_7Dl2zv-z8_fP58oUtdaef95fggMTk1qyfWwuvU8=
-H7IX3sx8Mb9IHgzYb4XR4DNnPKVx_TTELDKed0yxlVgnFWowfeeSqBSaaZoRugGYcYcKxHZyM-0=
-pSHnHwotUs3cm6YclvpPHOowAhjNXQanTdWoNZHK0hszqUM40Y8bfh-mRj667g-YxmnUHBdV3vR=
-Trayb-mjnUhulrvpt_Ih32abcelxxdxjrFM-_UNZaalmcntUqloAoAK0rjoyJSowVlJgRoP0BJe=
-mSmjgVHDSNYpJo_AP9zJoLw] to unsubscribe
-
---d294326b9fe48f1e13baedc67d4f70ef7cfef0be22cb8e657510a269f727
-Content-Type: text/html; charset="ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<div style=3D"font-family: verdana, geneva; font-size: 11pt;"><html><head><=
-style>body{font-family: sans-serif;}</style></head><body><html><head><style=
->body{font-family: sans-serif;}</style></head><body><p><span style=3D"font-=
-family: arial, helvetica, sans-serif;"><span style=3D"font-weight: 400;">He=
-y Redkey,<br /><br />Are you a SaaS business owner?<br /><br />Are you worr=
-ed abou the oncoming&nbsp;<br />financial crisis whilst trying to scale?<br=
- /><br />If yes, I want to show you how I <br />bootstrapped my SaaS to 8-f=
-igures <br />with lean team (and no sales people).<br /></span><span style=
-=3D"font-weight: 400;"><br /><br /></span><span style=3D"font-weight: 400;"=
->Go </span><a href=3D"http://email.replies.scaleyourprofit.com/c/eJxNT8tugz=
-AQ_Jr4BvJjbcjBh0QVzaFS26iqml4ibNaJEwdTA6H5-8Kt0u5qNDMrzdijb3R1eXL3r5fLNx6oP=
-f18vHkLJES7aO10qOF9HPC-i59Vv9tD6wneah-Ow6NDPcV0dSFOxGtOOadrzqgSjLMcHfDGUQlM=
-soKVdAU0YRc89nlv64CPOKYuReeH3MYbOWvZOAHGNUIaaZQFDsyUaKlwFsx8SNDnYej6ldiseDV=
-P8O21X55x6Ec_4AIXet79-nW7c9XzhiQ928bfzPl0m-qEc4wrphZDHtPpX5OlLC2YXBulsjk_ZI=
-C1zQxTIoOylhRYWYB0BDVTShTAqeCk0YrJUuEfmCxnyA">watch this video</a> to see h=
-ow I did it.<span style=3D"font-weight: 400;"><br /><br /><br />In the vide=
-o, I walk you through how I've <br />done $35M in sales + $7M annual <br />=
-recurring in my SaaS business <br /><br />... and I did it:<br /><br /><str=
-ong>- Without any outside investment&nbsp;</strong><br /><strong>- Without =
-having a sales team&nbsp;</strong><br /><strong>- Without doing <span style=
-=3D"text-decoration: underline;">any</span> product demos</strong><br /><br=
- /></span>And to add to that...<br /><br />We've built up a userbase of 251=
-,228 <br /><span style=3D"text-decoration: underline;"><strong>paying </str=
-ong></span>customers,&nbsp;<strong>without </strong>using <br />any free tr=
-ial offers.<br /><br />Sounds too good to be true, right?<br /><br /></span=
->Well I'm going to show you exactly how I did it...<br /><br /><br /><span =
-style=3D"font-family: arial, helvetica, sans-serif;"><img src=3D"https://fi=
-rebasestorage.googleapis.com/v0/b/highlevel-backend.appspot.com/o/location%=
-2FkNPdRzbCcghGyjb7C23y%2Fcampaign%2F12f72a8d-9924-4a43-9280-87aaed366291?al=
-t=3Dmedia&amp;token=3D481dd75e-1f4b-4607-9752-4048c22ec7ef" width=3D"300" /=
-><strong><br /></strong></span></p>
-<p><span style=3D"font-family: arial, helvetica, sans-serif;"><span style=
-=3D"font-weight: 400;"><br />Go </span><a href=3D"http://email.replies.scal=
-eyourprofit.com/c/eJxNT8tugzAQ_Jr4BvJjbcjBh0QVzaFS26iqml4ibNaJEwdTA6H5-8Kt0=
-u5qNDMrzdijb3R1eXL3r5fLNx6oPf18vHkLJES7aO10qOF9HPC-i59Vv9tD6wneah-Ow6NDPcV0=
-dSFOxGtOOadrzqgSjLMcHfDGUQlMsoKVdAU0YRc89nlv64CPOKYuReeH3MYbOWvZOAHGNUIaaZQ=
-FDsyUaKlwFsx8SNDnYej6ldiseDVP8O21X55x6Ec_4AIXet79-nW7c9XzhiQ928bfzPl0m-qEc4=
-wrphZDHtPpX5OlLC2YXBulsjk_ZIC1zQxTIoOylhRYWYB0BDVTShTAqeCk0YrJUuEfmCxnyA"><=
-span style=3D"font-weight: 400;">here</span></a> to watch the video right n=
-ow.<br /><br /><br /></span><span style=3D"font-weight: 400; font-family: a=
-rial, helvetica, sans-serif;">Enjoy!<br /><br /></span><span style=3D"font-=
-family: arial, helvetica, sans-serif;"><strong>Joey Xoto (Mr X)<br /><br />=
-<br /><br /></strong></span><span style=3D"font-weight: 400; font-family: a=
-rial, helvetica, sans-serif;">P.S. The video isn't too long and there's <br=
- />a <span style=3D"text-decoration: underline;">VERY</span> nice surprise =
-right around <br />the 1-minute mark.<br /><br /></span><span style=3D"font=
--weight: 400; font-family: arial, helvetica, sans-serif;">My results aren't=
- typical and I'm not <br />implying you can duplicate them.<br /><br /></sp=
-an><span style=3D"font-weight: 400; font-family: arial, helvetica, sans-ser=
-if;">I'm just showing you what's worked for me.<br /><br /></span></p>
-<p><span style=3D"font-family: arial, helvetica, sans-serif;"><a href=3D"ht=
-tp://email.replies.scaleyourprofit.com/c/eJxNT8tugzAQ_Jr4BvJjbcjBh0QVzaFS26=
-iqml4ibNaJEwdTA6H5-8Kt0u5qNDMrzdijb3R1eXL3r5fLNx6oPf18vHkLJES7aO10qOF9HPC-i=
-59Vv9tD6wneah-Ow6NDPcV0dSFOxGtOOadrzqgSjLMcHfDGUQlMsoKVdAU0YRc89nlv64CPOKYu=
-ReeH3MYbOWvZOAHGNUIaaZQFDsyUaKlwFsx8SNDnYej6ldiseDVP8O21X55x6Ec_4AIXet79-nW=
-7c9XzhiQ928bfzPl0m-qEc4wrphZDHtPpX5OlLC2YXBulsjk_ZIC1zQxTIoOylhRYWYB0BDVTSh=
-TAqeCk0YrJUuEfmCxnyA">Go watch the video right here</a></span></p>
-<p><span style=3D"font-family: arial, helvetica, sans-serif;"><strong><br /=
-><br /><br /></strong><br /><br /><br /><br />We aim to provide excellent v=
-alue, however if you'd prefer not to hear from us again click <a href=3D"ht=
-tp://email.replies.scaleyourprofit.com/c/eJxNj0trwzAQhH9NdLPRY_XIwYdCCDn00J=
-ZS6l6KIq8SJYrlynLc_Pvat8IOLDO7MJ_7Dl2zv-z8_fP58oUtdaef95fggMTk1qyfWwuvU8H7I=
-X3sx8Mb9IHgzYb4XR4DNnPKVx_TTELDKed0yxlVgnFWowfeeSqBSaaZoRugGYcYcKxHZyM-0pSH=
-nHwotUs3cm6YclvpPHOowAhjNXQanTdWoNZHK0hszqUM40Y8bfh-mRj667g-YxmnUHBdV3vRTra=
-yb-mjnUhulrvpt_Ih32abcelxxdxjrFM-_UNZaalmcntUqloAoAK0rjoyJSowVlJgRoP0BJemSm=
-jgVHDSNYpJo_AP9zJoLw">here</a> to unsubscribe<strong><br /><br /></strong><=
-/span></p><img width=3D"1px" height=3D"1px" alt=3D"" src=3D"http://email.re=
-plies.scaleyourprofit.com/o/eJxNzrFugzAUQNGvqTeQbR7PMHiLogwd2qqqmi6RbZ5TJwZ=
-TA6H5-5Kt85WujjuFTu8vO3_7fL580ZG788_7S3DAYnKPNqxHA6_LTLdD-thPhzcYAqPehHia7y=
-PpNeWrj2llQUsuJW-l4FgJKUryIDvPaxC1UKLhT8AzjTHQVE7ORLqnJY85-TCXLvXsWyuLClSnq=
-tai9d6Y1tvWGovQkkG0LOsYhuW38CH3q8m0Ha-UB4plyud_qIebK1FvHyw2ChRAxhVWYFVAY2oO=
-olFQe0ZaIFYKJK8k6zSKukH6A0C2VtY"></body></html></body></html></div>
---d294326b9fe48f1e13baedc67d4f70ef7cfef0be22cb8e657510a269f727--
+--Sig_/SMLZX+r.Pk4dPIyz4DXcpay--
