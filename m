@@ -1,171 +1,222 @@
-Return-Path: <SRS0=N2Kp=ZY=redhat.com=btissoir@kernel.org>
+Return-Path: <SRS0=io7e=ZZ=tradeshowvisitors.com=diana.christopher@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 553BCC32771
-	for <linux-firmware@archiver.kernel.org>; Wed, 21 Sep 2022 10:17:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 059F6C6FA82
+	for <linux-firmware@archiver.kernel.org>; Thu, 22 Sep 2022 14:19:06 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 0EED0C433D7; Wed, 21 Sep 2022 10:17:20 +0000 (UTC)
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id BEE82C433D7; Thu, 22 Sep 2022 14:19:06 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 44EF2C433D6
-	for <linux-firmware@kernel.org>; Wed, 21 Sep 2022 10:17:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 44EF2C433D6
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1663755437;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tXJHoz876JXyWdIzmz4FeK1YaPw2FwSEN3I5pptho3c=;
-	b=EKjXB1gu2N1EJQsc0nJYGs488iwnT7UeLBYH/R47A7YK5zUPD3MM6CD0YgaWGj0J5Fk2/A
-	M0D7DTtn5pPJ2R3i6b8tKfpmW0E0EyVUtcW/Kpecl9qBLeveryQFPLlsZ4VV7UJN1GmBFE
-	G7gdwq7wm6XSHEkUZpX3v9A0HaDTccE=
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-654-zDxAP9YoNISnYTahqKtTOQ-1; Wed, 21 Sep 2022 06:17:16 -0400
-X-MC-Unique: zDxAP9YoNISnYTahqKtTOQ-1
-Received: by mail-il1-f197.google.com with SMTP id m5-20020a056e021c2500b002f65685226eso1894892ilh.4
-        for <linux-firmware@kernel.org>; Wed, 21 Sep 2022 03:17:16 -0700 (PDT)
+	by smtp.kernel.org (Postfix) with ESMTPS id C542EC433C1
+	for <linux-firmware@kernel.org>; Thu, 22 Sep 2022 14:19:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C542EC433C1
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=tradeshowvisitors.com
+Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=tradeshowvisitors.com
+Received: by mail-lf1-f48.google.com with SMTP id o2so14915582lfc.10
+        for <linux-firmware@kernel.org>; Thu, 22 Sep 2022 07:19:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tradeshowvisitors-com.20210112.gappssmtp.com; s=20210112;
+        h=content-language:thread-index:importance:mime-version:message-id
+         :date:subject:in-reply-to:references:to:from:from:to:cc:subject:date;
+        bh=j7PKTqmQuVIrhAqMdTHYsshoZG6yyS2AXMAoEY1AGyM=;
+        b=N5ExlDv9qqPcZ58b+2fbbMVcCQtpiSmX+X1KQDclsif3mEfQtB4GknuAezNf76SsLD
+         riCCOQeq7RMXcIn1amYteecZNo49THGYEdNj800oeFNAdCzzWpH3Y3j/DN4J80vOMkMj
+         aDKOLsRCFsahOTXUKjAZNl93dKlPZah2X59IR44n9QUdIYPN5aC2SPCOOMqvEtPRNOqY
+         +6enmC876AiGk+Mgn/JsdI5PFOLYi8j30fjsVYB8b02DbPEgbcEWXJLt0giECtxx31Ql
+         2w1F3cjpvGYbkCuWjEAGoA45oroyp7/XV0hiLjwpmcuSi7RcePdMMqPlO/nGhfVwWeqK
+         ThQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=tXJHoz876JXyWdIzmz4FeK1YaPw2FwSEN3I5pptho3c=;
-        b=HpcMCFbLor4zsoos2AAnvxWwQkeeWh6eHh5wP2U1veXSMCEF0CC/S2O3Z19pVNiT7G
-         iV9uWetVIOWFphwoddTjRXqoYlKdGc4MYms4vcLX8eCkISydNbRbJALYHL5M4LPZ8N7e
-         fR4T2qhvTbkPWm2oLwDBwbH9cO42Higvc+PD4yD62Bnuw18kYHk8PGQz1D7Po//tSFgc
-         32Mvq6clce1lmXl7VCfjLd8ucsQVwKFS4XuaTyBxeGZXHDOSvEw8LODAgc9uHZ8XXa8Z
-         8mC87E9l+Z4tmEhWEc35BXPHxMhyWHlnuKIXyixp25iGxI5r/flo4k0aVMnGA8eZC24K
-         a7sA==
-X-Gm-Message-State: ACrzQf0MvyWQu8qe2LtSRN+Z4KHd5qVKrWgM/dQvHAoit31s839W07Xg
-	I3ibHxkJchbca+z85CkWWpSqVKsvkcwq682yizJImGAxTJxSJIcR5bPBgb3ysb9Mgz9nYgtfMCv
-	l8LhbpOt1a1vjQ5/y/oajWwSP3dBW5264GX58
-X-Received: by 2002:a05:6638:25d3:b0:35a:41e1:bb6a with SMTP id u19-20020a05663825d300b0035a41e1bb6amr13596408jat.36.1663755435561;
-        Wed, 21 Sep 2022 03:17:15 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM688ewOCyJLZ/txeb59b05RRH+aUBqA1+qGDipJrnApOiSoUL2NrJFNlfnTCiqiiwvpKfPTErDMDcjRgo3gi9I=
-X-Received: by 2002:a05:6638:25d3:b0:35a:41e1:bb6a with SMTP id
- u19-20020a05663825d300b0035a41e1bb6amr13596395jat.36.1663755435297; Wed, 21
- Sep 2022 03:17:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <CA+5PVA5ymJ-ghhhCfEBPxBynucF3gD+nHVNwcZkC5bsVotatDQ@mail.gmail.com>
-In-Reply-To: <CA+5PVA5ymJ-ghhhCfEBPxBynucF3gD+nHVNwcZkC5bsVotatDQ@mail.gmail.com>
-From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date: Wed, 21 Sep 2022 12:17:04 +0200
-Message-ID: <CAO-hwJJY+sRiHX9KWqTAuR7Q8=3J8vu=FneusRago87uQYSxfw@mail.gmail.com>
-Subject: Re: linux-firmware signed commits; does anyone care?
-To: Josh Boyer <jwboyer@kernel.org>
+        h=content-language:thread-index:importance:mime-version:message-id
+         :date:subject:in-reply-to:references:to:from:x-gm-message-state:from
+         :to:cc:subject:date;
+        bh=j7PKTqmQuVIrhAqMdTHYsshoZG6yyS2AXMAoEY1AGyM=;
+        b=xoi1wF1UHIzb22wlP78Ecax1pewgHMQPxhcpH6YimkfaXk/Un74JRv99bEgxQ+nxgJ
+         Wm9dQoemoGhH35zSUsaVVeNxgs8VFnDl1wrz3tCnNYwdfYxLmCsdusTBnxLgwoy3zotR
+         jbNp2r608YgifDJdQrdl+gpWMC5xbQ2F0iN4pyNu+SpV43/81vMryXUbFcWPaw/J8/Ho
+         n7nZqo2T8f3hO+EvD3369n91eqgLLZOpFurSzFfjupol6GijzmRgcy/9yhN/4YxbNFPI
+         YJgQcntB4TGc9qnvoXctK34r6cs+nWWtfe0S1H1w04x7n8NYN2enWmAP6+qWesksywNg
+         rxCg==
+X-Gm-Message-State: ACrzQf0B35rlxI/uUSUZgaXnPkOSD6gF0jfw7qdLjunm4X1D3OsouMD1
+	xzT5c+3N/PJ804RCCMMNnfjVq+MldDeeww==
+X-Google-Smtp-Source: AMsMyM5ODZUxtd+q2/yphiHkqy70tw5AqOrdPajA4syweDjM4t/+5KeeH+pWFMhh2TemxxPpxm2I0Q==
+X-Received: by 2002:a05:6512:2308:b0:497:a290:cef6 with SMTP id o8-20020a056512230800b00497a290cef6mr1396301lfu.488.1663856343338;
+        Thu, 22 Sep 2022 07:19:03 -0700 (PDT)
+Received: from UserPC ([49.207.204.37])
+        by smtp.gmail.com with ESMTPSA id p7-20020a056512138700b0049482adb3basm961960lfa.63.2022.09.22.07.19.01
+        for <linux-firmware@kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 22 Sep 2022 07:19:02 -0700 (PDT)
+From: "Diana Christopher" <diana.christopher@tradeshowvisitors.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, 
-	Juerg Haefliger <juerg.haefliger@canonical.com>, 
-	Peter Robinson <pbrobinson@fedoraproject.org>, Takashi Iwai <tiwai@suse.com>, 
-	contact@laurentcarlier.com, mpagano@gentoo.org, 
-	"Limonciello, Mario" <Mario.Limonciello@amd.com>, Jared Dominguez <jaredz@redhat.com>, 
-	Alex Deucher <alexdeucher@gmail.com>, 
-	"Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+To: <linux-firmware@kernel.org>
+References: 
+In-Reply-To: 
+Subject: NAB Show 2022 Attendees Info
+Date: Thu, 22 Sep 2022 09:15:47 -0500
+Message-ID: <040a01d8ce8e$4509fcf0$cf1df6d0$@tradeshowvisitors.com>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_040B_01D8CE64.5C34DF50"
+X-Priority: 1 (Highest)
+X-MSMail-Priority: High
+X-Mailer: Microsoft Outlook 15.0
+Importance: High
+Thread-Index: AdjN5IfA+7IF+jt5QCqj68NzJvyJJgAqGC/QAAAAE1AAAAANQAAAAA7QAAAADXAAAAANkAAAAA0wAAAADlAAAAAMgAAAAAtQAAAADBAAAAAMEAAAAAsQAAAADNAAAAAL0AAAAAygAAAAC2AAAAAMIAAAAAsgAAAADSAAAAALEAAAAAwQAAAADqAAAAAQcAAAAA1gAAAADjAAAAAO8AAAAA6AAAAAD1AAAAAOEAAAAA7gAAAADqAAAAAMoAAAAAygAAAADMAAAAANwAAAAAzAAAAADPAAAAANEAAAAAxAAAAADEAAAAAMQAAAAA2gAAAADzAAAAAMwAAAABjAAAAAExAAAAATsAAAABVwAAAAFDAAAAAVYAAAABYgAAAAFIAAAAAVcAAAABRwAAAAFTAAAAATkAAAABQgAAAAFeAAAAAUoAAAABRwAAAAFWAAAAAVYAAAABWA
+Content-Language: en-in
 
-On Fri, Sep 16, 2022 at 3:33 PM Josh Boyer <jwboyer@kernel.org> wrote:
->
-> Some time ago, we went back to doing ~monthly releases for
-> linux-firmware primarily to help distributions package firmware in a
-> simpler manner.  We GPG sign the tarballs, as is good practice, but as
-> part of reintroducing the tarballs we also started having a
-> linux-firmware maintainer GPG sign *every* commit done by a
-> maintainer.  The intention there was that because we're dealing with
-> binary blobs we really have no recourse to see changes unlike a source
-> code repo.  The signed commits at least provides a measure for
-> interested people to ensure the repo itself is only being committed to
-> by a recognized maintainer and it isn't compromised (in theory).  The
-> downside is that pull requests are merged non-ff and we wind up
-> signing the merge commit.
->
-> The question at hand though, is does anyone care about the GPG signed
-> commits?  It's not clear to me this practice is even noticed nor if it
-> is bringing any value to this project.  Since we've started this
-> practice, I am literally the only one committing to the repo and while
-> it isn't hard to do I want to know if it's actually useful to anyone.
->
-> I ask for two separate reasons.  The first is that a group of
-> interested firmware submitters is looking at modernizing the workflow
-> for the linux-firmware project and moving to a merge request workflow
-> instead of submitting giant binary blob patches via email.  This would
-> allow us to put some CI in place for simple checks to the WHENCE file,
-> etc.  Doing this while still having GPG signed commits isn't
-> impossible but it certainly complicates things a bit, and would likely
-> require a trusted bot to sign commits.  That has implications on
-> secret storage and changes the dynamic on trust levels that make the
-> whole thing even more questionable.
+This is a multipart message in MIME format.
 
-People already are saying that they do not see value in GPG signed
-commits, but I'd like to add a few bits here.
+------=_NextPart_000_040B_01D8CE64.5C34DF50
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-As Josh said, the idea is that we modernize the workflow for
-linux-firmware by automating what can be automated.
-The first thing that seems to be possible is automatically merge
-submitted MR assuming:
-- the general CI tests are passing (Mario already has a few sanity ones)
-- the commits do not touch WHENCE (so we have a reference on who is
-responsible for what)
-- the commits are signed by the maintainer of that said blobs (which
-would be matched against the WHENCE file)
+Hi,
 
-The idea is that if a maintainers of a blob submits a commit and signs
-it, there is no real reason to not merge it ASAP, given that we can
-always say: "well, it's the fault of X who is responsible of this file
-and who signed it, so we know it's actually X".
+ 
 
-Then comes the question of maintainers signing commits. If we ask
-submitters to sign their commits to have a fast track, it makes IMO
-sense to also ask the maintainers to sign their commits to show the
-way it is supposed to be done. I wouldn't care much about the
-automated bot that would merge the commit. If we need to have it sign
-the merge commit, we can do it, and this will only give the
-information that the process was followed.
+Would you be interested in acquiring the pre-registered attendee mailing
+list from National Association of Broadcasters Show 2022?
 
->
-> The second reason is that even if people are validating the GPG signed
-> commits, it's not exactly user friendly.  I've been looking at
-> sigstore and recor and that might be a better solution in the long run
-> if we do want to utilize something like the current scheme.
+ 
 
-TBH, do we ever need to validate signed commits besides in the CI case
-or if something wrong happens?
+Attendees: Distributor/ Dealer, Representatives, Industry innovators, Tech
+visionaries, Broadcasters, Educators, Manufacturers, Sales & Marketing
+Corporate Leader, Technical Engineers, and more....
 
-To make a parallel, Linus requires people to sign their PR, but he
-doesn't need to sign his commits. Because whatever goes into his tree
-is from him, obviously him. However, he requires maintainers to send
-signed PR to ensure this is coming from a trusted source. So he is the
-only one caring for signed PR, and we just trust him.
+ 
 
-So in our case, if signing for maintainers is not too much of a pain I
-would say:
-- to automate inclusion of blobs, we should ask vendors to sign their commits
-- to show the way, maintainers should still sign their commits (even
-if no one cares)
-- the CI should verify who signed what and if the signature is valid
-- end users only care about the signed tarball, that they trust the
-maintainers will build from a tree that is trusted
+Please pick the number which describes you:
 
-OTOH, dropping the signing of the merge commit from the maintainers
-would allow them to just hit the merge button in the UI, which might
-be a simpler thing than having to forward that MR to a bot.
+ 
 
->
-> I'll still GPG sign the tarballs, but I'd like to propose dropping our
-> current self-imposed requirement that all commits are GPG signed.
-> Thoughts?
->
+1. Yes Interested, send me pricing and other data information.
 
-I hope I didn't add too much confusion :)
+2. Opt-out
 
-Cheers,
-Benjamin
+ 
+
+Thanks,
+
+Diana Christopher | Marketing Coordinator
+
+ 
+
+
+------=_NextPart_000_040B_01D8CE64.5C34DF50
+Content-Type: text/html;
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-IN =
+link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
+class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-style-textfill-fill-color:#1F4E79;mso-style-te=
+xtfill-fill-alpha:100.0%'>Hi,<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-style-textfill-fill-color:#1F4E79;mso-style-te=
+xtfill-fill-alpha:100.0%'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-style-textfill-fill-color:#1F4E79;mso-style-te=
+xtfill-fill-alpha:100.0%'>Would you be interested in acquiring the =
+pre-registered attendee mailing list from </span><b><span =
+style=3D'color:#1F4E79;mso-style-textfill-fill-color:#1F4E79;mso-style-te=
+xtfill-fill-alpha:100.0%;mso-fareast-language:EN-IN'>National =
+Association of Broadcasters Show 2022?</span></b><span =
+style=3D'color:black;mso-fareast-language:EN-IN'><o:p></o:p></span></p><p=
+ class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-style-textfill-fill-color:#1F4E79;mso-style-te=
+xtfill-fill-alpha:100.0%'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><b><span =
+style=3D'color:#1F4E79;mso-style-textfill-fill-color:#1F4E79;mso-style-te=
+xtfill-fill-alpha:100.0%'>Attendees:</span></b><span =
+style=3D'color:#1F4E79;mso-style-textfill-fill-color:#1F4E79;mso-style-te=
+xtfill-fill-alpha:100.0%'> </span><span =
+style=3D'color:#1F4E79;mso-style-textfill-fill-color:#1F4E79;mso-style-te=
+xtfill-fill-alpha:100.0%;mso-fareast-language:EN-IN'>Distributor/ =
+Dealer, Representatives, Industry innovators, Tech visionaries, =
+Broadcasters, Educators, Manufacturers, Sales &amp; Marketing Corporate =
+Leader, Technical Engineers, and more....</span><span =
+style=3D'color:black;mso-fareast-language:EN-IN'><o:p></o:p></span></p><p=
+ class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-style-textfill-fill-color:#1F4E79;mso-style-te=
+xtfill-fill-alpha:100.0%'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-style-textfill-fill-color:#1F4E79;mso-style-te=
+xtfill-fill-alpha:100.0%'>Please pick the number which describes =
+you:<o:p></o:p></span></p><p class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-style-textfill-fill-color:#1F4E79;mso-style-te=
+xtfill-fill-alpha:100.0%'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-style-textfill-fill-color:#1F4E79;mso-style-te=
+xtfill-fill-alpha:100.0%'>1. Yes Interested, send me pricing and other =
+data information.<o:p></o:p></span></p><p class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-style-textfill-fill-color:#1F4E79;mso-style-te=
+xtfill-fill-alpha:100.0%'>2. Opt-out<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-style-textfill-fill-color:#1F4E79;mso-style-te=
+xtfill-fill-alpha:100.0%'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><b><span =
+style=3D'color:#1F4E79;mso-style-textfill-fill-color:#1F4E79;mso-style-te=
+xtfill-fill-alpha:100.0%'>Thanks,<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-style-textfill-fill-color:#1F4E79;mso-style-te=
+xtfill-fill-alpha:100.0%'>Diana Christopher | Marketing =
+Coordinator<o:p></o:p></span></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_NextPart_000_040B_01D8CE64.5C34DF50--
 
