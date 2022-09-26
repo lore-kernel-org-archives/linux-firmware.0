@@ -4,124 +4,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A43C3C6FA90
-	for <linux-firmware@archiver.kernel.org>; Mon, 26 Sep 2022 14:24:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F2A0C07E9D
+	for <linux-firmware@archiver.kernel.org>; Mon, 26 Sep 2022 14:27:17 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 63D19C43152; Mon, 26 Sep 2022 14:24:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C028C433C1
-	for <linux-firmware@kernel.org>; Mon, 26 Sep 2022 14:24:21 +0000 (UTC)
+	id CBDBDC4347C; Mon, 26 Sep 2022 14:27:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6886C433D6
+	for <linux-firmware@kernel.org>; Mon, 26 Sep 2022 14:27:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1664202261;
-	bh=KIKaen4ftWlvPsVNAVOmR6kNw/m/YraPHJpJOXicITg=;
+	s=k20201202; t=1664202437;
+	bh=1U5VBGz85XhNUc2UADvk3Pgf0NByRxd3FTgYZdNJFrM=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=MHK98ENM5kcFYy4o4gSVskBy//GuqU0g4KPHaAhGDp9cLhwn2cQqOIZnXuzKOjJ2B
-	 1+NWT56IdhxdzpWcuWaCnt8YCWnCr5Lc1tjRFgY3WhkneBgWnxPjwgmyeDKhtVkGXK
-	 GYaArPubUeTLZiH7tgj644pEl7yFBYbL8o3377z5Dksnol3P+07IIHn49LbEQt4hCe
-	 AGnasNULIvOPvTl3U3Cquf2bP8C6pNASNAGKVQV8F4duPYmBPgMvff9pYnG+McfN/f
-	 kPREuk7oxPpEMlMVq3l4XQNUWU42gEiilO/1U8w+G7Vr9vsDAyOVjXb5b5nB0ULs5+
-	 /fb+NRGkQTsRg==
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-127ba06d03fso9424833fac.3
-        for <linux-firmware@kernel.org>; Mon, 26 Sep 2022 07:24:21 -0700 (PDT)
-X-Gm-Message-State: ACrzQf2i+8ECzjniV3uhr2ga8f4BGCOfCZZa7qybB3KSubtIsWPCXT/w
-	v1tfH9KZPIpw204lYJ+D5txdtq0885lgT4UFEC0=
-X-Google-Smtp-Source: AMsMyM6rMC6/oAVkN9UCB3+pO4bSeZVBJWaTvbpr+NwWFMqc6HxwUrKbd9GxgwaGQzMPWOhfQfC3G9iodQyyTQ50kac=
-X-Received: by 2002:a05:6870:d0c7:b0:127:9860:95b0 with SMTP id
- k7-20020a056870d0c700b00127986095b0mr12300775oaa.3.1664202260445; Mon, 26 Sep
- 2022 07:24:20 -0700 (PDT)
+	b=LU70XK5my3UbwctpDxoJy3hgYk5kwu8eoDcOYfPOP8HG+zkUymfsgCpGYs9gjGec0
+	 9/IbuEVXRR+SiEyWOZwGOR/60S/Vhe+7GsVZ9An17Cekt/RnBLBiIv8QU3T9ka1okr
+	 7aZPGeueHXLIum7Yn+tFPpclxhUgpgDzKYlpBjbNsR/b7sd+qNS+UQavkQzhqMi2ex
+	 R5L4LRQu3lkln8Kcg1zbNYp16eZEIx5tVXqikdTUunwKVBNQ8lO8ikn/tH500KbpAH
+	 desMhcyN6gEHrjwT7ZXP4L3DBUxBmOKAp6pkZwMggJ/qVL3YjFcLokbtQspfj5bonW
+	 Al/+ntCRRu9nA==
+Received: by mail-oi1-f180.google.com with SMTP id m81so8480586oia.1
+        for <linux-firmware@kernel.org>; Mon, 26 Sep 2022 07:27:17 -0700 (PDT)
+X-Gm-Message-State: ACrzQf3aCWsw8F9DKR4k0VkOppGrhQwfEi7vjfVNtIDMjL8VYR5RKQbj
+	unSyJDiknIrk6drnzf+QNVYr2KoG31v0jik5MDo=
+X-Google-Smtp-Source: AMsMyM6ECsDl0rUTQCplACP+WIsxAWk/8w6OCE7Tlu//TA9K039EvcqcUk0Nu4YyLih4ANv0ZWTPXCNf+aSr6GeWGYM=
+X-Received: by 2002:a05:6808:f05:b0:350:c7fc:3a71 with SMTP id
+ m5-20020a0568080f0500b00350c7fc3a71mr10597133oiw.267.1664202436844; Mon, 26
+ Sep 2022 07:27:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <DM8PR02MB794335113A0327A554F7F3BAF9489@DM8PR02MB7943.namprd02.prod.outlook.com>
-In-Reply-To: <DM8PR02MB794335113A0327A554F7F3BAF9489@DM8PR02MB7943.namprd02.prod.outlook.com>
+References: <835f393df9cc985fe5b815bc6eeaf06ab4d07192.camel@mediatek.com>
+In-Reply-To: <835f393df9cc985fe5b815bc6eeaf06ab4d07192.camel@mediatek.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 26 Sep 2022 10:24:09 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA7BH+996vpThH5OJpHy_9agpaLxJSc9vqZA5JVV4ATuew@mail.gmail.com>
-Message-ID: <CA+5PVA7BH+996vpThH5OJpHy_9agpaLxJSc9vqZA5JVV4ATuew@mail.gmail.com>
-Subject: Re: qca: Update firmware files for BT chip WCN3991.
-To: "SURAJ ASHOK MAGAR (Temp) (QUIC)" <quic_smagar@quicinc.com>
+Date: Mon, 26 Sep 2022 10:27:06 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA60ODTEZPoYqPMqjxu_ARxFLmeHie11McQUAx95+bXwFw@mail.gmail.com>
+Message-ID: <CA+5PVA60ODTEZPoYqPMqjxu_ARxFLmeHie11McQUAx95+bXwFw@mail.gmail.com>
+Subject: Re: [PULL v2 linux-firmware] Update mediatek mt81xx SOF firmware
+To: TingHan Shen <tinghan.shen@mediatek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
-	"linux-bluethooth@vger.kernel.org" <linux-bluethooth@vger.kernel.org>, "mka@chromium.org" <mka@chromium.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>, 
-	"Balakrishna Godavarthi (QUIC)" <quic_bgodavar@quicinc.com>, 
-	"Sai Teja Aluvala (Temp) (QUIC)" <quic_saluvala@quicinc.com>, 
-	"Atul Dhudase (QUIC)" <quic_adhudase@quicinc.com>, 
-	"Sampath Nimmala (Temp) (QUIC)" <quic_sampnimm@quicinc.com>
+Cc: linux-firmware@kernel.org, linux-mediatek@lists.infradead.org, 
+	chunxu.li@mediatek.com, allen-kh.cheng@mediatek.com, 
+	Project_Global_Chrome_Upstream_Group@mediatek.com, 
+	angelogioacchino.delregno@collabora.com
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Sep 16, 2022 at 2:54 AM SURAJ ASHOK MAGAR (Temp) (QUIC)
-<quic_smagar@quicinc.com> wrote:
+On Fri, Sep 16, 2022 at 4:35 AM TingHan Shen <tinghan.shen@mediatek.com> wrote:
 >
-> Hello Team,
+> Hi maintainers,
 >
+> This pull request adds new MediatekTek MT8195 SOF firmware and
+> updates MT8186 SOF firmware.
 >
+> Please let me know if there is any problem.
 >
-> Please include firmware bins for WCN3991.
+> Best regards,
+> TingHan
 >
+> --
 >
+> The following changes since commit f09bebf31b0590bdc875d7236aa705279510cfd0:
 >
-> Changes includes updated firmware files with:
->
-> BQR enhancements
-> LE priority changes
-> Braktooth issue fix
-> RSSI Fix
->
-> Snapshot of pull request is as below, let me know if anything is missing.
->
->
->
->
->
->
->
->
->
-> The following changes since commit 3593bb7d8f6f18c442a6b0b3f3d43e4d5d7fc2be:
->
->
->
->   Removing crnv32 (2022-09-15 11:09:50 +0530)
->
->
+>   amdgpu: update yellow carp DMCUB firmware (2022-09-13 08:02:23 -0400)
 >
 > are available in the Git repository at:
 >
+>   https://github.com/tinghan-shen/linux_fw_scp mtk-20220915
 >
+> for you to fetch changes up to 3e08c58f8af488c41573c4a64a261e3b3f35849b:
 >
->   https://github.com/suraj714/Bluetooth-upstream.git main
->
->
->
-> for you to fetch changes up to 0e8f546c4c66a61981fd0341ec0a84563d1cfaaa:
->
->
->
->   qca: Update firmware files for BT chip WCN3991. (2022-09-16 10:44:17 +0530)
->
->
+>   mediatek: Add new mt8195 SOF firmware (2022-09-16 16:19:11 +0800)
 >
 > ----------------------------------------------------------------
+> Tinghan Shen (2):
+>       mediatek: Update mt8186 SOF firmware
+>       mediatek: Add new mt8195 SOF firmware
 >
-> Suraj Magar (1):
->
->       qca: Update firmware files for BT chip WCN3991.
->
->
->
-> qca/crbtfw32.tlv | Bin 126036 -> 117664 bytes
->
-> qca/crnv32.bin   | Bin 0 -> 5407 bytes
->
-> qca/crnv32u.bin  | Bin 0 -> 5407 bytes
->
-> 3 files changed, 0 insertions(+), 0 deletions(-)
->
-> create mode 100644 qca/crnv32.bin
->
-> create mode 100644 qca/crnv32u.bin
+>  WHENCE                                                                                      |  11 ++++++++---
+>  mediatek/{sof/sof-mt8186-mt6366-da7219-max98357.tplg => sof-tplg/sof-mt8186.tplg}           | Bin
+>  mediatek/sof-tplg/sof-mt8195-mt6359-rt1019-rt5682-dts.tplg                                  | Bin 0 -> 20895 bytes
+>  .../sof-mt8186-mt6366-rt1019-rt5682s.tplg => sof-tplg/sof-mt8195-mt6359-rt1019-rt5682.tplg} | Bin 16191 -> 16191 bytes
 
-This diff stat looks odd, and there's an additional commit in your
-branch not mentioned.  Should I just pull
-0e8f546c4c66a61981fd0341ec0a84563d1cfaaa and ignore the rest?
+This fails check_whence.py:
+
+[jwboyer@vader linux-firmware]$ ./check_whence.py
+E: mediatek/sof-tplg/sof-mt8195-mt6359-rt1019-rt5682-dts.tplg not
+listed in WHENCE
+[jwboyer@vader linux-firmware]$
+
+Can you fix it up please?
 
 josh
+
+>  mediatek/sof/sof-mt8186.ldc                                                                 | Bin 0 -> 48436 bytes
+>  mediatek/sof/sof-mt8186.ri                                                                  | Bin 128712 -> 128712 bytes
+>  mediatek/sof/sof-mt8195.ldc                                                                 | Bin 0 -> 40568 bytes
+>  mediatek/sof/sof-mt8195.ri                                                                  | Bin 0 -> 100740 bytes
+>  8 files changed, 8 insertions(+), 3 deletions(-)
+>  rename mediatek/{sof/sof-mt8186-mt6366-da7219-max98357.tplg => sof-tplg/sof-mt8186.tplg} (100%)
+>  create mode 100644 mediatek/sof-tplg/sof-mt8195-mt6359-rt1019-rt5682-dts.tplg
+>  rename mediatek/{sof/sof-mt8186-mt6366-rt1019-rt5682s.tplg => sof-tplg/sof-mt8195-mt6359-rt1019-rt5682.tplg} (86%)
+>  create mode 100644 mediatek/sof/sof-mt8186.ldc
+>  create mode 100644 mediatek/sof/sof-mt8195.ldc
+>  create mode 100644 mediatek/sof/sof-mt8195.ri
+>
