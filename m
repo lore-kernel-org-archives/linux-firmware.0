@@ -4,67 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0DC4C4332F
-	for <linux-firmware@archiver.kernel.org>; Wed, 12 Oct 2022 17:05:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5DD15C4332F
+	for <linux-firmware@archiver.kernel.org>; Wed, 12 Oct 2022 17:06:31 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id D5BEEC433B5; Wed, 12 Oct 2022 17:05:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFC8BC433D6
-	for <linux-firmware@kernel.org>; Wed, 12 Oct 2022 17:05:19 +0000 (UTC)
+	id 43A6FC433D7; Wed, 12 Oct 2022 17:06:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EDC2C433D6
+	for <linux-firmware@kernel.org>; Wed, 12 Oct 2022 17:06:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1665594319;
-	bh=TxGakG7SnpJtZ509BbQuUttHqXc4/liE1QK2G4a7UGo=;
+	s=k20201202; t=1665594391;
+	bh=B+S46y1hW0O9Zhjqx+GVuX72AMv9m1uQMX2+DHq/4+w=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=YR3dHpc0cX5ZyPu+rfM+uQSL36zWRDyo2TTJlg3b2DQbkJ6u7m/gtQ5FRwZEROVoo
-	 TK/Z3spiND8GJ2vuscxJYz3Hbp5aTA1Mx7hNtlIVCigC7AJJN7FnwDIFNWBn9ZtPA1
-	 Q2Og67xJpZ/NWzE2ljWoujjtNeZ/imGsytUjm+idLtRl3y8gY25Q8CDkOa6G08yL/N
-	 MW41HsVkXA3A1Jm2cvLIDQdMhykqufIXEwhz1av15mjRPj4fl+SFYm0n4v6GWCPCOW
-	 F6fwqiifIlYdpSWAIUV8RiSzTur3/N9i/aQy6AFfstvJZoMMF1AqIfDE1thOX/9jEj
-	 MgpwC4L+fMPmA==
-Received: by mail-oi1-f174.google.com with SMTP id u15so13827442oie.2
-        for <linux-firmware@kernel.org>; Wed, 12 Oct 2022 10:05:19 -0700 (PDT)
-X-Gm-Message-State: ACrzQf1DUELi4ZdG+KbS8cCeTOU2qxgj8Jvxo+hdo8q/12UnOkpJCQmZ
-	xpbXk/2LRP2JcIHgwuGQZ/OgIlVxjR3xkBUu0tM=
-X-Google-Smtp-Source: AMsMyM7tWrkIVWSTidz4+mBXGdrX4JEJTbGp6sN0eX33u4Rf9Mk2cvUzVhuaXa8R9SGsxiSFM6ncOw+sro8NEJhYfsI=
-X-Received: by 2002:a05:6808:bca:b0:350:b366:157 with SMTP id
- o10-20020a0568080bca00b00350b3660157mr2594543oik.3.1665594318920; Wed, 12 Oct
- 2022 10:05:18 -0700 (PDT)
+	b=lnoS7Yl5T5R2lGXhj3KcLKqGBEvh+BQQZbBx79D3fqKJ4hdj9Fom3C+oN6JDoSjzi
+	 NQ/bnmFOAGSMMusqmLALGc3R7Vpcvnnqg9l0b+RtkGKINKAovbVUazPOqgh7nqQbUt
+	 F1vab6kznEVMwHM2guMLitIuvJr10xOOyWsVfu4HGZcGHUd6qoQneL8ki/bO2ASo8K
+	 T5UCs3n1A2PQTkrS9uL/hFCbzxDNBj3kzdtTwuhhUcRDAjvSF8dAph4hbFsZoJ5/HF
+	 GaC+hXlqmz2eHs3qVst3CfzjzUedgxkQ3FBEIcDeLXf511eKk+RWX2qhoLGXNpLLlL
+	 bIElK1AA0lB5A==
+Received: by mail-oo1-f54.google.com with SMTP id j6-20020a4ab1c6000000b004809a59818cso46540ooo.0
+        for <linux-firmware@kernel.org>; Wed, 12 Oct 2022 10:06:31 -0700 (PDT)
+X-Gm-Message-State: ACrzQf2/OFKajQNQuQJ3pdfch1IRdkUgNsAno68jRQ6qNsyLB1MxgjCw
+	GRZZGZtoEfM9GG2gWhran3w3bJsuUmCZbSJItuk=
+X-Google-Smtp-Source: AMsMyM6HBaz7V3Nekh4R4ISqCy/u2+AmcL5d+4SdUXmjjSiFvf/t/e5JOMdACso+vrgy7xZvO26lGSMfrP5ca+uKaRE=
+X-Received: by 2002:a05:6820:1890:b0:480:623d:61f9 with SMTP id
+ bm16-20020a056820189000b00480623d61f9mr8280661oob.45.1665594390302; Wed, 12
+ Oct 2022 10:06:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <3e31775b3916b4d9300e6156564dc80f889c4b8b.camel@realtek.com>
-In-Reply-To: <3e31775b3916b4d9300e6156564dc80f889c4b8b.camel@realtek.com>
+References: <676d04caef93b8608ef14aebfbeb06a7b4af9cd3.camel@mediatek.com>
+In-Reply-To: <676d04caef93b8608ef14aebfbeb06a7b4af9cd3.camel@mediatek.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Wed, 12 Oct 2022 13:05:08 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA6LsBLqn6CK4y+ePpcsj1cZMpZzpjQkxZ-JWwoCZ=-=-g@mail.gmail.com>
-Message-ID: <CA+5PVA6LsBLqn6CK4y+ePpcsj1cZMpZzpjQkxZ-JWwoCZ=-=-g@mail.gmail.com>
-Subject: Re: pull request: rtw89: 8852c: update fw to v0.27.56.1
-To: Ping-Ke Shih <pkshih@realtek.com>
+Date: Wed, 12 Oct 2022 13:06:19 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA5743hCTekT974gOB8qk5mm_7kO+nadg=mUQyyUWnyEMA@mail.gmail.com>
+Message-ID: <CA+5PVA5743hCTekT974gOB8qk5mm_7kO+nadg=mUQyyUWnyEMA@mail.gmail.com>
+Subject: Re: [PULL] mediatek: Update mt8195 SOF firmware to v0.4.1
+To: =?UTF-8?B?VGluZ0hhbiBTaGVuICjmsojlu7fnv7Ap?= <TingHan.Shen@mediatek.com>
 List-Id: <linux-firmware.lore.kernel.org>
 Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, Timlee <timlee@realtek.com>, 
-	Kevin Yang <kevin_yang@realtek.com>
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
+	"angelogioacchino.delregno@collabora.com" <angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 7, 2022 at 6:39 AM Ping-Ke Shih <pkshih@realtek.com> wrote:
+On Tue, Oct 11, 2022 at 7:32 AM TingHan Shen (=E6=B2=88=E5=BB=B7=E7=BF=B0)
+<TingHan.Shen@mediatek.com> wrote:
 >
-> Hi,
+> Hi maintainers,
 >
-> Update 8852c firmware of rtw89 driver to v0.27.56.1
+> This pull request updates MT8195 SOF firmware.
 >
-> Thank you
-> Ping-Ke
+> If there is any problem, please let me know.
+> Thank you.
 >
-> ---
-> The following changes since commit d2aac63b8381c0633de00476a7f3d8f436ea4bc5:
+> Best regards,
+> TingHan
 >
->   rtw89: 8852c: update fw to v0.27.56.1 (2022-10-07 18:35:47 +0800)
+> --
+>
+> The following changes since commit fdf1a65258522edf18a0a1768fbafa61ed07e5=
+98:
+>
+>   linux-firmware: Update AMD cpu microcode (2022-09-30 17:33:35 -0400)
 >
 > are available in the Git repository at:
 >
->   https://github.com/pkshih/linux-firmware.git
+>   https://github.com/tinghan-shen/linux_fw_scp mtk-20221011
 >
-> for you to fetch changes up to d2aac63b8381c0633de00476a7f3d8f436ea4bc5:
+> for you to fetch changes up to 675bd6a24ba15d0d9a0550158a1b2c5102aa0337:
 >
->   rtw89: 8852c: update fw to v0.27.56.1 (2022-10-07 18:35:47 +0800)
+>   mediatek: Update mt8195 SOF firmware to v0.4.1 (2022-10-11 19:07:12 +08=
+00)
+>
+> ----------------------------------------------------------------
+> Tinghan Shen (1):
+>       mediatek: Update mt8195 SOF firmware to v0.4.1
 
-Pulled and pushed out.
+Pulled and pushed out.  Thank you.
 
 josh
+
+>
+>  WHENCE                                                     |   2 +-
+>  mediatek/sof-tplg/sof-mt8195-mt6359-rt1019-rt5682-dts.tplg | Bin 20895 -=
+> 20895 bytes
+>  mediatek/sof/sof-mt8195.ldc                                | Bin 40568 -=
+> 51168 bytes
+>  mediatek/sof/sof-mt8195.ri                                 | Bin 100740 =
+-> 173832 bytes
+>  4 files changed, 1 insertion(+), 1 deletion(-)
