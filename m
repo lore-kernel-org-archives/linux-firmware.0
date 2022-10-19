@@ -1,89 +1,97 @@
-Return-Path: <SRS0=OiK1=2T=chromium.org=nhebert@kernel.org>
+Return-Path: <SRS0=2ppL=2U=realtek.com=pkshih@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9BC3CC43217
-	for <linux-firmware@archiver.kernel.org>; Tue, 18 Oct 2022 21:12:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CC4B7C433FE
+	for <linux-firmware@archiver.kernel.org>; Wed, 19 Oct 2022 01:49:34 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 5A461C4347C; Tue, 18 Oct 2022 21:12:52 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 2CAFAC433D6
-	for <linux-firmware@kernel.org>; Tue, 18 Oct 2022 21:12:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 2CAFAC433D6
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f44.google.com with SMTP id g7so19765008lfv.5
-        for <linux-firmware@kernel.org>; Tue, 18 Oct 2022 14:12:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=jBNmCEKNIJ8QoqMKRCXQ8dxLqKledSWNKpiUAkjyuYY=;
-        b=QPiLaTKyd9Ebm8sv/378EOdEZ4aPnP+VPiwGTkz/amewbX5DDLbBPvmGRdl0M3JpDI
-         rqIauBmNgAvNr4Y/cd8o+mo+HNtqZgsTzPdSyE+w5cE05RL1DUV95g+8r2G4F4tq6KiD
-         0/AkNgmf+aR0PJ70ATQHZP16x0hoVCKaedXso=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jBNmCEKNIJ8QoqMKRCXQ8dxLqKledSWNKpiUAkjyuYY=;
-        b=7dL7MgWN6onxlasgpXZ82/9DIQoP7paHCCjuCoR/U9ALBUZP+ptZGg8VP/uAti60uU
-         8XUDL7Jbsd6ZHoT4aEZvjI1ReR9o2zZkLOynANitg7K+dxqRW1akCAW89xz+5pYJoHfO
-         v2FJhASqxMl/FXJpIJ5Fw1pAJaeAVRtJhAyZLS3JoYeex8m8g25X62ppzpltRi/n7UcU
-         cqXP2JJhpB07ZmYnush83Nc4xN8Z2/DwRr9fRX/I+3kZ2h4NQLRHO7il2r7h3aqitMit
-         QSYM+lO0fR2Butlw3TDgrghfiBGQTG26TYYwKFlvAyKOvvsyFEsWAGI766CntrTeucnG
-         loLw==
-X-Gm-Message-State: ACrzQf24Bv78WxBdBCLU045I79bJor3X9sonQVQ14oKt+daxqH5t04rP
-	YDlrKhnzTt3Llir8RuoKcTTToHAd/uRAZR+O2MbEq7iXXRGXIA==
-X-Google-Smtp-Source: AMsMyM4BK9xE6db7GdQSimKMJ2byNr2ij+bHVZ8z4TJIIAGKS19whmG0FHGEXw3C22NsKH4yE7X6yj3twZpIhUyPB+4=
-X-Received: by 2002:ac2:442d:0:b0:4a2:23e2:cf59 with SMTP id
- w13-20020ac2442d000000b004a223e2cf59mr1570305lfl.650.1666127568897; Tue, 18
- Oct 2022 14:12:48 -0700 (PDT)
-MIME-Version: 1.0
-From: Nathan Hebert <nhebert@chromium.org>
-Date: Tue, 18 Oct 2022 14:12:37 -0700
-Message-ID: <CANHAJhG-aoOBgTzirGu-1uqCFUJd+AnenMSkoUqnG3mhraCRfw@mail.gmail.com>
-Subject: [PULL]: qcom: SC7180 and SC7280 venus firmware updates
+	id 86D89C433B5; Wed, 19 Oct 2022 01:49:34 +0000 (UTC)
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	by smtp.kernel.org (Postfix) with ESMTP id D793CC433C1
+	for <linux-firmware@kernel.org>; Wed, 19 Oct 2022 01:49:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D793CC433C1
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 29J1mcwP7028999, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 29J1mcwP7028999
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=FAIL);
+	Wed, 19 Oct 2022 09:48:38 +0800
+Received: from RTEXMBS05.realtek.com.tw (172.21.6.98) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.32; Wed, 19 Oct 2022 09:49:10 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.32; Wed, 19 Oct 2022 09:49:09 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::add3:284:fd3d:8adb]) by
+ RTEXMBS04.realtek.com.tw ([fe80::add3:284:fd3d:8adb%5]) with mapi id
+ 15.01.2375.007; Wed, 19 Oct 2022 09:49:09 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: linux-arm-msm@vger.kernel.org, quic_vgarodia@quicinc.com, 
-	Fritz Koenig <frkoenig@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+CC: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "rtl8821cerfe2@gmail.com" <rtl8821cerfe2@gmail.com>
+Subject: pull request: rtlwifi: Add firmware v4.0 for RTL8188FU
+Thread-Topic: pull request: rtlwifi: Add firmware v4.0 for RTL8188FU
+Thread-Index: AdjjW++tFCB/oTmxTDOyoYxH6CssYg==
+Date: Wed, 19 Oct 2022 01:49:09 +0000
+Message-ID: <fabce04424f945a7a51cc466919d4a01@realtek.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [172.21.69.188]
+x-kse-serverinfo: RTEXMBS05.realtek.com.tw, 9
+x-kse-attachmentfiltering-interceptor-info: no applicable attachment filtering
+ rules found
+x-kse-antivirus-interceptor-info: scan successful
+x-kse-antivirus-info: =?us-ascii?Q?Clean,_bases:_2022/10/18_=3F=3F_11:53:00?=
+x-kse-bulkmessagesfiltering-scan-result: protection disabled
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
 
-The following changes since commit 48407ffd7adb9511701547068b1e6f0956bd1c94:
+Hi,
+
+Add firmware 4.0 for RTL8188FU based on Bitterblue's patch [0], but revise
+WHENCE and commit message to reflect name from original SDK. Also, I have
+confirmed the firmware content is expected.=20
+
+Thank you
+Ping-Ke
+
+[0] https://lore.kernel.org/linux-firmware/CA+5PVA4gbbVsKN6bB8ktod4hPTeiKPS=
+kJrmKVjtoagpz2XAYbQ@mail.gmail.com/
+
+---
+The following changes since commit 48407ffd7adb9511701547068b1e6f0956bd1c94=
+:
 
   cnm: update chips&media wave521c firmware. (2022-10-17 10:20:43 -0400)
 
 are available in the Git repository at:
 
-  https://github.com/nathan-google/linux-firmware.git
-update_sc7180_and_sc7280_firmwares
+  https://github.com/pkshih/linux-firmware.git HEAD
 
-for you to fetch changes up to 76e160366a28010fa06ddc965659c38a44d159d9:
+for you to fetch changes up to 9aa8db1ccb9a83eeb3f5daf71e4206d218648c49:
 
-  qcom: update venus firmware files for VPU-2.0 (2022-10-18 13:42:58 -0700)
+  rtlwifi: Add firmware v4.0 for RTL8188FU (2022-10-19 09:36:55 +0800)
 
 ----------------------------------------------------------------
-Nathan Hebert (2):
-      qcom: update venus firmware files for v5.4
-      qcom: update venus firmware files for VPU-2.0
+Bitterblue Smith (1):
+      rtlwifi: Add firmware v4.0 for RTL8188FU
 
- qcom/venus-5.4/venus.b00 | Bin 212 -> 212 bytes
- qcom/venus-5.4/venus.b01 | Bin 6808 -> 6808 bytes
- qcom/venus-5.4/venus.b02 | Bin 873596 -> 875020 bytes
- qcom/venus-5.4/venus.b03 | Bin 33792 -> 33896 bytes
- qcom/venus-5.4/venus.mbn | Bin 919708 -> 921236 bytes
- qcom/venus-5.4/venus.mdt | Bin 7020 -> 7020 bytes
- qcom/vpu-2.0/venus.b00   | Bin 692 -> 692 bytes
- qcom/vpu-2.0/venus.b01   | Bin 7376 -> 7376 bytes
- qcom/vpu-2.0/venus.b02   | Bin 300 -> 300 bytes
- qcom/vpu-2.0/venus.b04   | Bin 20 -> 20 bytes
- qcom/vpu-2.0/venus.b09   | Bin 939184 -> 939472 bytes
- qcom/vpu-2.0/venus.b10   | Bin 42976 -> 43120 bytes
- qcom/vpu-2.0/venus.mbn   | Bin 2031188 -> 2031620 bytes
- qcom/vpu-2.0/venus.mdt   | Bin 8068 -> 8068 bytes
- 14 files changed, 0 insertions(+), 0 deletions(-)
+ WHENCE                  |   6 ++++++
+ rtlwifi/rtl8188fufw.bin | Bin 0 -> 21020 bytes
+ 2 files changed, 6 insertions(+)
+ create mode 100644 rtlwifi/rtl8188fufw.bin
+
