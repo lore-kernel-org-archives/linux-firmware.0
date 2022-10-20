@@ -1,205 +1,192 @@
-Return-Path: <SRS0=6S6L=2V=gmail.com=james.hilliard1@kernel.org>
+Return-Path: <SRS0=nVlv=2V=realtek.com=pkshih@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D35F0C4332F
-	for <linux-firmware@archiver.kernel.org>; Thu, 20 Oct 2022 00:55:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0839BC433FE
+	for <linux-firmware@archiver.kernel.org>; Thu, 20 Oct 2022 03:50:54 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 81B43C433B5; Thu, 20 Oct 2022 00:55:52 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 1EF89C433D6;
-	Thu, 20 Oct 2022 00:55:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 1EF89C433D6
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f51.google.com with SMTP id fw14so18363189pjb.3;
-        Wed, 19 Oct 2022 17:55:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DunVneNoNh+dN8MZSey5HPV8TWJRC19vfrvMZI8e5ss=;
-        b=TV/sxBFZIWHrw4Oy/hoj94CyRxpEqAj650tQCpC4Dl0p0mS/PBcdRWHcOsJA1qDkbh
-         EKbRk3nqDK9V8Qavms5T5+VhSBd+gg/hmpV+ehpwFuqyi0k5CHMkZkYs/Nj1/ekrGMV2
-         zkrDupy8WuVY9jdVexjM2RoRBv8SPBtnq8cPCfv8HAzEtdtI1d5iXoE760+7c1Z1wuiI
-         74veGmXWjB1f5QWEmssWq2iVzdhCHv+WCojpv8+tjpREZpuNMbit3t3rJEtcPaZNxqCf
-         gSD2++mJwO7CfsFkq2iu+flQo5gh4OL/r0UhiOjgVD/CruZQ5/a8AEwmyzsB4ceHu+2l
-         dvsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DunVneNoNh+dN8MZSey5HPV8TWJRC19vfrvMZI8e5ss=;
-        b=Hc5Vr8U4CmzStswfsuHVMIvxi7Kfi55NOIrttlvsDHakKL3dgDPCsvXwd4ppBzubaS
-         WGoCze2+kNDf5qcth/0AUJTUcBD55Pek8Ckc+U0RppYpPTw5eKl5/CeRsGnoMvJh2Y3c
-         3qLHVjZRcbPemMOMtmHT2Vq6fL9OBHou0ZISQgPXvOR/7Lwx4fYaWE+t44dmdUfGLLzS
-         uIrQCKRrv2lzTuLDglbHOrwrtWfZWpePm/xTQwGAMKToDRNqjqaoZkkNzvRhX55LzF2s
-         /Kl+Y+pSXc1+U6ZciU7DSyKZ0uCr1fReQDc+vsqgCodx9Cq9Dr6OyrsKjB0AhBsC4Zow
-         3Biw==
-X-Gm-Message-State: ACrzQf0sjG1QXM+MYV9yBWcobrCnvSu8bdPsZ2n+BzTqibxoDCZ7+2vy
-	HmLIbkN+gJxntrGibuIz03XKDblCZFLRoF/UUhg=
-X-Google-Smtp-Source: AMsMyM5OxrATuGv9JeqtEV9UPDzUkisrXLRtTV8l9YHxYH7+CMlGosqZ8wiasNsE9xPoTTb/rydkhESVNAZt0hCKflQ=
-X-Received: by 2002:a17:902:e552:b0:179:e795:71c5 with SMTP id
- n18-20020a170902e55200b00179e79571c5mr11182756plf.57.1666227350540; Wed, 19
- Oct 2022 17:55:50 -0700 (PDT)
-MIME-Version: 1.0
+	id BAB9AC43470; Thu, 20 Oct 2022 03:50:54 +0000 (UTC)
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	by smtp.kernel.org (Postfix) with ESMTP id 29B65C433C1;
+	Thu, 20 Oct 2022 03:50:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 29B65C433C1
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 29K3o6dwD026130, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (mapi.realtek.com[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 29K3o6dwD026130
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=FAIL);
+	Thu, 20 Oct 2022 11:50:06 +0800
+Received: from RTEXMBS05.realtek.com.tw (172.21.6.98) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.9; Thu, 20 Oct 2022 11:50:38 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.32; Thu, 20 Oct 2022 11:50:38 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::add3:284:fd3d:8adb]) by
+ RTEXMBS04.realtek.com.tw ([fe80::add3:284:fd3d:8adb%5]) with mapi id
+ 15.01.2375.007; Thu, 20 Oct 2022 11:50:38 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
+To: James Hilliard <james.hilliard1@gmail.com>
+List-Id: <linux-firmware.lore.kernel.org>
+CC: Josh Boyer <jwboyer@kernel.org>,
+        "linux-firmware@kernel.org"
+	<linux-firmware@kernel.org>,
+        "linux-wireless@vger.kernel.org"
+	<linux-wireless@vger.kernel.org>,
+        Jes Sorensen <jes.sorensen@gmail.com>,
+        Bitterblue Smith <rtl8821cerfe2@gmail.com>
+Subject: RE: [PATCH] rtlwifi: update firmware for rtl8192eu to v35.7
+Thread-Topic: [PATCH] rtlwifi: update firmware for rtl8192eu to v35.7
+Thread-Index: AQHY39DGlvsa0sCTgkyhHB1F58c9da4VIasAgAAWe4CAAT0qAP//gkgAgAC1djA=
+Date: Thu, 20 Oct 2022 03:50:38 +0000
+Message-ID: <776730747faf44fb8b786e9339c16b90@realtek.com>
 References: <20221014132729.2107129-1-james.hilliard1@gmail.com>
  <CA+5PVA5gLBAxbR4qUSUu3vs+nunM+igokVxd=oAQ7OMD2oGiWg@mail.gmail.com>
- <CADvTj4pF_DqwYofL-PU5os7Dco=XyWJ3fY3C1Wxq35pSe=QqFQ@mail.gmail.com> <f4f48fa5df844d9d8d270fb4310e9ff1@realtek.com>
-In-Reply-To: <f4f48fa5df844d9d8d270fb4310e9ff1@realtek.com>
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Wed, 19 Oct 2022 20:55:38 -0400
-Message-ID: <CADvTj4poSjtCP9iRZNJHf=qLPHBmNQzhcc0Ff_jT-q5jjgTZnw@mail.gmail.com>
-Subject: Re: [PATCH] rtlwifi: update firmware for rtl8192eu to v35.7
-To: Ping-Ke Shih <pkshih@realtek.com>
-List-Id: <linux-firmware.lore.kernel.org>
-Cc: Josh Boyer <jwboyer@kernel.org>, 
-	"linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, Jes Sorensen <jes.sorensen@gmail.com>, 
-	Bitterblue Smith <rtl8821cerfe2@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+ <CADvTj4pF_DqwYofL-PU5os7Dco=XyWJ3fY3C1Wxq35pSe=QqFQ@mail.gmail.com>
+ <f4f48fa5df844d9d8d270fb4310e9ff1@realtek.com>
+ <CADvTj4poSjtCP9iRZNJHf=qLPHBmNQzhcc0Ff_jT-q5jjgTZnw@mail.gmail.com>
+In-Reply-To: <CADvTj4poSjtCP9iRZNJHf=qLPHBmNQzhcc0Ff_jT-q5jjgTZnw@mail.gmail.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [172.21.69.188]
+x-kse-serverinfo: RTEXMBS05.realtek.com.tw, 9
+x-kse-attachmentfiltering-interceptor-info: no applicable attachment filtering
+ rules found
+x-kse-antivirus-interceptor-info: scan successful
+x-kse-antivirus-info: =?utf-8?B?Q2xlYW4sIGJhc2VzOiAyMDIyLzEwLzIwIOS4iuWNiCAwMTo0MDowMA==?=
+x-kse-bulkmessagesfiltering-scan-result: protection disabled
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 
-On Wed, Oct 19, 2022 at 8:39 PM Ping-Ke Shih <pkshih@realtek.com> wrote:
->
->
->
-> > -----Original Message-----
-> > From: James Hilliard <james.hilliard1@gmail.com>
-> > Sent: Wednesday, October 19, 2022 9:30 PM
-> > To: Josh Boyer <jwboyer@kernel.org>
-> > Cc: Ping-Ke Shih <pkshih@realtek.com>; linux-firmware@kernel.org; linux-wireless@vger.kernel.org; Jes
-> > Sorensen <jes.sorensen@gmail.com>; Bitterblue Smith <rtl8821cerfe2@gmail.com>
-> > Subject: Re: [PATCH] rtlwifi: update firmware for rtl8192eu to v35.7
-> >
-> > On Wed, Oct 19, 2022 at 8:10 AM Josh Boyer <jwboyer@kernel.org> wrote:
-> > >
-> > > On Fri, Oct 14, 2022 at 9:27 AM James Hilliard
-> > > <james.hilliard1@gmail.com> wrote:
-> > > >
-> > > > This is v35.7 firmware for the rtl8192eu.
-> > > >
-> > > > This adds 2 new firmware variants extracted from vendor drivers that
-> > > > were not previously present:
-> > > > rtl8192eu_ap.bin
-> > > > rtl8192eu_nic_setupbox.bin
->
-> I think these two are not suitable to rtl8xxxu, so I suggest to ignore them.
-
-That's correct, and actually only rtl8192eu_nic.bin seems to be used by
-rtl8xxxu at the moment, I just extracted all variants for consistency, this
-appears to be what was done when these files were originally added.
-
->
-> > > >
-> > > > These firmware files occurs as data statements in the latest Realtek
-> > > > vendor driver I found for the rtl8192eu in addition to some older
-> > > > vendor driver releases:
-> > > > rtl8192EU_WiFi_linux_v5.11.2.1-18-g8e7df912b.20210527_COEX20171113-0047
-> > >
-> > > I have no idea what this is, nor is there any indication that Realtek
-> > > wants these published to the linux-firmware repo under redistributable
-> > > license terms.  You've extracted firmware from elsewhere and are
-> > > assuming it is licensed under the existing license, but there's no
-> > > indication that's actually the case.  The provenance of this firmware
-> > > is questionable.
-> >
-> > I just extracted them from the vendor driver same as last time:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/rtlwifi/rtl8192eu_n
-> > ic.bin?id=91d5dd136153e0a199d7bf30fd03763d83586b73
-> >
-> > The vendor file license just says GPLv2:
-> > https://github.com/clnhub/rtl8192eu-linux/blob/5.11.2.1/hal/rtl8192e/hal8192e_fw.c
-> >
->
-> I'm not a lawyer, no idea about this. I hope someone can comment this.
->
-> > >
-> > > I've copied Ping-Ke Shih in case they have some insight here, but I
-> > > can't really take this patch as it is based on what is represented
-> > > here.  An ack or Signed-off-by from someone at Realtek would go a long
-> > > way.
->
-> I think I can take patches related to Realtek firmware to my github tree,
-> and send out pull-request after checking content of firmware patch.
-> Does it work to you, Josh?
-
-If possible could you check if v35.7 is the newest available firmware version
-for the rtl8192eu?
-
-The v35.7 was the newest I found in vendor drivers for the rtl8192eu, for
-example in this dlink release(v35.7 was also in a few earlier revisions):
-https://support.dlink.com/resource/SECURITY_ADVISEMENTS/DWA-131/REVE/DWA-131_REVE_DRIVER_v5.11.2.1-18_HOTFIX_LINUX.zip
-
->
-> > >
-> > > josh
-> > >
-> > > > Note that the existing rtl8192eu_ap_wowlan.bin firmware header
-> > > > indicates it is actually v18.0 and not v19.0 as indicated by the
-> > > > commit that introduced it 91d5dd136153e0a199d7bf30fd03763d83586b73,
-> > > > as such it is marked as version 18.0.
-> > > >
-> > > > So far I have managed to find the following firmware versions for the
-> > > > rtl8192eu in various vendor driver releases:
-> > > > v18.0
-> > > > v19.0
-> > > > v27.0
-> > > > v35.7
-> > > >
-> > > > The rtl8192eu_ap_wowlan.bin firmware does not appear to have received
-> > > > any updates unlike the other rtl8192eu firmware variants.
-> > > >
-> > > > Previous firmware load in rtl8xxxu:
-> > > > rtl8xxxu: Loading firmware rtlwifi/rtl8192eu_nic.bin
-> > > > Firmware revision 19.0 (signature 0x92e1)
-> > > >
-> > > > Updated firmware load in rtl8xxxu:
-> > > > rtl8xxxu: Loading firmware rtlwifi/rtl8192eu_nic.bin
-> > > > Firmware revision 35.7 (signature 0x92e1)
-> > > >
-> > > > Cc: Jes Sorensen <jes.sorensen@gmail.com>
-> > > > Cc: Bitterblue Smith <rtl8821cerfe2@gmail.com>
-> > > > Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-> > > > ---
-> > > >  WHENCE                             |   9 ++++++++-
-> > > >  rtlwifi/rtl8192eu_ap.bin           | Bin 0 -> 25816 bytes
-> > > >  rtlwifi/rtl8192eu_nic.bin          | Bin 31818 -> 32286 bytes
-> > > >  rtlwifi/rtl8192eu_nic_setupbox.bin | Bin 0 -> 28554 bytes
-> > > >  rtlwifi/rtl8192eu_wowlan.bin       | Bin 25878 -> 29008 bytes
-> > > >  5 files changed, 8 insertions(+), 1 deletion(-)
-> > > >  create mode 100644 rtlwifi/rtl8192eu_ap.bin
-> > > >  create mode 100644 rtlwifi/rtl8192eu_nic_setupbox.bin
-> > > >
-> > > > diff --git a/WHENCE b/WHENCE
-> > > > index 816cf7c..e7ae78a 100644
-> > > > --- a/WHENCE
-> > > > +++ b/WHENCE
-> > > > @@ -3257,12 +3257,19 @@ File: rtlwifi/rtl8723bu_wowlan.bin
-> > > >  File: rtlwifi/rtl8723bu_ap_wowlan.bin
-> > > >
-> > > >  Info: rtl8192eu taken from Realtek driver
-> > > > -      rtl8192EU_linux_v4.3.1.1_11320.20140505
-> > > > +      rtl8192EU_WiFi_linux_v5.11.2.1-18-g8e7df912b.20210527_COEX20171113-0047
-> > > >        Firmware is embedded in the driver as data statements. This info
-> > > >        has been extracted into a binary file.
-> > > >  File: rtlwifi/rtl8192eu_nic.bin
-> > > > +Version: 35.7
-> > > > +File: rtlwifi/rtl8192eu_nic_setupbox.bin
-> > > > +Version: 35.7
-> > > >  File: rtlwifi/rtl8192eu_wowlan.bin
-> > > > +Version: 35.7
-> > > > +File: rtlwifi/rtl8192eu_ap.bin
-> > > > +Version: 35.7
-> > > >  File: rtlwifi/rtl8192eu_ap_wowlan.bin
-> > > > +Version: 18.0
-> > > >
-> > > >  Licence: Redistributable. See LICENCE.rtlwifi_firmware.txt for details.
-> > > >
->
-> [...]
->
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogSmFtZXMgSGlsbGlhcmQg
+PGphbWVzLmhpbGxpYXJkMUBnbWFpbC5jb20+DQo+IFNlbnQ6IFRodXJzZGF5LCBPY3RvYmVyIDIw
+LCAyMDIyIDg6NTYgQU0NCj4gVG86IFBpbmctS2UgU2hpaCA8cGtzaGloQHJlYWx0ZWsuY29tPg0K
+PiBDYzogSm9zaCBCb3llciA8andib3llckBrZXJuZWwub3JnPjsgbGludXgtZmlybXdhcmVAa2Vy
+bmVsLm9yZzsgbGludXgtd2lyZWxlc3NAdmdlci5rZXJuZWwub3JnOyBKZXMNCj4gU29yZW5zZW4g
+PGplcy5zb3JlbnNlbkBnbWFpbC5jb20+OyBCaXR0ZXJibHVlIFNtaXRoIDxydGw4ODIxY2VyZmUy
+QGdtYWlsLmNvbT4NCj4gU3ViamVjdDogUmU6IFtQQVRDSF0gcnRsd2lmaTogdXBkYXRlIGZpcm13
+YXJlIGZvciBydGw4MTkyZXUgdG8gdjM1LjcNCj4gDQo+IE9uIFdlZCwgT2N0IDE5LCAyMDIyIGF0
+IDg6MzkgUE0gUGluZy1LZSBTaGloIDxwa3NoaWhAcmVhbHRlay5jb20+IHdyb3RlOg0KPiA+DQo+
+ID4NCj4gPg0KPiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiA+IEZyb206IEph
+bWVzIEhpbGxpYXJkIDxqYW1lcy5oaWxsaWFyZDFAZ21haWwuY29tPg0KPiA+ID4gU2VudDogV2Vk
+bmVzZGF5LCBPY3RvYmVyIDE5LCAyMDIyIDk6MzAgUE0NCj4gPiA+IFRvOiBKb3NoIEJveWVyIDxq
+d2JveWVyQGtlcm5lbC5vcmc+DQo+ID4gPiBDYzogUGluZy1LZSBTaGloIDxwa3NoaWhAcmVhbHRl
+ay5jb20+OyBsaW51eC1maXJtd2FyZUBrZXJuZWwub3JnOyBsaW51eC13aXJlbGVzc0B2Z2VyLmtl
+cm5lbC5vcmc7IEplcw0KPiA+ID4gU29yZW5zZW4gPGplcy5zb3JlbnNlbkBnbWFpbC5jb20+OyBC
+aXR0ZXJibHVlIFNtaXRoIDxydGw4ODIxY2VyZmUyQGdtYWlsLmNvbT4NCj4gPiA+IFN1YmplY3Q6
+IFJlOiBbUEFUQ0hdIHJ0bHdpZmk6IHVwZGF0ZSBmaXJtd2FyZSBmb3IgcnRsODE5MmV1IHRvIHYz
+NS43DQo+ID4gPg0KPiA+ID4gT24gV2VkLCBPY3QgMTksIDIwMjIgYXQgODoxMCBBTSBKb3NoIEJv
+eWVyIDxqd2JveWVyQGtlcm5lbC5vcmc+IHdyb3RlOg0KPiA+ID4gPg0KPiA+ID4gPiBPbiBGcmks
+IE9jdCAxNCwgMjAyMiBhdCA5OjI3IEFNIEphbWVzIEhpbGxpYXJkDQo+ID4gPiA+IDxqYW1lcy5o
+aWxsaWFyZDFAZ21haWwuY29tPiB3cm90ZToNCj4gPiA+ID4gPg0KPiA+ID4gPiA+IFRoaXMgaXMg
+djM1LjcgZmlybXdhcmUgZm9yIHRoZSBydGw4MTkyZXUuDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBU
+aGlzIGFkZHMgMiBuZXcgZmlybXdhcmUgdmFyaWFudHMgZXh0cmFjdGVkIGZyb20gdmVuZG9yIGRy
+aXZlcnMgdGhhdA0KPiA+ID4gPiA+IHdlcmUgbm90IHByZXZpb3VzbHkgcHJlc2VudDoNCj4gPiA+
+ID4gPiBydGw4MTkyZXVfYXAuYmluDQo+ID4gPiA+ID4gcnRsODE5MmV1X25pY19zZXR1cGJveC5i
+aW4NCj4gPg0KPiA+IEkgdGhpbmsgdGhlc2UgdHdvIGFyZSBub3Qgc3VpdGFibGUgdG8gcnRsOHh4
+eHUsIHNvIEkgc3VnZ2VzdCB0byBpZ25vcmUgdGhlbS4NCj4gDQo+IFRoYXQncyBjb3JyZWN0LCBh
+bmQgYWN0dWFsbHkgb25seSBydGw4MTkyZXVfbmljLmJpbiBzZWVtcyB0byBiZSB1c2VkIGJ5DQo+
+IHJ0bDh4eHh1IGF0IHRoZSBtb21lbnQsIEkganVzdCBleHRyYWN0ZWQgYWxsIHZhcmlhbnRzIGZv
+ciBjb25zaXN0ZW5jeSwgdGhpcw0KPiBhcHBlYXJzIHRvIGJlIHdoYXQgd2FzIGRvbmUgd2hlbiB0
+aGVzZSBmaWxlcyB3ZXJlIG9yaWdpbmFsbHkgYWRkZWQuDQo+IA0KPiA+DQo+ID4gPiA+ID4NCj4g
+PiA+ID4gPiBUaGVzZSBmaXJtd2FyZSBmaWxlcyBvY2N1cnMgYXMgZGF0YSBzdGF0ZW1lbnRzIGlu
+IHRoZSBsYXRlc3QgUmVhbHRlaw0KPiA+ID4gPiA+IHZlbmRvciBkcml2ZXIgSSBmb3VuZCBmb3Ig
+dGhlIHJ0bDgxOTJldSBpbiBhZGRpdGlvbiB0byBzb21lIG9sZGVyDQo+ID4gPiA+ID4gdmVuZG9y
+IGRyaXZlciByZWxlYXNlczoNCj4gPiA+ID4gPiBydGw4MTkyRVVfV2lGaV9saW51eF92NS4xMS4y
+LjEtMTgtZzhlN2RmOTEyYi4yMDIxMDUyN19DT0VYMjAxNzExMTMtMDA0Nw0KPiA+ID4gPg0KPiA+
+ID4gPiBJIGhhdmUgbm8gaWRlYSB3aGF0IHRoaXMgaXMsIG5vciBpcyB0aGVyZSBhbnkgaW5kaWNh
+dGlvbiB0aGF0IFJlYWx0ZWsNCj4gPiA+ID4gd2FudHMgdGhlc2UgcHVibGlzaGVkIHRvIHRoZSBs
+aW51eC1maXJtd2FyZSByZXBvIHVuZGVyIHJlZGlzdHJpYnV0YWJsZQ0KPiA+ID4gPiBsaWNlbnNl
+IHRlcm1zLiAgWW91J3ZlIGV4dHJhY3RlZCBmaXJtd2FyZSBmcm9tIGVsc2V3aGVyZSBhbmQgYXJl
+DQo+ID4gPiA+IGFzc3VtaW5nIGl0IGlzIGxpY2Vuc2VkIHVuZGVyIHRoZSBleGlzdGluZyBsaWNl
+bnNlLCBidXQgdGhlcmUncyBubw0KPiA+ID4gPiBpbmRpY2F0aW9uIHRoYXQncyBhY3R1YWxseSB0
+aGUgY2FzZS4gIFRoZSBwcm92ZW5hbmNlIG9mIHRoaXMgZmlybXdhcmUNCj4gPiA+ID4gaXMgcXVl
+c3Rpb25hYmxlLg0KPiA+ID4NCj4gPiA+IEkganVzdCBleHRyYWN0ZWQgdGhlbSBmcm9tIHRoZSB2
+ZW5kb3IgZHJpdmVyIHNhbWUgYXMgbGFzdCB0aW1lOg0KPiA+ID4NCj4gaHR0cHM6Ly9naXQua2Vy
+bmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvZmlybXdhcmUvbGludXgtZmlybXdhcmUu
+Z2l0L2NvbW1pdC9ydGx3aWZpL3J0bDgxOTJldV9uDQo+ID4gPiBpYy5iaW4/aWQ9OTFkNWRkMTM2
+MTUzZTBhMTk5ZDdiZjMwZmQwMzc2M2Q4MzU4NmI3Mw0KPiA+ID4NCj4gPiA+IFRoZSB2ZW5kb3Ig
+ZmlsZSBsaWNlbnNlIGp1c3Qgc2F5cyBHUEx2MjoNCj4gPiA+IGh0dHBzOi8vZ2l0aHViLmNvbS9j
+bG5odWIvcnRsODE5MmV1LWxpbnV4L2Jsb2IvNS4xMS4yLjEvaGFsL3J0bDgxOTJlL2hhbDgxOTJl
+X2Z3LmMNCj4gPiA+DQo+ID4NCj4gPiBJJ20gbm90IGEgbGF3eWVyLCBubyBpZGVhIGFib3V0IHRo
+aXMuIEkgaG9wZSBzb21lb25lIGNhbiBjb21tZW50IHRoaXMuDQo+ID4NCj4gPiA+ID4NCj4gPiA+
+ID4gSSd2ZSBjb3BpZWQgUGluZy1LZSBTaGloIGluIGNhc2UgdGhleSBoYXZlIHNvbWUgaW5zaWdo
+dCBoZXJlLCBidXQgSQ0KPiA+ID4gPiBjYW4ndCByZWFsbHkgdGFrZSB0aGlzIHBhdGNoIGFzIGl0
+IGlzIGJhc2VkIG9uIHdoYXQgaXMgcmVwcmVzZW50ZWQNCj4gPiA+ID4gaGVyZS4gIEFuIGFjayBv
+ciBTaWduZWQtb2ZmLWJ5IGZyb20gc29tZW9uZSBhdCBSZWFsdGVrIHdvdWxkIGdvIGEgbG9uZw0K
+PiA+ID4gPiB3YXkuDQo+ID4NCj4gPiBJIHRoaW5rIEkgY2FuIHRha2UgcGF0Y2hlcyByZWxhdGVk
+IHRvIFJlYWx0ZWsgZmlybXdhcmUgdG8gbXkgZ2l0aHViIHRyZWUsDQo+ID4gYW5kIHNlbmQgb3V0
+IHB1bGwtcmVxdWVzdCBhZnRlciBjaGVja2luZyBjb250ZW50IG9mIGZpcm13YXJlIHBhdGNoLg0K
+PiA+IERvZXMgaXQgd29yayB0byB5b3UsIEpvc2g/DQo+IA0KPiBJZiBwb3NzaWJsZSBjb3VsZCB5
+b3UgY2hlY2sgaWYgdjM1LjcgaXMgdGhlIG5ld2VzdCBhdmFpbGFibGUgZmlybXdhcmUgdmVyc2lv
+bg0KPiBmb3IgdGhlIHJ0bDgxOTJldT8NCj4gDQo+IFRoZSB2MzUuNyB3YXMgdGhlIG5ld2VzdCBJ
+IGZvdW5kIGluIHZlbmRvciBkcml2ZXJzIGZvciB0aGUgcnRsODE5MmV1LCBmb3INCj4gZXhhbXBs
+ZSBpbiB0aGlzIGRsaW5rIHJlbGVhc2UodjM1Ljcgd2FzIGFsc28gaW4gYSBmZXcgZWFybGllciBy
+ZXZpc2lvbnMpOg0KPiBodHRwczovL3N1cHBvcnQuZGxpbmsuY29tL3Jlc291cmNlL1NFQ1VSSVRZ
+X0FEVklTRU1FTlRTL0RXQS0xMzEvUkVWRS9EV0EtMTMxX1JFVkVfRFJJVkVSX3Y1LjExLjIuMS0x
+OF8NCj4gSE9URklYX0xJTlVYLnppcA0KDQpUaGUgdjM1LjcgaXMgdGhlIG5ld2VzdCwgYnV0IEkg
+dGhpbmsgdGhlICJuZXdlc3QiIGlzIG5vdCBhbHdheXMgaW1wb3J0YW50IHRvDQp5b3UsIGJlY2F1
+c2UgbmV3ZXIgZmlybXdhcmUgY291bGQgcG9zc2libHkgYWRkIG5ldyBmZWF0dXJlIGNvbGxhYm9y
+YXRlZCB3aXRoDQpuZXdlciBkcml2ZXIuIElmIHYzNS43IGNhbiBydW4gc3RhYmx5IHdpdGggcnRs
+OHh4eHUsIHdlIGRvbid0IG5lZWQgbmV3ZXIgb25lLg0KDQo+IA0KPiA+DQo+ID4gPiA+DQo+ID4g
+PiA+IGpvc2gNCj4gPiA+ID4NCj4gPiA+ID4gPiBOb3RlIHRoYXQgdGhlIGV4aXN0aW5nIHJ0bDgx
+OTJldV9hcF93b3dsYW4uYmluIGZpcm13YXJlIGhlYWRlcg0KPiA+ID4gPiA+IGluZGljYXRlcyBp
+dCBpcyBhY3R1YWxseSB2MTguMCBhbmQgbm90IHYxOS4wIGFzIGluZGljYXRlZCBieSB0aGUNCj4g
+PiA+ID4gPiBjb21taXQgdGhhdCBpbnRyb2R1Y2VkIGl0IDkxZDVkZDEzNjE1M2UwYTE5OWQ3YmYz
+MGZkMDM3NjNkODM1ODZiNzMsDQo+ID4gPiA+ID4gYXMgc3VjaCBpdCBpcyBtYXJrZWQgYXMgdmVy
+c2lvbiAxOC4wLg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gU28gZmFyIEkgaGF2ZSBtYW5hZ2VkIHRv
+IGZpbmQgdGhlIGZvbGxvd2luZyBmaXJtd2FyZSB2ZXJzaW9ucyBmb3IgdGhlDQo+ID4gPiA+ID4g
+cnRsODE5MmV1IGluIHZhcmlvdXMgdmVuZG9yIGRyaXZlciByZWxlYXNlczoNCj4gPiA+ID4gPiB2
+MTguMA0KPiA+ID4gPiA+IHYxOS4wDQo+ID4gPiA+ID4gdjI3LjANCj4gPiA+ID4gPiB2MzUuNw0K
+PiA+ID4gPiA+DQo+ID4gPiA+ID4gVGhlIHJ0bDgxOTJldV9hcF93b3dsYW4uYmluIGZpcm13YXJl
+IGRvZXMgbm90IGFwcGVhciB0byBoYXZlIHJlY2VpdmVkDQo+ID4gPiA+ID4gYW55IHVwZGF0ZXMg
+dW5saWtlIHRoZSBvdGhlciBydGw4MTkyZXUgZmlybXdhcmUgdmFyaWFudHMuDQo+ID4gPiA+ID4N
+Cj4gPiA+ID4gPiBQcmV2aW91cyBmaXJtd2FyZSBsb2FkIGluIHJ0bDh4eHh1Og0KPiA+ID4gPiA+
+IHJ0bDh4eHh1OiBMb2FkaW5nIGZpcm13YXJlIHJ0bHdpZmkvcnRsODE5MmV1X25pYy5iaW4NCj4g
+PiA+ID4gPiBGaXJtd2FyZSByZXZpc2lvbiAxOS4wIChzaWduYXR1cmUgMHg5MmUxKQ0KPiA+ID4g
+PiA+DQo+ID4gPiA+ID4gVXBkYXRlZCBmaXJtd2FyZSBsb2FkIGluIHJ0bDh4eHh1Og0KPiA+ID4g
+PiA+IHJ0bDh4eHh1OiBMb2FkaW5nIGZpcm13YXJlIHJ0bHdpZmkvcnRsODE5MmV1X25pYy5iaW4N
+Cj4gPiA+ID4gPiBGaXJtd2FyZSByZXZpc2lvbiAzNS43IChzaWduYXR1cmUgMHg5MmUxKQ0KPiA+
+ID4gPiA+DQo+ID4gPiA+ID4gQ2M6IEplcyBTb3JlbnNlbiA8amVzLnNvcmVuc2VuQGdtYWlsLmNv
+bT4NCj4gPiA+ID4gPiBDYzogQml0dGVyYmx1ZSBTbWl0aCA8cnRsODgyMWNlcmZlMkBnbWFpbC5j
+b20+DQo+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTogSmFtZXMgSGlsbGlhcmQgPGphbWVzLmhpbGxp
+YXJkMUBnbWFpbC5jb20+DQo+ID4gPiA+ID4gLS0tDQo+ID4gPiA+ID4gIFdIRU5DRSAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgfCAgIDkgKysrKysrKystDQo+ID4gPiA+ID4gIHJ0bHdpZmkv
+cnRsODE5MmV1X2FwLmJpbiAgICAgICAgICAgfCBCaW4gMCAtPiAyNTgxNiBieXRlcw0KPiA+ID4g
+PiA+ICBydGx3aWZpL3J0bDgxOTJldV9uaWMuYmluICAgICAgICAgIHwgQmluIDMxODE4IC0+IDMy
+Mjg2IGJ5dGVzDQo+ID4gPiA+ID4gIHJ0bHdpZmkvcnRsODE5MmV1X25pY19zZXR1cGJveC5iaW4g
+fCBCaW4gMCAtPiAyODU1NCBieXRlcw0KPiA+ID4gPiA+ICBydGx3aWZpL3J0bDgxOTJldV93b3ds
+YW4uYmluICAgICAgIHwgQmluIDI1ODc4IC0+IDI5MDA4IGJ5dGVzDQo+ID4gPiA+ID4gIDUgZmls
+ZXMgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ID4gPiA+ID4gIGNy
+ZWF0ZSBtb2RlIDEwMDY0NCBydGx3aWZpL3J0bDgxOTJldV9hcC5iaW4NCj4gPiA+ID4gPiAgY3Jl
+YXRlIG1vZGUgMTAwNjQ0IHJ0bHdpZmkvcnRsODE5MmV1X25pY19zZXR1cGJveC5iaW4NCj4gPiA+
+ID4gPg0KPiA+ID4gPiA+IGRpZmYgLS1naXQgYS9XSEVOQ0UgYi9XSEVOQ0UNCj4gPiA+ID4gPiBp
+bmRleCA4MTZjZjdjLi5lN2FlNzhhIDEwMDY0NA0KPiA+ID4gPiA+IC0tLSBhL1dIRU5DRQ0KPiA+
+ID4gPiA+ICsrKyBiL1dIRU5DRQ0KPiA+ID4gPiA+IEBAIC0zMjU3LDEyICszMjU3LDE5IEBAIEZp
+bGU6IHJ0bHdpZmkvcnRsODcyM2J1X3dvd2xhbi5iaW4NCj4gPiA+ID4gPiAgRmlsZTogcnRsd2lm
+aS9ydGw4NzIzYnVfYXBfd293bGFuLmJpbg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gIEluZm86IHJ0
+bDgxOTJldSB0YWtlbiBmcm9tIFJlYWx0ZWsgZHJpdmVyDQo+ID4gPiA+ID4gLSAgICAgIHJ0bDgx
+OTJFVV9saW51eF92NC4zLjEuMV8xMTMyMC4yMDE0MDUwNQ0KPiA+ID4gPiA+ICsgICAgICBydGw4
+MTkyRVVfV2lGaV9saW51eF92NS4xMS4yLjEtMTgtZzhlN2RmOTEyYi4yMDIxMDUyN19DT0VYMjAx
+NzExMTMtMDA0Nw0KPiA+ID4gPiA+ICAgICAgICBGaXJtd2FyZSBpcyBlbWJlZGRlZCBpbiB0aGUg
+ZHJpdmVyIGFzIGRhdGEgc3RhdGVtZW50cy4gVGhpcyBpbmZvDQo+ID4gPiA+ID4gICAgICAgIGhh
+cyBiZWVuIGV4dHJhY3RlZCBpbnRvIGEgYmluYXJ5IGZpbGUuDQo+ID4gPiA+ID4gIEZpbGU6IHJ0
+bHdpZmkvcnRsODE5MmV1X25pYy5iaW4NCj4gPiA+ID4gPiArVmVyc2lvbjogMzUuNw0KPiA+ID4g
+PiA+ICtGaWxlOiBydGx3aWZpL3J0bDgxOTJldV9uaWNfc2V0dXBib3guYmluDQo+ID4gPiA+ID4g
+K1ZlcnNpb246IDM1LjcNCj4gPiA+ID4gPiAgRmlsZTogcnRsd2lmaS9ydGw4MTkyZXVfd293bGFu
+LmJpbg0KPiA+ID4gPiA+ICtWZXJzaW9uOiAzNS43DQo+ID4gPiA+ID4gK0ZpbGU6IHJ0bHdpZmkv
+cnRsODE5MmV1X2FwLmJpbg0KPiA+ID4gPiA+ICtWZXJzaW9uOiAzNS43DQo+ID4gPiA+ID4gIEZp
+bGU6IHJ0bHdpZmkvcnRsODE5MmV1X2FwX3dvd2xhbi5iaW4NCj4gPiA+ID4gPiArVmVyc2lvbjog
+MTguMA0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gIExpY2VuY2U6IFJlZGlzdHJpYnV0YWJsZS4gU2Vl
+IExJQ0VOQ0UucnRsd2lmaV9maXJtd2FyZS50eHQgZm9yIGRldGFpbHMuDQo+ID4gPiA+ID4NCj4g
+Pg0KPiA+IFsuLi5dDQo+ID4NCj4gDQo+IC0tLS0tLVBsZWFzZSBjb25zaWRlciB0aGUgZW52aXJv
+bm1lbnQgYmVmb3JlIHByaW50aW5nIHRoaXMgZS1tYWlsLg0K
