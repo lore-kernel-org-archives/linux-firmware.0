@@ -4,63 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8989FECAAA1
-	for <linux-firmware@archiver.kernel.org>; Mon, 24 Oct 2022 16:04:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CADC7FA3740
+	for <linux-firmware@archiver.kernel.org>; Mon, 24 Oct 2022 16:06:46 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 59546C43140; Mon, 24 Oct 2022 16:04:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4335EC433D7;
-	Mon, 24 Oct 2022 16:04:18 +0000 (UTC)
+	id B428EC43142; Mon, 24 Oct 2022 16:06:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F22FC433D6
+	for <linux-firmware@kernel.org>; Mon, 24 Oct 2022 16:06:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1666627458;
-	bh=87XR0XMzq5ovLkL8iPNfFsbvuUaZAvPAsoef7GdAcwY=;
+	s=k20201202; t=1666627606;
+	bh=Cr4173dFd1wBfirqot+69yvqtny0fl+BI1AkUoo5eOg=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=dYyYB79TbETLGLXr+Fwe/TXvlrml/xQhxP1sssiCtgG0Z8aM7XzkAyR/EptjDG1CF
-	 Ub4ck9jDn10wHvWdSWwh6UiAGKSadPkWIby+yyBI806EWE/V1pCs9+f5WjEWmLNfM+
-	 oYg/BM9yQ/qrI/heS8MhxRuMGLP/Z/d+dTpxISFXgRuc0qOAbY55whhJvFID1EkzQH
-	 F+oU53Ne4R2Vt707X2oSPkKmguYB27RZQZbXmxCmIrFlYfGZRW06YMHVUDwI4yaCGA
-	 fVOTbN0T4hy3BJEqeZy+LPnmwrAupPSJiB+VZfAvb7JatNizXityDnbkh3LRZ9EpwC
-	 YO7c8nhGY4DIA==
-Received: by mail-ot1-f51.google.com with SMTP id w6-20020a056830110600b00665bf86f012so993892otq.0;
-        Mon, 24 Oct 2022 09:04:18 -0700 (PDT)
-X-Gm-Message-State: ACrzQf2Z7FSYFZk1qj0XDBrOt2MzYvlyn9c8AKrNlsGolNKbnRno3fT+
-	l6vptiUQfiyn4cplFB9F+5eC4sPWJ63iyfUW+hs=
-X-Google-Smtp-Source: AMsMyM6BXv6kI3vQ4Swypdlb7E73xhmUxx7U0tk9ymTtDHvb4EbdOcmqI1TygvtrwaesSMdB+PHSMpv/CRbxnEAPScA=
-X-Received: by 2002:a9d:12a6:0:b0:661:d26c:708c with SMTP id
- g35-20020a9d12a6000000b00661d26c708cmr16757946otg.160.1666627457357; Mon, 24
- Oct 2022 09:04:17 -0700 (PDT)
+	b=OjTSG32iPeiqTjU2JMPr7FzX/ULFx4hluax8UZ27+29bacv5xGfiLzqXtyXNbxKYX
+	 bn5GrlUCDvScGqkuf80QdtEq+lZtfC7vrd09KqRSFyRDt0LovEDQr9pakBOf+e82ZP
+	 fECzZf20iG0Glsc91yoOjelrfePqCk6mkj8/ui5VImgdCzASKGaA7gPZEcfwSumrzL
+	 H34eN2kxNScBWlJM3xczr8Ti0b82SRiSHMA/cejZoPUeYTBQob6Y1pJV7VEZTEvsR8
+	 6INc2Y0aVeUVTUkNpuFXsaF1gJWcR9QruZRSRtpk3RFA3ETfRIpNrDLZCmQrRMlMYy
+	 uPr0+Z5u+aR2w==
+Received: by mail-oi1-f175.google.com with SMTP id n83so11285593oif.11
+        for <linux-firmware@kernel.org>; Mon, 24 Oct 2022 09:06:46 -0700 (PDT)
+X-Gm-Message-State: ACrzQf1cEOOFRqNBktBiu4p3fpYVrbuQUrD6UTmeuQBzxBHw64FGfBmw
+	1P5GcJl4X/xgBydGlbPLdpxQmPK8LudY0H1uEFk=
+X-Google-Smtp-Source: AMsMyM4AVeYAEpVyuxM9MHrZW7TPg9bOIELrcX7mdR6/5FLVRKAm061ESrifx6nINdGFuf7yeidDnxKSDay39POYrkw=
+X-Received: by 2002:a05:6808:1986:b0:355:3525:8fb with SMTP id
+ bj6-20020a056808198600b00355352508fbmr16819037oib.3.1666627605725; Mon, 24
+ Oct 2022 09:06:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221018152446.1927225-1-daniele.ceraolospurio@intel.com>
-In-Reply-To: <20221018152446.1927225-1-daniele.ceraolospurio@intel.com>
+References: <fba70e8292fe40a88511c5d333564c9b@realtek.com>
+In-Reply-To: <fba70e8292fe40a88511c5d333564c9b@realtek.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 24 Oct 2022 12:04:06 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA4Fxi9ZL9kpoN2kSC29X6nei2vHh8Y3uDg70o3Ocq_ahA@mail.gmail.com>
-Message-ID: <CA+5PVA4Fxi9ZL9kpoN2kSC29X6nei2vHh8Y3uDg70o3Ocq_ahA@mail.gmail.com>
-Subject: Re: PR for HuC 7.10.3
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Date: Mon, 24 Oct 2022 12:06:35 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA5TB=JURZTMD=iTYtvUrjezcf0nGZEWr7sJBbPhrrt+uQ@mail.gmail.com>
+Message-ID: <CA+5PVA5TB=JURZTMD=iTYtvUrjezcf0nGZEWr7sJBbPhrrt+uQ@mail.gmail.com>
+Subject: Re: pull request: update Realtek 8188FU, 8192eu and 8852b firmware
+To: Ping-Ke Shih <pkshih@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, intel-gfx@lists.freedesktop.org, 
-	kyle@kernel.org, ben@decadent.org.uk
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, Bitterblue Smith <rtl8821cerfe2@gmail.com>, 
+	Jes Sorensen <jes.sorensen@gmail.com>, James Hilliard <james.hilliard1@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Oct 18, 2022 at 11:22 AM Daniele Ceraolo Spurio
-<daniele.ceraolospurio@intel.com> wrote:
+On Thu, Oct 20, 2022 at 2:14 AM Ping-Ke Shih <pkshih@realtek.com> wrote:
 >
+> Hi,
+>
+> This pull-request is to update firmware from Realtek. That includes three
+> firmware:
+>  1. rtlwifi: Add firmware v4.0 for RTL8188FU
+>     I have sent before, so please ignore previous pull-request [1].
+>  2. rtlwifi: update firmware for rtl8192eu to v35.7
+>     I revise commit message and check firmware content from [2].
+>  3. rtw89: 8852b: update fw to v0.27.32.1
+>
+> Thank you
+> Ping-Ke
+>
+> [1] https://lore.kernel.org/linux-firmware/fabce04424f945a7a51cc466919d4a01@realtek.com/T/#u
+> [2] https://lore.kernel.org/linux-firmware/20221014132729.2107129-1-james.hilliard1@gmail.com/
+>
+> ---
 > The following changes since commit 48407ffd7adb9511701547068b1e6f0956bd1c94:
 >
 >   cnm: update chips&media wave521c firmware. (2022-10-17 10:20:43 -0400)
 >
 > are available in the Git repository at:
 >
->   git://anongit.freedesktop.org/drm/drm-firmware dg2_huc_7.10.3_pr
+>   https://github.com/pkshih/linux-firmware.git HEAD
 >
-> for you to fetch changes up to 8f86b5ab3e051170ea240fc409d457e16e24bc21:
+> for you to fetch changes up to dae5d4603b0795a0ed42b9d5a6f4c4b5fbaa362d:
 >
->   i915: Add HuC 7.10.3 for DG2 (2022-10-18 08:18:19 -0700)
+>   rtw89: 8852b: update fw to v0.27.32.1 (2022-10-20 13:45:49 +0800)
 >
 > ----------------------------------------------------------------
-> Daniele Ceraolo Spurio (1):
->       i915: Add HuC 7.10.3 for DG2
+> Bitterblue Smith (1):
+>       rtlwifi: Add firmware v4.0 for RTL8188FU
+>
+> James Hilliard (1):
+>       rtlwifi: update firmware for rtl8192eu to v35.7
+>
+> Ping-Ke Shih (1):
+>       rtw89: 8852b: update fw to v0.27.32.1
 
 Pulled and pushed out.
 
 josh
+
+>
+>  WHENCE                       |  11 ++++++++++-
+>  rtlwifi/rtl8188fufw.bin      | Bin 0 -> 21020 bytes
+>  rtlwifi/rtl8192eu_nic.bin    | Bin 31818 -> 32286 bytes
+>  rtlwifi/rtl8192eu_wowlan.bin | Bin 25878 -> 29008 bytes
+>  rtw89/rtw8852b_fw.bin        | Bin 1029056 -> 1035232 bytes
+>  5 files changed, 10 insertions(+), 1 deletion(-)
+>  create mode 100644 rtlwifi/rtl8188fufw.bin
+>
