@@ -1,149 +1,139 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=6kr5=2Z=chromium.org=nhebert@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8325BC38A2D
-	for <linux-firmware@archiver.kernel.org>; Mon, 24 Oct 2022 16:18:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9832BC38A2D
+	for <linux-firmware@archiver.kernel.org>; Mon, 24 Oct 2022 23:13:28 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 4D885C43140; Mon, 24 Oct 2022 16:18:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37F33C433D7
-	for <linux-firmware@kernel.org>; Mon, 24 Oct 2022 16:18:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1666628304;
-	bh=hX21Dssca+NLeXrL9URFGDEhdKNfQ2hZOAd0kbP5xV8=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=Qg31UK9kJf68pE5wCMgPLaRigVdoVhfHE6Av0jhYzZzHzi5O4MX+K17A5JabgtepL
-	 tWkrCXtD+AOfnsA8mS1udZCov1tcSFHUREpLlC7sufFmoiOcpQ8J80cqillOruid1z
-	 UDKgnlUAB2Sy3nTncC4ObhigSfmFAAiBrux9dm3SWKBuv6OA8tXA5XKMO4aqsBK/Ad
-	 cWPl/GKZCrcm1EhYenONPn4WUQl7bk7u2lQcv0LSwl7CwBOTVsQ70FWtdYXCLnKFEt
-	 0eX7hqwE2q6sxSHel6+htgoorvaUhqfgQ+sMD5990X0K638VcxrNRfVFxxuU+Rtl7g
-	 bBHlDUHnvNZ4g==
-Received: by mail-ot1-f47.google.com with SMTP id br15-20020a056830390f00b0061c9d73b8bdso6170298otb.6
-        for <linux-firmware@kernel.org>; Mon, 24 Oct 2022 09:18:24 -0700 (PDT)
-X-Gm-Message-State: ACrzQf0E0zk0YyaLCjOETZ89WIPtS0jOpP+nunslJ8TTo4wVs38RQG/e
-	XoEISZnRr1AvobK5VAkz0yp1gMYs2V9N2V2jnig=
-X-Google-Smtp-Source: AMsMyM5I8Tuim+yr2nlCZ1dw9d43mkLy164RCipgXSVkX1V3Ij8Y22cBbZNhk2BPu1qROpsKMHtZb9tt9ySjY3uN08A=
-X-Received: by 2002:a9d:12a6:0:b0:661:d26c:708c with SMTP id
- g35-20020a9d12a6000000b00661d26c708cmr16789996otg.160.1666628303302; Mon, 24
- Oct 2022 09:18:23 -0700 (PDT)
+	id 69FCDC433D6; Mon, 24 Oct 2022 23:13:28 +0000 (UTC)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 31F3BC433B5
+	for <linux-firmware@kernel.org>; Mon, 24 Oct 2022 23:13:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 31F3BC433B5
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f44.google.com with SMTP id r12so2877010lfp.1
+        for <linux-firmware@kernel.org>; Mon, 24 Oct 2022 16:13:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=N++ECBeiYTMrGhdzzlYvKWtcZRGylld/eBk1VfSFo+0=;
+        b=Jb3dJUcj77xb+NVMl3d7F4DKDlJf9tqwDpl7Xk1CzibXBGhUajRZ+DnWG+TJlG/TnW
+         DkMeADFDKCGWeMHhH4H8KSku8hvHXNMJ0HlnDBe6GX/lhngtZqXN1wUC+fW42a1nJxeE
+         efabcSBwNuQI7669JcRJzn0CmSoqz1pK59H7Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N++ECBeiYTMrGhdzzlYvKWtcZRGylld/eBk1VfSFo+0=;
+        b=5pRflbySBmdrcjbNgFdf6XV+UMNrquce0eU478ZwXajTE1RYDk/6slGJSTUpJR+YD7
+         D/iTp3NxvPfYvNbj5DL0Ij6I5GEO6rh3olNkZOpRbUP3M//XmCHlU5GOaSfsBi/K7NSg
+         7yagXhX6zLWCMgwXGdxBX8KL3o/6UivmB5WixBp1nq2dC9Kw+LvKe1yGzytMq3DU6zZ9
+         OarPuYaq3oUfinFLpC/P29OhuJEOnJ4or+KC4ncmWEJvii4n1OP/UrAdHORxrO+LD4Pn
+         vp5WkKb/Xx2ewNSekhGPfD/C0M46bZTA0qsjMloRTmTqbEe5MYo0MdiC8dY50O8g4hR/
+         P4ww==
+X-Gm-Message-State: ACrzQf393oPSTUI5S1oAqIcw6YnYowaUwRBkW7M3z4lI7Z0F9ria9Wkl
+	/J+Y6tTMMLu1XUuZsnIwAhvJbAF16ylIN4LKZc0bDw==
+X-Google-Smtp-Source: AMsMyM4zgnkTMjwuPQychO5/KeczfWRL6z5D7QwOTlvV0HoDnDHmmJJoSpbO/Td0JYGontrEUP3ONUHVi4cb5C+4yLM=
+X-Received: by 2002:a05:6512:104e:b0:4a2:6bd2:4db5 with SMTP id
+ c14-20020a056512104e00b004a26bd24db5mr13284277lfb.52.1666653205078; Mon, 24
+ Oct 2022 16:13:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAFqVybqsda75NPUAYX47FCQp0OAkRWOUw7K9UbPawbNo=Th2bQ@mail.gmail.com>
-In-Reply-To: <CAFqVybqsda75NPUAYX47FCQp0OAkRWOUw7K9UbPawbNo=Th2bQ@mail.gmail.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 24 Oct 2022 12:18:12 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA4SOyhji1Y-OzFkAJsRz6k70qdKOOvPEKN4PyCBUygCsA@mail.gmail.com>
-Message-ID: <CA+5PVA4SOyhji1Y-OzFkAJsRz6k70qdKOOvPEKN4PyCBUygCsA@mail.gmail.com>
-Subject: Re: Feature request: Adding tools to be able to split the
- linux-firmware package into separate components
-To: Azamat Hackimov <azamat.hackimov@gmail.com>
+References: <CANHAJhG7wCv4TwVCtWa2wqHzaG5ncbtfnVJtnQqqDSbEoPmoHw@mail.gmail.com>
+ <CAA8EJpoBYb-=3RT_EO+PSFkbJ95RobyeHt6QmOfTTgvEEFoUfQ@mail.gmail.com>
+In-Reply-To: <CAA8EJpoBYb-=3RT_EO+PSFkbJ95RobyeHt6QmOfTTgvEEFoUfQ@mail.gmail.com>
+From: Nathan Hebert <nhebert@chromium.org>
+Date: Mon, 24 Oct 2022 16:13:12 -0700
+Message-ID: <CANHAJhEui=wn985RzfsUR+GdsESCExi2Gst43c+WEOBqaD5dTg@mail.gmail.com>
+Subject: Re: [PULL V2]: qcom: SC7180 and SC7280 venus firmware updates
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org
+Cc: linux-firmware@kernel.org, Rob Clark <robdclark@gmail.com>, 
+	linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>, 
+	Fritz Koenig <frkoenig@chromium.org>, Vikash Garodia <vgarodia@qti.qualcomm.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Oct 19, 2022 at 12:15 PM Azamat Hackimov
-<azamat.hackimov@gmail.com> wrote:
+On Thu, Oct 20, 2022 at 11:02 AM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
 >
-> The size of linux-firmware already reaches over 1 GB. Linux
-> distributions typically do not split the linux-firmware package into
-> components, which results in the user's installation storing files
-> that are never used by the system and take up unnecessary space. This
-> problem is especially acute for embedded systems or systems running in
-> containers.
-
-Why is firmware installed in containers at all?
-
-> There has been a request among some distributions to separate
-> linux-firmware into components in order to make it easier for the user
-> to install and use firmware. Among them are Arch Linux[1], Fedora[2],
-> Alpine[3], however, separation on the side of the maintainers of the
-> distribution is fraught with difficulties associated with the
-> inability to reliably separate the individual components of the
-> linux-firmware package by driver or even by category.
+> On Thu, 20 Oct 2022 at 20:08, Nathan Hebert <nhebert@chromium.org> wrote:
+> >
+> > The following changes since commit 48407ffd7adb9511701547068b1e6f0956bd1c94:
+> >
+> >   cnm: update chips&media wave521c firmware. (2022-10-17 10:20:43 -0400)
+> >
+> > are available in the Git repository at:
+> >
+> >   https://github.com/nathan-google/linux-firmware.git
+> > update_sc7180_and_sc7280_firmwares_v2
+> >
+> > for you to fetch changes up to 054271e4164b6b4c069a3aaaeb9bfcde8c850339:
+> >
+> >   qcom: update venus firmware files for VPU-2.0 (2022-10-20 09:37:35 -0700)
+> >
+> > ----------------------------------------------------------------
+> > Nathan Hebert (3):
+> >       qcom: update venus firmware files for v5.4
+> >       qcom: remove split SC7280 venus firmware images
+> >       qcom: update venus firmware files for VPU-2.0
+> >
+> >  WHENCE                   |  17 ++---------------
+> >  qcom/venus-5.4/venus.b00 | Bin 212 -> 212 bytes
+> >  qcom/venus-5.4/venus.b01 | Bin 6808 -> 6808 bytes
+> >  qcom/venus-5.4/venus.b02 | Bin 873596 -> 875020 bytes
+> >  qcom/venus-5.4/venus.b03 | Bin 33792 -> 33896 bytes
+> >  qcom/venus-5.4/venus.mbn | Bin 919708 -> 921236 bytes
+> >  qcom/venus-5.4/venus.mdt | Bin 7020 -> 7020 bytes
+> >  qcom/vpu-2.0/venus.b00   | Bin 692 -> 0 bytes
+> >  qcom/vpu-2.0/venus.b01   | Bin 7376 -> 0 bytes
+> >  qcom/vpu-2.0/venus.b02   | Bin 300 -> 0 bytes
+> >  qcom/vpu-2.0/venus.b03   | Bin 20 -> 0 bytes
+> >  qcom/vpu-2.0/venus.b04   | Bin 20 -> 0 bytes
+> >  qcom/vpu-2.0/venus.b05   | Bin 20 -> 0 bytes
+> >  qcom/vpu-2.0/venus.b06   | Bin 20 -> 0 bytes
+> >  qcom/vpu-2.0/venus.b07   | Bin 24 -> 0 bytes
+> >  qcom/vpu-2.0/venus.b08   | Bin 16 -> 0 bytes
+> >  qcom/vpu-2.0/venus.b09   | Bin 939184 -> 0 bytes
+> >  qcom/vpu-2.0/venus.b10   | Bin 42976 -> 0 bytes
+> >  qcom/vpu-2.0/venus.b19   |   1 -
+> >  qcom/vpu-2.0/venus.mbn   | Bin 2031188 -> 2031620 bytes
+> >  qcom/vpu-2.0/venus.mdt   | Bin 8068 -> 0 bytes
+> >  21 files changed, 2 insertions(+), 16 deletions(-)
+> >  delete mode 100644 qcom/vpu-2.0/venus.b00
+> >  delete mode 100644 qcom/vpu-2.0/venus.b01
+> >  delete mode 100644 qcom/vpu-2.0/venus.b02
+> >  delete mode 100644 qcom/vpu-2.0/venus.b03
+> >  delete mode 100644 qcom/vpu-2.0/venus.b04
+> >  delete mode 100644 qcom/vpu-2.0/venus.b05
+> >  delete mode 100644 qcom/vpu-2.0/venus.b06
+> >  delete mode 100644 qcom/vpu-2.0/venus.b07
+> >  delete mode 100644 qcom/vpu-2.0/venus.b08
+> >  delete mode 100644 qcom/vpu-2.0/venus.b09
+> >  delete mode 100644 qcom/vpu-2.0/venus.b10
+> >  delete mode 100644 qcom/vpu-2.0/venus.b19
+> >  delete mode 100644 qcom/vpu-2.0/venus.mdt
 >
-> I propose to provide a similar mechanism for filtering prerequisites
-> on the side of the linux-firmware package. To do this, I propose to
-> transform the WHENCE file into a structured file that can be processed
-> by an additional tool that can filter the necessary components by
-> driver, category, manufacturer or license.
+> As I wrote in another email thread, it might be better to drop split
+> files, add only venus.mbn and then use Link: lines to create venus.mdt
+> -> venus.mbn symlinks.
+Thanks for the feedback. There was some concern from Vikash at Qualcomm
+about making a change to the venus-5.4 firmware to drop the split files.
 
-If someone is going to implement this, I'd suggest just creating a new
-file to start with, and keeping WHENCE as-is.
+Vikash, are you able to comment about whether or not it is a concern to replace
+the venus.mdt and split files with a symbolic link to venus.mdn for
+the venus-5.4
+files? I tested the suggested approach on ChromeOS with kernels based on 5.4
+and 5.15 and did not see any issues.
 
-> Suggested structured file format is YAML (although other formats are
-> possible), example entry (actual existing entry from WHENCE):
+This is a holiday week, so his response may be slow.
+
 >
-> ```
-> drivers:
->   - driver: emi62
->     description: EMI 6|2m USB Audio interface
->     category:
->       - drivers/usb/misc
->     vendor: Emagic
->     license: Unknown
->     info: |
->       Converted from Intel HEX files, used in our binary representation of ihex.
->     files:
->       - name: emi62/bitstream.fw
->         version: 1.0.0.191
->         info: DATE=2002oct28
->       - name: emi62/loader.fw
->         version: 1.0.2.002
->         info: DATE=10.01.2002
->       - name: emi62/midi.fw
->         version: 1.04.062
->         info: DATE=16.10.2002
->       - name: emi62/spdif.fw
->         version: 1.04.062
->         info: DATE=16.10.2002
-> ```
->
-> The firmware-install utility to query and filter a structured file
-> should parse the following options:
->
-> firmware-install list [--category <LIST>] [--driver <LIST>] [--license
-> <LIST>] [--vendor <LIST>]
->   List drivers and firmwares that applies to filter
-
-This implies the linux-firmware project and utilities would have to
-monitor Linux kernel driver information.  I don't think we want to tie
-the two directly together like that.  There's little need from the
-firmware side because the kernel drivers already have the firmware
-they need embedded in the module info.
-
-> firmware-install show <DRIVER>
->   Show information about driver
-
-This is already covered by modinfo.
-
-> firmware-install install <DESTINATION> [--category <LIST>] [--driver
-> <LIST>] [--license <LIST>] [--vendor <LIST>]
->   Install firmwares that applies to filter
-
-This would be useful for highly specific, non-changing installations
-(e.g. embedded as you mention).  However, a distribution is not going
-to use this as they have to install firmware for any kind of device a
-user may have.  They can already package the files in separate
-distribution packages if they wish.
-
-> firmware-install check
->   Check format and content of structured file (like check_whence.py does)
->
-> After the implementation of such a utility, maintainers of Linux
-> distributions will have a convenient tool that will allow them to
-> create sets of linux-firmware-* packages with content separation
-> instead of a monolithic installation of all firmware.
-
-They can and do already do this.
-
-I'm not against the overall idea, but I don't have time to implement
-anything for this and it's unclear to me what the overall value would
-be.  If someone wants to send patches for this, I'd happily review
-them.
-
-josh
-
-> [1] https://bugs.archlinux.org/task/72559
-> [2] https://fedoraproject.org/wiki/Changes/Linux_Firmware_Minimization
-> [3] https://lists.alpinelinux.org/~alpine/devel/%3C4d19a51c-3eba-9775-0208-4d87da66effc%40bitmessage.ch%3E
+> --
+> With best wishes
+> Dmitry
