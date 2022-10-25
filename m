@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 777F9C38A2D
-	for <linux-firmware@archiver.kernel.org>; Tue, 25 Oct 2022 21:07:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44421FA373E
+	for <linux-firmware@archiver.kernel.org>; Tue, 25 Oct 2022 21:08:09 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 3AC58C433B5; Tue, 25 Oct 2022 21:07:59 +0000 (UTC)
+	id 2C2F7C433C1; Tue, 25 Oct 2022 21:08:09 +0000 (UTC)
 Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id E99C6C433D7
-	for <linux-firmware@kernel.org>; Tue, 25 Oct 2022 21:07:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org E99C6C433D7
+	by smtp.kernel.org (Postfix) with ESMTPS id 0934EC433D6
+	for <linux-firmware@kernel.org>; Tue, 25 Oct 2022 21:08:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 0934EC433D6
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f46.google.com with SMTP id p8so24557239lfu.11
-        for <linux-firmware@kernel.org>; Tue, 25 Oct 2022 14:07:57 -0700 (PDT)
+Received: by mail-lf1-f46.google.com with SMTP id g7so24603716lfv.5
+        for <linux-firmware@kernel.org>; Tue, 25 Oct 2022 14:08:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
         bh=QF+3wsg45xvLF5RBlwYMKr4aggC4R4uAm1oMiXFMvkk=;
-        b=aA1xEjEJIPmuIYgSOoA2oZmv/CG5JRPx4A5NrwoHE+D3jNXiIAtQ1YldhX3bOIYg1F
-         XRxbkA5fEJltBdxOxQByPTjRq1MUNOU10vaTApQtVi+NQXnbRx7o5xBTnz7hv9ESBnJd
-         C2Dk+0+wTC3/g8pnEE7d0O0QOTUk7qKFPHz+W06A5aTxmqku/szDouwtd/829b1CwqTO
-         jkqVUFlK5O2QBKMD4zQBIGnoYa9DuC/G+5TCPu6Rl56tr/pSYc6NX1+zUmjDoOHxGyHO
-         jUqGicElOGYYJKkMpqcf9FNuLiBVssUh8XXy815Hst1YKqCNYnNhqUWEHtqhIBWH+/3L
-         FNxQ==
+        b=U5bMN+oaA9QRE6q8CJP7lUahd44tKbmmh0qld/oprQaKLiQF0r1lahdNIhbcgyz9w1
+         FI9gueD+8vwzUdKYIvi/y4H4A3gqsUMI0Jwz3UhLQ/0qbc9rMhSznbIEYeyHzuYAt9lD
+         acR4rFfFU/wdXPQIAozr5KoMLaZmzFDsfw1eIf1yda2QaAOLI9SoZcQot4m3irC8EmAK
+         WVFJBEqwzX9+RphGwN/QKr9pwnUL9/5YWfVSIRS7xkouvwPsgLV89vG74U5Oy/OPtcPn
+         X71v9SOymDfFKa3NPIbmqTddyYJK5X1XacYJVNQwublLvedXGuOMcmmOk6LvH1OlwFWP
+         pQxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
         bh=QF+3wsg45xvLF5RBlwYMKr4aggC4R4uAm1oMiXFMvkk=;
-        b=T8Mjil4d1lL2wu0vbhi1L7yXkz+6AbZyFtz1VTipieTszpc1MQq+RRCVY3CCL8GrAk
-         5G4g/Zk1Kc7IpLD/wtJWMyms/v0eN7QRr+ymYkiz5jNvq9BrcFOk6aln1mULAOdEahn8
-         tznmIswPiZasDFJAtWQMCkcvpBTT4ulpOx5qxufOAbiXloTn3jHkO6cctxFyGtAt3PQA
-         0n1JhyF4dZVJgWl/KZaPL4l829VXLGJd5L7wIRYihctFs6eNmwJV6OZVfH24TyA/ryOD
-         UjaGw9ZS9KDvPftB63hK5XarJ9at8AquQzVY9vfduPbjsRl50OEEafS8TLsrhgOunba2
-         Dijg==
-X-Gm-Message-State: ACrzQf3OhaG8pmJZJheeMEHvoULtLgXkwP8zGni3wsUTRcBvTdtBax28
-	Ka/KHrbV5adtufgaINNzK9vafg==
-X-Google-Smtp-Source: AMsMyM6RUdkt75CDjZoAv/huYgrSZ5MjCNQMY+vNa/uhYw0ikqwKbHLUrIVoKlTFzHLcqIC/yyidjw==
-X-Received: by 2002:a05:6512:110c:b0:4a2:4119:f5c4 with SMTP id l12-20020a056512110c00b004a24119f5c4mr14140931lfg.606.1666732075976;
-        Tue, 25 Oct 2022 14:07:55 -0700 (PDT)
+        b=dPT8uh3l9c+dK0BTIYGG5DSxnAbEqf6RPuLFOrDj4/WAORgB3g5DUGCR98s+RRBBe7
+         dCsgpZxIZ6hiXfJ5OfZWAa9BxB2l3iY/1zkDdu4VzIMo8SPz9Eb/Yx7ISAgbziKUYYCD
+         bVpCwvuVjSISvquYB28tIJfn0ZHLwoZWPcIO1qpflaHt7lHVtFiw54y7bPEBWsF8UJ3r
+         b18KW0tt6Y2GLBRfoPuDgmLNQbsNJpn5a3zc5xQE9GjcqcUY2MZqxZ9AbhCVyiNWYmMl
+         A2M+Ewa5fST2R1PWQ2Qn2UjlgR6lz0zyQD3cC5qg5dvzEyeHUy9NfxqTq0xvYfHeueFZ
+         l7YQ==
+X-Gm-Message-State: ACrzQf0QzQ8Jfap7bSCVF8uIw5MiHclsK0yJNOdbfuZHaDusmAmzy0nt
+	3e2B4wbDOFw7bUmNs/4vPRU6DQ==
+X-Google-Smtp-Source: AMsMyM4unZplmpBcci34j6spLBCFpxfWsmqoM/wQi1xA0mtzeb5UBgiNLmQ7Q0g6uA1AFLjK7B8emg==
+X-Received: by 2002:a05:6512:22c3:b0:4a2:7cd9:1f1f with SMTP id g3-20020a05651222c300b004a27cd91f1fmr14199093lfu.582.1666732086156;
+        Tue, 25 Oct 2022 14:08:06 -0700 (PDT)
 Received: from [10.27.10.248] ([195.165.23.90])
-        by smtp.gmail.com with ESMTPSA id v12-20020a05651203ac00b00497ad8e6d07sm570972lfp.222.2022.10.25.14.07.54
+        by smtp.gmail.com with ESMTPSA id e18-20020a05651236d200b004946bb30469sm578112lfs.82.2022.10.25.14.08.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Oct 2022 14:07:55 -0700 (PDT)
-Message-ID: <13edc042-d206-187e-0a77-00e39525cb18@linaro.org>
-Date: Wed, 26 Oct 2022 00:07:54 +0300
+        Tue, 25 Oct 2022 14:08:05 -0700 (PDT)
+Message-ID: <149c9604-03ad-3869-075c-7080d921deb6@linaro.org>
+Date: Wed, 26 Oct 2022 00:08:05 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
