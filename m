@@ -1,147 +1,142 @@
-Return-Path: <SRS0=bWOt=3G=gmail.com=azamat.hackimov@kernel.org>
+Return-Path: <SRS0=PwxY=3I=plvision.eu=oleksandr.mazur@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2DE8C433FE
-	for <linux-firmware@archiver.kernel.org>; Sun,  6 Nov 2022 17:54:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7433C4332F
+	for <linux-firmware@archiver.kernel.org>; Tue,  8 Nov 2022 17:03:17 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 98038C433D7; Sun,  6 Nov 2022 17:54:07 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	id 7A19BC433D6; Tue,  8 Nov 2022 17:03:17 +0000 (UTC)
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2135.outbound.protection.outlook.com [40.107.249.135])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 6B741C433D6;
-	Sun,  6 Nov 2022 17:54:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 6B741C433D6
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f181.google.com with SMTP id t10so13186671ljj.0;
-        Sun, 06 Nov 2022 09:54:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=P6GmVObtj1sNMHRiysMnHdJ37RnTgF9ZHykV1RiQyJk=;
-        b=W2iJqdZh3hNMuZvqi73IYPDMUMHQk4nrssB5QZZGszpbVX43O2G6P3RKuKNu6YZx+i
-         x6sJoVeFWiULxQykNtqUoX/e4XsGC4/gjA/kOTek+Y9FDCpu4XhQ5+Pv5AVLaQCFMlL0
-         RUh2c/+UOQRXzmA0mF0cEcZkiK/C0RuYWsZVbqhL6ymcZVG0wsyTF4h3/4DzJtreWIAZ
-         QUPpTquIfx6bFQELWf6N06ixKKWxvjOfnClFOo9c/hUcHGSBG6wtnP+1zK6Dsao6hKT/
-         S9MUDFksTUFi+BESqhWb5jkRipHbWgnhDnPi7VhsTf7RTRrCL2cF905HiHweC22c9hbh
-         X2Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=P6GmVObtj1sNMHRiysMnHdJ37RnTgF9ZHykV1RiQyJk=;
-        b=DnyjESf13Rzsy+HsokstMa9/5R0f+jdxDYxuK3htcy2Si5o7VlOK2YZzGjWO2sZSMP
-         GPLLFVSHo+ZFnsc6aC3PqxTUGepcMoj/1T3a2YM0MyiwXcFS51Ac4fenqn/B6bjrfK8W
-         yiQY8+qjuVcWxcwWvd+qxFQxes/1fRc8SgY5+leXRWdEquHgqx3BcUEtQ2uOjYMIx1bb
-         HvPwEERYOC0gbO8BPVawIiw/A33kWr0bsY/Cix48CGmGRaKWqisnWs5OYt5c7itkjHEF
-         RjyKcsytMYfkAlIfW97y11KOp46ETxg0RJL+KgIHqs+XkNX+E3JXjJgsf+KOADDMw5ls
-         XLcg==
-X-Gm-Message-State: ACrzQf3gdArJtusHntBaVt643a3S9artqV6FCCAbECtP0BbIsUMUBPXg
-	+e3+WuV0K4UlnoLBkoXf2wl14h3LKCIYqvK+dTCcNd4+P1UC6g==
-X-Google-Smtp-Source: AMsMyM6js/JEfR9tVLuNLei0rSfM6FOjtqP99xnxmHfz3UcHCjlT7YzfB5NR3yA/815g4+8X4WiqzLscoJ9uDJtYGm8=
-X-Received: by 2002:a05:651c:94:b0:26f:c081:9aee with SMTP id
- 20-20020a05651c009400b0026fc0819aeemr4459012ljq.219.1667757243868; Sun, 06
- Nov 2022 09:54:03 -0800 (PST)
-MIME-Version: 1.0
-References: <CAFqVybqsda75NPUAYX47FCQp0OAkRWOUw7K9UbPawbNo=Th2bQ@mail.gmail.com>
- <CA+5PVA4SOyhji1Y-OzFkAJsRz6k70qdKOOvPEKN4PyCBUygCsA@mail.gmail.com>
-In-Reply-To: <CA+5PVA4SOyhji1Y-OzFkAJsRz6k70qdKOOvPEKN4PyCBUygCsA@mail.gmail.com>
-From: Azamat Hackimov <azamat.hackimov@gmail.com>
-Date: Sun, 6 Nov 2022 20:53:52 +0300
-Message-ID: <CAFqVybrYZLf31S9MYWrgSRTvi_HH0yWr1rJq21Dnsw91p=Debg@mail.gmail.com>
-Subject: Re: Feature request: Adding tools to be able to split the
- linux-firmware package into separate components
-To: Josh Boyer <jwboyer@kernel.org>
+	by smtp.kernel.org (Postfix) with ESMTPS id DDC7AC433C1
+	for <linux-firmware@kernel.org>; Tue,  8 Nov 2022 17:03:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org DDC7AC433C1
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=plvision.eu
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=plvision.eu
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JFI5gFvxqWD8HPRYQpvUenhzwnP9rRAYqh8b4iP02kMJgKIU6rBxOIsZPB9MvZW2mBQKeca2PS4W3LQe9BosHT6/EvX0JYTCrbe9SeI6vwYmELCvKgaQrvW9zRsvpK5flVXue1ora8qWTSZKMv8nQ/pgPT44fFc85Y7TcaDLYdR1a1JFjQ8W1njTaxw2u+VZdAywweDE5MMpZimRaK8p9eK7LCAs0Pf6jw2rNEXqx1t2Hihb0gTW3ZcStW/oRfo0a1XAciX5ILKmPRmRnu2nXDhBj3h3oImzfBnOScMmrunC21e7Q0u26Dlz/u/gBkYfWrcU7qPRFLVGCjjCvAsyOw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AH+JwV70ixUWQs/S4ePrqrs8t0W9Z048c5g/NR+9wLw=;
+ b=mYm1G48xPn/NUAZ0BsloyNyXCmHtPvU7vLJYWCHAxdSssNkEzS0V2xSg47QxIWgdg2R6WdLEtj3gDs/mhVtE1VKiNPnHCXkQGkaMT3dzMPJiNvDhd8BkvlESYq2C4HjA7BDH9SjESydX2qjQ5WvFPanP48W+cQNDsLvrNnTNmBdZ6j6wHixa9mFxsdWMpqWnpkmu3pMJ1VBA2il4samRNS7+drUwwt1tSNbS+S9u1VfYOSPpHcIi4/cvY82iuZgdBUAFolIoB2PFjmAZfhYFdhKajIUQVRsBRtuDx91hUmxkRaaKN/vR5Zchx7bxQMIcad3uZnU25oIh+bvCmNvKkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=plvision.eu; dmarc=pass action=none header.from=plvision.eu;
+ dkim=pass header.d=plvision.eu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=plvision.eu;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AH+JwV70ixUWQs/S4ePrqrs8t0W9Z048c5g/NR+9wLw=;
+ b=Axosxqj4LQK8C2AoYF/YZNBazmvG45cdECcxP3LmGNSWUBXoQYyqfAfx+UteSYLN93u6oujCz8PQDlyBEV1eJXGkB5KvrmSeVsr3KIZreUipcDDeiL15GyzSgV8eG2Gzc2qIDZWZh9My9ORKPavBfHVsEVZ1Z1D/6X7T+j/puts=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=plvision.eu;
+Received: from GV1P190MB2019.EURP190.PROD.OUTLOOK.COM (2603:10a6:150:5b::20)
+ by AS4P190MB1951.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:516::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.25; Tue, 8 Nov
+ 2022 17:03:13 +0000
+Received: from GV1P190MB2019.EURP190.PROD.OUTLOOK.COM
+ ([fe80::4162:747a:1be7:da87]) by GV1P190MB2019.EURP190.PROD.OUTLOOK.COM
+ ([fe80::4162:747a:1be7:da87%4]) with mapi id 15.20.5791.022; Tue, 8 Nov 2022
+ 17:03:13 +0000
+From: Oleksandr Mazur <oleksandr.mazur@plvision.eu>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+To: linux-firmware@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	mickeyr@marvell.com,
+	oleksandr.mazur@plvision.eu,
+	serhiy.boiko@plvision.eu,
+	serhiy.pshyk@plvision.eu,
+	taras.chornyi@plvision.eu,
+	vadym.kochan@plvision.eu,
+	volodymyr.mytnyk@plvision.eu,
+	yevhen.orlov@plvision.eu,
+	maksym.glubokiy@plvision.eu
+Subject: [GIT PULL] linux-firmware: mrvl: prestera: Update Marvell Prestera Switchdev v4.1
+Date: Tue,  8 Nov 2022 19:03:01 +0200
+Message-Id: <20221108170301.8539-1-oleksandr.mazur@plvision.eu>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: AM5PR1001CA0041.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:206:15::18) To GV1P190MB2019.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:150:5b::20)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV1P190MB2019:EE_|AS4P190MB1951:EE_
+X-MS-Office365-Filtering-Correlation-Id: 81fdd3eb-5e5b-44fc-54af-08dac1ab1ee3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	zQMeNnrblZtXzb/EqlIZOG9ym1aJQSUEzD89WB1vU8TAcmB+rKMecZrB8rNLk1aS8MsxLf4mE8byC9lc9tXYO3biDTQ9T13yfsDmaLx9ZQtffoktwIrYbSOYS564zGI1aK/qkKm8I2yLqSxb2l4uCogPp98nIBTZymtxcfN2p1a9joFN0ocWEY6uB5Rvt8NrpKLI6vHTMdyMMuWvke5hINdz3JkjLEzVcYlJwkuutB7y7r4VnZ42NY9TVwX+umJjKILVDhDRQUlYl11hibrpgGwdqTrC+fEr/2kRNaO69BcWzQN1TAtkeXaDaP00g/2hQGlJQGn05ZM3ePpiTwzTQcBnlUu9HlVh9j0RXR22QiX8/KKCVX8TD55iapsSbpPJV42wVI9htfZZEkixgXNzAv7dkB9Ng+jCLUqzVkVItSBbh6pb8ItJe/+GYFZO4Socq2oq7nVXLmOxth5tPfc5Mr3ONQNVbL6A2Ph6D2g1cXOrZfb4HZuxgW0/AZR3uZDH1tG1/UH1NxUOcm/F0/jFHHEcdZQ6TzW8MO8iZ9nTKyfszMhEMtb8sFnzO1PF17Ci4WBUYUoHjuJn024qGSAXtK/WwOU+9e2xTc93dOJs/cqSKWikqP+s8LbQhX8svyL60IxxqE9wGY8DU/+TX4uLfCg9TWHRSzlONQufkLJDdOXbXkDjQ3nH3N2wj+l1U1w4hvTeR/qY5bIfpNza01/ijScNXENWJBH0USZjij+8bvViwQlgHQ+yZr0kFzVu0EDuHf8eN7HrnCJtz62nkR9z3jgcBV5COpuREBylWxXuJcU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1P190MB2019.EURP190.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(396003)(376002)(346002)(136003)(39830400003)(34036004)(451199015)(6486002)(6666004)(6512007)(15650500001)(107886003)(26005)(6506007)(2906002)(36756003)(966005)(52116002)(316002)(508600001)(41300700001)(38100700002)(8936002)(6916009)(38350700002)(66946007)(4326008)(66476007)(66556008)(4744005)(4001150100001)(86362001)(44832011)(8676002)(5660300002)(2616005)(83380400001)(41320700001)(1076003)(186003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?obAcfPEnHsUFF4a5UReAk5S8OtoV5hkups1FMp0UOFSYg7dq8iW/KCMqcdu2?=
+ =?us-ascii?Q?uBE3lKu4VxMdN9VFxaM0hLKaQ49aYYjvPlRCD21Tt8y7Q5eYiRuPsVVGR4nN?=
+ =?us-ascii?Q?++IuZtOuSMhCZOMW9ShBN2tP4IxA3+fUtO9NMChey+uwkeNxL0kXHxy9A5Fb?=
+ =?us-ascii?Q?uLJ9GENHyxHP3WwEuRI2x4/WStv7IoGSnzhvBVAtgZAlokQ26q/kbBdR/qvA?=
+ =?us-ascii?Q?hrSWrVpfMVrpc9Col79LE/m4T++eyBP3zoeJaHqYbcZppPqOhxRtPAVYOxyR?=
+ =?us-ascii?Q?ChKW8dkCqlSji7Sf8/mtMb8N7HpQ/q18a6COO47htvzhDw6Kb3VbQy9pwhxI?=
+ =?us-ascii?Q?WLi/OezTWfLSkW2OH1EqEkjKzfdXOjPq3xcLOE5W0ZrXIVNrKw6phCAGgKTf?=
+ =?us-ascii?Q?QqhCJixXVjw+jZIk/jiaWlYC7GR4QPZCDsB7N9Eq47z+0nsZJO90pXVqNDJY?=
+ =?us-ascii?Q?GhWYwmHYmYsrJDgLj7o+j5UXtS4h2mclkC7NNspFa8JMuSmNrLdp1gjDIjP6?=
+ =?us-ascii?Q?ughkyIjHcF4HflaObEDQWG/ir+2BB67AvDZiOTR0BCMKbiIX8Zx73/e8Y+wh?=
+ =?us-ascii?Q?r5BJEx8hsI3ThgMfKmYGqN3re9ZuypO6ogcxy3Mq3qaiLIzcJqFZqNEEoaco?=
+ =?us-ascii?Q?olklbgn02CfKfv0P42snbENDjyj4MKDqC243UNljJ8L5Ib7oQKotDUrfuEBm?=
+ =?us-ascii?Q?6Qb3QZIjHbpw/KUJSHMpatZTktwWHg3DBS9fy1jiKHfh7DbF/gPGpY4tcYQ3?=
+ =?us-ascii?Q?rv2Iu8wp78pB3I1N2a4MngLhhM8rol5qByCrr3UzHvv6CATP6u6y7b0psY9e?=
+ =?us-ascii?Q?gW++ZuYNdmdpZWhkcgytOixemTwW6mytcd9HI9Pi72ZBqEef7AGBJR0KEvJf?=
+ =?us-ascii?Q?mKtfvDHEyeRU1DX6DveS1XjEJo3JS1HddPgrRaFUun+gvSaNhsAxhPFHZtJh?=
+ =?us-ascii?Q?jAloT2FcTJ216LHcpXgV3oD/0PqCLVvdUDPnuk5CWiaQQyrPL71pfWiwEF0/?=
+ =?us-ascii?Q?bs29G1mNxV8JR3FpbcnoF42jddGTulw+RQHexYFUAmbO80yJuFjMP2ADGNw+?=
+ =?us-ascii?Q?XWmnC9yZBBP4ZbcfTYNQqAuD9zUorBOGxqjIf3nJDK1cw10Zrcca+NeVOIx8?=
+ =?us-ascii?Q?gjnXS2AAi52BDIfMFEWWdDbzA+AUMhW7tCnC53HAfqdoePqu+wKH+4f6Ogss?=
+ =?us-ascii?Q?OtTRt17+u1aNyXVk25NO1SI2kZtCOAERy76ieRgwml8sKL3lCo2Y3MFJHcZx?=
+ =?us-ascii?Q?mINqTiGovWK/f/G/o0d9yvB+OJRlikIXtOkXLW+92VCeO+wA2i7wzymWYfpg?=
+ =?us-ascii?Q?Q4q1v/hmggxpDxnPHAFZalSErcFd9rT+5fkGLey03VzeVQf93ENQ1GXU5ZDW?=
+ =?us-ascii?Q?aZRl7Du619TJOkLQI1kuL3O57VdkwpQ1AxW3ye7l9+GI1Am0COj0H8UFyGUW?=
+ =?us-ascii?Q?vb0/gOLllVuLFYBGEhVjzu7Xs/U+xMQ/kK2anhzhL3x5Ah3hwPYAugvMFmA6?=
+ =?us-ascii?Q?gVxB2upBhJ1DGiJIWDe2ipNXZrRyCfiUNc29tQuQuoH4Ax58ctxX9iNpxZ9z?=
+ =?us-ascii?Q?8q8FkJ7zdyASOv6kwFSJ/r/6hY5iQeYvkjT9pLw43yfWXBgt2JkDvDC48zL4?=
+ =?us-ascii?Q?9w=3D=3D?=
+X-OriginatorOrg: plvision.eu
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81fdd3eb-5e5b-44fc-54af-08dac1ab1ee3
+X-MS-Exchange-CrossTenant-AuthSource: GV1P190MB2019.EURP190.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2022 17:03:12.9848
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 03707b74-30f3-46b6-a0e0-ff0a7438c9c4
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: r+ndqpi3D3U7HiosfwDefsqjUE6HxtB/pKC/uNVXoLlkxodsimQ/IF27sbYrwReUIy30LuOJygMdr+SCpsZMIquLhgnzM5xUM4GbCXL7anE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4P190MB1951
 
-Hello again.
+The following changes since commit 8bb75626e9dd831d323c4e460414b56260f0b700:
 
-Josh, thank you for your feedback. The main idea for the new feature
-was to create a tool for more efficient control for obtaining
-information and selective installation of project files. I created a
-feature request to get some feedback and general impression of the
-idea and planned to implement it myself. So, based on the feedback, I
-implemented the necessary changes and published them in the
-https://github.com/winterheart/linux-firmware repository (yaml
-branch).
+  Merge branch 'for-upstream' of https://github.com/CirrusLogic/linux-firmware (2022-10-31 11:12:54 -0400)
 
-I will briefly list the new features. All functionality is
-concentrated in firmware-install.py and WHENCE.yaml files. The
-functionality is implemented in such a way that it does not interfere
-with the existing check_whence.py and copy-firmware.sh in any way
-(that is, you can use either one or that without losing
-functionality). firmware-install.py requires Python 3 (tested with
-Python 3.10) and the pyyaml (to load WHENCE.yaml) and marshmallow (to
-deserialize and validate the processed data) packages to run. All
-packages are available in the repositories of most Linux
-distributions, for example on Debian / Ubuntu they can be installed as
-follows:
+are available in the Git repository at:
 
-apt-get install python-marshmallow pyyaml
+  https://github.com/PLVision/linux-firmware/ prestera-v4.1
 
-firmware-install.py supports the following types of commands (run
-`./firmware-install.py -h` and `./firmware-install.py COMMAND -h` for
-additional info):
+for you to fetch changes up to b15fc2134a655900168832efea6ae49d96a003c7:
 
-* check - fully checks the contents of the repository in a way similar
-to check_whence.py, and also validates the schema and contents of
-WHENCE.yaml
-* info - displays information on records according to the specified
-selection criteria
-* install - installs to the specified directory according to the
-specified selection criteria
-* list - displays a list of possible values for entries, vendors,
-categories or licenses
+  WHENCE: mrvl: prestera: Add WHENCE entries for newly updated 4.1 FW images (2022-11-08 18:42:45 +0200)
 
-The install command without additional options will perform a full
-installation in exactly the same way as copy-firmware.sh. The contents
-of the installation directories in this case will be identical.
+----------------------------------------------------------------
+Oleksandr Mazur (2):
+      mrvl: prestera: Update Marvell Prestera Switchdev FW to v4.1
+      WHENCE: mrvl: prestera: Add WHENCE entries for newly updated 4.1 FW images
 
-Work example of info subcommand:
-
-./firmware-install.py info -n bnx2
-Entry: bnx2
-Description: Broadcom NetXtremeII
-Categories:
-  - drivers/net/ethernet
-Vendor: Broadcom
-License:
-  Name: Redistributable
-  Copyright: Copyright (c) 2004-2010 Broadcom Corporation
-  Info: This file contains firmware data derived from proprietary unpublished
-source code, Copyright (c) 2004 - 2010 Broadcom Corporation.
-
-Permission is hereby granted for the distribution of this firmware data
-in hexadecimal or equivalent format, provided this copyright notice is
-accompanying it.
-
-Info:
-Found in hex form in kernel source.
-Size: 215,144 bytes
-Files:
-  - bnx2/bnx2-mips-06-6.2.3.fw
-  - bnx2/bnx2-mips-09-6.2.1b.fw
-  - bnx2/bnx2-rv2p-06-6.0.15.fw
-  - bnx2/bnx2-rv2p-09-6.0.17.fw
-  - bnx2/bnx2-rv2p-09ax-6.0.17.fw
-Links:
-None
---------
-
-The WHENCE.yaml format is detailed in the updated README and allows
-you to enter any information. Content of WHENCE.yaml currently
-synchronized with last commit in main branch of linux-firmware
-repository (commit 8bb7562).
-
-Please take a look and try new functionality. If you have any
-additional questions, I will be happy to answer them.
-
--- 
-From Siberia with Love!
+ WHENCE                                        |   2 ++
+ mrvl/prestera/mvsw_prestera_fw-v4.1.img       | Bin 0 -> 15369292 bytes
+ mrvl/prestera/mvsw_prestera_fw_arm64-v4.1.img | Bin 0 -> 17505368 bytes
+ 3 files changed, 2 insertions(+)
+ create mode 100644 mrvl/prestera/mvsw_prestera_fw-v4.1.img
+ create mode 100644 mrvl/prestera/mvsw_prestera_fw_arm64-v4.1.img
