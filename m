@@ -1,193 +1,288 @@
-Return-Path: <SRS0=Wh2m=3K=mediatek.com=deren.wu@kernel.org>
+Return-Path: <SRS0=w4+M=3L=tradeshowvisitors.com=diana.christopher@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71B7DC433FE
-	for <linux-firmware@archiver.kernel.org>; Thu, 10 Nov 2022 01:38:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B1E24C433FE
+	for <linux-firmware@archiver.kernel.org>; Fri, 11 Nov 2022 13:12:31 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 429AEC433B5; Thu, 10 Nov 2022 01:38:33 +0000 (UTC)
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id 70EE3C433D7; Fri, 11 Nov 2022 13:12:31 +0000 (UTC)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id F170FC433D6;
-	Thu, 10 Nov 2022 01:38:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org F170FC433D6
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 301d8acb076b49cf96d4af7b2c4091a9-20221110
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=+sZLoutOrEwPhw2vES6uBko7SL1jDCO7aaf5kisaFLU=;
-	b=DRYdwWT9YGGl6rGQqfPsShjcaOJcjVv8ZlB1iLaPB96xhWeUpZHnKuMRKIwUfSwZ1HfPo5E7ZdKPsJgv4lXn8myVt2SFGDXqu85MrqxaekdjeeLSB1Zsf8mBvK8xV9G44qyC9OIPbQWjZE+coNDf+CPoX8k3LBhV6RFHVlM04qA=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.12,REQID:fe370b1b-1abe-40bb-9361-eaa3eeeb8694,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:62cd327,CLOUDID:351ad585-088c-4756-8f76-577be701e693,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 301d8acb076b49cf96d4af7b2c4091a9-20221110
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
-	(envelope-from <deren.wu@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-	with ESMTP id 1510433059; Thu, 10 Nov 2022 09:38:25 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Thu, 10 Nov 2022 09:38:23 +0800
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.239)
- by mtkmbs10n1.mediatek.com (172.21.101.34) with Microsoft SMTP Server id
- 15.2.792.15 via Frontend Transport; Thu, 10 Nov 2022 09:38:23 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D+SD+naVKjkYA7Rt6g7s5N1AfL7/lqgcT12ySJwvWfMFHGw2PhrCzUuJsYNV9Fts1Vj2c/fvMUfr/eHU5+zY6D2v76fG+/7Boj9UqMY6vHdiE0qbVJIDLMm8QaJXF+69zUakbOZwR779nUSczVeRNloxJmVHImDIGgZXAHAzqoTZxrOxN4Jk9G10RdqaOC00xSacUwphMjdKAjKpxIVgTdmxU6X30sNWKSPzKFcUaRD2kS2LoOM1obpHqa7Y5C3i2GAFNgk8bIRbxrF0MlmrbVCq5DNpfXiCmaa01geRl/p7JfFikugJ1gfp9wo8gVod2A3jzpD+B8WLQIyzuKFfZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+sZLoutOrEwPhw2vES6uBko7SL1jDCO7aaf5kisaFLU=;
- b=dITcnmclSKdctbydrW7tATiyNYG98mAn7P+EOrAn8L9kplINKN9Sntf3r472/qeJnHKMGb6LUC0UozlDF3rwBveczjpGco7t0b0RnQKx1DI8e0tZo9Quo7X3pNjx0es37a8U6pDNfUWyWVj6/54ee0BKXfHRh+pE17BRApBZhsp3H24sXSWhLEEGkvBzyOqoHw3OmW4IZp1W0wwY2O89Ek3ibhAXh/ItcKhvq/w3rtu/MKRigrAajyujNGsNyvdg+sjBI1IYCPPfiEUEaL0aemFh7sDRcMH6Uv4dwnfvXRNH7HqhjMlJtMS9mPUdfxvj5gEWuyvm4gIsO1GzXFqAEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
+	by smtp.kernel.org (Postfix) with ESMTPS id 2C7BDC433C1
+	for <linux-firmware@kernel.org>; Fri, 11 Nov 2022 13:12:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 2C7BDC433C1
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=tradeshowvisitors.com
+Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=tradeshowvisitors.com
+Received: by mail-pj1-f47.google.com with SMTP id d59-20020a17090a6f4100b00213202d77e1so7733625pjk.2
+        for <linux-firmware@kernel.org>; Fri, 11 Nov 2022 05:12:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+sZLoutOrEwPhw2vES6uBko7SL1jDCO7aaf5kisaFLU=;
- b=sLDPnr9Wtf4pX/WS2kpduJXjCCuPqw1TlSDqBeRkaDlM9vl20UMn02xK/S9HBeqUzbo89NdF5PPqF2XzPDsERQcO59H68h/UdycGgSLn5BVWJILSZj/piVk2SOG59QXy21T3ByZWvsYVVXUAwMIivGwLk1ZJqt8LaK3q0csaIIU=
-Received: from SI2PR03MB6194.apcprd03.prod.outlook.com (2603:1096:4:14e::9) by
- PUZPR03MB7211.apcprd03.prod.outlook.com (2603:1096:301:11f::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5791.25; Thu, 10 Nov 2022 01:38:22 +0000
-Received: from SI2PR03MB6194.apcprd03.prod.outlook.com
- ([fe80::20e6:df39:3119:99a1]) by SI2PR03MB6194.apcprd03.prod.outlook.com
- ([fe80::20e6:df39:3119:99a1%5]) with mapi id 15.20.5791.025; Thu, 10 Nov 2022
- 01:38:21 +0000
-From: =?utf-8?B?RGVyZW4gV3UgKOatpuW+t+S7gSk=?= <Deren.Wu@mediatek.com>
-To: "jwboyer@kernel.org" <jwboyer@kernel.org>
+        d=tradeshowvisitors-com.20210112.gappssmtp.com; s=20210112;
+        h=thread-index:content-language:mime-version:message-id:date:subject
+         :in-reply-to:references:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Q0KEhtwm8ioImzMlIlFzUfdFOHSNrBfxtTcdXKiQ73Y=;
+        b=JjrO8a6szeEivZgMXJ/ueQcVLdEWjFyHHUsiaTvP4LXFYi2Ntr5oaGfYbZyzfZepsZ
+         zQ51BgRDnJQo9nyJkStTZTWDRnRiPSsz0LbzCA3h/XRkHcHlUw+dqV6e9XWhmiZw0aOb
+         NX5ONki+BWWOTTmhg3ECJf4DduF4l3Xk3RHj9ceVE9zct0m/gEUGrsVL7xJDmQuWDnak
+         5NcFAdGVzNyO38ksoyUy5Xpxh+UYD41VB8XijKK7eiMog6N0PPsQs92K+Ntaf6d9g7En
+         586LurFRf0cHWWmx/UV5GdifwroLf8Qz/VNbJmkk8tK7eq1Oh9foAmuHSyoFJbPC0Wb0
+         3nzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=thread-index:content-language:mime-version:message-id:date:subject
+         :in-reply-to:references:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Q0KEhtwm8ioImzMlIlFzUfdFOHSNrBfxtTcdXKiQ73Y=;
+        b=dTvdY+vW6oAB5Mf3/ynsKiZXv7meEZZh14u+tU46f/FPAdKUHxrmlWiGjSpShxvflz
+         q9ICq52aftWAD6hvpdngZjj95RXGbYSniPOtt0J5YHon/bTDx4fgps55WMLHTTGKw/86
+         8VtBeEiLa93HKU1S+Xf11QJynANsSQAf1CHUyMKL5fVTedRGHdPHMQ/9K6EmCpPVQG3w
+         xzG5o4yxvsLawBcGd8HfrTrzjTvEX2F4YlqKQnzmkRzkOtz9Dc5y9ibwCVoMcilfDwqn
+         rTeKoqzBIY2qba5MFQ5Ozgb/LLx4hbtS5m0deNnFTFplRz1rXqe0H4sJqdqmwbgMPdCe
+         P66w==
+X-Gm-Message-State: ANoB5pmez4VePcsmhvkcx6rLUpH6IWQ5O/Wh3bf/gXl6UobgcFXZSw0q
+	qMX3yuzugH8vUPk67h+RFdLkIh7DIXqjefGZ
+X-Google-Smtp-Source: AA0mqf6K/qB1KgVgUkP/61Oz1Vz9xMYIH7KnLqUL7F6RGLxbYIs7z7yo3UZUmZvfLEaeTpPWUBtKLA==
+X-Received: by 2002:a17:90a:4e8a:b0:20a:75ae:8276 with SMTP id o10-20020a17090a4e8a00b0020a75ae8276mr1917717pjh.51.1668172337732;
+        Fri, 11 Nov 2022 05:12:17 -0800 (PST)
+Received: from ZenBrightTech11 ([115.99.213.186])
+        by smtp.gmail.com with ESMTPSA id n63-20020a17090a5ac500b00200461cfa99sm4808494pji.11.2022.11.11.05.12.16
+        for <linux-firmware@kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 11 Nov 2022 05:12:16 -0800 (PST)
+From: "Diana Christopher" <diana.christopher@tradeshowvisitors.com>
 List-Id: <linux-firmware.lore.kernel.org>
-CC: "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"ben@decadent.org.uk" <ben@decadent.org.uk>, "linux-firmware@kernel.org"
-	<linux-firmware@kernel.org>, "nbd@nbd.name" <nbd@nbd.name>,
-	"lorenzo@kernel.org" <lorenzo@kernel.org>, Sean Wang
-	<Sean.Wang@mediatek.com>, =?utf-8?B?S00gTGluICjmnpfmmIbmsJEp?=
-	<km.lin@mediatek.com>, =?utf-8?B?U291bCBIdWFuZyAo6buD6Iez5pi2KQ==?=
-	<Soul.Huang@mediatek.com>, =?utf-8?B?WU4gQ2hlbiAo6Zmz5b2l5a+nKQ==?=
-	<YN.Chen@mediatek.com>, =?utf-8?B?UG9zaCBTdW4gKOWtq+eRnuW7tyk=?=
-	<posh.sun@mediatek.com>, "dwmw2@infradead.org" <dwmw2@infradead.org>,
-	=?utf-8?B?Q0ggWWVoICjokYnlv5fosaop?= <ch.yeh@mediatek.com>,
-	=?utf-8?B?Um9iaW4gQ2hpdSAo6YKx5ZyL5r+xKQ==?= <robin.chiu@mediatek.com>,
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
-Subject: Re: [PATCH] linux-firmware: update firmware for MT7921 WiFi device
-Thread-Topic: [PATCH] linux-firmware: update firmware for MT7921 WiFi device
-Thread-Index: AQHY9ERk0mqh+w9TgE2sToOV/5JSVq424HyAgACBM4A=
-Date: Thu, 10 Nov 2022 01:38:21 +0000
-Message-ID: <923f3fe069c166019975bd04cfb7c0745984a6e4.camel@mediatek.com>
-References: <607ebf77d1d100f358b9b2df54cf241dc52df6d6.1668001244.git.deren.wu@mediatek.com>
-	 <CA+5PVA75PEj3TSiE39yd7vVfY-iRopNba+gcbg0=6HTfvi+V7A@mail.gmail.com>
-In-Reply-To: <CA+5PVA75PEj3TSiE39yd7vVfY-iRopNba+gcbg0=6HTfvi+V7A@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SI2PR03MB6194:EE_|PUZPR03MB7211:EE_
-x-ms-office365-filtering-correlation-id: 6c45ed3f-8065-4362-7e25-08dac2bc4071
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: WESPQL4jqiOhE0biMXr79HEd9pbhWUDClcZh32piuBOdeoGFD/RGnsNCGVWjlqSrbbG1lbM21572/k36fYKZegI2xtATqVUzBwO8OkhFGoega606AP/uyiQDsQXw/s+SGCKnNp27IRYl32QbhnjOa68piamafuRdvD+rv2LdUXJV/DLbPOHKNh2MEiwldEnlqZx6A1Vp6KMkEEUW4QtoBYLvXCztlody3HQ9vOyEqItA7jVc9jEdCAntG1o2lqNMvQNgI5l1i09TK9wNkjywy/Tlbx7EEu1m9ecWdSCYKi0mCTeW1RJ2nHnEK/Ye/p6k7ATr732XddDtcrbUN4mme+GLDJZfL/hZ73/sk5NDDUrx8qI3YaDKI5r2UOM8I6TA0VQqvahd1NtKpi88KKIGf0AqkRwxH8PBpDC9yJ+hNFxxEEHjPxEXOulwf+E/XfuocA/siZLibUGC5UrrrBSl9Lz43BGt6f5KLWZSyxZ8W+jqwEjmyGuC5mr4ETvLEUXw3K1GYLNznXPDKD0pQsxYVfWNN6DMiYFvot819wWWhzAqqe7uJogRe9YhFNOXcqJIwC8qdJkv7j4adn8e88UIYgHg48t9q1RDXnjNz7uHrL8TM8wpIL5bQ5CsHc1ll42dXJEk4eg6RAiUwbH4CnBwRLr4EXkhrVBhiee0n6xH2WmcZO/oTgJfevZznM8U6PM5gaHXl66h8qPzEDdM+vBZoHEBdGV+3o5SGiyB44pNburEeUoBEhKm62g9FsAgmgU+k2Uk0tcmUzgoaIm7y9IcVw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR03MB6194.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(6029001)(4636009)(39860400002)(376002)(346002)(366004)(136003)(396003)(451199015)(76116006)(4326008)(66446008)(66556008)(66946007)(64756008)(6486002)(66476007)(38100700002)(316002)(8676002)(6506007)(6916009)(83380400001)(54906003)(91956017)(53546011)(8936002)(122000001)(5660300002)(71200400001)(36756003)(2616005)(41300700001)(26005)(15650500001)(6512007)(478600001)(2906002)(86362001)(38070700005)(186003)(85182001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?K25aTVA3TEpoaTY0WkEwZEg3b3B2MnBtaXlSeVI5MXA1L2ZGKzFGZy9Tai9K?=
- =?utf-8?B?bU51NFN5Y2pMY0VTWFF3dXYreEVYQ3phbDBIZms0L2ZJeGFhNUZFS1dSUHpt?=
- =?utf-8?B?ZW1Td1pXNGdOZitBN24rVWxPK205UXBCMllib0pwdno4SmtxU1lnd2RHQ2hh?=
- =?utf-8?B?TzJhY0NQOGlxNzVtOXEzdUdtc1lWUGtmSkZJWCtwajJHOGFONC9rWWxsU093?=
- =?utf-8?B?VVlUcDBOZTRxYXVQbjFJSWlhU21lVW9RbE9Lb2xNVnNRNzdENDdvM2dJelR1?=
- =?utf-8?B?MmxvVk9HSFY1bnhPRmJvQnRZbkhHZEdnc3FUSzBTVmZSVERaMnc5OWNqQU05?=
- =?utf-8?B?dTRraWVYOER6c3JoY00xZUd2UGdTYlhVT1YzMnZURTNETkNiQ2VTbXFrY3RN?=
- =?utf-8?B?Qm82VDkwTXh2Q21YWWhhK2pRTHN3bnhVUEY1bjhWN3ZUTUVueGx5NXdsQ0FG?=
- =?utf-8?B?Y2NNMHBzOUV5VlgxcWVuMkhmbittMGl0N1RaMVRHWWxucEp0eFg4OTFDUngz?=
- =?utf-8?B?THRlSkdxZnJna3NBS1V2Y1VzY0JpYmc0VDI1L0FFaEtMclI3WWRuMGVLbW9D?=
- =?utf-8?B?VURidnBlVkRudGxXQlZVOCsyTDU0OXlsZ2tkeEZKTHdlM3NnNVRXVXdZZFJP?=
- =?utf-8?B?Wndhck0yMjI5bmJEMHp0cmk1WHlDR09kZjRiL3RZWHRJQWpsUzlaRDFlYjg3?=
- =?utf-8?B?QldodWJueEFKM2hxalFXdHFDb0loc0NxRWlXZUF5V2NabHRLcHJKaXRrYTFB?=
- =?utf-8?B?MzJtZEw5ZVpMamIyQXo3N05BSmZpMGVDOTl4N0tvcUtzeWRQRHVxK1o4eU1z?=
- =?utf-8?B?a1g1ckxpQ3dYbk5oN25oVS8yWXZkWGRqc2NjRXFhQzVvZ1BsT2EydFdhdlJZ?=
- =?utf-8?B?WHF6ODFuV3FicnQ1ZVBSMWVHT3ZCTWh5Zm5kejM4L2Zkd3RGaXJ5eTV6TWVL?=
- =?utf-8?B?VG9ZZnFaNGgxeitYTGdvcVl3TjhsSWdnYVFHdVpFc1AxYzhLRG5lekJxbDZq?=
- =?utf-8?B?M3Brcm5rSUlQc2Z3aU1heDFTa1VsYk5UVUZUVUtYMFBtbUZ4ZEhBZ2pCUnVY?=
- =?utf-8?B?MlY5N3UxV25ZMGRlVk1IcnBjbTJYQ2k5M1BJRTErOTJuSVJMZW5JM1M4YzJt?=
- =?utf-8?B?cHR3OHZpaVd1OGRUU1BacEZMVFdhQzVKeStlQ2ZKZEM2MEQzNHUvNjVYN1Bs?=
- =?utf-8?B?VFVab20wL3BDWHNtY2Q2NCtTZzNSN3MwSVJxL1o5OVBVcW92U2hEQ3lHZUp3?=
- =?utf-8?B?R0kzengwZmF2bXM4bEhjSFhRVkFOVUxSMmJUbG5uMzIwbk43S2JoNWNsdjRw?=
- =?utf-8?B?SGtRNDJuRDQxZURQekd5ZDlSUEZHQzNKRW9XbWp1UkZCUjEyUmUxMWMwUXF3?=
- =?utf-8?B?OFhyYWhJVDBqMTM3OFBha2FBR1RhS3VSQlhoclE5OUYzQ2x5ZWZwRFpZZDdj?=
- =?utf-8?B?MHZLT0I4a0dOdVJRK1IwYmNMN0kzdWZyck50UjRId3lEem4rd2tiYW9hUE8r?=
- =?utf-8?B?Z09mQ3JvS05QdXFsSlhxWHJMby90TVd2dCt2OEptZ3h2cnVVQU9PZDRjWkxM?=
- =?utf-8?B?ZFh5RFlpMTZBSURJSkxKeEJOUml6MTd2K05SVE9ZaWw2MDlnMUVGTzk2THM4?=
- =?utf-8?B?WkNndHdKWk8zUi9wY0ZhMWswNmxGczBOOVI3bVhoSTZ2UjIrcnJlb1lhRFda?=
- =?utf-8?B?V2JocE5BWnZab0ZjMzFnQnMzb2xBSDVNbGErNU1WTDRzT3VTM09PL1JNZFIw?=
- =?utf-8?B?MEVjd0sraG5PVWNCSHRsTFpXMmVHUDUzd3p2N2tlRmdzelMyQUV3aVdQb0Zm?=
- =?utf-8?B?MjRweEJUcC9DVGh4NGNUUGZsdWxsZGRpS0ZGZ014dHhjbDFnQVhvYkEzUzRK?=
- =?utf-8?B?eE5UM3NpL1BrZHYrN1BVc0Q0UDdKTHdYZ0p2Szc4Nk1QSm9LdTNCRjVFNDNF?=
- =?utf-8?B?WVlndFNZczExcDNaa3hHYXZ5OTBCNm1EOUNQL2FZZVd2d0RlK0dFWU5VOTJU?=
- =?utf-8?B?bStpN21UMTNaQThiR3cxQ2RhWUxxNkludXVMOXkxaU0wMmoxemtJcmMxZnZU?=
- =?utf-8?B?dU5PV3lqRFVNVnNtME04d21pbkJpdCtxQktIM3hGNlFLRjc0RFdHM05CVjcr?=
- =?utf-8?B?NTJlNWhZTzh2NjhlblpueExLTFF6M2hEOUd0eHQ1VUdCQmN5UXlldlF1VDVO?=
- =?utf-8?B?V2c9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C8FBF5E120649A499AA1CAC00742993B@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+To: <linux-firmware@kernel.org>
+References: 
+In-Reply-To: 
+Subject: RE: NAB Show 2022 Attendees Info
+Date: Fri, 11 Nov 2022 08:12:00 -0500
+Message-ID: <018301d8f5cf$3a6cbdb0$af463910$@tradeshowvisitors.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SI2PR03MB6194.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6c45ed3f-8065-4362-7e25-08dac2bc4071
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Nov 2022 01:38:21.6697
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8M3bNmGvoFogITDpb2ebAHYeCUM/LJm4bNix33pIn7qDz8/2is2Whswy7Y73bJ2SFUC8QOfNl4cjKIpvjBVT6A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR03MB7211
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0184_01D8F5A5.5197C720"
+X-Mailer: Microsoft Outlook 15.0
+Content-Language: en-in
+Thread-Index: AdjN5IfA+7IF+jt5QCqj68NzJvyJJgAvEcXAAAAAE3AAAAAMcAAAAAswAAAACwAAAAAMwAAAAAuQAAAAC4AJy5ZUIA==
 
-SGkgSm9zaCwNCg0KT24gV2VkLCAyMDIyLTExLTA5IGF0IDEyOjU1IC0wNTAwLCBKb3NoIEJveWVy
-IHdyb3RlOg0KPiBPbiBXZWQsIE5vdiA5LCAyMDIyIGF0IDk6MDcgQU0gRGVyZW4gV3UgPERlcmVu
-Lld1QG1lZGlhdGVrLmNvbT4NCj4gd3JvdGU6DQo+ID4gDQo+ID4gRnJvbTogRGVyZW4gV3UgPGRl
-cmVuLnd1QG1lZGlhdGVrLmNvbT4NCj4gPiANCj4gPiBVcGRhdGUgYmluYXJ5IGZpcm13YXJlIGZv
-ciBNVDc5MjEgV2lGaSBkZXZpY2VzDQo+ID4gDQo+ID4gRmlsZTogbWVkaWF0ZWsvV0lGSV9NVDc5
-NjFfcGF0Y2hfbWN1XzFfMl9oZHIuYmluDQo+ID4gVmVyc2lvbjogMjAyMjExMDkxMTA5MThhDQo+
-ID4gRmlsZTogbWVkaWF0ZWsvV0lGSV9SQU1fQ09ERV9NVDc5NjFfMS5iaW4NCj4gPiBWZXJzaW9u
-OiAyMDIyMTEwOTExMTAwNQ0KPiA+IA0KPiA+IFNpZ25lZC1vZmYtYnk6IERlcmVuIFd1IDxkZXJl
-bi53dUBtZWRpYXRlay5jb20+DQo+IA0KPiBUaGlzIGRvZXNuJ3QgYXBwbHkuICBZb3Ugc2VudDoN
-Cj4gDQo+IGNvbW1pdCA5NDkwZThhYzkyMjhiZDY3MGZmMGRkNTNjZTJhNDVmMTc3NjQzZmZiDQo+
-IEF1dGhvcjogRGVyZW4gV3UgPGRlcmVuLnd1QG1lZGlhdGVrLmNvbT4NCj4gRGF0ZTogICBUdWUg
-U2VwIDIwIDEzOjU5OjMwIDIwMjIgKzA4MDANCj4gDQo+ICAgICBsaW51eC1maXJtd2FyZTogdXBk
-YXRlIGZpcm13YXJlIGZvciBNVDc5MjEgV2lGaSBkZXZpY2UNCj4gDQo+ICAgICBVcGRhdGUgYmlu
-YXJ5IGZpcm13YXJlIGZvciBNVDc5MjEgV2lGaSBkZXZpY2VzDQo+IA0KPiAgICAgRmlsZTogbWVk
-aWF0ZWsvV0lGSV9NVDc5NjFfcGF0Y2hfbWN1XzFfMl9oZHIuYmluDQo+ICAgICBWZXJzaW9uOiAy
-MDIyMDkwODIxMDkxOWENCj4gICAgIEZpbGU6IG1lZGlhdGVrL1dJRklfUkFNX0NPREVfTVQ3OTYx
-XzEuYmluDQo+ICAgICBWZXJzaW9uOiAyMDIyMDkwODIxMTAyMQ0KPiANCj4gICAgIFNpZ25lZC1v
-ZmYtYnk6IERlcmVuIFd1IDxkZXJlbi53dUBtZWRpYXRlay5jb20+DQo+ICAgICBTaWduZWQtb2Zm
-LWJ5OiBKb3NoIEJveWVyIDxqd2JveWVyQGtlcm5lbC5vcmc+DQo+IA0KPiB3aGljaCB1cGRhdGVk
-IHRoZSBzYW1lIGZpcm13YXJlIHRvIHZlcnNpb25zIG5ld2VyIHRoYW4gd2hhdCB5b3UgYmFzZWQN
-Cj4geW91ciBwYXRjaCBhZ2FpbnN0Lg0KPiANCj4gam9zaA0KDQpUaGFua3MgZm9yIGNoZWNrLiBJ
-IHdpbGwgcG9zdCBhIG5ldyBvbmUgdG8gdXBkYXRlLg0KDQpSZWdhcmRzLA0KRGVyZW4NCg0KDQo+
-IA0KPiA+IC0tLQ0KPiA+ICBXSEVOQ0UgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgfCAgIDQgKystLQ0KPiA+ICBtZWRpYXRlay9XSUZJX01UNzk2MV9wYXRjaF9tY3VfMV8yX2hk
-ci5iaW4gfCBCaW4gOTIxOTIgLT4gOTIxOTINCj4gPiBieXRlcw0KPiA+ICBtZWRpYXRlay9XSUZJ
-X1JBTV9DT0RFX01UNzk2MV8xLmJpbiAgICAgICAgfCBCaW4gNjg5ODY0IC0+IDcxODc3Mg0KPiA+
-IGJ5dGVzDQo+ID4gIDMgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9u
-cygtKQ0KPiA+IA0KPiA+IGRpZmYgLS1naXQgYS9XSEVOQ0UgYi9XSEVOQ0UNCj4gPiBpbmRleCBl
-MGUwZGFkLi5jOWJhMmRkIDEwMDY0NA0KPiA+IC0tLSBhL1dIRU5DRQ0KPiA+ICsrKyBiL1dIRU5D
-RQ0KPiA+IEBAIC01MjIyLDkgKzUyMjIsOSBAQCBMaWNlbmNlOiBSZWRpc3RyaWJ1dGFibGUuIFNl
-ZQ0KPiA+IExJQ0VOQ0UubWVkaWF0ZWsgZm9yIGRldGFpbHMuDQo+ID4gIERyaXZlcjogbXQ3OTIx
-IC0gTWVkaWFUZWsgTVQ3OTIxIFdpcmVsZXNzIE1BQ3MNCj4gPiANCj4gPiAgRmlsZTogbWVkaWF0
-ZWsvV0lGSV9NVDc5NjFfcGF0Y2hfbWN1XzFfMl9oZHIuYmluDQo+ID4gLVZlcnNpb246IDIwMjEx
-MDE0MTUwODM4YQ0KPiA+ICtWZXJzaW9uOiAyMDIyMTEwOTExMDkxOGENCj4gPiAgRmlsZTogbWVk
-aWF0ZWsvV0lGSV9SQU1fQ09ERV9NVDc5NjFfMS5iaW4NCj4gPiAtVmVyc2lvbjogMjAyMTEwMTQx
-NTA5MjINCj4gPiArVmVyc2lvbjogMjAyMjExMDkxMTEwMDUNCj4gPiANCj4gPiAgTGljZW5jZTog
-UmVkaXN0cmlidXRhYmxlLiBTZWUgTElDRU5DRS5tZWRpYXRlayBmb3IgZGV0YWlscy4NCj4gPiAN
-Cj4gDQo+IA0K
+This is a multipart message in MIME format.
+
+------=_NextPart_000_0184_01D8F5A5.5197C720
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+
+ 
+
+Hi,
+
+ 
+
+I'm sorry to trouble you. I would love to hear your thoughts with the
+follow-up request.
+
+ 
+
+Hi,
+
+ 
+
+Shall I get back Counts and Cost for your review to make a decision?
+
+ 
+
+We currently have Thanksgiving offer, make best use of it.
+
+ 
+
+Await your swift response
+
+ 
+
+Regards,
+
+Diana
+
+ 
+
+From: Diana Christopher [mailto:diana.christopher@tradeshowvisitors.com] 
+Sent: 22 September 2022 12:40
+To: 'linux-firmware@kernel.org' <linux-firmware@kernel.org>
+Subject: NAB Show 2022 Attendees Info
+Importance: High
+
+ 
+
+Hi,
+
+ 
+
+Would you be interested in acquiring the pre-registered attendee mailing
+list from National Association of Broadcasters Show 2022?
+
+ 
+
+Attendees: Distributor/ Dealer, Representatives, Industry innovators, Tech
+visionaries, Broadcasters, Educators, Manufacturers, Sales & Marketing
+Corporate Leader, Technical Engineers, and more....
+
+ 
+
+Please pick the number which describes you:
+
+ 
+
+1. Yes Interested, send me pricing and other data information.
+
+2. Opt-out
+
+ 
+
+Thanks,
+
+Diana Christopher | Marketing Coordinator
+
+ 
+
+
+------=_NextPart_000_0184_01D8F5A5.5197C720
+Content-Type: text/html;
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><META =
+HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle18
+	{mso-style-type:personal-reply;
+	font-family:"Calibri",sans-serif;
+	color:#1F497D;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-IN =
+link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
+class=3DMsoNormal><span =
+style=3D'color:#1F497D'><o:p>&nbsp;</o:p></span></p><div><p =
+class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-fareast-language:EN-IN'>Hi,<o:p></o:p></span><=
+/p><p class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-fareast-language:EN-IN'><o:p>&nbsp;</o:p></spa=
+n></p><p class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-fareast-language:EN-IN'>I'm sorry to trouble =
+you. I would love to hear your thoughts with the follow-up =
+request.<o:p></o:p></span></p><p class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-fareast-language:EN-IN'><o:p>&nbsp;</o:p></spa=
+n></p><p class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-fareast-language:EN-IN'>Hi,<o:p></o:p></span><=
+/p><p class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-fareast-language:EN-IN'><o:p>&nbsp;</o:p></spa=
+n></p><p class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-fareast-language:EN-IN'>Shall I get back =
+Counts and Cost for your review to make a =
+decision?<o:p></o:p></span></p><p class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-fareast-language:EN-IN'><o:p>&nbsp;</o:p></spa=
+n></p><p class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-fareast-language:EN-IN'>We currently have =
+<b>Thanksgiving offer</b>, make best use of it.<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-fareast-language:EN-IN'><o:p>&nbsp;</o:p></spa=
+n></p><p class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-fareast-language:EN-IN'>Await your swift =
+response<o:p></o:p></span></p><p class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-fareast-language:EN-IN'><o:p>&nbsp;</o:p></spa=
+n></p><p class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-fareast-language:EN-IN'>Regards,<o:p></o:p></s=
+pan></p><p class=3DMsoNormal><span =
+style=3D'color:#1F4E79;mso-fareast-language:EN-IN'>Diana<o:p></o:p></span=
+></p></div><p class=3DMsoNormal><span =
+style=3D'color:#1F497D'><o:p>&nbsp;</o:p></span></p><div><div =
+style=3D'border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0cm =
+0cm 0cm'><p class=3DMsoNormal><b><span lang=3DEN-US =
+style=3D'mso-fareast-language:EN-IN'>From:</span></b><span lang=3DEN-US =
+style=3D'mso-fareast-language:EN-IN'> Diana Christopher =
+[mailto:diana.christopher@tradeshowvisitors.com] <br><b>Sent:</b> 22 =
+September 2022 12:40<br><b>To:</b> 'linux-firmware@kernel.org' =
+&lt;linux-firmware@kernel.org&gt;<br><b>Subject:</b> NAB Show 2022 =
+Attendees Info<br><b>Importance:</b> =
+High<o:p></o:p></span></p></div></div><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal><span =
+style=3D'color:#1F4E79'>Hi,<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+style=3D'color:#1F4E79'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span style=3D'color:#1F4E79'>Would you be interested =
+in acquiring the pre-registered attendee mailing list from =
+</span><b><span =
+style=3D'color:#1F4E79;mso-fareast-language:EN-IN'>National Association =
+of Broadcasters Show 2022?</span></b><span =
+style=3D'color:black;mso-fareast-language:EN-IN'><o:p></o:p></span></p><p=
+ class=3DMsoNormal><span =
+style=3D'color:#1F4E79'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><b><span =
+style=3D'color:#1F4E79'>Attendees:</span></b><span =
+style=3D'color:#1F4E79'> </span><span =
+style=3D'color:#1F4E79;mso-fareast-language:EN-IN'>Distributor/ Dealer, =
+Representatives, Industry innovators, Tech visionaries, Broadcasters, =
+Educators, Manufacturers, Sales &amp; Marketing Corporate Leader, =
+Technical Engineers, and more....</span><span =
+style=3D'color:black;mso-fareast-language:EN-IN'><o:p></o:p></span></p><p=
+ class=3DMsoNormal><span =
+style=3D'color:#1F4E79'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span style=3D'color:#1F4E79'>Please pick the number =
+which describes you:<o:p></o:p></span></p><p class=3DMsoNormal><span =
+style=3D'color:#1F4E79'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span style=3D'color:#1F4E79'>1. Yes Interested, send =
+me pricing and other data information.<o:p></o:p></span></p><p =
+class=3DMsoNormal><span style=3D'color:#1F4E79'>2. =
+Opt-out<o:p></o:p></span></p><p class=3DMsoNormal><span =
+style=3D'color:#1F4E79'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><b><span =
+style=3D'color:#1F4E79'>Thanks,<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span style=3D'color:#1F4E79'>Diana Christopher | =
+Marketing Coordinator<o:p></o:p></span></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_NextPart_000_0184_01D8F5A5.5197C720--
+
