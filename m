@@ -1,165 +1,90 @@
-Return-Path: <SRS0=jVTa=3X=intel.com=gustavo.sousa@kernel.org>
+Return-Path: <SRS0=1p/G=3X=crapouillou.net=paul@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A47AFC4332F
-	for <linux-firmware@archiver.kernel.org>; Wed, 23 Nov 2022 14:03:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3246EC4332F
+	for <linux-firmware@archiver.kernel.org>; Wed, 23 Nov 2022 17:54:22 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 56C94C433D6; Wed, 23 Nov 2022 14:03:49 +0000 (UTC)
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id E9B89C433D6; Wed, 23 Nov 2022 17:54:21 +0000 (UTC)
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id B0B6EC433C1;
-	Wed, 23 Nov 2022 14:03:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org B0B6EC433C1
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669212227; x=1700748227;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=N++wxI1sgk1AMLN/S/suCvWViNMVZwKKDC50KdxwglA=;
-  b=hEdqFd9XEgv7wp+3eTqQH50xCto/+zuyJd3QNwDKIs8kq6Orf1alCqf+
-   ao2tQNlnQFLZHun45mrNesBQDtu1EpWJgXM9SlQtGMDRhyivRK8c3KytG
-   HV0oSxpWiEJgxP8N3kpiEJZAXqyBlAnJeXgKRcrL984b/bR1uf3Tgc/vY
-   c+EK2RexeIs6iFprRf16uf5g1HB/8GsClnxU5KNHld+/2SwaOm8cFGSIU
-   iwuqJhDtimPW0xs4PwsLCcX6G6vbuFrXQ+7BHxsWdyQKJDGIgnNv7qr4X
-   kTO8m0iaqSvzp1oFClIHeg63VAGtRQr+FJ73pNFLjgYSD1bwFDbAN6jwc
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="293778659"
-X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; 
-   d="scan'208";a="293778659"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2022 06:03:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="705371049"
-X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; 
-   d="scan'208";a="705371049"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Nov 2022 06:03:46 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 23 Nov 2022 06:03:46 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 23 Nov 2022 06:03:46 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Wed, 23 Nov 2022 06:03:46 -0800
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.44) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Wed, 23 Nov 2022 06:03:45 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SNiXK8HkqkK+/Oyhc1LrMBO24+ecsuAe92tv+WdjOLXduyKFC3tVlrwAxASOqZ8H17edx9QX8iK1c94is4XYkyIi+LJLULTVarLfytLAT8Ljh8YbklusDBySGNFiZ2Xb4lb4rY52cXmvMgmkpwwYoEoYN5d31o3pBz3qwUq3953+6L3tvBOpBypiPcH+PIUYB/zMYf3a5xncNEfP4yRXAr0oIVRBepoVcJihxVYdi8wzEjEZhYAUqYXnw3eq5Izq2z7zAy1fUrs4lL4a2BR+sXH6PwWGtCyDWuK/m2naFjpJXYcNhtkpz2dT4eF0T41LWqZSH9GQgExckKX5NHOtgQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4Dyh1kmmMizLnE3i+28DftEbTOIlPmdr+9B97567W0U=;
- b=jzrAI50d4SPTIktlB4ShZnLf4wjl3+N02CkvpzJ45fhHwimVpyM0JG6WiETqfqBHa9XyMaOMvyqfDFSllbgLXVp5k13veaLitT0TL53S772UfgdXx4Y3SA6qRfojabZlY+p3fpIoggm0adIhMBEHUdN0nrVLjcFAXYSeV0m4EDQRveMwKjyOfekW2VD36KUCtFAwYJ0bn98V+YS5nsowV8FTuBGXNI06a9jWdVO9VR2rxPokX2RW5Sg8VEwT/pq7d9TJua8c3yLvvlfkO7W5dtfOGrL7Nca+vDtBzaCVL6+ctSddrGmUaZZKdh12SJY8AvvwW4T8+2RbgNLZVnhbXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BN8PR11MB3556.namprd11.prod.outlook.com (2603:10b6:408:8d::31)
- by DM4PR11MB7279.namprd11.prod.outlook.com (2603:10b6:8:109::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.18; Wed, 23 Nov
- 2022 14:03:42 +0000
-Received: from BN8PR11MB3556.namprd11.prod.outlook.com
- ([fe80::b0bd:6014:14d9:bd01]) by BN8PR11MB3556.namprd11.prod.outlook.com
- ([fe80::b0bd:6014:14d9:bd01%4]) with mapi id 15.20.5857.018; Wed, 23 Nov 2022
- 14:03:42 +0000
-Date: Wed, 23 Nov 2022 11:03:35 -0300
-From: Gustavo Sousa <gustavo.sousa@intel.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 8FC00C433C1
+	for <linux-firmware@kernel.org>; Wed, 23 Nov 2022 17:54:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 8FC00C433C1
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1669226051; h=from:from:sender:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/1O/qeaT6DVSGwZFjj+0GGqQHqMGAQ6aVICj9N+I6Cg=;
+	b=Qnm9cqwIvObrA3v4tAAwNgmzQbzkZzabJqwXqmDpJFvOAzwd2O/CdZThHBItyqSpSZjve/
+	J1QiEi1pM1bowLIAfqvBUibaGk1tdapCYUMc38UtlQwCF9hlQgHYV60KaNpV1m/ralLTR3
+	KErJ9EQaa9STUoYl5kypSx8yM4Dsu6o=
+Date: Wed, 23 Nov 2022 17:54:00 +0000
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: Please bump brcm/bcm4330-sdio.bin firmware
+To: Arend van Spriel <arend.vanspriel@broadcom.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-CC: "Hutchings, Ben" <ben@decadent.org.uk>, "Srivatsa, Anusha"
-	<anusha.srivatsa@intel.com>, Madhumitha Tolakanahalli Pradeep
-	<madhumitha.tolakanahalli.pradeep@intel.com>, "kyle@mcmartin.ca"
-	<kyle@mcmartin.ca>, "jwboyer@kernel.org" <jwboyer@kernel.org>,
-	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: PR for DG2 DMC v2.08
-Message-ID: <20221123140335.4xqxepev4bdvybut@gjsousa-mobl2>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: BYAPR04CA0028.namprd04.prod.outlook.com
- (2603:10b6:a03:40::41) To BN8PR11MB3556.namprd11.prod.outlook.com
- (2603:10b6:408:8d::31)
+Cc: linux-firmware@kernel.org, linux-wireless@vger.kernel.org,
+	brcm80211-dev-list.pdl@broadcom.com, SHA-cyfmac-dev-list@infineon.com,
+	linux-mips@vger.kernel.org, Arend van Spriel <aspriel@gmail.com>, Franky Lin
+	<franky.lin@broadcom.com>, Hante Meuleman <hante.meuleman@broadcom.com>,
+	Artur Rojek <contact@artur-rojek.eu>
+Message-Id: <02BTLR.2900VTVOISJZ@crapouillou.net>
+In-Reply-To: <fa5b46e2-f13e-547e-8df9-70c65f191957@broadcom.com>
+References: <L70QLR.XAGB8X2431341@crapouillou.net>
+	<fa5b46e2-f13e-547e-8df9-70c65f191957@broadcom.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR11MB3556:EE_|DM4PR11MB7279:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0b4705a9-6f1d-48cb-62d8-08dacd5b8752
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BSQzzelhgE68mo7vqJoCj5i5e+cjGfGXIJvsfQgHHvJRrOWjidevNa1tXyU3GoMpYfPBovjmvJ66GrWflQTAQOWs1tSHe1bFL8A339ZNiaE5y7hPHQcF0KjmFWT7EtNc6PTLrvNo1n6/mLR7y4u5M+J1nx2fnqnHP3Q7czcKjxF2eCx2Kn7MDLgfRuXL17u6ohw+r3JMMet2IaSRFwn+TTgUlS8NU9/eC6v6av8rJeghXTpbKGsl+SMOJvmGx3Qvk3EtY5ujZAf5xp+sAmRdzdVP0HaIpX812qyvGiylBw/dtVw2mFaAaO46mBt/zoHBx4xPaDu8pahFcW2RJt0iAqw3wF836tz3nOzCjSkfzTET0L4EEUOmz/5yAy+QwlC1x8Ilyu9ZH4dvNTp1FNZ7dz2ZokM+H5J0kuP1CbkCICyZ9pCBvXKigTzTPgPQVtzOiyz1zrdgQteka35c47taEBn5+Or1vPq67fKvTyP4QoOFdRPbsdTifEy2cIK1PCf95o90NDgzL6mB9Jw6i2y9XlFBiCZgppfstBjxaeEJhkkyOw3ZUUatFSmiQ+PmRVdZFsXSrTrC0EbsKmBFjMnlvIdqMatek0b4iTgWc38KcQPTml5gYsb0vk5vUFQYVgND2IsPN6QyV2nvrNA9amkwbw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR11MB3556.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(366004)(136003)(346002)(39860400002)(376002)(396003)(451199015)(86362001)(38100700002)(82960400001)(66476007)(66556008)(8676002)(4326008)(41300700001)(66946007)(54906003)(6916009)(26005)(6512007)(9686003)(316002)(2906002)(83380400001)(4001150100001)(8936002)(186003)(1076003)(44832011)(4744005)(5660300002)(6666004)(33716001)(6486002)(6506007)(478600001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mN6hZYCnLUzTkLDm1fAF2brmONNjx4cn6D+2JOpkNSdeTus5FbBKasO39p9V?=
- =?us-ascii?Q?+AvZTkH73NZ3i1DDl/Zf0WVyXmtUCqUBKOIZou3vS245aiB8W0vJ1G3hvnvQ?=
- =?us-ascii?Q?JqMnkLrfZwxtzQ4h7zzOaStBaH4ccJQ0+sa2yD5Nd2YG7dSPoe2aeknnA80Q?=
- =?us-ascii?Q?J8BM30NrtTIgYr/jmKa7ZmxX5HBixtA9P+jCCbqLM7W52n1lrPTBnKc941RH?=
- =?us-ascii?Q?8oJ5jTawrKXs9tOZNYLwKDq5nD2IgIwf842l/zyu7VvD9T1vZHycdWfBiEWl?=
- =?us-ascii?Q?p3YpmP75Q9Fbpgg31V8cVbvoJGAXl5jcgIkaAc8Dj/QmCQg95fgj2utd/Liv?=
- =?us-ascii?Q?L9hlokO9QWR6WIqkfg3S+PO3Y+r3ZX+ZUKgliIc1DrC4nGrzxAh91REWckYc?=
- =?us-ascii?Q?tcg/bsJ0UujPuzTIFtaCFL6cjr3vlHUgzTTpyc8Fw31p1TMhAfc7vbgnr3IL?=
- =?us-ascii?Q?XqYQ5VA2exP2DQ2T8qaB4PU1062BuYDhfX4R1dpmLjj+p3kzio9y81FMMyPn?=
- =?us-ascii?Q?Q+fW3nhD5yLJCuH+u/8gqVKO29r3MnABiHiBV77U5RyHYFHeCwvTQ+cwiqTd?=
- =?us-ascii?Q?DeB18GDTjHHsUXlDii7+ZCou5UNcj9gyb/nx8uEQt6TwFWrxVoQ4bnLd4xnk?=
- =?us-ascii?Q?Oz+9lYa2WzEI5jyNkjG7oPhf2vKPirUBaPsqHosmo+C2HQwzYoIDbaAvvUPy?=
- =?us-ascii?Q?bjLsCKzxH1WmasOUnYVlh0W0EEQz5wEqavy2exWoGVkllP0nn8gdN+2Sexcc?=
- =?us-ascii?Q?dEM69wlutA9CIC49cNZ1U0E17xsiZ9ntUBVhL31GtNoHiyTes4Ke1t1J6JPp?=
- =?us-ascii?Q?CmEsMzf3EzSqDewen/F11jUZ82E+MiO5Ris7UAATc/RvKhv1ERYqG0OhKBpP?=
- =?us-ascii?Q?fRjiNVJBf5Gbe7PKo9ahVQ/qdJKFs7Q7HKEIl013KY/JNP/bZViQm6Ct/O5X?=
- =?us-ascii?Q?Oc1zY1oPrOkFVp19xxNubQRC+KslOkhBj3MYh91Mpy0KI/TF1mD9mauf+LZJ?=
- =?us-ascii?Q?KToPOBy9xooR0OjVfC+QyXMAhFeL0WSEJvHgEF4VZ013qq6kKpwbwNJ2wZV4?=
- =?us-ascii?Q?5cU5a4aItyLeB1GpnFXQk7br2V5Y0G4aFBVg229MTOLTOdAuDsjQGZ+rAkwW?=
- =?us-ascii?Q?YcBUvtDngz5E5IJI3lnckd2m4I+fl4RDT5sx78tl18Nwb89OT3Jhx8BWxEfb?=
- =?us-ascii?Q?FMQzwyLmGNESUkvmdbyPqu3iJBdiPv0UdC1D4Zid/0kJ/N0D33pxiunEKV8v?=
- =?us-ascii?Q?9FhUnQLzFKsdQHF6Cc/GQmRIO/xA0TgTzN61YiMj8JUZD0OdMcQl/ZOGmULm?=
- =?us-ascii?Q?alejYmp2WkLMxZM8utgtINOoNJPwn82YUjthwHOIl6m4uaEFhxLNXxYjZbT3?=
- =?us-ascii?Q?wReRwBENxnv/BT1PanFsJWL6qpvg7btOBuPOatnOK36SUsZN/WMg0vT+bHpW?=
- =?us-ascii?Q?jI1Z4wpHIGkDFX1jaJuXwqCY9tHLkzNiL4Z62w5hdpb+0urCGa9PHlkbhfGV?=
- =?us-ascii?Q?HT7OZCODNwyq/+yCumNcqmFqhuOylowpSM3tC+bqLuW+SI6hE2rG6PtzKh7X?=
- =?us-ascii?Q?7ZpzNsOSwVJz/iBe+Uzs51FkrmZ03neTg9Dnhrf4i94876kq8pb1JYayjBvI?=
- =?us-ascii?Q?5A=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0b4705a9-6f1d-48cb-62d8-08dacd5b8752
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR11MB3556.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2022 14:03:42.4887
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +iyaDVQT3DmwyO4RLKC8UsGwLM2Kjbka8UXQba/dMZo0Vx/B4Xv6k5dch24x28XNPKWmXX/WT57TnawgHYpNHw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7279
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-The following changes since commit 391fb47caabaae8719fb72ba4891d1fc27ca1923:
+Hi Arend,
 
-  amdgpu: update green sardine DMCUB firmware (2022-11-17 10:42:59 -0500)
+Le mar. 22 nov. 2022 =E0 20:35:41 +0100, Arend van Spriel=20
+<arend.vanspriel@broadcom.com> a =E9crit :
+> On 11/22/2022 12:06 AM, Paul Cercueil wrote:
+>> Hello,
+>>=20
+>> As a week-end project I got the BCM4330 chip to work with the=20
+>> mainline =7FLinux kernel on the MIPS CI20 board. One of the problems I=20
+>> was facing =7Fwas the firmware crashing, resulting in timeout errors=20
+>> in the brcmfmac =7Fdriver.
+>>=20
+>> It turns out the bcm4330-sdio.bin firmware that's currently in=20
+>> =7Flinux-firmware is not the latest one. Running "strings" on the blob=20
+>> =7Fpoints out to a version 5.90.125.104 dated 2011-10-25. The firmware=20
+>> that =7Foriginally came on the CI20 is version 5.90.195.26 dated=20
+>> 2012-05-09, and =7Fthe version found in Android [1] is 5.90.195.114=20
+>> dated 2013-01-23. Only =7Fthe last two will work on the CI20 board.
+>>=20
+>> My question then, could we bump the firmware available in=20
+>> linux-firmware =7Fto the latest version? Or is there a valid reason=20
+>> why an older firmware =7Fis kept in the tree?
+>=20
+> We "Broadcom" could. The linux-firmware repo provides all firmware=20
+> that linux distro can freely redistribute. The license info is listed=20
+> in the README in the repo as are the applicable firmware license=20
+> documents. So releasing the firmware to linux-firmware under the=20
+> given license can only be done by anyone owning it, not by people=20
+> licensed to use it.
 
-are available in the Git repository at:
+I actually did not know this.
 
-  git://anongit.freedesktop.org/drm/drm-firmware dg2_dmc_v2.8
+> The bcm4330 chip was one of the first chips that brcmfmac supported=20
+> and Broadcom has EOL-ed that chip a long time ago hence no newer=20
+> firmware was considered for release to linux-firmware. In the past we=20
+> often re-released what was available in Android so we probably can do=20
+> that again for this and other chips.
 
-for you to fetch changes up to 7f6279b3dd76ff955278fcd9e517eab85a4c97d6:
+This would be great.
 
-  i915: Add DMC v2.08 for DG2 (2022-11-21 16:38:26 -0300)
+Cheers,
+-Paul
 
-----------------------------------------------------------------
-Gustavo Sousa (1):
-      i915: Add DMC v2.08 for DG2
 
- WHENCE                   |   3 +++
- i915/dg2_dmc_ver2_08.bin | Bin 0 -> 22540 bytes
- 2 files changed, 3 insertions(+)
- create mode 100644 i915/dg2_dmc_ver2_08.bin
