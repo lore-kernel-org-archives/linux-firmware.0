@@ -1,74 +1,165 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=jVTa=3X=intel.com=gustavo.sousa@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48DE3C4332F
-	for <linux-firmware@archiver.kernel.org>; Wed, 23 Nov 2022 12:22:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A47AFC4332F
+	for <linux-firmware@archiver.kernel.org>; Wed, 23 Nov 2022 14:03:49 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 31B68C43470; Wed, 23 Nov 2022 12:22:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CB32C433B5
-	for <linux-firmware@kernel.org>; Wed, 23 Nov 2022 12:22:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1669206131;
-	bh=ywY4ljuFsxwQzejeKie0DHcvCpJoxJttoV5ePAofXbg=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=TeQwMqDNuHyN3vdUQYcK1o4OBSE6RKUI2U99mqZBzf/qHhVGpRJ4dk+uz0Ld9RjbC
-	 85S7AoW/5BPmg+HfbhYGqtPUiTIWgQp7asCH82iafilyrfH8J6nTpzodBKpFOrBwLp
-	 9E9PJwuuVk8MDeRrOWRz36jJlKVgqAAcIedxyQ32N/wrGy59cglo/fRCgyev2djSlP
-	 33zbdXeZXFIvsNbRwhakUtFU2CvEiXV9SV7CagIn/yPp8M8R9/7Z7FeqRsC3N/+nkr
-	 tHO0yrCd/7AJwHsPcQG0i5GPV/C8h7JfgnYywbfgJC1/lBrBRRd0BMgXrchDRLpVh/
-	 vyl8I1/lbUaqA==
-Received: by mail-oi1-f175.google.com with SMTP id e205so18791906oif.11
-        for <linux-firmware@kernel.org>; Wed, 23 Nov 2022 04:22:11 -0800 (PST)
-X-Gm-Message-State: ANoB5pnNBQiMm7Zz0xAR7DFcyVIQ6JE1CiIn0ikXm+VKdR3CfkeRym/W
-	1rrEuUlAQtKPLh5nbPosp7u4F6x20WFA225sUyQ=
-X-Google-Smtp-Source: AA0mqf5XAHP8cEQ0uNaYb+4MU523Txhm3kShKLpYKE5fjF3TWypo31OiqLnM21tYL0JSeRlLQQ6h6IbLMMo1nr8l6iA=
-X-Received: by 2002:aca:f15:0:b0:35a:6004:2bc9 with SMTP id
- 21-20020aca0f15000000b0035a60042bc9mr13491029oip.3.1669206130315; Wed, 23 Nov
- 2022 04:22:10 -0800 (PST)
-MIME-Version: 1.0
-References: <f032c2336ca7c60deb53fbbbaab1c60f896bfe7d.camel@intel.com>
-In-Reply-To: <f032c2336ca7c60deb53fbbbaab1c60f896bfe7d.camel@intel.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Wed, 23 Nov 2022 07:21:59 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA46cbS=t6Fdybmw0q_DrAFA4RuALZGab_M0iBTSnxRKFQ@mail.gmail.com>
-Message-ID: <CA+5PVA46cbS=t6Fdybmw0q_DrAFA4RuALZGab_M0iBTSnxRKFQ@mail.gmail.com>
-Subject: Re: i915 Updates: MTL DMC v2.10
-To: "Tolakanahalli Pradeep, Madhumitha" <madhumitha.tolakanahalli.pradeep@intel.com>
+	id 56C94C433D6; Wed, 23 Nov 2022 14:03:49 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id B0B6EC433C1;
+	Wed, 23 Nov 2022 14:03:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org B0B6EC433C1
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1669212227; x=1700748227;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=N++wxI1sgk1AMLN/S/suCvWViNMVZwKKDC50KdxwglA=;
+  b=hEdqFd9XEgv7wp+3eTqQH50xCto/+zuyJd3QNwDKIs8kq6Orf1alCqf+
+   ao2tQNlnQFLZHun45mrNesBQDtu1EpWJgXM9SlQtGMDRhyivRK8c3KytG
+   HV0oSxpWiEJgxP8N3kpiEJZAXqyBlAnJeXgKRcrL984b/bR1uf3Tgc/vY
+   c+EK2RexeIs6iFprRf16uf5g1HB/8GsClnxU5KNHld+/2SwaOm8cFGSIU
+   iwuqJhDtimPW0xs4PwsLCcX6G6vbuFrXQ+7BHxsWdyQKJDGIgnNv7qr4X
+   kTO8m0iaqSvzp1oFClIHeg63VAGtRQr+FJ73pNFLjgYSD1bwFDbAN6jwc
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="293778659"
+X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; 
+   d="scan'208";a="293778659"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2022 06:03:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="705371049"
+X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; 
+   d="scan'208";a="705371049"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmsmga008.fm.intel.com with ESMTP; 23 Nov 2022 06:03:46 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 23 Nov 2022 06:03:46 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 23 Nov 2022 06:03:46 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Wed, 23 Nov 2022 06:03:46 -0800
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.44) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Wed, 23 Nov 2022 06:03:45 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SNiXK8HkqkK+/Oyhc1LrMBO24+ecsuAe92tv+WdjOLXduyKFC3tVlrwAxASOqZ8H17edx9QX8iK1c94is4XYkyIi+LJLULTVarLfytLAT8Ljh8YbklusDBySGNFiZ2Xb4lb4rY52cXmvMgmkpwwYoEoYN5d31o3pBz3qwUq3953+6L3tvBOpBypiPcH+PIUYB/zMYf3a5xncNEfP4yRXAr0oIVRBepoVcJihxVYdi8wzEjEZhYAUqYXnw3eq5Izq2z7zAy1fUrs4lL4a2BR+sXH6PwWGtCyDWuK/m2naFjpJXYcNhtkpz2dT4eF0T41LWqZSH9GQgExckKX5NHOtgQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4Dyh1kmmMizLnE3i+28DftEbTOIlPmdr+9B97567W0U=;
+ b=jzrAI50d4SPTIktlB4ShZnLf4wjl3+N02CkvpzJ45fhHwimVpyM0JG6WiETqfqBHa9XyMaOMvyqfDFSllbgLXVp5k13veaLitT0TL53S772UfgdXx4Y3SA6qRfojabZlY+p3fpIoggm0adIhMBEHUdN0nrVLjcFAXYSeV0m4EDQRveMwKjyOfekW2VD36KUCtFAwYJ0bn98V+YS5nsowV8FTuBGXNI06a9jWdVO9VR2rxPokX2RW5Sg8VEwT/pq7d9TJua8c3yLvvlfkO7W5dtfOGrL7Nca+vDtBzaCVL6+ctSddrGmUaZZKdh12SJY8AvvwW4T8+2RbgNLZVnhbXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BN8PR11MB3556.namprd11.prod.outlook.com (2603:10b6:408:8d::31)
+ by DM4PR11MB7279.namprd11.prod.outlook.com (2603:10b6:8:109::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.18; Wed, 23 Nov
+ 2022 14:03:42 +0000
+Received: from BN8PR11MB3556.namprd11.prod.outlook.com
+ ([fe80::b0bd:6014:14d9:bd01]) by BN8PR11MB3556.namprd11.prod.outlook.com
+ ([fe80::b0bd:6014:14d9:bd01%4]) with mapi id 15.20.5857.018; Wed, 23 Nov 2022
+ 14:03:42 +0000
+Date: Wed, 23 Nov 2022 11:03:35 -0300
+From: Gustavo Sousa <gustavo.sousa@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, "Hutchings, Ben" <ben@decadent.org.uk>, 
-	"Srivatsa, Anusha" <anusha.srivatsa@intel.com>, "Sousa, Gustavo" <gustavo.sousa@intel.com>, 
-	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "kyle@mcmartin.ca" <kyle@mcmartin.ca>
-Content-Type: text/plain; charset="UTF-8"
+To: <linux-firmware@kernel.org>
+CC: "Hutchings, Ben" <ben@decadent.org.uk>, "Srivatsa, Anusha"
+	<anusha.srivatsa@intel.com>, Madhumitha Tolakanahalli Pradeep
+	<madhumitha.tolakanahalli.pradeep@intel.com>, "kyle@mcmartin.ca"
+	<kyle@mcmartin.ca>, "jwboyer@kernel.org" <jwboyer@kernel.org>,
+	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: PR for DG2 DMC v2.08
+Message-ID: <20221123140335.4xqxepev4bdvybut@gjsousa-mobl2>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: BYAPR04CA0028.namprd04.prod.outlook.com
+ (2603:10b6:a03:40::41) To BN8PR11MB3556.namprd11.prod.outlook.com
+ (2603:10b6:408:8d::31)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR11MB3556:EE_|DM4PR11MB7279:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0b4705a9-6f1d-48cb-62d8-08dacd5b8752
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BSQzzelhgE68mo7vqJoCj5i5e+cjGfGXIJvsfQgHHvJRrOWjidevNa1tXyU3GoMpYfPBovjmvJ66GrWflQTAQOWs1tSHe1bFL8A339ZNiaE5y7hPHQcF0KjmFWT7EtNc6PTLrvNo1n6/mLR7y4u5M+J1nx2fnqnHP3Q7czcKjxF2eCx2Kn7MDLgfRuXL17u6ohw+r3JMMet2IaSRFwn+TTgUlS8NU9/eC6v6av8rJeghXTpbKGsl+SMOJvmGx3Qvk3EtY5ujZAf5xp+sAmRdzdVP0HaIpX812qyvGiylBw/dtVw2mFaAaO46mBt/zoHBx4xPaDu8pahFcW2RJt0iAqw3wF836tz3nOzCjSkfzTET0L4EEUOmz/5yAy+QwlC1x8Ilyu9ZH4dvNTp1FNZ7dz2ZokM+H5J0kuP1CbkCICyZ9pCBvXKigTzTPgPQVtzOiyz1zrdgQteka35c47taEBn5+Or1vPq67fKvTyP4QoOFdRPbsdTifEy2cIK1PCf95o90NDgzL6mB9Jw6i2y9XlFBiCZgppfstBjxaeEJhkkyOw3ZUUatFSmiQ+PmRVdZFsXSrTrC0EbsKmBFjMnlvIdqMatek0b4iTgWc38KcQPTml5gYsb0vk5vUFQYVgND2IsPN6QyV2nvrNA9amkwbw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR11MB3556.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(366004)(136003)(346002)(39860400002)(376002)(396003)(451199015)(86362001)(38100700002)(82960400001)(66476007)(66556008)(8676002)(4326008)(41300700001)(66946007)(54906003)(6916009)(26005)(6512007)(9686003)(316002)(2906002)(83380400001)(4001150100001)(8936002)(186003)(1076003)(44832011)(4744005)(5660300002)(6666004)(33716001)(6486002)(6506007)(478600001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mN6hZYCnLUzTkLDm1fAF2brmONNjx4cn6D+2JOpkNSdeTus5FbBKasO39p9V?=
+ =?us-ascii?Q?+AvZTkH73NZ3i1DDl/Zf0WVyXmtUCqUBKOIZou3vS245aiB8W0vJ1G3hvnvQ?=
+ =?us-ascii?Q?JqMnkLrfZwxtzQ4h7zzOaStBaH4ccJQ0+sa2yD5Nd2YG7dSPoe2aeknnA80Q?=
+ =?us-ascii?Q?J8BM30NrtTIgYr/jmKa7ZmxX5HBixtA9P+jCCbqLM7W52n1lrPTBnKc941RH?=
+ =?us-ascii?Q?8oJ5jTawrKXs9tOZNYLwKDq5nD2IgIwf842l/zyu7VvD9T1vZHycdWfBiEWl?=
+ =?us-ascii?Q?p3YpmP75Q9Fbpgg31V8cVbvoJGAXl5jcgIkaAc8Dj/QmCQg95fgj2utd/Liv?=
+ =?us-ascii?Q?L9hlokO9QWR6WIqkfg3S+PO3Y+r3ZX+ZUKgliIc1DrC4nGrzxAh91REWckYc?=
+ =?us-ascii?Q?tcg/bsJ0UujPuzTIFtaCFL6cjr3vlHUgzTTpyc8Fw31p1TMhAfc7vbgnr3IL?=
+ =?us-ascii?Q?XqYQ5VA2exP2DQ2T8qaB4PU1062BuYDhfX4R1dpmLjj+p3kzio9y81FMMyPn?=
+ =?us-ascii?Q?Q+fW3nhD5yLJCuH+u/8gqVKO29r3MnABiHiBV77U5RyHYFHeCwvTQ+cwiqTd?=
+ =?us-ascii?Q?DeB18GDTjHHsUXlDii7+ZCou5UNcj9gyb/nx8uEQt6TwFWrxVoQ4bnLd4xnk?=
+ =?us-ascii?Q?Oz+9lYa2WzEI5jyNkjG7oPhf2vKPirUBaPsqHosmo+C2HQwzYoIDbaAvvUPy?=
+ =?us-ascii?Q?bjLsCKzxH1WmasOUnYVlh0W0EEQz5wEqavy2exWoGVkllP0nn8gdN+2Sexcc?=
+ =?us-ascii?Q?dEM69wlutA9CIC49cNZ1U0E17xsiZ9ntUBVhL31GtNoHiyTes4Ke1t1J6JPp?=
+ =?us-ascii?Q?CmEsMzf3EzSqDewen/F11jUZ82E+MiO5Ris7UAATc/RvKhv1ERYqG0OhKBpP?=
+ =?us-ascii?Q?fRjiNVJBf5Gbe7PKo9ahVQ/qdJKFs7Q7HKEIl013KY/JNP/bZViQm6Ct/O5X?=
+ =?us-ascii?Q?Oc1zY1oPrOkFVp19xxNubQRC+KslOkhBj3MYh91Mpy0KI/TF1mD9mauf+LZJ?=
+ =?us-ascii?Q?KToPOBy9xooR0OjVfC+QyXMAhFeL0WSEJvHgEF4VZ013qq6kKpwbwNJ2wZV4?=
+ =?us-ascii?Q?5cU5a4aItyLeB1GpnFXQk7br2V5Y0G4aFBVg229MTOLTOdAuDsjQGZ+rAkwW?=
+ =?us-ascii?Q?YcBUvtDngz5E5IJI3lnckd2m4I+fl4RDT5sx78tl18Nwb89OT3Jhx8BWxEfb?=
+ =?us-ascii?Q?FMQzwyLmGNESUkvmdbyPqu3iJBdiPv0UdC1D4Zid/0kJ/N0D33pxiunEKV8v?=
+ =?us-ascii?Q?9FhUnQLzFKsdQHF6Cc/GQmRIO/xA0TgTzN61YiMj8JUZD0OdMcQl/ZOGmULm?=
+ =?us-ascii?Q?alejYmp2WkLMxZM8utgtINOoNJPwn82YUjthwHOIl6m4uaEFhxLNXxYjZbT3?=
+ =?us-ascii?Q?wReRwBENxnv/BT1PanFsJWL6qpvg7btOBuPOatnOK36SUsZN/WMg0vT+bHpW?=
+ =?us-ascii?Q?jI1Z4wpHIGkDFX1jaJuXwqCY9tHLkzNiL4Z62w5hdpb+0urCGa9PHlkbhfGV?=
+ =?us-ascii?Q?HT7OZCODNwyq/+yCumNcqmFqhuOylowpSM3tC+bqLuW+SI6hE2rG6PtzKh7X?=
+ =?us-ascii?Q?7ZpzNsOSwVJz/iBe+Uzs51FkrmZ03neTg9Dnhrf4i94876kq8pb1JYayjBvI?=
+ =?us-ascii?Q?5A=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0b4705a9-6f1d-48cb-62d8-08dacd5b8752
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR11MB3556.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2022 14:03:42.4887
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +iyaDVQT3DmwyO4RLKC8UsGwLM2Kjbka8UXQba/dMZo0Vx/B4Xv6k5dch24x28XNPKWmXX/WT57TnawgHYpNHw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7279
+X-OriginatorOrg: intel.com
 
-On Mon, Nov 21, 2022 at 3:18 PM Tolakanahalli Pradeep, Madhumitha
-<madhumitha.tolakanahalli.pradeep@intel.com> wrote:
->
-> The following changes since commit daff40492bd0cd071c7f5521b339e12e4de718c1:
->
->   linux-firmware: update firmware for MT7986 (2022-11-16 08:53:28 -0500)
->
-> are available in the Git repository at:
->
->   git://anongit.freedesktop.org/drm/drm-firmware mtl_dmc_v2.10
+The following changes since commit 391fb47caabaae8719fb72ba4891d1fc27ca1923:
 
-Pulled and pushed out.
+  amdgpu: update green sardine DMCUB firmware (2022-11-17 10:42:59 -0500)
 
-josh
+are available in the Git repository at:
 
->
-> for you to fetch changes up to de854c96df66be4a13f8bfbb1e78bd5d0cea2e8e:
->
->   i915: Add DMC v2.10 for MTL (2022-11-16 14:26:06 -0800)
->
-> ----------------------------------------------------------------
-> Madhumitha Tolakanahalli Pradeep (1):
->       i915: Add DMC v2.10 for MTL
->
->  WHENCE                   |   3 +++
->  i915/mtl_dmc_ver2_10.bin | Bin 0 -> 48112 bytes
->  2 files changed, 3 insertions(+)
->  create mode 100644 i915/mtl_dmc_ver2_10.bin
->
+  git://anongit.freedesktop.org/drm/drm-firmware dg2_dmc_v2.8
+
+for you to fetch changes up to 7f6279b3dd76ff955278fcd9e517eab85a4c97d6:
+
+  i915: Add DMC v2.08 for DG2 (2022-11-21 16:38:26 -0300)
+
+----------------------------------------------------------------
+Gustavo Sousa (1):
+      i915: Add DMC v2.08 for DG2
+
+ WHENCE                   |   3 +++
+ i915/dg2_dmc_ver2_08.bin | Bin 0 -> 22540 bytes
+ 2 files changed, 3 insertions(+)
+ create mode 100644 i915/dg2_dmc_ver2_08.bin
