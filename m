@@ -1,374 +1,300 @@
-Return-Path: <SRS0=ItlU=34=wp-jewely.com=info@kernel.org>
+Return-Path: <SRS0=oIF4=35=gmail.com=alexdeucher@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5EEACC433FE
-	for <linux-firmware@archiver.kernel.org>; Mon, 28 Nov 2022 13:39:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0C31C4332F
+	for <linux-firmware@archiver.kernel.org>; Tue, 29 Nov 2022 19:29:16 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 42B9AC433D6; Mon, 28 Nov 2022 13:39:15 +0000 (UTC)
-Received: from os3-322-50689.vs.sakura.ne.jp (os3-322-50689.vs.sakura.ne.jp [49.212.136.193])
-	by smtp.kernel.org (Postfix) with ESMTP id 1A94EC433C1
-	for <linux-firmware@kernel.org>; Mon, 28 Nov 2022 13:39:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 1A94EC433C1
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=wp-jewely.com
-Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=wp-jewely.com
-Received: by os3-322-50689.vs.sakura.ne.jp (Postfix, from userid 1000)
-	id 3C238865F4; Mon, 28 Nov 2022 22:29:46 +0900 (JST)
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Subject: =?UTF-8?B?5qW95aSp5Lya5ZOh6KaP57SE44CN5pS55a6a44Gu44GK55+l44KJ44GbL1Jl?=  =?UTF-8?B?dmlzaW9uIG9mICdSYWt1dGVuIE1lbWJlcnNoaXAg?=  =?UTF-8?B?UnVsZXMn?=
-X-PHP-Originating-Script: 1000:phpyouju.php
-Date: Mon, 28 Nov 2022 21:29:46 +0800
-From: =?UTF-8?B?5qW95aSp44Kw44Or44O844OX44GL44KJ44Gu44GK55+l44KJ44Gb?= <info@wp-jewely.com>
-Message-ID: <1448029776f38e83fbaf3785a5b71ec5@49.212.136.193>
+	id 6A23DC4347C; Tue, 29 Nov 2022 19:29:16 +0000 (UTC)
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 6122DC433C1;
+	Tue, 29 Nov 2022 19:29:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 6122DC433C1
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f42.google.com with SMTP id db10-20020a0568306b0a00b0066d43e80118so9799978otb.1;
+        Tue, 29 Nov 2022 11:29:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=lEgBHDVtLr2SiI27d0NwyEcqGNs+N4R+XmGS9NelUXI=;
+        b=frvRdeAnhoVr6z9G9xaD7KgzZghnRHVQPAf7rQvv+nwoO/1Zg7fTJehKChRr3vfWGW
+         t8oCFqCQ+SIeFiS1R7XGpUtOjDPkBQ9ngeHzavnHJ/qc7zG6DFTp1RGScHb5ai+a+1E3
+         Yl2QoHmV9lp4YsTUYliYckHzt99WXcGh8+fTzguyE2c4pLBNwRMmz9z4dr5c0odeMZQw
+         LryW69/nY8RLd//lU1bvdHRn/dvcmTEgsnaYOIc3aYHr2cPctJ1gMbMq8s1SO9co5rLf
+         v7YXWl0S7Z5foIWbCclVqii9PGtoqJzVeCt19eouYsSck9A/A3DhjB0uHPLzq5VUG0Zt
+         ri5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lEgBHDVtLr2SiI27d0NwyEcqGNs+N4R+XmGS9NelUXI=;
+        b=J+YNOJDbK84vhgwVPvQhMi8sJEXDbdCC3m/74yEZja/N3/eo4MH+K1TPhCP2CisJDg
+         jNFrYcq9si3Hjg2NgbiJ6eBmwzRKccxegUPsGV8nN3c4b+YU0B6N7p3gkdLh7/hj5De0
+         9/T7xU0lPfHtrsEs8kppNpUD8pJGJ6Ue8eVpW6p7QTUGdnAwnkd5qwDULVxQxjRbpmdY
+         KEimGO0bOAUdp8GtBO3ET6SZzZ4uLb8juUaylB1x/8ay3pOFSZu/3wDwp8nQW4hxwbg5
+         rvhd08C0hiN4iTJqOSfRh64u1F6zGZgAD8NhYuyn7fu4hxbFEMOnjWYWYgEHSDrk6wl0
+         cncg==
+X-Gm-Message-State: ANoB5pnP0PsE6KpdKbkqQnNoWbsFtq+a/r67kAXKh1RNts+sfraDkqZA
+	G8n4nzsmso0vDFfBxSUVXa2TDL+il/+CfkNRCiAcxT/C
+X-Google-Smtp-Source: AA0mqf6B1kGyyQEukS3KYEVPV+R4Fbti6WYMYPlkhtpugD+qsP4r4exJvE8eMWBEPvqA9N1XnqSZ0Q54J58JE175vL4=
+X-Received: by 2002:a9d:628b:0:b0:66c:6afa:5006 with SMTP id
+ x11-20020a9d628b000000b0066c6afa5006mr22652826otk.233.1669750153338; Tue, 29
+ Nov 2022 11:29:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="b1_1448029776f38e83fbaf3785a5b71ec5"
-Content-Transfer-Encoding: 8bit
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 29 Nov 2022 14:29:02 -0500
+Message-ID: <CADnq5_O3uUj4SHq9_zuE=TOB0iOyMbkSPJRjxRc0NgBPM44dvw@mail.gmail.com>
+Subject: Updated amdgpu firmware
+List-Id: <linux-firmware.lore.kernel.org>
+To: Linux Firmware <linux-firmware@kernel.org>, Josh Boyer <jwboyer@kernel.org>
+Content-Type: multipart/mixed; boundary="000000000000c124ca05eea100d8"
 
-This is a multi-part message in MIME format.
+--000000000000c124ca05eea100d8
+Content-Type: text/plain; charset="UTF-8"
 
---b1_1448029776f38e83fbaf3785a5b71ec5
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Hi,
 
+New sdma firmware.  Please apply!
 
+Thanks,
 
+Alex
 
+--000000000000c124ca05eea100d8
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0001-amdgpu-update-sdma_5.2.7-firmware.patch"
+Content-Disposition: attachment; 
+	filename="0001-amdgpu-update-sdma_5.2.7-firmware.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_lb2m3wm90>
+X-Attachment-Id: f_lb2m3wm90
 
-
-
-  
-  
-    
-      
-        
-        
-           
-          
-
-  
-  
-    
-  
-    
-      ＊本メールは、重要なお知らせのため、楽天会員情報の連絡先として登録されているメールアドレスにお送りしております。
-      *This email is an important announcement from Rakuten and is sent to 
-      all Rakuten members' registered email addresses.
-      *English follows Japanese. 
-      
-
-      楽天グループ株式会社は、11/28/2022 09:29:46 pm 楽天市場 
-      に登録いただいたお客様に、楽天市場 アカウントの情報更新をお届けします。残念ながら、 楽天市場のアカウントを更新できませんでした。
-      ■今回は、カードが期限切れになってるか、請求先住所が変更されたなど、さまざまな理由でカードの情報を更新できませんでした。
-      
-      
-        アカウント情報の一部が誤っている故に、 
-        お客様のアカウントを維持するため 楽天市場 アカウントの 情報を確認する必要があります。
-      
-      なお、改定の詳細は下記のページにてご確認いただけます。「ログインはこちら」
-      今後とも楽天のサービスをご利用の程、よろしくお願いいたします。
-      
-
-      [English version]
-      Thank you for always using Rakuten services. We 
-      would like to announce that Rakuten Group, Inc. has decided to partially 
-      revise the Rakuten Membership Rules effective Tuesday, January 17, 
-      2023.
-      ■Parts to be Changed
-      
-      
-        We will include examples of measures to take to protect your Account 
-        (Article 3) 
-        We will add prohibited activities (Article 8)
-      
-      Please find more details of the revision in the page below.Revision of 'Rakuten Membership Rules' 
-      Announcement
-      Thank you for your continuous support, and we hope that you continue to 
-      enjoy using Rakuten services in the future. 
-
-  
-  
-    
-  
-    このメールを気に入っていただけましたか？
-  
-    
-      
-        
-           
-           
-           
-           
-           
-           
-  
-    
-      
-        
-        
-          気に入らないlinux-firmware@kernel.org 
-          気に入った
-  
-    
-
-  
-  
-    
-      
-        
-        
-          
-          
-            
-              
-              
-                
-                  
-                    
-                    
-                      
-                    
-                      
-                        ■本メールは、送信専用メールアドレスから配信されております。ご返信いただいてもお答えできませんので、あらかじめご了承ください。■This email account is used for sending 
-                        emails only, and we are unable to receive any 
-                        replies.
-                        万一、楽天会員に登録した覚えがないという場合は、ヘルプをご覧ください。If you do not remember registering as a 
-                        Rakuten member, please refer to the Help 
-                        page. 
-                    
-                      
-                    
-                      
-                        個人情報保護方針 │ ヘルプ・問い合わせ 
-                        発行元： 楽天グループ株式会社 
-                        (c) Rakuten Group, Inc. 
-                    
-              
-                
-          
-
-
---b1_1448029776f38e83fbaf3785a5b71ec5
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<TBODY><TR><TD width="10px"></TD><TD><HTML><HEAD>
-<META content="text/html; charset=utf-8" http-equiv=Content-Type>
-<META name=GENERATOR content="MSHTML 11.00.10570.1001"></HEAD>
-<BODY>
-<TABLE class=x_header style="MAX-WIDTH: 640px; WIDTH: 100%" cellSpacing=0 
-cellPadding=0 width=640 bgColor=#ffffff border=0>
-  <TBODY>
-  <TR>
-    <TD align=center>
-      <TABLE style="MAX-WIDTH: 640px; WIDTH: 100%" cellSpacing=0 cellPadding=0 
-      width=640 border=0>
-        <TBODY>
-        <TR align=center vAlign=middle>
-          <TD 
-          style="MAX-WIDTH: 162px; WIDTH: 21%; PADDING-BOTTOM: 5px; PADDING-TOP: 5px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px" 
-          height=30 align=left><A 
-            href="https://r.rakuten.co.jp/3nk7cCert8hU5sQdPy9Mu7y9?mpe=3695430" 
-            rel="noopener noreferrer" target=_blank data-auth="NotApplicable" 
-            data-linkindex="0"><IMG 
-            style="MAX-WIDTH: 162px; HEIGHT: auto; WIDTH: 100%" border=0 
-            alt=楽天グループ 
-            src="https://image.rakuten.co.jp/com/img/id/img_R_logo_w324.png" 
-            width=162 height=60 data-unique-identifier="" 
-            data-imagetype="External"> </A></TD>
-          <TD 
-  style="MAX-WIDTH: 370px; WIDTH: 58%"></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
-<TABLE 
-style="MAX-WIDTH: 640px; WIDTH: 100%; PADDING-BOTTOM: 0px; MARGIN: 0px auto" 
-cellSpacing=0 cellPadding=0 border=0>
-  <TBODY>
-  <TR>
-    <TD height=30></TD></TR>
-  <TR>
-    <TD class=x_f16>
-      <P>＊本メールは、重要なお知らせのため、楽天会員情報の連絡先として登録されているメールアドレスにお送りしております。</P>
-      <P>*This email is an important announcement from Rakuten and is sent to 
-      all Rakuten members' registered email addresses.</P>
-      <P>*English follows Japanese. </P>
-      <HR>
-
-      <P>楽天グループ株式会社は、<SPAN 
-      style='FONT-SIZE: 15px; FONT-FAMILY: "Source Sans Pro", Calibri, Candara, Arial, sans-serif; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FLOAT: none; FONT-WEIGHT: 400; COLOR: rgb(51,51,51); FONT-STYLE: normal; TEXT-ALIGN: left; ORPHANS: 2; WIDOWS: 2; DISPLAY: inline !important; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(245,245,245); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial'>11/28/2022 09:29:45 pm<SPAN> </SPAN></SPAN>楽天市場 
-      に登録いただいたお客様に、楽天市場 アカウントの情報更新をお届けします。残念ながら、 楽天市場のアカウントを更新できませんでした。</P>
-      <P>■今回は、カードが期限切れになってるか、請求先住所が変更されたなど、さまざまな理由でカードの情報を更新できませんでした。</P>
-      <P></P>
-      <OL>
-        <LI>アカウント情報の一部が誤っている故に、 
-        <LI>お客様のアカウントを維持するため 楽天市場 アカウントの 情報を確認する必要があります。</LI></OL>
-      <P></P>
-      <P>なお、改定の詳細は下記のページにてご確認いただけます。<BR aria-hidden=true><A 
-      href="https://translate.google.com/translate?sl=auto&tl=ja&hl=ja&u=summer-limit-87d4.rmyxfr.workers.dev" 
-      rel="noopener noreferrer" target=_blank data-auth="NotApplicable" 
-      data-linkindex="1">「ログインはこちら」</A></P>
-      <P>今後とも楽天のサービスをご利用の程、よろしくお願いいたします。</P>
-      <HR>
-
-      <P>[English version]</P>
-      <P>Thank you for always using Rakuten services. <BR aria-hidden=true>We 
-      would like to announce that Rakuten Group, Inc. has decided to partially 
-      revise the Rakuten Membership Rules effective Tuesday, January 17, 
-      2023.</P>
-      <P>■Parts to be Changed</P>
-      <P></P>
-      <OL>
-        <LI>We will include examples of measures to take to protect your Account 
-        (Article 3) 
-        <LI>We will add prohibited activities (Article 8)</LI></OL>
-      <P></P>
-      <P>Please find more details of the revision in the page below.<BR 
-      aria-hidden=true><A 
-      href="https://r.rakuten.co.jp/cc2eIZ66C9HT3268MQ7Xyb7h?mpe=3695430" 
-      rel="noopener noreferrer" target=_blank data-auth="NotApplicable" 
-      data-linkindex="2">Revision of 'Rakuten Membership Rules' 
-      Announcement</A></P>
-      <P>Thank you for your continuous support, and we hope that you continue to 
-      enjoy using Rakuten services in the future. </P></TD></TR></TBODY></TABLE><BR 
-aria-hidden=true>
-<TABLE cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
-  <TBODY>
-  <TR>
-    <TD height=20></TD></TR>
-  <TR>
-    <TD 
-    style="FONT-SIZE: 14px; FONT-FAMILY: 'Lucida Grande','Hiragino Kaku Gothic ProN','Meiryo',sans-serif !important; WORD-BREAK: break-all; PADDING-BOTTOM: 0px; PADDING-TOP: 3px; PADDING-LEFT: 10px; PADDING-RIGHT: 10px" 
-    align=center>このメールを気に入っていただけましたか？</TD></TR>
-  <TR>
-    <TD align=center>
-      <TABLE cellSpacing=0 cellPadding=0 width="100%" bgColor=#ffffff 
-        border=0><TBODY>
-        <TR>
-          <TD vAlign=middle width="16.6%" align=center><A 
-            href="https://r.rakuten.co.jp/arR7ci2Ii3TsdQT1tu9mcbGc?fbu=goK9h0d4IRUiFRnkDbSxySqbg1puQKYN3L2YgXj0APw." 
-            rel="noopener noreferrer" target=_blank data-auth="NotApplicable" 
-            data-linkindex="3"><IMG style="WIDTH: 100%; DISPLAY: block" border=0 
-            alt=0 
-            src="https://r.r10s.jp/com/img/email/ichiba/2019/0425/mqi-b-00.png" 
-            width=100 data-imagetype="External"></A> </TD>
-          <TD vAlign=middle width="16.6%" align=center><A 
-            href="https://r.rakuten.co.jp/3v2bdSdgg89R9O33cT9hN0rw?fbu=goK9h0d4IRUiFRnkDbSxySqbg1puQKYN3L2YgXj0APw." 
-            rel="noopener noreferrer" target=_blank data-auth="NotApplicable" 
-            data-linkindex="4"><IMG style="WIDTH: 100%; DISPLAY: block" border=0 
-            alt=1 
-            src="https://r.r10s.jp/com/img/email/ichiba/2019/0425/mqi-b-01.png" 
-            width=100 data-imagetype="External"></A> </TD>
-          <TD vAlign=middle width="16.6%" align=center><A 
-            href="https://r.rakuten.co.jp/81C5bz5mu8Dl2G6ccV47wgIs?fbu=goK9h0d4IRUiFRnkDbSxySqbg1puQKYN3L2YgXj0APw." 
-            rel="noopener noreferrer" target=_blank data-auth="NotApplicable" 
-            data-linkindex="5"><IMG style="WIDTH: 100%; DISPLAY: block" border=0 
-            alt=2 
-            src="https://r.r10s.jp/com/img/email/ichiba/2019/0425/mqi-b-02.png" 
-            width=100 data-imagetype="External"></A> </TD>
-          <TD vAlign=middle width="16.6%" align=center><A 
-            href="https://r.rakuten.co.jp/4Qp5eLd91fBKcor4by0JK1uX?fbu=goK9h0d4IRUiFRnkDbSxySqbg1puQKYN3L2YgXj0APw." 
-            rel="noopener noreferrer" target=_blank data-auth="NotApplicable" 
-            data-linkindex="6"><IMG style="WIDTH: 100%; DISPLAY: block" border=0 
-            alt=3 
-            src="https://r.r10s.jp/com/img/email/ichiba/2019/0425/mqi-b-03.png" 
-            width=100 data-imagetype="External"></A> </TD>
-          <TD vAlign=middle width="16.6%" align=center><A 
-            href="https://r.rakuten.co.jp/5Fz4L95libGxdIPdPf1XicKR?fbu=goK9h0d4IRUiFRnkDbSxySqbg1puQKYN3L2YgXj0APw." 
-            rel="noopener noreferrer" target=_blank data-auth="NotApplicable" 
-            data-linkindex="7"><IMG style="WIDTH: 100%; DISPLAY: block" border=0 
-            alt=4 
-            src="https://r.r10s.jp/com/img/email/ichiba/2019/0425/mqi-b-04.png" 
-            width=100 data-imagetype="External"></A> </TD>
-          <TD vAlign=middle width="16.6%" align=center><A 
-            href="https://r.rakuten.co.jp/81u7GIfMR65l7D16SHbMPfWY?fbu=goK9h0d4IRUiFRnkDbSxySqbg1puQKYN3L2YgXj0APw." 
-            rel="noopener noreferrer" target=_blank data-auth="NotApplicable" 
-            data-linkindex="8"><IMG style="WIDTH: 100%; DISPLAY: block" border=0 
-            alt=5 
-            src="https://r.r10s.jp/com/img/email/ichiba/2019/0425/mqi-b-05.png" 
-            width=100 data-imagetype="External"></A> </TD></TR></TBODY></TABLE></TD></TR>
-  <TR>
-    <TD align=center>
-      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
-        <TBODY>
-        <TR>
-          <TD 
-          style="FONT-SIZE: 14px; FONT-FAMILY: 'Lucida Grande','Hiragino Kaku Gothic ProN','Meiryo',sans-serif; WORD-BREAK: break-all; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px" 
-          vAlign=top width=350 align=left>気に入らない<SPAN 
-            style='FONT-SIZE: 15px; FONT-FAMILY: "Source Sans Pro", Calibri, Candara, Arial, sans-serif; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FLOAT: none; FONT-WEIGHT: 400; COLOR: rgb(51,51,51); FONT-STYLE: normal; TEXT-ALIGN: left; ORPHANS: 2; WIDOWS: 2; DISPLAY: inline !important; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(245,245,245); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial'>linux-firmware@kernel.org<SPAN> </SPAN></SPAN></TD>
-          <TD 
-          style="FONT-SIZE: 14px; FONT-FAMILY: 'Lucida Grande','Hiragino Kaku Gothic ProN','Meiryo',sans-serif; WORD-BREAK: break-all; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px" 
-          vAlign=top width=350 align=right>気に入った</TD></TR></TBODY></TABLE></TD></TR>
-  <TR>
-    <TD height=20></TD></TR></TBODY></TABLE>
-<TABLE style="MAX-WIDTH: 640px; WIDTH: 100%; MARGIN: 0px auto" cellSpacing=0 
-cellPadding=0 width=640 border=0>
-  <TBODY>
-  <TR>
-    <TD bgColor=#ebebeb align=center>
-      <TABLE style="MAX-WIDTH: 640px; WIDTH: 100%" cellSpacing=0 cellPadding=0 
-      width=640 border=0>
-        <TBODY>
-        <TR>
-          <TD width=16></TD>
-          <TD>
-            <TABLE style="MAX-WIDTH: 608px; WIDTH: 100%" cellSpacing=0 
-            cellPadding=0 width=608 border=0>
-              <TBODY>
-              <TR>
-                <TD vAlign=middle align=center>
-                  <TABLE cellSpacing=0 cellPadding=0 border=0>
-                    <TBODY>
-                    <TR>
-                      <TD height=20></TD></TR>
-                    <TR>
-                      <TD 
-                      style="FONT-SIZE: 12px; FONT-FAMILY: Noto Sans CJK JP Regular; COLOR: #4d4d4d" 
-                      align=left>
-                        <P>■本メールは、送信専用メールアドレスから配信されております。ご返信いただいてもお答えできませんので、あらかじめご了承ください。<BR 
-                        aria-hidden=true>■This email account is used for sending 
-                        emails only, and we are unable to receive any 
-                        replies.</P>
-                        <P>万一、楽天会員に登録した覚えがないという場合は、<A 
-                        href="https://r.rakuten.co.jp/6hy67b0vH0Ug2RW7pQ4Wodj5?mpe=3695430" 
-                        rel="noopener noreferrer" target=_blank 
-                        data-auth="NotApplicable" 
-                        data-linkindex="9">ヘルプ</A>をご覧ください。<BR 
-                        aria-hidden=true>If you do not remember registering as a 
-                        Rakuten member, please refer to the <A 
-                        href="https://r.rakuten.co.jp/0HYae0aI43kx1wB6LmbJt4an?mpe=3695430" 
-                        rel="noopener noreferrer" target=_blank 
-                        data-auth="NotApplicable" data-linkindex="10">Help</A> 
-                        page. </P></TD></TR>
-                    <TR>
-                      <TD height=22></TD></TR>
-                    <TR>
-                      <TD 
-                      style="FONT-SIZE: 12px; FONT-FAMILY: Noto Sans CJK JP Regular; COLOR: #4d4d4d" 
-                      align=center>
-                        <P><A 
-                        href="https://r.rakuten.co.jp/eXqa7x0zGgEY3ZG7D4gU7e9B?mpe=3695430" 
-                        rel="noopener noreferrer" target=_blank 
-                        data-auth="NotApplicable" 
-                        data-linkindex="11">個人情報保護方針</A> │ <A 
-                        href="https://translate.google.com/translate?sl=auto&tl=ja&hl=ja&u=r.rakuten.co.jp/18LaWP9sm9ZI1SY4Zl1IAeuR?mpe=3695430" 
-                        rel="noopener noreferrer" target=_blank 
-                        data-auth="NotApplicable" 
-                        data-linkindex="12">ヘルプ・問い合わせ</A> </P>
-                        <P>発行元： <A 
-                        style="COLOR: #053ace; text-decoration-line: underline" 
-                        href="https://r.rakuten.co.jp/7kl7p9b9MezgdTS6Ecbsh8r8?mpe=3695430" 
-                        rel="noopener noreferrer" target=_blank 
-                        data-auth="NotApplicable" data-linkindex="13">楽天グループ株式会社 
-                        </A><BR aria-hidden=true>(c) Rakuten Group, Inc. 
-                    </P></TD></TR></TBODY></TABLE></TD></TR>
-              <TR>
-                <TD height=20></TD></TR></TBODY></TABLE></TD>
-          <TD width=16></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD><TD 
-width="10px"></TD></TR></TBODY></BODY></HTML>
-
-
-
---b1_1448029776f38e83fbaf3785a5b71ec5--
-
+RnJvbSA4MTM1NGMyNzg1OWFmMmFjYjAzMTQyYzE1ZjhmM2FjODUwYzIxYjQxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5j
+b20+CkRhdGU6IFR1ZSwgMjkgTm92IDIwMjIgMTQ6MjU6NDIgLTA1MDAKU3ViamVjdDogW1BBVENI
+XSBhbWRncHU6IHVwZGF0ZSBzZG1hXzUuMi43IGZpcm13YXJlCgpWZXJzaW9uIDcuNTIKCkZyb20g
+aW50ZXJuYWwgZ2l0IGNvbW1pdDoKNjJkMmM0ZjYzNDcyNjNjZDUwOTExN2I1OGY0NjUxMGE5ZDg3
+NTlmMAoKU2lnbmVkLW9mZi1ieTogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQu
+Y29tPgotLS0KIGFtZGdwdS9zZG1hXzVfMl83LmJpbiB8IEJpbiAzNDA0OCAtPiAzNDA0OCBieXRl
+cwogMSBmaWxlIGNoYW5nZWQsIDAgaW5zZXJ0aW9ucygrKSwgMCBkZWxldGlvbnMoLSkKCmRpZmYg
+LS1naXQgYS9hbWRncHUvc2RtYV81XzJfNy5iaW4gYi9hbWRncHUvc2RtYV81XzJfNy5iaW4KaW5k
+ZXggY2ExZTI0YWUzYWJkY2FjODA0ZTk5YTc1OWE4MTJjNDMzOWU3YTQ5Ni4uYWJiZGY1MzRhNGE2
+M2ViMTFmNTZhMWJhZjliYWZhMGUwMTY5MjY1NCAxMDA2NDQKR0lUIGJpbmFyeSBwYXRjaApkZWx0
+YSA3MDMyCnpjbWI2LTRPbztfKjV8JndeVURtKnp6aUBCIXw8Ym1wIV9RJEFfSiVod2gxYUNtfXkk
+NXJJO24jXzlebSRTWnJhNQp6N20kJik/QXNeV3pBeWM5JX14OUh6Q20qdmJ4NzNPdFdERTNmNyZk
+NjdTYW1rSkxqRGx2aSo5VnpNYmJlYk1KZloKenglWnJWJmJqQkZiRVJobD1AfXNrSFVndm8wN0Zv
+SzA0aSp1KFRuZ3pwVS1XSEklfitpfE1fa0NvTFBHZGF2R2l2Cno0cE1VaW8xdl5ITEtUMDJ0JV5F
+NV5OU241c31wcnU0PSp7antLTkFRbXcySkBtRmskTWo9JU5CZz4jcDhtQTltdAp6RyU0V2R7VGB1
+e1lYck10cEJXbShPMT1BcyFCWWBwV3FsOHlCIXNnb3lpQXk+b1BrNG1YOHM+U09rRn4tIX0kbisK
+elg5QSlRNDE+bHNsQD5SSDQjZ1VyRiNzMCNnQ1VZcnRZcDBtQ1cjfCh7QyVWKXNsPnxlbGRKSDF3
+SDZ3JDZfMGtXCnooTWohWSg3VFBgWU5oYzVOT3VeKi1QQipIbGJrZTxMMm0+SGEwPU09M0UmaT13
+PXlDZEo4REQ+MWMxfGs/ZWlpeQp6KkNBc0F3QXVudElIfCh1UnMqeV9yNGE9KSohSE5nUGRgSnJK
+NHFvcXR3eFlZQEQtNWQpXzNpKlRsRz5XMntmSz4KejQrdnV+XjFUN0VTdXEtRHRWaE12Z1Vob1gx
+LVUjWndVWTJGUCsqPGxpNGdSejQmdzh9QVVJI3RmbjxseENJaisoCnpoOHhBJShPYzEyazxlO2xG
+dnE1cERyJTg7UXp6b21LeW5eSndMUSVAaWl2ZnB4R149RFktIStkXzcjISo5Y0JpPAp6dm43RzZP
+QEpNP0Yjem9AcEhmREgpWWdzaSZeQTI5JStxKmxnZWJzKyEycnZUNVk3Ji1nJG0lPndncUxXSz9S
+RkcKejwkSD85cTdKU29KO21LMDQ4cClmQ0FkJSFTPWt9N3cpK1BxQ21+NE5lKj1DfE90UjQkV15p
+fnk1ZF8kJDhwTlNgCnprZDZgbDVLbVFIVnRzcyooI3xJKyEmeDtpUmF6REU4OGxZJilrLVV5azBh
+JkxlZldKSUdHdFRVOSgyZVk4QU5JQQp6Mz8kVShAaHgxVERwWl9Dc3g3PSFSbHBBTUhrRit7Ji1i
+ZDF2MUAjekkjS2hmKjBHaHJuIXI3THpkRG9rQGF5VUAKekFIODApbHJ7NGpPKVA4UlBLX1BeX2lM
+PHtXQzBgPHRqaVJed0d8OCpxVWQ8TWomT244czEwR3NvTX5mYW55e2F0Cnp2SEVDQXdNJmgoTjN6
+cnZSRXlWQWhxZEtgVEhxNlBjQWdqYnlpRCpAZ2A1bFk1JHlWeiFTOGZqI19GTE55fT1Wdgp6MWc/
+JWxkJCNMYHZBYypKQyV2a0RIPmk7OTwpeT5TZUU2e09hJkwrNmBeZDEjYXhhV1c4NjB8fF9SNEBX
+YEFTMD0KekRzWkQ9QSZHZz5QJGcoWmV5PWZmeEs7IVNPfE1tO1RMaSFhRiN1ZzYwOCZJOFVUK0t5
+XzZ8PUY+Nm0pYWQlQkZ7CnpTPEhgJU9VTGRQKEwlX0tKZ08wTCs7O3xEb3NxJShQSD0qVFAtUXE9
+JX5Mfkc4SVIpOF8lKnItI1JaQmZOQlFvTQp6TkEmVEN5I2ZOQXstIzVHdn1xPHVfOzAzcnNYMWIq
+VnExOHNJbUd3fW04OyMpaCphTGwlZ25oTnN7KS0oe0BRTi0Kem1gJnB+cC1iODR7Qi1FXj5eRlI2
+U1Q0SDImYWdOa00jS0xTN0szTkB5UmMtaktAU3Bfdns2UG5rYVBzVV4lPTImCnpGOT1eYWdnckJh
+P0ZvLTdeMyVTcl5jdVZZV3V9OH41aE0+Zj4kKnQhUDxHaDxNPTc8ZlV9cEU9cHJiOEhhUDwxOwp6
+OXFfSTg2d2s1NWpxX3ZRXmtlMUtxfjFfbUVsaEJEezQwZH1SLWhkfCNoc1IhM1l2THtle0ZkcFly
+R0t9Z1RUP3wKenN1Jj9zfDI8I3BfTyV7Zyt2e3NUXnRDTn5gfHZ+eSp+TF9CYWEmfSRIYEBqVnAp
+RFYrbEYhYyN4MSp3JSl2anFtCnp1SVArV3QkZWdLKn5mVy1IQ0NVNihrQDA/dVBtRmFuZH1qTSRR
+bzxvTEQyWCkhVUNNPDRUMlc4OXlaJnw3e0NzMgp6TVRBe2JnKT52b2s8Um42NW11dSoycWdiSFlq
+TEUzUzQ0REgyNGQoajhneT1POUlRMnxwZk9uUDJkdDtRMHM5dGcKeiFMZE9lR1pgfTZjMzc5Rjlo
+JFIycnR7N0BJNVk8dzE9IzFzd3JRZ15HIyE4YnNwJDUya21FJitiKyFJNnlkOTZmCnokb0pjXz4m
+KEcyYiZ+LUdrcEY7UDEkfkpFSUpVWnJeVz0qdzd6UlFEVD9neHd1N1Ajcno2PWtMMHJyS1FAN2t2
+Xwp6eTUzJXwhOHFmYF4meEg7O15mJWxhQEVRa2FkcGV7JGlTclQydDVDLUtsVE12N2RKO0h2bD4x
+JUdTaiNXWjVFRkwKelZRN143PkpaLSluSjhPSHAyb1cpIStjZ2M5VF98Slo1MnJPdXl9RGc4elpq
+OHt2N089YDEoX0BANCleTE9GcWBWCnpnZE9COWJfJmZxP2Vud3RwK30qVFAlVGtuMyhqVVJDWVpy
+bENFP05Va0NXe3xhOyY9PldJV0d7K04hN1JKY2tnRAp6K3YoeUxxR3EjYEpTI2V6clNxRVQ8a0R6
+ME5WN29ibkdOfHBZdFdDIzh+fHg8enlGWUwrNXRNZks5cSRRKD57QnAKekxoM3cmZG5leVFsZVBP
+Vlgxc1hwdnc0NFh1QVkzV1IxSi0odlZZfnAjMk0yQXklX1FfeHx8PjRQc1o1SUItQDtzCnpPeT1z
+fWY3aE8hRiMhdyUkTGBvJXtKJFFYb2JAM3QxPTVDRVlOS0ZabmVUZll3UHlsYz9Ifm9MX2xgfU4+
+bTU1Tgp6a0c7cSVNJWVZNmFmQFZrOGhNZCM5RmZmfkBhX0BtNz1aZ25CcFApWlpfcFpJJnI/VGMq
+M3FefSlEVnpickhaXkIKeiR9SXIkWUZCe0c0Wj4lKFlTSEJjMmRreGdnMUpnLXphTWx0aVFhJEk3
+Jk99KzU/dmh2el94KTMpXm8jYGJDYDtBCnoreWVTOE1yRGs0Ny1DVFlvZnhgcUJUIzdlOEE+cDxA
+LUlnb3dYODxye3RIcXRHQyhKVENpVSQ+c3BEQWBySEo+OAp6JHtrSTtQZTNofWZhSVkjUD4wbD8t
+dTBiQCtDUFIycDVeMT41OzJaRTVTTTc3Zko9LUs7M3RtR1V5Z2YxajwtTD4KemoqWHZATX1BS0pq
+KXxHKCYmYjFzaUkpWUY3WTNJalFLRUxiRkVIN1Z7bXxiUUt0ciF6ckxCQl9KbEIoI3FSeDdFCnpW
+XmxpQ0RASkdBPXhffjN1TjNpOzRGSGQ1Z0h2WHV3NWdVKFAjNTFsZGRYUGczTlg9KVVlLVlwdDBa
+MlJ0Q2U+RQp6TzYoSmtxKVVRXlc2T0E2TFJqI09xMHowclFUfWtrRDdLMlhCIXA+KkcjVD1IdWtx
+YXBBIWgjPE13az13NXlIaTQKel8kTFg4bVNGKk0jP2BhfT9AeWdEVT1RP3RBTDZ6fCZmZXBANlJx
+cSstamtSKV4qdDBZMD5WVz12Ni1+SlJza2MqCno2fGlQamx3KkQhYElgdD1yaXFZSk5TVnwqMkpI
+YjU1czVqVSgqYWtDeEE7VkA7WURMKytlcXlycH18OCtsTEl9cgp6eyhjd1ZLVzFTT2BEN0MwZjhZ
+OzJ3MFN6Sl5kSVBHczh1PjFUZCM1flVqTlRAbCNeWS1qRT9xNnlHS1ZEOChTd3wKejd8M0cqST93
+JT5INy1PTDNUQjhlME85eCk1S2NTKiFqRmJUezhZJklPaGZwMitXY1JuMXFoRzh4all+I09Laysk
+Cno4akUpVGNPKl5Na094bTlrTDR7JWFUUXt9KUdsRnh1bXpMPGhYQUI5PUozbyNDYFh2Yk9tMXp6
+cW05OGxUTHpQeQp6enMxPEhFRClwJDlJSGZfa0ZXc1lLQk5PNVU0b0Q5Rj5YdndIKHVAWSZiSWls
+OCtjaT05Um9zNWEkSy1xRn5LX1kKelBKfElVekFKZWFZdm5BKG4kKDNGMDJoWVp5QzVCakd7e2Jp
+cGw2Tz0lRCV7JiE4JUA/UWRRY0EoZ2s2WmpGSzheCnpzZ0hMbV83Qks/d2NIb2g2UF9ZemwkMDtg
+KE04KE47RXVmZmY0ViY4MUV+ZHFQUkZPRVJeZXJ8R2okMzY4YEZ9OQp6PVEzOVorMXtIPEctRitJ
+SHNaVE1YcGF4KG0xKUluOEdrdSN6Sk1QPmBtZzF5c2ZPMzRUTmlqfDgxWD5zYTBYVXIKem4wIXpg
+VWtUN2xySmV5eHkjcEI4c0xWNmQzQzVxbCUkd05mRSVRM1JtQ0wre3p4OHtveXgtc1NSKGEkM14+
+bG1tCno8N2h0T0xSWlJCSmJ8PnIzTllpenkyb305NHxYWH0mNnRtUypweSpxb0F8MzQxKTZHd3cz
+VE04O3s2IX5OaHVoegp6MVpXO2ZMNGF5RHN0QCY4dy1HKU5AcHktfj5hYXpud1dqRUspaV5ydG81
+dERvVW0/TiEkbitoQVJlYitBWXdFam4KelE/a3ZyRXgxVjx6Mj1MUz1aQXE1aUsxPTc1ZDVTMWRM
+dGdAaXQofD05NW5DJSN5a04hQkpuUDlLRitob1RUJFMkCnpAaVVSciVpfGE3RFJrNFZjR2R1bVoq
+WEh+cmc8OyVMXlY+eHF1fkI3aigqTTtXWDdeOFVZfWBZPWxTLWB1KDVQYwp6MjdwMEM1QVBXcVJF
+dWVKVSFwODQoRFQ5M1l7UWhMXiRWWWpSczM5TDIrciV6T3BmJHQ+NCRJK0cqOTdNVj81NFIKejJs
+NHl+TmtiJjN7KXJeaE9ZKz09cT49dHJORTNJakdDP0xtcjVoeUFEdD5PbGo1P0NaYmhtN1ZXfTZD
+U1lyfnl8CnpgUzhASXtyS2ZhbGkzMiRXYXUlVEZ3OERWdVVKeWFQUyQofStPR0RmI1pjY3xheUhV
+ZDl2Jk5WNXl+emM2Pyk3egp6UERQLWBgRzAyUm18SmsxVU9FO0lfVG96aT4mZGAxLXs3fmlHODBP
+YS1wMnZyVm44bSNraDJKPDs8MSkmcXVZaSEKejE4Y1YzeXcyflJJTGNPeEElJVNLejZ5RS0qXkgj
+bkNYPVh9WlRiQUFpRDdJSy0jQFdIRzNFfDlVKklmeiMjajt3CnpPWk1JbnBTVXpUMEI4QlhGPV9S
+VEsrI0Y7N3g8SWUxIWY5blZ+VnJ6Xno2Z0NVZ2B8VG5hQjk/WV4meV9aKU5VSAp6SE1+RTJ3dClV
+eEpaWmgwI2FDZ30mejh3UG52QDx5dVExNF5Oa1l0c1ZaMXNnbCNqe0xYPlp7Yz8/VE4oUX49cyQK
+ejJvPDlaeThBUGZ6bi1IRHZMRmdBZnl3VmNBZyo7SnImNTA4O2gqS2leT0RKR3d3Nn4raiQ7K1Bl
+c1QhQWtHRDsoCnpXOVJwbmIyRkxkLXZ5fnQxXldfcUBHezQ8Vy0xcn5FSnZlSXl8KUtsdEBRbUQt
+dFJhbkAwSm5gKHU9PkdKaip9SQp6ZHhhaDJ3ZlVMJnpjK3ZEJFR5azhJaX1jKms0Tnt8JW1keUZv
+Z3hqRERXeUtgbyNtP3dAVTE5LT88ej5Ka2l7dCkKekoxRUhsb2g8QEE0KThScjw8fD8rJE41THNw
+JjB8digpM045SyZCSz9MPCQkPVEqPFYyRUZaKHJEcWI8Z3N2JVFKCnoyRTA+dj9VWT1fQl4pb34t
+QlYpbUx8PlJQZG4jP0Aye2RSRmdxS0Ypd2YtcDlZTnMqTnJyTTVMc19tJHkrS3lWUAp6P1dtPk5q
+I3tlaVBWP0hTUjtxTmpPYFJKYHpPVnRrMmxHRz08czc2WHc3WVV6bEBKQHV0RWM2UW5WM05GNih0
+ZWoKejRBJEFnNFgkSEkoRkNzZys5PXBqN0s+QUdGcHs1YHclOXUlaTljOTRvd35hVVZ7QTArdVo7
+WXd1WWkkbVVEdHo9CnpmOTc4b1ctRXlUISt6NUFxKT4weUR9bzNlUTtDbH02dn5eWFBjYU0pYCZl
+X3debCZZRFBNZEZ1SkpXfnpTQm9xZgp6cjZ3JH48fiF6QF9AYmY9JV54dzQoMl9OTGQobCN9O3xC
+P28pKDl+VE5pS25fPWRUemJtVUJ5U3U5K349PG0jeUUKeiVRJihlelpkWTgjY3oofipqdlEqc1Rs
+bDBzZkNWRmVPUXo/IWV9aHZyRUxec1g+fCZZYG1QUyEqTHpCNWdmWF54CnomKz5iWTNLJHMyJWA4
+O1ZpZmVpTyUjYj1WSX5rZm4lMlQldHE1JCFqWm5QWjFqTkQxKiszJEomMC00VVBmOTBPPAp6QiZT
+MTs0am5mMXNKNDQ1Izx9TklXVnY8bFdTcylmSnhVP31gb1FTRWg/I3U9V2BPdmRzekU4ODxaMnJN
+ZjwxUm4Keihqd0RNb1J4JFg5bElzVHdMU1RAemdWRW55b018ckU2aT5RYkRIYEEkKy0hYWA1djh5
+eSEoSn0mZlR4Sm44Y003Cnp7K31hPkA2VnAye017MSFYaX4ocjVQYWRtWjVjcGtSS2Y5ZXI7MXBR
+QC1CbXIrTippfT58RCl4cUA/R2BeWlp3KAp6VlFkQ0pIIy1qaHFpMlFpOWk+czRONkBQUU4+bnA9
+LWtleHxyUFBGUDN+WktOcllPTEYhWnl0XjhPZn1GX25Be0sKek4zeHg+dGZ7ez5MRXtCWEF9PUJZ
+djsxQm8wLWRpcXEkVWFKOEYlPENzaHhyLTg0VndYV3xiUiN1R35jT1l2cntiCnptPm0tMmNPe2JD
+VkNLcnckPVgoMm88d2dvQHEwQHtuT20wSz9VeDtgUmliakVndEt1WmRSNzdjbGU3YkspT21ocQp6
+UHNmemwtPjJCMmhnUTYhPTMkN0YrNSZ3fUl0LSlFc2lKelVRQCFyfENHQzw9RXdjLWBXP29lYHA2
+JWU8JWQrWD8KeikzVWluKG1qSlc+XyV8bHJUfHYreXQoIXZZfiVOUz9DUUMzXztsKT1UUTBscGVZ
+fTZ9ZUQqUmdFaVl0bWElWHVtCno4XiNacDdxR3Vfe2smeFMmelY9dz1JPzJuUn1mIzxxV2Vad2dB
+NEJmMTU2aTtAVWFqQXcqP2N0Njx+KG48RTQ1NQp6IWVCaU1ocCl2YjchOyNucnk+OyZFN0lVJk1M
+SndpV1dZWlo8S1R7QkplWlVZczhwN35xc20zRlBXZFJMcyNlMmcKemw+fXZ+ZFJWUyVmTytaLUBW
+Y0BRZW8kfFFRSk5qLTtqaEQ2biUjQTlUSF53eHdpYGF0OSlLc2MyZi1CQjMmUjdDCnohXnByQmtQ
+PihudUJ4eFdMeEk0bTB9YnBxZmt4SiV5USpyQDRJPG5AeFEjRz9AQl9tNDI7VSp4TGIhP1dFa1p2
+Kwp6QUhxS25aWGpHb3Ahd2UqZTJxfGQxXj5RNl8mZFV2MiR2QnFBelZiYmZiYSN2Yz82cDl8NiUr
+dSgkKVJxUEpWZzgKeiZPaX5+M3NrYDdLbjUra1l5VDNVe2piNVZhO2poMWJhUTQlJmg0aUlDazQl
+bW4tLV5CZH1FSTclJnpCVm1ta18lCnorNzhQYSopcnxxaVpURUYrTi1fST9ec149KH4qMFZZYzg1
+ISVlWXBaOEdYc0pyKjdtb15QVT9SSkVyeFdYPlR7cgp6bmZZfTAkJlJYbTQ8fT1lWWBNQWhmdEI0
+S2VmR283IWNVeDYmckRtV3g0YVpKdWxtNjFLNkB9djNzMCtTaWZQQHAKenFJPF5TbXkwWHJGUF5E
+aVF+dGAkZmo+VFQte0dgYHVIZFVEek02aD8/VWNJb0o1N3o8e1h4VXlrQUd4O3tsZmtGCno2RGM+
+TUE5KiVtJEtUREtNSVYqVUpeYUMlPUJTaDNKb1RzODgrT2cyLVppMXlUKGhRSnpFcVBDKTRBJV5O
+PmordgpwZkd2QSh1aGBZbEczVWBtQn5MNkJubDhOMypNMGYxXjtNZnNkWCEla0U/IWI/fDZlZ2tr
+alZmNQoKZGVsdGEgNjcxOAp6Y21iNi0zc3t1WndybF9WISN0U0w4RE1+TTctdFg+NVAyI3U1ZzAq
+NVAqaS1Oc0F5KXwzcj5lR3RLKEpTU01oYCUKekhFbj9+WU55QSYqK1lBSHdiSmlxQURaMUoxeDUz
+Z1Q5KCVgd1BPbVVXcn1ndm51bFdGeCViPk4tP3dKKHo0cUZCCnpKQD92c3ttTDNpU3RCYE02K2o5
+QTJtJSNJbykrcjhoI3lNcGxRJWxmOGpFNWxiWTtEQjxtZmpPXk9pb2c7WSU1Zgp6VnE3M0UwRDwk
+d1Z+JkNNJkhLKF93O3VkY3pxOE07VGU0XkZeVCRVRmBFdVhqaW5NNiE+Km8oR2t2Njc9cyMzdCYK
+emFUNSlhSkBnTXxzRiFDTitfIXA4TSM/am53e017dDkzZSVCSnZkRjg3JHw3Xm1yIzZOOGM9dTE8
+YTlqPiZ+X3loCno+ZXUmJGBiOUc+WlVIVC1NWU82TEViaXpLI2cjKyZkPnp6eG1jK1pxPSNAPXdG
+dTJYbys5PU55OVJmemtvcWFzbwp6enlhRmw2TnFyTCliaDt6cFhUVGwqVDtrdCY9SSo1eiRIPDhN
+Z29eaT9MY1paKEQ2dipgMmNWazNHcFd4VHVYX2UKejVnS2c9TmhxYmw8a2tRKiFBdWhnV1ZFZitQ
+QGpMczJ6UihqYWF9TmkhVTkpOHclZjM2a051S2YqfT8qPE5Xam4lCnppKDN6QyZCQWRwUWFJS1FR
+anhHI3hHeHwmeUhmLTglZ0dxYXB8ITErTTchOWRHX3JiQ3E+XjUwaXxvKzF3bEw+Zwp6Sj5hVStn
+Sk9wYnArPUlUMFdJPkJDPSNIKUtReDk0bX0oMUREd2RIbjRLQmkyTDIpZjFvMzZyamF6YUt3UWRJ
+Kz8KekhZKyQ/Kk5SIUE3UEVrQHdzMkB8bEhkaUs4RExZWiZzNCNuSDA+dk89SVhJVG0xTFZzRVkw
+OS0zblAkVmtHaEEqCnptVjxKWEBrXzh0YndQWkFVNGVHbzhXQG9+TytmdXY1I3ljKCZMYXZidTcr
+M3AtfEE1fCZuREZoWHBaTmR8Snl3Ngp6R0NrQEdxV0FgZWRIaSp8JEdMXkFFNU08bnhLcWVMJEw4
+WTA+TFVGP3FHSjlzeWxPXmMpRytLK1lzMz0jUmMja2YKenFENkM1ZTIka2kzRUVianZzdThScHZg
+RjBYNC1iczdRN3ZBcWxTVTkxUD1zKmI2Y0hmR3B4fSpDfkVNT0hkOyk7CnorZ2R5UStqTGZRbTt7
+TyVtUylQKCs2PX5Gdmd+fWtFKH1YYDtVV3dkPSVPdD1BTzhEISFkYkNRN2VYfWU9cEhuJgp6cHpN
+KiRKJHtjUTIyR2MpM2pDfHlqeFBzMjZVK3FuU2s7VjRMRkhiR0gkQlZtblotJjJkYXdwcU9LeHdB
+RVFaI1cKekNBJm5Rek0+YmdeSFo7YnFXVHR6dEB2PT9hcjlxcDQ5Qio8PEVkdmNQVnRQVjh9MmZ2
+Nj9uYFRQSWtPeG9YZ3h4CnpPYmNncjElTSpwdld+KWFhe3kkPzBkJSgxa1J0eSplOEF0cV5JNSEk
+Jnl3JHNjajx5TiNES2YobTd9OSZ1VThBewp6VC1RVWNgP3NGZkVvViU0ZjU+MWhxZWpzNUc7OWlh
+JSt5UyQ8NEZvYlA3PDc4biRhQmtzTm90TmBPNkArayY3RmEKejtKVk8+dGl4Qks2U3pxLUZPMkVV
+RGc8X3I9YFF6UXVXc0dzWFVuSCQxQDFOSFliNnpod3IzPjVKe082MkQocGVBCno5WT07Z0JnakpH
+YFFtWGpNWmAqLThYTyltS3ZaRjZNNnhgPTAxQlNmSVpTKilgQXEpb15ZI1NYQTJJaDFfTnpQQwp6
+UjctNUpwWjFNRlopOGokeSpMd0NCJkNoUWVRQUhzRFEmVTY5SD14XjNBNE1XJEp5a05vRWBwazJZ
+a0N0I3VxS0kKemNYKyZhMllicTUpaU4jWEc4dTFNQ2FPRm1FYkk0RndxJTAoS0h6TD50KVA9WXtl
+ITtOP1E3ZTdaSEtRdDtjRntWCnpTUUE3Y0NSKVNnNWtOfEJQPjE0ZHRBXn5iei1yZyM1aTUjR00r
+dlU4Q2l+ZCF3Py1ST3F9dSlERjBUTXgpPVYpOAp6PDBHU09iSUVEajJ8e1J7SHxiZzIySDN5fSQr
+YUZJajxqcGpYa2BqVChPYkFOKHJQK0VjSn1YNkxeQmdgVSp3aUAKejlrZ3lTOFREPihlekAjckFr
+K3RZYFRAMXZIK3VSakpAYD1MRnQ7NitDZnVjOD43bnRgZjdwd0Brb3glVndsVUp4CnpLKWgrfFhT
+aGxgZDZOZW10SFAtTUlaLUZiWHI1M2IkeXdgMkkqbGQwYG1eeSZ8NzA/aCFKY1cjcHp5c3decHR1
+JAp6JlJjQGg+PEtad1NCKGEjZUptVmtGUU5iKjB8bzhOZiV2Zk5ATVV7KzslWVQwPDMqZjJSdCVB
+Z3NYdndhbFlJU0EKeilPUys8JlRlPyFLM3tDYTNXcnFgOzFpQm5RQlFkITRWM3tMQD8yVWlVYFZp
+bHZ3QDdLYTNnKVg5TzJ8WVpCKDs/CnpMdUN7fTFaZ3VILS13emJVUExoPE0rblJ2a1N0d1E7fnhm
+dVcmNTRScl92NnYjcH0zaXgpYi08WFEtNGQmam91Twp6Tj1hanJ8MzBMdiEoTjhfMklMI3FwPzEz
+U1Fhdyk5TSNxeyZrUWMqXzxye0U1aipQYU9TKEs/MDEpcGN8RD5yLUIKejZWVS1leW4lfWM9RnxW
+KWZ5dm5+KE4+X1dUKmo+Zl9EdTdRbXZWYjFwbWhAezBreihfdGE5KCVobl9qfFZ2T0F8CnpONWw1
+V2w2al5JT0pqMXhFP2dabWwjPH1TbTt9PmxucUBLV3UqWTl4R05Weys3QnZLdk14fG44SjczQGNC
+YlFaeQp6JT87OSp3a2orZTZraEMpVyZ2dyReWDFrUzMxRCt+Zz1xaUxjYTRYWjxobXYzd297Z0Nf
+UXcmd2lFYX5jc2BHb0gKejFhfVRQWXt9UHhAKW80SEVvNSMxNFZ2M01OPXQ8bj5jZz1xSGIwKHdy
+JDhmNTA7UD5sU305U1Y/bHNPUFE/RFhECnpEKTRxfTAobSs8RjJUWVhpfT9+alp5aWdwSV9AYj9H
+UHhJZkojTChWVzArJV45eldWZkVSREJYSTdhQzs7RUJ+agp6U2tkOVBSMCVHUk0rNDhnTlN8ZU4h
+azF2dzsyY3FjbTRtSGZIWkM0S3pucGdoODFBTXBYPDtlVTNmMzhQOTtxT1oKemBpeF9hTndESW1w
+TyRmVj42X347Y2olamFecTdffiRZPVoqJm9lXjZMO1Y5bSsycjNZODQ1YnlDJjc1a1BtOWxiCnpV
+fn0mfEkoby1oYUs7dGxpd094OUxxSUQoTD5qOC1RcW9KXmNDQnhgMWtXZCtjb3I4QXY1Sj9sWC1G
+cForbE5APQp6SWhiVSlKVnU2O0JJYTtiekBgOSo+QFB2OSVMJGlEPygrIzxoXkU5VEhhMnEldFl+
+QT9jfllrQDtKN348bW5ZOGMKeiF2VThCMXhMSlQxZ3w5YV5UZ20/NmZheTliZVl+dUVJY2JuSzJE
+MUVyfjlPa04+NDdLalNFM0tIVlVOVV5GWEBtCnpFNWVWNDA/c0AxdmghdUFkdVIqKFooN2ArUjRD
+SnZ2PkVsdVczP1FCQlJKciZHQzlfZWVxR3Q1Jj5NT3F5XnJWUAp6I15qTGZvYUBkZTBXKW1GZ3lK
+ZnZsYjs/ME5gLUs/JV9OdmJQKVJVYmd0fTlHYmMyMCNgRkpMSXNMQTJPVDcxfF4Kejc/b25EPDJv
+YFdIclRKXipSPDtlZzAzTF5tejJwQWJMfWJDcX1pa3F2XnRtRzFBM159NTw0QSVMR1k4O2Qpfmhl
+CnohbSFrWlcmM0g1SzlzezglOEYmJjVBeVU2Yz17U29VI2V3MT1RKVFgO09VYyhIKkZgNHkhYExv
+ejYjcUAzI0MmKgp6N0BXM3taaWRCYV5YZE9nVEN5cm53NjsoJTM9TlNrbX5oYjA1fE0jNUx1Y3tl
+JGp+UH1VTSQ0b1ZiJSVgZ3dQVGIKeldkU2BzLSNhM15kIVVJRVkmQWQhUzNySEtzNW41R2k3VEVe
+SShxJn1YV0JKeXJTdEMzLWImfjhieCktZWBOMSNWCnpMWj1NKDUzQChyJn4/cm5JSzhpLTZ3VXty
+M2R8SnA8ODI/KDhDOWM1cEc2V15yZCExI1QlMkMwb3VeV29jfHtJPgp6bHdPJEJQMWNpT1o0OTRK
+RT5nSGVHRWt3eV8jbmQ1QmY2MUZwY3BieVc0OWhORzZzbnB0anc/Ki1zOHM7Rj5ONW8KeiFQT2Jv
+KVlXfGMjMEp+NXEjKTBCYGpYak9lTCo9eERQYSpNTlVvP1hUdjNyQjk+eEY0aCZKaVNvIXdNK05Z
+SylzCnpHUGxjIytEdDE2OUZzWWJJNmFYJCpUOUxEWjxybE1zOHtnNkdjKFEwbkoxWiQoLWYhUGVL
+ZmxyNlNKYTQ4a1N7UQp6I2FtZE42YHNnPFJzYX5+MXB3X21Kc0xUVT89RigxaVh0MUZZaShMbT4w
+NihTWH1Ce2hnd31uT21FN098Q2YhSW4KekBIJi1tanxeSVchaHBmcU5xMCM4P1JPLVpVWG5UNE5p
+cUlpKmI9PlckP31rcChUeiU1NChga3pTSTA3aV9Man1LCnopfXwpZW5uPCY3QUQ7V0hrNihVcm5K
+c2BeTW0wKj9IXmhQTU5+TUx6dUlxay1ybU84NUluMXx+MUM2Y3Ezemc7Xgp6QjdEPDNELTNrPXBO
+dTRuPEM1WEk9MVE5OUxWcz5nMk5uOUY5cn1ReFZFZ2RRIUlfa1hJYjR+R2srfTNGJk43XmcKenFr
+XmY0dUwkTjBWeSFMYU1ALTVZV1hxK0whNyhfeWc2c2JjTDwmdEY2M3RwJEE9YyFDaShGaXRRPmFT
+KDRQMX1uCnp2N0IqPEVZY3dvRn5sYj51TVZKOXt4TjBvdyRtZyFpflQ0VGswPjtBdkttczdPJEc1
+RHhgfng3NXd2bUB6QnQwRgp6ZWc5XzxfbDgzSlh2N3FXOzxhQ0h0PitvTGtQPnJfaHdTQ3RwPyFR
+RzhYNlNCYm9SbCN5ZkV5fSkkMHpqKHN4bUQKemQzeFFeLWx6ZSgpNGhqYnNPMEpVb0ZeMXtmQDs/
+OEFsaHFsLWJ+TVQ0QlV8eWhtTCVXRDhsJnNTUF9GfGA1X18+Cno3diRIOHd8MVMrJmxLN3dOIWct
+P0olYlRyTSpoWGo8cT80OHUhR0VkeVFqNjAkMW1ZV0JNKkREPCN6enYjYX0kXwp6ej9UYk41diNE
+WUZxOGdRNiprQWJFfVg2KkMxJHE/I0BvV1d5Pn5PYWpvO35OVEZ1dG1mZz94ZE5JeXdmSjhIMG4K
+eko8aHE7Tm5hQGg9eHZie2FYX2JgMj18V35uKG0pbk5eWWNUdldkcVczRzdPbE1DNWVBRn53KCs9
+ZVZsSyFUOFp1CnpFeFQkd2VOITJNcks5c3p5SiZze1pYNnY9QztGWXlRJTE4UVBteDAlNUstbigp
+LUMlWlJWWjYySCppSjZFbXQoJAp6YXooPX1TMld5bU1aK3l1RytWS0JqRmxfN041KyhnYVYpSCk9
+JUg2eTheMWYpTzYyIz8jdz9XMW5KfS1ZZlNZJVYKelIoTUJBX3xWdn5AO1JjendQbGdtRjs9JG16
+K1Y+bEg+aVJid3w/Nkx7WGZPN3V7bldFTDBMVm1JNFI4QV4+VUcrCnpXaSZCc3BzNlF8WEtNVVlJ
+RDJYWWJ7NlhnYDRMUGYhdnBqJnEpbF9OJExrcWg9aTdFYiRzaUFoNkRGS2NRbGhQOwp6VzUlPWVo
+JChye1R6WDVQbXQmO2QjVWVtIWB4bGYzOz9Pb08tXmBkTzRybnN5TVZnNXR8MytmWHhjOV9sajJ+
+fGAKemFual57SU4yR3R3YipYJW5sP1VNaD41JFpPQWt3dz0mfm1qUnI2WXwkOE9URHtFRlI3enpL
+eiYlNUxPQEAjaDt4Cnpgc2ZtODBAISRuVWMpWHZ0XlQ8MypNQSZhZW08dnZSYjFEPTxpMUtUPF5Z
+SjA9XkxRN2hsPC11Rz9qKFZzfn5RQAp6ellOfGEmdkElLWNTQzZeQWtHfCt7eD4qRmVTbWhXdVEw
+bjZkVWBaPkQ9dUV8VXZ0WDBydVRrVHhWbyVKR349PGQKejVjKXF+V3srbmJ3fXNHeWc9OTI+LWxU
+P09PSFVTeV9QfTBOVyFud0ojTDQrbEV+MmN6RjtNM0FWKH56RVFBd09FCnpseD8qVj48RlZQRD0t
+fHBDV3FoKWxTNCV+cmNOOEc5WlgmVG41MVRXcnB6T0pWT2tfakdGaXY4NmkrVzItPH1laAp6JFBX
+QTc9T31+RWFkO3ooakpyRG9wej80YSs9IT1+TkBZY1FUUndKODNBZn50U1MmaCFqWkQzdll+bj03
+dUF3NG0Kej5oeDQhdFR3UD5JXlRaMTY7JUNCIVQpM2h3SSQ/SVI8SCFTcmlQMkJAMkstTXNndm0k
+Tjg/KE8rZElQPUpkTDZ9CnpBPW4/eEwrUDM3Myo1WiZGYmk5XkZDfnFXI21sTVdeVHoyVlJ1WmVy
+P2I3djdUd2s2YyVKSE19OTNEdjElT2lNJgp6ZlpjV3pjKXRfSW5tekZqPSRzeTVAPXRFUT42PTg/
+XmpQc2U/dz53ZyNkRT1Fbj13bnchb0BSK0xeYlo4a3UyMk0KekhLVUxVPWskdFhgZD81blRAPnV2
+UzVYK1o+dWcxd3NHRm18cUpFckMhQyUxJCQmdntea1Y0PkZESEw3fEZ2QStVCnpBS01AdDdLaktx
+QXZAcVpJU0x3OHNxblRjNEwob31nKk1lTklJVCpEXlFzS0VyRTxjXnopM0pZQElJSXlfKCRqbwp6
+dGJ1cGMzUGhgeUwjQkVLNEFRS0c9RD5SUk02Jl58WDxtU1orUDklV3lSIzBxWWdeJWpjMGF0TEl7
+LXp4NTg8NHkKejExez4wIUI0djVAU0UtfD85KzVZU2BkaHdBZnAlXldEO31xU0ppWCRKcHtpSSsk
+UUtJeEo3VzI7OCVoaDFpdWpjCnpPbUxteDhvXkhsS041NWlAY0p0UktNPlNpcm9YPXRkezF6Ujsz
+Qn5WZzZ7fjw2TVJlWDRGTkNzfDFrYjE+RldOVwp6Q2pXVERoa3w2LTdeSCZBQU9VbXFvJk9ZJnwy
+dHVnO25kZDdIMGlaN0gzeDA0RWphWVVSfG5SPWJtWX1QWWluO2QKenw3bFB+OzMyY19mI1o5Mz5V
+O1YoSi1CeUZOcSlfJU9IUjRtKD1LPDdfJTdraXA4S3Y7em5RRGl7enBOeWJAO3IhCnpoTUU9VVpZ
+UCEyN1Q0fmNuJVhkYT9mTiZpYj8jMzZkZWA0RnpxLTtWSj9MRC1vOVVsX2R1d09kakdDOFBUTil4
+aQp6c2tedmhpe3R3Xyh+aFZISUlGRWl3SkNNR1ByUUg5ZGd6Jm5kdnBLTm4wNWNeZU1qQG95Yz5K
+PTxIcGpXQH1Fdl8Keko+Mm5wO2o3MkJtKm9YZFRSc2tYWntKdFgpLT02Ul4tYnZgPEhpXiFqK0xI
+a2NmSnw7bmZfZWM7VzYoXyQrRi00CnZkSGReTTJaY0tfI3R5ZjRSZSEmQ3soJEd5WFJ7eUx5V2FI
+THpuVXZsdDNEX1dZfX4lNFNgK3Bee0FkalcKCi0tIAoyLjM4LjEKCg==
+--000000000000c124ca05eea100d8--
