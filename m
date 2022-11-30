@@ -4,70 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C838C433FE
-	for <linux-firmware@archiver.kernel.org>; Wed, 30 Nov 2022 12:53:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C86CC433FE
+	for <linux-firmware@archiver.kernel.org>; Wed, 30 Nov 2022 12:54:34 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 4BBB5C43470; Wed, 30 Nov 2022 12:53:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3005FC4347C
-	for <linux-firmware@kernel.org>; Wed, 30 Nov 2022 12:53:21 +0000 (UTC)
+	id 147FBC433D6; Wed, 30 Nov 2022 12:54:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEB93C433D7
+	for <linux-firmware@kernel.org>; Wed, 30 Nov 2022 12:54:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1669812801;
-	bh=O135k3EjtaR5pVeq5ZX3cd5MKaWtgT0WO/xCt+a4K+A=;
+	s=k20201202; t=1669812874;
+	bh=c++/qhBp4sU/rCKcdQnEdIHlLqphWgPlUzKG8D1SDJw=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=TprDieo+6NSQJM7mxZcDbfJwznJcjKWqsBJYo2GTaHoPArog6uAik1xQA4XM7fSDF
-	 qZbBmH5GRYMVn13lG+w6gaJ1EjTm4ffQnwVpQ31Aa4xcyfGPNTiIE23B9M1zyJ0BeO
-	 P4qob4zjSLXOXUrkODrKhy4Mc7226QiUMCaaK3UqH/4lw0OuSK9B/5DUFZt08n0DMA
-	 tE0DJEr1m2OLG2ngQTxiEBBFwibXR5CxccDdcy2qfQw5nMMlSb/WdOoklc1qCJae4G
-	 vXmB4l6v2s9jVm4j3u9VXKkfkmewzj9x90iHTWfqR3RHR2ScNu6Fs1YDzrK600Xhvy
-	 XTjmw5VmNxQEQ==
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-14263779059so20845304fac.1
-        for <linux-firmware@kernel.org>; Wed, 30 Nov 2022 04:53:21 -0800 (PST)
-X-Gm-Message-State: ANoB5pmIeXHX2P4VRHXCiAowX0f6g6lf5qxEnu1L21Bgy3wLOfPnV4xQ
-	85lwIi5DOf1m3LwzCz8nUhi2iGzDgN2DiowQ+sk=
-X-Google-Smtp-Source: AA0mqf6Sr2IS6+ys5YTP/Df4NQKDayIfhQtpmu93rN5w+I/XEB+8J8PQnHdS2VNL4gI4BmaVQMh7xYbBaGVBkLGn6WI=
-X-Received: by 2002:a05:6870:fd8d:b0:13b:5fff:181b with SMTP id
- ma13-20020a056870fd8d00b0013b5fff181bmr23339824oab.267.1669812800250; Wed, 30
- Nov 2022 04:53:20 -0800 (PST)
+	b=eGyllB50j0WujmCu4q2682CA6CJCuxebwVO2z1au90NsrhwvCgRkAP31jWP8+MjNa
+	 1ja3Qdz2oGVRytB8bgl/UJCZbIECLjSEdZONwMSVxaZb1LIsBPFp+W3BdJsvHXSCQD
+	 1hPPTFF7qKx4rIsXYy+AyqJxd+w6j7YUVfxfzvUdeDWZfpHeCufh96UTJxYFE2w+NG
+	 j8WM97KTYKAdfeeuEn51qbOEb+qEX8Cw14evOCcxFJM8JUdeOD4MvVWgPmMY2vbVNa
+	 mFalsXf7EkxhVBwff/3EVxJaEsoQ/zIeh69U0A/SZd1yhCCrVgwUQDAvxCUUZ9lU+Z
+	 6Chi2qlMmi4oA==
+Received: by mail-oi1-f175.google.com with SMTP id n205so18637316oib.1
+        for <linux-firmware@kernel.org>; Wed, 30 Nov 2022 04:54:33 -0800 (PST)
+X-Gm-Message-State: ANoB5plVFQlv1qJ69op5B8MkeOd33EG2+oZho0jS+bOs4wfnaGJ7Ti0l
+	mdODfsOhxmFxzHvvmql5H0PP7QX4H5hRin3hxlQ=
+X-Google-Smtp-Source: AA0mqf6oyyUnS2yUb8/cTwHt43oa0zFQfxzuaeSGHJfRtw/H6c9pBJMNbKOZW4bDvI3q7ugAn8FrLpR1GIc4LTS47oo=
+X-Received: by 2002:a05:6808:642:b0:353:b8c5:4845 with SMTP id
+ z2-20020a056808064200b00353b8c54845mr20124660oih.267.1669812873095; Wed, 30
+ Nov 2022 04:54:33 -0800 (PST)
 MIME-Version: 1.0
-References: <20221123140335.4xqxepev4bdvybut@gjsousa-mobl2>
-In-Reply-To: <20221123140335.4xqxepev4bdvybut@gjsousa-mobl2>
+References: <90a2aec23a5744a696b0f29942ae2838@quicinc.com>
+In-Reply-To: <90a2aec23a5744a696b0f29942ae2838@quicinc.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Wed, 30 Nov 2022 07:53:09 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA6rWdPwgmy7RvTY_GbOcGz8qR-6-08Too47_66+aQCkhg@mail.gmail.com>
-Message-ID: <CA+5PVA6rWdPwgmy7RvTY_GbOcGz8qR-6-08Too47_66+aQCkhg@mail.gmail.com>
-Subject: Re: PR for DG2 DMC v2.08
-To: Gustavo Sousa <gustavo.sousa@intel.com>
+Date: Wed, 30 Nov 2022 07:54:22 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA5jBczZAW1HXjUPWtkoc5CQJQKPcBODPr0OmzNkbfZu_w@mail.gmail.com>
+Message-ID: <CA+5PVA5jBczZAW1HXjUPWtkoc5CQJQKPcBODPr0OmzNkbfZu_w@mail.gmail.com>
+Subject: Re: btqca firmware 20221124
+To: "Rocky Liao (QUIC)" <quic_rjliao@quicinc.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, "Hutchings, Ben" <ben@decadent.org.uk>, 
-	"Srivatsa, Anusha" <anusha.srivatsa@intel.com>, 
-	Madhumitha Tolakanahalli Pradeep <madhumitha.tolakanahalli.pradeep@intel.com>, 
-	"kyle@mcmartin.ca" <kyle@mcmartin.ca>, 
-	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Nov 23, 2022 at 9:03 AM Gustavo Sousa <gustavo.sousa@intel.com> wrote:
+On Thu, Nov 24, 2022 at 1:55 AM Rocky Liao (QUIC)
+<quic_rjliao@quicinc.com> wrote:
 >
-> The following changes since commit 391fb47caabaae8719fb72ba4891d1fc27ca1923:
+> Hi linux-firmware maintainers,
 >
->   amdgpu: update green sardine DMCUB firmware (2022-11-17 10:42:59 -0500)
+> Here's a pull request for btqca bluetooth driver. Please let me know if you have any problems.
+>
+> The following changes since commit
+> cdf9499cf6706b73935a139bb5e76777a87674fe:
+>
+>    linux-firmware: update firmware for MT7916 (Wed Nov 23 19:07:43 2022 +0800)
 >
 > are available in the Git repository at:
 >
->   git://anongit.freedesktop.org/drm/drm-firmware dg2_dmc_v2.8
->
-> for you to fetch changes up to 7f6279b3dd76ff955278fcd9e517eab85a4c97d6:
->
->   i915: Add DMC v2.08 for DG2 (2022-11-21 16:38:26 -0300)
+>    https://github.com/quicrjliao/qcabtfw.git
 
-Pulled and pushed out.  Minor conflict in WHENCE fixed up.
+Pulled and pushed out.
 
 josh
 
-> ----------------------------------------------------------------
-> Gustavo Sousa (1):
->       i915: Add DMC v2.08 for DG2
 >
->  WHENCE                   |   3 +++
->  i915/dg2_dmc_ver2_08.bin | Bin 0 -> 22540 bytes
->  2 files changed, 3 insertions(+)
->  create mode 100644 i915/dg2_dmc_ver2_08.bin
+> for you to fetch changes up to 32d8681d21f2eef052cadfdfafc47e02eed6c2b2:
+> ----------------------------------------------------------------
+> Rocky Liao (1):
+>         QCA: Add Bluetooth firmware for WCN785x (Thu Nov 24 14:44:27 2022 +0800)
+>
+>
