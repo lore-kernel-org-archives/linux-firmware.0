@@ -1,58 +1,79 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=JEnZ=4M=realtek.com=pkshih@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 900FEC4332F
-	for <linux-firmware@archiver.kernel.org>; Wed, 14 Dec 2022 12:43:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 722F7C4332F
+	for <linux-firmware@archiver.kernel.org>; Wed, 14 Dec 2022 14:01:23 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 7A1DFC433F1; Wed, 14 Dec 2022 12:43:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63D9BC433F0
-	for <linux-firmware@kernel.org>; Wed, 14 Dec 2022 12:43:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1671021792;
-	bh=HEs+27ZcKbg+TgZxSMwByPvwXvcfS4E4nFm/6Wm6SEw=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=hhNSB4hTUiRPoaxrZQ9lpGlbwfXKeAHcAwA9lkyBKU/BcnpI0DHwnxU8/XrhEu65K
-	 bRLYv4UFGA1Dn5KKbPvirjYJMAl4RfftIrkwOu4iCaXgID+tPLTKnhSp0YAyIwWPU7
-	 BzoyFxyArDH23EDEIC4eg/IGgkCTOdzTXBO6MvCmj+P6AyoiBPh4q8xnFJdVnsjThp
-	 Gs8wSBl7lunFmiKttKX+an3j0N7HPca9wmxfbDpYJI+bIzrxG+fu9PIS4wOI98gL3K
-	 M10WqJXdKwdtmrvdgO+ZrNxyYnad+U7HMPkCUm/Kys8Yz9gpk+1FA4lPVsy9+Vds1M
-	 cAoeS6caVyVwg==
-Received: by mail-pj1-f44.google.com with SMTP id o12so6769317pjo.4
-        for <linux-firmware@kernel.org>; Wed, 14 Dec 2022 04:43:12 -0800 (PST)
-X-Gm-Message-State: ANoB5pnAvX0fec/8DDz2YdM+3KmlFenr72iMQ2d46ztEcyBJwU/MO+iZ
-	IgOHsQ+pqh+9BGDlYG2eK9TjgH8se6k1qCxF/VI=
-X-Google-Smtp-Source: AA0mqf4lpFHG9g7NtkxHSIgKtVe3YKZIgsjuwaHgM6ngEfLLzpeogdKqxgWfF/Yw+XVno4nsW0/H+sTMkZa679dwzx8=
-X-Received: by 2002:a17:902:9890:b0:189:9301:9c1d with SMTP id
- s16-20020a170902989000b0018993019c1dmr47213054plp.28.1671021791956; Wed, 14
- Dec 2022 04:43:11 -0800 (PST)
-MIME-Version: 1.0
-References: <CADnq5_PfHVa7HUhBbxZbuFe2KD4J1qQ0F9zt0U4a2rZU1O5xtQ@mail.gmail.com>
-In-Reply-To: <CADnq5_PfHVa7HUhBbxZbuFe2KD4J1qQ0F9zt0U4a2rZU1O5xtQ@mail.gmail.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Wed, 14 Dec 2022 07:43:01 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA5Oj-j5H1Ps0GLja90PZq9D+2k7Rm=uEkcBL8Yi10BgRQ@mail.gmail.com>
-Message-ID: <CA+5PVA5Oj-j5H1Ps0GLja90PZq9D+2k7Rm=uEkcBL8Yi10BgRQ@mail.gmail.com>
-Subject: Re: Updated amdgpu firmware for amd-5.4 (22.40) release
-To: Alex Deucher <alexdeucher@gmail.com>
+	id 290FDC433EF; Wed, 14 Dec 2022 14:01:23 +0000 (UTC)
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	by smtp.kernel.org (Postfix) with ESMTP id 0B046C433F0
+	for <linux-firmware@kernel.org>; Wed, 14 Dec 2022 14:01:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 0B046C433F0
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 2BEE0RBt8010997, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 2BEE0RBt8010997
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=FAIL);
+	Wed, 14 Dec 2022 22:00:27 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.32; Wed, 14 Dec 2022 22:01:16 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS04.realtek.com.tw (172.21.6.97) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Wed, 14 Dec 2022 22:01:16 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::15b5:fc4b:72f3:424b]) by
+ RTEXMBS04.realtek.com.tw ([fe80::15b5:fc4b:72f3:424b%5]) with mapi id
+ 15.01.2375.007; Wed, 14 Dec 2022 22:01:16 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, 
-	"Limonciello, Mario" <Mario.Limonciello@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+CC: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        Timlee
+	<timlee@realtek.com>
+Subject: pull request: rtw89: 8852c: update fw to v0.27.56.9
+Thread-Topic: pull request: rtw89: 8852c: update fw to v0.27.56.9
+Thread-Index: AQHZD8SIR/Dk1apsNkuwxqUejT+OFg==
+Date: Wed, 14 Dec 2022 14:01:15 +0000
+Message-ID: <f3f5066578b088ee35dd7103a36bb6fc7c543ead.camel@realtek.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Evolution 3.36.1-2 
+x-originating-ip: [172.16.16.60]
+x-kse-serverinfo: RTEXMBS04.realtek.com.tw, 9
+x-kse-attachmentfiltering-interceptor-info: no applicable attachment filtering
+ rules found
+x-kse-antivirus-interceptor-info: scan successful
+x-kse-antivirus-info: =?utf-8?B?Q2xlYW4sIGJhc2VzOiAyMDIyLzEyLzE0IOS4iuWNiCAxMDoyMDowMA==?=
+x-kse-bulkmessagesfiltering-scan-result: protection disabled
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <70DAD0797F0584418AB3D5DD55C545FC@realtek.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: protection disabled
 
-Applied and pushed out.
-
-josh
-
-On Tue, Dec 13, 2022 at 10:09 AM Alex Deucher <alexdeucher@gmail.com> wrote:
->
-> Hi,
->
-> Updated amdgpu firmwares for existing chips and initial firmware for
-> some new chips.  Please apply!
->
-> Thanks,
->
-> Alex
+SGksDQoNClVwZGF0ZSA4ODUyYyBmaXJtd2FyZSBvZiBydHc4OSBkcml2ZXIgdG8gMC4yNy41Ni45
+DQoNClRoYW5rIHlvdQ0KUGluZy1LZQ0KDQotLS0NClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5j
+ZSBjb21taXQgZjNjMjgzZTE5OGQzZmI2OWY1MTgzYjhkZWE0ZmQzMmI4YzNjYmU3NjoNCg0KICBh
+bWRncHU6IHVwZGF0ZWQgbmF2aTEwIGZpcm13YXJlIGZvciBhbWQtNS40ICgyMDIyLTEyLTE0IDA3
+OjQyOjA1IC0wNTAwKQ0KDQphcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3NpdG9yeSBhdDoN
+Cg0KICBodHRwczovL2dpdGh1Yi5jb20vcGtzaGloL2xpbnV4LWZpcm13YXJlLmdpdCBIRUFEDQoN
+CmZvciB5b3UgdG8gZmV0Y2ggY2hhbmdlcyB1cCB0byBjOWMxOTU4M2Y3MTcyMTk2M2I0MzVmYzZi
+YzlkMWVhYjQ5YzczYWQ0Og0KDQogIHJ0dzg5OiA4ODUyYzogdXBkYXRlIGZ3IHRvIHYwLjI3LjU2
+LjkgKDIwMjItMTItMTQgMjE6NTU6NTggKzA4MDApDQoNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCkNoaW4tWWVuIExlZSAo
+MSk6DQogICAgICBydHc4OTogODg1MmM6IHVwZGF0ZSBmdyB0byB2MC4yNy41Ni45DQoNClBpbmct
+S2UgU2hpaCAoMSk6DQogICAgICBydHc4OTogODg1MmM6IHVwZGF0ZSBmdyB0byB2MC4yNy41Ni44
+DQoNCiBydHc4OS9ydHc4ODUyY19mdy5iaW4gfCBCaW4gMTUxNjA0MCAtPiAxNTMyNjA4IGJ5dGVz
+DQogMSBmaWxlIGNoYW5nZWQsIDAgaW5zZXJ0aW9ucygrKSwgMCBkZWxldGlvbnMoLSkNCg0KDQo=
