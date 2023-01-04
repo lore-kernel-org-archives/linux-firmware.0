@@ -1,56 +1,67 @@
-Return-Path: <SRS0=MaTr=5A=mk.mdsestus.top=mk6@kernel.org>
+Return-Path: <SRS0=Egvm=5B=chelsio.com=rahul.lakkireddy@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 50644C3DA7D
-	for <linux-firmware@archiver.kernel.org>; Tue,  3 Jan 2023 10:43:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 913B8C46467
+	for <linux-firmware@archiver.kernel.org>; Wed,  4 Jan 2023 10:09:52 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 1338AC433F0; Tue,  3 Jan 2023 10:43:33 +0000 (UTC)
-Received: from mk.mdsestus.top (unknown [43.226.73.226])
-	by smtp.kernel.org (Postfix) with ESMTP id 76600C433EF
-	for <linux-firmware@kernel.org>; Tue,  3 Jan 2023 10:43:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 76600C433EF
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=bng-intl.com
-Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=mk.mdsestus.top
-Received: from DESKTOP-50PGH09 (219.134.148.171) by mk.mdsestus.top id hmg3d40e97ch for <linux-firmware@kernel.org>; Tue, 3 Jan 2023 18:43:16 +0800 (envelope-from <mk6@mk.mdsestus.top>)
-From: "Merry" <merrychen@bng-intl.com>
-Subject: women fashion handbag new design
+	id 59100C433F0; Wed,  4 Jan 2023 10:09:52 +0000 (UTC)
+Received: from stargate.chelsio.com (unknown [12.32.117.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id A7D03C433D2;
+	Wed,  4 Jan 2023 10:09:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A7D03C433D2
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=chelsio.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=chelsio.com
+Received: from localhost (raina-lt.asicdesigners.com [10.193.177.176] (may be forged))
+	by stargate.chelsio.com (8.14.7/8.14.7) with ESMTP id 304A9GXG016296;
+	Wed, 4 Jan 2023 02:09:28 -0800
+Date: Wed, 4 Jan 2023 15:39:16 +0530
+From: Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Content-Type: text/plain; charset=UTF-8
+Cc: linux-kernel@vger.kernel.org, jwboyer@kernel.org,
+        rahul.lakkireddy@chelsio.com
+Subject: pull request: linux-firmware: update cxgb4 firmware to 1.27.1.0
+Message-ID: <Y7VQTMD97rHTqsBo@chelsio.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Sender: mk6@mk.mdsestus.top
-Reply-To: merrychen@bng-intl.com
-Date: Tue, 3 Jan 2023 18:43:16 +0800
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-Id: <20230103104330.76600C433EF@smtp.kernel.org>
 
-SGFwcHkgbmV3IFllYXIhIEhvcGUgdGhpcyBlbWFpbCBmaW5kcyB5b3Ugd2VsbCENCldlIGFyZSBh
-IHByb2Zlc3Npb25hbCBiYWdzIGFuZCB3YWxsZXRzIG1hbnVmYWN0dXJlciBzaW5jZSAyMDAzIGZy
-b20gR3Vhbmd6aG91IENoaW5hICx3aXNoaW5nIHRvIGVzdGFibGlzaCBidXNpbmVzcyBjb29wZXJh
-dGlvbiB3aXRoIHlvdS4NCkJlaW5nIGdvb2QgYXQgbWF0ZXJpYWwgc291cmNpbmcgYW5kIGFuZCBo
-YXZpbmcgdmFyaW91cyBvZiByZWFkeS1tYWRlIHByb3RvdHlwZXMsIHdlIGFsc28gc3VwcG9ydCBP
-RU0gc2VydmljZSB3aXRoIHlvdXIgb3JpZ2luYWwgZGVzaWducyBieSBvdXIgcHJvZmVzc2lvbmFs
-IHNhbXBsZXMgUiZEIHRlYW0uDQpFcXVpcHBlZCB3aXRoIGFkdmFuY2VkIHByb2R1Y3Rpb24gcHJv
-Y2Vzc2luZyBhc3NlbWJseSBsaW5lLCAgb3VyIGV4cGVyaWVuY2Ugb2YgY29vcGVyYXRpbmcgd2l0
-aCBmYW1vdXMgcmV0YWlsZXIgYnJhbmRzIHdpbGwgYXVzc3VyZSB5b3UgcHJvZHVjdCBxdWFsaXR5
-IGFuZCB3b3JrIGVmZmljaWVuY3kuDQpGb3Igbm93LCB3aXRoIHN1ZmZpY2llbnQgY2FwYWNpdHks
-IG91ciBmYWN0b3J5IGlzIHJvbGxpbmcgb3V0IG5ldyBkZXZlbG9wbWVudCBhc3Npc3RhbmNlIHBy
-b2dyYW1zLiBXZSBhcmUgd2lsbGluZyB0byBoZWxwIHRoZSBjdXN0b21lcnMgY3VzdG9tIG5ldyBj
-b2xsZWN0aW9uIGFjY29yZGluZyB0byB0aGVpciBkZXRhaWxlZCByZXF1aXJlbWVudHMgdG8gZnVs
-ZmlsbCBuZXcgZGV2ZWxvcG1lbnQgZm9yIG5leHQgc2Vhc29uLCBzdGFydGluZyBieSBjb2xsZWN0
-aW5nIGxhc3Rlc3QgbWF0ZXJpYWxzIGFuZCBkZXNpZ25zIHByaW9yIHRvIHByZS1kZXZlbG9wbWVu
-dCBzYW1wbGVzLg0KRnVydGhlciBpbmZvIG9yIHByb2R1Y3QgY2F0YWxvZyB3aWxsIGJlIGF2YWls
-YWJsZSB0byBzZW5kIGZvciByZWZlcmVuY2UgaWYgbmVlZGVkLg0KSWYgeW91IGhhdmUgYW55IHJl
-bGF0ZWQgaW5xdWlyaWVzLCB3ZSBhcmUgaGVyZSB0byBoZWxwLg0KQmVzdCByZWdhcmRzLA0KTWVy
-cnkNCkImRyBGQVNISU9OUyBJTlRFUk5BVElPTiBMSU1JVEVEDQpKSU5CQU8gQlVTSU5FU1MgQkxE
-Ry4sTk8uMTUsU0hVTkZFTkcgUkQuDQpOTy40NCxCQU9BTiBESVNULixTSEVOWkhFTixDSElOQQ0K
-VEVMOjg2ICg3NTUpIDMzNjU2NzI3DQpGQVg6ODYgKDc1NSkgMzM2NTA4ODgNCjIwMjMgMTMzdGgg
-VGhlIENoaW5hIEltcG9ydCBhbmQgRXhwb3J0IEZhaXIoQ2FudG9uIEZhaXIpDQpFeGhpYml0aW9u
-IEJvb3RoOiA5LjMgLSBHMzANCg==
+Please pull the new Chelsio firmware from the following URL.
+
+  http://git.chelsio.net/pub/git/linux-firmware.git for-upstream
+
+Thanks,
+Rahul
+
+
+The following changes since commit 52261d0329b1a2e414ee394aae3c5ca36283730f:
+
+  Merge https://github.com/pkshih/linux-firmware (2022-12-16 07:10:10 -0500)
+
+are available in the Git repository at:
+
+  http://git.chelsio.net/pub/git/linux-firmware.git for-upstream
+
+for you to fetch changes up to 52e62d6af5c56b82ef49db415b12c8cfe4faf756:
+
+  cxgb4: Update firmware to revision 1.27.1.0 (2023-01-04 09:14:46 +0000)
+
+----------------------------------------------------------------
+Rahul Lakkireddy (1):
+      cxgb4: Update firmware to revision 1.27.1.0
+
+ WHENCE                                         |  12 ++++++------
+ cxgb4/{t4fw-1.27.0.0.bin => t4fw-1.27.1.0.bin} | Bin 570880 -> 570880 bytes
+ cxgb4/t5fw-1.27.0.0.bin                        | Bin 677376 -> 0 bytes
+ cxgb4/t5fw-1.27.1.0.bin                        | Bin 0 -> 678400 bytes
+ cxgb4/{t6fw-1.27.0.0.bin => t6fw-1.27.1.0.bin} | Bin 729600 -> 730112 bytes
+ 5 files changed, 6 insertions(+), 6 deletions(-)
+ rename cxgb4/{t4fw-1.27.0.0.bin => t4fw-1.27.1.0.bin} (73%)
+ delete mode 100644 cxgb4/t5fw-1.27.0.0.bin
+ create mode 100644 cxgb4/t5fw-1.27.1.0.bin
+ rename cxgb4/{t6fw-1.27.0.0.bin => t6fw-1.27.1.0.bin} (54%)
