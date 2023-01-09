@@ -1,179 +1,117 @@
-Return-Path: <SRS0=fkuw=5E=vicresearchdata.com=jessica.h@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDA55C54EBE
-	for <linux-firmware@archiver.kernel.org>; Sat,  7 Jan 2023 09:25:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D444C54EBD
+	for <linux-firmware@archiver.kernel.org>; Mon,  9 Jan 2023 14:12:43 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id A4D97C433D2; Sat,  7 Jan 2023 09:25:36 +0000 (UTC)
-Received: from mail-m127136.qiye.163.com (mail-m127136.qiye.163.com [115.236.127.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id B3112C433EF
-	for <linux-firmware@kernel.org>; Sat,  7 Jan 2023 09:25:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org B3112C433EF
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=vicresearchdata.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=vicresearchdata.com
-List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-Received: from vicresearchdata.com (localhost [127.0.0.1])
-	by mail-m12773.qiye.163.com (Hmail) with ESMTP id 760272C01A5;
-	Sat,  7 Jan 2023 17:25:30 +0800 (CST)
-Content-Type: multipart/alternative; BOUNDARY="=_Part_534438_1190979518.1673083530475"
-Message-ID: <AFIAPwCBFSbma4UPTXdgiqqC.1.1673083530475.Hmail.jessica.h@vicresearchdata.com>
-Subject: =?UTF-8?B?UkYgQW1wbGlmaWVyIENoaXBzIG1hcmtldCByZXNlYXJjaCByZXBvcnQuVGhpcyB3aWxsIHdvcmsgZm9yIHlvdQ==?=
-X-Priority: 3
-X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
-X-Originating-IP: 113.101.102.104
+	id C4E1FC43396; Mon,  9 Jan 2023 14:12:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF3EEC433F1
+	for <linux-firmware@kernel.org>; Mon,  9 Jan 2023 14:12:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1673273563;
+	bh=UBI2imG+kIHVUIylLnXXMpLZvx9+z+DhoOfgsoyB0RI=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=mui0bJWtti9iHtDkyMKqa/WTmV7ECqzffqUozxHK3dAAsEURsD/bTCVk8wWcZkPQz
+	 +qRZetAtMaG4vvmho7g+DkVSUk42+5C9GJNSSjVobtyY8IYQ9K/ZASg2LlFgWM0uzc
+	 DbCv+ZjJvAXpHp9TUEVGtYJl/e8Izv+NvIP4u7QIPEn5lMXAPApHUj0n0VIoHdyzKS
+	 UG7KyIv/Myu0bQsBYq54XMmUYBLNESj6wLGeHZIhJRIeDWTGlSlLra3kzkv7vWYw76
+	 71ksrw3zSPgCnqbdzaGcjUHT5qAbQ5YM5PfmWj34gG9V0RipSmQLTw6mi/Qm3iUwQq
+	 bHvb51vZEcARg==
+Received: by mail-yb1-f177.google.com with SMTP id c82so1350866ybf.6
+        for <linux-firmware@kernel.org>; Mon, 09 Jan 2023 06:12:43 -0800 (PST)
+X-Gm-Message-State: AFqh2kqG8WFALn2UQ/IGnK4YkuxpILCtO7Zy2+LXWFy7UQWDp1CUMPQW
+	XgQToUUbtMHce2gTH7cQrk02E3YYdMYz+x23PRs=
+X-Google-Smtp-Source: AMrXdXvF07ujODGWC4TDuzTDdfHuUNlIdKazBXrO9mCyKrT8zhpK3gsG1EKVUvZQPdwvlBKBhxQaOKvclL2FjAli9WI=
+X-Received: by 2002:a25:284:0:b0:7ba:f508:2ab0 with SMTP id
+ 126-20020a250284000000b007baf5082ab0mr506931ybc.471.1673273562757; Mon, 09
+ Jan 2023 06:12:42 -0800 (PST)
 MIME-Version: 1.0
-Received: from jessica.h@vicresearchdata.com( [113.101.102.104) ] by ajax-webmail ( [127.0.0.1] ) ; Sat, 7 Jan 2023 17:25:30 +0800 (GMT+08:00)
-From: Jessica <jessica.h@vicresearchdata.com>
-Date: Sat, 7 Jan 2023 17:25:30 +0800 (GMT+08:00)
-X-HM-Spam-Status: e1kfGhgUHx5ZQUhXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaTUNNVkIdGkNJSEpISU5IS1UTARMWGhIXJBQOD1
-	lXWRgSC1lBWUpKSFVKS0pVSktJVUpLT1lXWRYaDxIVHRRZQVlPS0hVSkhCQk1KVU9VSk9ZBg++
-X-HM-Sender-Digest: e1kMHhlZQQ8JDh5XWRIfHhUPWUFZRzo9MjorDDg5PSgZFhpPLisvIx8c
-	EgoKOFVKVUpNTEhLQ0hOSEpJT0tVMxYaEhdVER4ICBIYGlUTOw0SGAkeCB4aCRgTHxoPGlUYFBZF
-	WVdZFBUeCRgLD1lBSldZEgtZQVlKSkhVSktKVUpLSVVKS09ZV1kIAVlBSUtNSUk3Bg++
-X-HM-Tid: 0a858b8cacebb249kuuu1855dc4bd74
-
---=_Part_534438_1190979518.1673083530475
+References: <0f2d6fb13fe09bc7cd0a74d7c57cdbc03f979071.camel@intel.com>
+In-Reply-To: <0f2d6fb13fe09bc7cd0a74d7c57cdbc03f979071.camel@intel.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Mon, 9 Jan 2023 09:12:31 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA63L6h+j+0J2bLn3fB7qWdOk34tapuF2N0kUftzUyZHVA@mail.gmail.com>
+Message-ID: <CA+5PVA63L6h+j+0J2bLn3fB7qWdOk34tapuF2N0kUftzUyZHVA@mail.gmail.com>
+Subject: Re: pull request: iwlwifi firmware updates 2023-01-04
+To: "Greenman, Gregory" <gregory.greenman@intel.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, "Hutchings, Ben" <ben@decadent.org.uk>, 
+	"kyle@infradead.org" <kyle@infradead.org>, 
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, "Ben Ami, Golan" <golan.ben.ami@intel.com>, 
+	"Yang, You-Sheng" <vicamo.yang@canonical.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
 
-SGkgdGhlcmUsCldlIHB1Ymxpc2hlZCBhIG1hcmtldCByZXBvcnQgb24gUkYgQW1wbGlmaWVyIENo
-aXBzIDIwMjMgZm9yIFlvdSBhbmQgQ29tcGV0aXRvcnMuIElmIHlvdSBoYXZlIGZ1cnRoZXIgaW50
-ZXJlc3QgaW4gdGhpcyByZXBvcnQgb3IgcmVsYXRlZCByZXBvcnRzLCB3ZSB3b3VsZCBiZSBoYXBw
-eSB0byBzaGFyZSB0aGUgc2FtcGxlIHJlcG9ydCBmb3IgeW91ciByZWZlcmVuY2UuClRoZSBmb2xs
-b3dpbmcgbWFudWZhY3R1cmVycyBhcmUgY292ZXJlZCBpbiB0aGlzIHJlcG9ydDoKU2t5d29ya3MK
-QnJvYWRjb20KUW9ydm8KSW5maW5lb24KTlhQKEZyZWVzY2FsZSkKTWljcm9jaGlwIFRlY2hub2xv
-Z3kKTXVyYXRhClF1YWxjb21tClRleGFzIEluc3RydW1lbnRzCkFuYWxvZyBEZXZpY2VzCk1heGlt
-IEludGVncmF0ZWQKUmVuZXNhcyBFbGVjdHJvbmljcyBDb3Jwb3JhdGlvbgouLi4uLi4KTWF5YmUg
-aXQgd2lsbCBiZSBoZWxwZnVsIHRvIHRoZSBtYXJrZXRpbmcgZGVwYXJ0bWVudCBvciB0aGUgcGVy
-c29uIGluIGNoYXJnZSBvZiB5b3VyIGNvbXBhbnkuIElmIHlvdSBuZWVkIG1hcmtldCByZXNlYXJj
-aCByZXBvcnRzIG9uIG90aGVyIHByb2R1Y3RzIG9yIHJlZ2lvbnMsIHdlIHdpbGwgYmUgaGFwcHkg
-dG8gcHJvdmlkZSB5b3Ugd2l0aCBtb3JlIGRhdGEgYW5kIGV4cGVydCBvcGluaW9ucy4KQWxsIHRo
-ZSBiZXN0IQpBcHJpbCB8IFNhbGVzIC0gTWFuYWdlcgpWaWMgTWFya2V0cmVzZWFyY2ggQ28uLEx0
-ZC4KRTog4oCCYXByaWxAdmljbWFya2V0cmVzZWFyY2guY29tClQ6ICArODYtMTg4MjAxODE0MTXv
-vIg3KjI077yJCgoKDQoNCg==
---=_Part_534438_1190979518.1673083530475
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
+On Wed, Jan 4, 2023 at 4:09 PM Greenman, Gregory
+<gregory.greenman@intel.com> wrote:
+>
+> Hi,
+>
+> This contains some new firmwares for all our currently maintained FW binaries.
+>
+> Please pull or let me know if there are any issues.
+>
+> --
+> Thanks
+> Gregory
+>
+> The following changes since commit 4ee201478d3f063fd8296d773aeeaf0d72bfb80f:
+>
+>   Merge branch 'for-upstream' of http://git.chelsio.net/pub/git/linux-firmware (2023-01-04 08:22:15 -0500)
+>
+> are available in the Git repository at:
+>
+>   http://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.git tags/iwlwifi-fw-2023-01-04
+>
+> for you to fetch changes up to def1e169a7fe571eb1a0fd306c8fc8851906b7df:
+>
+>   iwlwifi: add new FWs from core76-35 release (2023-01-04 22:50:08 +0200)
+>
+> ----------------------------------------------------------------
+> Firmware updates for iwlwifi:
+> * updates for 9000-family
+> * add new firmwares (ty/so) from release core75-47
+> * update cc/Qu/QuZ firmwares from core76-35
+> * add new FWs (ty/so) from core76-35
+>
+> ----------------------------------------------------------------
+> Gregory Greenman (4):
+>       iwlwifi: update 9000-family firmwares to core75-47
+>       iwlwifi: add new FWs from core75-47 release
+>       iwlwifi: update cc/Qu/QuZ firmwares for core76-35 release
+>       iwlwifi: add new FWs from core76-35 release
+>
+>  WHENCE                            |  37 +++++++++++++++++++++++++++++--------
 
-PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
-Zm9udC1mYW1pbHk6QXJpYWwiPjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJm
-b250LWZhbWlseTog5b6u6L2v6ZuF6buROyBmb250LXNpemU6IDEwLjVwdDsiPkhpIHRoZXJlLDwv
-c3Bhbj48L2I+PGI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiDlvq7ova/pm4Xpu5E7IGZvbnQt
-c2l6ZTogMTAuNXB0OyI+PG86cD48L286cD48L3NwYW4+PC9iPjwvcD48cCBjbGFzcz0iTXNvTm9y
-bWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6IOW+rui9r+mbhem7kTsgY29sb3I6IHJn
-YigwLCAwLCAyNTUpOyBmb250LXNpemU6IDEwLjVwdDsiPldlIHB1Ymxpc2hlZCBhIG1hcmtldCBy
-ZXBvcnQgb24gPC9zcGFuPjwvYj48Yj48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6IOW+rui9r+mb
-hem7kTsgY29sb3I6IHJnYigwLCAwLCAyNTUpOyBmb250LXNpemU6IDEwLjVwdDsiPlJGIEFtcGxp
-ZmllciBDaGlwczwvc3Bhbj48L2I+PGI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiDlvq7ova/p
-m4Xpu5E7IGNvbG9yOiByZ2IoMCwgMCwgMjU1KTsgZm9udC1zaXplOiAxMC41cHQ7Ij4mbmJzcDs8
-Zm9udCBmYWNlPSLlvq7ova/pm4Xpu5EiPjIwMjwvZm9udD48L3NwYW4+PC9iPjxiPjxzcGFuIHN0
-eWxlPSJmb250LWZhbWlseTog5b6u6L2v6ZuF6buROyBjb2xvcjogcmdiKDAsIDAsIDI1NSk7IGZv
-bnQtc2l6ZTogMTAuNXB0OyI+Mzwvc3Bhbj48L2I+PHNwYW4gc3R5bGU9Im1zby1zcGFjZXJ1bjon
-eWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBwdDsKbXNvLWZv
-bnQta2VybmluZzoxLjAwMDBwdDsiPiZuYnNwOzxmb250IGZhY2U9IuW+rui9r+mbhem7kSI+Zm9y
-IFlvdSBhbmQgQ29tcGV0aXRvcnMuIElmIHlvdSBoYXZlIGZ1cnRoZXIgaW50ZXJlc3QgaW4gdGhp
-cyByZXBvcnQgb3IgcmVsYXRlZCByZXBvcnRzLCB3ZSB3b3VsZCBiZSBoYXBweSB0byBzaGFyZSB0
-aGUgc2FtcGxlIHJlcG9ydCBmb3IgeW91ciByZWZlcmVuY2UuPC9mb250Pjwvc3Bhbj48c3BhbiBz
-dHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTtmb250LXNp
-emU6MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+PG86cD48L286cD48L3Nw
-YW4+PC9wPjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTog
-5b6u6L2v6ZuF6buROyBmb250LXNpemU6IDEwLjVwdDsiPlRoZSBmb2xsb3dpbmcgbWFudWZhY3R1
-cmVycyBhcmUgY292ZXJlZCBpbiB0aGlzIHJlcG9ydDo8L3NwYW4+PC9iPjxiPjxzcGFuIHN0eWxl
-PSJmb250LWZhbWlseTog5b6u6L2v6ZuF6buROyBmb250LXNpemU6IDEwLjVwdDsiPjxvOnA+PC9v
-OnA+PC9zcGFuPjwvYj48L3A+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZv
-bnQtZmFtaWx5OiDlvq7ova/pm4Xpu5E7IGZvbnQtc2l6ZTogMTAuNXB0OyI+U2t5d29ya3M8L3Nw
-YW4+PC9iPjxiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTog5b6u6L2v6ZuF6buROyBmb250LXNp
-emU6IDEwLjVwdDsiPjxvOnA+PC9vOnA+PC9zcGFuPjwvYj48L3A+PHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiDlvq7ova/pm4Xpu5E7IGZvbnQtc2l6ZTog
-MTAuNXB0OyI+QnJvYWRjb208L3NwYW4+PC9iPjxiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTog
-5b6u6L2v6ZuF6buROyBmb250LXNpemU6IDEwLjVwdDsiPjxvOnA+PC9vOnA+PC9zcGFuPjwvYj48
-L3A+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiDlvq7o
-va/pm4Xpu5E7IGZvbnQtc2l6ZTogMTAuNXB0OyI+UW9ydm88L3NwYW4+PC9iPjxiPjxzcGFuIHN0
-eWxlPSJmb250LWZhbWlseTog5b6u6L2v6ZuF6buROyBmb250LXNpemU6IDEwLjVwdDsiPjxvOnA+
-PC9vOnA+PC9zcGFuPjwvYj48L3A+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9
-ImZvbnQtZmFtaWx5OiDlvq7ova/pm4Xpu5E7IGZvbnQtc2l6ZTogMTAuNXB0OyI+SW5maW5lb248
-L3NwYW4+PC9iPjxiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTog5b6u6L2v6ZuF6buROyBmb250
-LXNpemU6IDEwLjVwdDsiPjxvOnA+PC9vOnA+PC9zcGFuPjwvYj48L3A+PHAgY2xhc3M9Ik1zb05v
-cm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiDlvq7ova/pm4Xpu5E7IGZvbnQtc2l6
-ZTogMTAuNXB0OyI+TlhQKEZyZWVzY2FsZSk8L3NwYW4+PC9iPjxiPjxzcGFuIHN0eWxlPSJmb250
-LWZhbWlseTog5b6u6L2v6ZuF6buROyBmb250LXNpemU6IDEwLjVwdDsiPjxvOnA+PC9vOnA+PC9z
-cGFuPjwvYj48L3A+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtZmFt
-aWx5OiDlvq7ova/pm4Xpu5E7IGZvbnQtc2l6ZTogMTAuNXB0OyI+TWljcm9jaGlwIFRlY2hub2xv
-Z3k8L3NwYW4+PC9iPjxiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTog5b6u6L2v6ZuF6buROyBm
-b250LXNpemU6IDEwLjVwdDsiPjxvOnA+PC9vOnA+PC9zcGFuPjwvYj48L3A+PHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiDlvq7ova/pm4Xpu5E7IGZvbnQt
-c2l6ZTogMTAuNXB0OyI+TXVyYXRhPC9zcGFuPjwvYj48Yj48c3BhbiBzdHlsZT0iZm9udC1mYW1p
-bHk6IOW+rui9r+mbhem7kTsgZm9udC1zaXplOiAxMC41cHQ7Ij48bzpwPjwvbzpwPjwvc3Bhbj48
-L2I+PC9wPjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTog
-5b6u6L2v6ZuF6buROyBmb250LXNpemU6IDEwLjVwdDsiPlF1YWxjb21tPC9zcGFuPjwvYj48Yj48
-c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6IOW+rui9r+mbhem7kTsgZm9udC1zaXplOiAxMC41cHQ7
-Ij48bzpwPjwvbzpwPjwvc3Bhbj48L2I+PC9wPjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFu
-IHN0eWxlPSJmb250LWZhbWlseTog5b6u6L2v6ZuF6buROyBmb250LXNpemU6IDEwLjVwdDsiPlRl
-eGFzIEluc3RydW1lbnRzPC9zcGFuPjwvYj48Yj48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6IOW+
-rui9r+mbhem7kTsgZm9udC1zaXplOiAxMC41cHQ7Ij48bzpwPjwvbzpwPjwvc3Bhbj48L2I+PC9w
-PjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTog5b6u6L2v
-6ZuF6buROyBmb250LXNpemU6IDEwLjVwdDsiPkFuYWxvZyBEZXZpY2VzPC9zcGFuPjwvYj48Yj48
-c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6IOW+rui9r+mbhem7kTsgZm9udC1zaXplOiAxMC41cHQ7
-Ij48bzpwPjwvbzpwPjwvc3Bhbj48L2I+PC9wPjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFu
-IHN0eWxlPSJmb250LWZhbWlseTog5b6u6L2v6ZuF6buROyBmb250LXNpemU6IDEwLjVwdDsiPk1h
-eGltIEludGVncmF0ZWQ8L3NwYW4+PC9iPjxiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTog5b6u
-6L2v6ZuF6buROyBmb250LXNpemU6IDEwLjVwdDsiPjxvOnA+PC9vOnA+PC9zcGFuPjwvYj48L3A+
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiDlvq7ova/p
-m4Xpu5E7IGZvbnQtc2l6ZTogMTAuNXB0OyI+UmVuZXNhcyBFbGVjdHJvbmljcyBDb3Jwb3JhdGlv
-bjwvc3Bhbj48L2I+PGI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiDlvq7ova/pm4Xpu5E7IGZv
-bnQtc2l6ZTogMTAuNXB0OyI+PG86cD48L286cD48L3NwYW4+PC9iPjwvcD48cCBjbGFzcz0iTXNv
-Tm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6IOW+rui9r+mbhem7kTsgZm9udC1z
-aXplOiAxMC41cHQ7Ij4uLi4uLi48L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJtc28tc3BhY2VydW46
-J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAwcHQ7Cm1zby1m
-b250LWtlcm5pbmc6MS4wMDAwcHQ7Ij48bzpwPjwvbzpwPjwvc3Bhbj48L3A+PHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PHNwYW4gc3R5bGU9Im1zby1zcGFjZXJ1bjoneWVzJztmb250LWZhbWlseTrlvq7o
-va/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBwdDsKbXNvLWZvbnQta2VybmluZzoxLjAwMDBwdDsi
-Pk1heWJlIGl0IHdpbGwgYmUgaGVscGZ1bCB0byB0aGUgbWFya2V0aW5nIGRlcGFydG1lbnQgb3Ig
-dGhlIHBlcnNvbiBpbiBjaGFyZ2Ugb2YgeW91ciBjb21wYW55LiBJZiB5b3UgbmVlZCBtYXJrZXQg
-cmVzZWFyY2ggcmVwb3J0cyBvbiBvdGhlciBwcm9kdWN0cyBvciByZWdpb25zLCB3ZSB3aWxsIGJl
-IGhhcHB5IHRvIHByb3ZpZGUgeW91IHdpdGggbW9yZSBkYXRhIGFuZCBleHBlcnQgb3BpbmlvbnMu
-PC9zcGFuPjxzcGFuIHN0eWxlPSJtc28tc3BhY2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v
-6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAwcHQ7Cm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij48
-bzpwPjwvbzpwPjwvc3Bhbj48L3A+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9Im1z
-by1zcGFjZXJ1bjoneWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUw
-MDBwdDsKbXNvLWZvbnQta2VybmluZzoxLjAwMDBwdDsiPkFsbCB0aGUgYmVzdCE8L3NwYW4+PHNw
-YW4gc3R5bGU9Im1zby1zcGFjZXJ1bjoneWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9u
-dC1zaXplOjEwLjUwMDBwdDsKbXNvLWZvbnQta2VybmluZzoxLjAwMDBwdDsiPjxvOnA+PC9vOnA+
-PC9zcGFuPjwvcD48cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVu
-Oid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTtmb250LXNpemU6MTAuNTAwMHB0Owptc28t
-Zm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+QXByaWwmbmJzcDt8Jm5ic3A7U2FsZXMmbmJzcDstJm5i
-c3A7TWFuYWdlcjwvc3Bhbj48c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFt
-aWx5OuW+rui9r+mbhem7kTtmb250LXNpemU6MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5nOjEu
-MDAwMHB0OyI+PG86cD48L286cD48L3NwYW4+PC9wPjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
-IHN0eWxlPSJtc28tc3BhY2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQt
-c2l6ZToxMC41MDAwcHQ7Cm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij5WaWMgTWFya2V0cmVz
-ZWFyY2ggQ28uLEx0ZC48L3NwYW4+PHNwYW4gc3R5bGU9Im1zby1zcGFjZXJ1bjoneWVzJztmb250
-LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBwdDsKbXNvLWZvbnQta2Vybmlu
-ZzoxLjAwMDBwdDsiPjxvOnA+PC9vOnA+PC9zcGFuPjwvcD48cCBjbGFzcz0iTXNvTm9ybWFsIj48
-c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTtm
-b250LXNpemU6MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+RTombmJzcDs8
-L3NwYW4+PGEgaHJlZj0ibWFpbHRvOiBrYXRlQHdpbnFscmVzZWFyY2guY29tIj48c3BhbiBzdHls
-ZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTtmb250LXNpemU6
-MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+4oCCPC9zcGFuPjwvYT48YSBo
-cmVmPSJtYWlsdG86YXByaWxAdmljbWFya2V0cmVzZWFyY2guY29tIj48c3BhbiBzdHlsZT0ibXNv
-LXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTtmb250LXNpemU6MTAuNTAw
-MHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+YXByaWw8L3NwYW4+PC9hPjxhIGhyZWY9
-Im1haWx0bzphcHJpbEB2aWNtYXJrZXRyZXNlYXJjaC5jb20iPjxzcGFuIHN0eWxlPSJtc28tc3Bh
-Y2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAwcHQ7
-Cm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij5AdmljbWFya2V0cmVzZWFyY2guY29tPC9zcGFu
-PjwvYT48c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mb
-hem7kTtmb250LXNpemU6MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+PG86
-cD48L286cD48L3NwYW4+PC9wPjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJtc28t
-c3BhY2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAw
-cHQ7Cm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij5UOiZuYnNwOyZuYnNwOys4Ni0xODgyMDE4
-MTQxNe+8iDcqMjTvvIk8L3NwYW4+PHNwYW4gc3R5bGU9Im1zby1zcGFjZXJ1bjoneWVzJztmb250
-LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBwdDsKbXNvLWZvbnQta2Vybmlu
-ZzoxLjAwMDBwdDsiPjxvOnA+PC9vOnA+PC9zcGFuPjwvcD48L2Rpdj48YnI+
---=_Part_534438_1190979518.1673083530475--
+This seems to miss adding a firmware file?
+
+[jwboyer@vader linux-firmware]$ ./check_whence.py
+E: iwlwifi-so-a0-gf-a0-79.ucode listed in WHENCE does not exist
+[jwboyer@vader linux-firmware]$
+
+>  iwlwifi-9000-pu-b0-jf-b0-46.ucode | Bin 1518788 -> 1518788 bytes
+>  iwlwifi-9260-th-b0-jf-b0-46.ucode | Bin 1489668 -> 1489668 bytes
+>  iwlwifi-Qu-b0-hr-b0-77.ucode      | Bin 1407736 -> 1404048 bytes
+>  iwlwifi-Qu-b0-jf-b0-77.ucode      | Bin 1325500 -> 1321720 bytes
+>  iwlwifi-Qu-c0-hr-b0-77.ucode      | Bin 1407752 -> 1404064 bytes
+>  iwlwifi-Qu-c0-jf-b0-77.ucode      | Bin 1325516 -> 1321736 bytes
+>  iwlwifi-QuZ-a0-hr-b0-77.ucode     | Bin 1406756 -> 1404184 bytes
+>  iwlwifi-cc-a0-77.ucode            | Bin 1369192 -> 1365484 bytes
+>  iwlwifi-so-a0-gf-a0-78.ucode      | Bin 0 -> 1667236 bytes
+>  iwlwifi-so-a0-gf-a0.pnvm          | Bin 42092 -> 56048 bytes
+>  iwlwifi-so-a0-gf4-a0-78.ucode     | Bin 0 -> 1711100 bytes
+>  iwlwifi-so-a0-gf4-a0-79.ucode     | Bin 0 -> 1712776 bytes
+>  iwlwifi-so-a0-gf4-a0.pnvm         | Bin 28252 -> 28252 bytes
+>  iwlwifi-so-a0-hr-b0-79.ucode      | Bin 0 -> 1517148 bytes
+>  iwlwifi-ty-a0-gf-a0-78.ucode      | Bin 0 -> 1620004 bytes
+>  iwlwifi-ty-a0-gf-a0-79.ucode      | Bin 0 -> 1620704 bytes
+>  iwlwifi-ty-a0-gf-a0.pnvm          | Bin 41876 -> 41876 bytes
+>  18 files changed, 29 insertions(+), 8 deletions(-)
+>  create mode 100644 iwlwifi-so-a0-gf-a0-78.ucode
+>  create mode 100644 iwlwifi-so-a0-gf4-a0-78.ucode
+>  create mode 100644 iwlwifi-so-a0-gf4-a0-79.ucode
+>  create mode 100644 iwlwifi-so-a0-hr-b0-79.ucode
+>  create mode 100644 iwlwifi-ty-a0-gf-a0-78.ucode
+>  create mode 100644 iwlwifi-ty-a0-gf-a0-79.ucode
