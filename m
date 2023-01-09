@@ -1,213 +1,120 @@
-Return-Path: <SRS0=eo1b=5G=intel.com=gregory.greenman@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 391F6C5479D
-	for <linux-firmware@archiver.kernel.org>; Mon,  9 Jan 2023 15:13:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53358C54EBD
+	for <linux-firmware@archiver.kernel.org>; Mon,  9 Jan 2023 15:35:17 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 1FBF9C433EF; Mon,  9 Jan 2023 15:13:06 +0000 (UTC)
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A61E3C433D2;
-	Mon,  9 Jan 2023 15:13:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A61E3C433D2
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673277183; x=1704813183;
-  h=from:to:cc:subject:date:message-id:content-id:
-   content-transfer-encoding:mime-version;
-  bh=c2Rz01dyLt08pu/eFpc77XJJwx0uyU9xtK1jWXx12nI=;
-  b=Xd7E2t41uqtB9qjw7R+BvMCnPmX1va5g9NjNc8QA6yVeise/qA5Jarsa
-   KEtDjpTbpC/rhZmvyprX2IRVjPWc7x0p9LTkciySRfW7uKbtHsaAaqUdm
-   Lv6qr4iTyqxPI5qXUfUJlDuHyq3c3gqrNIOUxSslaHQ3522EibgVszJTN
-   VYXVeQmBuANFe07OepL+fLz2s3Znkg08mUKNsClgFdrAhGBxIA1O0RfMj
-   aiFjmh6xShjYautqdw3QSRUBb4yIH80FDi/0KJk0l7eI6pxN/HZI2tiGR
-   ZKEz6LB60g5GyJTsTKOPTkx92UUXOrIzcap4ScKQPTecDVnGIxhMArgpk
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="324900712"
-X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; 
-   d="scan'208";a="324900712"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2023 07:10:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="985420656"
-X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; 
-   d="scan'208";a="985420656"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmsmga005.fm.intel.com with ESMTP; 09 Jan 2023 07:10:29 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Mon, 9 Jan 2023 07:10:29 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Mon, 9 Jan 2023 07:10:28 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Mon, 9 Jan 2023 07:10:28 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.47) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Mon, 9 Jan 2023 07:10:28 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IN7FADsCNFq/XHWZRN3i7ZRoVOC/w22ziZAAp4C25IBXiYmXuCGH9viAtGQdlXqf1zAJRD1JJoYi3ZETrzsiyJl1kW/mggC40xM2VAZSMDDpZ3Y0bXo8WV19dluBfftnPlwTv+e8ZM0D8b8MFU5BNFH6DcD+AgX/lcc03SfvOewsPA61ziqHZbEDfDCNPDu3GYsrvn8ZQNr8KOdv8drdPK1tILH8lh3ZdnU8Kv5EEOEscuSWlA++CaEuzs7hquUoiq9UyeaZvwkRsQ2rLRdt6/hikTYuwhdBna1UjtgsGgv5aSJLyAn1Zo0/UOqzpSlYDrfD3wRRzhWC1zg2veEOxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=c2Rz01dyLt08pu/eFpc77XJJwx0uyU9xtK1jWXx12nI=;
- b=bStk72WLi/huwW38Axr1Nf/a2pr19lm8C9jJNkFdlMdAPNHKbv2EH/WuRH5Mfiqkex4jwgxfq1F17BEfUE7E8BPA4CALyf4NG+VtSLrCcayx7rDQm8/+3xmb9nicIe6nKm+MWysJ5HeR4JwRjy4BoR9dnGfDK0EzCFnFbMzLCr+5nB4nYvIylfQg7Q/pZ1rExOkdYkmqpBLR5QZAr+m6ZCd/kecg80qZ66tgskg2h73b+X2CDJsfF9AN6Nsn1kl/0rEveHx7+c6+iApD+0vMXEipHmjfZOagJdtbMVm5CHOaVhGVYIDB9j1UN4sSYDylc1TUuBmnD5llf1A07/A7gw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MN0PR11MB5987.namprd11.prod.outlook.com (2603:10b6:208:372::8)
- by PH7PR11MB7452.namprd11.prod.outlook.com (2603:10b6:510:27d::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Mon, 9 Jan
- 2023 15:10:20 +0000
-Received: from MN0PR11MB5987.namprd11.prod.outlook.com
- ([fe80::1c42:3e93:5a97:a280]) by MN0PR11MB5987.namprd11.prod.outlook.com
- ([fe80::1c42:3e93:5a97:a280%6]) with mapi id 15.20.5986.018; Mon, 9 Jan 2023
- 15:10:20 +0000
-From: "Greenman, Gregory" <gregory.greenman@intel.com>
-List-Id: <linux-firmware.lore.kernel.org>
-To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-CC: "Hutchings, Ben" <ben@decadent.org.uk>, "kyle@infradead.org"
-	<kyle@infradead.org>, "linux-wireless@vger.kernel.org"
-	<linux-wireless@vger.kernel.org>, "Ben Ami, Golan" <golan.ben.ami@intel.com>,
-	"jwboyer@kernel.org" <jwboyer@kernel.org>, "Yang, You-Sheng"
-	<vicamo.yang@canonical.com>
-Subject: pull request: iwlwifi firmware updates 2023-01-09 - fixed version
-Thread-Topic: pull request: iwlwifi firmware updates 2023-01-09 - fixed
- version
-Thread-Index: AQHZJDx9yxVqNUo7U0iQDc5R1/tkyA==
-Date: Mon, 9 Jan 2023 15:10:20 +0000
-Message-ID: <60ea573bd4cd000d8576eb510492c55449461457.camel@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Evolution 3.42.4 (3.42.4-2.fc35) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN0PR11MB5987:EE_|PH7PR11MB7452:EE_
-x-ms-office365-filtering-correlation-id: 8d346af7-d9a0-409c-2548-08daf2539fcf
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: xssNS5oTko3UXPucKJeDJ0ukga1zKtJSFvHADil4yx1cHwIBiFdBO+KT6G7xFYlF5q/9yT/JVDFoTH/2QvAJm2bKaDLAN68swcilPFdsBvFQQ4fOgG9rdhxAhtYwDoLMAIBeZbegppz/Rcu6936ynYTDL+QECRVDCR5b4xdu0BxsfA7Ugl6Q+od51e1LfUnWFauhGgKzzphM8hZw87063nEYp0lJQueGgvT6GgS5UZt9kQoSv8J0XFmHlqGb1s/xFJIy0ANp9Hqg/Lk0TTNhFhraNYAm5MlUPjgm1hssQ6+6sq/jg6JwbhXP0hJOU4YkO3uFB1tcPC3NUU5DH0lEKvwGoO+j+oXOhYwCiGPpfvR0Snt27CydxdIB5fD5hc6zFqlYZXyWWWwPPTogHFXyEbaSfkgGBsLWA3EhrvHJobGMraR4MiVdO9vXQeuebJI/0Zc7Q3Afj72GQ79J9qz8c+BD7t4ml+QhbhbRLiDOPaarx8y69FgOpNXGQ94P6NcxnuYn8l/HaFvrGjevlbUw8HywBPfMfA4m8Tgao/S2PaW1YKBLeiRW/qU1bu3PRsLWG28LxrQf2bitpO53L9FXzF/eaZENoV+9owp/O1ci6xsnk1r0/ju4Kpup8id1/VH2yCRAS4ZvMU5ZSVYQ0ZBUQlR0/4RXu2BZAZc3YdTZcKzM3+qp+8qgGSaozSW4A22OXbXz/bu0FVkKcY0utG23yq0ils8xhWfo0nlgoC4zgJ8=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB5987.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(376002)(39860400002)(136003)(346002)(366004)(396003)(451199015)(2906002)(83380400001)(15650500001)(54906003)(2616005)(66476007)(66446008)(66556008)(64756008)(5660300002)(66946007)(26005)(186003)(36756003)(122000001)(8936002)(6506007)(6512007)(82960400001)(478600001)(76116006)(38100700002)(8676002)(41300700001)(6486002)(86362001)(38070700005)(966005)(19627235002)(6916009)(4326008)(91956017)(316002)(71200400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NmJiSmtpdUthR0J3cTZCeXROZGNEV0VGZVd0aVdNZ2xoZ3NqU3NTdjJPQ0Zv?=
- =?utf-8?B?UmliZTJZenVPMFJ4WndZUzd6SUVLOXlwV2s0Y2pLVkRxWEQ0M3dqWm1WeVAx?=
- =?utf-8?B?ZTFnaGZvbmJMZjhWbzlCYWpOYW9iMjdDQzNjTWZNcGFIc29uSVNndjJSb2Fw?=
- =?utf-8?B?aHVwWVBERC9Vb3Y1SEVRYW1qV1BqMHNiMm8xeTFhQ3V6dTRBdFVuU0NwTVZX?=
- =?utf-8?B?NndQdUVKNDBmOXFxTXpVUmtGa3ZqSklLcDZPY0tPTnE4Qml5Yk1SVzdQYmlI?=
- =?utf-8?B?SDVvL2Q0cHJDZUFxMm1GNENNNEJwWlN4bWdLejVTeSs3K1QyOVFWcDU1Z1hh?=
- =?utf-8?B?NVJJTFkxdDVtZkVvY0FoSWFiRW1TVDM5L2o0V3NIM1YxTk9WY1pHem5UbGU0?=
- =?utf-8?B?eVhXUExJUW1tQWF0Q05QRVpZMU1qTlpYY2VqRVBlUHpHbENoaWhiU1o3enhE?=
- =?utf-8?B?Zlk2RmphbnJob2NRUnJCbkpzTUR4bURwbWxHZjVTRytGNnJ1VDFwSTJYMkpo?=
- =?utf-8?B?WjVFa1FGQ3E1OC9VaHdjcUhpU0tzUW45cW4vOXI3bEdmcGJZYTczWTVCZDhL?=
- =?utf-8?B?VFlnb2JnVERpYXcvY3JyMUxJV3lobDBOaXNNV1dxSWpXUVhqY0pPUDN6bEkz?=
- =?utf-8?B?RllnKzVQSGRkdnBEeEVyWGo2V3d4V3BQVzBCSk5NWXA0Y0lwamxCVXAyZmd5?=
- =?utf-8?B?SkExc3Rzd2EyV1NRRHorcElhSnlkSHBjcEkyTWRVWHFoY0JlNjg1WGtXaWZs?=
- =?utf-8?B?ZHB6dEhoZGIvQ2J0bEZmTGhuNWoxQzVXMTZMMytwZGthT3pocjkydTZGQS8x?=
- =?utf-8?B?UHJ6d1poK1ZJdHdBUEVnVm0xZlZ4OVJtbWtLU3FZY0xsUTBDT0lSVkEzVmdW?=
- =?utf-8?B?ZktHK3duUkc4eHNEUzZoYTl3OUVzZEo1TEFQOFc0RitFYVcvZzczY3ZoejRK?=
- =?utf-8?B?ellmR1hUdnBWZzJqRFlybHNOem1iOHVJVlVoWXE1VHBpVmFvODFpV1UyT3NQ?=
- =?utf-8?B?cldNZ3dSY05KTEdaQlBmOGsrbGtsajc5YWdHMXpBR2lCaEx6T2Q1VGdrOGxQ?=
- =?utf-8?B?dUl2R1kwT3pQTGI5ckFnSjQ3UmJMSFZRSXJma2VZRzFlYWVTck80UTMxaEd6?=
- =?utf-8?B?V2M4K2xRaVB3ZEtlUVdwMHdIUTBQVGNHd1hLMHB2T2xuTFlHRG1DQ2NVV2hV?=
- =?utf-8?B?ZHhHZHNmTVRFRk9CREFHM1lGU0ttQkNTYzZPRjhFbzBnVHp6clplN0ZXdUM4?=
- =?utf-8?B?MUVDemhUMStaY0dXTUxQckMvTzRBbTFuSEdJTkdWc1VkSFl4NnArU3VxaWpE?=
- =?utf-8?B?RXplTHV1dStvVUpWM2M4aS90dW9UM1EzQUJ5bVJxdWtrczR1NitXRVE3WE5p?=
- =?utf-8?B?VGFSckZubHhQZFNyNmlIdTVuZml3bmpsamswWk1FSXBWWDZmWDJabXRxdG9r?=
- =?utf-8?B?dGFRZXo0WDFMTHlWbUZzbGpTbDIxS285YzZ6QXBPSFRHdnNiQ0pic2Y3Zm1M?=
- =?utf-8?B?SG9zbTNKRVFmMWtPZ0JmYy9PdEVKamQxYWZMRHpTSDZ4UDQySGhYblhFemN5?=
- =?utf-8?B?ciswOUc1WmRNdFUyWmFBayt3U1RSQVVjL25lOG1ickdjcS9mWVBObks0eFVF?=
- =?utf-8?B?bkJ6aGRwWTlodUExaCtPZVQ0T2pBaHpJcmdyc1pUTGNoUFk5YUxkak40cG42?=
- =?utf-8?B?WERnV014Q3JhM2lJcXlrVy9SMndUS3czVjZRK0xFd3ovNHEzbjZ5U1JnSVh4?=
- =?utf-8?B?d0ZObVZPS21IYWN4OWtZdkQ0M280eWIxYnVWR214RVloUW9tTUpYaGMvUDVp?=
- =?utf-8?B?NEduOWlrbVkyK0VTbTZBOFdaL0dYeUp1UXIxLzVUVnk3ZzRHMDJZWVd3RWow?=
- =?utf-8?B?R01zYnNaV0lseDhCR1JySFR1dUxVd0FoMFRzZ3VYTUJaaUhydFl5UDBtOGFZ?=
- =?utf-8?B?RWh1eGdkaTZuNTNaU1pDckhFMHRyNnNaQ0lvT1B1VSsralBmbFIwNUZLSnB2?=
- =?utf-8?B?MzQ4dDVKa083a1AySnF1NDFQa0tVcVRhY3I1MTU4RjlXRVlyeVRHRWxXZ0F0?=
- =?utf-8?B?bzU2aFlyVFVRM1BIakNBS1JNSy9KRHprU0g1aWVmMlpXcFB6SEd1VUl0alJF?=
- =?utf-8?B?OVFKNFB3S29GSkoxS01BN0FjbDgvOGE2TGovQVd6NnRzVkNVeFdRb0VMckw2?=
- =?utf-8?Q?rEh77mPhaiW1fUkDOP1WbdI=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <463723B1630FD549AB8D46EBC6FC822D@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	id 1239FC4339B; Mon,  9 Jan 2023 15:35:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEEB6C433F2
+	for <linux-firmware@kernel.org>; Mon,  9 Jan 2023 15:35:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1673278517;
+	bh=TtW047ugLa/sfKcv3Mz/eo+41Ia/9arzRBJUDWDsdVw=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=OEZsnV6mt8aMof7Ct5/ftkB6Jf2tCIILi/Ic3m3X7E70FJg74hyAA/jD9lR/rn6mP
+	 ko4KAdDgV3oHZJ4WmGBIRokRwAEhmFS1xVUl84CsXqT8z1ZeKFjLohfF89MIzVKWsf
+	 jQCu/PapKeeHmVUH017cI1dE9H7/UlQVwkrhtqc8xx+EHVogkmtpNrjD1qTwaKFkWm
+	 Btcroyd94PKQHqaQI3NCJdN7wSyarqca4OuujWWrML6L7oJg8gKymWbDU4EOVK/QF5
+	 Vb2nulSoQnfNsClJ2yRKQxoebCuRpCkXb4TILO8yenyD0yJwNJkJRg8pZDyUN5gkCr
+	 C46DqCFNPcQtQ==
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-4c7d35b37e2so61254617b3.2
+        for <linux-firmware@kernel.org>; Mon, 09 Jan 2023 07:35:16 -0800 (PST)
+X-Gm-Message-State: AFqh2koaSbL5KIsqQ21QNfTV9r6NapLcYCZBgj22lFZJrjB1+VgA8rli
+	SxZWvgwbE6TEIE2iJrhVteDBiR29JAR7/O9cWxU=
+X-Google-Smtp-Source: AMrXdXv99cso/HA2rtQvIOH9xBlRA6qyC2V/eZvDQ8E8V99apstaW1PHDzwE1xZSeJNsKearRPk91hE79flqp7LJY9M=
+X-Received: by 2002:a0d:c2c1:0:b0:4ad:5c08:7e67 with SMTP id
+ e184-20020a0dc2c1000000b004ad5c087e67mr3133586ywd.75.1673278515935; Mon, 09
+ Jan 2023 07:35:15 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB5987.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d346af7-d9a0-409c-2548-08daf2539fcf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jan 2023 15:10:20.3081
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ERjBDPl/DNppluttI8D3EPu63OFAMYhh714bzcoLtrgCe4SoVwdslcYfxXMnD4TIRBn7hwdt3/pzo4WVHAvaI1kMdc2EAaO3Zh8UwHObDZk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7452
-X-OriginatorOrg: intel.com
+References: <60ea573bd4cd000d8576eb510492c55449461457.camel@intel.com>
+In-Reply-To: <60ea573bd4cd000d8576eb510492c55449461457.camel@intel.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Mon, 9 Jan 2023 10:35:05 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA7vUWsoDZEzuky+wekDaSvw-9Tg=nhi5VSqEeBEsjoO_A@mail.gmail.com>
+Message-ID: <CA+5PVA7vUWsoDZEzuky+wekDaSvw-9Tg=nhi5VSqEeBEsjoO_A@mail.gmail.com>
+Subject: Re: pull request: iwlwifi firmware updates 2023-01-09 - fixed version
+To: "Greenman, Gregory" <gregory.greenman@intel.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, "Hutchings, Ben" <ben@decadent.org.uk>, 
+	"kyle@infradead.org" <kyle@infradead.org>, 
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, "Ben Ami, Golan" <golan.ben.ami@intel.com>, 
+	"Yang, You-Sheng" <vicamo.yang@canonical.com>
+Content-Type: text/plain; charset="UTF-8"
 
-SGksDQoNClRoaXMgaXMgdGhlIGZpeGVkIHZlcnNpb24gb2YgdGhlIHB1bGwgcmVxdWVzdCB3aGVy
-ZSBJIG1pc3NlZCBvbmUgZmlybXdhcmUgZmlsZS4NCg0KSXQgY29udGFpbnMgc29tZSBuZXcgZmly
-bXdhcmVzIGZvciBhbGwgb3VyIGN1cnJlbnRseSBtYWludGFpbmVkIEZXIGJpbmFyaWVzLg0KUGxl
-YXNlIHB1bGwgb3IgbGV0IG1lIGtub3cgaWYgdGhlcmUgYXJlIGFueSBpc3N1ZXMuDQoNCg0KLS0N
-ClRoYW5rcywNCkdyZWdvcnkNCg0KVGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCA1
-MDRiNjkxMTdiMGE2OTk1MjMwZTBiNzcwMGVmOGEzZTc4YWNmYzU3Og0KDQogIGFtZGdwdTogdXBk
-YXRlIHJlbm9pciBETUNVQiBmaXJtd2FyZSAoMjAyMy0wMS0wOSAwOToxMzowNSAtMDUwMCkNCg0K
-YXJlIGF2YWlsYWJsZSBpbiB0aGUgR2l0IHJlcG9zaXRvcnkgYXQ6DQoNCiAgaHR0cDovL2dpdC5r
-ZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9pd2x3aWZpL2xpbnV4LWZpcm13YXJl
-LmdpdCB0YWdzL2l3bHdpZmktZnctMjAyMy0wMS0wOQ0KDQpmb3IgeW91IHRvIGZldGNoIGNoYW5n
-ZXMgdXAgdG8gYzhmZjFmNDY1MWEwYTFhN2I5NzIwZTk2MzVhMmIxOWFhMjMxOWRmMToNCg0KICBp
-d2x3aWZpOiBhZGQgbmV3IEZXcyBmcm9tIGNvcmU3Ni0zNSByZWxlYXNlICgyMDIzLTAxLTA5IDE2
-OjUwOjI5ICswMjAwKQ0KDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQpGaXJtd2FyZSB1cGRhdGVzIGZvciBpd2x3aWZpOg0K
-DQoqIHVwZGF0ZXMgZm9yIDkwMDAtZmFtaWx5DQoqIGFkZCBuZXcgZmlybXdhcmVzICh0eS9zbykg
-ZnJvbSByZWxlYXNlIGNvcmU3NS00Nw0KKiB1cGRhdGUgY2MvUXUvUXVaIGZpcm13YXJlcyBmcm9t
-IGNvcmU3Ni0zNQ0KKiBhZGQgbmV3IEZXcyAodHkvc28pIGZyb20gY29yZTc2LTM1DQoNCi0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0NCkdyZWdvcnkgR3JlZW5tYW4gKDQpOg0KICAgICAgaXdsd2lmaTogdXBkYXRlIDkwMDAtZmFt
-aWx5IGZpcm13YXJlcyB0byBjb3JlNzUtNDcNCiAgICAgIGl3bHdpZmk6IGFkZCBuZXcgRldzIGZy
-b20gY29yZTc1LTQ3IHJlbGVhc2UNCiAgICAgIGl3bHdpZmk6IHVwZGF0ZSBjYy9RdS9RdVogZmly
-bXdhcmVzIGZvciBjb3JlNzYtMzUgcmVsZWFzZQ0KICAgICAgaXdsd2lmaTogYWRkIG5ldyBGV3Mg
-ZnJvbSBjb3JlNzYtMzUgcmVsZWFzZQ0KDQogV0hFTkNFICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIHwgIDM3ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0NCiBpd2x3aWZp
-LTkwMDAtcHUtYjAtamYtYjAtNDYudWNvZGUgfCBCaW4gMTUxODc4OCAtPiAxNTE4Nzg4IGJ5dGVz
-DQogaXdsd2lmaS05MjYwLXRoLWIwLWpmLWIwLTQ2LnVjb2RlIHwgQmluIDE0ODk2NjggLT4gMTQ4
-OTY2OCBieXRlcw0KIGl3bHdpZmktUXUtYjAtaHItYjAtNzcudWNvZGUgICAgICB8IEJpbiAxNDA3
-NzM2IC0+IDE0MDQwNDggYnl0ZXMNCiBpd2x3aWZpLVF1LWIwLWpmLWIwLTc3LnVjb2RlICAgICAg
-fCBCaW4gMTMyNTUwMCAtPiAxMzIxNzIwIGJ5dGVzDQogaXdsd2lmaS1RdS1jMC1oci1iMC03Ny51
-Y29kZSAgICAgIHwgQmluIDE0MDc3NTIgLT4gMTQwNDA2NCBieXRlcw0KIGl3bHdpZmktUXUtYzAt
-amYtYjAtNzcudWNvZGUgICAgICB8IEJpbiAxMzI1NTE2IC0+IDEzMjE3MzYgYnl0ZXMNCiBpd2x3
-aWZpLVF1Wi1hMC1oci1iMC03Ny51Y29kZSAgICAgfCBCaW4gMTQwNjc1NiAtPiAxNDA0MTg0IGJ5
-dGVzDQogaXdsd2lmaS1jYy1hMC03Ny51Y29kZSAgICAgICAgICAgIHwgQmluIDEzNjkxOTIgLT4g
-MTM2NTQ4NCBieXRlcw0KIGl3bHdpZmktc28tYTAtZ2YtYTAtNzgudWNvZGUgICAgICB8IEJpbiAw
-IC0+IDE2NjcyMzYgYnl0ZXMNCiBpd2x3aWZpLXNvLWEwLWdmLWEwLTc5LnVjb2RlICAgICAgfCBC
-aW4gMCAtPiAxNjcyOTg4IGJ5dGVzDQogaXdsd2lmaS1zby1hMC1nZi1hMC5wbnZtICAgICAgICAg
-IHwgQmluIDQyMDkyIC0+IDU2MDQ4IGJ5dGVzDQogaXdsd2lmaS1zby1hMC1nZjQtYTAtNzgudWNv
-ZGUgICAgIHwgQmluIDAgLT4gMTcxMTEwMCBieXRlcw0KIGl3bHdpZmktc28tYTAtZ2Y0LWEwLTc5
-LnVjb2RlICAgICB8IEJpbiAwIC0+IDE3MTI3NzYgYnl0ZXMNCiBpd2x3aWZpLXNvLWEwLWdmNC1h
-MC5wbnZtICAgICAgICAgfCBCaW4gMjgyNTIgLT4gMjgyNTIgYnl0ZXMNCiBpd2x3aWZpLXNvLWEw
-LWhyLWIwLTc5LnVjb2RlICAgICAgfCBCaW4gMCAtPiAxNTE3MTQ4IGJ5dGVzDQogaXdsd2lmaS10
-eS1hMC1nZi1hMC03OC51Y29kZSAgICAgIHwgQmluIDAgLT4gMTYyMDAwNCBieXRlcw0KIGl3bHdp
-ZmktdHktYTAtZ2YtYTAtNzkudWNvZGUgICAgICB8IEJpbiAwIC0+IDE2MjA3MDQgYnl0ZXMNCiBp
-d2x3aWZpLXR5LWEwLWdmLWEwLnBudm0gICAgICAgICAgfCBCaW4gNDE4NzYgLT4gNDE4NzYgYnl0
-ZXMNCiAxOSBmaWxlcyBjaGFuZ2VkLCAyOSBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQ0K
-IGNyZWF0ZSBtb2RlIDEwMDY0NCBpd2x3aWZpLXNvLWEwLWdmLWEwLTc4LnVjb2RlDQogY3JlYXRl
-IG1vZGUgMTAwNjQ0IGl3bHdpZmktc28tYTAtZ2YtYTAtNzkudWNvZGUNCiBjcmVhdGUgbW9kZSAx
-MDA2NDQgaXdsd2lmaS1zby1hMC1nZjQtYTAtNzgudWNvZGUNCiBjcmVhdGUgbW9kZSAxMDA2NDQg
-aXdsd2lmaS1zby1hMC1nZjQtYTAtNzkudWNvZGUNCiBjcmVhdGUgbW9kZSAxMDA2NDQgaXdsd2lm
-aS1zby1hMC1oci1iMC03OS51Y29kZQ0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBpd2x3aWZpLXR5LWEw
-LWdmLWEwLTc4LnVjb2RlDQogY3JlYXRlIG1vZGUgMTAwNjQ0IGl3bHdpZmktdHktYTAtZ2YtYTAt
-NzkudWNvZGUNCg==
+On Mon, Jan 9, 2023 at 10:13 AM Greenman, Gregory
+<gregory.greenman@intel.com> wrote:
+>
+> Hi,
+>
+> This is the fixed version of the pull request where I missed one firmware file.
+>
+> It contains some new firmwares for all our currently maintained FW binaries.
+> Please pull or let me know if there are any issues.
+>
+>
+> --
+> Thanks,
+> Gregory
+>
+> The following changes since commit 504b69117b0a6995230e0b7700ef8a3e78acfc57:
+>
+>   amdgpu: update renoir DMCUB firmware (2023-01-09 09:13:05 -0500)
+>
+> are available in the Git repository at:
+>
+>   http://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.git tags/iwlwifi-fw-2023-01-09
+
+Thanks.  Pulled and pushed out.
+
+josh
+
+>
+> for you to fetch changes up to c8ff1f4651a0a1a7b9720e9635a2b19aa2319df1:
+>
+>   iwlwifi: add new FWs from core76-35 release (2023-01-09 16:50:29 +0200)
+>
+> ----------------------------------------------------------------
+> Firmware updates for iwlwifi:
+>
+> * updates for 9000-family
+> * add new firmwares (ty/so) from release core75-47
+> * update cc/Qu/QuZ firmwares from core76-35
+> * add new FWs (ty/so) from core76-35
+>
+> ----------------------------------------------------------------
+> Gregory Greenman (4):
+>       iwlwifi: update 9000-family firmwares to core75-47
+>       iwlwifi: add new FWs from core75-47 release
+>       iwlwifi: update cc/Qu/QuZ firmwares for core76-35 release
+>       iwlwifi: add new FWs from core76-35 release
+>
+>  WHENCE                            |  37 +++++++++++++++++++++++++++++--------
+>  iwlwifi-9000-pu-b0-jf-b0-46.ucode | Bin 1518788 -> 1518788 bytes
+>  iwlwifi-9260-th-b0-jf-b0-46.ucode | Bin 1489668 -> 1489668 bytes
+>  iwlwifi-Qu-b0-hr-b0-77.ucode      | Bin 1407736 -> 1404048 bytes
+>  iwlwifi-Qu-b0-jf-b0-77.ucode      | Bin 1325500 -> 1321720 bytes
+>  iwlwifi-Qu-c0-hr-b0-77.ucode      | Bin 1407752 -> 1404064 bytes
+>  iwlwifi-Qu-c0-jf-b0-77.ucode      | Bin 1325516 -> 1321736 bytes
+>  iwlwifi-QuZ-a0-hr-b0-77.ucode     | Bin 1406756 -> 1404184 bytes
+>  iwlwifi-cc-a0-77.ucode            | Bin 1369192 -> 1365484 bytes
+>  iwlwifi-so-a0-gf-a0-78.ucode      | Bin 0 -> 1667236 bytes
+>  iwlwifi-so-a0-gf-a0-79.ucode      | Bin 0 -> 1672988 bytes
+>  iwlwifi-so-a0-gf-a0.pnvm          | Bin 42092 -> 56048 bytes
+>  iwlwifi-so-a0-gf4-a0-78.ucode     | Bin 0 -> 1711100 bytes
+>  iwlwifi-so-a0-gf4-a0-79.ucode     | Bin 0 -> 1712776 bytes
+>  iwlwifi-so-a0-gf4-a0.pnvm         | Bin 28252 -> 28252 bytes
+>  iwlwifi-so-a0-hr-b0-79.ucode      | Bin 0 -> 1517148 bytes
+>  iwlwifi-ty-a0-gf-a0-78.ucode      | Bin 0 -> 1620004 bytes
+>  iwlwifi-ty-a0-gf-a0-79.ucode      | Bin 0 -> 1620704 bytes
+>  iwlwifi-ty-a0-gf-a0.pnvm          | Bin 41876 -> 41876 bytes
+>  19 files changed, 29 insertions(+), 8 deletions(-)
+>  create mode 100644 iwlwifi-so-a0-gf-a0-78.ucode
+>  create mode 100644 iwlwifi-so-a0-gf-a0-79.ucode
+>  create mode 100644 iwlwifi-so-a0-gf4-a0-78.ucode
+>  create mode 100644 iwlwifi-so-a0-gf4-a0-79.ucode
+>  create mode 100644 iwlwifi-so-a0-hr-b0-79.ucode
+>  create mode 100644 iwlwifi-ty-a0-gf-a0-78.ucode
+>  create mode 100644 iwlwifi-ty-a0-gf-a0-79.ucode
