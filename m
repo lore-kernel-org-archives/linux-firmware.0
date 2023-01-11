@@ -1,235 +1,115 @@
-Return-Path: <SRS0=XpGd=5I=linaro.org=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=eb+M=5I=winglobalreport.com=james.ur@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3EF3C5479D
-	for <linux-firmware@archiver.kernel.org>; Wed, 11 Jan 2023 15:17:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5CC13C5479D
+	for <linux-firmware@archiver.kernel.org>; Wed, 11 Jan 2023 15:19:48 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C2D32C433F0; Wed, 11 Jan 2023 15:17:28 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	id 20AAFC433D2; Wed, 11 Jan 2023 15:19:48 +0000 (UTC)
+Received: from mail-177144.yeah.net (mail-177144.yeah.net [123.58.177.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 56062C433D2
-	for <linux-firmware@kernel.org>; Wed, 11 Jan 2023 15:17:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 56062C433D2
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f47.google.com with SMTP id y25so24010409lfa.9
-        for <linux-firmware@kernel.org>; Wed, 11 Jan 2023 07:17:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wlgknWCIjS2RR5Tk0iFRYYkOPXhOBgXLv/7zm5r7H2U=;
-        b=he0qnGXX/gKyYnMgoZJzJmy66F5WVTbq3SQ9oR4dw5KsvUdQoFuPKXrJ7rwqZmzyOU
-         jv+krUdI0VmZbDJ6lvrfn+GEfMPJcEKCpf9eqnNubDjWbhNvY1ijXPIOnRQgd4VAJobt
-         /0/quEPnCPiWbkVD6iXz9JAGwYUTsH4Ub61KDY7zYA+9K6+jfkxtc1REfMCLAHpgoAvu
-         Xda4Ewt05iyFVvPe8mFZXHPQxh6FGGL/Gf5At9yWelrs0xF9Ij3UK0+y3L6vORRjHpkN
-         huYivfvEnCXoF/agz+T4S8BsQDz1/lN0nXJONbejoJsFfVghWZ2yXQKgxgtnbmMFz/Q8
-         wWSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wlgknWCIjS2RR5Tk0iFRYYkOPXhOBgXLv/7zm5r7H2U=;
-        b=NcZ3G3MiCZLoguZRWQXpQ+vGexeFF0FlDRKcR79MB6rdeG9uCtgJempeOqNjsxi0Y+
-         TpE48sslAg5em8K8GtWUN/A+SH54EYsWRoY7s8sonaSKll3D6wjuJOzz9tFecaAnh4cP
-         daeq9xZ/rko14BAXRawvuzgYt0jl+lF3c7vK1BZfH0jqteBJE+lP4JbTRthAwuX2wHwi
-         mI2o2rkroZ7mkfLMFGkz3OG8uQZHrOmGYdJNMwwSiQmdmQ2LRkYEtox5UWiJBrvpvLDU
-         kQUUUtcU/+GHpF7hwJA5U0C2HSOfWnbJ3wcznE5aXXdK5+MW4nogAtVjtl9ljAfqQF5r
-         MSjQ==
-X-Gm-Message-State: AFqh2krc+rSGeOF68Jmbl2QjqxKpid+O94h0pkmSfYPbgks/Q2L9Di6N
-	oC6gfP5zW4JjM7AHNDd1C2mD8Q==
-X-Google-Smtp-Source: AMrXdXutD2xSrylsaUlXCvvwGEgt4CuoSkD+OPBYrqJw+ac7wkB7w1VQ9LWFLSOloVxJAXdPv5yLtw==
-X-Received: by 2002:ac2:4f0c:0:b0:4cb:43ea:bd9 with SMTP id k12-20020ac24f0c000000b004cb43ea0bd9mr8119305lfr.18.1673450245412;
-        Wed, 11 Jan 2023 07:17:25 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5? (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
-        by smtp.gmail.com with ESMTPSA id m15-20020a056512358f00b004cb39d89f40sm2770954lfr.248.2023.01.11.07.17.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Jan 2023 07:17:25 -0800 (PST)
-Message-ID: <d6aa1de2-55c5-c9cd-76f6-d94e91ca4e84@linaro.org>
-Date: Wed, 11 Jan 2023 17:17:24 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] qcom: add firmware files for Adreno A200
-Content-Language: en-GB
-To: Josh Boyer <jwboyer@kernel.org>
+	by smtp.kernel.org (Postfix) with ESMTPS id 0EE72C433EF
+	for <linux-firmware@kernel.org>; Wed, 11 Jan 2023 15:19:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 0EE72C433EF
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=winglobalreport.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=winglobalreport.com
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, Rob Clark <robdclark@gmail.com>,
- Jonathan Marek <jonathan@marek.ca>, Fabio Estevam <festevam@gmail.com>
-References: <20230102131443.905304-1-dmitry.baryshkov@linaro.org>
- <CA+5PVA5ZXLZM=iVvr9tMSGeRbRLgzuODt4bkt+ZvMnzF50MU3w@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <CA+5PVA5ZXLZM=iVvr9tMSGeRbRLgzuODt4bkt+ZvMnzF50MU3w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: linux-firmware@kernel.org<linux-firmware@kernel.org>
+Received: from winglobalreport.com (localhost [127.0.0.1])
+	by mail-m12790.qiye.163.com (Hmail) with ESMTP id 2FA9C20A57;
+	Wed, 11 Jan 2023 23:18:51 +0800 (CST)
+Content-Type: multipart/alternative; BOUNDARY="=_Part_26097_2087287275.1673450331188"
+Message-ID: <ABAAiQDLFZXtG35absnr2aov.1.1673450331188.Hmail.james.ur@winglobalreport.com>
+Subject: =?UTF-8?B?QWxreWwgUG9seWdseWNvc2lkZSBUcmVuZHMgYW5kIE9wcG9ydHVuaXRpZXMgRm9yIFlvdQ==?=
+X-Priority: 3
+X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com MailMasterPC\4.17.9.1009 Win7
+X-Originating-IP: 111.148.0.199
+MIME-Version: 1.0
+Received: from james.ur@winglobalreport.com( [111.148.0.199) ] by ajax-webmail ( [127.0.0.1] ) ; Wed, 11 Jan 2023 23:18:51 +0800 (GMT+08:00)
+From: Leslie <james.ur@winglobalreport.com>
+Date: Wed, 11 Jan 2023 23:18:51 +0800 (GMT+08:00)
+X-HM-NTES-SC: AL0_4z5B86Wr4Tz9jdMF+bhXMZDZxYsjsbl+ceKqKgAbKJBqlvSz3/r83nb1VXxuaGv0jCx7vwZyEYljiKD5rY/m81XqCPn8AlwZKJzK5eV1RbQJZjMCy6mNNp2dn89OrY9km/blWSTaIYgJVDHRanndAQ==
+X-HM-Spam-Status: e1kfGhgUHx5ZQUhXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDSB4aVkkZTElOGhpMS08ZTVUTARMWGhIXJBQOD1
+	lXWRgSC1lBWUpKSlVKT0NVS1VKQkJZV1kWGg8SFR0UWUFZT0tIVUpKS09IT1VPVUtZBg++
+X-HM-Sender-Digest: e1kMHhlZQQ8JDh5XWRIfHhUPWUFZRzo5OjoSKj83PSEjDzxIThoZCBUJ
+	SRoUDVVKVUpNTEhPTktISElLTktVMxYaEhdVERoWHghVDgk7DBIVHBcUGRoXCR4LFAkPVRgUFkVZ
+	V1kUFR4JGAsPWUFKV1kSC1lBWUpKSlVKT0NVS1VKQkJZV1kIAVlBSE9JTkk3Bg++
+X-HM-Tid: 0a85a1699ad3b261kuuu1859bc86ec1
 
-On 11/01/2023 14:51, Josh Boyer wrote:
-> On Mon, Jan 2, 2023 at 8:14 AM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
->>
->> Add firmware files for Adreno A20x (codenamed yamato), found in
->> Freescale i.MX51/i.MX53 and in some prehistoric Qualcomm Snapdragon
->> SoCs.
->>
->> The firmware were generated from the header files from EfikaMX kernel
->> sources ([1]), which bear copyright by QUALCOMM Incorporated and have
->> BSD-3-Clause licence.
-> 
-> How did you generate it?
+--=_Part_26097_2087287275.1673450331188
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-I hope you don't mind putting the program here.
+CgpIaSEKCkkgaG9wZSBldmVyeXRoaW5nIGdvZXMgd2VsbCB3aXRoIHlvdS4KCldlIHB1Ymxpc2hl
+ZCBBIE1hcmtldCBSZXBvcnQgb24gQWxreWwgUG9seWdseWNvc2lkZSAyMDIzIGZvciB5b3UgYW5k
+IHlvdXIgY29tcGV0aXRvcnMuIFRoZSBpbXBhY3Qgb2YgdGhlICJSdXNzaWEgYW5kIFVrcmFpbmUi
+IFNpdHVhdGlvbiBhbmQgIkNvdmlkIiBoYXMgYmVlbiBjb25zaWRlcmVkIGluIG91ciByZXBvcnQu
+IElmIHlvdSBoYXZlIGZ1cnRoZXIgaW50ZXJlc3QgaW4gdGhpcyByZXBvcnQgb3IgcmVsYXRlZCBy
+ZXBvcnRzLCB3ZSB3b3VsZCBiZSBoYXBweSB0byBzaGFyZSB0aGUgc2FtcGxlIHJlcG9ydCB3aXRo
+IHlvdS4KClRoZSBmb2xsb3dpbmcgcmVsYXRlZCBjb21wYW5pZXMgYXJlIGNvdmVyZWQ6CkJBU0YK
+RHVQb250CkFrem8gTm9iZWwKU2VwcGljCkthbwpDUk9EQQpMRyBIb3VzZWhvbGQgJiBIZWFsdGgg
+Q2FyZQpTaGFuZ2hhaSBGaW5lIENoZW1pY2FsCllhbmd6aG91IENoZW5odWEKWWl4aW5nIEppbmxh
+biBDaGVtaWNhbApGZW5jaGVtCkh1Z28gTmV3IE1hdGVyaWFscwpKaWFuZ1N1IFdhblFpCihPdGhl
+ciByZWxhdGVkIGNvbXBhbmllcyBJbmZvcm1hdGlvbuKApuKApikKClRoaXMgcmVwb3J0IGFuYWx5
+emVzIGFuZCBzdHVkaWVzIHRoZSBzYWxlcywgdmFsdWUsIHJldmVudWUsIG1hcmtldCBzaGFyZSBh
+bmQgb3RoZXIgYXNwZWN0cyBvZiBBbGt5bCBQb2x5Z2x5Y29zaWRlLiBJdCBhbHNvIGluY2x1ZGVz
+IHRoZSBtYXJrZXQgcG90ZW50aWFsIGFuZCBhZHZhbnRhZ2VzLCBvcHBvcnR1bml0aWVzIGFuZCBj
+aGFsbGVuZ2VzLCBjb25zdHJhaW50cyBhbmQgcmlza3MgaW4gdGhlIHdvcmxkIGFuZCBrZXkgcmVn
+aW9ucy4KCkZvciBtb3JlIGluZm9ybWF0aW9uLCBwbGVhc2UgZmVlbCBmcmVlIHRvIGNvbnRhY3Qg
+bWUhCgotLS0tLS0tLS0tLS0tLS0tLS0tCllvdXJzIHNpbmNlcmVseQpMZXNpbGUgfCBNYW5hZ2Vy
+LUdsb2JhbCBTYWxlcwpFOiBsZXNsaWVAd2lubWFya2V0cmVzZWFyY2guY29tCldlY2hhdC9Nb2Jp
+bGU6ICs4Ni0xNTc2NzM4ODE5NAoKCgoKCgoNCg0K
+--=_Part_26097_2087287275.1673450331188
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-// SPDX-License-Identifier: BSD-3-Clause
-/*
-  * Copyright (C) 2022 Linaro Ltd.
-  * Author: Dmitry Baryshkov
-  */
-
-#include <stdio.h>
-#include <stdint.h>
-#include <string.h>
-#include <errno.h>
-#include <unistd.h>
-
-typedef uint32_t uint32;
-
-#include "pm4_microcode.inl"
-#include "pfp_microcode_nrt.inl"
-
-int dump(const char *name, uint32_t *data, size_t n)
-{
-	FILE *f;
-	int ret;
-	uint32_t zero = 0;
-
-	f = fopen(name, "w");
-	if (!f) {
-		fprintf(stderr, "fopen: %s: %s\n", name, strerror(errno));
-		return 1;
-	}
-
-	if (fwrite(&zero, 4, 1, f) != 1) {
-		fprintf(stderr, "error writing data\n");
-		fclose(f);
-		unlink(name);
-		return 1;
-	}
-
-	ret = fwrite(data, 4, n, f);
-	if (ret != n) {
-		fprintf(stderr, "error writing data\n");
-		fclose(f);
-		unlink(name);
-		return 1;
-	}
-
-	fclose(f);
-
-	return 0;
-}
-
-int main(int argc, char **argv)
-{
-
-	if (argc != 3) {
-		fprintf(stderr, "Usage: %s <pfp> <pm4>\n", argv[0]);
-		return 1;
-	}
-
-	if (dump(argv[1], aPFP_Microcode_nrt, PFP_MICROCODE_SIZE_NRT))
-		return 1;
-
-	if (dump(argv[2], &aPM4_Microcode[0][0], PM4_MICROCODE_SIZE * 3))
-		return 1;
-
-	return 0;
-}
-
-
-> 
-> josh
-> 
->> [1] https://github.com/genesi/linux-legacy/tree/master/drivers/mxc/amd-gpu
->>
->> Cc: Rob Clark <robdclark@gmail.com>
->> Cc: Jonathan Marek <jonathan@marek.ca>
->> Cc: Fabio Estevam <festevam@gmail.com>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->>
->> Note: the following patch needs to be applied to get this firmware to
->> work. It is most likely to find its way into the 6.3 kernel.
->>
->> https://lore.kernel.org/dri-devel/20230101155753.779176-1-dmitry.baryshkov@linaro.org/
->>
->> ---
->>   LICENSE.qcom_yamato |  25 +++++++++++++++++++++++++
->>   WHENCE              |  13 +++++++++++++
->>   qcom/yamato_pfp.fw  | Bin 0 -> 1156 bytes
->>   qcom/yamato_pm4.fw  | Bin 0 -> 9220 bytes
->>   4 files changed, 38 insertions(+)
->>   create mode 100644 LICENSE.qcom_yamato
->>   create mode 100644 qcom/yamato_pfp.fw
->>   create mode 100644 qcom/yamato_pm4.fw
->>
->> diff --git a/LICENSE.qcom_yamato b/LICENSE.qcom_yamato
->> new file mode 100644
->> index 000000000000..1fd702bb9264
->> --- /dev/null
->> +++ b/LICENSE.qcom_yamato
->> @@ -0,0 +1,25 @@
->> +Copyright (c) 2008-2011, QUALCOMM Incorporated. All rights reserved.
->> +
->> +Redistribution and use in source and binary forms, with or without
->> +modification, are permitted provided that the following conditions are met:
->> +    * Redistributions of source code must retain the above copyright
->> +      notice, this list of conditions and the following disclaimer.
->> +    * Redistributions in binary form must reproduce the above copyright
->> +      notice, this list of conditions and the following disclaimer in the
->> +      documentation and/or other materials provided with the distribution.
->> +    * Neither the name of QUALCOMM Incorporated nor
->> +      the names of its contributors may be used to endorse or promote
->> +      products derived from this software without specific prior written
->> +      permission.
->> +
->> +THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
->> +AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
->> +IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
->> +ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
->> +LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
->> +CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
->> +SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
->> +INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
->> +CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
->> +ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
->> +POSSIBILITY OF SUCH DAMAGE.
->> diff --git a/WHENCE b/WHENCE
->> index f31fa308cc89..f14730a31368 100644
->> --- a/WHENCE
->> +++ b/WHENCE
->> @@ -5742,6 +5742,19 @@ https://developer.qualcomm.com/hardware/dragonboard-410c/tools
->>
->>   --------------------------------------------------------------------------
->>
->> +Driver: adreno - Qualcomm Adreno GPU firmware
->> +
->> +File: qcom/yamato_pfp.fw
->> +File: qcom/yamato_pm4.fw
->> +
->> +Licence: Redistributable, BSD-3-Clause licence, See LICENSE.qcom_yamato
->> +
->> +Binary files generated from header files in EfikaMX kernel sources. A prefix of
->> +four zero bytes was prepended to make them work with the DRM MSM driver. See
->> +https://github.com/genesi/linux-legacy/tree/master/drivers/mxc/amd-gpu
->> +
-
--- 
-With best wishes
-Dmitry
-
+PGh0bWw+DQo8aGVhZD4NCiAgICA8bWV0YSBodHRwLWVxdWl2PSdDb250ZW50LVR5cGUnIGNvbnRl
+bnQ9J3RleHQvaHRtbDsgY2hhcnNldD1VVEYtOCc+DQo8L2hlYWQ+DQo8Ym9keT4NCjxzdHlsZT4N
+CiAgICBmb250ew0KICAgICAgICBsaW5lLWhlaWdodDogMS42Ow0KICAgIH0NCiAgICB1bCxvbHsN
+CiAgICAgICAgcGFkZGluZy1sZWZ0OiAyMHB4Ow0KICAgICAgICBsaXN0LXN0eWxlLXBvc2l0aW9u
+OiBpbnNpZGU7DQogICAgfQ0KPC9zdHlsZT4NCjxkaXYgc3R5bGUgPSAnZm9udC1mYW1pbHk65b6u
+6L2v6ZuF6buRLFZlcmRhbmEsJnF1b3Q7TWljcm9zb2Z0IFlhaGVpJnF1b3Q7LFNpbVN1bixzYW5z
+LXNlcmlmO2ZvbnQtc2l6ZToxNHB4OyBsaW5lLWhlaWdodDoxLjY7Jz4NCiAgICA8ZGl2ID48ZGl2
+PgogICAgPGRpdj4KICAgICAgICA8c3Bhbj4KICAgICAgICAgICAgPGJyPgogICAgICAgIDwvc3Bh
+bj4KICAgIDwvZGl2PgogICAgPGRpdj4KICAgICAgICA8c3Bhbj5IaSENCiAgICAgICAgPC9zcGFu
+PgogICAgPC9kaXY+PGRpdj48c3Bhbj4NPC9zcGFuPjwvZGl2PjxkaXY+PHNwYW4+SSBob3BlIGV2
+ZXJ5dGhpbmcgZ29lcyB3ZWxsIHdpdGggeW91Lg08L3NwYW4+PC9kaXY+PGRpdj48c3Bhbj4NPC9z
+cGFuPjwvZGl2PjxkaXY+PHNwYW4+V2UgcHVibGlzaGVkIEEgTWFya2V0IFJlcG9ydCBvbiBBbGt5
+bCBQb2x5Z2x5Y29zaWRlIDIwMjMgZm9yIHlvdSBhbmQgeW91ciBjb21wZXRpdG9ycy4gVGhlIGlt
+cGFjdCBvZiB0aGUgIlJ1c3NpYSBhbmQgVWtyYWluZSIgU2l0dWF0aW9uIGFuZCAiQ292aWQiIGhh
+cyBiZWVuIGNvbnNpZGVyZWQgaW4gb3VyIHJlcG9ydC4gSWYgeW91IGhhdmUgZnVydGhlciBpbnRl
+cmVzdCBpbiB0aGlzIHJlcG9ydCBvciByZWxhdGVkIHJlcG9ydHMsIHdlIHdvdWxkIGJlIGhhcHB5
+IHRvIHNoYXJlIHRoZSBzYW1wbGUgcmVwb3J0IHdpdGggeW91Lg08L3NwYW4+PC9kaXY+PGRpdj48
+c3Bhbj4NPC9zcGFuPjwvZGl2PjxkaXY+PHNwYW4+VGhlIGZvbGxvd2luZyByZWxhdGVkIGNvbXBh
+bmllcyBhcmUgY292ZXJlZDoNPC9zcGFuPjwvZGl2PjxkaXY+PHNwYW4+QkFTRg08L3NwYW4+PC9k
+aXY+PGRpdj48c3Bhbj5EdVBvbnQNPC9zcGFuPjwvZGl2PjxkaXY+PHNwYW4+QWt6byBOb2JlbA08
+L3NwYW4+PC9kaXY+PGRpdj48c3Bhbj5TZXBwaWMNPC9zcGFuPjwvZGl2PjxkaXY+PHNwYW4+S2Fv
+DTwvc3Bhbj48L2Rpdj48ZGl2PjxzcGFuPkNST0RBDTwvc3Bhbj48L2Rpdj48ZGl2PjxzcGFuPkxH
+IEhvdXNlaG9sZCAmYW1wOyBIZWFsdGggQ2FyZQ08L3NwYW4+PC9kaXY+PGRpdj48c3Bhbj5TaGFu
+Z2hhaSBGaW5lIENoZW1pY2FsDTwvc3Bhbj48L2Rpdj48ZGl2PjxzcGFuPllhbmd6aG91IENoZW5o
+dWENPC9zcGFuPjwvZGl2PjxkaXY+PHNwYW4+WWl4aW5nIEppbmxhbiBDaGVtaWNhbA08L3NwYW4+
+PC9kaXY+PGRpdj48c3Bhbj5GZW5jaGVtDTwvc3Bhbj48L2Rpdj48ZGl2PjxzcGFuPkh1Z28gTmV3
+IE1hdGVyaWFscw08L3NwYW4+PC9kaXY+PGRpdj48c3Bhbj5KaWFuZ1N1IFdhblFpDTwvc3Bhbj48
+L2Rpdj48ZGl2PjxzcGFuPihPdGhlciByZWxhdGVkIGNvbXBhbmllcyBJbmZvcm1hdGlvbuKApuKA
+pikNPC9zcGFuPjwvZGl2PjxkaXY+PHNwYW4+DTwvc3Bhbj48L2Rpdj48ZGl2PjxzcGFuPlRoaXMg
+cmVwb3J0IGFuYWx5emVzIGFuZCBzdHVkaWVzIHRoZSBzYWxlcywgdmFsdWUsIHJldmVudWUsIG1h
+cmtldCBzaGFyZSBhbmQgb3RoZXIgYXNwZWN0cyBvZiBBbGt5bCBQb2x5Z2x5Y29zaWRlLiBJdCBh
+bHNvIGluY2x1ZGVzIHRoZSBtYXJrZXQgcG90ZW50aWFsIGFuZCBhZHZhbnRhZ2VzLCBvcHBvcnR1
+bml0aWVzIGFuZCBjaGFsbGVuZ2VzLCBjb25zdHJhaW50cyBhbmQgcmlza3MgaW4gdGhlIHdvcmxk
+IGFuZCBrZXkgcmVnaW9ucy4NPC9zcGFuPjwvZGl2PjxkaXY+PHNwYW4+DTwvc3Bhbj48L2Rpdj48
+ZGl2PjxzcGFuPkZvciBtb3JlIGluZm9ybWF0aW9uLCBwbGVhc2UgZmVlbCBmcmVlIHRvIGNvbnRh
+Y3QgbWUhDTwvc3Bhbj48L2Rpdj48ZGl2PjxzcGFuPg08L3NwYW4+PC9kaXY+PGRpdj48c3Bhbj4t
+LS0tLS0tLS0tLS0tLS0tLS0tDTwvc3Bhbj48L2Rpdj48ZGl2PjxzcGFuPllvdXJzIHNpbmNlcmVs
+eQ08L3NwYW4+PC9kaXY+PGRpdj48c3Bhbj5MZXNpbGUgfCBNYW5hZ2VyLUdsb2JhbCBTYWxlcw08
+L3NwYW4+PC9kaXY+PGRpdj48c3Bhbj5FOiBsZXNsaWVAd2lubWFya2V0cmVzZWFyY2guY29tDTwv
+c3Bhbj48L2Rpdj48ZGl2PjxzcGFuPldlY2hhdC9Nb2JpbGU6ICs4Ni0xNTc2NzM4ODE5NDwvc3Bh
+bj48L2Rpdj4KICAgIDxkaXYgaWQ9Im50ZXMtcGNtYWMtc2lnbmF0dXJlIiBzdHlsZT0iZm9udC1m
+YW1pbHk6J+W+rui9r+mbhem7kSciPgogICAgICAgIAogICAgICAgIDxkaXYgc3R5bGU9ImZvbnQt
+c2l6ZToxNHB4OyBwYWRkaW5nOiAwOyAgbWFyZ2luOjA7Ij4KCiAgICAgICAgPC9kaXY+CiAgICA8
+L2Rpdj4KPC9kaXY+PC9kaXY+PCEtLfCfmIAtLT4NCjwvZGl2Pg0KPGJyPjwvYm9keT4NCjwvaHRt
+bD4=
+--=_Part_26097_2087287275.1673450331188--
