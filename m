@@ -1,115 +1,119 @@
-Return-Path: <SRS0=eb+M=5I=winglobalreport.com=james.ur@kernel.org>
+Return-Path: <SRS0=LWFL=5I=kemnade.info=andreas@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5CC13C5479D
-	for <linux-firmware@archiver.kernel.org>; Wed, 11 Jan 2023 15:19:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BF7F1C46467
+	for <linux-firmware@archiver.kernel.org>; Wed, 11 Jan 2023 20:55:46 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 20AAFC433D2; Wed, 11 Jan 2023 15:19:48 +0000 (UTC)
-Received: from mail-177144.yeah.net (mail-177144.yeah.net [123.58.177.144])
+	id 86277C433F0; Wed, 11 Jan 2023 20:55:46 +0000 (UTC)
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [85.214.55.253])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 0EE72C433EF
-	for <linux-firmware@kernel.org>; Wed, 11 Jan 2023 15:19:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 0EE72C433EF
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=winglobalreport.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=winglobalreport.com
+	by smtp.kernel.org (Postfix) with ESMTPS id AC92BC433D2
+	for <linux-firmware@kernel.org>; Wed, 11 Jan 2023 20:55:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org AC92BC433D2
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:MIME-Version:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=ietUBY8JFpC5kaxIYgR6Q5C423hRwtunmkXfdE5FPNA=; b=1nFWQt1Jv5ce0MCDnSB0+g0aY/
+	KcALEYMi8bi3QO12T7X7LmTL8phTdUAquYqF193p1L0SstEE9ieWeDAmeP52Y/UtiCRiTmELuiA8a
+	YjVbziRE+fSgir0QkIhpz4N3Wh/5Oz/M3KJOUwVJ0s23sRzldBeNc48wNijAClAyuaewu60cpH7UH
+	4hKIeDHZe5d0EveOpcxMx3faB0In7+aYmiP3wQG9oCSEuGMSfo/xI7ia0oAIIhtqmmdaoHb8tW4Ko
+	IGDTAx5hlecJcB2U+gCMtnwV2V6H2/auWrpdJ4cM2z13NYqHngqcgB2q8NBSlbQy0Ni4XObTQUtjy
+	wWBKgjfw==;
+Received: from p200300ccff07a8001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:cc:ff07:a800:1a3d:a2ff:febf:d33a] helo=aktux)
+	by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.89)
+	(envelope-from <andreas@kemnade.info>)
+	id 1pFi8M-0000Ah-AC; Wed, 11 Jan 2023 21:55:42 +0100
+Received: from andi by aktux with local (Exim 4.94.2)
+	(envelope-from <andreas@kemnade.info>)
+	id 1pFi8L-008pg9-Qs; Wed, 11 Jan 2023 21:55:41 +0100
+From: Andreas Kemnade <andreas@kemnade.info>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org<linux-firmware@kernel.org>
-Received: from winglobalreport.com (localhost [127.0.0.1])
-	by mail-m12790.qiye.163.com (Hmail) with ESMTP id 2FA9C20A57;
-	Wed, 11 Jan 2023 23:18:51 +0800 (CST)
-Content-Type: multipart/alternative; BOUNDARY="=_Part_26097_2087287275.1673450331188"
-Message-ID: <ABAAiQDLFZXtG35absnr2aov.1.1673450331188.Hmail.james.ur@winglobalreport.com>
-Subject: =?UTF-8?B?QWxreWwgUG9seWdseWNvc2lkZSBUcmVuZHMgYW5kIE9wcG9ydHVuaXRpZXMgRm9yIFlvdQ==?=
-X-Priority: 3
-X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com MailMasterPC\4.17.9.1009 Win7
-X-Originating-IP: 111.148.0.199
+To: linux-firmware@kernel.org
+Cc: Andreas Kemnade <andreas@kemnade.info>
+Subject: [PATCH] brcm: add configuration files for CyberTan WC121
+Date: Wed, 11 Jan 2023 21:55:25 +0100
+Message-Id: <20230111205525.2105230-1-andreas@kemnade.info>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Received: from james.ur@winglobalreport.com( [111.148.0.199) ] by ajax-webmail ( [127.0.0.1] ) ; Wed, 11 Jan 2023 23:18:51 +0800 (GMT+08:00)
-From: Leslie <james.ur@winglobalreport.com>
-Date: Wed, 11 Jan 2023 23:18:51 +0800 (GMT+08:00)
-X-HM-NTES-SC: AL0_4z5B86Wr4Tz9jdMF+bhXMZDZxYsjsbl+ceKqKgAbKJBqlvSz3/r83nb1VXxuaGv0jCx7vwZyEYljiKD5rY/m81XqCPn8AlwZKJzK5eV1RbQJZjMCy6mNNp2dn89OrY9km/blWSTaIYgJVDHRanndAQ==
-X-HM-Spam-Status: e1kfGhgUHx5ZQUhXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDSB4aVkkZTElOGhpMS08ZTVUTARMWGhIXJBQOD1
-	lXWRgSC1lBWUpKSlVKT0NVS1VKQkJZV1kWGg8SFR0UWUFZT0tIVUpKS09IT1VPVUtZBg++
-X-HM-Sender-Digest: e1kMHhlZQQ8JDh5XWRIfHhUPWUFZRzo5OjoSKj83PSEjDzxIThoZCBUJ
-	SRoUDVVKVUpNTEhPTktISElLTktVMxYaEhdVERoWHghVDgk7DBIVHBcUGRoXCR4LFAkPVRgUFkVZ
-	V1kUFR4JGAsPWUFKV1kSC1lBWUpKSlVKT0NVS1VKQkJZV1kIAVlBSE9JTkk3Bg++
-X-HM-Tid: 0a85a1699ad3b261kuuu1859bc86ec1
+Content-Transfer-Encoding: 8bit
 
---=_Part_26097_2087287275.1673450331188
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+These chips are found in some ebook readers with
+devicetree in mainline kernel.
 
-CgpIaSEKCkkgaG9wZSBldmVyeXRoaW5nIGdvZXMgd2VsbCB3aXRoIHlvdS4KCldlIHB1Ymxpc2hl
-ZCBBIE1hcmtldCBSZXBvcnQgb24gQWxreWwgUG9seWdseWNvc2lkZSAyMDIzIGZvciB5b3UgYW5k
-IHlvdXIgY29tcGV0aXRvcnMuIFRoZSBpbXBhY3Qgb2YgdGhlICJSdXNzaWEgYW5kIFVrcmFpbmUi
-IFNpdHVhdGlvbiBhbmQgIkNvdmlkIiBoYXMgYmVlbiBjb25zaWRlcmVkIGluIG91ciByZXBvcnQu
-IElmIHlvdSBoYXZlIGZ1cnRoZXIgaW50ZXJlc3QgaW4gdGhpcyByZXBvcnQgb3IgcmVsYXRlZCBy
-ZXBvcnRzLCB3ZSB3b3VsZCBiZSBoYXBweSB0byBzaGFyZSB0aGUgc2FtcGxlIHJlcG9ydCB3aXRo
-IHlvdS4KClRoZSBmb2xsb3dpbmcgcmVsYXRlZCBjb21wYW5pZXMgYXJlIGNvdmVyZWQ6CkJBU0YK
-RHVQb250CkFrem8gTm9iZWwKU2VwcGljCkthbwpDUk9EQQpMRyBIb3VzZWhvbGQgJiBIZWFsdGgg
-Q2FyZQpTaGFuZ2hhaSBGaW5lIENoZW1pY2FsCllhbmd6aG91IENoZW5odWEKWWl4aW5nIEppbmxh
-biBDaGVtaWNhbApGZW5jaGVtCkh1Z28gTmV3IE1hdGVyaWFscwpKaWFuZ1N1IFdhblFpCihPdGhl
-ciByZWxhdGVkIGNvbXBhbmllcyBJbmZvcm1hdGlvbuKApuKApikKClRoaXMgcmVwb3J0IGFuYWx5
-emVzIGFuZCBzdHVkaWVzIHRoZSBzYWxlcywgdmFsdWUsIHJldmVudWUsIG1hcmtldCBzaGFyZSBh
-bmQgb3RoZXIgYXNwZWN0cyBvZiBBbGt5bCBQb2x5Z2x5Y29zaWRlLiBJdCBhbHNvIGluY2x1ZGVz
-IHRoZSBtYXJrZXQgcG90ZW50aWFsIGFuZCBhZHZhbnRhZ2VzLCBvcHBvcnR1bml0aWVzIGFuZCBj
-aGFsbGVuZ2VzLCBjb25zdHJhaW50cyBhbmQgcmlza3MgaW4gdGhlIHdvcmxkIGFuZCBrZXkgcmVn
-aW9ucy4KCkZvciBtb3JlIGluZm9ybWF0aW9uLCBwbGVhc2UgZmVlbCBmcmVlIHRvIGNvbnRhY3Qg
-bWUhCgotLS0tLS0tLS0tLS0tLS0tLS0tCllvdXJzIHNpbmNlcmVseQpMZXNpbGUgfCBNYW5hZ2Vy
-LUdsb2JhbCBTYWxlcwpFOiBsZXNsaWVAd2lubWFya2V0cmVzZWFyY2guY29tCldlY2hhdC9Nb2Jp
-bGU6ICs4Ni0xNTc2NzM4ODE5NAoKCgoKCgoNCg0K
---=_Part_26097_2087287275.1673450331188
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+---
+ WHENCE                            |  3 +++
+ brcm/brcmfmac43362-sdio.WC121.txt | 36 +++++++++++++++++++++++++++++++
+ 2 files changed, 39 insertions(+)
+ create mode 100644 brcm/brcmfmac43362-sdio.WC121.txt
 
-PGh0bWw+DQo8aGVhZD4NCiAgICA8bWV0YSBodHRwLWVxdWl2PSdDb250ZW50LVR5cGUnIGNvbnRl
-bnQ9J3RleHQvaHRtbDsgY2hhcnNldD1VVEYtOCc+DQo8L2hlYWQ+DQo8Ym9keT4NCjxzdHlsZT4N
-CiAgICBmb250ew0KICAgICAgICBsaW5lLWhlaWdodDogMS42Ow0KICAgIH0NCiAgICB1bCxvbHsN
-CiAgICAgICAgcGFkZGluZy1sZWZ0OiAyMHB4Ow0KICAgICAgICBsaXN0LXN0eWxlLXBvc2l0aW9u
-OiBpbnNpZGU7DQogICAgfQ0KPC9zdHlsZT4NCjxkaXYgc3R5bGUgPSAnZm9udC1mYW1pbHk65b6u
-6L2v6ZuF6buRLFZlcmRhbmEsJnF1b3Q7TWljcm9zb2Z0IFlhaGVpJnF1b3Q7LFNpbVN1bixzYW5z
-LXNlcmlmO2ZvbnQtc2l6ZToxNHB4OyBsaW5lLWhlaWdodDoxLjY7Jz4NCiAgICA8ZGl2ID48ZGl2
-PgogICAgPGRpdj4KICAgICAgICA8c3Bhbj4KICAgICAgICAgICAgPGJyPgogICAgICAgIDwvc3Bh
-bj4KICAgIDwvZGl2PgogICAgPGRpdj4KICAgICAgICA8c3Bhbj5IaSENCiAgICAgICAgPC9zcGFu
-PgogICAgPC9kaXY+PGRpdj48c3Bhbj4NPC9zcGFuPjwvZGl2PjxkaXY+PHNwYW4+SSBob3BlIGV2
-ZXJ5dGhpbmcgZ29lcyB3ZWxsIHdpdGggeW91Lg08L3NwYW4+PC9kaXY+PGRpdj48c3Bhbj4NPC9z
-cGFuPjwvZGl2PjxkaXY+PHNwYW4+V2UgcHVibGlzaGVkIEEgTWFya2V0IFJlcG9ydCBvbiBBbGt5
-bCBQb2x5Z2x5Y29zaWRlIDIwMjMgZm9yIHlvdSBhbmQgeW91ciBjb21wZXRpdG9ycy4gVGhlIGlt
-cGFjdCBvZiB0aGUgIlJ1c3NpYSBhbmQgVWtyYWluZSIgU2l0dWF0aW9uIGFuZCAiQ292aWQiIGhh
-cyBiZWVuIGNvbnNpZGVyZWQgaW4gb3VyIHJlcG9ydC4gSWYgeW91IGhhdmUgZnVydGhlciBpbnRl
-cmVzdCBpbiB0aGlzIHJlcG9ydCBvciByZWxhdGVkIHJlcG9ydHMsIHdlIHdvdWxkIGJlIGhhcHB5
-IHRvIHNoYXJlIHRoZSBzYW1wbGUgcmVwb3J0IHdpdGggeW91Lg08L3NwYW4+PC9kaXY+PGRpdj48
-c3Bhbj4NPC9zcGFuPjwvZGl2PjxkaXY+PHNwYW4+VGhlIGZvbGxvd2luZyByZWxhdGVkIGNvbXBh
-bmllcyBhcmUgY292ZXJlZDoNPC9zcGFuPjwvZGl2PjxkaXY+PHNwYW4+QkFTRg08L3NwYW4+PC9k
-aXY+PGRpdj48c3Bhbj5EdVBvbnQNPC9zcGFuPjwvZGl2PjxkaXY+PHNwYW4+QWt6byBOb2JlbA08
-L3NwYW4+PC9kaXY+PGRpdj48c3Bhbj5TZXBwaWMNPC9zcGFuPjwvZGl2PjxkaXY+PHNwYW4+S2Fv
-DTwvc3Bhbj48L2Rpdj48ZGl2PjxzcGFuPkNST0RBDTwvc3Bhbj48L2Rpdj48ZGl2PjxzcGFuPkxH
-IEhvdXNlaG9sZCAmYW1wOyBIZWFsdGggQ2FyZQ08L3NwYW4+PC9kaXY+PGRpdj48c3Bhbj5TaGFu
-Z2hhaSBGaW5lIENoZW1pY2FsDTwvc3Bhbj48L2Rpdj48ZGl2PjxzcGFuPllhbmd6aG91IENoZW5o
-dWENPC9zcGFuPjwvZGl2PjxkaXY+PHNwYW4+WWl4aW5nIEppbmxhbiBDaGVtaWNhbA08L3NwYW4+
-PC9kaXY+PGRpdj48c3Bhbj5GZW5jaGVtDTwvc3Bhbj48L2Rpdj48ZGl2PjxzcGFuPkh1Z28gTmV3
-IE1hdGVyaWFscw08L3NwYW4+PC9kaXY+PGRpdj48c3Bhbj5KaWFuZ1N1IFdhblFpDTwvc3Bhbj48
-L2Rpdj48ZGl2PjxzcGFuPihPdGhlciByZWxhdGVkIGNvbXBhbmllcyBJbmZvcm1hdGlvbuKApuKA
-pikNPC9zcGFuPjwvZGl2PjxkaXY+PHNwYW4+DTwvc3Bhbj48L2Rpdj48ZGl2PjxzcGFuPlRoaXMg
-cmVwb3J0IGFuYWx5emVzIGFuZCBzdHVkaWVzIHRoZSBzYWxlcywgdmFsdWUsIHJldmVudWUsIG1h
-cmtldCBzaGFyZSBhbmQgb3RoZXIgYXNwZWN0cyBvZiBBbGt5bCBQb2x5Z2x5Y29zaWRlLiBJdCBh
-bHNvIGluY2x1ZGVzIHRoZSBtYXJrZXQgcG90ZW50aWFsIGFuZCBhZHZhbnRhZ2VzLCBvcHBvcnR1
-bml0aWVzIGFuZCBjaGFsbGVuZ2VzLCBjb25zdHJhaW50cyBhbmQgcmlza3MgaW4gdGhlIHdvcmxk
-IGFuZCBrZXkgcmVnaW9ucy4NPC9zcGFuPjwvZGl2PjxkaXY+PHNwYW4+DTwvc3Bhbj48L2Rpdj48
-ZGl2PjxzcGFuPkZvciBtb3JlIGluZm9ybWF0aW9uLCBwbGVhc2UgZmVlbCBmcmVlIHRvIGNvbnRh
-Y3QgbWUhDTwvc3Bhbj48L2Rpdj48ZGl2PjxzcGFuPg08L3NwYW4+PC9kaXY+PGRpdj48c3Bhbj4t
-LS0tLS0tLS0tLS0tLS0tLS0tDTwvc3Bhbj48L2Rpdj48ZGl2PjxzcGFuPllvdXJzIHNpbmNlcmVs
-eQ08L3NwYW4+PC9kaXY+PGRpdj48c3Bhbj5MZXNpbGUgfCBNYW5hZ2VyLUdsb2JhbCBTYWxlcw08
-L3NwYW4+PC9kaXY+PGRpdj48c3Bhbj5FOiBsZXNsaWVAd2lubWFya2V0cmVzZWFyY2guY29tDTwv
-c3Bhbj48L2Rpdj48ZGl2PjxzcGFuPldlY2hhdC9Nb2JpbGU6ICs4Ni0xNTc2NzM4ODE5NDwvc3Bh
-bj48L2Rpdj4KICAgIDxkaXYgaWQ9Im50ZXMtcGNtYWMtc2lnbmF0dXJlIiBzdHlsZT0iZm9udC1m
-YW1pbHk6J+W+rui9r+mbhem7kSciPgogICAgICAgIAogICAgICAgIDxkaXYgc3R5bGU9ImZvbnQt
-c2l6ZToxNHB4OyBwYWRkaW5nOiAwOyAgbWFyZ2luOjA7Ij4KCiAgICAgICAgPC9kaXY+CiAgICA8
-L2Rpdj4KPC9kaXY+PC9kaXY+PCEtLfCfmIAtLT4NCjwvZGl2Pg0KPGJyPjwvYm9keT4NCjwvaHRt
-bD4=
---=_Part_26097_2087287275.1673450331188--
+diff --git a/WHENCE b/WHENCE
+index f31fa30..b84f426 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -2930,7 +2930,10 @@ File: "brcm/brcmfmac43340-sdio.ASUSTeK COMPUTER INC.-TF103CE.txt"
+ File: "brcm/brcmfmac43340-sdio.meegopad-t08.txt"
+ File: "brcm/brcmfmac43340-sdio.pov-tab-p1006w-data.txt"
+ File: "brcm/brcmfmac43340-sdio.predia-basic.txt"
++File: "brcm/brcmfmac43362-sdio.WC121.txt"
+ File: "brcm/brcmfmac43362-sdio.cubietech,cubietruck.txt"
++Link: brcm/brcmfmac43362-sdio.kobo,aura.txt -> brcmfmac43362-sdio.WC121.txt
++Link: brcm/brcmfmac43362-sdio.kobo,tolino-shine2hd.txt -> brcmfmac43362-sdio.WC121.txt
+ Link: brcm/brcmfmac43362-sdio.lemaker,bananapro.txt -> brcmfmac43362-sdio.cubietech,cubietruck.txt
+ File: "brcm/brcmfmac43430a0-sdio.ilife-S806.txt"
+ File: "brcm/brcmfmac43430a0-sdio.jumper-ezpad-mini3.txt"
+diff --git a/brcm/brcmfmac43362-sdio.WC121.txt b/brcm/brcmfmac43362-sdio.WC121.txt
+new file mode 100644
+index 0000000..9a2aa1b
+--- /dev/null
++++ b/brcm/brcmfmac43362-sdio.WC121.txt
+@@ -0,0 +1,36 @@
++aa2g=1
++boardflags=0xa00
++boardnum=777
++boardrev=0x1207
++boardtype=0x0598
++cckPwrOffset=4
++ccode=0
++devid=0x4343
++edoffthd=-71
++edonthd=-65
++initxidx2g=45
++macaddr=00:90:4c:07:7${maclo12}
++manfid=0x2d0
++maxp2ga0=74
++mcs2gpo0=0x4444
++mcs2gpo1=0x6444
++noise_cal_enable_2g=0
++ofdm2gpo=0x44111111
++pa0b0=5447
++pa0b1=-658
++pa0b2=-175
++pa0itssit=62
++pa0maxpwr=80
++pa1itssit=62
++prodid=0x492
++rssisav2g=0x7
++rssismc2g=0x3
++rssismf2g=0xa
++sromrev=3
++swctrlmap_2g=0x04040404,0x02020202,0x04040404,0x010101,0x1ff
++temp_add=29767
++temp_mult=425
++temp_q=10
++triso2g=0
++vendid=0x14e4
++xtalfreq=26000
+-- 
+2.30.2
+
