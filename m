@@ -1,119 +1,101 @@
-Return-Path: <SRS0=LWFL=5I=kemnade.info=andreas@kernel.org>
+Return-Path: <SRS0=eDDz=5J=collabora.com=nfraprado@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BF7F1C46467
-	for <linux-firmware@archiver.kernel.org>; Wed, 11 Jan 2023 20:55:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E98D5C678D6
+	for <linux-firmware@archiver.kernel.org>; Thu, 12 Jan 2023 20:46:39 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 86277C433F0; Wed, 11 Jan 2023 20:55:46 +0000 (UTC)
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [85.214.55.253])
+	id B045DC433F0; Thu, 12 Jan 2023 20:46:39 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id AC92BC433D2
-	for <linux-firmware@kernel.org>; Wed, 11 Jan 2023 20:55:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org AC92BC433D2
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=kemnade.info
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:MIME-Version:
-	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=ietUBY8JFpC5kaxIYgR6Q5C423hRwtunmkXfdE5FPNA=; b=1nFWQt1Jv5ce0MCDnSB0+g0aY/
-	KcALEYMi8bi3QO12T7X7LmTL8phTdUAquYqF193p1L0SstEE9ieWeDAmeP52Y/UtiCRiTmELuiA8a
-	YjVbziRE+fSgir0QkIhpz4N3Wh/5Oz/M3KJOUwVJ0s23sRzldBeNc48wNijAClAyuaewu60cpH7UH
-	4hKIeDHZe5d0EveOpcxMx3faB0In7+aYmiP3wQG9oCSEuGMSfo/xI7ia0oAIIhtqmmdaoHb8tW4Ko
-	IGDTAx5hlecJcB2U+gCMtnwV2V6H2/auWrpdJ4cM2z13NYqHngqcgB2q8NBSlbQy0Ni4XObTQUtjy
-	wWBKgjfw==;
-Received: from p200300ccff07a8001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:cc:ff07:a800:1a3d:a2ff:febf:d33a] helo=aktux)
-	by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.89)
-	(envelope-from <andreas@kemnade.info>)
-	id 1pFi8M-0000Ah-AC; Wed, 11 Jan 2023 21:55:42 +0100
-Received: from andi by aktux with local (Exim 4.94.2)
-	(envelope-from <andreas@kemnade.info>)
-	id 1pFi8L-008pg9-Qs; Wed, 11 Jan 2023 21:55:41 +0100
-From: Andreas Kemnade <andreas@kemnade.info>
+	by smtp.kernel.org (Postfix) with ESMTPS id A39FAC433D2
+	for <linux-firmware@kernel.org>; Thu, 12 Jan 2023 20:46:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A39FAC433D2
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Received: from notapiano (unknown [IPv6:2600:4041:5b1a:cd00:524d:e95d:1a9c:492a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 9FA2D6602CEE;
+	Thu, 12 Jan 2023 20:46:34 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1673556395;
+	bh=FtkDtIh6NMt+QWac83XzUxw2O6dDKVoMsCkF62h/iKQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AnMjxNlUxyaP13R1jyHTlo0xkMblU1UCSxC2dB+y8a0lVa3xWzKh+gn8scVwNGA99
+	 e08g1aP1kOOoOhCJQT5cw6C0Rt2QuERtIN9Ee60YgQxAlUKFXL+gA9BVEsfMDZnwJl
+	 /L0wA5Ri68qFOaPNwFPvu9+DFoVjtj15buSqvLpD1AXAum8QWwoS2IWJaDIaZBadbA
+	 46ORAtuNPu/DONI3CMuEt6IFRCtu/lllUMpTie48YyGkxiXnoRE/e7S/yh18HJ0G+G
+	 5JG7q5MKbRaNyjPGK84tOuohwlR2v3Yh3LBFt8Ba985DZfo+tClO5+aV5nFeNlSV/h
+	 kzDfjlVv9dn0Q==
+Date: Thu, 12 Jan 2023 15:46:26 -0500
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: Tinghan Shen <tinghan.shen@mediatek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: Andreas Kemnade <andreas@kemnade.info>
-Subject: [PATCH] brcm: add configuration files for CyberTan WC121
-Date: Wed, 11 Jan 2023 21:55:25 +0100
-Message-Id: <20230111205525.2105230-1-andreas@kemnade.info>
-X-Mailer: git-send-email 2.30.2
+Cc: linux-firmware@kernel.org, linux-mediatek@lists.infradead.org,
+	yunfei.dong@mediatek.com, shawnku@google.com,
+	Project_Global_Chrome_Upstream_Group@mediatek.com,
+	Justin.Yeh@mediatek.com, Allen-KH.Cheng@mediatek.com
+Subject: Re: pull request: linux-firmware: Update Mediatek
+ MT8183/MT8192/MT8195 SCP firmware
+Message-ID: <20230112204626.ciaff4amseoidybw@notapiano>
+References: <42437b6fc5dac19bf23f9806dfbe6915e055397b.camel@mediatek.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <42437b6fc5dac19bf23f9806dfbe6915e055397b.camel@mediatek.com>
 
-These chips are found in some ebook readers with
-devicetree in mainline kernel.
+On Fri, Jul 22, 2022 at 04:29:34PM +0800, Tinghan Shen wrote:
+> Hi maintainers,
+> 
+> Update SCP firmware for MediaTek MT8183/MT8192/MT8195.
+> Thank you!
+> 
+> 
+> Regards,
+> TingHan
+> 
+> ---
+> 
+> The following changes since commit 4421586e8e95ce789cb6b3f1af98962bfef74c7b:
+> 
+>   amdgpu: update renoir to release 22.20 (2022-07-19 06:44:08 -0400)
+> 
+> are available in the Git repository at:
+> 
+>   https://github.com/tinghan-shen/linux_fw_scp mtk-scp-20220722
+> 
+> for you to fetch changes up to 56cf6461a82b08facd41154f7c44a19f0a085f66:
+> 
+>   mediatek: Update mt8183/mt8192/mt8195 SCP firmware (2022-07-22 16:16:27 +0800)
 
-Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
----
- WHENCE                            |  3 +++
- brcm/brcmfmac43362-sdio.WC121.txt | 36 +++++++++++++++++++++++++++++++
- 2 files changed, 39 insertions(+)
- create mode 100644 brcm/brcmfmac43362-sdio.WC121.txt
+Hi Tinghan,
 
-diff --git a/WHENCE b/WHENCE
-index f31fa30..b84f426 100644
---- a/WHENCE
-+++ b/WHENCE
-@@ -2930,7 +2930,10 @@ File: "brcm/brcmfmac43340-sdio.ASUSTeK COMPUTER INC.-TF103CE.txt"
- File: "brcm/brcmfmac43340-sdio.meegopad-t08.txt"
- File: "brcm/brcmfmac43340-sdio.pov-tab-p1006w-data.txt"
- File: "brcm/brcmfmac43340-sdio.predia-basic.txt"
-+File: "brcm/brcmfmac43362-sdio.WC121.txt"
- File: "brcm/brcmfmac43362-sdio.cubietech,cubietruck.txt"
-+Link: brcm/brcmfmac43362-sdio.kobo,aura.txt -> brcmfmac43362-sdio.WC121.txt
-+Link: brcm/brcmfmac43362-sdio.kobo,tolino-shine2hd.txt -> brcmfmac43362-sdio.WC121.txt
- Link: brcm/brcmfmac43362-sdio.lemaker,bananapro.txt -> brcmfmac43362-sdio.cubietech,cubietruck.txt
- File: "brcm/brcmfmac43430a0-sdio.ilife-S806.txt"
- File: "brcm/brcmfmac43430a0-sdio.jumper-ezpad-mini3.txt"
-diff --git a/brcm/brcmfmac43362-sdio.WC121.txt b/brcm/brcmfmac43362-sdio.WC121.txt
-new file mode 100644
-index 0000000..9a2aa1b
---- /dev/null
-+++ b/brcm/brcmfmac43362-sdio.WC121.txt
-@@ -0,0 +1,36 @@
-+aa2g=1
-+boardflags=0xa00
-+boardnum=777
-+boardrev=0x1207
-+boardtype=0x0598
-+cckPwrOffset=4
-+ccode=0
-+devid=0x4343
-+edoffthd=-71
-+edonthd=-65
-+initxidx2g=45
-+macaddr=00:90:4c:07:7${maclo12}
-+manfid=0x2d0
-+maxp2ga0=74
-+mcs2gpo0=0x4444
-+mcs2gpo1=0x6444
-+noise_cal_enable_2g=0
-+ofdm2gpo=0x44111111
-+pa0b0=5447
-+pa0b1=-658
-+pa0b2=-175
-+pa0itssit=62
-+pa0maxpwr=80
-+pa1itssit=62
-+prodid=0x492
-+rssisav2g=0x7
-+rssismc2g=0x3
-+rssismf2g=0xa
-+sromrev=3
-+swctrlmap_2g=0x04040404,0x02020202,0x04040404,0x010101,0x1ff
-+temp_add=29767
-+temp_mult=425
-+temp_q=10
-+triso2g=0
-+vendid=0x14e4
-+xtalfreq=26000
--- 
-2.30.2
+the SCP firmware for mt8192 added in this commit caused a regression. Gstreamer
+currently supports using the decoder on mt8192 only with the MM21 format, which
+was available in the previous firmware, but after this commit the firmware only
+enumerates MT21C as the format available, hence breaking the decoder usage with
+Gstreamer. Please update the firmware so that it makes the MM21 format available
+again and restores the functionality.
 
+Thanks,
+Nícolas
+
+> 
+> ----------------------------------------------------------------
+> Tinghan Shen (1):
+>       mediatek: Update mt8183/mt8192/mt8195 SCP firmware
+> 
+>  WHENCE                  |   6 +++---
+>  mediatek/mt8183/scp.img | Bin 1032064 -> 1030776 bytes
+>  mediatek/mt8192/scp.img | Bin 327968 -> 328096 bytes
+>  mediatek/mt8195/scp.img | Bin 429668 -> 429820 bytes
+>  4 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> 
