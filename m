@@ -1,101 +1,190 @@
-Return-Path: <SRS0=eDDz=5J=collabora.com=nfraprado@kernel.org>
+Return-Path: <SRS0=BByF=5M=broadcom.com=arend.vanspriel@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E98D5C678D6
-	for <linux-firmware@archiver.kernel.org>; Thu, 12 Jan 2023 20:46:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1119C63797
+	for <linux-firmware@archiver.kernel.org>; Sun, 15 Jan 2023 19:44:23 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B045DC433F0; Thu, 12 Jan 2023 20:46:39 +0000 (UTC)
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id ADCD4C433F0; Sun, 15 Jan 2023 19:44:23 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A39FAC433D2
-	for <linux-firmware@kernel.org>; Thu, 12 Jan 2023 20:46:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A39FAC433D2
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Received: from notapiano (unknown [IPv6:2600:4041:5b1a:cd00:524d:e95d:1a9c:492a])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 9FA2D6602CEE;
-	Thu, 12 Jan 2023 20:46:34 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1673556395;
-	bh=FtkDtIh6NMt+QWac83XzUxw2O6dDKVoMsCkF62h/iKQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AnMjxNlUxyaP13R1jyHTlo0xkMblU1UCSxC2dB+y8a0lVa3xWzKh+gn8scVwNGA99
-	 e08g1aP1kOOoOhCJQT5cw6C0Rt2QuERtIN9Ee60YgQxAlUKFXL+gA9BVEsfMDZnwJl
-	 /L0wA5Ri68qFOaPNwFPvu9+DFoVjtj15buSqvLpD1AXAum8QWwoS2IWJaDIaZBadbA
-	 46ORAtuNPu/DONI3CMuEt6IFRCtu/lllUMpTie48YyGkxiXnoRE/e7S/yh18HJ0G+G
-	 5JG7q5MKbRaNyjPGK84tOuohwlR2v3Yh3LBFt8Ba985DZfo+tClO5+aV5nFeNlSV/h
-	 kzDfjlVv9dn0Q==
-Date: Thu, 12 Jan 2023 15:46:26 -0500
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: Tinghan Shen <tinghan.shen@mediatek.com>
-List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, linux-mediatek@lists.infradead.org,
-	yunfei.dong@mediatek.com, shawnku@google.com,
-	Project_Global_Chrome_Upstream_Group@mediatek.com,
-	Justin.Yeh@mediatek.com, Allen-KH.Cheng@mediatek.com
-Subject: Re: pull request: linux-firmware: Update Mediatek
- MT8183/MT8192/MT8195 SCP firmware
-Message-ID: <20230112204626.ciaff4amseoidybw@notapiano>
-References: <42437b6fc5dac19bf23f9806dfbe6915e055397b.camel@mediatek.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 8EAFEC433D2
+	for <linux-firmware@kernel.org>; Sun, 15 Jan 2023 19:44:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 8EAFEC433D2
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Received: by mail-ed1-f53.google.com with SMTP id s5so38153540edc.12
+        for <linux-firmware@kernel.org>; Sun, 15 Jan 2023 11:44:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google;
+        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=vT4KITCVbwR3VD38PDOwsAWyVEwsvcwD4waUgYdldhE=;
+        b=OgG0eSckFoj3EHaPMMld+aESIR90tu6orYDuoDWF1k26fns0yHTewjIFisFcqmxEg3
+         88Aj0ehkXXQHX4TQx8qtmucwG2SAztUvQagW4s8nLVeV4zOqMFJetJhR2E9Kv6XPtFzR
+         jShx9C3MwookoAjQTiKoq5472BWr8Vh/PIhKQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vT4KITCVbwR3VD38PDOwsAWyVEwsvcwD4waUgYdldhE=;
+        b=e0IlH8rOaWLS/4iIIhkhnYuLFEk6PZ9nQlUral32I/HEC51sYQGN1LhIwWWjNcvb98
+         KwQwMFbMVGlCm+2oW1Fw7nOpAkv//Pcbaf+YNve99U0RplZWxKE4y4IiT+qlbS7On/hG
+         VBRfG9BAkF46zDQ3/mDgGIV7a1x6xelR6SQYzqH8Bgxl2t5BRrcSV78jY9Hej1AE36Ji
+         pSPXuvknLaAEFmLHzVsyfzEXL26eyn8AZtsSWqgkK8/U9ah2yUlU9IPl58WRFoyxa7E5
+         0r3awzXacWZpwYsn9NG37A08oXVuH43SBCEjyZTM+VQa3W5Ru04Rg7XWbOJdBsT3szvR
+         5sjA==
+X-Gm-Message-State: AFqh2kpVZvlMCx+chIRfozz2f4plgueBNJkc92mdMoS4cQVXwyN80wEf
+	9yGrL5eSbdK0QBtTWS6S9SafAA==
+X-Google-Smtp-Source: AMrXdXuEWyr/Lt0n1PqRHYe5XMB4HDVvH0/XwMj3oht2yp6uTnC2hpHglXJ6/5F2m0epNomG426+oA==
+X-Received: by 2002:a05:6402:4518:b0:45c:835c:eab7 with SMTP id ez24-20020a056402451800b0045c835ceab7mr72587982edb.37.1673811860745;
+        Sun, 15 Jan 2023 11:44:20 -0800 (PST)
+Received: from [192.168.178.136] (f215227.upc-f.chello.nl. [80.56.215.227])
+        by smtp.gmail.com with ESMTPSA id w21-20020a05640234d500b0049c2b02bad4sm3150294edc.88.2023.01.15.11.44.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 15 Jan 2023 11:44:19 -0800 (PST)
+Message-ID: <2b1394d0-07e1-cf7c-287d-13d3330a64b1@broadcom.com>
+Date: Sun, 15 Jan 2023 20:44:17 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <42437b6fc5dac19bf23f9806dfbe6915e055397b.camel@mediatek.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: brcm: brcmfmac4339 firmware in linux-firmware
+To: John Keeping <john@metanate.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: Franky Lin <franky.lin@broadcom.com>,
+ Hante Meuleman <hante.meuleman@broadcom.com>,
+ linux-wireless@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
+ SHA-cyfmac-dev-list@infineon.com, linux-firmware@kernel.org
+References: <Y72/Sd/8mMOx13lk@donbot>
+From: Arend van Spriel <arend.vanspriel@broadcom.com>
+In-Reply-To: <Y72/Sd/8mMOx13lk@donbot>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="00000000000064db4405f252b1c5"
 
-On Fri, Jul 22, 2022 at 04:29:34PM +0800, Tinghan Shen wrote:
-> Hi maintainers,
-> 
-> Update SCP firmware for MediaTek MT8183/MT8192/MT8195.
-> Thank you!
-> 
-> 
-> Regards,
-> TingHan
-> 
-> ---
-> 
-> The following changes since commit 4421586e8e95ce789cb6b3f1af98962bfef74c7b:
-> 
->   amdgpu: update renoir to release 22.20 (2022-07-19 06:44:08 -0400)
-> 
-> are available in the Git repository at:
-> 
->   https://github.com/tinghan-shen/linux_fw_scp mtk-scp-20220722
-> 
-> for you to fetch changes up to 56cf6461a82b08facd41154f7c44a19f0a085f66:
-> 
->   mediatek: Update mt8183/mt8192/mt8195 SCP firmware (2022-07-22 16:16:27 +0800)
+--00000000000064db4405f252b1c5
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Tinghan,
+On 1/10/2023 8:40 PM, John Keeping wrote:
+> Hi Arend & all,
+> 
+> In linux-firmware, commit 0707b2f ("brcm: add/update firmware files for
+> brcmfmac driver") adds brcm/brcmfmac4339-sdio.bin with version:
+> 
+> 	Firmware: BCM4339/2 wl0: Feb 17 2016 18:29:33 version 6.37.32.RC23.34.42 (r608406)
+> 
+> This restores the version previously removed by commit 0f0aefd ("brcm:
+> remove old brcm firmwares that have newer cypress variants").
+> 
+> That was a follow-up to commit 04f71fe ("cypress: add Cypress firmware
+> and clm_blob files") which provides cypress/cyfmac4339-sdio.bin and
+> links it (via WHENCE) to brcm/brcmfmac4339-sdio.bin and has version:
+> 
+> 	Firmware: BCM4339/2 wl0: Sep  5 2019 11:05:52 version 6.37.39.113 (r722271 CY)
+> 
+> 
+> It looks like the same also applies to a few other firmware, although I
+> don't have the hardware to check the relevant versions there.
+> 
+> Should part of 0707b2f ("brcm: add/update firmware files for brcmfmac
+> driver") be reverted in favour of the files in cypress/?  (It looks like
+> these will already be used due to the order of the file so the symlinks
+> to cypress/... will overwrite files installed from brcm/...)
 
-the SCP firmware for mt8192 added in this commit caused a regression. Gstreamer
-currently supports using the decoder on mt8192 only with the MM21 format, which
-was available in the previous firmware, but after this commit the firmware only
-enumerates MT21C as the format available, hence breaking the decoder usage with
-Gstreamer. Please update the firmware so that it makes the MM21 format available
-again and restores the functionality.
+Thanks, John
 
-Thanks,
-Nícolas
+Guess I have to be extra careful these days with all companies 
+submitting firmware patches. I will need to inspect the history per file 
+and see what needs to be reverted and what not. Unfortunately the 
+firmware updates were done in one commit. I look into it. Thanks again.
 
-> 
-> ----------------------------------------------------------------
-> Tinghan Shen (1):
->       mediatek: Update mt8183/mt8192/mt8195 SCP firmware
-> 
->  WHENCE                  |   6 +++---
->  mediatek/mt8183/scp.img | Bin 1032064 -> 1030776 bytes
->  mediatek/mt8192/scp.img | Bin 327968 -> 328096 bytes
->  mediatek/mt8195/scp.img | Bin 429668 -> 429820 bytes
->  4 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> 
+Regards,
+Arend
+
+--00000000000064db4405f252b1c5
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+2Gzj3QNJRLsZu1TLyOyBBIr/BE7UiY3RabgRzknBGAPmzhS+fmyM8OtM5BYBsFBrSUFtZZO2p/tf
+Nbc24J2zf2peoZ8MK+7WQqummYlOnz+FyDkA9EybeNMcS5C+xi/PAgMBAAGjggHdMIIB2TAOBgNV
+HQ8BAf8EBAMCBaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJl
+Lmdsb2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYI
+KwYBBQUHMAGGNWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24y
+Y2EyMDIwME0GA1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3
+dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqG
+OGh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3Js
+MCcGA1UdEQQgMB6BHGFyZW5kLnZhbnNwcmllbEBicm9hZGNvbS5jb20wEwYDVR0lBAwwCgYIKwYB
+BQUHAwQwHwYDVR0jBBgwFoAUljPR5lgXWzR1ioFWZNW+SN6hj88wHQYDVR0OBBYEFIikAXd8CEtv
+ZbDflDRnf3tuStPuMA0GCSqGSIb3DQEBCwUAA4IBAQCdS5XCYx6k2GGZui9DlFsFm75khkqAU7rT
+zBX04sJU1+B1wtgmWTVIzW7ugdtDZ4gzaV0S9xRhpDErjJaltxPbCylb1DEsLj+AIvBR34caW6ZG
+sQk444t0HPb29HnWYj+OllIGMbdJWr0/P95ZrKk2bP24ub3ZP/8SyzrohfIba9WZKMq6g2nTLZE3
+BtkeSGJx/8dy0h8YmRn+adOrxKXHxhSL8BNn8wsmIZyYWe6fRcBtO3Ks2DOLyHCdkoFlN8x9VUQF
+N2ulEgqCbRKkx+qNirW86eF138lr1gRxzclu/38ko//MmkAYR/+hP3WnBll7zbpIt0jc9wyFkSqH
+p8a1MYICbTCCAmkCAQEwazBbMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1z
+YTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMgUGVyc29uYWxTaWduIDIgQ0EgMjAyMAIMTv1t
+bpIzNUky46LXMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCBvMNYxG1PMEe+Ctloq
+cH4bz604ESX3eSP/xM12nMqMwTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
+BTEPFw0yMzAxMTUxOTQ0MjBaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUDBAEqMAsGCWCGSAFl
+AwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsGCSqGSIb3DQEBBzAL
+BglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAAe4P6L40xfs183OgtJd4KKtlJFyUSoeF4tG7
+OvowGz0WS48+K/VpjS/HrgrxJGbVsQ9h0p600ZcW6vgZ3wzRpmDt72tvN2dhO7k/sGxqXD1ud4VR
+mOO8xEn4cpaRa5U6wmKrwLq/27OLNpxq6mbR8wkODnvsK3EgrxHWIPz1fA5KZy3e1LRl0pyfS/n9
+Me4D54jtcZTXoh1tR0Q6700Uyq546vo2YddLmPx7BLFehYCzsOTOEI/xgao67PasJcXoRtOS4G9p
+OfN2If/yMBZ5mDlaeMGuhhMx76Ghurx4tqcehq4cFQVthjDHE1Yer+NVBc/6COTKl9SXZvo1fq8S
+gg==
+--00000000000064db4405f252b1c5--
