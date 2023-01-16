@@ -1,190 +1,223 @@
-Return-Path: <SRS0=BByF=5M=broadcom.com=arend.vanspriel@kernel.org>
+Return-Path: <MAILER-DAEMON>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1119C63797
-	for <linux-firmware@archiver.kernel.org>; Sun, 15 Jan 2023 19:44:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48F23C46467
+	for <linux-firmware@archiver.kernel.org>; Mon, 16 Jan 2023 10:55:31 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id ADCD4C433F0; Sun, 15 Jan 2023 19:44:23 +0000 (UTC)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 8EAFEC433D2
-	for <linux-firmware@kernel.org>; Sun, 15 Jan 2023 19:44:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 8EAFEC433D2
-Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=broadcom.com
-Received: by mail-ed1-f53.google.com with SMTP id s5so38153540edc.12
-        for <linux-firmware@kernel.org>; Sun, 15 Jan 2023 11:44:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=vT4KITCVbwR3VD38PDOwsAWyVEwsvcwD4waUgYdldhE=;
-        b=OgG0eSckFoj3EHaPMMld+aESIR90tu6orYDuoDWF1k26fns0yHTewjIFisFcqmxEg3
-         88Aj0ehkXXQHX4TQx8qtmucwG2SAztUvQagW4s8nLVeV4zOqMFJetJhR2E9Kv6XPtFzR
-         jShx9C3MwookoAjQTiKoq5472BWr8Vh/PIhKQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vT4KITCVbwR3VD38PDOwsAWyVEwsvcwD4waUgYdldhE=;
-        b=e0IlH8rOaWLS/4iIIhkhnYuLFEk6PZ9nQlUral32I/HEC51sYQGN1LhIwWWjNcvb98
-         KwQwMFbMVGlCm+2oW1Fw7nOpAkv//Pcbaf+YNve99U0RplZWxKE4y4IiT+qlbS7On/hG
-         VBRfG9BAkF46zDQ3/mDgGIV7a1x6xelR6SQYzqH8Bgxl2t5BRrcSV78jY9Hej1AE36Ji
-         pSPXuvknLaAEFmLHzVsyfzEXL26eyn8AZtsSWqgkK8/U9ah2yUlU9IPl58WRFoyxa7E5
-         0r3awzXacWZpwYsn9NG37A08oXVuH43SBCEjyZTM+VQa3W5Ru04Rg7XWbOJdBsT3szvR
-         5sjA==
-X-Gm-Message-State: AFqh2kpVZvlMCx+chIRfozz2f4plgueBNJkc92mdMoS4cQVXwyN80wEf
-	9yGrL5eSbdK0QBtTWS6S9SafAA==
-X-Google-Smtp-Source: AMrXdXuEWyr/Lt0n1PqRHYe5XMB4HDVvH0/XwMj3oht2yp6uTnC2hpHglXJ6/5F2m0epNomG426+oA==
-X-Received: by 2002:a05:6402:4518:b0:45c:835c:eab7 with SMTP id ez24-20020a056402451800b0045c835ceab7mr72587982edb.37.1673811860745;
-        Sun, 15 Jan 2023 11:44:20 -0800 (PST)
-Received: from [192.168.178.136] (f215227.upc-f.chello.nl. [80.56.215.227])
-        by smtp.gmail.com with ESMTPSA id w21-20020a05640234d500b0049c2b02bad4sm3150294edc.88.2023.01.15.11.44.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 15 Jan 2023 11:44:19 -0800 (PST)
-Message-ID: <2b1394d0-07e1-cf7c-287d-13d3330a64b1@broadcom.com>
-Date: Sun, 15 Jan 2023 20:44:17 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: brcm: brcmfmac4339 firmware in linux-firmware
-To: John Keeping <john@metanate.com>
+	id 1F447C433D2; Mon, 16 Jan 2023 10:55:31 +0000 (UTC)
+Received: from 157-7-193-74.localdomain (v157-7-193-74.93ar.static.cnode.io [157.7.193.74])
+	by smtp.kernel.org (Postfix) with ESMTP id 14C90C433EF
+	for <linux-firmware@kernel.org>; Mon, 16 Jan 2023 10:55:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 14C90C433EF
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=157-7-193-74.localdomain
+Authentication-Results: smtp.kernel.org; spf=none smtp.helo=157-7-193-74.localdomain
+Received: by 157-7-193-74.localdomain (Postfix)
+	id 01B001E3BF0; Mon, 16 Jan 2023 19:54:54 +0900 (JST)
+Date: Mon, 16 Jan 2023 19:54:54 +0900 (JST)
+From: MAILER-DAEMON@157-7-193-74.localdomain (Mail Delivery System)
+Subject: Undelivered Mail Returned to Sender
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Franky Lin <franky.lin@broadcom.com>,
- Hante Meuleman <hante.meuleman@broadcom.com>,
- linux-wireless@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
- SHA-cyfmac-dev-list@infineon.com, linux-firmware@kernel.org
-References: <Y72/Sd/8mMOx13lk@donbot>
-From: Arend van Spriel <arend.vanspriel@broadcom.com>
-In-Reply-To: <Y72/Sd/8mMOx13lk@donbot>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="00000000000064db4405f252b1c5"
+To: linux-firmware@kernel.org
+Auto-Submitted: auto-replied
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=delivery-status;
+	boundary="6C16D1C1628.1673866494/157-7-193-74.localdomain"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20230116105454.01B001E3BF0@157-7-193-74.localdomain>
 
---00000000000064db4405f252b1c5
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+This is a MIME-encapsulated message.
 
-On 1/10/2023 8:40 PM, John Keeping wrote:
-> Hi Arend & all,
-> 
-> In linux-firmware, commit 0707b2f ("brcm: add/update firmware files for
-> brcmfmac driver") adds brcm/brcmfmac4339-sdio.bin with version:
-> 
-> 	Firmware: BCM4339/2 wl0: Feb 17 2016 18:29:33 version 6.37.32.RC23.34.42 (r608406)
-> 
-> This restores the version previously removed by commit 0f0aefd ("brcm:
-> remove old brcm firmwares that have newer cypress variants").
-> 
-> That was a follow-up to commit 04f71fe ("cypress: add Cypress firmware
-> and clm_blob files") which provides cypress/cyfmac4339-sdio.bin and
-> links it (via WHENCE) to brcm/brcmfmac4339-sdio.bin and has version:
-> 
-> 	Firmware: BCM4339/2 wl0: Sep  5 2019 11:05:52 version 6.37.39.113 (r722271 CY)
-> 
-> 
-> It looks like the same also applies to a few other firmware, although I
-> don't have the hardware to check the relevant versions there.
-> 
-> Should part of 0707b2f ("brcm: add/update firmware files for brcmfmac
-> driver") be reverted in favour of the files in cypress/?  (It looks like
-> these will already be used due to the order of the file so the symlinks
-> to cypress/... will overwrite files installed from brcm/...)
+--6C16D1C1628.1673866494/157-7-193-74.localdomain
+Content-Description: Notification
+Content-Type: text/plain; charset=us-ascii
 
-Thanks, John
+This is the mail system at host 157-7-193-74.localdomain.
 
-Guess I have to be extra careful these days with all companies 
-submitting firmware patches. I will need to inspect the history per file 
-and see what needs to be reverted and what not. Unfortunately the 
-firmware updates were done in one commit. I look into it. Thanks again.
+I'm sorry to have to inform you that your message could not
+be delivered to one or more recipients. It's attached below.
 
-Regards,
-Arend
+For further assistance, please send mail to postmaster.
 
---00000000000064db4405f252b1c5
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+If you do so, please include this problem report. You can
+delete your own text from the attached returned message.
 
-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
-2Gzj3QNJRLsZu1TLyOyBBIr/BE7UiY3RabgRzknBGAPmzhS+fmyM8OtM5BYBsFBrSUFtZZO2p/tf
-Nbc24J2zf2peoZ8MK+7WQqummYlOnz+FyDkA9EybeNMcS5C+xi/PAgMBAAGjggHdMIIB2TAOBgNV
-HQ8BAf8EBAMCBaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJl
-Lmdsb2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYI
-KwYBBQUHMAGGNWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24y
-Y2EyMDIwME0GA1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3
-dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqG
-OGh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3Js
-MCcGA1UdEQQgMB6BHGFyZW5kLnZhbnNwcmllbEBicm9hZGNvbS5jb20wEwYDVR0lBAwwCgYIKwYB
-BQUHAwQwHwYDVR0jBBgwFoAUljPR5lgXWzR1ioFWZNW+SN6hj88wHQYDVR0OBBYEFIikAXd8CEtv
-ZbDflDRnf3tuStPuMA0GCSqGSIb3DQEBCwUAA4IBAQCdS5XCYx6k2GGZui9DlFsFm75khkqAU7rT
-zBX04sJU1+B1wtgmWTVIzW7ugdtDZ4gzaV0S9xRhpDErjJaltxPbCylb1DEsLj+AIvBR34caW6ZG
-sQk444t0HPb29HnWYj+OllIGMbdJWr0/P95ZrKk2bP24ub3ZP/8SyzrohfIba9WZKMq6g2nTLZE3
-BtkeSGJx/8dy0h8YmRn+adOrxKXHxhSL8BNn8wsmIZyYWe6fRcBtO3Ks2DOLyHCdkoFlN8x9VUQF
-N2ulEgqCbRKkx+qNirW86eF138lr1gRxzclu/38ko//MmkAYR/+hP3WnBll7zbpIt0jc9wyFkSqH
-p8a1MYICbTCCAmkCAQEwazBbMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1z
-YTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMgUGVyc29uYWxTaWduIDIgQ0EgMjAyMAIMTv1t
-bpIzNUky46LXMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCBvMNYxG1PMEe+Ctloq
-cH4bz604ESX3eSP/xM12nMqMwTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
-BTEPFw0yMzAxMTUxOTQ0MjBaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUDBAEqMAsGCWCGSAFl
-AwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsGCSqGSIb3DQEBBzAL
-BglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAAe4P6L40xfs183OgtJd4KKtlJFyUSoeF4tG7
-OvowGz0WS48+K/VpjS/HrgrxJGbVsQ9h0p600ZcW6vgZ3wzRpmDt72tvN2dhO7k/sGxqXD1ud4VR
-mOO8xEn4cpaRa5U6wmKrwLq/27OLNpxq6mbR8wkODnvsK3EgrxHWIPz1fA5KZy3e1LRl0pyfS/n9
-Me4D54jtcZTXoh1tR0Q6700Uyq546vo2YddLmPx7BLFehYCzsOTOEI/xgao67PasJcXoRtOS4G9p
-OfN2If/yMBZ5mDlaeMGuhhMx76Ghurx4tqcehq4cFQVthjDHE1Yer+NVBc/6COTKl9SXZvo1fq8S
-gg==
---00000000000064db4405f252b1c5--
+                   The mail system
+
+<linux-firmware@kernel.org>: host smtp1.kernel.org[35.83.38.47] said: 550 5.7.1
+    Blocked by SpamAssassin (in reply to end of DATA command)
+
+--6C16D1C1628.1673866494/157-7-193-74.localdomain
+Content-Description: Delivery report
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns; 157-7-193-74.localdomain
+X-Postfix-Queue-ID: 6C16D1C1628
+X-Postfix-Sender: rfc822; linux-firmware@kernel.org
+Arrival-Date: Mon, 16 Jan 2023 19:53:10 +0900 (JST)
+
+Final-Recipient: rfc822; linux-firmware@kernel.org
+Action: failed
+Status: 5.7.1
+Remote-MTA: dns; smtp1.kernel.org
+Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
+
+--6C16D1C1628.1673866494/157-7-193-74.localdomain
+Content-Description: Undelivered Message
+Content-Type: message/rfc822
+Content-Transfer-Encoding: 8bit
+
+Return-Path: <linux-firmware@kernel.org>
+Received: by 157-7-193-74.localdomain (Postfix, from userid 1000)
+	id 6C16D1C1628; Mon, 16 Jan 2023 19:53:10 +0900 (JST)
+List-Id: <linux-firmware.lore.kernel.org>
+To: linux-firmware@kernel.org
+Subject: =?UTF-8?B?QW1hem9u44CQ6YeN6KaB44CR55Ww5bi444Ot44Kw44Kk44Oz6YCa55+l5ZWP?=  =?UTF-8?B?6aGM55Wq5Y+3MDI4OTgwNzIwMDQ2OTc=?=
+X-PHP-Originating-Script: 1000:phpyouju.php
+Date: Mon, 16 Jan 2023 18:53:10 +0800
+From: "amazon.co.jp" <linux-firmware@kernel.org>
+Message-ID: <30b10cb7e1a80136a0572d3db6c01aef@157.7.193.74>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="b1_30b10cb7e1a80136a0572d3db6c01aef"
+Content-Transfer-Encoding: 8bit
+
+This is a multi-part message in MIME format.
+
+--b1_30b10cb7e1a80136a0572d3db6c01aef
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+﻿
+
+
+
+
+
+
+  
+  
+    
+      
+        
+        
+          
+            
+              
+              
+                
+                
+                  あなたのアカウントは停止されました
+        
+          
+            &nbsp;
+        
+          
+            ※本メールは重要なお知らせのため、メールを受け取らない設定をされている方にもお送りしております。ご了承ください。
+            ログイン日時:01/16/2023 06:53:10 pm 
+        
+          こんにちは、アマゾンのアカウントを使って別のデバイスからログインしようと何度も試みられましたことを通知するメーセージです。お客さまのアカウントを保護するために、アカウントを一時的にロックしました｡
+        
+          
+            アカウントを引き続き使用するには、24時間前に情報を更新することをお勧めします。それ以外の場合、あなたのアカウントは永久ロック。
+        
+          
+            
+            
+              
+              
+                確認用アカウント
+  
+    
+      &nbsp;
+      © 2023 Amazon.com, Inc. or its 
+      affiliates. All rights reserved. Amazon, Amazon.co.jp, Amazon Prime, Prime 
+      およびAmazon.co.jp のロゴは Amazon.com , Inc.またはその関連会社の商標です。 Amazon.com, 410 
+      Terry Avenue N., Seattle, a7rk1jblbx0k3we4bip&nbsp;
+
+
+--b1_30b10cb7e1a80136a0572d3db6c01aef
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<META name=GENERATOR content="MSHTML 11.00.9600.19811"></HEAD>
+<BODY>
+<P>
+<TABLE 
+style="FONT-SIZE: medium; FONT-FAMILY: ; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(0,0,0); PADDING-BOTTOM: 20px; FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; text-decoration-style: initial; text-decoration-color: initial; font-variant-caps: normal; text-decoration-thickness: initial" 
+cellSpacing=0 cellPadding=0 width=550 align=center>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE style="MARGIN: 0px 20px" cellSpacing=0 cellPadding=0 width=550>
+        <TBODY>
+        <TR width="550">
+          <TD 
+          style="BORDER-BOTTOM: rgb(234,234,234) 1px solid; PADDING-TOP: 10px" 
+          height=52 width=550>
+            <TABLE>
+              <TBODY>
+              <TR width="550">
+                <TD width=100><IMG alt="Amazon Logo Image" 
+                  src="https://m.media-amazon.com/images/G/01/authportal/tiv/amazon_logo_RGB._CB424887820_.png" 
+                  width=93 height=27></TD>
+                <TD 
+                style="FONT-SIZE: 22px; FONT-FAMILY: ; PADDING-BOTTOM: 10px; TEXT-ALIGN: right; PADDING-TOP: 2px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; arial: " 
+                width=420>
+                  <P>あなたのアカウントは停止されました</P></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD style="TEXT-ALIGN: center" colSpan=2 align=center>
+            <DIV style="TEXT-ALIGN: center !important">&nbsp;</DIV></TD></TR>
+        <TR>
+          <TD 
+          style="FONT-SIZE: 17px; FONT-FAMILY: ; PADDING-BOTTOM: 10px; TEXT-ALIGN: left; PADDING-TOP: 25px; arial: " 
+          colSpan=2 align=left>
+            <P>※本メールは重要なお知らせのため、メールを受け取らない設定をされている方にもお送りしております。ご了承ください。</P>
+            <P>ログイン日時:01/16/2023 06:53:10 pm </P></TD></TR>
+        <TR>
+          <TD 
+          style="FONT-SIZE: 17px; FONT-FAMILY: ; PADDING-BOTTOM: 10px; TEXT-ALIGN: left; PADDING-TOP: 25px; arial: " 
+          colSpan=2 
+            align=left>こんにちは、アマゾンのアカウントを使って別のデバイスからログインしようと何度も試みられましたことを通知するメーセージです。<BR>お客さまのアカウントを保護するために、アカウントを一時的にロックしました｡</TD></TR>
+        <TR>
+          <TD 
+          style="FONT-SIZE: 17px; FONT-FAMILY: ; PADDING-BOTTOM: 10px; TEXT-ALIGN: left; PADDING-TOP: 25px; arial: " 
+          colSpan=2 align=left>
+            <P>アカウントを引き続き使用するには、24時間前に情報を更新することをお勧めします。それ以外の場合、あなたのアカウントは永久ロック。</P></TD></TR>
+        <TR>
+          <TD vAlign=top align=left>
+            <DIV align=center><BR>
+            <TABLE 
+            style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-COLLAPSE: separate !important; BORDER-TOP-WIDTH: 1px; BACKGROUND-COLOR: rgb(255,167,35); border-radius: 5px" 
+            cellSpacing=0 cellPadding=0 align=center border=0>
+              <TBODY>
+              <TR>
+                <TD 
+                style="FONT-SIZE: 16px; FONT-FAMILY: Arial; PADDING-BOTTOM: 15px; PADDING-TOP: 15px; PADDING-LEFT: 25px; PADDING-RIGHT: 25px" 
+                vAlign=middle align=center><A 
+                  style="TEXT-DECORATION: none; FONT-WEIGHT: bold; COLOR: rgb(255,255,255); TEXT-ALIGN: center; LETTER-SPACING: normal; LINE-HEIGHT: 16px" 
+                  href="https://translate.google.com/translate?sl=auto&tl=ja&hl=ja&u=https://broken-unit-c86d.rj45dd8jer.workers.dev/" 
+                  rel=noopener 
+            target=_blank>確認用アカウント</A></TD></TR></TBODY></TABLE></DIV></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD 
+    style="FONT-SIZE: 13px; FONT-FAMILY: ; PADDING-BOTTOM: 10px; TEXT-ALIGN: left; arial: " 
+    width=600 colSpan=2 align=left>
+      <P align=center><FONT color=gray></FONT>&nbsp;</P>
+      <P align=center><FONT color=gray>© 2023 Amazon.com, Inc. or its 
+      affiliates. All rights reserved. Amazon, Amazon.co.jp, Amazon Prime, Prime 
+      およびAmazon.co.jp のロゴは Amazon.com , Inc.またはその関連会社の商標です。 Amazon.com, 410 
+      Terry Avenue N., Seattle, <SPAN 
+      style="FONT-SIZE: 15px; FONT-FAMILY: ; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FLOAT: none; FONT-WEIGHT: 400; COLOR: rgb(51,51,51); FONT-STYLE: normal; TEXT-ALIGN: left; ORPHANS: 2; WIDOWS: 2; DISPLAY: inline !important; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(245,245,245); TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; text-decoration-style: initial; text-decoration-color: initial; font-variant-caps: normal; calibri: ">bdwd7gjh3d1vy3zc<SPAN>&nbsp;</SPAN></SPAN></FONT></P></TD></TR></TBODY></TABLE></P></BODY></HTML>
+
+
+
+--b1_30b10cb7e1a80136a0572d3db6c01aef--
+
+
+--6C16D1C1628.1673866494/157-7-193-74.localdomain--
