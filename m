@@ -4,214 +4,117 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 08D3FC678D4
-	for <linux-firmware@archiver.kernel.org>; Tue, 17 Jan 2023 12:55:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B06CFC63797
+	for <linux-firmware@archiver.kernel.org>; Tue, 17 Jan 2023 12:55:58 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B2FEDC43396; Tue, 17 Jan 2023 12:55:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CCBBC433F0
-	for <linux-firmware@kernel.org>; Tue, 17 Jan 2023 12:55:16 +0000 (UTC)
+	id 7ABE3C43396; Tue, 17 Jan 2023 12:55:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 650D7C433D2
+	for <linux-firmware@kernel.org>; Tue, 17 Jan 2023 12:55:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673960116;
-	bh=SQKkD9/mMG1qy6RmcgwZ/CE7ttAJSOKnEee8TRy+wFw=;
+	s=k20201202; t=1673960158;
+	bh=JbYPt4p2onD8DcJA13bax/c5L0PgnAuh0LVelYGuT4s=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=Ngw5fcLZ4KPN64TmYeWee8mGXdUCKs+QsP67uu5TJnvv2b6IlEU4JJnjprxru7huI
-	 fdEtO0+Fvw/swEsgYXudFkNXKT9LHzsJYdK/odJIyV2nt+ZObzKz8XhXPQF9y4PtHW
-	 t2gET2ziNwJBH+Zmo4k6j8qImHXxu6vmStQcJD5WO7rO20mtCDWK2/yswoBnzLD4Zf
-	 8qxm29nI0Ek4R2mcWhKap0P+tYriR9ksQZ0ZOSdewdwxmIeDKaQkN0BOszSmJHwF6X
-	 ADJfULCNUiJzNZhbsN0EKbovLimOOm4XdoXedLzIAUOrdg7SaU1M7X68SlXylA53fk
-	 oGkDVZYrGJQVg==
-Received: by mail-yb1-f175.google.com with SMTP id t15so33856997ybq.4
-        for <linux-firmware@kernel.org>; Tue, 17 Jan 2023 04:55:16 -0800 (PST)
-X-Gm-Message-State: AFqh2koAY2W9yklbQr9ZzYRziMBDraOQ2eigpoTy2iBf330Vs5o9iSXC
-	dgTdmV6v8OVrXO93Nnp7mJ7ZWMAU2aR2eoWXWno=
-X-Google-Smtp-Source: AMrXdXvi5gjDVkR2Ed2723pExtZ2uOK3o8TU0RatEwkKLPu+VtqezxIxQBGngF8B/AhKnoynZsucsyBvbxCpe4uN9Vs=
-X-Received: by 2002:a25:bc8a:0:b0:7d2:ef2:9264 with SMTP id
- e10-20020a25bc8a000000b007d20ef29264mr289997ybk.603.1673960115575; Tue, 17
- Jan 2023 04:55:15 -0800 (PST)
+	b=EBhB93H6x6Vp9X8mynBnhNqUTiF3kQt5CcIPDPPiyAZdRcXRfUlTHBYEvMlYUgRdW
+	 /GSigTW60+bl/jKRan7WZNTo+1q0h6xh/tuzAZ7JlJoxksJVGlWlCQNXFQa9lYd1lx
+	 7ONcGRLBQsd8ud+9ZUMHxBI0dXU/VFaPt1THMPBK1yO2LBWMaS+nHAPoIDZpubwJRr
+	 nrpI6u6qAFAR0CCnM5Ie7jpAsFtYhsSVXKHQtEoAQlFOrxeDNn3SxLw+n/qluW5nSL
+	 AE5BFnJqzp1hGaYGudukXJYmlht4Iuksq87bQ78agdpVJP4gQ3zJSkYlbyKSQ4efhd
+	 a79aFzv8GWm9A==
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-4e9adf3673aso84198917b3.10
+        for <linux-firmware@kernel.org>; Tue, 17 Jan 2023 04:55:58 -0800 (PST)
+X-Gm-Message-State: AFqh2kqNuxFqp6j2YiuCXqVJTdeAgCdBOFI4ZLsj1WRgjiogaHneuf2j
+	A2z8KHy1iPTeCuGqcLcuktU7hXr7crPgrZHTzA8=
+X-Google-Smtp-Source: AMrXdXvFsB15VQXo15ANtrh23o+Yv6SIr2VzAAsHVReYF/IYqlnX3U8No09BRRBtjHu1PPXFtX1fgU8S5JKE6uNBNQo=
+X-Received: by 2002:a81:174e:0:b0:3dd:bcc2:e359 with SMTP id
+ 75-20020a81174e000000b003ddbcc2e359mr333486ywx.341.1673960157446; Tue, 17 Jan
+ 2023 04:55:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20230102131443.905304-1-dmitry.baryshkov@linaro.org>
- <CA+5PVA5ZXLZM=iVvr9tMSGeRbRLgzuODt4bkt+ZvMnzF50MU3w@mail.gmail.com> <d6aa1de2-55c5-c9cd-76f6-d94e91ca4e84@linaro.org>
-In-Reply-To: <d6aa1de2-55c5-c9cd-76f6-d94e91ca4e84@linaro.org>
+References: <20230111205525.2105230-1-andreas@kemnade.info>
+In-Reply-To: <20230111205525.2105230-1-andreas@kemnade.info>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Tue, 17 Jan 2023 07:55:04 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA6HTmkaOxcK3ZP7GWtj9tNs74teygfb_pvc3=OJ8=R4nQ@mail.gmail.com>
-Message-ID: <CA+5PVA6HTmkaOxcK3ZP7GWtj9tNs74teygfb_pvc3=OJ8=R4nQ@mail.gmail.com>
-Subject: Re: [PATCH] qcom: add firmware files for Adreno A200
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 17 Jan 2023 07:55:46 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA5d059GJD5wgtS9fcBVpqMnoX7YXMgmXb-8TPd2C6O1ww@mail.gmail.com>
+Message-ID: <CA+5PVA5d059GJD5wgtS9fcBVpqMnoX7YXMgmXb-8TPd2C6O1ww@mail.gmail.com>
+Subject: Re: [PATCH] brcm: add configuration files for CyberTan WC121
+To: Andreas Kemnade <andreas@kemnade.info>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, Rob Clark <robdclark@gmail.com>, 
-	Jonathan Marek <jonathan@marek.ca>, Fabio Estevam <festevam@gmail.com>
+Cc: linux-firmware@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jan 11, 2023 at 10:17 AM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
+On Wed, Jan 11, 2023 at 3:55 PM Andreas Kemnade <andreas@kemnade.info> wrote:
 >
-> On 11/01/2023 14:51, Josh Boyer wrote:
-> > On Mon, Jan 2, 2023 at 8:14 AM Dmitry Baryshkov
-> > <dmitry.baryshkov@linaro.org> wrote:
-> >>
-> >> Add firmware files for Adreno A20x (codenamed yamato), found in
-> >> Freescale i.MX51/i.MX53 and in some prehistoric Qualcomm Snapdragon
-> >> SoCs.
-> >>
-> >> The firmware were generated from the header files from EfikaMX kernel
-> >> sources ([1]), which bear copyright by QUALCOMM Incorporated and have
-> >> BSD-3-Clause licence.
-> >
-> > How did you generate it?
+> These chips are found in some ebook readers with
+> devicetree in mainline kernel.
 >
-> I hope you don't mind putting the program here.
+> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+> ---
+>  WHENCE                            |  3 +++
+>  brcm/brcmfmac43362-sdio.WC121.txt | 36 +++++++++++++++++++++++++++++++
+>  2 files changed, 39 insertions(+)
+>  create mode 100644 brcm/brcmfmac43362-sdio.WC121.txt
 
-Not at all.  Thanks.  Patch applied and pushed out.
+Applied and pushed out.
 
 josh
 
 >
-> // SPDX-License-Identifier: BSD-3-Clause
-> /*
->   * Copyright (C) 2022 Linaro Ltd.
->   * Author: Dmitry Baryshkov
->   */
->
-> #include <stdio.h>
-> #include <stdint.h>
-> #include <string.h>
-> #include <errno.h>
-> #include <unistd.h>
->
-> typedef uint32_t uint32;
->
-> #include "pm4_microcode.inl"
-> #include "pfp_microcode_nrt.inl"
->
-> int dump(const char *name, uint32_t *data, size_t n)
-> {
->         FILE *f;
->         int ret;
->         uint32_t zero = 0;
->
->         f = fopen(name, "w");
->         if (!f) {
->                 fprintf(stderr, "fopen: %s: %s\n", name, strerror(errno));
->                 return 1;
->         }
->
->         if (fwrite(&zero, 4, 1, f) != 1) {
->                 fprintf(stderr, "error writing data\n");
->                 fclose(f);
->                 unlink(name);
->                 return 1;
->         }
->
->         ret = fwrite(data, 4, n, f);
->         if (ret != n) {
->                 fprintf(stderr, "error writing data\n");
->                 fclose(f);
->                 unlink(name);
->                 return 1;
->         }
->
->         fclose(f);
->
->         return 0;
-> }
->
-> int main(int argc, char **argv)
-> {
->
->         if (argc != 3) {
->                 fprintf(stderr, "Usage: %s <pfp> <pm4>\n", argv[0]);
->                 return 1;
->         }
->
->         if (dump(argv[1], aPFP_Microcode_nrt, PFP_MICROCODE_SIZE_NRT))
->                 return 1;
->
->         if (dump(argv[2], &aPM4_Microcode[0][0], PM4_MICROCODE_SIZE * 3))
->                 return 1;
->
->         return 0;
-> }
->
->
-> >
-> > josh
-> >
-> >> [1] https://github.com/genesi/linux-legacy/tree/master/drivers/mxc/amd-gpu
-> >>
-> >> Cc: Rob Clark <robdclark@gmail.com>
-> >> Cc: Jonathan Marek <jonathan@marek.ca>
-> >> Cc: Fabio Estevam <festevam@gmail.com>
-> >> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >> ---
-> >>
-> >> Note: the following patch needs to be applied to get this firmware to
-> >> work. It is most likely to find its way into the 6.3 kernel.
-> >>
-> >> https://lore.kernel.org/dri-devel/20230101155753.779176-1-dmitry.baryshkov@linaro.org/
-> >>
-> >> ---
-> >>   LICENSE.qcom_yamato |  25 +++++++++++++++++++++++++
-> >>   WHENCE              |  13 +++++++++++++
-> >>   qcom/yamato_pfp.fw  | Bin 0 -> 1156 bytes
-> >>   qcom/yamato_pm4.fw  | Bin 0 -> 9220 bytes
-> >>   4 files changed, 38 insertions(+)
-> >>   create mode 100644 LICENSE.qcom_yamato
-> >>   create mode 100644 qcom/yamato_pfp.fw
-> >>   create mode 100644 qcom/yamato_pm4.fw
-> >>
-> >> diff --git a/LICENSE.qcom_yamato b/LICENSE.qcom_yamato
-> >> new file mode 100644
-> >> index 000000000000..1fd702bb9264
-> >> --- /dev/null
-> >> +++ b/LICENSE.qcom_yamato
-> >> @@ -0,0 +1,25 @@
-> >> +Copyright (c) 2008-2011, QUALCOMM Incorporated. All rights reserved.
-> >> +
-> >> +Redistribution and use in source and binary forms, with or without
-> >> +modification, are permitted provided that the following conditions are met:
-> >> +    * Redistributions of source code must retain the above copyright
-> >> +      notice, this list of conditions and the following disclaimer.
-> >> +    * Redistributions in binary form must reproduce the above copyright
-> >> +      notice, this list of conditions and the following disclaimer in the
-> >> +      documentation and/or other materials provided with the distribution.
-> >> +    * Neither the name of QUALCOMM Incorporated nor
-> >> +      the names of its contributors may be used to endorse or promote
-> >> +      products derived from this software without specific prior written
-> >> +      permission.
-> >> +
-> >> +THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-> >> +AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-> >> +IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-> >> +ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
-> >> +LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-> >> +CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-> >> +SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-> >> +INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-> >> +CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-> >> +ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-> >> +POSSIBILITY OF SUCH DAMAGE.
-> >> diff --git a/WHENCE b/WHENCE
-> >> index f31fa308cc89..f14730a31368 100644
-> >> --- a/WHENCE
-> >> +++ b/WHENCE
-> >> @@ -5742,6 +5742,19 @@ https://developer.qualcomm.com/hardware/dragonboard-410c/tools
-> >>
-> >>   --------------------------------------------------------------------------
-> >>
-> >> +Driver: adreno - Qualcomm Adreno GPU firmware
-> >> +
-> >> +File: qcom/yamato_pfp.fw
-> >> +File: qcom/yamato_pm4.fw
-> >> +
-> >> +Licence: Redistributable, BSD-3-Clause licence, See LICENSE.qcom_yamato
-> >> +
-> >> +Binary files generated from header files in EfikaMX kernel sources. A prefix of
-> >> +four zero bytes was prepended to make them work with the DRM MSM driver. See
-> >> +https://github.com/genesi/linux-legacy/tree/master/drivers/mxc/amd-gpu
-> >> +
->
+> diff --git a/WHENCE b/WHENCE
+> index f31fa30..b84f426 100644
+> --- a/WHENCE
+> +++ b/WHENCE
+> @@ -2930,7 +2930,10 @@ File: "brcm/brcmfmac43340-sdio.ASUSTeK COMPUTER INC.-TF103CE.txt"
+>  File: "brcm/brcmfmac43340-sdio.meegopad-t08.txt"
+>  File: "brcm/brcmfmac43340-sdio.pov-tab-p1006w-data.txt"
+>  File: "brcm/brcmfmac43340-sdio.predia-basic.txt"
+> +File: "brcm/brcmfmac43362-sdio.WC121.txt"
+>  File: "brcm/brcmfmac43362-sdio.cubietech,cubietruck.txt"
+> +Link: brcm/brcmfmac43362-sdio.kobo,aura.txt -> brcmfmac43362-sdio.WC121.txt
+> +Link: brcm/brcmfmac43362-sdio.kobo,tolino-shine2hd.txt -> brcmfmac43362-sdio.WC121.txt
+>  Link: brcm/brcmfmac43362-sdio.lemaker,bananapro.txt -> brcmfmac43362-sdio.cubietech,cubietruck.txt
+>  File: "brcm/brcmfmac43430a0-sdio.ilife-S806.txt"
+>  File: "brcm/brcmfmac43430a0-sdio.jumper-ezpad-mini3.txt"
+> diff --git a/brcm/brcmfmac43362-sdio.WC121.txt b/brcm/brcmfmac43362-sdio.WC121.txt
+> new file mode 100644
+> index 0000000..9a2aa1b
+> --- /dev/null
+> +++ b/brcm/brcmfmac43362-sdio.WC121.txt
+> @@ -0,0 +1,36 @@
+> +aa2g=1
+> +boardflags=0xa00
+> +boardnum=777
+> +boardrev=0x1207
+> +boardtype=0x0598
+> +cckPwrOffset=4
+> +ccode=0
+> +devid=0x4343
+> +edoffthd=-71
+> +edonthd=-65
+> +initxidx2g=45
+> +macaddr=00:90:4c:07:7${maclo12}
+> +manfid=0x2d0
+> +maxp2ga0=74
+> +mcs2gpo0=0x4444
+> +mcs2gpo1=0x6444
+> +noise_cal_enable_2g=0
+> +ofdm2gpo=0x44111111
+> +pa0b0=5447
+> +pa0b1=-658
+> +pa0b2=-175
+> +pa0itssit=62
+> +pa0maxpwr=80
+> +pa1itssit=62
+> +prodid=0x492
+> +rssisav2g=0x7
+> +rssismc2g=0x3
+> +rssismf2g=0xa
+> +sromrev=3
+> +swctrlmap_2g=0x04040404,0x02020202,0x04040404,0x010101,0x1ff
+> +temp_add=29767
+> +temp_mult=425
+> +temp_q=10
+> +triso2g=0
+> +vendid=0x14e4
+> +xtalfreq=26000
 > --
-> With best wishes
-> Dmitry
+> 2.30.2
 >
