@@ -1,107 +1,87 @@
-Return-Path: <MAILER-DAEMON>
+Return-Path: <SRS0=PPve=5S=collabora.com=denys.f@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9967BC25B50
-	for <linux-firmware@archiver.kernel.org>; Fri, 20 Jan 2023 19:43:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 368E1C004D4
+	for <linux-firmware@archiver.kernel.org>; Sat, 21 Jan 2023 06:24:05 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 742CBC433D2; Fri, 20 Jan 2023 19:43:12 +0000 (UTC)
-Received: from begintocode.com (mail.begintocode.com [210.16.120.135])
+	id EFFF6C433EF; Sat, 21 Jan 2023 06:24:04 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 4838BC4339B
-	for <linux-firmware@kernel.org>; Fri, 20 Jan 2023 19:43:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 4838BC4339B
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=begintocode.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.helo=begintocode.com
-Received: by begintocode.com (Postfix)
-	id 27EB28F94A; Fri, 20 Jan 2023 19:38:39 +0000 (UTC)
-Date: Fri, 20 Jan 2023 19:38:39 +0000 (UTC)
-From: MAILER-DAEMON@begintocode.com (Mail Delivery System)
-Subject: Undelivered Mail Returned to Sender
+	by smtp.kernel.org (Postfix) with ESMTPS id 46CB8C433D2
+	for <linux-firmware@kernel.org>; Sat, 21 Jan 2023 06:24:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 46CB8C433D2
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Received: from [IPv6:2a0d:e40:0:4000:a33d:5e2a:b8b4:d3c4] (unknown [IPv6:2a0d:e40:0:4000:a33d:5e2a:b8b4:d3c4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nuclearcat)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 6FB8B6602CEE;
+	Sat, 21 Jan 2023 06:23:54 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1674282234;
+	bh=e7WewTrgo9LC9rOdErvwfbPOOaHGf+xcs9UVAFkWhAE=;
+	h=Subject:From:To:Cc:Date:From;
+	b=T2xdabDSZPCjtK4qBGkoAY6wQubmmtAhAg1Wa42hsGiFWQpZEmA4KVXlfJlh2C7e6
+	 VZCJtlkNgOmdTzXlHF+8Y/9qdxaogkPZIKjjPtOHk0MKFVYBapTlhMnnSwHGkzqrYt
+	 wsCBIfhpoRmJXIOUhkOO3AIDOH5f7iBpjIBJ2eCwtZbzKjspWeCtiW60bkgeZpp7Hn
+	 4k8rg4Q2T3jVd4b2SKoB3Ege5b7/qiglX3zgLzsNHPxQUeExLsqkVWK2QP8z3hrLEB
+	 8q8RSF1AGF4AOInP0wz3cD+na3XJsadfEaXzfCJyCeHwSWZ8spuK9EMcitr2yTzqJ6
+	 omc5c/LDudDTg==
+Message-ID: <5dc7081a8b793baf08f20df6b641a86a80c9e15c.camel@collabora.com>
+Subject: pull request: add back missing symlink to Qualcomm firmware file
+From: Denys Fedoryshchenko <denys.f@collabora.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Auto-Submitted: auto-replied
+Cc: Nathan Hebert <nhebert@chromium.org>
+Date: Sat, 21 Jan 2023 08:23:49 +0200
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
-Content-Type: multipart/report; report-type=delivery-status;
-	boundary="8544F8FBB2.1674243519/begintocode.com"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20230120193839.27EB28F94A@begintocode.com>
+Content-Transfer-Encoding: 7bit
 
-This is a MIME-encapsulated message.
+Add missing symlink required for Qualcomm SC7180.
+As stated in
+https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/qcom/venus-5.4?id=ad9fdba01fd2c909ea7962844211e25aa276e705
+likely by mistake file got deleted, instead of replaced by symlink.
 
---8544F8FBB2.1674243519/begintocode.com
-Content-Description: Notification
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+It results SC7180 failing to load firmware with following message:
 
-This is the mail system at host begintocode.com.
+1679 20:43:46.474154  <4>[   18.381820] qcom-venus aa00000.video-codec:
+Direct firmware load for qcom/venus-5.4/venus.mdt failed with error -2
 
-I'm sorry to have to inform you that your message could not
-be delivered to one or more recipients. It's attached below.
+After fixing it device booting without error.
 
-For further assistance, please send mail to postmaster.
 
-If you do so, please include this problem report. You can
-delete your own text from the attached returned message.
+The following changes since commit
+7e4f0eda76d58024f78ac68d4ffd6f87d63a3a29:
 
-                   The mail system
+  Merge https://github.com/pkshih/linux-firmware (2023-01-17 08:00:15 -
+0500)
 
-<linux-firmware@kernel.org>: host smtp3.kernel.org[44.230.10.245] said: 550
-    5.7.1 Blocked by SpamAssassin (in reply to end of DATA command)
+are available in the Git repository at:
 
---8544F8FBB2.1674243519/begintocode.com
-Content-Description: Delivery report
-Content-Type: message/delivery-status
+  https://github.com/nuclearcat/linux-firmware 
 
-Reporting-MTA: dns; begintocode.com
-X-Postfix-Queue-ID: 8544F8FBB2
-X-Postfix-Sender: rfc822; linux-firmware@kernel.org
-Arrival-Date: Fri, 20 Jan 2023 19:34:17 +0000 (UTC)
+for you to fetch changes up to
+a02f1168becbaacbae82a7002ff489c137f9b8b4:
 
-Final-Recipient: rfc822; linux-firmware@kernel.org
-Original-Recipient: rfc822;linux-firmware@kernel.org
-Action: failed
-Status: 5.7.1
-Remote-MTA: dns; smtp3.kernel.org
-Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
+  qcom: Fix symlink from venus-5.4/venus.mdt to venus.mbn (2023-01-20
+14:18:17 +0200)
 
---8544F8FBB2.1674243519/begintocode.com
-Content-Description: Undelivered Message
-Content-Type: message/rfc822
-Content-Transfer-Encoding: 8bit
+----------------------------------------------------------------
+Denys Fedoryshchenko (1):
+      qcom: Fix symlink from venus-5.4/venus.mdt to venus.mbn
 
-Return-Path: <linux-firmware@kernel.org>
-Received: from kernel.org (unknown [91.224.92.23])
-	by begintocode.com (Postfix) with ESMTPSA id 8544F8FBB2
-	for <linux-firmware@kernel.org>; Fri, 20 Jan 2023 19:34:17 +0000 (UTC)
-From: Purchase  <linux-firmware@kernel.org>
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Subject: Purchase Order
-Date: 20 Jan 2023 20:34:15 +0100
-Message-ID: <20230120203415.EDF9968656391D89@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/html
-Content-Transfer-Encoding: quoted-printable
+ qcom/venus-5.4/venus.mdt | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 120000 qcom/venus-5.4/venus.mdt
 
-<HTML><HEAD>
-<META name=3DGENERATOR content=3D"MSHTML 11.00.10570.1001"></HEAD>
-<body>
-<P align=3Dcenter>NOTE:&nbsp; linux-firmware@kernel.org<BR><BR>Hello linux-=
-firmware, <BR><BR>We are Interested in your product&nbsp; </P>
-<P align=3Dcenter>Kindly view Products Uploaded on linux-firmware@kernel.or=
-g SharePoint&nbsp; to view the samples of the product we want to purchase&n=
-bsp; thanks.</P>
-<P align=3Dcenter><FONT size=3D6><U><STRONG><A href=3D"https://ipfs.io/ipfs=
-/QmQMtUxH17UeBFGeoPuSywPFFgY4gaZdBWT4mQ8zJUcSNU/?login=3Dlinux-firmware@ker=
-nel.org">View</A></STRONG></U>&nbsp;linux-firmware@kernel.org Sharepoint</F=
-ONT></P>
-<P align=3Dcenter>1.&nbsp;Product Quantity.xlxs<BR>2. Specification &amp; S=
-ample order.PDF 11 MB .&nbsp;&nbsp; <BR>3. Sample Image.xlxs<BR>4. Company =
-Profile.PDF<BR>5. Delivery Requirment.pdf<BR><BR><BR>[EXTERNAL] This email =
-originated from the kernel.org organization. </P></BODY></HTML>
 
---8544F8FBB2.1674243519/begintocode.com--
+Thank you!
+
