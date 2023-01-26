@@ -4,55 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D33DC05027
-	for <linux-firmware@archiver.kernel.org>; Thu, 26 Jan 2023 10:15:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14434C54E94
+	for <linux-firmware@archiver.kernel.org>; Thu, 26 Jan 2023 10:41:58 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 44960C433D2; Thu, 26 Jan 2023 10:15:36 +0000 (UTC)
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	id CBD4AC433EF; Thu, 26 Jan 2023 10:41:58 +0000 (UTC)
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 531CDC4339C
-	for <linux-firmware@kernel.org>; Thu, 26 Jan 2023 10:15:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 531CDC4339C
+	by smtp.kernel.org (Postfix) with ESMTPS id D1D9AC433D2
+	for <linux-firmware@kernel.org>; Thu, 26 Jan 2023 10:41:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D1D9AC433D2
 Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=broadcom.com
-Received: by mail-qt1-f179.google.com with SMTP id h24so844364qta.12
-        for <linux-firmware@kernel.org>; Thu, 26 Jan 2023 02:15:35 -0800 (PST)
+Received: by mail-qt1-f174.google.com with SMTP id d3so895641qte.8
+        for <linux-firmware@kernel.org>; Thu, 26 Jan 2023 02:41:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=broadcom.com; s=google;
-        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
+        h=in-reply-to:references:cc:to:from:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=fChpFm5Ip3umCS+Yb1ffErt1xUWchigFbRx3munFwXU=;
-        b=IFBDNm3FvYa2e1hDFxAPhRZ6ONyb0izvudYvOQieRw/urPFiEjzAFZzVnw3NsHPGEa
-         Gj1pySwrKZNs7ToWVmrBAlSOV0ikTgbVID1kYtPNXOyv0PKjideLMiUFbIu+CKk255gz
-         GjBQ2Wviwa/PdXWmx2VmJ8vbu/uHR5u6h06fU=
+        bh=ZmpqvOriGauIz553zakP1xONreQjXQ24Vv8gMXFX/Qo=;
+        b=ErR3cAxU7/3F0vkMcAamhuVajHI6LiaYbGTLqInMKf3zjJgj/ZHXcAmJr2LSRrgIu0
+         AcUVJEU2MD0QMWL27BkD9sVBbln+mk0/9rnjnSTQeatTX87ClaeEmmU8nobRPu8kTDOz
+         AJq366sfIiFcRw8ZvR29/LDl8982j3hkSMO2Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
+        h=in-reply-to:references:cc:to:from:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fChpFm5Ip3umCS+Yb1ffErt1xUWchigFbRx3munFwXU=;
-        b=ig3nVfnr6nfEfoxG4thDDgGdJ5rrokovXxhwVXYiq0PpuCTdnABclo+sFeoYe/HZ/d
-         gVPaOg6dLBByX+i2z7dXIQBHhdxsUzdN8a7rQD2U7Kw8MhPN7QApBxK4YyD+iVFr66xy
-         GeM9a7bCmyxx/vtLgA4kLnF5UCy1xjW60QdvFouujDwED5P+qpFmEY6I8UFky+vRPgyN
-         I81KABn/BK5PcyqjFbQ5Ma6lyvdaRpD8ih286tqltKRooAvN2Np0+9y4rEKKWdqWYLaL
-         C23VkFxUAEdZrdPeyE9O8/+cU0j5Ohp/t8uTOxY2D22p7DEGeXuJkdg+G6YF/eC5k8f2
-         3C3w==
-X-Gm-Message-State: AFqh2korh/3IElMZrshPxFMZmht7NcZw3ppU1sh7AMi06edHaaYqQ+az
-	D/TxgO7SYnry9qAW4rhLjIrXTA==
-X-Google-Smtp-Source: AMrXdXt5Lkk/szq+tg+bOOXLdYLw5JgC3A+vTSxV1QKomqayhJr+YtEi5LeHFQcV9jYXgggRt8HNWQ==
-X-Received: by 2002:a05:622a:5d9a:b0:3b6:3494:175 with SMTP id fu26-20020a05622a5d9a00b003b634940175mr52381645qtb.66.1674728134246;
-        Thu, 26 Jan 2023 02:15:34 -0800 (PST)
+        bh=ZmpqvOriGauIz553zakP1xONreQjXQ24Vv8gMXFX/Qo=;
+        b=yNNmp97yk9K3rEegsjKOfDI+AfOVXqhpKbIh8qjfq2mDC9TPbSnIC++uorbJSd6AoN
+         F8ymXGGvEWLF9LjOA+XgiB+YXUZOIpvlRLUepFnBs4C97idFgsCGXU8ZDL+XvIzigzFw
+         eOnNJUAWDKt9NO7wAKiaYOfWh9Qaj3slOapHXu7KayATGIqZksgVOlc3IHbxx3g1cP/4
+         8jx40rBXT639iZHMDl1LN4ns2/6PIIvDNcYp/CQMtz0edHNZyMxN107IY1Fy1aMhVmcP
+         EeCYUASHIS2/mu1LO/HEOLzaK2W3j1IUnkDtFKZO8hk5a2bEpdsVFiziWIxgg0WP9Hq+
+         ba7Q==
+X-Gm-Message-State: AFqh2koTvJDT2WkZCnmhUxJ6lQDceEoEecCoacin9jewvaazRmTpbNT1
+	6l3eFblaxkuPHSwQvUPCdIRLKQ==
+X-Google-Smtp-Source: AMrXdXuP65X5BZ1ehygc9uY0fEj3xKI6kADrM8pL5KoQv8kKhLMhq4lR98bwO6JUDLjGwbjG8Ui4CQ==
+X-Received: by 2002:ac8:7156:0:b0:3b5:bd73:12bd with SMTP id h22-20020ac87156000000b003b5bd7312bdmr53327062qtp.29.1674729716728;
+        Thu, 26 Jan 2023 02:41:56 -0800 (PST)
 Received: from [10.176.68.61] ([192.19.148.250])
-        by smtp.gmail.com with ESMTPSA id i12-20020ac84f4c000000b003b63c9c59easm444969qtw.97.2023.01.26.02.15.32
+        by smtp.gmail.com with ESMTPSA id k8-20020ac80208000000b003b1546ee6absm538178qtg.11.2023.01.26.02.41.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Jan 2023 02:15:33 -0800 (PST)
-Message-ID: <7ffbf116-3252-8347-a621-ca9ef120e263@broadcom.com>
-Date: Thu, 26 Jan 2023 11:15:31 +0100
+        Thu, 26 Jan 2023 02:41:56 -0800 (PST)
+Message-ID: <a08ccf64-652e-7ca1-2470-01514aab09ec@broadcom.com>
+Date: Thu, 26 Jan 2023 11:41:53 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
 Subject: Re: brcm: brcmfmac4339 firmware in linux-firmware
+From: Arend van Spriel <arend.vanspriel@broadcom.com>
 To: John Keeping <john@metanate.com>
 List-Id: <linux-firmware.lore.kernel.org>
 Cc: Franky Lin <franky.lin@broadcom.com>,
@@ -60,28 +61,33 @@ Cc: Franky Lin <franky.lin@broadcom.com>,
  linux-wireless@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
  SHA-cyfmac-dev-list@infineon.com, linux-firmware@kernel.org
 References: <Y72/Sd/8mMOx13lk@donbot>
-From: Arend van Spriel <arend.vanspriel@broadcom.com>
-In-Reply-To: <Y72/Sd/8mMOx13lk@donbot>
+ <7ffbf116-3252-8347-a621-ca9ef120e263@broadcom.com>
+In-Reply-To: <7ffbf116-3252-8347-a621-ca9ef120e263@broadcom.com>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="0000000000008d13b505f3280758"
+	boundary="000000000000dfec1105f328657e"
 
---0000000000008d13b505f3280758
+--000000000000dfec1105f328657e
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 1/10/2023 8:40 PM, John Keeping wrote:
-> That was a follow-up to commit 04f71fe ("cypress: add Cypress firmware
-> and clm_blob files") which provides cypress/cyfmac4339-sdio.bin and
-> links it (via WHENCE) to brcm/brcmfmac4339-sdio.bin and has version:
+On 1/26/2023 11:15 AM, Arend van Spriel wrote:
+> On 1/10/2023 8:40 PM, John Keeping wrote:
+>> That was a follow-up to commit 04f71fe ("cypress: add Cypress firmware
+>> and clm_blob files") which provides cypress/cyfmac4339-sdio.bin and
+>> links it (via WHENCE) to brcm/brcmfmac4339-sdio.bin and has version:
+> 
+> Looking into this now, but how does this work. What does that (via 
+> WHENCE)? Guess I missed something fundamental here.
 
-Looking into this now, but how does this work. What does that (via 
-WHENCE)? Guess I missed something fundamental here.
+Assuming the copy-firmware.sh is taking care of the links. I guess it 
+accommodates brcmfmac for older kernels, but I feel an itch to change 
+the brcmfmac driver and directly refer to the cypress firmware files.
 
 Regards,
 Arend
 
---0000000000008d13b505f3280758
+--000000000000dfec1105f328657e
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -152,14 +158,14 @@ BtkeSGJx/8dy0h8YmRn+adOrxKXHxhSL8BNn8wsmIZyYWe6fRcBtO3Ks2DOLyHCdkoFlN8x9VUQF
 N2ulEgqCbRKkx+qNirW86eF138lr1gRxzclu/38ko//MmkAYR/+hP3WnBll7zbpIt0jc9wyFkSqH
 p8a1MYICbTCCAmkCAQEwazBbMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1z
 YTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMgUGVyc29uYWxTaWduIDIgQ0EgMjAyMAIMTv1t
-bpIzNUky46LXMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCCsKjlOGkUpj8cCKGIy
-Lk6pP3KYOT3t1hq+tNLPYIG86jAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
-BTEPFw0yMzAxMjYxMDE1MzRaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUDBAEqMAsGCWCGSAFl
+bpIzNUky46LXMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCBNRKgxKM9vIzq9Tx+f
+eGhmyVU9XQWmpLaisc8ckpXeCDAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
+BTEPFw0yMzAxMjYxMDQxNTZaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUDBAEqMAsGCWCGSAFl
 AwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsGCSqGSIb3DQEBBzAL
-BglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAyy4ZjAlZ9GtBlPdjB3wSvzRrxlrUmoB4cOcE
-hHd0x09udPlpntixb95mZiZRNILiVAYbA4MdwXDc6OzRfybXvvLo7xT4cLxWEHYrEhjHETkmbPDV
-pE69TmvNfAPara+Rp0gBD4M9LNAD7z1/nBXMCLqqwCPObn9hwyO1XIVGkeKgcRS8PJpZ4bvAgMCQ
-Bpnk1WsUsak6p1qPeN8AQj6JDDxl/8PJPgdXHRnAgYjh4Dd+p3N9CaFAQkmH341YxcfK8zSSS06O
-9YS6IgQH43P/mgWHIbtvS/jW+ZWXcSstBzEsnFEUV83SI0Aoo1HmSzb/B+nOUPO8yXz1cHFNt20w
-FQ==
---0000000000008d13b505f3280758--
+BglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEA8Rz9/tEpkfDaLxhIRTwsyZSHA9qrOl0KIrn0
+DWCpbnMQpLzrZGa1GlanbVGLAJLTT4gWsU+ehBsFfXHKW7eV6aHvodzTnbsodusef6PjNOMsnYBd
+LIK0X7Ocr0ZvMwpzQw8gxhdKXO3xgkZm4wUQPixaeDkvoQJcjgzfR7nCD+om0UhKpcMrhbHlE8Ko
+Svz/4VWp1Gy6Qa6pCLyJ8bCQfwjjwmHj5SMyzSrtPznBeqlvo69waQSywUWFUSpaAp94VcHthcls
+z7FqNtS5V1udgyIgsfeU17viNz5wrkyxFvpPnEHk9l8x53S1rWwMwQYAwboWcEXfQG5kAPciT++k
+nw==
+--000000000000dfec1105f328657e--
