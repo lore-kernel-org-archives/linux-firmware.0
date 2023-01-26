@@ -1,227 +1,165 @@
-Return-Path: <MAILER-DAEMON>
+Return-Path: <SRS0=/5gT=5X=broadcom.com=arend.vanspriel@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8F1A3C05027
-	for <linux-firmware@archiver.kernel.org>; Thu, 26 Jan 2023 06:39:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D33DC05027
+	for <linux-firmware@archiver.kernel.org>; Thu, 26 Jan 2023 10:15:36 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 57365C4339B; Thu, 26 Jan 2023 06:39:38 +0000 (UTC)
-Received: from 157-7-78-210.localdomain (v157-7-78-210.zwcs.static.cnode.io [157.7.78.210])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id 44960C433D2; Thu, 26 Jan 2023 10:15:36 +0000 (UTC)
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 6FA6EC433EF
-	for <linux-firmware@kernel.org>; Thu, 26 Jan 2023 06:39:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 6FA6EC433EF
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=157-7-78-210.localdomain
-Authentication-Results: smtp.kernel.org; spf=none smtp.helo=157-7-78-210.localdomain
-Received: by 157-7-78-210.localdomain (Postfix)
-	id 164342BEB0; Thu, 26 Jan 2023 15:38:28 +0900 (JST)
-Date: Thu, 26 Jan 2023 15:38:28 +0900 (JST)
-From: MAILER-DAEMON@157-7-78-210.localdomain (Mail Delivery System)
-Subject: Undelivered Mail Returned to Sender
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Auto-Submitted: auto-replied
+	by smtp.kernel.org (Postfix) with ESMTPS id 531CDC4339C
+	for <linux-firmware@kernel.org>; Thu, 26 Jan 2023 10:15:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 531CDC4339C
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Received: by mail-qt1-f179.google.com with SMTP id h24so844364qta.12
+        for <linux-firmware@kernel.org>; Thu, 26 Jan 2023 02:15:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google;
+        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=fChpFm5Ip3umCS+Yb1ffErt1xUWchigFbRx3munFwXU=;
+        b=IFBDNm3FvYa2e1hDFxAPhRZ6ONyb0izvudYvOQieRw/urPFiEjzAFZzVnw3NsHPGEa
+         Gj1pySwrKZNs7ToWVmrBAlSOV0ikTgbVID1kYtPNXOyv0PKjideLMiUFbIu+CKk255gz
+         GjBQ2Wviwa/PdXWmx2VmJ8vbu/uHR5u6h06fU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fChpFm5Ip3umCS+Yb1ffErt1xUWchigFbRx3munFwXU=;
+        b=ig3nVfnr6nfEfoxG4thDDgGdJ5rrokovXxhwVXYiq0PpuCTdnABclo+sFeoYe/HZ/d
+         gVPaOg6dLBByX+i2z7dXIQBHhdxsUzdN8a7rQD2U7Kw8MhPN7QApBxK4YyD+iVFr66xy
+         GeM9a7bCmyxx/vtLgA4kLnF5UCy1xjW60QdvFouujDwED5P+qpFmEY6I8UFky+vRPgyN
+         I81KABn/BK5PcyqjFbQ5Ma6lyvdaRpD8ih286tqltKRooAvN2Np0+9y4rEKKWdqWYLaL
+         C23VkFxUAEdZrdPeyE9O8/+cU0j5Ohp/t8uTOxY2D22p7DEGeXuJkdg+G6YF/eC5k8f2
+         3C3w==
+X-Gm-Message-State: AFqh2korh/3IElMZrshPxFMZmht7NcZw3ppU1sh7AMi06edHaaYqQ+az
+	D/TxgO7SYnry9qAW4rhLjIrXTA==
+X-Google-Smtp-Source: AMrXdXt5Lkk/szq+tg+bOOXLdYLw5JgC3A+vTSxV1QKomqayhJr+YtEi5LeHFQcV9jYXgggRt8HNWQ==
+X-Received: by 2002:a05:622a:5d9a:b0:3b6:3494:175 with SMTP id fu26-20020a05622a5d9a00b003b634940175mr52381645qtb.66.1674728134246;
+        Thu, 26 Jan 2023 02:15:34 -0800 (PST)
+Received: from [10.176.68.61] ([192.19.148.250])
+        by smtp.gmail.com with ESMTPSA id i12-20020ac84f4c000000b003b63c9c59easm444969qtw.97.2023.01.26.02.15.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Jan 2023 02:15:33 -0800 (PST)
+Message-ID: <7ffbf116-3252-8347-a621-ca9ef120e263@broadcom.com>
+Date: Thu, 26 Jan 2023 11:15:31 +0100
 MIME-Version: 1.0
-Content-Type: multipart/report; report-type=delivery-status;
-	boundary="5DEC32C3C1.1674715108/157-7-78-210.localdomain"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20230126063828.164342BEB0@157-7-78-210.localdomain>
-
-This is a MIME-encapsulated message.
-
---5DEC32C3C1.1674715108/157-7-78-210.localdomain
-Content-Description: Notification
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-This is the mail system at host 157-7-78-210.localdomain.
-
-I'm sorry to have to inform you that your message could not
-be delivered to one or more recipients. It's attached below.
-
-For further assistance, please send mail to postmaster.
-
-If you do so, please include this problem report. You can
-delete your own text from the attached returned message.
-
-                   The mail system
-
-<linux-firmware@kernel.org>: host smtp2.kernel.org[35.85.114.177] said: 550
-    5.7.1 Blocked by SpamAssassin (in reply to end of DATA command)
-
---5DEC32C3C1.1674715108/157-7-78-210.localdomain
-Content-Description: Delivery report
-Content-Type: message/delivery-status
-
-Reporting-MTA: dns; 157-7-78-210.localdomain
-X-Postfix-Queue-ID: 5DEC32C3C1
-X-Postfix-Sender: rfc822; linux-firmware@kernel.org
-Arrival-Date: Thu, 26 Jan 2023 15:35:17 +0900 (JST)
-
-Final-Recipient: rfc822; linux-firmware@kernel.org
-Original-Recipient: rfc822;linux-firmware@kernel.org
-Action: failed
-Status: 5.7.1
-Remote-MTA: dns; smtp2.kernel.org
-Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
-
---5DEC32C3C1.1674715108/157-7-78-210.localdomain
-Content-Description: Undelivered Message
-Content-Type: message/rfc822
-Content-Transfer-Encoding: 8bit
-
-Return-Path: <linux-firmware@kernel.org>
-Received: by 157-7-78-210.localdomain (Postfix, from userid 1000)
-	id 5DEC32C3C1; Thu, 26 Jan 2023 15:35:17 +0900 (JST)
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: brcm: brcmfmac4339 firmware in linux-firmware
+To: John Keeping <john@metanate.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Subject: =?UTF-8?B?QW1hem9u44CQ6YeN6KaB44CR55Ww5bi444Ot44Kw44Kk44Oz6YCa55+l5ZWP?=  =?UTF-8?B?6aGM55Wq5Y+3NzIyMzEwMjI4ODM1MDcxMjM1?=
-X-PHP-Originating-Script: 1000:phpyouju.php
-Date: Thu, 26 Jan 2023 14:35:17 +0800
-From: "amazon.co.jp" <linux-firmware@kernel.org>
-Message-ID: <1258dc53d6efefb9ca9298ab22bdecce@157.7.78.210>
-MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="b1_1258dc53d6efefb9ca9298ab22bdecce"
-Content-Transfer-Encoding: 8bit
+Cc: Franky Lin <franky.lin@broadcom.com>,
+ Hante Meuleman <hante.meuleman@broadcom.com>,
+ linux-wireless@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
+ SHA-cyfmac-dev-list@infineon.com, linux-firmware@kernel.org
+References: <Y72/Sd/8mMOx13lk@donbot>
+From: Arend van Spriel <arend.vanspriel@broadcom.com>
+In-Reply-To: <Y72/Sd/8mMOx13lk@donbot>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="0000000000008d13b505f3280758"
 
-This is a multi-part message in MIME format.
+--0000000000008d13b505f3280758
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---b1_1258dc53d6efefb9ca9298ab22bdecce
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+On 1/10/2023 8:40 PM, John Keeping wrote:
+> That was a follow-up to commit 04f71fe ("cypress: add Cypress firmware
+> and clm_blob files") which provides cypress/cyfmac4339-sdio.bin and
+> links it (via WHENCE) to brcm/brcmfmac4339-sdio.bin and has version:
 
-﻿
+Looking into this now, but how does this work. What does that (via 
+WHENCE)? Guess I missed something fundamental here.
 
+Regards,
+Arend
 
+--0000000000008d13b505f3280758
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
-
-
-
-  
-  
-    
-      
-        
-        
-          
-            
-              
-              
-                
-                
-                  あなたのアカウントは停止されました
-        
-          
-            &nbsp;
-        
-          
-            ※本メールは重要なお知らせのため、メールを受け取らない設定をされている方にもお送りしております。ご了承ください。
-            ログイン日時:01/26/2023 02:35:17 pm 
-        
-          こんにちは、アマゾンのアカウントを使って別のデバイスからログインしようと何度も試みられましたことを通知するメーセージです。お客さまのアカウントを保護するために、アカウントを一時的にロックしました｡
-        
-          
-            アカウントを引き続き使用するには、24時間前に情報を更新することをお勧めします。それ以外の場合、あなたのアカウントは永久ロック。
-        
-          
-            
-            
-              
-              
-                確認用アカウント
-  
-    
-      &nbsp;
-      © 2023 Amazon.com, Inc. or its 
-      affiliates. All rights reserved. Amazon, Amazon.co.jp, Amazon Prime, Prime 
-      およびAmazon.co.jp のロゴは Amazon.com , Inc.またはその関連会社の商標です。 Amazon.com, 410 
-      Terry Avenue N., Seattle, n3zulz5oprob8zkg&nbsp;
-
-
---b1_1258dc53d6efefb9ca9298ab22bdecce
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD>
-<META content="text/html; charset=utf-8" http-equiv=Content-Type>
-<META name=GENERATOR content="MSHTML 11.00.9600.19811"></HEAD>
-<BODY>
-<P>
-<TABLE 
-style="FONT-SIZE: medium; FONT-FAMILY: ; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(0,0,0); PADDING-BOTTOM: 20px; FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; text-decoration-style: initial; text-decoration-color: initial; font-variant-caps: normal; text-decoration-thickness: initial" 
-cellSpacing=0 cellPadding=0 width=550 align=center>
-  <TBODY>
-  <TR>
-    <TD>
-      <TABLE style="MARGIN: 0px 20px" cellSpacing=0 cellPadding=0 width=550>
-        <TBODY>
-        <TR width="550">
-          <TD 
-          style="BORDER-BOTTOM: rgb(234,234,234) 1px solid; PADDING-TOP: 10px" 
-          height=52 width=550>
-            <TABLE>
-              <TBODY>
-              <TR width="550">
-                <TD width=100><IMG alt="Amazon Logo Image" 
-                  src="https://m.media-amazon.com/images/G/01/authportal/tiv/amazon_logo_RGB._CB424887820_.png" 
-                  width=93 height=27></TD>
-                <TD 
-                style="FONT-SIZE: 22px; FONT-FAMILY: ; PADDING-BOTTOM: 10px; TEXT-ALIGN: right; PADDING-TOP: 2px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; arial: " 
-                width=420>
-                  <P>あなたのアカウントは停止されました</P></TD></TR></TBODY></TABLE></TD></TR>
-        <TR>
-          <TD style="TEXT-ALIGN: center" colSpan=2 align=center>
-            <DIV style="TEXT-ALIGN: center !important">&nbsp;</DIV></TD></TR>
-        <TR>
-          <TD 
-          style="FONT-SIZE: 17px; FONT-FAMILY: ; PADDING-BOTTOM: 10px; TEXT-ALIGN: left; PADDING-TOP: 25px; arial: " 
-          colSpan=2 align=left>
-            <P>※本メールは重要なお知らせのため、メールを受け取らない設定をされている方にもお送りしております。ご了承ください。</P>
-            <P>ログイン日時:01/26/2023 02:35:16 pm </P></TD></TR>
-        <TR>
-          <TD 
-          style="FONT-SIZE: 17px; FONT-FAMILY: ; PADDING-BOTTOM: 10px; TEXT-ALIGN: left; PADDING-TOP: 25px; arial: " 
-          colSpan=2 
-            align=left>こんにちは、アマゾンのアカウントを使って別のデバイスからログインしようと何度も試みられましたことを通知するメーセージです。<BR>お客さまのアカウントを保護するために、アカウントを一時的にロックしました｡</TD></TR>
-        <TR>
-          <TD 
-          style="FONT-SIZE: 17px; FONT-FAMILY: ; PADDING-BOTTOM: 10px; TEXT-ALIGN: left; PADDING-TOP: 25px; arial: " 
-          colSpan=2 align=left>
-            <P>アカウントを引き続き使用するには、24時間前に情報を更新することをお勧めします。それ以外の場合、あなたのアカウントは永久ロック。</P></TD></TR>
-        <TR>
-          <TD vAlign=top align=left>
-            <DIV align=center><BR>
-            <TABLE 
-            style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-COLLAPSE: separate !important; BORDER-TOP-WIDTH: 1px; BACKGROUND-COLOR: rgb(255,167,35); border-radius: 5px" 
-            cellSpacing=0 cellPadding=0 align=center border=0>
-              <TBODY>
-              <TR>
-                <TD 
-                style="FONT-SIZE: 16px; FONT-FAMILY: Arial; PADDING-BOTTOM: 15px; PADDING-TOP: 15px; PADDING-LEFT: 25px; PADDING-RIGHT: 25px" 
-                vAlign=middle align=center><A 
-                  style="TEXT-DECORATION: none; FONT-WEIGHT: bold; COLOR: rgb(255,255,255); TEXT-ALIGN: center; LETTER-SPACING: normal; LINE-HEIGHT: 16px" 
-                  href="https://translate.google.com/translate?sl=auto&tl=ja&hl=ja&u=https://rough-poetry-4753.si95eju7il.workers.dev/" 
-                  rel=noopener 
-            target=_blank>確認用アカウント</A></TD></TR></TBODY></TABLE></DIV></TD></TR></TBODY></TABLE></TD></TR>
-  <TR>
-    <TD 
-    style="FONT-SIZE: 13px; FONT-FAMILY: ; PADDING-BOTTOM: 10px; TEXT-ALIGN: left; arial: " 
-    width=600 colSpan=2 align=left>
-      <P align=center><FONT color=gray></FONT>&nbsp;</P>
-      <P align=center><FONT color=gray>© 2023 Amazon.com, Inc. or its 
-      affiliates. All rights reserved. Amazon, Amazon.co.jp, Amazon Prime, Prime 
-      およびAmazon.co.jp のロゴは Amazon.com , Inc.またはその関連会社の商標です。 Amazon.com, 410 
-      Terry Avenue N., Seattle, <SPAN 
-      style="FONT-SIZE: 15px; FONT-FAMILY: ; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FLOAT: none; FONT-WEIGHT: 400; COLOR: rgb(51,51,51); FONT-STYLE: normal; TEXT-ALIGN: left; ORPHANS: 2; WIDOWS: 2; DISPLAY: inline !important; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(245,245,245); TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; text-decoration-style: initial; text-decoration-color: initial; font-variant-caps: normal; calibri: ">qtwag8ooiue048q<SPAN>&nbsp;</SPAN></SPAN></FONT></P></TD></TR></TBODY></TABLE></P></BODY></HTML>
-
-
-
---b1_1258dc53d6efefb9ca9298ab22bdecce--
-
-
---5DEC32C3C1.1674715108/157-7-78-210.localdomain--
+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
+2Gzj3QNJRLsZu1TLyOyBBIr/BE7UiY3RabgRzknBGAPmzhS+fmyM8OtM5BYBsFBrSUFtZZO2p/tf
+Nbc24J2zf2peoZ8MK+7WQqummYlOnz+FyDkA9EybeNMcS5C+xi/PAgMBAAGjggHdMIIB2TAOBgNV
+HQ8BAf8EBAMCBaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJl
+Lmdsb2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYI
+KwYBBQUHMAGGNWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24y
+Y2EyMDIwME0GA1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3
+dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqG
+OGh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3Js
+MCcGA1UdEQQgMB6BHGFyZW5kLnZhbnNwcmllbEBicm9hZGNvbS5jb20wEwYDVR0lBAwwCgYIKwYB
+BQUHAwQwHwYDVR0jBBgwFoAUljPR5lgXWzR1ioFWZNW+SN6hj88wHQYDVR0OBBYEFIikAXd8CEtv
+ZbDflDRnf3tuStPuMA0GCSqGSIb3DQEBCwUAA4IBAQCdS5XCYx6k2GGZui9DlFsFm75khkqAU7rT
+zBX04sJU1+B1wtgmWTVIzW7ugdtDZ4gzaV0S9xRhpDErjJaltxPbCylb1DEsLj+AIvBR34caW6ZG
+sQk444t0HPb29HnWYj+OllIGMbdJWr0/P95ZrKk2bP24ub3ZP/8SyzrohfIba9WZKMq6g2nTLZE3
+BtkeSGJx/8dy0h8YmRn+adOrxKXHxhSL8BNn8wsmIZyYWe6fRcBtO3Ks2DOLyHCdkoFlN8x9VUQF
+N2ulEgqCbRKkx+qNirW86eF138lr1gRxzclu/38ko//MmkAYR/+hP3WnBll7zbpIt0jc9wyFkSqH
+p8a1MYICbTCCAmkCAQEwazBbMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1z
+YTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMgUGVyc29uYWxTaWduIDIgQ0EgMjAyMAIMTv1t
+bpIzNUky46LXMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCCsKjlOGkUpj8cCKGIy
+Lk6pP3KYOT3t1hq+tNLPYIG86jAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
+BTEPFw0yMzAxMjYxMDE1MzRaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUDBAEqMAsGCWCGSAFl
+AwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsGCSqGSIb3DQEBBzAL
+BglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAyy4ZjAlZ9GtBlPdjB3wSvzRrxlrUmoB4cOcE
+hHd0x09udPlpntixb95mZiZRNILiVAYbA4MdwXDc6OzRfybXvvLo7xT4cLxWEHYrEhjHETkmbPDV
+pE69TmvNfAPara+Rp0gBD4M9LNAD7z1/nBXMCLqqwCPObn9hwyO1XIVGkeKgcRS8PJpZ4bvAgMCQ
+Bpnk1WsUsak6p1qPeN8AQj6JDDxl/8PJPgdXHRnAgYjh4Dd+p3N9CaFAQkmH341YxcfK8zSSS06O
+9YS6IgQH43P/mgWHIbtvS/jW+ZWXcSstBzEsnFEUV83SI0Aoo1HmSzb/B+nOUPO8yXz1cHFNt20w
+FQ==
+--0000000000008d13b505f3280758--
