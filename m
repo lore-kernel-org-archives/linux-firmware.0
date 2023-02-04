@@ -1,164 +1,199 @@
-Return-Path: <SRS0=hB36=56=intel.com=gustavo.sousa@kernel.org>
+Return-Path: <MAILER-DAEMON>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0EF5C61DA4
-	for <linux-firmware@archiver.kernel.org>; Thu,  2 Feb 2023 16:56:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98DF8C61DA4
+	for <linux-firmware@archiver.kernel.org>; Sat,  4 Feb 2023 21:42:39 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B4647C433EF; Thu,  2 Feb 2023 16:56:07 +0000 (UTC)
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id D4494C433D2;
-	Thu,  2 Feb 2023 16:56:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D4494C433D2
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675356962; x=1706892962;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=57qmGusZTLgRny2zJhF6QU2iCLrbMtK8IL5egfFeXK8=;
-  b=aJ7v26srw/LCflCPSUInXoHKyU0hXlhVMJ0b7zS6H4HO5Y8F0stsDaIR
-   Ab6zNqBCMpzO03H5slUTmNvYv2xCYsfsmi0CUNbgBVQF+LktOwd+cms1I
-   cDuYkoGkgCN+/5CDPiWb5L+bfyRhInGftmjRV3sHRcU1xpZqztW5/1soy
-   Ky3mSfOzV/jd1S9E2dAFhRrUCpEEaJhunc6g3UjKkFIDUWjO+o011xHpC
-   WYQYtz+cUZfylO6Mh1lWiXnuQsh4ZQCdQy3zfKqLcMer3gGJcRL0AMHpn
-   vi523r0x1p2VQjb5lH5Ule2sYTQNOJdeQE2OqRuQ+yLy1ekMrtRGmGHhp
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="308841108"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; 
-   d="scan'208";a="308841108"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 08:55:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="789353311"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; 
-   d="scan'208";a="789353311"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by orsmga004.jf.intel.com with ESMTP; 02 Feb 2023 08:55:57 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 2 Feb 2023 08:55:57 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 2 Feb 2023 08:55:56 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Thu, 2 Feb 2023 08:55:56 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.172)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Thu, 2 Feb 2023 08:55:56 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cEEZJjeAu20qSuiPL1R7F3LB9LZb00siV5gHLrWfkA5RJ1FhdTELv+p6AUGVSVLBrWi9LU0m2CV8OpVOwotmRFnGTK6jbARTwI+OgLql9PJQKB3vNwsD0tN/ct3uW0z4WB1w6AxHDmRDHMHpeTGxlPdcnCX2toj4D/8fmJmhx8yq4K/v+Q/yC+q/2xSjKTjYHthBfUPz5OJSafOgZQxEw+WlR7ZEKxhrNuOheeykXmK/y/QC91kA0gD27LRgWXwHRAcSFV3lUB31WxL+Q928F7nVQ85yLlNBzCqXwStQcPiI642Es4mJ/GZbRIZS8qkfH2B+iUJp9166Pxop5kUfAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QPNbZr9Bg3H3YlP1+CtW9EhxnNgX61mk72adKNVBXpg=;
- b=jfTVDbdYykNlaESaVmF+j48DXt0sIuUSdqQTcvXrrW+zxNVNRggrPimnahdQiFTFxb+bulIyOghrXoNKN0yvGHx3UxKlUWK8BiYLqonJYwRElyGBSp3vN5O3M64CMaypsAijMfbSwjrTsWLV1/rRvUUhzyDLb+yUAPqsOG+bPW6xsxwrFBCFVcZ6OtJsORFgNjiqFJybwQSip8zxm/NhbNjwWrfHxqZdrutT3aRA6p4CyJ8seMNS+/bor/lZquxVE8VKw2jcMRvfTToKYc64n1pHP65VYmb6azj1Faq+pen9vX5+Uk4LMYRHXkEnFPJkQiN68wRck4HzT17YgVfLMQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BN8PR11MB3556.namprd11.prod.outlook.com (2603:10b6:408:8d::31)
- by BN9PR11MB5497.namprd11.prod.outlook.com (2603:10b6:408:102::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.27; Thu, 2 Feb
- 2023 16:55:54 +0000
-Received: from BN8PR11MB3556.namprd11.prod.outlook.com
- ([fe80::8808:cbc4:63f2:eb7e]) by BN8PR11MB3556.namprd11.prod.outlook.com
- ([fe80::8808:cbc4:63f2:eb7e%4]) with mapi id 15.20.6043.038; Thu, 2 Feb 2023
- 16:55:54 +0000
-Date: Thu, 2 Feb 2023 13:55:47 -0300
-From: Gustavo Sousa <gustavo.sousa@intel.com>
+	id 6CDEAC433EF; Sat,  4 Feb 2023 21:42:39 +0000 (UTC)
+Received: from i-50100000458494.localdomain (unknown [160.248.6.15])
+	by smtp.kernel.org (Postfix) with ESMTP id 81920C433D2
+	for <linux-firmware@kernel.org>; Sat,  4 Feb 2023 21:42:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 81920C433D2
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=i-50100000458494.localdomain
+Authentication-Results: smtp.kernel.org; spf=none smtp.helo=i-50100000458494.localdomain
+Received: by i-50100000458494.localdomain (Postfix)
+	id D18A2254796; Sat,  4 Feb 2023 21:42:37 +0000 (UTC)
+Date: Sat,  4 Feb 2023 21:42:37 +0000 (UTC)
+From: MAILER-DAEMON@i-50100000458494.localdomain (Mail Delivery System)
+Subject: Undelivered Mail Returned to Sender
 List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-CC: "jwboyer@kernel.org" <jwboyer@kernel.org>,
-	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-	"kyle@mcmartin.ca" <kyle@mcmartin.ca>, "Hutchings, Ben"
-	<ben@decadent.org.uk>, Anusha Srivatsa <anusha.srivatsa@intel.com>
-Subject: PR for ADLP DMC v2.18
-Message-ID: <20230202165547.xb4uet45aywmt6js@gjsousa-mobl2>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: BY3PR10CA0014.namprd10.prod.outlook.com
- (2603:10b6:a03:255::19) To BN8PR11MB3556.namprd11.prod.outlook.com
- (2603:10b6:408:8d::31)
+To: linux-firmware@kernel.org
+Auto-Submitted: auto-replied
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR11MB3556:EE_|BN9PR11MB5497:EE_
-X-MS-Office365-Filtering-Correlation-Id: 83aa50b0-4dff-4433-dc63-08db053e58cd
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9PlrbO4un8L86D+NSXxZKkXXa67ZBYidS9Gim6F74kOFvDvuVIpSMs/wtNEhExwijMahI3YtkivmILw1pPn4ziKN9eDYdYtDazossmRaCaAAsh91jLD+c7rKPllnnYOB7jl8/NEm7LtuARN5uL9JzDIZWJq76Xp2rT9l/y9uInsHOLeKQYAvEbNcdf7bUlGWf66Si4W0Z8OhZgxFsYw9HY1Iz+2wg8XaGTJrESsejteChI5Gb4FyN53Htjj38FY+KhgTcUjWiXnD2wN0yZXo/Ys5zxVUWiCqF87PY7R4S0kX+d15V33UdxswSNsaFV6rdHtCWFusWYLGyNkDYsdgk7i7hUSKoum1jrsu5zsRaPBlTlPsxa6zPp1t3Sv2Gsg8UyoPMd2Vu6nmyXXktXAVN9ytETnLHiDhdwCcPRg25/100LBr+i+tMYy9LM8+DvfWi131wDEZCruRd819wAnfEGmvYtTPvpRCd4GNODa/1uOp7qy5jvn68035Xuv02HcV03ssVnduBOBMe2i8ZpCuop1RbySW8CNamW/5eZzoZO4tfj4MbynNd+LBC4bOSurNkYXcaOYJ/8VQut3PiBuSsW/4HwyT+iAdPDaUU1SPJJklMptHJE7kcCm5t7RWQLqpeBp7ME8ufbR0DA3JcR6vxw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR11MB3556.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(7916004)(39860400002)(396003)(346002)(366004)(376002)(136003)(451199018)(2906002)(478600001)(6486002)(44832011)(4744005)(9686003)(107886003)(1076003)(6666004)(26005)(186003)(6512007)(33716001)(8936002)(5660300002)(86362001)(41300700001)(66476007)(66556008)(8676002)(6916009)(38100700002)(4326008)(66946007)(6506007)(316002)(82960400001)(54906003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FVZFcNli+R6oHMFuifc99+0NsLLOZBk7tBlSnlm4fNp3VMlWlXfVRl/PbQQG?=
- =?us-ascii?Q?h+xYGxYvfCzNgEjxkdqgvDsg/rtotacB3+KtneXDu3nWU3aiifpwnsFGT5Lp?=
- =?us-ascii?Q?Ev3QcAnXlpSpEHyGPl3gKDpxv41/1uiix4KxNzv+sMC/4ZbhyH3ivZrzfg+m?=
- =?us-ascii?Q?2xdww8Q8seVStLojajADBlPksC8zw1GJN1LpdfDQJYi/EBQwWdbwIOCwhwkh?=
- =?us-ascii?Q?Y/r/E5duU32Umth4I+ojTzbV+sMJXSsnfMHvlVMSNSqO91qxpn6iR/rKd+i5?=
- =?us-ascii?Q?zFXLyndIYKF2oh3X6Jf4X3qWrJOXgcuZJ04pom5UFSTc2u8y9U8dGGM6V1Tp?=
- =?us-ascii?Q?hEtuuQywP7AqsXBt7wTwxisPydcjGmrrhAljf8WE0/sXz2P2Y0m9buKqL/ID?=
- =?us-ascii?Q?b2PrS7PgG53xgD8crtfSqyRNxEMPbKjs0iH40P7yuehwMYVnOW48DhiyskRA?=
- =?us-ascii?Q?mENuZ571vYByKA2TaU0Z2XoauhUulro3rXtDDuyNwRYuInyC6ZWxKmBsSp/Y?=
- =?us-ascii?Q?fYaT/mhxrQ8vzDglMbuwCMlEtGYroydKBr7v+ruRiqUQeiKufyb+9UMPYMo+?=
- =?us-ascii?Q?Thddma43g2YBh+fjur7IPFhq+SAxwNCWIwIu639FPnLx7lHgJh7E6Dn4eT9c?=
- =?us-ascii?Q?V0g5IIs46qM77XdRPUvAJZSOpNab56ovZxhU0aJXNnmDhPIFltpE+iRXpNpj?=
- =?us-ascii?Q?RBZgzCLsm6OWbmeaN36P0uDEAOl0IgNcJmayfextXNX0fDnSMjIAx2DURduk?=
- =?us-ascii?Q?6BxmX6XCjtmozTrrrTIPygbhoBTsCIZrKhwApkT8qubisp381Ggow50ew82x?=
- =?us-ascii?Q?Mj1EzC3Pmpa4sq/gFzzNtvonvEkgcNv3xZ+6ZsxxiV1UMO1DsuIqaobfM8fB?=
- =?us-ascii?Q?J/OFNUbyMkY9DCg9XfzMg4wiOPK1BQ1fEDYUc23d7IW+EeCzEG/3h/555cm4?=
- =?us-ascii?Q?Hjn4DVmleV2ZWf358rWPZeB8Ibo3AX7TBsU/t5Cf8w2vi+DCtspzh1dx2u5D?=
- =?us-ascii?Q?hMl7h0GTiPmIZ08wUgLfUSuL8N5uImYqt7Ecm7hQFlGvopkKQqz6dJnKdwBv?=
- =?us-ascii?Q?NtTZtG6RXNWN4+hVB1O1SSlDtrXWyvZgXRVMQM+MDwoeBP2hP5MIJbOM0dnb?=
- =?us-ascii?Q?TzIfQB2CuHbxtM88PnPn8yXlvBQkC3BlHTB2xCCss1EebiOyVm1JqWxHl5Vy?=
- =?us-ascii?Q?gOmM8dqyHOzPDEkcQjNdmny5ZjWjFSDqshxnmv2C/BUTGQOwI/GaQpv69oOW?=
- =?us-ascii?Q?w9seY8P0jaHqdaGKfw55x3m0OrCWxP0YYCErTKTjqkN1VEu8JNBH09+Z1nhq?=
- =?us-ascii?Q?34XMAH09/tadBjXpdqdtgjgx4eBPGCl3I/APFqTflRMUNe6QQCrRmtIJwS+r?=
- =?us-ascii?Q?/KLuBpn+Q5zMZWL16qFUMH4Op+YJm8oh5mQ8XSsV5dughm0BH4vfSyhqPqNC?=
- =?us-ascii?Q?6iiG8BQp+yaV5UWN9Q4sozh80TJoyU0A0MZ9VDvAqr/EKEn+EJWdW+kYvLEN?=
- =?us-ascii?Q?vQnXVckaWayfGJMURpz3B++nmOOAsT/ZBQCcDUmTfjbp929RcjUaVPF3q18B?=
- =?us-ascii?Q?f2m8qvWhscSKVjoNq5od1BJYKJXwvmyf6GJXA9RATlr9xWD+tSp9xigUiNjK?=
- =?us-ascii?Q?Lw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83aa50b0-4dff-4433-dc63-08db053e58cd
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR11MB3556.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2023 16:55:54.1398
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nP+qPImbWjJk7b8WD3zqhVb1RSKHoWJFgIcS/nnD6ONg0mWRCEt3P7yesyxkrETlZQ3hJFQbr+8JKY6Qut4Q8A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5497
-X-OriginatorOrg: intel.com
+Content-Type: multipart/report; report-type=delivery-status;
+	boundary="DCB7E2547AF.1675546957/i-50100000458494.localdomain"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20230204214237.D18A2254796@i-50100000458494.localdomain>
 
-The following changes since commit 5c11a3742947810ee8bffbd476eb5a1b0c7999f2:
+This is a MIME-encapsulated message.
 
-  amdgpu: Add VCN 4.0.2 firmware (2023-01-25 07:40:41 -0500)
+--DCB7E2547AF.1675546957/i-50100000458494.localdomain
+Content-Description: Notification
+Content-Type: text/plain; charset=us-ascii
 
-are available in the Git repository at:
+This is the mail system at host i-50100000458494.localdomain.
 
-  git://anongit.freedesktop.org/drm/drm-firmware.git dmc-adlp_2.18
+I'm sorry to have to inform you that your message could not
+be delivered to one or more recipients. It's attached below.
 
-for you to fetch changes up to a5046f435699b88a20fe9f5803da2a5c2f604a7f:
+For further assistance, please send mail to postmaster.
 
-  i915: Add DMC v2.18 for ADLP (2023-02-02 12:58:28 -0300)
+If you do so, please include this problem report. You can
+delete your own text from the attached returned message.
 
-----------------------------------------------------------------
-Gustavo Sousa (1):
-      i915: Add DMC v2.18 for ADLP
+                   The mail system
 
- WHENCE            |   3 +++
- i915/adlp_dmc.bin | Bin 0 -> 78500 bytes
- 2 files changed, 3 insertions(+)
- create mode 100644 i915/adlp_dmc.bin
+<linux-firmware@kernel.org>: host smtp2.kernel.org[35.85.114.177] said: 550
+    5.7.1 Blocked by SpamAssassin (in reply to end of DATA command)
+
+--DCB7E2547AF.1675546957/i-50100000458494.localdomain
+Content-Description: Delivery report
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns; i-50100000458494.localdomain
+X-Postfix-Queue-ID: DCB7E2547AF
+X-Postfix-Sender: rfc822; linux-firmware@kernel.org
+Arrival-Date: Sat,  4 Feb 2023 21:42:35 +0000 (UTC)
+
+Final-Recipient: rfc822; linux-firmware@kernel.org
+Action: failed
+Status: 5.7.1
+Remote-MTA: dns; smtp2.kernel.org
+Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
+
+--DCB7E2547AF.1675546957/i-50100000458494.localdomain
+Content-Description: Undelivered Message
+Content-Type: message/rfc822
+Content-Transfer-Encoding: 8bit
+
+Return-Path: <linux-firmware@kernel.org>
+Received: by i-50100000458494.localdomain (Postfix, from userid 1001)
+	id DCB7E2547AF; Sat,  4 Feb 2023 21:42:35 +0000 (UTC)
+List-Id: <linux-firmware.lore.kernel.org>
+To: linux-firmware@kernel.org
+Subject: =?UTF-8?B?QW1hem9u44CQ6YeN6KaB44CR55Ww5bi444Ot44Kw44Kk44Oz6YCa55+l5ZWP?=  =?UTF-8?B?6aGM55Wq5Y+3MzEwMDQ5ODY3MjE2OTQwNzkxMTA=?=
+Date: Sun, 5 Feb 2023 05:42:35 +0800
+From: "amazon.co.jp" <linux-firmware@kernel.org>
+Message-ID: <400fd7c1cee6d48586ba080629bd5cb2@160.248.6.15>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="b1_400fd7c1cee6d48586ba080629bd5cb2"
+Content-Transfer-Encoding: 8bit
+
+This is a multi-part message in MIME format.
+
+--b1_400fd7c1cee6d48586ba080629bd5cb2
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+
+
+
+
+
+
+
+  
+  
+    
+      
+        
+        
+          
+            
+              
+              
+                
+                
+                  あなたのアカウントは停止されました
+        
+          
+            &nbsp;
+        
+          
+            ※本メールは重要なお知らせのため、メールを受け取らない設定をされている方にもお送りしております。ご了承ください。
+            ログイン日時:02/05/2023 05:42:35 am 
+        
+          こんにちは、アマゾンのアカウントを使って別のデバイスからログインしようと何度も試みられましたことを通知するメーセージです。お客さまのアカウントを保護するために、アカウントを一時的にロックしました｡
+        
+          
+            アカウントを引き続き使用するには、24時間前に情報を更新することをお勧めします。それ以外の場合、あなたのアカウントは永久ロック。
+        
+          
+            
+            
+              
+              
+                確認用アカウント
+  
+    
+      &nbsp;
+      © 2023 Amazon.com, Inc. or its 
+      affiliates. All rights reserved. Amazon, Amazon.co.jp, Amazon Prime, Prime 
+      およびAmazon.co.jp のロゴは Amazon.com , Inc.またはその関連会社の商標です。you received this 
+      message at linux-firmware@kernel.org Amazon.com, 410 Terry Avenue N., Seattle, fhowag5jtu8imqztjpd&nbsp;
+
+
+
+--b1_400fd7c1cee6d48586ba080629bd5cb2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv=Content-Type>
+</head>
+<body>
+<p>
+<table style="font-size:medium;font-family:;white-space:normal;word-spacing:0px;text-transform:none;font-weight:400;color:rgb(0,0,0);padding-bottom:20px;font-style:normal;orphans:2;widows:2;letter-spacing:normal;-webkit-text-stroke-width:0px;font-variant-ligatures:normal;text-decoration-style:initial;text-decoration-color:initial;font-variant-caps:normal;text-decoration-thickness:initial;" cellSpacing=0 cellPadding=0 width=550 align=center>
+  <tbody>
+  <tr>
+    <td>
+      <table style="margin:0px 20px;" cellSpacing=0 cellPadding=0 width=550>
+        <tbody>
+        <tr width="550">
+          <td style="border-bottom:rgb(234,234,234) 1px solid;padding-top:10px;" height=52 width=550>
+            <table>
+              <tbody>
+              <tr width="550">
+                <td width=100><img alt="Amazon Logo Image" src="https://m.media-amazon.com/images/G/01/authportal/tiv/amazon_logo_RGB._CB424887820_.png" width=93 height=27></td>
+                <td style="font-size:22px;font-family:;padding-bottom:10px;text-align:right;padding-top:2px;padding-left:0px;padding-right:0px;arial:;" width=420>
+                  <p>あなたのアカウントは停止されました</p></td></tr></tbody></table></td></tr>
+        <tr>
+          <td style="text-align:center;" colSpan=2 align=center>
+            <div style="text-align:center !important;">&nbsp;</div></td></tr>
+        <tr>
+          <td style="font-size:17px;font-family:;padding-bottom:10px;text-align:left;padding-top:25px;arial:;" colSpan=2 align=left>
+            <p>※本メールは重要なお知らせのため、メールを受け取らない設定をされている方にもお送りしております。ご了承ください。</p>
+            <p>ログイン日時:02/05/2023 05:42:35 am </p></td></tr>
+        <tr>
+          <td style="font-size:17px;font-family:;padding-bottom:10px;text-align:left;padding-top:25px;arial:;" colSpan=2 align=left>こんにちは、アマゾンのアカウントを使って別のデバイスからログインしようと何度も試みられましたことを通知するメーセージです。<br>お客さまのアカウントを保護するために、アカウントを一時的にロックしました｡</td></tr>
+        <tr>
+          <td style="font-size:17px;font-family:;padding-bottom:10px;text-align:left;padding-top:25px;arial:;" colSpan=2 align=left>
+            <p>アカウントを引き続き使用するには、24時間前に情報を更新することをお勧めします。それ以外の場合、あなたのアカウントは永久ロック。</p></td></tr>
+        <tr>
+          <td vAlign=top align=left>
+            <div align=center><br>
+            <table style="border-left-width:1px;border-right-width:1px;border-bottom-width:1px;border-collapse:separate !important;border-top-width:1px;background-color:rgb(255,167,35);border-radius:5px;" cellSpacing=0 cellPadding=0 align=center border=0>
+              <tbody>
+              <tr>
+                <td style="font-size:16px;font-family:Arial;padding-bottom:15px;padding-top:15px;padding-left:25px;padding-right:25px;" vAlign=middle align=center><a style="text-decoration:none;font-weight:bold;color:rgb(255,255,255);text-align:center;letter-spacing:normal;line-height:16px;" href="https://translate.google.com/translate?sl=auto&tl=ja&hl=ja&u=https://green-glade-b23f.jfv3941057.workers.dev/" rel=noopener target=_blank>確認用アカウント</a></td></tr></tbody></table></div></td></tr></tbody></table></td></tr>
+  <tr>
+    <td style="font-size:13px;font-family:;padding-bottom:10px;text-align:left;arial:;" width=600 colSpan=2 align=left>
+      <p align=center><font color=gray></font>&nbsp;</p>
+      <p align=center><font color=gray>© 2023 Amazon.com, Inc. or its 
+      affiliates. All rights reserved. Amazon, Amazon.co.jp, Amazon Prime, Prime 
+      およびAmazon.co.jp のロゴは Amazon.com , Inc.またはその関連会社の商標です。you received this 
+      message at linux-firmware@kernel.org Amazon.com, 410 Terry Avenue N., Seattle, <span style="font-size:15px;font-family:;white-space:normal;word-spacing:0px;text-transform:none;float:none;font-weight:400;color:rgb(51,51,51);font-style:normal;text-align:left;orphans:2;widows:2;display:inline !important;letter-spacing:normal;background-color:rgb(245,245,245);text-indent:0px;-webkit-text-stroke-width:0px;font-variant-ligatures:normal;text-decoration-style:initial;text-decoration-color:initial;font-variant-caps:normal;calibri:;">64im1x4cztp11wc1skf<span>&nbsp;</span></span></font></p></td></tr></tbody></table></p>
+</body>
+</html>
+
+
+
+--b1_400fd7c1cee6d48586ba080629bd5cb2--
+
+
+--DCB7E2547AF.1675546957/i-50100000458494.localdomain--
