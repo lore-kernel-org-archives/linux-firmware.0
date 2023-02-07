@@ -1,1167 +1,159 @@
-Return-Path: <SRS0=0xrh=6C=opensource.cirrus.com=prvs=7401b76335=sbinding@kernel.org>
+Return-Path: <SRS0=a4iF=6D=intel.com=gustavo.sousa@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A366C05027
-	for <linux-firmware@archiver.kernel.org>; Mon,  6 Feb 2023 14:47:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77723C636CD
+	for <linux-firmware@archiver.kernel.org>; Tue,  7 Feb 2023 14:07:53 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id F3319C433EF; Mon,  6 Feb 2023 14:47:07 +0000 (UTC)
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	id 34FCAC4339B; Tue,  7 Feb 2023 14:07:53 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 91D6DC433D2
-	for <linux-firmware@kernel.org>; Mon,  6 Feb 2023 14:47:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 91D6DC433D2
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 316COZvl019482
-	for <linux-firmware@kernel.org>; Mon, 6 Feb 2023 08:47:00 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-type;
- s=PODMain02222019; bh=i76jWYfzxV0IJGb4iZdCifZQJvj8EJE7vQLVcPnRcG0=;
- b=nH2CqTcmuqRolG2LOnJz038BaUb4g2aE9449VB+DKNrKjMnGTyhfqu+up3LXVX79KiAh
- OWo4i6nz+dDltj0bbrODVCpPX6yMGEiTIW2e3GHjgKmYdJcZPlDYGEHy+QmNI3Nf7oFZ
- SSshVP/qBN4+VJG6ywQZm/CBx3ta3aWCq/yYgb3lCEwHSX21szAfUNIBhVadlyfm8a1R
- CdfZ/zh6wlMqUCh0rHoCc2+euWDDjFWywxzFTC+3EXgTGtmuBFCUCNacPuD2QyK8mEGY
- hauJBIa+b39fa7UW70nxqjvg+uUPfBZPOwmMRI5C5g0aOxlj2rkS/zyrQKOIEzQuQoen IQ== 
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3nhnn7tkp3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-firmware@kernel.org>; Mon, 06 Feb 2023 08:47:00 -0600
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.21; Mon, 6 Feb
- 2023 08:46:57 -0600
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.21 via Frontend Transport; Mon, 6 Feb 2023 08:46:57 -0600
-Received: from LONN2DGDQ73 (LONN2DGDQ73.ad.cirrus.com [198.90.238.52])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 5C1C911CC;
-	Mon,  6 Feb 2023 14:46:57 +0000 (UTC)
-From: Stefan Binding <sbinding@opensource.cirrus.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 67928C433EF;
+	Tue,  7 Feb 2023 14:07:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 67928C433EF
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675778871; x=1707314871;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=k/BThjwJ5wumx4qtLnz7ynj6EoAfEClSGg7xTNeOXHY=;
+  b=Es8HjNfeyPv96tHY41ABTA5prhjUKZ0i4uOe3G1t/RQ8e7L6hVhUQhL4
+   dX7ACYl9e0nkZedNkhhREGjvfQ1hef88nkqcRwX65/em0Iob2UDVgadOO
+   Jow3IFXkaBbrdQ+2RQn1utY4qTax+9K3rmqvU9XQ1TwE1+k4cqSVSnMfi
+   VNZGGhQdPwyT8eEWcdf7YGOGyIjDV+O71lFOqzzVf3I/UIzHHzg+ndrGy
+   IOXuGm9bfRiKLPJfnY6DHNo+jG/KRYSw55P1IJ9vM0yh9iXTIPPgEAJnm
+   LnNjNALiEBwpw0MdHtqVIpBPPkkxuEr1sz5hyNvj0H+5Kdr+REXP5gms6
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="391909666"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
+   d="scan'208";a="391909666"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 06:03:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="790807996"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
+   d="scan'208";a="790807996"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orsmga004.jf.intel.com with ESMTP; 07 Feb 2023 06:03:31 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Tue, 7 Feb 2023 06:03:31 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Tue, 7 Feb 2023 06:03:31 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Tue, 7 Feb 2023 06:03:30 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Z13ujQdMZK9Q/yVeor/R5XiAnsTJkJUh19bisbGUxQyevv6bUxljDdjN8zVSMXti1E5lLfCJDvqPicBlE56BW3JheFN3+JJT3jCXR3PYItWtJGA//uLnDAAjZge/nJjhFe3F8Wy9CXAmLdaDGZjVKjRgwqQ5c2eTLM9DTVQxDWP8RU5dctSgPbctnuXHYj461djDKQ7a4gPVeOC9rToaZ5X14J5dN5XoJL4PCkZarjaasq3YCWN7IExC/xvO+buuTAxiAtt3LZYftR1OljBhWduXsdUldoCE/5UFcYauv8Xm3I6r0nBmioV1REc3ldZpj8bkwAOxhIQDWP0yeYyh5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YFAUvdskr8oZbYYPzVlo6z0d+bmsiWUqis9BXNOWt9U=;
+ b=YhZUUTzQSJF2AsZHz1tHCZ+lQtBuiDFACXwABQwnSB+wPAroIuhB1IcOuvR7vWzsqufS3Xf9zCYk8DvrGeijwspwpkgqTKuSGJRbYl/0ZI9fqUfnSubNeyhoO6vACTLfSccX0SClMK0C44XMXVC5PKk+mvb6t2xVTwYpEfuSxVCV8j/gFk/Rxp7ZvKE6VrLMwIXwIqnl69dL95sKytH3sTgA1Kb421H2ghHgZI7KF9TEeDNim+0Zvnzxiz60C7h6lUZhjM5NjtbulvCUKR1/3a8LIjOHoLFCHo2iTrkeAjPQenykZAPgfAN5gce9BxeVa+dnhWXxgF5d7qjBaRiLYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BN8PR11MB3556.namprd11.prod.outlook.com (2603:10b6:408:8d::31)
+ by DM6PR11MB4627.namprd11.prod.outlook.com (2603:10b6:5:2a2::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.36; Tue, 7 Feb
+ 2023 14:03:27 +0000
+Received: from BN8PR11MB3556.namprd11.prod.outlook.com
+ ([fe80::8808:cbc4:63f2:eb7e]) by BN8PR11MB3556.namprd11.prod.outlook.com
+ ([fe80::8808:cbc4:63f2:eb7e%4]) with mapi id 15.20.6064.036; Tue, 7 Feb 2023
+ 14:03:27 +0000
+Date: Tue, 7 Feb 2023 11:03:20 -0300
+From: Gustavo Sousa <gustavo.sousa@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: <linux-firmware@kernel.org>
-CC: <patches@opensource.cirrus.com>
-Subject: [PULL v1 linux-firmware] Add firmware for Cirrus Smart Amp CS35L41 for additional laptops
-Date: Mon, 6 Feb 2023 14:46:57 +0000
-Message-ID: <004601d93a39$dcb02ae0$961080a0$@opensource.cirrus.com>
-MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0047_01D93A39.DCB1D890"
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: Adk6ObIaq7tfxGuBTduAlJwuE2XynA==
-Content-Language: en-gb
-X-Proofpoint-GUID: Zug3xOLCoVPmlEOeCd0mJjdrfHvSdYsK
-X-Proofpoint-ORIG-GUID: Zug3xOLCoVPmlEOeCd0mJjdrfHvSdYsK
-X-Proofpoint-Spam-Reason: safe
-
-------=_NextPart_000_0047_01D93A39.DCB1D890
+CC: Josh Boyer <jwboyer@kernel.org>, <kyle@mcmartin.ca>,
+	<ben@decadent.org.uk>, <intel-gfx@lists.freedesktop.org>, Anusha Srivatsa
+	<anusha.srivatsa@intel.com>
+Subject: PR for MTL DMC v2.11
+Message-ID: <20230207140320.5xydvcqvkl6eiidc@gjsousa-mobl2>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+X-ClientProxiedBy: BY5PR13CA0023.namprd13.prod.outlook.com
+ (2603:10b6:a03:180::36) To BN8PR11MB3556.namprd11.prod.outlook.com
+ (2603:10b6:408:8d::31)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR11MB3556:EE_|DM6PR11MB4627:EE_
+X-MS-Office365-Filtering-Correlation-Id: acdfd047-0191-4cce-da12-08db091415b2
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: iOG1rZS5V9+gWvpKlbOOU0YOoL33PSC/wtLTLv+CXhOYsBofu+8XOO0i0cJo3QMPh2dI15DYKR08ZWwfYTQwiMeB5+nTcrK9kG60P0wVg/iECRO8DASt0Ja/6xPQ/1RiCXg5CX9aPDtewZx98b+2XLE3W7SjZ0wmZDiLwV/F1jpZyiwyh4Aqc2sA+4iKSYofgtzFtx4yOEoes7gEFrLUVMQMW9I17MmX3eBNOXHa9vQLcjeeKie/HYT9D8XewMX8XyqPua4Wyu5+IyLd0ojWAsLfnJabr3aAUlJpA3nOEPqTszh6CDpgocc+vqoyn9fb50Uq/xZgrTW3eUklM00LL5Oqh2ezDiBD5QkVre3J6IRBNlg/+AkvGs+oWRSENDShZup0ozJfjRYVLR77oBENILS1MOJv6mB+q3sO6I4nUYFbpmJY3J5zs7/w3/H68pqsvNMemmFP9cx9rR24nHijB4/zLh2Ws8rrIZzAN9vKQZx1dgMzkH/9hdE7ZW0vhvX5s1H0ZUG3mfvADi2a/mAb4eU0jLNLKW5EKoIxOIft0ME30rMCRIEzhih1LsUx+EDSYgoIq+DDnW4buGAT0NOQJGSPvrUa0O6oJZdITGgmQhNaGVeoOCn0sEG+qne7SqdchxIhRHIAe0ntz6GnA/u7vQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR11MB3556.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(7916004)(366004)(136003)(346002)(396003)(39860400002)(376002)(451199018)(4744005)(44832011)(33716001)(5660300002)(86362001)(2906002)(186003)(4326008)(8676002)(9686003)(26005)(316002)(6512007)(6916009)(66946007)(54906003)(66476007)(66556008)(478600001)(6506007)(1076003)(6486002)(107886003)(6666004)(82960400001)(38100700002)(41300700001)(8936002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+s0F/7oYCVBcTSmh0WEXiWmad4ilkbGRahbNDJ+EpTJBaV/ja632U5qwlTWn?=
+ =?us-ascii?Q?c7Ep6w9KWaFR1XhMywp4QOVUMEnKFP3xxnl8VaIHhGsSxSNHXD4nglWlbPvN?=
+ =?us-ascii?Q?iX6z7qihpa907rpuB4Q4gz84cPnWkkVQ4wPACaAGRZ+aTxuf2dXmee7C0Tn4?=
+ =?us-ascii?Q?1DaAKRquFDF2O7w9Mp+/TWp4khNrTXsnvZgfLj1O+FB7InFKemA61SJ/tWcc?=
+ =?us-ascii?Q?MfBjxGPsp72PDu7VnMN+cMuHDU9EA+OnKV2wR6RUEHnmM4kClDI0cLVGgYzj?=
+ =?us-ascii?Q?8NSXDjhz4rG7MmtOTCIHynH2YdVMqWejp20AnfIm4LeXC3BRZsTDAfpBWBZT?=
+ =?us-ascii?Q?j/eCS/mmH3DxjBKoMtEbWtbot4Zzuy5+CUV9N7bZcE7tQUztJbq7raG+gYEi?=
+ =?us-ascii?Q?DuCTNXBHex45xzFpoPUbmJlueJl5DFlatPM+GtxNljk+0KrG6ajHgXVAPqOq?=
+ =?us-ascii?Q?l4KIBeoSR8osr6dMYUoMdZlY+Aj99muemBVtdGvzpXu/u+YZjOqQvlb0jT49?=
+ =?us-ascii?Q?HUqN2FixXkdVDSB7pXdFPwN8KRe94eu1lGZ0fz+Ya7iobe/CI5hStejM1PY0?=
+ =?us-ascii?Q?ood3AEghNvlDEhFTIBkvp9r/KOMCLIHuy3SxdaWV1cZVZsQ7eI9ZmaOURWPD?=
+ =?us-ascii?Q?Fcax0gL8zt3MPNXkncNQgsIhOYk2c00orASbXKnCmgKaQN9/PizTSkgW7T+Z?=
+ =?us-ascii?Q?uSuOVNHJIN8jBSUdjBCLN/wSw6ePLvAVaQRklt2k/JeqZmFiIMjaNPDuc402?=
+ =?us-ascii?Q?lVioUYkNgYSziA5TdN6rUa3oIajKOLJYbIb2hqL/tOg2aMX/HV3mYnY3IHeJ?=
+ =?us-ascii?Q?GoF/9PQvTw06hU7rOtp0lYdIHZjy5/rbkCiq/mIqz+XNGZUOdfr59X8oFDET?=
+ =?us-ascii?Q?2Hhd1cL2hG7Rk2P53+k5dC2YtGjkHIgb47/qwNhU0wfM6to8ZLq3tKEP/fa8?=
+ =?us-ascii?Q?ppu3uk7iq4Mwb/9ZRiKhg7JyCl2FqxuhMl1V2yIdR5sUTJLhftwhe4oLfFAN?=
+ =?us-ascii?Q?lh4UYklWxSXdTwy1T9BxN8ScXUVBFLNguaQeqexLO6xqmOqgiJ26XtiFt7Sr?=
+ =?us-ascii?Q?1RDMt/5pXggdp77W8Q7/IuUtEOSlV3YhngShqQWeSH9FbUPae4dtQi4GAIjP?=
+ =?us-ascii?Q?0jxiVbTJOHhZ42RJrW60sek9pPs6N4BMuZCg3oRcpB8+I4NXhl1GQjBwibx5?=
+ =?us-ascii?Q?acfT5SNZ8a9Q6ZLkC9IMX9KiCFxNZI2nf3Jl9amAGex9pLGEJbxG7/pba4Yw?=
+ =?us-ascii?Q?k0dzHLFi9p+klTxGYyUeTmbRy2cxlTJ1C2TAWrDrlDJqPZw1smbjFdbnP3YF?=
+ =?us-ascii?Q?Jwe7RykwQe00wCr/8af4JWEHUkzR7kT/+GwXrS28AhHcrrD/ZRh41CYEY22m?=
+ =?us-ascii?Q?QmFe9LjYkJM7AhHGyQEHhyLar7S/OxXC/EMYCXp+1ZHHphJ2nd744QxikBiM?=
+ =?us-ascii?Q?HBhgr7nFc2Ng+NduBXJSfvRmFUeZ2pU2q3q03Y46ccgKtPL7kShsbQYnfocm?=
+ =?us-ascii?Q?jh9rg+Z/RHbiAPRzuzUTkLtB6lOt+UbioQdJVznxuZIL+CVauc3Yh/kT4Hsa?=
+ =?us-ascii?Q?fw7mzoGg6H6/3Mj8EaGyElEnX6U/VqJ+x3T8BGcpZsKr7JAIMHYPJPumElji?=
+ =?us-ascii?Q?WQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: acdfd047-0191-4cce-da12-08db091415b2
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR11MB3556.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2023 14:03:27.3126
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vg3DDNr6GzKtsC7Ku71ErkooCy1E9W/0Fg7xf0FdJqUFJW8r7E3m5lw/H9mtnls/ogWUSP1v9gAbMSHJQfuOpg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4627
+X-OriginatorOrg: intel.com
 
-Hi,
- 
-We would like to add firmware files to support Cirrus Logic Smart Amp
-CS35L41 for an ASUS Laptop UM3402.
-Additionally, we have also added missing tuning files for 2 existing
-HP laptops.
- 
-Thanks,
-Stefan Binding
- 
-The following changes since commit
-5c11a3742947810ee8bffbd476eb5a1b0c7999f2:
- 
+The following changes since commit 5c11a3742947810ee8bffbd476eb5a1b0c7999f2:
+
   amdgpu: Add VCN 4.0.2 firmware (2023-01-25 07:40:41 -0500)
- 
+
 are available in the Git repository at:
- 
-  https://github.com/CirrusLogic/linux-firmware.git for-upstream
- 
-for you to fetch changes up to
-2fd61bc5d6d33e6804810418da96b58a0f00a41a:
- 
-  linux-firmware: Add firmware for Cirrus CS35L41 on UM3402 ASUS
-Laptop (2023-02-06 14:34:10 +0000)
- 
+
+  git://anongit.freedesktop.org/drm/drm-firmware dmc-mtl_2.11
+
+for you to fetch changes up to c1181ae796970b6b48218bd2bdb9392fab0e070f:
+
+  i915: Add DMC v2.11 for MTL (2023-02-07 09:13:10 -0300)
+
 ----------------------------------------------------------------
-Stefan Binding (2):
-      linux-firmware: Add missing tuning files for HP Laptops using
-Cirrus Amps
-      linux-firmware: Add firmware for Cirrus CS35L41 on UM3402 ASUS
-Laptop
- 
-WHENCE                                              |  14
-++++++++++++++
-cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid0-l0.bin | Bin 0 -> 2012
-bytes
-cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid0-r0.bin | Bin 0 -> 2012
-bytes
-cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid1-l0.bin | Bin 0 -> 2012
-bytes
-cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid1-r0.bin | Bin 0 -> 2012
-bytes
-cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid0-l0.bin | Bin 0 -> 5532
-bytes
-cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid0-r0.bin | Bin 0 -> 5532
-bytes
-cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid1-l0.bin | Bin 0 -> 5532
-bytes
-cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid1-r0.bin | Bin 0 -> 5532
-bytes
-9 files changed, 14 insertions(+)
-create mode 100755 cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid0-l0.bin
-create mode 100755 cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid0-r0.bin
-create mode 100755 cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid1-l0.bin
-create mode 100755 cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid1-r0.bin
-create mode 100755 cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid0-l0.bin
-create mode 100755 cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid0-r0.bin
-create mode 100755 cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid1-l0.bin
-create mode 100755 cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid1-r0.bin
+Gustavo Sousa (1):
+      i915: Add DMC v2.11 for MTL
 
-------=_NextPart_000_0047_01D93A39.DCB1D890
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><META =
-HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DProgId content=3DWord.Document><meta =
-name=3DGenerator content=3D"Microsoft Word 15"><meta name=3DOriginator =
-content=3D"Microsoft Word 15"><link rel=3DFile-List =
-href=3D"cid:filelist.xml@01D93A39.DC7EE1B0"><!--[if gte mso 9]><xml>
-<o:OfficeDocumentSettings>
-<o:AllowPNG/>
-<o:DoNotRelyOnCSS/>
-</o:OfficeDocumentSettings>
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<w:WordDocument>
-<w:SpellingState>Clean</w:SpellingState>
-<w:GrammarState>Clean</w:GrammarState>
-<w:TrackMoves/>
-<w:TrackFormatting/>
-<w:EnvelopeVis/>
-<w:PunctuationKerning/>
-<w:ValidateAgainstSchemas/>
-<w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
-<w:IgnoreMixedContent>false</w:IgnoreMixedContent>
-<w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
-<w:DoNotPromoteQF/>
-<w:LidThemeOther>EN-US</w:LidThemeOther>
-<w:LidThemeAsian>X-NONE</w:LidThemeAsian>
-<w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
-<w:Compatibility>
-<w:BreakWrappedTables/>
-<w:SnapToGridInCell/>
-<w:WrapTextWithPunct/>
-<w:UseAsianBreakRules/>
-<w:DontGrowAutofit/>
-<w:SplitPgBreakAndParaMark/>
-<w:EnableOpenTypeKerning/>
-<w:DontFlipMirrorIndents/>
-<w:OverrideTableStyleHps/>
-</w:Compatibility>
-<m:mathPr>
-<m:mathFont m:val=3D"Cambria Math"/>
-<m:brkBin m:val=3D"before"/>
-<m:brkBinSub m:val=3D"&#45;-"/>
-<m:smallFrac m:val=3D"off"/>
-<m:dispDef/>
-<m:lMargin m:val=3D"0"/>
-<m:rMargin m:val=3D"0"/>
-<m:defJc m:val=3D"centerGroup"/>
-<m:wrapIndent m:val=3D"1440"/>
-<m:intLim m:val=3D"subSup"/>
-<m:naryLim m:val=3D"undOvr"/>
-</m:mathPr></w:WordDocument>
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<w:LatentStyles DefLockedState=3D"false" DefUnhideWhenUsed=3D"false" =
-DefSemiHidden=3D"false" DefQFormat=3D"false" DefPriority=3D"99" =
-LatentStyleCount=3D"376">
-<w:LsdException Locked=3D"false" Priority=3D"0" QFormat=3D"true" =
-Name=3D"Normal"/>
-<w:LsdException Locked=3D"false" Priority=3D"9" QFormat=3D"true" =
-Name=3D"heading 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" QFormat=3D"true" Name=3D"heading 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" QFormat=3D"true" Name=3D"heading 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" QFormat=3D"true" Name=3D"heading 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" QFormat=3D"true" Name=3D"heading 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" QFormat=3D"true" Name=3D"heading 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" QFormat=3D"true" Name=3D"heading 7"/>
-<w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" QFormat=3D"true" Name=3D"heading 8"/>
-<w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" QFormat=3D"true" Name=3D"heading 9"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"index 1"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"index 2"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"index 3"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"index 4"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"index 5"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"index 6"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"index 7"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"index 8"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"index 9"/>
-<w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"toc 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"toc 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"toc 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"toc 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"toc 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"toc 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"toc 7"/>
-<w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"toc 8"/>
-<w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"toc 9"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Normal Indent"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"footnote text"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"annotation text"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"header"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"footer"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"index heading"/>
-<w:LsdException Locked=3D"false" Priority=3D"35" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" QFormat=3D"true" Name=3D"caption"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"table of figures"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"envelope address"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"envelope return"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"footnote reference"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"annotation reference"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"line number"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"page number"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"endnote reference"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"endnote text"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"table of authorities"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"macro"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"toa heading"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"List"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"List Bullet"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"List Number"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"List 2"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"List 3"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"List 4"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"List 5"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"List Bullet 2"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"List Bullet 3"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"List Bullet 4"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"List Bullet 5"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"List Number 2"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"List Number 3"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"List Number 4"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"List Number 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"10" QFormat=3D"true" =
-Name=3D"Title"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Closing"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Signature"/>
-<w:LsdException Locked=3D"false" Priority=3D"1" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Default Paragraph Font"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Body Text"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Body Text Indent"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"List Continue"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"List Continue 2"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"List Continue 3"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"List Continue 4"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"List Continue 5"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Message Header"/>
-<w:LsdException Locked=3D"false" Priority=3D"11" QFormat=3D"true" =
-Name=3D"Subtitle"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Salutation"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Date"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Body Text First Indent"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Body Text First Indent 2"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Note Heading"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Body Text 2"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Body Text 3"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Body Text Indent 2"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Body Text Indent 3"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Block Text"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Hyperlink"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"FollowedHyperlink"/>
-<w:LsdException Locked=3D"false" Priority=3D"22" QFormat=3D"true" =
-Name=3D"Strong"/>
-<w:LsdException Locked=3D"false" Priority=3D"20" QFormat=3D"true" =
-Name=3D"Emphasis"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Document Map"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Plain Text"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"E-mail Signature"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"HTML Top of Form"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"HTML Bottom of Form"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Normal (Web)"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"HTML Acronym"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"HTML Address"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"HTML Cite"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"HTML Code"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"HTML Definition"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"HTML Keyboard"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"HTML Preformatted"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"HTML Sample"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"HTML Typewriter"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"HTML Variable"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Normal Table"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"annotation subject"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"No List"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Outline List 1"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Outline List 2"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Outline List 3"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Simple 1"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Simple 2"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Simple 3"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Classic 1"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Classic 2"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Classic 3"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Classic 4"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Colorful 1"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Colorful 2"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Colorful 3"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Columns 1"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Columns 2"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Columns 3"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Columns 4"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Columns 5"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Grid 1"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Grid 2"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Grid 3"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Grid 4"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Grid 5"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Grid 6"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Grid 7"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Grid 8"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table List 1"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table List 2"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table List 3"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table List 4"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table List 5"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table List 6"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table List 7"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table List 8"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table 3D effects 1"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table 3D effects 2"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table 3D effects 3"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Contemporary"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Elegant"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Professional"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Subtle 1"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Subtle 2"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Web 1"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Web 2"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Web 3"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Balloon Text"/>
-<w:LsdException Locked=3D"false" Priority=3D"39" Name=3D"Table Grid"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Table Theme"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" Name=3D"Placeholder =
-Text"/>
-<w:LsdException Locked=3D"false" Priority=3D"1" QFormat=3D"true" =
-Name=3D"No Spacing"/>
-<w:LsdException Locked=3D"false" Priority=3D"60" Name=3D"Light =
-Shading"/>
-<w:LsdException Locked=3D"false" Priority=3D"61" Name=3D"Light List"/>
-<w:LsdException Locked=3D"false" Priority=3D"62" Name=3D"Light Grid"/>
-<w:LsdException Locked=3D"false" Priority=3D"63" Name=3D"Medium Shading =
-1"/>
-<w:LsdException Locked=3D"false" Priority=3D"64" Name=3D"Medium Shading =
-2"/>
-<w:LsdException Locked=3D"false" Priority=3D"65" Name=3D"Medium List =
-1"/>
-<w:LsdException Locked=3D"false" Priority=3D"66" Name=3D"Medium List =
-2"/>
-<w:LsdException Locked=3D"false" Priority=3D"67" Name=3D"Medium Grid =
-1"/>
-<w:LsdException Locked=3D"false" Priority=3D"68" Name=3D"Medium Grid =
-2"/>
-<w:LsdException Locked=3D"false" Priority=3D"69" Name=3D"Medium Grid =
-3"/>
-<w:LsdException Locked=3D"false" Priority=3D"70" Name=3D"Dark List"/>
-<w:LsdException Locked=3D"false" Priority=3D"71" Name=3D"Colorful =
-Shading"/>
-<w:LsdException Locked=3D"false" Priority=3D"72" Name=3D"Colorful =
-List"/>
-<w:LsdException Locked=3D"false" Priority=3D"73" Name=3D"Colorful =
-Grid"/>
-<w:LsdException Locked=3D"false" Priority=3D"60" Name=3D"Light Shading =
-Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"61" Name=3D"Light List =
-Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"62" Name=3D"Light Grid =
-Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"63" Name=3D"Medium Shading =
-1 Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"64" Name=3D"Medium Shading =
-2 Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"65" Name=3D"Medium List 1 =
-Accent 1"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" Name=3D"Revision"/>
-<w:LsdException Locked=3D"false" Priority=3D"34" QFormat=3D"true" =
-Name=3D"List Paragraph"/>
-<w:LsdException Locked=3D"false" Priority=3D"29" QFormat=3D"true" =
-Name=3D"Quote"/>
-<w:LsdException Locked=3D"false" Priority=3D"30" QFormat=3D"true" =
-Name=3D"Intense Quote"/>
-<w:LsdException Locked=3D"false" Priority=3D"66" Name=3D"Medium List 2 =
-Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"67" Name=3D"Medium Grid 1 =
-Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"68" Name=3D"Medium Grid 2 =
-Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"69" Name=3D"Medium Grid 3 =
-Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"70" Name=3D"Dark List =
-Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"71" Name=3D"Colorful =
-Shading Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"72" Name=3D"Colorful List =
-Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"73" Name=3D"Colorful Grid =
-Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"60" Name=3D"Light Shading =
-Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"61" Name=3D"Light List =
-Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"62" Name=3D"Light Grid =
-Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"63" Name=3D"Medium Shading =
-1 Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"64" Name=3D"Medium Shading =
-2 Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"65" Name=3D"Medium List 1 =
-Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"66" Name=3D"Medium List 2 =
-Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"67" Name=3D"Medium Grid 1 =
-Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"68" Name=3D"Medium Grid 2 =
-Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"69" Name=3D"Medium Grid 3 =
-Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"70" Name=3D"Dark List =
-Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"71" Name=3D"Colorful =
-Shading Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"72" Name=3D"Colorful List =
-Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"73" Name=3D"Colorful Grid =
-Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"60" Name=3D"Light Shading =
-Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"61" Name=3D"Light List =
-Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"62" Name=3D"Light Grid =
-Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"63" Name=3D"Medium Shading =
-1 Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"64" Name=3D"Medium Shading =
-2 Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"65" Name=3D"Medium List 1 =
-Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"66" Name=3D"Medium List 2 =
-Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"67" Name=3D"Medium Grid 1 =
-Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"68" Name=3D"Medium Grid 2 =
-Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"69" Name=3D"Medium Grid 3 =
-Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"70" Name=3D"Dark List =
-Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"71" Name=3D"Colorful =
-Shading Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"72" Name=3D"Colorful List =
-Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"73" Name=3D"Colorful Grid =
-Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"60" Name=3D"Light Shading =
-Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"61" Name=3D"Light List =
-Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"62" Name=3D"Light Grid =
-Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"63" Name=3D"Medium Shading =
-1 Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"64" Name=3D"Medium Shading =
-2 Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"65" Name=3D"Medium List 1 =
-Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"66" Name=3D"Medium List 2 =
-Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"67" Name=3D"Medium Grid 1 =
-Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"68" Name=3D"Medium Grid 2 =
-Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"69" Name=3D"Medium Grid 3 =
-Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"70" Name=3D"Dark List =
-Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"71" Name=3D"Colorful =
-Shading Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"72" Name=3D"Colorful List =
-Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"73" Name=3D"Colorful Grid =
-Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"60" Name=3D"Light Shading =
-Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"61" Name=3D"Light List =
-Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"62" Name=3D"Light Grid =
-Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"63" Name=3D"Medium Shading =
-1 Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"64" Name=3D"Medium Shading =
-2 Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"65" Name=3D"Medium List 1 =
-Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"66" Name=3D"Medium List 2 =
-Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"67" Name=3D"Medium Grid 1 =
-Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"68" Name=3D"Medium Grid 2 =
-Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"69" Name=3D"Medium Grid 3 =
-Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"70" Name=3D"Dark List =
-Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"71" Name=3D"Colorful =
-Shading Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"72" Name=3D"Colorful List =
-Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"73" Name=3D"Colorful Grid =
-Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"60" Name=3D"Light Shading =
-Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"61" Name=3D"Light List =
-Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"62" Name=3D"Light Grid =
-Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"63" Name=3D"Medium Shading =
-1 Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"64" Name=3D"Medium Shading =
-2 Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"65" Name=3D"Medium List 1 =
-Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"66" Name=3D"Medium List 2 =
-Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"67" Name=3D"Medium Grid 1 =
-Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"68" Name=3D"Medium Grid 2 =
-Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"69" Name=3D"Medium Grid 3 =
-Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"70" Name=3D"Dark List =
-Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"71" Name=3D"Colorful =
-Shading Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"72" Name=3D"Colorful List =
-Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"73" Name=3D"Colorful Grid =
-Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"19" QFormat=3D"true" =
-Name=3D"Subtle Emphasis"/>
-<w:LsdException Locked=3D"false" Priority=3D"21" QFormat=3D"true" =
-Name=3D"Intense Emphasis"/>
-<w:LsdException Locked=3D"false" Priority=3D"31" QFormat=3D"true" =
-Name=3D"Subtle Reference"/>
-<w:LsdException Locked=3D"false" Priority=3D"32" QFormat=3D"true" =
-Name=3D"Intense Reference"/>
-<w:LsdException Locked=3D"false" Priority=3D"33" QFormat=3D"true" =
-Name=3D"Book Title"/>
-<w:LsdException Locked=3D"false" Priority=3D"37" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Bibliography"/>
-<w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" QFormat=3D"true" Name=3D"TOC Heading"/>
-<w:LsdException Locked=3D"false" Priority=3D"41" Name=3D"Plain Table =
-1"/>
-<w:LsdException Locked=3D"false" Priority=3D"42" Name=3D"Plain Table =
-2"/>
-<w:LsdException Locked=3D"false" Priority=3D"43" Name=3D"Plain Table =
-3"/>
-<w:LsdException Locked=3D"false" Priority=3D"44" Name=3D"Plain Table =
-4"/>
-<w:LsdException Locked=3D"false" Priority=3D"45" Name=3D"Plain Table =
-5"/>
-<w:LsdException Locked=3D"false" Priority=3D"40" Name=3D"Grid Table =
-Light"/>
-<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"Grid Table 1 =
-Light"/>
-<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"Grid Table 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"Grid Table 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"Grid Table 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"Grid Table 5 =
-Dark"/>
-<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"Grid Table 6 =
-Colorful"/>
-<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"Grid Table 7 =
-Colorful"/>
-<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"Grid Table 1 =
-Light Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"Grid Table 2 =
-Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"Grid Table 3 =
-Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"Grid Table 4 =
-Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"Grid Table 5 =
-Dark Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"Grid Table 6 =
-Colorful Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"Grid Table 7 =
-Colorful Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"Grid Table 1 =
-Light Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"Grid Table 2 =
-Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"Grid Table 3 =
-Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"Grid Table 4 =
-Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"Grid Table 5 =
-Dark Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"Grid Table 6 =
-Colorful Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"Grid Table 7 =
-Colorful Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"Grid Table 1 =
-Light Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"Grid Table 2 =
-Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"Grid Table 3 =
-Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"Grid Table 4 =
-Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"Grid Table 5 =
-Dark Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"Grid Table 6 =
-Colorful Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"Grid Table 7 =
-Colorful Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"Grid Table 1 =
-Light Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"Grid Table 2 =
-Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"Grid Table 3 =
-Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"Grid Table 4 =
-Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"Grid Table 5 =
-Dark Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"Grid Table 6 =
-Colorful Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"Grid Table 7 =
-Colorful Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"Grid Table 1 =
-Light Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"Grid Table 2 =
-Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"Grid Table 3 =
-Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"Grid Table 4 =
-Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"Grid Table 5 =
-Dark Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"Grid Table 6 =
-Colorful Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"Grid Table 7 =
-Colorful Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"Grid Table 1 =
-Light Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"Grid Table 2 =
-Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"Grid Table 3 =
-Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"Grid Table 4 =
-Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"Grid Table 5 =
-Dark Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"Grid Table 6 =
-Colorful Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"Grid Table 7 =
-Colorful Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"List Table 1 =
-Light"/>
-<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"List Table 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"List Table 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"List Table 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"List Table 5 =
-Dark"/>
-<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"List Table 6 =
-Colorful"/>
-<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"List Table 7 =
-Colorful"/>
-<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"List Table 1 =
-Light Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"List Table 2 =
-Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"List Table 3 =
-Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"List Table 4 =
-Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"List Table 5 =
-Dark Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"List Table 6 =
-Colorful Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"List Table 7 =
-Colorful Accent 1"/>
-<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"List Table 1 =
-Light Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"List Table 2 =
-Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"List Table 3 =
-Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"List Table 4 =
-Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"List Table 5 =
-Dark Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"List Table 6 =
-Colorful Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"List Table 7 =
-Colorful Accent 2"/>
-<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"List Table 1 =
-Light Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"List Table 2 =
-Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"List Table 3 =
-Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"List Table 4 =
-Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"List Table 5 =
-Dark Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"List Table 6 =
-Colorful Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"List Table 7 =
-Colorful Accent 3"/>
-<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"List Table 1 =
-Light Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"List Table 2 =
-Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"List Table 3 =
-Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"List Table 4 =
-Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"List Table 5 =
-Dark Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"List Table 6 =
-Colorful Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"List Table 7 =
-Colorful Accent 4"/>
-<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"List Table 1 =
-Light Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"List Table 2 =
-Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"List Table 3 =
-Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"List Table 4 =
-Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"List Table 5 =
-Dark Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"List Table 6 =
-Colorful Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"List Table 7 =
-Colorful Accent 5"/>
-<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"List Table 1 =
-Light Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"List Table 2 =
-Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"List Table 3 =
-Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"List Table 4 =
-Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"List Table 5 =
-Dark Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"List Table 6 =
-Colorful Accent 6"/>
-<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"List Table 7 =
-Colorful Accent 6"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Mention"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Smart Hyperlink"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Hashtag"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Unresolved Mention"/>
-<w:LsdException Locked=3D"false" SemiHidden=3D"true" =
-UnhideWhenUsed=3D"true" Name=3D"Smart Link"/>
-</w:LatentStyles>
-</xml><![endif]--><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;
-	mso-font-charset:0;
-	mso-generic-font-family:roman;
-	mso-font-pitch:variable;
-	mso-font-signature:-536869121 1107305727 33554432 0 415 0;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;
-	mso-font-charset:0;
-	mso-generic-font-family:swiss;
-	mso-font-pitch:variable;
-	mso-font-signature:-469750017 -1073732485 9 0 511 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{mso-style-unhide:no;
-	mso-style-qformat:yes;
-	mso-style-parent:"";
-	margin:0cm;
-	mso-pagination:widow-orphan;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;
-	mso-ascii-font-family:Calibri;
-	mso-fareast-font-family:Calibri;
-	mso-hansi-font-family:Calibri;
-	mso-bidi-font-family:"Times New Roman";}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;
-	text-underline:single;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-noshow:yes;
-	mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;
-	text-underline:single;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	mso-style-noshow:yes;
-	mso-style-unhide:no;
-	mso-ansi-font-size:11.0pt;
-	mso-bidi-font-size:11.0pt;
-	font-family:"Calibri",sans-serif;
-	mso-ascii-font-family:Calibri;
-	mso-fareast-font-family:Calibri;
-	mso-hansi-font-family:Calibri;
-	mso-bidi-font-family:"Times New Roman";
-	color:windowtext;}
-span.SpellE
-	{mso-style-name:"";
-	mso-spl-e:yes;}
-span.GramE
-	{mso-style-name:"";
-	mso-gram-e:yes;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	mso-default-props:yes;
-	font-family:"Calibri",sans-serif;
-	mso-ascii-font-family:Calibri;
-	mso-fareast-font-family:Calibri;
-	mso-hansi-font-family:Calibri;
-	mso-bidi-font-family:"Times New Roman";}
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 72.0pt 72.0pt 72.0pt;
-	mso-header-margin:36.0pt;
-	mso-footer-margin:36.0pt;
-	mso-paper-source:0;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 10]><style>/* Style Definitions */
-table.MsoNormalTable
-	{mso-style-name:"Table Normal";
-	mso-tstyle-rowband-size:0;
-	mso-tstyle-colband-size:0;
-	mso-style-noshow:yes;
-	mso-style-priority:99;
-	mso-style-parent:"";
-	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
-	mso-para-margin:0cm;
-	mso-pagination:widow-orphan;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;
-	mso-ascii-font-family:Calibri;
-	mso-hansi-font-family:Calibri;
-	mso-bidi-font-family:"Times New Roman";}
-</style><![endif]--><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" =
-style=3D'tab-interval:36.0pt;word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal><font size=3D2 =
-face=3DCalibri><span =
-style=3D'font-size:11.0pt;mso-bidi-font-family:Calibri'>Hi,<o:p></o:p></s=
-pan></font></p><p class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt;mso-bidi-font-family:Calibri'><o:p>&nbsp;</o:p>=
-</span></font></p><p class=3DMsoNormal><font size=3D2 =
-face=3DCalibri><span =
-style=3D'font-size:11.0pt;mso-bidi-font-family:Calibri'>We would like to =
-add firmware files to support Cirrus Logic Smart Amp CS35L41 for an ASUS =
-Laptop </span>UM3402</font><span =
-style=3D'mso-bidi-font-family:Calibri'>.<o:p></o:p></span></p><p =
-class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt;mso-bidi-font-family:Calibri'>Additionally, we =
-have also added missing tuning files for 2 existing HP =
-laptops.<o:p></o:p></span></font></p><p class=3DMsoNormal><font size=3D2 =
-face=3DCalibri><span =
-style=3D'font-size:11.0pt;mso-bidi-font-family:Calibri'><o:p>&nbsp;</o:p>=
-</span></font></p><p class=3DMsoNormal><font size=3D2 =
-face=3DCalibri><span =
-style=3D'font-size:11.0pt;mso-bidi-font-family:Calibri'>Thanks,<o:p></o:p=
-></span></font></p><p class=3DMsoNormal><font size=3D2 =
-face=3DCalibri><span =
-style=3D'font-size:11.0pt;mso-bidi-font-family:Calibri'>Stefan =
-Binding<o:p></o:p></span></font></p><p class=3DMsoNormal><font size=3D2 =
-face=3DCalibri><span =
-style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></font></p><p =
-class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt'>The following changes since commit =
-5c11a3742947810ee8bffbd476eb5a1b0c7999f2:<o:p></o:p></span></font></p><p =
-class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></font></p><p =
-class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt'><span style=3D'mso-spacerun:yes'>&nbsp; =
-</span><span class=3DSpellE>amdgpu</span>: Add VCN 4.0.2 firmware =
-(2023-01-25 07:40:41 -0500)<o:p></o:p></span></font></p><p =
-class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></font></p><p =
-class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt'>are available in the Git repository =
-at:<o:p></o:p></span></font></p><p class=3DMsoNormal><font size=3D2 =
-face=3DCalibri><span =
-style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></font></p><p =
-class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt'><span style=3D'mso-spacerun:yes'>&nbsp; =
-</span><a =
-href=3D"https://github.com/CirrusLogic/linux-firmware.git">https://github=
-.com/CirrusLogic/linux-firmware.git</a> =
-for-upstream<o:p></o:p></span></font></p><p class=3DMsoNormal><font =
-size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></font></p><p =
-class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt'>for you to fetch changes up to =
-2fd61bc5d6d33e6804810418da96b58a0f00a41a:<o:p></o:p></span></font></p><p =
-class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></font></p><p =
-class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt'><span style=3D'mso-spacerun:yes'>&nbsp; =
-</span><span class=3DSpellE>linux</span>-firmware: Add firmware for =
-Cirrus CS35L41 on UM3402 ASUS Laptop (2023-02-06 14:34:10 =
-+0000)<o:p></o:p></span></font></p><p class=3DMsoNormal><font size=3D2 =
-face=3DCalibri><span =
-style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></font></p><p =
-class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt'>----------------------------------------------=
-------------------<o:p></o:p></span></font></p><p =
-class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt'>Stefan Binding =
-(2):<o:p></o:p></span></font></p><p class=3DMsoNormal><font size=3D2 =
-face=3DCalibri><span style=3D'font-size:11.0pt'><span =
-style=3D'mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'mso-spacerun:yes'>&nbsp;</span><span =
-class=3DSpellE>linux</span>-firmware: Add missing tuning files for HP =
-Laptops using Cirrus Amps<o:p></o:p></span></font></p><p =
-class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt'><span =
-style=3D'mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-class=3DSpellE>linux</span>-firmware: Add firmware for Cirrus CS35L41 on =
-UM3402 ASUS Laptop<o:p></o:p></span></font></p><p =
-class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></font></p><p =
-class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt'> WHENCE<span =
-style=3D'mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp; </span><span class=3DGramE>|<span =
-style=3D'mso-spacerun:yes'>&nbsp; </span>14</span> =
-++++++++++++++<o:p></o:p></span></font></p><p class=3DMsoNormal><font =
-size=3D2 face=3DCalibri><span style=3D'font-size:11.0pt'> =
-cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid0-l0.bin | Bin 0 -&gt; 2012 =
-bytes<o:p></o:p></span></font></p><p class=3DMsoNormal><font size=3D2 =
-face=3DCalibri><span style=3D'font-size:11.0pt'> =
-cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid0-r0.bin | Bin 0 -&gt; 2012 =
-bytes<o:p></o:p></span></font></p><p class=3DMsoNormal><font size=3D2 =
-face=3DCalibri><span style=3D'font-size:11.0pt'> =
-cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid1-l0.bin | Bin 0 -&gt; 2012 =
-bytes<o:p></o:p></span></font></p><p class=3DMsoNormal><font size=3D2 =
-face=3DCalibri><span style=3D'font-size:11.0pt'> =
-cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid1-r0.bin | Bin 0 -&gt; 2012 =
-bytes<o:p></o:p></span></font></p><p class=3DMsoNormal><font size=3D2 =
-face=3DCalibri><span style=3D'font-size:11.0pt'> =
-cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid0-l0.bin | Bin 0 -&gt; 5532 =
-bytes<o:p></o:p></span></font></p><p class=3DMsoNormal><font size=3D2 =
-face=3DCalibri><span style=3D'font-size:11.0pt'> =
-cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid0-r0.bin | Bin 0 -&gt; 5532 =
-bytes<o:p></o:p></span></font></p><p class=3DMsoNormal><font size=3D2 =
-face=3DCalibri><span style=3D'font-size:11.0pt'> =
-cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid1-l0.bin | Bin 0 -&gt; 5532 =
-bytes<o:p></o:p></span></font></p><p class=3DMsoNormal><font size=3D2 =
-face=3DCalibri><span style=3D'font-size:11.0pt'> =
-cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid1-r0.bin | Bin 0 -&gt; 5532 =
-bytes<o:p></o:p></span></font></p><p class=3DMsoNormal><font size=3D2 =
-face=3DCalibri><span style=3D'font-size:11.0pt'> 9 files changed, 14 =
-insertions(+)<o:p></o:p></span></font></p><p class=3DMsoNormal><font =
-size=3D2 face=3DCalibri><span style=3D'font-size:11.0pt'> create mode =
-100755 =
-cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid0-l0.bin<o:p></o:p></span></fo=
-nt></p><p class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt'> create mode 100755 =
-cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid0-r0.bin<o:p></o:p></span></fo=
-nt></p><p class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt'> create mode 100755 =
-cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid1-l0.bin<o:p></o:p></span></fo=
-nt></p><p class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt'> create mode 100755 =
-cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid1-r0.bin<o:p></o:p></span></fo=
-nt></p><p class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt'> create mode 100755 =
-cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid0-l0.bin<o:p></o:p></span></fo=
-nt></p><p class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt'> create mode 100755 =
-cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid0-r0.bin<o:p></o:p></span></fo=
-nt></p><p class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt'> create mode 100755 =
-cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid1-l0.bin<o:p></o:p></span></fo=
-nt></p><p class=3DMsoNormal><font size=3D2 face=3DCalibri><span =
-style=3D'font-size:11.0pt'> create mode 100755 =
-cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid1-r0.bin<o:p></o:p></span></fo=
-nt></p></div></body></html>
-------=_NextPart_000_0047_01D93A39.DCB1D890--
+ WHENCE           |   3 +++
+ i915/mtl_dmc.bin | Bin 0 -> 48512 bytes
+ 2 files changed, 3 insertions(+)
+ create mode 100644 i915/mtl_dmc.bin
