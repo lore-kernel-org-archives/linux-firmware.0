@@ -1,199 +1,39 @@
-Return-Path: <MAILER-DAEMON>
+Return-Path: <SRS0=Rv/9=6E=kayleigl.top=info@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4588C636CC
-	for <linux-firmware@archiver.kernel.org>; Wed,  8 Feb 2023 11:15:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14921C636CC
+	for <linux-firmware@archiver.kernel.org>; Wed,  8 Feb 2023 13:25:35 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 97EFCC4339B; Wed,  8 Feb 2023 11:15:54 +0000 (UTC)
-Received: from 157-7-195-158.localdomain (v157-7-195-158.f0o6.static.cnode.io [157.7.195.158])
-	by smtp.kernel.org (Postfix) with ESMTP id 98DB8C433D2
-	for <linux-firmware@kernel.org>; Wed,  8 Feb 2023 11:15:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 98DB8C433D2
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=157-7-195-158.localdomain
-Authentication-Results: smtp.kernel.org; spf=none smtp.helo=157-7-195-158.localdomain
-Received: by 157-7-195-158.localdomain (Postfix)
-	id C675936A7E8; Wed,  8 Feb 2023 20:15:33 +0900 (JST)
-Date: Wed,  8 Feb 2023 20:15:33 +0900 (JST)
-From: MAILER-DAEMON@157-7-195-158.localdomain (Mail Delivery System)
-Subject: Undelivered Mail Returned to Sender
+	id D20FAC433EF; Wed,  8 Feb 2023 13:25:35 +0000 (UTC)
+Received: from info.kayleigl.top (unknown [120.48.94.202])
+	by smtp.kernel.org (Postfix) with ESMTP id 21012C433D2
+	for <linux-firmware@kernel.org>; Wed,  8 Feb 2023 13:25:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 21012C433D2
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=zxprinter.com
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=kayleigl.top
+Received: from SD-20220828ZQZU (113.83.185.75) by info.kayleigl.top id hsehcq0e97c8 for <linux-firmware@kernel.org>; Wed, 8 Feb 2023 21:25:30 +0800 (envelope-from <info@kayleigl.top>)
+From: "ZX PRINTER" <sale@zxprinter.com>
+Subject: Prnting Quote
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Auto-Submitted: auto-replied
-MIME-Version: 1.0
-Content-Type: multipart/report; report-type=delivery-status;
-	boundary="B42383C487B.1675854933/157-7-195-158.localdomain"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20230208111534.C675936A7E8@157-7-195-158.localdomain>
-
-This is a MIME-encapsulated message.
-
---B42383C487B.1675854933/157-7-195-158.localdomain
-Content-Description: Notification
-Content-Type: text/plain; charset=us-ascii
-
-This is the mail system at host 157-7-195-158.localdomain.
-
-I'm sorry to have to inform you that your message could not
-be delivered to one or more recipients. It's attached below.
-
-For further assistance, please send mail to postmaster.
-
-If you do so, please include this problem report. You can
-delete your own text from the attached returned message.
-
-                   The mail system
-
-<linux-firmware@kernel.org>: host smtp2.kernel.org[35.85.114.177] said: 550
-    5.7.1 Blocked by SpamAssassin (in reply to end of DATA command)
-
---B42383C487B.1675854933/157-7-195-158.localdomain
-Content-Description: Delivery report
-Content-Type: message/delivery-status
-
-Reporting-MTA: dns; 157-7-195-158.localdomain
-X-Postfix-Queue-ID: B42383C487B
-X-Postfix-Sender: rfc822; linux-firmware@kernel.org
-Arrival-Date: Wed,  8 Feb 2023 19:48:28 +0900 (JST)
-
-Final-Recipient: rfc822; linux-firmware@kernel.org
-Action: failed
-Status: 5.7.1
-Remote-MTA: dns; smtp2.kernel.org
-Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
-
---B42383C487B.1675854933/157-7-195-158.localdomain
-Content-Description: Undelivered Message
-Content-Type: message/rfc822
-Content-Transfer-Encoding: 8bit
-
-Return-Path: <linux-firmware@kernel.org>
-Received: by 157-7-195-158.localdomain (Postfix, from userid 1000)
-	id B42383C487B; Wed,  8 Feb 2023 19:48:28 +0900 (JST)
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Subject: =?UTF-8?B?QW1hem9u44CQ6YeN6KaB44CR55Ww5bi444Ot44Kw44Kk44Oz6YCa55+l5ZWP?=  =?UTF-8?B?6aGM55Wq5Y+3MzEzMzc5MDM1NTMxNzc2NDQyOTUxNDQ3?=
-Date: Wed, 8 Feb 2023 18:48:28 +0800
-From: "amazon.co.jp" <linux-firmware@kernel.org>
-Message-ID: <352d5a6c209b0fe5efcdb3884debae8a@157.7.195.158>
-MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="b1_352d5a6c209b0fe5efcdb3884debae8a"
-Content-Transfer-Encoding: 8bit
-
-This is a multi-part message in MIME format.
-
---b1_352d5a6c209b0fe5efcdb3884debae8a
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Sender: info@kayleigl.top
+Reply-To: sale@zxprinter.com
+Date: Wed, 8 Feb 2023 21:25:29 +0800
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
+Content-Disposition: inline
+Message-Id: <20230208132533.21012C433D2@smtp.kernel.org>
 
-
-
-
-
-
-
-
-  
-  
-    
-      
-        
-        
-          
-            
-              
-              
-                
-                
-                  あなたのアカウントは停止されました
-        
-          
-            &nbsp;
-        
-          
-            ※本メールは重要なお知らせのため、メールを受け取らない設定をされている方にもお送りしております。ご了承ください。
-            ログイン日時:02/08/2023 06:48:28 pm 
-        
-          こんにちは、アマゾンのアカウントを使って別のデバイスからログインしようと何度も試みられましたことを通知するメーセージです。お客さまのアカウントを保護するために、アカウントを一時的にロックしました｡
-        
-          
-            アカウントを引き続き使用するには、24時間前に情報を更新することをお勧めします。それ以外の場合、あなたのアカウントは永久ロック。
-        
-          
-            
-            
-              
-              
-                確認用アカウント
-  
-    
-      &nbsp;
-      © 2023 Amazon.com, Inc. or its 
-      affiliates. All rights reserved. Amazon, Amazon.co.jp, Amazon Prime, Prime 
-      およびAmazon.co.jp のロゴは Amazon.com , Inc.またはその関連会社の商標です。you received this 
-      message at linux-firmware@kernel.org Amazon.com, 410 Terry Avenue N., Seattle, 74oxkg3ypz37ginr0g4wum&nbsp;
-
-
-
---b1_352d5a6c209b0fe5efcdb3884debae8a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-<head>
-<meta content="text/html; charset=utf-8" http-equiv=Content-Type>
-</head>
-<body>
-<p>
-<table style="font-size:medium;font-family:;white-space:normal;word-spacing:0px;text-transform:none;font-weight:400;color:rgb(0,0,0);padding-bottom:20px;font-style:normal;orphans:2;widows:2;letter-spacing:normal;-webkit-text-stroke-width:0px;font-variant-ligatures:normal;text-decoration-style:initial;text-decoration-color:initial;font-variant-caps:normal;text-decoration-thickness:initial;" cellSpacing=0 cellPadding=0 width=550 align=center>
-  <tbody>
-  <tr>
-    <td>
-      <table style="margin:0px 20px;" cellSpacing=0 cellPadding=0 width=550>
-        <tbody>
-        <tr width="550">
-          <td style="border-bottom:rgb(234,234,234) 1px solid;padding-top:10px;" height=52 width=550>
-            <table>
-              <tbody>
-              <tr width="550">
-                <td width=100><img alt="Amazon Logo Image" src="https://m.media-amazon.com/images/G/01/authportal/tiv/amazon_logo_RGB._CB424887820_.png" width=93 height=27></td>
-                <td style="font-size:22px;font-family:;padding-bottom:10px;text-align:right;padding-top:2px;padding-left:0px;padding-right:0px;arial:;" width=420>
-                  <p>あなたのアカウントは停止されました</p></td></tr></tbody></table></td></tr>
-        <tr>
-          <td style="text-align:center;" colSpan=2 align=center>
-            <div style="text-align:center !important;">&nbsp;</div></td></tr>
-        <tr>
-          <td style="font-size:17px;font-family:;padding-bottom:10px;text-align:left;padding-top:25px;arial:;" colSpan=2 align=left>
-            <p>※本メールは重要なお知らせのため、メールを受け取らない設定をされている方にもお送りしております。ご了承ください。</p>
-            <p>ログイン日時:02/08/2023 06:48:28 pm </p></td></tr>
-        <tr>
-          <td style="font-size:17px;font-family:;padding-bottom:10px;text-align:left;padding-top:25px;arial:;" colSpan=2 align=left>こんにちは、アマゾンのアカウントを使って別のデバイスからログインしようと何度も試みられましたことを通知するメーセージです。<br>お客さまのアカウントを保護するために、アカウントを一時的にロックしました｡</td></tr>
-        <tr>
-          <td style="font-size:17px;font-family:;padding-bottom:10px;text-align:left;padding-top:25px;arial:;" colSpan=2 align=left>
-            <p>アカウントを引き続き使用するには、24時間前に情報を更新することをお勧めします。それ以外の場合、あなたのアカウントは永久ロック。</p></td></tr>
-        <tr>
-          <td vAlign=top align=left>
-            <div align=center><br>
-            <table style="border-left-width:1px;border-right-width:1px;border-bottom-width:1px;border-collapse:separate !important;border-top-width:1px;background-color:rgb(255,167,35);border-radius:5px;" cellSpacing=0 cellPadding=0 align=center border=0>
-              <tbody>
-              <tr>
-                <td style="font-size:16px;font-family:Arial;padding-bottom:15px;padding-top:15px;padding-left:25px;padding-right:25px;" vAlign=middle align=center><a style="text-decoration:none;font-weight:bold;color:rgb(255,255,255);text-align:center;letter-spacing:normal;line-height:16px;" href="https://translate.google.com/translate?sl=auto&tl=ja&hl=ja&u=https://small-sunset-dc51.j00dnqpvco.workers.dev/" rel=noopener target=_blank>確認用アカウント</a></td></tr></tbody></table></div></td></tr></tbody></table></td></tr>
-  <tr>
-    <td style="font-size:13px;font-family:;padding-bottom:10px;text-align:left;arial:;" width=600 colSpan=2 align=left>
-      <p align=center><font color=gray></font>&nbsp;</p>
-      <p align=center><font color=gray>© 2023 Amazon.com, Inc. or its 
-      affiliates. All rights reserved. Amazon, Amazon.co.jp, Amazon Prime, Prime 
-      およびAmazon.co.jp のロゴは Amazon.com , Inc.またはその関連会社の商標です。you received this 
-      message at linux-firmware@kernel.org Amazon.com, 410 Terry Avenue N., Seattle, <span style="font-size:15px;font-family:;white-space:normal;word-spacing:0px;text-transform:none;float:none;font-weight:400;color:rgb(51,51,51);font-style:normal;text-align:left;orphans:2;widows:2;display:inline !important;letter-spacing:normal;background-color:rgb(245,245,245);text-indent:0px;-webkit-text-stroke-width:0px;font-variant-ligatures:normal;text-decoration-style:initial;text-decoration-color:initial;font-variant-caps:normal;calibri:;">hvgidowa4d5tkhazd<span>&nbsp;</span></span></font></p></td></tr></tbody></table></p>
-</body>
-</html>
-
-
-
---b1_352d5a6c209b0fe5efcdb3884debae8a--
-
-
---B42383C487B.1675854933/157-7-195-158.localdomain--
+SGVsbG8sDQoNCldlIGFyZSBzcGVjaWFsaXplZCBpbiBwcmludGluZyBib29rLCBjYXRhbG9nLCBt
+YWdhemluZSwgYmlibGUsIGJveCwgYmFnLCBlbnZlbG9wZSwgcG9zdGVyLCBzdGlja2VyLCBub3Rl
+cGFkLCBiYW5uZXIgYW5kIG1hbnkgbW9yZSwgOTAlIG9mIG91ciBwcmludGluZyBwcmljZXMgYXJl
+IGxvdywgd2l0aCBoaWdoIHF1YWxpdHkuDQoNCkxvb2tpbmcgZm9yd2FyZCB0byB3b3JraW5nIHdp
+dGggeW91IQ0KDQpNYW55IHRoYW5rcyENCktpbmRlc3QgUmVnYXJkcywNCg0KWlggUFJJTlRJTkcg
+VEVBTQ0KaHR0cHM6Ly93d3cuenhwcmludGVyLmNvbQ0KVGVsOiArODYtMDc1Mi0yNjkwNTY2DQo=
