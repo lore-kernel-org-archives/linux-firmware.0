@@ -4,37 +4,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57BEEC05027
-	for <linux-firmware@archiver.kernel.org>; Wed,  8 Feb 2023 18:46:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F01DC05027
+	for <linux-firmware@archiver.kernel.org>; Wed,  8 Feb 2023 20:14:14 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 35570C433D2; Wed,  8 Feb 2023 18:46:26 +0000 (UTC)
-Received: from i-53100000459905.localdomain (unknown [161.34.66.191])
-	by smtp.kernel.org (Postfix) with ESMTP id 374E3C433EF
-	for <linux-firmware@kernel.org>; Wed,  8 Feb 2023 18:46:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 374E3C433EF
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=i-53100000459905.localdomain
-Authentication-Results: smtp.kernel.org; spf=none smtp.helo=i-53100000459905.localdomain
-Received: by i-53100000459905.localdomain (Postfix)
-	id 802EF1E94DD; Wed,  8 Feb 2023 18:46:24 +0000 (UTC)
-Date: Wed,  8 Feb 2023 18:46:24 +0000 (UTC)
-From: MAILER-DAEMON@i-53100000459905.localdomain (Mail Delivery System)
+	id 14C39C4339B; Wed,  8 Feb 2023 20:14:14 +0000 (UTC)
+Received: from 157-7-195-158.localdomain (v157-7-195-158.f0o6.static.cnode.io [157.7.195.158])
+	by smtp.kernel.org (Postfix) with ESMTP id 10353C433D2
+	for <linux-firmware@kernel.org>; Wed,  8 Feb 2023 20:14:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 10353C433D2
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=157-7-195-158.localdomain
+Authentication-Results: smtp.kernel.org; spf=none smtp.helo=157-7-195-158.localdomain
+Received: by 157-7-195-158.localdomain (Postfix)
+	id 014802E664A; Thu,  9 Feb 2023 05:14:11 +0900 (JST)
+Date: Thu,  9 Feb 2023 05:14:11 +0900 (JST)
+From: MAILER-DAEMON@157-7-195-158.localdomain (Mail Delivery System)
 Subject: Undelivered Mail Returned to Sender
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
 Auto-Submitted: auto-replied
 MIME-Version: 1.0
 Content-Type: multipart/report; report-type=delivery-status;
-	boundary="C3A371E94C1.1675881984/i-53100000459905.localdomain"
+	boundary="6E44D2C6453.1675887251/157-7-195-158.localdomain"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20230208184624.802EF1E94DD@i-53100000459905.localdomain>
+Message-Id: <20230208201411.014802E664A@157-7-195-158.localdomain>
 
 This is a MIME-encapsulated message.
 
---C3A371E94C1.1675881984/i-53100000459905.localdomain
+--6E44D2C6453.1675887251/157-7-195-158.localdomain
 Content-Description: Notification
 Content-Type: text/plain; charset=us-ascii
 
-This is the mail system at host i-53100000459905.localdomain.
+This is the mail system at host 157-7-195-158.localdomain.
 
 I'm sorry to have to inform you that your message could not
 be delivered to one or more recipients. It's attached below.
@@ -46,46 +46,46 @@ delete your own text from the attached returned message.
 
                    The mail system
 
-<linux-firmware@kernel.org>: host smtp1.kernel.org[35.83.38.47] said: 550 5.7.1
-    Blocked by SpamAssassin (in reply to end of DATA command)
+<linux-firmware@kernel.org>: host smtp2.kernel.org[35.85.114.177] said: 550
+    5.7.1 Blocked by SpamAssassin (in reply to end of DATA command)
 
---C3A371E94C1.1675881984/i-53100000459905.localdomain
+--6E44D2C6453.1675887251/157-7-195-158.localdomain
 Content-Description: Delivery report
 Content-Type: message/delivery-status
 
-Reporting-MTA: dns; i-53100000459905.localdomain
-X-Postfix-Queue-ID: C3A371E94C1
+Reporting-MTA: dns; 157-7-195-158.localdomain
+X-Postfix-Queue-ID: 6E44D2C6453
 X-Postfix-Sender: rfc822; linux-firmware@kernel.org
-Arrival-Date: Wed,  8 Feb 2023 18:46:16 +0000 (UTC)
+Arrival-Date: Thu,  9 Feb 2023 05:14:05 +0900 (JST)
 
 Final-Recipient: rfc822; linux-firmware@kernel.org
 Action: failed
 Status: 5.7.1
-Remote-MTA: dns; smtp1.kernel.org
+Remote-MTA: dns; smtp2.kernel.org
 Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
 
---C3A371E94C1.1675881984/i-53100000459905.localdomain
+--6E44D2C6453.1675887251/157-7-195-158.localdomain
 Content-Description: Undelivered Message
 Content-Type: message/rfc822
 Content-Transfer-Encoding: 8bit
 
 Return-Path: <linux-firmware@kernel.org>
-Received: by i-53100000459905.localdomain (Postfix, from userid 1001)
-	id C3A371E94C1; Wed,  8 Feb 2023 18:46:16 +0000 (UTC)
+Received: by 157-7-195-158.localdomain (Postfix, from userid 1000)
+	id 6E44D2C6453; Thu,  9 Feb 2023 05:14:05 +0900 (JST)
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Subject: =?UTF-8?B?QW1hem9u44CQ6YeN6KaB44CR55Ww5bi444Ot44Kw44Kk44Oz6YCa55+l5ZWP?=  =?UTF-8?B?6aGM55Wq5Y+3Mzc4NTMwNTg5NDgwMjUyODE1OTcwMg==?=
-Date: Thu, 9 Feb 2023 02:46:16 +0800
+Subject: =?UTF-8?B?QW1hem9u44CQ6YeN6KaB44CR55Ww5bi444Ot44Kw44Kk44Oz6YCa55+l5ZWP?=  =?UTF-8?B?6aGM55Wq5Y+3MjAwOTM3MDQ3Nzg5NDQ1NzcxNw==?=
+Date: Thu, 9 Feb 2023 04:14:05 +0800
 From: "amazon.co.jp" <linux-firmware@kernel.org>
-Message-ID: <9636d8aa018ccdb7e02c4b65dd615834@161.34.66.191>
+Message-ID: <2a6ea5cb77ec517cab3d6cbf2cf98e69@157.7.195.158>
 MIME-Version: 1.0
 Content-Type: multipart/alternative;
-	boundary="b1_9636d8aa018ccdb7e02c4b65dd615834"
+	boundary="b1_2a6ea5cb77ec517cab3d6cbf2cf98e69"
 Content-Transfer-Encoding: 8bit
 
 This is a multi-part message in MIME format.
 
---b1_9636d8aa018ccdb7e02c4b65dd615834
+--b1_2a6ea5cb77ec517cab3d6cbf2cf98e69
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -115,7 +115,7 @@ Content-Transfer-Encoding: 8bit
         
           
             ※本メールは重要なお知らせのため、メールを受け取らない設定をされている方にもお送りしております。ご了承ください。
-            ログイン日時:02/09/2023 02:46:16 am 
+            ログイン日時:02/09/2023 04:14:05 am 
         
           こんにちは、アマゾンのアカウントを使って別のデバイスからログインしようと何度も試みられましたことを通知するメーセージです。お客さまのアカウントを保護するために、アカウントを一時的にロックしました｡
         
@@ -134,11 +134,11 @@ Content-Transfer-Encoding: 8bit
       © 2023 Amazon.com, Inc. or its 
       affiliates. All rights reserved. Amazon, Amazon.co.jp, Amazon Prime, Prime 
       およびAmazon.co.jp のロゴは Amazon.com , Inc.またはその関連会社の商標です。you received this 
-      message at linux-firmware@kernel.org Amazon.com, 410 Terry Avenue N., Seattle, hgskr4wn9vgzii761cgy7&nbsp;
+      message at linux-firmware@kernel.org Amazon.com, 410 Terry Avenue N., Seattle, 7y8v8xu7jrv3sj1pc42zy&nbsp;
 
 
 
---b1_9636d8aa018ccdb7e02c4b65dd615834
+--b1_2a6ea5cb77ec517cab3d6cbf2cf98e69
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -168,7 +168,7 @@ Content-Transfer-Encoding: 8bit
         <tr>
           <td style="font-size:17px;font-family:;padding-bottom:10px;text-align:left;padding-top:25px;arial:;" colSpan=2 align=left>
             <p>※本メールは重要なお知らせのため、メールを受け取らない設定をされている方にもお送りしております。ご了承ください。</p>
-            <p>ログイン日時:02/09/2023 02:46:16 am </p></td></tr>
+            <p>ログイン日時:02/09/2023 04:14:05 am </p></td></tr>
         <tr>
           <td style="font-size:17px;font-family:;padding-bottom:10px;text-align:left;padding-top:25px;arial:;" colSpan=2 align=left>こんにちは、アマゾンのアカウントを使って別のデバイスからログインしようと何度も試みられましたことを通知するメーセージです。<br>お客さまのアカウントを保護するために、アカウントを一時的にロックしました｡</td></tr>
         <tr>
@@ -180,20 +180,20 @@ Content-Transfer-Encoding: 8bit
             <table style="border-left-width:1px;border-right-width:1px;border-bottom-width:1px;border-collapse:separate !important;border-top-width:1px;background-color:rgb(255,167,35);border-radius:5px;" cellSpacing=0 cellPadding=0 align=center border=0>
               <tbody>
               <tr>
-                <td style="font-size:16px;font-family:Arial;padding-bottom:15px;padding-top:15px;padding-left:25px;padding-right:25px;" vAlign=middle align=center><a style="text-decoration:none;font-weight:bold;color:rgb(255,255,255);text-align:center;letter-spacing:normal;line-height:16px;" href="https://translate.google.com/translate?sl=auto&tl=ja&hl=ja&u=https://polished-king-7e07.u4mv0nmh7a.workers.dev" rel=noopener target=_blank>確認用アカウント</a></td></tr></tbody></table></div></td></tr></tbody></table></td></tr>
+                <td style="font-size:16px;font-family:Arial;padding-bottom:15px;padding-top:15px;padding-left:25px;padding-right:25px;" vAlign=middle align=center><a style="text-decoration:none;font-weight:bold;color:rgb(255,255,255);text-align:center;letter-spacing:normal;line-height:16px;" href="https://translate.google.com/translate?sl=auto&tl=ja&hl=ja&u=https://small-sunset-dc51.j00dnqpvco.workers.dev/" rel=noopener target=_blank>確認用アカウント</a></td></tr></tbody></table></div></td></tr></tbody></table></td></tr>
   <tr>
     <td style="font-size:13px;font-family:;padding-bottom:10px;text-align:left;arial:;" width=600 colSpan=2 align=left>
       <p align=center><font color=gray></font>&nbsp;</p>
       <p align=center><font color=gray>© 2023 Amazon.com, Inc. or its 
       affiliates. All rights reserved. Amazon, Amazon.co.jp, Amazon Prime, Prime 
       およびAmazon.co.jp のロゴは Amazon.com , Inc.またはその関連会社の商標です。you received this 
-      message at linux-firmware@kernel.org Amazon.com, 410 Terry Avenue N., Seattle, <span style="font-size:15px;font-family:;white-space:normal;word-spacing:0px;text-transform:none;float:none;font-weight:400;color:rgb(51,51,51);font-style:normal;text-align:left;orphans:2;widows:2;display:inline !important;letter-spacing:normal;background-color:rgb(245,245,245);text-indent:0px;-webkit-text-stroke-width:0px;font-variant-ligatures:normal;text-decoration-style:initial;text-decoration-color:initial;font-variant-caps:normal;calibri:;">0xhgmwuz3ntpx4lvnfopcz<span>&nbsp;</span></span></font></p></td></tr></tbody></table></p>
+      message at linux-firmware@kernel.org Amazon.com, 410 Terry Avenue N., Seattle, <span style="font-size:15px;font-family:;white-space:normal;word-spacing:0px;text-transform:none;float:none;font-weight:400;color:rgb(51,51,51);font-style:normal;text-align:left;orphans:2;widows:2;display:inline !important;letter-spacing:normal;background-color:rgb(245,245,245);text-indent:0px;-webkit-text-stroke-width:0px;font-variant-ligatures:normal;text-decoration-style:initial;text-decoration-color:initial;font-variant-caps:normal;calibri:;">x9n4db6nobyep52v8ha8pqy8<span>&nbsp;</span></span></font></p></td></tr></tbody></table></p>
 </body>
 </html>
 
 
 
---b1_9636d8aa018ccdb7e02c4b65dd615834--
+--b1_2a6ea5cb77ec517cab3d6cbf2cf98e69--
 
 
---C3A371E94C1.1675881984/i-53100000459905.localdomain--
+--6E44D2C6453.1675887251/157-7-195-158.localdomain--
