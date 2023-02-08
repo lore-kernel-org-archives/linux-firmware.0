@@ -1,86 +1,199 @@
-Return-Path: <SRS0=YcZ5=6E=nbd.name=nbd@kernel.org>
+Return-Path: <MAILER-DAEMON>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04E94C636CC
-	for <linux-firmware@archiver.kernel.org>; Wed,  8 Feb 2023 16:32:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57BEEC05027
+	for <linux-firmware@archiver.kernel.org>; Wed,  8 Feb 2023 18:46:26 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C7A46C433A7; Wed,  8 Feb 2023 16:32:51 +0000 (UTC)
-Received: from nbd.name (nbd.name [46.4.11.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 8C6BEC433EF;
-	Wed,  8 Feb 2023 16:32:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 8C6BEC433EF
-Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=nbd.name
-Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=nbd.name
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=nbd.name;
-	s=20160729; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=HpEUS/vI6UC3HBFGhG36LzbViRV53Vh9XedAd7fhGXs=; b=uMoK+rrb1mp63J9kTJUOLVVWTp
-	A/kXAND0biwrJB+tplDEc6ytOfwlAj8D+7GuWFMUB6XW6gNznEIoHNTYoGUpikJR/5uwRlmYmOZ54
-	3nNnIGhE/Xq/ieRWD7EialORu2SwxOtcDykr6gwx/DUKyYoh3HjEt+VJBjrRzi/xVL/g=;
-Received: from p200300daa717ad04a56d64ef60554cdc.dip0.t-ipconnect.de ([2003:da:a717:ad04:a56d:64ef:6055:4cdc] helo=nf.local)
-	by ds12 with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.94.2)
-	(envelope-from <nbd@nbd.name>)
-	id 1pPnN2-0065qs-QK; Wed, 08 Feb 2023 17:32:32 +0100
-Message-ID: <80317d6f-47d9-d824-1a58-7ffbfd46d716@nbd.name>
-Date: Wed, 8 Feb 2023 17:32:32 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 2/2] linux-firmware: update firmware for MT7916
-Content-Language: en-US
-To: shayne.chen@mediatek.com, "jwboyer@kernel.org" <jwboyer@kernel.org>
+	id 35570C433D2; Wed,  8 Feb 2023 18:46:26 +0000 (UTC)
+Received: from i-53100000459905.localdomain (unknown [161.34.66.191])
+	by smtp.kernel.org (Postfix) with ESMTP id 374E3C433EF
+	for <linux-firmware@kernel.org>; Wed,  8 Feb 2023 18:46:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 374E3C433EF
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=i-53100000459905.localdomain
+Authentication-Results: smtp.kernel.org; spf=none smtp.helo=i-53100000459905.localdomain
+Received: by i-53100000459905.localdomain (Postfix)
+	id 802EF1E94DD; Wed,  8 Feb 2023 18:46:24 +0000 (UTC)
+Date: Wed,  8 Feb 2023 18:46:24 +0000 (UTC)
+From: MAILER-DAEMON@i-53100000459905.localdomain (Mail Delivery System)
+Subject: Undelivered Mail Returned to Sender
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-firmware@kernel.org" <linux-firmware@kernel.org>,
- "lorenzo@kernel.org" <lorenzo@kernel.org>, Ryder Lee
- <Ryder.Lee@mediatek.com>, =?UTF-8?B?RXZlbHluIFRzYWkgKOiUoeePiumIuik=?=
- <Evelyn.Tsai@mediatek.com>
-References: <20221123110743.22005-1-shayne.chen@mediatek.com>
- <20221123110743.22005-2-shayne.chen@mediatek.com>
- <d6244fd6-62bd-ba07-fe18-dee559594ece@nbd.name>
- <c82307e02e6d2c29d2e30209c76fe8bb7c86616f.camel@mediatek.com>
-From: Felix Fietkau <nbd@nbd.name>
-In-Reply-To: <c82307e02e6d2c29d2e30209c76fe8bb7c86616f.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: linux-firmware@kernel.org
+Auto-Submitted: auto-replied
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=delivery-status;
+	boundary="C3A371E94C1.1675881984/i-53100000459905.localdomain"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20230208184624.802EF1E94DD@i-53100000459905.localdomain>
 
-On 08.02.23 17:13, shayne.chen@mediatek.com wrote:
-> On Wed, 2023-02-01 at 17:07 +0100, Felix Fietkau wrote:
->> On 23.11.22 12:07, Shayne Chen wrote:
->> > This patch updates firmware files v211120221031 for MT7916 WiFi
->> > NIC.
->> > 
->> > Signed-off-by: Shayne Chen<shayne.chen@mediatek.com>
->> 
->> More and more users are complaining that this firmware update
->> introduces 
->> a regression of not being able to support 5 GHz and 6 GHz together 
->> anymore. Apparently the EEPROM data needs to be patched to limit
->> support 
->> to one of the two bands, otherwise both don't work.
->> Switching at runtime apparently doesn't work without a firmware
->> restart.
->> 
->> Is there any chance we could get a firmware that fixes this bug?
->> 
-> Hi Felix,
-> 
-> We've released new firmware which enables 5+6 GHz on mt7916 band1 to
-> mt76 community, and are collecting feedbacks from users.
-> I'll send the updated firmware after getting positive feedbacks.
-That sounds great.
+This is a MIME-encapsulated message.
 
-Thanks a lot,
+--C3A371E94C1.1675881984/i-53100000459905.localdomain
+Content-Description: Notification
+Content-Type: text/plain; charset=us-ascii
 
-- Felix
+This is the mail system at host i-53100000459905.localdomain.
 
+I'm sorry to have to inform you that your message could not
+be delivered to one or more recipients. It's attached below.
+
+For further assistance, please send mail to postmaster.
+
+If you do so, please include this problem report. You can
+delete your own text from the attached returned message.
+
+                   The mail system
+
+<linux-firmware@kernel.org>: host smtp1.kernel.org[35.83.38.47] said: 550 5.7.1
+    Blocked by SpamAssassin (in reply to end of DATA command)
+
+--C3A371E94C1.1675881984/i-53100000459905.localdomain
+Content-Description: Delivery report
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns; i-53100000459905.localdomain
+X-Postfix-Queue-ID: C3A371E94C1
+X-Postfix-Sender: rfc822; linux-firmware@kernel.org
+Arrival-Date: Wed,  8 Feb 2023 18:46:16 +0000 (UTC)
+
+Final-Recipient: rfc822; linux-firmware@kernel.org
+Action: failed
+Status: 5.7.1
+Remote-MTA: dns; smtp1.kernel.org
+Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
+
+--C3A371E94C1.1675881984/i-53100000459905.localdomain
+Content-Description: Undelivered Message
+Content-Type: message/rfc822
+Content-Transfer-Encoding: 8bit
+
+Return-Path: <linux-firmware@kernel.org>
+Received: by i-53100000459905.localdomain (Postfix, from userid 1001)
+	id C3A371E94C1; Wed,  8 Feb 2023 18:46:16 +0000 (UTC)
+List-Id: <linux-firmware.lore.kernel.org>
+To: linux-firmware@kernel.org
+Subject: =?UTF-8?B?QW1hem9u44CQ6YeN6KaB44CR55Ww5bi444Ot44Kw44Kk44Oz6YCa55+l5ZWP?=  =?UTF-8?B?6aGM55Wq5Y+3Mzc4NTMwNTg5NDgwMjUyODE1OTcwMg==?=
+Date: Thu, 9 Feb 2023 02:46:16 +0800
+From: "amazon.co.jp" <linux-firmware@kernel.org>
+Message-ID: <9636d8aa018ccdb7e02c4b65dd615834@161.34.66.191>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="b1_9636d8aa018ccdb7e02c4b65dd615834"
+Content-Transfer-Encoding: 8bit
+
+This is a multi-part message in MIME format.
+
+--b1_9636d8aa018ccdb7e02c4b65dd615834
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+
+
+
+
+
+
+
+  
+  
+    
+      
+        
+        
+          
+            
+              
+              
+                
+                
+                  あなたのアカウントは停止されました
+        
+          
+            &nbsp;
+        
+          
+            ※本メールは重要なお知らせのため、メールを受け取らない設定をされている方にもお送りしております。ご了承ください。
+            ログイン日時:02/09/2023 02:46:16 am 
+        
+          こんにちは、アマゾンのアカウントを使って別のデバイスからログインしようと何度も試みられましたことを通知するメーセージです。お客さまのアカウントを保護するために、アカウントを一時的にロックしました｡
+        
+          
+            アカウントを引き続き使用するには、24時間前に情報を更新することをお勧めします。それ以外の場合、あなたのアカウントは永久ロック。
+        
+          
+            
+            
+              
+              
+                確認用アカウント
+  
+    
+      &nbsp;
+      © 2023 Amazon.com, Inc. or its 
+      affiliates. All rights reserved. Amazon, Amazon.co.jp, Amazon Prime, Prime 
+      およびAmazon.co.jp のロゴは Amazon.com , Inc.またはその関連会社の商標です。you received this 
+      message at linux-firmware@kernel.org Amazon.com, 410 Terry Avenue N., Seattle, hgskr4wn9vgzii761cgy7&nbsp;
+
+
+
+--b1_9636d8aa018ccdb7e02c4b65dd615834
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv=Content-Type>
+</head>
+<body>
+<p>
+<table style="font-size:medium;font-family:;white-space:normal;word-spacing:0px;text-transform:none;font-weight:400;color:rgb(0,0,0);padding-bottom:20px;font-style:normal;orphans:2;widows:2;letter-spacing:normal;-webkit-text-stroke-width:0px;font-variant-ligatures:normal;text-decoration-style:initial;text-decoration-color:initial;font-variant-caps:normal;text-decoration-thickness:initial;" cellSpacing=0 cellPadding=0 width=550 align=center>
+  <tbody>
+  <tr>
+    <td>
+      <table style="margin:0px 20px;" cellSpacing=0 cellPadding=0 width=550>
+        <tbody>
+        <tr width="550">
+          <td style="border-bottom:rgb(234,234,234) 1px solid;padding-top:10px;" height=52 width=550>
+            <table>
+              <tbody>
+              <tr width="550">
+                <td width=100><img alt="Amazon Logo Image" src="https://m.media-amazon.com/images/G/01/authportal/tiv/amazon_logo_RGB._CB424887820_.png" width=93 height=27></td>
+                <td style="font-size:22px;font-family:;padding-bottom:10px;text-align:right;padding-top:2px;padding-left:0px;padding-right:0px;arial:;" width=420>
+                  <p>あなたのアカウントは停止されました</p></td></tr></tbody></table></td></tr>
+        <tr>
+          <td style="text-align:center;" colSpan=2 align=center>
+            <div style="text-align:center !important;">&nbsp;</div></td></tr>
+        <tr>
+          <td style="font-size:17px;font-family:;padding-bottom:10px;text-align:left;padding-top:25px;arial:;" colSpan=2 align=left>
+            <p>※本メールは重要なお知らせのため、メールを受け取らない設定をされている方にもお送りしております。ご了承ください。</p>
+            <p>ログイン日時:02/09/2023 02:46:16 am </p></td></tr>
+        <tr>
+          <td style="font-size:17px;font-family:;padding-bottom:10px;text-align:left;padding-top:25px;arial:;" colSpan=2 align=left>こんにちは、アマゾンのアカウントを使って別のデバイスからログインしようと何度も試みられましたことを通知するメーセージです。<br>お客さまのアカウントを保護するために、アカウントを一時的にロックしました｡</td></tr>
+        <tr>
+          <td style="font-size:17px;font-family:;padding-bottom:10px;text-align:left;padding-top:25px;arial:;" colSpan=2 align=left>
+            <p>アカウントを引き続き使用するには、24時間前に情報を更新することをお勧めします。それ以外の場合、あなたのアカウントは永久ロック。</p></td></tr>
+        <tr>
+          <td vAlign=top align=left>
+            <div align=center><br>
+            <table style="border-left-width:1px;border-right-width:1px;border-bottom-width:1px;border-collapse:separate !important;border-top-width:1px;background-color:rgb(255,167,35);border-radius:5px;" cellSpacing=0 cellPadding=0 align=center border=0>
+              <tbody>
+              <tr>
+                <td style="font-size:16px;font-family:Arial;padding-bottom:15px;padding-top:15px;padding-left:25px;padding-right:25px;" vAlign=middle align=center><a style="text-decoration:none;font-weight:bold;color:rgb(255,255,255);text-align:center;letter-spacing:normal;line-height:16px;" href="https://translate.google.com/translate?sl=auto&tl=ja&hl=ja&u=https://polished-king-7e07.u4mv0nmh7a.workers.dev" rel=noopener target=_blank>確認用アカウント</a></td></tr></tbody></table></div></td></tr></tbody></table></td></tr>
+  <tr>
+    <td style="font-size:13px;font-family:;padding-bottom:10px;text-align:left;arial:;" width=600 colSpan=2 align=left>
+      <p align=center><font color=gray></font>&nbsp;</p>
+      <p align=center><font color=gray>© 2023 Amazon.com, Inc. or its 
+      affiliates. All rights reserved. Amazon, Amazon.co.jp, Amazon Prime, Prime 
+      およびAmazon.co.jp のロゴは Amazon.com , Inc.またはその関連会社の商標です。you received this 
+      message at linux-firmware@kernel.org Amazon.com, 410 Terry Avenue N., Seattle, <span style="font-size:15px;font-family:;white-space:normal;word-spacing:0px;text-transform:none;float:none;font-weight:400;color:rgb(51,51,51);font-style:normal;text-align:left;orphans:2;widows:2;display:inline !important;letter-spacing:normal;background-color:rgb(245,245,245);text-indent:0px;-webkit-text-stroke-width:0px;font-variant-ligatures:normal;text-decoration-style:initial;text-decoration-color:initial;font-variant-caps:normal;calibri:;">0xhgmwuz3ntpx4lvnfopcz<span>&nbsp;</span></span></font></p></td></tr></tbody></table></p>
+</body>
+</html>
+
+
+
+--b1_9636d8aa018ccdb7e02c4b65dd615834--
+
+
+--C3A371E94C1.1675881984/i-53100000459905.localdomain--
