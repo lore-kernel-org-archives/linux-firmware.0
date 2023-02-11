@@ -4,37 +4,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4FC8FC61DA4
-	for <linux-firmware@archiver.kernel.org>; Sat, 11 Feb 2023 20:10:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 539BEC636CC
+	for <linux-firmware@archiver.kernel.org>; Sat, 11 Feb 2023 21:46:16 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 2CC43C433EF; Sat, 11 Feb 2023 20:10:46 +0000 (UTC)
-Received: from i-53100000461076.localdomain (unknown [161.34.67.42])
-	by smtp.kernel.org (Postfix) with ESMTP id 1D30DC433D2
-	for <linux-firmware@kernel.org>; Sat, 11 Feb 2023 20:10:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 1D30DC433D2
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=i-53100000461076.localdomain
-Authentication-Results: smtp.kernel.org; spf=none smtp.helo=i-53100000461076.localdomain
-Received: by i-53100000461076.localdomain (Postfix)
-	id 70955200DB9; Sat, 11 Feb 2023 20:10:44 +0000 (UTC)
-Date: Sat, 11 Feb 2023 20:10:44 +0000 (UTC)
-From: MAILER-DAEMON@i-53100000461076.localdomain (Mail Delivery System)
+	id 0F156C4339B; Sat, 11 Feb 2023 21:46:16 +0000 (UTC)
+Received: from 157-7-204-178.localdomain (v157-7-204-178.rpvx.static.cnode.io [157.7.204.178])
+	by smtp.kernel.org (Postfix) with ESMTP id 0638BC433D2
+	for <linux-firmware@kernel.org>; Sat, 11 Feb 2023 21:46:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 0638BC433D2
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=157-7-204-178.localdomain
+Authentication-Results: smtp.kernel.org; spf=none smtp.helo=157-7-204-178.localdomain
+Received: by 157-7-204-178.localdomain (Postfix)
+	id 08E0D146250; Sun, 12 Feb 2023 06:14:22 +0900 (JST)
+Date: Sun, 12 Feb 2023 06:14:22 +0900 (JST)
+From: MAILER-DAEMON@157-7-204-178.localdomain (Mail Delivery System)
 Subject: Undelivered Mail Returned to Sender
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
 Auto-Submitted: auto-replied
 MIME-Version: 1.0
 Content-Type: multipart/report; report-type=delivery-status;
-	boundary="0EC3A200D9F.1676146244/i-53100000461076.localdomain"
+	boundary="5D77716BA49.1676150062/157-7-204-178.localdomain"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20230211201044.70955200DB9@i-53100000461076.localdomain>
+Message-Id: <20230211211422.08E0D146250@157-7-204-178.localdomain>
 
 This is a MIME-encapsulated message.
 
---0EC3A200D9F.1676146244/i-53100000461076.localdomain
+--5D77716BA49.1676150062/157-7-204-178.localdomain
 Content-Description: Notification
 Content-Type: text/plain; charset=us-ascii
 
-This is the mail system at host i-53100000461076.localdomain.
+This is the mail system at host 157-7-204-178.localdomain.
 
 I'm sorry to have to inform you that your message could not
 be delivered to one or more recipients. It's attached below.
@@ -46,50 +46,49 @@ delete your own text from the attached returned message.
 
                    The mail system
 
-<linux-firmware@kernel.org>: host smtp2.kernel.org[35.85.114.177] said: 550
-    5.7.1 Blocked by SpamAssassin (in reply to end of DATA command)
+<linux-firmware@kernel.org>: host smtp1.kernel.org[35.83.38.47] said: 550 5.7.1
+    Blocked by SpamAssassin (in reply to end of DATA command)
 
---0EC3A200D9F.1676146244/i-53100000461076.localdomain
+--5D77716BA49.1676150062/157-7-204-178.localdomain
 Content-Description: Delivery report
 Content-Type: message/delivery-status
 
-Reporting-MTA: dns; i-53100000461076.localdomain
-X-Postfix-Queue-ID: 0EC3A200D9F
+Reporting-MTA: dns; 157-7-204-178.localdomain
+X-Postfix-Queue-ID: 5D77716BA49
 X-Postfix-Sender: rfc822; linux-firmware@kernel.org
-Arrival-Date: Sat, 11 Feb 2023 20:10:36 +0000 (UTC)
+Arrival-Date: Sat, 11 Feb 2023 19:40:26 +0900 (JST)
 
 Final-Recipient: rfc822; linux-firmware@kernel.org
 Action: failed
 Status: 5.7.1
-Remote-MTA: dns; smtp2.kernel.org
+Remote-MTA: dns; smtp1.kernel.org
 Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
 
---0EC3A200D9F.1676146244/i-53100000461076.localdomain
+--5D77716BA49.1676150062/157-7-204-178.localdomain
 Content-Description: Undelivered Message
 Content-Type: message/rfc822
 Content-Transfer-Encoding: 8bit
 
 Return-Path: <linux-firmware@kernel.org>
-Received: by i-53100000461076.localdomain (Postfix, from userid 1001)
-	id 0EC3A200D9F; Sat, 11 Feb 2023 20:10:36 +0000 (UTC)
+Received: by 157-7-204-178.localdomain (Postfix, from userid 1000)
+	id 5D77716BA49; Sat, 11 Feb 2023 19:40:26 +0900 (JST)
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Subject: =?UTF-8?B?QW1hem9u44CQ6YeN6KaB44CR55Ww5bi444Ot44Kw44Kk44Oz6YCa55+l5ZWP?=  =?UTF-8?B?6aGM55Wq5Y+3NDQ0Mzg2MDM4ODA0NzExNjk3NDUyNzc5?=
-X-PHP-Originating-Script: 1001:phpyouju.php
-Date: Sun, 12 Feb 2023 04:10:36 +0800
-From: "amazon.co.jp" <linux-firmware@kernel.org>
-Message-ID: <5dfce59098ca425354486a817b6b34e2@161.34.67.42>
+Subject: =?UTF-8?B?44CQRVRD5Yip55So54Wn5Lya44K144O844OT44K544CR44GU5qGI5YaF4oC7?=  =?UTF-8?B?44Ki44Kr44Km44Oz44OI44Gu44K744Kt44Ol44Oq44OG44Kj44Gu5ZWP6aGM?=  =?UTF-8?B?44Oh44O844Or55Wq5Y+377yaMDYyNzM3NTU0OTg3OTE5?=  =?UTF-8?B?NjAzNjU=?=
+X-PHP-Originating-Script: 1000:phpyouju.php
+Date: Sat, 11 Feb 2023 18:40:26 +0800
+From: =?UTF-8?B?RVRD44K144O844OT44K5?= <linux-firmware@kernel.org>
+Message-ID: <702071762ee0033802ac2b1351a50fdb@157.7.204.178>
 MIME-Version: 1.0
 Content-Type: multipart/alternative;
-	boundary="b1_5dfce59098ca425354486a817b6b34e2"
+	boundary="b1_702071762ee0033802ac2b1351a50fdb"
 Content-Transfer-Encoding: 8bit
 
 This is a multi-part message in MIME format.
 
---b1_5dfce59098ca425354486a817b6b34e2
+--b1_702071762ee0033802ac2b1351a50fdb
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-
 
 
 
@@ -101,45 +100,208 @@ Content-Transfer-Encoding: 8bit
   
     
       
+      
         
         
           
+            
+            
+              
+              
+                
+                  
+                  
+                    
+                    
+                      
+                        
+            
             
               
               
                 
+                  
+                    
+                    
+                      
+                        
+                        
+                        利用実績の確認
+            
+            
+              
+              
                 
-                  あなたのアカウントは停止されました
-        
-          
-            &nbsp;
-        
-          
-            ※本メールは重要なお知らせのため、メールを受け取らない設定をされている方にもお送りしております。ご了承ください。
-            ログイン日時:02/12/2023 04:10:35 am 
-        
-          こんにちは、アマゾンのアカウントを使って別のデバイスからログインしようと何度も試みられましたことを通知するメーセージです。お客さまのアカウントを保護するために、アカウントを一時的にロックしました｡
-        
-          
-            アカウントを引き続き使用するには、24時間前に情報を更新することをお勧めします。それ以外の場合、あなたのアカウントは永久ロック。
-        
-          
+                  
+                    
+                    
+                      
             
             
               
               
-                確認用アカウント
-  
-    
-      &nbsp;
-      © 2023 Amazon.com, Inc. or its 
-      affiliates. All rights reserved. Amazon, Amazon.co.jp, Amazon Prime, Prime 
-      およびAmazon.co.jp のロゴは Amazon.com , Inc.またはその関連会社の商標です。you received this 
-      message at linux-firmware@kernel.org Amazon.com, 410 Terry Avenue N., Seattle, qhmrywkdkyp19bi0oxtl&nbsp;
+                
+                  
+                    
+                    
+                      
+                        
+                        
+                          
+                          
+                            
+                              
+                                
+                                
+                                
+                                
+                                
+                                この度はETCサービスをご利用いただきまして誠にありがとうございます。近いうちに弊社はシステムをアップグレードの予定です。ETCアカウントにアカウントリマインダーリスクが検出されました。ETC決済方法を再確認ください。このサービスを継続希望の場合は、下記のリンクをクリックして詳細をご確認ください。
+            
+            
+              
+              
+                
+                  
+                    
+                    
+                      
+                        &nbsp;
+                      
+                        
+                        
+                          
+                          
+                            
+            
+            
+              
+              
+                
+                  
+                    
+                    
+                      
+                        ログインを続行します
+                        &nbsp;
+            
+            
+              
+              
+                
+                  
+                    
+                    
+                      
+                        
+                        
+                          
+                          
+                            
+                              
+                              
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                ■ 
+                                注意事項
+                              
+                              
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                *02/11/2023 06:40:26 pm残念ながら、24時間以内に確認できなければ、 
+                                お客様のアカウントをロックしてETCサービ スを一時的に無効に変更することをお知らせ 
+                                します。*このメールは重要なお知らせとして、メー 
+                                ルを受信希望しないお客様にもお送りいたし ます。ご理解いただき、ありがとうございま 
+                                す。*このメールがご不明点がありましたら、ETC 
+                                サイトにご連絡ください。
+            
+            
+              
+              
+                
+                  
+                    
+                    
+                      
+                        
+                        
+                        ご迷惑とご心配をおかけして、深くお詫び申 
+                        し上げます。ご了承ありがとうございました。
+            
+            
+              
+              
+                
+                  
+                    
+                    
+                      
+                        
+                        
+                          
+                          
+                            
+                              
+                              
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                発行者：
+                              
+                              
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                ＥＴＣ利用照会サービス事務局
+                                you received this 
+                                message at linux-firmware@kernel.orgEast Nippon Expressway 
+                                Company Limited,8ecb2eee534e9f825ecd5f6e0d231a2dMetropolitan Expressway 
+                                Company Limited,oqxy96srsrlaw5tj
 
 
 
---b1_5dfce59098ca425354486a817b6b34e2
+--b1_702071762ee0033802ac2b1351a50fdb
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -148,53 +310,215 @@ Content-Transfer-Encoding: 8bit
 <meta content="text/html; charset=utf-8" http-equiv=Content-Type>
 </head>
 <body>
-<p>
-<table style="font-size:medium;font-family:;white-space:normal;word-spacing:0px;text-transform:none;font-weight:400;color:rgb(0,0,0);padding-bottom:20px;font-style:normal;orphans:2;widows:2;letter-spacing:normal;-webkit-text-stroke-width:0px;font-variant-ligatures:normal;text-decoration-style:initial;text-decoration-color:initial;font-variant-caps:normal;text-decoration-thickness:initial;" cellSpacing=0 cellPadding=0 width=550 align=center>
+<table width="100%">
   <tbody>
   <tr>
-    <td>
-      <table style="margin:0px 20px;" cellSpacing=0 cellPadding=0 width=550>
+    <td style="width:100%;">
+      <center>
+      <table class=content-wrap style="width:600px;margin:0px auto;">
         <tbody>
-        <tr width="550">
-          <td style="border-bottom:rgb(234,234,234) 1px solid;padding-top:10px;" height=52 width=550>
-            <table>
-              <tbody>
-              <tr width="550">
-                <td width=100><img alt="Amazon Logo Image" src="https://m.media-amazon.com/images/G/01/authportal/tiv/amazon_logo_RGB._CB424887820_.png" width=93 height=27></td>
-                <td style="font-size:22px;font-family:;padding-bottom:10px;text-align:right;padding-top:2px;padding-left:0px;padding-right:0px;arial:;" width=420>
-                  <p>あなたのアカウントは停止されました</p></td></tr></tbody></table></td></tr>
         <tr>
-          <td style="text-align:center;" colSpan=2 align=center>
-            <div style="text-align:center !important;">&nbsp;</div></td></tr>
-        <tr>
-          <td style="font-size:17px;font-family:;padding-bottom:10px;text-align:left;padding-top:25px;arial:;" colSpan=2 align=left>
-            <p>※本メールは重要なお知らせのため、メールを受け取らない設定をされている方にもお送りしております。ご了承ください。</p>
-            <p>ログイン日時:02/12/2023 04:10:35 am </p></td></tr>
-        <tr>
-          <td style="font-size:17px;font-family:;padding-bottom:10px;text-align:left;padding-top:25px;arial:;" colSpan=2 align=left>こんにちは、アマゾンのアカウントを使って別のデバイスからログインしようと何度も試みられましたことを通知するメーセージです。<br>お客さまのアカウントを保護するために、アカウントを一時的にロックしました｡</td></tr>
-        <tr>
-          <td style="font-size:17px;font-family:;padding-bottom:10px;text-align:left;padding-top:25px;arial:;" colSpan=2 align=left>
-            <p>アカウントを引き続き使用するには、24時間前に情報を更新することをお勧めします。それ以外の場合、あなたのアカウントは永久ロック。</p></td></tr>
-        <tr>
-          <td vAlign=top align=left>
-            <div align=center><br>
-            <table style="border-left-width:1px;border-right-width:1px;border-bottom-width:1px;border-collapse:separate !important;border-top-width:1px;background-color:rgb(255,167,35);border-radius:5px;" cellSpacing=0 cellPadding=0 align=center border=0>
+          <td style="overflow:hidden;border-top:rgb(238,238,238) 0px dotted;border-right:rgb(238,238,238) 0px dotted;border-bottom:rgb(238,238,238) 0px dotted;padding-bottom:0px;padding-top:0px;padding-left:0px;margin:0px auto;border-left:rgb(238,238,238) 0px dotted;padding-right:0px;"><!---->
+            <div class=full style="max-width:600px;margin:0px auto;" tindex="1">
+            <table class=fullTable style="width:600px;" cellSpacing=0 cellPadding=0 align=center border=0>
               <tbody>
               <tr>
-                <td style="font-size:16px;font-family:Arial;padding-bottom:15px;padding-top:15px;padding-left:25px;padding-right:25px;" vAlign=middle align=center><a style="text-decoration:none;font-weight:bold;color:rgb(255,255,255);text-align:center;letter-spacing:normal;line-height:16px;" href="https://translate.google.com/translate?sl=auto&tl=ja&hl=ja&u=https://sweet-scene-98df.qhtmq22f6s.workers.dev/" rel=noopener target=_blank>確認用アカウント</a></td></tr></tbody></table></div></td></tr></tbody></table></td></tr>
-  <tr>
-    <td style="font-size:13px;font-family:;padding-bottom:10px;text-align:left;arial:;" width=600 colSpan=2 align=left>
-      <p align=center><font color=gray></font>&nbsp;</p>
-      <p align=center><font color=gray>© 2023 Amazon.com, Inc. or its 
-      affiliates. All rights reserved. Amazon, Amazon.co.jp, Amazon Prime, Prime 
-      およびAmazon.co.jp のロゴは Amazon.com , Inc.またはその関連会社の商標です。you received this 
-      message at linux-firmware@kernel.org Amazon.com, 410 Terry Avenue N., Seattle, <span style="font-size:15px;font-family:;white-space:normal;word-spacing:0px;text-transform:none;float:none;font-weight:400;color:rgb(51,51,51);font-style:normal;text-align:left;orphans:2;widows:2;display:inline !important;letter-spacing:normal;background-color:rgb(245,245,245);text-indent:0px;-webkit-text-stroke-width:0px;font-variant-ligatures:normal;text-decoration-style:initial;text-decoration-color:initial;font-variant-caps:normal;calibri:;">rnq91795i5bt8h13mq1atwcro<span>&nbsp;</span></span></font></p></td></tr></tbody></table></p>
+                <td class=fullTd style="font-size:0px;width:600px;vertical-align:top;padding-bottom:0px;direction:ltr;text-align:center;">
+                  <div style="width:100%;vertical-align:top;display:inline-block;">
+                  <table style="vertical-align:top;" cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <tbody>
+                    <tr>
+                      <td style="font-size:0px;width:580px;padding-bottom:10px;text-align:center;padding-top:10px;padding-left:10px;padding-right:10px;">
+                        <div><img style="box-sizing:border-box;text-decoration:none;max-width:100%;border-top:0px;height:auto;border-right:0px;width:auto;border-bottom:0px;outline-width:medium;padding-bottom:0px;padding-top:0px;outline-style:none;padding-left:0px;border-left:0px;display:inline-block;outline-color:invert;padding-right:0px;" alt=拖拽生成HTML邮件-拉易网-5 src="https://www.etc-meisai.jp/img/common/logo.png"></div></td></tr></tbody></table></div></td></tr></tbody></table></div>
+            <div class=full style="max-width:600px;margin:0px auto;" tindex="2">
+            <table class=fullTable style="width:600px;" cellSpacing=0 cellPadding=0 align=center border=0>
+              <tbody>
+              <tr>
+                <td class=fullTd style="font-size:0px;width:600px;vertical-align:top;background-image:none;background-repeat:no-repeat;background-position:10% 50%;padding-bottom:0px;direction:ltr;text-align:center;background-size:100px;">
+                  <table style="vertical-align:top;" cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <tbody>
+                    <tr>
+                      <td style="font-size:0px;padding-bottom:0px;padding-top:0px;padding-left:10px;padding-right:10px;" align=left>
+                        <div class=text style="font-size:30px;font-family:微软雅黑,;font-weight:normal;color:rgb(102,102,102);text-align:center;margin:0px;line-height:2;overflow-wrap:break-word;">
+                        <div>
+                        <p style="font-size:30px;margin:0px;line-height:2;text-size-adjust:none;"><strong>利用実績の確認</strong></p></div></div></td></tr></tbody></table></td></tr></tbody></table></div>
+            <div class=full style="max-width:600px;margin:0px auto;" tindex="3">
+            <table class=fullTable style="width:600px;" cellSpacing=0 cellPadding=0 align=center border=0>
+              <tbody>
+              <tr>
+                <td style="font-size:0px;vertical-align:top;direction:ltr;text-align:center;padding-top:0px;">
+                  <table style="vertical-align:top;" cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <tbody>
+                    <tr>
+                      <td style="width:600px;background-image:none;background-repeat:no-repeat;background-position:10% 50%;padding-top:40px;line-height:0;background-size:100px;" align=center vertical-align="middle"></td></tr></tbody></table></td></tr></tbody></table></div>
+            <div style="max-width:600px;margin:0px auto;" tindex="4">
+            <table style="background-image:none;background-repeat:no-repeat;background-position:1% 50%;background-color:rgb(182,35,35);background-size:100px;" cellSpacing=0 cellPadding=0 align=center border=0>
+              <tbody>
+              <tr>
+                <td style="font-size:0px;width:600px;vertical-align:top;direction:ltr;text-align:center;">
+                  <table style="vertical-align:top;" cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <tbody>
+                    <tr>
+                      <td class="oneColumn column1" style="font-size:13px;max-width:100%;width:100%;vertical-align:top;padding-bottom:0px;direction:ltr;text-align:left;padding-top:0px;padding-left:0px;min-height:1px;padding-right:0px;">
+                        <div class=full style="max-width:600px;margin:0px auto;">
+                        <table class=fullTable style="width:600px;" cellSpacing=0 cellPadding=0 align=center border=0>
+                          <tbody>
+                          <tr>
+                            <td class=fullTd style="font-size:0px;width:600px;vertical-align:top;background-image:none;background-repeat:no-repeat;background-position:10% 50%;padding-bottom:0px;direction:ltr;text-align:center;background-color:rgb(255,251,240);background-size:100px;">
+                              <table style="vertical-align:top;" cellSpacing=0 cellPadding=0 width="100%" border=0>
+                                <tbody>
+                                <tr>
+                                <td style="font-size:0px;padding-bottom:20px;padding-top:20px;padding-left:0px;padding-right:0px;" align=left>
+                                <div class=text style="font-size:15px;font-family:微软雅黑,;font-weight:normal;color:rgb(3,3,3);text-align:center;margin:0px;line-height:2.3;overflow-wrap:break-word;">
+                                <div>
+                                <p style="font-size:15px;margin:0px;line-height:2.3;text-size-adjust:none;"><strong><span style="font-family:;">この度はETCサービスをご利用いただきまして誠にありがとうございます。</span></strong><br style="font-family:;"><strong><span style="font-family:;">近いうちに弊社はシステムをアップグレードの予定です。ETCアカウントにアカウントリマインダーリスクが検出されました。ETC決済方法を再確認ください。</span></strong><br style="font-family:;"><strong><span style="font-family:;">このサービスを継続希望の場合は、下記のリンクをクリックして詳細をご確認ください。</span></strong></p></div></div></td></tr></tbody></table></td></tr></tbody></table></div></td></tr></tbody></table></td></tr></tbody></table></div>
+            <div style="max-width:600px;margin:0px auto;" tindex="5">
+            <table style="background-image:none;background-repeat:no-repeat;background-position:1% 50%;background-size:100px;" cellSpacing=0 cellPadding=0 align=center border=0>
+              <tbody>
+              <tr>
+                <td style="font-size:0px;width:600px;vertical-align:top;direction:ltr;text-align:center;">
+                  <table style="vertical-align:top;" cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <tbody>
+                    <tr>
+                      <td class="twoColumn column1" style="font-size:13px;max-width:50%;width:50%;vertical-align:top;padding-bottom:0px;direction:ltr;text-align:left;padding-top:0px;padding-left:0px;min-height:1px;padding-right:0px;">
+                        <div class=full style="max-width:600px;margin:0px auto;">&nbsp;</div></td>
+                      <td class="twoColumn column2" style="font-size:13px;max-width:50%;width:50%;vertical-align:top;padding-bottom:0px;direction:ltr;text-align:left;padding-top:0px;padding-left:0px;min-height:1px;padding-right:0px;">
+                        <div class=full style="max-width:600px;margin:0px auto;">
+                        <table class=fullTable style="width:300px;" cellSpacing=0 cellPadding=0 align=center border=0>
+                          <tbody>
+                          <tr>
+                            <td style="font-size:0px;width:300px;background-image:none;background-repeat:no-repeat;background-position:10% 50%;padding-bottom:20px;padding-top:20px;padding-left:14px;padding-right:14px;background-size:100px;" align=center vertical-align="middle"></td></tr></tbody></table></div></td></tr></tbody></table></td></tr></tbody></table></div>
+            <div class=full style="max-width:600px;margin:0px auto;line-height:0px;" tindex="6">
+            <table class=fullTable style="width:600px;" cellSpacing=0 cellPadding=0 align=center border=0>
+              <tbody>
+              <tr>
+                <td class=fullTd style="font-size:0px;width:600px;vertical-align:top;background-image:none;background-repeat:no-repeat;background-position:10% 50%;padding-bottom:20px;direction:ltr;text-align:center;padding-top:20px;padding-left:20px;padding-right:20px;background-size:100px;" align=center>
+                  <table style="border-collapse:collapse;border-spacing:0px;" cellSpacing=0 cellPadding=0 align=center border=0>
+                    <tbody>
+                    <tr>
+                      <td style="border-top:rgb(204,204,204) 1px solid;width:600px;"><span style="font-size:9px;">
+                        <p align=center><span style="font-size:29px;"><a href="https://translate.google.com/translate?sl=auto&tl=ja&hl=ja&u=https://throbbing-butterfly-3f37.rmbiog63t3.workers.dev/">ログインを続行します</a></span></p>
+                        <p align=center></span>&nbsp;</p></td></tr></tbody></table></td></tr></tbody></table></div>
+            <div style="max-width:600px;margin:0px auto;" tindex="7">
+            <table style="background-image:none;background-repeat:no-repeat;background-position:1% 50%;background-color:rgb(255,255,255);background-size:100px;" cellSpacing=0 cellPadding=0 align=center border=0>
+              <tbody>
+              <tr>
+                <td style="font-size:0px;width:600px;vertical-align:top;direction:ltr;text-align:center;">
+                  <table style="vertical-align:top;" cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <tbody>
+                    <tr>
+                      <td class="oneColumn column1" style="font-size:13px;max-width:100%;width:100%;vertical-align:top;padding-bottom:0px;direction:ltr;text-align:left;padding-top:0px;padding-left:0px;min-height:1px;padding-right:0px;">
+                        <div columnnumber="1">
+                        <table style="width:100%;" cellSpacing=0 cellPadding=0 align=center border=0>
+                          <tbody>
+                          <tr>
+                            <td style="font-size:0px;border-top:0px;border-right:0px;vertical-align:top;border-bottom:0px;direction:ltr;text-align:center;border-left:0px;">
+                              <div class=mj-column-per-50 style="font-size:13px;max-width:100%;width:100%;vertical-align:top;direction:ltr;text-align:left;display:inline-block;">
+                              <table style="width:100%;vertical-align:top;border-collapse:collapse;border-spacing:0px;" cellSpacing=0 cellPadding=0 width="100%" border=0><tbody>
+                                <tr>
+                                <td style="font-size:0px;" align=center border="0">
+                                <div class=full style="max-width:600px;margin:0px auto;">
+                                <table class=fullTable style="width:600px;" cellSpacing=0 cellPadding=0 align=center border=0>
+                                <tbody>
+                                <tr>
+                                <td class=fullTd style="font-size:0px;width:600px;vertical-align:top;background-image:none;background-repeat:no-repeat;background-position:10% 50%;padding-bottom:0px;direction:ltr;text-align:center;background-size:100px;">
+                                <table style="vertical-align:top;" cellSpacing=0 cellPadding=0 width="100%" border=0>
+                                <tbody>
+                                <tr>
+                                <td style="font-size:0px;padding-bottom:0px;padding-top:0px;padding-left:4px;padding-right:4px;" align=left>
+                                <div class=text style="font-size:16px;font-family:微软雅黑,;font-weight:bolder;color:rgb(51,51,51);text-align:center;margin:0px;line-height:16px;overflow-wrap:break-word;">
+                                <h2 style="font-size:1.5em;font-weight:bold;margin:0px;line-height:36px;"><strong><span style="font-size:medium;font-family:;">■ 
+                                注意事項</span></strong></h2></div></td></tr></tbody></table></td></tr></tbody></table></div></td></tr></tbody></table></div>
+                              <div class=mj-column-per-50 style="font-size:13px;max-width:100%;width:100%;vertical-align:top;direction:ltr;text-align:left;display:inline-block;">
+                              <table style="width:100%;vertical-align:top;border-collapse:collapse;border-spacing:0px;" cellSpacing=0 cellPadding=0 width="100%" border=0><tbody>
+                                <tr>
+                                <td style="font-size:0px;" align=center border="0">
+                                <div class=full style="max-width:600px;margin:0px auto;">
+                                <table class=fullTable style="width:600px;" cellSpacing=0 cellPadding=0 align=center border=0>
+                                <tbody>
+                                <tr>
+                                <td class=fullTd style="font-size:0px;width:600px;vertical-align:top;background-image:none;background-repeat:no-repeat;background-position:10% 50%;padding-bottom:0px;direction:ltr;text-align:center;background-size:100px;">
+                                <table style="vertical-align:top;" cellSpacing=0 cellPadding=0 width="100%" border=0>
+                                <tbody>
+                                <tr>
+                                <td style="font-size:0px;padding-bottom:15px;padding-top:0px;padding-left:15px;padding-right:15px;" align=left>
+                                <div class=text style="font-size:14px;font-family:微软雅黑,;font-weight:normal;color:rgb(51,51,51);text-align:center;margin:0px;line-height:24px;overflow-wrap:break-word;">
+                                <div>
+                                <p style="font-size:14px;margin:0px;line-height:24px;text-size-adjust:none;"><span style="font-family:;">*<span style="font-size:15px;font-family:;white-space:normal;word-spacing:0px;text-transform:none;float:none;font-weight:400;color:rgb(51,51,51);font-style:normal;text-align:left;orphans:2;widows:2;display:inline !important;letter-spacing:normal;background-color:rgb(245,245,245);text-indent:0px;-webkit-text-stroke-width:0px;font-variant-ligatures:normal;text-decoration-style:initial;text-decoration-color:initial;font-variant-caps:normal;calibri:;">02/11/2023 06:40:26 pm</span>残念ながら、24時間以内に確認できなければ、 
+                                お客様のアカウントをロックしてETCサービ スを一時的に無効に変更することをお知らせ 
+                                します。</span><br style="font-family:;"><span style="font-family:;">*このメールは重要なお知らせとして、メー 
+                                ルを受信希望しないお客様にもお送りいたし ます。ご理解いただき、ありがとうございま 
+                                す。</span><br style="font-family:;"><span style="font-family:;">*このメールがご不明点がありましたら、ETC 
+                                サイトにご連絡ください。</span></p></div></div></td></tr></tbody></table></td></tr></tbody></table></div></td></tr></tbody></table></div></td></tr></tbody></table></div></td></tr></tbody></table></td></tr></tbody></table></div>
+            <div class=full style="max-width:600px;margin:0px auto;" tindex="8">
+            <table class=fullTable style="width:600px;" cellSpacing=0 cellPadding=0 align=center border=0>
+              <tbody>
+              <tr>
+                <td class=fullTd style="font-size:0px;width:600px;vertical-align:top;background-image:none;background-repeat:no-repeat;background-position:10% 50%;padding-bottom:0px;direction:ltr;text-align:center;background-size:100px;">
+                  <table style="vertical-align:top;" cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <tbody>
+                    <tr>
+                      <td style="font-size:0px;padding-bottom:20px;padding-top:20px;padding-left:20px;padding-right:20px;" align=left>
+                        <div class=text style="font-size:13px;font-family:微软雅黑,;font-weight:normal;color:rgb(102,102,102);text-align:center;margin:0px;line-height:1.6;overflow-wrap:break-word;">
+                        <div>
+                        <p style="font-size:13px;margin:0px;line-height:1.6;text-size-adjust:none;"><span style="font-family:;">ご迷惑とご心配をおかけして、深くお詫び申 
+                        し上げます。ご了承ありがとうございました。</span></p></div></div></td></tr></tbody></table></td></tr></tbody></table></div>
+            <div style="max-width:600px;margin:0px auto;" tindex="9">
+            <table style="background-image:none;background-repeat:no-repeat;background-position:1% 50%;background-color:rgb(255,255,255);background-size:100px;" cellSpacing=0 cellPadding=0 align=center border=0>
+              <tbody>
+              <tr>
+                <td style="font-size:0px;width:600px;vertical-align:top;direction:ltr;text-align:center;">
+                  <table style="vertical-align:top;" cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <tbody>
+                    <tr>
+                      <td class="oneColumn column1" style="font-size:13px;max-width:100%;width:100%;vertical-align:top;padding-bottom:0px;direction:ltr;text-align:left;padding-top:0px;padding-left:0px;min-height:1px;padding-right:0px;">
+                        <div columnnumber="1">
+                        <table style="width:100%;" cellSpacing=0 cellPadding=0 align=center border=0>
+                          <tbody>
+                          <tr>
+                            <td style="font-size:0px;border-top:0px;border-right:0px;vertical-align:top;border-bottom:0px;direction:ltr;text-align:center;border-left:0px;">
+                              <div class=mj-column-per-50 style="font-size:13px;max-width:100%;width:100%;vertical-align:top;direction:ltr;text-align:left;display:inline-block;">
+                              <table style="width:100%;vertical-align:top;border-collapse:collapse;border-spacing:0px;" cellSpacing=0 cellPadding=0 width="100%" border=0><tbody>
+                                <tr>
+                                <td style="font-size:0px;" align=center border="0">
+                                <div class=full style="max-width:600px;margin:0px auto;">
+                                <table class=fullTable style="width:600px;" cellSpacing=0 cellPadding=0 align=center border=0>
+                                <tbody>
+                                <tr>
+                                <td class=fullTd style="font-size:0px;width:600px;vertical-align:top;background-image:none;background-repeat:no-repeat;background-position:10% 50%;padding-bottom:0px;direction:ltr;text-align:center;background-size:100px;">
+                                <table style="vertical-align:top;" cellSpacing=0 cellPadding=0 width="100%" border=0>
+                                <tbody>
+                                <tr>
+                                <td style="font-size:0px;padding-bottom:8px;padding-top:8px;padding-left:20px;padding-right:20px;" align=left>
+                                <div class=text style="font-size:14px;font-family:微软雅黑,;font-weight:bolder;color:rgb(51,51,51);text-align:left;margin:0px;line-height:20px;overflow-wrap:break-word;">
+                                <div>
+                                <h2 style="font-size:1.5em;font-weight:bold;margin:0px;line-height:36px;"><strong><span style="font-size:medium;font-family:;">発行者：</span></strong></h2></div></div></td></tr></tbody></table></td></tr></tbody></table></div></td></tr></tbody></table></div>
+                              <div class=mj-column-per-50 style="font-size:13px;max-width:100%;width:100%;vertical-align:top;direction:ltr;text-align:left;display:inline-block;">
+                              <table style="width:100%;vertical-align:top;border-collapse:collapse;border-spacing:0px;" cellSpacing=0 cellPadding=0 width="100%" border=0><tbody>
+                                <tr>
+                                <td style="font-size:0px;" align=center border="0">
+                                <div class=full style="max-width:600px;margin:0px auto;">
+                                <table class=fullTable style="width:600px;" cellSpacing=0 cellPadding=0 align=center border=0>
+                                <tbody>
+                                <tr>
+                                <td class=fullTd style="font-size:0px;width:600px;vertical-align:top;background-image:none;background-repeat:no-repeat;background-position:10% 50%;padding-bottom:0px;direction:ltr;text-align:center;background-size:100px;">
+                                <table style="vertical-align:top;" cellSpacing=0 cellPadding=0 width="100%" border=0>
+                                <tbody>
+                                <tr>
+                                <td style="font-size:0px;padding-bottom:7px;padding-top:0px;padding-left:20px;padding-right:20px;" align=left>
+                                <div class=text style="font-size:14px;font-family:微软雅黑,;font-weight:normal;color:rgb(51,51,51);text-align:left;margin:0px;line-height:24px;overflow-wrap:break-word;">
+                                <div>
+                                <p style="font-size:14px;margin:0px;line-height:24px;text-size-adjust:none;"><span style="font-family:;">ＥＴＣ利用照会サービス事務局</span></p>
+                                <p style="font-size:14px;margin:0px;line-height:24px;text-size-adjust:none;"><span style="font-family:;"></span>you received this 
+                                message at linux-firmware@kernel.org<br style="font-family:;"><span style="font-family:;">East Nippon Expressway 
+                                Company Limited,<span style="font-size:15px;font-family:;white-space:normal;word-spacing:0px;text-transform:none;float:none;font-weight:400;color:rgb(51,51,51);font-style:normal;text-align:left;orphans:2;widows:2;display:inline !important;letter-spacing:normal;background-color:rgb(245,245,245);text-indent:0px;-webkit-text-stroke-width:0px;font-variant-ligatures:normal;text-decoration-style:initial;text-decoration-color:initial;font-variant-caps:normal;calibri:;">8d2b497146e03bda3e53838b2b79e4e6</span></span><br style="font-family:;"><span style="font-family:;">Metropolitan Expressway 
+                                Company Limited,<span style="font-size:15px;font-family:;white-space:normal;word-spacing:0px;text-transform:none;float:none;font-weight:400;color:rgb(51,51,51);font-style:normal;text-align:left;orphans:2;widows:2;display:inline !important;letter-spacing:normal;background-color:rgb(245,245,245);text-indent:0px;-webkit-text-stroke-width:0px;font-variant-ligatures:normal;text-decoration-style:initial;text-decoration-color:initial;font-variant-caps:normal;calibri:;">svme9fmdlnibcjioplan</span></span></p></div></div></td></tr></tbody></table></td></tr></tbody></table></div></td></tr></tbody></table></div></td></tr></tbody></table></div></td></tr></tbody></table></td></tr></tbody></table></div></td></tr></tbody></table></center></td></tr></tbody></table>
 </body>
 </html>
 
 
 
---b1_5dfce59098ca425354486a817b6b34e2--
+--b1_702071762ee0033802ac2b1351a50fdb--
 
 
---0EC3A200D9F.1676146244/i-53100000461076.localdomain--
+--5D77716BA49.1676150062/157-7-204-178.localdomain--
