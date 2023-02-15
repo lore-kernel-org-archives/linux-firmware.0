@@ -1,117 +1,96 @@
-Return-Path: <kvalo@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8F20AC636CC
-	for <linux-firmware@archiver.kernel.org>; Wed, 15 Feb 2023 09:17:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C59DFC636D4
+	for <linux-firmware@archiver.kernel.org>; Wed, 15 Feb 2023 14:04:54 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 5C6B2C4339B; Wed, 15 Feb 2023 09:17:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A718C433D2;
-	Wed, 15 Feb 2023 09:17:04 +0000 (UTC)
+	id 86E90C4339B; Wed, 15 Feb 2023 14:04:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7134CC4339E
+	for <linux-firmware@kernel.org>; Wed, 15 Feb 2023 14:04:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1676452625;
-	bh=2JN9BL2uqV+9tFYoJoTLAzaxp3WSWxoz3z+XyVU9fAw=;
-	h=From:List-Id:To:Cc:Subject:Date:From;
-	b=bKREpx9b4YUQqZ2vn8vJ82WJfcMes5/Ll62IgpBwnnxLiZC56dAfr52C7qwzlo8Gh
-	 a7Tjr0xqi59WtkkGkg0YNNzxvWU7qvgHXecD0GVJlR0zR8YdFcr+oF0qduHjVtZ+MK
-	 P0e0oLef1A9QTwKcIM7saT8He1Uxf+UpvrNFCkE13AGAeQn3LwEyOOi1WixDVi0SSr
-	 ZLOsEwsFHLAL6FV8pP0qQVrlsEizbTPPrB/xcPA5B7a25FpgSGGuziffOqYV76TOtk
-	 CKaGAHl24/BzuDwo8k+E8afc0ZzYB86TZ3+M0vwZI4y/N9swaqzAE+Sbcxv+vaVroU
-	 vCsSNNhMGM45w==
-From: Kalle Valo <kvalo@kernel.org>
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: linux-wireless@vger.kernel.org, ath10k@lists.infradead.org, ath11k@lists.infradead.org
-Subject: [PULL linux-firmware] ath10k & ath11k firmware 20230215
-Date: Wed, 15 Feb 2023 11:17:00 +0200
-Message-ID: <878rgzuw37.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	s=k20201202; t=1676469894;
+	bh=0xYDCfI05WNiroqU0fLBbEwv2BL2spTmdF+3DlKsyN4=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=YQtgLmbwiTJIFr4M2wAGxop/4FLI3f8GFZcJxDt3BYIOLOCfFdv9GcAvCIDmlnMNj
+	 af0Giy9G4WU8eNJBCdoNlVoh06+6PDk6QsvgoEG4zh2JBF8xDVVJgHhDhR6M6KIkRm
+	 e+kDf7AmafsZc6YLi7ssucPk/WmTylN1kZP5iAJVjCfOsKqQDRVBQePFmuLoCsU98q
+	 eU2JQHcrzPgDZdEQxEswhPkJe9LPgxS/8PSv42iMLDDv5So3IqDGHYoH+HA1uj9mmi
+	 0A0RIzNx2FhbYd6OJ+b1AUi7HkLY126N01hwaQCp+sd35cDVSS5/p3zcFQBfc6QoCe
+	 3CU0ytHg5ByFQ==
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-52ebee9a848so255758497b3.3
+        for <linux-firmware@kernel.org>; Wed, 15 Feb 2023 06:04:54 -0800 (PST)
+X-Gm-Message-State: AO0yUKUWwNcsW4/Ebq4CGID26q+FAfrM5NXGZrC2vPcteyQwGm27arMQ
+	kRwfSPC2LXmyAXriie4N/unMAZUBBiBwMAvKdPM=
+X-Google-Smtp-Source: AK7set8OVuLma27zWRUmC4Y37XLM+ZdQbrvW6Xp88bz2Jw9vJkO1j6ZaA4VJQVaq8siHV0/3U4+TSu++ts+DdOvMUoU=
+X-Received: by 2002:a5b:94b:0:b0:939:2fb5:36b4 with SMTP id
+ x11-20020a5b094b000000b009392fb536b4mr271903ybq.270.1676469893465; Wed, 15
+ Feb 2023 06:04:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <38913aba-3717-fa26-bac8-96f8e9cf112a@intel.com>
+In-Reply-To: <38913aba-3717-fa26-bac8-96f8e9cf112a@intel.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Wed, 15 Feb 2023 09:04:42 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA7Hhgbp--CMhLBJDueDq177=4fDoK7r85c-uWamuy5=Ag@mail.gmail.com>
+Message-ID: <CA+5PVA7Hhgbp--CMhLBJDueDq177=4fDoK7r85c-uWamuy5=Ag@mail.gmail.com>
+Subject: Re: [PULL v2] intel: Update AudioDSP firmware for BDW/SKL/APL/CNL platforms
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: linux-firmware@kernel.org, 
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+On Wed, Feb 15, 2023 at 4:08 AM Cezary Rojewski
+<cezary.rojewski@intel.com> wrote:
+>
+> Provide the base firmware files for the skylake- and avs- drivers to
+> utilize. Leave links for backward compatibility but put the binaries
+> into a dedicated folder so it is clear which driver makes use of them.
+>
+> Changes in v2:
+> - added missing file to WHENCE
+>
+> ---
+> The following changes since commit bf4115c1aa2bee686ec675595271da50611684b5:
+>
+>    Merge https://github.com/pkshih/linux-firmware (2023-02-10 14:35:21
+> -0500)
+>
+> are available in the Git repository at:
+>
+>    https://github.com/crojewsk-intel/linux-firmware for-upstream
 
-Here's a new pull request for ath10k and ath11k. We have new hardware
-IPQ5018 and various updates for existing hardware. Especially many have
-requested the firmware update for WCN6855 which seems to fix an
-important suspend problem.
+Pulled and pushed out.  Thanks!
 
-Please let me know if there are any problems.
+josh
 
-Kalle
-
-The following changes since commit a253a3723f8a0ee5bc5d4f551981a651ba660186:
-
-  cnm: update chips&media wave521c firmware. (2023-02-14 12:58:03 -0500)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/kvalo/linux-firmware.git ath10k-20230215
-
-for you to fetch changes up to c7a57ef688f7d99d8338a5d8edddc8836ff0e6de:
-
-  ath11k: WCN6855 hw2.0: update to WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.23 (2023-02-15 11:09:53 +0200)
-
-----------------------------------------------------------------
-Kalle Valo (7):
-      ath10k: WCN3990 hw1.0: update board-2.bin
-      ath10k: QCA6174 hw3.0: update firmware-sdio-6.bin to version WLAN.RMH.4.4.1-00174
-      ath11k: IPQ5018 hw1.0: add board-2.bin
-      ath11k: IPQ5018 hw1.0: add to WLAN.HK.2.6.0.1-00861-QCAHKSWPL_SILICONZ-1
-      ath11k: WCN6750 hw1.0: update board-2.bin
-      ath11k: WCN6855 hw2.0: update board-2.bin
-      ath11k: WCN6855 hw2.0: update to WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.23
-
- WHENCE                                   |   27 +-
- ath10k/QCA6174/hw3.0/firmware-sdio-6.bin |  Bin 604416 -> 607252 bytes
- ath10k/WCN3990/hw1.0/board-2.bin         |  Bin 461060 -> 513892 bytes
- ath11k/IPQ5018/hw1.0/Notice.txt          | 4094 ++++++++++++++++++++++++++++++
- ath11k/IPQ5018/hw1.0/board-2.bin         |  Bin 0 -> 524564 bytes
- ath11k/IPQ5018/hw1.0/m3_fw.b00           |  Bin 0 -> 148 bytes
- ath11k/IPQ5018/hw1.0/m3_fw.b01           |  Bin 0 -> 136 bytes
- ath11k/IPQ5018/hw1.0/m3_fw.b02           |  Bin 0 -> 262144 bytes
- ath11k/IPQ5018/hw1.0/m3_fw.flist         |    3 +
- ath11k/IPQ5018/hw1.0/m3_fw.mdt           |  Bin 0 -> 284 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.b00           |  Bin 0 -> 532 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.b01           |  Bin 0 -> 520 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.b02           |  Bin 0 -> 7552 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.b03           |  Bin 0 -> 545008 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.b04           |  Bin 0 -> 86788 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.b05           |  Bin 0 -> 17776 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.b07           |  Bin 0 -> 1488 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.b08           |  Bin 0 -> 4096 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.b09           |  Bin 0 -> 2330624 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.b10           |  Bin 0 -> 269028 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.b11           |  Bin 0 -> 99436 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.b13           |  Bin 0 -> 7024 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.b14           |  Bin 0 -> 1668 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.flist         |   13 +
- ath11k/IPQ5018/hw1.0/q6_fw.mdt           |  Bin 0 -> 1052 bytes
- ath11k/WCN6750/hw1.0/board-2.bin         |  Bin 843548 -> 843548 bytes
- ath11k/WCN6855/hw2.0/amss.bin            |  Bin 4972544 -> 4980736 bytes
- ath11k/WCN6855/hw2.0/board-2.bin         |  Bin 1322820 -> 6158196 bytes
- 28 files changed, 4135 insertions(+), 2 deletions(-)
- create mode 100644 ath11k/IPQ5018/hw1.0/Notice.txt
- create mode 100644 ath11k/IPQ5018/hw1.0/board-2.bin
- create mode 100644 ath11k/IPQ5018/hw1.0/m3_fw.b00
- create mode 100644 ath11k/IPQ5018/hw1.0/m3_fw.b01
- create mode 100644 ath11k/IPQ5018/hw1.0/m3_fw.b02
- create mode 100644 ath11k/IPQ5018/hw1.0/m3_fw.flist
- create mode 100644 ath11k/IPQ5018/hw1.0/m3_fw.mdt
- create mode 100644 ath11k/IPQ5018/hw1.0/q6_fw.b00
- create mode 100644 ath11k/IPQ5018/hw1.0/q6_fw.b01
- create mode 100644 ath11k/IPQ5018/hw1.0/q6_fw.b02
- create mode 100644 ath11k/IPQ5018/hw1.0/q6_fw.b03
- create mode 100644 ath11k/IPQ5018/hw1.0/q6_fw.b04
- create mode 100644 ath11k/IPQ5018/hw1.0/q6_fw.b05
- create mode 100644 ath11k/IPQ5018/hw1.0/q6_fw.b07
- create mode 100644 ath11k/IPQ5018/hw1.0/q6_fw.b08
- create mode 100644 ath11k/IPQ5018/hw1.0/q6_fw.b09
- create mode 100644 ath11k/IPQ5018/hw1.0/q6_fw.b10
- create mode 100644 ath11k/IPQ5018/hw1.0/q6_fw.b11
- create mode 100644 ath11k/IPQ5018/hw1.0/q6_fw.b13
- create mode 100644 ath11k/IPQ5018/hw1.0/q6_fw.b14
- create mode 100644 ath11k/IPQ5018/hw1.0/q6_fw.flist
- create mode 100644 ath11k/IPQ5018/hw1.0/q6_fw.mdt
+>
+> for you to fetch changes up to 23afbfe8a2e817079edc4f7eb0290951cab028c3:
+>
+>    intel: avs: Add AudioDSP base firmware for CNL-based platforms
+> (2023-02-15 10:16:46 +0100)
+>
+> ----------------------------------------------------------------
+> Cezary Rojewski (4):
+>        intel: catpt: Add AudioDSP base firmware for BDW platforms
+>        intel: avs: Add AudioDSP base firmware for SKL-based platforms
+>        intel: avs: Add AudioDSP base firmware for APL-based platforms
+>        intel: avs: Add AudioDSP base firmware for CNL-based platforms
+>
+>   WHENCE                                             |  31
+> +++++++++++++++------
+>   intel/avs/apl/dsp_basefw.bin                       | Bin 0 -> 505632 bytes
+>   intel/avs/cnl/dsp_basefw.bin                       | Bin 0 -> 588040 bytes
+>   intel/avs/skl/dsp_basefw.bin                       | Bin 0 -> 243016 bytes
+>   ...sp_mod_7CAD0808-AB10-CD23-EF45-12AB34CD56EF.bin | Bin 0 -> 12288 bytes
+>   intel/{IntcSST2.bin => catpt/bdw/dsp_basefw.bin}   | Bin 260320 ->
+> 260936 bytes
+>   6 files changed, 23 insertions(+), 8 deletions(-)
+>   create mode 100644 intel/avs/apl/dsp_basefw.bin
+>   create mode 100644 intel/avs/cnl/dsp_basefw.bin
+>   create mode 100644 intel/avs/skl/dsp_basefw.bin
+>   create mode 100644
+> intel/avs/skl/dsp_mod_7CAD0808-AB10-CD23-EF45-12AB34CD56EF.bin
+>   rename intel/{IntcSST2.bin => catpt/bdw/dsp_basefw.bin} (54%)
