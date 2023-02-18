@@ -4,92 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07047C636CC
-	for <linux-firmware@archiver.kernel.org>; Sat, 18 Feb 2023 18:46:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B900C61DA4
+	for <linux-firmware@archiver.kernel.org>; Sat, 18 Feb 2023 18:46:42 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id E50D0C4339B; Sat, 18 Feb 2023 18:46:39 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	id 5DAA5C433D2; Sat, 18 Feb 2023 18:46:42 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 2ADBBC433D2
-	for <linux-firmware@kernel.org>; Sat, 18 Feb 2023 18:46:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 2ADBBC433D2
+	by smtp.kernel.org (Postfix) with ESMTPS id 97CB8C4339B
+	for <linux-firmware@kernel.org>; Sat, 18 Feb 2023 18:46:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 97CB8C4339B
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f46.google.com with SMTP id d11-20020a05600c3acb00b003ddca7a2bcbso854858wms.3
-        for <linux-firmware@kernel.org>; Sat, 18 Feb 2023 10:46:39 -0800 (PST)
+Received: by mail-wm1-f44.google.com with SMTP id bg35so1483100wmb.1
+        for <linux-firmware@kernel.org>; Sat, 18 Feb 2023 10:46:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aQjzLcoCrEkBRVMsGD63hSCbgpLHPOAniBp9UwicWxk=;
-        b=BKlphPWSW4/7deGANG3Lmtxb8TLBr3ExQgwvXfgD+6YEePKPvJe9Olb7OpaE6/WziL
-         Ijj5kfFn2nLRxuC7K4rXhF+oKcuOAcLKLIeT9JXexkL6D87eWfJFEwBQR52jIziSR9+M
-         6tzGxNIlvC6Mn0tSmqyABgMMB+ue+XnluIkqmal+p2+KbRgsCk7wKwno7w9PAdjIbQdA
-         T4BOTX1UTDYF+AT6OAiKHP5RkG3P2no2BN5M+z+28URIdYhKIMzX/C3VcMHAiv1y4NN6
-         ULIq6WIoQi4afckgIsp/TtwThc+vEOjOx/vVTju+W+PUwq64YfpZ5fz+xAArjAbrIdPd
-         sP5g==
+        bh=t76KH/oITVYM0JHnCuOWX43H4fDJrdtecTK3yv+ZguQ=;
+        b=XpBNvKwAm7bKBpM1IiCYusEjEV+eE5ywQusBONapZCcE+JYHTKy/jsx/p2hZQSkRGZ
+         1MqihakWYCpgQx8rmDwKI9BNPop4G8S06MKpiqEg6/yzAtpTyGDmLiTJkbDAfGo7g3++
+         JfmCc4Z07tiri/yuALgA/QoZwmMelsxtEtRbvs6Z5FrM7iI3d/iALaSl+ECqtne9l5nb
+         6apm7qXmu1y8EIt4OVtBzYuO1UJGeEX2OLMpN4ewOCBbe3hTe9Vo15GK62vxjW5zCH6x
+         Jd7aSJe+0//RJ4Gyh+bFI89w98T0xHhhhgEMie1FASZR6t9x4HHOFp9C3vPXG3SFsHFT
+         QNXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aQjzLcoCrEkBRVMsGD63hSCbgpLHPOAniBp9UwicWxk=;
-        b=w0KhJvPLho2xnRQ/72ifwGVDvp93azMd1H7OlYJ//mQjt0GwXrTfSOURPSX4jrolf3
-         O9xVjy9UkBzu8jsEDLHS/sxzEJJtRIxX8tll0MCE0VK9ZIPKLHCS3uWR367tRTz3zf6K
-         3i+yopU6teQdYVxcyP640/4oQx2nSEylKTxG3w496J7Cg8H3ibYo2fDlmqENnJPySUQ5
-         vQ4qvgg3lsYgQDF57314J8Eq2MLSd1leqWmeVzHmLS6ACUekMr1FIccUUlq9WqEu+21n
-         0+A1CSCMfM/ClYqXRFzXg/KSF6tGQGFqD9e1xc2xgfoSxGSsUiBAzyZ+fcs3AouOGyx8
-         nR/w==
-X-Gm-Message-State: AO0yUKUogbLXcjcB9lTH3CjlMnHH3SXS2S87qRdmrsZExj0OCZ2FRFHM
-	v6xfHK9YZL8fRJZJsU9dGLmTPqFg3sw=
-X-Google-Smtp-Source: AK7set8LbW271NrsEnh7EMYKuFkV8YXwJau5BWdHLoVUvX53Dj02TyHy4IGC+bSW3tw3ZB4ogR6aBw==
-X-Received: by 2002:a05:600c:2a08:b0:3da:1e35:dfec with SMTP id w8-20020a05600c2a0800b003da1e35dfecmr2620057wme.4.1676745998361;
-        Sat, 18 Feb 2023 10:46:38 -0800 (PST)
+        bh=t76KH/oITVYM0JHnCuOWX43H4fDJrdtecTK3yv+ZguQ=;
+        b=ZTwbe+2rNlAdIGqMXTDQjVgblkL2/TCChSm+beJuCzj489j7Py+DaJ9m8pFMTuxRjY
+         qpV7kAjzC0oFjwcJD7JIgdV/rkyqFIF9PSBy2Axa3z9gSwrlhlLG2t+p2T5wgPIJnrgL
+         GWkLB6NwneFFrG+d5N++0i82g/8jWDc3Rn2mlUNe3CfwQG0g8xNQcnMil44mXCZt0/fQ
+         iyzeaQXn7SVFezc2TFPhVzC3RVBTdlkqULwgbhReaiCaTp9KFJLoZBoy7aaI3QMudsn/
+         qir+dRkLUKaBiQnqL88f+V2UP4GhIOiNcN/KvB+WTi6Da5wsbGKwHyDJs8vSxR9iUQbe
+         KYFg==
+X-Gm-Message-State: AO0yUKXIDhkRO7Zg/pO9oo70iXySZveUH5131sNKtiqxmPdX/2u0IC/6
+	/dxOm+m5JLKgBBWTOW2+vfDuZQ6AZBA=
+X-Google-Smtp-Source: AK7set9QvVOaRXgUWRbjFG+W1hHBXFX4T7jsR/ZD4D9ygRlcNDErEyNEC5FfgZ7lhkI94CMqmVBeew==
+X-Received: by 2002:a05:600c:4b1c:b0:3e2:6ec:61ea with SMTP id i28-20020a05600c4b1c00b003e206ec61eamr8710901wmp.28.1676745999556;
+        Sat, 18 Feb 2023 10:46:39 -0800 (PST)
 Received: from localhost (cpc92308-cmbg19-2-0-cust99.5-4.cable.virginm.net. [82.24.248.100])
-        by smtp.gmail.com with UTF8SMTPSA id m17-20020a7bce11000000b003e209b45f6bsm9356410wmc.29.2023.02.18.10.46.37
+        by smtp.gmail.com with UTF8SMTPSA id o15-20020a05600c510f00b003dc1d668866sm5923089wms.10.2023.02.18.10.46.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 18 Feb 2023 10:46:37 -0800 (PST)
+        Sat, 18 Feb 2023 10:46:39 -0800 (PST)
 From: Emil Velikov <emil.l.velikov@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
 Cc: emil.l.velikov@gmail.com
-Subject: [PATCH 11/15] copy-firmware: quote deskdir to prevent word splitting
-Date: Sat, 18 Feb 2023 18:46:17 +0000
-Message-Id: <20230218184621.2026504-12-emil.l.velikov@gmail.com>
+Subject: [PATCH 12/15] copy-firmware: tweak sed invocation
+Date: Sat, 18 Feb 2023 18:46:18 +0000
+Message-Id: <20230218184621.2026504-13-emil.l.velikov@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230218184621.2026504-1-emil.l.velikov@gmail.com>
 References: <20230218184621.2026504-1-emil.l.velikov@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+Add space between the arguments and pattern and combine patterns where
+possible.
+
 Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- copy-firmware.sh | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ copy-firmware.sh | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/copy-firmware.sh b/copy-firmware.sh
-index 0132244..c6a2fe9 100755
+index c6a2fe9..722227f 100755
 --- a/copy-firmware.sh
 +++ b/copy-firmware.sh
-@@ -27,13 +27,13 @@ done
+@@ -25,13 +25,13 @@ while test $# -gt 0; do
+     esac
+ done
  
- grep '^File:' WHENCE | sed -e's/^File: *//g' | while read f; do
+-grep '^File:' WHENCE | sed -e's/^File: *//g' | while read f; do
++grep '^File:' WHENCE | sed -e 's/^File: *//g' | while read f; do
      $verbose "copying file $f"
--    install -d $destdir/$(dirname "$f")
--    cp "$f" $destdir/"$f"
-+    install -d "$destdir"/$(dirname "$f")
-+    cp "$f" "$destdir/$f"
+     install -d "$destdir"/$(dirname "$f")
+     cp "$f" "$destdir/$f"
  done
  
- grep -E '^Link:' WHENCE | sed -e's/^Link: *//g' -e's/-> //g' | while read f d; do
+-grep -E '^Link:' WHENCE | sed -e's/^Link: *//g' -e's/-> //g' | while read f d; do
++grep -E '^Link:' WHENCE | sed -e 's/^Link: *//g;s/-> //g' | while read f d; do
      $verbose "creating link $f -> $d"
--    install -d $destdir/$(dirname "$f")
-+    install -d "$destdir"/$(dirname "$f")
+     install -d "$destdir"/$(dirname "$f")
      ln -s "$d" "$destdir/$f"
- done
- 
 -- 
 2.39.2
 
