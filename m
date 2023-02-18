@@ -4,104 +4,115 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA09DC636CC
-	for <linux-firmware@archiver.kernel.org>; Sat, 18 Feb 2023 18:46:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A39FC6379F
+	for <linux-firmware@archiver.kernel.org>; Sat, 18 Feb 2023 18:46:38 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C53BDC433EF; Sat, 18 Feb 2023 18:46:36 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	id 557B9C4339B; Sat, 18 Feb 2023 18:46:38 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id F3314C4339B
-	for <linux-firmware@kernel.org>; Sat, 18 Feb 2023 18:46:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org F3314C4339B
+	by smtp.kernel.org (Postfix) with ESMTPS id 7C906C433D2
+	for <linux-firmware@kernel.org>; Sat, 18 Feb 2023 18:46:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 7C906C433D2
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f45.google.com with SMTP id bg25-20020a05600c3c9900b003e21af96703so541076wmb.2
-        for <linux-firmware@kernel.org>; Sat, 18 Feb 2023 10:46:35 -0800 (PST)
+Received: by mail-wr1-f53.google.com with SMTP id e20so1055494wra.4
+        for <linux-firmware@kernel.org>; Sat, 18 Feb 2023 10:46:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TEwE+EYKXk2JOee59fcT1fF1dfNtOgko0FRqByUYEOY=;
-        b=NB+zxTIpSbjarvBA1YuPXAoA78GtcriQ3QCg91TblHmISJLH+7XvND+2JZGId1Og/c
-         CiKChzUoSDxsX1kFf9GbtOx0z8QRLc2tDTQ5i5Uwf4al89x5dgmgt0WJUiu7aAZ8086S
-         Gt/L+amBTgyEaJvOdUqVcBEYl8rT2I11ZMekiO/aQpFpzqfFDy4XSesnAEf3oshRvz5i
-         0sQfbR+IJTz3B5QcHim8MkslJH1IkNMInq6EZT65g95tJNSae3IxMF6dEnK2pwGegLG2
-         zjZftuQd33CgHh6XYiqWwhhFTMmG5Thpjs77meu3u/7irXrDr/gXDKl+AfTx01w74833
-         NPLw==
+        bh=j0U57c3/3NgGksHO+203ZH8FaSKOVo2PNgGgaw8njWE=;
+        b=DNQw7hx2xPHvm/rjiGbw2OWepVnuOrx1uzrllm46iehcDG/YsCPpirOCxMAnRHhjLK
+         MA2Yh2eC6yM5d0beFpHTrsvo7H30TNsyXSCmuybnw+3o+NllqUjGCUKV6rhgNtntE7sM
+         oieRI23SLuYbxooqolMPZjY4XYvZz6IAr92fn9QdKXGH6JOUnWhLyZFRH6llznEZmDs5
+         /p57b/wAgO7MM1vNSsVjsVOrx/n7jnd7xD1bEbJ3JdqThaH1W9UVuVK34Z8O8ZxiEY2o
+         gDMogazFHagERAYJPaIcUAY/yCCOOzwwB02VEYAR6P5MiWapWCW04n6dnsurIIImFS+1
+         UDYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TEwE+EYKXk2JOee59fcT1fF1dfNtOgko0FRqByUYEOY=;
-        b=H3oSjoMXiv606KS4naA2okrGlq14o7HG7e5DDVkPgl/qIVUVRaGHEEnUB1P1I/3FhD
-         SVxyps9XqSdmfxxVFUCd6lT5OQasT1tuv4O77BVyCGV2jMb5wnaZ26JUH7AUKW2NYRmC
-         gihBtASRpYN6VYiqyS/ROHcmBowIippd8DFzvWUby77Wr/9nmOBW0r5m+4bx9P9E3Bxs
-         QbG7Px8BWlWciiQW0BRUf5bnHveArhLZXFarBdUPBZiiscJOOsH8hN6DGo0du1rBUCc/
-         YuLDW1sItnUz2dMgvWkSvJJ78+Lel3Z5rSrZUfhYME4liIyf0Ii3JA5DgDw9UtV/Kq4I
-         QhVg==
-X-Gm-Message-State: AO0yUKUUKeTHk6StSVssglE5gzHD3GQMP+Yb5boaOMnjQ4FRZQD4EoUX
-	YFLrQ+LA0Jx6+Z57aHJJadSHdsnvAtQ=
-X-Google-Smtp-Source: AK7set8mj9C1ore34AEV68kUawW7E4QYSfHse2pTO3lMmKKT1TZXBNx80BNzYZ/iu3dEfshhsGFsNw==
-X-Received: by 2002:a05:600c:2211:b0:3e1:374:8b66 with SMTP id z17-20020a05600c221100b003e103748b66mr3746572wml.40.1676745993988;
-        Sat, 18 Feb 2023 10:46:33 -0800 (PST)
+        bh=j0U57c3/3NgGksHO+203ZH8FaSKOVo2PNgGgaw8njWE=;
+        b=DhiwA3iqUQpebugKlPl3aj0Fl7jUmHx2OzQ5hjMUczQAa+nf+P3WaW12dl7WdrV87j
+         3j+BJpMbLyS4SYw3UfmMkVa7iYHTNs/P+inhAcmVBTwr9sD/zUZczyDH9IA85VKHl6K6
+         AOeUy1qHhKSt2PiPXcGW2gCjd2ARsrmy7fDczEg1UB7dwHM2YPVrJupK8xWH8p6CTf5t
+         PuXGvsSdbrzrCuWwybQ2hSg8yhJ7wWDZp6z9EhewFu0X0sMS7dv+gHmWhBa+N7/S9lPy
+         IJeI/NDiMrGwUyufuYT7fDNKjKpEH75RvYqnkrQk3FFrSaH8+XbbVCvTtESJzYi7Ztt1
+         pO8A==
+X-Gm-Message-State: AO0yUKWz+NUCQbCAtJwjsjGOilYdrnOk9I/J62njQdu+tNIKqFvulo/9
+	YZKhXzkAq3t0ETv/Nm53knIrLRZryK8=
+X-Google-Smtp-Source: AK7set/Up0wHIHnHMDq9gAg4X0CT3jMF0EXgoAUnMd52uPH3RSXWpCCCJF/6fNDIigAya4ZT4GtSBw==
+X-Received: by 2002:adf:ebcf:0:b0:2c5:5ff8:6b01 with SMTP id v15-20020adfebcf000000b002c55ff86b01mr2666644wrn.1.1676745995455;
+        Sat, 18 Feb 2023 10:46:35 -0800 (PST)
 Received: from localhost (cpc92308-cmbg19-2-0-cust99.5-4.cable.virginm.net. [82.24.248.100])
-        by smtp.gmail.com with UTF8SMTPSA id l33-20020a05600c1d2100b003db012d49b7sm6076038wms.2.2023.02.18.10.46.33
+        by smtp.gmail.com with UTF8SMTPSA id i16-20020a5d5590000000b002c5584d0e3dsm7582656wrv.24.2023.02.18.10.46.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 18 Feb 2023 10:46:33 -0800 (PST)
+        Sat, 18 Feb 2023 10:46:34 -0800 (PST)
 From: Emil Velikov <emil.l.velikov@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
 Cc: emil.l.velikov@gmail.com
-Subject: [PATCH 08/15] check_whence: error if File: is actually a link
-Date: Sat, 18 Feb 2023 18:46:14 +0000
-Message-Id: <20230218184621.2026504-9-emil.l.velikov@gmail.com>
+Subject: [PATCH 09/15] check_whence: error if symlinks are in-tree
+Date: Sat, 18 Feb 2023 18:46:15 +0000
+Message-Id: <20230218184621.2026504-10-emil.l.velikov@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230218184621.2026504-1-emil.l.velikov@gmail.com>
 References: <20230218184621.2026504-1-emil.l.velikov@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This allows us to remove the -d aka --no-dereference --preserve=links
-from the copy command.
+Currently we have no symlinks in-tree. Add a simple check, ensuring they
+don't get added in the future.
+
+This allows us to remove the clunky symlink checking code in
+copy-firmware.sh
 
 Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- check_whence.py  | 5 +++++
- copy-firmware.sh | 2 +-
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ check_whence.py | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/check_whence.py b/check_whence.py
-index 130966e..92b104e 100755
+index 92b104e..75fd3ad 100755
 --- a/check_whence.py
 +++ b/check_whence.py
-@@ -56,6 +56,11 @@ def main():
-         sys.stderr.write('E: %s listed in WHENCE twice\n' % name)
+@@ -32,6 +32,14 @@ def list_whence_files():
+                 yield match.group(1).replace("\ ", " ")
+                 continue
+ 
++def list_whence_links():
++    with open('WHENCE', encoding='utf-8') as whence:
++        for line in whence:
++            match = re.match(r'Link:\s*(.*) ->', line)
++            if match:
++                yield match.group(1).replace("\ ", " ")
++                continue
++
+ def list_git():
+     with os.popen('git ls-files') as git_files:
+         for line in git_files:
+@@ -41,6 +49,7 @@ def main():
+     ret = 0
+     whence_list = list(list_whence())
+     whence_files = list(list_whence_files())
++    whence_links = list(list_whence_links())
+     known_files = set(name for name in whence_list if not name.endswith('/')) | \
+                   set(['check_whence.py', 'configure', 'Makefile',
+                        'README', 'copy-firmware.sh', 'WHENCE'])
+@@ -61,6 +70,10 @@ def main():
+                          name)
          ret = 1
  
-+    for name in set(link for link in whence_files if os.path.islink(link)):
-+        sys.stderr.write('E: %s listed in WHENCE as File, but is a symlink\n' %
-+                         name)
++    for name in set(link for link in whence_links if os.path.islink(link)):
++        sys.stderr.write('E: %s listed in WHENCE as Link, is in tree\n' % name)
 +        ret = 1
 +
      for name in sorted(list(known_files - git_files)):
          sys.stderr.write('E: %s listed in WHENCE does not exist\n' % name)
          ret = 1
-diff --git a/copy-firmware.sh b/copy-firmware.sh
-index 656b0ec..e3f3176 100755
---- a/copy-firmware.sh
-+++ b/copy-firmware.sh
-@@ -34,7 +34,7 @@ done
- grep '^File:' WHENCE | sed -e's/^File: *//g' | while read f; do
-     $verbose "copying file $f"
-     install -d $destdir/$(dirname "$f")
--    cp -d "$f" $destdir/"$f"
-+    cp "$f" $destdir/"$f"
- done
- 
- grep -E '^Link:' WHENCE | sed -e's/^Link: *//g' -e's/-> //g' | while read f d; do
 -- 
 2.39.2
 
