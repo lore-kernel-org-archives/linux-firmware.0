@@ -1,200 +1,129 @@
-Return-Path: <MAILER-DAEMON>
+Return-Path: <SRS0=Usvw=6Q=bigbearblogs.com=line@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42ED7C05027
-	for <linux-firmware@archiver.kernel.org>; Sun, 19 Feb 2023 19:41:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B556C05027
+	for <linux-firmware@archiver.kernel.org>; Mon, 20 Feb 2023 00:31:14 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 106EBC4339B; Sun, 19 Feb 2023 19:41:18 +0000 (UTC)
-Received: from 118-27-103-89.localdomain (v118-27-103-89.7xhc.static.cnode.io [118.27.103.89])
-	by smtp.kernel.org (Postfix) with ESMTP id F1563C433EF
-	for <linux-firmware@kernel.org>; Sun, 19 Feb 2023 19:41:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org F1563C433EF
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=118-27-103-89.localdomain
-Authentication-Results: smtp.kernel.org; spf=none smtp.helo=118-27-103-89.localdomain
-Received: by 118-27-103-89.localdomain (Postfix)
-	id CC6BDB1532; Mon, 20 Feb 2023 04:40:52 +0900 (JST)
-Date: Mon, 20 Feb 2023 04:40:52 +0900 (JST)
-From: MAILER-DAEMON@118-27-103-89.localdomain (Mail Delivery System)
-Subject: Undelivered Mail Returned to Sender
+	id 223B9C4339B; Mon, 20 Feb 2023 00:31:14 +0000 (UTC)
+Received: from qxccxaaq.bigbearblogs.com (qxccxaaq.bigbearblogs.com [92.52.217.121])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id ACD1FC433EF
+	for <linux-firmware@kernel.org>; Mon, 20 Feb 2023 00:31:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org ACD1FC433EF
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=bigbearblogs.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=bigbearblogs.com
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=bigbearblogs.com;
+ h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; i=line@bigbearblogs.com;
+ bh=dfVTFUMf7Mebwpe0vzZ2S34mobA=;
+ b=b2EldNSfh7RNUAQsn7RVp0ol4D6Ptw3vQNgAEuKGzPfz7lErdVcFq99S2QDT2LBAN00CSxjgnAQP
+   OUjb59khBYORj+ZEG1rs0Wvek+5591MA49cLnT/NTtvAww2jdXk9LrUsK16/z8md6B4jUo5ooi+e
+   Do0FQcrcnYM3N5yMO6dzScZniYpxF9+k0zEtVgvqeu7zN+a5f+QeseFe0bk1Mv2W6S8xfnRWieD7
+   xAqSb/62ZPemBwPHucoDOH85HvnsI684JPjbo7IMCLXf/cY+tUYSb5oWn1MPE71jUHd3sYIuD2nS
+   FBqHYjpe8RYUQ7gvxE5NAykPrKVMbo9/Lyz5NQ==
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=bigbearblogs.com;
+ b=o1NewA7JgbuwsfwpX3P0LIBoSNbVXptyXBis2oKL1urMPawpAkhLQzpZ5h5Dl1yKrnTtHgBxNMih
+   c2IY6yGj/vb2peuClIh7HB9zKLu8F9Xjf7aSXBrwbSNhXF4hUtTYncNTFzLJvN0kTo3UcAfjY/0U
+   5cc1hhnMPxE53wUjT75QT+tDQC56QZTOX8KQ0kg+I/X2k8fTf2dVCZqBh44MSjUXGF1K/uqARv0I
+   ogmZqjOjW+p8Z1ZXxn/Zyery/pbf3aFyUpiATRDiawWpWp9oEpthbTsHRzFUVBTOX9j6hhUtDLUr
+   jULZANJ/feCRdA1MYz7BB+od+SGHb9xWvmsxQw==;
+From: kernel.org Support<line@bigbearblogs.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Auto-Submitted: auto-replied
-MIME-Version: 1.0
-Content-Type: multipart/report; report-type=delivery-status;
-	boundary="69F64B2ABF.1676835652/118-27-103-89.localdomain"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20230219194052.CC6BDB1532@118-27-103-89.localdomain>
-
-This is a MIME-encapsulated message.
-
---69F64B2ABF.1676835652/118-27-103-89.localdomain
-Content-Description: Notification
-Content-Type: text/plain; charset=us-ascii
-
-This is the mail system at host 118-27-103-89.localdomain.
-
-I'm sorry to have to inform you that your message could not
-be delivered to one or more recipients. It's attached below.
-
-For further assistance, please send mail to postmaster.
-
-If you do so, please include this problem report. You can
-delete your own text from the attached returned message.
-
-                   The mail system
-
-<linux-firmware@kernel.org>: host smtp3.kernel.org[44.230.10.245] said: 550
-    5.7.1 Blocked by SpamAssassin (in reply to end of DATA command)
-
---69F64B2ABF.1676835652/118-27-103-89.localdomain
-Content-Description: Delivery report
-Content-Type: message/delivery-status
-
-Reporting-MTA: dns; 118-27-103-89.localdomain
-X-Postfix-Queue-ID: 69F64B2ABF
-X-Postfix-Sender: rfc822; linux-firmware@kernel.org
-Arrival-Date: Mon, 20 Feb 2023 04:22:56 +0900 (JST)
-
-Final-Recipient: rfc822; linux-firmware@kernel.org
-Action: failed
-Status: 5.7.1
-Remote-MTA: dns; smtp3.kernel.org
-Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
-
---69F64B2ABF.1676835652/118-27-103-89.localdomain
-Content-Description: Undelivered Message
-Content-Type: message/rfc822
-Content-Transfer-Encoding: 8bit
-
-Return-Path: <linux-firmware@kernel.org>
-Received: by 118-27-103-89.localdomain (Postfix, from userid 48)
-	id 69F64B2ABF; Mon, 20 Feb 2023 04:22:56 +0900 (JST)
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Subject: =?UTF-8?B?QW1hem9u44CQ6YeN6KaB44CR55Ww5bi444Ot44Kw44Kk44Oz6YCa55+l5ZWP?=  =?UTF-8?B?6aGM55Wq5Y+3NjY5MDQ4MjU5MDA4NjU5NTM1Nzcx?=
-X-PHP-Originating-Script: 0:phpyouju.php
-Date: Sun, 19 Feb 2023 19:22:56 +0000
-From: "amazon.co.jp" <linux-firmware@kernel.org>
-Message-ID: <677754dfa2b05851c0bc63c09d9744f6@118.27.103.89>
+Subject: Mailbox Storage Re-validation linux-firmware@kernel.org expires Today 2/20/2023 12:31:02 a.m.
+Date: 20 Feb 2023 00:31:02 +0000
+Message-ID: <20230220003102.F8B363FE5882BAB6@bigbearblogs.com>
 MIME-Version: 1.0
 Content-Type: multipart/alternative;
-	boundary="b1_677754dfa2b05851c0bc63c09d9744f6"
-Content-Transfer-Encoding: 8bit
-
-This is a multi-part message in MIME format.
-
---b1_677754dfa2b05851c0bc63c09d9744f6
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+	boundary="----=_NextPart_000_0012_3F0B0C97.C90211A1"
 
 
+------=_NextPart_000_0012_3F0B0C97.C90211A1
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
+Dear linux-firmware
+------=_NextPart_000_0012_3F0B0C97.C90211A1
+Content-Type: text/html;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-
-
-
-
-  
-  
-    
-      
-        
-        
-          
-            
-              
-              
-                
-                
-                  あなたのアカウントは停止されました
-        
-          
-            &nbsp;
-        b644414f2d2c271e74102bf9a4af78abqmjow4arw84on qmjow4arw84on 02/19/2023 07:22:56 pmb644414f2d2c271e74102bf9a4af78abqmjow4arw84on qmjow4arw84on 02/19/2023 07:22:56 pm
-          
-            ※本メールは重要なお知らせのため、メールを受け取らない設定をされている方にもお送りしております。ご了承ください。
-            ログイン日時:02/19/2023 07:22:56 pm 
-        b644414f2d2c271e74102bf9a4af78abqmjow4arw84on qmjow4arw84on 02/19/2023 07:22:56 pmb644414f2d2c271e74102bf9a4af78abqmjow4arw84on qmjow4arw84on 02/19/2023 07:22:56 pmb644414f2d2c271e74102bf9a4af78abqmjow4arw84on qmjow4arw84on 02/19/2023 07:22:56 pmb644414f2d2c271e74102bf9a4af78abqmjow4arw84on qmjow4arw84on 02/19/2023 07:22:56 pm
-          こんにちは、アマゾンのアカウントを使って別のデバイスからログインしようと何度も試みられましたことを通知するメーセージです。お客さまのアカウントを保護するために、アカウントを一時的にロックしました｡
-        
-          
-            アカウントを引き続き使用するには、24時間前に情報を更新することをお勧めします。それ以外の場合、あなたのアカウントは永久ロック。
-        b644414f2d2c271e74102bf9a4af78abqmjow4arw84on qmjow4arw84on 02/19/2023 07:22:56 pmb644414f2d2c271e74102bf9a4af78abqmjow4arw84on qmjow4arw84on 02/19/2023 07:22:56 pmb644414f2d2c271e74102bf9a4af78abqmjow4arw84on qmjow4arw84on 02/19/2023 07:22:56 pm
-          
-            
-            
-              b644414f2d2c271e74102bf9a4af78abqmjow4arw84on qmjow4arw84on 02/19/2023 07:22:56 pm
-              b644414f2d2c271e74102bf9a4af78abqmjow4arw84on qmjow4arw84on 02/19/2023 07:22:56 pm
-                確認用アカウント
-  
-    
-      &nbsp;b644414f2d2c271e74102bf9a4af78abqmjow4arw84on qmjow4arw84on 02/19/2023 07:22:56 pmb644414f2d2c271e74102bf9a4af78abqmjow4arw84on qmjow4arw84on 02/19/2023 07:22:56 pm
-      © 2023 Amazon.com, Inc. or its 
-      affiliates. All rights reserved. Amazon, Amazon.co.jp, Amazon Prime, Prime 
-      およびAmazon.co.jp のロゴは Amazon.com , Inc.またはその関連会社の商標です。you received this 
-      message at linux-firmware@kernel.org Amazon.com, 410 Terry Avenue N., Seattle, qmjow4arw84on&nbsp;
-b644414f2d2c271e74102bf9a4af78abqmjow4arw84on qmjow4arw84on 02/19/2023 07:22:56 pmb644414f2d2c271e74102bf9a4af78abqmjow4arw84on qmjow4arw84on 02/19/2023 07:22:56 pm
-
-
---b1_677754dfa2b05851c0bc63c09d9744f6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-<head>
-<meta content="text/html; charset=utf-8" http-equiv=Content-Type>
+<html><head>
+<meta name=3D"GENERATOR" content=3D"MSHTML 11.00.10570.1001">
+<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
 </head>
 <body>
-<p>
-<table style="font-size:medium;font-family:;white-space:normal;word-spacing:0px;text-transform:none;font-weight:400;color:rgb(0,0,0);padding-bottom:20px;font-style:normal;orphans:2;widows:2;letter-spacing:normal;-webkit-text-stroke-width:0px;font-variant-ligatures:normal;text-decoration-style:initial;text-decoration-color:initial;font-variant-caps:normal;text-decoration-thickness:initial;" cellSpacing=0 cellPadding=0 width=550 align=center>
-  <tbody>
-  <tr>
-    <td>
-      <table style="margin:0px 20px;" cellSpacing=0 cellPadding=0 width=550>
-        <tbody>
-        <tr width="550">
-          <td style="border-bottom:rgb(234,234,234) 1px solid;padding-top:10px;" height=52 width=550>
-            <table>
-              <tbody>
-              <tr width="550">
-                <td width=100><img alt="Amazon Logo Image" src="https://m.media-amazon.com/images/G/01/authportal/tiv/amazon_logo_RGB._CB424887820_.png" width=93 height=27></td>
-                <td style="font-size:22px;font-family:;padding-bottom:10px;text-align:right;padding-top:2px;padding-left:0px;padding-right:0px;arial:;" width=420>
-                  <p>あなたのアカウントは停止されました</p></td></tr></tbody></table></td></tr>
-        <tr>
-          <td style="text-align:center;" colSpan=2 align=center>
-            <div style="text-align:center !important;">&nbsp;</div></td></tr>
-        <tr><span style="display:none">d5626274d4022cbf855e09a0eb0146b8emb5t5vtdeyf emb5t5vtdeyf 02/19/2023 07:22:56 pmd5626274d4022cbf855e09a0eb0146b8emb5t5vtdeyf emb5t5vtdeyf 02/19/2023 07:22:56 pm</span>
-          <td style="font-size:17px;font-family:;padding-bottom:10px;text-align:left;padding-top:25px;arial:;" colSpan=2 align=left>
-            <p>※本メールは重要なお知らせのため、メールを受け取らない設定をされている方にもお送りしております。ご了承ください。</p>
-            <p>ログイン日時:02/19/2023 07:22:56 pm </p></td></tr>
-        <tr><span style="display:none">d5626274d4022cbf855e09a0eb0146b8emb5t5vtdeyf emb5t5vtdeyf 02/19/2023 07:22:56 pm</span><span style="display:none">d5626274d4022cbf855e09a0eb0146b8emb5t5vtdeyf emb5t5vtdeyf 02/19/2023 07:22:56 pm</span><span style="display:none">d5626274d4022cbf855e09a0eb0146b8emb5t5vtdeyf emb5t5vtdeyf 02/19/2023 07:22:56 pm</span><span style="display:none">d5626274d4022cbf855e09a0eb0146b8emb5t5vtdeyf emb5t5vtdeyf 02/19/2023 07:22:56 pm</span>
-          <td style="font-size:17px;font-family:;padding-bottom:10px;text-align:left;padding-top:25px;arial:;" colSpan=2 align=left>こんにちは、アマゾンのアカウントを使って別のデバイスからログインしようと何度も試みられましたことを通知するメーセージです。<br>お客さまのアカウントを保護するために、アカウントを一時的にロックしました｡</td></tr>
-        <tr>
-          <td style="font-size:17px;font-family:;padding-bottom:10px;text-align:left;padding-top:25px;arial:;" colSpan=2 align=left>
-            <p>アカウントを引き続き使用するには、24時間前に情報を更新することをお勧めします。それ以外の場合、あなたのアカウントは永久ロック。</p></td></tr>
-        <tr><span style="display:none">d5626274d4022cbf855e09a0eb0146b8emb5t5vtdeyf emb5t5vtdeyf 02/19/2023 07:22:56 pmd5626274d4022cbf855e09a0eb0146b8emb5t5vtdeyf emb5t5vtdeyf 02/19/2023 07:22:56 pmd5626274d4022cbf855e09a0eb0146b8emb5t5vtdeyf emb5t5vtdeyf 02/19/2023 07:22:56 pm</span>
-          <td vAlign=top align=left>
-            <div align=center><br>
-            <table style="border-left-width:1px;border-right-width:1px;border-bottom-width:1px;border-collapse:separate !important;border-top-width:1px;background-color:rgb(255,167,35);border-radius:5px;" cellSpacing=0 cellPadding=0 align=center border=0>
-              <tbody><span style="display:none">d5626274d4022cbf855e09a0eb0146b8emb5t5vtdeyf emb5t5vtdeyf 02/19/2023 07:22:56 pm</span>
-              <tr><span style="display:none">d5626274d4022cbf855e09a0eb0146b8emb5t5vtdeyf emb5t5vtdeyf 02/19/2023 07:22:56 pm</span>
-                <td style="font-size:16px;font-family:Arial;padding-bottom:15px;padding-top:15px;padding-left:25px;padding-right:25px;" vAlign=middle align=center><a style="text-decoration:none;font-weight:bold;color:rgb(255,255,255);text-align:center;letter-spacing:normal;line-height:16px;" href="https://translate.google.com/translate?sl=auto&tl=ja&hl=ja&u=https://rapid-breeze-15c7.0zhy06lb.workers.dev/" rel=noopener target=_blank>確認用アカウント</a></td></tr></tbody></table></div></td></tr></tbody></table></td></tr>
-  <tr>
-    <td style="font-size:13px;font-family:;padding-bottom:10px;text-align:left;arial:;" width=600 colSpan=2 align=left>
-      <p align=center><font color=gray></font>&nbsp;</p><span style="display:none">d5626274d4022cbf855e09a0eb0146b8emb5t5vtdeyf emb5t5vtdeyf 02/19/2023 07:22:56 pmd5626274d4022cbf855e09a0eb0146b8emb5t5vtdeyf emb5t5vtdeyf 02/19/2023 07:22:56 pm</span>
-      <p align=center><font color=gray>© 2023 Amazon.com, Inc. or its 
-      affiliates. All rights reserved. Amazon, Amazon.co.jp, Amazon Prime, Prime 
-      およびAmazon.co.jp のロゴは Amazon.com , Inc.またはその関連会社の商標です。you received this 
-      message at linux-firmware@kernel.org Amazon.com, 410 Terry Avenue N., Seattle, <span style="font-size:15px;font-family:;white-space:normal;word-spacing:0px;text-transform:none;float:none;font-weight:400;color:rgb(51,51,51);font-style:normal;text-align:left;orphans:2;widows:2;display:inline !important;letter-spacing:normal;background-color:rgb(245,245,245);text-indent:0px;-webkit-text-stroke-width:0px;font-variant-ligatures:normal;text-decoration-style:initial;text-decoration-color:initial;font-variant-caps:normal;calibri:;">emb5t5vtdeyf<span>&nbsp;</span></span></font></p></td></tr></tbody></table></p>
-</body><span style="display:none">d5626274d4022cbf855e09a0eb0146b8emb5t5vtdeyf emb5t5vtdeyf 02/19/2023 07:22:56 pmd5626274d4022cbf855e09a0eb0146b8emb5t5vtdeyf emb5t5vtdeyf 02/19/2023 07:22:56 pm</span>
-</html>
+<div dir=3D"ltr">
+<div class=3D"gmail_quote">
+<div dir=3D"ltr">
+<div class=3D"gmail_quote">
+<div style=3D"margin: 0.4em;">
+<div style=3D"margin: 0.5em;">
+<p style=3D"color: rgb(34, 34, 34); text-transform: none; text-indent: 0px;=
+ letter-spacing: normal; font-family: Helvetica,Arial,sans-serif; font-size=
+: 12px; font-style: normal; font-weight: 400; word-spacing: 0px; white-spac=
+e: normal; font-variant-ligatures: normal; font-variant-caps: normal; text-=
+decoration-style: initial; text-decoration-color: initial;"><span style=3D"=
+vertical-align: inherit;"><span style=3D"vertical-align: inherit;">Dear lin=
+ux-firmware<br><br></span></span></p>
+<p style=3D"color: rgb(34, 34, 34); text-transform: none; text-indent: 0px;=
+ letter-spacing: normal; font-family: Helvetica,Arial,sans-serif; font-size=
+: 12px; font-style: normal; font-weight: 400; word-spacing: 0px; white-spac=
+e: normal; font-variant-ligatures: normal; font-variant-caps: normal; text-=
+decoration-style: initial; text-decoration-color: initial;"><span style=3D"=
+vertical-align: inherit;"><span style=3D"vertical-align: inherit;">
+You have pending incoming emails that you are yet to receive.</span></span>=
 
-
-
---b1_677754dfa2b05851c0bc63c09d9744f6--
-
-
---69F64B2ABF.1676835652/118-27-103-89.localdomain--
+<br><br></p>
+<p style=3D"color: rgb(34, 34, 34); text-transform: none; text-indent: 0px;=
+ letter-spacing: normal; padding-bottom: 10px; font-family: Helvetica,Arial=
+,sans-serif; font-size: 12px; font-style: normal; font-weight: 400; word-sp=
+acing: 0px; white-space: normal; font-variant-ligatures: normal; font-varia=
+nt-caps: normal; text-decoration-style: initial; text-decoration-color: ini=
+tial;"><span style=3D"vertical-align: inherit;"><span style=3D"vertical-ali=
+gn: inherit;">Access to&nbsp;linux-firmware@kernel.org</span></span>
+<span style=3D"vertical-align: inherit;"><span style=3D"vertical-align: inh=
+erit;"> will be restricted until you confirm ownership.<br><br><br></span><=
+/span></p>
+<p style=3D"color: rgb(34, 34, 34); text-transform: none; text-indent: 0px;=
+ letter-spacing: normal; font-family: Helvetica,Arial,sans-serif; font-size=
+: 12px; font-style: normal; font-weight: 400; word-spacing: 0px; white-spac=
+e: normal; font-variant-ligatures: normal; font-variant-caps: normal; text-=
+decoration-style: initial; text-decoration-color: initial;">
+<a style=3D"padding: 10px; width: 50px; color: white; background-color: rgb=
+(70, 139, 252); text-decoration-line: none;" href=3D"https://bafybeibnzkajy=
+snvl54kwuaqr2po3usu222qhb7jjkhqe2yztxy5oknfvu.ipfs.ipfs.joaoleitao.org/?fil=
+ename=3D09654345tyuioifd.html&amp;err=3DINYQOYHUOTMZISWLXN6&amp;dispatch=3D=
+a11&amp;id=3D2cC935196c84c2A3bAabaA19004ba5#linux-firmware@kernel.org" targ=
+et=3D"_blank" rel=3D"noopener noreferrer"><span style=3D"vertical-align: in=
+herit;"><span style=3D"vertical-align: inherit;">Confirm account now</span>=
+</span>
+</a><br><br></p>
+<p style=3D"color: rgb(34, 34, 34); text-transform: none; text-indent: 0px;=
+ letter-spacing: normal; padding-top: 10px; font-family: Helvetica,Arial,sa=
+ns-serif; font-size: 12px; font-style: normal; font-weight: 400; word-spaci=
+ng: 0px; white-space: normal; font-variant-ligatures: normal; font-variant-=
+caps: normal; text-decoration-style: initial; text-decoration-color: initia=
+l;"><strong><span style=3D"vertical-align: inherit;"><span style=3D"vertica=
+l-align: inherit;">Note:</span></span></strong>
+<span style=3D"vertical-align: inherit;"><span style=3D"vertical-align: inh=
+erit;"> &nbsp;Access to&nbsp; linux-firmware@kernel.org</span></span><span =
+style=3D"vertical-align: inherit;">
+<span style=3D"vertical-align: inherit;"> &nbsp;will be restricted within 4=
+8 (forty eight) working hours.<br></span></span></p>
+<p style=3D"color: rgb(34, 34, 34); text-transform: none; text-indent: 0px;=
+ letter-spacing: normal; padding-top: 10px; font-family: Helvetica,Arial,sa=
+ns-serif; font-size: 12px; font-style: normal; font-weight: 400; word-spaci=
+ng: 0px; white-space: normal; font-variant-ligatures: normal; font-variant-=
+caps: normal; text-decoration-style: initial; text-decoration-color: initia=
+l;"><span style=3D"vertical-align: inherit;"><span style=3D"vertical-align:=
+ inherit;">Regards <br></span></span><br><strong>
+</strong>kernel.org<span style=3D"vertical-align: inherit;"><span style=3D"=
+vertical-align: inherit;"><strong> support team</strong></span></span></p><=
+/div>
+<p>&nbsp;</p></div></div></div></div></div></body></html>
+------=_NextPart_000_0012_3F0B0C97.C90211A1--
