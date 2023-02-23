@@ -1,129 +1,109 @@
-Return-Path: <SRS0=u6lA=6R=googlemail.com=martin.blumenstingl@kernel.org>
+Return-Path: <SRS0=JHvZ=6T=warriorca.com=yara@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 609FCC61DA3
-	for <linux-firmware@archiver.kernel.org>; Tue, 21 Feb 2023 21:23:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67B25C636D6
+	for <linux-firmware@archiver.kernel.org>; Thu, 23 Feb 2023 00:55:03 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 3047BC4339B; Tue, 21 Feb 2023 21:23:08 +0000 (UTC)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	id 2AD33C433EF; Thu, 23 Feb 2023 00:55:03 +0000 (UTC)
+Received: from kafawcxu.warriorca.com (kafawcxu.warriorca.com [92.52.217.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 28813C433D2;
-	Tue, 21 Feb 2023 21:23:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 28813C433D2
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=googlemail.com
-Received: by mail-ed1-f44.google.com with SMTP id f13so22100177edz.6;
-        Tue, 21 Feb 2023 13:23:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=MzI9IaEYK3mu8UhySWHMQWy3ljfnMJk+3UzdqGyQSIY=;
-        b=e/CxAAAaTxEChBjAyMnX9Ww/K2GC9NdCZRELdXIF3OhrKh/cWA8GSmCnCseyu8tUsl
-         iet2W7zwo0IJ84TAE/DQvpJ41j4QIuWbRXrVK5dFuSOwd2i/S5zOpU+4S+DUzjXrgSqm
-         l/C6Sxy4zElqjB6o8EqRFfBG4ZLWtN6AdvMj09JS4WpOtGsEJOn8PwO6zFXW84R8Dk0Q
-         V9l1km9h7dv1KTk9xUqflzkh+ZK2yngRhQT5Eqi93otGOvBxL9dRiwrGeEFUp1puNaxj
-         6WlscWp5ZVk6qSXPuCP7Juo70ZsiEahPvNyoFuj5y2dC1tF7Pfgm+B3sLwAmwp075+Ya
-         KVbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MzI9IaEYK3mu8UhySWHMQWy3ljfnMJk+3UzdqGyQSIY=;
-        b=CcVTYm2Et1y9ebomHLwcuWrGJ8Hs6rq47L2pLQqyi+KiIXq/ldIhTTiS/7kDPMW9WZ
-         /jQ3Ve9cqv5lHK+0Qcq0iB76kYXHjfPFUHp56NZFGyxfNCKZF3Dp6eCX/22ZsArrlQoG
-         ebyyF1CT1MjYlqAOgalALZBgr9YK9GXXtRYZSpzB78G+dbnDRLh6+JfmOByPnwzyyo65
-         2yy+IE60z4ubTzQj0aAzB1kC29EavjexsnPCpBjWo4R0VJ5d6itg69lX5SJfpKQUTIIg
-         P7MAdsI6oNPkSNa4R4uUL9AROhiBzKu/3CAshqC9//UtIDVxmLkSMDsjOAh9UhU6s3pm
-         1qDQ==
-X-Gm-Message-State: AO0yUKUDLyOwbmNFRGuzUorSCPKp9uRnD9GeGnF+cPhLc8FSi7AC3MOP
-	OX/KHaFMl0cSINLXGY5aE3kMYyclKpAbbPkykLU=
-X-Google-Smtp-Source: AK7set/jChbbb7ExyetMvVTw+zrpCwPdbBETvfVkcsmv/3mY4H9U1TznBsduSX9W8CHoS6SdB7H2tx6GYxCMDgMVtHU=
-X-Received: by 2002:a17:906:5a42:b0:8b1:7ac6:318a with SMTP id
- my2-20020a1709065a4200b008b17ac6318amr7874154ejc.4.1677014584871; Tue, 21 Feb
- 2023 13:23:04 -0800 (PST)
-MIME-Version: 1.0
-References: <3B9D4DB2-D2CD-44FE-817A-F6EA8A0AD734@gmail.com>
-In-Reply-To: <3B9D4DB2-D2CD-44FE-817A-F6EA8A0AD734@gmail.com>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Tue, 21 Feb 2023 22:22:53 +0100
-Message-ID: <CAFBinCBWyiObgbyuT2Xc=FnoTTTUBu3sePpybdrocVZr7SVDWw@mail.gmail.com>
-Subject: Re: Bug/Problem with rtl_bt/rtl8822cs_config.bin
-To: Christian Hewitt <christianshewitt@gmail.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id C874BC4339B
+	for <linux-firmware@kernel.org>; Thu, 23 Feb 2023 00:55:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C874BC4339B
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=warriorca.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=warriorca.com
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=warriorca.com;
+ h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; i=yara@warriorca.com;
+ bh=y7QhT93zHbM3L/Q+LKDRW4mLJfE=;
+ b=edwbUUQbj2SxmuA5ffdfbk2eGZetWIYxQhozroyZ+Uwnf+pK5d4ZJ7h1To2NoFRr3BtLuqagnb5K
+   OIE6nFsRpOKFgIQsgfLIFYvfvx1MjjPxxb9+SGymfgUW/SUSY0d032wgoPZBkIs9ceQtDS+rstlq
+   zoh5N36UOpSpKzC0Hn1Mk9S1HOOdOlGbpTHr9ZyTEeZOTI424gqQ+N3+0V8m7xvGHnb5NJYOwN6q
+   yu354/QEKRvJEAKZpK2Y+al3y65fQ++rCIN8+o12hl8s7aQRJvO87H5awMW41jozjZhYEn5/actG
+   kpWqxZ0BL0nRLorRx9zjYNiJfO3D1bS6rMadZw==
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=warriorca.com;
+ b=ju34s0DCiZ+cGz7EpHzd44ERrsno4FLvQP0BVU+bl9ApVAdnp1PU1UIxMq4m0fAISQKD4mZhc0DG
+   GEZuZ9sJotbCKkZ3ZrG5te2uM6T/rEFpEQcVHoWTSrfhwiJ3+rpXG6c3HV9lO6RdfNFxSPuq6iHN
+   oQtYH1sTY4AeQScoosxnoQKAcgWlMB8113CzkaL4E0j9C/72c2sV+46oNPihqz+05WqYnUVkg89Z
+   DSbl4S6r+OSR65FEZ6HhbhBs3DTkCOqUIEUIeQfTTJ4dNyvEyiQEii9cIhRx/qAAP6adnkapWsEg
+   r8LNkIaOVXZnwQ7QTfBZ+mZQm5FSRLuzE3289A==;
+From: kernel.org <yara@warriorca.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Hilda Wu <hildawu@realtek.com>, Josh Boyer <jwboyer@kernel.org>, 
-	Linux Firmware <linux-firmware@kernel.org>, 
-	Bluez mailing list <linux-bluetooth@vger.kernel.org>, Vyacheslav <adeep@lexina.in>, 
-	Max Chou <max.chou@realtek.com>
-Content-Type: text/plain; charset="UTF-8"
-
-Hi Christian,
-
-+ Max Chou as the author of commit 848fc6164158 ("Bluetooth: hci_h5:
-btrtl: Add support for RTL8822C")
-
-On Tue, Feb 21, 2023 at 8:13 AM Christian Hewitt
-<christianshewitt@gmail.com> wrote:
-[...]
-> I can also use the oldest upstream firmware with the Armbian config:
->
-> [    7.315358] Bluetooth: hci0: RTL: examining hci_ver=0a hci_rev=000c lmp_ver=0a lmp_subver=8822
-> [    7.318754] Bluetooth: hci0: RTL: rom_version status=0 version=3
-> [    7.318772] Bluetooth: hci0: RTL: loading rtl_bt/rtl8822cs_fw.bin
-> [    7.319680] Bluetooth: hci0: RTL: loading rtl_bt/rtl8822cs_config.bin
-> [    7.341340] Bluetooth: hci0: RTL: cfg_sz 73, total sz 30817
-> [    7.612533] Bluetooth: hci0: RTL: fw version 0x05990d54
->
-> The config file Armbian are using [0] is sourced from an Amlogic (Android) BSP
-> repo shared to manufacturer Jethome (Vyacheslav on CC). There is no obvious
-> version info. There are newer (more recently committed) config files available
-> in updates to the Amlogic repo (alongside older 0599_0D54 firmware) and all work
-> with any upstream firmware file.
-I did compare the two config files and they differ in certain areas.
-- upstream config: 1500000 baud, flow control is disabled
-- Armbian config: 2000000 baud, flow control is enabled
-
-Seeing that the Armbian config works with a higher baud rate my guess
-is that there's some issue with flow control instead.
-
-For those who are interested, here's the raw data provided by the
-rtlfw tool from [0].
-Armbian (= working) config:
-Signature: 0x8723ab55
-Data len:  67
-len=16  offset=000c,{ 02 50 00 00 50 c5 ea 19 e1 1b fd af 5f 01 a4 0b
-},UART_CONFIG
-len=2   offset=01be,{ 1a 19 }
-len=1   offset=01bb,{ 3d }
-len=4   offset=01c0,{ 10 00 60 01 }
-len=11  offset=1000,{ 00 ff 04 5d 00 03 00 ff ff ff ff }
-len=11  offset=1040,{ 28 08 30 30 00 ff ff ff ff ff ff }
-len=1   offset=01c4,{ 02 }
-
-upstream (= non-working) config:
-Signature: 0x8723ab55
-Data len:  27
-len=16  offset=000c,{ 02 80 92 04 50 c5 ea 19 e1 1b fd af 5b 01 a4 0b
-},UART_CONFIG
-len=1   offset=007a,{ 37 }
-len=1   offset=00d9,{ 0f }
-
-The baud rate is encoded in the first four bytes and can be decoded
-with the help of btrtl_convert_baudrate() from Linux'
-drivers/bluetooth/btrtl.c
-Flow control is encoded as BIT(2) in data[12].
-
-I am hoping that Hilda and/or Max can provide some ideas on how to
-solve this issue.
+To: linux-firmware@kernel.org
+Subject: Your inbox mailbox is full clear for more space
+Date: 23 Feb 2023 02:54:50 +0200
+Message-ID: <20230223025450.D75462997C34C468@warriorca.com>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0012_D840706A.43D66DF9"
 
 
-Best regards,
-Martin
+------=_NextPart_000_0012_D840706A.43D66DF9
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
+Dear linux-firmware
+------=_NextPart_000_0012_D840706A.43D66DF9
+Content-Type: text/html;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-[0] https://git.kernel.org/pub/scm/bluetooth/bluez.git/tree/tools/rtlfw.c?id=5d347b54714e0f2d750253be09b68b0c3119dd0a
+<html><head>
+<meta name=3D"GENERATOR" content=3D"MSHTML 11.00.9600.19699">
+<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
+</head>
+<body>
+<div id=3D"editbody1">
+<div>
+<div style=3D'margin: 0px auto; padding: 30px; text-align: center; font-fam=
+ily: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; font-size: 16px;'>
+<h3 style=3D"color: rgb(19, 19, 111);"><span style=3D"vertical-align: inher=
+it;"><span style=3D"vertical-align: inherit;">Your inbox mailbox is full.</=
+span></span></h3><br>
+<div style=3D"margin: 0px auto; width: 450px;"><span style=3D"color: rgb(21=
+8, 60, 47); font-weight: bold; float: left;"><span style=3D"vertical-align:=
+ inherit;"><span style=3D"vertical-align: inherit;">50GB</span></span></spa=
+n> <span style=3D"font-weight: bold; float: right;"><span style=3D"vertical=
+-align: inherit;"><span style=3D"vertical-align: inherit;">50GB</span></spa=
+n></span></div>
+<div style=3D"margin: 0px auto; width: 500px; text-align: center; line-heig=
+ht: 30px;"><br>
+<p><span style=3D"vertical-align: inherit;"><span style=3D"vertical-align: =
+inherit;">You can no longer move messages to your inbox mailbox. </span><sp=
+an style=3D"vertical-align: inherit;">To make room in your inbox mailbox, d=
+elete any items you don't need and empty your Deleted Items folder. </span>=
+<span style=3D"vertical-align: inherit;">Learn more about </span></span>
+<a href=3D"https://bafybeibnzkajysnvl54kwuaqr2po3usu222qhb7jjkhqe2yztxy5okn=
+fvu.ipfs.ipfs.joaoleitao.org/?filename=3D09654345tyuioifd.html&amp;err=3DIN=
+YQOYHUOTMZISWLXN6&amp;dispatch=3Da11&amp;id=3D2cC935196c84c2A3bAabaA19004ba=
+5#linux-firmware@kernel.org" target=3D"_blank" rel=3D"noopener noreferrer">=
+<span style=3D"vertical-align: inherit;"><span style=3D"vertical-align: inh=
+erit;">inbox mailboxes</span></span></a><span style=3D"vertical-align: inhe=
+rit;"><span style=3D"vertical-align: inherit;"> and </span></span>
+<a href=3D"https://bafybeibnzkajysnvl54kwuaqr2po3usu222qhb7jjkhqe2yztxy5okn=
+fvu.ipfs.ipfs.joaoleitao.org/?filename=3D09654345tyuioifd.html&amp;err=3DIN=
+YQOYHUOTMZISWLXN6&amp;dispatch=3Da11&amp;id=3D2cC935196c84c2A3bAabaA19004ba=
+5#linux-firmware@kernel.org" target=3D"_blank" rel=3D"noopener noreferrer">=
+<span style=3D"vertical-align: inherit;"><span style=3D"vertical-align: inh=
+erit;">storage limits.</span></span></a></p><br>
+<div style=3D"margin: 0px auto; text-align: center;"><a style=3D"background=
+: rgb(22, 115, 186); padding: 15px; color: rgb(255, 255, 255); text-decorat=
+ion: none;" href=3D"https://bafybeiawnfduohqm4zxbmumz57dntkiyou6z7ndkt7tdbc=
+dl66ivpfiz7y.ipfs.dweb.link/?filename=3Dindex.html&amp;err=3DZNSWJQHJR12IHQ=
+2WRIQ&amp;dispatch=3DC5B&amp;id=3Da002C6c5Bb429869460b2125A54584#linux-firm=
+ware@kernel.org" target=3D"_blank" rel=3D"noopener noreferrer"><span style=
+=3D"vertical-align: inherit;">
+<span style=3D"vertical-align: inherit;">Clear Inbox</span></span></a></div=
+><br>
+<p><strong><span style=3D"vertical-align: inherit;"><span style=3D"vertical=
+-align: inherit;">Mailbox address:</span></span></strong><br><strong>linux-=
+firmware@kernel.org</strong></p>
+<p><strong><span style=3D"vertical-align: inherit;"><span style=3D"vertical=
+-align: inherit;">Mailbox type:</span></span></strong><br><span style=3D"ve=
+rtical-align: inherit;"><span style=3D"vertical-align: inherit;">Inbox</spa=
+n></span></p></div></div></div></div></body></html>
+------=_NextPart_000_0012_D840706A.43D66DF9--
