@@ -1,150 +1,339 @@
-Return-Path: <SRS0=Dg+q=6T=outlook.com=ijaaskelainen@kernel.org>
+Return-Path: <SRS0=Hbbj=6T=gmail.com=christianshewitt@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D61C8C61DA4
-	for <linux-firmware@archiver.kernel.org>; Thu, 23 Feb 2023 07:38:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DCFEFC61DA4
+	for <linux-firmware@archiver.kernel.org>; Thu, 23 Feb 2023 07:51:32 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 91A71C433A0; Thu, 23 Feb 2023 07:38:40 +0000 (UTC)
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03olkn2041.outbound.protection.outlook.com [40.92.58.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id 9FF7BC4339B; Thu, 23 Feb 2023 07:51:32 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id D35A1C433EF
-	for <linux-firmware@kernel.org>; Thu, 23 Feb 2023 07:38:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D35A1C433EF
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=outlook.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JwBQwWT+zq32XoYC9QBopSsLQrXTrO3lVsoPUz9Y3hZtMzvmbX9vSG+vdIuQxihjkxXYfoDEUHtOGjBiYHq4LrgUR/gLDvRq0iWgfEnP+wY7KTGEBb2A+3Ka1ovGKsEFepjy6dhUdZvzPtONUTYyw9O3YZZ6FnyG/Uvq25FV5Fl3RG1Rh2lV6vekJlSpjowBR1NF/duLwvB/Lx4qYafiTI+n/pcluALFO+50N/lwjvpbWSVnIGSN6cOWd0sm3XlCcMq/xef1WWR1RZeW9GzNmwAxHKuBAE9+6HtrCjI18D5buk+ENjhcAf/s/kvHKtubanWvOpuAPV0n3PHA55OpFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=io6LEX24DFsCOVTIpxC0/F9rN7Cedk0an532GlKxw8Y=;
- b=e+i/llzK37nGm3x7HvW2v2A7PEslgG4IMALGycgYNvqNuRWLBp9xIpDRBVHA1yqR4q02e02IixG59x0YcT24O8gA3aFY473dtZ1AOXxlR6HGHaQ6Gh6jFPhIjzVmHCGFe08n6q7RNSWLyYgzzyyglBbC+v91DKiEBv29yCISaNpJntYTJHjUdCka3fvdFrKuQT8zm+zBSsa78NNpTfnb1oq0weSHedr0N4EwF7TTV2M+z2AhMSwZroBwMTP3gfpBD/NmaaL0LuRdMVdLWdF905REPLbT5DcItRxvcdlSdE3pS/wjQbAxPRsfhJX8AYIn7c8/0PTamHOiPk4gCt5iKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=io6LEX24DFsCOVTIpxC0/F9rN7Cedk0an532GlKxw8Y=;
- b=YgCUWVCNgkkphVt9ETbaxvRuVfY/cE3mDRSwWF9RQS2XlXaJRoAYEuafX6YwjMWPSMt99nhl/9c7oiHH8Ve65DY7uJ2pS7ppyOPj9HXwHRUApXx17N062RnQqUXWCJIrCkhwKuq4jpcqOUZFGaG5EL6a3dl46RpTzQoO+G5dR9TDz1UTqYk5bYhtIcXTlFcrZMTfr0j+QgiWMbJ04W1ZjSX9AH0f/r80OZN9KzPPeFhTX8TFZwVi2v50nWET0RMJSmUIfIauBtud/OtDNjqeMnRkAlj2rw/t2tux5ZRXsNSoFva2NJtPayGqcP/IccLw8zRRZDMbNPuf1pWF02yD2A==
-Received: from GV1PR10MB6241.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:93::14)
- by PAWPR10MB7895.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:366::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.21; Thu, 23 Feb
- 2023 07:38:36 +0000
-Received: from GV1PR10MB6241.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::39f:4238:2ef8:c3b9]) by GV1PR10MB6241.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::39f:4238:2ef8:c3b9%8]) with mapi id 15.20.6134.021; Thu, 23 Feb 2023
- 07:38:36 +0000
-From: =?iso-8859-1?Q?Ilari_J=E4=E4skel=E4inen?= <ijaaskelainen@outlook.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 36763C433D2;
+	Thu, 23 Feb 2023 07:51:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 36763C433D2
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f45.google.com with SMTP id o38-20020a05600c512600b003e8320d1c11so2208621wms.1;
+        Wed, 22 Feb 2023 23:51:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8i2dM/eSXbY8Y+bbnuweCEYTQdo6HdYQ5SfJBqIX+M8=;
+        b=DK52PdRU/IrVA3Xfxw3oTYWe+Qym/Jf/t8J3K3Tdtk6C3XfQFIBF9EZavVz8/fNKUY
+         e0jEsPMM1iEbgLQWtgRd8sf4kOh5GdksjZUPl437zIn4kB1Lsxkv5giWPX3JViKdj9OJ
+         tq08N0eQgeIhwIHxDxjggJZ8587Oix5XFGt1umtX50lqxJUXLqLy3ToBlasdxzyoaohj
+         qbZI9u27VLhcogJV5kyrXlCxg/xrLECRVrNkbcLWKNN/uGw7GnBrOzzO/C+ICYcISbJN
+         JTbPlzJxFAuUXj864tWRCZKPd5xy3pD0zH3hBldUf1ytkYtn2vTXlsCPJZpfm7QYcNIG
+         H5bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8i2dM/eSXbY8Y+bbnuweCEYTQdo6HdYQ5SfJBqIX+M8=;
+        b=TT7uBAdM/j4WheviIEvPNCgzE+IbmW+VW+UmndhuoD/hC8FHm6s0CPxDt9XjLKuRTN
+         GCJtacV7y8mxlXLZNHUcqyalV84+W5YDoNoSmg0ltcQURRe1LPadngIwrJg3M2yCzI2n
+         YFE9leWDk+Pdo4+jscPR5TLV+OojCsilZoXOwGoMZV9rgYSRVqeaepca7D+KExnv3ofP
+         xUz7K6U3eH/k9pUum78tr5iAIDj6cweFolNG1Lbj5EQc0uB4n5me2W1X4NE1zhERa4/h
+         F/NV8fr1CM0H7KRy9dX/lQ2TtHiZzr4ejzGE32YEcTaFh+C9cwCdnKrsOLxM+dUL3Oqp
+         aURw==
+X-Gm-Message-State: AO0yUKWZNjUOtUzdP9CtS1P3AKqOfnANtzxhi5atLl7FFS5ZESiPcXe8
+	QiYjb4WeKzPbH12Kq3jk6R4=
+X-Google-Smtp-Source: AK7set917NpTp3TmfMdgF7I1tyd1hhJOCitke5aa1oLNwDmXSYw31eWySMPifa00naQJXOjBP6N/xQ==
+X-Received: by 2002:a05:600c:998:b0:3e2:20c7:6544 with SMTP id w24-20020a05600c099800b003e220c76544mr8304065wmp.19.1677138689148;
+        Wed, 22 Feb 2023 23:51:29 -0800 (PST)
+Received: from smtpclient.apple ([167.99.200.149])
+        by smtp.gmail.com with ESMTPSA id r189-20020a1c2bc6000000b003d9aa76dc6asm2514427wmr.0.2023.02.22.23.51.26
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 22 Feb 2023 23:51:28 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
+Subject: Re: Bug/Problem with rtl_bt/rtl8822cs_config.bin
+From: Christian Hewitt <christianshewitt@gmail.com>
+In-Reply-To: <7df7bdcad3474791ae69f73f8a761173@realtek.com>
+Date: Thu, 23 Feb 2023 11:51:24 +0400
 List-Id: <linux-firmware.lore.kernel.org>
-To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-Subject: Can you add broadcom b43 firmware in linux-firmware.git?
-Thread-Topic: Can you add broadcom b43 firmware in linux-firmware.git?
-Thread-Index: AQHZR1mPmQI754W36Eqw/aBcaZwg6g==
-Date: Thu, 23 Feb 2023 07:38:36 +0000
-Message-ID:
- <GV1PR10MB62418A226A00A3D1BAE48A8FA3AB9@GV1PR10MB6241.EURPRD10.PROD.OUTLOOK.COM>
-Accept-Language: fi-FI, en-US
-Content-Language: fi-FI
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-tmn: [LIRVLGX3zkDg87af11hQGOq0klRTua/5]
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: GV1PR10MB6241:EE_|PAWPR10MB7895:EE_
-x-ms-office365-filtering-correlation-id: 114bfd89-39cf-4bb0-75cc-08db1570f931
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- /f7AN5ubPX5rrfWjVrtKMExs49LlgVF6JbGBocp3Nwypuj0UMAnfx7qH4YvPme13h/lDs4vU3ggY2uzEiA3nIREoBB2c+co2DuL2bmAQKkwjkIRZ3eIQjzqCh75al5xCqejSxcVA+mjVx0HXSZp2vYgAHLfVmbTcgkAViAyV2NuI0RkLEtx8QD3q0s3QbWxatmxEsThbzgZd6f/Bsa6htzPDY5vLtBvudwCOOIPXR3e2JWwzd1ioix77xlbJi4HviXaaVxTjGZMdZCOZiMWo6UEE+5egyCqpcdZklfUZcRhqQ+nCF6gh65sFAm5lCsebwqSJ8T0L97+c9ujgMzYHK/wz0zVC5n60XZUpszedA5pOG7+1f0qb3JPbD59e05qK6YfJxXFoZ5ENMfg7PUBcTYodHTckFqz1Lhzr1RHdARxsA0Wsr8ocR6bud7jip5kDiABXsOoUrY0gDNjhS2n+AcpUiXUBJ5pXFLFM5GcNDShNuA0Er10pB7l6ONfftwk7IfYJ06E1ZyCHuwm0GmYFLUASP9g410b+YSvA2ZsSeFtqS0IDAb7cojJXqRJQ9VSVg5BK0wYvzoT+0hnzTVC9fIUBjPK/8h3r7GkZb8Y7sBI=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?d6DIRBA4+EiDvPEhaH7Msg+pOIjOJkDqF60+Hu2NZh5J7Rb/P7nLOuc8Bs?=
- =?iso-8859-1?Q?W2R0UGELUXJpqijlG7EzZy5G146qBJb0aWYfu3+DgwfvH9Aa/4hgxKpoZZ?=
- =?iso-8859-1?Q?sBrIfM37h3/j2i9VXuhEd/AeFZMBbY81lhEm8+pl0+bq4//jaiAdRSg0sv?=
- =?iso-8859-1?Q?h4P1nC582zwXKEweXugMOoi8EY222CTY5im0RmxXyNofi0ZDzn5Lt0JB34?=
- =?iso-8859-1?Q?Au5M8mHPjEtvurKuT2l7yBGmEyJP7utpizR6zcgPtxAGi8s6eRl2NS4AGL?=
- =?iso-8859-1?Q?3Tp0ww558DnvVkA3ACSZ2JotsBKY89KdWyXxmA1ZQJBfOSmRzIfAvtoD1t?=
- =?iso-8859-1?Q?tmP5dXAHRPGKTSZnSfoa+61tjSJ33w+/rMc9lLa4FqjzBhxQv7Fb1lxEoO?=
- =?iso-8859-1?Q?8b5+av/Ww3/x81qgiq6xgXzCYkMNJq7mL8I8GM2q8+12cAiPWV1UlelAt9?=
- =?iso-8859-1?Q?GLyONJq7/xa2gusz+2EmUF4xP9d0nj+UYe6cMZkahwKhUBz54B8aOXdfHC?=
- =?iso-8859-1?Q?SSckyAR+NMzQD/w9xztX+mUq+bHHgncP6IHujVaDsFfmJtgzF2divIcb3j?=
- =?iso-8859-1?Q?LrBXGLdkhocob4lEgc6EcJjy90NOPr+kniCd8vV4icDrpkPchkDPglPNry?=
- =?iso-8859-1?Q?0AA4lLbJd7FVRYaTEXMTvST3ZBRKpJYAbI2pcYDxnlwfHBAbUC+ZwPXmlY?=
- =?iso-8859-1?Q?OKUXBhEzpOsONRJ16CyOORAuEH/iEmQdYHHNxWvTj8lGo6jlXY+5SACjTK?=
- =?iso-8859-1?Q?YSN7W0Liz1W99vcL/eF6RHwrvpDEhSQ3GAzSfuhGVjBU+5uUOgPlS6UW8h?=
- =?iso-8859-1?Q?hrzp6MicvdhMA93EdzizYW3O63rXKaE3NqmMSmxkkz5u5R2xmx9iCz9JFu?=
- =?iso-8859-1?Q?aEOEtuH+WFBdJBW9F65lummFmRZeDpso/uQvoF0xKrTAlOeMGrNy+B+3I8?=
- =?iso-8859-1?Q?MPEphwjzx8J6x8ts3vihCFk9x3cVQ5nPXqHWNlauwdM48+sObHDKgdF9jy?=
- =?iso-8859-1?Q?/5/Ux3Xxxm4fJjUHNwpxuKgOtFB9FU1LDJvtC0wamdhPtb5p35HcJPD1qP?=
- =?iso-8859-1?Q?3uye+7s1RFPZQiB/mI/WiVflw3CvrmpXIdFLMsqBHPcHydami6sKDp1vg0?=
- =?iso-8859-1?Q?kd228rd0iQ68oHPpfwCZEAEtkAOcs1r3QFQJQcU0v9NA8B7RAfY3fxCK9t?=
- =?iso-8859-1?Q?adBJYO0Ri32+M0c/2AiXC4x42e0x7RV4lIM0Vhgrq0S0mBQ/9Uc6QVGCXt?=
- =?iso-8859-1?Q?t3reBz9kaimREktg9qdfOSwPwhenaMyr8ZpdUn2pGUmiM7I6yCo2p71VhC?=
- =?iso-8859-1?Q?oyAiTrdliIqnDhMbed3BGvooKPqsWOb0FdUgc/e9neLURpw=3D?=
-Content-Type: multipart/alternative;
-	boundary="_000_GV1PR10MB62418A226A00A3D1BAE48A8FA3AB9GV1PR10MB6241EURP_"
-MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: GV1PR10MB6241.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 114bfd89-39cf-4bb0-75cc-08db1570f931
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Feb 2023 07:38:36.4033
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR10MB7895
-
---_000_GV1PR10MB62418A226A00A3D1BAE48A8FA3AB9GV1PR10MB6241EURP_
-Content-Type: text/plain; charset="iso-8859-1"
+Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Hilda Wu <hildawu@realtek.com>,
+ Josh Boyer <jwboyer@kernel.org>,
+ Linux Firmware <linux-firmware@kernel.org>,
+ Bluez mailing list <linux-bluetooth@vger.kernel.org>,
+ Vyacheslav <adeep@lexina.in>
 Content-Transfer-Encoding: quoted-printable
+Message-Id: <9E1F8017-3F54-416D-9BD3-DF2F1C625094@gmail.com>
+References: <3B9D4DB2-D2CD-44FE-817A-F6EA8A0AD734@gmail.com>
+ <CAFBinCBWyiObgbyuT2Xc=FnoTTTUBu3sePpybdrocVZr7SVDWw@mail.gmail.com>
+ <7df7bdcad3474791ae69f73f8a761173@realtek.com>
+To: Max Chou <max.chou@realtek.com>
+X-Mailer: Apple Mail (2.3696.120.41.1.1)
 
-Can you add broadcom b43 firmware in linux-firmware.git?
+Hello Max,
 
---_000_GV1PR10MB62418A226A00A3D1BAE48A8FA3AB9GV1PR10MB6241EURP_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+The bug report stimulated Martin=E2=80=99s maintainer memory over =
+unfinished improvements
+to the Amlogic UART used in the g12a and newer SoC families (we are =
+testing with
+g12b and sm1 devices) resulting in this series being submitted last =
+night:
 
-<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" xmlns:w=3D"urn:sc=
-hemas-microsoft-com:office:word" xmlns:m=3D"http://schemas.microsoft.com/of=
-fice/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-.MsoChpDefault
-	{mso-style-type:export-only;}
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style>
-</head>
-<body lang=3D"FI" link=3D"blue" vlink=3D"#954F72" style=3D"word-wrap:break-=
-word">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Can you add broadcom b43 firmware in linux-firmware.=
-git?</p>
-</div>
-</body>
-</html>
+https://patchwork.kernel.org/project/linux-amlogic/list/?series=3D724172
 
---_000_GV1PR10MB62418A226A00A3D1BAE48A8FA3AB9GV1PR10MB6241EURP_--
+With those patches applied the boards support stable 1500000 baud rate =
+and BT is
+working with the latest fw/config files from linux-firmware:
+
+LibreELEC:/ # dmesg | grep Blue
+[    6.839950] Bluetooth: Core ver 2.22
+[    6.840128] Bluetooth: HCI device and connection manager initialized
+[    6.840419] Bluetooth: HCI socket layer initialized
+[    6.840437] Bluetooth: L2CAP socket layer initialized
+[    6.840740] Bluetooth: SCO socket layer initialized
+[    6.874518] Bluetooth: HCI UART driver ver 2.3
+[    6.874533] Bluetooth: HCI UART protocol H4 registered
+[    6.874619] Bluetooth: HCI UART protocol Three-wire (H5) registered
+[    6.874809] Bluetooth: HCI UART protocol Broadcom registered
+[    6.874842] Bluetooth: HCI UART protocol QCA registered
+[    7.636373] Bluetooth: hci0: RTL: examining hci_ver=3D0a hci_rev=3D000c=
+ lmp_ver=3D0a lmp_subver=3D8822
+[    7.639863] Bluetooth: hci0: RTL: rom_version status=3D0 version=3D3
+[    7.639959] Bluetooth: hci0: RTL: loading rtl_bt/rtl8822cs_fw.bin
+[    7.655585] Bluetooth: hci0: RTL: loading rtl_bt/rtl8822cs_config.bin
+[    7.697202] Bluetooth: hci0: RTL: cfg_sz 33, total sz 36529
+[    8.095507] Bluetooth: hci0: RTL: fw version 0xffb8abd6
+[    8.149476] Bluetooth: MGMT ver 1.22
+
+[bluetooth]# show
+Controller 68:4E:05:F2:1E:42 (public)
+	Name: LibreELEC
+	Alias: LibreELEC
+	Class: 0x000c0000
+	Powered: yes
+	Discoverable: no
+	DiscoverableTimeout: 0x000000b4
+	Pairable: yes
+	UUID: A/V Remote Control        =
+(0000110e-0000-1000-8000-00805f9b34fb)
+	UUID: Audio Source              =
+(0000110a-0000-1000-8000-00805f9b34fb)
+	UUID: PnP Information           =
+(00001200-0000-1000-8000-00805f9b34fb)
+	UUID: Audio Sink                =
+(0000110b-0000-1000-8000-00805f9b34fb)
+	UUID: A/V Remote Control Target =
+(0000110c-0000-1000-8000-00805f9b34fb)
+	UUID: Generic Access Profile    =
+(00001800-0000-1000-8000-00805f9b34fb)
+	UUID: Generic Attribute Profile =
+(00001801-0000-1000-8000-00805f9b34fb)
+	UUID: Device Information        =
+(0000180a-0000-1000-8000-00805f9b34fb)
+	Modalias: usb:v1D6Bp0246d0542
+	Discovering: no
+	Roles: central
+	Roles: peripheral
+Advertising Features:
+	ActiveInstances: 0x00 (0)
+	SupportedInstances: 0x04 (4)
+	SupportedIncludes: tx-power
+	SupportedIncludes: appearance
+	SupportedIncludes: local-name
+	SupportedSecondaryChannels: 1M
+	SupportedSecondaryChannels: 2M
+	SupportedSecondaryChannels: Coded
+[bluetooth]# scan on
+Discovery started
+[CHG] Controller 68:4E:05:F2:1E:42 Discovering: yes
+[NEW] Device 4C:87:5D:89:E8:D6 4C-87-5D-89-E8-D6
+[DEL] Device 4C:87:5D:89:E8:D6 4C-87-5D-89-E8-D6
+[NEW] Device 5B:34:59:3E:EE:27 5B-34-59-3E-EE-27
+[NEW] Device 67:0D:92:0F:99:DB 67-0D-92-0F-99-DB
+[DEL] Device 5B:34:59:3E:EE:27 5B-34-59-3E-EE-27
+[DEL] Device 67:0D:92:0F:99:DB 67-0D-92-0F-99-DB
+[NEW] Device 4F:3B:07:B7:13:9D 4F-3B-07-B7-13-9D
+[NEW] Device 43:87:04:F2:86:69 43-87-04-F2-86-69
+[CHG] Device 4F:3B:07:B7:13:9D RSSI: -89
+[CHG] Device 4F:3B:07:B7:13:9D RSSI: -101
+[DEL] Device 4F:3B:07:B7:13:9D 4F-3B-07-B7-13-9D
+[DEL] Device 43:87:04:F2:86:69 43-87-04-F2-86-69
+[NEW] Device 49:17:FA:07:A1:F9 49-17-FA-07-A1-F9
+[NEW] Device 7F:7B:B2:FF:43:27 7F-7B-B2-FF-43-27
+[NEW] Device 69:0E:9F:24:06:96 69-0E-9F-24-06-96
+[NEW] Device 51:87:CE:DA:B4:41 51-87-CE-DA-B4-41
+[DEL] Device 49:17:FA:07:A1:F9 49-17-FA-07-A1-F9
+[DEL] Device 7F:7B:B2:FF:43:27 7F-7B-B2-FF-43-27
+[DEL] Device 51:87:CE:DA:B4:41 51-87-CE-DA-B4-41
+[DEL] Device 69:0E:9F:24:06:96 69-0E-9F-24-06-96
+
+So all appears to be working now.
+
+Thanks to all..
+
+Christian
+
+
+> On 23 Feb 2023, at 7:24 am, Max Chou <max.chou@realtek.com> wrote:
+>=20
+> Hi! Christian,
+> I just try to test the config file as linux-firmware on one model of =
+Chromebook.
+> It's able to initialize RTL8822CS Bluetooth controller.
+> The issue does not present as your mention on my side.
+>=20
+> I compare the two config files that you listed.
+> The key difference might to impact the initialization are UART baud =
+rate and UART flow control as Martin's mention.
+> Recommend you to edit the config file to check what is the root cause =
+for this issue on your Host.
+> Here're the three cases for the config changed, please use hexadecimal =
+editor for the three changes. Thanks.
+>=20
+> 1. Based on the config file of linux-firmware, to edit UART baudrate =
+as below.
+> Original: 1500000 baud, flow control disabled
+> 00000000  55 ab 23 87 1b 00 0c 00  10 02 80 92 04 50 c5 ea
+> 00000010  19 e1 1b fd af 5b 01 a4  0b 7a 00 01 37 d9 00 01
+> 00000020  0f
+>=20
+> After: 2000000 baud, flow control disabled
+> 00000000  55 ab 23 87 1b 00 0c 00  10 02 50 00 00 50 c5 ea
+>                                  ^^^^^^^^^
+> 00000010  19 e1 1b fd af 5b 01 a4  0b 7a 00 01 37 d9 00 01
+> 00000020  0f
+>=20
+> 2. Based on the config file of linux-firmware, to edit UART baudrate =
+as below.
+> Original: 1500000 baud, flow control disabled
+> 00000000  55 ab 23 87 1b 00 0c 00  10 02 80 92 04 50 c5 ea
+> 00000010  19 e1 1b fd af 5b 01 a4  0b 7a 00 01 37 d9 00 01
+> 00000020  0f
+>=20
+> After: 1500000 baud, flow control enabled
+> 00000000  55 ab 23 87 1b 00 0c 00  10 02 80 92 04 50 c5 ea
+> 00000010  19 e1 1b fd af 5f 01 a4  0b 7a 00 01 37 d9 00 01
+>                     ^^^
+> 00000020  0f
+>=20
+> 3. Based on the config file of linux-firmware, to edit UART baudrate =
+as below.
+> Original: 1500000 baud, flow control disabled
+> 00000000  55 ab 23 87 1b 00 0c 00  10 02 80 92 04 50 c5 ea
+> 00000010  19 e1 1b fd af 5b 01 a4  0b 7a 00 01 37 d9 00 01
+> 00000020  0f
+>=20
+> After: 2000000 baud, flow control disabled
+> 00000000  55 ab 23 87 1b 00 0c 00  10 02 50 00 00 50 c5 ea
+>                                  ^^^^^^^^^
+> 00000010  19 e1 1b fd af 5f 01 a4  0b 7a 00 01 37 d9 00 01
+>                     ^^^
+> 00000020  0f
+>=20
+> BRs,
+> Max
+>=20
+>=20
+>> -----Original Message-----
+>> From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+>> Sent: Wednesday, February 22, 2023 5:23 AM
+>> To: Christian Hewitt <christianshewitt@gmail.com>
+>> Cc: Hilda Wu <hildawu@realtek.com>; Josh Boyer <jwboyer@kernel.org>;
+>> Linux Firmware <linux-firmware@kernel.org>; Bluez mailing list
+>> <linux-bluetooth@vger.kernel.org>; Vyacheslav <adeep@lexina.in>; Max =
+Chou
+>> <max.chou@realtek.com>
+>> Subject: Re: Bug/Problem with rtl_bt/rtl8822cs_config.bin
+>>=20
+>>=20
+>> External mail.
+>>=20
+>>=20
+>>=20
+>> Hi Christian,
+>>=20
+>> + Max Chou as the author of commit 848fc6164158 ("Bluetooth: hci_h5:
+>> btrtl: Add support for RTL8822C")
+>>=20
+>> On Tue, Feb 21, 2023 at 8:13 AM Christian Hewitt
+>> <christianshewitt@gmail.com> wrote:
+>> [...]
+>>> I can also use the oldest upstream firmware with the Armbian config:
+>>>=20
+>>> [    7.315358] Bluetooth: hci0: RTL: examining hci_ver=3D0a =
+hci_rev=3D000c
+>> lmp_ver=3D0a lmp_subver=3D8822
+>>> [    7.318754] Bluetooth: hci0: RTL: rom_version status=3D0 =
+version=3D3
+>>> [    7.318772] Bluetooth: hci0: RTL: loading rtl_bt/rtl8822cs_fw.bin
+>>> [    7.319680] Bluetooth: hci0: RTL: loading =
+rtl_bt/rtl8822cs_config.bin
+>>> [    7.341340] Bluetooth: hci0: RTL: cfg_sz 73, total sz 30817
+>>> [    7.612533] Bluetooth: hci0: RTL: fw version 0x05990d54
+>>>=20
+>>> The config file Armbian are using [0] is sourced from an Amlogic
+>>> (Android) BSP repo shared to manufacturer Jethome (Vyacheslav on =
+CC).
+>>> There is no obvious version info. There are newer (more recently
+>>> committed) config files available in updates to the Amlogic repo
+>>> (alongside older 0599_0D54 firmware) and all work with any upstream
+>> firmware file.
+>> I did compare the two config files and they differ in certain areas.
+>> - upstream config: 1500000 baud, flow control is disabled
+>> - Armbian config: 2000000 baud, flow control is enabled
+>>=20
+>> Seeing that the Armbian config works with a higher baud rate my guess =
+is that
+>> there's some issue with flow control instead.
+>>=20
+>> For those who are interested, here's the raw data provided by the =
+rtlfw tool
+>> from [0].
+>> Armbian (=3D working) config:
+>> Signature: 0x8723ab55
+>> Data len:  67
+>> len=3D16  offset=3D000c,{ 02 50 00 00 50 c5 ea 19 e1 1b fd af 5f 01 =
+a4
+>> 0b },UART_CONFIG
+>> len=3D2   offset=3D01be,{ 1a 19 }
+>> len=3D1   offset=3D01bb,{ 3d }
+>> len=3D4   offset=3D01c0,{ 10 00 60 01 }
+>> len=3D11  offset=3D1000,{ 00 ff 04 5d 00 03 00 ff ff ff ff }
+>> len=3D11  offset=3D1040,{ 28 08 30 30 00 ff ff ff ff ff ff }
+>> len=3D1   offset=3D01c4,{ 02 }
+>>=20
+>> upstream (=3D non-working) config:
+>> Signature: 0x8723ab55
+>> Data len:  27
+>> len=3D16  offset=3D000c,{ 02 80 92 04 50 c5 ea 19 e1 1b fd af 5b 01 =
+a4
+>> 0b },UART_CONFIG
+>> len=3D1   offset=3D007a,{ 37 }
+>> len=3D1   offset=3D00d9,{ 0f }
+>>=20
+>> The baud rate is encoded in the first four bytes and can be decoded =
+with the
+>> help of btrtl_convert_baudrate() from Linux'
+>> drivers/bluetooth/btrtl.c
+>> Flow control is encoded as BIT(2) in data[12].
+>>=20
+>> I am hoping that Hilda and/or Max can provide some ideas on how to =
+solve
+>> this issue.
+>>=20
+>>=20
+>> Best regards,
+>> Martin
+>>=20
+>>=20
+>> [0]
+>> =
+https://git.kernel.org/pub/scm/bluetooth/bluez.git/tree/tools/rtlfw.c?id=3D=
+5d347
+>> b54714e0f2d750253be09b68b0c3119dd0a
+>>=20
+>> ------Please consider the environment before printing this e-mail.
+
