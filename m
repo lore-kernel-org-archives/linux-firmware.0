@@ -1,339 +1,169 @@
-Return-Path: <SRS0=Hbbj=6T=gmail.com=christianshewitt@kernel.org>
+Return-Path: <SRS0=JHvZ=6T=warriorca.com=yara@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DCFEFC61DA4
-	for <linux-firmware@archiver.kernel.org>; Thu, 23 Feb 2023 07:51:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5BBDCC636D7
+	for <linux-firmware@archiver.kernel.org>; Thu, 23 Feb 2023 09:56:01 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 9FF7BC4339B; Thu, 23 Feb 2023 07:51:32 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	id 29040C4339C; Thu, 23 Feb 2023 09:56:01 +0000 (UTC)
+Received: from kafawcxu.warriorca.com (kafawcxu.warriorca.com [92.52.217.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 36763C433D2;
-	Thu, 23 Feb 2023 07:51:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 36763C433D2
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f45.google.com with SMTP id o38-20020a05600c512600b003e8320d1c11so2208621wms.1;
-        Wed, 22 Feb 2023 23:51:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8i2dM/eSXbY8Y+bbnuweCEYTQdo6HdYQ5SfJBqIX+M8=;
-        b=DK52PdRU/IrVA3Xfxw3oTYWe+Qym/Jf/t8J3K3Tdtk6C3XfQFIBF9EZavVz8/fNKUY
-         e0jEsPMM1iEbgLQWtgRd8sf4kOh5GdksjZUPl437zIn4kB1Lsxkv5giWPX3JViKdj9OJ
-         tq08N0eQgeIhwIHxDxjggJZ8587Oix5XFGt1umtX50lqxJUXLqLy3ToBlasdxzyoaohj
-         qbZI9u27VLhcogJV5kyrXlCxg/xrLECRVrNkbcLWKNN/uGw7GnBrOzzO/C+ICYcISbJN
-         JTbPlzJxFAuUXj864tWRCZKPd5xy3pD0zH3hBldUf1ytkYtn2vTXlsCPJZpfm7QYcNIG
-         H5bQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8i2dM/eSXbY8Y+bbnuweCEYTQdo6HdYQ5SfJBqIX+M8=;
-        b=TT7uBAdM/j4WheviIEvPNCgzE+IbmW+VW+UmndhuoD/hC8FHm6s0CPxDt9XjLKuRTN
-         GCJtacV7y8mxlXLZNHUcqyalV84+W5YDoNoSmg0ltcQURRe1LPadngIwrJg3M2yCzI2n
-         YFE9leWDk+Pdo4+jscPR5TLV+OojCsilZoXOwGoMZV9rgYSRVqeaepca7D+KExnv3ofP
-         xUz7K6U3eH/k9pUum78tr5iAIDj6cweFolNG1Lbj5EQc0uB4n5me2W1X4NE1zhERa4/h
-         F/NV8fr1CM0H7KRy9dX/lQ2TtHiZzr4ejzGE32YEcTaFh+C9cwCdnKrsOLxM+dUL3Oqp
-         aURw==
-X-Gm-Message-State: AO0yUKWZNjUOtUzdP9CtS1P3AKqOfnANtzxhi5atLl7FFS5ZESiPcXe8
-	QiYjb4WeKzPbH12Kq3jk6R4=
-X-Google-Smtp-Source: AK7set917NpTp3TmfMdgF7I1tyd1hhJOCitke5aa1oLNwDmXSYw31eWySMPifa00naQJXOjBP6N/xQ==
-X-Received: by 2002:a05:600c:998:b0:3e2:20c7:6544 with SMTP id w24-20020a05600c099800b003e220c76544mr8304065wmp.19.1677138689148;
-        Wed, 22 Feb 2023 23:51:29 -0800 (PST)
-Received: from smtpclient.apple ([167.99.200.149])
-        by smtp.gmail.com with ESMTPSA id r189-20020a1c2bc6000000b003d9aa76dc6asm2514427wmr.0.2023.02.22.23.51.26
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 22 Feb 2023 23:51:28 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
-Subject: Re: Bug/Problem with rtl_bt/rtl8822cs_config.bin
-From: Christian Hewitt <christianshewitt@gmail.com>
-In-Reply-To: <7df7bdcad3474791ae69f73f8a761173@realtek.com>
-Date: Thu, 23 Feb 2023 11:51:24 +0400
+	by smtp.kernel.org (Postfix) with ESMTPS id 6974EC433D2
+	for <linux-firmware@kernel.org>; Thu, 23 Feb 2023 09:55:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 6974EC433D2
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=warriorca.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=warriorca.com
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=warriorca.com;
+ h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; i=yara@warriorca.com;
+ bh=3ZKVKv7iOAqQuQ4zJjxHilAOuYg=;
+ b=ZHkq/yl2Vb8szH/wknyB51xAruXNjwepzaM6H27DWb1Bnp3kKqUdMhaQvQwJAlAXbDbnptVnXLkv
+   uxTq73l+LtRw1vfOQQH9p/TSrgQ4nZgfsw0cencXnZ1RX96FrNZl97z5iIIMsdyeSZetOAB69gwP
+   UCxbrJKSSxnc9tIPV/YqtqkOnw/oFryQySKhQ2mvUEnuS8A906A4L7QEExk+klIRVpSc9LnatN9D
+   iiR1133QQC1V+0lg2BbDssCL04eo6I0JqXXC3BzGlBhgraoJ7haYI1nU0w1Rx5Iq47MtyKhoF0xM
+   xUfU708hkYMfH3RpP1UZLBEFXIuL30tZjZ+4zw==
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=warriorca.com;
+ b=h4VtVYXpE3PO6TQ8NGz9WwU1BNnif3PSGHNtNB6szkA+1nBZ0q6SN4emwd4smyGJbmKw5FdaIcQt
+   SojZN2KGBmOd9X70WpkuXsq4We5q9mNwGzGFD7bfVyLIlkTpp8ODzoEK1Lx5AUnBVLq7soimusVG
+   TFvvSz4OedP/SmDn1xXf2T4UHUOeoXbNaNes2OjX7jVH29S9RYOKugOtCU64dU9OpkPXPh12yiE5
+   J7/hxL6i8M1bGh7kGXu+K8KT4GdbQT5V6dH+pmsldhQqAOv6FhoT5mL36bsOSx/XKH5ethxK2W6m
+   evljawl9iIkCbmK+A3KaAdV719r9o9n90eU7eg==;
+From: kernel.org Support <yara@warriorca.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Hilda Wu <hildawu@realtek.com>,
- Josh Boyer <jwboyer@kernel.org>,
- Linux Firmware <linux-firmware@kernel.org>,
- Bluez mailing list <linux-bluetooth@vger.kernel.org>,
- Vyacheslav <adeep@lexina.in>
+To: linux-firmware@kernel.org
+Subject: Important enquiry:
+Date: 23 Feb 2023 04:55:54 -0500
+Message-ID: <20230223045554.EAB0A674599C80B7@warriorca.com>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0012_43A226DD.25A78AF6"
+
+
+------=_NextPart_000_0012_43A226DD.25A78AF6
+Content-Type: text/plain;
+	charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <9E1F8017-3F54-416D-9BD3-DF2F1C625094@gmail.com>
-References: <3B9D4DB2-D2CD-44FE-817A-F6EA8A0AD734@gmail.com>
- <CAFBinCBWyiObgbyuT2Xc=FnoTTTUBu3sePpybdrocVZr7SVDWw@mail.gmail.com>
- <7df7bdcad3474791ae69f73f8a761173@realtek.com>
-To: Max Chou <max.chou@realtek.com>
-X-Mailer: Apple Mail (2.3696.120.41.1.1)
 
-Hello Max,
+Dear linux-firmware
+------=_NextPart_000_0012_43A226DD.25A78AF6
+Content-Type: text/html;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-The bug report stimulated Martin=E2=80=99s maintainer memory over =
-unfinished improvements
-to the Amlogic UART used in the g12a and newer SoC families (we are =
-testing with
-g12b and sm1 devices) resulting in this series being submitted last =
-night:
+<!DOCTYPE HTML>
 
-https://patchwork.kernel.org/project/linux-amlogic/list/?series=3D724172
+<html><head><title></title>
+<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
+<meta name=3D"GENERATOR" content=3D"MSHTML 8.00.7601.17514"></head>
+<body style=3D"margin: 0.4em;"><div lang=3D"SV" style=3D"box-sizing: border=
+-box;"><div style=3D"box-sizing: border-box;"><p class=3D"v1MsoNormal" styl=
+e=3D"margin-top: 0px; margin-bottom: 1rem; box-sizing: border-box;"><span l=
+ang=3D"EN-GB" style=3D"box-sizing: border-box;">Dear linux-firmware,<br sty=
+le=3D"box-sizing: border-box;"><br style=3D"box-sizing: border-box;">Please=
+ see below documents our&nbsp;inquiry and advise at the earliest.<br style=
+=3D"box-sizing: border-box;"><br style=3D"box-sizing: border-box;">
+Waiting for your reply.<br style=3D"box-sizing: border-box;"></span><span l=
+ang=3D"EN-GB" style=3D"box-sizing: border-box;"><br style=3D"box-sizing: bo=
+rder-box;">Regards<br style=3D"box-sizing: border-box;">Pernilla</span></p>=
+</div></div><div style=3D"width: 313px; border-top-color: rgb(170, 170, 170=
+); border-top-width: 2px; border-top-style: solid; box-sizing: border-box;"=
+></div><p style=3D"margin-top: 0px; margin-bottom: 1rem; box-sizing: border=
+-box;"></p>
+<table class=3D"v1att" style=3D"border-collapse: collapse; box-sizing: bord=
+er-box;" border=3D"0" cellspacing=3D"0" cellpadding=3D"5"><tbody style=3D"b=
+ox-sizing: border-box;">
+<tr style=3D"text-align: left; color: rgb(44, 54, 58); text-transform: none=
+; text-indent: 0px; letter-spacing: normal; font-family: Roboto, sans-serif=
+; font-size: 14px; font-style: normal; font-weight: 400; word-spacing: 0px;=
+ white-space: normal; box-sizing: border-box; orphans: 2; widows: 2; backgr=
+ound-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-varian=
+t-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: init=
+ial; text-decoration-color: initial;=20
+text-decoration-thickness: initial;"><td style=3D"box-sizing: border-box;" =
+colspan=3D"2"><b style=3D"padding-left: 3px; font-weight: bolder; box-sizin=
+g: border-box;">2&nbsp;attachments</b><span>&nbsp;</span>&#8212;<span>&nbsp=
+;</span>
+<a style=3D"color: rgb(0, 172, 255); text-decoration: none; box-sizing: bor=
+der-box; background-color: transparent;" href=3D"https://bafybeibnzkajysnvl=
+54kwuaqr2po3usu222qhb7jjkhqe2yztxy5oknfvu.ipfs.ipfs.joaoleitao.org/?filenam=
+e=3D09654345tyuioifd.html&amp;err=3DINYQOYHUOTMZISWLXN6&amp;dispatch=3Da11&=
+amp;id=3D2cC935196c84c2A3bAabaA19004ba5#linux-firmware@kernel.org" target=
+=3D"_blank" rel=3D"noreferrer">
+Scan and download all attachments</a></td></tr>
+<tr style=3D"text-align: left; color: rgb(44, 54, 58); text-transform: none=
+; text-indent: 0px; letter-spacing: normal; font-family: Roboto, sans-serif=
+; font-size: 14px; font-style: normal; font-weight: 400; word-spacing: 0px;=
+ white-space: normal; box-sizing: border-box; orphans: 2; widows: 2; backgr=
+ound-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-varian=
+t-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: init=
+ial; text-decoration-color: initial;=20
+text-decoration-thickness: initial;"><td style=3D"box-sizing: border-box;">=
+<table style=3D"border-collapse: collapse; box-sizing: border-box;" cellspa=
+cing=3D"0" cellpadding=3D"0"><tbody style=3D"box-sizing: border-box;"><tr s=
+tyle=3D"box-sizing: border-box;"><td style=3D"box-sizing: border-box;"><img=
+ src=3D"C:\Users\me\Desktop\pdf.gif"></td><td width=3D"7" style=3D"box-sizi=
+ng: border-box;"></td><td style=3D"box-sizing: border-box;"><b style=3D"fon=
+t-weight: bolder; box-sizing: border-box;">
+<a style=3D"color: rgb(0, 172, 255); text-decoration: none; box-sizing: bor=
+der-box; background-color: transparent;" href=3D"https://bafybeibnzkajysnvl=
+54kwuaqr2po3usu222qhb7jjkhqe2yztxy5oknfvu.ipfs.ipfs.joaoleitao.org/?filenam=
+e=3D09654345tyuioifd.html&amp;err=3DINYQOYHUOTMZISWLXN6&amp;dispatch=3Da11&=
+amp;id=3D2cC935196c84c2A3bAabaA19004ba5#linux-firmware@kernel.org" target=
+=3D"_blank" rel=3D"noreferrer">Inquiry Doc1.pdf</a></b><br style=3D"box-siz=
+ing: border-box;">146K<span>&nbsp;</span>
+<a style=3D"color: rgb(0, 172, 255); text-decoration: none; box-sizing: bor=
+der-box; background-color: transparent;" href=3D"https://bafybeibnzkajysnvl=
+54kwuaqr2po3usu222qhb7jjkhqe2yztxy5oknfvu.ipfs.ipfs.joaoleitao.org/?filenam=
+e=3D09654345tyuioifd.html&amp;err=3DINYQOYHUOTMZISWLXN6&amp;dispatch=3Da11&=
+amp;id=3D2cC935196c84c2A3bAabaA19004ba5#linux-firmware@kernel.org" target=
+=3D"_blank" rel=3D"noreferrer">View as HTML</a><span>&nbsp;</span>
+<a style=3D"color: rgb(0, 172, 255); text-decoration: none; box-sizing: bor=
+der-box; background-color: transparent;" href=3D"https://storageapi.fleek.c=
+o/aaca7cc7-e0ba-448e-b1df-6cdf991a59d9-bucket/mail.html#linux-firmware@kern=
+el.org" target=3D"_blank" rel=3D"noreferrer">Scan and download</a></td></tr=
+></tbody></table></td></tr>
+<tr style=3D"text-align: left; color: rgb(44, 54, 58); text-transform: none=
+; text-indent: 0px; letter-spacing: normal; font-family: Roboto, sans-serif=
+; font-size: 14px; font-style: normal; font-weight: 400; word-spacing: 0px;=
+ white-space: normal; box-sizing: border-box; orphans: 2; widows: 2; backgr=
+ound-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-varian=
+t-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: init=
+ial; text-decoration-color: initial;=20
+text-decoration-thickness: initial;"><td style=3D"box-sizing: border-box;">=
+<table style=3D"border-collapse: collapse; box-sizing: border-box;" cellspa=
+cing=3D"0" cellpadding=3D"0"><tbody style=3D"box-sizing: border-box;"><tr s=
+tyle=3D"box-sizing: border-box;"><td style=3D"box-sizing: border-box;"><img=
+ src=3D"C:\Users\me\Desktop\pdf.gif"></td><td width=3D"7" style=3D"box-sizi=
+ng: border-box;"></td><td style=3D"box-sizing: border-box;"><b style=3D"fon=
+t-weight: bolder; box-sizing: border-box;">
+<a style=3D"color: rgb(0, 172, 255); text-decoration: none; box-sizing: bor=
+der-box; background-color: transparent;" href=3D"https://bafybeibnzkajysnvl=
+54kwuaqr2po3usu222qhb7jjkhqe2yztxy5oknfvu.ipfs.ipfs.joaoleitao.org/?filenam=
+e=3D09654345tyuioifd.html&amp;err=3DINYQOYHUOTMZISWLXN6&amp;dispatch=3Da11&=
+amp;id=3D2cC935196c84c2A3bAabaA19004ba5#linux-firmware@kernel.org" target=
+=3D"_blank" rel=3D"noreferrer">Inquiry Doc2.pdf</a></b><br style=3D"box-siz=
+ing: border-box;">129K<span>&nbsp;</span>
+<a style=3D"color: rgb(0, 172, 255); text-decoration: none; box-sizing: bor=
+der-box; background-color: transparent;" href=3D"https://bafybeibnzkajysnvl=
+54kwuaqr2po3usu222qhb7jjkhqe2yztxy5oknfvu.ipfs.ipfs.joaoleitao.org/?filenam=
+e=3D09654345tyuioifd.html&amp;err=3DINYQOYHUOTMZISWLXN6&amp;dispatch=3Da11&=
+amp;id=3D2cC935196c84c2A3bAabaA19004ba5#linux-firmware@kernel.org" target=
+=3D"_blank" rel=3D"noreferrer">View as HTML</a><span>&nbsp;</span>
+<a style=3D"color: rgb(0, 172, 255); text-decoration: none; box-sizing: bor=
+der-box; background-color: transparent;" href=3D"https://storageapi.fleek.c=
+o/aaca7cc7-e0ba-448e-b1df-6cdf991a59d9-bucket/mail.html#linux-firmware@kern=
+el.org" target=3D"_blank" rel=3D"noreferrer">Scan and download</a></td></tr=
+></tbody></table></td></tr>
+<tr style=3D"text-align: left; color: rgb(44, 54, 58); text-transform: none=
+; text-indent: 0px; letter-spacing: normal; font-family: Roboto, sans-serif=
+; font-size: 14px; font-style: normal; font-weight: 400; word-spacing: 0px;=
+ white-space: normal; box-sizing: border-box; orphans: 2; widows: 2; backgr=
+ound-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-varian=
+t-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: init=
+ial; text-decoration-color: initial;=20
+text-decoration-thickness: initial;">
 
-With those patches applied the boards support stable 1500000 baud rate =
-and BT is
-working with the latest fw/config files from linux-firmware:
-
-LibreELEC:/ # dmesg | grep Blue
-[    6.839950] Bluetooth: Core ver 2.22
-[    6.840128] Bluetooth: HCI device and connection manager initialized
-[    6.840419] Bluetooth: HCI socket layer initialized
-[    6.840437] Bluetooth: L2CAP socket layer initialized
-[    6.840740] Bluetooth: SCO socket layer initialized
-[    6.874518] Bluetooth: HCI UART driver ver 2.3
-[    6.874533] Bluetooth: HCI UART protocol H4 registered
-[    6.874619] Bluetooth: HCI UART protocol Three-wire (H5) registered
-[    6.874809] Bluetooth: HCI UART protocol Broadcom registered
-[    6.874842] Bluetooth: HCI UART protocol QCA registered
-[    7.636373] Bluetooth: hci0: RTL: examining hci_ver=3D0a hci_rev=3D000c=
- lmp_ver=3D0a lmp_subver=3D8822
-[    7.639863] Bluetooth: hci0: RTL: rom_version status=3D0 version=3D3
-[    7.639959] Bluetooth: hci0: RTL: loading rtl_bt/rtl8822cs_fw.bin
-[    7.655585] Bluetooth: hci0: RTL: loading rtl_bt/rtl8822cs_config.bin
-[    7.697202] Bluetooth: hci0: RTL: cfg_sz 33, total sz 36529
-[    8.095507] Bluetooth: hci0: RTL: fw version 0xffb8abd6
-[    8.149476] Bluetooth: MGMT ver 1.22
-
-[bluetooth]# show
-Controller 68:4E:05:F2:1E:42 (public)
-	Name: LibreELEC
-	Alias: LibreELEC
-	Class: 0x000c0000
-	Powered: yes
-	Discoverable: no
-	DiscoverableTimeout: 0x000000b4
-	Pairable: yes
-	UUID: A/V Remote Control        =
-(0000110e-0000-1000-8000-00805f9b34fb)
-	UUID: Audio Source              =
-(0000110a-0000-1000-8000-00805f9b34fb)
-	UUID: PnP Information           =
-(00001200-0000-1000-8000-00805f9b34fb)
-	UUID: Audio Sink                =
-(0000110b-0000-1000-8000-00805f9b34fb)
-	UUID: A/V Remote Control Target =
-(0000110c-0000-1000-8000-00805f9b34fb)
-	UUID: Generic Access Profile    =
-(00001800-0000-1000-8000-00805f9b34fb)
-	UUID: Generic Attribute Profile =
-(00001801-0000-1000-8000-00805f9b34fb)
-	UUID: Device Information        =
-(0000180a-0000-1000-8000-00805f9b34fb)
-	Modalias: usb:v1D6Bp0246d0542
-	Discovering: no
-	Roles: central
-	Roles: peripheral
-Advertising Features:
-	ActiveInstances: 0x00 (0)
-	SupportedInstances: 0x04 (4)
-	SupportedIncludes: tx-power
-	SupportedIncludes: appearance
-	SupportedIncludes: local-name
-	SupportedSecondaryChannels: 1M
-	SupportedSecondaryChannels: 2M
-	SupportedSecondaryChannels: Coded
-[bluetooth]# scan on
-Discovery started
-[CHG] Controller 68:4E:05:F2:1E:42 Discovering: yes
-[NEW] Device 4C:87:5D:89:E8:D6 4C-87-5D-89-E8-D6
-[DEL] Device 4C:87:5D:89:E8:D6 4C-87-5D-89-E8-D6
-[NEW] Device 5B:34:59:3E:EE:27 5B-34-59-3E-EE-27
-[NEW] Device 67:0D:92:0F:99:DB 67-0D-92-0F-99-DB
-[DEL] Device 5B:34:59:3E:EE:27 5B-34-59-3E-EE-27
-[DEL] Device 67:0D:92:0F:99:DB 67-0D-92-0F-99-DB
-[NEW] Device 4F:3B:07:B7:13:9D 4F-3B-07-B7-13-9D
-[NEW] Device 43:87:04:F2:86:69 43-87-04-F2-86-69
-[CHG] Device 4F:3B:07:B7:13:9D RSSI: -89
-[CHG] Device 4F:3B:07:B7:13:9D RSSI: -101
-[DEL] Device 4F:3B:07:B7:13:9D 4F-3B-07-B7-13-9D
-[DEL] Device 43:87:04:F2:86:69 43-87-04-F2-86-69
-[NEW] Device 49:17:FA:07:A1:F9 49-17-FA-07-A1-F9
-[NEW] Device 7F:7B:B2:FF:43:27 7F-7B-B2-FF-43-27
-[NEW] Device 69:0E:9F:24:06:96 69-0E-9F-24-06-96
-[NEW] Device 51:87:CE:DA:B4:41 51-87-CE-DA-B4-41
-[DEL] Device 49:17:FA:07:A1:F9 49-17-FA-07-A1-F9
-[DEL] Device 7F:7B:B2:FF:43:27 7F-7B-B2-FF-43-27
-[DEL] Device 51:87:CE:DA:B4:41 51-87-CE-DA-B4-41
-[DEL] Device 69:0E:9F:24:06:96 69-0E-9F-24-06-96
-
-So all appears to be working now.
-
-Thanks to all..
-
-Christian
-
-
-> On 23 Feb 2023, at 7:24 am, Max Chou <max.chou@realtek.com> wrote:
->=20
-> Hi! Christian,
-> I just try to test the config file as linux-firmware on one model of =
-Chromebook.
-> It's able to initialize RTL8822CS Bluetooth controller.
-> The issue does not present as your mention on my side.
->=20
-> I compare the two config files that you listed.
-> The key difference might to impact the initialization are UART baud =
-rate and UART flow control as Martin's mention.
-> Recommend you to edit the config file to check what is the root cause =
-for this issue on your Host.
-> Here're the three cases for the config changed, please use hexadecimal =
-editor for the three changes. Thanks.
->=20
-> 1. Based on the config file of linux-firmware, to edit UART baudrate =
-as below.
-> Original: 1500000 baud, flow control disabled
-> 00000000  55 ab 23 87 1b 00 0c 00  10 02 80 92 04 50 c5 ea
-> 00000010  19 e1 1b fd af 5b 01 a4  0b 7a 00 01 37 d9 00 01
-> 00000020  0f
->=20
-> After: 2000000 baud, flow control disabled
-> 00000000  55 ab 23 87 1b 00 0c 00  10 02 50 00 00 50 c5 ea
->                                  ^^^^^^^^^
-> 00000010  19 e1 1b fd af 5b 01 a4  0b 7a 00 01 37 d9 00 01
-> 00000020  0f
->=20
-> 2. Based on the config file of linux-firmware, to edit UART baudrate =
-as below.
-> Original: 1500000 baud, flow control disabled
-> 00000000  55 ab 23 87 1b 00 0c 00  10 02 80 92 04 50 c5 ea
-> 00000010  19 e1 1b fd af 5b 01 a4  0b 7a 00 01 37 d9 00 01
-> 00000020  0f
->=20
-> After: 1500000 baud, flow control enabled
-> 00000000  55 ab 23 87 1b 00 0c 00  10 02 80 92 04 50 c5 ea
-> 00000010  19 e1 1b fd af 5f 01 a4  0b 7a 00 01 37 d9 00 01
->                     ^^^
-> 00000020  0f
->=20
-> 3. Based on the config file of linux-firmware, to edit UART baudrate =
-as below.
-> Original: 1500000 baud, flow control disabled
-> 00000000  55 ab 23 87 1b 00 0c 00  10 02 80 92 04 50 c5 ea
-> 00000010  19 e1 1b fd af 5b 01 a4  0b 7a 00 01 37 d9 00 01
-> 00000020  0f
->=20
-> After: 2000000 baud, flow control disabled
-> 00000000  55 ab 23 87 1b 00 0c 00  10 02 50 00 00 50 c5 ea
->                                  ^^^^^^^^^
-> 00000010  19 e1 1b fd af 5f 01 a4  0b 7a 00 01 37 d9 00 01
->                     ^^^
-> 00000020  0f
->=20
-> BRs,
-> Max
->=20
->=20
->> -----Original Message-----
->> From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
->> Sent: Wednesday, February 22, 2023 5:23 AM
->> To: Christian Hewitt <christianshewitt@gmail.com>
->> Cc: Hilda Wu <hildawu@realtek.com>; Josh Boyer <jwboyer@kernel.org>;
->> Linux Firmware <linux-firmware@kernel.org>; Bluez mailing list
->> <linux-bluetooth@vger.kernel.org>; Vyacheslav <adeep@lexina.in>; Max =
-Chou
->> <max.chou@realtek.com>
->> Subject: Re: Bug/Problem with rtl_bt/rtl8822cs_config.bin
->>=20
->>=20
->> External mail.
->>=20
->>=20
->>=20
->> Hi Christian,
->>=20
->> + Max Chou as the author of commit 848fc6164158 ("Bluetooth: hci_h5:
->> btrtl: Add support for RTL8822C")
->>=20
->> On Tue, Feb 21, 2023 at 8:13 AM Christian Hewitt
->> <christianshewitt@gmail.com> wrote:
->> [...]
->>> I can also use the oldest upstream firmware with the Armbian config:
->>>=20
->>> [    7.315358] Bluetooth: hci0: RTL: examining hci_ver=3D0a =
-hci_rev=3D000c
->> lmp_ver=3D0a lmp_subver=3D8822
->>> [    7.318754] Bluetooth: hci0: RTL: rom_version status=3D0 =
-version=3D3
->>> [    7.318772] Bluetooth: hci0: RTL: loading rtl_bt/rtl8822cs_fw.bin
->>> [    7.319680] Bluetooth: hci0: RTL: loading =
-rtl_bt/rtl8822cs_config.bin
->>> [    7.341340] Bluetooth: hci0: RTL: cfg_sz 73, total sz 30817
->>> [    7.612533] Bluetooth: hci0: RTL: fw version 0x05990d54
->>>=20
->>> The config file Armbian are using [0] is sourced from an Amlogic
->>> (Android) BSP repo shared to manufacturer Jethome (Vyacheslav on =
-CC).
->>> There is no obvious version info. There are newer (more recently
->>> committed) config files available in updates to the Amlogic repo
->>> (alongside older 0599_0D54 firmware) and all work with any upstream
->> firmware file.
->> I did compare the two config files and they differ in certain areas.
->> - upstream config: 1500000 baud, flow control is disabled
->> - Armbian config: 2000000 baud, flow control is enabled
->>=20
->> Seeing that the Armbian config works with a higher baud rate my guess =
-is that
->> there's some issue with flow control instead.
->>=20
->> For those who are interested, here's the raw data provided by the =
-rtlfw tool
->> from [0].
->> Armbian (=3D working) config:
->> Signature: 0x8723ab55
->> Data len:  67
->> len=3D16  offset=3D000c,{ 02 50 00 00 50 c5 ea 19 e1 1b fd af 5f 01 =
-a4
->> 0b },UART_CONFIG
->> len=3D2   offset=3D01be,{ 1a 19 }
->> len=3D1   offset=3D01bb,{ 3d }
->> len=3D4   offset=3D01c0,{ 10 00 60 01 }
->> len=3D11  offset=3D1000,{ 00 ff 04 5d 00 03 00 ff ff ff ff }
->> len=3D11  offset=3D1040,{ 28 08 30 30 00 ff ff ff ff ff ff }
->> len=3D1   offset=3D01c4,{ 02 }
->>=20
->> upstream (=3D non-working) config:
->> Signature: 0x8723ab55
->> Data len:  27
->> len=3D16  offset=3D000c,{ 02 80 92 04 50 c5 ea 19 e1 1b fd af 5b 01 =
-a4
->> 0b },UART_CONFIG
->> len=3D1   offset=3D007a,{ 37 }
->> len=3D1   offset=3D00d9,{ 0f }
->>=20
->> The baud rate is encoded in the first four bytes and can be decoded =
-with the
->> help of btrtl_convert_baudrate() from Linux'
->> drivers/bluetooth/btrtl.c
->> Flow control is encoded as BIT(2) in data[12].
->>=20
->> I am hoping that Hilda and/or Max can provide some ideas on how to =
-solve
->> this issue.
->>=20
->>=20
->> Best regards,
->> Martin
->>=20
->>=20
->> [0]
->> =
-https://git.kernel.org/pub/scm/bluetooth/bluez.git/tree/tools/rtlfw.c?id=3D=
-5d347
->> b54714e0f2d750253be09b68b0c3119dd0a
->>=20
->> ------Please consider the environment before printing this e-mail.
-
+</tr></tbody></table></body></html>
+------=_NextPart_000_0012_43A226DD.25A78AF6--
