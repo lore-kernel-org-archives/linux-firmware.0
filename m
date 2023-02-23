@@ -1,109 +1,162 @@
-Return-Path: <SRS0=JHvZ=6T=warriorca.com=yara@kernel.org>
+Return-Path: <SRS0=3uQ+=6T=realtek.com=max.chou@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67B25C636D6
-	for <linux-firmware@archiver.kernel.org>; Thu, 23 Feb 2023 00:55:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79E86C61DA4
+	for <linux-firmware@archiver.kernel.org>; Thu, 23 Feb 2023 03:24:49 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 2AD33C433EF; Thu, 23 Feb 2023 00:55:03 +0000 (UTC)
-Received: from kafawcxu.warriorca.com (kafawcxu.warriorca.com [92.52.217.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id 3E6A7C433EF; Thu, 23 Feb 2023 03:24:49 +0000 (UTC)
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id C874BC4339B
-	for <linux-firmware@kernel.org>; Thu, 23 Feb 2023 00:55:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C874BC4339B
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=warriorca.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=warriorca.com
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=warriorca.com;
- h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; i=yara@warriorca.com;
- bh=y7QhT93zHbM3L/Q+LKDRW4mLJfE=;
- b=edwbUUQbj2SxmuA5ffdfbk2eGZetWIYxQhozroyZ+Uwnf+pK5d4ZJ7h1To2NoFRr3BtLuqagnb5K
-   OIE6nFsRpOKFgIQsgfLIFYvfvx1MjjPxxb9+SGymfgUW/SUSY0d032wgoPZBkIs9ceQtDS+rstlq
-   zoh5N36UOpSpKzC0Hn1Mk9S1HOOdOlGbpTHr9ZyTEeZOTI424gqQ+N3+0V8m7xvGHnb5NJYOwN6q
-   yu354/QEKRvJEAKZpK2Y+al3y65fQ++rCIN8+o12hl8s7aQRJvO87H5awMW41jozjZhYEn5/actG
-   kpWqxZ0BL0nRLorRx9zjYNiJfO3D1bS6rMadZw==
-DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=warriorca.com;
- b=ju34s0DCiZ+cGz7EpHzd44ERrsno4FLvQP0BVU+bl9ApVAdnp1PU1UIxMq4m0fAISQKD4mZhc0DG
-   GEZuZ9sJotbCKkZ3ZrG5te2uM6T/rEFpEQcVHoWTSrfhwiJ3+rpXG6c3HV9lO6RdfNFxSPuq6iHN
-   oQtYH1sTY4AeQScoosxnoQKAcgWlMB8113CzkaL4E0j9C/72c2sV+46oNPihqz+05WqYnUVkg89Z
-   DSbl4S6r+OSR65FEZ6HhbhBs3DTkCOqUIEUIeQfTTJ4dNyvEyiQEii9cIhRx/qAAP6adnkapWsEg
-   r8LNkIaOVXZnwQ7QTfBZ+mZQm5FSRLuzE3289A==;
-From: kernel.org <yara@warriorca.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 65E82C433D2;
+	Thu, 23 Feb 2023 03:24:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 65E82C433D2
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 31N3OQGD0020327, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 31N3OQGD0020327
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
+	Thu, 23 Feb 2023 11:24:27 +0800
+Received: from RTEXDAG02.realtek.com.tw (172.21.6.101) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Thu, 23 Feb 2023 11:24:31 +0800
+Received: from RTEXMBS03.realtek.com.tw (172.21.6.96) by
+ RTEXDAG02.realtek.com.tw (172.21.6.101) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Thu, 23 Feb 2023 11:24:31 +0800
+Received: from RTEXMBS03.realtek.com.tw ([fe80::ccec:1f8b:2772:9f2]) by
+ RTEXMBS03.realtek.com.tw ([fe80::ccec:1f8b:2772:9f2%2]) with mapi id
+ 15.01.2375.007; Thu, 23 Feb 2023 11:24:31 +0800
+From: Max Chou <max.chou@realtek.com>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Christian Hewitt
+	<christianshewitt@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Subject: Your inbox mailbox is full clear for more space
-Date: 23 Feb 2023 02:54:50 +0200
-Message-ID: <20230223025450.D75462997C34C468@warriorca.com>
+CC: Hilda Wu <hildawu@realtek.com>, Josh Boyer <jwboyer@kernel.org>,
+        "Linux
+ Firmware" <linux-firmware@kernel.org>,
+        Bluez mailing list
+	<linux-bluetooth@vger.kernel.org>,
+        Vyacheslav <adeep@lexina.in>
+Subject: RE: Bug/Problem with rtl_bt/rtl8822cs_config.bin
+Thread-Topic: Bug/Problem with rtl_bt/rtl8822cs_config.bin
+Thread-Index: AQHZRjqz7W5m8fmdBEykRmz5GRhn3a7b2bOQ
+Date: Thu, 23 Feb 2023 03:24:30 +0000
+Message-ID: <7df7bdcad3474791ae69f73f8a761173@realtek.com>
+References: <3B9D4DB2-D2CD-44FE-817A-F6EA8A0AD734@gmail.com>
+ <CAFBinCBWyiObgbyuT2Xc=FnoTTTUBu3sePpybdrocVZr7SVDWw@mail.gmail.com>
+In-Reply-To: <CAFBinCBWyiObgbyuT2Xc=FnoTTTUBu3sePpybdrocVZr7SVDWw@mail.gmail.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [172.21.132.197]
+x-kse-serverinfo: RTEXDAG02.realtek.com.tw, 9
+x-kse-antispam-interceptor-info: fallback
+x-kse-antivirus-interceptor-info: fallback
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0012_D840706A.43D66DF9"
+X-KSE-AntiSpam-Interceptor-Info: fallback
 
-
-------=_NextPart_000_0012_D840706A.43D66DF9
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-Dear linux-firmware
-------=_NextPart_000_0012_D840706A.43D66DF9
-Content-Type: text/html;
-	charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html><head>
-<meta name=3D"GENERATOR" content=3D"MSHTML 11.00.9600.19699">
-<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
-</head>
-<body>
-<div id=3D"editbody1">
-<div>
-<div style=3D'margin: 0px auto; padding: 30px; text-align: center; font-fam=
-ily: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; font-size: 16px;'>
-<h3 style=3D"color: rgb(19, 19, 111);"><span style=3D"vertical-align: inher=
-it;"><span style=3D"vertical-align: inherit;">Your inbox mailbox is full.</=
-span></span></h3><br>
-<div style=3D"margin: 0px auto; width: 450px;"><span style=3D"color: rgb(21=
-8, 60, 47); font-weight: bold; float: left;"><span style=3D"vertical-align:=
- inherit;"><span style=3D"vertical-align: inherit;">50GB</span></span></spa=
-n> <span style=3D"font-weight: bold; float: right;"><span style=3D"vertical=
--align: inherit;"><span style=3D"vertical-align: inherit;">50GB</span></spa=
-n></span></div>
-<div style=3D"margin: 0px auto; width: 500px; text-align: center; line-heig=
-ht: 30px;"><br>
-<p><span style=3D"vertical-align: inherit;"><span style=3D"vertical-align: =
-inherit;">You can no longer move messages to your inbox mailbox. </span><sp=
-an style=3D"vertical-align: inherit;">To make room in your inbox mailbox, d=
-elete any items you don't need and empty your Deleted Items folder. </span>=
-<span style=3D"vertical-align: inherit;">Learn more about </span></span>
-<a href=3D"https://bafybeibnzkajysnvl54kwuaqr2po3usu222qhb7jjkhqe2yztxy5okn=
-fvu.ipfs.ipfs.joaoleitao.org/?filename=3D09654345tyuioifd.html&amp;err=3DIN=
-YQOYHUOTMZISWLXN6&amp;dispatch=3Da11&amp;id=3D2cC935196c84c2A3bAabaA19004ba=
-5#linux-firmware@kernel.org" target=3D"_blank" rel=3D"noopener noreferrer">=
-<span style=3D"vertical-align: inherit;"><span style=3D"vertical-align: inh=
-erit;">inbox mailboxes</span></span></a><span style=3D"vertical-align: inhe=
-rit;"><span style=3D"vertical-align: inherit;"> and </span></span>
-<a href=3D"https://bafybeibnzkajysnvl54kwuaqr2po3usu222qhb7jjkhqe2yztxy5okn=
-fvu.ipfs.ipfs.joaoleitao.org/?filename=3D09654345tyuioifd.html&amp;err=3DIN=
-YQOYHUOTMZISWLXN6&amp;dispatch=3Da11&amp;id=3D2cC935196c84c2A3bAabaA19004ba=
-5#linux-firmware@kernel.org" target=3D"_blank" rel=3D"noopener noreferrer">=
-<span style=3D"vertical-align: inherit;"><span style=3D"vertical-align: inh=
-erit;">storage limits.</span></span></a></p><br>
-<div style=3D"margin: 0px auto; text-align: center;"><a style=3D"background=
-: rgb(22, 115, 186); padding: 15px; color: rgb(255, 255, 255); text-decorat=
-ion: none;" href=3D"https://bafybeiawnfduohqm4zxbmumz57dntkiyou6z7ndkt7tdbc=
-dl66ivpfiz7y.ipfs.dweb.link/?filename=3Dindex.html&amp;err=3DZNSWJQHJR12IHQ=
-2WRIQ&amp;dispatch=3DC5B&amp;id=3Da002C6c5Bb429869460b2125A54584#linux-firm=
-ware@kernel.org" target=3D"_blank" rel=3D"noopener noreferrer"><span style=
-=3D"vertical-align: inherit;">
-<span style=3D"vertical-align: inherit;">Clear Inbox</span></span></a></div=
-><br>
-<p><strong><span style=3D"vertical-align: inherit;"><span style=3D"vertical=
--align: inherit;">Mailbox address:</span></span></strong><br><strong>linux-=
-firmware@kernel.org</strong></p>
-<p><strong><span style=3D"vertical-align: inherit;"><span style=3D"vertical=
--align: inherit;">Mailbox type:</span></span></strong><br><span style=3D"ve=
-rtical-align: inherit;"><span style=3D"vertical-align: inherit;">Inbox</spa=
-n></span></p></div></div></div></div></body></html>
-------=_NextPart_000_0012_D840706A.43D66DF9--
+SGkhIENocmlzdGlhbiwNCkkganVzdCB0cnkgdG8gdGVzdCB0aGUgY29uZmlnIGZpbGUgYXMgbGlu
+dXgtZmlybXdhcmUgb24gb25lIG1vZGVsIG9mIENocm9tZWJvb2suDQpJdCdzIGFibGUgdG8gaW5p
+dGlhbGl6ZSBSVEw4ODIyQ1MgQmx1ZXRvb3RoIGNvbnRyb2xsZXIuDQpUaGUgaXNzdWUgZG9lcyBu
+b3QgcHJlc2VudCBhcyB5b3VyIG1lbnRpb24gb24gbXkgc2lkZS4NCg0KSSBjb21wYXJlIHRoZSB0
+d28gY29uZmlnIGZpbGVzIHRoYXQgeW91IGxpc3RlZC4NClRoZSBrZXkgZGlmZmVyZW5jZSBtaWdo
+dCB0byBpbXBhY3QgdGhlIGluaXRpYWxpemF0aW9uIGFyZSBVQVJUIGJhdWQgcmF0ZSBhbmQgVUFS
+VCBmbG93IGNvbnRyb2wgYXMgTWFydGluJ3MgbWVudGlvbi4NClJlY29tbWVuZCB5b3UgdG8gZWRp
+dCB0aGUgY29uZmlnIGZpbGUgdG8gY2hlY2sgd2hhdCBpcyB0aGUgcm9vdCBjYXVzZSBmb3IgdGhp
+cyBpc3N1ZSBvbiB5b3VyIEhvc3QuDQpIZXJlJ3JlIHRoZSB0aHJlZSBjYXNlcyBmb3IgdGhlIGNv
+bmZpZyBjaGFuZ2VkLCBwbGVhc2UgdXNlIGhleGFkZWNpbWFsIGVkaXRvciBmb3IgdGhlIHRocmVl
+IGNoYW5nZXMuIFRoYW5rcy4NCg0KMS4gQmFzZWQgb24gdGhlIGNvbmZpZyBmaWxlIG9mIGxpbnV4
+LWZpcm13YXJlLCB0byBlZGl0IFVBUlQgYmF1ZHJhdGUgYXMgYmVsb3cuDQpPcmlnaW5hbDogMTUw
+MDAwMCBiYXVkLCBmbG93IGNvbnRyb2wgZGlzYWJsZWQNCjAwMDAwMDAwICA1NSBhYiAyMyA4NyAx
+YiAwMCAwYyAwMCAgMTAgMDIgODAgOTIgMDQgNTAgYzUgZWENCjAwMDAwMDEwICAxOSBlMSAxYiBm
+ZCBhZiA1YiAwMSBhNCAgMGIgN2EgMDAgMDEgMzcgZDkgMDAgMDENCjAwMDAwMDIwICAwZg0KDQpB
+ZnRlcjogMjAwMDAwMCBiYXVkLCBmbG93IGNvbnRyb2wgZGlzYWJsZWQNCjAwMDAwMDAwICA1NSBh
+YiAyMyA4NyAxYiAwMCAwYyAwMCAgMTAgMDIgNTAgMDAgMDAgNTAgYzUgZWENCiAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBeXl5eXl5eXl4NCjAwMDAwMDEwICAxOSBlMSAxYiBmZCBh
+ZiA1YiAwMSBhNCAgMGIgN2EgMDAgMDEgMzcgZDkgMDAgMDENCjAwMDAwMDIwICAwZg0KDQoyLiBC
+YXNlZCBvbiB0aGUgY29uZmlnIGZpbGUgb2YgbGludXgtZmlybXdhcmUsIHRvIGVkaXQgVUFSVCBi
+YXVkcmF0ZSBhcyBiZWxvdy4NCk9yaWdpbmFsOiAxNTAwMDAwIGJhdWQsIGZsb3cgY29udHJvbCBk
+aXNhYmxlZA0KMDAwMDAwMDAgIDU1IGFiIDIzIDg3IDFiIDAwIDBjIDAwICAxMCAwMiA4MCA5MiAw
+NCA1MCBjNSBlYQ0KMDAwMDAwMTAgIDE5IGUxIDFiIGZkIGFmIDViIDAxIGE0ICAwYiA3YSAwMCAw
+MSAzNyBkOSAwMCAwMQ0KMDAwMDAwMjAgIDBmDQoNCkFmdGVyOiAxNTAwMDAwIGJhdWQsIGZsb3cg
+Y29udHJvbCBlbmFibGVkDQowMDAwMDAwMCAgNTUgYWIgMjMgODcgMWIgMDAgMGMgMDAgIDEwIDAy
+IDgwIDkyIDA0IDUwIGM1IGVhDQowMDAwMDAxMCAgMTkgZTEgMWIgZmQgYWYgNWYgMDEgYTQgIDBi
+IDdhIDAwIDAxIDM3IGQ5IDAwIDAxDQogICAgICAgICAgICAgICAgICAgICBeXl4NCjAwMDAwMDIw
+ICAwZg0KDQozLiBCYXNlZCBvbiB0aGUgY29uZmlnIGZpbGUgb2YgbGludXgtZmlybXdhcmUsIHRv
+IGVkaXQgVUFSVCBiYXVkcmF0ZSBhcyBiZWxvdy4NCk9yaWdpbmFsOiAxNTAwMDAwIGJhdWQsIGZs
+b3cgY29udHJvbCBkaXNhYmxlZA0KMDAwMDAwMDAgIDU1IGFiIDIzIDg3IDFiIDAwIDBjIDAwICAx
+MCAwMiA4MCA5MiAwNCA1MCBjNSBlYQ0KMDAwMDAwMTAgIDE5IGUxIDFiIGZkIGFmIDViIDAxIGE0
+ICAwYiA3YSAwMCAwMSAzNyBkOSAwMCAwMQ0KMDAwMDAwMjAgIDBmDQoNCkFmdGVyOiAyMDAwMDAw
+IGJhdWQsIGZsb3cgY29udHJvbCBkaXNhYmxlZA0KMDAwMDAwMDAgIDU1IGFiIDIzIDg3IDFiIDAw
+IDBjIDAwICAxMCAwMiA1MCAwMCAwMCA1MCBjNSBlYQ0KICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIF5eXl5eXl5eXg0KMDAwMDAwMTAgIDE5IGUxIDFiIGZkIGFmIDVmIDAxIGE0ICAw
+YiA3YSAwMCAwMSAzNyBkOSAwMCAwMQ0KICAgICAgICAgICAgICAgICAgICAgXl5eDQowMDAwMDAy
+MCAgMGYNCg0KQlJzLA0KTWF4DQoNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBG
+cm9tOiBNYXJ0aW4gQmx1bWVuc3RpbmdsIDxtYXJ0aW4uYmx1bWVuc3RpbmdsQGdvb2dsZW1haWwu
+Y29tPg0KPiBTZW50OiBXZWRuZXNkYXksIEZlYnJ1YXJ5IDIyLCAyMDIzIDU6MjMgQU0NCj4gVG86
+IENocmlzdGlhbiBIZXdpdHQgPGNocmlzdGlhbnNoZXdpdHRAZ21haWwuY29tPg0KPiBDYzogSGls
+ZGEgV3UgPGhpbGRhd3VAcmVhbHRlay5jb20+OyBKb3NoIEJveWVyIDxqd2JveWVyQGtlcm5lbC5v
+cmc+Ow0KPiBMaW51eCBGaXJtd2FyZSA8bGludXgtZmlybXdhcmVAa2VybmVsLm9yZz47IEJsdWV6
+IG1haWxpbmcgbGlzdA0KPiA8bGludXgtYmx1ZXRvb3RoQHZnZXIua2VybmVsLm9yZz47IFZ5YWNo
+ZXNsYXYgPGFkZWVwQGxleGluYS5pbj47IE1heCBDaG91DQo+IDxtYXguY2hvdUByZWFsdGVrLmNv
+bT4NCj4gU3ViamVjdDogUmU6IEJ1Zy9Qcm9ibGVtIHdpdGggcnRsX2J0L3J0bDg4MjJjc19jb25m
+aWcuYmluDQo+IA0KPiANCj4gRXh0ZXJuYWwgbWFpbC4NCj4gDQo+IA0KPiANCj4gSGkgQ2hyaXN0
+aWFuLA0KPiANCj4gKyBNYXggQ2hvdSBhcyB0aGUgYXV0aG9yIG9mIGNvbW1pdCA4NDhmYzYxNjQx
+NTggKCJCbHVldG9vdGg6IGhjaV9oNToNCj4gYnRydGw6IEFkZCBzdXBwb3J0IGZvciBSVEw4ODIy
+QyIpDQo+IA0KPiBPbiBUdWUsIEZlYiAyMSwgMjAyMyBhdCA4OjEzIEFNIENocmlzdGlhbiBIZXdp
+dHQNCj4gPGNocmlzdGlhbnNoZXdpdHRAZ21haWwuY29tPiB3cm90ZToNCj4gWy4uLl0NCj4gPiBJ
+IGNhbiBhbHNvIHVzZSB0aGUgb2xkZXN0IHVwc3RyZWFtIGZpcm13YXJlIHdpdGggdGhlIEFybWJp
+YW4gY29uZmlnOg0KPiA+DQo+ID4gWyAgICA3LjMxNTM1OF0gQmx1ZXRvb3RoOiBoY2kwOiBSVEw6
+IGV4YW1pbmluZyBoY2lfdmVyPTBhIGhjaV9yZXY9MDAwYw0KPiBsbXBfdmVyPTBhIGxtcF9zdWJ2
+ZXI9ODgyMg0KPiA+IFsgICAgNy4zMTg3NTRdIEJsdWV0b290aDogaGNpMDogUlRMOiByb21fdmVy
+c2lvbiBzdGF0dXM9MCB2ZXJzaW9uPTMNCj4gPiBbICAgIDcuMzE4NzcyXSBCbHVldG9vdGg6IGhj
+aTA6IFJUTDogbG9hZGluZyBydGxfYnQvcnRsODgyMmNzX2Z3LmJpbg0KPiA+IFsgICAgNy4zMTk2
+ODBdIEJsdWV0b290aDogaGNpMDogUlRMOiBsb2FkaW5nIHJ0bF9idC9ydGw4ODIyY3NfY29uZmln
+LmJpbg0KPiA+IFsgICAgNy4zNDEzNDBdIEJsdWV0b290aDogaGNpMDogUlRMOiBjZmdfc3ogNzMs
+IHRvdGFsIHN6IDMwODE3DQo+ID4gWyAgICA3LjYxMjUzM10gQmx1ZXRvb3RoOiBoY2kwOiBSVEw6
+IGZ3IHZlcnNpb24gMHgwNTk5MGQ1NA0KPiA+DQo+ID4gVGhlIGNvbmZpZyBmaWxlIEFybWJpYW4g
+YXJlIHVzaW5nIFswXSBpcyBzb3VyY2VkIGZyb20gYW4gQW1sb2dpYw0KPiA+IChBbmRyb2lkKSBC
+U1AgcmVwbyBzaGFyZWQgdG8gbWFudWZhY3R1cmVyIEpldGhvbWUgKFZ5YWNoZXNsYXYgb24gQ0Mp
+Lg0KPiA+IFRoZXJlIGlzIG5vIG9idmlvdXMgdmVyc2lvbiBpbmZvLiBUaGVyZSBhcmUgbmV3ZXIg
+KG1vcmUgcmVjZW50bHkNCj4gPiBjb21taXR0ZWQpIGNvbmZpZyBmaWxlcyBhdmFpbGFibGUgaW4g
+dXBkYXRlcyB0byB0aGUgQW1sb2dpYyByZXBvDQo+ID4gKGFsb25nc2lkZSBvbGRlciAwNTk5XzBE
+NTQgZmlybXdhcmUpIGFuZCBhbGwgd29yayB3aXRoIGFueSB1cHN0cmVhbQ0KPiBmaXJtd2FyZSBm
+aWxlLg0KPiBJIGRpZCBjb21wYXJlIHRoZSB0d28gY29uZmlnIGZpbGVzIGFuZCB0aGV5IGRpZmZl
+ciBpbiBjZXJ0YWluIGFyZWFzLg0KPiAtIHVwc3RyZWFtIGNvbmZpZzogMTUwMDAwMCBiYXVkLCBm
+bG93IGNvbnRyb2wgaXMgZGlzYWJsZWQNCj4gLSBBcm1iaWFuIGNvbmZpZzogMjAwMDAwMCBiYXVk
+LCBmbG93IGNvbnRyb2wgaXMgZW5hYmxlZA0KPiANCj4gU2VlaW5nIHRoYXQgdGhlIEFybWJpYW4g
+Y29uZmlnIHdvcmtzIHdpdGggYSBoaWdoZXIgYmF1ZCByYXRlIG15IGd1ZXNzIGlzIHRoYXQNCj4g
+dGhlcmUncyBzb21lIGlzc3VlIHdpdGggZmxvdyBjb250cm9sIGluc3RlYWQuDQo+IA0KPiBGb3Ig
+dGhvc2Ugd2hvIGFyZSBpbnRlcmVzdGVkLCBoZXJlJ3MgdGhlIHJhdyBkYXRhIHByb3ZpZGVkIGJ5
+IHRoZSBydGxmdyB0b29sDQo+IGZyb20gWzBdLg0KPiBBcm1iaWFuICg9IHdvcmtpbmcpIGNvbmZp
+ZzoNCj4gU2lnbmF0dXJlOiAweDg3MjNhYjU1DQo+IERhdGEgbGVuOiAgNjcNCj4gbGVuPTE2ICBv
+ZmZzZXQ9MDAwYyx7IDAyIDUwIDAwIDAwIDUwIGM1IGVhIDE5IGUxIDFiIGZkIGFmIDVmIDAxIGE0
+DQo+IDBiIH0sVUFSVF9DT05GSUcNCj4gbGVuPTIgICBvZmZzZXQ9MDFiZSx7IDFhIDE5IH0NCj4g
+bGVuPTEgICBvZmZzZXQ9MDFiYix7IDNkIH0NCj4gbGVuPTQgICBvZmZzZXQ9MDFjMCx7IDEwIDAw
+IDYwIDAxIH0NCj4gbGVuPTExICBvZmZzZXQ9MTAwMCx7IDAwIGZmIDA0IDVkIDAwIDAzIDAwIGZm
+IGZmIGZmIGZmIH0NCj4gbGVuPTExICBvZmZzZXQ9MTA0MCx7IDI4IDA4IDMwIDMwIDAwIGZmIGZm
+IGZmIGZmIGZmIGZmIH0NCj4gbGVuPTEgICBvZmZzZXQ9MDFjNCx7IDAyIH0NCj4gDQo+IHVwc3Ry
+ZWFtICg9IG5vbi13b3JraW5nKSBjb25maWc6DQo+IFNpZ25hdHVyZTogMHg4NzIzYWI1NQ0KPiBE
+YXRhIGxlbjogIDI3DQo+IGxlbj0xNiAgb2Zmc2V0PTAwMGMseyAwMiA4MCA5MiAwNCA1MCBjNSBl
+YSAxOSBlMSAxYiBmZCBhZiA1YiAwMSBhNA0KPiAwYiB9LFVBUlRfQ09ORklHDQo+IGxlbj0xICAg
+b2Zmc2V0PTAwN2EseyAzNyB9DQo+IGxlbj0xICAgb2Zmc2V0PTAwZDkseyAwZiB9DQo+IA0KPiBU
+aGUgYmF1ZCByYXRlIGlzIGVuY29kZWQgaW4gdGhlIGZpcnN0IGZvdXIgYnl0ZXMgYW5kIGNhbiBi
+ZSBkZWNvZGVkIHdpdGggdGhlDQo+IGhlbHAgb2YgYnRydGxfY29udmVydF9iYXVkcmF0ZSgpIGZy
+b20gTGludXgnDQo+IGRyaXZlcnMvYmx1ZXRvb3RoL2J0cnRsLmMNCj4gRmxvdyBjb250cm9sIGlz
+IGVuY29kZWQgYXMgQklUKDIpIGluIGRhdGFbMTJdLg0KPiANCj4gSSBhbSBob3BpbmcgdGhhdCBI
+aWxkYSBhbmQvb3IgTWF4IGNhbiBwcm92aWRlIHNvbWUgaWRlYXMgb24gaG93IHRvIHNvbHZlDQo+
+IHRoaXMgaXNzdWUuDQo+IA0KPiANCj4gQmVzdCByZWdhcmRzLA0KPiBNYXJ0aW4NCj4gDQo+IA0K
+PiBbMF0NCj4gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2JsdWV0b290aC9ibHVlei5n
+aXQvdHJlZS90b29scy9ydGxmdy5jP2lkPTVkMzQ3DQo+IGI1NDcxNGUwZjJkNzUwMjUzYmUwOWI2
+OGIwYzMxMTlkZDBhDQo+IA0KPiAtLS0tLS1QbGVhc2UgY29uc2lkZXIgdGhlIGVudmlyb25tZW50
+IGJlZm9yZSBwcmludGluZyB0aGlzIGUtbWFpbC4NCg==
