@@ -1,294 +1,143 @@
-Return-Path: <SRS0=NYyj=6X=marvell.com=dchickles@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54BBAC64ED8
-	for <linux-firmware@archiver.kernel.org>; Mon, 27 Feb 2023 17:12:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B267C64ED8
+	for <linux-firmware@archiver.kernel.org>; Mon, 27 Feb 2023 17:34:20 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 3B9E4C4339C; Mon, 27 Feb 2023 17:12:29 +0000 (UTC)
-Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id D5751C4339B;
-	Mon, 27 Feb 2023 17:12:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D5751C4339B
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=marvell.com
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-	by mx0b-0016f401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31REQdM1005471;
-	Mon, 27 Feb 2023 09:12:21 -0800
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2174.outbound.protection.outlook.com [104.47.56.174])
-	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3nyjqtruy8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 27 Feb 2023 09:12:20 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C0r+Wl9gEfy8ZjHp2B7rxL60kUIOYJqJ/3pyj9KD/erYdd6UL0GSMIqkdfourc9hOZcM+tY60N70hJZPnVNBOkZR4jPniqgVymcJPybyIz2GPKwY9eEZYxzXC+MyTRBV+5e2MFFcJe6yX8ft2p62D2oi9ujwJbxHXSC3XmEeshbaJOEXID7ygeba66z64V1uvHGLpfnvrbdDhm3r5InJRoE46RkYujkiMGkm0Z1HDGRVv/XrYAGpZ0Mp0HzV49+jT3wYddxfxfygXNbzkm7U75ZJ19FoJQe6OjxSpO6jD3riku6rCUCnTHPZhPwY70nn9v6LT0OwRy1BMO0p3eMemw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NDBiIEw012Scg5dJYJXAEijOZHJF7gtAmx9byLmTypk=;
- b=dQPAjz0anToFwxrhCgJIT9MI/aIZuTzuxorHAEf2jIfMJa4aQCoFRXc270oTHGSPLaPA6mr5uBzHVBPPJdaAQXvTQehJF+in0f4fCsVBsWPdosMqCOvqkzanIjwgqAFYYQnoihZo1/mU6FTylr5NUZch0/USnP0RJPBuIJYvnSr31hfCjf2hT49ibPnbNd1jFnZmKcKL93iszaRasL9uJQhrkqUVJ3s4HkxhLN7XnV27S8y6HD8icsbX5h8enTy96Lxos2RTiywutYr1yihV7h5e0rMhWSCvy7sA3fxLU41v24TKmDBE95d3AviJOHpjIgG8H2Krgo+dUewtDty16A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
- dkim=pass header.d=marvell.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NDBiIEw012Scg5dJYJXAEijOZHJF7gtAmx9byLmTypk=;
- b=TidJE9IM4vPTRJCFjctlS/1CzkWTlHNOHAEv1ftGWJva5mFnfwib/+56M0vQxi6U4UonWaVDwoEiDKngnB7WL93LAZ3cN5VnscqKyB8v5cGG0hLUe9u/+XsTVI3yaXkRm7hc47NUSA5wBaQwjJCEjq9b6MmNpbteeecPDdKIuTI=
-Received: from BY3PR18MB4785.namprd18.prod.outlook.com (2603:10b6:a03:3cc::18)
- by DM4PR18MB4223.namprd18.prod.outlook.com (2603:10b6:5:392::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.15; Mon, 27 Feb
- 2023 17:12:16 +0000
-Received: from BY3PR18MB4785.namprd18.prod.outlook.com
- ([fe80::7175:f3fd:1a83:9808]) by BY3PR18MB4785.namprd18.prod.outlook.com
- ([fe80::7175:f3fd:1a83:9808%8]) with mapi id 15.20.6134.028; Mon, 27 Feb 2023
- 17:12:16 +0000
-From: Derek Chickles <dchickles@marvell.com>
-To: Josh Boyer <jwboyer@kernel.org>
-List-Id: <linux-firmware.lore.kernel.org>
-CC: "linux-firmware@kernel.org" <linux-firmware@kernel.org>,
-        Satananda Burla
-	<sburla@marvell.com>
-Subject: RE: [EXT] Re: pull request: liquidio: remove lio_23xx_vsw.bin
-Thread-Topic: [EXT] Re: pull request: liquidio: remove lio_23xx_vsw.bin
-Thread-Index: AdlHp5fEEgIgfY9aQRSdD/BEt2dGbQDDeb4AAAYIs5A=
-Date: Mon, 27 Feb 2023 17:12:16 +0000
-Message-ID: 
- <BY3PR18MB478532269BE8A5E1C8DE4A0AACAF9@BY3PR18MB4785.namprd18.prod.outlook.com>
-References: 
- <BY3PR18MB4785E40BF7A834EE264B4D78ACA99@BY3PR18MB4785.namprd18.prod.outlook.com>
- <CA+5PVA5OUi76B-ex8X2HiJ1XsFzKcwrFstObEAYCuDDJxDgkjQ@mail.gmail.com>
-In-Reply-To: 
- <CA+5PVA5OUi76B-ex8X2HiJ1XsFzKcwrFstObEAYCuDDJxDgkjQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: 
- =?utf-8?B?UEcxbGRHRStQR0YwSUc1dFBTSmliMlI1TG5SNGRDSWdjRDBpWXpwY2RYTmxj?=
- =?utf-8?B?bk5jWkdOb2FXTnJiR1Z6WEdGd2NHUmhkR0ZjY205aGJXbHVaMXd3T1dRNE5E?=
- =?utf-8?B?bGlOaTB6TW1RekxUUmhOREF0T0RWbFpTMDJZamcwWW1FeU9XVXpOV0pjYlhO?=
- =?utf-8?B?bmMxeHRjMmN0WlRBd01UUXhaR1V0WWpaak1TMHhNV1ZrTFRnMFkyVXRZalEy?=
- =?utf-8?B?WW1aak9XUmlNemd3WEdGdFpTMTBaWE4wWEdVd01ERTBNV1V3TFdJMll6RXRN?=
- =?utf-8?B?VEZsWkMwNE5HTmxMV0kwTm1KbVl6bGtZak00TUdKdlpIa3VkSGgwSWlCemVq?=
- =?utf-8?B?MGlNekUzTVNJZ2REMGlNVE16TWpFNU9URTFNek14T0RnMU5Ua3lJaUJvUFNJ?=
- =?utf-8?B?eVNqWkxURkZsVHl0VlYzZDBRMnRsYlRreVpFTk9jVlEwWVRROUlpQnBaRDBp?=
- =?utf-8?B?SWlCaWJEMGlNQ0lnWW04OUlqRWlJR05wUFNKalFVRkJRVVZTU0ZVeFVsTlNW?=
- =?utf-8?B?VVpPUTJkVlFVRklXVWxCUVVGWlYyd3lhWHByY2xwQlZEVlFUM2g2ZVRkWWVu?=
- =?utf-8?B?cFFhemczU0ZCTWRHWlFUVTVCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJTRUZCUVVGQlIwTkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlJVRkJVVUZDUVVGQlFURkdTRE5oUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VW8wUVVGQlFtaEJSMUZCV2tGQ2VVRkhWVUZqZDBKNlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGRlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFXZEJRVUZCUVVGdVowRkJRVWROUVdSUlFucEJTRkZCWW5kQ2RFRkdPRUZq?=
- =?utf-8?B?UVVKc1FVaEpRV04zUW5aQlJ6UkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZSUVVGQlFVRkJRVUZCUVVGQlFVRkJV?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVU5CUVVGQlFVRkRaVUZCUVVGWmQwSXhRVWhOUVdSQlFu?=
- =?utf-8?B?WkJSekJCV0hkQ2QwRkhaMEZpZDBKMVFVZFZRV0puUWpGQlJ6QkJXV2RDYkVG?=
- =?utf-8?B?SVNVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUWtGQlFVRkJRVUZCUVVGSlFVRkJRVUZCU2pSQlFVRkNha0ZJ?=
- =?utf-8?B?VlVGamQwSXdRVWM0UVdKUlFtWkJTRTFCWTNkQ2RVRkdPRUZhUVVKb1FVaE5R?=
- =?utf-8?B?V0ZCUW1aQlNGbEJUVUZCZVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?Q?FBQUFB?=
-x-dg-refone: 
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVVkJRVUZCUVVGQlFVRkJaMEZCUVVGQlFXNW5RVUZC?=
- =?utf-8?B?UjAxQlpGRkNla0ZJVVVGaWQwSjBRVVk0UVdOM1FucEJSelJCV0hkQ2NrRkhW?=
- =?utf-8?B?VUZsVVVJelFVYzRRV05uUW10QlNFMUJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZSUVVGQlFVRkJRVUZCUTBGQlFV?=
- =?utf-8?B?RkJRVU5sUVVGQlFWbDNRakZCU0UxQlpFRkNka0ZITUVGWWQwSjZRVWhOUVdK?=
- =?utf-8?B?blFtWkJSelJCWW5kQ2EwRkhWVUZpUVVKd1FVY3dRV0ZSUWpCQlIxVkJZMmRD?=
- =?utf-8?B?WmtGSVdVRk5RVUY1UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQ1FVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVbEJRVUZCUVVGS05FRkJRVUpxUVVoVlFXTjNRakJCUnpoQllsRkNa?=
- =?utf-8?B?a0ZJVFVGamQwSjFRVVk0UVdOM1FuZEJSMFZCV1hkQ2JFRkdPRUZrWjBGM1FV?=
- =?utf-8?B?UkpRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJSVUZCUVVGQlFVRkJRVUZuUVVGQlFVRkJibWRCUVVGSFVVRmlRVUozUVVZ?=
- =?utf-8?B?NFFXTjNRbkpCU0d0QlkwRkNiRUZHT0VGWmQwSnZRVWRGUVdSQlFtWkJSekJC?=
- =?utf-8?B?V2xGQ2VrRklUVUZaVVVKdVFVZFZRVmgzUWpKQlJFRkJUV2RCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVZGQlFVRkJRVUZCUVVGRFFVRkJRVUZCUTJWQlFVRkJX?=
- =?utf-8?B?a0ZDYzBGSVFVRllkMEo2UVVkM1FWbFJRbXBCUjNOQldIZENha0ZIWjBGWlVV?=
- =?utf-8?B?SXdRVVk0UVdKUlFteEJTRTFCWTNkQ2FFRkhZMEZhVVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?Q?FBQUFB?=
-x-dg-reftwo: 
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVSkJRVUZCUVVGQlFVRkJTVUZCUVVGQlFVbzBR?=
- =?utf-8?B?VUZCUW10QlIzZEJZMEZDWmtGSVVVRmFVVUpvUVVjd1FXTjNRbVpCUnpoQllt?=
- =?utf-8?B?ZENiRUZIVVVGalowSndRVWhaUVZwUlFtWkJSMWxCWVZGQ2MwRkhWVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZGUVVGQlFVRkJRVUZCUVdk?=
- =?utf-8?B?QlFVRkJRVUZ1WjBGQlFVZFZRV0pSUW1oQlIydEJZa0ZDWmtGSFJVRmFRVUpy?=
- =?utf-8?B?UVVoSlFWcFJRbnBCU0UxQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVSlJRVUZCUVVGQlFVRkJRVUZCUVVGQlVVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVTkJRVUZCUVVGRFpVRkJRVUZpVVVKb1FVaEpRV1JuUW14QlIz?=
- =?utf-8?B?ZEJZa0ZDWmtGSVFVRmpaMEoyUVVkdlFWcFJRbXBCU0ZGQldIZENha0ZIT0VG?=
- =?utf-8?B?YVFVSnNRVWhOUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRa0ZCUVVGQlFVRkJRVUZKUVVGQlFVRkJTalJCUVVGQ2RFRkhSVUZq?=
- =?utf-8?B?WjBJeVFVZFZRV0pCUW5OQlJqaEJaRUZDYkVGSVNVRmlVVUp3UVVjMFFXUlJR?=
- =?utf-8?B?bnBCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVWQlFVRkJRVUZCUVVGQlowRkJRVUZCUVNJdlBq?=
- =?utf-8?Q?wvbWV0YT4=3D?=
-x-dg-rorf: true
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BY3PR18MB4785:EE_|DM4PR18MB4223:EE_
-x-ms-office365-filtering-correlation-id: 732a98cb-cc4b-4085-6ecb-08db18e5c68b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- eq4Wc8vQ8IJwsxyUdlPdDWtucwtJyhjkw12oFJe3pSNciITrnjvpVeH4THrwkcIAP6aKoF9qTMsJ8xUZ028z8AQlBpIl4vvgvd1EX886zFr/vuA9uitYdSn1YFIkkKlU/LkbLpyOJi5qMQtgPldpA8ub1rmejk3a4RrqfLqBzmHYor1MAFPtZBTiwU/ATRXhg+fLuYLFXzxprZqPg16QDvhWYBfbhc+V4qGceGgtIe+romVJRlQojZ24wQBmwvWxAWhjoRHUwuyCKYYqvokTYlNLgGjA8Rk73CAm2PcNd7MOrF78kj1iOt7uRvQObPEwknift/W6dFEkw0ejbosMi3TzvGDWGWC8KKIqch642vL1HRffK5CTI0Q2bMmpLZSjXM7dKEG9b3pBOKBCVVqgJupzz6R0hiqg1pKSmVs2XcRa0Hfe3yU2Cj7pbZgaTdie/4FajoVtKMhOMGBDIfQ9IyZvQ8cA9H1hTbuS8/2t7AzbwIQihqxLUwZC3BfyOQgawP5pEJwb+gRAz2cMQDxWFVXXq47F2P83VX7tGf3N7svASxCso1+2+HMXFTzdVXfgIB4n8/5Dz6CHb85iSwKDGAIPLF/2CrZbjgfBqmwb0wzTFSd7QRoda0XxsLLSA4w3TSY1XFxpOHPUovKU8Fr1kigtoxQYcqLScDxYw5rZ1KDEXGwNSSeFUmazg4ZBmSeIlkAfe3itx3DtGr087WouJZKYWrlr1BVYOKrjn0DHILI=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY3PR18MB4785.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(376002)(346002)(396003)(136003)(366004)(451199018)(55016003)(83380400001)(186003)(33656002)(966005)(76116006)(71200400001)(19627235002)(122000001)(9686003)(26005)(86362001)(38100700002)(38070700005)(54906003)(107886003)(53546011)(8936002)(64756008)(7696005)(2906002)(66446008)(450100002)(478600001)(6506007)(5660300002)(6916009)(52536014)(66476007)(66556008)(316002)(66946007)(8676002)(4326008)(41300700001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?THlNcm5OaWdBL1g5RmhQOFZRKzJWa3ZsbXhiaVBuQk1xWktOLzJzNE9OeXgw?=
- =?utf-8?B?QmZNWE5UUko2VEFUWTJUSjVrRzczczVjeHVhMDZudXhDN1Rrczl5eXByLytI?=
- =?utf-8?B?VnFScmlESGtRNlZrOFR4K1BWcVVBU2plZncxOHBhOGV2TEVReXZtWDY1cHp3?=
- =?utf-8?B?MWp2UjByM2VhQUVWYjUvNGFrY0g3YzBBMkI0U1d3eVNBWEI5MzhDWVFoOGZw?=
- =?utf-8?B?M0NSUU1DSGFsMjJsdG5xa3pTK1dKdEtkUXZUeVBmbEQxYlZEdjFsY1FtZHo0?=
- =?utf-8?B?c054WHEvbXdmVmF3U3VKQ0xkRkZzcGszbFhMczVhbVdMaFZXOEF0dWpEUU0z?=
- =?utf-8?B?bGtOTzFqR0U1cGZib2JsY3NBRXZJbEVraVpDdGczYTBGcnJ1Mzk4b0dTVi81?=
- =?utf-8?B?Z2FCbEY0SWpJYzRzQ1l3UTl0RFk1TGRveTNmQzZaaGRSaTZWUmRORFZPUTlJ?=
- =?utf-8?B?b1c1NzB1Ni8vZjJ6Vk5pczZSMnp0WGtrK2xMZmo5M1dWY1JyUXRuM2ZFRHRq?=
- =?utf-8?B?a1pjRlI2VVRjT2svcERTUEFCa0h4aVZ4czU0d2o1WURrczU0Qy8rdi9zcjRN?=
- =?utf-8?B?TWtDTm9XQU9xa2lzTjlXRDJNZWY2VXVDdHhYQlNJVlBydGRZd1FXSEJiUWhp?=
- =?utf-8?B?ejF4SzNVb2dRNGhobmRFM1JpTkVVWFZiaW1XNVRIcGZLZGwwTGc2cnZuTTZY?=
- =?utf-8?B?QlpjbkFZRHowc1pPRWI5aTBTS3BQaTNrR2h3WjRFdlpHMy9ZV1l4RUlNa2Vu?=
- =?utf-8?B?dDVKcGpZUDdkOTNvaFhYTVljN29MYXJwS0Znb0tCMDNILzgxMmx1bkJlZENQ?=
- =?utf-8?B?LzVaSkl1d0FKNUxQNUV6RERSVC8xanFGb2FONVdGczM1akFEVG52UXBTY1hX?=
- =?utf-8?B?OThkMnBVbmkxK2E1dEZRR3RmQld2UXNNaURFMmdFOGt5RFJPUHhDamhRa2l1?=
- =?utf-8?B?dW84VThzd2loeDVGMmk0WTFpSmRsSmJsK0Rwc2wvSzA3VnBiZk55SUpqck8y?=
- =?utf-8?B?MTRvbW1RMWU0cUNnMnhoTEozWWpicnhIWTU3N09yeGZTaldIQ0dPMk5TbDcw?=
- =?utf-8?B?QUFxc2E1TEVIL3h2dmUxT3BOT2RzdXU4UW9Zc056Z0JhOWxDWUpJNE4yWHZh?=
- =?utf-8?B?QzQ2VlM0T3hTN2VjcGJNMzFZcUxSVnpmTVgyNVFjeUg5MWZackhpM2ZsdlAw?=
- =?utf-8?B?eEV2TTdub2lOSTJVQXpKVjhEMXpvaDhaMEx5UWsxOGxMc05rc3VSVzgwZDZV?=
- =?utf-8?B?eXpwVU5GNVJZdVJCNFduYkQxSGN0bm5FMSszZzNwT1NDZkZELzRNTXZmeGNt?=
- =?utf-8?B?ZWdXK210TjdLa25Nbm05WS9XNkNCc1UzM2lCb0plcEs3SHpWRUhPbWE1TkJm?=
- =?utf-8?B?dU12eEJZVWljQTVEVUVNeFFGUmMvTGg2OGpXc0lqa0MzTGtLZEhwTnhqUzIx?=
- =?utf-8?B?V0JvKzNBYUcwcHdjS3RRSXpTR0NuVWRRNUMyK2V0ZzI5bmhiaDJOb3RQNWNJ?=
- =?utf-8?B?cU1KdUc5aUZRT09ZS3l1a2pNQm1zSlhLakdDalF4Vi9GbmRHdnVVNUVkdnor?=
- =?utf-8?B?R0plcWpjTjI1ZmxFNkpGODBMVlN0M1lPWTFFTURROXJ4dURTV1p6VHg4T1lO?=
- =?utf-8?B?ZkZYVmsxTVk1cW9va1kwWG9lL0haLzRCcGZNRktUT1FGNFAzT2ZDQWdsSnUy?=
- =?utf-8?B?Tm5PTXRuVVhyZzdRS0hpTmFpUEg1VDdiZGx6SUpjc3AweVdIWUhUcEVud2dG?=
- =?utf-8?B?QisxMnZNOUk1ZG41ekZuOVFJNmIxSS8vYm1mZWRaNHVaZXpXUzd5N1gzWG0z?=
- =?utf-8?B?bGtOT2oza0U5ZDI0K3E3cEpZTHNDZHNKcytLeSs1cTI5bjB0bXpqMUN2dFg4?=
- =?utf-8?B?VEVXblFLOUd1bHVHR3RTVGNEOElWQTE5RnpZWmRJSk9zZVA5UndZZjVsM0tx?=
- =?utf-8?B?NjdlLzByRGNrY3ErQmx3TS9NcTZQeFZWVnFlS0VCa0pod21JekRCN1dGUy84?=
- =?utf-8?B?YkhudG8raXlOalkyYVVSUHVTRzVOVUhRRUJpSG1XWkZsRzI3bjRpQ1VvTVJi?=
- =?utf-8?B?ejVkQmd0U3FQZ2wrS2YzbElPK3VFZFFpMGtSaWRwZWFUaGhVOFFsNzR0NmhR?=
- =?utf-8?Q?7xAsG6nkhOtY3KpO5o7uCYqfZ?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	id 1192EC4339C; Mon, 27 Feb 2023 17:34:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFFD9C433EF
+	for <linux-firmware@kernel.org>; Mon, 27 Feb 2023 17:34:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1677519260;
+	bh=BB6mFdrRfbJd0Vdglg46fYIAQRHit2d36v6ouuQViO8=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=bINmEF6OAXv2PYqmLD1BWk3EPxfqPjNKSfVWzAcLrh0OjwPOqKYQ6aoTt43qGgkHr
+	 /dK0oS1/v01OKe9EA+s5eH8qI9vHlDJ8tacXu46lVubPMIkYf9mr+10u7z2e2CwdFO
+	 qkUexDOwoDdF3ykNZA4zUNTYSxceVrnI9NXdnX98tGQKAdJuDoWmnu3hqtfSSaiYy9
+	 CRZ46rmZmYr2a7XmKUg2qNgkddQ384UQ0iqAHcNWEV4leOgjAB2oWhl3eF2vezeaWZ
+	 pUyu7S2FQp+Omu/4DRAgjOL2YuNWVwp/NDKXLaiHk5YdZ4b13EE+5VzhW1pl7cVdCg
+	 nQzpMtF+BFeKQ==
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-536be69eadfso197715727b3.1
+        for <linux-firmware@kernel.org>; Mon, 27 Feb 2023 09:34:19 -0800 (PST)
+X-Gm-Message-State: AO0yUKXwBD4dwq1D26S4eXlPGHi7X0mbmtA7b4bDLjthLB3Z39v2b1PY
+	d/n9lsujwhFzvwem8i91EhXuMmvW9OQcdFaSd9M=
+X-Google-Smtp-Source: AK7set8qk10ht2CsZHzjM14MQhRc7F2WNkVwRiDFFZOyFZ7sC2dwQIPuTavpvdxJgnlzxX/8GFo+E1O3nQ0ApQqorZA=
+X-Received: by 2002:a81:4425:0:b0:52f:69d:cc75 with SMTP id
+ r37-20020a814425000000b0052f069dcc75mr10626108ywa.6.1677519258933; Mon, 27
+ Feb 2023 09:34:18 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: marvell.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY3PR18MB4785.namprd18.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 732a98cb-cc4b-4085-6ecb-08db18e5c68b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2023 17:12:16.0348
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RuU5yhOtAHGLx8uW1B3eGxeT81DBStnM7PIyYRXoZx/3z+IfruZSHiDr3Y66+Wlpy1viwXk04UfdzAGNg43f8w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR18MB4223
-X-Proofpoint-ORIG-GUID: sfH0xfsPSE2AK7A8kx_0MOx5VPZGMsPm
-X-Proofpoint-GUID: sfH0xfsPSE2AK7A8kx_0MOx5VPZGMsPm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-27_13,2023-02-27_01,2023-02-09_01
+References: <BY3PR18MB4785E40BF7A834EE264B4D78ACA99@BY3PR18MB4785.namprd18.prod.outlook.com>
+ <CA+5PVA5OUi76B-ex8X2HiJ1XsFzKcwrFstObEAYCuDDJxDgkjQ@mail.gmail.com> <BY3PR18MB478532269BE8A5E1C8DE4A0AACAF9@BY3PR18MB4785.namprd18.prod.outlook.com>
+In-Reply-To: <BY3PR18MB478532269BE8A5E1C8DE4A0AACAF9@BY3PR18MB4785.namprd18.prod.outlook.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Mon, 27 Feb 2023 12:34:08 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA6VESUXfERWQT1+Ozusuqd0_iVO+Mb3EJv8oo-t+gKWjQ@mail.gmail.com>
+Message-ID: <CA+5PVA6VESUXfERWQT1+Ozusuqd0_iVO+Mb3EJv8oo-t+gKWjQ@mail.gmail.com>
+Subject: Re: [EXT] Re: pull request: liquidio: remove lio_23xx_vsw.bin
+To: Derek Chickles <dchickles@marvell.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, Satananda Burla <sburla@marvell.com>
+Content-Type: text/plain; charset="UTF-8"
 
-PiBGcm9tOiBKb3NoIEJveWVyIDxqd2JveWVyQGtlcm5lbC5vcmc+DQo+IFNlbnQ6IE1vbmRheSwg
-RmVicnVhcnkgMjcsIDIwMjMgNzo0MiBQTQ0KPiBUbzogRGVyZWsgQ2hpY2tsZXMgPGRjaGlja2xl
-c0BtYXJ2ZWxsLmNvbT4NCj4gQ2M6IGxpbnV4LWZpcm13YXJlQGtlcm5lbC5vcmc7IFNhdGFuYW5k
-YSBCdXJsYSA8c2J1cmxhQG1hcnZlbGwuY29tPg0KPiBTdWJqZWN0OiBbRVhUXSBSZTogcHVsbCBy
-ZXF1ZXN0OiBsaXF1aWRpbzogcmVtb3ZlIGxpb18yM3h4X3Zzdy5iaW4NCj4gPiANCj4gLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLQ0KPiBPbiBGcmksIEZlYiAyNCwgMjAyMyBhdCA3OjI3IFBNIERlcmVrIENoaWNrbGVz
-IDxkY2hpY2tsZXNAbWFydmVsbC5jb20+DQo+IHdyb3RlOg0KPiA+DQo+ID4gSGksDQo+ID4NCj4g
-PiBXZSB3b3VsZCBsaWtlIHRvIHJlbW92ZSBvbmUgZmlybXdhcmUgYmluYXJ5IGZyb20gdGhpcyBy
-ZXBvc2l0b3J5IHBlciBvdXINCj4gc2VjdXJpdHkgdGVhbSdzIGNvbmNlcm5zIChDYXZpdW0gd2Fz
-IGFjcXVpcmVkIGJ5IE1hcnZlbGwpLg0KPiANCj4gV2hhdCBzZWN1cml0eSBjb25jZXJucyB3b3Vs
-ZCB0aG9zZSBiZT8gIFdoZXJlIHdvdWxkIHVzZXJzIG9mIHRoZXNlDQo+IGRldmljZXMgZ2V0IGZp
-cm13YXJlIGZyb20/DQoNCkhpLA0KDQpUaGFua3MgZm9yIHRoZSBjb21tZW50cy4NCg0KUGVyIHRo
-ZSBjb21taXQgdGV4dCwgdGhpcyBmaXJtd2FyZSB3YXMgb3JpZ2luYWxseSBqdXN0IGEgcHJvb2Yt
-b2YtY29uY2VwdA0KYW5kIG5vdCByZWxlYXNlZCB0byBjdXN0b21lcnMsIGJ1dCBpdCBoYWQgYSBk
-ZWZhdWx0IHBhc3N3b3JkIHRoYXQgaGFja2FibGUuDQpDb21taXQgdGV4dCBiZWxvdyBmb3IgcmVm
-ZXJlbmNlOg0KDQogIFJlbW92aW5nIGxpb18yM3h4X3Zzdy5iaW4gd2hpY2ggaGFzIGEgc2VjdXJp
-dHkgdnVsbmVyYWJpbGl0eS4NCiAgVGhpcyBiaW5hcnkgd2FzIHB1Ymxpc2hlZCBvcmlnaW5hbGx5
-IGFzIGEgcHJvb2Ytb2YtY29uY2VwdCBhbmQgaXMNCiAgbm90IGluc3RhbGxlZCBpbiBhbnkgcHJv
-ZHVjdGlvbiBkZXZpY2VzIGFuZCBzaG91bGQgbm90IGJlIHVzZWQuIEluDQogIGFkZGl0aW9uLCB0
-aGUgYWZvcmVtZW50aW9uZWQgTGlxdWlkSU8gZGV2aWNlcyBhcmUgZW5kIG9mIHNlcnZpY2UuDQoN
-ClRoZSBmdWxsIHNlY3VyaXR5IGFkdmlzb3J5IGNhbiBiZSBmb3VuZCBoZXJlOg0KIGh0dHBzOi8v
-d3d3Lm1hcnZlbGwuY29tL2NvbnRlbnQvZGFtL21hcnZlbGwvZW4vcHVibGljLWNvbGxhdGVyYWwv
-c2VydmVyLXByb2Nlc3NvcnMvbWFydmVsbC1zZWN1cml0eS1hZHZpc29yeS1saXF1aWQtaW8yLnBk
-Zg0KDQo+IA0KPiA+IFRoYW5rcywNCj4gPiBEZXJlaw0KPiA+IC0tDQo+ID4gVGhlIGZvbGxvd2lu
-ZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdA0KPiA4M2YxZDc3ODEzMDBiNTI3ODVjMDYyYTgyODVkYTU5
-MDQyYzBkMWZmOg0KPiA+DQo+ID4gICBNZXJnZSBicmFuY2ggJ2F0aDEway0yMDIzMDIxNScgb2YN
-Cj4gPiBnaXQ6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQva3ZhbG8v
-bGludXgtZmlybXdhcmUNCj4gPiAoMjAyMy0wMi0xNSAxNDoyNzowMyAtMDUwMCkNCj4gPg0KPiA+
-IGFyZSBhdmFpbGFibGUgaW4gdGhlIGdpdCByZXBvc2l0b3J5IGF0Og0KPiA+DQo+ID4NCj4gPg0K
-PiA+IGh0dHBzOi8vdXJsZGVmZW5zZS5wcm9vZnBvaW50LmNvbS92Mi91cmw/dT1odHRwcy0zQV9f
-Z2l0aHViLmNvbV9kY2hpY2sNCj4gPiBsZXNfbGludXgtDQo+IDJEZmlybXdhcmUuZ2l0JmQ9RHdJ
-QmFRJmM9bktqV2VjMmI2UjBtT3lQYXo3eHRmUSZyPThSdzNVM3JQWA0KPiA+IDh4dzQyYUZLWXJn
-M0ptWGVaaU9RbVRDODJIQnpueEFIU3cmbT0tDQo+IDE5X1lqOFZ4QzRFQVczd0V4UkphZ3BCek5j
-d2dWTVI3DQo+ID4gcUF0eFBoZ0d6bmNPc2N1QUhKNFJyLW9QUWNJLTNnayZzPUd4c3JiY3NNVjlK
-c3hmeDMtTE8wczNEdEswckVOLQ0KPiBTTzJVcEgNCj4gPiBzRzVkVEc0JmU9ICBsaXF1aWRpby0y
-MDIzMDIyMg0KPiA+DQo+ID4gZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRvDQo+IGM2MDA4
-NDA5NDQwZjE4ZGE3MTA5ZTIwYTNmOGRiMGM2YzBhMDU4NmI6DQo+ID4NCj4gPiAgIGxpcXVpZGlv
-OiByZW1vdmUgbGlvXzIzeHhfdnN3LmJpbiAoMjAyMy0wMi0yMiAxODo0ODoyNiAtMDgwMCkNCj4g
-Pg0KPiA+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0NCj4gPiBDaGlja2xlcywgRGVyZWsgKDEpOg0KPiA+ICAgICAgIGxpcXVp
-ZGlvOiByZW1vdmUgbGlvXzIzeHhfdnN3LmJpbg0KPiA+DQo+ID4gIExJQ0VOQ0UuY2F2aXVtX2xp
-cXVpZGlvICAgfCAzNjEgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLQ0KPiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LQ0KPiANCj4gVGhlcmUgYXJlIG11bHRpcGxlIGxpcXVpZGlvIGZpcm13YXJlIGZpbGVzIHVuZGVy
-IHRoaXMgbGljZW5zZS4gIFlvdSBjYW4ndA0KPiByZW1vdmUgaXQganVzdCBiZWNhdXNlIHlvdSB3
-YW50IHRvIHJlbW92ZSBvbmx5IG9uZSBmaXJtd2FyZS4NCj4gDQoNCklmIHlvdSBsb29rIGNsb3Nl
-bHkgYXQgdGhlIExpY2Vuc2UgZmlsZSB0aGUgc2VjdGlvbiBkZWxldGVkIHdhcyByZWZlcnJpbmcg
-dG8NCnRoZSBsaW9fdnN3XzIzeHguYmluIGZpbGUgc3BlY2lmaWNhbGx5LiBTaW5jZSB0aGlzIGZp
-bGUgaXMgYmVpbmcgcmVtb3ZlZCB0aGUNCkxpY2Vuc2Ugc2VjdGlvbiBpcyBhbHNvIGJlaW5nIHJl
-bW92ZWQuDQoNClJlZ2FyZHMsDQpEZXJlaw0KDQo+IGpvc2gNCj4gDQo+ID4gIFdIRU5DRSAgICAg
-ICAgICAgICAgICAgICAgfCAgIDMgLQ0KPiA+ICBsaXF1aWRpby9saW9fMjN4eF92c3cuYmluIHwg
-QmluIDIwNDM0NDA4IC0+IDAgYnl0ZXMNCj4gPiAgMyBmaWxlcyBjaGFuZ2VkLCAzNjQgZGVsZXRp
-b25zKC0pDQo+ID4gIGRlbGV0ZSBtb2RlIDEwMDY0NCBsaXF1aWRpby9saW9fMjN4eF92c3cuYmlu
-DQo=
+On Mon, Feb 27, 2023 at 12:12 PM Derek Chickles <dchickles@marvell.com> wrote:
+>
+> > From: Josh Boyer <jwboyer@kernel.org>
+> > Sent: Monday, February 27, 2023 7:42 PM
+> > To: Derek Chickles <dchickles@marvell.com>
+> > Cc: linux-firmware@kernel.org; Satananda Burla <sburla@marvell.com>
+> > Subject: [EXT] Re: pull request: liquidio: remove lio_23xx_vsw.bin
+> > >
+> > ----------------------------------------------------------------------
+> > On Fri, Feb 24, 2023 at 7:27 PM Derek Chickles <dchickles@marvell.com>
+> > wrote:
+> > >
+> > > Hi,
+> > >
+> > > We would like to remove one firmware binary from this repository per our
+> > security team's concerns (Cavium was acquired by Marvell).
+> >
+> > What security concerns would those be?  Where would users of these
+> > devices get firmware from?
+>
+> Hi,
+>
+> Thanks for the comments.
+>
+> Per the commit text, this firmware was originally just a proof-of-concept
+> and not released to customers, but it had a default password that hackable.
+> Commit text below for reference:
+
+My apologies, Derek.  I started looking at this, got distracted, and
+then did not remember that I had not looked at the actual commit in
+the pull request.  You've provided perfectly clear and sufficient
+detail.
+
+>   Removing lio_23xx_vsw.bin which has a security vulnerability.
+>   This binary was published originally as a proof-of-concept and is
+>   not installed in any production devices and should not be used. In
+>   addition, the aforementioned LiquidIO devices are end of service.
+>
+> The full security advisory can be found here:
+>  https://www.marvell.com/content/dam/marvell/en/public-collateral/server-processors/marvell-security-advisory-liquid-io2.pdf
+
+Thank you for this link.
+
+Pulled and pushed out.
+
+josh
+
+> > > Thanks,
+> > > Derek
+> > > --
+> > > The following changes since commit
+> > 83f1d7781300b52785c062a8285da59042c0d1ff:
+> > >
+> > >   Merge branch 'ath10k-20230215' of
+> > > git://git.kernel.org/pub/scm/linux/kernel/git/kvalo/linux-firmware
+> > > (2023-02-15 14:27:03 -0500)
+> > >
+> > > are available in the git repository at:
+> > >
+> > >
+> > >
+> > > https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_dchick
+> > > les_linux-
+> > 2Dfirmware.git&d=DwIBaQ&c=nKjWec2b6R0mOyPaz7xtfQ&r=8Rw3U3rPX
+> > > 8xw42aFKYrg3JmXeZiOQmTC82HBznxAHSw&m=-
+> > 19_Yj8VxC4EAW3wExRJagpBzNcwgVMR7
+> > > qAtxPhgGzncOscuAHJ4Rr-oPQcI-3gk&s=GxsrbcsMV9Jsxfx3-LO0s3DtK0rEN-
+> > SO2UpH
+> > > sG5dTG4&e=  liquidio-20230222
+> > >
+> > > for you to fetch changes up to
+> > c6008409440f18da7109e20a3f8db0c6c0a0586b:
+> > >
+> > >   liquidio: remove lio_23xx_vsw.bin (2023-02-22 18:48:26 -0800)
+> > >
+> > > ----------------------------------------------------------------
+> > > Chickles, Derek (1):
+> > >       liquidio: remove lio_23xx_vsw.bin
+> > >
+> > >  LICENCE.cavium_liquidio   | 361 -------------------------------------------------------
+> > -----------------------------------------
+> >
+> > There are multiple liquidio firmware files under this license.  You can't
+> > remove it just because you want to remove only one firmware.
+> >
+>
+> If you look closely at the License file the section deleted was referring to
+> the lio_vsw_23xx.bin file specifically. Since this file is being removed the
+> License section is also being removed.
+>
+> Regards,
+> Derek
+>
+> > josh
+> >
+> > >  WHENCE                    |   3 -
+> > >  liquidio/lio_23xx_vsw.bin | Bin 20434408 -> 0 bytes
+> > >  3 files changed, 364 deletions(-)
+> > >  delete mode 100644 liquidio/lio_23xx_vsw.bin
