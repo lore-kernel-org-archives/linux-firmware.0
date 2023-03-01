@@ -4,34 +4,34 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD254C7EE37
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AED31C7EE39
 	for <linux-firmware@archiver.kernel.org>; Wed,  1 Mar 2023 18:56:18 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B1D22C43442; Wed,  1 Mar 2023 18:56:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 96AA8C433AA;
+	id 95B3EC433B0; Wed,  1 Mar 2023 18:56:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 795E9C433A0;
 	Wed,  1 Mar 2023 18:56:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1677696978;
-	bh=EgmmuD88HMGoC//SRbEAtyMBH/iqeHb6QKYyCyBVteg=;
+	bh=MW74wa7GUvzb2uJf4dLQWmIejsZikfnlDVAw8ELFDAE=;
 	h=From:Date:Subject:References:In-Reply-To:List-Id:To:Cc:Reply-To:
 	 From;
-	b=EgwnROSYb1GXWyP9A6z6nrq28OrrfRhoOsPDIlGvTM3yYI0fl7JjHaPlucjRc5vgu
-	 65bfwL7SjspzNZsuKslaUrrJPeyhMSMIKMSA/PscCzJw5rjvytDGSJdfOxhkIFAh9y
-	 1UbTdemh4qgtipO1lJz9j7BHT6llzHA41Q2OsR//oGDsLNVMveK9Lq6ah7FheeLKkU
-	 iCWwo5PM0Kuc40gOvUHPLWaZwgTcUwO8zWPpJTAi3GpL5YY+W/MKK3qLcFll8dXgBU
-	 U9d/k7I1zjeMDXzgvd18gLzIlegvgj2W4ovHNNdDzPrS/fbNIasxVjOUsgRNYKEjMr
-	 RLvadYohb72tA==
+	b=iqqwjn6a2JA7EUxEOAbf7N4brHZSulECjdaIWJCJcYlbYmgynPQ2qbQJGmwsiuAMN
+	 OvlTOcV0+ahH2bBZmSHxiBMGv00NnbJiRlcclzkdfKxxqaW3zZzf0No3s3o65GAnP0
+	 c0nmRzCCD7UFMNR1PvmciYm6gXrEx+QrF/eHvUHjuzv289dBS5DZVOsbqDVwVo5ARo
+	 ribL4Rexxi9AuM5rej1dhjnfGRDPhi2cIUMzyYa5l6WVtW8i7orPuPSTJYOFQATe3p
+	 qzNTyvCMv739J8Vlg44tKsd6wiJ6oada9hMsFdiblVie0kUpJCENRvi3gb/FwKrY7c
+	 YtP28B5JhzQgg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84A4DC7EE37;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E354C7EE33;
 	Wed,  1 Mar 2023 18:56:18 +0000 (UTC)
 From: Emil Velikov via B4 Relay <devnull+emil.l.velikov.gmail.com@kernel.org>
-Date: Wed, 01 Mar 2023 18:56:19 +0000
-Subject: [PATCH RESEND v2 05/16] WHENCE: comment out duplicate MediaTek
- firmware
+Date: Wed, 01 Mar 2023 18:56:16 +0000
+Subject: [PATCH RESEND v2 02/16] WHENCE: remove unnecessary filename
+ quotation
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230301-fixes-and-compression-v2-5-e2b71974e842@gmail.com>
+Message-Id: <20230301-fixes-and-compression-v2-2-e2b71974e842@gmail.com>
 References: <20230301-fixes-and-compression-v2-0-e2b71974e842@gmail.com>
 In-Reply-To: <20230301-fixes-and-compression-v2-0-e2b71974e842@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
@@ -40,11 +40,11 @@ Cc: Josh Boyer <jwboyer@kernel.org>, Adam Sampson <ats@offog.org>,
  David Woodhouse <dwmw2@infradead.org>, 
  Emil Velikov <emil.l.velikov@gmail.com>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1677696976; l=777;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1677696976; l=4112;
  i=emil.l.velikov@gmail.com; s=20230301; h=from:subject:message-id;
- bh=y/dsWtna2WkULqajga1juBXTFdyO0iJ6fIGKMsgSkJs=;
- b=8mPWGuKxknU01+gpIjc4cBlDjm1aNQpar8GYb4EjQ2C4BtgCUtAzO47EieISM0hjkqE3MEN7S
- rPMtmWX/MJZB0lnyMMLowkL82xHhgOVh9gUikHsLzG24nFe3HBJEdBy
+ bh=LFy1r3HGJ4+v4UvtUZc84svNrI/yxDH3yCVCY8I/o00=;
+ b=RzCf/yWqXzMY923D750524RYZtBqYCovRJabUWhs/uz2ULN65IBVfV4oLiSGhSJcre1aiM2rT
+ +Zg5+kJ2V0uC1YnZHaluEeQwJlJ/hjw7r23yDW8s1JxFtdyLh3XHbeN
 X-Developer-Key: i=emil.l.velikov@gmail.com; a=ed25519;
  pk=qeUTVTNyI3rcR2CfNNWsloTihgzmtbZo98GdxwZKCkY=
 X-Endpoint-Received:
@@ -54,30 +54,72 @@ Reply-To: <emil.l.velikov@gmail.com>
 
 From: Emil Velikov <emil.l.velikov@gmail.com>
 
-As mentioned in the inline comment - file is already listed further
-down. To prevent check_whence.py errors, comment it out.
-
 Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- WHENCE | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ WHENCE | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
 diff --git a/WHENCE b/WHENCE
-index 7de6d6b..bce94c5 100644
+index 205162e..d4654dd 100644
 --- a/WHENCE
 +++ b/WHENCE
-@@ -5183,8 +5183,9 @@ File: mediatek/mt7622pr2h.bin
- Version: 20180621204904
- File: mediatek/mt7668pr2h.bin
- Version: 20180517181834
--File: mediatek/mt7663pr2h.bin
--Version: 7663e2ccn04-2006030247
-+# Note: explicitly commented out, since it's duplicated further down
-+# File: mediatek/mt7663pr2h.bin
-+# Version: 7663e2ccn04-2006030247
+@@ -2691,20 +2691,20 @@ Link: brcm/brcmfmac54591-pcie.clm_blob -> ../cypress/cyfmac54591-pcie.clm_blob
+ Licence: Redistributable. See LICENCE.cypress for details.
  
- Licence: Redistributable. See LICENCE.mediatek for details.
- 
+ File: "brcm/brcmfmac43241b4-sdio.Intel Corp.-VALLEYVIEW C0 PLATFORM.txt"
+-File: "brcm/brcmfmac4330-sdio.Prowise-PT301.txt"
++File: brcm/brcmfmac4330-sdio.Prowise-PT301.txt
+ File: "brcm/brcmfmac43340-sdio.ASUSTeK COMPUTER INC.-TF103CE.txt"
+-File: "brcm/brcmfmac43340-sdio.meegopad-t08.txt"
+-File: "brcm/brcmfmac43340-sdio.pov-tab-p1006w-data.txt"
+-File: "brcm/brcmfmac43340-sdio.predia-basic.txt"
+-File: "brcm/brcmfmac43362-sdio.WC121.txt"
+-File: "brcm/brcmfmac43362-sdio.cubietech,cubietruck.txt"
++File: brcm/brcmfmac43340-sdio.meegopad-t08.txt
++File: brcm/brcmfmac43340-sdio.pov-tab-p1006w-data.txt
++File: brcm/brcmfmac43340-sdio.predia-basic.txt
++File: brcm/brcmfmac43362-sdio.WC121.txt
++File: brcm/brcmfmac43362-sdio.cubietech,cubietruck.txt
+ Link: brcm/brcmfmac43362-sdio.kobo,aura.txt -> brcmfmac43362-sdio.WC121.txt
+ Link: brcm/brcmfmac43362-sdio.kobo,tolino-shine2hd.txt -> brcmfmac43362-sdio.WC121.txt
+ Link: brcm/brcmfmac43362-sdio.lemaker,bananapro.txt -> brcmfmac43362-sdio.cubietech,cubietruck.txt
+-File: "brcm/brcmfmac43430a0-sdio.ilife-S806.txt"
+-File: "brcm/brcmfmac43430a0-sdio.jumper-ezpad-mini3.txt"
++File: brcm/brcmfmac43430a0-sdio.ilife-S806.txt
++File: brcm/brcmfmac43430a0-sdio.jumper-ezpad-mini3.txt
+ File: "brcm/brcmfmac43430a0-sdio.ONDA-V80 PLUS.txt"
+-File: "brcm/brcmfmac43430-sdio.AP6212.txt"
++File: brcm/brcmfmac43430-sdio.AP6212.txt
+ Link: brcm/brcmfmac43430-sdio.sinovoip,bpi-m2-plus.txt -> brcmfmac43430-sdio.AP6212.txt
+ Link: brcm/brcmfmac43430-sdio.sinovoip,bpi-m2-zero.txt -> brcmfmac43430-sdio.AP6212.txt
+ Link: brcm/brcmfmac43430-sdio.sinovoip,bpi-m2-ultra.txt -> brcmfmac43430-sdio.AP6212.txt
+@@ -2713,19 +2713,19 @@ Link: brcm/brcmfmac43430-sdio.friendlyarm,nanopi-r1.txt -> brcmfmac43430-sdio.AP
+ Link: brcm/brcmfmac43430-sdio.starfive,visionfive-v1.txt -> brcmfmac43430-sdio.AP6212.txt
+ Link: brcm/brcmfmac43430-sdio.beagle,beaglev-starlight-jh7100-a1.txt -> brcmfmac43430-sdio.AP6212.txt
+ Link: brcm/brcmfmac43430-sdio.beagle,beaglev-starlight-jh7100-r0.txt -> brcmfmac43430-sdio.AP6212.txt
+-File: "brcm/brcmfmac43430-sdio.Hampoo-D2D3_Vi8A1.txt"
+-File: "brcm/brcmfmac43430-sdio.MUR1DX.txt"
+-File: "brcm/brcmfmac43430-sdio.raspberrypi,3-model-b.txt"
++File: brcm/brcmfmac43430-sdio.Hampoo-D2D3_Vi8A1.txt
++File: brcm/brcmfmac43430-sdio.MUR1DX.txt
++File: brcm/brcmfmac43430-sdio.raspberrypi,3-model-b.txt
+ Link: brcm/brcmfmac43430-sdio.raspberrypi,model-zero-w.txt -> brcmfmac43430-sdio.raspberrypi,3-model-b.txt
+ Link: brcm/brcmfmac43430-sdio.raspberrypi,model-zero-2-w.txt -> brcmfmac43430-sdio.raspberrypi,3-model-b.txt
+-File: "brcm/brcmfmac43455-sdio.acepc-t8.txt"
+-File: "brcm/brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt"
++File: brcm/brcmfmac43455-sdio.acepc-t8.txt
++File: brcm/brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt
+ Link: brcm/brcmfmac43455-sdio.raspberrypi,3-model-a-plus.txt -> brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt
+-File: "brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.txt"
++File: brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.txt
+ Link: brcm/brcmfmac43455-sdio.Raspberry\ Pi\ Foundation-Raspberry\ Pi\ 4\ Model\ B.txt -> brcmfmac43455-sdio.raspberrypi,4-model-b.txt
+ Link: brcm/brcmfmac43455-sdio.Raspberry\ Pi\ Foundation-Raspberry\ Pi\ Compute\ Module\ 4.txt -> brcmfmac43455-sdio.raspberrypi,4-model-b.txt
+ File: "brcm/brcmfmac43455-sdio.MINIX-NEO Z83-4.txt"
+-File: "brcm/brcmfmac4356-pcie.gpd-win-pocket.txt"
++File: brcm/brcmfmac4356-pcie.gpd-win-pocket.txt
+ File: "brcm/brcmfmac4356-pcie.Xiaomi Inc-Mipad2.txt"
+ File: brcm/brcmfmac4356-sdio.AP6356S.txt
+ Link: brcm/brcmfmac4356-sdio.firefly,firefly-rk3399.txt -> brcmfmac4356-sdio.AP6356S.txt
 
 -- 
 2.39.2
