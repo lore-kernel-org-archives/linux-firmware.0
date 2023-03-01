@@ -4,34 +4,34 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA6FEC7EE2F
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD1ACC6FA9D
 	for <linux-firmware@archiver.kernel.org>; Wed,  1 Mar 2023 18:56:18 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id DB36CC433A4; Wed,  1 Mar 2023 18:56:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C3011C4331D;
+	id BEF55C43446; Wed,  1 Mar 2023 18:56:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A818CC433EF;
 	Wed,  1 Mar 2023 18:56:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1677696978;
-	bh=qLF1RLaWz6rPlfgYUHky9SqloeDyKhQj5jEfbNPZRQQ=;
+	bh=Sbr73EBr4SOXQNwqzN4Y5qfrWUfHeGiTJPZyRRvIpGA=;
 	h=From:Date:Subject:References:In-Reply-To:List-Id:To:Cc:Reply-To:
 	 From;
-	b=NzxmJ84R1imag2Pqk5CvuNmyf4j9ft5wuGUvp/236W8AqhI1FzaruowfUr/i+Gxza
-	 XKsY5qsoKc3uU9jyWYGQVIHkZO8Ofw3QQQNITLLddAEx2AZkDpiMORNLRT2Mnaxkik
-	 CqCOhratCYORe469OokBoxKOudjKhFrmwfmGGkNfr+oROeYUBv5NrYz6KO5/Kqom/y
-	 IJAMXK7h0AWaR9wX9BBFQkfSeem/I1NhGv5zrJri+osqqLIZY8tx0togXfGHfU9hHl
-	 cer97e++iOVqAMnLi+XlRwai6bU+655AMaxnHkimBO9Gn211dAX3CRrhs1NZipWFHs
-	 tFuLQD0TRnhBw==
+	b=DkWm0ezKEqqwTFtxnKkNIS/58SM+X4Q8Sc4zjBDd9zOvMNs+eE6Rar7iJPwDWWAXv
+	 sgAr98AO+qUHiyM3q3d1bERfD4Tuu0ILDtKff8jJU7QWdpfgZw6iLBM8xilX46tcQr
+	 svYuZ6EiAlgw0miFqh3Jrl4qVhHN6WhCyaYIAwqfBlYmlLXrq/AnO5vc5+XHubzqHM
+	 eRVrCqDHdwOs6McWolBIQI1VTLmEJbnvlw+t4+5/31PBX3GewptVkA7F27ik9ucmH/
+	 N73GF7NmAdpwrT62e2/swbcXSh8OdezYp0zMyAx086k9KC//2pHQVQSn82ZERjxc4a
+	 GoI+lpLhRi6XA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B26F0C7EE37;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97B2DC7EE33;
 	Wed,  1 Mar 2023 18:56:18 +0000 (UTC)
 From: Emil Velikov via B4 Relay <devnull+emil.l.velikov.gmail.com@kernel.org>
-Date: Wed, 01 Mar 2023 18:56:22 +0000
-Subject: [PATCH RESEND v2 08/16] copy-firmware: remove non-applicable file
- presence test
+Date: Wed, 01 Mar 2023 18:56:20 +0000
+Subject: [PATCH RESEND v2 06/16] check_whence: error on duplicate file
+ entries
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230301-fixes-and-compression-v2-8-e2b71974e842@gmail.com>
+Message-Id: <20230301-fixes-and-compression-v2-6-e2b71974e842@gmail.com>
 References: <20230301-fixes-and-compression-v2-0-e2b71974e842@gmail.com>
 In-Reply-To: <20230301-fixes-and-compression-v2-0-e2b71974e842@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
@@ -40,11 +40,11 @@ Cc: Josh Boyer <jwboyer@kernel.org>, Adam Sampson <ats@offog.org>,
  David Woodhouse <dwmw2@infradead.org>, 
  Emil Velikov <emil.l.velikov@gmail.com>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1677696976; l=655;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1677696976; l=1745;
  i=emil.l.velikov@gmail.com; s=20230301; h=from:subject:message-id;
- bh=xcjzktk1cmFxjASRD0WzRiBZcDi7DUscCBvzM13kFwk=;
- b=UOlleUcGNnltDjFZjBxfbap1Iib7OFVEZo69yUHreDIaUQEZgzagV7O4X16DkhBiFhR4aO0UC
- cx9hLiEqoODB2b8URandbwYPvL9COHzy7fG3mLASDAjMvYEOI6yzHEW
+ bh=2c6pFHqccGS+CEGS7VUkdmEUpdp4j5BHwTb4gFxl86o=;
+ b=m7VX1IWE58Y3n/9Ukgip8DHsO95RDFl4OL8NTidWscJIlJFgT0tQWVf5HVc0dCsU9UewOKRPY
+ QhL0UHQ3mF+DzAy5UxZv/X3g4go95KwawNz/w/BS7LfkmEhPkdTT3DX
 X-Developer-Key: i=emil.l.velikov@gmail.com; a=ed25519;
  pk=qeUTVTNyI3rcR2CfNNWsloTihgzmtbZo98GdxwZKCkY=
 X-Endpoint-Received:
@@ -54,26 +54,52 @@ Reply-To: <emil.l.velikov@gmail.com>
 
 From: Emil Velikov <emil.l.velikov@gmail.com>
 
-The check_whence.py script already ensures that the files listed in
-WHENCE are present on-disk. Thus the extra check isn't needed.
+There's little point in copying (or compressing with later patches) the
+same files multiple times. So let's error out when duplicate entries are
+present.
 
 Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- copy-firmware.sh | 1 -
- 1 file changed, 1 deletion(-)
+ check_whence.py | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/copy-firmware.sh b/copy-firmware.sh
-index 6bceef3..656b0ec 100755
---- a/copy-firmware.sh
-+++ b/copy-firmware.sh
-@@ -32,7 +32,6 @@ while test $# -gt 0; do
- done
+diff --git a/check_whence.py b/check_whence.py
+index f347f0e..7ff21f6 100755
+--- a/check_whence.py
++++ b/check_whence.py
+@@ -24,6 +24,14 @@ def list_whence():
+                         yield match.group(2)
+                         continue
  
- grep '^File:' WHENCE | sed -e's/^File: *//g' | while read f; do
--    test -f "$f" || continue
-     $verbose "copying file $f"
-     install -d $destdir/$(dirname "$f")
-     cp -d "$f" $destdir/"$f"
++def list_whence_files():
++    with open('WHENCE', encoding='utf-8') as whence:
++        for line in whence:
++            match = re.match(r'File:\s*(.*)', line)
++            if match:
++                yield match.group(1).replace("\ ", " ")
++                continue
++
+ def list_git():
+     with os.popen('git ls-files') as git_files:
+         for line in git_files:
+@@ -32,12 +40,17 @@ def list_git():
+ def main():
+     ret = 0
+     whence_list = list(list_whence())
++    whence_files = list(list_whence_files())
+     known_files = set(name for name in whence_list if not name.endswith('/')) | \
+                   set(['check_whence.py', 'configure', 'Makefile',
+                        'README', 'copy-firmware.sh', 'WHENCE'])
+     known_prefixes = set(name for name in whence_list if name.endswith('/'))
+     git_files = set(list_git())
+ 
++    for name in set(fw for fw in whence_files if whence_files.count(fw) > 1):
++        sys.stderr.write('E: %s listed in WHENCE twice\n' % name)
++        ret = 1
++
+     for name in sorted(list(known_files - git_files)):
+         sys.stderr.write('E: %s listed in WHENCE does not exist\n' % name)
+         ret = 1
 
 -- 
 2.39.2
