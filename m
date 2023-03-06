@@ -1,106 +1,85 @@
-Return-Path: <SRS0=hYif=65=gmail.com=casaxa@kernel.org>
+Return-Path: <SRS0=dbHn=66=realtek.com=pkshih@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 56481C678DB
-	for <linux-firmware@archiver.kernel.org>; Sun,  5 Mar 2023 00:30:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1446DC61DA4
+	for <linux-firmware@archiver.kernel.org>; Mon,  6 Mar 2023 01:23:24 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 0A9C7C433D2; Sun,  5 Mar 2023 00:30:47 +0000 (UTC)
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+	id C3ADFC433EF; Mon,  6 Mar 2023 01:23:24 +0000 (UTC)
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id EC71AC433EF
-	for <linux-firmware@kernel.org>; Sun,  5 Mar 2023 00:30:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org EC71AC433EF
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f43.google.com with SMTP id e9-20020a056830200900b00694651d19f6so603219otp.12
-        for <linux-firmware@kernel.org>; Sat, 04 Mar 2023 16:30:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677976245;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=CGDD6Kn1yVx8sIJYCxQhP7C47HaKxJdveu/zWV48DGc=;
-        b=RK9vs4Kt9YSwgRGnuanlpzg78yLWTS2//v19ReBPN77A5hxY5RxyZ0ELsdYmkin3je
-         HsFxBBmvpIvWJSqQzFUe6idyZ3EDPFeFRrw4Nf9cjW1lGGZqKzfVAG+DE9Xu00kWHGht
-         6DjOLIfSPoaR59PHBKZTZDCHoFGpJS9J6qDx9gBBR4LMTUwIX83ngIKX6urqNuXgj6zD
-         qbk05OvphNgeOUnYBpNxleSy9tjIxSe/tuh0Q1dgvSbSXdKRF3UYe41ta5CpsRfV7qNa
-         3wrfp5kOY5vDzi9+J1Y1vF/1DwhMuRg0mFEqSv+Are8G6pSFE2AU8ya5LAV5bhQ8Ya+s
-         aV3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677976245;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CGDD6Kn1yVx8sIJYCxQhP7C47HaKxJdveu/zWV48DGc=;
-        b=Ye4XVQHEEp0yBhuxWddG9iUZLmxe/G5A3tSudl1hed/D//Bp2MQc/GAGe+rUqVdtzO
-         cjSO8C4WdxylOnyzmOgZlf2QJ920VOEQh276l9V03Df5IKoBr0Pd5cB4XbhCtCvKw9L3
-         rdQv2+aOlqCqMmXdsm04eA3u9TsYgj9BFDsB5EL6lAq2SR0qLVSo7vDtT3NzFCRWlwb3
-         NSk6rZmcDRW5v3h9kIbXuRLHMfSTDqR80C50EYtWMmgRD+7H7GdDSOjDzc7s2jpursBU
-         jK+5CUX2OzOBx9KtcCxcCf4L+1+THvUqHySaLgXDPTl44Ddc0nLpnvO47LMQGU45iTMn
-         GqSg==
-X-Gm-Message-State: AO0yUKUvDx/nOFkQCwqapUIh4xqK15oXro7p1nOpkSfE0IAOpnxIfnxc
-	DrilbiQgdI4MRnF+QtUZXxmIgN4TC5hTENmDtZ3/NRzH
-X-Google-Smtp-Source: AK7set/1nTnoBSX/EqID04lQLkwnL2EBnYvK94Z3ARWlvYevz6slTb35DBkjdb/m9FnOtCH2Gmrh1FBQIN4DxVy494Y=
-X-Received: by 2002:a9d:5f97:0:b0:688:d1a8:389e with SMTP id
- g23-20020a9d5f97000000b00688d1a8389emr1993585oti.1.1677976244844; Sat, 04 Mar
- 2023 16:30:44 -0800 (PST)
-MIME-Version: 1.0
-From: Sasa Ostrouska <casaxa@gmail.com>
-Date: Sun, 5 Mar 2023 01:30:33 +0100
-Message-ID: <CALFERdxXtfewr8yHekHjic3aAFq4UbRnjcZT=tqAxSkq5XU2YQ@mail.gmail.com>
-Subject: Fixing symlinks of some intel firmware.
+	by smtp.kernel.org (Postfix) with ESMTPS id EC5F3C433D2
+	for <linux-firmware@kernel.org>; Mon,  6 Mar 2023 01:23:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org EC5F3C433D2
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 3261N34h8022088, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 3261N34h8022088
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
+	Mon, 6 Mar 2023 09:23:03 +0800
+Received: from RTEXMBS03.realtek.com.tw (172.21.6.96) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.32; Mon, 6 Mar 2023 09:22:26 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS03.realtek.com.tw (172.21.6.96) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Mon, 6 Mar 2023 09:22:25 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::b4a2:2bcc:48d1:8b02]) by
+ RTEXMBS04.realtek.com.tw ([fe80::b4a2:2bcc:48d1:8b02%5]) with mapi id
+ 15.01.2375.007; Mon, 6 Mar 2023 09:22:25 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Content-Type: multipart/mixed; boundary="000000000000044cb205f61c4a6b"
-
---000000000000044cb205f61c4a6b
-Content-Type: text/plain; charset="UTF-8"
-
-Hi, in the last few updates of linux-firmware I saw there are some
-wrong symlinks created
-since the parent directory name is also in the link section.
-
-The attached patch should fix the wrongly created symlinks.
-
-Please cc me as I am not subscribed on this mailing list.
-
-Rgds
-Sasa
-
---000000000000044cb205f61c4a6b
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="linux-firmware-intel-symlinks-fix.patch"
-Content-Disposition: attachment; 
-	filename="linux-firmware-intel-symlinks-fix.patch"
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+CC: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "rtl8821cerfe2@gmail.com" <rtl8821cerfe2@gmail.com>
+Subject: pull request: rtlwifi: Add firmware v16.0 for RTL8710BU aka RTL8188GU
+Thread-Topic: pull request: rtlwifi: Add firmware v16.0 for RTL8710BU aka
+ RTL8188GU
+Thread-Index: AQHZT8ob3WvWEi+5y0G+Qry/CArSug==
+Date: Mon, 6 Mar 2023 01:22:25 +0000
+Message-ID: <ab0289ec80471df43308c550e9fe4e0ac8b9cdc5.camel@realtek.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Evolution 3.36.1-2 
+x-originating-ip: [172.21.69.188]
+x-kse-serverinfo: RTEXMBS03.realtek.com.tw, 9
+x-kse-attachmentfiltering-interceptor-info: no applicable attachment filtering
+ rules found
+x-kse-antivirus-interceptor-info: scan successful
+x-kse-antivirus-info: =?utf-8?B?Q2xlYW4sIGJhc2VzOiAyMDIzLzMvNSDkuIvljYggMDc6MzY6MDA=?=
+x-kse-bulkmessagesfiltering-scan-result: protection disabled
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A4D915ACAFD45E40A9CCB11365BF3A6B@realtek.com>
 Content-Transfer-Encoding: base64
-Content-ID: <f_leunokr50>
-X-Attachment-Id: f_leunokr50
+MIME-Version: 1.0
+X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
 
-ZGlmZiAtLWdpdCBhL1dIRU5DRSBiL1dIRU5DRQppbmRleCBlOTU3Y2M5Li5mZGI1ZjFkIDEwMDY0
-NAotLS0gYS9XSEVOQ0UKKysrIGIvV0hFTkNFCkBAIC00MDcyLDcgKzQwNzIsNyBAQCBEcml2ZXI6
-IHNuZF9zb2NfY2F0cHQgLS0gSW50ZWwgQXVkaW9EU1AgZHJpdmVyIGZvciBIU1cvQkRXIHBsYXRm
-b3JtcwogCiBGaWxlOiBpbnRlbC9jYXRwdC9iZHcvZHNwX2Jhc2Vmdy5iaW4KIFZlcnNpb246IDQ0
-YjgxYzRkNTM5N2E2MzEwODM1NmY1OGYwMzY5NTNkOWIyODhjNGUKLUxpbms6IGludGVsL0ludGNT
-U1QyLmJpbiAtPiBpbnRlbC9jYXRwdC9iZHcvZHNwX2Jhc2Vmdy5iaW4KK0xpbms6IGludGVsL0lu
-dGNTU1QyLmJpbiAtPiBjYXRwdC9iZHcvZHNwX2Jhc2Vmdy5iaW4KIAogTGljZW5zZTogUmVkaXN0
-cmlidXRhYmxlLiBTZWUgTElDRU5DRS5JbnRjU1NUMiBmb3IgZGV0YWlscwogCkBAIC00MDgzLDE1
-ICs0MDgzLDE1IEBAIERyaXZlcjogc25kX3NvY19hdnMgLS0gSW50ZWwgQXVkaW9EU1AgZHJpdmVy
-IGZvciBjQVZTIHBsYXRmb3JtcwogRmlsZTogaW50ZWwvYXZzL3NrbC9kc3BfYmFzZWZ3LmJpbgog
-RmlsZTogaW50ZWwvYXZzL3NrbC9kc3BfbW9kXzdDQUQwODA4LUFCMTAtQ0QyMy1FRjQ1LTEyQUIz
-NENENTZFRi5iaW4KIFZlcnNpb246IDkuMjEuMDAuNDg5OQotTGluazogaW50ZWwvZHNwX2Z3X3Jl
-bGVhc2UuYmluIC0+IGludGVsL2F2cy9za2wvZHNwX2Jhc2Vmdy5iaW4KLUxpbms6IGludGVsL2Rz
-cF9md19rYmwuYmluIC0+IGludGVsL2F2cy9za2wvZHNwX2Jhc2Vmdy5iaW4KK0xpbms6IGludGVs
-L2RzcF9md19yZWxlYXNlLmJpbiAtPiBhdnMvc2tsL2RzcF9iYXNlZncuYmluCitMaW5rOiBpbnRl
-bC9kc3BfZndfa2JsLmJpbiAtPiBhdnMvc2tsL2RzcF9iYXNlZncuYmluCiBGaWxlOiBpbnRlbC9h
-dnMvYXBsL2RzcF9iYXNlZncuYmluCiBWZXJzaW9uOiA5LjIyLjAxLjQ5MDgKLUxpbms6IGludGVs
-L2RzcF9md19ieHRuLmJpbiAtPiBpbnRlbC9hdnMvYXBsL2RzcF9iYXNlZncuYmluCi1MaW5rOiBp
-bnRlbC9kc3BfZndfZ2xrLmJpbiAtPiBpbnRlbC9hdnMvYXBsL2RzcF9iYXNlZncuYmluCitMaW5r
-OiBpbnRlbC9kc3BfZndfYnh0bi5iaW4gLT4gYXZzL2FwbC9kc3BfYmFzZWZ3LmJpbgorTGluazog
-aW50ZWwvZHNwX2Z3X2dsay5iaW4gLT4gYXZzL2FwbC9kc3BfYmFzZWZ3LmJpbgogRmlsZTogaW50
-ZWwvYXZzL2NubC9kc3BfYmFzZWZ3LmJpbgogVmVyc2lvbjogMTAuMjMuMDAuODU1MQotTGluazog
-aW50ZWwvZHNwX2Z3X2NubC5iaW4gLT4gaW50ZWwvYXZzL2NubC9kc3BfYmFzZWZ3LmJpbgorTGlu
-azogaW50ZWwvZHNwX2Z3X2NubC5iaW4gLT4gYXZzL2NubC9kc3BfYmFzZWZ3LmJpbgogCiBMaWNl
-bnNlOiBSZWRpc3RyaWJ1dGFibGUuIFNlZSBMSUNFTkNFLmFkc3Bfc3N0IGZvciBkZXRhaWxzCiAK
---000000000000044cb205f61c4a6b--
+SGksDQoNCnJ0bDh4eHh1IGlzIGdvaW5nIHRvIHN1cHBvcnQgODcxMEJVLCBzbyBhZGQgZmlybXdh
+cmUgZm9yIHRoaXMgZGV2aWNlLg0KDQpUaGFuayB5b3UNClBpbmctS2UNCg0KLS0tDQpUaGUgZm9s
+bG93aW5nIGNoYW5nZXMgc2luY2UgY29tbWl0IDYwOTcxYTY0ODVlZTYwNGM0N2NjOTA1ZmY3N2M1
+ODNhZTAwMWY5ZGY6DQoNCiAgTWVyZ2UgYnJhbmNoICdsaXF1aWRpby0yMDIzMDIyMicgb2YgaHR0
+cHM6Ly9naXRodWIuY29tL2RjaGlja2xlcy9saW51eC1maXJtd2FyZSAoMjAyMy0wMi0yNw0KMTI6
+MzM6MDcgLTA1MDApDQoNCmFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0Og0K
+DQogIGh0dHBzOi8vZ2l0aHViLmNvbS9wa3NoaWgvbGludXgtZmlybXdhcmUuZ2l0IEhFQUQNCg0K
+Zm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRvIDRjYzNlZGE2MzYwZjBkYWEzMTY0N2RlMTI5
+YTAwMWU0MDg2MDJlOTc6DQoNCiAgcnRsd2lmaTogQWRkIGZpcm13YXJlIHYxNi4wIGZvciBSVEw4
+NzEwQlUgYWthIFJUTDgxODhHVSAoMjAyMy0wMy0wNiAwOToxNjo1OCArMDgwMCkNCg0KLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LQ0KQml0dGVyYmx1ZSBTbWl0aCAoMSk6DQogICAgICBydGx3aWZpOiBBZGQgZmlybXdhcmUgdjE2
+LjAgZm9yIFJUTDg3MTBCVSBha2EgUlRMODE4OEdVDQoNCiBXSEVOQ0UgICAgICAgICAgICAgICAg
+ICAgICAgIHwgICA1ICsrKysrDQogcnRsd2lmaS9ydGw4NzEwYnVmd19TTUlDLmJpbiB8IEJpbiAw
+IC0+IDIzNzUwIGJ5dGVzDQogcnRsd2lmaS9ydGw4NzEwYnVmd19VTUMuYmluICB8IEJpbiAwIC0+
+IDIyNjU0IGJ5dGVzDQogMyBmaWxlcyBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKykNCiBjcmVhdGUg
+bW9kZSAxMDA2NDQgcnRsd2lmaS9ydGw4NzEwYnVmd19TTUlDLmJpbg0KIGNyZWF0ZSBtb2RlIDEw
+MDY0NCBydGx3aWZpL3J0bDg3MTBidWZ3X1VNQy5iaW4NCg0KDQo=
