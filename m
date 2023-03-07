@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 420B3C678D5
-	for <linux-firmware@archiver.kernel.org>; Tue,  7 Mar 2023 18:02:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9CA73C6FD1B
+	for <linux-firmware@archiver.kernel.org>; Tue,  7 Mar 2023 18:08:12 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id F023EC433AA; Tue,  7 Mar 2023 18:02:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB05FC4339C
-	for <linux-firmware@kernel.org>; Tue,  7 Mar 2023 18:02:07 +0000 (UTC)
+	id 6743BC433B0; Tue,  7 Mar 2023 18:08:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BB21C433A8
+	for <linux-firmware@kernel.org>; Tue,  7 Mar 2023 18:08:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678212127;
-	bh=4iVFk8wyyEAgptxy06dS9KcuO2SFLh5icgtx7YRlsJQ=;
+	s=k20201202; t=1678212492;
+	bh=8O5Zzwl48jbCuHOXNc/Ov5uQqWZfWkXx0oiBY4in1cA=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=HbQicpOVnC3vyN4Q4u4RmaVudbFXCQc+p9wE9pdd7qZJaVuF9l1xXJ5gj/3AIneUv
-	 ZgJ08XH98Bry2l+zdnhh6LbmTXrncceKRl5fgoQ9SlYRndOFJZFv8qr93e9JQijyw0
-	 09qwF6VRL3vj4h9aRDQLCc0/HhsA5e92FpV4OYTsLaAhoe+tKEqBMRHLa9RvpGChzi
-	 cg5VfQriKte7ntRST0fwfqjJFP8WkNUAMKzkH5vgFbINXHazYW/DKwtumzxF4usLL7
-	 p0ArxCxRH8+sICI9l6EN8psgEhEPYqY3c1UY1lz7k8c+LQIwPwjXY4i19cv9WZJY0d
-	 PhU3LMi+EooAA==
-Received: by mail-yb1-f180.google.com with SMTP id e194so12301464ybf.1
-        for <linux-firmware@kernel.org>; Tue, 07 Mar 2023 10:02:07 -0800 (PST)
-X-Gm-Message-State: AO0yUKWRkPOZ/EcwZ2m2etrynUzbEJLH5h+ocBNW1tkyAttKXG3cnAAp
-	5zs17UURoU2eHpsvU/M4clDMk71l2PW8392R1SQ=
-X-Google-Smtp-Source: AK7set+Lvh6YUsOA6AiSowKPEopGnqPmGoU91VR7b8jmwC9AOT4KZHSaPpF1rPc/6T7E0ualneQ/0AMXuE8d/SNZDjo=
-X-Received: by 2002:a25:9c46:0:b0:a5d:3d45:26c with SMTP id
- x6-20020a259c46000000b00a5d3d45026cmr9319902ybo.0.1678212126968; Tue, 07 Mar
- 2023 10:02:06 -0800 (PST)
+	b=Q/o8Scjq7eraFkmfSS89XXkPQKj3ceE0xcRa2ibt2lCOnsGOKYr6eZPxzZeZGgsjt
+	 qwrhGkxrV9sf1uVWrGxAIgOIbIS72TIdTAz2w8aid7+wbbMXjz8ESKpkCkVVGlUJyK
+	 ZcM2txuCqLjIMXBsp+SjZjg3lDAkE6k3yKnPhrfqHm7aj9+gbM8qz/zfe9K9Kfk9K/
+	 hBYlv5gszO7xyzEuSfqqtTDkvxEUqYIiStPN0v1M48ahDN+X7wF8Unu3czNaTtlr7l
+	 648o6gBhGWds8s8Qmd+uOMvYtLyHNpXexvbDhfEhNWUK3vRXFqUkyV6obkfdrM8zeK
+	 oj218ueMJSKiw==
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-536c2a1cc07so259355197b3.5
+        for <linux-firmware@kernel.org>; Tue, 07 Mar 2023 10:08:12 -0800 (PST)
+X-Gm-Message-State: AO0yUKWFjgNWERO1pOnccISj20nfSwCvxvUkTHiI2JeTelNwt+EFYcNP
+	Bn6sLSM6riR8q71WsMwN2Vlk+c/9gOZc3eZKC5k=
+X-Google-Smtp-Source: AK7set8Ow3q1YFdVWTYZa2x4I/mz4Icto93UUY+Mm0IgbZY+RXtIjCXYNtsuXp8wtTQiL1CWwmCt/iwW/ghydqiBiSI=
+X-Received: by 2002:a81:ae4e:0:b0:52f:3399:ed08 with SMTP id
+ g14-20020a81ae4e000000b0052f3399ed08mr9383817ywk.6.1678212491403; Tue, 07 Mar
+ 2023 10:08:11 -0800 (PST)
 MIME-Version: 1.0
 References: <20230301-fixes-and-compression-v2-0-e2b71974e842@gmail.com>
- <20230301-fixes-and-compression-v2-2-e2b71974e842@gmail.com>
- <CA+5PVA4iTX11n044dGRgu-3uE-JncTRoYWmu0nd2p=isfcpYug@mail.gmail.com> <CACvgo53NdnHhmQ4C7ObG_NcX2PyDwo=kFACstWgc4XCsp=Uw1w@mail.gmail.com>
-In-Reply-To: <CACvgo53NdnHhmQ4C7ObG_NcX2PyDwo=kFACstWgc4XCsp=Uw1w@mail.gmail.com>
+ <20230301-fixes-and-compression-v2-5-e2b71974e842@gmail.com>
+ <CA+5PVA7eOJ+y2rdSyMAqVqqcp8w4oYfZU1J8PZV7+TKqDcxqbA@mail.gmail.com> <CACvgo51yMRXgbUfK6wNfDvXEuBXH=JPZhm9=oFkhFHipVqz5oQ@mail.gmail.com>
+In-Reply-To: <CACvgo51yMRXgbUfK6wNfDvXEuBXH=JPZhm9=oFkhFHipVqz5oQ@mail.gmail.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Tue, 7 Mar 2023 13:01:56 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA51ZENWThuuwH1u3ZkrhaZ2b9ZtFEArAvTQxiee2J_VkQ@mail.gmail.com>
-Message-ID: <CA+5PVA51ZENWThuuwH1u3ZkrhaZ2b9ZtFEArAvTQxiee2J_VkQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2 02/16] WHENCE: remove unnecessary filename quotation
+Date: Tue, 7 Mar 2023 13:08:00 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA4wGZxYjM7nVD7J4opM3fXwoK6oGW673=FBOzgeDMLwcw@mail.gmail.com>
+Message-ID: <CA+5PVA4wGZxYjM7nVD7J4opM3fXwoK6oGW673=FBOzgeDMLwcw@mail.gmail.com>
+Subject: Re: [PATCH RESEND v2 05/16] WHENCE: comment out duplicate MediaTek firmware
 To: Emil Velikov <emil.l.velikov@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
 Cc: linux-firmware@kernel.org, Adam Sampson <ats@offog.org>, 
@@ -45,33 +45,40 @@ Cc: linux-firmware@kernel.org, Adam Sampson <ats@offog.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 7, 2023 at 12:54=E2=80=AFPM Emil Velikov <emil.l.velikov@gmail.=
+On Tue, Mar 7, 2023 at 12:19=E2=80=AFPM Emil Velikov <emil.l.velikov@gmail.=
 com> wrote:
 >
-> On Tue, 7 Mar 2023 at 14:56, Josh Boyer <jwboyer@kernel.org> wrote:
+> On Tue, 7 Mar 2023 at 15:02, Josh Boyer <jwboyer@kernel.org> wrote:
 > >
-> > This one no longer applies.  While the quotes might be unnecessary,
-> > they also don't hurt.
+> > On Wed, Mar 1, 2023 at 1:56=E2=80=AFPM Emil Velikov via B4 Relay
+> > <devnull+emil.l.velikov.gmail.com@kernel.org> wrote:
+> > >
+> > > From: Emil Velikov <emil.l.velikov@gmail.com>
+> > >
+> > > As mentioned in the inline comment - file is already listed further
+> > > down. To prevent check_whence.py errors, comment it out.
+> >
+> > Why did you comment this one out instead of remove it as duplicate
+> > like the previous patch?
 > >
 >
-> Yup, it's understandable. I might have written/sent the series a
-> couple of weeks ago. Cough cough wink wink :-P
+> In the previous patch, we had either a) duplicated within the same
+> section or b) section that is no longer applicable. Aka the r8723au
+> driver referenced does not existing in kernel.org
+> Here we have two drivers which use different firmware sets, which
+> partially overlap.
 
-Yes, I'm aware.
+Ok.  That makes sense.
 
-> I've dropped the quotation marks for consistency's sake - it's hard to
-> argue for dozens of cases out of ~2500 instances in-tree.
-> It will also make the sanity checks (latter part of the series) a bit
-> more hairy but it's manageable.
->
-> Do you agree with my sentiment - be that here or in the other email?
-> Unfortunately, I'm not the one to get subtle hints over email.
->
-> If you have concrete preferences - please voice them clearly. I'm
-> happy to redo the series.
-> Speaking of which: did you run out of time, or these comments are
-> blocking the rest of it?
+> Dropping one or the other would be misleading, but I don't have a
+> strong opinion. Let me know what you prefer and I'll respin the patch.
 
-Still working through things.
+I think this is a case where both should be listed.  If you comment
+one out and the other entry gets removed, perhaps because none of the
+upstream kernels support the driver any longer, then the installation
+will not copy the file to disk and the driver that is still in-tree
+will now have missing firmware.  I don't want to leave people without
+a functioning system just because we wanted to avoid some text in
+WHENCE.
 
 josh
