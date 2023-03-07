@@ -4,102 +4,132 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 02225C6FD1B
-	for <linux-firmware@archiver.kernel.org>; Tue,  7 Mar 2023 14:51:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C061BC678D5
+	for <linux-firmware@archiver.kernel.org>; Tue,  7 Mar 2023 14:53:49 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id E1157C433D2; Tue,  7 Mar 2023 14:51:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC299C433A4
-	for <linux-firmware@kernel.org>; Tue,  7 Mar 2023 14:51:04 +0000 (UTC)
+	id A8A98C4339E; Tue,  7 Mar 2023 14:53:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9300EC433D2
+	for <linux-firmware@kernel.org>; Tue,  7 Mar 2023 14:53:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678200664;
-	bh=bMzFZubwUmlWMtT6hccyyhTyFmOxuS5HPhNKQ89NU1Y=;
+	s=k20201202; t=1678200829;
+	bh=J0klgbd1Ldtg0Ehqd6ftfrKzyI0DRZhTRegdB1PNFhY=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=qISNHXfMcype8yzwvHr00A6nh1dvZp1GnTJDzS56ShSFRzKZ7AaRAl/w3xrd102P7
-	 ieBjVChoWRqn6cVVIxXh+uvDKcTx0QZ9mhrjPk5Wc4GdAWPD0nbR/jPV0nHrpp8Sih
-	 TqVixjHYnGs0hKuNOpdaczU7tgiR1n3xUVrl4fWg8jJ0ZueyNzHB3389NFemuz3bSl
-	 IHY9XMjd54khpqyggR8V9OQB7QlsORYlgwoZDue6JqmGFJUecAheBS09KBqpEKraKC
-	 b4pDzI141DozN2hnhjv6ICnWTS9Bvksd7GQK4ihX+HlOpfbaSmS4HDdBqLuf9ICNSk
-	 PioLreN4I2a8w==
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-536cb25982eso248278307b3.13
-        for <linux-firmware@kernel.org>; Tue, 07 Mar 2023 06:51:04 -0800 (PST)
-X-Gm-Message-State: AO0yUKV15OSZGslqFLp/u/6BIg2e3cZozmUOVh3leSBtBbttdLlFxJoI
-	GL70mHzF3vGpLKVZhp/lLmQ1ZzerAqSaQlYJcu0=
-X-Google-Smtp-Source: AK7set8B2iTtRqkBTAVNIzEl+DNoG//cq0EoElfTrxzhH26o4A7NiHaI76K5+9BrvMIeHyzGrLLdt/LL4QOKW7iLg74=
-X-Received: by 2002:a81:af59:0:b0:535:5e8c:65ef with SMTP id
- x25-20020a81af59000000b005355e8c65efmr8783406ywj.6.1678200663811; Tue, 07 Mar
- 2023 06:51:03 -0800 (PST)
+	b=mT6OQt95tViu4c7ZM2aMi5dsi9iuZitmJvLMz507N4OjDhxwX3gAauZnXf0oe5kFL
+	 4JBDeX9LvL79S4pGw5/uCmEdUHJPzhv2I9gWItN4mMm/jPkvuhe9e9+YfjkePz02Zk
+	 zFJrEhePOAgJONKN/ji9Q8od/LejKxMeR9BJ9UX4m/bGqZi5FYXLN0XoILv+7vTxqc
+	 SR9owt2tO5NYu5If88/3Y/Fq8XLKt/SETQXRaAqtpcBICDZgv7yTMNfjBxAtc0Z+sd
+	 z7bVApK/kQbfKe4kU2+v8XkrbkDtfUkfQNWbdY4AKh3O2c8dSWCHxoITrPTsFNN/8L
+	 H8lRxUSg/CtyQ==
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-536bbe5f888so248875337b3.8
+        for <linux-firmware@kernel.org>; Tue, 07 Mar 2023 06:53:49 -0800 (PST)
+X-Gm-Message-State: AO0yUKX6GhRXqNQxaqwrsXbWn/wPQVkYuYiWtDgBef8FRCDpgLfVd7Cz
+	xALgLmke/86KwZoJ6OZGfminTdNXZIAaB1x5qzs=
+X-Google-Smtp-Source: AK7set9v5nN9Q5/vTn/YtKQGznG9+r17o2vOF7MvN1nRswZ5vVq3b6/B5cJ7gKYB6aH4pt7PGNXpvccIzmuVmVMMsug=
+X-Received: by 2002:a81:ae10:0:b0:535:18be:4126 with SMTP id
+ m16-20020a81ae10000000b0053518be4126mr9356816ywh.6.1678200828626; Tue, 07 Mar
+ 2023 06:53:48 -0800 (PST)
 MIME-Version: 1.0
-References: <20230216005602.18838-1-ats@offog.org> <20230216005602.18838-2-ats@offog.org>
-In-Reply-To: <20230216005602.18838-2-ats@offog.org>
+References: <20230301-fixes-and-compression-v2-0-e2b71974e842@gmail.com> <20230301-fixes-and-compression-v2-1-e2b71974e842@gmail.com>
+In-Reply-To: <20230301-fixes-and-compression-v2-1-e2b71974e842@gmail.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Tue, 7 Mar 2023 09:50:52 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA4ZzzqP4xx_TpgjTjTEZLuOHoZx2HbTxxXg2aedWPv8DQ@mail.gmail.com>
-Message-ID: <CA+5PVA4ZzzqP4xx_TpgjTjTEZLuOHoZx2HbTxxXg2aedWPv8DQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] intel: Fix broken links
-To: Adam Sampson <ats@offog.org>
+Date: Tue, 7 Mar 2023 09:53:37 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA4Tuw0HxxUxiZJgO-MY3yh-dTTjwxV7QOgO+gSyZ2123Q@mail.gmail.com>
+Message-ID: <CA+5PVA4Tuw0HxxUxiZJgO-MY3yh-dTTjwxV7QOgO+gSyZ2123Q@mail.gmail.com>
+Subject: Re: [PATCH RESEND v2 01/16] WHENCE: remove trailing white space
+To: emil.l.velikov@gmail.com
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: linux-firmware@kernel.org, Adam Sampson <ats@offog.org>, 
+	David Woodhouse <dwmw2@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-I got to your patch after a similar report and fixed it via a similar
-commit.  My apologies for not using your patch directly.
+Applied and pushed out.
 
 josh
 
-On Wed, Feb 15, 2023 at 7:56=E2=80=AFPM Adam Sampson <ats@offog.org> wrote:
+On Wed, Mar 1, 2023 at 1:56=E2=80=AFPM Emil Velikov via B4 Relay
+<devnull+emil.l.velikov.gmail.com@kernel.org> wrote:
 >
-> The target is relative to the link name.
+> From: Emil Velikov <emil.l.velikov@gmail.com>
 >
-> Fixes: 23afbfe8 ("intel: avs: Add AudioDSP base firmware for CNL-based pl=
-atforms")
-> Fixes: 284e55d9 ("intel: avs: Add AudioDSP base firmware for APL-based pl=
-atforms")
-> Fixes: 289e3a97 ("intel: avs: Add AudioDSP base firmware for SKL-based pl=
-atforms")
-> Fixes: 4296b7af ("intel: catpt: Add AudioDSP base firmware for BDW platfo=
-rms")
-> Signed-off-by: Adam Sampson <ats@offog.org>
+> Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
 > ---
->  WHENCE | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+>  WHENCE | 36 ++++++++++++++++++------------------
+>  1 file changed, 18 insertions(+), 18 deletions(-)
 >
 > diff --git a/WHENCE b/WHENCE
-> index b6199d6..e37fa73 100644
+> index e957cc9..205162e 100644
 > --- a/WHENCE
 > +++ b/WHENCE
-> @@ -4070,7 +4070,7 @@ Driver: snd_soc_catpt -- Intel AudioDSP driver for =
-HSW/BDW platforms
+> @@ -395,7 +395,7 @@ Version: 8.07.00 MIDQ
 >
->  File: intel/catpt/bdw/dsp_basefw.bin
->  Version: 44b81c4d5397a63108356f58f036953d9b288c4e
-> -Link: intel/IntcSST2.bin -> intel/catpt/bdw/dsp_basefw.bin
-> +Link: intel/IntcSST2.bin -> catpt/bdw/dsp_basefw.bin
+>  Licence: Redistributable. See LICENCE.qla2xxx for details
 >
->  License: Redistributable. See LICENCE.IntcSST2 for details
+> -Available from http://ldriver.qlogic.com/firmware/
+> +Available from http://ldriver.qlogic.com/firmware/
 >
-> @@ -4081,15 +4081,15 @@ Driver: snd_soc_avs -- Intel AudioDSP driver for =
-cAVS platforms
->  File: intel/avs/skl/dsp_basefw.bin
->  File: intel/avs/skl/dsp_mod_7CAD0808-AB10-CD23-EF45-12AB34CD56EF.bin
->  Version: 9.21.00.4899
-> -Link: intel/dsp_fw_release.bin -> intel/avs/skl/dsp_basefw.bin
-> -Link: intel/dsp_fw_kbl.bin -> intel/avs/skl/dsp_basefw.bin
-> +Link: intel/dsp_fw_release.bin -> avs/skl/dsp_basefw.bin
-> +Link: intel/dsp_fw_kbl.bin -> avs/skl/dsp_basefw.bin
->  File: intel/avs/apl/dsp_basefw.bin
->  Version: 9.22.01.4908
-> -Link: intel/dsp_fw_bxtn.bin -> intel/avs/apl/dsp_basefw.bin
-> -Link: intel/dsp_fw_glk.bin -> intel/avs/apl/dsp_basefw.bin
-> +Link: intel/dsp_fw_bxtn.bin -> avs/apl/dsp_basefw.bin
-> +Link: intel/dsp_fw_glk.bin -> avs/apl/dsp_basefw.bin
->  File: intel/avs/cnl/dsp_basefw.bin
->  Version: 10.23.00.8551
-> -Link: intel/dsp_fw_cnl.bin -> intel/avs/cnl/dsp_basefw.bin
-> +Link: intel/dsp_fw_cnl.bin -> avs/cnl/dsp_basefw.bin
+>  ------------------------------------------------------------------------=
+--
 >
->  License: Redistributable. See LICENCE.adsp_sst for details
+> @@ -2563,29 +2563,29 @@ Licence: Redistributable. See LICENCE.ueagle-atm4=
+-firmware for details
+>  Driver: ueagle-atm - Driver for USB ADSL Modems based on Eagle I,II,III
+>
+>  File: ueagle-atm/930-fpga.bin
+> -File: ueagle-atm/CMVeiWO.bin
+> -File: ueagle-atm/CMVepFR10.bin
+> -File: ueagle-atm/DSP9p.bin
+> +File: ueagle-atm/CMVeiWO.bin
+> +File: ueagle-atm/CMVepFR10.bin
+> +File: ueagle-atm/DSP9p.bin
+>  File: ueagle-atm/eagleIII.fw
+> -File: ueagle-atm/adi930.fw
+> -File: ueagle-atm/CMVep.bin
+> -File: ueagle-atm/CMVepFR.bin
+> +File: ueagle-atm/adi930.fw
+> +File: ueagle-atm/CMVep.bin
+> +File: ueagle-atm/CMVepFR.bin
+>  File: ueagle-atm/DSPei.bin
+> -File: ueagle-atm/CMV9i.bin
+> -File: ueagle-atm/CMVepES03.bin
+> -File: ueagle-atm/CMVepIT.bin
+> +File: ueagle-atm/CMV9i.bin
+> +File: ueagle-atm/CMVepES03.bin
+> +File: ueagle-atm/CMVepIT.bin
+>  File: ueagle-atm/DSPep.bin
+> -File: ueagle-atm/CMV9p.bin
+> -File: ueagle-atm/CMVepES.bin
+> -File: ueagle-atm/CMVepWO.bin
+> +File: ueagle-atm/CMV9p.bin
+> +File: ueagle-atm/CMVepES.bin
+> +File: ueagle-atm/CMVepWO.bin
+>  File: ueagle-atm/eagleI.fw
+> -File: ueagle-atm/CMVei.bin
+> -File: ueagle-atm/CMVepFR04.bin
+> -File: ueagle-atm/DSP9i.bin
+> +File: ueagle-atm/CMVei.bin
+> +File: ueagle-atm/CMVepFR04.bin
+> +File: ueagle-atm/DSP9i.bin
+>  File: ueagle-atm/eagleII.fw
+>  Version: 1.1
+>
+> -Licence: Redistributable. Based on
+> +Licence: Redistributable. Based on
+>           https://mail.gna.org/public/eagleusb-dev/2004-11/msg00172.html
+>
+>  ------------------------------------------------------------------------=
+--
+> @@ -3951,7 +3951,7 @@ License:
+>
+>    This SDD ("Static Dynamic Data") file is licensed strictly for use wit=
+h
+>    the Sagrad WiFi modules (such as the SG901-1091/1098) that utilize the
+> -  cw1200 driver. There is no warranty expressed or implied about its
+> +  cw1200 driver. There is no warranty expressed or implied about its
+>    fitness for any purpose.
+>
+>    Permission is hereby granted for the distribution of this SDD file as
 >
 > --
-> 2.30.2
+> 2.39.2
 >
