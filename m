@@ -4,58 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5FEA5C6FD1A
-	for <linux-firmware@archiver.kernel.org>; Tue,  7 Mar 2023 17:19:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73CA5C678D4
+	for <linux-firmware@archiver.kernel.org>; Tue,  7 Mar 2023 17:30:19 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 41A05C433EF; Tue,  7 Mar 2023 17:19:20 +0000 (UTC)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	id 5DE87C433D2; Tue,  7 Mar 2023 17:30:19 +0000 (UTC)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 529E9C4339B;
-	Tue,  7 Mar 2023 17:19:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 529E9C4339B
+	by smtp.kernel.org (Postfix) with ESMTPS id 75A56C433EF;
+	Tue,  7 Mar 2023 17:30:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 75A56C433EF
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-53d277c1834so81252707b3.10;
-        Tue, 07 Mar 2023 09:19:19 -0800 (PST)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-536af432ee5so258607747b3.0;
+        Tue, 07 Mar 2023 09:30:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678209558;
+        d=gmail.com; s=20210112; t=1678210217;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=c0HY2UKv7jm9osr2b/lnnuZVkISaE96PK5O4l1gz72c=;
-        b=Fgg8jF5xjkk6km232LDlwVi9lQyEjad/unVsERIpKzapdtBIOzQ3lKt+QzQHRl4gs3
-         LMKh2Zm9iAFuhbPdqy5c+5PTgKRo29hzuSaab3P7w+DDmL6xce1Ws6U2r1d4UWCE+xrq
-         NlWleDSC4BVDHhPNGESHrbBtmr46j7UdDNWZQxxwJMm+H3HHRmKpcpMKiX77YUkM5Hfb
-         BMjrb/Cqj8GkiRH6OzTeNhPmXoGI3VUgonmnuHI8GLZi8+/nflyvKiLNEIum4g4TqbJc
-         OFaIjYSE1kc+UBwmh8UuSopKGmITU/zRySbvDo/n1HA2dFTMcOTiERYuT5l31cL4K8PX
-         VaIw==
+        bh=9omN8AXeDTLJTGyII4IERYnRH57k8mySPPeUCx5bE94=;
+        b=Ft42/73Nofh9yelryLYNb0v76xUcnBNfgKqSFHfeTjvwHbHn57XbZS7I8QUhsxzFtm
+         tRMp5fBtlYFcdKsAayzXtIbL6As7zXF95Wx5Xaw3aDgMt3kprdejLaKC44IMAw7x3eB1
+         NHKuGHAA7snyjiWcMhg28x3U1uTcUBPAezxNH6gi2/yKOIeMv6Du7M/O1KMcXcSHJJhl
+         yRQ9jdQOF0wH97Mz+VdUHwTWK9RbFw3qMDx6BrQ6UoKqw7KyOsROLBZRDPDQrvXZ+5R6
+         XJDcvfY4z3g9CLEgeE8cjuMPotWEUQEJ5EAkf3EfO//ki50OPskNtAIao8ugNmvSxzQR
+         Bz2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678209558;
+        d=1e100.net; s=20210112; t=1678210217;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=c0HY2UKv7jm9osr2b/lnnuZVkISaE96PK5O4l1gz72c=;
-        b=p3JPsnCjKJid03ELcMXR5Xjy54RmXnvZjqlT5obS2d/2pMgb2ZYPuEycZkUNHW8Nk5
-         TYjylhXMnpdTHFAjSnZLOvURJo7I23V51YAn7vvB4i/KfGML8ddi82qRwg2tHx2tUz4H
-         /lQj3V2P6ArVNcbSHVwiROpnaVq7L1SsXfJC8oplL/e+BjnCCGgNVJYPxUGcwpU4eh8S
-         3sAXcZ+5tqB55tp/7fa+MQxsPpOJhGOLahRGMhIQzm4E1jAKQ3y+0dbtw1F7IfOWEweY
-         wbPFgHBOrjO6tn+xbCWgghi+nxg3SfN9KgYQ0dSt+cMlkw21gvEv+90KkhY9slGXJV80
-         UZYA==
-X-Gm-Message-State: AO0yUKVuIH1fvQKe1n69ThRDRVL4I6NcAQmqis3nN1XaV3cp+OrsEn7I
-	+0Es2+WhM7XNw4slVmJsC2yM4r5+5TE1aAMPHm1ICA3R150=
-X-Google-Smtp-Source: AK7set/jKdMzHeVY6cOms/d8cgwGOczD8T4TFop78W18MdjLBKijKnQUSPTBwlHps6j6FPfN7YIngNXrFrzGJBA4og4=
-X-Received: by 2002:a81:c543:0:b0:536:4194:e6eb with SMTP id
- o3-20020a81c543000000b005364194e6ebmr9336965ywj.0.1678209557852; Tue, 07 Mar
- 2023 09:19:17 -0800 (PST)
+        bh=9omN8AXeDTLJTGyII4IERYnRH57k8mySPPeUCx5bE94=;
+        b=IBAmNA8LmK25Dxu7PVFNJzinSuJ5rKOBPvtR9GkrNPY8BIUSDSESjQr2gVtEI2Hvgy
+         d8ibsMM9k0u0wzLZWurn31geH+6Ri8zd1wGr8uNcJEaM/95C1SaQ9tCRscExUikld0Wk
+         ZpXFMhdIfDm2J73W2h3uLgaJOYpBImFoS39jpVmtLzDb9cdu7R6zIYFt+IkWBhg0XJ96
+         53zVKCwHUEIgCNFc1mbc4qYVRfG9RCoBc05KGYRNnbqs+ODIz7NjDZvyP3+XDO/UqXa+
+         N7G8Lk6dXjtUstnJyQ5B9WZIRUbAtUbgjOMhc86g5TIkhLfPpFFcgI1HilsBTsmjufDK
+         fRXA==
+X-Gm-Message-State: AO0yUKUiWdin4p+WwgiRVz4Z8cWZD0ObVOlVY0365vN47fFe+BNgrLVc
+	dxDHqzOmyr7dAk2kEvLKlH5+K2CmroAwAcZKNEIguA+0qaM=
+X-Google-Smtp-Source: AK7set/XHgHxvtN1ascjhzFn6Cy/WXv7oXXFbF+kJzBrSgdDP7n9DJjaBq2RQ5a1PvFjXfV+TsB6JEYdyDM1WxdgwiY=
+X-Received: by 2002:a81:a9c8:0:b0:533:8f19:4576 with SMTP id
+ g191-20020a81a9c8000000b005338f194576mr9835921ywh.0.1678210216944; Tue, 07
+ Mar 2023 09:30:16 -0800 (PST)
 MIME-Version: 1.0
 References: <20230301-fixes-and-compression-v2-0-e2b71974e842@gmail.com>
- <20230301-fixes-and-compression-v2-5-e2b71974e842@gmail.com> <CA+5PVA7eOJ+y2rdSyMAqVqqcp8w4oYfZU1J8PZV7+TKqDcxqbA@mail.gmail.com>
-In-Reply-To: <CA+5PVA7eOJ+y2rdSyMAqVqqcp8w4oYfZU1J8PZV7+TKqDcxqbA@mail.gmail.com>
+ <20230301-fixes-and-compression-v2-3-e2b71974e842@gmail.com> <CA+5PVA7OGYgFxgCACKfZ67ap+Q5kXzVWKVL96MR5QAu2u_P-Tg@mail.gmail.com>
+In-Reply-To: <CA+5PVA7OGYgFxgCACKfZ67ap+Q5kXzVWKVL96MR5QAu2u_P-Tg@mail.gmail.com>
 From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Tue, 7 Mar 2023 17:19:06 +0000
-Message-ID: <CACvgo51yMRXgbUfK6wNfDvXEuBXH=JPZhm9=oFkhFHipVqz5oQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2 05/16] WHENCE: comment out duplicate MediaTek firmware
+Date: Tue, 7 Mar 2023 17:30:05 +0000
+Message-ID: <CACvgo52Vwm6w=RsPRuNaXRO7OKvZ5EW8Fgdnvnjta4LsuseyDQ@mail.gmail.com>
+Subject: Re: [PATCH RESEND v2 03/16] check_whence, WHENCE, copy-firmware:
+ escape filenames with spaces
 To: Josh Boyer <jwboyer@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
 Cc: linux-firmware@kernel.org, Adam Sampson <ats@offog.org>, 
@@ -63,28 +64,31 @@ Cc: linux-firmware@kernel.org, Adam Sampson <ats@offog.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 7 Mar 2023 at 15:02, Josh Boyer <jwboyer@kernel.org> wrote:
+On Tue, 7 Mar 2023 at 14:58, Josh Boyer <jwboyer@kernel.org> wrote:
 >
 > On Wed, Mar 1, 2023 at 1:56=E2=80=AFPM Emil Velikov via B4 Relay
 > <devnull+emil.l.velikov.gmail.com@kernel.org> wrote:
 > >
 > > From: Emil Velikov <emil.l.velikov@gmail.com>
 > >
-> > As mentioned in the inline comment - file is already listed further
-> > down. To prevent check_whence.py errors, comment it out.
+> > We have a handful of instances which have space in the filename - just
+> > escape them (like we do for the symlinks) and drop the extra re pattern=
+.
+> >
+> > With this we can also drop the extra sed pattern, stripping out the
+> > quotation marks.
 >
-> Why did you comment this one out instead of remove it as duplicate
-> like the previous patch?
+> While that is all true, why is it necessary?  I suspect patch
+> submitters are far more likely to forget to escape the spaces than
+> they are to just include quotes.  I see this change as making it
+> slightly harder to submit correct patches and I'm not sure it's worth
+> it.
 >
 
-In the previous patch, we had either a) duplicated within the same
-section or b) section that is no longer applicable. Aka the r8723au
-driver referenced does not existing in kernel.org
-Here we have two drivers which use different firmware sets, which
-partially overlap.
-
-Dropping one or the other would be misleading, but I don't have a
-strong opinion. Let me know what you prefer and I'll respin the patch.
+We already have properly escaped paths in WHENCE, so it only makes
+sense to fix the outliers.
+Would you be in favour if check_whence.py checks for quoted files and
+produces meaningful error message?
 
 Thanks
 Emil
