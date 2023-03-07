@@ -4,93 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E982EC678D5
-	for <linux-firmware@archiver.kernel.org>; Tue,  7 Mar 2023 14:40:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3B227C678D5
+	for <linux-firmware@archiver.kernel.org>; Tue,  7 Mar 2023 14:41:46 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B5D63C4339B; Tue,  7 Mar 2023 14:40:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FF2EC433EF
-	for <linux-firmware@kernel.org>; Tue,  7 Mar 2023 14:40:58 +0000 (UTC)
+	id 212FFC4339E; Tue,  7 Mar 2023 14:41:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C34FC433EF
+	for <linux-firmware@kernel.org>; Tue,  7 Mar 2023 14:41:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678200058;
-	bh=hl1xULsu6VvxQZ3Kt7jBAwBnobVTw0RqQJK0HNWYRlU=;
+	s=k20201202; t=1678200106;
+	bh=6IIHe8Y8w7U/bSEgRnWXrh/DxQTtNSXLULXJD5wS5fU=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=FJZcB3K2nyChua+2WUfBZgOt7BhW6C9UwzqXKjYJ11HMI0ASWYsBdo1Hginur3fcr
-	 vEpDGn5PCuXW/yeWWzalRam2qfrXPd5Uaq1gWB5KQfc2kEBbifI2fmyARgtW4qsLsF
-	 TPkBhAQIeC1NQoaaEj5LyC9l/DfDfzxmF9mZELd9nWdZTFg9OrLvOQYFXwrm78fs2B
-	 4pyXLe2FwKUzzqsvQ4jrhOFX52ochD4eusS7MHWnOr3PMynFs8gTFsFDP/TqvYpMjo
-	 bGHgVtbMYOmSUosJ3C+RUdHLxXIbPINgRsCVu/zjOWyGWX8fDLCN9bclGKeOYapTWU
-	 qYwphpKViR70Q==
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-536c02c9dfbso247850927b3.11
-        for <linux-firmware@kernel.org>; Tue, 07 Mar 2023 06:40:58 -0800 (PST)
-X-Gm-Message-State: AO0yUKUyI12to+zaDpBsUymwgjyYzFnHYOpk4tqt8jb8QxNgbDNsVsvx
-	PONhKByxreSakkp5mKLcYBhF2vz5+VEti3zkVg4=
-X-Google-Smtp-Source: AK7set9AyMcPw2hxwMJcd6ODebvAK1Ubte6vjGUHQkc/ATPHMTqkChMrbw0xThzzg+9fbQlnuyxG+YZ9oS1M6Tovj2M=
-X-Received: by 2002:a81:ac21:0:b0:534:2d49:7912 with SMTP id
- k33-20020a81ac21000000b005342d497912mr9393450ywh.6.1678200057658; Tue, 07 Mar
- 2023 06:40:57 -0800 (PST)
+	b=sjdTWmin4AFs3LHA5exTNq/5+vN6ngCNZVUtQbkmk5WBB0BEOz2WZ70TxLTqjM6f3
+	 xMiRXHZ2Bz8k/bzVdAsmPgnMn8h5Ww6FHlxqUaerYyRMK/wR7YeWx5AyyLRDU51IXh
+	 X21cRRzAaLoBu4R6X0UAeNhhMlX2OuCRHVDB5eRXOvLFOFR4yMc942LN3Gv5VmGVOB
+	 x1+ZJQsoRCBAmqB6494FdZaJDzX3b4Sj++qrM8MbrYD83JGpY0RV7I562mpEXcNwfw
+	 Tt0tQirLRIBxZsqJKc5NdKZZiBTRJnBIWtmuy/SgbUOV72jCw/cg8z9lbRli0LnRvv
+	 kdQ1m9eg649wg==
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-536bbe5f888so248237987b3.8
+        for <linux-firmware@kernel.org>; Tue, 07 Mar 2023 06:41:45 -0800 (PST)
+X-Gm-Message-State: AO0yUKXvj0Mw1Do2U/JbeV07vhSOc1T9anQyQnnLusv7ZRplfEs31eJ/
+	IvvSZ2bHxrbaNuQHi0q/YnLgb2PgcVfpmSFcFGQ=
+X-Google-Smtp-Source: AK7set8r0PEMQtTW03De3mqIN3Xa8rkdIIhsl8f7x9kVLy+9NzaocZZdx3xBY86M/uW1e+AdCcRGqq4MRt3v+AtIs8s=
+X-Received: by 2002:a81:ae10:0:b0:535:18be:4126 with SMTP id
+ m16-20020a81ae10000000b0053518be4126mr9332714ywh.6.1678200105085; Tue, 07 Mar
+ 2023 06:41:45 -0800 (PST)
 MIME-Version: 1.0
-References: <758660d0-0cc7-18b4-5f88-c8f341fe2d50@redhat.com>
-In-Reply-To: <758660d0-0cc7-18b4-5f88-c8f341fe2d50@redhat.com>
+References: <ab0289ec80471df43308c550e9fe4e0ac8b9cdc5.camel@realtek.com>
+In-Reply-To: <ab0289ec80471df43308c550e9fe4e0ac8b9cdc5.camel@realtek.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Tue, 7 Mar 2023 09:40:46 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA7HHEMiK91yEDJ1-NB+sB+EoOj==mSead+9wShTzP1zKw@mail.gmail.com>
-Message-ID: <CA+5PVA7HHEMiK91yEDJ1-NB+sB+EoOj==mSead+9wShTzP1zKw@mail.gmail.com>
-Subject: Re: [linux-firmware GIT PULL] brcmfmac nvram file updates
-To: Hans de Goede <hdegoede@redhat.com>
+Date: Tue, 7 Mar 2023 09:41:34 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA6MyhaD_aXqH6V1h9TKu+8upzDx-gzZuWb4URUQRSiAFg@mail.gmail.com>
+Message-ID: <CA+5PVA6MyhaD_aXqH6V1h9TKu+8upzDx-gzZuWb4URUQRSiAFg@mail.gmail.com>
+Subject: Re: pull request: rtlwifi: Add firmware v16.0 for RTL8710BU aka RTL8188GU
+To: Ping-Ke Shih <pkshih@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, 
+	"rtl8821cerfe2@gmail.com" <rtl8821cerfe2@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 3, 2023 at 3:56=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
-wrote:
+On Sun, Mar 5, 2023 at 8:23=E2=80=AFPM Ping-Ke Shih <pkshih@realtek.com> wr=
+ote:
 >
-> Hi Josh,
+> Hi,
 >
-> Here is a linux-firmware pull-req with 1 brcmfmac nvram file fix +
-> 2 new brcmfmac nvram files to make Wifi work OOTB for users on
-> the boards needing these files.
+> rtl8xxxu is going to support 8710BU, so add firmware for this device.
 >
-> Regards,
+> Thank you
+> Ping-Ke
 >
-> Hans
->
->
+> ---
 > The following changes since commit 60971a6485ee604c47cc905ff77c583ae001f9=
 df:
 >
 >   Merge branch 'liquidio-20230222' of https://github.com/dchickles/linux-=
-firmware (2023-02-27 12:33:07 -0500)
+firmware (2023-02-27
+> 12:33:07 -0500)
 >
 > are available in the Git repository at:
 >
->   git://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux-firmware.git =
-brcmfmac-nvram-updates-3-3-2023
+>   https://github.com/pkshih/linux-firmware.git HEAD
 
 Pulled and pushed out.
 
 josh
 
 >
-> for you to fetch changes up to 76ad2755a29fcace1a948b4413313dfac3aff284:
+> for you to fetch changes up to 4cc3eda6360f0daa31647de129a001e408602e97:
 >
->   brcm: Add nvram for the Lenovo Yoga Book X90F / X90L convertible (2023-=
-03-03 21:45:12 +0100)
+>   rtlwifi: Add firmware v16.0 for RTL8710BU aka RTL8188GU (2023-03-06 09:=
+16:58 +0800)
 >
 > ----------------------------------------------------------------
-> Hans de Goede (3):
->       brcm: Add nvram for the Advantech MICA-071 tablet
->       brcm: Fix Xiaomi Inc Mipad2 nvram/.txt file macaddr
->       brcm: Add nvram for the Lenovo Yoga Book X90F / X90L convertible
+> Bitterblue Smith (1):
+>       rtlwifi: Add firmware v16.0 for RTL8710BU aka RTL8188GU
 >
->  WHENCE                                             |   2 +
->  brcm/brcmfmac43241b4-sdio.Advantech-MICA-071.txt   | 147 +++++++++++++++=
-++++++
->  ...ie.Intel Corporation-CHERRYVIEW D1 PLATFORM.txt | 139 +++++++++++++++=
-++++
->  brcm/brcmfmac4356-pcie.Xiaomi Inc-Mipad2.txt       |   2 +-
->  4 files changed, 289 insertions(+), 1 deletion(-)
->  create mode 100644 brcm/brcmfmac43241b4-sdio.Advantech-MICA-071.txt
->  create mode 100644 brcm/brcmfmac4356-pcie.Intel Corporation-CHERRYVIEW D=
-1 PLATFORM.txt
+>  WHENCE                       |   5 +++++
+>  rtlwifi/rtl8710bufw_SMIC.bin | Bin 0 -> 23750 bytes
+>  rtlwifi/rtl8710bufw_UMC.bin  | Bin 0 -> 22654 bytes
+>  3 files changed, 5 insertions(+)
+>  create mode 100644 rtlwifi/rtl8710bufw_SMIC.bin
+>  create mode 100644 rtlwifi/rtl8710bufw_UMC.bin
+>
 >
