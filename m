@@ -1,87 +1,97 @@
-Return-Path: <SRS0=y5u9=67=gmail.com=emil.l.velikov@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E8A61C678DB
-	for <linux-firmware@archiver.kernel.org>; Tue,  7 Mar 2023 17:54:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21892C678D4
+	for <linux-firmware@archiver.kernel.org>; Tue,  7 Mar 2023 18:00:55 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B5449C433A0; Tue,  7 Mar 2023 17:54:06 +0000 (UTC)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id C30E3C4339B;
-	Tue,  7 Mar 2023 17:54:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C30E3C4339B
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f175.google.com with SMTP id e194so12274559ybf.1;
-        Tue, 07 Mar 2023 09:54:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678211644;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fb4N4frW7mcU8adfBmw1weiliplvp5HlaLgC7f/yEiE=;
-        b=MCANdQT9cPK+DJMUs1vWzXEztIspxxpO7QSGdtLHm+uB7Qqu7Kz1KYv0p393hOwN6l
-         +V2BfBB8cuIiQgqREkwookhYcQMHotd0AvDJKCqX9LFyLXq+tEn2RHu9d5XhMC83PG0p
-         HXJxAVoFZwjdK0RBrJ07Z+GDYMJcqk8hlXU0jgMwXL04SpI7lJJ0FYuwJ20DACnBCO3Z
-         9wmGOAezRcgp+S8NUsgRWVCdpz7M0vulroFrEpa9BDVax7BsIjiErLLIEvh9PnsZFTyH
-         lz4CIVXkM0yya/Z4X8IF+7tO6+6PqehA6rnVn7++Mp5o/N05DtubwTeANp1wX55OErgX
-         zZxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678211644;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Fb4N4frW7mcU8adfBmw1weiliplvp5HlaLgC7f/yEiE=;
-        b=3rto45kSv80xJAJr4unIz5bNwE178M87bVI4uY1atpd4BeOuUePmOd0jlMAP0Wnj+S
-         jRkR96B7bg8lVkEFoBiIyGTSGFXLC3xhhLaAuzHaXY5X/98oZYihk61be/WrZ0JaU/Ab
-         u/E4g5yLGlbD6l6Di4N4Qseasctel+AmaPZVi5dPPYa92xhvgbjhB3+c4jeHOhQer/ID
-         b30TH+G/cMhlo4I4VQjdzXGf687dx04Z7cOdpGDEauHGD7cWV0pIoI1pana7cPQLIpX7
-         6C4pOxm/b62v80wZuK6QsPxo2CZ1EYF5pSkdBEUZdV1z86ezwDQuvujXoYciO/Tp0ysf
-         d+MQ==
-X-Gm-Message-State: AO0yUKXXhFlkuw4O6PEJjW4i7sjjfbZ23wYGNbfQHNo64x+eANrZK4gq
-	NPmgnJMxNq07rrFvVaMX1SgXDL9Mojoe/2aSzqi2y8HU
-X-Google-Smtp-Source: AK7set8f0Bmp06L8wtjtbeNxZ/g8fxB596X3Af6Gtj2OOYC6t/cUexCWukVGmk9OhJKdZHcKRpForb/TWih1xkh6bZE=
-X-Received: by 2002:a5b:b51:0:b0:a20:11a9:bd4a with SMTP id
- b17-20020a5b0b51000000b00a2011a9bd4amr7443251ybr.0.1678211644357; Tue, 07 Mar
- 2023 09:54:04 -0800 (PST)
+	id DC9A6C433A7; Tue,  7 Mar 2023 18:00:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C692DC4339C;
+	Tue,  7 Mar 2023 18:00:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1678212055;
+	bh=YnLFKl8BzlEtpcwivk68jJwoGLa+ZP7OwzpbZo1HwsM=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=d9drOIYo1n5w39FQRrrOUyU9plu5m5o18kGA7mRc8vEDLZYPMLLDCcTxe7LRjPhnD
+	 KZa+0faM4lotivl/fgiyLyqupkjNnTTxCcnBVsDz89yOIlvzLoXkCvUYcgFePGaJBT
+	 VJl3b9Mznjm0G3C/hHh9z0sJvM0cIGrTdZOY30hwHVm4+kS0AbnHdQWMS1v6HtiRHO
+	 W/iX4d4dO73TfJkl18KTQvNXnDtcgolQlN42OQP9xvKuLktE0OYDkRnqBqgn/cNRh/
+	 m8P9P2A9oXSKOxBVFlCrAtwMBpQErca+pcgwmjnpcBQ2O2F2nWUHTiFnqudQjWnqnd
+	 ZD0BXgYc+5P+A==
+Received: by mail-yb1-f180.google.com with SMTP id y144so12235039yby.12;
+        Tue, 07 Mar 2023 10:00:55 -0800 (PST)
+X-Gm-Message-State: AO0yUKX76CGoLFg0ZnYiRqZHH6S2QuzwU+jh7db8IJZgYv28vDHlnCUK
+	qSURhnQJVXgwbHsmztC8ImBPSPSA6R7C62uHLpw=
+X-Google-Smtp-Source: AK7set/3G97mg+P8GneCDArs8NnlewAJ7ZvTBN8R89GI2HtTayQ+m/pTIHyz4HLSGsaevuz5mZoFYovvJXEDOWlEBXE=
+X-Received: by 2002:a25:9c46:0:b0:a5d:3d45:26c with SMTP id
+ x6-20020a259c46000000b00a5d3d45026cmr9317235ybo.0.1678212054651; Tue, 07 Mar
+ 2023 10:00:54 -0800 (PST)
 MIME-Version: 1.0
 References: <20230301-fixes-and-compression-v2-0-e2b71974e842@gmail.com>
- <20230301-fixes-and-compression-v2-2-e2b71974e842@gmail.com> <CA+5PVA4iTX11n044dGRgu-3uE-JncTRoYWmu0nd2p=isfcpYug@mail.gmail.com>
-In-Reply-To: <CA+5PVA4iTX11n044dGRgu-3uE-JncTRoYWmu0nd2p=isfcpYug@mail.gmail.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Tue, 7 Mar 2023 17:53:52 +0000
-Message-ID: <CACvgo53NdnHhmQ4C7ObG_NcX2PyDwo=kFACstWgc4XCsp=Uw1w@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2 02/16] WHENCE: remove unnecessary filename quotation
-To: Josh Boyer <jwboyer@kernel.org>
+ <20230301-fixes-and-compression-v2-3-e2b71974e842@gmail.com>
+ <CA+5PVA7OGYgFxgCACKfZ67ap+Q5kXzVWKVL96MR5QAu2u_P-Tg@mail.gmail.com> <CACvgo52Vwm6w=RsPRuNaXRO7OKvZ5EW8Fgdnvnjta4LsuseyDQ@mail.gmail.com>
+In-Reply-To: <CACvgo52Vwm6w=RsPRuNaXRO7OKvZ5EW8Fgdnvnjta4LsuseyDQ@mail.gmail.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Tue, 7 Mar 2023 13:00:43 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA4B1WN2Hc14suOVRG76ANrgLnzPcUUxMryk+pzjEhUjPQ@mail.gmail.com>
+Message-ID: <CA+5PVA4B1WN2Hc14suOVRG76ANrgLnzPcUUxMryk+pzjEhUjPQ@mail.gmail.com>
+Subject: Re: [PATCH RESEND v2 03/16] check_whence, WHENCE, copy-firmware:
+ escape filenames with spaces
+To: Emil Velikov <emil.l.velikov@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, Adam Sampson <ats@offog.org>, 
-	David Woodhouse <dwmw2@infradead.org>
+Cc: Josh Boyer <jwboyer@kernel.org>, linux-firmware@kernel.org, 
+	Adam Sampson <ats@offog.org>, David Woodhouse <dwmw2@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 7 Mar 2023 at 14:56, Josh Boyer <jwboyer@kernel.org> wrote:
+On Tue, Mar 7, 2023 at 12:30=E2=80=AFPM Emil Velikov <emil.l.velikov@gmail.=
+com> wrote:
 >
-> This one no longer applies.  While the quotes might be unnecessary,
-> they also don't hurt.
+> On Tue, 7 Mar 2023 at 14:58, Josh Boyer <jwboyer@kernel.org> wrote:
+> >
+> > On Wed, Mar 1, 2023 at 1:56=E2=80=AFPM Emil Velikov via B4 Relay
+> > <devnull+emil.l.velikov.gmail.com@kernel.org> wrote:
+> > >
+> > > From: Emil Velikov <emil.l.velikov@gmail.com>
+> > >
+> > > We have a handful of instances which have space in the filename - jus=
+t
+> > > escape them (like we do for the symlinks) and drop the extra re patte=
+rn.
+> > >
+> > > With this we can also drop the extra sed pattern, stripping out the
+> > > quotation marks.
+> >
+> > While that is all true, why is it necessary?  I suspect patch
+> > submitters are far more likely to forget to escape the spaces than
+> > they are to just include quotes.  I see this change as making it
+> > slightly harder to submit correct patches and I'm not sure it's worth
+> > it.
+> >
 >
+> We already have properly escaped paths in WHENCE, so it only makes
+> sense to fix the outliers.
 
-Yup, it's understandable. I might have written/sent the series a
-couple of weeks ago. Cough cough wink wink :-P
+That's true if we believe escaped paths are the suggested way to do
+it.  I'm questioning if we really want that.
 
-I've dropped the quotation marks for consistency's sake - it's hard to
-argue for dozens of cases out of ~2500 instances in-tree.
-It will also make the sanity checks (latter part of the series) a bit
-more hairy but it's manageable.
+If you're a firmware submitter, which is more natural to you?
 
-Do you agree with my sentiment - be that here or in the other email?
-Unfortunately, I'm not the one to get subtle hints over email.
+File: "foo bar with spaces.bin"
 
-If you have concrete preferences - please voice them clearly. I'm
-happy to redo the series.
-Speaking of which: did you run out of time, or these comments are
-blocking the rest of it?
+or
 
-Thanks again,
-Emil
+File: foo\ bar\ with\ spaces.bin
+
+Based on the number of occurrences in WHENCE, quoting the filename
+seems to be more prevalent.
+
+> Would you be in favour if check_whence.py checks for quoted files and
+> produces meaningful error message?
+
+Not really.  I don't understand why we have to force only one format.
+The code already supports both.  What is the benefit of dropping that?
+
+josh
