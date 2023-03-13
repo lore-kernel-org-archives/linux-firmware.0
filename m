@@ -1,94 +1,103 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=ZlMg=7F=gmail.com=emil.l.velikov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5EB7FC61DA4
-	for <linux-firmware@archiver.kernel.org>; Mon, 13 Mar 2023 13:21:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 799B7C61DA4
+	for <linux-firmware@archiver.kernel.org>; Mon, 13 Mar 2023 20:24:18 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 16E90C4339B; Mon, 13 Mar 2023 13:21:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 015C8C433A0
-	for <linux-firmware@kernel.org>; Mon, 13 Mar 2023 13:21:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678713698;
-	bh=1xLaIhu0tpmuelU0lIlgT/DLondM1DpbQOU9sYddykM=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=blGlcOJCn1NJ3L8kAJaDNGwIwSUWyygI+qk6EFfu9U/i85j6J9vpbbmZ19gybPQeo
-	 pG7p3ZL8l1st5by0FhvqbBdG3ppUGxVhxwnV5XAmH1DkCbon8QKMppn80SEI/6Sugd
-	 cdW6aoc0BsXV+D8ntHreSs0bFbQXq5LbWLufyTFUvX20ticHCV6Zln9eJqKmudraal
-	 mGufxsFsGx0iTYZSWLSKuXv2KlsJ97KpVsgBgfjTCBw1/4RSABsA7ZbmZ0GnunFbLA
-	 iEfmTQZiHKzADfaEPtfFT5MxeGYd3VWodmdTiEUVzBHSF14XxUvDY6jCns01eOFSp9
-	 qm9ENW9VJWr5w==
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-53916ab0c6bso241647307b3.7
-        for <linux-firmware@kernel.org>; Mon, 13 Mar 2023 06:21:37 -0700 (PDT)
-X-Gm-Message-State: AO0yUKVWs3lQjMJ6Od+hiiZkSyCUw2Mi2gdcsdhxM/tyJqpFYsUqCYeC
-	ojSAn87crJjxxnztlADtCokeKTUKMve07P4u1Y4=
-X-Google-Smtp-Source: AK7set93sy0ZlqkWOvinri8N4ovzFSfYjOrayYexnpw/L3zUG4dIQOc3y8eQ4kL1I2Qq57/SizMpP2W/oq4FUjT8VWA=
-X-Received: by 2002:a81:b70d:0:b0:541:9063:8e9e with SMTP id
- v13-20020a81b70d000000b0054190638e9emr2830513ywh.2.1678713697020; Mon, 13 Mar
- 2023 06:21:37 -0700 (PDT)
+	id 374D5C4339C; Mon, 13 Mar 2023 20:24:18 +0000 (UTC)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 439C3C433EF;
+	Mon, 13 Mar 2023 20:24:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 439C3C433EF
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f174.google.com with SMTP id z83so9324395ybb.2;
+        Mon, 13 Mar 2023 13:24:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678739056;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=pZDe6aajlDn/vPWspLg6DIGEwvaTPEyKrZC158D4O8M=;
+        b=E9YmHSdZCs+28wXwLV3YdhRJiAaZLZaJo9oEmQwSZ3kfi9qf7n7Lxfi4s2LZxghcU5
+         GAGHSblsAwPu2lzFNzwVooxECZdpcy0dFInsFQRbRCb8Y325WvNg1aVOKhntmCMJQV2N
+         drLpkp4zgw/r14MyE9K2BSLUs5uXkRh45tzhmUDPq8hCS3+z+KzNSZb1nI9gSD9xkLB6
+         C15rNuCCvA/rX6DGmgEJK6SkWV3tN13o/N04VtjM/i70JMivbXl/bOhZfMVvxLl3/DPo
+         8t+5PGJBiZZHrO4PBMIr3gbzEBIwXdg7/52HIH51liuFs0NqS3qrVb8Pe92kCaxdQpUJ
+         HeQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678739056;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pZDe6aajlDn/vPWspLg6DIGEwvaTPEyKrZC158D4O8M=;
+        b=OwmkehDWAAXedPob95FYu/jERAm93sVKuWN6ZXxp/L0i+Dbd/noKcJNmSeM7Fld0hv
+         pzU+HHnmVGdhzTvCPd6k83idpA4y1XNrFCU7pk0uBZy9VznVRnBqpN03q+/bHatwUATW
+         4MwWvXVIhP06DwZwIhCBD4SO58DR4JsVFYDtneEr1TpKk2HWf8MlXDyHkQ0lxs2HLqWc
+         1RJs3TA/Qoe1Qq5Ao1sjCO3y7b5vx5ZL7gqcKdGRhsVWEKXXb8lTyfq5jSBS/po4OSTn
+         /YLALPtZRDHNeiDvX+rrfAKIB1ESpM6nSkXJObHzPyCDqCY0kEa0pioFHevtLONBjkMB
+         ccQg==
+X-Gm-Message-State: AO0yUKVFz2PHc4x9xSMA+s8yE0OB4lVme7oHsKOo/ZL/OylRoJ27PuSY
+	h+2EYZcwN8XgxcpxJe7Y1+hPMt+h8iGV/OxO0MI=
+X-Google-Smtp-Source: AK7set+B3279pRdb6fP9PYq0sezr7Yi2oVMPBJKcpl2e0riUyPyt1RtOrBgaEOdSGuOn5ipgIRiRpWvTkpb8DiCSAjo=
+X-Received: by 2002:a25:9f0e:0:b0:b3b:fb47:8534 with SMTP id
+ n14-20020a259f0e000000b00b3bfb478534mr2657600ybq.5.1678739056198; Mon, 13 Mar
+ 2023 13:24:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <7d3659e81094ca968fb2847176a410e27634df2f.camel@intel.com>
-In-Reply-To: <7d3659e81094ca968fb2847176a410e27634df2f.camel@intel.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 13 Mar 2023 09:21:26 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA4aODy25QWPkag72BCOUiW1L2ei1N5kJ6X6j-0KfiUjRA@mail.gmail.com>
-Message-ID: <CA+5PVA4aODy25QWPkag72BCOUiW1L2ei1N5kJ6X6j-0KfiUjRA@mail.gmail.com>
-Subject: Re: pull request: iwlwifi firmware updates 2023-03-13 - fixed
-To: "Greenman, Gregory" <gregory.greenman@intel.com>
+References: <20230301-fixes-and-compression-v2-0-e2b71974e842@gmail.com> <20230301-fixes-and-compression-v2-7-e2b71974e842@gmail.com>
+In-Reply-To: <20230301-fixes-and-compression-v2-7-e2b71974e842@gmail.com>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Mon, 13 Mar 2023 20:24:04 +0000
+Message-ID: <CACvgo51S927dpSntF8Y4MmsOQGzw6P21mkdE2RP3n18+djfOEg@mail.gmail.com>
+Subject: Re: [PATCH RESEND v2 07/16] check_whence: error on directory listed
+ as File
+To: emil.l.velikov@gmail.com
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, "Hutchings, Ben" <ben@decadent.org.uk>, 
-	"kyle@infradead.org" <kyle@infradead.org>, 
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, "Ben Ami, Golan" <golan.ben.ami@intel.com>, 
-	"Yang, You-Sheng" <vicamo.yang@canonical.com>
+Cc: linux-firmware@kernel.org, Josh Boyer <jwboyer@kernel.org>, 
+	Adam Sampson <ats@offog.org>, David Woodhouse <dwmw2@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 13, 2023 at 4:20=E2=80=AFAM Greenman, Gregory
-<gregory.greenman@intel.com> wrote:
+On Wed, 1 Mar 2023 at 18:56, Emil Velikov via B4 Relay
+<devnull+emil.l.velikov.gmail.com@kernel.org> wrote:
 >
-> Hi,
+> From: Emil Velikov <emil.l.velikov@gmail.com>
 >
-> This contains a fixed pull request with updated firmwares for So device f=
-or our currently
-> maintained FW binaries.
+> No occurrences in-tree, but it makes sense to sanity check that.
 >
-> Please pull or let me know if there are any issues.
+> Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
+> ---
+>  check_whence.py | 5 +++++
+>  1 file changed, 5 insertions(+)
 >
-> Thanks,
-> Gregory
+> diff --git a/check_whence.py b/check_whence.py
+> index 7ff21f6..130966e 100755
+> --- a/check_whence.py
+> +++ b/check_whence.py
+> @@ -47,6 +47,11 @@ def main():
+>      known_prefixes = set(name for name in whence_list if name.endswith('/'))
+>      git_files = set(list_git())
 >
-> The following changes since commit 588dd07134daf4b0f6f74698f24eeb74ebe900=
-12:
+> +    for name in set(name for name in whence_files if name.endswith('/')):
+> +        sys.stderr.write('E: %s listed in WHENCE as File, but is directory\n' %
+> +                         name)
+> +        ret = 1
+> +
+>      for name in set(fw for fw in whence_files if whence_files.count(fw) > 1):
+>          sys.stderr.write('E: %s listed in WHENCE twice\n' % name)
+>          ret = 1
 >
->   qat: update licence text (2023-03-10 07:40:25 -0500)
+> --
+> 2.39.2
 >
-> are available in the Git repository at:
->
->   http://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.g=
-it tags/iwlwifi-fw-2023-03-13
 
-Pulled and pushed out.
+Josh, humble poke about the remainder of the series. Would you have
+any comments or suggestions?
+Note that many parts can be picked individually. Should there be any
+merge conflicts, those will be dead trivial to resolve.
 
-josh
-
->
-> for you to fetch changes up to 5bc279fb161d529baaf8e837d900235fbbe9bf2f:
->
->   iwlwifi: update core69 and core72 firmwares for So device (2023-03-13 1=
-0:05:47 +0200)
->
-> ----------------------------------------------------------------
-> Firmware updates for So device based on core69 and core72
->
-> ----------------------------------------------------------------
-> Gregory Greenman (1):
->       iwlwifi: update core69 and core72 firmwares for So device
->
->  WHENCE                        |   8 ++++----
->  iwlwifi-so-a0-gf-a0-72.ucode  | Bin 1560532 -> 1560532 bytes
->  iwlwifi-so-a0-gf-a0-74.ucode  | Bin 1577460 -> 1577460 bytes
->  iwlwifi-so-a0-gf4-a0-72.ucode | Bin 1580900 -> 1580900 bytes
->  iwlwifi-so-a0-gf4-a0-74.ucode | Bin 1602068 -> 1602068 bytes
->  5 files changed, 4 insertions(+), 4 deletions(-)
+Thanks
+Emil
