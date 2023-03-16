@@ -1,70 +1,47 @@
-Return-Path: <kvalo@kernel.org>
+Return-Path: <SRS0=SMAJ=7I=qualityservice.top=info2@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C84D9C61DA4
-	for <linux-firmware@archiver.kernel.org>; Wed, 15 Mar 2023 06:28:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0C1F6C6FD19
+	for <linux-firmware@archiver.kernel.org>; Thu, 16 Mar 2023 08:42:24 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 97904C433EF; Wed, 15 Mar 2023 06:28:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80C76C433D2;
-	Wed, 15 Mar 2023 06:28:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678861701;
-	bh=Kxs1ixjde/xHKf3SionGwNBkPkmhkANdt5+Lb0JzJW8=;
-	h=From:To:List-Id:Cc:Subject:References:Date:In-Reply-To:From;
-	b=X6BGftaSM3bY5uVUB7ZZXkFshEvhxvNEgK8S1tQaB+2CVXCT+YYRt2u9w2YcxoBud
-	 tAbXe/GOSQ76irbkr92Kd+v8SY1BJ0oVf2PUO8g6rbB8TI6SokqlkmIn4/gXyDBiP4
-	 A6c+u36bFE0nlGxDgda+K0OVV8kE3HSeSRLIFvn01V3Y/FITEKcOTZAUZ9MY/XKn2y
-	 rjLvDheZcnAkAznyRivI6rcBYz5KwnH8FHdmLrF4yGWE8C1DTNT/v4onvlgmc9AUY9
-	 Sp0EJzLc+fLQecMcL30Vf+mQ+vLLKlNwUvn9TOP4Rj+yHdWZkA2Pf1yov6G1Jy+5A4
-	 0NzWtvK90o1Ew==
-From: Kalle Valo <kvalo@kernel.org>
-To: Christian Lamparter <chunkeey@gmail.com>
+	id BD2BDC433D2; Thu, 16 Mar 2023 08:42:24 +0000 (UTC)
+Received: from server1.syojoo.top (unknown [106.13.209.99])
+	by smtp.kernel.org (Postfix) with ESMTP id 773E6C433A4
+	for <linux-firmware@kernel.org>; Thu, 16 Mar 2023 08:42:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 773E6C433A4
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=ruiqimfg.com
+Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=qualityservice.top
+Received: from Ruiqi2 (114.93.123.55) by server1.syojoo.top id h2bb6s0e97c5 for <linux-firmware@kernel.org>; Thu, 16 Mar 2023 16:01:11 +0800 (envelope-from <info2@qualityservice.top>)
+From: "daisy Lee" <daisy.lee@ruiqimfg.com>
+Subject: Direct manufacturer for CNC-Machining parts
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org,  linux-wireless@vger.kernel.org,  ath10k@lists.infradead.org
-Subject: Re: [PULL linux-firmware] ath10k & ath11k firmware 20230215
-References: <878rgzuw37.fsf@kernel.org>
-	<c9ccbfe1-9535-f46c-756e-4eb19c1afbff@gmail.com>
-	<87a618517g.fsf@kernel.org>
-	<97b7f35c-f7c9-1257-ff67-e5b61efe0ce0@gmail.com>
-Date: Wed, 15 Mar 2023 08:28:17 +0200
-In-Reply-To: <97b7f35c-f7c9-1257-ff67-e5b61efe0ce0@gmail.com> (Christian
-	Lamparter's message of "Tue, 14 Mar 2023 13:59:47 +0100")
-Message-ID: <874jqmo7em.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+To: linux-firmware@kernel.org
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: base64
+Sender: info2@qualityservice.top
+Reply-To: daisy.lee@ruiqimfg.com
+Date: Thu, 16 Mar 2023 16:01:11 +0800
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
+Content-Disposition: inline
+Message-Id: <20230316084222.773E6C433A4@smtp.kernel.org>
 
-Christian Lamparter <chunkeey@gmail.com> writes:
-
-> On 2/20/23 06:56, Kalle Valo wrote:
->> Christian Lamparter <chunkeey@gmail.com> writes:
->>
->>> On 2/15/23 10:17, Kalle Valo wrote:
->>>> Here's a new pull request for ath10k and ath11k. We have new hardware
->>>> IPQ5018 and various updates for existing hardware. Especially many have
->>>> requested the firmware update for WCN6855 which seems to fix an
->>>> important suspend problem.
->>>>
->>>> Please let me know if there are any problems.
->>>
->>> Could you also please include all the QCA9888+IPQ4019 boardfiles updates
->>> from last year too?
->>
->> I will try to go through them later. The problem here is that I don't
->> have much time for ath10k nowadays.
->
-> Ok, should I just post the board-2.bin updates to linux-firmware?
-> I have them ready to go for IPQ4019, QCA9888 and QCA9984.
-
-But is the problem that then I don't know which one you picked up and
-which one you skipped? Thanks for the offer but I think it's simpler
-that I'll pick the board files instead like before. I put this now to
-top of my todo list so shouldn't take long.
-
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+RGVhciBQdXJjaGFzZSBtYW5hZ2VyLA0KQXQgb3VyIHN0YXRlLW9mLXRoZS1hcnQgZmFjaWxpdHks
+IHdlIHVzZSBhZHZhbmNlZCBDTkMgbWFjaGluaW5nIHRlY2hub2xvZ3kgdG8gcHJvZHVjZSBhIHdp
+ZGUgcmFuZ2Ugb2YgcGFydHMgZm9yIHZhcmlvdXMgaW5kdXN0cmllcy4gT3VyIGNhcGFiaWxpdGll
+cyBpbmNsdWRlIHByZWNpc2lvbiB0dXJuaW5nLCBtaWxsaW5nLCBncmluZGluZywgYW5kIGRyaWxs
+aW5nLiBGcm9tIHNtYWxsLXNjYWxlIHByb3RvdHlwZXMgdG8gbGFyZ2Utc2NhbGUgcHJvZHVjdGlv
+biBydW5zLCB3ZSBoYXZlIHRoZSBleHBlcnRpc2UgdG8gaGFuZGxlIGFueSBwcm9qZWN0Lg0KQXMg
+YSBjdXN0b21lci1mb2N1c2VkIGNvbXBhbnksIHdlIHVuZGVyc3RhbmQgdGhlIGltcG9ydGFuY2Ug
+b2YgZGVsaXZlcmluZyBxdWFsaXR5IHBhcnRzIG9uIHRpbWUgYW5kIHdpdGhpbiBidWRnZXQuIFdl
+IGhhdmUgaW1wbGVtZW50ZWQgc3RyaWN0IHF1YWxpdHkgY29udHJvbCBtZWFzdXJlcyB0byBlbnN1
+cmUgdGhhdCBldmVyeSBjb21wb25lbnQgd2UgcHJvZHVjZSBtZWV0cyB0aGUgaGlnaGVzdCBzdGFu
+ZGFyZHMgb2YgcXVhbGl0eSBhbmQgcmVsaWFiaWxpdHkuDQpGb3IgbW9yZSBpbmZvcm1hdGlvbiwg
+d2VsY29tZSB0byB2aXNpdCBvdXIgd2Vic2l0ZSBvciBjb250YWN0IHVzIGRpcmVjdGx5Lg0KU2lu
+Y2VyZWx5DQpEYWlzeQ0KU2hhbmdoYWkgUnVpcWkgVGVjaC4NCkh0dHA6Ly93d3cucnVpcWltZmcu
+Y29tDQo=
