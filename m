@@ -1,56 +1,125 @@
-Return-Path: <SRS0=Qbnw=7I=mk.efficientrs.top=mk2@kernel.org>
+Return-Path: <SRS0=Kolx=7I=collabora.com=nfraprado@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45B2FC6FD19
-	for <linux-firmware@archiver.kernel.org>; Thu, 16 Mar 2023 10:57:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2653AC6FD1F
+	for <linux-firmware@archiver.kernel.org>; Thu, 16 Mar 2023 19:18:35 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 08C47C433A4; Thu, 16 Mar 2023 10:57:31 +0000 (UTC)
-Received: from mk.efficientrs.top (unknown [106.12.137.74])
-	by smtp.kernel.org (Postfix) with ESMTP id 1E689C433A0
-	for <linux-firmware@kernel.org>; Thu, 16 Mar 2023 10:57:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 1E689C433A0
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=bng-intl.com
-Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=mk.efficientrs.top
-Received: from DESKTOP-50PGH09 (219.134.149.233) by mk.efficientrs.top id h2br1e0e97c0 for <linux-firmware@kernel.org>; Thu, 16 Mar 2023 18:57:15 +0800 (envelope-from <mk2@mk.efficientrs.top>)
-From: "Merry" <merrychen@bng-intl.com>
-Subject: manufacturing high quality women clothes
+	id E152CC433D2; Thu, 16 Mar 2023 19:18:34 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 302F8C433EF
+	for <linux-firmware@kernel.org>; Thu, 16 Mar 2023 19:18:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 302F8C433EF
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Received: from notapiano (unknown [IPv6:2600:4041:5b1a:cd00:524d:e95d:1a9c:492a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id C535B66030A6;
+	Thu, 16 Mar 2023 19:18:30 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1678994311;
+	bh=i61gSr8D+YphjmXc/K8ablVlUsLEsAqRig6vCYrlFws=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V96eG5CSmESRa7NEbxvf3USFhvDGn1S9DCCOo+53AhsQhO+5uvX+6M5kWxuCQzYI+
+	 1YRBk9yrzaMqOmG0QJ0XRlxNYxxNEl8ogfw3B15I25I9so+FCH6HAJNz33THzF93jd
+	 LRTnijIUF7Jsax3xmd4AYpnDoziX/bafgnBAc0Iu7qVV8Gz/+eiJDTO2NJSwhO0pL5
+	 /scPrHji1SsIXqWAQ/PAFO/7NVZyagpeH5rP9v763+/uaPMkWaPGp+BxrRRYyLUJQ/
+	 7vYFOUcE0S86GuAOgib6ewt5Nk7WU3YtbFyKJmF6HBKFPYgUdh8eh4N/dxhnkFT2v6
+	 21RwZKK5FA1xw==
+Date: Thu, 16 Mar 2023 15:18:26 -0400
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: TingHan Shen =?utf-8?B?KOayiOW7t+e/sCk=?= <TingHan.Shen@mediatek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Content-Type: text/plain; charset=UTF-8
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>,
+	Yunfei Dong =?utf-8?B?KOiRo+S6kemjnik=?= <Yunfei.Dong@mediatek.com>
+Subject: Re: pull request: update mediatek mt8192/mt8195 SCP firmware
+Message-ID: <20230316191826.zqnzbmyb2xos5tat@notapiano>
+References: <a43524a089a783f70adbe89b83eeb01fbd405d04.camel@mediatek.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Sender: mk2@mk.efficientrs.top
-Reply-To: merrychen@bng-intl.com
-Date: Thu, 16 Mar 2023 18:57:15 +0800
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Message-Id: <20230316105727.1E689C433A0@smtp.kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a43524a089a783f70adbe89b83eeb01fbd405d04.camel@mediatek.com>
 
-V2lzaCB5b3UgZXZlcnl0aGluZyBpcyBnb2luZyB3ZWxsIQ0KR2xhZCB0byBrbm93IHlvdSBhcmUg
-aW4gdGhlIG1hcmtldCBvZiBjbG90aGluZyBhbmQgYWNjZXNzb3JpZXMuDQpUaGlzIGlzIE1lcnJ5
-IGZyb20gQiZHIEZhc2hpb25zIEludGVybmF0aW9uYWwgTHRkLiwgd2UgYXJlIHByb2Zlc3Npb25h
-bCBtYW51ZmFjdHVyZXIgYW5kIGV4cG9ydGVyIHNwZWNpYWxpemVkIGluIGZhc2hpb24gYWNjZXNz
-b3JpZXMgZm9yIDIwIHllYXJzLCBpbmNsdWRpbmcgY2xvdGhlcyBhbmQgYmFncy4NCldlIHRha2Ug
-Y2hhcmdlIG9mIHRoZSB3aG9sZSBwcm9jZXNzIGZyb20gcHJvZHVjdCBkZXNpZ24gdG8gcmF3IG1h
-dGVyaWFscyB0byBmaW5pc2hlZCBwcm9kdWN0cy4gV2UgY2FuIGN1c3RvbWl6ZSBvdXIgcHJvZHVj
-dHMgYWNjb3JkaW5nIHRvIGNsaWVudCdzIG5lZWRzLg0KU2luY2UgMjAyMix3ZSBleHBhbmRlZCBv
-dXIgcHJvZHVjdCBsaW5lIHRvIGZyb20gYmFncyB0byBjbG90aGVzICwgc3VjaCBhcyB1bmRlcndl
-YXJzLHNwb3J0c3dlYXJzLHdvbWVuc3dlYXJzLCB5b2dhIGNsb3RoZXMsY2FwcyBhbmQgc2NhcnZl
-cyBldGMgLiANCkVxdWlwcGVkIHdpdGggYWR2YW5jZWQgcHJvZHVjdGlvbiBwcm9jZXNzaW5nIGFz
-c2VtYmx5IGxpbmUsbW9kZXJuaXplZCBtYW5hZ2VtZW50IGFuZCBzdHJpY3QgUUMgc3lzdGVtLCBv
-dXIgZXhwZXJpZW5jZSBvZiBjb29wZXJhdGluZyB3aXRoIGZhbW91cyBicmFuZHMgd2lsbCBhc3N1
-cmUgeW91IHByb2R1Y3QgcXVhbGl0eSBhbmQgd29yayBlZmZpY2llbmN5Lg0KRnVydGhlciBpbmZv
-cm1hdGlvbiBvZiBvdXIgcHJvZHVjdHMgYW5kIGZhY3Rvcnkgd2lsbCBiZSBhdmFpbGFibGUgZm9y
-IHJlZmVyZW5jZSBpZiBuZWVkZWQuDQpMb29rIGZvcndhcmQgdG8geW91ciByZXBseSBhdCB5b3Vy
-IGVhcmxpZXN0IGNvbnZlbmllbmNlLg0KQmVzdCByZWdhcmRzLCANCk1lcnJ5DQpCJkcgRmFzaGlv
-bnMgSW50ZXJuYXRpb25hbCBMaW1pdGVkDQpSb29tIDE0MDMsR3VpZ3UgRHluYW1pYyBFLWNvbW1l
-cmNlIFBvcnQsTm8uIDEwDQpMb25nZ2FuZyBSb2FkLExvbmdnYW5nIERpc3RyaWN0LFNoZW56aGVu
-LENoaW5hDQpURUw6ODYgKDc1NSkgODQ4OTgxMjcgICANCkZBWDo4NiAoNzU1KSAyODQ1NDc4MCAN
-ClBob25lOiAwMDg2IDE4OTI4NDY3MjE3DQoyMDIzIDEzM3RoIFRoZSBDaGluYSBJbXBvcnQgYW5k
-IEV4cG9ydCBGYWlyKENhbnRvbiBGYWlyKQ0KRXhoaWJpdGlvbiBCb290aDogOS4zIC0gRzMwDQpE
-YXRlOiBNYXkuMDEtMDUgMjAyMw0K
+On Wed, Mar 15, 2023 at 03:20:03AM +0000, TingHan Shen (沈廷翰) wrote:
+> Hi ,
+> 
+> This is a companion update for https://lore.kernel.org/all/20230314072557.29669-1-yunfei.dong@mediatek.com/.
+> 
+> Please let me know if there is any issue, thank you.
+
+Hi TingHan,
+
+thank you for the patch.
+
+I can confirm that both firmwares do indeed support both MM21 and MT21C formats
+(based on enum mtk_vdec_format_types):
+
+MT8192:
+[ 2664.319640] mtk_vcodec_dec:fops_vcodec_open: fops_vcodec_open(),212: decoder capability 770
+
+MT8195:
+[   64.265701] mtk_vcodec_dec:fops_vcodec_open: fops_vcodec_open(),212: decoder capability 20f60
+
+The MT21C format does indeed provide a compressed output. And with the driver
+patch linked above to force selection of the MM21 format, I was able to run
+fluster using all of VP8, VP9 and H.264 codecs, on both platforms:
+
+MT8192:
+	        VP8: 59/61
+	        VP9: 250/303
+		     0/6 (HIGH)
+	        H.264: 92/135
+		       27/69 (JVT-FR-EXT)
+
+MT8195:
+	        VP8: 59/61
+	        VP9: 276/303
+		     0/6 (HIGH)
+	        H.264: 95/135
+		       27/69 (JVT-FR-EXT)
+
+The MT8192 scp.img currently on linux-firmware had broken this behavior, so this
+is great news.
+
+So,
+
+Tested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+
+Thanks,
+Nícolas
+
+> 
+> --
+> 
+> The following changes since commit c761dbe804f903cc2df81f251d367cca285eca06:
+> 
+>   Merge tag 'iwlwifi-fw-2023-03-13' of http://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware (2023-03-13 09:20:47 -0400)
+> 
+> are available in the Git repository at:
+> 
+>   https://github.com/tinghan-shen/linux_fw_scp mtk-20230315
+> 
+> for you to fetch changes up to d0997ff65cb1edd0a0d6d96c998618a912132c12:
+> 
+>   mediatek: Update mt8192/mt8195 SCP firmware to support MM21 and MT21 (2023-03-15 10:55:00 +0800)
+> 
+> ----------------------------------------------------------------
+> Tinghan Shen (1):
+>       mediatek: Update mt8192/mt8195 SCP firmware to support MM21 and MT21
+> 
+>  WHENCE                  |   4 ++--
+>  mediatek/mt8192/scp.img | Bin 328096 -> 309164 bytes
+>  mediatek/mt8195/scp.img | Bin 429920 -> 587828 bytes
+>  3 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> -- 
+> Best regards,
+> TingHan
