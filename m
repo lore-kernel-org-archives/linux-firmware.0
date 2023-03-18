@@ -1,73 +1,97 @@
-Return-Path: <SRS0=ig14=7K=leemhuis.info=regressions@kernel.org>
+Return-Path: <SRS0=q3rQ=7K=realtek.com=pkshih@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7C45C61DA4
-	for <linux-firmware@archiver.kernel.org>; Sat, 18 Mar 2023 08:04:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57019C74A5B
+	for <linux-firmware@archiver.kernel.org>; Sat, 18 Mar 2023 13:59:05 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 69203C433D2; Sat, 18 Mar 2023 08:04:51 +0000 (UTC)
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id 13F85C433D2; Sat, 18 Mar 2023 13:59:05 +0000 (UTC)
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id C3A7BC433EF;
-	Sat, 18 Mar 2023 08:04:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C3A7BC433EF
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1pdRYO-0003hE-Mv; Sat, 18 Mar 2023 09:04:40 +0100
-Message-ID: <9a174e48-5cd6-535f-4f01-4e81398e772f@leemhuis.info>
-Date: Sat, 18 Mar 2023 09:04:40 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [FIRMWARE] Regression on rtw89/rtw8852b_fw.bin by the latest
- update
-Content-Language: en-US, de-DE
-To: Takashi Iwai <tiwai@suse.de>, Ping-Ke Shih <pkshih@realtek.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id EEE66C433EF;
+	Sat, 18 Mar 2023 13:59:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org EEE66C433EF
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 32IDwa1O3006872, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 32IDwa1O3006872
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
+	Sat, 18 Mar 2023 21:58:36 +0800
+Received: from RTEXMBS06.realtek.com.tw (172.21.6.99) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Sat, 18 Mar 2023 21:58:48 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS06.realtek.com.tw (172.21.6.99) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Sat, 18 Mar 2023 21:58:47 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::b4a2:2bcc:48d1:8b02]) by
+ RTEXMBS04.realtek.com.tw ([fe80::b4a2:2bcc:48d1:8b02%5]) with mapi id
+ 15.01.2375.007; Sat, 18 Mar 2023 21:58:47 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, linux-kernel@vger.kernel.org,
- Josh Boyer <jwboyer@kernel.org>
-References: <878rfuo67a.wl-tiwai@suse.de>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <878rfuo67a.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1679126689;9c22f637;
-X-HE-SMSGID: 1pdRYO-0003hE-Mv
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+CC: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "kvalo@kernel.org" <kvalo@kernel.org>,
+        "rb0171610@gmail.com"
+	<rb0171610@gmail.com>,
+        "Larry.Finger@lwfinger.net"
+	<Larry.Finger@lwfinger.net>,
+        "tiwai@suse.de" <tiwai@suse.de>
+Subject: pull request: rtw89: 8852b: rollback firmware to v0.27.32.1 and introduce new file to new format
+Thread-Topic: pull request: rtw89: 8852b: rollback firmware to v0.27.32.1 and
+ introduce new file to new format
+Thread-Index: AQHZWaHC1CjNCqm+pUmEqr8KKerHCA==
+Date: Sat, 18 Mar 2023 13:58:47 +0000
+Message-ID: <889f3db6ca4008047595f4392388acc1f165e03c.camel@realtek.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Evolution 3.36.1-2 
+x-originating-ip: [172.16.16.31]
+x-kse-serverinfo: RTEXMBS06.realtek.com.tw, 9
+x-kse-attachmentfiltering-interceptor-info: no applicable attachment filtering
+ rules found
+x-kse-antivirus-interceptor-info: scan successful
+x-kse-antivirus-info: =?utf-8?B?Q2xlYW4sIGJhc2VzOiAyMDIzLzMvMTgg5LiK5Y2IIDA5OjAxOjAw?=
+x-kse-bulkmessagesfiltering-scan-result: protection disabled
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <56FBB7C3B85FE347A55B725CB835E590@realtek.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 
-
-On 18.03.23 08:43, Takashi Iwai wrote:
-> 
-> we've received a regression report on openSUSE Tumbleweed about the
-> Realtek WiFi, and the culprit was spotted to be the latest firmware
-> update of rtw89/rtw8852b_fw.bin.  The former working linux-firmware
-> tree was at the commit 5c11a3742947, while broken at 5bc279fb161d.
-> 
-> The details are found in:
->   https://bugzilla.opensuse.org/show_bug.cgi?id=1209449
-> 
-> Could you check the problem?
-> (Or feel free to join to the bugzilla entry above.)
-
-FWIW, I already CCed Josh on the following bug yesterday in a comment
-where I suggested the updated firmware should be reverted:
-
-https://bugzilla.kernel.org/show_bug.cgi?id=217207
-
-But it's likely a good idea to write a normal mail, so thx for that!
-
-FWIW, the issue is also discussed here:
-
-https://lore.kernel.org/all/df1ce994-3368-a57e-7078-8bdcccf4a1fd@gmail.com/#t
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+SGksDQoNCkluIGRpc2N1c3Npb24gdGhyZWFkcyBbMV0gWzJdLCB0aGUgbmV3IGZvcm1hdCBvZiA4
+ODUyYiBicmVhayB1c2VyIHNwYWNlLg0KVG8gYXZvaWQgdGhpcywgaW50cm9kdWNlIG5ldyBmaWxl
+bmFtZSBydHc4OS9ydHc4ODUyYl9mdy0xLmJpbiB0aGF0IG9sZA0KZHJpdmVycyB3aWxsIG5vdCB0
+cnkgdG8gbG9hZCBpdC4NCg0KUm9sbGJhY2sgZmlybXdhcmUgdmVyc2lvbiBvZiBydHc4OS9ydHc4
+ODUyYl9mdy5iaW4gdG8gdGhlIGxhdGVzdA0KdmVyc2lvbiBvZiBvcmlnaW5hbCBmb3JtYXQgKGku
+ZS4gdjAuMjcuMzIuMSkgc3VwcG9ydGVkIGJ5IG9sZCBkcml2ZXIuDQoNClRoZSBwYXRjaGVzIHRv
+IHN1cHBvcnQgbmV3IGZpbGVuYW1lIGluIG5ldyBkcml2ZXIgYXJlIGFsbW9zdCBkb25lLA0KYW5k
+IEkgd2lsbCBzdWJtaXQgdGhlbSBzb29uLiBUaGFua3MgZm9yIHRoZSBhZHZpY2UgaW4gbWFpbCBh
+bmQNCmJ1ZyB0aHJlYWRzLg0KDQoNClsxXSANCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4
+LXdpcmVsZXNzL2RmMWNlOTk0LTMzNjgtYTU3ZS03MDc4LThiZGNjY2Y0YTFmZEBnbWFpbC5jb20v
+VC8jbTI0Y2I0M2JlMzFhNzYyZDBlYTcwYmYwN2YyN2FlOTZjNTlmNjkzMWINClsyXSBodHRwczov
+L2J1Z3ppbGxhLmtlcm5lbC5vcmcvc2hvd19idWcuY2dpP2lkPTIxNzIwNw0KDQoNClRoYW5rIHlv
+dQ0KUGluZy1LZQ0KDQotLS0NClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21taXQgYzc2
+MWRiZTgwNGY5MDNjYzJkZjgxZjI1MWQzNjdjY2EyODVlY2EwNjoNCg0KICBNZXJnZSB0YWcgJ2l3
+bHdpZmktZnctMjAyMy0wMy0xMycgb2YgDQpodHRwOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9s
+aW51eC9rZXJuZWwvZ2l0L2l3bHdpZmkvbGludXgtZmlybXdhcmUgKDIwMjMtMDMtMTMgMDk6MjA6
+NDcgLTA0MDApDQoNCmFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0Og0KDQog
+IGh0dHBzOi8vZ2l0aHViLmNvbS9wa3NoaWgvbGludXgtZmlybXdhcmUuZ2l0IEhFQUQNCg0KZm9y
+IHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRvIDJjMDdmMDE3ZmY0MjM5OGUyNWI4NTUyYmM4ZTAx
+YzdjNjY3Yjg1OTI6DQoNCiAgcnR3ODk6IDg4NTJiOiB1cGRhdGUgZm9ybWF0LTEgZncgdG8gdjAu
+MjkuMjkuMCAoMjAyMy0wMy0xOCAyMTo0NDozMCArMDgwMCkNCg0KLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KUGluZy1LZSBT
+aGloICgzKToNCiAgICAgIHJ0dzg5OiA4ODUyYjogcm9sbGJhY2sgZmlybXdhcmUgdG8gdjAuMjcu
+MzIuMQ0KICAgICAgcnR3ODk6IDg4NTJiOiBhZGQgZm9ybWF0LTEgZncgdjAuMjkuMjYuMA0KICAg
+ICAgcnR3ODk6IDg4NTJiOiB1cGRhdGUgZm9ybWF0LTEgZncgdG8gdjAuMjkuMjkuMA0KDQogV0hF
+TkNFICAgICAgICAgICAgICAgICAgfCAgIDEgKw0KIHJ0dzg5L3J0dzg4NTJiX2Z3LTEuYmluIHwg
+QmluIDAgLT4gMTE4ODQ4OCBieXRlcw0KIHJ0dzg5L3J0dzg4NTJiX2Z3LmJpbiAgIHwgQmluIDEx
+ODg0ODggLT4gMTAzNTIzMiBieXRlcw0KIDMgZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykN
+CiBjcmVhdGUgbW9kZSAxMDA2NDQgcnR3ODkvcnR3ODg1MmJfZnctMS5iaW4NCg0K
