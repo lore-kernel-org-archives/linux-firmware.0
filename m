@@ -1,222 +1,429 @@
-Return-Path: <SRS0=aERg=7W=intel.com=gregory.greenman@kernel.org>
+Return-Path: <SRS0=q+Me=7X=notk.org=adrien@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B60BCC7619A
-	for <linux-firmware@archiver.kernel.org>; Thu, 30 Mar 2023 20:14:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33C4CC6FD18
+	for <linux-firmware@archiver.kernel.org>; Fri, 31 Mar 2023 11:57:51 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 7BB7CC4339B; Thu, 30 Mar 2023 20:14:38 +0000 (UTC)
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	id DBFB0C433D2; Fri, 31 Mar 2023 11:57:51 +0000 (UTC)
+Received: from nautica.notk.org (nautica.notk.org [91.121.71.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 7D468C433EF;
-	Thu, 30 Mar 2023 20:14:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 7D468C433EF
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680207276; x=1711743276;
-  h=from:to:cc:subject:date:message-id:content-id:
-   content-transfer-encoding:mime-version;
-  bh=Rs2U1Uo+6lY+9fWNEUWpkuvCUgGKD5mCmAK/xblVCDU=;
-  b=XR2iNdWur0UYWyktoJbq7XyAIl9BGWwdIYX5pa1Hp8r4H4T6l62CwOYK
-   iEQFuBWk21B0Ad46Fa6n/+0eE6nu2wa4EI1dgdcrDwxlTcMIHHGQ0WkX4
-   lH7Po6COWBo8ByQAwAndTcrBGh//CJaUl6OZLXsSbavhauzJZJ9c+y5om
-   MS6KMo0r50u9CcfZR6WXrxTRXKogEROZIL0hDpl2a+blKgSEXX5OlQtp3
-   fGrJkGNzAfEfe8ahnUEJDpE4xyFbrqqD263AsQLQ2X0vilIaavOWuWZKo
-   7Nt4DpThjtDzf91i12fKgp932PZwU/5YSui9pk71vHbGi2KQUWlSdesrf
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="427553186"
-X-IronPort-AV: E=Sophos;i="5.98,305,1673942400"; 
-   d="scan'208";a="427553186"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 13:14:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="678335054"
-X-IronPort-AV: E=Sophos;i="5.98,305,1673942400"; 
-   d="scan'208";a="678335054"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga007.jf.intel.com with ESMTP; 30 Mar 2023 13:14:06 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Thu, 30 Mar 2023 13:14:06 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Thu, 30 Mar 2023 13:14:06 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.104)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Thu, 30 Mar 2023 13:14:05 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B5ii5k1Fh8wxS5aPyCncMf3Yuo22CFNIepw7GNFXDhKmNIwb1PWvkDZIk0w1hJgMQ6bak8ntjmLEOaRe/yxdWksKcsI6mY7AgQN56xhKINaIcSkCPsjZe+/2EikJBSDwQAmWfB/K/m1WqeAvuTNDHOcYLCLNcVUlYCdOfRyWwP8KEU3P4ixj8clQvqZqyEZgfDBvYnGUN1+CSvDp2thBwK+XYHTBZ+S+JkfGCsGec6mH2D8VQ3pIgkqvqBjYORndXNn8UX/pN9GWL8MhPlT6q34gNZd1wt3zKVYAf1niu7Wj8fbT+oK+N1v9fCb/6faSFGKm8vPQEYdnt17R/wQvyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Rs2U1Uo+6lY+9fWNEUWpkuvCUgGKD5mCmAK/xblVCDU=;
- b=llkw/2Wmdz+eJ5qqEVtaXEEn1Jt/zQbY0sWzK6IyKG/dtre98Pkpj8wWcrZdoqiXfaXQqFxWXGmgjWAmSNkRd+X84KXYqNWqhljL/mDJ38SWIrSiI//L+mkomjSffzRcy1Wb2hlTti7T9d6fouI7wXvSBEgDBbqAA9frNKf1pI8IvuLl9BtnHJfJsORgFDWQkvqtHrc1dpWVvIbOg2XFpa9ev4DAh1A8eXYq2M0GHfzY/djSiKDLtQDHy5F0OsgVn0jpzAFCBe4UZIzW3qE8Aa0wt1EC4i5ZkYAXsxn61Flzs+rA8VdKs3qOoIeDBk5Jg6lLFc1qKcuQBwChxG8bDA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MN0PR11MB5987.namprd11.prod.outlook.com (2603:10b6:208:372::8)
- by SN7PR11MB6873.namprd11.prod.outlook.com (2603:10b6:806:2a4::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.20; Thu, 30 Mar
- 2023 20:13:58 +0000
-Received: from MN0PR11MB5987.namprd11.prod.outlook.com
- ([fe80::4bd3:d6f5:8a5f:5330]) by MN0PR11MB5987.namprd11.prod.outlook.com
- ([fe80::4bd3:d6f5:8a5f:5330%9]) with mapi id 15.20.6222.033; Thu, 30 Mar 2023
- 20:13:58 +0000
-From: "Greenman, Gregory" <gregory.greenman@intel.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id E1012C433EF
+	for <linux-firmware@kernel.org>; Fri, 31 Mar 2023 11:57:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org E1012C433EF
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=notk.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=notk.org
+Received: from smtp.notk.org (nautica.notk.org [91.121.71.147])
+	by nautica.notk.org (Postfix) with ESMTPSA id 76C55C009
+	for <linux-firmware@kernel.org>; Fri, 31 Mar 2023 13:57:39 +0200 (CEST)
+Date: Fri, 31 Mar 2023 13:57:39 +0200
+From: Adrien Nader <adrien@notk.org>
 List-Id: <linux-firmware.lore.kernel.org>
-To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-CC: "Hutchings, Ben" <ben@decadent.org.uk>, "kyle@infradead.org"
-	<kyle@infradead.org>, "linux-wireless@vger.kernel.org"
-	<linux-wireless@vger.kernel.org>, "Ben Ami, Golan" <golan.ben.ami@intel.com>,
-	"jwboyer@kernel.org" <jwboyer@kernel.org>, "Yang, You-Sheng"
-	<vicamo.yang@canonical.com>
-Subject: pull request: iwlwifi firmware updates 2023-03-30
-Thread-Topic: pull request: iwlwifi firmware updates 2023-03-30
-Thread-Index: AQHZY0QptXzEtdy0FEK6+gE9qr4cWA==
-Date: Thu, 30 Mar 2023 20:13:58 +0000
-Message-ID: <a64091100d99323501ee95b25436490346142c22.camel@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Evolution 3.42.4 (3.42.4-2.fc35) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN0PR11MB5987:EE_|SN7PR11MB6873:EE_
-x-ms-office365-filtering-correlation-id: 11fca073-c15b-4ee1-9a3a-08db315b4b88
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: JPqm2W31ctsfnlQAX7SEr13TamgmDulyVaJwI/fhwPyks7JTeGsUHaO7WhlljQWCVvKaTOaGovuvxzh9/r2hduAilUtyGzDUfSyh7VpDoL1PJqOdLHabvFTSPwYi4TOtwaxmtTvXT/pPrZ1ZiUnZ2gy8w9gGwLaaxmoBcRBE0CAnp/7FnRhzjRjJHTeyzhR3s4f3fonDNebhDQOppwSV5haS9MbmA/u4YPlAOyCAicGVKCFOfGFsu6OQzTamy36uFQk/qSuWiBhfic1rNDmcKd50gssrcgs/+rOWf8/v7wdh/MGJchJ+65qIh85EgYItNitGyWHxgxbcTnulu7GWYsJK5MHr29yNZ9s8nQzId0GyL1xM29WoLz+rTmFWhgl6U05+ZToRd8AVj+s0jVc8Lhk3R58XyaWFAxYqEvjSrAqZsEE86rWp8CXLK1Srecpk+uOsF/c/lDxUERU2KWo7yE9FiPQ0WVebHovL9uXIKH4pb3soUWdWyOd36dj0v1xfhXck+qk+BDrl+tm0AUN+CIbIRHWkKLfNIkEyvwlir3z5IXjxI1SL2UTvkwYmir7MGjDABKSd2BmgRpTwvSJu2H+44D8gIRQJGH3hIhFPVOI=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB5987.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(39860400002)(396003)(136003)(346002)(366004)(376002)(451199021)(86362001)(36756003)(83380400001)(41300700001)(4326008)(76116006)(8676002)(64756008)(66946007)(316002)(91956017)(66556008)(966005)(6486002)(6916009)(66476007)(66446008)(19627235002)(54906003)(15650500001)(478600001)(71200400001)(2906002)(38100700002)(8936002)(5660300002)(38070700005)(82960400001)(122000001)(26005)(2616005)(6512007)(186003)(6506007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dFYva0dGbWcyTGFSS3JkalFTSDJBT2ZVMG1KZTFZZTVYNHhsVm41bHZNdk4y?=
- =?utf-8?B?K25uNEc4Y0t0eG5FUE96Nlh0VjRzWWdiZ3ZiREg1YWN4NStDNnpyZzM4elJR?=
- =?utf-8?B?YWYyR1RxcmV6R2pvNWhkVFZENUpmMkNmWkE3eDNvQkRRaTFoeHM1elBKZEla?=
- =?utf-8?B?SjFwQmd1SVVyTFVaUWhSRGNWdlQvUVRXTkRoYkRVVVBubTZGdlNjWWgwN0Fu?=
- =?utf-8?B?c3BWaGxFSjdnVE5oTElWRlE5RFFjM1ZSU0dzblZQRWY3Y1FWcDBuR0gyYlZE?=
- =?utf-8?B?LzlVVXFMc2NEL2hMeGNrRCtWRDNQTnNlMDRwdjhFVHcrMjdBSHVwMGxMMmxr?=
- =?utf-8?B?UUV5WUVzbDJxd21IeXdqalVJMFRjWEwrWUY2OUhhNUFoeFpMK290REVGSllt?=
- =?utf-8?B?UmNKb2QrREJwbVMzVlkvZlV3QUNVVGx0dDd3ZjV5b2Vua2tydDNmS1AwQUti?=
- =?utf-8?B?MCtGNnFXVmJyek1HdzNOMitXU09PNW9MaTMyNFZLd2xOVm5jNUdPMnZJV1gz?=
- =?utf-8?B?dm4wSlJMNDFERUg2WE0xUlBBYzlzdm1hR3VodlFkNisyZkJMdE5tZTJ6bEFH?=
- =?utf-8?B?STcwQjhpanFLSVdvQmtIbzRreVNrMWtDWXR4TkJUdnRMOVZJSzg3SFZFb3hl?=
- =?utf-8?B?bHZKRkdLb2MvdGV2VFY3TFNkT2Nvc1ZKdDNjdkhOanlIMU9GTHQwL2NneGVx?=
- =?utf-8?B?T2x3M2dhemlIZmlpR3c4YnNBeXFvT3haR3ZjY3NWM002d0IzYW1MNXNoZXFv?=
- =?utf-8?B?YmJXWUg3aEgvODhLa1BKVm41OTR3bUZENGgwM3h1emlZaE9kSFZaNWJKMG5r?=
- =?utf-8?B?REJFeWNnSG9qSjhqNTRuZVZpUFJMdHZRWXVSTXdSRHBvTURBdXFiNjVRTS81?=
- =?utf-8?B?L2twY0MyVWJZNWExWFJPWXljMlBTWHZqQTdHN05Uek8xeHVHbjI3OUoyYUFV?=
- =?utf-8?B?aTBpTStNZmpNck5INDdMN2lYbHc4ak9UUy82Q0tOQm5LanNYQThpQWJENUQx?=
- =?utf-8?B?V0hvWGVDRWVwSi9wcHFWeFdPMUd0bnBWVzVJZEcyTjFBRVBwTDk5cUVKcnZs?=
- =?utf-8?B?YkFVd3ZHNk8yWFdxdXB3aUJYVlBkakdnalJjYnIrM25CRjB5Szh3djY3STN5?=
- =?utf-8?B?ZlI1Nit6MUF3ejFBZXRlNmN5U2JoL1lwQmhqbTh1R09KVEVWSDhOZmZIc2xZ?=
- =?utf-8?B?Y3VEZmFRQko2RThEcnhDWDBQT2FtVlg5Q3pBeVpUb3JiYUFYVGk4TmN1OHNz?=
- =?utf-8?B?QTlaNitjbFRqSGdvNjliMk9TWm92SFhlTFdRQTFVNWx4SzJWeEZHNVRDK3BK?=
- =?utf-8?B?TVNkek1XcFJadm1NYkdYQTd5aWQ5REJna0xlUC9xdkZDREtGTzViNVpzVmdu?=
- =?utf-8?B?Qlk4eDNWa1M5bTlYc2U4cDE3citPaTRIck84MENTMHA2cmU2MU9vYVhkRVVK?=
- =?utf-8?B?TVdUVXFNbUpLOUhUbk8rNUdZZ2ljYUEwaE02YTZabmJwSnJBbzlKT1l5bnM2?=
- =?utf-8?B?ZGxCeHpMcngyN3l6ZlNQbTcrU1dXZWptQWxrODQrU1dSa2Y1QlJyaGFEYlAw?=
- =?utf-8?B?Snd2UlpPYUJTd2Z0ZE5UU050RXVyQWVlMHJDZzcrNklnYklOVVd0T0lWODVO?=
- =?utf-8?B?NDZYWXpLN21LdkdlU2tuUHJySUxGV1FTdE1oOGN6d2xqVit5WVZ6WXpZaUpW?=
- =?utf-8?B?U1U3U3NBRm9LWlY5c05WT3hRdjRjdHV3YnhjbTNRaEhsbjVjK0tiakUrdWR3?=
- =?utf-8?B?RGRmSGR6T3RwQVlHWEViT0pVc1RjUkZRRkY0alVzK3JOV2lBcmdXdlRBc09W?=
- =?utf-8?B?eGcyM3RTYjZ1d3p2U0RMNFh2dUFLbnh2Zlg1bGs5dFJMUEY0VEM0RUFUL1pr?=
- =?utf-8?B?bXBQYXd5MW4vemhmQUJNekhqZHluY24xUkxZbzNxQk9mTlVoM2RjSHROUHNi?=
- =?utf-8?B?YXYxQ2J4UVF1RmM0UDlURW0xZTQvWW8vcDhRSFhjc1ZvTjZKeUltQmdCMXV2?=
- =?utf-8?B?cmErcmRpMmpta2hCUGJmWllxY3UxMG02ZkkrYmlxOTNrWmhvUGxrQlBpaWlP?=
- =?utf-8?B?TUpZelZBZXFzcWhoR200Qng5NFdPazRpWmpUU3pCNWp4U2xUWGpwTnZiRm56?=
- =?utf-8?B?RnB3K0F2N3pPcnZwY2Y2RUlxR3VqdlowaC9qcHdpOUFFb2M5c3ZFZVIwZTRT?=
- =?utf-8?B?enc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6BEE80F1864F654C9B8C502B1D31BCDF@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+To: linux-firmware@kernel.org
+Subject: [RFC] global: de-duplicate files with symlinks
+Message-ID: <20230331115739.bytw7s35aacgrqic@notk.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB5987.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 11fca073-c15b-4ee1-9a3a-08db315b4b88
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Mar 2023 20:13:58.2022
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: XCA8Qn9xdhc4m5XQR2UNcehmRNJm+niK7DamDtuLQdMR6a+1JUChrKWe8kwisXiuq1716bo/guy666F0zv2VbQg8UX5qzU1eKm+WSGqtmGU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6873
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-SGksDQoNCkl0IGNvbnRhaW5zIHNvbWUgbmV3IGZpcm13YXJlcyBmb3IgYWxsIG91ciBjdXJyZW50
-bHkgbWFpbnRhaW5lZCBGVyBiaW5hcmllcy4NClBsZWFzZSBwdWxsIG9yIGxldCBtZSBrbm93IGlm
-IHRoZXJlIGFyZSBhbnkgaXNzdWVzLg0KDQotLQ0KVGhhbmtzLA0KR3JlZ29yeQ0KDQoNCndhcm5p
-bmc6IHJlZGlyZWN0aW5nIHRvIGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9r
-ZXJuZWwvZ2l0L2l3bHdpZmkvbGludXgtZmlybXdhcmUuZ2l0LyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICANClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21t
-aXQgYmNkY2ZiY2YwYThmMjRhOTE0YjhjMTYzOTA2ZTZjZTkzZDdmODg5NzogICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICANCiAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICANCiAgbGludXgtZmlybXdhcmU6
-IFVwZGF0ZSBmaXJtd2FyZSBmaWxlIGZvciBJbnRlbCBCbHVldG9vdGggQVgxMDEgKDIwMjMtMDMt
-MjAgMDg6MzQ6MjcgLTA0MDApICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICANCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICANCmFy
-ZSBhdmFpbGFibGUgaW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0Og0KDQogIGh0dHA6Ly9naXQua2Vy
-bmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvaXdsd2lmaS9saW51eC1maXJtd2FyZS5n
-aXQgdGFncy9pd2x3aWZpLWZ3LTIwMjMtMDMtMzANCg0KZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2Vz
-IHVwIHRvIDc4YTg3ODJhOWU1MWU1MDJhNmVkMjY3ZDI3MGM2OTI1ZmI3Mzg4MDU6DQoNCiAgaXds
-d2lmaTogYWRkIG5ldyBGV3MgZnJvbSBjb3JlNzgtMzIgcmVsZWFzZSAoMjAyMy0wMy0zMCAyMjo1
-NTowNCArMDMwMCkNCg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KaXdsd2lmaSBmaXJtd2FyZSB1cGRhdGUgZnJvbSBjb3Jl
-NzgtMzIgcmVsZWFzZS4NCg0KKiB1cGRhdGUgOTAwMC1mYW1pbHkgZmlybXdhcmVzOg0KaXdsd2lm
-aS05MDAwLXB1LWIwLWpmLWIwLTQ2LnVjb2RlDQppd2x3aWZpLTkyNjAtdGgtYjAtamYtYjAtNDYu
-dWNvZGUNCg0KKiB1cGRhdGUgLTc3LnVjb2RlIGFuZCBhZGQgLTgxLnVjb2RlIGZpcm13YXJlcw0K
-aXdsd2lmaS1RdS1iMC1oci1iMC03Ny51Y29kZQ0KaXdsd2lmaS1RdS1iMC1qZi1iMC03Ny51Y29k
-ZQ0KaXdsd2lmaS1RdS1jMC1oci1iMC03Ny51Y29kZQ0KaXdsd2lmaS1RdS1jMC1qZi1iMC03Ny51
-Y29kZQ0KaXdsd2lmaS1RdVotYTAtaHItYjAtNzcudWNvZGUNCml3bHdpZmktUXVaLWEwLWpmLWIw
-LTc3LnVjb2RlDQppd2x3aWZpLWNjLWEwLTc3LnVjb2RlDQppd2x3aWZpLXNvLWEwLWdmLWEwLnBu
-dm0NCml3bHdpZmktc28tYTAtZ2Y0LWEwLnBudm0NCml3bHdpZmktc28tYTAtZ2YtYTAtODEudWNv
-ZGUNCml3bHdpZmktc28tYTAtZ2Y0LWEwLTgxLnVjb2RlDQppd2x3aWZpLXNvLWEwLWhyLWIwLTgx
-LnVjb2RlDQppd2x3aWZpLXR5LWEwLWdmLWEwLnBudm0NCml3bHdpZmktdHktYTAtZ2YtYTAtODEu
-dWNvZGUNCg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLQ0KR3JlZ29yeSBHcmVlbm1hbiAoMik6DQogICAgICBpd2x3aWZpOiB1
-cGRhdGUgOTAwMC1mYW1pbHkgZmlybXdhcmVzIHRvIGNvcmU3OC0zMg0KICAgICAgaXdsd2lmaTog
-YWRkIG5ldyBGV3MgZnJvbSBjb3JlNzgtMzIgcmVsZWFzZQ0KDQogV0hFTkNFICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIHwgIDMwICsrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLQ0KIGl3
-bHdpZmktOTAwMC1wdS1iMC1qZi1iMC00Ni51Y29kZSB8IEJpbiAxNTE4Nzg4IC0+IDE1MTg3NzIg
-Ynl0ZXMNCiBpd2x3aWZpLTkyNjAtdGgtYjAtamYtYjAtNDYudWNvZGUgfCBCaW4gMTQ4OTY2OCAt
-PiAxNDg5NjUyIGJ5dGVzDQogaXdsd2lmaS1RdS1iMC1oci1iMC03Ny51Y29kZSAgICAgIHwgQmlu
-IDE0MDQwNDggLT4gMTQwNDY3NiBieXRlcw0KIGl3bHdpZmktUXUtYjAtamYtYjAtNzcudWNvZGUg
-ICAgICB8IEJpbiAxMzIxNzIwIC0+IDEzMjE5MDAgYnl0ZXMNCiBpd2x3aWZpLVF1LWMwLWhyLWIw
-LTc3LnVjb2RlICAgICAgfCBCaW4gMTQwNDA2NCAtPiAxNDA0NjkyIGJ5dGVzDQogaXdsd2lmaS1R
-dS1jMC1qZi1iMC03Ny51Y29kZSAgICAgIHwgQmluIDEzMjE3MzYgLT4gMTMyMTkxNiBieXRlcw0K
-IGl3bHdpZmktUXVaLWEwLWhyLWIwLTc3LnVjb2RlICAgICB8IEJpbiAxNDA0MTg0IC0+IDE0MDQ4
-MjAgYnl0ZXMNCiBpd2x3aWZpLVF1Wi1hMC1qZi1iMC03Ny51Y29kZSAgICAgfCBCaW4gMTMyNTUz
-MiAtPiAxMzIxOTU2IGJ5dGVzDQogaXdsd2lmaS1jYy1hMC03Ny51Y29kZSAgICAgICAgICAgIHwg
-QmluIDEzNjU0ODQgLT4gMTM2NjEyMCBieXRlcw0KIGl3bHdpZmktc28tYTAtZ2YtYTAtODEudWNv
-ZGUgICAgICB8IEJpbiAwIC0+IDE2ODI4NTIgYnl0ZXMNCiBpd2x3aWZpLXNvLWEwLWdmLWEwLnBu
-dm0gICAgICAgICAgfCBCaW4gNTYwNDggLT4gNTYwNDggYnl0ZXMNCiBpd2x3aWZpLXNvLWEwLWdm
-NC1hMC04MS51Y29kZSAgICAgfCBCaW4gMCAtPiAxNjkxODA0IGJ5dGVzDQogaXdsd2lmaS1zby1h
-MC1nZjQtYTAucG52bSAgICAgICAgIHwgQmluIDI4MjUyIC0+IDI4MjUyIGJ5dGVzDQogaXdsd2lm
-aS1zby1hMC1oci1iMC04MS51Y29kZSAgICAgIHwgQmluIDAgLT4gMTUzOTI4OCBieXRlcw0KIGl3
-bHdpZmktdHktYTAtZ2YtYTAtODEudWNvZGUgICAgICB8IEJpbiAwIC0+IDE2Mjg4MjggYnl0ZXMN
-CiBpd2x3aWZpLXR5LWEwLWdmLWEwLnBudm0gICAgICAgICAgfCBCaW4gNDE4NzYgLT4gNDE4NzYg
-Ynl0ZXMNCiAxNyBmaWxlcyBjaGFuZ2VkLCAyMSBpbnNlcnRpb25zKCspLCA5IGRlbGV0aW9ucygt
-KQ0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBpd2x3aWZpLXNvLWEwLWdmLWEwLTgxLnVjb2RlDQogY3Jl
-YXRlIG1vZGUgMTAwNjQ0IGl3bHdpZmktc28tYTAtZ2Y0LWEwLTgxLnVjb2RlDQogY3JlYXRlIG1v
-ZGUgMTAwNjQ0IGl3bHdpZmktc28tYTAtaHItYjAtODEudWNvZGUNCiBjcmVhdGUgbW9kZSAxMDA2
-NDQgaXdsd2lmaS10eS1hMC1nZi1hMC04MS51Y29kZQ0K
+Hi,
+
+I initially wanted to post a patch but I think this warrants some
+discussion instead: de-duplication only works if further commits don't
+introduce duplicates. This is doable but also a change of habits and an
+extra step.
+I'd like to discuss this nonetheless in order to reach a conclusion as
+to where is the best place for this de-duplication: linux-firmware.git
+or distributions when packaging.
+
+I ran jdupes on the repository. More precisely the following:
+
+  jdupes -rSHl --ext-filter=nostr:./.git/ .
+
+Summary:
+
+  Scanning: 2900 files, 302 items (in 1 specified)
+  346 duplicate files (in 195 sets), occupying 34 MB
+
+Since these files are often put in initrds and compressed, I've also
+compressed the output of git archive --format=tar.
+
+Compression                     HEAD        patch       reduction
+========================================================================
+none                            906240000   871567360   34672640 (3.83%)
+lz4                             505770148   484870257   20899891 (4.13%)
+zstd                            349805171   343648683   6156488  (1.76%)
+xz --lzma2=preset=0,dict=8M     278950408   280633320   1682912  (0.60%)
+xz --lzma2=preset=0,dict=1536M  264220784   264429304   208520   (0.08%)
+
+Compression with larger dictionaries is less impacted because the
+dictionary is large enough to spot identical files even though they're
+spread over the place (but distros tend to not use large dicts). It is
+also worth mentioning that duplicates can hinder compression of other
+files by taking space in the dictionary windows.
+
+Overall this gives a slight but noticeable gain with no drawback that I
+know of. The only question is probably whether there will be a policy to
+only push de-duplicated files here and if so, how it will be
+enforced/verified (pre-commit hooks which runs jdupes?).
+
+If this is not done in the git repository, it probable makes sense to
+announce that downstreams should do it themselves. I don't think that's
+a lot of work (I guess I can integrate that in Ubuntu in a few minutes);
+people just need to be made aware they're the ones supposed to do it.
+
+Best,
+
+PS: git --stat below:
+
+ adaptec/starfire_tx.bin                      |  Bin 832 -> 15 bytes
+ amdgpu/aldebaran_mec2.bin                    |  Bin 268576 -> 17 bytes
+ amdgpu/aldebaran_sjt_mec2.bin                |  Bin 268576 -> 21 bytes
+ amdgpu/arcturus_mec2.bin                     |  Bin 268576 -> 16 bytes
+ amdgpu/beige_goby_mec2.bin                   |  Bin 268720 -> 18 bytes
+ amdgpu/carrizo_mec2.bin                      |  Bin 262784 -> 15 bytes
+ amdgpu/carrizo_sdma1.bin                     |  Bin 10624 -> 16 bytes
+ amdgpu/cyan_skillfish2_mec2.bin              |  Bin 268592 -> 23 bytes
+ amdgpu/dimgrey_cavefish_dmcub.bin            |  Bin 112116 -> 20 bytes
+ amdgpu/dimgrey_cavefish_mec2.bin             |  Bin 268592 -> 24 bytes
+ amdgpu/dimgrey_cavefish_ta.bin               |  Bin 218368 -> 17 bytes
+ amdgpu/fiji_mec2.bin                         |  Bin 262824 -> 12 bytes
+ amdgpu/gc_10_3_6_mec2.bin                    |  Bin 268592 -> 17 bytes
+ amdgpu/gc_10_3_7_mec2.bin                    |  Bin 268592 -> 17 bytes
+ amdgpu/green_sardine_mec2.bin                |  Bin 268048 -> 21 bytes
+ amdgpu/hawaii_sdma.bin                       |  Bin 4456 -> 16 bytes
+ amdgpu/hawaii_sdma1.bin                      |  Bin 4456 -> 17 bytes
+ amdgpu/hawaii_uvd.bin                        |  Bin 232752 -> 15 bytes
+ amdgpu/hawaii_vce.bin                        |  Bin 101072 -> 15 bytes
+ amdgpu/kabini_sdma.bin                       |  Bin 4456 -> 16 bytes
+ amdgpu/kabini_sdma1.bin                      |  Bin 4456 -> 17 bytes
+ amdgpu/kabini_uvd.bin                        |  Bin 232752 -> 15 bytes
+ amdgpu/kabini_vce.bin                        |  Bin 101072 -> 15 bytes
+ amdgpu/kaveri_ce.bin                         |  Bin 8832 -> 13 bytes
+ amdgpu/kaveri_me.bin                         |  Bin 8832 -> 13 bytes
+ amdgpu/kaveri_sdma.bin                       |  Bin 4456 -> 16 bytes
+ amdgpu/kaveri_sdma1.bin                      |  Bin 4456 -> 17 bytes
+ amdgpu/kaveri_uvd.bin                        |  Bin 232752 -> 15 bytes
+ amdgpu/kaveri_vce.bin                        |  Bin 101072 -> 15 bytes
+ amdgpu/mullins_ce.bin                        |  Bin 8832 -> 13 bytes
+ amdgpu/mullins_me.bin                        |  Bin 8832 -> 13 bytes
+ amdgpu/mullins_mec.bin                       |  Bin 17024 -> 14 bytes
+ amdgpu/mullins_pfp.bin                       |  Bin 8832 -> 14 bytes
+ amdgpu/mullins_sdma.bin                      |  Bin 4456 -> 16 bytes
+ amdgpu/mullins_sdma1.bin                     |  Bin 4456 -> 17 bytes
+ amdgpu/mullins_uvd.bin                       |  Bin 232752 -> 15 bytes
+ amdgpu/mullins_vce.bin                       |  Bin 101072 -> 15 bytes
+ amdgpu/navi10_mec2.bin                       |  Bin 268592 -> 14 bytes
+ amdgpu/navi12_asd.bin                        |  Bin 172544 -> 14 bytes
+ amdgpu/navi12_mec2.bin                       |  Bin 268592 -> 14 bytes
+ amdgpu/navi12_vcn.bin                        |  Bin 402112 -> 14 bytes
+ amdgpu/navi14_asd.bin                        |  Bin 172544 -> 14 bytes
+ amdgpu/navi14_mec2.bin                       |  Bin 268592 -> 14 bytes
+ amdgpu/navi14_mec_wks.bin                    |  Bin 268592 -> 19 bytes
+ amdgpu/navi14_vcn.bin                        |  Bin 402112 -> 14 bytes
+ amdgpu/navy_flounder_dmcub.bin               |  Bin 112116 -> 20 bytes
+ amdgpu/navy_flounder_mec2.bin                |  Bin 268592 -> 21 bytes
+ amdgpu/navy_flounder_ta.bin                  |  Bin 218368 -> 17 bytes
+ amdgpu/navy_flounder_vcn.bin                 |  Bin 577776 -> 24 bytes
+ amdgpu/oland_ce.bin                          |  Bin 8832 -> 13 bytes
+ amdgpu/oland_me.bin                          |  Bin 8832 -> 13 bytes
+ amdgpu/picasso_mec2.bin                      |  Bin 268064 -> 15 bytes
+ amdgpu/pitcairn_ce.bin                       |  Bin 8832 -> 13 bytes
+ amdgpu/pitcairn_me.bin                       |  Bin 8832 -> 13 bytes
+ amdgpu/pitcairn_uvd.bin                      |  Bin 219928 -> 13 bytes
+ amdgpu/polaris10_mec2.bin                    |  Bin 262824 -> 17 bytes
+ amdgpu/polaris11_ce.bin                      |  Bin 8852 -> 16 bytes
+ amdgpu/polaris11_ce_2.bin                    |  Bin 8852 -> 18 bytes
+ amdgpu/polaris11_mec2.bin                    |  Bin 262824 -> 17 bytes
+ amdgpu/polaris11_sdma.bin                    |  Bin 12692 -> 18 bytes
+ amdgpu/polaris11_sdma1.bin                   |  Bin 12692 -> 19 bytes
+ amdgpu/polaris11_uvd.bin                     |  Bin 375424 -> 17 bytes
+ amdgpu/polaris11_vce.bin                     |  Bin 166816 -> 17 bytes
+ amdgpu/polaris12_mec2.bin                    |  Bin 262824 -> 17 bytes
+ amdgpu/polaris12_sdma.bin                    |  Bin 12692 -> 18 bytes
+ amdgpu/polaris12_sdma1.bin                   |  Bin 12692 -> 19 bytes
+ amdgpu/polaris12_uvd.bin                     |  Bin 375424 -> 17 bytes
+ amdgpu/polaris12_vce.bin                     |  Bin 166816 -> 17 bytes
+ amdgpu/raven2_mec2.bin                       |  Bin 268048 -> 14 bytes
+ amdgpu/raven2_vcn.bin                        |  Bin 365536 -> 15 bytes
+ amdgpu/raven_gpu_info.bin                    |  Bin 316 -> 20 bytes
+ amdgpu/raven_kicker_rlc.bin                  |  Bin 39140 -> 15 bytes
+ amdgpu/raven_mec2.bin                        |  Bin 268048 -> 13 bytes
+ amdgpu/raven_sdma.bin                        |  Bin 17408 -> 16 bytes
+ amdgpu/raven_vcn.bin                         |  Bin 365536 -> 15 bytes
+ amdgpu/renoir_mec2.bin                       |  Bin 268064 -> 14 bytes
+ amdgpu/renoir_rlc.bin                        |  Bin 39928 -> 21 bytes
+ amdgpu/renoir_sdma.bin                       |  Bin 17408 -> 22 bytes
+ amdgpu/renoir_vcn.bin                        |  Bin 401856 -> 21 bytes
+ amdgpu/sienna_cichlid_dmcub.bin              |  Bin 112116 -> 20 bytes
+ amdgpu/sienna_cichlid_mec2.bin               |  Bin 268592 -> 22 bytes
+ amdgpu/sienna_cichlid_vcn.bin                |  Bin 577776 -> 24 bytes
+ amdgpu/tahiti_ce.bin                         |  Bin 8832 -> 13 bytes
+ amdgpu/tahiti_me.bin                         |  Bin 8832 -> 13 bytes
+ amdgpu/tahiti_pfp.bin                        |  Bin 8832 -> 16 bytes
+ amdgpu/tonga_mec2.bin                        |  Bin 262824 -> 13 bytes
+ amdgpu/vangogh_mec2.bin                      |  Bin 268720 -> 15 bytes
+ amdgpu/vcn_4_0_4.bin                         |  Bin 367136 -> 13 bytes
+ amdgpu/vega10_mec2.bin                       |  Bin 268064 -> 14 bytes
+ amdgpu/vega12_mec2.bin                       |  Bin 268048 -> 14 bytes
+ amdgpu/vega20_mec2.bin                       |  Bin 268064 -> 14 bytes
+ amdgpu/vega20_vce.bin                        |  Bin 173856 -> 14 bytes
+ amdgpu/vegam_uvd.bin                         |  Bin 375424 -> 17 bytes
+ amdgpu/verde_ce.bin                          |  Bin 8832 -> 13 bytes
+ amdgpu/yellow_carp_asd.bin                   |  Bin 168448 -> 18 bytes
+ amdgpu/yellow_carp_mec2.bin                  |  Bin 268720 -> 19 bytes
+ amdgpu/yellow_carp_ta.bin                    |  Bin 205824 -> 17 bytes
+ ar3k/1020200/ar3kbdaddr.pst                  |    2 +-
+ ar3k/30101/ar3kbdaddr.pst                    |    2 +-
+ ar3k/ramps_0x01020201_40.dfu                 |  Bin 264 -> 23 bytes
+ .../hw3.0/notice_ath10k_firmware-sdio-6.txt  | 1353 +----
+ .../hw1.0/notice_ath10k_firmware-6.txt       | 1353 +----
+ .../hw1.0/notice_ath10k_firmware-sdio-5.txt  | 1129 +----
+ .../hw1.0/notice_ath10k_firmware-5.txt       |  329 +-
+ .../hw2.0/notice_ath10k_firmware-5.txt       |  590 +--
+ .../hw1.0/notice_ath10k_firmware-5.txt       |  590 +--
+ ath11k/IPQ6018/hw1.0/Notice.txt              | 4095 +---------------
+ ath11k/IPQ8074/hw2.0/Notice.txt              | 4095 +---------------
+ ath11k/QCN9074/hw1.0/Notice.txt              | 4095 +---------------
+ ath6k/AR6003.1/hw2.1.1/bdata.WB31.bin        |  Bin 1792 -> 14 bytes
+ ath6k/AR6003/hw1.0/bdata.WB31.bin            |  Bin 1024 -> 14 bytes
+ ath6k/AR6003/hw2.0/bdata.SD31.bin            |  Bin 1792 -> 37 bytes
+ ath6k/AR6003/hw2.0/bdata.WB31.bin            |  Bin 1792 -> 37 bytes
+ ath6k/AR6003/hw2.1.1/bdata.SD31.bin          |  Bin 1792 -> 37 bytes
+ ath6k/AR6003/hw2.1.1/bdata.SD32.bin          |  Bin 1792 -> 23 bytes
+ ath6k/AR6003/hw2.1.1/bdata.WB31.bin          |  Bin 1792 -> 37 bytes
+ ath6k/AR6003/hw2.1.1/data.patch.bin          |  Bin 140 -> 37 bytes
+ ...5l41-dsp1-spk-cali-104312af-spkid1-l0.bin |  Bin 1976 -> 44 bytes
+ ...5l41-dsp1-spk-cali-104312af-spkid1-r0.bin |  Bin 1976 -> 44 bytes
+ ...5l41-dsp1-spk-cali-10431a8f-spkid1-l0.bin |  Bin 1968 -> 44 bytes
+ ...5l41-dsp1-spk-cali-10431a8f-spkid1-r0.bin |  Bin 1972 -> 44 bytes
+ ...5l41-dsp1-spk-prot-104312af-spkid1-l0.bin |  Bin 4920 -> 44 bytes
+ ...5l41-dsp1-spk-prot-104312af-spkid1-r0.bin |  Bin 4920 -> 44 bytes
+ ...5l41-dsp1-spk-prot-10431a8f-spkid1-l0.bin |  Bin 4944 -> 44 bytes
+ ...5l41-dsp1-spk-prot-10431a8f-spkid1-r0.bin |  Bin 4948 -> 44 bytes
+ ...5l41-dsp1-spk-prot-17aa3855-spkid1-l0.bin |  Bin 5008 -> 44 bytes
+ ...5l41-dsp1-spk-prot-17aa3855-spkid1-r0.bin |  Bin 5012 -> 44 bytes
+ i915/dg1_huc_7.9.3.bin                       |  Bin 589888 -> 11 bytes
+ i915/tgl_huc_7.9.3.bin                       |  Bin 589888 -> 11 bytes
+ intel/dsp_fw_glk_v3366.bin                   |  Bin 505608 -> 21 bytes
+ intel/dsp_fw_release_v3402.bin               |  Bin 247112 -> 20 bytes
+ intel/ibt-0040-1020.ddc                      |  Bin 9 -> 12 bytes
+ intel/ibt-0040-2120.ddc                      |  Bin 9 -> 12 bytes
+ intel/ibt-0040-4150.ddc                      |  Bin 9 -> 12 bytes
+ intel/ibt-0041-0041.ddc                      |  Bin 9 -> 12 bytes
+ intel/ibt-1040-0041.ddc                      |  Bin 9 -> 12 bytes
+ intel/ibt-1040-1020.ddc                      |  Bin 9 -> 12 bytes
+ intel/ibt-1040-2120.ddc                      |  Bin 9 -> 12 bytes
+ intel/ibt-1040-4150.ddc                      |  Bin 9 -> 12 bytes
+ intel/ibt-17-1.ddc                           |  Bin 14 -> 14 bytes
+ intel/ibt-17-1.sfi                           |  Bin 625216 -> 14 bytes
+ intel/ibt-17-16-1.ddc                        |  Bin 9 -> 12 bytes
+ intel/ibt-17-16-1.sfi                        |  Bin 675372 -> 12 bytes
+ intel/ibt-18-0-1.ddc                         |  Bin 14 -> 14 bytes
+ intel/ibt-18-0-1.sfi                         |  Bin 625216 -> 14 bytes
+ intel/ibt-18-1.ddc                           |  Bin 14 -> 14 bytes
+ intel/ibt-18-1.sfi                           |  Bin 625216 -> 14 bytes
+ intel/ibt-18-16-1.ddc                        |  Bin 9 -> 12 bytes
+ intel/ibt-18-16-1.sfi                        |  Bin 675372 -> 12 bytes
+ intel/ibt-18-2.ddc                           |  Bin 9 -> 12 bytes
+ intel/ibt-18-2.sfi                           |  Bin 675372 -> 12 bytes
+ intel/ibt-19-0-0.ddc                         |  Bin 9 -> 12 bytes
+ intel/ibt-19-0-1.ddc                         |  Bin 9 -> 12 bytes
+ intel/ibt-19-0-1.sfi                         |  Bin 801128 -> 14 bytes
+ intel/ibt-19-0-3.ddc                         |  Bin 9 -> 12 bytes
+ intel/ibt-19-0-3.sfi                         |  Bin 801128 -> 14 bytes
+ intel/ibt-19-0-4.ddc                         |  Bin 9 -> 12 bytes
+ intel/ibt-19-0-4.sfi                         |  Bin 801128 -> 14 bytes
+ intel/ibt-19-16-4.ddc                        |  Bin 9 -> 12 bytes
+ intel/ibt-19-16-4.sfi                        |  Bin 801128 -> 14 bytes
+ intel/ibt-19-240-1.ddc                       |  Bin 9 -> 12 bytes
+ intel/ibt-19-240-1.sfi                       |  Bin 801128 -> 14 bytes
+ intel/ibt-19-240-4.ddc                       |  Bin 9 -> 12 bytes
+ intel/ibt-19-240-4.sfi                       |  Bin 801128 -> 14 bytes
+ intel/ibt-19-32-0.ddc                        |  Bin 9 -> 12 bytes
+ intel/ibt-19-32-0.sfi                        |  Bin 801128 -> 14 bytes
+ intel/ibt-19-32-1.ddc                        |  Bin 9 -> 12 bytes
+ intel/ibt-19-32-1.sfi                        |  Bin 801128 -> 14 bytes
+ intel/ibt-19-32-4.ddc                        |  Bin 9 -> 12 bytes
+ intel/ibt-19-32-4.sfi                        |  Bin 801128 -> 14 bytes
+ intel/ibt-20-0-3.ddc                         |  Bin 9 -> 12 bytes
+ intel/ibt-20-1-3.ddc                         |  Bin 9 -> 12 bytes
+ intel/ibt-20-1-4.ddc                         |  Bin 9 -> 12 bytes
+ libertas/gspi8686_v9_helper.bin              |  Bin 2140 -> 19 bytes
+ libertas/gspi8688_helper.bin                 |  Bin 2140 -> 19 bytes
+ mellanox/lc_ini_bundle_2010_1502.bin         |  Bin 12300 -> 27 bytes
+ mellanox/lc_ini_bundle_2010_3020.bin         |  Bin 12300 -> 27 bytes
+ mellanox/lc_ini_bundle_2010_3146.bin         |  Bin 12300 -> 27 bytes
+ meson/vdec/sm1_hevc_mmu.bin                  |  Bin 16384 -> 17 bytes
+ mrvl/sd8688_helper.bin                       |  Bin 2616 -> 29 bytes
+ mts_gsm.fw                                   |  Bin 13847 -> 11 bytes
+ nvidia/gp100/gr/sw_bundle_init.bin           |  Bin 7664 -> 33 bytes
+ nvidia/gp100/gr/sw_method_init.bin           |  Bin 11928 -> 33 bytes
+ nvidia/gp104/gr/gpccs_inst.bin               |  Bin 13307 -> 29 bytes
+ nvidia/gp108/gr/fecs_bl.bin                  |  Bin 576 -> 26 bytes
+ nvidia/gp108/gr/gpccs_bl.bin                 |  Bin 576 -> 27 bytes
+ nvidia/gp108/gr/sw_bundle_init.bin           |  Bin 7680 -> 33 bytes
+ nvidia/gp108/gr/sw_ctx.bin                   |  Bin 6000 -> 25 bytes
+ nvidia/gp108/gr/sw_method_init.bin           |  Bin 12288 -> 33 bytes
+ nvidia/gp108/gr/sw_nonctx.bin                |  Bin 2496 -> 28 bytes
+ nvidia/gv100/acr/bl.bin                      |  Bin 1280 -> 22 bytes
+ nvidia/gv100/acr/unload_bl.bin               |  Bin 1280 -> 29 bytes
+ nvidia/gv100/gr/gpccs_bl.bin                 |  Bin 576 -> 27 bytes
+ nvidia/tu102/acr/bl.bin                      |  Bin 1280 -> 22 bytes
+ nvidia/tu102/acr/unload_bl.bin               |  Bin 1280 -> 29 bytes
+ nvidia/tu102/gr/fecs_bl.bin                  |  Bin 576 -> 26 bytes
+ nvidia/tu102/gr/gpccs_bl.bin                 |  Bin 576 -> 27 bytes
+ nvidia/tu104/gr/sw_bundle_init.bin           |  Bin 7456 -> 33 bytes
+ nvidia/tu104/gr/sw_ctx.bin                   |  Bin 6936 -> 25 bytes
+ nvidia/tu104/gr/sw_method_init.bin           |  Bin 13424 -> 33 bytes
+ nvidia/tu104/gr/sw_veid_bundle_init.bin      |  Bin 176 -> 38 bytes
+ nvidia/tu106/gr/sw_bundle_init.bin           |  Bin 7456 -> 33 bytes
+ nvidia/tu106/gr/sw_ctx.bin                   |  Bin 6936 -> 25 bytes
+ nvidia/tu106/gr/sw_method_init.bin           |  Bin 13424 -> 33 bytes
+ nvidia/tu106/gr/sw_nonctx.bin                |  Bin 3856 -> 28 bytes
+ nvidia/tu106/gr/sw_veid_bundle_init.bin      |  Bin 176 -> 38 bytes
+ nvidia/tu116/acr/bl.bin                      |  Bin 1280 -> 22 bytes
+ nvidia/tu116/acr/unload_bl.bin               |  Bin 1280 -> 29 bytes
+ nvidia/tu116/gr/fecs_bl.bin                  |  Bin 576 -> 26 bytes
+ nvidia/tu116/gr/gpccs_bl.bin                 |  Bin 576 -> 27 bytes
+ nvidia/tu116/gr/sw_bundle_init.bin           |  Bin 7456 -> 33 bytes
+ nvidia/tu116/gr/sw_method_init.bin           |  Bin 13424 -> 33 bytes
+ nvidia/tu116/gr/sw_veid_bundle_init.bin      |  Bin 176 -> 38 bytes
+ nvidia/tu117/gr/sw_bundle_init.bin           |  Bin 7456 -> 33 bytes
+ nvidia/tu117/gr/sw_ctx.bin                   |  Bin 6936 -> 25 bytes
+ nvidia/tu117/gr/sw_method_init.bin           |  Bin 13424 -> 33 bytes
+ nvidia/tu117/gr/sw_nonctx.bin                |  Bin 3856 -> 28 bytes
+ nvidia/tu117/gr/sw_veid_bundle_init.bin      |  Bin 176 -> 38 bytes
+ qca/hpnv21.302                               |  Bin 6830 -> 10 bytes
+ qca/hpnv21g.302                              |  Bin 6670 -> 11 bytes
+ qca/nvm_usb_00000201.bin                     |  Bin 1859 -> 20 bytes
+ qca/nvm_usb_00130200_0105.bin                |  Bin 6316 -> 25 bytes
+ qca/nvm_usb_00130200_0106.bin                |  Bin 6332 -> 20 bytes
+ qca/nvm_usb_00130200_0109.bin                |  Bin 6332 -> 20 bytes
+ qca/nvm_usb_00130200_0110.bin                |  Bin 6316 -> 25 bytes
+ qca/nvm_usb_00130201_010a.bin                |  Bin 6623 -> 20 bytes
+ qca/nvm_usb_00130201_010b.bin                |  Bin 6623 -> 20 bytes
+ qca/nvm_usb_00130201_0303.bin                |  Bin 6623 -> 20 bytes
+ qca/nvm_usb_00130201_gf_010a.bin             |  Bin 6463 -> 23 bytes
+ qca/nvm_usb_00130201_gf_010b.bin             |  Bin 6463 -> 23 bytes
+ qca/nvm_usb_00130201_gf_0303.bin             |  Bin 6463 -> 23 bytes
+ qca/rampatch_usb_00000201.bin                |  Bin 54432 -> 25 bytes
+ qcom/sm8250/adspr.jsn                        |   22 +-
+ qcom/sm8250/adspua.jsn                       |   28 +-
+ qcom/sm8250/cdspr.jsn                        |   22 +-
+ radeon/CAICOS_mc.bin                         |  Bin 24096 -> 12 bytes
+ radeon/CAICOS_me.bin                         |  Bin 5504 -> 12 bytes
+ radeon/CYPRESS_rlc.bin                       |  Bin 3072 -> 13 bytes
+ radeon/HAINAN_mc2.bin                        |  Bin 31452 -> 13 bytes
+ radeon/HAWAII_sdma.bin                       |  Bin 4200 -> 16 bytes
+ radeon/JUNIPER_me.bin                        |  Bin 5504 -> 14 bytes
+ radeon/JUNIPER_pfp.bin                       |  Bin 4480 -> 15 bytes
+ radeon/JUNIPER_rlc.bin                       |  Bin 3072 -> 13 bytes
+ radeon/KABINI_ce.bin                         |  Bin 8576 -> 14 bytes
+ radeon/KABINI_sdma.bin                       |  Bin 4200 -> 16 bytes
+ radeon/KAVERI_sdma.bin                       |  Bin 4200 -> 16 bytes
+ radeon/MULLINS_ce.bin                        |  Bin 8576 -> 13 bytes
+ radeon/MULLINS_me.bin                        |  Bin 8576 -> 13 bytes
+ radeon/MULLINS_sdma.bin                      |  Bin 4200 -> 16 bytes
+ radeon/OLAND_ce.bin                          |  Bin 8576 -> 13 bytes
+ radeon/OLAND_mc.bin                          |  Bin 31452 -> 13 bytes
+ radeon/OLAND_mc2.bin                         |  Bin 31452 -> 13 bytes
+ radeon/OLAND_me.bin                          |  Bin 8576 -> 13 bytes
+ radeon/PITCAIRN_ce.bin                       |  Bin 8576 -> 13 bytes
+ radeon/REDWOOD_pfp.bin                       |  Bin 4480 -> 13 bytes
+ radeon/REDWOOD_rlc.bin                       |  Bin 3072 -> 13 bytes
+ radeon/RV620_me.bin                          |  Bin 21504 -> 12 bytes
+ radeon/RV620_pfp.bin                         |  Bin 2304 -> 13 bytes
+ radeon/RV630_pfp.bin                         |  Bin 2304 -> 13 bytes
+ radeon/RV635_me.bin                          |  Bin 21504 -> 12 bytes
+ radeon/RV635_pfp.bin                         |  Bin 2304 -> 13 bytes
+ radeon/RV670_pfp.bin                         |  Bin 2304 -> 13 bytes
+ radeon/RV730_pfp.bin                         |  Bin 3392 -> 13 bytes
+ radeon/SUMO_me.bin                           |  Bin 5504 -> 12 bytes
+ radeon/TAHITI_ce.bin                         |  Bin 8576 -> 13 bytes
+ radeon/TAHITI_mc.bin                         |  Bin 31076 -> 15 bytes
+ radeon/TAHITI_me.bin                         |  Bin 8576 -> 15 bytes
+ radeon/TAHITI_pfp.bin                        |  Bin 8576 -> 16 bytes
+ radeon/TURKS_mc.bin                          |  Bin 24096 -> 12 bytes
+ radeon/TURKS_me.bin                          |  Bin 5504 -> 12 bytes
+ radeon/VERDE_ce.bin                          |  Bin 8576 -> 13 bytes
+ radeon/VERDE_mc.bin                          |  Bin 31076 -> 15 bytes
+ radeon/banks_k_2_smc.bin                     |  Bin 61932 -> 27 bytes
+ radeon/bonaire_k_smc.bin                     |  Bin 130796 -> 27 bytes
+ radeon/bonaire_mc.bin                        |  Bin 32336 -> 24 bytes
+ radeon/bonaire_rlc.bin                       |  Bin 8448 -> 25 bytes
+ radeon/bonaire_sdma.bin                      |  Bin 4456 -> 26 bytes
+ radeon/bonaire_sdma1.bin                     |  Bin 4456 -> 27 bytes
+ radeon/bonaire_smc.bin                       |  Bin 130796 -> 25 bytes
+ radeon/bonaire_uvd.bin                       |  Bin 232752 -> 25 bytes
+ radeon/bonaire_vce.bin                       |  Bin 101072 -> 25 bytes
+ radeon/hainan_k_smc.bin                      |  Bin 61876 -> 26 bytes
+ radeon/hainan_mc.bin                         |  Bin 31996 -> 23 bytes
+ radeon/hainan_smc.bin                        |  Bin 61444 -> 24 bytes
+ radeon/hawaii_k_smc.bin                      |  Bin 130796 -> 26 bytes
+ radeon/hawaii_mc.bin                         |  Bin 32796 -> 23 bytes
+ radeon/hawaii_rlc.bin                        |  Bin 8448 -> 24 bytes
+ radeon/hawaii_sdma.bin                       |  Bin 4456 -> 26 bytes
+ radeon/hawaii_sdma1.bin                      |  Bin 4456 -> 27 bytes
+ radeon/hawaii_smc.bin                        |  Bin 130796 -> 24 bytes
+ radeon/hawaii_uvd.bin                        |  Bin 232752 -> 25 bytes
+ radeon/hawaii_vce.bin                        |  Bin 101072 -> 25 bytes
+ radeon/kabini_rlc.bin                        |  Bin 10496 -> 24 bytes
+ radeon/kabini_sdma.bin                       |  Bin 4456 -> 26 bytes
+ radeon/kabini_sdma1.bin                      |  Bin 4456 -> 27 bytes
+ radeon/kabini_uvd.bin                        |  Bin 232752 -> 25 bytes
+ radeon/kabini_vce.bin                        |  Bin 101072 -> 25 bytes
+ radeon/kaveri_ce.bin                         |  Bin 8832 -> 13 bytes
+ radeon/kaveri_me.bin                         |  Bin 8832 -> 13 bytes
+ radeon/kaveri_rlc.bin                        |  Bin 10496 -> 24 bytes
+ radeon/kaveri_sdma.bin                       |  Bin 4456 -> 26 bytes
+ radeon/kaveri_sdma1.bin                      |  Bin 4456 -> 27 bytes
+ radeon/kaveri_uvd.bin                        |  Bin 232752 -> 25 bytes
+ radeon/kaveri_vce.bin                        |  Bin 101072 -> 25 bytes
+ radeon/mullins_ce.bin                        |  Bin 8832 -> 13 bytes
+ radeon/mullins_me.bin                        |  Bin 8832 -> 13 bytes
+ radeon/mullins_mec.bin                       |  Bin 17024 -> 14 bytes
+ radeon/mullins_pfp.bin                       |  Bin 8832 -> 14 bytes
+ radeon/mullins_rlc.bin                       |  Bin 10496 -> 25 bytes
+ radeon/mullins_sdma.bin                      |  Bin 4456 -> 26 bytes
+ radeon/mullins_sdma1.bin                     |  Bin 4456 -> 27 bytes
+ radeon/mullins_uvd.bin                       |  Bin 232752 -> 25 bytes
+ radeon/mullins_vce.bin                       |  Bin 101072 -> 25 bytes
+ radeon/oland_ce.bin                          |  Bin 8832 -> 13 bytes
+ radeon/oland_k_smc.bin                       |  Bin 62692 -> 25 bytes
+ radeon/oland_mc.bin                          |  Bin 31996 -> 22 bytes
+ radeon/oland_me.bin                          |  Bin 8832 -> 13 bytes
+ radeon/oland_smc.bin                         |  Bin 62260 -> 23 bytes
+ radeon/pitcairn_ce.bin                       |  Bin 8832 -> 13 bytes
+ radeon/pitcairn_k_smc.bin                    |  Bin 61712 -> 28 bytes
+ radeon/pitcairn_mc.bin                       |  Bin 31644 -> 25 bytes
+ radeon/pitcairn_me.bin                       |  Bin 8832 -> 13 bytes
+ radeon/pitcairn_smc.bin                      |  Bin 61280 -> 26 bytes
+ radeon/si58_mc.bin                           |  Bin 32488 -> 21 bytes
+ radeon/tahiti_ce.bin                         |  Bin 8832 -> 13 bytes
+ radeon/tahiti_k_smc.bin                      |  Bin 64364 -> 26 bytes
+ radeon/tahiti_mc.bin                         |  Bin 31776 -> 23 bytes
+ radeon/tahiti_me.bin                         |  Bin 8832 -> 13 bytes
+ radeon/tahiti_pfp.bin                        |  Bin 8832 -> 16 bytes
+ radeon/tahiti_smc.bin                        |  Bin 63932 -> 24 bytes
+ radeon/verde_ce.bin                          |  Bin 8832 -> 13 bytes
+ radeon/verde_k_smc.bin                       |  Bin 63804 -> 25 bytes
+ radeon/verde_mc.bin                          |  Bin 32044 -> 22 bytes
+ radeon/verde_smc.bin                         |  Bin 61776 -> 23 bytes
+ rtl_bt/rtl8821c_config.bin                   |  Bin 10 -> 19 bytes
+ rtl_bt/rtl8821cs_config.bin                  |  Bin 25 -> 19 bytes
+ rtl_bt/rtl8822cu_config.bin                  |  Bin 6 -> 20 bytes
+ rtl_bt/rtl8852au_config.bin                  |  Bin 6 -> 20 bytes
+ rtl_bt/rtl8852bu_config.bin                  |  Bin 6 -> 20 bytes
+ rtl_bt/rtl8852cu_config.bin                  |  Bin 6 -> 20 bytes
+ sms1xxx-nova-a-dvbt-01.fw                    |  Bin 85656 -> 28 bytes
+ ueagle-atm/CMVeiWO.bin                       |  Bin 161 -> 9 bytes
+ ueagle-atm/CMVepWO.bin                       |  Bin 151 -> 11 bytes
+ wfx/brd8023a.pds                             |  Bin 625 -> 12 bytes
+ 344 files changed, 14 insertions(+), 17691 deletions(-)
+
+-- 
+Adrien
