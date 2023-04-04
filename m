@@ -4,109 +4,130 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31816C6FD1D
-	for <linux-firmware@archiver.kernel.org>; Tue,  4 Apr 2023 11:58:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC4B8C6FD1D
+	for <linux-firmware@archiver.kernel.org>; Tue,  4 Apr 2023 11:59:55 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 1B056C4339C; Tue,  4 Apr 2023 11:58:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05C94C433EF
-	for <linux-firmware@kernel.org>; Tue,  4 Apr 2023 11:58:54 +0000 (UTC)
+	id A56AAC433A1; Tue,  4 Apr 2023 11:59:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 901F0C4339E
+	for <linux-firmware@kernel.org>; Tue,  4 Apr 2023 11:59:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680609534;
-	bh=G6k5l/YrrFyiGS0Yp68EmhKiWVKE4kIU7sbJyxssDEA=;
+	s=k20201202; t=1680609595;
+	bh=dSY42KeyU/OQ4VPUg+an2XDBW99spDr3BdAoJsZgnUs=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=hA5X3bhYPgWz5OlY0z5eA3C4lF15wnElAY3lPsfrTndX0f18xq3cBgBCspRBMQNUl
-	 v8/h3ZLK1SmR+RFBMIP+0XushR/V5oQDacJbrlv8MB2+zmVs4opLkj2UYGPpo2KP01
-	 OU3r7D+f3Nya+UF+8Lp19MORHjPcel2DgIbnao932W33YGwUqLE4+S6EWUg5D6J5aP
-	 0TERmVGJZX6l9BOtS5Srb6pz9aU5nepe5VZiaNqr+BwPKosBZmjGdXStqgizxU2ebY
-	 5YT4qsXxQUshxQbzLRzGJWjxtsr+7Ms7qV8H8VQRcNGALxjQdSenRo8Bbsh9gpYWvk
-	 VEPp7V/stDxKg==
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-5463fa0c2bfso278356367b3.1
-        for <linux-firmware@kernel.org>; Tue, 04 Apr 2023 04:58:53 -0700 (PDT)
-X-Gm-Message-State: AAQBX9eJ+qXAMCHUudqWpPmmplZqiMr2Vd2pS21jdllk33s8nE7NOtSC
-	nGm5BsGLmBnP6FGNccx8teJITAAHSigTt8NsSTg=
-X-Google-Smtp-Source: AKy350bcUKHk8kNPx32lfH7L5/VtArNcNlxl+qI1Y1vwbClm0QF/o2F/UHA8fr6lMwUsEwdQIU82K+B9osHMAsrx8Ck=
-X-Received: by 2002:a81:a9c7:0:b0:541:8ce6:b9ad with SMTP id
- g190-20020a81a9c7000000b005418ce6b9admr1401594ywh.2.1680609532897; Tue, 04
- Apr 2023 04:58:52 -0700 (PDT)
+	b=PT/raxpT8NBPi4xNLyoAsrJf9/cNN4fdm829fYfMroP94n7cKVxUWiHCDMFuwuIMo
+	 1lwdLpaXmoGQLw3Bs1EMrBxIX0EGqxCEQxR4z0+i8xExvTzXtvuXoR5DXM+RIq/Fix
+	 oIIxLOwqewib/LjnTP2BTZzQMFhaJVU3SG3hJoke0FM10Vk58i3dtY/+cJin26xitx
+	 6cM8905C07cTEj233m0861tuTGnI4/ScZ8dQQVnrd59/xiqiGpJuj1aw8zSdxxMnAJ
+	 oGhH/3M7BNZ1IcQZB63qnIIhMhbrh5kZeXBLZXXFbIWNe+a0CDsvUbwLhol7V7aGo/
+	 JxQkURBvWndZw==
+Received: by mail-yb1-f178.google.com with SMTP id k17so38296232ybm.11
+        for <linux-firmware@kernel.org>; Tue, 04 Apr 2023 04:59:55 -0700 (PDT)
+X-Gm-Message-State: AAQBX9fmRpUMlaw0821jbBCTyn70P2y3ubE03ufJnohC872rhg+zH3Sr
+	WxMBsGRcmI8MTDOoeve3oeLs0JGoRoAGfEAdMPg=
+X-Google-Smtp-Source: AKy350Z2tWVMAuhKzfOTSXbqlrho3hwa+G6SSCxwuN0EOm5RlrMPa0CFPwsFatHb29zsExdS6197KN0ul5fer/iR2xE=
+X-Received: by 2002:a25:d2ce:0:b0:b77:ae4b:1b27 with SMTP id
+ j197-20020a25d2ce000000b00b77ae4b1b27mr1423078ybg.8.1680609594568; Tue, 04
+ Apr 2023 04:59:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <176e1296-5b37-4177-8602-12b28b2115a4@amd.com>
-In-Reply-To: <176e1296-5b37-4177-8602-12b28b2115a4@amd.com>
+References: <a64091100d99323501ee95b25436490346142c22.camel@intel.com>
+In-Reply-To: <a64091100d99323501ee95b25436490346142c22.camel@intel.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Tue, 4 Apr 2023 07:58:42 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA54E7juyXVQUGm3RSX=2CY-P6UfFNr4yfmTXHcCkusz+w@mail.gmail.com>
-Message-ID: <CA+5PVA54E7juyXVQUGm3RSX=2CY-P6UfFNr4yfmTXHcCkusz+w@mail.gmail.com>
-Subject: Re: Updated firmware for DCN 3.1.4
-To: "Limonciello, Mario" <mario.limonciello@amd.com>
+Date: Tue, 4 Apr 2023 07:59:43 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA4fSAWw=c+KBKn8_FKCovo4tP1iWoJk6Och4s0=yt-7vQ@mail.gmail.com>
+Message-ID: <CA+5PVA4fSAWw=c+KBKn8_FKCovo4tP1iWoJk6Och4s0=yt-7vQ@mail.gmail.com>
+Subject: Re: pull request: iwlwifi firmware updates 2023-03-30
+To: "Greenman, Gregory" <gregory.greenman@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, 
-	Alexander Deucher <Alexander.Deucher@amd.com>
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, "Hutchings, Ben" <ben@decadent.org.uk>, 
+	"kyle@infradead.org" <kyle@infradead.org>, 
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, "Ben Ami, Golan" <golan.ben.ami@intel.com>, 
+	"Yang, You-Sheng" <vicamo.yang@canonical.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 30, 2023 at 10:31=E2=80=AFAM Limonciello, Mario
-<mario.limonciello@amd.com> wrote:
+On Thu, Mar 30, 2023 at 4:14=E2=80=AFPM Greenman, Gregory
+<gregory.greenman@intel.com> wrote:
 >
 > Hi,
 >
-> I've updated the firmware binaries for some DCN 3.1.4 based products.
+> It contains some new firmwares for all our currently maintained FW binari=
+es.
+> Please pull or let me know if there are any issues.
 >
+> --
 > Thanks,
+> Gregory
 >
+>
+> warning: redirecting to https://git.kernel.org/pub/scm/linux/kernel/git/i=
+wlwifi/linux-firmware.git/
 > The following changes since commit bcdcfbcf0a8f24a914b8c163906e6ce93d7f88=
 97:
 >
->    linux-firmware: Update firmware file for Intel Bluetooth AX101
-> (2023-03-20 08:34:27 -0400)
+>   linux-firmware: Update firmware file for Intel Bluetooth AX101 (2023-03=
+-20 08:34:27 -0400)
 >
 > are available in the Git repository at:
 >
->    https://gitlab.freedesktop.org/superm1/linux-firmware
-> mlimonci/update-dcn-3-1-4
+>   http://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.g=
+it tags/iwlwifi-fw-2023-03-30
 
 Pulled and pushed out.
 
 josh
 
 >
-> for you to fetch changes up to 9ee24ce0e164ba9620ecc33295b183fc135bac7b:
+> for you to fetch changes up to 78a8782a9e51e502a6ed267d270c6925fb738805:
 >
->    amdgpu: Update SDMA 6.0.1 firmware (2023-03-30 09:03:34 -0500)
+>   iwlwifi: add new FWs from core78-32 release (2023-03-30 22:55:04 +0300)
 >
 > ----------------------------------------------------------------
-> Mario Limonciello (6):
->        amdgpu: Add GC 11.0.4 firmware
->        amdgpu: Update DCN 3.1.4 firmware
->        amdgpu: Update GC 11.0.1 firmware
->        amdgpu: Update PSP 13.0.4 firmware
->        amdgpu: Add PSP 13.0.11 firmware
->        amdgpu: Update SDMA 6.0.1 firmware
+> iwlwifi firmware update from core78-32 release.
 >
->   WHENCE                     |   9 +++++++++
->   amdgpu/dcn_3_1_4_dmcub.bin | Bin 296864 -> 298016 bytes
->   amdgpu/gc_11_0_1_imu.bin   | Bin 132352 -> 132352 bytes
->   amdgpu/gc_11_0_1_me.bin    | Bin 263424 -> 263424 bytes
->   amdgpu/gc_11_0_1_mec.bin   | Bin 268640 -> 268640 bytes
->   amdgpu/gc_11_0_1_mes1.bin  | Bin 230528 -> 230368 bytes
->   amdgpu/gc_11_0_1_pfp.bin   | Bin 263424 -> 263424 bytes
->   amdgpu/gc_11_0_1_rlc.bin   | Bin 157440 -> 160592 bytes
->   amdgpu/gc_11_0_4_imu.bin   | Bin 0 -> 132352 bytes
->   amdgpu/gc_11_0_4_me.bin    | Bin 0 -> 263424 bytes
->   amdgpu/gc_11_0_4_mec.bin   | Bin 0 -> 268704 bytes
->   amdgpu/gc_11_0_4_mes.bin   | Bin 0 -> 288288 bytes
->   amdgpu/gc_11_0_4_mes1.bin  | Bin 0 -> 229856 bytes
->   amdgpu/gc_11_0_4_pfp.bin   | Bin 0 -> 263424 bytes
->   amdgpu/gc_11_0_4_rlc.bin   | Bin 0 -> 159472 bytes
->   amdgpu/psp_13_0_11_ta.bin  | Bin 0 -> 206272 bytes
->   amdgpu/psp_13_0_11_toc.bin | Bin 0 -> 2560 bytes
->   amdgpu/psp_13_0_4_ta.bin   | Bin 271808 -> 206272 bytes
->   amdgpu/sdma_6_0_1.bin      | Bin 34560 -> 34560 bytes
->   19 files changed, 9 insertions(+)
->   create mode 100644 amdgpu/gc_11_0_4_imu.bin
->   create mode 100644 amdgpu/gc_11_0_4_me.bin
->   create mode 100644 amdgpu/gc_11_0_4_mec.bin
->   create mode 100644 amdgpu/gc_11_0_4_mes.bin
->   create mode 100644 amdgpu/gc_11_0_4_mes1.bin
->   create mode 100644 amdgpu/gc_11_0_4_pfp.bin
->   create mode 100644 amdgpu/gc_11_0_4_rlc.bin
->   create mode 100644 amdgpu/psp_13_0_11_ta.bin
->   create mode 100644 amdgpu/psp_13_0_11_toc.bin
+> * update 9000-family firmwares:
+> iwlwifi-9000-pu-b0-jf-b0-46.ucode
+> iwlwifi-9260-th-b0-jf-b0-46.ucode
+>
+> * update -77.ucode and add -81.ucode firmwares
+> iwlwifi-Qu-b0-hr-b0-77.ucode
+> iwlwifi-Qu-b0-jf-b0-77.ucode
+> iwlwifi-Qu-c0-hr-b0-77.ucode
+> iwlwifi-Qu-c0-jf-b0-77.ucode
+> iwlwifi-QuZ-a0-hr-b0-77.ucode
+> iwlwifi-QuZ-a0-jf-b0-77.ucode
+> iwlwifi-cc-a0-77.ucode
+> iwlwifi-so-a0-gf-a0.pnvm
+> iwlwifi-so-a0-gf4-a0.pnvm
+> iwlwifi-so-a0-gf-a0-81.ucode
+> iwlwifi-so-a0-gf4-a0-81.ucode
+> iwlwifi-so-a0-hr-b0-81.ucode
+> iwlwifi-ty-a0-gf-a0.pnvm
+> iwlwifi-ty-a0-gf-a0-81.ucode
+>
+> ----------------------------------------------------------------
+> Gregory Greenman (2):
+>       iwlwifi: update 9000-family firmwares to core78-32
+>       iwlwifi: add new FWs from core78-32 release
+>
+>  WHENCE                            |  30 +++++++++++++++++++++---------
+>  iwlwifi-9000-pu-b0-jf-b0-46.ucode | Bin 1518788 -> 1518772 bytes
+>  iwlwifi-9260-th-b0-jf-b0-46.ucode | Bin 1489668 -> 1489652 bytes
+>  iwlwifi-Qu-b0-hr-b0-77.ucode      | Bin 1404048 -> 1404676 bytes
+>  iwlwifi-Qu-b0-jf-b0-77.ucode      | Bin 1321720 -> 1321900 bytes
+>  iwlwifi-Qu-c0-hr-b0-77.ucode      | Bin 1404064 -> 1404692 bytes
+>  iwlwifi-Qu-c0-jf-b0-77.ucode      | Bin 1321736 -> 1321916 bytes
+>  iwlwifi-QuZ-a0-hr-b0-77.ucode     | Bin 1404184 -> 1404820 bytes
+>  iwlwifi-QuZ-a0-jf-b0-77.ucode     | Bin 1325532 -> 1321956 bytes
+>  iwlwifi-cc-a0-77.ucode            | Bin 1365484 -> 1366120 bytes
+>  iwlwifi-so-a0-gf-a0-81.ucode      | Bin 0 -> 1682852 bytes
+>  iwlwifi-so-a0-gf-a0.pnvm          | Bin 56048 -> 56048 bytes
+>  iwlwifi-so-a0-gf4-a0-81.ucode     | Bin 0 -> 1691804 bytes
+>  iwlwifi-so-a0-gf4-a0.pnvm         | Bin 28252 -> 28252 bytes
+>  iwlwifi-so-a0-hr-b0-81.ucode      | Bin 0 -> 1539288 bytes
+>  iwlwifi-ty-a0-gf-a0-81.ucode      | Bin 0 -> 1628828 bytes
+>  iwlwifi-ty-a0-gf-a0.pnvm          | Bin 41876 -> 41876 bytes
+>  17 files changed, 21 insertions(+), 9 deletions(-)
+>  create mode 100644 iwlwifi-so-a0-gf-a0-81.ucode
+>  create mode 100644 iwlwifi-so-a0-gf4-a0-81.ucode
+>  create mode 100644 iwlwifi-so-a0-hr-b0-81.ucode
+>  create mode 100644 iwlwifi-ty-a0-gf-a0-81.ucode
