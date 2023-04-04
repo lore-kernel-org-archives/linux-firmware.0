@@ -1,153 +1,83 @@
-Return-Path: <SRS0=cLeB=73=sz-shuangshengda.com=admin@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6EA70C6FD1D
-	for <linux-firmware@archiver.kernel.org>; Tue,  4 Apr 2023 07:42:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC60FC6FD1D
+	for <linux-firmware@archiver.kernel.org>; Tue,  4 Apr 2023 11:57:09 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 353EFC4339B; Tue,  4 Apr 2023 07:42:49 +0000 (UTC)
-Received: from sdg.sz-shuangshengda.com (sdg.sz-shuangshengda.com [193.111.125.220])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 6AC19C433D2
-	for <linux-firmware@kernel.org>; Tue,  4 Apr 2023 07:42:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 6AC19C433D2
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=sz-shuangshengda.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=sz-shuangshengda.com
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=sz-shuangshengda.com;
- d=sz-shuangshengda.com;
- h=Message-ID:Date:Subject:From:Reply-To:To:MIME-Version:Content-Type:
- List-Unsubscribe:List-Id; i=sales02@sz-shuangshengda.com;
- bh=7Zzy7ugfXmRm/AaQ4Ht4tPUVMuw=;
- b=Z1K4fJPVfRW1eL319cOgoovZkqwBCxWLh3Io48lFJYIku1gUINfUnvjSPA3MS0ytszsmb7vu7T+u
-   v5qF4pIZRvrIXTVz7ysDGrhbOoWx2DFojHb6uwvJRLDgjThvzGBFybMzuDvEHtnJkKgwQw6y+T68
-   asTf56oOCSMwK96D68I=
-DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=sz-shuangshengda.com; d=sz-shuangshengda.com;
- b=PWYkTVJ82TiEuhfEMczbkfEGy6SOaE56OkDqQUUWCGj/F9dnMu7wmqIYpzX2wLMiIiUG4igblzpi
-   ErKFOm1dcWJmgBHIsvUUQKqNu90qNHT38YKcU4Ugxhsv1E5QIWQX6N528QLM16+QNDocfqRlEHp8
-   smcGaBUoGys30LtPcp0=;
-Message-ID: <e88e009f4883ba08258611948e997ddc@sz-shuangshengda.com>
-Date: Tue, 04 Apr 2023 07:12:34 +0000
-Subject: i7 12th gen Mini PC order list
-From: Sunny <sales02@sz-shuangshengda.com>
-Reply-To: Sunny <Sunny@szshuangshengda.com>
-List-Id: <linux-firmware.lore.kernel.org>
-To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+	id 70AA5C4339C; Tue,  4 Apr 2023 11:57:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58E91C433EF
+	for <linux-firmware@kernel.org>; Tue,  4 Apr 2023 11:57:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1680609429;
+	bh=AY6J4kjFC8bArW6/oU97Z7hoVXnsvNznzXbUrItcXR4=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=CDJpjvNtY9pO51cn5zOJ76TUBonXA9NztdLiST1DK7DikvkAMSxWVFk1zuUB/VV/w
+	 /Q7uRQkVsgGM5PPILnooRfWZbSRSxPXpmXg4aO5qGYBPFASIkv+A+eRCRuTr3ftjCo
+	 FQO/wFgLQXaugy2EJnxgIVaANlRdXzXbtHcy1X5alGoq8wJ2naQlkr/LIK4tUXvf9q
+	 vOP1P7MRgQgtxcosVrjDaUQBgO/Oxhzk9HOwUSQgxcPDpiIc6eIZKhTLyV7qZiB/EQ
+	 e8Kw3bnCDUJAd6PHnUs5fxeeD10XJFAzQrozRDOfNXclJ78Ux9dddY7d9OUhYb2TN6
+	 rEAC6D3P/Xq9Q==
+Received: by mail-yb1-f180.google.com with SMTP id m16so17989680ybk.0
+        for <linux-firmware@kernel.org>; Tue, 04 Apr 2023 04:57:09 -0700 (PDT)
+X-Gm-Message-State: AAQBX9dHPNLokxtb8A1JY36FSOM7jGjPpomdwT+IPCtVLTumKasXc2+D
+	kz8ICNwy5gZ+WsB14fiClk4Yk/ekaM6n+RFZG14=
+X-Google-Smtp-Source: AKy350an+TYV1l50QxQV0wdt09K7pljoq9SWWX5oKuXLjlGeX8T1PTyYdYNjvRvi/ZBRWs7pK+NHt2ovzavdkAaiCGE=
+X-Received: by 2002:a25:77cd:0:b0:b7d:e643:d3c3 with SMTP id
+ s196-20020a2577cd000000b00b7de643d3c3mr1678305ybc.8.1680609428377; Tue, 04
+ Apr 2023 04:57:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="_=_swift_v4_1680592354_9f84ee61b4e6c9a27bbfde222aaabf9a_=_"
-X-sz-shuangshengda-Tracking-Did: 0
-X-sz-shuangshengda-Subscriber-Uid: tm515xamgtb03
-X-sz-shuangshengda-Delivery-Sid: 41
-X-sz-shuangshengda-Customer-Uid: wh262x7p2xa76
-X-sz-shuangshengda-Customer-Gid: 0
-X-sz-shuangshengda-Campaign-Uid: vk115dzxqq2e0
-X-Sender: admin@sz-shuangshengda.com
-X-Receiver: linux-firmware@kernel.org
-List-Unsubscribe: <https://www.sz-shuangshengda.com/wms/index.php/lists/tw168npps0d24/unsubscribe/tm515xamgtb03/vk115dzxqq2e0/unsubscribe-direct?source=email-client-unsubscribe-button>,
- <mailto:Sunny@szshuangshengda.com?subject=Campaign-Uid:vk115dzxqq2e0 /
- Subscriber-Uid:tm515xamgtb03 - Unsubscribe request&body=Please unsubscribe
- me!>
-List-Id: tw168npps0d24 <i7 12th gen MINI PC>
-Feedback-ID: vk115dzxqq2e0:tm515xamgtb03:tw168npps0d24:wh262x7p2xa76
-
-
---_=_swift_v4_1680592354_9f84ee61b4e6c9a27bbfde222aaabf9a_=_
-Content-Type: text/plain; charset=utf-8
+References: <b02dace035e2b58686f8c7f449be6be3f32a6485.camel@realtek.com>
+In-Reply-To: <b02dace035e2b58686f8c7f449be6be3f32a6485.camel@realtek.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Tue, 4 Apr 2023 07:56:57 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA5QncR1AsUxbhuMC+Nw+U2sZS=KOtRG7D4=wW0A8TZO5g@mail.gmail.com>
+Message-ID: <CA+5PVA5QncR1AsUxbhuMC+Nw+U2sZS=KOtRG7D4=wW0A8TZO5g@mail.gmail.com>
+Subject: Re: pull request: rtw88: 8822c: Update normal firmware to v9.9.15
+To: Ping-Ke Shih <pkshih@realtek.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, Bernie Huang <phhuang@realtek.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Dear Product manager,
-The latest model i7 12th generation Mini PC has com=
-e out,  we are
-doing bulk orders for customers,  are you also interesting=
-?
-Mini PC - I7 1260P
-2*HDMI output 2.0 4K ;   1*DP
-4*USB3.0;  2*USB2.=
-0  (total 6 USB)
-1*Type-C Thunderbolt 4=20
-2*RJ45 Intel i225  2.5G Gigabi=
-t LAN=20
-WIFI 6.0 and BT 5.0
-Plastic Case
-Barebone unit price is around=
- $335/PCS ( please see the full specs
-and pictures as below)
-Best regar=
-ds
-Sunny Xia=20
-Sales Director
-ShenZhen Shuang Sheng Da Technology CO.,=
-LTD
-Wechat / Phone / whatsapp: +86 13714348649
-Email: sunny@szshuangshe=
-ngda.com
-Website: www.pc-laptopcomputer.com
-Alibaba: www.szshuangshengd=
-a.en.alibaba.com
-https://www.sz-shuangshengda.com/wms/index.php/lists/tw1=
-68npps0d24/unsubscribe/tm515xamgtb03/vk115dzxqq2e0/unsubscribe-direct
+On Fri, Mar 24, 2023 at 7:31=E2=80=AFAM Ping-Ke Shih <pkshih@realtek.com> w=
+rote:
+>
+> Hi,
+>
+> Update 8822c firmware of rtw88 driver to v9.9.15
+>
+> Thank you
+> Ping-Ke
+>
+> ---
+> The following changes since commit bcdcfbcf0a8f24a914b8c163906e6ce93d7f88=
+97:
+>
+>   linux-firmware: Update firmware file for Intel Bluetooth AX101 (2023-03=
+-20 08:34:27 -0400)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/pkshih/linux-firmware.git HEAD
 
---_=_swift_v4_1680592354_9f84ee61b4e6c9a27bbfde222aaabf9a_=_
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Pulled and pushed out.
 
-<!DOCTYPE html>
-<html>
-<head><meta charset=3D"utf-8"/>
-=09<title></ti=
-tle>
-</head>
-<body><span style=3D"font-size:14px;">Dear Product manager=
-,<br />
-<br />
-<strong>The latest model i7 12th generation Mini PC has =
-come out,  we are doing bulk orders for customers,  are you also interestin=
-g?<br />
-<br />
-Mini PC - I7 1260P</strong><br />
-2*HDMI output 2.0 4=
-K ;   1*DP<br />
-4*USB3.0;  2*USB2.0  (total 6 USB)<br />
-1*Type-C Thun=
-derbolt 4 <br />
-2*RJ45 Intel i225  2.5G Gigabit LAN <br />
-WIFI 6.0 an=
-d BT 5.0<br />
-Plastic Case<br />
-<strong>Barebone unit price is around=
- $335/PCS</strong> ( please see the full specs and pictures as below)<br />=
+josh
 
-<br />
-<br />
-<img alt=3D"" src=3D"https://www.sz-shuangshengda.com/=
-qc15bec69t7g/image001%2803-24-14-11-36%29.png" style=3D"width: 600px; heigh=
-t: 296px;" /><br />
-<br />
-Best regards<br />
-Sunny Xia <br />
-Sale=
-s Director<br />
-<strong>ShenZhen Shuang Sheng Da Technology CO.,LTD</str=
-ong><br />
-Wechat / Phone / whatsapp: +86 13714348649<br />
-Email: sunn=
-y@szshuangshengda.com<br />
-Website: www.pc-laptopcomputer.com<br />
-Al=
-ibaba: www.szshuangshengda.en.alibaba.com<br />
-<img alt=3D"" src=3D"http=
-s://www.sz-shuangshengda.com/qc15bec69t7g/sunspad.jpg" style=3D"width: 220p=
-x; height: 60px;" /></span><br />
-https://www.sz-shuangshengda.com/wms/in=
-dex.php/lists/tw168npps0d24/unsubscribe/tm515xamgtb03/vk115dzxqq2e0/unsubsc=
-ribe-direct<img width=3D"1" height=3D"1" src=3D"https://www.sz-shuangshengd=
-a.com/wms/index.php/campaigns/vk115dzxqq2e0/track-opening/tm515xamgtb03" al=
-t=3D"" />
-</body>
-</html>
-
---_=_swift_v4_1680592354_9f84ee61b4e6c9a27bbfde222aaabf9a_=_--
-
+>
+> for you to fetch changes up to e40a5b63243dbc0a77543d3975658fd668ef2586:
+>
+>   rtw88: 8822c: Update normal firmware to v9.9.15 (2023-03-24 19:26:57 +0=
+800)
+>
+> ----------------------------------------------------------------
+> Po-Hao Huang (1):
+>       rtw88: 8822c: Update normal firmware to v9.9.15
+>
+>  rtw88/rtw8822c_fw.bin | Bin 202552 -> 202600 bytes
+>  1 file changed, 0 insertions(+), 0 deletions(-)
+>
