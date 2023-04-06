@@ -4,47 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6491BC76196
-	for <linux-firmware@archiver.kernel.org>; Thu,  6 Apr 2023 03:36:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6B93C7618D
+	for <linux-firmware@archiver.kernel.org>; Thu,  6 Apr 2023 03:48:07 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 35700C433EF; Thu,  6 Apr 2023 03:36:04 +0000 (UTC)
+	id B2D91C433D2; Thu,  6 Apr 2023 03:48:07 +0000 (UTC)
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 08572C433D2;
-	Thu,  6 Apr 2023 03:35:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 08572C433D2
+	by smtp.kernel.org (Postfix) with ESMTPS id 75F30C433EF;
+	Thu,  6 Apr 2023 03:47:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 75F30C433EF
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 1bec7e98d42c11edb6b9f13eb10bd0fe-20230406
+X-UUID: c9659d6ad42d11edb6b9f13eb10bd0fe-20230406
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=xPKH8n1Fvlx68jV6dhprcJHfRP9yFKZmwPERAd8Rzik=;
-	b=SkKoeJIFKI4vGMGYZfZ/JVoSGpTS+cNhFnvZXbShaQYG53t+tgXD5qaN1ZcWJnPQ1/KcFdudTmZpr8EphHuvSW+ZCHpQcIS4MrSD3M2Ln/HMy+97H5XWo27oIf3eXDaGlkNaxmQF/1cScj91HMlYdG46ev0VJRxPMhLxmAuix/E=;
+	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=3oCJWKgqaMpu9fUQMXyjfbKRvAQYJT6Xd7Wexxwc328=;
+	b=OHQKC0opgjwTaZsYrPityRZemPKDKpkfoaOqupgwPR4Tqs/imAMEdffQY8BiXrHLcFBl5lFBD3gKJVKIATGltXsNgWzKWT1DfXJ5ayuzNKdYW1DhNsEb/YnMNeRVV6WZEJIV+pSEGEn0lyLDEgs/Wtsmrpe7Drjrxm6VSWzbmFQ=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22,REQID:4b5ed724-fbcb-4027-bf22-474683833373,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:70
-X-CID-INFO: VERSION:1.1.22,REQID:4b5ed724-fbcb-4027-bf22-474683833373,IP:0,URL
-	:0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTI
-	ON:quarantine,TS:70
-X-CID-META: VersionHash:120426c,CLOUDID:4e7959b5-beed-4dfc-bd9c-e1b22fa6ccc4,B
-	ulkID:230406113546ZTI5F3PT,BulkQuantity:0,Recheck:0,SF:29|28|17|19|48,TC:n
-	il,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:1,OS
-	I:0,OSA:0,AV:0
+X-CID-O-INFO: VERSION:1.1.22,REQID:ed46865e-43d4-477a-8a1e-f45be548582b,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:120426c,CLOUDID:44aa782a-564d-42d9-9875-7c868ee415ec,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:1,OSI:0,OSA:0,AV:0
 X-CID-BVR: 2,OSH
 X-CID-BAS: 2,OSH,0,_
-X-UUID: 1bec7e98d42c11edb6b9f13eb10bd0fe-20230406
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
+X-UUID: c9659d6ad42d11edb6b9f13eb10bd0fe-20230406
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw02.mediatek.com
 	(envelope-from <shayne.chen@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 58991226; Thu, 06 Apr 2023 11:35:43 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+	with ESMTP id 1791831839; Thu, 06 Apr 2023 11:47:43 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
  mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Thu, 6 Apr 2023 11:35:41 +0800
+ 15.2.1118.25; Thu, 6 Apr 2023 11:47:41 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.25 via Frontend Transport; Thu, 6 Apr 2023 11:35:41 +0800
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.25 via Frontend Transport; Thu, 6 Apr 2023 11:47:41 +0800
 From: Shayne Chen <shayne.chen@mediatek.com>
 To: Josh Boyer <jwboyer@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
@@ -52,20 +48,20 @@ CC: Felix Fietkau <nbd@nbd.name>, Lorenzo Bianconi <lorenzo@kernel.org>,
 	linux-firmware <linux-firmware@kernel.org>, Ryder Lee
 	<ryder.lee@mediatek.com>, Evelyn Tsai <evelyn.tsai@mediatek.com>,
 	linux-mediatek <linux-mediatek@lists.infradead.org>, Shayne Chen
-	<csyuanc@gmail.com>, Shayne Chen <shayne.chen@mediatek.com>
-Subject: [PATCH] linux-firmware: update firmware for MT7916
-Date: Thu, 6 Apr 2023 11:35:25 +0800
-Message-ID: <20230406033525.23271-1-shayne.chen@mediatek.com>
+	<shayne.chen@mediatek.com>
+Subject: [PATCH v2] linux-firmware: update firmware for MT7916
+Date: Thu, 6 Apr 2023 11:46:18 +0800
+Message-ID: <20230406034618.23346-1-shayne.chen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
 
-From: Shayne Chen <csyuanc@gmail.com>
-
 This patch updates firmware files v211120230202 for MT7916 WiFi NIC.
 
 Signed-off-by: Shayne Chen <shayne.chen@mediatek.com>
+---
+v2: fix wrong email, sorry for the inconvenience
 ---
  WHENCE                        |   6 +++---
  mediatek/mt7916_rom_patch.bin | Bin 8672 -> 8672 bytes
