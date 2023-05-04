@@ -1,76 +1,73 @@
-Return-Path: <SRS0=1C7p=AY=intel.com=John.C.Harrison@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99A41C77B75
-	for <linux-firmware@archiver.kernel.org>; Wed,  3 May 2023 16:58:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF5B0C7EE21
+	for <linux-firmware@archiver.kernel.org>; Thu,  4 May 2023 11:21:00 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 681FDC4339B; Wed,  3 May 2023 16:58:30 +0000 (UTC)
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 163D5C433D2;
-	Wed,  3 May 2023 16:58:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 163D5C433D2
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=Intel.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683133108; x=1714669108;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=JmWq3PsHtXDgfJ+JouZpU37KyzNhDna8x1Sd4MGE/sA=;
-  b=g535/65L2Km2x4IDcO5lHoB9+81T/cB0m9/rVvLb3IJHDeGbMgHO2wuw
-   X7uTbH1AekK0WJoKNlkuZyaFebtqOJ1pUUIqL9/u7d7EguVN4P0HuiE6Q
-   K7u6ub7eTkUDuKq9AHueYaKafOb3f9C9Bva/Ns0NLUpUGWPz9/OqZuj8o
-   OPQHsyZTtGcpGYuaZNJgjtv7hx4Yimd/pG0O6VvznFmRu71sK9mMYdezP
-   Kq/4/5PnhjEN+zh6E33cmgjjkp6yfrsxhZTViYH40XvndJK6ScaTxevdg
-   gItpSTS9AKY0CPe8k3LARtcfokzEb/Xxfpy5Avgj4fOclMuL0PUgikt2u
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="337838491"
-X-IronPort-AV: E=Sophos;i="5.99,247,1677571200"; 
-   d="scan'208";a="337838491"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2023 09:58:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="674157067"
-X-IronPort-AV: E=Sophos;i="5.99,247,1677571200"; 
-   d="scan'208";a="674157067"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
-  by orsmga006.jf.intel.com with ESMTP; 03 May 2023 09:58:16 -0700
-From: John.C.Harrison@Intel.com
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: jwboyer@kernel.org,
-	kyle@kernel.org,
-	ben@decadent.org.uk,
-	intel-gfx@lists.freedesktop.org
-Subject: PR for new GuC v70.6.6 for MTL
-Date: Wed,  3 May 2023 09:58:28 -0700
-Message-Id: <20230503165828.1002609-1-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.39.1
+	id B9938C433A0; Thu,  4 May 2023 11:21:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2C3BC433D2;
+	Thu,  4 May 2023 11:21:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1683199260;
+	bh=ljZUTddvaj7uRfhD7+gnwj65qqG+M216XcDPeqNqRBs=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=tLTjXy6qC/GGfHlzP+ZZoG+zDRYvAdAtw0bvdb+E6Vn7joQn6QqVlmoo45QacYPBt
+	 SYwNxhbtEvsXiis8/29iZemrH67/KieAva3AgZhQ/+Ut2f2hDwJwqCD5/JRspL2/YP
+	 cv0Q1R3U9SAJq0GCPgG9oO9EFa/C4141TiZONwme1E7Mog05gFprXLYWmWQZCKpAu6
+	 MPmjboMCJ7aPWzhblVXADCmUIASynctf0SLHxpmY8HRSSxr0h364m0eQNF7oTF3+Dl
+	 0aN+lFuQ9Tt1eOdSxY9SZGR7IdFRBM/VAYXcuY28otTqqjv1CxY025stZS8WR93Z/y
+	 ADm972ezabPcA==
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-55a5e0f5b1aso2463247b3.0;
+        Thu, 04 May 2023 04:21:00 -0700 (PDT)
+X-Gm-Message-State: AC+VfDzS07Y74qJViexGWylGcau/WYiksNWBpbTXSdln/TLzPOnxc7hk
+	wKYajYGU3EE67PPfpuvpExOu10FPC3hVejTSmUM=
+X-Google-Smtp-Source: ACHHUZ4hyiXFELtz+uH8zvw8xtX7BmLLptktEnELOmhcTb24Lwh+67J3WumMHl3nMeNdhpqCoIteLxnwhijC5HW3nDU=
+X-Received: by 2002:a25:2491:0:b0:b67:463e:a719 with SMTP id
+ k139-20020a252491000000b00b67463ea719mr22790069ybk.46.1683199259680; Thu, 04
+ May 2023 04:20:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230503165828.1002609-1-John.C.Harrison@Intel.com>
+In-Reply-To: <20230503165828.1002609-1-John.C.Harrison@Intel.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Thu, 4 May 2023 07:20:48 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA6eQnGfJ8FD9ZWWbgcGOJVHDpaJt3piNgnX-4TT=siYZw@mail.gmail.com>
+Message-ID: <CA+5PVA6eQnGfJ8FD9ZWWbgcGOJVHDpaJt3piNgnX-4TT=siYZw@mail.gmail.com>
+Subject: Re: PR for new GuC v70.6.6 for MTL
+To: John.C.Harrison@intel.com
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: linux-firmware@kernel.org, kyle@kernel.org, ben@decadent.org.uk, 
+	intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The following changes since commit 312c61f5a6c9c6a313383a8f0c2b02711ec15262:
+On Wed, May 3, 2023 at 12:58=E2=80=AFPM <John.C.Harrison@intel.com> wrote:
+>
+> The following changes since commit 312c61f5a6c9c6a313383a8f0c2b02711ec152=
+62:
+>
+>   amdgpu: update DCN 3.1.6 DMCUB firmware (2023-05-03 09:11:02 -0400)
+>
+> are available in the Git repository at:
+>
+>   git://anongit.freedesktop.org/drm/drm-firmware mtl_guc_70.6.6
 
-  amdgpu: update DCN 3.1.6 DMCUB firmware (2023-05-03 09:11:02 -0400)
+Pulled and pushed out.
 
-are available in the Git repository at:
+josh
 
-  git://anongit.freedesktop.org/drm/drm-firmware mtl_guc_70.6.6
-
-for you to fetch changes up to 192ee6d1a7806620eeb6f8478e6a3ec6ea44821c:
-
-  i915: Add GuC v70.6.6 for MTL (2023-05-03 06:45:11 -0700)
-
-----------------------------------------------------------------
-John Harrison (1):
-      i915: Add GuC v70.6.6 for MTL
-
- WHENCE              |   3 +++
- i915/mtl_guc_70.bin | Bin 0 -> 303936 bytes
- 2 files changed, 3 insertions(+)
- create mode 100644 i915/mtl_guc_70.bin
+>
+> for you to fetch changes up to 192ee6d1a7806620eeb6f8478e6a3ec6ea44821c:
+>
+>   i915: Add GuC v70.6.6 for MTL (2023-05-03 06:45:11 -0700)
+>
+> ----------------------------------------------------------------
+> John Harrison (1):
+>       i915: Add GuC v70.6.6 for MTL
+>
+>  WHENCE              |   3 +++
+>  i915/mtl_guc_70.bin | Bin 0 -> 303936 bytes
+>  2 files changed, 3 insertions(+)
+>  create mode 100644 i915/mtl_guc_70.bin
