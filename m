@@ -4,38 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA782C77B73
-	for <linux-firmware@archiver.kernel.org>; Mon,  8 May 2023 12:48:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A689C77B7F
+	for <linux-firmware@archiver.kernel.org>; Mon,  8 May 2023 12:51:16 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C0DC2C4339E; Mon,  8 May 2023 12:48:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB7F1C4339C
-	for <linux-firmware@kernel.org>; Mon,  8 May 2023 12:48:58 +0000 (UTC)
+	id 482B9C4339C; Mon,  8 May 2023 12:51:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D4CCC433D2
+	for <linux-firmware@kernel.org>; Mon,  8 May 2023 12:51:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1683550138;
-	bh=zFCIL81JDmC7aV6PR1V/Ki3SUD5RDI83ylllmotVmN0=;
+	s=k20201202; t=1683550276;
+	bh=HtGILw76owSFs1AsVapAB68ZvsP0EnwPTmV369eVXUE=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=XlE/n29k7806VPEoplSsOMyYtksMYpYVHoBBOQzjxNS+JSjwKgh0Ch19pOYyEjbhP
-	 9Wa6ebRhgujOVwrDbpHpSxtyNDumlgVYqwlphnamqVtT2shErA9xRdaVlPNxAY4tlN
-	 O5oeFIYqELbhcqh3etJtfohqOEJa1q221qw48uXCyNdScBX3BSQAymp6+YlnDe6NGP
-	 qRxZjZ2yj+QOs4hxun2Z4BLJpeQi4G5Q/yRDPamWF8zI+7EHBTQKPG1XBtIYxmwrhc
-	 JhfHv97v0YmbjIofcA4prFVsM2B5+a7vDbEsqOF1Yk0YOGg70zDDQnulEJDBz7K9uJ
-	 lg0IN/7Z7MUHg==
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-55a64f0053fso66716547b3.3
-        for <linux-firmware@kernel.org>; Mon, 08 May 2023 05:48:58 -0700 (PDT)
-X-Gm-Message-State: AC+VfDwDpKeIkkbR3nFr+P4VWMvSzgX+S0Xu9agodCanmAvl4jy3Qrb0
-	xhj5Hgeq8CP7zrc2deb1Eboz863BnTcR7ZnhkKE=
-X-Google-Smtp-Source: ACHHUZ5gVpf+Cmxk/1yLyfHMVeGdDylq8c9B6BtasZsRUe0XCiqyAJXCHOBkN5zpJbUr3II9Xx6jnKR2xniM54NLalM=
-X-Received: by 2002:a0d:d705:0:b0:55a:792:8c20 with SMTP id
- z5-20020a0dd705000000b0055a07928c20mr11154827ywd.6.1683550137739; Mon, 08 May
- 2023 05:48:57 -0700 (PDT)
+	b=BRChfo/ov52xtGu19n89/YBdMvMbe9SIcfseaGXBpCC7w9aClzKG0882vUAMYVsy2
+	 a0YaWnSf8qN/RhtAtvvqKMU/rnR0+atT7NBPYLFctG+h/Dj5/uy3KfxUXKn+W0TwQK
+	 774hL8q4/gV32/C7au6UqyQvmXkK2ZeXKtEBM8Gx9gvFLxRAzBIDkMSm5HO17FqRWA
+	 0cqaC2vJ7Oos2ZrrqgCLz9M57DQH/ToyrYv8ZRkVWU+cnYu6pCJPNWYYV6H6pXj3K5
+	 Ad2fFtSkXj78nrz/ivabi2buULzp11vWDEnDvtylSBu5/0WWzhcNUe/L1QcjT17VoC
+	 uao6WXFJLjY5g==
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-559debdedb5so66971647b3.0
+        for <linux-firmware@kernel.org>; Mon, 08 May 2023 05:51:16 -0700 (PDT)
+X-Gm-Message-State: AC+VfDwPTjE0Tjo9zrnGN9NLBI9gBlQ9rWHK6UXdJWK47mb28cQfbjGn
+	+n5qavUkuTpRtMfn+DwVNu/+Ex/7XNt/oxLMeok=
+X-Google-Smtp-Source: ACHHUZ6VW9P3qKLQxQg2Owrne9PVMrZjjPEWwWVjOZazos8YniztnICS2VKS2gNeeOI1PRyKH9ORfBhhmBgJ/kVpjaQ=
+X-Received: by 2002:a25:d6d5:0:b0:b95:99be:b8c with SMTP id
+ n204-20020a25d6d5000000b00b9599be0b8cmr8782237ybg.64.1683550275201; Mon, 08
+ May 2023 05:51:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230301-fixes-and-compression-v2-0-e2b71974e842@gmail.com> <20230301-fixes-and-compression-v2-13-e2b71974e842@gmail.com>
-In-Reply-To: <20230301-fixes-and-compression-v2-13-e2b71974e842@gmail.com>
+References: <20230301-fixes-and-compression-v2-0-e2b71974e842@gmail.com>
+In-Reply-To: <20230301-fixes-and-compression-v2-0-e2b71974e842@gmail.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 8 May 2023 08:48:46 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA5WjP4OTm4n99Det1g4TSYTTjMs5365=pL2y8gr5mkxqA@mail.gmail.com>
-Message-ID: <CA+5PVA5WjP4OTm4n99Det1g4TSYTTjMs5365=pL2y8gr5mkxqA@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2 13/16] copy-firmware: tweak sed invocation
+Date: Mon, 8 May 2023 08:51:04 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA7HxxrO+_SM7K-bcZA_98_Qo6VsLezjAjJAu8H-SkX6dA@mail.gmail.com>
+Message-ID: <CA+5PVA7HxxrO+_SM7K-bcZA_98_Qo6VsLezjAjJAu8H-SkX6dA@mail.gmail.com>
+Subject: Re: [PATCH RESEND v2 00/16] Misc fixes, sanity checks and xz/zstd compression
 To: emil.l.velikov@gmail.com
 List-Id: <linux-firmware.lore.kernel.org>
 Cc: linux-firmware@kernel.org, Adam Sampson <ats@offog.org>, 
@@ -43,47 +43,67 @@ Cc: linux-firmware@kernel.org, Adam Sampson <ats@offog.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 1, 2023 at 1:56=E2=80=AFPM Emil Velikov via B4 Relay
-<devnull+emil.l.velikov.gmail.com@kernel.org> wrote:
->
-> From: Emil Velikov <emil.l.velikov@gmail.com>
->
-> Add space between the arguments and pattern and combine patterns where
-> possible.
-
-Same request here for a separate patch not dependent on the series.
+I applied a few more of the patches, but generally speaking some of
+the changes conflate check_whence.py and copy-firmware.sh.  I think
+they should remain independent scripts and not make assumptions that
+one is doing something on behalf of the other.
 
 josh
 
+On Wed, Mar 1, 2023 at 1:56=E2=80=AFPM Emil Velikov via B4 Relay
+<devnull+emil.l.velikov.gmail.com@kernel.org> wrote:
+>
+> Hey everyone,
+>
+> Here's an updated series which fixes some outstanding issues, enhances
+> the check_whence checks and adds xz/zstd firmware support.
+>
+> v2:
+>  - Commend out duplicated MediaTek firmware
+>  - Tweak list_links_list() after Adam's approach
+>  - Skip compression of amd ucode
+>
+> Link to v1: https://lore.kernel.org/linux-firmware/CACvgo50RhmRKnUoos2wGW=
+OP-Pb8oGo1BMPunfTtBQO0eX1D2Dg@mail.gmail.com/T/
+>
+> Josh, others, kindly let me know if you'd prefer a PR or if there is
+> anything I can do to move this forward. Be that as a whole, or chunks of
+> it.
+>
+> Thanks
+> Emil
 >
 > Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
 > ---
->  copy-firmware.sh | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Emil Velikov (16):
+>       WHENCE: remove trailing white space
+>       WHENCE: remove unnecessary filename quotation
+>       check_whence, WHENCE, copy-firmware: escape filenames with spaces
+>       WHENCE: remove duplicate File entries
+>       WHENCE: comment out duplicate MediaTek firmware
+>       check_whence: error on duplicate file entries
+>       check_whence: error on directory listed as File
+>       copy-firmware: remove non-applicable file presence test
+>       check_whence: error if File: is actually a link
+>       check_whence: error if symlinks are in-tree
+>       copy-firmware: remove unreachable symlink workarounds
+>       copy-firmware: quote deskdir to prevent word splitting
+>       copy-firmware: tweak sed invocation
+>       copy-firmware: quote the output of dirname
+>       copy-firmware: silence the last shellcheck warnings
+>       Makefile, copy-firmware: support xz/zstd compressed firmware
 >
-> diff --git a/copy-firmware.sh b/copy-firmware.sh
-> index c6a2fe9..722227f 100755
-> --- a/copy-firmware.sh
-> +++ b/copy-firmware.sh
-> @@ -25,13 +25,13 @@ while test $# -gt 0; do
->      esac
->  done
+>  Makefile         |   8 +++++
+>  WHENCE           | 107 ++++++++++++++++++++++++-------------------------=
+------
+>  check_whence.py  |  53 +++++++++++++++++++++++----
+>  copy-firmware.sh |  76 ++++++++++++++++++++-------------------
+>  4 files changed, 141 insertions(+), 103 deletions(-)
+> ---
+> base-commit: 60971a6485ee604c47cc905ff77c583ae001f9df
+> change-id: 20230301-fixes-and-compression-7247407cab21
 >
-> -grep '^File:' WHENCE | sed -e's/^File: *//g' | while read f; do
-> +grep '^File:' WHENCE | sed -e 's/^File: *//g' | while read f; do
->      $verbose "copying file $f"
->      install -d "$destdir"/$(dirname "$f")
->      cp "$f" "$destdir/$f"
->  done
->
-> -grep -E '^Link:' WHENCE | sed -e's/^Link: *//g' -e's/-> //g' | while rea=
-d f d; do
-> +grep -E '^Link:' WHENCE | sed -e 's/^Link: *//g;s/-> //g' | while read f=
- d; do
->      $verbose "creating link $f -> $d"
->      install -d "$destdir"/$(dirname "$f")
->      ln -s "$d" "$destdir/$f"
->
+> Best regards,
 > --
-> 2.39.2
+> Emil Velikov <emil.l.velikov@gmail.com>
 >
