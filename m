@@ -1,95 +1,108 @@
-Return-Path: <SRS0=mcuX=A6=notk.org=adrien@kernel.org>
+Return-Path: <SRS0=yR/6=A6=canonical.com=juerg.haefliger@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26876C7EE22
-	for <linux-firmware@archiver.kernel.org>; Tue,  9 May 2023 13:29:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51E60C7EE22
+	for <linux-firmware@archiver.kernel.org>; Tue,  9 May 2023 15:19:14 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id DE993C433EF; Tue,  9 May 2023 13:29:13 +0000 (UTC)
-Received: from nautica.notk.org (nautica.notk.org [91.121.71.147])
+	id 1788EC433D2; Tue,  9 May 2023 15:19:14 +0000 (UTC)
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id B5D09C4339E;
-	Tue,  9 May 2023 13:29:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org B5D09C4339E
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=notk.org
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=notk.org
-Received: from smtp.notk.org (nautica.notk.org [91.121.71.147])
-	by nautica.notk.org (Postfix) with ESMTPSA id D33D5C009;
-	Tue,  9 May 2023 15:29:06 +0200 (CEST)
-Date: Tue, 9 May 2023 15:29:06 +0200
-From: Adrien Nader <adrien@notk.org>
-To: Josh Boyer <jwboyer@kernel.org>
+	by smtp.kernel.org (Postfix) with ESMTPS id D4E9EC4339E
+	for <linux-firmware@kernel.org>; Tue,  9 May 2023 15:19:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D4E9EC4339E
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=canonical.com
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com [209.85.208.69])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 1BD1C3F22C
+	for <linux-firmware@kernel.org>; Tue,  9 May 2023 15:19:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1683645548;
+	bh=5xJ1wgb1A81fQaNPwzx2u2g93D5fVnsKwQ74RVkU2GU=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=gp6xcvsVar1APq25o0jOHYF9vFhMyBanEFmbyTikiemC+/Eim3pUNyQDFhIdWL1uO
+	 WzyuSRhL4oHGnKnOfELMjgCbjzQ88+tqRa2i2hBLXuEYSejs02kBLPcQIp8O+31l0g
+	 F7CIgHoTDYpmj6QPtoREObV2h4OlKQ6BO5OaGXWdaAxThRjAU26JfoIAk0sfzIEUeA
+	 9w9H39idRu5CBg6sDxafyN0ajwBOiIGL9x3sIrnlyMEg1WDj2823d3ihxcIKXMD/zW
+	 o7yFTnDyJL3riDz9mJrhgf6wZLtChV3P6MxuqdQRpwmViOHKx311DOaXzWtgakysy4
+	 IIW+WCksh/zbQ==
+Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-50bc456a94dso5704578a12.1
+        for <linux-firmware@kernel.org>; Tue, 09 May 2023 08:19:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683645547; x=1686237547;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5xJ1wgb1A81fQaNPwzx2u2g93D5fVnsKwQ74RVkU2GU=;
+        b=M5qjHdptMBfu5khBz/SdCT39Mq9G+e2r8rOsAVFrQ8vu4duMVCM66g1GOZmL5w5m6l
+         sYmlQC9VFx7wMJ3p+VpBK+2/w2Dc2WqHS3T2tTku98fGP3qAsHbVVuzQroLRP7Bf2rXQ
+         CjNrFpVFJ7Hpamqd2vr20cMjeLEBQlZfKs13Oy0SEASjmSHH0K+/dlvy1RL6b0iLbZDd
+         yhkErM/OJldP4wweKGrs7saZfTlajQz4819dqB/Cn1clDbb4eIHezG8S44C9HHmblXdI
+         dCibJuQfWQfbyGSPIfAxCG8CKJaZfCS+rlenejXRVfvy9bIpbzsPcGzcJFrr7er53r6S
+         NmJw==
+X-Gm-Message-State: AC+VfDyDUaRUkfORiC8KoBKisvkhroB+/y+SV3B4p4wIHlpFpLN+hmr6
+	4IH0RX2pdpFkRDjdniMhc/1NKBzdKzUuQ/ZHRdaszdjM9p1u9R6qc/MsKRaHUEtqBNwKZ0nD0qk
+	kqtQQWiN8UHRs4CbatS01OMftW7MPmiO6iAtvlhJxm5981A==
+X-Received: by 2002:a17:907:608c:b0:94e:6a24:9463 with SMTP id ht12-20020a170907608c00b0094e6a249463mr13421100ejc.28.1683645547596;
+        Tue, 09 May 2023 08:19:07 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7Z4prxtId7TC05xihqAWKDF+ePr8y4x4SHsmGzHWPxNMVoc4I/MLPsDD0t6VyUQkM6cgX3Ww==
+X-Received: by 2002:a17:907:608c:b0:94e:6a24:9463 with SMTP id ht12-20020a170907608c00b0094e6a249463mr13421080ejc.28.1683645547339;
+        Tue, 09 May 2023 08:19:07 -0700 (PDT)
+Received: from localhost.localdomain ([194.191.244.86])
+        by smtp.gmail.com with ESMTPSA id pk25-20020a170906d7b900b00965d9892bafsm1446446ejb.111.2023.05.09.08.19.06
+        for <linux-firmware@kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 May 2023 08:19:06 -0700 (PDT)
+From: Juerg Haefliger <juerg.haefliger@canonical.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org
-Subject: Re: [RFC] global: de-duplicate files with symlinks
-Message-ID: <20230509132906.fp6ujkrasz6z3vly@notk.org>
-References: <20230331115739.bytw7s35aacgrqic@notk.org>
- <CA+5PVA4KPx8TzS5+QZ6ubg__cz9gYKtmR-kFOv9A3HYVS8nuww@mail.gmail.com>
+To: linux-firmware@kernel.org
+Subject: [PATCH] WHENCE: Cleanup Realtek BT firmware provenance
+Date: Tue,  9 May 2023 17:19:02 +0200
+Message-Id: <20230509151902.65810-1-juerg.haefliger@canonical.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+5PVA4KPx8TzS5+QZ6ubg__cz9gYKtmR-kFOv9A3HYVS8nuww@mail.gmail.com>
 
-Hi,
+From: Juerg Haefliger <juergh.haefliger@canonical.com>
 
-On Mon, May 08, 2023, Josh Boyer wrote:
-> On Fri, Mar 31, 2023 at 7:57 AM Adrien Nader <adrien@notk.org> wrote:
-> >
-> > Hi,
-> >
-> > I initially wanted to post a patch but I think this warrants some
-> > discussion instead: de-duplication only works if further commits don't
-> > introduce duplicates. This is doable but also a change of habits and an
-> > extra step.
-> > I'd like to discuss this nonetheless in order to reach a conclusion as
-> > to where is the best place for this de-duplication: linux-firmware.git
-> > or distributions when packaging.
-> 
-> I've been thinking about this for a while.  Generally speaking, this
-> sounds like one of those really good ideas that in the end I'm not
-> sure we're going to be comfortable doing retroactively.
-> 
-> The firmware submissions are redistributable by requirement, but we
-> take them as they are sent under the terms they are submitted under.
-> If a submitter has sent multiple identical files in the past, perhaps
-> they had reason to do so that never played out in the end.  It's all
-> binary blobs that are effectively impossible to actually review, and
-> already hard enough to get companies to submit their firmware.
-> 
-> Going forward, we could run a de-duplication pre-check before commit
-> and ask them to resubmit, but I don't want to go through and
-> retroactively seek out acknowledgement for previous submissions.
+Over the years, Realtek has submitted updates of firmwares that were
+originally pulled out of vendor driver packages. Remove old and obsolete
+provenance notes for these blobs.
 
-First of all, sorry for not sending an e-mail earlier. I have actually
-prepared a corresponding patch weeks ago but I didn't want to send a
-patch and then have no time to handle comments.
+Signed-off-by: Juerg Haefliger <juergh.haefliger@canonical.com>
+---
+ WHENCE | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
-I understand the issue with de-duplicating retroactively. I don't think
-that doing it at install-time or even later on is a huge issue. It's
-only an optimization and users of this repo can reasonably be expected
-to be knowledgeable.
-
-My concern is that running jdupes is not necessarily reproducible (at
-least I'm not aware of any guarantees and I think the rule is that the
-first file found remains unchanged while the subsequent duplicates
-become symlinks).
-
-A fairly obvious solution is to keep existing files as-is and
-de-duplicate only the new ones (enforced with "make check"). This makes
-it possible to have a distribution patch to de-duplicate past files and
-not worry about updating it for new files; it also wouldn't hinder
-reproducible builds.
-
-There's still a small possible issue with symlinks for de-duplication.
-Consider the following identical files: "gen1.fw", "gen2.fw", "gen3.fw";
-if the duplicates become symlink that point to "gen1.fw" and the company
-behind this decides to not support "gen1" hardware anymore, they might
-not want to keep symlinks that way. I'm not sure this is more than a
-hypothetical issue however that could be handled easily anyway.
-
+diff --git a/WHENCE b/WHENCE
+index 74a496864afc..7b78ac22d0ea 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -3794,18 +3794,11 @@ Found in vendor driver, linux_bt_usb_2.11.20140423_8723be.rar
+ From https://github.com/troy-tan/driver_store
+ Files rtl_bt/rtl8822b_* came directly from Realtek. These files are
+ updated on April 14, 2017.
+-Files rtl_bt/rtl8821c_* and rtl_bt/rtl8723d_* came directly from Realtek.
+-File rtl_bt/rtl8822cu_fw.bin came directly from Realtek.
+-updated on February 24, 2019
+-File rtl_bt/rtl8822cu_fw.bin came directly from Realtek.
+-updated on October 23, 2019
+-File rtl_bt/rtl8822cu_config.bin came directly from Realtek.
+ 
+ Found in vendor driver, 20200806_LINUX_BT_DRIVER_RTL8761B_COEX_v0202.zip
+-File rtl_bt/rtl8761b_fw.bin
+ File rtl_bt/rtl8761b_config.bin
+-File rtl_bt/rtl8761bu_fw.bin
+ File rtl_bt/rtl8761bu_config.bin
++
+ --------------------------------------------------------------------------
+ 
+ Driver: btmtk_usb - Bluetooth USB driver
 -- 
-Adrien
+2.37.2
+
