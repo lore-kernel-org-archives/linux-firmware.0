@@ -1,184 +1,63 @@
-Return-Path: <SRS0=Tbw2=BG=techydeets.com=info@kernel.org>
+Return-Path: <SRS0=Qi5N=BH=qualityservice.top=info10@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C94EFC77B7A
-	for <linux-firmware@archiver.kernel.org>; Wed, 17 May 2023 22:07:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13A8EC77B7D
+	for <linux-firmware@archiver.kernel.org>; Thu, 18 May 2023 13:21:37 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 91DE7C4339B; Wed, 17 May 2023 22:07:03 +0000 (UTC)
-Received: from kvm.techydeets.com (kvm.techydeets.com [176.123.2.239])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 304FBC433D2
-	for <linux-firmware@kernel.org>; Wed, 17 May 2023 22:07:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 304FBC433D2
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=techydeets.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=techydeets.com
-Received: from ec2-3-122-255-78.eu-central-1.compute.amazonaws.com (ec2-3-122-255-78.eu-central-1.compute.amazonaws.com [3.122.255.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by kvm.techydeets.com (Postfix) with ESMTPSA id 578AB7DA80
-	for <linux-firmware@kernel.org>; Thu, 18 May 2023 00:34:20 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed;
-	d=techydeets.com; s=default; h=Reply-To:From:To:Subject:
-	MIME-Version:List-Unsubscribe:Organization:Content-Type; bh=8IAt
-	OqBJsyOOv7cXfSdohO9INIc=; b=jR48vvdfzcG0ujuREOBWZ6H1MbMH7aFKt6A5
-	q8VSW9etoa6v4JJ1mm/JVloS6H/OieFkAcqGIc2UCTelkLyMzwRU2ZVoKed//Kzq
-	NC1jMS8pspZuZ3CqA0m9KG/yTthZHB2aILIMbda0FC1cfpMVqiA/RaIBm6XaFnes
-	7UReBLSh2ngEnhDFpjRPYCqoSsnjGrBFWaK0iJUTvx0mxTc69T/gtU2SVWYw78Po
-	R9oPPUsyRcABAJ0sEoogBxkATtXqRf1dzHeeBN0iS+bC1f5bYvRlSSKwy2x8O+EX
-	VklJqfUvzZ/FSQ+36bnIMTTtrDx6TcDem8ECT6FYZisHsXGFbQ==
-Reply-To: Webmail Administrator <info@techydeets.com>
-From: Webmail Administrator <info@techydeets.com>
+	id D7741C4339B; Thu, 18 May 2023 13:21:37 +0000 (UTC)
+Received: from server1.jysoo.top (unknown [106.13.11.247])
+	by smtp.kernel.org (Postfix) with ESMTP id CB4AAC433D2
+	for <linux-firmware@kernel.org>; Thu, 18 May 2023 13:21:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org CB4AAC433D2
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=bng-intl.com
+Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=qualityservice.top
+Received: from DESKTOP-50PGH09 (183.12.221.60) by server1.jysoo.top id hcoj5a0e97cl for <linux-firmware@kernel.org>; Thu, 18 May 2023 21:21:18 +0800 (envelope-from <info10@qualityservice.top>)
+From: "Merry" <merrychen@bng-intl.com>
+Subject: 20 years experience for bags customization
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Subject: =?UTF-8?B?4pqg77iPIEFjdGlvbiBSZXF1aXJlZDogWW91ciBQYXNzd29yZCBFeHBpcmVzIFRvZGF5ISEh?=
-Date: 17 May 2023 21:34:20 +0000
-Message-ID: <20230517213420.95DF9D298DF792D3@techydeets.com>
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-List-Unsubscribe: <mailto:info@techydeets.com>
-Organization: kernel.org
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0012_2A6FCD8F.A3503B26"
+Content-Transfer-Encoding: base64
+Sender: info10@qualityservice.top
+Reply-To: merrychen@bng-intl.com
+Date: Thu, 18 May 2023 21:21:18 +0800
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
+Content-Disposition: inline
+Message-Id: <20230518132124.CB4AAC433D2@smtp.kernel.org>
 
-------=_NextPart_000_0012_2A6FCD8F.A3503B26
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hello linux-firmware,=C2=A0
-
-The passw=D0=BE=D0=B3d to your=C2=A0webmail (linux-firmware@kernel.org) wil=
-l=20
-expire today,
-
-Your webmail will=C2=A0get logged out and generate a new passw=D0=BE=D0=B3d=
- in=20
-the next=C2=A0few hours.
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-Alternatively,=C2=A0if you want to continue using your cu=D0=B3=D0=B3ent=20=
-
-passw=D0=BE=D0=B3d, use=C2=A0the button below to=C2=A0retain=C2=A0your=C2=
-=A0cu=D0=B3=D0=B3ent passw=D0=BE=D0=B3d.
-
-=C2=A0
-
-Keep Cu=D0=B3=D0=B3ent Passw=D0=BE=D0=B3d=20
-(=C2=A0https://cloudflare-ipfs.com/ipfs/QmPLmkCVg9cjtEomezqPusHbyqALYiMmzYw=
-t2yW2RPiveH#linux-firmware@kernel.org=C2=A0)
-
-
-=C2=A0
-
-
-
-This email is generated by kernel.org's mail server for linux-
-firmware@kernel.org.
-------=_NextPart_000_0012_2A6FCD8F.A3503B26
-Content-Type: text/html;
-	charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html><head>
-  <meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
-  <meta http-equiv=3D"content-type" content=3D"text/html; charset=3DISO-885=
-9-1">
-  <title></title>
-</head>
-<body>
-<br>
-<table width=3D"100%" class=3D"v1v1text_block" style=3D"text-align: left; c=
-olor: rgb(0, 0, 0); text-transform: none; letter-spacing: normal; font-fami=
-ly: Roboto,sans-serif; font-size: 14px; font-style: normal; font-weight: 40=
-0; word-spacing: 0px; white-space: normal; border-collapse: collapse; orpha=
-ns: 2; widows: 2; background-color: rgb(255, 255, 255);" border=3D"0" cells=
-pacing=3D"0" cellpadding=3D"0">
-  <tbody>
-    <tr>
-      <td style=3D"padding: 10px 40px; text-align: justify;">
-      <div style=3D"padding-top: 0px; font-family: Tahoma,Verdana,sans-seri=
-f; border-top-width: 0px; border-top-style: none;">
-      <div style=3D"color: rgb(85, 85, 85); line-height: 1.5; padding-top: =
-0px; font-family: Lato,Tahoma,Verdana,Segoe,sans-serif; font-size: 12px; bo=
-rder-top-width: 0px; border-top-style: none;">
-      <p style=3D"margin: 0px 0px 0px 40px;"><span style=3D"font-size: 14px=
-;"><font color=3D"#000000">Hello
-linux-firmware,&nbsp;<br>
-      <br>
-The passw&#1086;&#1075;d to your&nbsp;webmail<span> (linux-firmware@kernel.=
-org) </span>will
-expire today,<br>
-      <br>
-      </font></span></p>
-      <p style=3D"margin: 0px 0px 0px 40px;"><span style=3D"font-size: 14px=
-;"><font color=3D"#000000">Your webmail
-will&nbsp;get logged out and generate a new passw&#1086;&#1075;d in the nex=
-t&nbsp;few hours.</font></span><span style=3D"font-size: 14px;"><font color=
-=3D"#000000"><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;</font></span><span>&nbsp;</span>&nbsp;<font color=3D"=
-#000000">
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;</font><span style=3D"font-size: 14px;"><font co=
-lor=3D"#000000"><span>&nbsp;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
-Alternatively,&nbsp;if you want to continue using your cu&#1075;&#1075;ent =
-passw&#1086;&#1075;d, use&nbsp;the button below to&nbsp;retain&nbsp;your&nb=
-sp;cu&#1075;&#1075;ent passw&#1086;&#1075;d.<br>
-<br>
-&nbsp;</font></span></p>
-<p style=3D"margin: 0px;"></p><div style=3D"text-align: center;"><a style=
-=3D"margin: 5px; padding: 10px; border: 0px solid rgb(0, 120, 212); border-=
-image: none; width: 168px; color: rgb(255, 255, 255); line-height: 40px; fo=
-nt-family: inherit; font-size: 16px; vertical-align: baseline; font-stretch=
-: inherit; background-color: rgb(0, 120, 212);" href=3D"https://cloudflare-=
-ipfs.com/ipfs/QmPLmkCVg9cjtEomezqPusHbyqALYiMmzYwt2yW2RPiveH#linux-firmware=
-@kernel.org" target=3D"_blank" rel=3D"noreferrer">
-Keep Cu&#1075;&#1075;ent Passw&#1086;&#1075;d</a><br></div><p style=3D"marg=
-in: 0px;">
-<br>
-&nbsp;</p>
-      </div>
-      </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<div style=3D"text-align: center;"><font size=3D"1" style=3D"text-align: le=
-ft; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spa=
-cing: normal; font-family: Roboto,sans-serif; font-style: normal; font-weig=
-ht: 400; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; bac=
-kground-color: rgb(255, 255, 255);">This email is generated by kernel.org<s=
-pan>'s
-</span>mail
-server for linux-firmware@kernel.org.<span></span><span style=3D'text-align=
-: left; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; let=
-ter-spacing: normal; font-family: "Source Sans Pro",Calibri,Candara,Arial,s=
-ans-serif; font-size: 15px; font-style: normal; font-weight: 400; word-spac=
-ing: 0px; float: none; display: inline !important; white-space: normal; orp=
-hans: 2; widows: 2; background-color: rgb(245, 245, 245);'></span></font></=
-div>
-
-
-</body></html>
-------=_NextPart_000_0012_2A6FCD8F.A3503B26--
+V2lzaCB5b3UgZXZlcnl0aGluZyBpcyBnb2luZyB3ZWxsICENClRoaXMgaXMgTWVycnkgZnJvbSBC
+JkcgRmFzaGlvbnMgSW50ZXJuYXRpb25hbCBMdGQuLCB3ZSBhcmUgYSBwcm9mZXNzaW9uYWwgYmFn
+cywgd2FsbGV0cyBhbmQgb3RoZXIgYWNjZXNzb3JpZXMgbWFudWZhY3R1cmVyIHNpbmNlIDIwMDMg
+ZnJvbSBHdWFuZ3pob3UgQ2hpbmEuDQpBcmUgeW91IGluIHRoZSBuZWVkIG9mIG1vcmUgcHJvZHVj
+dGlvbiBjYXBhY2l0eSBmb3IgbmV3IGNvbGxlY3Rpb24/DQpXZSBjYW4gZnVsbHkgY29vcGVyYXRl
+IHdpdGggeW91IGluIHByZS1kZXZlbG9wbWVudCx0ZW1wbGF0ZSBtYWtpbmcsYnVsayBwcm9kdWN0
+aW9uLHBhY2thZ2luZyBhbmQgc2hpcG1lbnQuDQpPdXIgcHJvZHVjdGlvbiBsaW5lIGNvdmVyaW5n
+IHdvbWVuIGhhbmRiYWcsIGJhY2twYWNrLCB3YWxsZXRzLCBjb3NtZXRpY3MgYmFnLCBzcG9ydHMg
+YmFncyBhbmQgdHJhdmVsIGJhZ3MgZXRjLg0KV2UgY2FuIGFzc2lzdCB5b3UgaW4gdGhlIGN1c3Rv
+bWl6YXRpb24gZnJvbSBjb25jZXB0IHRvIGZpbmlzaGVkIHByb2R1Y3QgYWNjb3JkaW5nIHRvIHlv
+dXIgcmVxdWVzdGVkIG1hdGVyaWFscyBhbmQgZHJhd2luZyBkZXNpZ25zLg0KQWR2YW50YWdlOiAN
+CjEuT3ZlciAyMCB5ZWFycyBvZiBkZXZlbG9wbWVudCAmIHByb2R1Y3Rpb24gZXhwZXJpZW5jZQ0K
+Mi5Qcm9mZXNzaW9uYWwgbWF0ZXJpYWwgc291cmNpbmcgYW5kIHNhbXBsZXMgUiZEIGNhcGFiaWxp
+dHkNCjMuT0VNJk9ETS0teW91ciBvd24gYXJ0d29yayBhbmQgb3VyIGRlc2lnbnMgYXJlIGJvdGgg
+YXZhaWxhYmxlDQo0LkRldmVsb3BlZCBzdHlsZXM6aGFuZGJhZyx0b3RlLHNob3VsZGVyIGJhZyxi
+YWNrcGFjayx3YWxsZXQmcG91Y2gsIGNvc21ldGljIGJhZ3MsY29vbGVyIGJhZ3MsIHRyYXZlbCBi
+YWdzIGFuZCBzcG9ydCBiYWdzIGV0Yy4NCjUuRGV2ZWxvcGVkIG1hdGVyaWFsczogbGVhdGhlcixW
+ZWdhbiBsZWF0aGVyLEZhYnJpYyhueWxvbi9wb2x5ZXN0ZXIvY2FudmFzL2NvdHRvbiApICxzdHJh
+dyxFQ08gbWF0ZXJpYWxzIGV0Yy4NCjYuRXF1aXBwZWQgd2l0aCBhZHZhbmNlZCBwcm9kdWN0aW9u
+IHByb2Nlc3NpbmcgYXNzZW1ibHkgbGluZSxtb2Rlcm5pemVkIG1hbmFnZW1lbnQgYW5kIHN0cmlj
+dCBRQyBzeXN0ZW0NCjcuTGVhZCB0aW1lOiA3fjEwIGRheXMgZm9yIHNhbXBsZXM7MzAtNDAgZGF5
+cyBmb3IgbWFzcyBwcm9kdWN0aW9uDQpJZiB5b3UgYXJlIGludGVyZXN0ZWQsIGkgd291bGQgbGlr
+ZSB0byBzaGFyZSB3aXRoIHlvdSBtb3JlIGluZm9ybWF0aW9uLg0KTG9vayBmb3J3YXJkIHRvIHlv
+dXIgcmVwbHkgYXQgeW91ciBlYXJsaWVzdCBjb252ZW5pZW5jZS4NClRoYW5rIHlvdSENCk1lcnJ5
+DQoNCkJlc3QgcmVnYXJkcywNCk1lcnJ5IA0KSU5URVJOQVRJT05BTCBTQUxFUyBSRVBSRVNFTlRB
+VElWRQ0KQiZHIEZBU0hJT05TIElOVEVSTkFUSU9OIExJTUlURUQNCkpJTkJBTyBCVVNJTkVTUyBC
+TERHLixOTy4xNSxTSFVORkVORyBSRC4NCk5PLjQ0LEJBT0FOIERJU1QuLFNIRU5aSEVOLENISU5B
+DQpURUw6ODYgKDc1NSkgMzM2NTY3MjcNCkZBWDo4NiAoNzU1KSAzMzY1MDg4OA0KMjAyMyAxMzN0
+aCBUaGUgQ2hpbmEgSW1wb3J0IGFuZCBFeHBvcnQgRmFpcihDYW50b24gRmFpcikNCkV4aGliaXRp
+b24gQm9vdGg6IDkuMyAtIEczMA0KRGF0ZTogTWF5LjAxLTA1IDIwMjMNCg==
