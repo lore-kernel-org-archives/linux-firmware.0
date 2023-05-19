@@ -1,63 +1,73 @@
-Return-Path: <SRS0=Qi5N=BH=qualityservice.top=info10@kernel.org>
+Return-Path: <SRS0=6lg8=BI=realtek.com=pkshih@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13A8EC77B7D
-	for <linux-firmware@archiver.kernel.org>; Thu, 18 May 2023 13:21:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D634EC77B75
+	for <linux-firmware@archiver.kernel.org>; Fri, 19 May 2023 06:03:15 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id D7741C4339B; Thu, 18 May 2023 13:21:37 +0000 (UTC)
-Received: from server1.jysoo.top (unknown [106.13.11.247])
-	by smtp.kernel.org (Postfix) with ESMTP id CB4AAC433D2
-	for <linux-firmware@kernel.org>; Thu, 18 May 2023 13:21:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org CB4AAC433D2
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=bng-intl.com
-Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=qualityservice.top
-Received: from DESKTOP-50PGH09 (183.12.221.60) by server1.jysoo.top id hcoj5a0e97cl for <linux-firmware@kernel.org>; Thu, 18 May 2023 21:21:18 +0800 (envelope-from <info10@qualityservice.top>)
-From: "Merry" <merrychen@bng-intl.com>
-Subject: 20 years experience for bags customization
+	id 9B619C433EF; Fri, 19 May 2023 06:03:15 +0000 (UTC)
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id C7714C433D2
+	for <linux-firmware@kernel.org>; Fri, 19 May 2023 06:03:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C7714C433D2
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 34J62xVE2000744, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 34J62xVE2000744
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
+	Fri, 19 May 2023 14:03:00 +0800
+Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Fri, 19 May 2023 14:03:09 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Fri, 19 May 2023 14:03:09 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d]) by
+ RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d%5]) with mapi id
+ 15.01.2375.007; Fri, 19 May 2023 14:03:09 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Content-Type: text/plain; charset=UTF-8
-MIME-Version: 1.0
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+CC: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
+Subject: pull request: rtw89: 8851b: add firmware v0.29.41.0
+Thread-Topic: pull request: rtw89: 8851b: add firmware v0.29.41.0
+Thread-Index: AQHZiheWm13H01Q550C4n/FZaKrdaw==
+Date: Fri, 19 May 2023 06:03:09 +0000
+Message-ID: <35e79df26e17bd38bfb074b71df47f40277b7510.camel@realtek.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Evolution 3.36.1-2 
+x-originating-ip: [172.21.69.188]
+x-kse-serverinfo: RTEXMBS01.realtek.com.tw, 9
+x-kse-antispam-interceptor-info: fallback
+x-kse-antivirus-interceptor-info: fallback
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E779E0FF782B2244B94C80D0BCFEE71B@realtek.com>
 Content-Transfer-Encoding: base64
-Sender: info10@qualityservice.top
-Reply-To: merrychen@bng-intl.com
-Date: Thu, 18 May 2023 21:21:18 +0800
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
-Content-Disposition: inline
-Message-Id: <20230518132124.CB4AAC433D2@smtp.kernel.org>
+MIME-Version: 1.0
+X-KSE-AntiSpam-Interceptor-Info: fallback
 
-V2lzaCB5b3UgZXZlcnl0aGluZyBpcyBnb2luZyB3ZWxsICENClRoaXMgaXMgTWVycnkgZnJvbSBC
-JkcgRmFzaGlvbnMgSW50ZXJuYXRpb25hbCBMdGQuLCB3ZSBhcmUgYSBwcm9mZXNzaW9uYWwgYmFn
-cywgd2FsbGV0cyBhbmQgb3RoZXIgYWNjZXNzb3JpZXMgbWFudWZhY3R1cmVyIHNpbmNlIDIwMDMg
-ZnJvbSBHdWFuZ3pob3UgQ2hpbmEuDQpBcmUgeW91IGluIHRoZSBuZWVkIG9mIG1vcmUgcHJvZHVj
-dGlvbiBjYXBhY2l0eSBmb3IgbmV3IGNvbGxlY3Rpb24/DQpXZSBjYW4gZnVsbHkgY29vcGVyYXRl
-IHdpdGggeW91IGluIHByZS1kZXZlbG9wbWVudCx0ZW1wbGF0ZSBtYWtpbmcsYnVsayBwcm9kdWN0
-aW9uLHBhY2thZ2luZyBhbmQgc2hpcG1lbnQuDQpPdXIgcHJvZHVjdGlvbiBsaW5lIGNvdmVyaW5n
-IHdvbWVuIGhhbmRiYWcsIGJhY2twYWNrLCB3YWxsZXRzLCBjb3NtZXRpY3MgYmFnLCBzcG9ydHMg
-YmFncyBhbmQgdHJhdmVsIGJhZ3MgZXRjLg0KV2UgY2FuIGFzc2lzdCB5b3UgaW4gdGhlIGN1c3Rv
-bWl6YXRpb24gZnJvbSBjb25jZXB0IHRvIGZpbmlzaGVkIHByb2R1Y3QgYWNjb3JkaW5nIHRvIHlv
-dXIgcmVxdWVzdGVkIG1hdGVyaWFscyBhbmQgZHJhd2luZyBkZXNpZ25zLg0KQWR2YW50YWdlOiAN
-CjEuT3ZlciAyMCB5ZWFycyBvZiBkZXZlbG9wbWVudCAmIHByb2R1Y3Rpb24gZXhwZXJpZW5jZQ0K
-Mi5Qcm9mZXNzaW9uYWwgbWF0ZXJpYWwgc291cmNpbmcgYW5kIHNhbXBsZXMgUiZEIGNhcGFiaWxp
-dHkNCjMuT0VNJk9ETS0teW91ciBvd24gYXJ0d29yayBhbmQgb3VyIGRlc2lnbnMgYXJlIGJvdGgg
-YXZhaWxhYmxlDQo0LkRldmVsb3BlZCBzdHlsZXM6aGFuZGJhZyx0b3RlLHNob3VsZGVyIGJhZyxi
-YWNrcGFjayx3YWxsZXQmcG91Y2gsIGNvc21ldGljIGJhZ3MsY29vbGVyIGJhZ3MsIHRyYXZlbCBi
-YWdzIGFuZCBzcG9ydCBiYWdzIGV0Yy4NCjUuRGV2ZWxvcGVkIG1hdGVyaWFsczogbGVhdGhlcixW
-ZWdhbiBsZWF0aGVyLEZhYnJpYyhueWxvbi9wb2x5ZXN0ZXIvY2FudmFzL2NvdHRvbiApICxzdHJh
-dyxFQ08gbWF0ZXJpYWxzIGV0Yy4NCjYuRXF1aXBwZWQgd2l0aCBhZHZhbmNlZCBwcm9kdWN0aW9u
-IHByb2Nlc3NpbmcgYXNzZW1ibHkgbGluZSxtb2Rlcm5pemVkIG1hbmFnZW1lbnQgYW5kIHN0cmlj
-dCBRQyBzeXN0ZW0NCjcuTGVhZCB0aW1lOiA3fjEwIGRheXMgZm9yIHNhbXBsZXM7MzAtNDAgZGF5
-cyBmb3IgbWFzcyBwcm9kdWN0aW9uDQpJZiB5b3UgYXJlIGludGVyZXN0ZWQsIGkgd291bGQgbGlr
-ZSB0byBzaGFyZSB3aXRoIHlvdSBtb3JlIGluZm9ybWF0aW9uLg0KTG9vayBmb3J3YXJkIHRvIHlv
-dXIgcmVwbHkgYXQgeW91ciBlYXJsaWVzdCBjb252ZW5pZW5jZS4NClRoYW5rIHlvdSENCk1lcnJ5
-DQoNCkJlc3QgcmVnYXJkcywNCk1lcnJ5IA0KSU5URVJOQVRJT05BTCBTQUxFUyBSRVBSRVNFTlRB
-VElWRQ0KQiZHIEZBU0hJT05TIElOVEVSTkFUSU9OIExJTUlURUQNCkpJTkJBTyBCVVNJTkVTUyBC
-TERHLixOTy4xNSxTSFVORkVORyBSRC4NCk5PLjQ0LEJBT0FOIERJU1QuLFNIRU5aSEVOLENISU5B
-DQpURUw6ODYgKDc1NSkgMzM2NTY3MjcNCkZBWDo4NiAoNzU1KSAzMzY1MDg4OA0KMjAyMyAxMzN0
-aCBUaGUgQ2hpbmEgSW1wb3J0IGFuZCBFeHBvcnQgRmFpcihDYW50b24gRmFpcikNCkV4aGliaXRp
-b24gQm9vdGg6IDkuMyAtIEczMA0KRGF0ZTogTWF5LjAxLTA1IDIwMjMNCg==
+SGksDQoNCkFkZCBpbml0aWFsIGZpcm13YXJlIG9mIHJ0dzg5IGRyaXZlciBmb3IgbmV3bHkgc3Vw
+cG9ydGVkIGNoaXAgODg1MUJFLg0KDQpUaGFuayB5b3UNClBpbmctS2UNCg0KLS0tDQpUaGUgZm9s
+bG93aW5nIGNoYW5nZXMgc2luY2UgY29tbWl0IDYwMWMxODEzMTBlZDA0YmVjNzQ5NjFlNjVkMWQz
+MTZhMTVlYjc1NGM6DQoNCiAgTWVyZ2UgaHR0cHM6Ly9naXRodWIuY29tL3Brc2hpaC9saW51eC1m
+aXJtd2FyZSAoMjAyMy0wNS0xNyAwNzo0MTozMyAtMDQwMCkNCg0KYXJlIGF2YWlsYWJsZSBpbiB0
+aGUgR2l0IHJlcG9zaXRvcnkgYXQ6DQoNCiAgaHR0cHM6Ly9naXRodWIuY29tL3Brc2hpaC9saW51
+eC1maXJtd2FyZS5naXQgSEVBRA0KDQpmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8gOWUw
+MjAyNDFiODc5ZWIwMDM3YjFkZGQzNDBkNmE5ZWE3ZjdjNzkzMjoNCg0KICBydHc4OTogODg1MWI6
+IGFkZCBmaXJtd2FyZSB2MC4yOS40MS4wICgyMDIzLTA1LTE5IDEzOjU3OjI3ICswODAwKQ0KDQot
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tDQpQaW5nLUtlIFNoaWggKDEpOg0KICAgICAgcnR3ODk6IDg4NTFiOiBhZGQgZmlybXdh
+cmUgdjAuMjkuNDEuMA0KDQogcnR3ODkvcnR3ODg1MWJfZncuYmluIHwgQmluIDAgLT4gMTA5MDU0
+NCBieXRlcw0KIDEgZmlsZSBjaGFuZ2VkLCAwIGluc2VydGlvbnMoKyksIDAgZGVsZXRpb25zKC0p
+DQogY3JlYXRlIG1vZGUgMTAwNjQ0IHJ0dzg5L3J0dzg4NTFiX2Z3LmJpbg0KDQo=
