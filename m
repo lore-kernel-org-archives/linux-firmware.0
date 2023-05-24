@@ -4,87 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C07E2C7EE29
-	for <linux-firmware@archiver.kernel.org>; Wed, 24 May 2023 00:44:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDA1EC7EE29
+	for <linux-firmware@archiver.kernel.org>; Wed, 24 May 2023 00:51:10 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 8DFEEC433D2; Wed, 24 May 2023 00:44:55 +0000 (UTC)
+	id A6060C433EF; Wed, 24 May 2023 00:51:10 +0000 (UTC)
 Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id C06D8C433EF
-	for <linux-firmware@kernel.org>; Wed, 24 May 2023 00:44:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C06D8C433EF
+	by smtp.kernel.org (Postfix) with ESMTPS id 8DE85C433D2;
+	Wed, 24 May 2023 00:51:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 8DE85C433D2
 Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 34O0iXQy9011346, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 34O0iXQy9011346
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 34O0ota47016203, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 34O0ota47016203
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
-	Wed, 24 May 2023 08:44:33 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+	Wed, 24 May 2023 08:50:55 +0800
+Received: from RTEXMBS06.realtek.com.tw (172.21.6.99) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Wed, 24 May 2023 08:44:44 +0800
+ 15.1.2375.32; Wed, 24 May 2023 08:51:06 +0800
 Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
+ RTEXMBS06.realtek.com.tw (172.21.6.99) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 24 May 2023 08:44:44 +0800
+ 15.1.2375.34; Wed, 24 May 2023 08:51:05 +0800
 Received: from RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d]) by
  RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d%5]) with mapi id
- 15.01.2375.007; Wed, 24 May 2023 08:44:44 +0800
+ 15.01.2375.007; Wed, 24 May 2023 08:51:05 +0800
 From: Ping-Ke Shih <pkshih@realtek.com>
+To: Josh Boyer <jwboyer@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
-To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-CC: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
-Subject: pull request [v2]: rtw89: 8851b: add firmware v0.29.41.0
-Thread-Topic: pull request [v2]: rtw89: 8851b: add firmware v0.29.41.0
-Thread-Index: AdmN2K1wMvVRYge3Ts2HesAmQ7eBCg==
-Date: Wed, 24 May 2023 00:44:44 +0000
-Message-ID: <bb354783d5c6464a87a3e2d90a0a13bd@realtek.com>
+CC: "linux-firmware@kernel.org" <linux-firmware@kernel.org>,
+        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
+Subject: RE: pull request: rtw89: 8851b: add firmware v0.29.41.0
+Thread-Topic: pull request: rtw89: 8851b: add firmware v0.29.41.0
+Thread-Index: AQHZiheWm13H01Q550C4n/FZaKrda69nl7GAgAEGt2A=
+Date: Wed, 24 May 2023 00:51:05 +0000
+Message-ID: <2812aa25ef7a4a36b946eda7052c5e9a@realtek.com>
+References: <35e79df26e17bd38bfb074b71df47f40277b7510.camel@realtek.com>
+ <CA+5PVA7GuP-uf_UfE1wQk_a6N=HrMqnvycePxdewirJFcdU78g@mail.gmail.com>
+In-Reply-To: <CA+5PVA7GuP-uf_UfE1wQk_a6N=HrMqnvycePxdewirJFcdU78g@mail.gmail.com>
 Accept-Language: en-US, zh-TW
 Content-Language: zh-TW
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 x-originating-ip: [172.21.69.188]
-x-kse-serverinfo: RTEXMBS01.realtek.com.tw, 9
+x-kse-serverinfo: RTEXMBS06.realtek.com.tw, 9
 x-kse-antispam-interceptor-info: fallback
 x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
 X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
 
-Hi,
-
-Add initial firmware of rtw89 driver for newly supported chip 8851BE.
-
-Add the missing WHENCE by v2.
-
-Thank you
-Ping-Ke
-
----
-The following changes since commit 1ba3519eab0fbc3cedf6b423ea0470461b902c1b=
-:
-
-  Merge branch 'dev-queue' of git://git.kernel.org/pub/scm/linux/kernel/git=
-/tnguy/firmware (2023-05-23 13:07:29 -0400)
-
-are available in the Git repository at:
-
-  https://github.com/pkshih/linux-firmware.git HEAD
-
-for you to fetch changes up to d0ea9ba17f908b3976cd37f81a68747e811a4fcf:
-
-  rtw89: 8851b: add firmware v0.29.41.0 (2023-05-24 08:39:48 +0800)
-
-----------------------------------------------------------------
-Ping-Ke Shih (1):
-      rtw89: 8851b: add firmware v0.29.41.0
-
- WHENCE                |   1 +
- rtw89/rtw8851b_fw.bin | Bin 0 -> 1090544 bytes
- 2 files changed, 1 insertion(+)
- create mode 100644 rtw89/rtw8851b_fw.bin
-
+DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEpvc2ggQm95ZXIgPGp3Ym95
+ZXJAa2VybmVsLm9yZz4NCj4gU2VudDogV2VkbmVzZGF5LCBNYXkgMjQsIDIwMjMgMTowNyBBTQ0K
+PiBUbzogUGluZy1LZSBTaGloIDxwa3NoaWhAcmVhbHRlay5jb20+DQo+IENjOiBsaW51eC1maXJt
+d2FyZUBrZXJuZWwub3JnOyBsaW51eC13aXJlbGVzc0B2Z2VyLmtlcm5lbC5vcmcNCj4gU3ViamVj
+dDogUmU6IHB1bGwgcmVxdWVzdDogcnR3ODk6IDg4NTFiOiBhZGQgZmlybXdhcmUgdjAuMjkuNDEu
+MA0KPiANCj4gT24gRnJpLCBNYXkgMTksIDIwMjMgYXQgMjowM+KAr0FNIFBpbmctS2UgU2hpaCA8
+cGtzaGloQHJlYWx0ZWsuY29tPiB3cm90ZToNCj4gPg0KPiA+IFBpbmctS2UgU2hpaCAoMSk6DQo+
+ID4gICAgICAgcnR3ODk6IDg4NTFiOiBhZGQgZmlybXdhcmUgdjAuMjkuNDEuMA0KPiANCj4gVGhp
+cyBpcyBtaXNzaW5nIGFuIGVudHJ5IGluIFdIRU5DRS4gIENhbiB5b3UgZml4IHRoYXQgdXA/DQo+
+IA0KPiBbandib3llckB2YWRlciBsaW51eC1maXJtd2FyZV0kIC4vY2hlY2tfd2hlbmNlLnB5DQo+
+IEU6IHJ0dzg5L3J0dzg4NTFiX2Z3LmJpbiBub3QgbGlzdGVkIGluIFdIRU5DRQ0KPiBbandib3ll
+ckB2YWRlciBsaW51eC1maXJtd2FyZV0kDQo+IA0KDQpJIGhhdmUgYWRkZWQgdGhpcyBjaGVja2lu
+ZyBpbnRvIG15IGxvY2FsIHNjcmlwdCwgc28gSSB3aWxsIG5vdCBtaXNzIGl0IGluDQp0aGUgZnV0
+dXJlLiBTb3JyeSBmb3IgdGhlIG1pc3Rha2VzLiANCg0KQWxzbywgSSBoYXZlIHNlbnQgdjIgcHVs
+bC1yZXF1ZXN0LiANCg0KVGhhbmsgeW91DQpQaW5nLUtlDQoNCg==
