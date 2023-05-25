@@ -4,83 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86884C77B7A
-	for <linux-firmware@archiver.kernel.org>; Thu, 25 May 2023 10:56:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B1F8C77B7E
+	for <linux-firmware@archiver.kernel.org>; Thu, 25 May 2023 12:27:05 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 41D13C4339C; Thu, 25 May 2023 10:56:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A4A7C433D2
-	for <linux-firmware@kernel.org>; Thu, 25 May 2023 10:56:26 +0000 (UTC)
+	id 4FF2DC433A1; Thu, 25 May 2023 12:27:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35FE2C433A0
+	for <linux-firmware@kernel.org>; Thu, 25 May 2023 12:27:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1685012186;
-	bh=COWGGEd2vo8Mv3S6iFK5Uby45LXaXdrIU9nMvnt072w=;
+	s=k20201202; t=1685017625;
+	bh=vUtL/zXdTmrhRn/PDOiVtHOsCdhQzqoKramwgKyiGso=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=dtNgHm7bWluqraH0gb3/XxgGgJEww2YNii9F9uQYrBR485pX4Od/z4GlI6dW/26QA
-	 fQz1HofKS2Xu2iAE7GISanZEZWrAWGTlfkTsKaPAxdSkQ+MGqp4SgZXOSkGNykULqT
-	 9XD07Fb2nGFqo7QtA0Wgse1vwwyn1tOXD+DaTXfteIY4ktsNBBOnWoROYPGbT/5o22
-	 4WUPtPZ0bBQG3Xc6VmUVibfSq0fans9/f/9rjDIfGx1hEWBV7zdil207442K/Yo8l9
-	 68+xvSUL74wVUORkYfExtiOQ75lPmF6S+gr0TasctMPZcvwyhwT7Sz17hu7I26Sj6Q
-	 YHeaOn3QnVwEA==
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-ba8afcc82c0so786429276.2
-        for <linux-firmware@kernel.org>; Thu, 25 May 2023 03:56:26 -0700 (PDT)
-X-Gm-Message-State: AC+VfDz+74bpOCVdedx549ogayTt2wpgojaFqhcsh6m3LYuVL3wM8Ewy
-	mQUwfNV6rU+6v/PggJ+25B0fzZYf7+4vxCifdq0=
-X-Google-Smtp-Source: ACHHUZ5BfZtWtYsenUsKgEaZTmSHtralMVoG6yjOe07lQxPcXXe3HWv23CA8AztLYvpwyr/bro/XCHW6svHCbhbKtTw=
-X-Received: by 2002:a25:77ce:0:b0:ba7:6d35:6b0f with SMTP id
- s197-20020a2577ce000000b00ba76d356b0fmr3219755ybc.22.1685012185200; Thu, 25
- May 2023 03:56:25 -0700 (PDT)
+	b=lhE08vUCHrTcg5YL3l0lDcF/7tFmzd2hHv76K0vEw/iF8qW17jI0FIeypg5Mns1SF
+	 QMEXPamioa2/zU/9N3ZSpeXpvqMAgYgG3iqZekZh/atmjrNX8j9lhKjBXrs4C8pSKf
+	 8BeOX9HdyK+Mp0Pnm6mkGrK4YhO1lDlkhrGNwFm371mSlIL+T6nP4y4B9sjcwfAx0g
+	 DNNcOa13gd7G1xn9xv4CoRSyFfmUcCCfwr3CQ7peTcC51Yi5SaRa4CNXqFJnuCIB29
+	 6sFtDg5IBCoz/gVhBnSsDzr5gsBhLhQi9u9Zpypyfk3wDqDlsDFXWZ+pBA5Nz+XSRd
+	 Msh8Z8zVAqZCA==
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-563b1e5f701so4204677b3.3
+        for <linux-firmware@kernel.org>; Thu, 25 May 2023 05:27:05 -0700 (PDT)
+X-Gm-Message-State: AC+VfDzN1H0Pc4nw158VVoaakz/2oXvbYAyMTgmaTdOB0jOyKKw8ghy+
+	VktwmpZi69yjt402QzqSUrGPlM0eXpsG53MIdjw=
+X-Google-Smtp-Source: ACHHUZ6CS4jJGcC/riSlYAdpwb1NlKDcdfORuceMcKu9zJgZklZv6q1p9WFmnDSDZccYhd5NKY4FMFnb2U1OsprWmXQ=
+X-Received: by 2002:a81:84c8:0:b0:561:e565:3678 with SMTP id
+ u191-20020a8184c8000000b00561e5653678mr16835417ywf.11.1685017624154; Thu, 25
+ May 2023 05:27:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <7c011b352b344cae8fa6b3a1beb71d8f@realtek.com>
-In-Reply-To: <7c011b352b344cae8fa6b3a1beb71d8f@realtek.com>
+References: <20230523151541.179373-1-didi.debian@cknow.org>
+In-Reply-To: <20230523151541.179373-1-didi.debian@cknow.org>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Thu, 25 May 2023 06:56:14 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA5rdoZO4QLTTWusu1G8OVKuGjD6m37fJCbeY-Q5PDxBoA@mail.gmail.com>
-Message-ID: <CA+5PVA5rdoZO4QLTTWusu1G8OVKuGjD6m37fJCbeY-Q5PDxBoA@mail.gmail.com>
-Subject: Re: pull reques [v3]t: rtw89: 8851b: add firmware v0.29.41.0
-To: Ping-Ke Shih <pkshih@realtek.com>
+Date: Thu, 25 May 2023 08:26:53 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA6BjjOg6YShkaiv+DeXrSApOFv81fqDOOth2cYjLd4_pw@mail.gmail.com>
+Message-ID: <CA+5PVA6BjjOg6YShkaiv+DeXrSApOFv81fqDOOth2cYjLd4_pw@mail.gmail.com>
+Subject: Re: [PATCH] brcm: Add symlinks from Pine64 devices to AW-CM256SM.txt
+To: Diederik de Haas <didi.debian@cknow.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
+Cc: linux-firmware@kernel.org, Peter Robinson <pbrobinson@gmail.com>, 
+	Mario Limonciello <mario.limonciello@amd.com>, Maximilian Weigand <mweigand@mweigand.net>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 24, 2023 at 4:34=E2=80=AFAM Ping-Ke Shih <pkshih@realtek.com> w=
-rote:
->
-> Hi,
->
-> Add initial firmware of rtw89 driver for newly supported chip 8851BE.
->
-> Add the missing WHENCE by v2.
-> Modify driver description to mention RTL8851B by v3.
->
-> Thank you
-> Ping-Ke
-> ---
-> The following changes since commit 1ba3519eab0fbc3cedf6b423ea0470461b902c=
-1b:
->
->   Merge branch 'dev-queue' of git://git.kernel.org/pub/scm/linux/kernel/g=
-it/tnguy/firmware (2023-05-23 13:07:29 -0400)
->
-> are available in the Git repository at:
->
->   https://github.com/pkshih/linux-firmware.git HEAD
-
-Pulled and pushed out.  Thank you.
+Applied and pushed out.
 
 josh
 
+On Tue, May 23, 2023 at 11:16=E2=80=AFAM Diederik de Haas <didi.debian@ckno=
+w.org> wrote:
 >
-> for you to fetch changes up to c10facaf11266da21db27de9af1c51756ecd07bf:
+> There are a number of Pine64 devices which all use the same wireless
+> chipset, so add symlinks for those modules/(base)boards:
+> - Pine64 RockPro64 v2.0 and v2.1 (via adapter board)
+> - Pine64 RK3566 Quartz64-A Board (via adapter board)
+> - Pine64 PineNote v1.1 and v1.2
+> - PINE64 RK3566 SOQuartz on Model A carrier board
+> - Pine64 RK3566 SoQuartz with CM4-IO Carrier Board
+> - PINE64 RK3566 SOQuartz on Blade carrier board
 >
->   rtw89: 8851b: add firmware v0.29.41.0 (2023-05-24 16:30:58 +0800)
+> Signed-off-by: Diederik de Haas <didi.debian@cknow.org>
+> Tested-by: Maximilian Weigand <mweigand@mweigand.net>
+> ---
+>  WHENCE | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 >
-> ----------------------------------------------------------------
-> Ping-Ke Shih (1):
->       rtw89: 8851b: add firmware v0.29.41.0
+> diff --git a/WHENCE b/WHENCE
+> index 6762c0bc..07897f04 100644
+> --- a/WHENCE
+> +++ b/WHENCE
+> @@ -2718,8 +2718,16 @@ Link: brcm/brcmfmac4356-sdio.vamrs,rock960.txt -> =
+brcmfmac4356-sdio.AP6356S.txt
+>  File: brcm/brcmfmac43455-sdio.AW-CM256SM.txt
+>  Link: brcm/brcmfmac43455-sdio.beagle,am5729-beagleboneai.txt -> brcmfmac=
+43455-sdio.AW-CM256SM.txt
+>  Link: brcm/brcmfmac43455-sdio.pine64,pinebook-pro.txt -> brcmfmac43455-s=
+dio.AW-CM256SM.txt
+> +Link: brcm/brcmfmac43455-sdio.pine64,pinenote-v1.1.txt -> brcmfmac43455-=
+sdio.AW-CM256SM.txt
+> +Link: brcm/brcmfmac43455-sdio.pine64,pinenote-v1.2.txt -> brcmfmac43455-=
+sdio.AW-CM256SM.txt
+>  Link: brcm/brcmfmac43455-sdio.pine64,pinephone-pro.txt -> brcmfmac43455-=
+sdio.AW-CM256SM.txt
+> +Link: brcm/brcmfmac43455-sdio.pine64,quartz64-a.txt -> brcmfmac43455-sdi=
+o.AW-CM256SM.txt
+>  Link: brcm/brcmfmac43455-sdio.pine64,quartz64-b.txt -> brcmfmac43455-sdi=
+o.AW-CM256SM.txt
+> +Link: brcm/brcmfmac43455-sdio.pine64,rockpro64-v2.0.txt -> brcmfmac43455=
+-sdio.AW-CM256SM.txt
+> +Link: brcm/brcmfmac43455-sdio.pine64,rockpro64-v2.1.txt -> brcmfmac43455=
+-sdio.AW-CM256SM.txt
+> +Link: brcm/brcmfmac43455-sdio.pine64,soquartz-model-a.txt -> brcmfmac434=
+55-sdio.AW-CM256SM.txt
+> +Link: brcm/brcmfmac43455-sdio.pine64,soquartz-cm4io.txt -> brcmfmac43455=
+-sdio.AW-CM256SM.txt
+> +Link: brcm/brcmfmac43455-sdio.pine64,soquartz-blade.txt -> brcmfmac43455=
+-sdio.AW-CM256SM.txt
 >
->  WHENCE                |   3 ++-
->  rtw89/rtw8851b_fw.bin | Bin 0 -> 1090544 bytes
->  2 files changed, 2 insertions(+), 1 deletion(-)
->  create mode 100644 rtw89/rtw8851b_fw.bin
+>  Licence: GPLv2. See GPL-2 for details.
+>
+> --
+> 2.39.2
 >
