@@ -1,104 +1,175 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=jhjw=BP=opensource.cirrus.com=prvs=0510524318=sbinding@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B1F8C77B7E
-	for <linux-firmware@archiver.kernel.org>; Thu, 25 May 2023 12:27:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53EC8C77B7A
+	for <linux-firmware@archiver.kernel.org>; Fri, 26 May 2023 15:16:24 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 4FF2DC433A1; Thu, 25 May 2023 12:27:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35FE2C433A0
-	for <linux-firmware@kernel.org>; Thu, 25 May 2023 12:27:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1685017625;
-	bh=vUtL/zXdTmrhRn/PDOiVtHOsCdhQzqoKramwgKyiGso=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=lhE08vUCHrTcg5YL3l0lDcF/7tFmzd2hHv76K0vEw/iF8qW17jI0FIeypg5Mns1SF
-	 QMEXPamioa2/zU/9N3ZSpeXpvqMAgYgG3iqZekZh/atmjrNX8j9lhKjBXrs4C8pSKf
-	 8BeOX9HdyK+Mp0Pnm6mkGrK4YhO1lDlkhrGNwFm371mSlIL+T6nP4y4B9sjcwfAx0g
-	 DNNcOa13gd7G1xn9xv4CoRSyFfmUcCCfwr3CQ7peTcC51Yi5SaRa4CNXqFJnuCIB29
-	 6sFtDg5IBCoz/gVhBnSsDzr5gsBhLhQi9u9Zpypyfk3wDqDlsDFXWZ+pBA5Nz+XSRd
-	 Msh8Z8zVAqZCA==
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-563b1e5f701so4204677b3.3
-        for <linux-firmware@kernel.org>; Thu, 25 May 2023 05:27:05 -0700 (PDT)
-X-Gm-Message-State: AC+VfDzN1H0Pc4nw158VVoaakz/2oXvbYAyMTgmaTdOB0jOyKKw8ghy+
-	VktwmpZi69yjt402QzqSUrGPlM0eXpsG53MIdjw=
-X-Google-Smtp-Source: ACHHUZ6CS4jJGcC/riSlYAdpwb1NlKDcdfORuceMcKu9zJgZklZv6q1p9WFmnDSDZccYhd5NKY4FMFnb2U1OsprWmXQ=
-X-Received: by 2002:a81:84c8:0:b0:561:e565:3678 with SMTP id
- u191-20020a8184c8000000b00561e5653678mr16835417ywf.11.1685017624154; Thu, 25
- May 2023 05:27:04 -0700 (PDT)
+	id 0E4A9C4339B; Fri, 26 May 2023 15:16:24 +0000 (UTC)
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 892BCC433EF
+	for <linux-firmware@kernel.org>; Fri, 26 May 2023 15:16:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 892BCC433EF
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34QFDDoU010689
+	for <linux-firmware@kernel.org>; Fri, 26 May 2023 10:16:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=message-id : date :
+ mime-version : to : cc : from : subject : content-type :
+ content-transfer-encoding; s=PODMain02222019;
+ bh=29jfqdFeEApRVmRQu4idb0/wLpqvAup/epMaNOsvYnY=;
+ b=WTtscyuVYQmumBST5PjxfKnzDG0jU3tBSeQ1agtJQ/Jq2LLtPVineeqe1x1Hr1CpGewZ
+ 7nM+5r2rX3p5dh6mDiPteik4qvFnXxWDoROt7waxAk689Og2AFhbz+P0Yz2fDG9P0eZe
+ KHskh+buoSjZ7OzAM7czulw4dpT3VfyHJUNuagWs1WTQhhJTxCjZxneOCU0DflDM78tJ
+ f2+/OAcuaykkQQK92gGR1E8CsZ5jFXQG4CS63bsb4Wb92lnxs80mYIdjtrfJ2MBlbETJ
+ W0rhykAPd1nqIExlqVRX8ETQr7Ky2ioeHqYuKRdVt1hX/cqzd6inMrNmYof4ceK4CnuB mA== 
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3qsde8kbd0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <linux-firmware@kernel.org>; Fri, 26 May 2023 10:16:21 -0500
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Fri, 26 May
+ 2023 10:16:19 -0500
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Fri, 26 May 2023 10:16:19 -0500
+Received: from [198.61.64.26] (LONN2DGDQ73.ad.cirrus.com [198.61.64.26])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 6C6D9B38;
+	Fri, 26 May 2023 15:16:19 +0000 (UTC)
+Message-ID: <d9869d7c-b613-87c9-f00c-f61b98b40c6d@opensource.cirrus.com>
+Date: Fri, 26 May 2023 16:16:19 +0100
 MIME-Version: 1.0
-References: <20230523151541.179373-1-didi.debian@cknow.org>
-In-Reply-To: <20230523151541.179373-1-didi.debian@cknow.org>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Thu, 25 May 2023 08:26:53 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA6BjjOg6YShkaiv+DeXrSApOFv81fqDOOth2cYjLd4_pw@mail.gmail.com>
-Message-ID: <CA+5PVA6BjjOg6YShkaiv+DeXrSApOFv81fqDOOth2cYjLd4_pw@mail.gmail.com>
-Subject: Re: [PATCH] brcm: Add symlinks from Pine64 devices to AW-CM256SM.txt
-To: Diederik de Haas <didi.debian@cknow.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, Peter Robinson <pbrobinson@gmail.com>, 
-	Mario Limonciello <mario.limonciello@amd.com>, Maximilian Weigand <mweigand@mweigand.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: <linux-firmware@kernel.org>
+CC: "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>
+From: Stefan Binding <sbinding@opensource.cirrus.com>
+Subject: [PULL v1 linux-firmware] Add firmware for new Asus ROG Laptops
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: ljSWMKyzDON2OX3wwMGAUbiG9Le4pdOm
+X-Proofpoint-GUID: ljSWMKyzDON2OX3wwMGAUbiG9Le4pdOm
+X-Proofpoint-Spam-Reason: safe
 
-Applied and pushed out.
+Hi,
 
-josh
+We would like to add firmware files to support Cirrus Logic Smart Amp 
+CS35L41 on new Asus ROG laptops.
 
-On Tue, May 23, 2023 at 11:16=E2=80=AFAM Diederik de Haas <didi.debian@ckno=
-w.org> wrote:
->
-> There are a number of Pine64 devices which all use the same wireless
-> chipset, so add symlinks for those modules/(base)boards:
-> - Pine64 RockPro64 v2.0 and v2.1 (via adapter board)
-> - Pine64 RK3566 Quartz64-A Board (via adapter board)
-> - Pine64 PineNote v1.1 and v1.2
-> - PINE64 RK3566 SOQuartz on Model A carrier board
-> - Pine64 RK3566 SoQuartz with CM4-IO Carrier Board
-> - PINE64 RK3566 SOQuartz on Blade carrier board
->
-> Signed-off-by: Diederik de Haas <didi.debian@cknow.org>
-> Tested-by: Maximilian Weigand <mweigand@mweigand.net>
-> ---
->  WHENCE | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/WHENCE b/WHENCE
-> index 6762c0bc..07897f04 100644
-> --- a/WHENCE
-> +++ b/WHENCE
-> @@ -2718,8 +2718,16 @@ Link: brcm/brcmfmac4356-sdio.vamrs,rock960.txt -> =
-brcmfmac4356-sdio.AP6356S.txt
->  File: brcm/brcmfmac43455-sdio.AW-CM256SM.txt
->  Link: brcm/brcmfmac43455-sdio.beagle,am5729-beagleboneai.txt -> brcmfmac=
-43455-sdio.AW-CM256SM.txt
->  Link: brcm/brcmfmac43455-sdio.pine64,pinebook-pro.txt -> brcmfmac43455-s=
-dio.AW-CM256SM.txt
-> +Link: brcm/brcmfmac43455-sdio.pine64,pinenote-v1.1.txt -> brcmfmac43455-=
-sdio.AW-CM256SM.txt
-> +Link: brcm/brcmfmac43455-sdio.pine64,pinenote-v1.2.txt -> brcmfmac43455-=
-sdio.AW-CM256SM.txt
->  Link: brcm/brcmfmac43455-sdio.pine64,pinephone-pro.txt -> brcmfmac43455-=
-sdio.AW-CM256SM.txt
-> +Link: brcm/brcmfmac43455-sdio.pine64,quartz64-a.txt -> brcmfmac43455-sdi=
-o.AW-CM256SM.txt
->  Link: brcm/brcmfmac43455-sdio.pine64,quartz64-b.txt -> brcmfmac43455-sdi=
-o.AW-CM256SM.txt
-> +Link: brcm/brcmfmac43455-sdio.pine64,rockpro64-v2.0.txt -> brcmfmac43455=
--sdio.AW-CM256SM.txt
-> +Link: brcm/brcmfmac43455-sdio.pine64,rockpro64-v2.1.txt -> brcmfmac43455=
--sdio.AW-CM256SM.txt
-> +Link: brcm/brcmfmac43455-sdio.pine64,soquartz-model-a.txt -> brcmfmac434=
-55-sdio.AW-CM256SM.txt
-> +Link: brcm/brcmfmac43455-sdio.pine64,soquartz-cm4io.txt -> brcmfmac43455=
--sdio.AW-CM256SM.txt
-> +Link: brcm/brcmfmac43455-sdio.pine64,soquartz-blade.txt -> brcmfmac43455=
--sdio.AW-CM256SM.txt
->
->  Licence: GPLv2. See GPL-2 for details.
->
-> --
-> 2.39.2
->
+The following changes since commit 1ba3519eab0fbc3cedf6b423ea0470461b902c1b:
+
+   Merge branch 'dev-queue' of 
+git://git.kernel.org/pub/scm/linux/kernel/git/tnguy/firmware (2023-05-23 
+13:07:29 -0400)
+
+are available in the Git repository at:
+
+   https://github.com/CirrusLogic/linux-firmware.git for-upstream
+
+for you to fetch changes up to 403e1ee7212de8de2db6f9db3776406a39e308cb:
+
+   cirrus: Add firmware for new Asus ROG Laptops (2023-05-26 14:30:39 +0100)
+
+----------------------------------------------------------------
+Stefan Binding (1):
+       cirrus: Add firmware for new Asus ROG Laptops
+
+  WHENCE                                              |  60 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  cirrus/cs35l41-dsp1-spk-cali-10431b93-spkid0-l0.bin | Bin 0 -> 1876 bytes
+  cirrus/cs35l41-dsp1-spk-cali-10431b93-spkid0-r0.bin | Bin 0 -> 1884 bytes
+  cirrus/cs35l41-dsp1-spk-cali-10431b93-spkid1-l0.bin | Bin 0 -> 1888 bytes
+  cirrus/cs35l41-dsp1-spk-cali-10431b93-spkid1-r0.bin | Bin 0 -> 1888 bytes
+  cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid0-l0.bin | Bin
+  cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid0-r0.bin | Bin
+  cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid1-l0.bin | Bin
+  cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid1-r0.bin | Bin
+  cirrus/cs35l41-dsp1-spk-cali-10433a30-spkid0-l0.bin | Bin 0 -> 1888 bytes
+  cirrus/cs35l41-dsp1-spk-cali-10433a30-spkid0-r0.bin | Bin 0 -> 1884 bytes
+  cirrus/cs35l41-dsp1-spk-cali-10433a30-spkid1-l0.bin | Bin 0 -> 1876 bytes
+  cirrus/cs35l41-dsp1-spk-cali-10433a30-spkid1-r0.bin | Bin 0 -> 1888 bytes
+  cirrus/cs35l41-dsp1-spk-cali-10433a50-spkid0-l0.bin | Bin 0 -> 1884 bytes
+  cirrus/cs35l41-dsp1-spk-cali-10433a50-spkid0-r0.bin | Bin 0 -> 1884 bytes
+  cirrus/cs35l41-dsp1-spk-cali-10433a50-spkid1-l0.bin | Bin 0 -> 1888 bytes
+  cirrus/cs35l41-dsp1-spk-cali-10433a50-spkid1-r0.bin | Bin 0 -> 1888 bytes
+  cirrus/cs35l41-dsp1-spk-cali-10433a60-spkid0-l0.bin | Bin 0 -> 1884 bytes
+  cirrus/cs35l41-dsp1-spk-cali-10433a60-spkid0-r0.bin | Bin 0 -> 1884 bytes
+  cirrus/cs35l41-dsp1-spk-cali-10433a60-spkid1-l0.bin | Bin 0 -> 1888 bytes
+  cirrus/cs35l41-dsp1-spk-cali-10433a60-spkid1-r0.bin | Bin 0 -> 1888 bytes
+  cirrus/cs35l41-dsp1-spk-prot-10431b93-spkid0-l0.bin | Bin 0 -> 4648 bytes
+  cirrus/cs35l41-dsp1-spk-prot-10431b93-spkid0-r0.bin | Bin 0 -> 4660 bytes
+  cirrus/cs35l41-dsp1-spk-prot-10431b93-spkid1-l0.bin | Bin 0 -> 4660 bytes
+  cirrus/cs35l41-dsp1-spk-prot-10431b93-spkid1-r0.bin | Bin 0 -> 4656 bytes
+  cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid0-l0.bin | Bin
+  cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid0-r0.bin | Bin
+  cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid1-l0.bin | Bin
+  cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid1-r0.bin | Bin
+  cirrus/cs35l41-dsp1-spk-prot-10433a30-spkid0-l0.bin | Bin 0 -> 4656 bytes
+  cirrus/cs35l41-dsp1-spk-prot-10433a30-spkid0-r0.bin | Bin 0 -> 4660 bytes
+  cirrus/cs35l41-dsp1-spk-prot-10433a30-spkid1-l0.bin | Bin 0 -> 4648 bytes
+  cirrus/cs35l41-dsp1-spk-prot-10433a30-spkid1-r0.bin | Bin 0 -> 4660 bytes
+  cirrus/cs35l41-dsp1-spk-prot-10433a50-spkid0-l0.bin | Bin 0 -> 4660 bytes
+  cirrus/cs35l41-dsp1-spk-prot-10433a50-spkid0-r0.bin | Bin 0 -> 4656 bytes
+  cirrus/cs35l41-dsp1-spk-prot-10433a50-spkid1-l0.bin | Bin 0 -> 4660 bytes
+  cirrus/cs35l41-dsp1-spk-prot-10433a50-spkid1-r0.bin | Bin 0 -> 4660 bytes
+  cirrus/cs35l41-dsp1-spk-prot-10433a60-spkid0-l0.bin | Bin 0 -> 4656 bytes
+  cirrus/cs35l41-dsp1-spk-prot-10433a60-spkid0-r0.bin | Bin 0 -> 4660 bytes
+  cirrus/cs35l41-dsp1-spk-prot-10433a60-spkid1-l0.bin | Bin 0 -> 4660 bytes
+  cirrus/cs35l41-dsp1-spk-prot-10433a60-spkid1-r0.bin | Bin 0 -> 4660 bytes
+  41 files changed, 60 insertions(+)
+  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-10431b93-spkid0-l0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-10431b93-spkid0-r0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-10431b93-spkid1-l0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-10431b93-spkid1-r0.bin
+  mode change 100755 => 100644 
+cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid0-l0.bin
+  mode change 100755 => 100644 
+cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid0-r0.bin
+  mode change 100755 => 100644 
+cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid1-l0.bin
+  mode change 100755 => 100644 
+cirrus/cs35l41-dsp1-spk-cali-10431e12-spkid1-r0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-10433a30-spkid0-l0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-10433a30-spkid0-r0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-10433a30-spkid1-l0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-10433a30-spkid1-r0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-10433a50-spkid0-l0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-10433a50-spkid0-r0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-10433a50-spkid1-l0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-10433a50-spkid1-r0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-10433a60-spkid0-l0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-10433a60-spkid0-r0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-10433a60-spkid1-l0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-10433a60-spkid1-r0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431b93-spkid0-l0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431b93-spkid0-r0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431b93-spkid1-l0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431b93-spkid1-r0.bin
+  mode change 100755 => 100644 
+cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid0-l0.bin
+  mode change 100755 => 100644 
+cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid0-r0.bin
+  mode change 100755 => 100644 
+cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid1-l0.bin
+  mode change 100755 => 100644 
+cirrus/cs35l41-dsp1-spk-prot-10431e12-spkid1-r0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433a30-spkid0-l0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433a30-spkid0-r0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433a30-spkid1-l0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433a30-spkid1-r0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433a50-spkid0-l0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433a50-spkid0-r0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433a50-spkid1-l0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433a50-spkid1-r0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433a60-spkid0-l0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433a60-spkid0-r0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433a60-spkid1-l0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433a60-spkid1-r0.bin
+
