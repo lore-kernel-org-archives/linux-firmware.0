@@ -4,95 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D423DC77B73
-	for <linux-firmware@archiver.kernel.org>; Mon,  5 Jun 2023 14:14:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36B5CC7EE23
+	for <linux-firmware@archiver.kernel.org>; Mon,  5 Jun 2023 14:14:21 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 9C21EC4339C; Mon,  5 Jun 2023 14:14:19 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	id 1D66FC4339C; Mon,  5 Jun 2023 14:14:21 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id AE75AC433EF
-	for <linux-firmware@kernel.org>; Mon,  5 Jun 2023 14:14:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org AE75AC433EF
+	by smtp.kernel.org (Postfix) with ESMTPS id 1AF87C433D2
+	for <linux-firmware@kernel.org>; Mon,  5 Jun 2023 14:14:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 1AF87C433D2
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-3f738f579ceso11805745e9.3
-        for <linux-firmware@kernel.org>; Mon, 05 Jun 2023 07:14:18 -0700 (PDT)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3f60e536250so43029345e9.1
+        for <linux-firmware@kernel.org>; Mon, 05 Jun 2023 07:14:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685974456; x=1688566456;
+        d=gmail.com; s=20221208; t=1685974457; x=1688566457;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eMPGHrQl3zHQ8L/0xTnDoqN5Ah8mZdy5SY1YI2xuQmg=;
-        b=pk81eDwYALGx6EkANB93UsmjQKXBSDsdXh4NGW0cL75ZzVqEP/vL6DtqF6PFpWE15w
-         vg8YukXvckOUeOXJpdpZ2Oprgm6iFIBdW3kwUiOCsro/tU79K38Qc7wezgpBArwgVDzN
-         YvW50lwxbSdfL8du91UiKy4efGyygfY0+veneETlqKDf8C7NIrBiKhgXPm+INwNQARzR
-         Na26CCfV5t09LCD/8DnsNyezxnV3d8e61a5OVurZ/yVlwqmVcBvINvmAs5C/UQoO0OME
-         BRTi1vPsEBJ0VQAMQwvjkrP9902glZN35DRPZKku9gkonSABxi+cVwsS2fNPf3CNrjy6
-         c7qg==
+        bh=aqJYVTEURhNBF/zRnTbltWAa8QpmGakXIQvBXHeacWQ=;
+        b=jxoSBq7NcTewj7Fm2VXerhumxmS+6f6AbQuAMEaHK5c1YV83JM/bss8XiIvQsDFI5w
+         Rse7QB9VQMnxif9UolqkZeCon03QwEJYXliCsFECgnWxnLhHXZXoMUjnazq2n74s7wDE
+         gowm8BnFSKF3x3ka7Pmqh1gTkS2KPPFl1zjNkq/ntj9FTO140SfrUwRo91qIo1sbEdDP
+         X40Sl1oLd1QR5xhkzCsBNYPOFPUsfMFf0Kh1AjaUdqAzY3s7s7GZolEPmrYMcFdWsEaj
+         QUoB3a+f2HYFPiYLDyTSnsYr+6Xb5H1hwJr2VsNSkgo4cy0cXD2VwkXSWasM8GvfGNFU
+         XCjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685974456; x=1688566456;
+        d=1e100.net; s=20221208; t=1685974457; x=1688566457;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eMPGHrQl3zHQ8L/0xTnDoqN5Ah8mZdy5SY1YI2xuQmg=;
-        b=ACR7H2lnhmunQOpC/RD+A/AWHBsUuncG0O0T3u2yBTEi42tlC7b9ce8h77ERYmevsK
-         FByVEpOrwbtq+NmFmMhR2iYqScJ5a4gS+rvRKFlLLco4lzRFM8+0pP/B2TbCxrXupjtf
-         dKzh61ch+79vW8MBjFachSfF6/Zq8iQgP6c+jBP5F3RoicBRP1pIRJ7/bgq04UX+9D7q
-         MhyTbAHjO3QyNALbcsUnNB3t3PKpjvqGG+uRjJiDnE7bkB51onjJN9+QrgHW3uW9dOfw
-         fAmYMH2uK4pIgv8zdB/WguUkTbCA5oqu2HQ//kGD6GPsBCJsoXahrqR9M+IgY3jUXqZN
-         1ncA==
-X-Gm-Message-State: AC+VfDzbxGNxjKVVJXLsYU/hqAhoBjuZsFrU5X7U/vJ2K0/Ukw51Z3H4
-	f3O1exAm1yJQUXk4AP2WFRP+jF7q2uY=
-X-Google-Smtp-Source: ACHHUZ6gGN/DmsCyAi9BOmRMv2zpacquzeP3wcn6Gg/V7FKri9xdt7eNJpukc6xtfxZep2CmtzTbkw==
-X-Received: by 2002:a7b:cd1a:0:b0:3f7:3a19:b951 with SMTP id f26-20020a7bcd1a000000b003f73a19b951mr2490153wmj.21.1685974456006;
-        Mon, 05 Jun 2023 07:14:16 -0700 (PDT)
+        bh=aqJYVTEURhNBF/zRnTbltWAa8QpmGakXIQvBXHeacWQ=;
+        b=YZ0aDed6Aj8nTQHbwpN56cZf5XodAD/q8xyGnpFly/ITspwMxreCdnSY8UMssqesB7
+         oOF0rpRPfNcudr7WxhZoeBwJymN8Vf5/6/Gb9rNuRoLknQvDcv/31izbxcgabwRbFwTr
+         ijBULA8TZKtxdAW0hZLv4fcs93mmRU/VpnBjI/OjR1b3eDn+GsLn080Q7uCqyrAKhW66
+         Yz3ntzMVKDSpVM++lMGFALnTWqEZruXARBwPP3uvcs5HI6xs1xk8hSQsVPrJKQXhtmrD
+         llK9Cq0FORtFZG7EI/GqnNDyV8SZTZX4SgD0+8NnjPGbptfqKUgc8LN7pHi2YXtDIkRk
+         Xobg==
+X-Gm-Message-State: AC+VfDw6VM7xQxWeYLC2MWczaztsOF3y6nRyldlOiacVNC8S8A/bjtjc
+	fW2J2XX9ku3YB9+sG5AEjH8FY7Kw+jE=
+X-Google-Smtp-Source: ACHHUZ6tpzmbtadFv/9UcOKPG7dvGPBqQWJkH9GT1WcVGeK1JWfTwjd1f2wrcVh3VpaPphwI1/2BIQ==
+X-Received: by 2002:a7b:c8c4:0:b0:3f7:e660:cdc5 with SMTP id f4-20020a7bc8c4000000b003f7e660cdc5mr1319156wml.9.1685974457250;
+        Mon, 05 Jun 2023 07:14:17 -0700 (PDT)
 Received: from localhost ([2a00:5f00:102:0:3110:4340:17af:8ab1])
-        by smtp.gmail.com with UTF8SMTPSA id w6-20020a5d6806000000b0030630de6fbdsm9881180wru.13.2023.06.05.07.14.15
+        by smtp.gmail.com with UTF8SMTPSA id g11-20020a7bc4cb000000b003f735ba7736sm6280374wmk.46.2023.06.05.07.14.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Jun 2023 07:14:15 -0700 (PDT)
+        Mon, 05 Jun 2023 07:14:16 -0700 (PDT)
 From: Emil Velikov <emil.l.velikov@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
 Cc: emil.l.velikov@gmail.com
-Subject: [PATCH v3 1/8] check_whence: strip quotation marks
-Date: Mon,  5 Jun 2023 14:58:05 +0100
-Message-ID: <20230605141343.880621-3-emil.l.velikov@gmail.com>
+Subject: [PATCH v3 2/8] check_whence: error if File: is actually a link
+Date: Mon,  5 Jun 2023 14:58:06 +0100
+Message-ID: <20230605141343.880621-4-emil.l.velikov@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230605141343.880621-2-emil.l.velikov@gmail.com>
 References: <20230605141343.880621-2-emil.l.velikov@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Emil Velikov <emil.velikov@collabora.com>
+Commits from a few years ago added support for Link entries, over having
+the symlinks in-tree.
 
-Earlier commit added check for duplicate entries. Although the commit
-was picked without one of its dependencies which removes the quotation
-marks in the File entries.
+At the same time, it didn't add a check whether one didn't add a File
+entry that is actually a symlink. Do so now, to be on the safe side.
 
-Since the quotation marks are here to stay, escape them as needed in the
-script.
+v2:
+ - drop copy-firmware.sh changes
 
-Cc: Emil Velikov <emil.l.velikov@gmail.com>
-Fixes: 05183b7b ("check_whence: error on duplicate file entries")
 Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
 ---
- check_whence.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ check_whence.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/check_whence.py b/check_whence.py
-index 711be362..e00fdd19 100755
+index e00fdd19..93ff330d 100755
 --- a/check_whence.py
 +++ b/check_whence.py
-@@ -33,7 +33,7 @@ def list_whence_files():
-         for line in whence:
-             match = re.match(r'File:\s*(.*)', line)
-             if match:
--                yield match.group(1).replace("\ ", " ")
-+                yield match.group(1).replace("\ ", " ").replace("\"", "")
-                 continue
+@@ -60,6 +60,11 @@ def main():
+         sys.stderr.write('E: %s listed in WHENCE twice\n' % name)
+         ret = 1
  
- def list_git():
++    for name in set(link for link in whence_files if os.path.islink(link)):
++        sys.stderr.write('E: %s listed in WHENCE as File, but is a symlink\n' %
++                         name)
++        ret = 1
++
+     for name in sorted(list(known_files - git_files)):
+         sys.stderr.write('E: %s listed in WHENCE does not exist\n' % name)
+         ret = 1
 -- 
 2.41.0
 
