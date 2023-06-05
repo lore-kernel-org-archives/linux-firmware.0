@@ -4,130 +4,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4C4FC7EE2D
-	for <linux-firmware@archiver.kernel.org>; Mon,  5 Jun 2023 14:14:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6558C77B73
+	for <linux-firmware@archiver.kernel.org>; Mon,  5 Jun 2023 14:14:22 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C2EB9C4339C; Mon,  5 Jun 2023 14:14:21 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	id B9445C433D2; Mon,  5 Jun 2023 14:14:22 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 7A339C433EF
-	for <linux-firmware@kernel.org>; Mon,  5 Jun 2023 14:14:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 7A339C433EF
+	by smtp.kernel.org (Postfix) with ESMTPS id D703BC433EF
+	for <linux-firmware@kernel.org>; Mon,  5 Jun 2023 14:14:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D703BC433EF
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-3f7378a74faso13170835e9.0
-        for <linux-firmware@kernel.org>; Mon, 05 Jun 2023 07:14:20 -0700 (PDT)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3f6094cb2d2so50085745e9.2
+        for <linux-firmware@kernel.org>; Mon, 05 Jun 2023 07:14:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685974458; x=1688566458;
+        d=gmail.com; s=20221208; t=1685974459; x=1688566459;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8Qn6RE/pj9PBqmTEEnQNi68nKQQoyFmHpgbJaEaLbsU=;
-        b=OrEcu/SoG6tBDJRBSwYDAjpi1turOkIl/9ploqFc4HacN/Ehd/8qiIdthPJ3p5khK/
-         AKBx8WjEwroH0n+iRZTRLpsLRL930YoH0+Y5ETh3xbQGGq8KdfRAHc51dyuxx8CzI0Cv
-         9cddQd3c9qPaZZM87kwFqJkLuDPMaa21XCzVAgwPVtY3nnm+7YSgtbrQetWiS7FS/Hon
-         4oYYRj5r1f0YcPQY8B4DyJSKrIKA2b4f5yW2QZ32M2CLoM9mwFX648atgt62k6C1dG9c
-         KCSoc96vjSXpIJwBfP7MFHpH9FGfN7SuYg030AfWORzEnMmZnlUENbZE6q7YYMkL74p5
-         qhQA==
+        bh=PRQzIdqV/cMfyn02SeuI8Or9lXEJ2yy5sx5dxA/3b7w=;
+        b=r2nv/sufDaEGP50nACb4jWCtpInvlJ3D7EvrFzVcfDr4T+VwA+ZNooOVIL6NXJJXm+
+         IcLBKklm+0pMucbBntW02Zysh0vkH9lxLsVNDPjTUq2+Bsp9i0m5DxyVn8upjIq/HTHt
+         9+pbalFV5xIOcqvYngz4x+n4SNxZUbZkudap95m8VeuGuwwdOHZCGkEScK4PMBTF79OD
+         gD9p91Wid2R551Beg56GJR64AeTvfGFMuDpZb5nT423e5GnJVzsSNRVkJTZWh2UVlF0X
+         O94Q/hYwK6BbkoyQYENGlKnhNjicyPBTQkER2f2H5rWWr1VPn4UTJL2FVWLF2lFCKcrC
+         DVkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685974458; x=1688566458;
+        d=1e100.net; s=20221208; t=1685974459; x=1688566459;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8Qn6RE/pj9PBqmTEEnQNi68nKQQoyFmHpgbJaEaLbsU=;
-        b=GaGpVkNSO7bIALtGe2vFlzuZY/j2rKpDETMIiPbFBlbGrD2yY8iw75Av1ZRXgpzLQS
-         N/v3BLkc6D4TMvkh7uDMDB3S7blglT+3q5GeyQgSBE7aaLIBzUsSDmgrcOG81B6gWkni
-         zx9Y+cnTIMQyuwYW44VNWseukU7tKRzRbRz/I6thiUG9PvPAm6MSDHvHUIjXDHy4eicY
-         cBDgdivfYXVDSeZQTq3zEfebfcIWUiajtqFfLTrzhxBmFWkXk12YTIkzuSTPER7+B2Dq
-         9xUqE8dAyGSmO54+JY1ZhP9wIMe+WBDdTnVTAcFK1Ub20WqS/cZwDPr6hf2QaLs5TziH
-         MlPw==
-X-Gm-Message-State: AC+VfDyF20x/u00sAIE7wh2gJyW71AFgPI/r5rbUM/Shby6SW3tKVo/S
-	07W5ck65o/nYfbwp5gLCFwaqeE6YxhI=
-X-Google-Smtp-Source: ACHHUZ7On7WIN0fleY+V4OLidgvXL4ds4tyjWWBSsh4OtOae9NNhK7/D/4bvnovbjPZCNCCnLzk/Bg==
-X-Received: by 2002:a05:600c:202:b0:3f7:b1dd:9553 with SMTP id 2-20020a05600c020200b003f7b1dd9553mr2193178wmi.14.1685974458159;
-        Mon, 05 Jun 2023 07:14:18 -0700 (PDT)
+        bh=PRQzIdqV/cMfyn02SeuI8Or9lXEJ2yy5sx5dxA/3b7w=;
+        b=lT5COHXqo+uaARxvv166BOnfpOuOV4aVvFD/lo7V72JLW+3l/cmEusSg2SM8HlFFNM
+         wK4r2wDGjG7HKomulWqa2wSjZv1nnBWgaNGokHBVVMS9EsGcP36P/H2/jJx0nx+3rNGi
+         c1EF5M8G/4PBYq3o/cUlEsXmALohd/4rhG3v2R9iHwztEJwMWMV2gowddVdFADtUFLbH
+         cNqpe05zseYg8SQgpQryHtDxNo6iC3FklbMMfWuxMDMPIKUEDwybvKBTA5gzZoxALaqK
+         J1qeEZKIjoBHoww0G3onLv0j3MtUBddxRoCKufg/xtzdjtJBFwd6zAtQE5QH0ixSpqYH
+         9wiQ==
+X-Gm-Message-State: AC+VfDwz2x4RPyGSiIGNPtYwvYAkjw3y6SQbvmVMz0lLdCdmcb8HToEk
+	ajsv73ZPlxmDLS6Xj+l90iNLJqfo2fM=
+X-Google-Smtp-Source: ACHHUZ7LJI1pNl7x8H++VZFITEZw8gAHavKUY/oLxfR4Fvdxx+cgEpRiXbFwrKdhIUcNyijNxVMwSw==
+X-Received: by 2002:a1c:6a04:0:b0:3f6:be1:b8d8 with SMTP id f4-20020a1c6a04000000b003f60be1b8d8mr8414592wmc.14.1685974459303;
+        Mon, 05 Jun 2023 07:14:19 -0700 (PDT)
 Received: from localhost ([2a00:5f00:102:0:3110:4340:17af:8ab1])
-        by smtp.gmail.com with UTF8SMTPSA id i10-20020a05600c290a00b003f7e34c5219sm2879906wmd.42.2023.06.05.07.14.17
+        by smtp.gmail.com with UTF8SMTPSA id k23-20020a05600c0b5700b003f72a7918e7sm8765771wmr.45.2023.06.05.07.14.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Jun 2023 07:14:17 -0700 (PDT)
+        Mon, 05 Jun 2023 07:14:18 -0700 (PDT)
 From: Emil Velikov <emil.l.velikov@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
 Cc: emil.l.velikov@gmail.com
-Subject: [PATCH v3 3/8] check_whence: error if symlinks are in-tree
-Date: Mon,  5 Jun 2023 14:58:07 +0100
-Message-ID: <20230605141343.880621-5-emil.l.velikov@gmail.com>
+Subject: [PATCH v3 4/8] copy-firmware: quote deskdir and dirname
+Date: Mon,  5 Jun 2023 14:58:08 +0100
+Message-ID: <20230605141343.880621-6-emil.l.velikov@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230605141343.880621-2-emil.l.velikov@gmail.com>
 References: <20230605141343.880621-2-emil.l.velikov@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently we have no symlinks in-tree. Add a simple check, ensuring they
-don't get added in the future.
-
-This allows us to remove the clunky symlink checking code in
-copy-firmware.sh
+Properly quote, otherwise we'll get word splitting. In other words:
+Files might end up installed to /some/foo/, where /some path/foo bar/ is
+expected.
 
 v2:
- - tweak helper to produce link and target (based off Adam's patch)
+ - rebase/split && also quote the $() output
 
-v3:
- - honour quoted target/linkname
-
-Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
+Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
 ---
- check_whence.py | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ copy-firmware.sh | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/check_whence.py b/check_whence.py
-index 93ff330d..2e6950a8 100755
---- a/check_whence.py
-+++ b/check_whence.py
-@@ -36,6 +36,23 @@ def list_whence_files():
-                 yield match.group(1).replace("\ ", " ").replace("\"", "")
-                 continue
+diff --git a/copy-firmware.sh b/copy-firmware.sh
+index bbacb925..e8098271 100755
+--- a/copy-firmware.sh
++++ b/copy-firmware.sh
+@@ -34,16 +34,16 @@ done
+ grep '^File:' WHENCE | sed -e's/^File: *//g' -e's/"//g' | while read f; do
+     test -f "$f" || continue
+     $verbose "copying file $f"
+-    install -d $destdir/$(dirname "$f")
+-    cp -d "$f" $destdir/"$f"
++    install -d "$destdir/$(dirname "$f")"
++    cp -d "$f" "$destdir/$f"
+ done
  
-+def list_links_list():
-+    with open('WHENCE', encoding='utf-8') as whence:
-+        for line in whence:
-+            match = re.match(r'Link:\s*(.*)', line)
-+            if match:
-+                linkname, target = match.group(1).split("->")
-+
-+                linkname = linkname.strip().replace("\ ", " ").replace("\"", "")
-+                target = target.strip().replace("\ ", " ").replace("\"", "")
-+
-+                # Link target is relative to the link
-+                target = os.path.join(os.path.dirname(linkname), target)
-+                target = os.path.normpath(target)
-+
-+                yield (linkname, target)
-+                continue
-+
- def list_git():
-     with os.popen('git ls-files') as git_files:
-         for line in git_files:
-@@ -45,6 +62,7 @@ def main():
-     ret = 0
-     whence_list = list(list_whence())
-     whence_files = list(list_whence_files())
-+    links_list = list(list_links_list())
-     known_files = set(name for name in whence_list if not name.endswith('/')) | \
-                   set(['check_whence.py', 'configure', 'Makefile',
-                        'README', 'copy-firmware.sh', 'WHENCE'])
-@@ -65,6 +83,10 @@ def main():
-                          name)
-         ret = 1
+ grep -E '^Link:' WHENCE | sed -e's/^Link: *//g' -e's/-> //g' | while read f d; do
+     if test -L "$f"; then
+         test -f "$destdir/$f" && continue
+         $verbose "copying link $f"
+-        install -d $destdir/$(dirname "$f")
+-        cp -d "$f" $destdir/"$f"
++        install -d "$destdir/$(dirname "$f")"
++        cp -d "$f" "$destdir/$f"
  
-+    for name in set(link[0] for link in links_list if os.path.islink(link[0])):
-+        sys.stderr.write('E: %s listed in WHENCE as Link, is in tree\n' % name)
-+        ret = 1
-+
-     for name in sorted(list(known_files - git_files)):
-         sys.stderr.write('E: %s listed in WHENCE does not exist\n' % name)
-         ret = 1
+         if test "x$d" != "x"; then
+             target=`readlink "$f"`
+@@ -63,7 +63,7 @@ grep -E '^Link:' WHENCE | sed -e's/^Link: *//g' -e's/-> //g' | while read f d; d
+         fi
+     else
+         $verbose "creating link $f -> $d"
+-        install -d $destdir/$(dirname "$f")
++        install -d "$destdir/$(dirname "$f")"
+         ln -sf "$d" "$destdir/$f"
+     fi
+ done
 -- 
 2.41.0
 
