@@ -1,25 +1,25 @@
-Return-Path: <SRS0=casB=CA=pugshome.com=jasonpo@kernel.org>
+Return-Path: <SRS0=vecP=CA=pugshome.com=jasonng@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07F06C7EE37
-	for <linux-firmware@archiver.kernel.org>; Mon, 12 Jun 2023 13:36:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 27A9EC282F3
+	for <linux-firmware@archiver.kernel.org>; Mon, 12 Jun 2023 13:36:37 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id BDC1DC4339B; Mon, 12 Jun 2023 13:36:33 +0000 (UTC)
+	id E67F0C4339E; Mon, 12 Jun 2023 13:36:36 +0000 (UTC)
 Received: from superwarehousegov.com (superwarehousegov.com [216.144.236.238])
-	by smtp.kernel.org (Postfix) with ESMTP id A6B43C433D2
-	for <linux-firmware@kernel.org>; Mon, 12 Jun 2023 13:36:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A6B43C433D2
+	by smtp.kernel.org (Postfix) with ESMTP id E13F1C433EF
+	for <linux-firmware@kernel.org>; Mon, 12 Jun 2023 13:36:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org E13F1C433EF
 Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=pugshome.com
 Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=pugshome.com
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
 Subject: fulfillment services we provide
-Message-ID: <fba9857a40f492ec846804862461b2f7@usafill.com>
-Date: Mon, 12 Jun 2023 15:25:32 +0200
-From: "Hannah Stages" <jasonal@pugshome.com>
+Message-ID: <89031a5f060d2460742c13d8960db0bc@usafill.com>
+Date: Mon, 12 Jun 2023 15:25:21 +0200
+From: "Hannah Stages" <jasonrt@pugshome.com>
 Reply-To: hannah@biltonfarms.com
 MIME-Version: 1.0
 Content-Type: text/plain; format=flowed; charset="UTF-8"
