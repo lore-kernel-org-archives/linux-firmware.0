@@ -4,39 +4,39 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E43B2C7EE25
-	for <linux-firmware@archiver.kernel.org>; Mon, 12 Jun 2023 11:03:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6CDE4C7EE43
+	for <linux-firmware@archiver.kernel.org>; Mon, 12 Jun 2023 11:03:26 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 9D0FFC433EF; Mon, 12 Jun 2023 11:03:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87E6CC433A7
-	for <linux-firmware@kernel.org>; Mon, 12 Jun 2023 11:03:00 +0000 (UTC)
+	id 550B2C433A8; Mon, 12 Jun 2023 11:03:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F538C4339E
+	for <linux-firmware@kernel.org>; Mon, 12 Jun 2023 11:03:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686567780;
-	bh=HexzEUWGjZOksX/929OqG0tR1U/D9QU0FVm7xRRQEHM=;
+	s=k20201202; t=1686567806;
+	bh=S8sC/gdjNjDsDtN44GibRUdS4P3hBFLv+xv06K0+bgw=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=NoJUutqZjQSeYGvbo2FUzv3HXIuRLbiC2nyLUZFkstYEyOMHRWtlbhpxQS0fm3PQo
-	 0Hnjds1gIjTpp3UB2HYgmyeGw12TarefhYdPb685VSZeMRez7YKm9ifDCFmke6gVM4
-	 AeXoAPNl2MQ/NYIs9lYjvg9W5XDQUev8tO+U0ww3PWvGLBiyGx+G3r125RQNHdQtPU
-	 PIlCmnnJuEnpP/wKvZdRO+pIMkn0hQbaw8FfOkq4oEs5177YCIArTGte/j996PWBtF
-	 bKA9aEx57aNoefgwlDT9cyBttT1rfLV1nE9AVayBzLD4/LR/c6bo445GIHVV0EvW+6
-	 aijGO2Z2guaww==
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-bc40d4145feso2447221276.1
-        for <linux-firmware@kernel.org>; Mon, 12 Jun 2023 04:03:00 -0700 (PDT)
-X-Gm-Message-State: AC+VfDwhpO5G/3oa0SqVsfntHgDtVxh/V/NmRLDqo3+7BQqom3iSrOeZ
-	JhLsFXh7AnqWyy/TSEDkAWqZuUEiSCrE9FWm/SI=
-X-Google-Smtp-Source: ACHHUZ4hMQsUm+BsLr4hDY0JOrSR1kv3KjSw+433c+7SxTAyU3+SNbLTdgOmS55Rhu0NyScJ9TY6kcc24Ox0rYYQYvQ=
-X-Received: by 2002:a25:a349:0:b0:b9e:b9b4:bb12 with SMTP id
- d67-20020a25a349000000b00b9eb9b4bb12mr7644289ybi.48.1686567779509; Mon, 12
- Jun 2023 04:02:59 -0700 (PDT)
+	b=QGvpQPAO+N7YvwiitsGwLMvuz+l7KJY/4Y/srGalCyGA2Q2UqGvlyuJEmGBIna67T
+	 wWPxO/n1Vb0uwtq0OXAm6Ulx6mtyLiETAZ9yRufNxUCFmRVVLVKQ4t/OXcZOuNyXXD
+	 RG9D38W8Wj0StwN16QA52EtgBPUzSWM7RaGAgOKiL1HiKrVI7m5nvbHQXX9zaDIvHX
+	 kvxu+8/AE0gGFtQogJw/sQGlkR40/8Iqt/y4Ac11Iyzsa8fncALY5fOD99FNSvZ7AX
+	 TzRGSCyZSeatPelE4ounBFInTW66+5RY3qN1iCxLEC36Kc+UQl1SJ0njH3PwFUn1uM
+	 /GcOisB4bhalg==
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-56cf34a3c72so21875877b3.1
+        for <linux-firmware@kernel.org>; Mon, 12 Jun 2023 04:03:26 -0700 (PDT)
+X-Gm-Message-State: AC+VfDyywszoR5lF+XP/qMuwCCK6iZk5ei9GvvygC+Oqodpx6e+5Oud0
+	l6wx2ZHzjkjZqihoBcrK3BDdcIALZIGyMxyYBRM=
+X-Google-Smtp-Source: ACHHUZ6x/r6ceWurQ4RcnSkP/r5CePBGm/J85Ly39bmGOSRTEXzT/LMwUdLCKx0zUso4t5r9ugfrbduPLkmGeYjrpOo=
+X-Received: by 2002:a81:bf41:0:b0:569:5f4f:b316 with SMTP id
+ s1-20020a81bf41000000b005695f4fb316mr9299436ywk.13.1686567805069; Mon, 12 Jun
+ 2023 04:03:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230601073138.22227-1-chris.lu@mediatek.com>
-In-Reply-To: <20230601073138.22227-1-chris.lu@mediatek.com>
+References: <20230601073315.22308-1-chris.lu@mediatek.com>
+In-Reply-To: <20230601073315.22308-1-chris.lu@mediatek.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 12 Jun 2023 07:02:48 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA5E2WiRrKy3=sF49tKW9ayvseTV5Wsv2Eh2oPEZm=iycA@mail.gmail.com>
-Message-ID: <CA+5PVA5E2WiRrKy3=sF49tKW9ayvseTV5Wsv2Eh2oPEZm=iycA@mail.gmail.com>
+Date: Mon, 12 Jun 2023 07:03:14 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA5x5peYNQd3gQ4Bz5G_5OFXS-hnfb8Kxo=KqECOmf0O2w@mail.gmail.com>
+Message-ID: <CA+5PVA5x5peYNQd3gQ4Bz5G_5OFXS-hnfb8Kxo=KqECOmf0O2w@mail.gmail.com>
 Subject: Re: [PATCH 1/1] linux-firmware: update firmware for mediatek
- bluetooth chip (MT7922)
+ bluetooth chip (MT7921)
 To: Chris Lu <chris.lu@mediatek.com>
 List-Id: <linux-firmware.lore.kernel.org>
 Cc: David Woodhouse <dwmw2@infradead.org>, Ben Hutchings <ben@decadent.org.uk>, 
@@ -50,23 +50,23 @@ Cc: David Woodhouse <dwmw2@infradead.org>, Ben Hutchings <ben@decadent.org.uk>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 1, 2023 at 3:31=E2=80=AFAM Chris Lu <chris.lu@mediatek.com> wro=
+On Thu, Jun 1, 2023 at 3:33=E2=80=AFAM Chris Lu <chris.lu@mediatek.com> wro=
 te:
 >
 > From: "Chris.Lu" <chris.lu@mediatek.com>
 >
-> Update binary firmware for MT7922 BT devices.
+> Update binary firmware for MT7921 BT devices.
 >
-> File: mediatek/BT_RAM_CODE_MT7922_1_1_hdr.bin
-> Version: 20230530123531
+> File: mediatek/BT_RAM_CODE_MT7961_1_2_hdr.bin
+> Version: 20230526131214
 >
 > Signed-off-by: Chris.Lu <chris.lu@mediatek.com>
 >
 > Chris.Lu (1):
->   linux-firmware: update firmware for mediatek bluetooth chip (MT7922)
+>   linux-firmware: update firmware for mediatek bluetooth chip (MT7921)
 >
 >  WHENCE                                  |   2 +-
->  mediatek/BT_RAM_CODE_MT7922_1_1_hdr.bin | Bin 511830 -> 509974 bytes
+>  mediatek/BT_RAM_CODE_MT7961_1_2_hdr.bin | Bin 532590 -> 532846 bytes
 >  2 files changed, 1 insertion(+), 1 deletion(-)
 
 Applied and pushed out.
