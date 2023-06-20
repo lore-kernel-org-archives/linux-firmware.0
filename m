@@ -4,51 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD5B8EB64D7
-	for <linux-firmware@archiver.kernel.org>; Tue, 20 Jun 2023 07:30:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5E972EB64D7
+	for <linux-firmware@archiver.kernel.org>; Tue, 20 Jun 2023 08:25:34 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 7916FC433C8; Tue, 20 Jun 2023 07:30:18 +0000 (UTC)
+	id 207EFC433C0; Tue, 20 Jun 2023 08:25:34 +0000 (UTC)
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 399C3C433C9;
-	Tue, 20 Jun 2023 07:30:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 399C3C433C9
+	by smtp.kernel.org (Postfix) with ESMTPS id 3046BC433C8;
+	Tue, 20 Jun 2023 08:25:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 3046BC433C8
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 485ad4160f3c11eeb20a276fd37b9834-20230620
+X-UUID: 0256666c0f4411eeb20a276fd37b9834-20230620
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=RY6aSylHvqKSCRC5d6xJnJNk7+fCfuoB6gjPp/mlvyA=;
-	b=FcKAZA/1FhTrcHTtLRzwlFBskvfkjwF7FQNkSc/gnsWLPKMu4P4enFAkEKRislEgBzsUvx2QVxzeiHkHpeXc+UScdmEuGHcJhh6HS7thNBHI9UTE0jJtKZo6w/hul41NjBH9OUDdiB/HXq8crkRPepUzPE4UzKiGJJb2cR53uRU=;
-X-CID-UNFAMILIAR: 1
+	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=4e7bpNhZE6fvxscNRuN8+Bxy+9be7E8GWrio0Cw5CoY=;
+	b=u+fZrmF7iYDrPhFAIvKpxeBlgsfsRrat/6lvWRfj8CXcegfboJ+jGoFFxiXi1y0ejJBNoAwZMS2PhuCKYIBUcHgsOl+gfnx2giNXSQAqFwNpjxtEHjnH80PYkFZwX9DoAn5eOKN3sTFMTgrSHRClW1IweptLuUjpWMrJi+YFUi4=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.27,REQID:364f626f-240a-46a4-ad5d-a8c5111c8b45,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Release_Ham,ACT
-	ION:release,TS:75
-X-CID-INFO: VERSION:1.1.27,REQID:364f626f-240a-46a4-ad5d-a8c5111c8b45,IP:0,URL
-	:0,TC:0,Content:-25,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACT
-	ION:quarantine,TS:75
-X-CID-META: VersionHash:01c9525,CLOUDID:eb2dff3e-de1e-4348-bc35-c96f92f1dcbb,B
-	ulkID:2306201530097FR1S0Z5,BulkQuantity:0,Recheck:0,SF:48|38|29|28|16|19,T
-	C:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-	,OSI:0,OSA:0,AV:0,LES:1,SPR:NO
+X-CID-O-INFO: VERSION:1.1.27,REQID:be8f75d7-2195-42f4-806f-6f0eca7053d8,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:01c9525,CLOUDID:31ff313f-7aa7-41f3-a6bd-0433bee822f3,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_SDM,TF_CID_SPAM_ASC,TF_CID_SPAM_USA,
-	TF_CID_SPAM_FSD
-X-UUID: 485ad4160f3c11eeb20a276fd37b9834-20230620
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw02.mediatek.com
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 0256666c0f4411eeb20a276fd37b9834-20230620
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw02.mediatek.com
 	(envelope-from <peter.tsao@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1418768192; Tue, 20 Jun 2023 15:30:08 +0800
+	with ESMTP id 439973206; Tue, 20 Jun 2023 16:25:26 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
  mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 20 Jun 2023 15:30:06 +0800
+ 15.2.1118.26; Tue, 20 Jun 2023 16:25:25 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
  mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Tue, 20 Jun 2023 15:30:06 +0800
+ 15.2.1118.26 via Frontend Transport; Tue, 20 Jun 2023 16:25:25 +0800
 From: Peter Tsao <peter.tsao@mediatek.com>
 To: Josh Boyer <jwboyer@kernel.org>, David Woodhouse <dwmw2@infradead.org>,
 	Ben Hutchings <ben@decadent.org.uk>, Marcel Holtmann <marcel@holtmann.org>,
@@ -61,18 +55,18 @@ CC: Chris Lu <chris.lu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>,
 	<linux-firmware@kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>,
 	linux-mediatek <linux-mediatek@lists.infradead.org>, Peter Tsao
 	<peter.tsao@mediatek.com>
-Subject: [PATCH v2] Bluetooth: btusb: Add support Mediatek MT7925
-Date: Tue, 20 Jun 2023 15:30:04 +0800
-Message-ID: <20230620073004.4560-1-peter.tsao@mediatek.com>
+Subject: [PATCH] [PATCH v3] Bluetooth: btusb: Add support Mediatek MT7925
+Date: Tue, 20 Jun 2023 16:25:23 +0800
+Message-ID: <20230620082523.8879-1-peter.tsao@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
 
 This patch is added support Mediatek MT7925.
-1. The firmware location of MT7925 will set to 
+1. The firmware location of MT7925 will set to
 /lib/firmware/mediatek/mt7925
-2. Add Mediatek private data in hdev 
+2. Add Mediatek private data in hdev
 to record the device for handle MT7925 flow.
 3. Use the recoreded dev_id to condition chip reset flow.
 
@@ -171,7 +165,7 @@ index 2a88ea8e475e..fadc1a520652 100644
  				   struct btmtk_hci_wmt_params *);
  
 diff --git a/drivers/bluetooth/btusb.c b/drivers/bluetooth/btusb.c
-index 8776e0f93c73..ef04c97c7318 100644
+index 8776e0f93c73..1328709c0f4f 100644
 --- a/drivers/bluetooth/btusb.c
 +++ b/drivers/bluetooth/btusb.c
 @@ -2640,6 +2640,9 @@ static int btusb_recv_event_realtek(struct hci_dev *hdev, struct sk_buff *skb)
