@@ -1,82 +1,113 @@
-Return-Path: <SRS0=g2Nc=CO=offog.org=ats@kernel.org>
+Return-Path: <SRS0=CAxW=CQ=linaro.org=srinivas.kandagatla@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F583EB64D7
-	for <linux-firmware@archiver.kernel.org>; Mon, 26 Jun 2023 15:08:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2AD21EB64D7
+	for <linux-firmware@archiver.kernel.org>; Wed, 28 Jun 2023 10:31:00 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id CEC43C433C9; Mon, 26 Jun 2023 15:08:55 +0000 (UTC)
-Received: from alt2.a-painless.mh.aa.net.uk (a-painless.mh.aa.net.uk [81.187.30.51])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id E2EECC433C8; Wed, 28 Jun 2023 10:30:59 +0000 (UTC)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 952C7C433C8
-	for <linux-firmware@kernel.org>; Mon, 26 Jun 2023 15:08:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 952C7C433C8
-Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=offog.org
-Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=offog.org
-Received: from cartman.offog.org ([2001:8b0:83b:b53f::a])
-	by painless-a.thn.aa.net.uk with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ats@offog.org>)
-	id 1qDnpj-0007Cb-D1
-	for linux-firmware@kernel.org; Mon, 26 Jun 2023 16:08:50 +0100
-Received: from ats by cartman.offog.org with local (Exim 4.96)
-	(envelope-from <ats@offog.org>)
-	id 1qDnpW-00078v-1O;
-	Mon, 26 Jun 2023 16:08:38 +0100
-From: Adam Sampson <ats@offog.org>
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: Adam Sampson <ats@offog.org>
-Subject: [PATCH v2 1/1] check_whence: Check link targets are valid
-Date: Mon, 26 Jun 2023 16:08:22 +0100
-Message-ID: <20230626150833.27414-1-ats@offog.org>
-X-Mailer: git-send-email 2.41.0
+	by smtp.kernel.org (Postfix) with ESMTPS id F40B0C433CA
+	for <linux-firmware@kernel.org>; Wed, 28 Jun 2023 10:30:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org F40B0C433CA
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-4f8775126d3so7994426e87.1
+        for <linux-firmware@kernel.org>; Wed, 28 Jun 2023 03:30:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1687948257; x=1690540257;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2yjde7uvJpnvIetvwdf/rJO/7zz/z+M7hDVzejCn/No=;
+        b=Fi3Ig08DiBh6MOADTvKTYctzujkxkfP2DMPTsAxODxwl4/+tExcSpIyaRSEXczo9px
+         oNjcjvbWtaNCCF6tE8lo4lgQJ3s3pYE610GXedAq31ot3mGJBNO5bcf/1a4vV1D8LyZj
+         6A9ilZZkWOOgIuP9h7rlwmeedvft5bb943PkLrtUNE2GhE+w6fSEy/6Pt1or9UeISmGN
+         6amLkjGiwu0tyEkMDdpYlA1gQ3pvkENbicgsODo4xyPxYUXzSbJqUXlAbHy7SsoMnlIR
+         pw8BHq02AGLNwbAD3i31CdrkbouLIRe1/ODnio3s/b72cs/45WuU/r+LlLOPRuYJ7BDI
+         Q2LQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687948257; x=1690540257;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2yjde7uvJpnvIetvwdf/rJO/7zz/z+M7hDVzejCn/No=;
+        b=FEpJ8DbKebjJDnvv0T9326+KikwxEqyEF+r7SDP0l4jb0q3x6CkYX1vpWY1I81oK8L
+         SghzDfDYX69JuwLO0DAQKFBwNicyqjoTBZMSkgCVNRbbF3/nnYUN8eU5pde07x7anO6g
+         7ns13DZBD3ts8M4pL3ql1OWnuepS4tmOr5BiCs2REfJsVsCxQyNvNGBU1TjawkfNkNTE
+         qP/ysinBHYu+Rq7Abc1XCalLHin+UFh8j5TvCPphdccCQN+7PjI2gSnBQ9DSz5mEXG1E
+         Yzq/JS7uAy2vkTi8c4kvvCTSw2ZPFD93kFK3i3PmtR3pOvwmCAZ6YDfnkeHQynH2CVqN
+         7JHA==
+X-Gm-Message-State: AC+VfDzsSidUVZCOZWRyUpNkUxCPvXPoYr0s438+VUPZhIFB3+4o+PHD
+	NlDX2MZaW4QAOnQF2MxgajXzFw==
+X-Google-Smtp-Source: ACHHUZ43X/G7AlYSS9jOolHCT8V/mJjIPibsyGh04TzTNZ4wenhA9BX7ssz2y/gbVFGcYnaTDQPg6A==
+X-Received: by 2002:a05:6512:3f0c:b0:4f9:58ed:7bba with SMTP id y12-20020a0565123f0c00b004f958ed7bbamr15195161lfa.16.1687948256868;
+        Wed, 28 Jun 2023 03:30:56 -0700 (PDT)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id 10-20020a05600c230a00b003f7eeec829asm13455675wmo.10.2023.06.28.03.30.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Jun 2023 03:30:56 -0700 (PDT)
+Message-ID: <e2e60068-02b4-2410-70c6-edc866e8430d@linaro.org>
+Date: Wed, 28 Jun 2023 11:30:55 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PULL] Add Audio topology firmware for Qualcomm SC8280XP X13s
+ platform
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: linux-firmware@kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Johan Hovold <johan+linaro@kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Brian Masney <bmasney@redhat.com>
+References: <9d59b054-76b9-9c8b-0be9-c614742c519b@linaro.org>
+ <CAA8EJpoXvL3rADU18AyEH_gPNXZH=odoUCVEnxgQ7vaxEYqvpw@mail.gmail.com>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <CAA8EJpoXvL3rADU18AyEH_gPNXZH=odoUCVEnxgQ7vaxEYqvpw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This should catch a couple of common errors: reversing the two arguments
-to Link, and not making the second argument relative to the first.
+Thanks Dimitry,
 
-Signed-off-by: Adam Sampson <ats@offog.org>
----
-v2: rebase, as Emil's recent patches merged part of v1 anyway
+On 21/06/2023 15:17, Dmitry Baryshkov wrote:
+> On Wed, 21 Jun 2023 at 13:55, Srinivas Kandagatla
+> <srinivas.kandagatla@linaro.org> wrote:
+>>
+>> The following changes since commit 045b2136a61968e7984caeae857a326150bfe851:
+>>
+>>     amdgpu: update DMCUB to v0.0.172.0 for various AMDGPU ASICs
+>> (2023-06-20 11:50:21 -0400)
+>>
+>> are available in the Git repository at:
+>>
+>>
+>> git://git.kernel.org/pub/scm/linux/kernel/git/srini/linux-firmware.git
+>> sc8280xp-audio-fw
+>>
+>> for you to fetch changes up to 85d1739e5aafcfada7a1e847c258217bd7408a5c:
+>>
+>>     qcom: Add Audio firmware for SC8280XP X13s (2023-06-21 11:11:34 +0100)
+>>
+>> ----------------------------------------------------------------
+>> Srinivas Kandagatla (1):
+>>         qcom: Add Audio firmware for SC8280XP X13s
+>>
+>>    LICENCE.linaro                              |  30
+>> ++++++++++++++++++++++++++++++
+>>    WHENCE                                      |   8 ++++++++
+>>    qcom/sc8280xp/SC8280XP-LENOVO-X13S-tplg.bin | Bin 0 -> 24296 bytes
+> 
+> Could you please move it to the directory with the rest of X13s firmware?
 
- check_whence.py | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+Makes sense, I have updated drivers to get the firmware from correct 
+path. I will send a new PR with suggested changes.
 
-diff --git a/check_whence.py b/check_whence.py
-index 2e6950a8..d45d90f8 100755
---- a/check_whence.py
-+++ b/check_whence.py
-@@ -91,6 +91,24 @@ def main():
-         sys.stderr.write('E: %s listed in WHENCE does not exist\n' % name)
-         ret = 1
- 
-+    # A link can point to another link, or to a file...
-+    valid_targets = set(link[0] for link in links_list) | git_files
-+
-+    # ... or to a directory
-+    for target in set(valid_targets):
-+        dirname = target
-+        while True:
-+            dirname = os.path.dirname(dirname)
-+            if dirname == '':
-+                break
-+            valid_targets.add(dirname)
-+
-+    for name, target in sorted(links_list):
-+        if target not in valid_targets:
-+            sys.stderr.write('E: target %s of link %s in WHENCE'
-+                             ' does not exist\n' % (target, name))
-+            ret = 1
-+
-     for name in sorted(list(git_files - known_files)):
-         # Ignore subdirectory changelogs and GPG detached signatures
-         if (name.endswith('/ChangeLog') or
--- 
-2.41.0
+--srin
 
+> 
