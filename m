@@ -2,35 +2,35 @@ Return-Path: <SRS0=jh1t=DD=nxp.com=manjunatha.venkatesh@kernel.org>
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83376EB64DC
-	for <linux-firmware@archiver.kernel.org>; Mon, 17 Jul 2023 07:25:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF31CEB64DC
+	for <linux-firmware@archiver.kernel.org>; Mon, 17 Jul 2023 07:31:30 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 4A590C433C9; Mon, 17 Jul 2023 07:25:47 +0000 (UTC)
+	id 7B5F3C433C9; Mon, 17 Jul 2023 07:31:30 +0000 (UTC)
 Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 94B0AC433C8
-	for <linux-firmware@kernel.org>; Mon, 17 Jul 2023 07:25:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 94B0AC433C8
+	by smtp.kernel.org (Postfix) with ESMTPS id 6D8A7C433C7
+	for <linux-firmware@kernel.org>; Mon, 17 Jul 2023 07:30:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 6D8A7C433C7
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Received: from inva020.nxp.com (localhost [127.0.0.1])
-	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 19C051A0BF5;
-	Mon, 17 Jul 2023 09:25:00 +0200 (CEST)
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 579841A0B26;
+	Mon, 17 Jul 2023 09:30:47 +0200 (CEST)
 Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
-	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id C9AA41A0BDB;
-	Mon, 17 Jul 2023 09:24:57 +0200 (CEST)
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id A602F1A0BDB;
+	Mon, 17 Jul 2023 09:30:44 +0200 (CEST)
 Received: from lsv03121.swis.in-blr01.nxp.com (lsv03121.swis.in-blr01.nxp.com [92.120.146.118])
-	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 92DC41800319;
-	Mon, 17 Jul 2023 15:24:56 +0800 (+08)
+	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 6F74C1800318;
+	Mon, 17 Jul 2023 15:30:43 +0800 (+08)
 From: Manjunatha Venkatesh <manjunatha.venkatesh@nxp.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
 Cc: manjunatha.venkatesh@nxp.com,
 	bindu.kurian@nxp.com
 Subject: [PATCH] Updated NXP SR150 UWB firmware
-Date: Mon, 17 Jul 2023 12:54:53 +0530
-Message-Id: <20230717072453.2933441-1-manjunatha.venkatesh@nxp.com>
+Date: Mon, 17 Jul 2023 13:00:40 +0530
+Message-Id: <20230717073040.2934926-1-manjunatha.venkatesh@nxp.com>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
