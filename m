@@ -4,120 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A7CDC001B0
-	for <linux-firmware@archiver.kernel.org>; Mon, 24 Jul 2023 12:31:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9F348C0015E
+	for <linux-firmware@archiver.kernel.org>; Mon, 24 Jul 2023 14:46:35 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 61BC6C433CA; Mon, 24 Jul 2023 12:31:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47CDDC433CC
-	for <linux-firmware@kernel.org>; Mon, 24 Jul 2023 12:31:28 +0000 (UTC)
+	id 87B17C433C8; Mon, 24 Jul 2023 14:46:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7205BC433C9
+	for <linux-firmware@kernel.org>; Mon, 24 Jul 2023 14:46:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690201888;
-	bh=arSozrwxDpZ+l0skGmjtu0PIGes17IR9Ze3bfBXTz/0=;
+	s=k20201202; t=1690209995;
+	bh=IrNyU3eu3p0QPWb3mUFBQ9Gs3L2p3ilTDLkL+sDvqms=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=X9/cu0n3kCtcRYE9ifYOdiKqnn98QOy6rQ19KCEqPX6QYXoYAAZWXlCe++ro4nz6J
-	 FH9zBNBQB0xVO4+bBZ+lLykulGtnBqxCpmFMsGg4uXg/fUbRrAlzdeDyYi1STh8SHZ
-	 cglbke7zxMLifp241QWcV5u7fpfeZFf+WuhBSoUVRUxfibzzooNT6Qp3y3pq1q30h5
-	 I1BSTGkeJomwxbftlxSL2bfzvghPP12FluNf3mLpBLCQFLfLvOQyF6LCWt/XXZhGb4
-	 VvPw+WbHRR94+NuJ+hGnCm3rM9PrHEFc1/tYPgxqnrp2miyzvLyaOyQxEQD0VDYffb
-	 l8I8tKp7Ii+sQ==
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-c01e1c0402cso3485699276.0
-        for <linux-firmware@kernel.org>; Mon, 24 Jul 2023 05:31:28 -0700 (PDT)
-X-Gm-Message-State: ABy/qLZW0j6zryfiGsN20a5p1IPnuzdGcl80N6ShGB3y9oy3LJ4BxMa2
-	7Z1CBQDoVY2s7QyAxLgfeih3THgiqbLEHKz7RlM=
-X-Google-Smtp-Source: APBJJlFX6Rz0HrOPIzSj83lKd/AddSySrti6u5QaKYK8HNySYxuAQM/Kn7sFwmxfhEdMfkNysrN+U3KeMor6GXr+jFY=
-X-Received: by 2002:a25:9003:0:b0:d0a:8973:b1c with SMTP id
- s3-20020a259003000000b00d0a89730b1cmr3068049ybl.12.1690201887298; Mon, 24 Jul
- 2023 05:31:27 -0700 (PDT)
+	b=Sm/MgFJuulrR/YrC2ntvFagktss92KaWCgWytGcGXm4Km7nUQYMKkvKliU0bNAqvs
+	 rrwkrN2QnNmRZZhbmH7c2lfEFrGJ+I3awk+uTwSAENcoC8z3oQIIDaCm5Tr+quHg0g
+	 pDeFooW8UvXtHAGhuGSEvh/MSpHUv/uR8v0FTGUOFqV9KfuWT0ZfcEQbRSkONHA0En
+	 SWu0uyYHzZjd0xRWD9IW2uPyeY8wpx0AxPuX+ddTQDsv1ExWE1EdhtGFGSscySrdDF
+	 rPEM+XCxdwDTxIRtcj99dbyg1m+5eFrL6w4pP4kSVZrEBqXJ0myA3Xns4DS5FZsLmN
+	 k/BcfhP87JB2Q==
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-d074da73c7dso2897652276.1
+        for <linux-firmware@kernel.org>; Mon, 24 Jul 2023 07:46:35 -0700 (PDT)
+X-Gm-Message-State: ABy/qLbjwUjhKgPwJVWpfltj0M6FnGgU++53CINyS2WdlOgjzpKCHuIi
+	j86YUmLC7IAIFBPtOQE/ZmNuzPfSyozUPLXyO9U=
+X-Google-Smtp-Source: APBJJlGytYOFSs61+8STYNLgjfaJu3BiFMdcJ1066KzpnmhJa3vHjCWpqhOnsPM3OFDRbgqZkBWeOfPOMFQovpFHIfQ=
+X-Received: by 2002:a25:1882:0:b0:c76:173c:6718 with SMTP id
+ 124-20020a251882000000b00c76173c6718mr9070420yby.1.1690209994429; Mon, 24 Jul
+ 2023 07:46:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <TY2PR03MB41573133CF759BFD9D6C25BE8F3CA@TY2PR03MB4157.apcprd03.prod.outlook.com>
-In-Reply-To: <TY2PR03MB41573133CF759BFD9D6C25BE8F3CA@TY2PR03MB4157.apcprd03.prod.outlook.com>
+References: <CADnq5_MQM1sG50oq4FoOTVOrg+b+Q5is7X3rpbwSFZu7s7ZhSg@mail.gmail.com>
+ <CA+5PVA5Mx0eym4qSappjmS_5kTfz3n-fAmPVtrUn266Sn6cuiQ@mail.gmail.com> <CADnq5_MnJQ-EYvXR4F1rcUgEOinpncwTaScUSRjTAAj_p_r=dQ@mail.gmail.com>
+In-Reply-To: <CADnq5_MnJQ-EYvXR4F1rcUgEOinpncwTaScUSRjTAAj_p_r=dQ@mail.gmail.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 24 Jul 2023 08:31:16 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA7GTXtDywu25Tf4c6QP_TPvs0EbujQWT8BJoHoZH=fxLw@mail.gmail.com>
-Message-ID: <CA+5PVA7GTXtDywu25Tf4c6QP_TPvs0EbujQWT8BJoHoZH=fxLw@mail.gmail.com>
-Subject: Re: [PATCH] pull request: Update mt8195 SCP firmware to support 10bit mode
-To: =?UTF-8?B?WXVuZmVpIERvbmcgKOiRo+S6kemjnik=?= <Yunfei.Dong@mediatek.com>
+Date: Mon, 24 Jul 2023 10:46:23 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA7eFWqEis8OeSLEmoi=qZhEMftwHF6c4vgRjdvaM9BdZQ@mail.gmail.com>
+Message-ID: <CA+5PVA7eFWqEis8OeSLEmoi=qZhEMftwHF6c4vgRjdvaM9BdZQ@mail.gmail.com>
+Subject: Re: amdgpu firmware updates
+To: Alex Deucher <alexdeucher@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
-	"nicolas.dufresne@collabora.com" <nicolas.dufresne@collabora.com>, 
-	=?UTF-8?B?TWluZ2ppYSBaaGFuZyAo5byg5piO5L2zKQ==?= <Mingjia.Zhang@mediatek.com>
+Cc: Linux Firmware <linux-firmware@kernel.org>, 
+	"Limonciello, Mario" <Mario.Limonciello@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Pulled and pushed out.
+Applied and pushed out.  Thanks for the quick response!
 
 josh
 
-On Sat, Jul 22, 2023 at 4:28=E2=80=AFAM Yunfei Dong (=E8=91=A3=E4=BA=91=E9=
-=A3=9E)
-<Yunfei.Dong@mediatek.com> wrote:
+On Mon, Jul 24, 2023 at 10:39=E2=80=AFAM Alex Deucher <alexdeucher@gmail.co=
+m> wrote:
 >
-> Hi,
+> Fixed up.  New patches attached.  Sorry about that.
 >
+> Alex
 >
->
-> This is used to support mediatek 10bit hardware decoder.
->
->
->
-> Please let me know if there is any issue, thank you.
->
->
->
-> ---
->
->
->
-> The following changes since commit d3f66064cf43bd7338a79174bd0ff60c4ecbdf=
-6d:
->
->
->
->   Partially revert "amdgpu: DMCUB updates for DCN 3.1.4 and 3.1.5" (2023-=
-07-07 15:24:32 -0400)
->
->
->
-> are available in the Git repository at:
->
->
->
->   https://github.com/yunfei-mtk/linux_fw_10bit v2.0.21961
->
->
->
-> for you to fetch changes up to f41d890ac9e3540caf59cbda34be50a6ebef31f3:
->
->
->
->   mediatek: Update mt8195 SCP firmware to support 10bit mode (2023-07-22 =
-16:07:30 +0800)
->
->
->
-> ----------------------------------------------------------------
->
-> Yunfei Dong (1):
->
->       mediatek: Update mt8195 SCP firmware to support 10bit mode
->
->
->
-> WHENCE                  |   2 +-
->
-> mediatek/mt8195/scp.img | Bin 639700 -> 635492 bytes
->
-> 2 files changed, 1 insertion(+), 1 deletion(-)
->
->
->
-> ---
->
->
->
-> Best Regards,
->
-> Yunfei Dong
->
->
+> On Mon, Jul 24, 2023 at 8:25=E2=80=AFAM Josh Boyer <jwboyer@kernel.org> w=
+rote:
+> >
+> > The first patch generates:
+> >
+> > [jwboyer@vader linux-firmware]$ ./check_whence.py
+> > E: amdgpu/gc_11_0_3_mes.bin listed in WHENCE does not exist
+> > [jwboyer@vader linux-firmware]$
+> >
+> > Can you fix it up and resubmit?
+> >
+> > josh
+> >
+> > On Fri, Jul 14, 2023 at 10:21=E2=80=AFAM Alex Deucher <alexdeucher@gmai=
+l.com> wrote:
+> > >
+> > > Hi,
+> > >
+> > > New amdgpu firmware.  Please apply!
+> > >
+> > > Thanks,
+> > >
+> > > Alex
