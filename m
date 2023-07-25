@@ -4,77 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9F348C0015E
-	for <linux-firmware@archiver.kernel.org>; Mon, 24 Jul 2023 14:46:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11685C0015E
+	for <linux-firmware@archiver.kernel.org>; Tue, 25 Jul 2023 10:51:48 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 87B17C433C8; Mon, 24 Jul 2023 14:46:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7205BC433C9
-	for <linux-firmware@kernel.org>; Mon, 24 Jul 2023 14:46:35 +0000 (UTC)
+	id D07C6C433C9; Tue, 25 Jul 2023 10:51:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B512FC433C7
+	for <linux-firmware@kernel.org>; Tue, 25 Jul 2023 10:51:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690209995;
-	bh=IrNyU3eu3p0QPWb3mUFBQ9Gs3L2p3ilTDLkL+sDvqms=;
+	s=k20201202; t=1690282308;
+	bh=YaFhFa38QUqk3jM1gmuMZA2JdBIiipSrcqhS1RraDa4=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=Sm/MgFJuulrR/YrC2ntvFagktss92KaWCgWytGcGXm4Km7nUQYMKkvKliU0bNAqvs
-	 rrwkrN2QnNmRZZhbmH7c2lfEFrGJ+I3awk+uTwSAENcoC8z3oQIIDaCm5Tr+quHg0g
-	 pDeFooW8UvXtHAGhuGSEvh/MSpHUv/uR8v0FTGUOFqV9KfuWT0ZfcEQbRSkONHA0En
-	 SWu0uyYHzZjd0xRWD9IW2uPyeY8wpx0AxPuX+ddTQDsv1ExWE1EdhtGFGSscySrdDF
-	 rPEM+XCxdwDTxIRtcj99dbyg1m+5eFrL6w4pP4kSVZrEBqXJ0myA3Xns4DS5FZsLmN
-	 k/BcfhP87JB2Q==
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-d074da73c7dso2897652276.1
-        for <linux-firmware@kernel.org>; Mon, 24 Jul 2023 07:46:35 -0700 (PDT)
-X-Gm-Message-State: ABy/qLbjwUjhKgPwJVWpfltj0M6FnGgU++53CINyS2WdlOgjzpKCHuIi
-	j86YUmLC7IAIFBPtOQE/ZmNuzPfSyozUPLXyO9U=
-X-Google-Smtp-Source: APBJJlGytYOFSs61+8STYNLgjfaJu3BiFMdcJ1066KzpnmhJa3vHjCWpqhOnsPM3OFDRbgqZkBWeOfPOMFQovpFHIfQ=
-X-Received: by 2002:a25:1882:0:b0:c76:173c:6718 with SMTP id
- 124-20020a251882000000b00c76173c6718mr9070420yby.1.1690209994429; Mon, 24 Jul
- 2023 07:46:34 -0700 (PDT)
+	b=uZBuEbL1L41UCJ/pVcvhKcABF/RdPSMS6HyRXKzm8By/xEQ468xc1WO83UQwd8oXr
+	 0pXLSwqcqr3M/MlMG26x88Lw9iC+MWPzedWTRpWlSvYIlVZF41LlL4JV6dxYphDj1C
+	 dRUqkfXLKu+PK1gOmRM97IuEI2/hgjMH/6HhZ2GQiuJYWOlmMU12No9sA4vVhQ9+6Z
+	 vTOTI5ZaHb249rhvhBNnd8DtV6992Fc7xFJoEe9BzxtjMEN+NMgAQRaz97r31+ZIUH
+	 k63yIpj7Kzc76NQCKAzkccZfkz9uxOj9fsfidZh67miGg6hrgEJ+YPMEkxeM4Q6qZy
+	 qHVh6eyd6ejSA==
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-58439daf39fso1394497b3.1
+        for <linux-firmware@kernel.org>; Tue, 25 Jul 2023 03:51:48 -0700 (PDT)
+X-Gm-Message-State: ABy/qLbxTEfDTKJHN7nfdXn0TTgBgc23krYM89xGKr0K6H8/KqTeWpki
+	ok0sSbm4pjPSRwVtGoDdyjbu7T7X/hKEPVb64W8=
+X-Google-Smtp-Source: APBJJlFUBwz0/1LqY4En88nDKEMCN4U0aGMowjzJMB5pJhLxnV2h/8jjQ1P1p2eXSI+00bo2gr50wdzsMJIKuAR2fqs=
+X-Received: by 2002:a25:2fcb:0:b0:d0e:b419:f4dc with SMTP id
+ v194-20020a252fcb000000b00d0eb419f4dcmr5480921ybv.10.1690282307692; Tue, 25
+ Jul 2023 03:51:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <CADnq5_MQM1sG50oq4FoOTVOrg+b+Q5is7X3rpbwSFZu7s7ZhSg@mail.gmail.com>
- <CA+5PVA5Mx0eym4qSappjmS_5kTfz3n-fAmPVtrUn266Sn6cuiQ@mail.gmail.com> <CADnq5_MnJQ-EYvXR4F1rcUgEOinpncwTaScUSRjTAAj_p_r=dQ@mail.gmail.com>
-In-Reply-To: <CADnq5_MnJQ-EYvXR4F1rcUgEOinpncwTaScUSRjTAAj_p_r=dQ@mail.gmail.com>
+References: <20230715114046.1301714-1-pbrobinson@gmail.com> <20230715114046.1301714-2-pbrobinson@gmail.com>
+In-Reply-To: <20230715114046.1301714-2-pbrobinson@gmail.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 24 Jul 2023 10:46:23 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA7eFWqEis8OeSLEmoi=qZhEMftwHF6c4vgRjdvaM9BdZQ@mail.gmail.com>
-Message-ID: <CA+5PVA7eFWqEis8OeSLEmoi=qZhEMftwHF6c4vgRjdvaM9BdZQ@mail.gmail.com>
-Subject: Re: amdgpu firmware updates
-To: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 25 Jul 2023 06:51:36 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA5ZYbc0c9qqgJmPdTs8EwRY=JNeNXWP6iPBvY4Zrw0KsA@mail.gmail.com>
+Message-ID: <CA+5PVA5ZYbc0c9qqgJmPdTs8EwRY=JNeNXWP6iPBvY4Zrw0KsA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] qcom: sc8280xp: LENOVO: remove directory sym link
+To: Peter Robinson <pbrobinson@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Linux Firmware <linux-firmware@kernel.org>, 
-	"Limonciello, Mario" <Mario.Limonciello@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>
+Cc: linux-firmware@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Applied and pushed out.  Thanks for the quick response!
+Both applied and pushed out.
 
 josh
 
-On Mon, Jul 24, 2023 at 10:39=E2=80=AFAM Alex Deucher <alexdeucher@gmail.co=
+On Sat, Jul 15, 2023 at 7:40=E2=80=AFAM Peter Robinson <pbrobinson@gmail.co=
 m> wrote:
 >
-> Fixed up.  New patches attached.  Sorry about that.
+> The firmware was only ever referenced in the 6.0 kernel by
+> two firmware, for less than a month, by the 6.1 LTS kernel
+> those references had been updated to the new location.
 >
-> Alex
+> Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+> ---
+>  WHENCE | 1 -
+>  1 file changed, 1 deletion(-)
 >
-> On Mon, Jul 24, 2023 at 8:25=E2=80=AFAM Josh Boyer <jwboyer@kernel.org> w=
-rote:
-> >
-> > The first patch generates:
-> >
-> > [jwboyer@vader linux-firmware]$ ./check_whence.py
-> > E: amdgpu/gc_11_0_3_mes.bin listed in WHENCE does not exist
-> > [jwboyer@vader linux-firmware]$
-> >
-> > Can you fix it up and resubmit?
-> >
-> > josh
-> >
-> > On Fri, Jul 14, 2023 at 10:21=E2=80=AFAM Alex Deucher <alexdeucher@gmai=
-l.com> wrote:
-> > >
-> > > Hi,
-> > >
-> > > New amdgpu firmware.  Please apply!
-> > >
-> > > Thanks,
-> > >
-> > > Alex
+> diff --git a/WHENCE b/WHENCE
+> index e53002fb..c3de0234 100644
+> --- a/WHENCE
+> +++ b/WHENCE
+> @@ -5640,7 +5640,6 @@ File: qcom/sc8280xp/LENOVO/21BX/cdspr.jsn
+>  File: qcom/sc8280xp/LENOVO/21BX/qcadsp8280.mbn
+>  File: qcom/sc8280xp/LENOVO/21BX/qccdsp8280.mbn
+>  File: qcom/sc8280xp/LENOVO/21BX/qcslpi8280.mbn
+> -Link: qcom/LENOVO/21BX -> ../sc8280xp/LENOVO/21BX
+>
+>  Licence: Redistributable. See LICENSE.qcom and qcom/NOTICE.txt for detai=
+ls
+>
+> --
+> 2.41.0
+>
