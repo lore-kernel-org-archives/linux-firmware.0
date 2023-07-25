@@ -4,41 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37126C0015E
-	for <linux-firmware@archiver.kernel.org>; Tue, 25 Jul 2023 10:54:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D182C0015E
+	for <linux-firmware@archiver.kernel.org>; Tue, 25 Jul 2023 10:54:28 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id E8D9DC433CA; Tue, 25 Jul 2023 10:54:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3D09C433C7
-	for <linux-firmware@kernel.org>; Tue, 25 Jul 2023 10:54:12 +0000 (UTC)
+	id 04894C433CA; Tue, 25 Jul 2023 10:54:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2D10C433C7
+	for <linux-firmware@kernel.org>; Tue, 25 Jul 2023 10:54:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690282452;
-	bh=9ZCTpfFj0NevwdomscNycY3DyRTqc3WD5936Fp8iCpM=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=kzFsZ0oMYHAQ7MRC9wQqInBdc06aY58lwQL7m/wO2xJu+wKaRN1bhx3I0cS86oQXt
-	 fvglbcLCfuSKE2XRUnFxDI2F3z9bvaCuHNNMPuRtLEHoUVlE5js5oCITzwJVjj0WEm
-	 AfSwl9OuDkZrc2r1m+6039cMy9ChzmcFF9IOmegPUamTw47GDLAwdSkXxqPdXQK6SB
-	 7bL/Ox+Np+FXbKcKtWOwpS0de5IQbVdwL4E9BmonDhjw92u78bBbxo+1+c7CjYudBw
-	 v7ldGQO8J5Fa3NzYsQupdNeFBj/EE9n2SD8Q9KI3coqH7VcJYbopeFcoiM2bvKQ1cE
-	 py8VXat5i4AZw==
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-583b019f1cbso39463037b3.3
-        for <linux-firmware@kernel.org>; Tue, 25 Jul 2023 03:54:12 -0700 (PDT)
-X-Gm-Message-State: ABy/qLbwgJaqVr+PhPwFflBr6DhI1fasXbDKL3EXMaxtKw6XV3tyAdSl
-	RgrRRH2H6oF2N3f1Q65wwc6LdYSg1eKAut3weVo=
-X-Google-Smtp-Source: APBJJlFv4BjP9nLBWE9ZdWjVgbisVBK7xTvEbf1F1z5ROKA6hkr9FPBKA+wZiq3sSG4OAh48guFGr2tgzVJDoAe8UPA=
-X-Received: by 2002:a25:c588:0:b0:d0e:ff07:1277 with SMTP id
- v130-20020a25c588000000b00d0eff071277mr5356333ybe.1.1690282451872; Tue, 25
- Jul 2023 03:54:11 -0700 (PDT)
+	s=k20201202; t=1690282467;
+	bh=+RhTgCYglDAlK6FpN6nhTrJKKow+y3C62zkpUKmF2Po=;
+	h=References:In-Reply-To:From:Date:Subject:List-Id:To:From;
+	b=qOpe7TLos3a3XFrqEFIpq/so19Y7Kfz6uTPkheebHjWzC5Mrj2HOlVHUDnu/4Uk2E
+	 bU0es0sJRwbKIQcZOLpaUiC+Nx7dd4O7q8kh/8hVJRASc029A8tAF77F5kzO4FahZ4
+	 1sDGUtQkL99ie9VHpvT9FCzC98liR3W+bHtxMlEaeBa/cz8pBTr3blI/PckvpqWcFv
+	 nJiYJMvbVQgg9yEUoYwHz/qwUwvt+SABNuic8j20JKJooJDrqEj2HsRy5qB6oPW4ej
+	 gts6AzhvjRBlzzrCFqNTqVVndOp4IQ+NObnUgDZOAfA32Sw90dC03cXf+WfrhTUY/5
+	 LvMG6IR20B6WQ==
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-d0728058651so3697943276.1
+        for <linux-firmware@kernel.org>; Tue, 25 Jul 2023 03:54:27 -0700 (PDT)
+X-Gm-Message-State: ABy/qLagD3En/hOkrEymPNF70BcYpeV0LwBGAUv/A5ym3I+gf7VdeVhe
+	SPbtbcB22JLJN1eDfiRXbOfZs+WB89lR8xnM0bE=
+X-Google-Smtp-Source: APBJJlHE+LFf+f43cO0Vky6is7TPk4TPBjOKT9sy5Ji6zAL6WreGu9ZbiTDbw7Rjr8P1y2F1CqEfUUlA9I4oxyXf8fo=
+X-Received: by 2002:a5b:ac1:0:b0:d08:d20c:b167 with SMTP id
+ a1-20020a5b0ac1000000b00d08d20cb167mr7552752ybr.58.1690282466853; Tue, 25 Jul
+ 2023 03:54:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <1addfae3b9a376ebbf39c0d05642394ebcfb9ee9.camel@canonical.com>
-In-Reply-To: <1addfae3b9a376ebbf39c0d05642394ebcfb9ee9.camel@canonical.com>
+References: <c151f7d4837d3a07143ee5191d3f5e57bc6ded2c.camel@canonical.com>
+In-Reply-To: <c151f7d4837d3a07143ee5191d3f5e57bc6ded2c.camel@canonical.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Tue, 25 Jul 2023 06:54:01 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA5pNe=jDbYQr5c_dfq+w47iDhEjpA5CfxiYpOBtZpkGMQ@mail.gmail.com>
-Message-ID: <CA+5PVA5pNe=jDbYQr5c_dfq+w47iDhEjpA5CfxiYpOBtZpkGMQ@mail.gmail.com>
-Subject: Re: [PATCH] copy-firmware: Fix test: unexpected operator
-To: Benjamin Drung <benjamin.drung@canonical.com>
+Date: Tue, 25 Jul 2023 06:54:16 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA6sBk+jAGNb8=fFGG=b18q88h4M15NNqZ9P1q=hTgjUJg@mail.gmail.com>
+Message-ID: <CA+5PVA6sBk+jAGNb8=fFGG=b18q88h4M15NNqZ9P1q=hTgjUJg@mail.gmail.com>
+Subject: Re: [PATCH] copy-firmware: Fix linking directories when using compression
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org
+To: linux-firmware@kernel.org, benjamin.drung@canonical.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -46,17 +45,25 @@ Applied and pushed out.
 
 josh
 
-On Tue, Jul 18, 2023 at 7:29=E2=80=AFAM Benjamin Drung
+On Tue, Jul 18, 2023 at 2:31=E2=80=AFPM Benjamin Drung
 <benjamin.drung@canonical.com> wrote:
 >
-> dash is the default /bin/sh on Debian based system.
+> When `copy-firmware` is called with `--xz` or `--zstd` it will create
+> broken symlinks for directories:
 >
 > ```
-> dash ./copy-firmware.sh --zstd example
-> ./copy-firmware.sh: 37: test: unexpected operator
+> $ ./copy-firmware -v --zstd $dir
+> [...]
+> creating link qcom/LENOVO/21BX.zst -> ../sc8280xp/LENOVO/21BX.zst
 > ```
 >
-> `=3D` should be used with the test command for POSIX conformance.
+> The original target `../sc8280xp/LENOVO/21BX` is a directory. Adding the
+> compression extension to the directory name breaks the link. The
+> directory `qcom/sc8280xp/LENOVO/21BX` exists but
+> `qcom/sc8280xp/LENOVO/21BX.zst` does not exist.
+>
+> The relative symlink needs to be resolved. If it points to a directory,
+> create the symlink without the compression extension.
 >
 > --
 > Benjamin Drung
