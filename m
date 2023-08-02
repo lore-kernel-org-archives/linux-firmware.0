@@ -1,77 +1,91 @@
-Return-Path: <SRS0=15i5=DT=realtek.com=pkshih@kernel.org>
+Return-Path: <SRS0=yr9P=DT=linaro.org=dmitry.baryshkov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21E5DEB64DD
-	for <linux-firmware@archiver.kernel.org>; Wed,  2 Aug 2023 02:46:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45556C00528
+	for <linux-firmware@archiver.kernel.org>; Wed,  2 Aug 2023 10:41:42 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id E5A27C433C9; Wed,  2 Aug 2023 02:46:52 +0000 (UTC)
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	by smtp.kernel.org (Postfix) with ESMTP id 82240C433C8
-	for <linux-firmware@kernel.org>; Wed,  2 Aug 2023 02:46:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 82240C433C8
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 3722kWLI1004149, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-	by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 3722kWLI1004149
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=FAIL);
-	Wed, 2 Aug 2023 10:46:32 +0800
-Received: from RTEXMBS05.realtek.com.tw (172.21.6.98) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.32; Wed, 2 Aug 2023 10:46:21 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Wed, 2 Aug 2023 10:46:21 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d]) by
- RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d%5]) with mapi id
- 15.01.2375.007; Wed, 2 Aug 2023 10:46:21 +0800
-From: Ping-Ke Shih <pkshih@realtek.com>
+	id 05AC1C433C9; Wed,  2 Aug 2023 10:41:42 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 18DF1C433C8
+	for <linux-firmware@kernel.org>; Wed,  2 Aug 2023 10:41:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 18DF1C433C8
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-4fe45da0a89so967205e87.1
+        for <linux-firmware@kernel.org>; Wed, 02 Aug 2023 03:41:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1690972898; x=1691577698;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hsoFtm17lHc1E4c7Z/2gnQacNpom0Bf4d4YqKE+AWL4=;
+        b=ZcB1ZW+tHuIdaM/3k/Evuw7JUeiEfKfg7EqMh/tAzzSggl7OnnUxPSFouIRj0m4zuH
+         zwPajMZ1vDqA+nYf2TUEPCPxF/oprueeVZl6Yijh82mBfV/oVBPy6ZQ5jdu3sLq2kTjk
+         6kPbaVJA1r8E4zcuqeKkYohQsOm0uGrGrQZ10RffgFXSBH0AeqELSTggDvLNx0lhmJu3
+         DO+wyx2sHallgIL3C6975I8PC4kyyLUGVIU/vTsckIH0kd107yGTDrIrcvy4+/kOVIGs
+         J0PxvdYbBXODuuHDTvZw8Pi/1Qc54fzcm/6jXu25NOKOtKD1Nul43R1GNPJRJEUfERzr
+         9t7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690972898; x=1691577698;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hsoFtm17lHc1E4c7Z/2gnQacNpom0Bf4d4YqKE+AWL4=;
+        b=HEnAM4BmPMYTKzHFGys2RH7zP2qW+42PJzqrg9f4ElxYkD7wzGxJFPothMgumo3pvw
+         lhfuP2KP48CRm8kQR2YQnzCKucYmhZSkFdJXRzp6SQ8k2Y86APAAklggUT54MGzzgRni
+         pbjbEypEar1bXMkNqS4Jtzy/yvF00p9s6hAaP4nbGTH3dSl47TEaDPt7WCqfVqiSiQqy
+         meUNrFIFnhJ+vk0QsmXs78F7TYuxpN6r27iSaNbouZusU9va304gvGfnMB7C+u4OH1cM
+         KJzdwST0TtJLyKDEqeSg9x5D4Qk0sfADhMbAg6w8GV/eSDU5kBT8z9feMfcNzYG+SpGc
+         6WIw==
+X-Gm-Message-State: ABy/qLaboBNbVonW2m3EgYT3bjPaskc6s4CM0m/vAR7Qd82GPSZso2C5
+	bkio5NqC+1y+ShGy8ADMVjKd8DRXMCi/sKwZfOQ=
+X-Google-Smtp-Source: APBJJlENxlpwgdPOa5MQ1hwUOEpIRZ2wex8fGo3NR4RJj1NALmAF7imhxUVmgGGKlUPb20+GFMU3DA==
+X-Received: by 2002:a05:6512:2812:b0:4fe:28cd:b3f with SMTP id cf18-20020a056512281200b004fe28cd0b3fmr2192251lfb.5.1690972898535;
+        Wed, 02 Aug 2023 03:41:38 -0700 (PDT)
+Received: from eriador.lan (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+        by smtp.gmail.com with ESMTPSA id o15-20020ac2494f000000b004fe22967123sm2299974lfi.153.2023.08.02.03.41.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Aug 2023 03:41:38 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 List-Id: <linux-firmware.lore.kernel.org>
-To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-CC: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        Timlee
-	<timlee@realtek.com>
-Subject: pull request: rtw89: 8851b: update firmware to v0.29.41.1
-Thread-Topic: pull request: rtw89: 8851b: update firmware to v0.29.41.1
-Thread-Index: AQHZxOuEIn3qDV6G5ECsRKO/r3tpyg==
-Date: Wed, 2 Aug 2023 02:46:21 +0000
-Message-ID: <d42463c65334bc1799648b116b9e0daecf57c844.camel@realtek.com>
-Accept-Language: en-US, zh-TW
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Evolution 3.36.1-2 
-x-originating-ip: [172.21.69.188]
-x-kse-serverinfo: RTEXMBS05.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9F039494D5DBB747B133432C5D54E889@realtek.com>
-Content-Transfer-Encoding: base64
+To: linux-firmware@kernel.org
+Cc: linux-arm-msm@vger.kernel.org
+Subject: [PULL] qcom: add RB3/db845c sensors DSP firmware
+Date: Wed,  2 Aug 2023 13:41:37 +0300
+Message-Id: <20230802104137.1282273-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
+Content-Transfer-Encoding: 8bit
 
-SGksDQoNClVwZGF0ZSA4ODUxYiBmaXJtd2FyZSBvZiBydHc4OSBkcml2ZXIgdG8gdjAuMjkuNDEu
-MQ0KDQpUaGFuayB5b3UNClBpbmctS2UNCg0KLS0tDQpUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2lu
-Y2UgY29tbWl0IDI1M2NjMTc5ZDg0OWZjODI0ODk3NzNiMmI1NTNhNDk4NThkODcyNWY6DQoNCiAg
-YW1kZ3B1OiBVcGRhdGUgRE1DVUIgZm9yIERDTjMxNCAmIFllbGxvdyBDYXJwICgyMDIzLTA3LTMx
-IDExOjIyOjAyIC0wNDAwKQ0KDQphcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3NpdG9yeSBh
-dDoNCg0KICBodHRwczovL2dpdGh1Yi5jb20vcGtzaGloL2xpbnV4LWZpcm13YXJlLmdpdCBIRUFE
-DQoNCmZvciB5b3UgdG8gZmV0Y2ggY2hhbmdlcyB1cCB0byAyOWYxODVkNzVjNDVhYjk2NDczYjRl
-ZTA2YmM4MmMwYjNmZjk2NmI1Og0KDQogIHJ0dzg5OiA4ODUxYjogdXBkYXRlIGZpcm13YXJlIHRv
-IHYwLjI5LjQxLjEgKDIwMjMtMDgtMDIgMTA6NDE6NTkgKzA4MDApDQoNCi0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCkNoaW4t
-WWVuIExlZSAoMSk6DQogICAgICBydHc4OTogODg1MWI6IHVwZGF0ZSBmaXJtd2FyZSB0byB2MC4y
-OS40MS4xDQoNCiBydHc4OS9ydHc4ODUxYl9mdy5iaW4gfCBCaW4gMTA5MDU0NCAtPiAxMTYxMDA4
-IGJ5dGVzDQogMSBmaWxlIGNoYW5nZWQsIDAgaW5zZXJ0aW9ucygrKSwgMCBkZWxldGlvbnMoLSkN
-Cg0K
+Add the firmware for the sensors DSP used on the Dragonboard 845c aka Qualcomm
+Robotics RB3 platform.
+
+The following changes since commit d3f66064cf43bd7338a79174bd0ff60c4ecbdf6d:
+
+  Partially revert "amdgpu: DMCUB updates for DCN 3.1.4 and 3.1.5" (2023-07-07 15:24:32 -0400)
+
+are available in the Git repository at:
+
+  https://github.com/lumag/linux-firmware rb3-update
+
+for you to fetch changes up to 742bf577e1406f61716f477fa47e868765596dce:
+
+  qcom: sdm845: add RB3 sensors DSP firmware (2023-08-02 03:42:15 +0300)
+
+----------------------------------------------------------------
+Dmitry Baryshkov (1):
+      qcom: sdm845: add RB3 sensors DSP firmware
+
+ WHENCE                                    |   3 +++
+ qcom/sdm845/Thundercomm/db845c/slpi.mbn   | Bin 0 -> 7028860 bytes
+ qcom/sdm845/Thundercomm/db845c/slpir.jsn  |  21 +++++++++++++++++++++
+ qcom/sdm845/Thundercomm/db845c/slpius.jsn |  21 +++++++++++++++++++++
+ 4 files changed, 45 insertions(+)
+ create mode 100644 qcom/sdm845/Thundercomm/db845c/slpi.mbn
+ create mode 100644 qcom/sdm845/Thundercomm/db845c/slpir.jsn
+ create mode 100644 qcom/sdm845/Thundercomm/db845c/slpius.jsn
