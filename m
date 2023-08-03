@@ -1,162 +1,208 @@
-Return-Path: <SRS0=mj2/=DU=canonical.com=juerg.haefliger@kernel.org>
+Return-Path: <SRS0=rd9M=DU=sz-shuangshengda.com=admin@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8F8FDEB64DD
-	for <linux-firmware@archiver.kernel.org>; Thu,  3 Aug 2023 04:49:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9139DEB64DD
+	for <linux-firmware@archiver.kernel.org>; Thu,  3 Aug 2023 15:42:19 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 44292C433C7; Thu,  3 Aug 2023 04:49:17 +0000 (UTC)
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id 508FEC433C7; Thu,  3 Aug 2023 15:42:19 +0000 (UTC)
+Received: from sdg.sz-shuangshengda.com (sdg.sz-shuangshengda.com [193.149.2.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id F23AFC433C9
-	for <linux-firmware@kernel.org>; Thu,  3 Aug 2023 04:49:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org F23AFC433C9
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=canonical.com
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com [209.85.218.71])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id F28D23F22F
-	for <linux-firmware@kernel.org>; Thu,  3 Aug 2023 04:49:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1691038145;
-	bh=34IncFehZ5CSuW7wS7rKGmjMhPjV5/xlgP+4Fk9aeYM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=jnorL2kKgky6wQP3xbgN+4zyVU2g5cJSzmVcNnJJBO0xfGifcwTf2GXD0vrVvriDQ
-	 q4ImmM+hZue8XEc55KHmmYMZZyAzkRmSBSE0b0YaalB3acxQ86Ii+9fqrb2xjGbgM0
-	 FqqztxczlvyLFT476RPHHsg3AWaEZ435QfCxeUfypM/Sl4Co6byAc1Hr02FstwagWP
-	 0No6LqcNoAlnJ+gXCKpAe4LFDf4X1ZvkOdwPtqMPbLoMJZQoe/ejHVE/jmK17Cu15B
-	 iPTJEJzWlyCdzqPomvHtTNBa3h6umfndBBZsuHiGeM6HA2kJvHlWNjcHSpUDhPI3on
-	 MNHHIYDgTPIaA==
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-99c20561244so31731566b.0
-        for <linux-firmware@kernel.org>; Wed, 02 Aug 2023 21:49:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691038144; x=1691642944;
-        h=mime-version:organization:references:in-reply-to:message-id:subject
-         :cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=34IncFehZ5CSuW7wS7rKGmjMhPjV5/xlgP+4Fk9aeYM=;
-        b=E9HXJspZJ1ToqZdEsDSiB5aA/2747QiiVw07pILjsUImMgp7Ii58NWgiqndv9UNxcc
-         xgkClCmf10RJ+xeR626W8qVtHMLyDa5Xq2O8lRdhbGZvu5SGS/L7g+jcVUL+Oe8oCMVN
-         +08pf1RnrPnoW4REPGIkUNXv+dQI08e1j5BkAQbIwIbuQU3hSoYjDgrGv+lxfPoZrs5E
-         6r1u8xDaPtYCBZKUtmf2Fd9bzhvFTzJpwodMiUrKGzH0ZhA6nsa8BeMOuTU00iVziY29
-         k9YHx/paiAFi4qOjFyMREAVCpkMh7ZnEcH5SsXhU5BXNcNFocXDLjRY+g5wbi/JQTXOS
-         zOIA==
-X-Gm-Message-State: ABy/qLYW1KCkKGqF0+c6ugqpN7KLbAp7uwzpXDms9X/JmXvg54HSLY5s
-	RC8yQnb6kae3d8iSG85WulNDclSUiChKFPw6h83LSUcK25xbP7ynOgjSB+Etc0U/NkW8ikkpdLn
-	9zxBls6zepqwamgYGVu5lMfT7707lDeSEozkgHQ==
-X-Received: by 2002:a17:906:31c2:b0:99b:bf82:75fc with SMTP id f2-20020a17090631c200b0099bbf8275fcmr5795265ejf.32.1691038144372;
-        Wed, 02 Aug 2023 21:49:04 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlENtX2X7fs9eEWgZS4pPWHdKbX+obow1KghuXOkV5HDoFfGrQmXENBm6OJUzM5oupshHo15Mg==
-X-Received: by 2002:a17:906:31c2:b0:99b:bf82:75fc with SMTP id f2-20020a17090631c200b0099bbf8275fcmr5795253ejf.32.1691038144085;
-        Wed, 02 Aug 2023 21:49:04 -0700 (PDT)
-Received: from smeagol ([194.191.244.86])
-        by smtp.gmail.com with ESMTPSA id a26-20020a17090640da00b009829dc0f2a0sm10007498ejk.111.2023.08.02.21.49.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Aug 2023 21:49:03 -0700 (PDT)
-Date: Thu, 3 Aug 2023 06:49:01 +0200
-From: Juerg Haefliger <juerg.haefliger@canonical.com>
-To: Josh Boyer <jwboyer@kernel.org>
+	by smtp.kernel.org (Postfix) with ESMTPS id 2ECCDC433C9
+	for <linux-firmware@kernel.org>; Thu,  3 Aug 2023 15:42:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 2ECCDC433C9
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=sz-shuangshengda.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=sz-shuangshengda.com
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=sz-shuangshengda.com;
+ d=sz-shuangshengda.com;
+ h=Message-ID:Date:Subject:From:Reply-To:To:MIME-Version:Content-Type:
+ List-Unsubscribe:List-Id; i=sales01@sz-shuangshengda.com;
+ bh=3YGsOHR7Fhe/RGwwL0ATVQ+d8+c=;
+ b=kgMOd6/NvNG43FoZBf+2ZezPgYM6PEczXIGF8McmTFh95ruzoTkhLryUqB7KuRy4IXS8bqcGf/9B
+   zK3/e2gNA3A6FcqGPjAcIigGklfsuwzEhct3INQ9Of7V/5H7hW6tiHF9lnVT8IBiP/8rLutzRc3F
+   1meQa0VdZEps04wP+8k=
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=sz-shuangshengda.com; d=sz-shuangshengda.com;
+ b=eLDDb/CkjQnRtgGC6fWKi8wRo/kmSWSR5ZtJHoN44Ot/2ljeKuHmKf9qXBrvdAiOhWbFXKm/HiO4
+   5aZcN41NpJ1iL7KMgRC6C6dNpMGAQEx4Iy5hZ0O90I/w5tjKkSrYHg6VqQBkAjNlRGcGL54+E96z
+   8u21t5/mOUcRfBezJvk=;
+Message-ID: <52f98ae8f87132a6042df7483fd8bf96@sz-shuangshengda.com>
+Date: Thu, 03 Aug 2023 15:12:04 +0000
+Subject: CE FCC
+From: Claire <sales01@sz-shuangshengda.com>
+Reply-To: Claire <sales01@sz-shuangshengda.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: hildawu@realtek.com, linux-firmware@kernel.org,
- Larry.Finger@lwfinger.net, max.chou@realtek.com, alex_lu@realsil.com.cn,
- mu_hua_chen@realtek.com, hsinyu_chang@realtek.com, kidman@realtek.com
-Subject: Re: [PATCH] rtl_bt: Update RTL8852C BT USB firmware to 0x040D_7225
-Message-ID: <20230803064901.4c87ea8b@smeagol>
-In-Reply-To: <20230703134824.7795b277@smeagol>
-References: <20230607082751.13580-1-hildawu@realtek.com>
-	<CA+5PVA7k+NHHb9LqEw04nfBA4mJ5O=XrNqh86cHbDSeUzW87NA@mail.gmail.com>
-	<20230703134824.7795b277@smeagol>
-Organization: Canonical Ltd
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/mj_HeLa5_Mt1bWjJ2AzTNAx";
- protocol="application/pgp-signature"; micalg=pgp-sha512
+Content-Type: multipart/alternative;
+ boundary="_=_swift_v4_1691075524_19bf1cf84c5c76acaf5bff9d03f6d2df_=_"
+X-sz-shuangshengda-Tracking-Did: 0
+X-sz-shuangshengda-Subscriber-Uid: lm580pj6dzdd4
+X-sz-shuangshengda-Delivery-Sid: 41
+X-sz-shuangshengda-Customer-Uid: dv5227m4hl6c3
+X-sz-shuangshengda-Customer-Gid: 0
+X-sz-shuangshengda-Campaign-Uid: bf739w0ztqa8f
+X-Sender: admin@sz-shuangshengda.com
+X-Receiver: linux-firmware@kernel.org
+List-Unsubscribe: <https://www.sz-shuangshengda.com/wms/index.php/lists/sb381aeotp50d/unsubscribe/lm580pj6dzdd4/bf739w0ztqa8f/unsubscribe-direct?source=email-client-unsubscribe-button>,
+ <mailto:sales01@sz-shuangshengda.com?subject=Campaign-Uid:bf739w0ztqa8f /
+ Subscriber-Uid:lm580pj6dzdd4 - Unsubscribe request&body=Please unsubscribe
+ me!>
+List-Id: sb381aeotp50d =?utf-8?Q?=3C=E5=8E=84=E7=93=9C=E5=A4=9A?=
+ =?utf-8?Q?=E5=B0=94-=E6=B3=95=E5=B1=9E=E5=9C=AD=E4=BA=9A=E9=82=A3?= MINI PC
+ 1002  3.29>
+Feedback-ID: bf739w0ztqa8f:lm580pj6dzdd4:sb381aeotp50d:dv5227m4hl6c3
 
---Sig_/mj_HeLa5_Mt1bWjJ2AzTNAx
-Content-Type: text/plain; charset=UTF-8
+
+--_=_swift_v4_1691075524_19bf1cf84c5c76acaf5bff9d03f6d2df_=_
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Josh, Realtek,
+Dear Purchasing Manager,=20
+Nice day. :)
+This industry MINI PC  is our ho=
+t sale model,   it has good
+performance and competitive price,   please s=
+ee the price, product
+image and full specifications as below:=20
+CPU: cor=
+e i3 7100U=EF=BC=8CRAM8GB + SSD128GB,  Exw unit price is
+US$155/PCS (MOQ:=
+ 30PCS)
+Full Specifications:
+CPU: intel Core i3 7100U
+DDR3 SO-DIMM*1:=
+ 4GB (8GB optional)=20
+Msata*1: 128GB (256GB/512GB/1TB optional)=20
+Graphic=
+s: Intel=C2=AE UHD Graphics =20
+OS: Win 10=20
+Wi-Fi: 802.11 AC/B/N/G 2.4G/5=
+G =20
+LAN: 2x Realtek RTL8111E Gigabit LAN=20
+Audio: Intel High Definition =
+Audio=20
+Switch: Power On/Off Switch*1=20
+USB: USB 3.0*4. USB2.0*2=20
+COM: =
+RS232*2=20
+LTE 4G: Optional=20
+Power: 12V 5A=20
+Display: HDMI Port*2=20
+Lan=
+: RJ45*2=20
+Audio: Headphone /Mic Jack *1 =20
+Case Material: Aluminum Alloy=
+=20
+Dimension: 180*125*55mm=20
+Weight: 1.8KGS=20
+Best Regards,
+Claire Yan=
+g
+Shenzhen Shuangshengda Technology Co.,LTD
+Professional manufacturer o=
+f Laptops/MINI PC
+Phone/Whatsapp/Wechat/Skype: 0086-13612964917
+Email: =
+sales01@szshuangshengda.com
+Website: www.pc-laptopcomputer.com http://www=
+.pc-laptopcomputer.com
+https://www.sz-shuangshengda.com/wms/index.php/lis=
+ts/sb381aeotp50d/unsubscribe/lm580pj6dzdd4/bf739w0ztqa8f/unsubscribe-direct
 
-Any comments?
+--_=_swift_v4_1691075524_19bf1cf84c5c76acaf5bff9d03f6d2df_=_
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Thanks
-...Juerg
+<!DOCTYPE html>
+<html>
+<head><meta charset=3D"utf-8"/>
+=09<title></ti=
+tle>
+</head>
+<body><span style=3D"font-size:12px;">Dear Purchasing Mana=
+ger, <br />
+<br />
+Nice day. :)</span><br />
+<br />
+This industry M=
+INI PC  is our hot sale model,   it has good performance and competitive pr=
+ice,   please see the price, product image and full specifications as below=
+: <br />
+<br />
+<strong>CPU: core i3 7100U=EF=BC=8CRAM8GB + SSD128GB,  =
+Exw unit price is US$155/PCS (MOQ: 30PCS)</strong><br />
+<img alt=3D"" sr=
+c=3D"https://www.sz-shuangshengda.com/qc15bec69t7g/DW-M08-E-MINI-PC.jpeg" /=
+><br />
+<br />
+<br />
+<strong>Full Specifications:</strong><br />
+<=
+strong>CPU: intel Core i3 7100U</strong><br />
+<strong>DDR3 SO-DIMM*1: 4G=
+B (8GB optional) <br />
+Msata*1: 128GB (256GB/512GB/1TB optional) </stron=
+g><br />
+Graphics: Intel=C2=AE UHD Graphics  <br />
+OS: Win 10 <br />=
 
+Wi-Fi: 802.11 AC/B/N/G 2.4G/5G  <br />
+LAN: 2x Realtek RTL8111E Gigabi=
+t LAN <br />
+Audio: Intel High Definition Audio <br />
+Switch: Power On=
+/Off Switch*1 <br />
+<strong>USB: USB 3.0*4. USB2.0*2 <br />
+COM: RS232=
+*2 <br />
+LTE 4G: Optional <br />
+Power: 12V 5A <br />
+Display: HDMI =
+Port*2 <br />
+Lan: RJ45*2 </strong><br />
+Audio: Headphone /Mic Jack *1=
+  <br />
+Case Material: Aluminum Alloy <br />
+Dimension: 180*125*55mm <=
+br />
+Weight: 1.8KGS <br />
+<br />
+<br />
+<br />
+<span style=3D"f=
+ont-size:12px;"><img alt=3D"" src=3D"/enterdoc/entermodule/2023032317575149=
+763653562/1679565504638.png" /><br />
+<br />
+<br />
+<br />
+Best Reg=
+ards,<br />
+Claire Yang<br />
+<img alt=3D"" src=3D"Attach/1660895183268=
+.jp(03-23-15-07-40).jpeg" /><br />
+Shenzhen Shuangshengda Technology Co.,=
+LTD<br />
+Professional manufacturer of Laptops/MINI PC<br />
+<br />
+P=
+hone/Whatsapp/Wechat/Skype: 0086-13612964917<br />
+Email: <a href=3D"mail=
+to:sales01@szshuangshengda.com" rel=3D"noreferrer" target=3D"_blank">sales0=
+1@szshuangshengda.com</a><br />
+Website: <a href=3D"http://www.pc-laptopc=
+omputer.com" rel=3D"noreferrer" target=3D"_blank">www.pc-laptopcomputer.com=
+</a><br />
+<br />
+https://www.sz-shuangshengda.com/wms/index.php/lists/=
+sb381aeotp50d/unsubscribe/lm580pj6dzdd4/bf739w0ztqa8f/unsubscribe-direct</s=
+pan><img width=3D"1" height=3D"1" src=3D"https://www.sz-shuangshengda.com/w=
+ms/index.php/campaigns/bf739w0ztqa8f/track-opening/lm580pj6dzdd4" alt=3D"" =
+/>
+</body>
+</html>
 
-> Josh,
->=20
->=20
-> > Applied and pushed out.
-> >=20
-> > josh
-> >=20
-> > On Wed, Jun 7, 2023 at 4:28=E2=80=AFAM <hildawu@realtek.com> wrote: =20
-> > >
-> > > From: Hilda Wu <hildawu@realtek.com>
-> > >
-> > > This firmware patch update for Realtek RTL8852C BT USB controller
-> > >
-> > > Note: This firmware patch needs to be used with driver
-> > > "btrtl: Firmware format v2 support". Please update the
-> > > driver with this commit: 9a24ce5e29b15c4c6b0c89c04f9df6ce14addefa =20
->=20
-> Do I understand this correctly that kernels that don't have this patch (a=
-ny
-> kernel < 6.4) can no longer load this v2 BT firmware because it's not
-> compatible with old drivers? That's a regression, no? The incompatible new
-> firmware should be named differently so that we don't break old kernels.
->=20
-> The v2 driver [1] seems to support both the old and new firmware binary s=
-o IMO
-> should try to load the new firmware first and fall back to the old one if=
- not
-> found.
->=20
-> Unless I'm misreading this.
->=20
-> ...Juerg
->=20
-> [1]
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3D9a24ce5e29b15c4c6b0c89c04f9df6ce14addefa
->=20
->=20
->=20
-> > > Release Version: 0x040D_7225
-> > >
-> > > Signed-off-by: Hilda Wu <hildawu@realtek.com>
-> > > ---
-> > >  rtl_bt/rtl8852cu_fw.bin | Bin 113336 -> 112953 bytes
-> > >  1 file changed, 0 insertions(+), 0 deletions(-) =20
+--_=_swift_v4_1691075524_19bf1cf84c5c76acaf5bff9d03f6d2df_=_--
 
-
---Sig_/mj_HeLa5_Mt1bWjJ2AzTNAx
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEhZfU96IuprviLdeLD9OLCQumQrcFAmTLMb0ACgkQD9OLCQum
-QrctAQ/+Ls/gunNwAgkhMpwbtfX5ArC5BF4mpNCIFXzq/Yxt5HAD5aEcSECGPoxL
-KTG9vblG7PlUr6YdABTy2bsVv+4TU///+LzeGxchL4s+h3oAPzHdThPX69MiAqFo
-wL59ypIxauPPC7FO/yoeKtpMoglqc2dlnAYZx+yOE5d9osOxmmSVDFvjJKK1OpBF
-pUubBL0Sho9NRg24cAHmiBTcG6ihj8ONEHyL47rjdFl9DJZGzh196dZOQZXmxtjB
-d4TKL29AFnMEKM9sgzzMxcoqCzlT/oYmeutIjxu4zgeBy5Fnx7eDbrpcknaiYSey
-Lke471Gig9lZYPAEQ0hKtVhIXBofTs9aCkww78OqVcJ2ucspxfQ9v1hGCl4eHr6s
-LAOT5cSq9i22+KcdaYnMhQ1pZOUO578C8+/dbXGe/NC2TbJJHW5K2Rb2yCP2cKSs
-STpwKZGyP5eiefxzJN7t1sYysIqsX214Z8UBbZxckekqAyJzPniJng3bpkUwxq0y
-um5LQamPNsa/1BBOZi0sLDKNGm/cpOiwS7/VQU5jw8rypvk2SFa0iO18idI8qI8A
-YMUftuWnFP9h7FDjLTkm/7TH6botitX8hQOBwKhLFhuQWIUBkfULJjJwSl9zcK0X
-b9apzIJi18Puxo3UZhrNpG34NqXJZTS6LQXv3CqgosLFo62zOm0=
-=fT82
------END PGP SIGNATURE-----
-
---Sig_/mj_HeLa5_Mt1bWjJ2AzTNAx--
