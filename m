@@ -1,208 +1,114 @@
-Return-Path: <SRS0=rd9M=DU=sz-shuangshengda.com=admin@kernel.org>
+Return-Path: <SRS0=WFcK=DV=realtek.com=max.chou@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9139DEB64DD
-	for <linux-firmware@archiver.kernel.org>; Thu,  3 Aug 2023 15:42:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C25AC001DE
+	for <linux-firmware@archiver.kernel.org>; Fri,  4 Aug 2023 06:04:06 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 508FEC433C7; Thu,  3 Aug 2023 15:42:19 +0000 (UTC)
-Received: from sdg.sz-shuangshengda.com (sdg.sz-shuangshengda.com [193.149.2.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 2ECCDC433C9
-	for <linux-firmware@kernel.org>; Thu,  3 Aug 2023 15:42:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 2ECCDC433C9
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=sz-shuangshengda.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=sz-shuangshengda.com
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=sz-shuangshengda.com;
- d=sz-shuangshengda.com;
- h=Message-ID:Date:Subject:From:Reply-To:To:MIME-Version:Content-Type:
- List-Unsubscribe:List-Id; i=sales01@sz-shuangshengda.com;
- bh=3YGsOHR7Fhe/RGwwL0ATVQ+d8+c=;
- b=kgMOd6/NvNG43FoZBf+2ZezPgYM6PEczXIGF8McmTFh95ruzoTkhLryUqB7KuRy4IXS8bqcGf/9B
-   zK3/e2gNA3A6FcqGPjAcIigGklfsuwzEhct3INQ9Of7V/5H7hW6tiHF9lnVT8IBiP/8rLutzRc3F
-   1meQa0VdZEps04wP+8k=
-DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=sz-shuangshengda.com; d=sz-shuangshengda.com;
- b=eLDDb/CkjQnRtgGC6fWKi8wRo/kmSWSR5ZtJHoN44Ot/2ljeKuHmKf9qXBrvdAiOhWbFXKm/HiO4
-   5aZcN41NpJ1iL7KMgRC6C6dNpMGAQEx4Iy5hZ0O90I/w5tjKkSrYHg6VqQBkAjNlRGcGL54+E96z
-   8u21t5/mOUcRfBezJvk=;
-Message-ID: <52f98ae8f87132a6042df7483fd8bf96@sz-shuangshengda.com>
-Date: Thu, 03 Aug 2023 15:12:04 +0000
-Subject: CE FCC
-From: Claire <sales01@sz-shuangshengda.com>
-Reply-To: Claire <sales01@sz-shuangshengda.com>
+	id 2A8A7C433C9; Fri,  4 Aug 2023 06:04:06 +0000 (UTC)
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	by smtp.kernel.org (Postfix) with ESMTP id C1E02C433C7;
+	Fri,  4 Aug 2023 06:04:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C1E02C433C7
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 37463dptE001136, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 37463dptE001136
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=FAIL);
+	Fri, 4 Aug 2023 14:03:39 +0800
+Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Fri, 4 Aug 2023 14:03:54 +0800
+Received: from RTEXMBS03.realtek.com.tw (172.21.6.96) by
+ RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Fri, 4 Aug 2023 14:03:54 +0800
+Received: from RTEXMBS03.realtek.com.tw ([fe80::5510:ad08:5390:1ed3]) by
+ RTEXMBS03.realtek.com.tw ([fe80::5510:ad08:5390:1ed3%2]) with mapi id
+ 15.01.2375.007; Fri, 4 Aug 2023 14:03:54 +0800
+From: Max Chou <max.chou@realtek.com>
+To: Juerg Haefliger <juerg.haefliger@canonical.com>,
+        Josh Boyer
+	<jwboyer@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
-To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+CC: Hilda Wu <hildawu@realtek.com>,
+        "linux-firmware@kernel.org"
+	<linux-firmware@kernel.org>,
+        "Larry.Finger@lwfinger.net"
+	<Larry.Finger@lwfinger.net>,
+        "alex_lu@realsil.com.cn"
+	<alex_lu@realsil.com.cn>,
+        =?utf-8?B?6Zmz6ZyC6I+v?= <mu_hua_chen@realtek.com>,
+        Hsin Yu Chang <hsinyu_chang@realtek.com>,
+        KidmanLee <kidman@realtek.com>
+Subject: RE: [PATCH] rtl_bt: Update RTL8852C BT USB firmware to 0x040D_7225
+Thread-Topic: [PATCH] rtl_bt: Update RTL8852C BT USB firmware to 0x040D_7225
+Thread-Index: AQHZmRn2c0pDn/x1HESichptY70mNq+GhCOAgCEMGACAMEMZgIABpz/w
+Date: Fri, 4 Aug 2023 06:03:53 +0000
+Message-ID: <9a4f49f76f83454d8583680e507fdc7a@realtek.com>
+References: <20230607082751.13580-1-hildawu@realtek.com>
+	<CA+5PVA7k+NHHb9LqEw04nfBA4mJ5O=XrNqh86cHbDSeUzW87NA@mail.gmail.com>
+	<20230703134824.7795b277@smeagol> <20230803064901.4c87ea8b@smeagol>
+In-Reply-To: <20230803064901.4c87ea8b@smeagol>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [172.21.132.197]
+x-kse-serverinfo: RTEXMBS01.realtek.com.tw, 9
+x-kse-antispam-interceptor-info: fallback
+x-kse-antivirus-interceptor-info: fallback
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="_=_swift_v4_1691075524_19bf1cf84c5c76acaf5bff9d03f6d2df_=_"
-X-sz-shuangshengda-Tracking-Did: 0
-X-sz-shuangshengda-Subscriber-Uid: lm580pj6dzdd4
-X-sz-shuangshengda-Delivery-Sid: 41
-X-sz-shuangshengda-Customer-Uid: dv5227m4hl6c3
-X-sz-shuangshengda-Customer-Gid: 0
-X-sz-shuangshengda-Campaign-Uid: bf739w0ztqa8f
-X-Sender: admin@sz-shuangshengda.com
-X-Receiver: linux-firmware@kernel.org
-List-Unsubscribe: <https://www.sz-shuangshengda.com/wms/index.php/lists/sb381aeotp50d/unsubscribe/lm580pj6dzdd4/bf739w0ztqa8f/unsubscribe-direct?source=email-client-unsubscribe-button>,
- <mailto:sales01@sz-shuangshengda.com?subject=Campaign-Uid:bf739w0ztqa8f /
- Subscriber-Uid:lm580pj6dzdd4 - Unsubscribe request&body=Please unsubscribe
- me!>
-List-Id: sb381aeotp50d =?utf-8?Q?=3C=E5=8E=84=E7=93=9C=E5=A4=9A?=
- =?utf-8?Q?=E5=B0=94-=E6=B3=95=E5=B1=9E=E5=9C=AD=E4=BA=9A=E9=82=A3?= MINI PC
- 1002  3.29>
-Feedback-ID: bf739w0ztqa8f:lm580pj6dzdd4:sb381aeotp50d:dv5227m4hl6c3
+X-KSE-AntiSpam-Interceptor-Info: fallback
 
-
---_=_swift_v4_1691075524_19bf1cf84c5c76acaf5bff9d03f6d2df_=_
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-Dear Purchasing Manager,=20
-Nice day. :)
-This industry MINI PC  is our ho=
-t sale model,   it has good
-performance and competitive price,   please s=
-ee the price, product
-image and full specifications as below:=20
-CPU: cor=
-e i3 7100U=EF=BC=8CRAM8GB + SSD128GB,  Exw unit price is
-US$155/PCS (MOQ:=
- 30PCS)
-Full Specifications:
-CPU: intel Core i3 7100U
-DDR3 SO-DIMM*1:=
- 4GB (8GB optional)=20
-Msata*1: 128GB (256GB/512GB/1TB optional)=20
-Graphic=
-s: Intel=C2=AE UHD Graphics =20
-OS: Win 10=20
-Wi-Fi: 802.11 AC/B/N/G 2.4G/5=
-G =20
-LAN: 2x Realtek RTL8111E Gigabit LAN=20
-Audio: Intel High Definition =
-Audio=20
-Switch: Power On/Off Switch*1=20
-USB: USB 3.0*4. USB2.0*2=20
-COM: =
-RS232*2=20
-LTE 4G: Optional=20
-Power: 12V 5A=20
-Display: HDMI Port*2=20
-Lan=
-: RJ45*2=20
-Audio: Headphone /Mic Jack *1 =20
-Case Material: Aluminum Alloy=
-=20
-Dimension: 180*125*55mm=20
-Weight: 1.8KGS=20
-Best Regards,
-Claire Yan=
-g
-Shenzhen Shuangshengda Technology Co.,LTD
-Professional manufacturer o=
-f Laptops/MINI PC
-Phone/Whatsapp/Wechat/Skype: 0086-13612964917
-Email: =
-sales01@szshuangshengda.com
-Website: www.pc-laptopcomputer.com http://www=
-.pc-laptopcomputer.com
-https://www.sz-shuangshengda.com/wms/index.php/lis=
-ts/sb381aeotp50d/unsubscribe/lm580pj6dzdd4/bf739w0ztqa8f/unsubscribe-direct
-
---_=_swift_v4_1691075524_19bf1cf84c5c76acaf5bff9d03f6d2df_=_
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-<!DOCTYPE html>
-<html>
-<head><meta charset=3D"utf-8"/>
-=09<title></ti=
-tle>
-</head>
-<body><span style=3D"font-size:12px;">Dear Purchasing Mana=
-ger, <br />
-<br />
-Nice day. :)</span><br />
-<br />
-This industry M=
-INI PC  is our hot sale model,   it has good performance and competitive pr=
-ice,   please see the price, product image and full specifications as below=
-: <br />
-<br />
-<strong>CPU: core i3 7100U=EF=BC=8CRAM8GB + SSD128GB,  =
-Exw unit price is US$155/PCS (MOQ: 30PCS)</strong><br />
-<img alt=3D"" sr=
-c=3D"https://www.sz-shuangshengda.com/qc15bec69t7g/DW-M08-E-MINI-PC.jpeg" /=
-><br />
-<br />
-<br />
-<strong>Full Specifications:</strong><br />
-<=
-strong>CPU: intel Core i3 7100U</strong><br />
-<strong>DDR3 SO-DIMM*1: 4G=
-B (8GB optional) <br />
-Msata*1: 128GB (256GB/512GB/1TB optional) </stron=
-g><br />
-Graphics: Intel=C2=AE UHD Graphics  <br />
-OS: Win 10 <br />=
-
-Wi-Fi: 802.11 AC/B/N/G 2.4G/5G  <br />
-LAN: 2x Realtek RTL8111E Gigabi=
-t LAN <br />
-Audio: Intel High Definition Audio <br />
-Switch: Power On=
-/Off Switch*1 <br />
-<strong>USB: USB 3.0*4. USB2.0*2 <br />
-COM: RS232=
-*2 <br />
-LTE 4G: Optional <br />
-Power: 12V 5A <br />
-Display: HDMI =
-Port*2 <br />
-Lan: RJ45*2 </strong><br />
-Audio: Headphone /Mic Jack *1=
-  <br />
-Case Material: Aluminum Alloy <br />
-Dimension: 180*125*55mm <=
-br />
-Weight: 1.8KGS <br />
-<br />
-<br />
-<br />
-<span style=3D"f=
-ont-size:12px;"><img alt=3D"" src=3D"/enterdoc/entermodule/2023032317575149=
-763653562/1679565504638.png" /><br />
-<br />
-<br />
-<br />
-Best Reg=
-ards,<br />
-Claire Yang<br />
-<img alt=3D"" src=3D"Attach/1660895183268=
-.jp(03-23-15-07-40).jpeg" /><br />
-Shenzhen Shuangshengda Technology Co.,=
-LTD<br />
-Professional manufacturer of Laptops/MINI PC<br />
-<br />
-P=
-hone/Whatsapp/Wechat/Skype: 0086-13612964917<br />
-Email: <a href=3D"mail=
-to:sales01@szshuangshengda.com" rel=3D"noreferrer" target=3D"_blank">sales0=
-1@szshuangshengda.com</a><br />
-Website: <a href=3D"http://www.pc-laptopc=
-omputer.com" rel=3D"noreferrer" target=3D"_blank">www.pc-laptopcomputer.com=
-</a><br />
-<br />
-https://www.sz-shuangshengda.com/wms/index.php/lists/=
-sb381aeotp50d/unsubscribe/lm580pj6dzdd4/bf739w0ztqa8f/unsubscribe-direct</s=
-pan><img width=3D"1" height=3D"1" src=3D"https://www.sz-shuangshengda.com/w=
-ms/index.php/campaigns/bf739w0ztqa8f/track-opening/lm580pj6dzdd4" alt=3D"" =
-/>
-</body>
-</html>
-
---_=_swift_v4_1691075524_19bf1cf84c5c76acaf5bff9d03f6d2df_=_--
-
+SGkhIEp1ZXJnLA0KUmVhbHRlayBpbXBsZW1lbnRzIGEgZHJpdmVyIHBhdGNoIHRvIG1lZXQgdGhl
+IGNvbmRpdGlvbiBhcyB5b3VyIHN1Z2dlc3Rpb24uDQpQbGVhc2UgY2hlY2sgdGhlIGNvbW1pdCBm
+cm9tIHRoZSBwYXRjaHdvcmsuDQpodHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3Byb2plY3Qv
+Ymx1ZXRvb3RoL3BhdGNoLzIwMjMwODA0MDU1NDI2LjY4MDYtMS1tYXguY2hvdUByZWFsdGVrLmNv
+bS8NCg0KRm9yIHRoZSBwYXRjaCBvbiBsaW51eC1maXJtd2FyZSBwcm9qZWN0LCBpdCB3aWxsIGJl
+IHN1Ym1pdHRlZCB3aGVuIHRoZSBhYm92ZSBkcml2ZXIgcGF0Y2ggaXMgYXBwcm92ZWQuDQoNCkJS
+cywNCk1heA0KDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogSnVlcmcg
+SGFlZmxpZ2VyIDxqdWVyZy5oYWVmbGlnZXJAY2Fub25pY2FsLmNvbT4NCj4gU2VudDogVGh1cnNk
+YXksIEF1Z3VzdCAzLCAyMDIzIDEyOjQ5IFBNDQo+IFRvOiBKb3NoIEJveWVyIDxqd2JveWVyQGtl
+cm5lbC5vcmc+DQo+IENjOiBIaWxkYSBXdSA8aGlsZGF3dUByZWFsdGVrLmNvbT47IGxpbnV4LWZp
+cm13YXJlQGtlcm5lbC5vcmc7DQo+IExhcnJ5LkZpbmdlckBsd2Zpbmdlci5uZXQ7IE1heCBDaG91
+IDxtYXguY2hvdUByZWFsdGVrLmNvbT47DQo+IGFsZXhfbHVAcmVhbHNpbC5jb20uY247IOmZs+mc
+guiPryA8bXVfaHVhX2NoZW5AcmVhbHRlay5jb20+OyBIc2luIFl1DQo+IENoYW5nIDxoc2lueXVf
+Y2hhbmdAcmVhbHRlay5jb20+OyBLaWRtYW5MZWUgPGtpZG1hbkByZWFsdGVrLmNvbT4NCj4gU3Vi
+amVjdDogUmU6IFtQQVRDSF0gcnRsX2J0OiBVcGRhdGUgUlRMODg1MkMgQlQgVVNCIGZpcm13YXJl
+IHRvDQo+IDB4MDQwRF83MjI1DQo+IA0KPiBKb3NoLCBSZWFsdGVrLA0KPiANCj4gQW55IGNvbW1l
+bnRzPw0KPiANCj4gVGhhbmtzDQo+IC4uLkp1ZXJnDQo+IA0KPiANCj4gPiBKb3NoLA0KPiA+DQo+
+ID4NCj4gPiA+IEFwcGxpZWQgYW5kIHB1c2hlZCBvdXQuDQo+ID4gPg0KPiA+ID4gam9zaA0KPiA+
+ID4NCj4gPiA+IE9uIFdlZCwgSnVuIDcsIDIwMjMgYXQgNDoyOOKAr0FNIDxoaWxkYXd1QHJlYWx0
+ZWsuY29tPiB3cm90ZToNCj4gPiA+ID4NCj4gPiA+ID4gRnJvbTogSGlsZGEgV3UgPGhpbGRhd3VA
+cmVhbHRlay5jb20+DQo+ID4gPiA+DQo+ID4gPiA+IFRoaXMgZmlybXdhcmUgcGF0Y2ggdXBkYXRl
+IGZvciBSZWFsdGVrIFJUTDg4NTJDIEJUIFVTQiBjb250cm9sbGVyDQo+ID4gPiA+DQo+ID4gPiA+
+IE5vdGU6IFRoaXMgZmlybXdhcmUgcGF0Y2ggbmVlZHMgdG8gYmUgdXNlZCB3aXRoIGRyaXZlcg0K
+PiA+ID4gPiAiYnRydGw6IEZpcm13YXJlIGZvcm1hdCB2MiBzdXBwb3J0Ii4gUGxlYXNlIHVwZGF0
+ZSB0aGUgZHJpdmVyIHdpdGgNCj4gPiA+ID4gdGhpcyBjb21taXQ6IDlhMjRjZTVlMjliMTVjNGM2
+YjBjODljMDRmOWRmNmNlMTRhZGRlZmENCj4gPg0KPiA+IERvIEkgdW5kZXJzdGFuZCB0aGlzIGNv
+cnJlY3RseSB0aGF0IGtlcm5lbHMgdGhhdCBkb24ndCBoYXZlIHRoaXMgcGF0Y2gNCj4gPiAoYW55
+IGtlcm5lbCA8IDYuNCkgY2FuIG5vIGxvbmdlciBsb2FkIHRoaXMgdjIgQlQgZmlybXdhcmUgYmVj
+YXVzZSBpdCdzDQo+ID4gbm90IGNvbXBhdGlibGUgd2l0aCBvbGQgZHJpdmVycz8gVGhhdCdzIGEg
+cmVncmVzc2lvbiwgbm8/IFRoZQ0KPiA+IGluY29tcGF0aWJsZSBuZXcgZmlybXdhcmUgc2hvdWxk
+IGJlIG5hbWVkIGRpZmZlcmVudGx5IHNvIHRoYXQgd2UgZG9uJ3QNCj4gYnJlYWsgb2xkIGtlcm5l
+bHMuDQo+ID4NCj4gPiBUaGUgdjIgZHJpdmVyIFsxXSBzZWVtcyB0byBzdXBwb3J0IGJvdGggdGhl
+IG9sZCBhbmQgbmV3IGZpcm13YXJlDQo+ID4gYmluYXJ5IHNvIElNTyBzaG91bGQgdHJ5IHRvIGxv
+YWQgdGhlIG5ldyBmaXJtd2FyZSBmaXJzdCBhbmQgZmFsbCBiYWNrDQo+ID4gdG8gdGhlIG9sZCBv
+bmUgaWYgbm90IGZvdW5kLg0KPiA+DQo+ID4gVW5sZXNzIEknbSBtaXNyZWFkaW5nIHRoaXMuDQo+
+ID4NCj4gPiAuLi5KdWVyZw0KPiA+DQo+ID4gWzFdDQo+ID4gaHR0cHM6Ly9naXQua2VybmVsLm9y
+Zy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvdG9ydmFsZHMvbGludXguZ2l0L2NvbQ0KPiA+IG1p
+dC8/aWQ9OWEyNGNlNWUyOWIxNWM0YzZiMGM4OWMwNGY5ZGY2Y2UxNGFkZGVmYQ0KPiA+DQo+ID4N
+Cj4gPg0KPiA+ID4gPiBSZWxlYXNlIFZlcnNpb246IDB4MDQwRF83MjI1DQo+ID4gPiA+DQo+ID4g
+PiA+IFNpZ25lZC1vZmYtYnk6IEhpbGRhIFd1IDxoaWxkYXd1QHJlYWx0ZWsuY29tPg0KPiA+ID4g
+PiAtLS0NCj4gPiA+ID4gIHJ0bF9idC9ydGw4ODUyY3VfZncuYmluIHwgQmluIDExMzMzNiAtPiAx
+MTI5NTMgYnl0ZXMNCj4gPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAwIGluc2VydGlvbnMoKyksIDAg
+ZGVsZXRpb25zKC0pDQo+IA0KPiANCj4gLS0tLS0tUGxlYXNlIGNvbnNpZGVyIHRoZSBlbnZpcm9u
+bWVudCBiZWZvcmUgcHJpbnRpbmcgdGhpcyBlLW1haWwuDQo=
