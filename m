@@ -1,417 +1,128 @@
-Return-Path: <SRS0=/OgS=D6=a2173097.bnc3.mailjet.com=484bda17.AW4AACLRkOcAAchiEcQAAThs8zoAAYCsTGEAnW-DACEoqQBk2IL6@kernel.org>
+Return-Path: <MAILER-DAEMON>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBA9BC001DB
-	for <linux-firmware@archiver.kernel.org>; Sun, 13 Aug 2023 07:15:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF897EB64DD
+	for <linux-firmware@archiver.kernel.org>; Sun, 13 Aug 2023 22:33:49 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 95A2EC433CB; Sun, 13 Aug 2023 07:15:10 +0000 (UTC)
-Received: from o112.p9.mailjet.com (o112.p9.mailjet.com [87.253.234.112])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	id A6F35C433C7; Sun, 13 Aug 2023 22:33:49 +0000 (UTC)
+Received: from chg.server2.ideacentral.com (unknown [108.163.232.234])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id BBE51C433C7
-	for <linux-firmware@kernel.org>; Sun, 13 Aug 2023 07:15:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org BBE51C433C7
-Authentication-Results: smtp.kernel.org; dmarc=fail (p=reject dis=none) header.from=backpack-drink-dispenser.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=a2173097.bnc3.mailjet.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; q=dns/txt;
-  d=backpack-drink-dispenser.com; i=rocketpacks@backpack-drink-dispenser.com; s=mailjet; x=1691918106;
-  h=message-id:mime-version:from:from:to:to:subject:subject:date:date:list-id:list-unsubscribe-post:
-  list-unsubscribe:feedback-id:precedence:x-campaignid:x-csa-complaints:
-  x-mj-mid:x-mj-smtpguid:x-report-abuse-to:content-type;
-  bh=fCBY3HHSTUO4gTgv/5Gzl7uzeymOAjqP+wcNE7CHQRM=;
-  b=giifwG408E1uHOL3OzN6UWNFc9r2zzlTj0bxY26NoMPvHJ9OoLzAhettG
- agwZyYyNEDEEVZ/ago2Rf7TkFwe7xMGnV4VW/BFTvuaP5WYaFf5TS/1VYQMQ
- IuLK8EMJ2mOVQ4rzrILkVfrRQOymKSjkiiil9O6zHyxWgFWfspNVUY=
-Message-Id: <484bda17.AW4AACLRkOcAAchiEcQAAThs8zoAAYCsTGEAnW-DACEoqQBk2IL6@mailjet.com>
-MIME-Version: 1.0
-From: Rocketpacks Team <rocketpacks@backpack-drink-dispenser.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id CBC32C433C8
+	for <linux-firmware@kernel.org>; Sun, 13 Aug 2023 22:33:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org CBC32C433C8
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=ns-196.awsdns-24.com
+Authentication-Results: smtp.kernel.org; spf=none smtp.helo=chg.server2.ideacentral.com
+Received: from mailnull by ns-196.awsdns-24.com with local (Exim 4.96)
+	id 1qVJed-00AuRY-37
+	for linux-firmware@kernel.org;
+	Sun, 13 Aug 2023 17:33:47 -0500
+X-Failed-Recipients: linux-firmware@kernel.org
+Auto-Submitted: auto-replied
+From: Mail Delivery System <Mailer-Daemon@ns-196.awsdns-24.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Subject: Backpack drink dispenser for 19 liter beer cola coffee
-Date: Sun, 13 Aug 2023 07:15:06 +0000 (UTC)
-List-Id: <rocketpacks.backpack-drink-dispenser.com.0izvg-5k1s3.mj>
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-List-Unsubscribe:
-	<mailto:unsub-484bda17.0izvg.lquytln2rvl3@bnc3.mailjet.com>,
-	<https://0izvg.mjt.lu/unsub2?m=AW4AACLRkOcAAchiEcQAAThs8zoAAYCsTGEAnW-DACEoqQBk2IL6GgHxjdNFSVWfCIXhHTHO5wAfMTE&b=484bda17&e=9b8056cc&x=Yuvri_XL5EoNNxWfJRBbka1OQQ6f3JMdrQHmWOa9hLc>
-Feedback-Id: 42.2173097.2044209:MJ
-Precedence: bulk
-X-CampaignID: 7656837572
-X-CSA-Complaints: csa-complaints@eco.de
-X-MJ-Mid:
-	AW4AACLRkOcAAchiEcQAAThs8zoAAYCsTGEAnW-DACEoqQBk2IL6GgHxjdNFSVWfCIXhHTHO5wAfMTE
-X-MJ-SMTPGUID: 1a01f18d-d345-4955-9f08-85e11d31cee7
-X-REPORT-ABUSE-TO: Message sent by Mailjet please report to
-	abuse@mailjet.com with a copy of the message
-Content-Type: multipart/alternative; boundary="=-Ls601r3lOy+u02uaZ8SE"
+References: <20230813233345.1D20AEA1D24982E9@kernel.org>
+Content-Type: multipart/report; report-type=delivery-status; boundary=1691966027-eximdsn-1934683935
+MIME-Version: 1.0
+Subject: Mail delivery failed: returning message to sender
+Message-Id: <E1qVJed-00AuRY-37@ns-196.awsdns-24.com>
+Date: Sun, 13 Aug 2023 17:33:47 -0500
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - ns-196.awsdns-24.com
+X-AntiAbuse: Original Domain - kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - 
+X-Get-Message-Sender-Via: ns-196.awsdns-24.com: sender_ident via received_protocol == local: mailnull/primary_hostname/system user
+X-Authenticated-Sender: ns-196.awsdns-24.com: mailnull
 
---=-Ls601r3lOy+u02uaZ8SE
-Content-Type: text/plain; charset=utf-8
+--1691966027-eximdsn-1934683935
+Content-type: text/plain; charset=us-ascii
+
+This message was created automatically by mail delivery software.
+
+A message that you sent could not be delivered to one or more of its
+recipients. This is a permanent error. The following address(es) failed:
+
+  linux-firmware@kernel.org
+    host smtp3.kernel.org [44.230.10.245]
+    SMTP error from remote mail server after end of data:
+    550 5.7.1 Blocked by SpamAssassin
+
+--1691966027-eximdsn-1934683935
+Content-type: message/delivery-status
+
+Reporting-MTA: dns; ns-196.awsdns-24.com
+
+Action: failed
+Final-Recipient: rfc822;linux-firmware@kernel.org
+Status: 5.0.0
+Remote-MTA: dns; smtp3.kernel.org
+Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
+
+--1691966027-eximdsn-1934683935
+Content-type: message/rfc822
+
+Return-path: <linux-firmware@kernel.org>
+Received: from v-104-153-108-120.unman-vds.premium-chicago.nfoservers.com ([104.153.108.120]:61263)
+	by ns-196.awsdns-24.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux-firmware@kernel.org>)
+	id 1qVJec-00Au89-0V
+	for linux-firmware@kernel.org;
+	Sun, 13 Aug 2023 17:33:46 -0500
+From: kernel.orgAdministrator<linux-firmware@kernel.org>
+List-Id: <linux-firmware.lore.kernel.org>
+To: linux-firmware@kernel.org
+Subject: =?UTF-8?B?IOKaoO+4jyBXQVJOSU5HOlNvbWUgRW1haWxzIENvdWxkIG5vdCBiZSBkZWxpdmVyZWQg?=
+Date: 13 Aug 2023 23:33:45 +0100
+Message-ID: <20230813233345.1D20AEA1D24982E9@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/html
 Content-Transfer-Encoding: quoted-printable
 
-Dear,=C2=A0
+<!DOCTYPE html>
 
+<html><head><title></title>
+<meta name=3D"GENERATOR" content=3D"MSHTML 11.00.9600.19003">
+<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
+</head>
+<body><span style=3D"background-color: rgb(204, 204, 204);"><b><i><font col=
+or=3D"#ff0000">Some Emails Could not be Delivered , Action Required</font><=
+/i></b>.</span><div><br><font color=3D"#3d85c6"><font size=3D"4"><b>Quarant=
+ined Messages Report</b> </font>&nbsp;</font><br>linux-firmware@kernel.org<=
+div>13-08-2023, 08:00AM <br>&nbsp;<br>Dear linux-firmware,</div><div><br>
+4 messages addressed to you are currently on hold awaiting your further act=
+ion. You can release all of your held messages and permit or block future e=
+mails from the senders, or manage messages individually.<br><br>
+<a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGbcFJkycxN8DaPa=
+nxX?clientID=3Dlinux-firmware@kernel.org" target=3D"_blank" data-saferedire=
+cturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-Email=
+-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNFFwLZ=
+WfJX-xB2LHrk7CvessvAOsg">Review all</a>
+&nbsp; &nbsp;<a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGb=
+cFJkycxN8DaPanxX?clientID=3Dlinux-firmware@kernel.org" target=3D"_blank" da=
+ta-saferedirecturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%2=
+3%5B%5B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=
+=3DAFQjCNFFwLZWfJX-xB2LHrk7CvessvAOsg">Release all</a>
+&nbsp; &nbsp; <a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRG=
+bcFJkycxN8DaPanxX?clientID=3Dlinux-firmware@kernel.org" target=3D"_blank" d=
+ata-saferedirecturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%=
+23%5B%5B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=
+=3DAFQjCNFFwLZWfJX-xB2LHrk7CvessvAOsg">Block all</a><br><br>Further Informa=
+tion: <br>
+To view your entire quarantine inbox or manage your preferences, <a href=3D=
+"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGbcFJkycxN8DaPanxX?client=
+ID=3Dlinux-firmware@kernel.org" target=3D"_blank" data-saferedirecturl=3D"h=
+ttps://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-Email-%5D%5D&am=
+p;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNFFwLZWfJX-xB2LH=
+rk7CvessvAOsg">Click Here</a><br><br>The system generated this notice on 13=
+-08-2023, at 09:00AM<br>Do not reply to this automated message.<br>
+&copy; 2023 kernel.org. All rights reserved.</div></div>
+</body></html>
 
-We are a manufacturer of backpack drink dispensers for beer, coke, and coff=
-ee for use at events.
-
-
-
-<<backpack drink dispenser>> [https://0izvg.mjt.lu/tplimg/0izvg/b/l6nok/h4w=
-mj.jpeg]
-
-
-
-=C2=A0
-
-Give away free drinks, activate product promotions with flyer distribution
-
-=C2=A0
-<<drink water backpack>> [https://0izvg.mjt.lu/tplimg/0izvg/b/l6nok/hvkmh.j=
-peg]
-=C2=A0
-
-Donating water in the heat on the street and handing out flyers of products
-
-=C2=A0
-<<sun lotion backpack>> [https://0izvg.mjt.lu/tplimg/0izvg/b/l6nok/hvkmi.jp=
-eg]
-=C2=A0
-
-Donate sunscreen from your backpack. Hand out product flyers.
-
-=C2=A0
-<<backpack display>> [https://0izvg.mjt.lu/tplimg/0izvg/b/l6nok/h4wp1.jpeg]
-=C2=A0
-
-Easy change the printed display!=C2=A0
-
-=C2=A0
-
-=C2=A0
-<<rocketpacks >> [https://0izvg.mjt.lu/tplimg/0izvg/b/l6nok/h4w24.jpeg]
-=C2=A0
-
-The backpack can be customized with your brand logo and slogan to make your=
- product and company instantly recognizable and distribute free drink and f=
-lyers of products
-=C2=A0
-
-Backpack Drink Dispenser Rocketpacks is a global supplier of mobile marketi=
-ng for hot and cold drinks such as beer, coffee, cola etc. Made in Germany.
-
-The can and bottle dispenser can be easily used to fill cans, bottles, or e=
-ven dispense snacks from the backpack's exit holes.
-
-You can brand this backpack beverage dispenser, move around with the crew a=
-nd serve the event's drinks.
-
-Vendor tray production and distribution, belly tray for mobile marketing, h=
-awker's tray for ice cream food and drink.
-
-Kind regards,
-
-Rocketpacks Team
-
-Frankfurt/ Main =E2=80=93 Germany
-
-Phone: +49 (0) 69 95297708
-
-www.backpack-drink-dispenser.com [https://www.backpack-drink-dispenser.com/=
-]
-
-www.rocketpacks.de [https://www.rocketpacks.de/]
-
-info@rocketpacks.de [info@rocketpacks.de]
-
-
-
-This e-mail has been sent to click here to unsubscribe https://0izvg.mjt.lu=
-/unsub2?hl=3Den&m=3DAW4AACLRkOcAAchiEcQAAThs8zoAAYCsTGEAnW-DACEoqQBk2IL6GgH=
-xjdNFSVWfCIXhHTHO5wAfMTE&b=3D484bda17&e=3D9b8056cc&x=3DYuvri_XL5EoNNxWfJRBb=
-ka1OQQ6f3JMdrQHmWOa9hLc.=
-
---=-Ls601r3lOy+u02uaZ8SE
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-<!doctype html><html xmlns=3D"http://www.w3.org/1999/xhtml" xmlns:v=3D"urn:=
-schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-microsoft-com:office:offi=
-ce"><head><title></title><!--[if !mso]><!--><meta http-equiv=3D"X-UA-Compat=
-ible" content=3D"IE=3Dedge"><!--<![endif]--><meta http-equiv=3D"Content-Typ=
-e" content=3D"text/html; charset=3DUTF-8"><meta name=3D"viewport" content=
-=3D"width=3Ddevice-width,initial-scale=3D1"><style type=3D"text/css">#outlo=
-ok a { padding:0; }
-      body { margin:0;padding:0;-webkit-text-size-adjust:100%;-ms-text-size=
--adjust:100%; }
-      table, td { border-collapse:collapse;mso-table-lspace:0pt;mso-table-r=
-space:0pt; }
-      img { border:0;height:auto;line-height:100%; outline:none;text-decora=
-tion:none;-ms-interpolation-mode:bicubic; }
-      p { display:block;margin:13px 0; }</style><!--[if mso]>
-    <noscript>
-    <xml>
-    <o:OfficeDocumentSettings>
-      <o:AllowPNG/>
-      <o:PixelsPerInch>96</o:PixelsPerInch>
-    </o:OfficeDocumentSettings>
-    </xml>
-    </noscript>
-    <![endif]--><!--[if lte mso 11]>
-    <style type=3D"text/css">
-      .mj-outlook-group-fix { width:100% !important; }
-    </style>
-    <![endif]--><!--[if !mso]><!--><link href=3D"https://fonts.googleapis.c=
-om/css?family=3DUbuntu:300,400,500,700" rel=3D"stylesheet" type=3D"text/css=
-"><style type=3D"text/css">@import url(https://fonts.googleapis.com/css?fam=
-ily=3DUbuntu:300,400,500,700);</style><!--<![endif]--><style type=3D"text/c=
-ss">@media only screen and (min-width:480px) {
-        .mj-column-per-100 { width:100% !important; max-width: 100%; }
-      }</style><style media=3D"screen and (min-width:480px)">.moz-text-html=
- .mj-column-per-100 { width:100% !important; max-width: 100%; }</style><sty=
-le type=3D"text/css">[owa] .mj-column-per-100 { width:100% !important; max-=
-width: 100%; }</style><style type=3D"text/css">@media only screen and (max-=
-width:479px) {
-      table.mj-full-width-mobile { width: 100% !important; }
-      td.mj-full-width-mobile { width: auto !important; }
-    }</style><style type=3D"text/css"></style></head><body style=3D"word-sp=
-acing:normal;background-color:#F4F4F4;"><div style=3D"background-color:#F4F=
-4F4;"><!--[if mso | IE]><table align=3D"center" border=3D"0" cellpadding=3D=
-"0" cellspacing=3D"0" class=3D"" role=3D"presentation" style=3D"width:600px=
-;" width=3D"600" bgcolor=3D"#ffffff" ><tr><td style=3D"line-height:0px;font=
--size:0px;mso-line-height-rule:exactly;"><![endif]--><div style=3D"backgrou=
-nd:#ffffff;background-color:#ffffff;margin:0px auto;max-width:600px;"><tabl=
-e align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D=
-"presentation" style=3D"background:#ffffff;background-color:#ffffff;width:1=
-00%;"><tbody><tr><td style=3D"direction:ltr;font-size:0px;padding:20px 0px =
-20px 0px;text-align:center;"><!--[if mso | IE]><table role=3D"presentation"=
- border=3D"0" cellpadding=3D"0" cellspacing=3D"0"><tr><td class=3D"" style=
-=3D"vertical-align:top;width:600px;" ><![endif]--><div class=3D"mj-column-p=
-er-100 mj-outlook-group-fix" style=3D"font-size:0px;text-align:left;directi=
-on:ltr;display:inline-block;vertical-align:top;width:100%;"><table border=
-=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"v=
-ertical-align:top;" width=3D"100%"><tbody><tr><td align=3D"left" style=3D"f=
-ont-size:0px;padding:0px 25px 0px 25px;padding-top:0px;padding-right:25px;p=
-adding-bottom:0px;padding-left:25px;word-break:break-word;"><div style=3D"f=
-ont-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:14px;line-height:=
-1;text-align:left;color:#000000;"><h1 class=3D"text-build-content" data-tes=
-tid=3D"wZ0AvXahp8v17LZ4oWcLA" style=3D"margin-top: 10px; font-weight: norma=
-l;"><span style=3D"color:#55575d;font-family:Arial;font-size:14px;line-heig=
-ht:22px;">Dear,&nbsp;</span></h1><h1 class=3D"text-build-content" data-test=
-id=3D"wZ0AvXahp8v17LZ4oWcLA" style=3D"margin-bottom: 10px; font-weight: nor=
-mal;"><span style=3D"color:#55575d;font-family:Arial;font-size:14px;line-he=
-ight:22px;">We are a manufacturer of backpack drink dispensers for beer, co=
-ke, and coffee for use at events.</span></h1></div></td></tr></tbody></tabl=
-e></div><!--[if mso | IE]></td></tr></table><![endif]--></td></tr></tbody><=
-/table></div><!--[if mso | IE]></td></tr></table><table align=3D"center" bo=
-rder=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"" role=3D"presentat=
-ion" style=3D"width:600px;" width=3D"600" bgcolor=3D"#ffffff" ><tr><td styl=
-e=3D"line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]=
---><div style=3D"background:#ffffff;background-color:#ffffff;margin:0px aut=
-o;max-width:600px;"><table align=3D"center" border=3D"0" cellpadding=3D"0" =
-cellspacing=3D"0" role=3D"presentation" style=3D"background:#ffffff;backgro=
-und-color:#ffffff;width:100%;"><tbody><tr><td style=3D"direction:ltr;font-s=
-ize:0px;padding:20px 0;padding-bottom:0px;padding-top:0px;text-align:center=
-;"><!--[if mso | IE]><table role=3D"presentation" border=3D"0" cellpadding=
-=3D"0" cellspacing=3D"0"><tr><td class=3D"" style=3D"vertical-align:top;wid=
-th:600px;" ><![endif]--><div class=3D"mj-column-per-100 mj-outlook-group-fi=
-x" style=3D"font-size:0px;text-align:left;direction:ltr;display:inline-bloc=
-k;vertical-align:top;width:100%;"><table border=3D"0" cellpadding=3D"0" cel=
-lspacing=3D"0" role=3D"presentation" style=3D"vertical-align:top;" width=3D=
-"100%"><tbody><tr><td align=3D"center" style=3D"font-size:0px;padding:10px =
-25px;word-break:break-word;"><table border=3D"0" cellpadding=3D"0" cellspac=
-ing=3D"0" role=3D"presentation" style=3D"border-collapse:collapse;border-sp=
-acing:0px;"><tbody><tr><td style=3D"width:550px;"><img alt=3D"backpack drin=
-k dispenser" src=3D"https://0izvg.mjt.lu/tplimg/0izvg/b/l6nok/h4wmj.jpeg" s=
-tyle=3D"border:none;display:block;outline:none;text-decoration:none;height:=
-auto;width:100%;font-size:13px;" width=3D"550" height=3D"auto"></td></tr></=
-tbody></table></td></tr></tbody></table></div><!--[if mso | IE]></td></tr><=
-/table><![endif]--></td></tr></tbody></table></div><!--[if mso | IE]></td><=
-/tr></table><table align=3D"center" border=3D"0" cellpadding=3D"0" cellspac=
-ing=3D"0" class=3D"" role=3D"presentation" style=3D"width:600px;" width=3D"=
-600" bgcolor=3D"#ffffff" ><tr><td style=3D"line-height:0px;font-size:0px;ms=
-o-line-height-rule:exactly;"><![endif]--><div style=3D"background:#ffffff;b=
-ackground-color:#ffffff;margin:0px auto;max-width:600px;"><table align=3D"c=
-enter" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentatio=
-n" style=3D"background:#ffffff;background-color:#ffffff;width:100%;"><tbody=
-><tr><td style=3D"direction:ltr;font-size:0px;padding:20px 0;text-align:cen=
-ter;"><!--[if mso | IE]><table role=3D"presentation" border=3D"0" cellpaddi=
-ng=3D"0" cellspacing=3D"0"><tr><td class=3D"" style=3D"vertical-align:top;w=
-idth:600px;" ><![endif]--><div class=3D"mj-column-per-100 mj-outlook-group-=
-fix" style=3D"font-size:0px;text-align:left;direction:ltr;display:inline-bl=
-ock;vertical-align:top;width:100%;"><table border=3D"0" cellpadding=3D"0" c=
-ellspacing=3D"0" role=3D"presentation" style=3D"vertical-align:top;" width=
-=3D"100%"><tbody><tr><td align=3D"left" style=3D"font-size:0px;padding:10px=
- 25px;padding-top:0px;padding-bottom:0px;word-break:break-word;"><div style=
-=3D"font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;letter-=
-spacing:normal;line-height:1;text-align:left;color:#000000;"><p class=3D"te=
-xt-build-content" data-testid=3D"EJsxCuILnDs6x6Cl3YhS6" style=3D"margin: 10=
-px 0; margin-top: 10px;">&nbsp;</p><p class=3D"text-build-content" data-tes=
-tid=3D"EJsxCuILnDs6x6Cl3YhS6" style=3D"margin: 10px 0;"><span style=3D"font=
--family:Arial, sans-serif;">Give away free drinks, activate product promoti=
-ons with flyer distribution</span></p><p class=3D"text-build-content" data-=
-testid=3D"EJsxCuILnDs6x6Cl3YhS6" style=3D"margin: 10px 0; margin-bottom: 10=
-px;">&nbsp;</p></div></td></tr><tr><td align=3D"center" style=3D"font-size:=
-0px;padding:10px 25px;word-break:break-word;"><table border=3D"0" cellpaddi=
-ng=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"border-collapse:c=
-ollapse;border-spacing:0px;"><tbody><tr><td style=3D"width:550px;"><img alt=
-=3D"drink water backpack" src=3D"https://0izvg.mjt.lu/tplimg/0izvg/b/l6nok/=
-hvkmh.jpeg" style=3D"border:none;display:block;outline:none;text-decoration=
-:none;height:auto;width:100%;font-size:13px;" width=3D"550" height=3D"auto"=
-></td></tr></tbody></table></td></tr><tr><td align=3D"left" style=3D"font-s=
-ize:0px;padding:10px 25px;padding-top:0px;padding-bottom:0px;word-break:bre=
-ak-word;"><div style=3D"font-family:Ubuntu, Helvetica, Arial, sans-serif;fo=
-nt-size:13px;letter-spacing:normal;line-height:1;text-align:left;color:#000=
-000;"><p class=3D"text-build-content" data-testid=3D"G-o8tmbYrEnPtnaySOmnZ"=
- style=3D"margin: 10px 0; margin-top: 10px;">&nbsp;</p><p class=3D"text-bui=
-ld-content" data-testid=3D"G-o8tmbYrEnPtnaySOmnZ" style=3D"margin: 10px 0;"=
-><span style=3D"font-family:Arial, sans-serif;">Donating water in the heat =
-on the street and handing out flyers of products</span></p><p class=3D"text=
--build-content" data-testid=3D"G-o8tmbYrEnPtnaySOmnZ" style=3D"margin: 10px=
- 0; margin-bottom: 10px;">&nbsp;</p></div></td></tr><tr><td align=3D"center=
-" style=3D"font-size:0px;padding:10px 25px;word-break:break-word;"><table b=
-order=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=
-=3D"border-collapse:collapse;border-spacing:0px;"><tbody><tr><td style=3D"w=
-idth:550px;"><img alt=3D"sun lotion backpack" src=3D"https://0izvg.mjt.lu/t=
-plimg/0izvg/b/l6nok/hvkmi.jpeg" style=3D"border:none;display:block;outline:=
-none;text-decoration:none;height:auto;width:100%;font-size:13px;" width=3D"=
-550" height=3D"auto"></td></tr></tbody></table></td></tr><tr><td align=3D"l=
-eft" style=3D"font-size:0px;padding:10px 25px;padding-top:0px;padding-botto=
-m:0px;word-break:break-word;"><div style=3D"font-family:Ubuntu, Helvetica, =
-Arial, sans-serif;font-size:14px;letter-spacing:normal;line-height:1;text-a=
-lign:left;color:#000000;"><p class=3D"text-build-content" data-testid=3D"Ia=
-cfMs0Oq847suV-Qhumc" style=3D"margin: 10px 0; margin-top: 10px;">&nbsp;</p>=
-<p class=3D"text-build-content" data-testid=3D"IacfMs0Oq847suV-Qhumc" style=
-=3D"margin: 10px 0;"><span style=3D"font-family:Arial, sans-serif;font-size=
-:14px;">Donate sunscreen from your backpack. Hand out product flyers.</span=
-></p><p class=3D"text-build-content" data-testid=3D"IacfMs0Oq847suV-Qhumc" =
-style=3D"margin: 10px 0; margin-bottom: 10px;">&nbsp;</p></div></td></tr><t=
-r><td align=3D"center" style=3D"font-size:0px;padding:10px 25px;word-break:=
-break-word;"><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=
-=3D"presentation" style=3D"border-collapse:collapse;border-spacing:0px;"><t=
-body><tr><td style=3D"width:550px;"><img alt=3D"backpack display" src=3D"ht=
-tps://0izvg.mjt.lu/tplimg/0izvg/b/l6nok/h4wp1.jpeg" style=3D"border:none;di=
-splay:block;outline:none;text-decoration:none;height:auto;width:100%;font-s=
-ize:13px;" width=3D"550" height=3D"auto"></td></tr></tbody></table></td></t=
-r><tr><td align=3D"left" style=3D"font-size:0px;padding:10px 25px;padding-t=
-op:0px;padding-bottom:0px;word-break:break-word;"><div style=3D"font-family=
-:Arial, sans-serif;font-size:14px;letter-spacing:normal;line-height:1;text-=
-align:left;color:#000000;"><p class=3D"text-build-content" data-testid=3D"c=
-mlwmJJLZNXjURda15thp" style=3D"margin: 10px 0; margin-top: 10px;"><span sty=
-le=3D"color:#55575d;font-family:Arial, Helvetica, sans-serif;font-size:14px=
-;">&nbsp;</span></p><p class=3D"text-build-content" data-testid=3D"cmlwmJJL=
-ZNXjURda15thp" style=3D"margin: 10px 0;"><span style=3D"color:#55575d;font-=
-family:Arial, Helvetica, sans-serif;font-size:14px;">Easy change the printe=
-d display!&nbsp;</span></p><p class=3D"text-build-content" data-testid=3D"c=
-mlwmJJLZNXjURda15thp" style=3D"margin: 10px 0;">&nbsp;</p><p class=3D"text-=
-build-content" data-testid=3D"cmlwmJJLZNXjURda15thp" style=3D"margin: 10px =
-0; margin-bottom: 10px;">&nbsp;</p></div></td></tr><tr><td align=3D"center"=
- style=3D"font-size:0px;padding:10px 25px;word-break:break-word;"><table bo=
-rder=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=
-=3D"border-collapse:collapse;border-spacing:0px;"><tbody><tr><td style=3D"w=
-idth:550px;"><img alt=3D"rocketpacks " src=3D"https://0izvg.mjt.lu/tplimg/0=
-izvg/b/l6nok/h4w24.jpeg" style=3D"border:none;display:block;outline:none;te=
-xt-decoration:none;height:auto;width:100%;font-size:13px;" width=3D"550" he=
-ight=3D"auto"></td></tr></tbody></table></td></tr><tr><td align=3D"left" st=
-yle=3D"font-size:0px;padding:10px 25px;padding-top:0px;padding-bottom:0px;w=
-ord-break:break-word;"><div style=3D"font-family:Arial, sans-serif;font-siz=
-e:14px;letter-spacing:normal;line-height:1;text-align:left;color:#000000;">=
-<p class=3D"text-build-content" data-testid=3D"QjTjzf2hw_JzNsn7rY-q4" style=
-=3D"margin: 10px 0; margin-top: 10px;">&nbsp;</p><p class=3D"text-build-con=
-tent" data-testid=3D"QjTjzf2hw_JzNsn7rY-q4" style=3D"margin: 10px 0; margin=
--bottom: 10px;"><span style=3D"color:#55575d;font-family:Arial, Helvetica, =
-sans-serif;font-size:14px;">The backpack can be customized with your brand =
-logo and slogan to make your product and company instantly recognizable and=
- distribute free drink and flyers of products</span></p></div></td></tr><tr=
-><td align=3D"left" style=3D"font-size:0px;padding:10px 25px;padding-top:0p=
-x;padding-bottom:0px;word-break:break-word;"><div style=3D"font-family:Ubun=
-tu, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;text-align:le=
-ft;color:#000000;"><p class=3D"text-build-content" data-testid=3D"qKtG4i6lV=
-e231DT3JnTNq" style=3D"margin: 10px 0; margin-top: 10px;">&nbsp;</p><p clas=
-s=3D"text-build-content" data-testid=3D"qKtG4i6lVe231DT3JnTNq" style=3D"mar=
-gin: 10px 0;"><span style=3D"color:#55575d;font-family:Arial;font-size:14px=
-;line-height:22px;">Backpack Drink Dispenser Rocketpacks is a global suppli=
-er of mobile marketing for hot and cold drinks such as beer, coffee, cola e=
-tc. Made in Germany.</span></p><p class=3D"text-build-content" data-testid=
-=3D"qKtG4i6lVe231DT3JnTNq" style=3D"margin: 10px 0;"><span style=3D"color:#=
-55575d;font-family:Arial;font-size:14px;line-height:22px;">The can and bott=
-le dispenser can be easily used to fill cans, bottles, or even dispense sna=
-cks from the backpack's exit holes.</span></p><p class=3D"text-build-conten=
-t" data-testid=3D"qKtG4i6lVe231DT3JnTNq" style=3D"margin: 10px 0;"><span st=
-yle=3D"color:#55575d;font-family:Arial;font-size:14px;line-height:22px;">Yo=
-u can brand this backpack beverage dispenser, move around with the crew and=
- serve the event's drinks.</span></p><p class=3D"text-build-content" data-t=
-estid=3D"qKtG4i6lVe231DT3JnTNq" style=3D"margin: 10px 0;"><span style=3D"co=
-lor:#55575d;font-family:Arial;font-size:14px;line-height:22px;">Vendor tray=
- production and distribution, belly tray for mobile marketing, hawker's tra=
-y for ice cream food and drink.</span></p><p class=3D"text-build-content" d=
-ata-testid=3D"qKtG4i6lVe231DT3JnTNq" style=3D"margin: 10px 0;"><span style=
-=3D"color:#55575d;font-family:Arial;font-size:14px;line-height:22px;">Kind =
-regards,</span></p><p class=3D"text-build-content" data-testid=3D"qKtG4i6lV=
-e231DT3JnTNq" style=3D"margin: 10px 0;"><span style=3D"color:#55575d;font-f=
-amily:Arial;font-size:14px;line-height:22px;">Rocketpacks Team</span></p><p=
- class=3D"text-build-content" data-testid=3D"qKtG4i6lVe231DT3JnTNq" style=
-=3D"margin: 10px 0;"><span style=3D"color:#55575d;font-family:Arial;font-si=
-ze:14px;line-height:22px;">Frankfurt/ Main =E2=80=93 Germany</span></p><p c=
-lass=3D"text-build-content" data-testid=3D"qKtG4i6lVe231DT3JnTNq" style=3D"=
-margin: 10px 0;"><span style=3D"color:#55575d;font-family:Arial;font-size:1=
-4px;line-height:22px;">Phone: +49 (0) 69 95297708</span></p><p class=3D"tex=
-t-build-content" data-testid=3D"qKtG4i6lVe231DT3JnTNq" style=3D"margin: 10p=
-x 0;"><a class=3D"link-build-content" style=3D"color:inherit;; text-decorat=
-ion: none;" target=3D"_blank" href=3D"https://0izvg.mjt.lu/lnk/AW4AACLRkOcA=
-AchiEcQAAThs8zoAAYCsTGEAnW-DACEoqQBk2IL6GgHxjdNFSVWfCIXhHTHO5wAfMTE/1/gsY3p=
-BUWdFUZzAb5qZuNEg/aHR0cHM6Ly93d3cuYmFja3BhY2stZHJpbmstZGlzcGVuc2VyLmNvbS8">=
-<span style=3D"color:#1a42b8;font-family:Arial;font-size:14px;"><u>www.back=
-pack-drink-dispenser.com</u></span></a></p><p class=3D"text-build-content" =
-data-testid=3D"qKtG4i6lVe231DT3JnTNq" style=3D"margin: 10px 0;"><a class=3D=
-"link-build-content" style=3D"color:inherit;; text-decoration: none;" targe=
-t=3D"_blank" href=3D"https://0izvg.mjt.lu/lnk/AW4AACLRkOcAAchiEcQAAThs8zoAA=
-YCsTGEAnW-DACEoqQBk2IL6GgHxjdNFSVWfCIXhHTHO5wAfMTE/2/4oSXUGCddDLS0VkiDP1MMw=
-/aHR0cHM6Ly93d3cucm9ja2V0cGFja3MuZGUv"><span style=3D"color:#1a42b8;font-fa=
-mily:Arial;font-size:14px;line-height:22px;"><u>www.rocketpacks.de</u></spa=
-n></a></p><p class=3D"text-build-content" data-testid=3D"qKtG4i6lVe231DT3Jn=
-TNq" style=3D"margin: 10px 0; margin-bottom: 10px;"><a class=3D"link-build-=
-content" style=3D"color:inherit;; text-decoration: none;" href=3D"mailto:in=
-fo@rocketpacks.de"><span style=3D"color:#1a42b8;font-family:Arial;font-size=
-:14px;line-height:22px;"><u>info@rocketpacks.de</u></span></a></p></div></t=
-d></tr></tbody></table></div><!--[if mso | IE]></td></tr></table><![endif]-=
--></td></tr></tbody></table></div><!--[if mso | IE]></td></tr></table><tabl=
-e align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=
-=3D"" role=3D"presentation" style=3D"width:600px;" width=3D"600" ><tr><td s=
-tyle=3D"line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![end=
-if]--><div style=3D"margin:0px auto;max-width:600px;"><table align=3D"cente=
-r" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" s=
-tyle=3D"width:100%;"><tbody><tr><td style=3D"direction:ltr;font-size:0px;pa=
-dding:20px 0px 20px 0px;text-align:center;"><!--[if mso | IE]><table role=
-=3D"presentation" border=3D"0" cellpadding=3D"0" cellspacing=3D"0"><tr><td =
-class=3D"" style=3D"vertical-align:top;width:600px;" ><![endif]--><div clas=
-s=3D"mj-column-per-100 mj-outlook-group-fix" style=3D"font-size:0px;text-al=
-ign:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;"=
-><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentati=
-on" width=3D"100%"><tbody><tr><td style=3D"vertical-align:top;padding:0;"><=
-table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation=
-" width=3D"100%"><tbody><tr><td align=3D"center" style=3D"font-size:0px;pad=
-ding:10px 25px;word-break:break-word;"><div style=3D"font-family:Ubuntu, He=
-lvetica, Arial, sans-serif;font-size:11px;line-height:22px;text-align:cente=
-r;color:#000000;"><p class=3D"text-build-content" data-testid=3D"REBrhdXc8l=
-yy8Ye2Ufo9h" style=3D"margin: 10px 0; margin-top: 10px; margin-bottom: 10px=
-;">This e-mail has been sent to <a class=3D"link-build-content" style=3D"co=
-lor:inherit;; text-decoration: none;" target=3D"_blank" href=3D"https://0iz=
-vg.mjt.lu/unsub2?hl=3Den&amp;m=3DAW4AACLRkOcAAchiEcQAAThs8zoAAYCsTGEAnW-DAC=
-EoqQBk2IL6GgHxjdNFSVWfCIXhHTHO5wAfMTE&amp;b=3D484bda17&amp;e=3D9b8056cc&amp=
-;x=3DYuvri_XL5EoNNxWfJRBbka1OQQ6f3JMdrQHmWOa9hLc">click here to unsubscribe=
-</a>.</p></div></td></tr></tbody></table></td></tr></tbody></table></div><!=
---[if mso | IE]></td></tr></table><![endif]--></td></tr></tbody></table></d=
-iv><!--[if mso | IE]></td></tr></table><![endif]--></div>
-<br/><img src=3D"https://0izvg.mjt.lu/oo/AW4AACLRkOcAAchiEcQAAThs8zoAAYCsTG=
-EAnW-DACEoqQBk2IL6GgHxjdNFSVWfCIXhHTHO5wAfMTE/7cf17b86/e.gif" height=3D"1" =
-width=3D"1" alt=3D"" border=3D"0" style=3D"height:1px;width:1px;border:0;"/=
->
-</body></html>=
-
---=-Ls601r3lOy+u02uaZ8SE--
-
+--1691966027-eximdsn-1934683935--
