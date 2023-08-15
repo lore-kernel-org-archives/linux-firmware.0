@@ -4,42 +4,42 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 35F05C04A6A
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CAF5EC04E69
 	for <linux-firmware@archiver.kernel.org>; Tue, 15 Aug 2023 18:00:47 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 106D2C433C8; Tue, 15 Aug 2023 18:00:47 +0000 (UTC)
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2069.outbound.protection.outlook.com [40.107.237.69])
+	id 99B38C433AB; Tue, 15 Aug 2023 18:00:47 +0000 (UTC)
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2047.outbound.protection.outlook.com [40.107.101.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 93616C433C7;
-	Tue, 15 Aug 2023 18:00:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 93616C433C7
+	by smtp.kernel.org (Postfix) with ESMTPS id 2E837C433CC;
+	Tue, 15 Aug 2023 18:00:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 2E837C433CC
 Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UmyhOiSe7U9s1gb0fM2AqL1YCe8Az+RrwGmQ+yqLjW2j0/bVbwJFkKCHaVSWYvwTggZg+anTM/DLv8MXlOdeGfpaKmx1ByJ3Za2gfZS8xhLCIuyy7obrVeNrN1dpKTZf26Pfj1D6fvFxYdQ1ckmst4AD32imKIVRlnVHLBIS9veuJtJvWP35DaVO/hJPyBsi8UrE+oEuV12AXsg1Lo7kdT44O4tXMFSTFlesGB/dlG6QZv/wYJH+KemWji4OtTS93Oi8/LKXorvAKA1HRfwH3bYVRw511Wd08EcFSOeD8im1/p2XsBt9BvfTPSQuM9CO289XVfozM08dZAxFciy8kQ==
+ b=fdZ08MKl7E3CS9wq+Cc/DTVrPi9khqkMCpuQRD2YX3y5ini0obzsmyTSm9GCoH3dz4UPfWk055i+Fodi1LB9/uPqFP1IwWgXnEGLc50Trq900rxBFh3NhbntfsVxZ8Xr93sluUGOlvB0RJPcvijVqKI0Mk/ZKtrl2pppGgHE4SNl9qxcIYaWRUQUzkPewbdN4OOTfrgW/HYmKlNIpcGwR7xjQvhM2a1pWU4FRqV1GAXcayAJrnK0N22YalRpBx7YKJtmZoPNM6VdJUC0TapHY5hlrumxl7YdeqEMXziM9BZrGKI3Iiw9JNtqE50nzZxyt25m+4imsxxjMdCSic8fSg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VHa3m6u0u69TiFxgzRBiYOK4IZ+ABJ56f9ypBc8CA08=;
- b=P5DRt84WKxLuQ/ZUCApORIl9cJmJIxvgNWHQJ9UrV9JKYtNDwNcOGiBmqs8AxGv5jLHXqcMBCbR4tBv1Qz09h046Hh0YgN57a3VaKIR/2DC09NwVa+LeGbAbbMMJ6NwEzOsz0JkDGkq+sk/D6nezvhwupqxWMTXsED3HzZANa6lkpOQHMtxrmV42EwJo6IN1fWFaqKthKwFWeSNKqaKpGruZ23ATKjVNJqOTEUf5ukiZr1TfUpu/rmK7l8qWu20MZWfMuDApeI34S4ZFNiqRVXMTfpeQwRy+4/Gr2pMuM1YcbKYX5aMbZjPXlU1xu3fRqHkagiUywXq3I5lwQnPQHw==
+ bh=GQpsgi8UYeRSX89eitXnK/V1LF29f/1kaT1BAdx1gO4=;
+ b=BMOg8+VYUx4WoAWMTxVA9aLoUIftl/QmJ8l2acyYzMVC1j2b0+0NGeTBuqE0r13XNIhzXByRkULw6Quq2k1xes1KDMfhadYiFezuWm2Ohs0Pl5tKs/Wlx3wEGqXIGxdloIe59bA7SOpzRUz94DXoBZ1mEZlBltVrf9u2XkY6sf/cWsNjjAUEBd7AIZXLEQxL/XdYGQQNWr9wmRgnM542GPiMTNiPzWQBB+yJoZatRnsKQDzpcLTs33kRrbRjsa/Q4KEG9sevWGZdr4nLtBTQZfptkCT+wKor5aS8EdAHSuzxXs+sc3WzkRxRN7PULFlF0JkOz7Islsz6LxrOGZ1Qjg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VHa3m6u0u69TiFxgzRBiYOK4IZ+ABJ56f9ypBc8CA08=;
- b=xhmn0fLDdQWKBL34q47sum+X9AfoehBez8GLLyAv8R8lKCZpqkvYaf77HoxEl4xKr7yUtjzTd1o/t1KKga5773/iRty7gSdT+czlFgxoVABEs86c4yyER4E0/YA/jKIsmn7G1HsfRDyUCkFNHCW0coMa/nefe/9maSXg/UL30QI=
-Received: from MW4PR04CA0336.namprd04.prod.outlook.com (2603:10b6:303:8a::11)
- by BL1PR12MB5350.namprd12.prod.outlook.com (2603:10b6:208:31d::23) with
+ bh=GQpsgi8UYeRSX89eitXnK/V1LF29f/1kaT1BAdx1gO4=;
+ b=lTpL2pTgODD2w3xNnVJEcfj23Bw79usz3b/hxvDlAa6DDLU2UgsjJ5ej6IrZfdaWBk/UV/ZBN2o0cKKGk+kEsl70WkwJAzhHhfyO25g/ksTcYaVhaa8/L0l0qEtO9wuKWpW3WsteOtaGpyWjVZ7CTmamXfR2R3hoUKk1BUTznNQ=
+Received: from CH2PR15CA0002.namprd15.prod.outlook.com (2603:10b6:610:51::12)
+ by MW3PR12MB4361.namprd12.prod.outlook.com (2603:10b6:303:5a::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.26; Tue, 15 Aug
  2023 18:00:42 +0000
-Received: from CO1PEPF000044EE.namprd05.prod.outlook.com
- (2603:10b6:303:8a:cafe::c) by MW4PR04CA0336.outlook.office365.com
- (2603:10b6:303:8a::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.14 via Frontend
+Received: from CO1PEPF000044F5.namprd05.prod.outlook.com
+ (2603:10b6:610:51:cafe::da) by CH2PR15CA0002.outlook.office365.com
+ (2603:10b6:610:51::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.33 via Frontend
  Transport; Tue, 15 Aug 2023 18:00:41 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
@@ -48,7 +48,7 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1PEPF000044EE.mail.protection.outlook.com (10.167.241.68) with Microsoft
+ CO1PEPF000044F5.mail.protection.outlook.com (10.167.241.75) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.20.6699.14 via Frontend Transport; Tue, 15 Aug 2023 18:00:41 +0000
 Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
@@ -59,9 +59,9 @@ From: Mario Limonciello <mario.limonciello@amd.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: <linux-firmware@kernel.org>, Josh Boyer <jwboyer@kernel.org>
 CC: Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH 10/20] cavium_liquidio: fix typographical errors caught by codespell
-Date: Tue, 15 Aug 2023 13:00:08 -0500
-Message-ID: <20230815180018.25554-11-mario.limonciello@amd.com>
+Subject: [PATCH 09/20] cxgb4: correct typographical errors caught by codespell
+Date: Tue, 15 Aug 2023 13:00:07 -0500
+Message-ID: <20230815180018.25554-10-mario.limonciello@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230815180018.25554-1-mario.limonciello@amd.com>
 References: <20230815180018.25554-1-mario.limonciello@amd.com>
@@ -73,51 +73,200 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044EE:EE_|BL1PR12MB5350:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4918d958-d80f-4097-b8dd-08db9db98a0b
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044F5:EE_|MW3PR12MB4361:EE_
+X-MS-Office365-Filtering-Correlation-Id: f65b210a-d244-40c9-285e-08db9db98a09
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	W7p342U0JqRPN9fH6n/cKKkbd6vBqsSyW3I5VXW9uG0aSKTRGai4VfKSD8qbIItGlmQzdpHOc6XuxkAnq7dwAU2rcP1M4khlyV6CBCZs58UHDj8/Am160wmc1Z6XDxKTyK/pbGBXix/bPM+7j3ZLHxTsah5tAlUEsFB2PR/R6meORdBuInXa/xNV+Gw9rC9xnUQ7ppUpdVt4KEBH9zaZqiM3F3xxiPodqJcbdh0bqz1QLZUVPBbKDTCIf/1gSoneS2iaqkyx3lrxnG4QBH0njrHko6C9wHRl4wSrRqmagIYgYeLp0pFDT8XOySnIARUVobeaH4gYbYBQ3y1dzDloswVNVyTs2ML2lwgXRVTs33WD+TA+9zrSqTwSg7RH77o873VhDfQbEOweo0HkM8ghJb64/AY4TtEE9ygbwnqHGF6cTwzrtzjkeBt6KBtqRFBwC0daHAz529fIl8PhLESBB203ejVVVZ26r+IhEDdc9yf5dUAYjJlYtw7eaRxldeD9uEx2y1BTrIgmFP+3JtXrLOUfnzadf+QnLypinjf1vO8RPEBkocQ34ky0Z1MbkDbryzhqr9kMp4QrP7/Pbj/BcnYafFs8BcR02YsWZoD6ux6kmHaLf3wpXrLlilsboXEHFH7k+/fnQaQjksQSZC9hK0RyrMgruKIjKdlWVMjEzuS2bpxr9m1rFHcqbUOhBRQ1kNR3C9Lw8qrhLA2RxVBPrwJf5eyZjxlPKhMJVFgOhCIuIurVQFvMmvfWqVE+BnhBdnLxcje4RCD+91ts68sP8Q==
+	hTM/soHLuajWphPKZFHcigg6Z8f0bfKTj/wrXIlFRG2f02JznabBK3+n9NbluDKoaD8dyhzjPblH8R3nh0N/OA4ty1H6PFwo4ZEsRMPysxw49sa5xUGJNccU4xHchfL4rkRIx9lD5pVkSvWYiJ/sljCNUkpBNVfKhVDBKTwBeFVa+QMHynhZ8KLg/LxKhp24BX/4SsS3KlTF4AESh6MfnFN/V9Zst9eGmUs3XGQQMpY9uZ29LS6b3PgLvkQPbrJBJXakePTFQ/4BSKpvgi2NZ11F9509AkdIi5TD4CWoB1Q16vvyvGvIyt64ueIGNlrE7I+3WiRY+XVvsjnjEw2GrtmqFucd/o45H1/nSTfsSkF3yerDMjv0T+b3tmwCzJLrMdAwZxD7OihaPHxzkyumOBYC7O7pUifk55o9/SZs7d3fwp54L9U7YgaAB/QkxkhOb/YrQElAmVzeWBxtYTvfGTB0eaEnQCk9qfw3i+9O//z64ANFVZSN/hCcHBhCasG4jBvdOuPbD17hedVH9f1Y2+IgBc29grPEhm9lUeIcDqGDUEJzZFtWahw31+xX7kmLhZRXTpy9ob9zvq//nfJplxIftdq6HaJcTJ7SvzvemPyJToDQoToEIm0l1w0gTaTxLt479s4tsVefkxjTRAHaXydMUrmLGGEb0zOspiBaiCHaUFoIpIfeZORmWWvmPWuz+Urux1Nc8mUjvqaWWgHOBxxzXTPauWJWJBU2ICjRKyavjAYL9E/IJ3D6GIpxx5WhuzkLhjyaYaBMk0KYrtbRoA==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(136003)(376002)(346002)(396003)(39860400002)(1800799009)(186009)(82310400011)(451199024)(40470700004)(46966006)(36840700001)(450100002)(8936002)(47076005)(41300700001)(6666004)(426003)(83380400001)(110136005)(40480700001)(356005)(5660300002)(81166007)(44832011)(2906002)(36756003)(86362001)(70586007)(70206006)(4326008)(36860700001)(478600001)(8676002)(316002)(26005)(2616005)(40460700003)(82740400003)(7696005)(336012)(1076003)(16526019)(36900700001);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(376002)(396003)(136003)(39860400002)(346002)(1800799009)(186009)(82310400011)(451199024)(36840700001)(46966006)(40470700004)(36756003)(110136005)(450100002)(82740400003)(41300700001)(70206006)(4326008)(86362001)(70586007)(8676002)(7696005)(44832011)(336012)(40460700003)(16526019)(8936002)(26005)(1076003)(6666004)(5660300002)(426003)(2616005)(2906002)(81166007)(47076005)(478600001)(316002)(356005)(83380400001)(36860700001)(40480700001)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2023 18:00:41.2185
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2023 18:00:41.2017
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4918d958-d80f-4097-b8dd-08db9db98a0b
+X-MS-Exchange-CrossTenant-Network-Message-Id: f65b210a-d244-40c9-285e-08db9db98a09
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	CO1PEPF000044EE.namprd05.prod.outlook.com
+	CO1PEPF000044F5.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5350
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4361
 
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
- LICENCE.cavium_liquidio | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ cxgb4/configs/t4-config-default.txt    | 6 +++---
+ cxgb4/configs/t5-config-default.txt    | 6 +++---
+ cxgb4/configs/t5-config-hashfilter.txt | 6 +++---
+ cxgb4/configs/t6-config-default.txt    | 6 +++---
+ cxgb4/configs/t6-config-hashfilter.txt | 8 ++++----
+ 5 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/LICENCE.cavium_liquidio b/LICENCE.cavium_liquidio
-index 250b9fe2..1b94ea94 100644
---- a/LICENCE.cavium_liquidio
-+++ b/LICENCE.cavium_liquidio
-@@ -1,4 +1,4 @@
--This file contains licences pertaining to the following firmwares for
-+This file contains licenses pertaining to the following firmwares for
- LiquidIO (c) adapters
+diff --git a/cxgb4/configs/t4-config-default.txt b/cxgb4/configs/t4-config-default.txt
+index 1774b4d9..b758fc5e 100644
+--- a/cxgb4/configs/t4-config-default.txt
++++ b/cxgb4/configs/t4-config-default.txt
+@@ -17,7 +17,7 @@
+ # finite.  This requires balancing the configuration/operation needs of
+ # device drivers across OSes and a large number of customer application.
+ #
+-# Some of the more important resources to allocate and their constaints are:
++# Some of the more important resources to allocate and their constraints are:
+ #  1. Virtual Interfaces: 128.
+ #  2. Ingress Queues with Free Lists: 1024.  PCI-E SR-IOV Virtual Functions
+ #     must use a power of 2 Ingress Queues.
+@@ -275,7 +275,7 @@
+ # to directly select the type of Physical Function to which they wish to be
+ # attached.
+ #
+-# Note that the actual values used for the PCI-E Intelectual Property will be
++# Note that the actual values used for the PCI-E Intellectual Property will be
+ # 1 less than those below since that's the way it "counts" things.  For
+ # readability, we use the number we actually mean ...
+ #
+@@ -491,7 +491,7 @@
  
- 1. lio_nic_23xx.bin, lio_210nv_nic.bin, lio_410nv_nic.bin
-@@ -36,7 +36,7 @@ NONINFRINGEMENT OF THIRD PARTY RIGHTS, CONCERNING THE LICENSED SOFTWARE,
- DERIVATIVE WORKS, OR ANY DOCUMENTATION PROVIDED WITH THE FOREGOING.  WITHOUT
- LIMITING THE GENERALITY OF THE FOREGOING, CAVIUM DOES NOT WARRANT THAT THE
- LICENSED SOFTWARE IS ERROR-FREE OR WILL OPERATE WITHOUT INTERRUPTION, AND
--CAVIUM GRANTS NO WARRANTY REGARDING ITS USE OR THE RESULTS THEREFROM, INCLUDING
-+CAVIUM GRANTS NO WARRANTY REGARDING ITS USE OR THE RESULTS THERE FROM, INCLUDING
- ITS CORRECTNESS, ACCURACY, OR RELIABILITY.
+ # MPS features a 196608 bytes ingress buffer that is used for ingress buffering
+ # for packets from the wire as well as the loopback path of the L2 switch. The
+-# folling params control how the buffer memory is distributed and the L2 flow
++# following params control how the buffer memory is distributed and the L2 flow
+ # control settings:
+ #
+ # bg_mem:	%-age of mem to use for port/buffer group
+diff --git a/cxgb4/configs/t5-config-default.txt b/cxgb4/configs/t5-config-default.txt
+index 44fdfad7..352af3c0 100644
+--- a/cxgb4/configs/t5-config-default.txt
++++ b/cxgb4/configs/t5-config-default.txt
+@@ -18,7 +18,7 @@
+ # are finite.  This requires balancing the configuration/operation needs of
+ # device drivers across OSes and a large number of customer application.
+ #
+-# Some of the more important resources to allocate and their constaints are:
++# Some of the more important resources to allocate and their constraints are:
+ #  1. Virtual Interfaces: 256.
+ #  2. Ingress Queues with Free Lists: 1024.
+ #  3. Egress Queues: 128K.
+@@ -310,7 +310,7 @@
+ # to directly select the type of Physical Function to which they wish to be
+ # attached.
+ #
+-# Note that the actual values used for the PCI-E Intelectual Property will be
++# Note that the actual values used for the PCI-E Intellectual Property will be
+ # 1 less than those below since that's the way it "counts" things.  For
+ # readability, we use the number we actually mean ...
+ #
+@@ -540,7 +540,7 @@
  
- Limitation of Liability. IN NO EVENT WILL LICENSEE, CAVIUM, OR ANY OF CAVIUM'S
+ # MPS features a 196608 bytes ingress buffer that is used for ingress buffering
+ # for packets from the wire as well as the loopback path of the L2 switch. The
+-# folling params control how the buffer memory is distributed and the L2 flow
++# following params control how the buffer memory is distributed and the L2 flow
+ # control settings:
+ #
+ # bg_mem:	%-age of mem to use for port/buffer group
+diff --git a/cxgb4/configs/t5-config-hashfilter.txt b/cxgb4/configs/t5-config-hashfilter.txt
+index e106f24b..38e8ef4b 100644
+--- a/cxgb4/configs/t5-config-hashfilter.txt
++++ b/cxgb4/configs/t5-config-hashfilter.txt
+@@ -18,7 +18,7 @@
+ # are finite.  This requires balancing the configuration/operation needs of
+ # device drivers across OSes and a large number of customer application.
+ #
+-# Some of the more important resources to allocate and their constaints are:
++# Some of the more important resources to allocate and their constraints are:
+ #  1. Virtual Interfaces: 256.
+ #  2. Ingress Queues with Free Lists: 1024.
+ #  3. Egress Queues: 128K.
+@@ -316,7 +316,7 @@
+ # to directly select the type of Physical Function to which they wish to be
+ # attached.
+ #
+-# Note that the actual values used for the PCI-E Intelectual Property will be
++# Note that the actual values used for the PCI-E Intellectual Property will be
+ # 1 less than those below since that's the way it "counts" things.  For
+ # readability, we use the number we actually mean ...
+ #
+@@ -408,7 +408,7 @@
+ 
+ # MPS features a 196608 bytes ingress buffer that is used for ingress buffering
+ # for packets from the wire as well as the loopback path of the L2 switch. The
+-# folling params control how the buffer memory is distributed and the L2 flow
++# following params control how the buffer memory is distributed and the L2 flow
+ # control settings:
+ #
+ # bg_mem:	%-age of mem to use for port/buffer group
+diff --git a/cxgb4/configs/t6-config-default.txt b/cxgb4/configs/t6-config-default.txt
+index b0145ab2..bc000316 100644
+--- a/cxgb4/configs/t6-config-default.txt
++++ b/cxgb4/configs/t6-config-default.txt
+@@ -18,7 +18,7 @@
+ # are finite.  This requires balancing the configuration/operation needs of
+ # device drivers across OSes and a large number of customer application.
+ #
+-# Some of the more important resources to allocate and their constaints are:
++# Some of the more important resources to allocate and their constraints are:
+ #  1. Virtual Interfaces: 256.
+ #  2. Ingress Queues with Free Lists: 1024.
+ #  3. Egress Queues: 128K.
+@@ -327,7 +327,7 @@
+ # to directly select the type of Physical Function to which they wish to be
+ # attached.
+ #
+-# Note that the actual values used for the PCI-E Intelectual Property will be
++# Note that the actual values used for the PCI-E Intellectual Property will be
+ # 1 less than those below since that's the way it "counts" things.  For
+ # readability, we use the number we actually mean ...
+ #
+@@ -556,7 +556,7 @@
+ 
+ # MPS features a 196608 bytes ingress buffer that is used for ingress buffering
+ # for packets from the wire as well as the loopback path of the L2 switch. The
+-# folling params control how the buffer memory is distributed and the L2 flow
++# following params control how the buffer memory is distributed and the L2 flow
+ # control settings:
+ #
+ # bg_mem:	%-age of mem to use for port/buffer group
+diff --git a/cxgb4/configs/t6-config-hashfilter.txt b/cxgb4/configs/t6-config-hashfilter.txt
+index f8c78210..921a30d2 100644
+--- a/cxgb4/configs/t6-config-hashfilter.txt
++++ b/cxgb4/configs/t6-config-hashfilter.txt
+@@ -18,7 +18,7 @@
+ # are finite.  This requires balancing the configuration/operation needs of
+ # device drivers across OSes and a large number of customer application.
+ #
+-# Some of the more important resources to allocate and their constaints are:
++# Some of the more important resources to allocate and their constraints are:
+ #  1. Virtual Interfaces: 256.
+ #  2. Ingress Queues with Free Lists: 1024.
+ #  3. Egress Queues: 128K.
+@@ -167,7 +167,7 @@
+ 
+ 	# LE_DB_CONFIG
+ 	reg[0x19c04] = 0x00000000/0x02040000 # LE IPv4 compression disabled
+-					     # EXTN_HASH_IPV4 Diable
++					     # EXTN_HASH_IPV4 Disable
+ 
+ 	#LE_DB_RSP_CODE_0
+ 	reg[0x19c74] = 0x00000004/0x0000000f # TCAM_ACTV_HIT = 4
+@@ -304,7 +304,7 @@
+ # to directly select the type of Physical Function to which they wish to be
+ # attached.
+ #
+-# Note that the actual values used for the PCI-E Intelectual Property will be
++# Note that the actual values used for the PCI-E Intellectual Property will be
+ # 1 less than those below since that's the way it "counts" things.  For
+ # readability, we use the number we actually mean ...
+ #
+@@ -393,7 +393,7 @@
+ 
+ # MPS features a 196608 bytes ingress buffer that is used for ingress buffering
+ # for packets from the wire as well as the loopback path of the L2 switch. The
+-# folling params control how the buffer memory is distributed and the L2 flow
++# following params control how the buffer memory is distributed and the L2 flow
+ # control settings:
+ #
+ # bg_mem:	%-age of mem to use for port/buffer group
 -- 
 2.25.1
 
