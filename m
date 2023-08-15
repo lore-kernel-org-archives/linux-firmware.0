@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D17C2C41513
-	for <linux-firmware@archiver.kernel.org>; Tue, 15 Aug 2023 18:00:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A376DC001E0
+	for <linux-firmware@archiver.kernel.org>; Tue, 15 Aug 2023 18:00:49 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id A2FB6C433AB; Tue, 15 Aug 2023 18:00:48 +0000 (UTC)
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2056.outbound.protection.outlook.com [40.107.102.56])
+	id 676BEC433CC; Tue, 15 Aug 2023 18:00:49 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2042.outbound.protection.outlook.com [40.107.93.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 37681C433CA;
+	by smtp.kernel.org (Postfix) with ESMTPS id D05A5C43391;
 	Tue, 15 Aug 2023 18:00:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 37681C433CA
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D05A5C43391
 Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Jfwt1YwoImu4Gn7+b+TBeQlP7NUO/G/vOpBvkQOtezjEn9PMIYSo7IyttxajElmKH2alq6UuBdHM82sbA035J+c88XciTzx4RJC9S7UhKwRUcot6bTidgwwVc+8cAXuaO90e6O4c3q6lRezEtyTY77oQ4wB7pCgBwn3s80vZxvZ7WI77joolDowUuW3am4HiFfwKPP/gl+zJAtl6tFJOxb4UI3JlnGpPnvC0RHmCMXC8KrCaGvqOZZmbbPKkiq/Qw7OVb7tKCKN9iM6qEhAlfTnWIUBnTyYLm7pnoJm5MokshXEIojFfY5z0MTZ6ww4aRGNxmC4TC+Q8Ohq5Us1oNw==
+ b=PGaqfYwRK4Cg7WIuzm95GZyUoaEOkSenFozcAOvDdkk2+ZdBT4/hq6svsN35h7xJ74duBPDEYygHyDOzUKUrqTqjd6kGS0tfZ2u7akpcpSg2Zl5ei2gq3/9LfadzFFPlEjDmN711Nm3wuW9zl5/OJ0tVTAaqqS7KaDHsE5VPkYpnSkgz5yLsxuOHjVZCitnXDnAFc/3RNocc6JgXzGCof56rYGrLHZBNpMQCkig2ujL0rRr8iMNjxaX/j4eVD6sYFgvQVf4YdNcJ42me4JY1JBtS3gx83VH5GBZsAFZ5g0wQOqL3hm1MZfJpXFmhn94x6O7bvmXZzD0dLQ02mnUWOA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z1rD4VP4/zqq5uM/UQh0XbCwSpUBEUGAgSxp+J1QAH4=;
- b=hgHcW0Gfb6fiv3dvcbQOz7OlNsjpyzUs5CmOjqh7ghJCJ3oe3UvaCgFLgvPVn5obdsWNXIl7zU+S6TQMbhvgJumdhlzCxJ+cZ7dsP+OzqnT8kcMxYCmh6CBthpsbDHVBFzMAPJ3VFMNKiJjKewvZN8yCdWwOcpl8x8H6UmQQbonpt7JZv6KTWbPcFKWz/2ek+uK0dBz0CVdkh7xB4mAVysp9TEI+Put6iS7kjDv8+lvZklqxqepXI30znEWKBrsTa8lGAWjxvJor3zrKHc8+1SmSdN9PLa2biMbblWM30Yc+kd9QX4nh9Fzd//E1/DeFfwYM9oqBUD2mAZlN2dYz0A==
+ bh=Ubba45B6yEJtgQM0577IWaTRCd+13dqA6Skivxc9bVQ=;
+ b=JIPKdh30WOc87RAXVOQ7eSzTndCnMtr9NpjsL53qOVrNc5y2l1XEi8sIhzV4S9C9gtae5Fj5eH0kO2jtm3tGLDVb4UoEcNzBoHxeHEzB/bCMFdlsoq3lG0J1p4G5hp37o16d9fDb2dxNrPO4dhuHwZfeziUiMTz2k6+QHyO/Ceph+KyVrncCS6Vulb2ZmBSeg17A/m6NGBsZI5FabWCqhkGS9JK45FFO2tWAfVmlKg5AccL133lSSbLl+k8GM42Mr3fWBBxVoRibK1Ec6vpdibQbQoLkXY+J29ohAH/02A+9F2fTo9CCP2rPQX63UCcGqAgEh3GAetZ2hkSAPqfeXA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z1rD4VP4/zqq5uM/UQh0XbCwSpUBEUGAgSxp+J1QAH4=;
- b=U8iyE9GzXdi/x4JBvy43tbfQkGeVu75zqOijl6ry4WkHd5q82EhNG6g+UJzicDoe+FrLDS52LoHQR3UMVt/t6jFzdXHkecKDZ/l43dQE0sOYONWINvKu95iXrcZG4qSlxK0Ym/UR86XyQEoR2XMwoRca/cixZKburzrSpeZcj3Q=
-Received: from MW4PR04CA0356.namprd04.prod.outlook.com (2603:10b6:303:8a::31)
- by CYXPR12MB9278.namprd12.prod.outlook.com (2603:10b6:930:e5::11) with
+ bh=Ubba45B6yEJtgQM0577IWaTRCd+13dqA6Skivxc9bVQ=;
+ b=mciggykNAu1dLwuqeg8HWMb2TJc+RPRRSyOpgiAKloK55dFBEvtaf1e72PjD0xecaa8/hO0TQfGpNqW6Egm41edU6aHC9dIIN8/cnxnll07NxKdsqEG3+/GuET7g9MW7muSA1R6q/Adtypxd8dTtZo9h1+rMNy0dAD4g3yogxXg=
+Received: from BYAPR05CA0013.namprd05.prod.outlook.com (2603:10b6:a03:c0::26)
+ by PH7PR12MB9152.namprd12.prod.outlook.com (2603:10b6:510:2ec::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.26; Tue, 15 Aug
- 2023 18:00:44 +0000
-Received: from CO1PEPF000044EE.namprd05.prod.outlook.com
- (2603:10b6:303:8a:cafe::58) by MW4PR04CA0356.outlook.office365.com
- (2603:10b6:303:8a::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.14 via Frontend
- Transport; Tue, 15 Aug 2023 18:00:43 +0000
+ 2023 18:00:40 +0000
+Received: from CO1PEPF000044EF.namprd05.prod.outlook.com
+ (2603:10b6:a03:c0:cafe::d) by BYAPR05CA0013.outlook.office365.com
+ (2603:10b6:a03:c0::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.12 via Frontend
+ Transport; Tue, 15 Aug 2023 18:00:40 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,20 +48,20 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1PEPF000044EE.mail.protection.outlook.com (10.167.241.68) with Microsoft
+ CO1PEPF000044EF.mail.protection.outlook.com (10.167.241.69) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6699.14 via Frontend Transport; Tue, 15 Aug 2023 18:00:43 +0000
+ 15.20.6699.15 via Frontend Transport; Tue, 15 Aug 2023 18:00:39 +0000
 Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 15 Aug
- 2023 13:00:43 -0500
+ 2023 13:00:39 -0500
 From: Mario Limonciello <mario.limonciello@amd.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: <linux-firmware@kernel.org>, Josh Boyer <jwboyer@kernel.org>
 CC: Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH 17/20] check_whence: reformat using python black
-Date: Tue, 15 Aug 2023 13:00:15 -0500
-Message-ID: <20230815180018.25554-18-mario.limonciello@amd.com>
+Subject: [PATCH 07/20] usbdux: correct typographical errors caught by codespell
+Date: Tue, 15 Aug 2023 13:00:05 -0500
+Message-ID: <20230815180018.25554-8-mario.limonciello@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230815180018.25554-1-mario.limonciello@amd.com>
 References: <20230815180018.25554-1-mario.limonciello@amd.com>
@@ -73,209 +73,203 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044EE:EE_|CYXPR12MB9278:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1202858a-93f0-4cf6-5844-08db9db98b90
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044EF:EE_|PH7PR12MB9152:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3d3c7415-31f4-47f8-846e-08db9db9894c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	rQsEl1GTAPFeZs1oA3+WQjHvP6UiZast7ZCo+Gfb82s+xzsRA7bUgJlfo575Csf9qYfvWTWPwuPpw3jKFe/JX6BAwLqkk/lYPcaKOTtWWVAXDQYlMZpsPkKjbAbVypkQN+Lsh5LFHq7AHxcFELtL2sUSHZ6r4kBN9BV74/+BO6tvGcbu6sfQBKcgBXfmo3LkrKMbiW29sgHgONq+6J4Knr7WeC+56j5IeRBpc2+ZRY8XfZ0fbpsznf/ESQ6LbuWrSzjooRlvG4sgmfwRv/8HmX+7lPiRqY0Vf4qLdEgCCMAAOaWhA7kogWoL4P3ni0Qutdun0W7aw2kIbhBaK/CG10ZLEBSOZqpgLEjENayTU94W4dYEZd1zETg4IcB+9LmnWINaC1aAtOfwZeTEJCXOGbUvMKy9zKiSX5fqsE0jOOuUimfmSVDiWAdY21s5Cdd5AW/CGjRc7vapRVRGLpJIxKyxyND94aOKUp6NqCVIjLRsmcR6GN5DmnPnBvtgQGPLCEBnkRx2C3syN2hClHTCLPMQY1aPisn+zlGrmZhTRwzR4IiQFfMHSii9HL0/hx3fyzNsmzN/4IyT2axHKW/IsIe0MMHbd17ZiF7b/xpg1xwsga9zG91OkXDvvyWrzobn/HlNVZTSfP+9AN76Hsqr9ALCLD/I2sncOJBtk5YAFI0IlyR/OoImhptfZBuX1ZcTZUE7p2IQhuCOFkcRdapaRwPw2oh5EKATw39w0liFelznthNAXzJVD03At9SI27TT9vHNg+lDQo4HvDsAh4Lr6A==
+	AYu5yeATwlMhIX7DIefu4eryp5bZZvHXApfGLzEeu8pL03PNoBdSTZsEqIysYV2rjM3QzQTaOl9dj3JgY3gbxTCeI66ppXkbd9I7UQhUf9E0JrC/GColugHZTRjLSGRytHo4sU4403XKwg5PcPZ8nSwKh8EUi5ZtGwztLNtso6FGfxolbg5Fc0AwthhF9xKxmQLsTB00ijMAhGJR8q16v+dQzAfVssi5pARDL449l5r+YWEwzvpnsuX5+QWzSq052c9kvlarTbDcGLf0C6hFKEGtb3EAq3fCy4Q6/6nL00185iCoqGGVS1GZdT8H5KY8GZhLQRqUnRcmQrGWa8B0kxdFkymw8PtCcN43PpBY7uu6rL5ASMpiZLuBYTJki11Br3bcHidiDV54Idj3sjyCxZyfPTxxqmH/B9SGAIaFm4tjXfVjiL1LOMFlVMPVlxocx/VVIHVfvbU8YMtZ9ebWBQ9nnLk+SE43w8XbL+qqKr26rCJ21Imh1cxc7t96auTDXfp+962oBAlqzFPmEfNshMXByU+jZy78DUpTMwLEllgVs87uacykO+wPiSvi7E05UCLlaQD5KO5djm/R1cMpYiBTDNAzQPnpVXch092pyDmUdhK/D/J1HRasJkg5ISJOooJjCo+02D62M5OXLn8Ax17TAI3ajZp/VTCKX2LbujVurbEvQQZ6VRCcmeQv7Du/JOb0ipoAhAKrW4Udkb+CFZpf2p70v6Fggv395iFjb03Av0giAMsHoSIo37tgnXODHkjbpsi9uaTWVpTsfLcZIg==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(346002)(39860400002)(376002)(136003)(1800799009)(186009)(82310400011)(451199024)(40470700004)(46966006)(36840700001)(336012)(83380400001)(426003)(41300700001)(316002)(8676002)(5660300002)(8936002)(450100002)(82740400003)(81166007)(356005)(40460700003)(6666004)(40480700001)(478600001)(26005)(16526019)(1076003)(2616005)(110136005)(7696005)(44832011)(70586007)(47076005)(70206006)(4326008)(36756003)(36860700001)(2906002)(86362001)(36900700001);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(346002)(396003)(136003)(376002)(1800799009)(186009)(82310400011)(451199024)(40470700004)(36840700001)(46966006)(110136005)(2616005)(26005)(1076003)(83380400001)(41300700001)(2906002)(7696005)(356005)(6666004)(450100002)(40460700003)(336012)(426003)(16526019)(82740400003)(4326008)(70586007)(40480700001)(8936002)(8676002)(316002)(36756003)(70206006)(36860700001)(86362001)(44832011)(478600001)(81166007)(47076005)(5660300002)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2023 18:00:43.7654
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2023 18:00:39.9498
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1202858a-93f0-4cf6-5844-08db9db98b90
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d3c7415-31f4-47f8-846e-08db9db9894c
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	CO1PEPF000044EE.namprd05.prod.outlook.com
+	CO1PEPF000044EF.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR12MB9278
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9152
 
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
- check_whence.py | 85 +++++++++++++++++++++++++++++--------------------
- 1 file changed, 50 insertions(+), 35 deletions(-)
+ usbdux/usbdux_firmware.asm      | 16 ++++++++--------
+ usbdux/usbduxfast_firmware.asm  |  6 +++---
+ usbdux/usbduxsigma_firmware.asm | 14 +++++++-------
+ 3 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/check_whence.py b/check_whence.py
-index d45d90f8..bf14aed6 100755
---- a/check_whence.py
-+++ b/check_whence.py
-@@ -3,48 +3,53 @@
- import os, re, sys
- from io import open
+diff --git a/usbdux/usbdux_firmware.asm b/usbdux/usbdux_firmware.asm
+index b93a8955..a68a994d 100644
+--- a/usbdux/usbdux_firmware.asm
++++ b/usbdux/usbdux_firmware.asm
+@@ -170,7 +170,7 @@ ep4_isr:
  
-+
- def list_whence():
--    with open('WHENCE', encoding='utf-8') as whence:
-+    with open("WHENCE", encoding="utf-8") as whence:
-         for line in whence:
-             match = re.match(r'(?:File|Source):\s*"(.*)"', line)
-             if match:
-                 yield match.group(1)
-                 continue
--            match = re.match(r'(?:File|Source):\s*(\S*)', line)
-+            match = re.match(r"(?:File|Source):\s*(\S*)", line)
-             if match:
-                 yield match.group(1)
-                 continue
--            match = re.match(r'Licen[cs]e: (?:.*\bSee (.*) for details\.?|(\S*))\n',
--                             line)
-+            match = re.match(
-+                r"Licen[cs]e: (?:.*\bSee (.*) for details\.?|(\S*))\n", line
-+            )
-             if match:
-                 if match.group(1):
--                    for name in re.split(r', | and ', match.group(1)):
-+                    for name in re.split(r", | and ", match.group(1)):
-                         yield name
-                     continue
-                 if match.group(2):
-                     # Just one word - may or may not be a filename
--                    if not re.search(r'unknown|distributable', match.group(2),
--                                     re.IGNORECASE):
-+                    if not re.search(
-+                        r"unknown|distributable", match.group(2), re.IGNORECASE
-+                    ):
-                         yield match.group(2)
-                         continue
+ 		
+ ;;; main program
+-;;; basically only initialises the processor and
++;;; basically only initializes the processor and
+ ;;; then engages in an endless loop
+ main:
+ 	mov	DPTR,#CPUCS	; CPU control register
+@@ -386,7 +386,7 @@ wavetr:
  
-+
- def list_whence_files():
--    with open('WHENCE', encoding='utf-8') as whence:
-+    with open("WHENCE", encoding="utf-8") as whence:
-         for line in whence:
--            match = re.match(r'File:\s*(.*)', line)
-+            match = re.match(r"File:\s*(.*)", line)
-             if match:
--                yield match.group(1).replace("\ ", " ").replace("\"", "")
-+                yield match.group(1).replace("\ ", " ").replace('"', "")
-                 continue
  
-+
- def list_links_list():
--    with open('WHENCE', encoding='utf-8') as whence:
-+    with open("WHENCE", encoding="utf-8") as whence:
-         for line in whence:
--            match = re.match(r'Link:\s*(.*)', line)
-+            match = re.match(r"Link:\s*(.*)", line)
-             if match:
-                 linkname, target = match.group(1).split("->")
  
--                linkname = linkname.strip().replace("\ ", " ").replace("\"", "")
--                target = target.strip().replace("\ ", " ").replace("\"", "")
-+                linkname = linkname.strip().replace("\ ", " ").replace('"', "")
-+                target = target.strip().replace("\ ", " ").replace('"', "")
+-;;; initialise the ports for the AD-converter
++;;; initialize the ports for the AD-converter
+ initAD:
+ 	mov	OEA,#27H	;PortA0,A1,A2,A5 Outputs
+ 	mov	IOA,#22H	;/CS = 1, disable transfers to the converters
+@@ -410,7 +410,7 @@ init_timer:
+ ;;; A/D-conversion:
+ ;;; control-byte in a,
+ ;;; result in r3(low) and r4(high)
+-;;; this routine is optimised for speed
++;;; this routine is optimized for speed
+ readAD:				; mask the control byte
+ 	anl	a,#01111100b	; only the channel, gain+pol are left
+ 	orl	a,#10000001b	; start bit, external clock
+@@ -427,7 +427,7 @@ clock:	setb	IOA.0		; SCLK = 1
+         rl      a               ; next Bit
+         djnz    R2,bitlp
  
-                 # Link target is relative to the link
-                 target = os.path.join(os.path.dirname(linkname), target)
-@@ -53,42 +58,49 @@ def list_links_list():
-                 yield (linkname, target)
-                 continue
+-	;; continue the aquisition (already started)
++	;; continue the acquisition (already started)
+ 	clr	IOA.2		; clear the DIN bit
+ 	mov 	R2,#5		; five steps for the aquision
+ clockaq:setb	IOA.0		; SCLK = 1
+@@ -473,7 +473,7 @@ zerob2:	mov	a,r5		; get r5 in order to shift the mask
+ 	
  
-+
- def list_git():
--    with os.popen('git ls-files') as git_files:
-+    with os.popen("git ls-files") as git_files:
-         for line in git_files:
--            yield line.rstrip('\n')
-+            yield line.rstrip("\n")
-+
+ 	
+-;;; aquires data from A/D channels and stores them in the EP6 buffer
++;;; acquires data from A/D channels and stores them in the EP6 buffer
+ conv_ad:
+ 	mov	AUTOPTRH1,#0F8H	; auto pointer on EP6
+ 	mov	AUTOPTRL1,#00H
+@@ -499,7 +499,7 @@ convloop:
  
- def main():
-     ret = 0
-     whence_list = list(list_whence())
-     whence_files = list(list_whence_files())
-     links_list = list(list_links_list())
--    known_files = set(name for name in whence_list if not name.endswith('/')) | \
--                  set(['check_whence.py', 'configure', 'Makefile',
--                       'README', 'copy-firmware.sh', 'WHENCE'])
--    known_prefixes = set(name for name in whence_list if name.endswith('/'))
-+    known_files = set(name for name in whence_list if not name.endswith("/")) | set(
-+        [
-+            "check_whence.py",
-+            "configure",
-+            "Makefile",
-+            "README",
-+            "copy-firmware.sh",
-+            "WHENCE",
-+        ]
-+    )
-+    known_prefixes = set(name for name in whence_list if name.endswith("/"))
-     git_files = set(list_git())
  
--    for name in set(name for name in whence_files if name.endswith('/')):
--        sys.stderr.write('E: %s listed in WHENCE as File, but is directory\n' %
--                         name)
-+    for name in set(name for name in whence_files if name.endswith("/")):
-+        sys.stderr.write("E: %s listed in WHENCE as File, but is directory\n" % name)
-         ret = 1
  
-     for name in set(fw for fw in whence_files if whence_files.count(fw) > 1):
--        sys.stderr.write('E: %s listed in WHENCE twice\n' % name)
-+        sys.stderr.write("E: %s listed in WHENCE twice\n" % name)
-         ret = 1
+-;;; initilise the transfer
++;;; initialize the transfer
+ ;;; It is assumed that the USB interface is in alternate setting 3
+ initeps:
+ 	mov	dptr,#FIFORESET
+@@ -541,7 +541,7 @@ initeps:
+ 	mov	a,#00h
+ 	movx	@DPTR,a		; can receive data
+ 	lcall	syncdelay	; wait until we can write again
+-	movx	@dptr,a		; make shure its really empty
++	movx	@dptr,a		; make sure its really empty
+ 	lcall	syncdelay	; wait
  
-     for name in set(link for link in whence_files if os.path.islink(link)):
--        sys.stderr.write('E: %s listed in WHENCE as File, but is a symlink\n' %
--                         name)
-+        sys.stderr.write("E: %s listed in WHENCE as File, but is a symlink\n" % name)
-         ret = 1
+ 	mov	DPTR,#EP6CFG	; ISO data from here to the host
+@@ -560,7 +560,7 @@ initeps:
+ 	mov	a,#10100000b
+ 	movx	@dptr,a
  
-     for name in set(link[0] for link in links_list if os.path.islink(link[0])):
--        sys.stderr.write('E: %s listed in WHENCE as Link, is in tree\n' % name)
-+        sys.stderr.write("E: %s listed in WHENCE as Link, is in tree\n" % name)
-         ret = 1
+-	;; enable interrups
++	;; enable interrupts
+         mov     DPTR,#USBIE	; USB int enables register
+         mov     a,#2            ; enables SOF (1ms/125us interrupt)
+         movx    @DPTR,a         ; 
+diff --git a/usbdux/usbduxfast_firmware.asm b/usbdux/usbduxfast_firmware.asm
+index 0d8e7f80..fa946893 100644
+--- a/usbdux/usbduxfast_firmware.asm
++++ b/usbdux/usbduxfast_firmware.asm
+@@ -158,7 +158,7 @@ ep8_isr:
  
-     for name in sorted(list(known_files - git_files)):
--        sys.stderr.write('E: %s listed in WHENCE does not exist\n' % name)
-+        sys.stderr.write("E: %s listed in WHENCE does not exist\n" % name)
-         ret = 1
+ 		
+ ;;; main program
+-;;; basically only initialises the processor and
++;;; basically only initializes the processor and
+ ;;; then engages in an endless loop
+ main:
+ 	mov	dptr,#REVCTL
+@@ -254,7 +254,7 @@ initGPIF:
+ 	mov	dptr,#EP6GPIFFLGSEL
+ 	lcall	syncdelaywr
  
-     # A link can point to another link, or to a file...
-@@ -99,20 +111,22 @@ def main():
-         dirname = target
-         while True:
-             dirname = os.path.dirname(dirname)
--            if dirname == '':
-+            if dirname == "":
-                 break
-             valid_targets.add(dirname)
+-	mov	a,#00000001b	; stop when buffer overfl
++	mov	a,#00000001b	; stop when buffer overflow
+ 	mov	dptr,#EP6GPIFPDFSTOP
+ 	lcall	syncdelaywr
  
-     for name, target in sorted(links_list):
-         if target not in valid_targets:
--            sys.stderr.write('E: target %s of link %s in WHENCE'
--                             ' does not exist\n' % (target, name))
-+            sys.stderr.write(
-+                "E: target %s of link %s in WHENCE" " does not exist\n" % (target, name)
-+            )
-             ret = 1
+@@ -294,7 +294,7 @@ initGPIF:
  
-     for name in sorted(list(git_files - known_files)):
-         # Ignore subdirectory changelogs and GPG detached signatures
--        if (name.endswith('/ChangeLog') or
--            (name.endswith('.asc') and name[:-4] in known_files)):
-+        if name.endswith("/ChangeLog") or (
-+            name.endswith(".asc") and name[:-4] in known_files
-+        ):
-             continue
  
-         # Ignore unknown files in known directories
-@@ -120,9 +134,10 @@ def main():
-             if name.startswith(prefix):
-                 break
-         else:
--            sys.stderr.write('E: %s not listed in WHENCE\n' % name)
-+            sys.stderr.write("E: %s not listed in WHENCE\n" % name)
-             ret = 1
-     return ret
  
--if __name__ == '__main__':
-+
-+if __name__ == "__main__":
-     sys.exit(main())
+-;;; initilise the transfer
++;;; initialize the transfer
+ ;;; It is assumed that the USB interface is in alternate setting 1
+ initeps:
+ 	mov	DPTR,#EP4CFG
+diff --git a/usbdux/usbduxsigma_firmware.asm b/usbdux/usbduxsigma_firmware.asm
+index 38f5f0e8..89808ffa 100644
+--- a/usbdux/usbduxsigma_firmware.asm
++++ b/usbdux/usbduxsigma_firmware.asm
+@@ -288,7 +288,7 @@ noepsubmit:
+ 	
+ 		
+ ;;; main program
+-;;; basically only initialises the processor and
++;;; basically only initializes the processor and
+ ;;; then engages in an endless loop
+ main:
+ 	mov	DPTR,#CPUCS	; CPU control register
+@@ -332,10 +332,10 @@ mloop2:	nop
+ 	sjmp	mloop2		; loop for ever
+ 
+ 
+-;;; initialise the ports for the AD-converter
++;;; initialize the ports for the AD-converter
+ initAD:
+ 	mov	r0,#MAXSMPL	; length of channellist
+-	mov	@r0,#0		; we don't want to accumlate samples
++	mov	@r0,#0		; we don't want to accumulate samples
+ 
+ 	mov	ASYNC_ON,#0	; async enable
+ 
+@@ -348,7 +348,7 @@ initAD:
+ 	mov	a,#10100000b	; gpif, 30MHz, internal IFCLK -> 15MHz for AD
+ 	lcall	syncdelaywr
+ 
+-	mov	SCON0,#013H	; ser rec en, TX/RX: stop, 48/12MHz=4MHz clock
++	mov	SCON0,#013H	; set rec en, TX/RX: stop, 48/12MHz=4MHz clock
+ 	
+ 	mov	dptr,#PORTECFG
+ 	mov	a,#00001000b	; special function for port E: RXD0OUT
+@@ -458,7 +458,7 @@ registerWrite:
+ 
+ 
+ 
+-;;; initilise the endpoints
++;;; initialize the endpoints
+ initeps:
+ 	mov	dptr,#FIFORESET
+ 	mov	a,#80H		
+@@ -499,7 +499,7 @@ initeps:
+ 	mov	a,#00h
+ 	movx	@DPTR,a		; can receive data
+ 	lcall	syncdelay	; wait until we can write again
+-	movx	@dptr,a		; make shure its really empty
++	movx	@dptr,a		; make sure its really empty
+ 	lcall	syncdelay	; wait
+ 
+ 	mov	DPTR,#EP6CFG	; ISO data from here to the host
+@@ -844,7 +844,7 @@ startadcint:
+ 
+ 	movx	a,@dptr		; interval is the 1st byte
+ 	inc	dptr		; data pointer
+-	sjmp	startadc2	; the other paramters as with startadc
++	sjmp	startadc2	; the other parameters as with startadc
+ 	
+ ;;; config AD:
+ ;;; we write to the registers of the A/D converter
 -- 
 2.25.1
 
