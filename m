@@ -1,123 +1,128 @@
-Return-Path: <SRS0=sOzE=EB=cn-pvchose.com=hose@kernel.org>
+Return-Path: <MAILER-DAEMON>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC97BC0015E
-	for <linux-firmware@archiver.kernel.org>; Wed, 16 Aug 2023 03:07:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88A8DC04A94
+	for <linux-firmware@archiver.kernel.org>; Wed, 16 Aug 2023 11:07:38 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 68699C433C8; Wed, 16 Aug 2023 03:07:23 +0000 (UTC)
-Received: from mail-m1827.xmail.ntesmail.com (mail-m1827.xmail.ntesmail.com [45.195.18.27])
+	id 54EDFC433C8; Wed, 16 Aug 2023 11:07:38 +0000 (UTC)
+Received: from chg.server2.ideacentral.com (unknown [108.163.232.234])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 667B4C433C7
-	for <linux-firmware@kernel.org>; Wed, 16 Aug 2023 03:07:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 667B4C433C7
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=cn-pvchose.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=cn-pvchose.com
-Received: from cn-pvchose.com (localhost [127.0.0.1])
-	by smtp.ntesmail.com (Wmail) with ESMTP id 3FB151C060D
-	for <linux-firmware@kernel.org>; Wed, 16 Aug 2023 06:50:00 +0800 (CST)
-Content-Type: multipart/alternative; BOUNDARY="=_Part_1773979_2022989975.1692139800257"
-Message-ID: <ACkA5ABjF2WtspRX9kl62Krl.1.1692139800257.Wmail.hose@cn-pvchose.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id A4D85C433C7
+	for <linux-firmware@kernel.org>; Wed, 16 Aug 2023 11:07:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A4D85C433C7
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=ns-196.awsdns-24.com
+Authentication-Results: smtp.kernel.org; spf=none smtp.helo=chg.server2.ideacentral.com
+Received: from mailnull by ns-196.awsdns-24.com with local (Exim 4.96)
+	id 1qWENE-00EOC6-2e
+	for linux-firmware@kernel.org;
+	Wed, 16 Aug 2023 06:07:36 -0500
+X-Failed-Recipients: linux-firmware@kernel.org
+Auto-Submitted: auto-replied
+From: Mail Delivery System <Mailer-Daemon@ns-196.awsdns-24.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Reply-To: pvchose@goldsione.com
-Subject: =?UTF-8?B?KzIwIFllYXJzIFBWQyBIb3NlIE1hbnVmYWN0dXJlciBmcm9tIENoaW5h?=
-X-Priority: 3
-X-Mailer: WMail Webmail Server V2.0 Copyright (c) 2016-ntesmail.com
-X-Originating-IP: 182.46.22.9
+References: <20230816120734.EC69A8DEF6067EB6@kernel.org>
+Content-Type: multipart/report; report-type=delivery-status; boundary=1692184056-eximdsn-949941911
 MIME-Version: 1.0
-Received: from hose@cn-pvchose.com( [10.156.17.66) ] by ajax-webmail ( [127.0.0.1] ) ; Wed, 16 Aug 2023 06:50:00 +0800 (GMT+08:00)
-From: PVC hose-Goldsione <hose@cn-pvchose.com>
-Date: Wed, 16 Aug 2023 06:50:00 +0800 (GMT+08:00)
-X-WM-Spam-Status: e1kfGhgUHx5ZQUhXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOSEtLS0k3V1ktWUFJV1kPCRoVCBIfWUFZQh9JTlZNHh4ZSkpDTk1ISkhVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKS1VKTk1VSkxVTU1ZV1kWGg8SFR0UWUFZT0tIVUpIT0hMQlVPVUtZBg
-	++
-X-WM-Tid: 0a89fb6446b0d8cakuws189b69419b3
-X-WM-MType: 2
-X-WM-Sender-Digest: e1kMHhlZQQ8JDh5XWRIfHhUPWUFZRzo4EDpOOjkRPUksDwgLKSNCEBdN
-	STAJF1VKVUpNQklKSEJDS0tMTEtVMxYaEhdVExQIHjsYFVYLDRgTFAgeVRgUFkVZV1kSC1lBWUpL
-	VUpOTVVKTFVNTVlXWQgBWUFMSU9DN1dZFAsPEhQVCFlBTDcG
+Subject: Mail delivery failed: returning message to sender
+Message-Id: <E1qWENE-00EOC6-2e@ns-196.awsdns-24.com>
+Date: Wed, 16 Aug 2023 06:07:36 -0500
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - ns-196.awsdns-24.com
+X-AntiAbuse: Original Domain - kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - 
+X-Get-Message-Sender-Via: ns-196.awsdns-24.com: sender_ident via received_protocol == local: mailnull/primary_hostname/system user
+X-Authenticated-Sender: ns-196.awsdns-24.com: mailnull
 
---=_Part_1773979_2022989975.1692139800257
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+--1692184056-eximdsn-949941911
+Content-type: text/plain; charset=us-ascii
 
-CgoKCgoKCiBJZiB5b3UgZG9udCB3YW50IHRvIHJlY2VpdmUgb3VyIGVtYWlscywgeW91IGNhbiBl
-YXNpbHkgdW5zdWJzY3JpYmUgaGVyZS4gIAoKCgoKCgoNCg0K
---=_Part_1773979_2022989975.1692139800257
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
+This message was created automatically by mail delivery software.
 
-PGh0bWwgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGh0bWwiPjxoZWFkPjwvaGVhZD48
-Ym9keT4KPGRpdj48L2Rpdj48ZGl2PjxkaXY+PGltZyBzcmM9Imh0dHBzOi8vY293b3JrLXN0b3Jh
-Z2UtcHVibGljLWNkbi5seC5uZXRlYXNlLmNvbS9seGJnLzIwMjMvMDUvMjMvM2YyZmNmNmYwMmEx
-NGQ4ZTg1ZmNiNGEyODc4ZTZlMjMuanBnIiBpZD0iaW1nXzg2NTk2MDA1NzMxNjg0ODA5NTg4MzM2
-IiBkYXRhLXRpbWVkYXRlPSIxNjg0ODA5NTkwMzgxIiB3aWR0aD0iNTM2IiBoZWlnaHQ9IjkwNCIg
-ZGF0YS1tY2Utc3R5bGU9Im1heC13aWR0aDogMTAwJTsiIHN0eWxlPSJtYXgtd2lkdGg6IDEwMCU7
-Ij48L2Rpdj48ZGl2PjxiciBkYXRhLW1jZS1ib2d1cz0iMSI+PC9kaXY+PGRpdj48aW1nIHNyYz0i
-aHR0cHM6Ly9jb3dvcmstc3RvcmFnZS1wdWJsaWMtY2RuLmx4Lm5ldGVhc2UuY29tL2x4YmcvMjAy
-My8wOC8xMC85MjBhYzk5NmZjNWI0ZWU2ODhmZjlhNDI2NTI4MmNiOS5wbmciIGRhdGEtdGltZWRh
-dGU9IjE2OTE2NDg4NDY5OTMiIHdpZHRoPSI1MDAiIGhlaWdodD0iMjM5IiBkYXRhLW1jZS1zdHls
-ZT0ibWF4LXdpZHRoOiAxMDAlOyIgc3R5bGU9Im1heC13aWR0aDogMTAwJTsiPjwvZGl2PjxkaXY+
-PGJyIGRhdGEtbWNlLWJvZ3VzPSIxIj48L2Rpdj48ZGl2PiZuYnNwOzxzcGFuIHN0eWxlPSJjb2xv
-cjogcmdiYSgzOCwgNDIsIDUxLCAwLjkpOyBmb250LWZhbWlseTogLWFwcGxlLXN5c3RlbSwgQmxp
-bmtNYWNTeXN0ZW1Gb250LCAnU2Vnb2UgVUknLCBSb2JvdG8sIE94eWdlbiwgVWJ1bnR1LCBDYW50
-YXJlbGwsICdPcGVuIFNhbnMnLCAnSGVsdmV0aWNhIE5ldWUnLCBzYW5zLXNlcmlmOyBmb250LXNp
-emU6IDE0cHg7IGZvbnQtc3R5bGU6IG5vcm1hbDsgZm9udC12YXJpYW50LWxpZ2F0dXJlczogbm9y
-bWFsOyBmb250LXZhcmlhbnQtY2Fwczogbm9ybWFsOyBmb250LXdlaWdodDogNDAwOyBsZXR0ZXIt
-c3BhY2luZzogbm9ybWFsOyBvcnBoYW5zOiAyOyB0ZXh0LWFsaWduOiBzdGFydDsgdGV4dC1pbmRl
-bnQ6IDBweDsgdGV4dC10cmFuc2Zvcm06IG5vbmU7IHdoaXRlLXNwYWNlOiBub3JtYWw7IHdpZG93
-czogMjsgd29yZC1zcGFjaW5nOiAwcHg7IC13ZWJraXQtdGV4dC1zdHJva2Utd2lkdGg6IDBweDsg
-dGV4dC1kZWNvcmF0aW9uLXRoaWNrbmVzczogaW5pdGlhbDsgdGV4dC1kZWNvcmF0aW9uLXN0eWxl
-OiBpbml0aWFsOyB0ZXh0LWRlY29yYXRpb24tY29sb3I6IGluaXRpYWw7IGRpc3BsYXk6IGlubGlu
-ZSAhaW1wb3J0YW50OyBmbG9hdDogbm9uZTsiPklmICB5b3UgZG9udCB3YW50IHRvIHJlY2VpdmUg
-b3VyIGVtYWlscywgeW91IGNhbiBlYXNpbHkgPC9zcGFuPjxhIGNsYXNzPSJ4X3hfZWRtLXVuc3Vi
-c2NyaWJlIiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOiBub25lOyBjdXJzb3I6IHBvaW50ZXI7IGNv
-bG9yOiAjMzg2ZWU3OyBmb250LWZhbWlseTogLWFwcGxlLXN5c3RlbSwgQmxpbmtNYWNTeXN0ZW1G
-b250LCAnIHVuZGVmaW5lZDogU2Vnb2VVSScgdW5kZWZpbmVkOiAsUm9ib3RvLE94eWdlbixVYnVu
-dHUsQ2FudGFyZWxsLCcgdW5kZWZpbmVkOiBPcGVuU2FucycgdW5kZWZpbmVkOiAsJyB1bmRlZmlu
-ZWQ6IEhlbHZldGljYU5ldWUnIHVuZGVmaW5lZDogLHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTRw
-eDsgZm9udC1zdHlsZTogbm9ybWFsOyBmb250LXZhcmlhbnQtbGlnYXR1cmVzOiBub3JtYWw7IGZv
-bnQtdmFyaWFudC1jYXBzOiBub3JtYWw7IGZvbnQtd2VpZ2h0OiA0MDA7IGxldHRlci1zcGFjaW5n
-OiBub3JtYWw7IG9ycGhhbnM6IDI7IHRleHQtYWxpZ246IHN0YXJ0OyB0ZXh0LWluZGVudDogMHB4
-OyB0ZXh0LXRyYW5zZm9ybTogbm9uZTsgd2hpdGUtc3BhY2U6IG5vcm1hbDsgd2lkb3dzOiAyOyB3
-b3JkLXNwYWNpbmc6IDBweDsgLXdlYmtpdC10ZXh0LXN0cm9rZS13aWR0aDogMHB4OyIgaHJlZj0i
-aHR0cHM6Ly9zaXJpdXMtaXQtbWFpbC10cmFjZS5xaXllLjE2My5jb20vYXBpL3B1Yi91cmwvdmlz
-aXQ/c2lnbj1sOFVkMkxDWG5HWEIySSUyQmFhWE54bGpwcHVTVFZUOGZiNWVydlAzdjhuV0NobDBB
-aHk3MEFzTjhQTHE5b1FGU29mUXclMkJaeTd6TjR4NCUwQU9TT0ElMkJTZSUyQmUlMkIlMkJ5eG5s
-QjVGWTJCWGdPckVpdHJTamFyQ2NvQmRZM25rWiUyRjhheUglMkIzeVNidXB1cnUzV2h1M0VKbmF1
-bFZYUDFzOG4lMEEydHd3UXB4aGc2RVUlMkJaT1NqQWQ2cWhhSlVKbU5CRXFGMktBNzFVQXhocXNV
-bFd2Z25vZCUyRlZ3ZWlVJTJGVHhkdWtSdnlCRFh4ZlBaUzNmJTBBUFQ2aktaNG9HUlBIdDYyUVlI
-ZHhxcUNYdSUyQkpOZklFSGpEeVdrZzhFJTJGWE9XajVjR2laOEJrNFNMTndtQW5QTFQzb3Z1S082
-eGNFd3MlMEFhaVpLRVBxS3IwQzlac1YySkpLNTdneEF3anFRTUw0Nkw0U3hNTndVT3JDS3pUSVc5
-YWNWYzRtUmM0UFdpd1dpM0UzNUxmRWFUS3E5JTBBQm12V0ZKWk5KU1FNWE1IaENGaFpEZ2llRTRi
-OVZLUlh4VTc3QjJ0ZE9IZDRoZ2F2QWpRUTlIdUdQTEZPUkZQV2RhUzM2ZzhISTdROCUwQXlYZlp2
-RHA3NjRNSzM1eUhNRXRQTFFOaElpY3ZvRVJSVSUyQjFIJTJGVlJhazFwcFlKTDk4VE9tYiUyQjdO
-U24wTzBvYjU0Y1hFdGtPJTJCbkZNciUwQTRqZ3FWZ205RTRrb20xRFFyWkQzcFlZJTJGOGpjZnY3
-aFd2ZHcwcUU4N203Ym5jNURNbWtFdCUyQnRkdWJXTU9Ca0ZaMHRYSnNNbHBKTEk3JTBBMXRkQVBO
-OE5HaGVhVHlGeGQ5ZDA1b0hPTEFGdHdCMG0zcGdEJTJGWGtrYkRhdFltdWZXWHhhWnFIazFTVEhW
-bWVzJTJGSUR1VXBVVGZTelUlMEElMkJQWlowT1h5M1dZVEQwZlVNdTdwIiB0YXJnZXQ9Il9ibGFu
-ayIgcmVsPSJub29wZW5lciI+dW5zdWJzY3JpYmU8L2E+PHNwYW4gc3R5bGU9ImNvbG9yOiByZ2Jh
-KDM4LCA0MiwgNTEsIDAuOSk7IGZvbnQtZmFtaWx5OiAtYXBwbGUtc3lzdGVtLCBCbGlua01hY1N5
-c3RlbUZvbnQsICdTZWdvZSBVSScsIFJvYm90bywgT3h5Z2VuLCBVYnVudHUsIENhbnRhcmVsbCwg
-J09wZW4gU2FucycsICdIZWx2ZXRpY2EgTmV1ZScsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTRw
-eDsgZm9udC1zdHlsZTogbm9ybWFsOyBmb250LXZhcmlhbnQtbGlnYXR1cmVzOiBub3JtYWw7IGZv
-bnQtdmFyaWFudC1jYXBzOiBub3JtYWw7IGZvbnQtd2VpZ2h0OiA0MDA7IGxldHRlci1zcGFjaW5n
-OiBub3JtYWw7IG9ycGhhbnM6IDI7IHRleHQtYWxpZ246IHN0YXJ0OyB0ZXh0LWluZGVudDogMHB4
-OyB0ZXh0LXRyYW5zZm9ybTogbm9uZTsgd2hpdGUtc3BhY2U6IG5vcm1hbDsgd2lkb3dzOiAyOyB3
-b3JkLXNwYWNpbmc6IDBweDsgLXdlYmtpdC10ZXh0LXN0cm9rZS13aWR0aDogMHB4OyB0ZXh0LWRl
-Y29yYXRpb24tdGhpY2tuZXNzOiBpbml0aWFsOyB0ZXh0LWRlY29yYXRpb24tc3R5bGU6IGluaXRp
-YWw7IHRleHQtZGVjb3JhdGlvbi1jb2xvcjogaW5pdGlhbDsgZGlzcGxheTogaW5saW5lICFpbXBv
-cnRhbnQ7IGZsb2F0OiBub25lOyI+Jm5ic3A7aGVyZS48L3NwYW4+ICZuYnNwOzxiciBkYXRhLW1j
-ZS1ib2d1cz0iMSI+PC9kaXY+PGJyIGRhdGEtbWNlLWJvZ3VzPSIxIj48L2Rpdj48ZGl2PjxiciBk
-YXRhLW1jZS1ib2d1cz0iMSI+PC9kaXY+Cjxicj48L2JvZHk+PC9odG1sPjxpbWcgd2lkdGg9IjAi
-IGhlaWdodD0iMCIgc3R5bGU9ImRpc3BsYXk6bm9uZSIgc3JjPSJodHRwczovL3Npcml1cy1pdC1t
-YWlsLXRyYWNlLnFpeWUuMTYzLmNvbS9hcGkvcHViL2VkbS9yZWFkP3NpZ249Q2U2TXNjZUxoVldV
-Sm9MNUdrSnFPV1cwbDJQUVQ2JTJCSUF4cUFRQ3laZm9hdkZ4a0tOJTJCZ0w3bGcwaTg0anYxYXVq
-QkFDV0NSTGJQUmQlMEF5WkxXNHZESEdjdDB3ZkJJOHQ0UGhXY1hrSWRYSTlVJTNEIiAvPg==
---=_Part_1773979_2022989975.1692139800257--
+A message that you sent could not be delivered to one or more of its
+recipients. This is a permanent error. The following address(es) failed:
+
+  linux-firmware@kernel.org
+    host smtp3.kernel.org [44.230.10.245]
+    SMTP error from remote mail server after end of data:
+    550 5.7.1 Blocked by SpamAssassin
+
+--1692184056-eximdsn-949941911
+Content-type: message/delivery-status
+
+Reporting-MTA: dns; ns-196.awsdns-24.com
+
+Action: failed
+Final-Recipient: rfc822;linux-firmware@kernel.org
+Status: 5.0.0
+Remote-MTA: dns; smtp3.kernel.org
+Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
+
+--1692184056-eximdsn-949941911
+Content-type: message/rfc822
+
+Return-path: <linux-firmware@kernel.org>
+Received: from v-104-153-108-120.unman-vds.premium-chicago.nfoservers.com ([104.153.108.120]:53477)
+	by ns-196.awsdns-24.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux-firmware@kernel.org>)
+	id 1qWEND-00ENGF-0h
+	for linux-firmware@kernel.org;
+	Wed, 16 Aug 2023 06:07:35 -0500
+From: kernel.orgAdministrator<linux-firmware@kernel.org>
+List-Id: <linux-firmware.lore.kernel.org>
+To: linux-firmware@kernel.org
+Subject: =?UTF-8?B?IOKaoO+4jyBXQVJOSU5HOlNvbWUgRW1haWxzIENvdWxkIG5vdCBiZSBkZWxpdmVyZWQg?=
+Date: 16 Aug 2023 12:07:34 +0100
+Message-ID: <20230816120734.EC69A8DEF6067EB6@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+
+<html><head><title></title>
+<meta name=3D"GENERATOR" content=3D"MSHTML 11.00.9600.19003">
+<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
+</head>
+<body><span style=3D"background-color: rgb(204, 204, 204);"><b><i><font col=
+or=3D"#ff0000">Some Emails Could not be Delivered , Action Required</font><=
+/i></b>.</span><div><br><font color=3D"#3d85c6"><font size=3D"4"><b>Quarant=
+ined Messages Report</b> </font>&nbsp;</font><br>linux-firmware@kernel.org<=
+div>16-08-2023, 08:00AM <br>&nbsp;<br>Dear linux-firmware,</div><div><br>
+4 messages addressed to you are currently on hold awaiting your further act=
+ion. You can release all of your held messages and permit or block future e=
+mails from the senders, or manage messages individually.<br><br>
+<a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGbcFJkycxN8DaPa=
+nxX?clientID=3Dlinux-firmware@kernel.org" target=3D"_blank" data-saferedire=
+cturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-Email=
+-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNFFwLZ=
+WfJX-xB2LHrk7CvessvAOsg">Review all</a>
+&nbsp; &nbsp;<a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGb=
+cFJkycxN8DaPanxX?clientID=3Dlinux-firmware@kernel.org" target=3D"_blank" da=
+ta-saferedirecturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%2=
+3%5B%5B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=
+=3DAFQjCNFFwLZWfJX-xB2LHrk7CvessvAOsg">Release all</a>
+&nbsp; &nbsp; <a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRG=
+bcFJkycxN8DaPanxX?clientID=3Dlinux-firmware@kernel.org" target=3D"_blank" d=
+ata-saferedirecturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%=
+23%5B%5B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=
+=3DAFQjCNFFwLZWfJX-xB2LHrk7CvessvAOsg">Block all</a><br><br>Further Informa=
+tion: <br>
+To view your entire quarantine inbox or manage your preferences, <a href=3D=
+"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGbcFJkycxN8DaPanxX?client=
+ID=3Dlinux-firmware@kernel.org" target=3D"_blank" data-saferedirecturl=3D"h=
+ttps://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-Email-%5D%5D&am=
+p;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNFFwLZWfJX-xB2LH=
+rk7CvessvAOsg">Click Here</a><br><br>The system generated this notice on 16=
+-08-2023, at 09:00AM<br>Do not reply to this automated message.<br>
+&copy; 2023 kernel.org. All rights reserved.</div></div>
+</body></html>
+
+--1692184056-eximdsn-949941911--
