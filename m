@@ -4,47 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2F270EE49AB
-	for <linux-firmware@archiver.kernel.org>; Mon, 21 Aug 2023 09:15:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 89BE3EE49A5
+	for <linux-firmware@archiver.kernel.org>; Mon, 21 Aug 2023 09:15:41 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id E3053C43391; Mon, 21 Aug 2023 09:15:02 +0000 (UTC)
-Received: from mail-m120131.xmail.ntesmail.com (mail-m120131.xmail.ntesmail.com [115.236.120.131])
+	id 5583BC433C7; Mon, 21 Aug 2023 09:15:41 +0000 (UTC)
+Received: from mail-m127136.qiye.163.com (mail-m127136.qiye.163.com [115.236.127.136])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id BB23FC433C8
-	for <linux-firmware@kernel.org>; Mon, 21 Aug 2023 09:14:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org BB23FC433C8
+	by smtp.kernel.org (Postfix) with ESMTPS id 38430C433C9
+	for <linux-firmware@kernel.org>; Mon, 21 Aug 2023 09:15:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 38430C433C9
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=vicmarketreports.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=vicmarketreports.com
 Received: from vicmarketreports.com (localhost [127.0.0.1])
-	by mail-m12748.qiye.163.com (Hmail) with ESMTP id D8424160394;
-	Mon, 21 Aug 2023 17:14:15 +0800 (CST)
-Content-Type: multipart/alternative; BOUNDARY="=_Part_32983_1070759281.1692609255879"
-Message-ID: <AOQA9ACWF0a3thIqvITpc4pw.1.1692609255879.Hmail.allen.i@vicmarketreports.com>
+	by mail-m12748.qiye.163.com (Hmail) with ESMTP id AA8221605CF;
+	Mon, 21 Aug 2023 17:15:27 +0800 (CST)
+Content-Type: multipart/alternative; BOUNDARY="=_Part_33151_447230317.1692609327692"
+Message-ID: <APYAtwARF1S3ERU-u3n5E4oi.1.1692609327692.Hmail.allen.i@vicmarketreports.com>
 Subject: =?UTF-8?B?5biC5Zy656CU56m2IEEgbWFya2V0IHJlcG9ydCBvbiBJb1QgUG93ZXIgTWFuYWdlbWVudCBDaGlwIDIwMjM=?=
 X-Priority: 3
 X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
 X-Originating-IP: 14.210.3.3
 MIME-Version: 1.0
-Received: from allen.i@vicmarketreports.com( [14.210.3.3) ] by ajax-webmail ( [127.0.0.1] ) ; Mon, 21 Aug 2023 17:14:15 +0800 (GMT+08:00)
+Received: from allen.i@vicmarketreports.com( [14.210.3.3) ] by ajax-webmail ( [127.0.0.1] ) ; Mon, 21 Aug 2023 17:15:27 +0800 (GMT+08:00)
 From: Allen <allen.i@vicmarketreports.com>
-Date: Mon, 21 Aug 2023 17:14:15 +0800 (GMT+08:00)
+Date: Mon, 21 Aug 2023 17:15:27 +0800 (GMT+08:00)
 X-HM-Spam-Status: e1kfGhgUHx5ZQUhXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCGRpDVk1CH00ZTB4fTRgYGlUTARMWGhIXJBQOD1
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaGhhIVh8eT0xOT0kZSh0YQ1UTARMWGhIXJBQOD1
 	lXWRgSC1lBWUpPVUlKS1VIVUhZV1kWGg8SFR0UWUFZT0tIVUpKS09IT1VPVUpPWQY+
-X-HM-Tid: 0a8a175f99c6b21bkuuu18a16a6cc44
+X-HM-Tid: 0a8a1760b24bb21bkuuu18a16a6cc7e
 X-HM-MType: 1
 X-HM-NTES-SC: AL0_4z5B86Wr4Tz9jdMF+bhXMZZGmHXCYT+qIwZ5Sin3DoJXQzYPgdJIdxHgmd
-	xmFXFCgyqMJgqjt1DsviG6lDjyB8jDKOarwjTJS7VuWF4IgK52dcKCOpjkqSIQpB/JH8c6Y9vHS7
-	qwEDIJE8GwBcYi23o8Hq3y04xesqrNlUsdajk=
-X-HM-Sender-Digest: e1kMHhlZQQ8JDh5XWRIfHhUPWUFZRzo0KjpCOjgsPUsaSA8TMgoNMi8L
-	GE8LDFVKVUpNQklNS0JJTk1NT0pVMxYaEhdVGhcXHhVVEjsNEhgWGgkQHg8JHgsUCQ8IVRgUFkVZ
-	V1kUFR4JGAsPWUFKV1kSC1lBWUpPVUlKS1VIVUhZV1kIAVlBSEpDS0I3Bg++
+	xmFXFCgyqMJgqjt1DsviG6lDjyB8jDKOarwjTJS7VuWF4IgK52dcKCOpjkqSIQpB/JH8c6vrG/CK
+	4aWx+thc51CrnY4PTInxLK7JW0jJprKoKNNYk=
+X-HM-Sender-Digest: e1kMHhlZQQ8JDh5XWRIfHhUPWUFZRzorIjoPDDopPUooSD4pLlYOSBVO
+	Pk8UElVKVUpNQklNS0JISUNPT01VMxYaEhdVGhcXHhVVEjsNEhgWGgkQHg8JHgsUCQ8IVRgUFkVZ
+	V1kUFR4JGAsPWUFKV1kSC1lBWUpPVUlKS1VIVUhZV1kIAVlBSEpDS083Bg++
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
 
---=_Part_32983_1070759281.1692609255879
+--=_Part_33151_447230317.1692609327692
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: base64
 
@@ -63,7 +63,7 @@ dCB3aWxsIGhlbHAgdGhlIHByb2plY3QgbGVhZGVyLiBXZSB3b3VsZCBhcHByZWNpYXRlIGl0IGlm
 IHlvdSBjb3VsZCBmb3J3YXJkIGl0LgpXaXNoIHlvdSBhIG5pY2UgZGF5LgpBcHJpbCAoU2FsZXMg
 TWFuYWdlcikKVDogKzg2IDE4ODIwMTgxNDE1CkU6IGFwcmlsQHZpY21hcmtldHJlc2VhcmNoLmNv
 bQoKCg0KDQo=
---=_Part_32983_1070759281.1692609255879
+--=_Part_33151_447230317.1692609327692
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: base64
 
@@ -338,4 +338,4 @@ YWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OkNhbGlicmk7bXNvLWZhcmVhc3QtZm9udC1mYW1pbHk6
 5b6u6L2v6ZuF6buROwptc28tYmlkaS1mb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXpl
 OjEwLjUwMDBwdDttc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+PG86cD48L286cD48L3NwYW4+
 PC9wPjwvZGl2Pjxicj4=
---=_Part_32983_1070759281.1692609255879--
+--=_Part_33151_447230317.1692609327692--
