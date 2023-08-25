@@ -1,298 +1,108 @@
-Return-Path: <SRS0=RAXe=EK=linaro.org=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=tiZZ=EK=amd.com=Hamza.Mahfooz@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9760AC3DA6F
-	for <linux-firmware@archiver.kernel.org>; Fri, 25 Aug 2023 17:22:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2D245EE49A3
+	for <linux-firmware@archiver.kernel.org>; Fri, 25 Aug 2023 20:20:59 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 63F0BC433C8; Fri, 25 Aug 2023 17:22:39 +0000 (UTC)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id E3105C433C9; Fri, 25 Aug 2023 20:20:58 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2089.outbound.protection.outlook.com [40.107.220.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A8558C433C7
-	for <linux-firmware@kernel.org>; Fri, 25 Aug 2023 17:22:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A8558C433C7
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9a58dbd5daeso2804066b.2
-        for <linux-firmware@kernel.org>; Fri, 25 Aug 2023 10:22:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692984156; x=1693588956;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=0zqmhzv8h1IcVKxuLLSrqS8T0Gp6PWF+v4EZGxSC0e8=;
-        b=fDRwISPOH55USawdjHzJ5+MV/OjeARho2mE6C9puFp0F08WftgAkTqx2yfRhwDBay/
-         HktZ9u7Wa7IdqDDwEKUOnAyGjeuBczL35R7dxNCledvWS5BXc3KSttGQ/X2Hw1Pgywls
-         drdORi2SV597QzXrTU2dXEHIZ5/oPgx6N8l8MzDYTULBTppEXh4Clz5GdiBId2bN2X9M
-         cFuzPMuZm/+xDgc8QMLfS3sSNmx5vvJoKk+NwCrlnCZjSMAeX0U3yXHMgU+3p8ppbwTB
-         5xRfz5+b+iaOWR/V6tf2Mh9ZRoSYpdDtNfEMXctEdhrp8hbwIcWVl9vibyh25ZoZ0RK0
-         950g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692984156; x=1693588956;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0zqmhzv8h1IcVKxuLLSrqS8T0Gp6PWF+v4EZGxSC0e8=;
-        b=NXyF0OqY5zEB+NbibBvpIX9ykHPhKm2Lu9qbPoMvizVdamlfOZP67ChEQ4nJ+FIKtX
-         j1HuY/ghHLlR32O2/uWXTLEBJmBKs9zSvDXOdnp2Jlg2BhG24Kl2U8g+5gP8Y3uzRR7w
-         xMSX5LGkhOJEE9Hj26h1xoTpkG0LaFtx1OZol6yM+r0xXI9bSwhaPYVBIy32VQtxEJhO
-         8fnYMPXPEa/b2pYhK5AH51+q32Zj8ej/s87zF0uzX/hm9YP4zBMi/8/upZ4DyjvMrjwT
-         GJIbd481rlpAWydCz7DUPGxkyMBB59EawZr6tH+Tidk+qOjS523VqTYclRBuQ140W3pH
-         qB9A==
-X-Gm-Message-State: AOJu0Yz0A9wHEQ6fMj76zm6/dlRxBXQssWesqMezFaq3I+QdMkg99jTF
-	16vjXRAy7/9SxubdYJiZC3h/WA==
-X-Google-Smtp-Source: AGHT+IGUSNYSvImXb1T3Aa9AS9ZZnfq3vqc7rlFfhpkUEw+D7TPLftYPf7Jjy/Bfnh3JzgQJclpx9Q==
-X-Received: by 2002:a17:906:3287:b0:991:fef4:bb9 with SMTP id 7-20020a170906328700b00991fef40bb9mr14751878ejw.58.1692984155616;
-        Fri, 25 Aug 2023 10:22:35 -0700 (PDT)
-Received: from [10.10.15.130] ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id rn14-20020a170906d92e00b00992afee724bsm1152936ejb.76.2023.08.25.10.22.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Aug 2023 10:22:35 -0700 (PDT)
-Message-ID: <60fcf13c-c1bb-46f4-86bc-d3c674d0bf4b@linaro.org>
-Date: Fri, 25 Aug 2023 20:22:33 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/20] Add preparations to be able to run in a CI/CD
- system
+	by smtp.kernel.org (Postfix) with ESMTPS id 682DEC433C7;
+	Fri, 25 Aug 2023 20:20:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 682DEC433C7
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OzJ4mxDgNJ3lx1CWiD+VfdeXFRly7zjxndxm78P4qTufg6G51qjDJJFwaRWBazt7J95IvfFk5IVb5dszSPbI+JgMl1hBM7OuiXMfUbprsDR7Trs9l8choMXAROMd4w+GEWGmixvL4p1OZL3N7jCYKYRu9SC7dOB0RsHFOqlO6xGaEdeXrsjWii7/qXt+/ERTdeEy5vLNROxnvmcnw5JesJgZKBZjGV4NpEmwn/1iPdfUCj3+BdquZYQcoSR8H5XV4WkaILg/W+8ximZ9hh8C9PRSSnN5La6qJfYzpCqdOi+E1ZFfrdnJehECxESUGiN/OZPWjCfkaVRxYl7yBHVpYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wmPNEDZNMUxGdVEja8xoYKDy/nnBlDDZ6dA8k52bN4g=;
+ b=iIksi2ApIrDuVtKRzcnFR6XHCVV5YoxlEFL8oJNFNc6+dEKbtaA97YCZu7hwwT2g7qkrqEgVmSMuNgliRqnPUTi/1FEwXBwFBGnBeUuGva3lpEqnLmULNkMaLiR7ewz67ZH5Oq1q19N1EfuMTLIw9Qj++ejarczuNiO0FntIURReSE/t6wkwBcOqwJNnhgElvBVpD/SKnThF7P7Syea/xhhYozB5V34PdYgLfKVJEMMPzTTLfeSoqnKUEbVtCq3tAEbRZSp7s2LHPOB0tPjtXxpfis2/R5/iqNF1nYTcbPfZLZDE9uYl53H1ISIxlCxa0gBxdPBWY7HHSDDhQSHVKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wmPNEDZNMUxGdVEja8xoYKDy/nnBlDDZ6dA8k52bN4g=;
+ b=f5knmoJ8GvDA0W8if76IzIQTdppHl3LhIeWo3Kd+QLwUnEv9JgOYNd58HCnCDiCFS4dkrUG3d3H/SPvlez3w6Ebpzv6UcFGaEGT788Nz9I0lgu2cC6UZfwTK6GF7XpHHfGEURAKuY/Ig5u0bluYuE7AZS9U9rdz07qNexfaYq80=
+Received: from BY5PR13CA0022.namprd13.prod.outlook.com (2603:10b6:a03:180::35)
+ by DS0PR12MB7825.namprd12.prod.outlook.com (2603:10b6:8:14d::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.29; Fri, 25 Aug
+ 2023 20:20:55 +0000
+Received: from CO1PEPF000042A7.namprd03.prod.outlook.com
+ (2603:10b6:a03:180:cafe::86) by BY5PR13CA0022.outlook.office365.com
+ (2603:10b6:a03:180::35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.14 via Frontend
+ Transport; Fri, 25 Aug 2023 20:20:55 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1PEPF000042A7.mail.protection.outlook.com (10.167.243.36) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6699.14 via Frontend Transport; Fri, 25 Aug 2023 20:20:54 +0000
+Received: from hamza-pc.localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 25 Aug
+ 2023 15:20:53 -0500
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: Mario Limonciello <mario.limonciello@amd.com>, linux-firmware@kernel.org,
- Josh Boyer <jwboyer@kernel.org>
-References: <20230815180018.25554-1-mario.limonciello@amd.com>
-Content-Language: en-GB
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230815180018.25554-1-mario.limonciello@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: <jwboyer@kernel.org>, <linux-firmware@kernel.org>
+CC: <alexander.deucher@amd.com>, <mario.limonciello@amd.com>,
+	<chandan.vurdigerenataraj@amd.com>, <deepak.sharma@amd.com>
+Subject: Update of amdgpu DMCUB firmware (2023-08-25)
+Date: Fri, 25 Aug 2023 16:20:41 -0400
+Message-ID: <20230825202041.194349-1-hamza.mahfooz@amd.com>
+X-Mailer: git-send-email 2.41.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000042A7:EE_|DS0PR12MB7825:EE_
+X-MS-Office365-Filtering-Correlation-Id: efd1c384-aead-4b49-45be-08dba5a8c921
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	361rPKpqnajb/7xbZKwYV3Ac0W8Uj9JkWiZRBNXqkI9rh1ue0erfMNjcFP6hhql6suANNILB1bzU1mgYl6aE/Zs/lwStR9ZKri1qT/00knoA6z9OIRuOhvl6gY1ha8sIK/iNyHjkTmhcohvWm3ZCt0+z4YEjZpKkFDzEMJ1xi7gyl2jYTm/RQCzG6MfPbUxv3Wfd6vhZ2pwATNfmZvT6orYPwf5O2FvTywxDoXKXS0YcJj5JiXN4mbdufKM2Jly1BXO85u7As7x3dWyGs9LFUSU//THygWfBcjNHumYvmzvPYPYVC4H2k+tvgQzVDZ1uWYY2ehteycQ1Eq59H7PNZrRr5Bf6VW+Ve84ztitXAFuBLHG/eQqQTf3Gk9TzaoOX43PTto/3ftbMyS2YDUrah3jnqei/TCy+q4GbX+0j0Cw+3hOmq29yU8HjYF6IHOrJ+Bfx8yZpPgyJVcaXP/yHfSdo53pzEV1sdj69jg+F/Jyd3tatP/kDWAPs1rfnLmKEqAlQ8IluaJFd2KUgnNSnxogMLeFR+ny24zyRFr2gZSGnZLXIYcBUgonhayItN/gM3aP00EXrCkF42mH5RM14d4ZXOT40RJ80OmQEf6hz/DmO0hhgcJG06zWJiwPHAWP05r8OoJ/Qh6x8gSMK49yXienymgVvqF7ENLdwQ9KSPh0XlhSHrZtQBLx2Sl7f7a/1WBf/KizWQSuhP/W/YyaBRO0YpcYeRTJoOAVE9ex4J/Xy2IxaGs6sam8TZdIzEPgUNzBfgP/sXkxKdiEOgR0zWMq2Th48Bn9k05u6WL541fplDt6bHQoFYOjpK60BRI7b
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(346002)(39860400002)(136003)(376002)(1800799009)(82310400011)(451199024)(186009)(40470700004)(46966006)(36840700001)(1076003)(44832011)(36860700001)(336012)(15650500001)(83380400001)(478600001)(26005)(16526019)(47076005)(40480700001)(2616005)(5660300002)(426003)(2906002)(4744005)(8676002)(8936002)(4326008)(356005)(450100002)(82740400003)(81166007)(40460700003)(70206006)(70586007)(86362001)(110136005)(41300700001)(54906003)(36756003)(316002)(6666004)(16060500005)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2023 20:20:54.8046
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: efd1c384-aead-4b49-45be-08dba5a8c921
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF000042A7.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7825
 
-Helo,
+The following changes since commit a33f8f1abd1df344798188807de4b4397d7484d3:
 
-On 15/08/2023 20:59, Mario Limonciello wrote:
-> If linux-firmware.git or a fork of it is hosted in Gitlab there is the
-> ability to gate pull requests based on some CI checks.
-> 
-> The basic ones that come to mind are:
-> 1. Checking spelling.
+  amdgpu: update DMCUB to 0.0.181.0 for various AMDGPU ASICs (2023-08-25 15:25:00 -0400)
 
-First, you are renaming a lot of 'licence' files to be named 'license'. 
-This is fine from the US English point of view. Other (e.g. UK) English 
-keep the difference between licence (noun) and license (verb). Not 
-everybody uses the US English, especially for the legal documents.
+are available in the Git repository at:
 
-Second, renaming licence files and/or changing their contents doesn't 
-sound right to me. They are legally binding documents, with all the 
-mistakes and typos. They are usually passed through the legal 
-departments, etc. I would not guarantee that one wouldn't consider 
-licence being void after these spelling corrections.
+  git@gitlab.freedesktop.org:drm/firmware.git tags/amd-2023-08-25
 
-> 2. Checking WHENCE.
-> 3. Checking for SoB.
-> 4. Ensure that any python scripts pass style for 'black'.
-> 
-> All of the checks can be triggered by `pre-commit` or by `make check`
-> 
-> This series cleans up linux-firmware.git so all those would pass and
-> adds some templates to that effect.
-> 
-> Mario Limonciello (20):
->    ath11k: update typographical errors in the Notice.txt files
->    ath10k: correct typographical errors in the Notice.txt files
->    i915: correct typographical errors caught by codespell
->    adsp_sst: correct typographical errors caught by codespell
->    agere: correct typographical errors in LICENSE caught by codespell
->    qca: correct typographical errors in NOTICE.txt caught by codespell
->    usbdux: correct typographical errors caught by codespell
->    dsp56k: correct typographical error caught by codespell
->    cxgb4: correct typographical errors caught by codespell
->    cavium_liquidio: fix typographical errors caught by codespell
->    kaweth: correct typographical errors caught by codespell
->    xc5000c: correct typographical errors caught by codespell
->    qcom: correct typographical errors caught by codespell
->    keyspan_pda: correct typographical errors caught by codespell
->    carl9170fw: correct typographical errors caught by codespell
->    WHENCE: correct typographical errors caught by codespell
->    check_whence: reformat using python black
->    Add CI/CD with ci-fairy
->    Wire up pre-commit to `make check`
->    Rewrite README in markdown
-> 
->   .codespell.cfg                                |   4 +
->   .gitignore                                    |   1 +
->   .gitlab-ci.yml                                |  22 +
->   .pre-commit-config.yaml                       |  33 ++
->   LICENCE.Abilis => LICENSE.Abilis              |   0
->   LICENCE.IntcSST2 => LICENSE.IntcSST2          |   0
->   LICENCE.Marvell => LICENSE.Marvell            |   0
->   LICENCE.NXP => LICENSE.NXP                    |   0
->   LICENCE.Netronome => LICENSE.Netronome        |   0
->   LICENCE.OLPC => LICENSE.OLPC                  |   0
->   LICENCE.adsp_sst => LICENSE.adsp_sst          |   4 +-
->   LICENCE.agere => LICENSE.agere                |   2 +-
->   ...heros_firmware => LICENSE.atheros_firmware |   0
->   ...oadcom_bcm43xx => LICENSE.broadcom_bcm43xx |   0
->   LICENCE.ca0132 => LICENSE.ca0132              |   0
->   LICENCE.cadence => LICENSE.cadence            |   0
->   LICENCE.cavium => LICENSE.cavium              |   0
->   ...cavium_liquidio => LICENSE.cavium_liquidio |   4 +-
->   ...elsio_firmware => LICENSE.chelsio_firmware |   0
->   LICENCE.cnm => LICENSE.cnm                    |   0
->   LICENCE.cw1200 => LICENSE.cw1200              |   0
->   LICENCE.cypress => LICENSE.cypress            |   0
->   LICENCE.e100 => LICENSE.e100                  |   0
->   LICENCE.ene_firmware => LICENSE.ene_firmware  |   0
->   LICENCE.fw_sst_0f28 => LICENSE.fw_sst_0f28    |   0
->   LICENCE.go7007 => LICENSE.go7007              |   0
->   LICENSE.i915                                  |  78 ++--
->   LICENCE.ibt_firmware => LICENSE.ibt_firmware  |   0
->   LICENCE.it913x => LICENSE.it913x              |   0
->   ...lwifi_firmware => LICENSE.iwlwifi_firmware |   0
->   LICENCE.kaweth => LICENSE.kaweth              |   2 +-
->   LICENCE.linaro => LICENSE.linaro              |   0
->   LICENCE.mediatek => LICENSE.mediatek          |   0
->   LICENCE.microchip => LICENSE.microchip        |   0
->   LICENCE.moxa => LICENSE.moxa                  |   0
->   ...10ge_firmware => LICENSE.myri10ge_firmware |   0
->   LICENCE.nvidia => LICENSE.nvidia              |   0
->   ...irmware => LICENSE.open-ath9k-htc-firmware |   0
->   LICENCE.phanfw => LICENSE.phanfw              |   0
->   LICENCE.qat_firmware => LICENSE.qat_firmware  |   0
->   LICENCE.qla1280 => LICENSE.qla1280            |   0
->   LICENCE.qla2xxx => LICENSE.qla2xxx            |   0
->   LICENCE.r8a779x_usb3 => LICENSE.r8a779x_usb3  |   0
->   ...irmware.txt => LICENSE.ralink-firmware.txt |   0
->   ...LICENSE.ralink_a_mediatek_company_firmware |   0
->   LICENCE.rockchip => LICENSE.rockchip          |   0
->   ...rmware.txt => LICENSE.rtlwifi_firmware.txt |   0
->   LICENCE.siano => LICENSE.siano                |   0
->   ...ti-connectivity => LICENSE.ti-connectivity |   0
->   LICENCE.ti-keystone => LICENSE.ti-keystone    |   0
->   LICENCE.ti-tspa => LICENSE.ti-tspa            |   0
->   ...4-firmware => LICENSE.ueagle-atm4-firmware |   0
->   LICENCE.via_vt6656 => LICENSE.via_vt6656      |   0
->   LICENCE.wl1251 => LICENSE.wl1251              |   0
->   LICENCE.xc4000 => LICENSE.xc4000              |   0
->   LICENCE.xc5000 => LICENSE.xc5000              |   0
->   LICENCE.xc5000c => LICENSE.xc5000c            |   2 +-
->   Makefile                                      |   6 +-
->   README                                        |  43 --
->   README.md                                     |  54 +++
->   WHENCE                                        | 432 +++++++++---------
->   .../hw1.0/notice_ath10k_firmware-5.txt        |  40 +-
->   .../hw2.1/notice_ath10k_firmware-5.txt        | 138 +++---
->   .../hw3.0/notice_ath10k_firmware-4.txt        | 144 +++---
->   .../hw3.0/notice_ath10k_firmware-6.txt        |  32 +-
->   .../hw3.0/notice_ath10k_firmware-sdio-6.txt   |  32 +-
->   .../hw1.0/notice_ath10k_firmware-5.txt        | 138 +++---
->   .../hw1.0/notice_ath10k_firmware-6.txt        |  32 +-
->   .../hw1.0/notice_ath10k_firmware-sdio-5.txt   | 138 +++---
->   .../hw1.0/notice_ath10k_firmware-5.txt        |   8 +-
->   .../hw2.0/notice_ath10k_firmware-5.txt        |  40 +-
->   .../hw2.0/notice_ath10k_firmware-4.txt        |   8 +-
->   .../hw2.0/notice_ath10k_firmware-5.txt        |   8 +-
->   .../hw1.0/notice_ath10k_firmware-5.txt        |  40 +-
->   .../hw2.0/notice_ath10k_firmware-5.txt        |  26 +-
->   ath10k/WCN3990/hw1.0/notice.txt_wlanmdsp      |  26 +-
->   ath11k/IPQ5018/hw1.0/Notice.txt               |  28 +-
->   ath11k/IPQ6018/hw1.0/Notice.txt               |  28 +-
->   ath11k/IPQ8074/hw2.0/Notice.txt               |  28 +-
->   ath11k/QCA6390/hw2.0/Notice.txt               | 100 ++--
->   ath11k/QCN9074/hw1.0/Notice.txt               |  28 +-
->   ath11k/WCN6750/hw1.0/Notice.txt               | 164 +++----
->   ath11k/WCN6855/hw2.0/Notice.txt               |  26 +-
->   carl9170fw/carlfw/Kconfig                     |   2 +-
->   carl9170fw/carlfw/carl9170.lds                |   4 +-
->   carl9170fw/carlfw/include/dma.h               |   2 +-
->   carl9170fw/carlfw/src/wlan.c                  |   4 +-
->   carl9170fw/carlfw/src/wol.c                   |   2 +-
->   carl9170fw/extra/FindGPERF.cmake              |   2 +-
->   .../extra/FindPackageHandleStandardArgs.cmake |   8 +-
->   carl9170fw/include/shared/fwcmd.h             |   2 +-
->   carl9170fw/include/shared/phy.h               |   2 +-
->   carl9170fw/tools/carlu/src/fw.c               |   2 +-
->   carl9170fw/tools/carlu/src/test.c             |   4 +-
->   carl9170fw/tools/carlu/src/usb.c              |   6 +-
->   carl9170fw/tools/include/frame.h              |  12 +-
->   check_whence.py                               |  89 ++--
->   cxgb4/configs/t4-config-default.txt           |   6 +-
->   cxgb4/configs/t5-config-default.txt           |   6 +-
->   cxgb4/configs/t5-config-hashfilter.txt        |   6 +-
->   cxgb4/configs/t6-config-default.txt           |   6 +-
->   cxgb4/configs/t6-config-hashfilter.txt        |   8 +-
->   dsp56k/concat-bootstrap.pl                    |   2 +-
->   keyspan_pda/keyspan_pda.S                     |   4 +-
->   keyspan_pda/xircom_pgs.S                      |   4 +-
->   qca/NOTICE.txt                                |   6 +-
->   qcom/NOTICE.txt                               |  16 +-
->   usbdux/usbdux_firmware.asm                    |  16 +-
->   usbdux/usbduxfast_firmware.asm                |   6 +-
->   usbdux/usbduxsigma_firmware.asm               |  14 +-
->   wfx/{LICENCE.wf200 => LICENSE.wf200}          |   0
->   111 files changed, 1137 insertions(+), 1043 deletions(-)
->   create mode 100644 .codespell.cfg
->   create mode 100644 .gitignore
->   create mode 100644 .gitlab-ci.yml
->   create mode 100644 .pre-commit-config.yaml
->   rename LICENCE.Abilis => LICENSE.Abilis (100%)
->   rename LICENCE.IntcSST2 => LICENSE.IntcSST2 (100%)
->   rename LICENCE.Marvell => LICENSE.Marvell (100%)
->   rename LICENCE.NXP => LICENSE.NXP (100%)
->   rename LICENCE.Netronome => LICENSE.Netronome (100%)
->   rename LICENCE.OLPC => LICENSE.OLPC (100%)
->   rename LICENCE.adsp_sst => LICENSE.adsp_sst (99%)
->   rename LICENCE.agere => LICENSE.agere (98%)
->   rename LICENCE.atheros_firmware => LICENSE.atheros_firmware (100%)
->   rename LICENCE.broadcom_bcm43xx => LICENSE.broadcom_bcm43xx (100%)
->   rename LICENCE.ca0132 => LICENSE.ca0132 (100%)
->   rename LICENCE.cadence => LICENSE.cadence (100%)
->   rename LICENCE.cavium => LICENSE.cavium (100%)
->   rename LICENCE.cavium_liquidio => LICENSE.cavium_liquidio (97%)
->   rename LICENCE.chelsio_firmware => LICENSE.chelsio_firmware (100%)
->   rename LICENCE.cnm => LICENSE.cnm (100%)
->   rename LICENCE.cw1200 => LICENSE.cw1200 (100%)
->   rename LICENCE.cypress => LICENSE.cypress (100%)
->   rename LICENCE.e100 => LICENSE.e100 (100%)
->   rename LICENCE.ene_firmware => LICENSE.ene_firmware (100%)
->   rename LICENCE.fw_sst_0f28 => LICENSE.fw_sst_0f28 (100%)
->   rename LICENCE.go7007 => LICENSE.go7007 (100%)
->   rename LICENCE.ibt_firmware => LICENSE.ibt_firmware (100%)
->   rename LICENCE.it913x => LICENSE.it913x (100%)
->   rename LICENCE.iwlwifi_firmware => LICENSE.iwlwifi_firmware (100%)
->   rename LICENCE.kaweth => LICENSE.kaweth (97%)
->   rename LICENCE.linaro => LICENSE.linaro (100%)
->   rename LICENCE.mediatek => LICENSE.mediatek (100%)
->   rename LICENCE.microchip => LICENSE.microchip (100%)
->   rename LICENCE.moxa => LICENSE.moxa (100%)
->   rename LICENCE.myri10ge_firmware => LICENSE.myri10ge_firmware (100%)
->   rename LICENCE.nvidia => LICENSE.nvidia (100%)
->   rename LICENCE.open-ath9k-htc-firmware => LICENSE.open-ath9k-htc-firmware (100%)
->   rename LICENCE.phanfw => LICENSE.phanfw (100%)
->   rename LICENCE.qat_firmware => LICENSE.qat_firmware (100%)
->   rename LICENCE.qla1280 => LICENSE.qla1280 (100%)
->   rename LICENCE.qla2xxx => LICENSE.qla2xxx (100%)
->   rename LICENCE.r8a779x_usb3 => LICENSE.r8a779x_usb3 (100%)
->   rename LICENCE.ralink-firmware.txt => LICENSE.ralink-firmware.txt (100%)
->   rename LICENCE.ralink_a_mediatek_company_firmware => LICENSE.ralink_a_mediatek_company_firmware (100%)
->   rename LICENCE.rockchip => LICENSE.rockchip (100%)
->   rename LICENCE.rtlwifi_firmware.txt => LICENSE.rtlwifi_firmware.txt (100%)
->   rename LICENCE.siano => LICENSE.siano (100%)
->   rename LICENCE.ti-connectivity => LICENSE.ti-connectivity (100%)
->   rename LICENCE.ti-keystone => LICENSE.ti-keystone (100%)
->   rename LICENCE.ti-tspa => LICENSE.ti-tspa (100%)
->   rename LICENCE.ueagle-atm4-firmware => LICENSE.ueagle-atm4-firmware (100%)
->   rename LICENCE.via_vt6656 => LICENSE.via_vt6656 (100%)
->   rename LICENCE.wl1251 => LICENSE.wl1251 (100%)
->   rename LICENCE.xc4000 => LICENSE.xc4000 (100%)
->   rename LICENCE.xc5000 => LICENSE.xc5000 (100%)
->   rename LICENCE.xc5000c => LICENSE.xc5000c (93%)
->   delete mode 100644 README
->   create mode 100644 README.md
->   rename wfx/{LICENCE.wf200 => LICENSE.wf200} (100%)
-> 
+for you to fetch changes up to a33f8f1abd1df344798188807de4b4397d7484d3:
 
--- 
-With best wishes
-Dmitry
+  amdgpu: update DMCUB to 0.0.181.0 for various AMDGPU ASICs (2023-08-25 15:25:00 -0400)
 
+----------------------------------------------------------------
