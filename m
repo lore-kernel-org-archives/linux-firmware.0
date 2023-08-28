@@ -4,72 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD22CC83F11
-	for <linux-firmware@archiver.kernel.org>; Mon, 28 Aug 2023 10:55:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 739F9C83F12
+	for <linux-firmware@archiver.kernel.org>; Mon, 28 Aug 2023 11:12:45 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 72CCFC433CB; Mon, 28 Aug 2023 10:55:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C890C433C9;
-	Mon, 28 Aug 2023 10:55:29 +0000 (UTC)
+	id 42A2FC433CC; Mon, 28 Aug 2023 11:12:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B46BC433C9;
+	Mon, 28 Aug 2023 11:12:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1693220129;
-	bh=dm9y9OCP+t43iO19XArWc+A5EajPmlhWmQiniBBe6EI=;
+	s=k20201202; t=1693221165;
+	bh=tZOxDYEn6ooD68jYpJgPagL+xSsXAXPaxqEVidNi328=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=f39yRMGx1Ul4Hlmuh7KqOqegKQKbJlfjnmRsJGT5wGIgYo3qYYqyE/j0whIppqkCT
-	 zZQiFUMzY8xT+5s13uZ2P2QKFp1znV78UFeal2TEkIN+DtlCKGwqBa4xUFFpaEvXiN
-	 ZJmWlOcioZ3lTpz72iSTuR5zyO2LtFtEBqyBrn/CnOaRg4Ji/yodZWHTv6LcV2dfcn
-	 iJGBMwqcKTGLqQH+NaAIrM89IhxgA/Ud0zzDGV0XfrKfM6Ib/XOPwHC5nviMc2gqJL
-	 kXfvWEqFh1XrL9IUnPo+CHi7QvL+3x4WtEqO6IynJtQgwuUgLU2798e1K4JRkxVbZ2
-	 ydUYqUxg8COmw==
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-d72cf9156easo2710572276.0;
-        Mon, 28 Aug 2023 03:55:29 -0700 (PDT)
-X-Gm-Message-State: AOJu0YyKM3FWT7NP6hrnKKs10420t+8W9mwpFPg8bamrmRPwWNNph3D4
-	3tnGR/Twnpr2evXjB8o3+adS+gKSsUxWlbuDLQU=
-X-Google-Smtp-Source: AGHT+IGSgbXBFnZtjGGBOVBt1hFAkHS/vTA4TQkoHVcdFTW9O/hoMnUCw3DaA7J+fGZ8VB7l+dYXVgNG9PZL7VG7+30=
-X-Received: by 2002:a25:4014:0:b0:d08:20f1:f7cd with SMTP id
- n20-20020a254014000000b00d0820f1f7cdmr24139775yba.16.1693220128411; Mon, 28
- Aug 2023 03:55:28 -0700 (PDT)
+	b=TKDhKzW/uzcySxyhCkpb9G5yN8dtrod86qNKDhXZaHql00aO24PKSD5l2DF6QHHrt
+	 zDIN3hK5Dws9HRB9eZbUIbC42lu6eNMDVKFxpXYWrLMvBJfjSYlmUiyP3sbuCAkkqF
+	 HZi7w4IW2Uok7a4jviE80itCbUDIAxhkNIupT2x2fAPaRw0fgihPAE5eCyWDR4iKNp
+	 AKR+Iam7/qv8EFHc3DEk25OZ7AsC3G7nPtafekQZvkLCWaL7ulaG8zhY0CClz0SAOW
+	 V7bNlnpok+cKtLo5pW5hQ1PkWyrqPGDWc8lEOo8gBaFyRziet/F+Il5f/fFvqVURZ2
+	 aEIVqunOh1z6Q==
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-58fba83feb0so34832547b3.3;
+        Mon, 28 Aug 2023 04:12:45 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yx8fxn/tHLzF3SRMB5hjSu6aBOpguEOcaPuO+ULNX8PLAab+e7L
+	Bhq90EcJEHoXKQ0QL4OhPjsfHmBCQwZPEAIVk10=
+X-Google-Smtp-Source: AGHT+IFGo0NG/wpoq5gkNtWaE6oSw8s/3u1SgxHtLyG99X2EfqQH+booCINNyF2/o8ZMZeNRX/OCf7/f/g1adjRh/7E=
+X-Received: by 2002:a81:a254:0:b0:592:5cbd:e171 with SMTP id
+ z20-20020a81a254000000b005925cbde171mr14724176ywg.43.1693221164176; Mon, 28
+ Aug 2023 04:12:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230823184247.1767725-1-daniele.ceraolospurio@intel.com>
-In-Reply-To: <20230823184247.1767725-1-daniele.ceraolospurio@intel.com>
+References: <20230825202041.194349-1-hamza.mahfooz@amd.com>
+In-Reply-To: <20230825202041.194349-1-hamza.mahfooz@amd.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 28 Aug 2023 06:55:17 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA61vRm9ZawR=gh_FLPEniOLdX0udQjjro3q79_yGOasuw@mail.gmail.com>
-Message-ID: <CA+5PVA61vRm9ZawR=gh_FLPEniOLdX0udQjjro3q79_yGOasuw@mail.gmail.com>
-Subject: Re: PR for GSC FW release 102.0.0.1655 for MTL
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Date: Mon, 28 Aug 2023 07:12:33 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA6vBbGK4DznO45gp3N3OEL8ERzyjUfe_fLGMCEZ2NjgYg@mail.gmail.com>
+Message-ID: <CA+5PVA6vBbGK4DznO45gp3N3OEL8ERzyjUfe_fLGMCEZ2NjgYg@mail.gmail.com>
+Subject: Re: Update of amdgpu DMCUB firmware (2023-08-25)
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>, Wayne.Lin@amd.com
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, kyle@kernel.org, ben@decadent.org.uk, 
-	intel-gfx@lists.freedesktop.org
+Cc: jwboyer@kernel.org, linux-firmware@kernel.org, alexander.deucher@amd.com, 
+	mario.limonciello@amd.com, chandan.vurdigerenataraj@amd.com, 
+	deepak.sharma@amd.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 23, 2023 at 2:43=E2=80=AFPM Daniele Ceraolo Spurio
-<daniele.ceraolospurio@intel.com> wrote:
+On Fri, Aug 25, 2023 at 4:20=E2=80=AFPM Hamza Mahfooz <hamza.mahfooz@amd.co=
+m> wrote:
 >
-> The following changes since commit 0e048b061bde79ad735c7b7b5161ee1bd34001=
-50:
+> The following changes since commit a33f8f1abd1df344798188807de4b4397d7484=
+d3:
 >
->   Merge branch 'for-upstream' of https://github.com/CirrusLogic/linux-fir=
-mware (2023-08-14 13:03:41 -0400)
+>   amdgpu: update DMCUB to 0.0.181.0 for various AMDGPU ASICs (2023-08-25 =
+15:25:00 -0400)
 >
 > are available in the Git repository at:
 >
->   git://anongit.freedesktop.org/drm/drm-firmware mtl_gsc_1655
+>   git@gitlab.freedesktop.org:drm/firmware.git tags/amd-2023-08-25
 
-Pulled and pushed out.
+Does this replace Wayne Lin's pull request for tags/amd-2023-08-18?
+
+I can't get to gitlab.freedesktop.org at all right now, so I can't pull eit=
+her.
 
 josh
 
 >
-> for you to fetch changes up to 81caac98eda16944446fa057191ee969c377154a:
+> for you to fetch changes up to a33f8f1abd1df344798188807de4b4397d7484d3:
 >
->   i915: add GSC 102.0.0.1655 for MTL (2023-08-21 14:13:11 -0700)
+>   amdgpu: update DMCUB to 0.0.181.0 for various AMDGPU ASICs (2023-08-25 =
+15:25:00 -0400)
 >
 > ----------------------------------------------------------------
-> Daniele Ceraolo Spurio (1):
->       i915: add GSC 102.0.0.1655 for MTL
->
->  WHENCE             |   3 +++
->  i915/mtl_gsc_1.bin | Bin 0 -> 1142784 bytes
->  2 files changed, 3 insertions(+)
->  create mode 100755 i915/mtl_gsc_1.bin
