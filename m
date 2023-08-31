@@ -1,144 +1,91 @@
-Return-Path: <SRS0=MP8O=EQ=canonical.com=juerg.haefliger@kernel.org>
+Return-Path: <SRS0=Fw8B=EQ=quicinc.com=quic_tjiang@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0A36C83F10
-	for <linux-firmware@archiver.kernel.org>; Thu, 31 Aug 2023 08:14:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B9C4C83F01
+	for <linux-firmware@archiver.kernel.org>; Thu, 31 Aug 2023 09:46:37 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C9EFBC433C9; Thu, 31 Aug 2023 08:14:20 +0000 (UTC)
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id B03E8C433C9; Thu, 31 Aug 2023 09:46:37 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 6AF02C433C8
-	for <linux-firmware@kernel.org>; Thu, 31 Aug 2023 08:14:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 6AF02C433C8
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=canonical.com
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com [209.85.221.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 139753F179
-	for <linux-firmware@kernel.org>; Thu, 31 Aug 2023 08:14:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1693469652;
-	bh=ZmNRkgBP64LCpy3PIU5Neq0jCkoIsGbhyz/2IFqP9MY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version;
-	b=FKPdxWg92w8gFjXnA0Zy+M338RCV265MdAltNWWTvYXG91KOfOrFNJLQ7Qt6es6RB
-	 E30yQ2jNHjQUkYOVUhVr6W2SWCVwjdEFbrzsyCXLBWYsWUPEjlS1xrqyj+BdEYdL/7
-	 g7GORrscwbBh5WFdRcgOIGtC2/QU5yp6BcyLe1r8YltcFOS7Qnkjz0BQyMo9Lf9a83
-	 +T0jTUncsSAhU7Ygtukoi1p52sedTHg/fiYO/Ob3J2La4u5ezMmldUMIw0Yst38b6X
-	 e5IWf9A4XkrtMX/g4mmmoWdT/eF4U44oFNyIcM8C66Ine+BbtNXdGOXV93HAA0pFql
-	 NpXjpZ+OuEoyA==
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-30e4943ca7fso281412f8f.3
-        for <linux-firmware@kernel.org>; Thu, 31 Aug 2023 01:14:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693469651; x=1694074451;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZmNRkgBP64LCpy3PIU5Neq0jCkoIsGbhyz/2IFqP9MY=;
-        b=Uf8A+Bcvx6vdv2rGeHPLND3VyoGD+aiofYfbwJeNYW6vkz2bhKKR6gAymRRIIH1J9b
-         vCekz1DgUlO2gpdxdYBnQFQORgEt5SiZCUCAhnrpuow4dCCfwPcNkWv1YxhZPya2wH5s
-         IGOHLtBp3S/c1Ip3wQUkiIeWYBiMPi0zbmBoNJFMtLS+Mjqr3cMaUJoA/ofg4xZQvugF
-         WK4YY5MctmnOM6M1AME3MVGv/FKN9M9alDBH//ORkQRHc7ZzD5cixGHr9ClSF8Cjb1UK
-         3phafumrZbZzR0X3O27K+0Ffg+Avr87teRw3X/DNNsw0ggR8Nnd7DIazXU5NUMhOLGaY
-         ebOw==
-X-Gm-Message-State: AOJu0YywkPG+t4w81Bl3N0W4i1Y95zSYkBOtCmChjoUhn/bKsP+TduPR
-	xEakwlFcyOLUX8sWvZAa2Hmr6pK9WMmNZSBj85hUb7GXayr1q2zOqscGM6LAYvEiVzzbs7Hgr37
-	VA4tEAeTMAXm9gmITOaVIOWGB0TWkBI2St4c8fZf2Wf7Bfw==
-X-Received: by 2002:a5d:452c:0:b0:31a:d1c3:97ca with SMTP id j12-20020a5d452c000000b0031ad1c397camr3773036wra.20.1693469651777;
-        Thu, 31 Aug 2023 01:14:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFqqU7q77nslOBLpXIj4hkr3Y6JbrkplzHtZbwP/cEvtnuAaVovopPGfaNLjgh8i9+OOvlQlw==
-X-Received: by 2002:a5d:452c:0:b0:31a:d1c3:97ca with SMTP id j12-20020a5d452c000000b0031ad1c397camr3773027wra.20.1693469651566;
-        Thu, 31 Aug 2023 01:14:11 -0700 (PDT)
-Received: from localhost ([194.191.244.86])
-        by smtp.gmail.com with ESMTPSA id p8-20020a5d4588000000b003143add4396sm1359972wrq.22.2023.08.31.01.14.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Aug 2023 01:14:11 -0700 (PDT)
-From: Juerg Haefliger <juerg.haefliger@canonical.com>
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: jwboyer@kernel.org,
-	Juerg Haefliger <juerg.haefliger@canonical.com>
-Subject: [PATCH 3/3] WHENCE: Don't compress qcom json files
-Date: Thu, 31 Aug 2023 10:13:45 +0200
-Message-Id: <20230831081345.47699-4-juerg.haefliger@canonical.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230831081345.47699-1-juerg.haefliger@canonical.com>
-References: <20230831081345.47699-1-juerg.haefliger@canonical.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id C03ABC433C7
+	for <linux-firmware@kernel.org>; Thu, 31 Aug 2023 09:46:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C03ABC433C7
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37V9GDJ1023572
+	for <linux-firmware@kernel.org>; Thu, 31 Aug 2023 09:46:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : to : from : subject : content-type :
+ content-transfer-encoding; s=qcppdkim1;
+ bh=0yVVwO2BF3S8KM0iK86qpoGtml4ZVBaSol2I68xsubg=;
+ b=mQazdHzxo93s+PVrmqCNzUKLlfC5b95t6PprbixZ3LeBtA/z+RyxMcHogFaBJ4p56HWI
+ 2c46GpTSVIn7ULMIlznZTDsYWWoCvHFFF6eOWF7cgEXGUne0zoQa5YHzKZWvhfRiQTnh
+ Q8cbiaJkTJLfiobQ3h+42aIVjsCxd+lNVoILDOxiJQWzmWbhCP98+9+TJEvbV//942hi
+ /IuEn/NzC7BUc6zASuporth/5Nc3V42pcFa260tVAEPgqQUdSV6ZVnjM352pTHkam5gt
+ Fc2mtpBedAgC0/Vjh/5szqC/9YKR0i+o/WPOjqGsRaPPWulCCgYnuRzXjSxXlKpmkZ+L 0g== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3stj378qr2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <linux-firmware@kernel.org>; Thu, 31 Aug 2023 09:46:35 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37V9kZ2w001822
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <linux-firmware@kernel.org>; Thu, 31 Aug 2023 09:46:35 GMT
+Received: from [10.239.104.229] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Thu, 31 Aug
+ 2023 02:46:34 -0700
+Message-ID: <91fea221-6ff9-6850-7d4c-5ecfa2b8a3c6@quicinc.com>
+Date: Thu, 31 Aug 2023 17:46:30 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Content-Language: en-US
+List-Id: <linux-firmware.lore.kernel.org>
+To: <linux-firmware@kernel.org>
+From: Tim Jiang <quic_tjiang@quicinc.com>
+Subject: btqca firmware 20230831
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: B6thxsh1EoOCHMlRTGTA8G4KWU6MaAuC
+X-Proofpoint-ORIG-GUID: B6thxsh1EoOCHMlRTGTA8G4KWU6MaAuC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-31_07,2023-08-29_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 priorityscore=1501
+ clxscore=1011 lowpriorityscore=0 mlxlogscore=629 bulkscore=0
+ malwarescore=0 spamscore=0 phishscore=0 impostorscore=0 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2308310086
 
-Don't compress qcom json files. They are loaded by the pd-mapper userspace
-app which doesn't know about compression.
+Hi linux-firmware maintainers,
 
-Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
----
- WHENCE | 32 ++++++++++++++++----------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+Here's a pull request for btqca bluetooth driver. Please let me know if 
+you have any problems.
 
-diff --git a/WHENCE b/WHENCE
-index 852e88f55341..e057a5e49931 100644
---- a/WHENCE
-+++ b/WHENCE
-@@ -5630,28 +5630,28 @@ File: qcom/apq8016/modem.mbn
- File: qcom/apq8016/wcnss.mbn
- File: qcom/apq8016/WCNSS_qcom_wlan_nv_sbc.bin
- File: qcom/apq8096/adsp.mbn
--File: qcom/apq8096/adspr.jsn
--File: qcom/apq8096/adspua.jsn
-+RawFile: qcom/apq8096/adspr.jsn
-+RawFile: qcom/apq8096/adspua.jsn
- File: qcom/apq8096/mba.mbn
- File: qcom/apq8096/modem.mbn
--File: qcom/apq8096/modemr.jsn
-+RawFile: qcom/apq8096/modemr.jsn
- File: qcom/sdm845/adsp.mbn
--File: qcom/sdm845/adspr.jsn
--File: qcom/sdm845/adspua.jsn
-+RawFile: qcom/sdm845/adspr.jsn
-+RawFile: qcom/sdm845/adspua.jsn
- File: qcom/sdm845/cdsp.mbn
--File: qcom/sdm845/cdspr.jsn
-+RawFile: qcom/sdm845/cdspr.jsn
- File: qcom/sdm845/Thundercomm/db845c/slpi.mbn
--File: qcom/sdm845/Thundercomm/db845c/slpir.jsn
--File: qcom/sdm845/Thundercomm/db845c/slpius.jsn
-+RawFile: qcom/sdm845/Thundercomm/db845c/slpir.jsn
-+RawFile: qcom/sdm845/Thundercomm/db845c/slpius.jsn
- File: qcom/sm8250/adsp.mbn
--File: qcom/sm8250/adspr.jsn
--File: qcom/sm8250/adspua.jsn
-+RawFile: qcom/sm8250/adspr.jsn
-+RawFile: qcom/sm8250/adspua.jsn
- File: qcom/sm8250/cdsp.mbn
--File: qcom/sm8250/cdspr.jsn
--File: qcom/sc8280xp/LENOVO/21BX/adspr.jsn
--File: qcom/sc8280xp/LENOVO/21BX/adspua.jsn
--File: qcom/sc8280xp/LENOVO/21BX/battmgr.jsn
--File: qcom/sc8280xp/LENOVO/21BX/cdspr.jsn
-+RawFile: qcom/sm8250/cdspr.jsn
-+RawFile: qcom/sc8280xp/LENOVO/21BX/adspr.jsn
-+RawFile: qcom/sc8280xp/LENOVO/21BX/adspua.jsn
-+RawFile: qcom/sc8280xp/LENOVO/21BX/battmgr.jsn
-+RawFile: qcom/sc8280xp/LENOVO/21BX/cdspr.jsn
- File: qcom/sc8280xp/LENOVO/21BX/qcadsp8280.mbn
- File: qcom/sc8280xp/LENOVO/21BX/qccdsp8280.mbn
- File: qcom/sc8280xp/LENOVO/21BX/qcslpi8280.mbn
-@@ -5675,7 +5675,7 @@ Driver: qcom_q6v5_mss - Qualcomm modem subsystem firmware
- 
- File: qcom/sdm845/mba.mbn
- File: qcom/sdm845/modem_nm.mbn
--File: qcom/sdm845/modemuw.jsn
-+RawFile: qcom/sdm845/modemuw.jsn
- Link: qcom/sdm845/modem.mbn -> modem_nm.mbn
- 
- Licence: Redistributable. See LICENSE.qcom and qcom/NOTICE.txt for details
--- 
-2.39.2
+The following changes since commit
+5ebb5914a3b95be1dab4f058d073bd75afcdd0f2:
+
+    Merge branch 'mlimonci/update-ci' into 'main'
+
+
+are available in the Git repository at:
+
+    https://github.com/tjiang1234/btfw-wcn6855-605
+
+for you to fetch changes up to 1edd2d6faa066928f0ef7594ffc2a13d9888ea85:
+
+----------------------------------------------------------------
+
+         QCA: Update Bluetooth WCN685x 2.1 firmware to 2.1.0-00605
 
