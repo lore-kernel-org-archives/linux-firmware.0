@@ -4,112 +4,114 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 68B07C83F2E
-	for <linux-firmware@archiver.kernel.org>; Thu, 31 Aug 2023 08:14:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5686C83F10
+	for <linux-firmware@archiver.kernel.org>; Thu, 31 Aug 2023 08:14:15 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 182DEC433C9; Thu, 31 Aug 2023 08:14:14 +0000 (UTC)
+	id B7E2FC433C7; Thu, 31 Aug 2023 08:14:15 +0000 (UTC)
 Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 869B9C433CB
-	for <linux-firmware@kernel.org>; Thu, 31 Aug 2023 08:14:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 869B9C433CB
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=canonical.com
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com [209.85.128.72])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id C93A33F1A3
-	for <linux-firmware@kernel.org>; Thu, 31 Aug 2023 08:14:10 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id AAC07C433CA
+	for <linux-firmware@kernel.org>; Thu, 31 Aug 2023 08:14:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org AAC07C433CA
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=canonical.com
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 2A71541D38
+	for <linux-firmware@kernel.org>; Thu, 31 Aug 2023 08:14:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1693469650;
-	bh=s01DApk7IRc3Pzu/8v7bADrlAj+iQ6+mqMGDZ4b1lgI=;
+	s=20210705; t=1693469651;
+	bh=YPcOyWy+gho0oeDn6wV8ktVxL7HBQxiMu6d31Z1mdRo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
 	 MIME-Version;
-	b=ORpF5SKetj3YkQDxtUIT03odWpIb/yzUdbYcJXUTbMZj59lvYM8nYZtkxcbcgdnyY
-	 kbNxEGxF2hSvTRTB5KEPO8knVmyCePiUpoNHIEU15xsR2b+f2W0xRvYuM/TcGj8Pp7
-	 1kqNyw4brTxMAiS+ym4fCMq/WNHYWIl9SBx4VYRYgcMQexprwmtptisqKbFvq8J/fs
-	 q2JHYKO7SSI7MbY9YbooOuh3pd7Bnq/srlWvfLMAJQSTRXwZ4zvUHnN84r9XcZscR8
-	 PwMM44OwXk99wmQwURDYgRV3kOKD+dG+huBJRcYxB/q/nyHH018PH7TO9HGE30XbWW
-	 VMaIQamBAwLLA==
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-401dba99384so3596105e9.3
-        for <linux-firmware@kernel.org>; Thu, 31 Aug 2023 01:14:10 -0700 (PDT)
+	b=rvlpwxgZ/0qYGp1KAOSoCB7BkpayfulTKz3gEgO/VGH+Aayib4jXF8AvcPgOfCOjc
+	 3ZIQd8pIUBIO9GL5pqDW3/U4iF/97eKIwvNJ2dQfdkxMd1bWCz2ZpqxFZEFoKmA9wB
+	 K+6fPREnfE9M9lrY5yF8m7mBGmSADUjAb5cgrOlhWB+oDOQcTCac0wdBbCro7lzMgr
+	 KnfYkJViui/RAh+4Up9fvpZtRBVopzjHRLjVS/vNIfjf0WJIXlVL2njKICL2v1aeni
+	 Q+BL0BRYiPMMqZIBZJtbCFN8+INfM7wFZ0a2JG1VC/dbTZ1E257zqMA+nMZeLQooHv
+	 mpdrtZ21ji/uA==
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-401be705672so3668315e9.2
+        for <linux-firmware@kernel.org>; Thu, 31 Aug 2023 01:14:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693469649; x=1694074449;
+        d=1e100.net; s=20221208; t=1693469650; x=1694074450;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=s01DApk7IRc3Pzu/8v7bADrlAj+iQ6+mqMGDZ4b1lgI=;
-        b=G6ybH+vOP358vw0UzdJO7H24c+X/GRy0F6SilFeGZruxge2G0hd6eZ5/jrwHfaI8Fm
-         dhmABi8Jx1nD4tWCuOsbKTlSqswR6NhQYU4gL4C1TlC12xlDrf8TjyMYnj1tt/oW3aV/
-         VdNAwfcQf44qVFw7/XI8fBgUttyQWdaxOVmro0Pyepy3Tf6REsRtjShY82EtQwC3VyPp
-         DKKcRxUjRmFc3NfAmDNMz+iMyfseuAxRzNK/r29yJz/6Ndm99179D6mRnOn9s3UDHEOI
-         B3i5oWudtnX+eFP+s5Mo5atgK07Ni0al17Xv0H8TUWLDn5aUpYmU7h7IzDdLoyEkS/bs
-         IJ2g==
-X-Gm-Message-State: AOJu0YygmkcVSd79uXz1qvTThx+6MglHyfHK04SPUnsUlqL91ZPpbsH8
-	tzfkMt7hdbtTOjexEbpnbI1a94MLRhfst79zdQ7rLYqJjNwQicVvmM/heFHEXumYE8b3M+EJ4aO
-	DEbtLEcLQdkEv5KljWHZqpiskobYevy/DlfussbhE5G3QzA==
-X-Received: by 2002:a7b:c415:0:b0:3fe:dcd0:2e32 with SMTP id k21-20020a7bc415000000b003fedcd02e32mr3545792wmi.19.1693469649188;
-        Thu, 31 Aug 2023 01:14:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFvGj1AGdIfGtr+KU8MUsuhPfy7ue6dY3NIXyDfbUUK+BB+dKFnN3wB4S8gXMvELNJfyrohLQ==
-X-Received: by 2002:a7b:c415:0:b0:3fe:dcd0:2e32 with SMTP id k21-20020a7bc415000000b003fedcd02e32mr3545787wmi.19.1693469648971;
-        Thu, 31 Aug 2023 01:14:08 -0700 (PDT)
+        bh=YPcOyWy+gho0oeDn6wV8ktVxL7HBQxiMu6d31Z1mdRo=;
+        b=XIZekAel/i0e05J6Pd1lX6BoEOOkjtR3Bl42C0TOkUWsPY+OxiHCiJ/6xYgpW3wTes
+         HGHSLjdCUP/yVbwr4dLm3d87cu2RSpi5hDmM4Y1yxGwnjXRFTdgONJsAOjKmsm1Jqc/z
+         CNT0DQwQpjropZLk92O3LXw7vS7q38zaiV9K2f+cWCROE0Tz7VsIluYy8WXbPs6gOqb4
+         ACx0VSEcoA/XD4J3MDBMydEMZx8iZLD/uZgi2g9mzl2RaJD3oaDjGNAVbACL7vwBiVmM
+         Opztkr/vEEAl5okf7JmZ0X+SrQFuON6c3CtesoL3pQYi5xHBts6+VGllkJeBf88Robmp
+         tLMA==
+X-Gm-Message-State: AOJu0YwK2/pcSDHxhUUAv4i+x4e5EBt6M1CM4kYX4sPycf+gxtheHiji
+	C4pH57HPhoVqhFlWMKm0pO45UDvb1zuGfX2rDYarBajq45AGThqAD9AaOfv8nnX0e989eUedU8U
+	nLwyJOgxzeOBOq8JdLxO21VGMFN4HpLxoAkvzbS23O7DyGw==
+X-Received: by 2002:a5d:5483:0:b0:319:7c0f:d920 with SMTP id h3-20020a5d5483000000b003197c0fd920mr3328879wrv.57.1693469650385;
+        Thu, 31 Aug 2023 01:14:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHykBVJEpV4UQfvtgNB3MH74xeRcnzUKsu31jE8TgzdLc9x9wiH/XZgXshjulTye1xco7CtAA==
+X-Received: by 2002:a5d:5483:0:b0:319:7c0f:d920 with SMTP id h3-20020a5d5483000000b003197c0fd920mr3328871wrv.57.1693469650209;
+        Thu, 31 Aug 2023 01:14:10 -0700 (PDT)
 Received: from localhost ([194.191.244.86])
-        by smtp.gmail.com with ESMTPSA id 11-20020a05600c234b00b003fee8793911sm1146068wmq.44.2023.08.31.01.14.08
+        by smtp.gmail.com with ESMTPSA id d17-20020a056000115100b00313de682eb3sm1346052wrx.65.2023.08.31.01.14.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Aug 2023 01:14:08 -0700 (PDT)
+        Thu, 31 Aug 2023 01:14:09 -0700 (PDT)
 From: Juerg Haefliger <juerg.haefliger@canonical.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
 Cc: jwboyer@kernel.org,
 	Juerg Haefliger <juerg.haefliger@canonical.com>
-Subject: [PATCH 1/3] check_whence: Recognize RawFile keyword
-Date: Thu, 31 Aug 2023 10:13:43 +0200
-Message-Id: <20230831081345.47699-2-juerg.haefliger@canonical.com>
+Subject: [PATCH 2/3] WHENCE: amd-ucode: Use new RawFile keyword
+Date: Thu, 31 Aug 2023 10:13:44 +0200
+Message-Id: <20230831081345.47699-3-juerg.haefliger@canonical.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230831081345.47699-1-juerg.haefliger@canonical.com>
 References: <20230831081345.47699-1-juerg.haefliger@canonical.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-WHENCE and copy_firmware.sh now support a new keyword RawFile to list
-files that must not be compressed. Update check_whence.py to recognize
-that.
+Replace old File/Raw entries with a single RawFile entry now that
+copy-firmware and check_whence support that.
 
 Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
 ---
- check_whence.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ WHENCE | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/check_whence.py b/check_whence.py
-index d45d90f8d720..936a3c480e33 100755
---- a/check_whence.py
-+++ b/check_whence.py
-@@ -6,11 +6,11 @@ from io import open
- def list_whence():
-     with open('WHENCE', encoding='utf-8') as whence:
-         for line in whence:
--            match = re.match(r'(?:File|Source):\s*"(.*)"', line)
-+            match = re.match(r'(?:RawFile|File|Source):\s*"(.*)"', line)
-             if match:
-                 yield match.group(1)
-                 continue
--            match = re.match(r'(?:File|Source):\s*(\S*)', line)
-+            match = re.match(r'(?:RawFile|File|Source):\s*(\S*)', line)
-             if match:
-                 yield match.group(1)
-                 continue
-@@ -31,7 +31,7 @@ def list_whence():
- def list_whence_files():
-     with open('WHENCE', encoding='utf-8') as whence:
-         for line in whence:
--            match = re.match(r'File:\s*(.*)', line)
-+            match = re.match(r'(?:RawFile|File):\s*(.*)', line)
-             if match:
-                 yield match.group(1).replace("\ ", " ").replace("\"", "")
-                 continue
+diff --git a/WHENCE b/WHENCE
+index 390a5689408e..852e88f55341 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -3912,20 +3912,15 @@ License: Redistributable. See LICENSE.amd-sev for details
+ 
+ Driver: microcode_amd - AMD CPU Microcode Update Driver for Linux
+ 
+-File: amd-ucode/microcode_amd.bin
+-Raw: amd-ucode/microcode_amd.bin
++RawFile: amd-ucode/microcode_amd.bin
+ Version: 2013-07-10
+-File: amd-ucode/microcode_amd_fam15h.bin
+-Raw: amd-ucode/microcode_amd_fam15h.bin
++RawFile: amd-ucode/microcode_amd_fam15h.bin
+ Version: 2018-05-24
+-File: amd-ucode/microcode_amd_fam16h.bin
+-Raw: amd-ucode/microcode_amd_fam16h.bin
++RawFile: amd-ucode/microcode_amd_fam16h.bin
+ Version: 2014-10-28
+-File: amd-ucode/microcode_amd_fam17h.bin
+-Raw: amd-ucode/microcode_amd_fam17h.bin
++RawFile: amd-ucode/microcode_amd_fam17h.bin
+ Version: 2023-07-19
+-File: amd-ucode/microcode_amd_fam19h.bin
+-Raw: amd-ucode/microcode_amd_fam19h.bin
++RawFile: amd-ucode/microcode_amd_fam19h.bin
+ Version: 2023-08-08
+ File: amd-ucode/README
+ 
 -- 
 2.39.2
 
