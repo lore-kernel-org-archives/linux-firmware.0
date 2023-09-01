@@ -4,92 +4,143 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0F52CA0FE6
-	for <linux-firmware@archiver.kernel.org>; Fri,  1 Sep 2023 06:52:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 829C7CA0FE9
+	for <linux-firmware@archiver.kernel.org>; Fri,  1 Sep 2023 06:52:41 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 8816CC433CA; Fri,  1 Sep 2023 06:52:39 +0000 (UTC)
+	id 69930C433CA; Fri,  1 Sep 2023 06:52:41 +0000 (UTC)
 Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 9AED7C433D9
-	for <linux-firmware@kernel.org>; Fri,  1 Sep 2023 06:52:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 9AED7C433D9
+	by smtp.kernel.org (Postfix) with ESMTPS id 2C7C5C433C7
+	for <linux-firmware@kernel.org>; Fri,  1 Sep 2023 06:52:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 2C7C5C433C7
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=canonical.com
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com [209.85.221.71])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 591603F148
-	for <linux-firmware@kernel.org>; Fri,  1 Sep 2023 06:52:34 +0000 (UTC)
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 643C54459B
+	for <linux-firmware@kernel.org>; Fri,  1 Sep 2023 06:52:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1693551154;
-	bh=sA9Y3nCEJjV1yIHxNoSbjxKV2jNf2pVuWvKC+BpnYXU=;
+	s=20210705; t=1693551157;
+	bh=ZmNRkgBP64LCpy3PIU5Neq0jCkoIsGbhyz/2IFqP9MY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
 	 MIME-Version;
-	b=u3fY5f5eppdhCc8ujjmGFkCwQNMo22ugB4KFiABS9bvJZa/WkHzILxTkB5bdeJd0Q
-	 kME4dqWajHzYTohQ8HTBBNrjSZ4L0qNwNkiLzTQCTCDzdEvd9tkdYhUuFojYmuo8vA
-	 9dw7MhgLhXS83myM70qfFM88ew+4yV2dw7hOciyN1huEOSYNIPDqKq7J8XP2OH/PfH
-	 7GlvqLbZW82BUwB52+Sqc0RJPSY8ubXdNxcb+eC0WbWo5iS3Km9EkkPjUeIl0ZoM/D
-	 Nk8jAfdN+8rsg8is+60zWuo7nyd191LsF52zGCX+P1z29hWrPwyYFNH19M4gQvBL73
-	 ++YPtCEmeHLjg==
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-3fe661c0323so10876195e9.0
-        for <linux-firmware@kernel.org>; Thu, 31 Aug 2023 23:52:34 -0700 (PDT)
+	b=hZcQHPPdT2CKsIyz/NtdBzfu/pR6ZlfzsGQTr8O32SRXqR1Mp5rBD7AeaUfT5FfQj
+	 nwY1sfMCuXRNX3VcCdinNP7k4qASoutqSUqrCMOqmKGsgVGCCllsFdJ76hwozvs9dh
+	 MCpqd81j0/C8HRIwO3CBBbSzBc0Boj6vFU7kAQJphJXs5wbLzz7OjyrcAc0p30WlPA
+	 kvobY3gyBumE+V9auiKB6cvTrOFMlY+7zJFV7ubBkOWSTgvicg0shUPEOxAEPJCXmF
+	 L8aA1PjNKaYxM26z6zTSilCQV/EdoWi3ffetLNgMUqTbUshJYr6/SKb7MwgulTBip4
+	 vosfkHcTRdzHQ==
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-31c5cc5537dso1143648f8f.1
+        for <linux-firmware@kernel.org>; Thu, 31 Aug 2023 23:52:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693551153; x=1694155953;
+        d=1e100.net; s=20221208; t=1693551157; x=1694155957;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sA9Y3nCEJjV1yIHxNoSbjxKV2jNf2pVuWvKC+BpnYXU=;
-        b=I+wBI4+t8uuutnvLWe+HW/oZWaQsM9zobbR47imDxxpuXR7443PljBBZv33lZzePkD
-         Ifh6OlUzQESwZJ1LmM6AKvxOyYtT9C+ZBU8IwKaLLHcdmHFQOsZ2qRnhq3B+E63wF1/3
-         osan4L0QO9Y3wMO2owDa5rjxPLp/ljfbdoUYRNGkDjmcgh3cl2sDAy9sfiRFwrkLEqlL
-         RN9IWGKfIJ6Yuxi39FUT7X0k1eh2VsSGpVSniQjRTKa3fs5IRCtu7ShhdD1SOowTMPNr
-         IXABM61H+TVwvn5ym9uttOISbMWkyx1eLbBv+8SarRWhdQw4a+Hojd86LGYcWKxxDJI4
-         oYpw==
-X-Gm-Message-State: AOJu0YxY6T5KkQEhSUyQuLv9jSd3Wc20Od2GZtloRHu2Mic2VFN3GY6i
-	DtbE0srK4/Yr1OKTwVqCtnKn3r/EAowc3atVqz6dGbQjo1guKE3t7IB8pXRLrmCB0QfFqVAo5gP
-	zEVmE78m/Pc7C25eJPiQnCE3l4hZFJYzApwfp+w==
-X-Received: by 2002:a05:600c:2058:b0:3fe:d7b9:8251 with SMTP id p24-20020a05600c205800b003fed7b98251mr1021256wmg.2.1693551153802;
-        Thu, 31 Aug 2023 23:52:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE804eUqIPoQBXDsYXu+7XPA9pyYI5/hZ6ngzeqqr+HZTotqbdEt+fwGKVJHifCb5SDrSJsCw==
-X-Received: by 2002:a05:600c:2058:b0:3fe:d7b9:8251 with SMTP id p24-20020a05600c205800b003fed7b98251mr1021240wmg.2.1693551153363;
-        Thu, 31 Aug 2023 23:52:33 -0700 (PDT)
+        bh=ZmNRkgBP64LCpy3PIU5Neq0jCkoIsGbhyz/2IFqP9MY=;
+        b=PazgUnahCD15WBm3zjvHF3+SmxzRxovH35jLmOaHk8lia5WVCUHwf1ZKulsYF+fkML
+         MEm3GdseQQjnTlPxjUdShjODdXPFFTIQwvLYsQPa+WebEV2ymIVLsm4+ZVkMhXJK6TmN
+         Bergj5wbpJov2jvQTbG9xrR8HYWgylcGcn2EnoFomBhAk5zn9/ULBRZni2AtnbDw8SxZ
+         AyowwNczuamEzUHA02eRZuiFxq33QBFUhnTyp7KiKcBGpLlQNmqmPPGp3LqTeMGBPv+p
+         3KkMoY9tvCvh05Y3sYLlLEB4G/0O6qtNi5fJM9pcujLMT1mcaz3PXKpbDVRke/GrK7RF
+         QFzA==
+X-Gm-Message-State: AOJu0YzQZdf/E+n2VISF4iHhgC4RgapUBTGdw5Pwp0RvaITbsxl5TR7A
+	05NyjqGEw0wuyrW4sBNp7ayh3vZI3cx4aR0jA0mIVVyu9O6fp11PbhJ/NYcE1dW4tcix9UIPIEY
+	++QuijX/YGPShqS8UtRxCcXui6FFJzqvc+3jJhw==
+X-Received: by 2002:a5d:6451:0:b0:317:52ba:81f2 with SMTP id d17-20020a5d6451000000b0031752ba81f2mr3332154wrw.16.1693551157205;
+        Thu, 31 Aug 2023 23:52:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFCKvutgmEIJoPsgvq7BQrwR436q44kDwjkKrQ2QfraqnQ/I2FmMij0Ke3wXposCfTRI/LteA==
+X-Received: by 2002:a5d:6451:0:b0:317:52ba:81f2 with SMTP id d17-20020a5d6451000000b0031752ba81f2mr3332144wrw.16.1693551157008;
+        Thu, 31 Aug 2023 23:52:37 -0700 (PDT)
 Received: from localhost ([194.191.244.86])
-        by smtp.gmail.com with ESMTPSA id m13-20020a7bce0d000000b003fed630f560sm3937112wmc.36.2023.08.31.23.52.32
+        by smtp.gmail.com with ESMTPSA id m12-20020adff38c000000b0031ad5fb5a0fsm4245865wro.58.2023.08.31.23.52.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Aug 2023 23:52:33 -0700 (PDT)
+        Thu, 31 Aug 2023 23:52:36 -0700 (PDT)
 From: Juerg Haefliger <juerg.haefliger@canonical.com>
 To: mario.limonciello@amd.com
 List-Id: <linux-firmware.lore.kernel.org>
 Cc: juerg.haefliger@canonical.com,
 	jwboyer@kernel.org,
 	linux-firmware@kernel.org
-Subject: [PATCH v2 0/3] Support RawFile in check_whence and update WHENCE
-Date: Fri,  1 Sep 2023 08:52:23 +0200
-Message-Id: <20230901065226.13607-1-juerg.haefliger@canonical.com>
+Subject: [PATCH v2 3/3] WHENCE: Don't compress qcom json files
+Date: Fri,  1 Sep 2023 08:52:26 +0200
+Message-Id: <20230901065226.13607-4-juerg.haefliger@canonical.com>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <41fb7957-98e8-4ad6-b958-1e673e7476e0@amd.com>
+In-Reply-To: <20230901065226.13607-1-juerg.haefliger@canonical.com>
 References: <41fb7957-98e8-4ad6-b958-1e673e7476e0@amd.com>
+ <20230901065226.13607-1-juerg.haefliger@canonical.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series updates check_whence to understand the RawFile keyword and
-updates WHENCE to use that for currently known firmware files.
+Don't compress qcom json files. They are loaded by the pd-mapper userspace
+app which doesn't know about compression.
 
-v2:
-  - Rebase to latest upstream.
+Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
+---
+ WHENCE | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-Juerg Haefliger (3):
-  check_whence: Recognize RawFile keyword
-  WHENCE: amd-ucode: Use new RawFile keyword
-  WHENCE: Don't compress qcom json files
-
- WHENCE          | 47 +++++++++++++++++++++--------------------------
- check_whence.py |  6 +++---
- 2 files changed, 24 insertions(+), 29 deletions(-)
-
+diff --git a/WHENCE b/WHENCE
+index 852e88f55341..e057a5e49931 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -5630,28 +5630,28 @@ File: qcom/apq8016/modem.mbn
+ File: qcom/apq8016/wcnss.mbn
+ File: qcom/apq8016/WCNSS_qcom_wlan_nv_sbc.bin
+ File: qcom/apq8096/adsp.mbn
+-File: qcom/apq8096/adspr.jsn
+-File: qcom/apq8096/adspua.jsn
++RawFile: qcom/apq8096/adspr.jsn
++RawFile: qcom/apq8096/adspua.jsn
+ File: qcom/apq8096/mba.mbn
+ File: qcom/apq8096/modem.mbn
+-File: qcom/apq8096/modemr.jsn
++RawFile: qcom/apq8096/modemr.jsn
+ File: qcom/sdm845/adsp.mbn
+-File: qcom/sdm845/adspr.jsn
+-File: qcom/sdm845/adspua.jsn
++RawFile: qcom/sdm845/adspr.jsn
++RawFile: qcom/sdm845/adspua.jsn
+ File: qcom/sdm845/cdsp.mbn
+-File: qcom/sdm845/cdspr.jsn
++RawFile: qcom/sdm845/cdspr.jsn
+ File: qcom/sdm845/Thundercomm/db845c/slpi.mbn
+-File: qcom/sdm845/Thundercomm/db845c/slpir.jsn
+-File: qcom/sdm845/Thundercomm/db845c/slpius.jsn
++RawFile: qcom/sdm845/Thundercomm/db845c/slpir.jsn
++RawFile: qcom/sdm845/Thundercomm/db845c/slpius.jsn
+ File: qcom/sm8250/adsp.mbn
+-File: qcom/sm8250/adspr.jsn
+-File: qcom/sm8250/adspua.jsn
++RawFile: qcom/sm8250/adspr.jsn
++RawFile: qcom/sm8250/adspua.jsn
+ File: qcom/sm8250/cdsp.mbn
+-File: qcom/sm8250/cdspr.jsn
+-File: qcom/sc8280xp/LENOVO/21BX/adspr.jsn
+-File: qcom/sc8280xp/LENOVO/21BX/adspua.jsn
+-File: qcom/sc8280xp/LENOVO/21BX/battmgr.jsn
+-File: qcom/sc8280xp/LENOVO/21BX/cdspr.jsn
++RawFile: qcom/sm8250/cdspr.jsn
++RawFile: qcom/sc8280xp/LENOVO/21BX/adspr.jsn
++RawFile: qcom/sc8280xp/LENOVO/21BX/adspua.jsn
++RawFile: qcom/sc8280xp/LENOVO/21BX/battmgr.jsn
++RawFile: qcom/sc8280xp/LENOVO/21BX/cdspr.jsn
+ File: qcom/sc8280xp/LENOVO/21BX/qcadsp8280.mbn
+ File: qcom/sc8280xp/LENOVO/21BX/qccdsp8280.mbn
+ File: qcom/sc8280xp/LENOVO/21BX/qcslpi8280.mbn
+@@ -5675,7 +5675,7 @@ Driver: qcom_q6v5_mss - Qualcomm modem subsystem firmware
+ 
+ File: qcom/sdm845/mba.mbn
+ File: qcom/sdm845/modem_nm.mbn
+-File: qcom/sdm845/modemuw.jsn
++RawFile: qcom/sdm845/modemuw.jsn
+ Link: qcom/sdm845/modem.mbn -> modem_nm.mbn
+ 
+ Licence: Redistributable. See LICENSE.qcom and qcom/NOTICE.txt for details
 -- 
 2.39.2
 
