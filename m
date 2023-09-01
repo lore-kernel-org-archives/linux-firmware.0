@@ -4,71 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9792ECA0FE8
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 624D2CA0FE1
 	for <linux-firmware@archiver.kernel.org>; Fri,  1 Sep 2023 06:52:39 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 4BFEEC433C8; Fri,  1 Sep 2023 06:52:39 +0000 (UTC)
+	id 28D86C433CB; Fri,  1 Sep 2023 06:52:39 +0000 (UTC)
 Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id DE6B1C433C9
-	for <linux-firmware@kernel.org>; Fri,  1 Sep 2023 06:52:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org DE6B1C433C9
+	by smtp.kernel.org (Postfix) with ESMTPS id B29BBC433BC
+	for <linux-firmware@kernel.org>; Fri,  1 Sep 2023 06:52:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org B29BBC433BC
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 24A034459E
-	for <linux-firmware@kernel.org>; Fri,  1 Sep 2023 06:52:36 +0000 (UTC)
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 2947F4458E
+	for <linux-firmware@kernel.org>; Fri,  1 Sep 2023 06:52:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1693551156;
-	bh=gyh2FFL9X0OVUwoX28Wv78EyCKG5Md/cpWmk3YSIoAo=;
+	s=20210705; t=1693551155;
+	bh=UpMnAcAS6hPS/kr/8oBMTZzUN7IjXl07PmF8lgMRzdY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
 	 MIME-Version;
-	b=UOg5s3R6EMfRe8Xv2+EtKy26JfrQD88trHpifyfyQSSuFGapig1PIdj5wGOoK96J8
-	 gSAudRxFxQooqFcFeFblD/Caq+uCm/gl4cdhMXBgNqWkSjHFa/LXn1uviMrJ9nPvFN
-	 yEijeSclTXZsaka5mnRiM4D3ODOnhf2JcTP30L5ZoNMN0QHhn4Wi7DBX8mmj7V24dR
-	 SFkisY8GOfdFOxd2T9+Umbax5PSVYGREQqUJPgS9vuXgS1DuwuwIIuj9EoMwdOTz3j
-	 9CQJ72qeHupfgo4dB52ACHFv/HHLrPIiHnc6ZOAh+UmOl15KZmvrrxJLN5pHZkBtgh
-	 PRmEFK9qXojJA==
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-401b8089339so10711695e9.3
-        for <linux-firmware@kernel.org>; Thu, 31 Aug 2023 23:52:36 -0700 (PDT)
+	b=O5mDB365bh7C7pMUrSnh4NFlGun98E79pPu91zZexwjmExEirYC5xqrOqMJUiowMH
+	 BnvbarqJb6zl7J1PLsR9OCPslCmleehAL0ps8o07HYnqAG9J2XS7lTeSBgUc0ops2I
+	 6RZ5UgUmwy4+2Za6CxbJTKy+Yn7dp6mQ82RD41zO0EjUoMU3HpBrjJgq6VJ+rE45i1
+	 hf48gstWnRruoCgksPV5JhgXRWpbqdWcyLAqjUjFcPLQN2b1xV8Q6euTkJfBVE5uu4
+	 qbilUTlEoIefr8GOdRTe0IgNQoh8GK7DrFThkIAvOzfA/OB+kT3cxLHGSvwdJz47J9
+	 J+9kFpyzDs8wQ==
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-401e521122fso12654065e9.3
+        for <linux-firmware@kernel.org>; Thu, 31 Aug 2023 23:52:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693551156; x=1694155956;
+        d=1e100.net; s=20221208; t=1693551154; x=1694155954;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gyh2FFL9X0OVUwoX28Wv78EyCKG5Md/cpWmk3YSIoAo=;
-        b=k8qAQsK9ysQ0ef8w0UCBDJbQVDWurU78Had3qoPXmutgqxAGW8LzzFFSB1NfryGrd1
-         1Wwf7sY8SWtMZMPAzAijVnFI4cc2o1rwW1o0eM8C/UoqPzQw2prdCk9ky4aVfAIWjL0X
-         Upop1/f72bos2s3Lzvk0deU1Y4vu+N9WazLAinK/zlpK7BhZFhzr+im9xzrV+YCXFfP+
-         EsCfHyk5wH2eY2/bxorq46C2qUsO713lUvoCSCrLMS94+xJJ78+IpKeVpTAbafZwDvym
-         vPKdyBPb4YV6aPrT+fLQKQV9ZA5rdWgv2Cbf8K417ZELWYbrlbo+oR9ltnO6aDIksk3q
-         u1zw==
-X-Gm-Message-State: AOJu0YyvinvQTvni8r8RvM5+nHJR0c7cIsp4cz6wm5Jw9fU9jmZvj0vP
-	ncOuG6beDOvC6i15TbBXoI5Q491kO6K4mozxYuOKN1XiyoS9p9HBBf/HOUFfpVcWG4EcOQRUN53
-	hnUmf+G2kTmH56XmcPpEICLnNM3sYgIzrAgNlcw==
-X-Received: by 2002:a05:600c:2158:b0:401:bdd7:499d with SMTP id v24-20020a05600c215800b00401bdd7499dmr1041022wml.25.1693551155882;
-        Thu, 31 Aug 2023 23:52:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG3/7A4j1+QCvrU+V1BnAB4TTRUZa+rNVe4kaMFt734oSTZAWP2lTj6rbrzFF/MJ8xmt43prA==
-X-Received: by 2002:a05:600c:2158:b0:401:bdd7:499d with SMTP id v24-20020a05600c215800b00401bdd7499dmr1041018wml.25.1693551155685;
-        Thu, 31 Aug 2023 23:52:35 -0700 (PDT)
+        bh=UpMnAcAS6hPS/kr/8oBMTZzUN7IjXl07PmF8lgMRzdY=;
+        b=fzfX5XJO1coN+yOEMTu8weKyQ7dtj9kM9QTpJuZo+sBxKqT8cV3mwscIt6+h9qNK1G
+         gPLyD56iBf3sHPr6EsU7FmG/qa4ktxp4U0oP0QamE0OEFpFv5j3QVnQRQASAW96lY83t
+         zyp6s2g+lWzP7MKCSSadGSYjhbG4JVhpaOWs/mZVblHuREb4hyOQzY7EWjE5ZLdAt1Vl
+         eAyLNA/9afb/q1fVqJ0ZktOXSJD4ENUXA6Ba7R/YO6yJCwYtYAUHiLyf6aKRFIdF3pxF
+         MjaO1vxaQvJ04GGvgW/PAY45Vsdlh655kH+1BqLBCqpsK6PRwynhhM24BOLlDRR3/4+g
+         yhRQ==
+X-Gm-Message-State: AOJu0Ywnrl4P633zxjJWDN0YUfmb+wY5GY1ucT+5TJmuH/7dSWAKJ3Vb
+	Qdg1B2HkigZLtC2G30Ze8V+CZwIBsbuzP+mcdYztXLBZ7tCY7MIBOkQ9l5kyL0tB1cNaLzZjzv8
+	JueSa9vGEktajbSePDUr0LsVT+2sCl0hw7l2Z3Q==
+X-Received: by 2002:a05:600c:2981:b0:3fe:1db2:5179 with SMTP id r1-20020a05600c298100b003fe1db25179mr1091328wmd.19.1693551154795;
+        Thu, 31 Aug 2023 23:52:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFebpXLZLv350yLKGMdgu1ivuZ2DVjDe8CGlQHjnMnwKs2gXDntkqfpIvwb9cvquWGV1CAbjA==
+X-Received: by 2002:a05:600c:2981:b0:3fe:1db2:5179 with SMTP id r1-20020a05600c298100b003fe1db25179mr1091322wmd.19.1693551154554;
+        Thu, 31 Aug 2023 23:52:34 -0700 (PDT)
 Received: from localhost ([194.191.244.86])
-        by smtp.gmail.com with ESMTPSA id n17-20020a7bcbd1000000b003fee777fd84sm3900723wmi.41.2023.08.31.23.52.35
+        by smtp.gmail.com with ESMTPSA id l9-20020a1c7909000000b003fe1c332810sm7129665wme.33.2023.08.31.23.52.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Aug 2023 23:52:35 -0700 (PDT)
+        Thu, 31 Aug 2023 23:52:34 -0700 (PDT)
 From: Juerg Haefliger <juerg.haefliger@canonical.com>
 To: mario.limonciello@amd.com
 List-Id: <linux-firmware.lore.kernel.org>
 Cc: juerg.haefliger@canonical.com,
 	jwboyer@kernel.org,
 	linux-firmware@kernel.org
-Subject: [PATCH v2 2/3] WHENCE: amd-ucode: Use new RawFile keyword
-Date: Fri,  1 Sep 2023 08:52:25 +0200
-Message-Id: <20230901065226.13607-3-juerg.haefliger@canonical.com>
+Subject: [PATCH v2 1/3] check_whence: Recognize RawFile keyword
+Date: Fri,  1 Sep 2023 08:52:24 +0200
+Message-Id: <20230901065226.13607-2-juerg.haefliger@canonical.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230901065226.13607-1-juerg.haefliger@canonical.com>
 References: <41fb7957-98e8-4ad6-b958-1e673e7476e0@amd.com>
@@ -76,44 +76,42 @@ References: <41fb7957-98e8-4ad6-b958-1e673e7476e0@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace old File/Raw entries with a single RawFile entry now that
-copy-firmware and check_whence supports that.
+WHENCE and copy_firmware.sh now support a new keyword RawFile to list
+files that must not be compressed. Update check_whence.py to recognize
+that.
 
 Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
 ---
- WHENCE | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+ check_whence.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/WHENCE b/WHENCE
-index 390a5689408e..852e88f55341 100644
---- a/WHENCE
-+++ b/WHENCE
-@@ -3912,20 +3912,15 @@ License: Redistributable. See LICENSE.amd-sev for details
- 
- Driver: microcode_amd - AMD CPU Microcode Update Driver for Linux
- 
--File: amd-ucode/microcode_amd.bin
--Raw: amd-ucode/microcode_amd.bin
-+RawFile: amd-ucode/microcode_amd.bin
- Version: 2013-07-10
--File: amd-ucode/microcode_amd_fam15h.bin
--Raw: amd-ucode/microcode_amd_fam15h.bin
-+RawFile: amd-ucode/microcode_amd_fam15h.bin
- Version: 2018-05-24
--File: amd-ucode/microcode_amd_fam16h.bin
--Raw: amd-ucode/microcode_amd_fam16h.bin
-+RawFile: amd-ucode/microcode_amd_fam16h.bin
- Version: 2014-10-28
--File: amd-ucode/microcode_amd_fam17h.bin
--Raw: amd-ucode/microcode_amd_fam17h.bin
-+RawFile: amd-ucode/microcode_amd_fam17h.bin
- Version: 2023-07-19
--File: amd-ucode/microcode_amd_fam19h.bin
--Raw: amd-ucode/microcode_amd_fam19h.bin
-+RawFile: amd-ucode/microcode_amd_fam19h.bin
- Version: 2023-08-08
- File: amd-ucode/README
- 
+diff --git a/check_whence.py b/check_whence.py
+index db6ac0f5d1c5..7e0a04f964da 100755
+--- a/check_whence.py
++++ b/check_whence.py
+@@ -7,11 +7,11 @@ from io import open
+ def list_whence():
+     with open("WHENCE", encoding="utf-8") as whence:
+         for line in whence:
+-            match = re.match(r'(?:File|Source):\s*"(.*)"', line)
++            match = re.match(r'(?:RawFile|File|Source):\s*"(.*)"', line)
+             if match:
+                 yield match.group(1)
+                 continue
+-            match = re.match(r"(?:File|Source):\s*(\S*)", line)
++            match = re.match(r"(?:RawFile|File|Source):\s*(\S*)", line)
+             if match:
+                 yield match.group(1)
+                 continue
+@@ -35,7 +35,7 @@ def list_whence():
+ def list_whence_files():
+     with open("WHENCE", encoding="utf-8") as whence:
+         for line in whence:
+-            match = re.match(r"File:\s*(.*)", line)
++            match = re.match(r"(?:RawFile|File):\s*(.*)", line)
+             if match:
+                 yield match.group(1).replace("\ ", " ").replace('"', "")
+                 continue
 -- 
 2.39.2
 
