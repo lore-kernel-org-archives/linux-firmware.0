@@ -1,70 +1,84 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <johan@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F2FFEB8FA5
-	for <linux-firmware@archiver.kernel.org>; Wed,  6 Sep 2023 10:52:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0CCE6EB8FAF
+	for <linux-firmware@archiver.kernel.org>; Wed,  6 Sep 2023 11:06:30 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id EE4F7C433CB; Wed,  6 Sep 2023 10:52:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8C8DC433C9
-	for <linux-firmware@kernel.org>; Wed,  6 Sep 2023 10:52:33 +0000 (UTC)
+	id C8A5FC433C9; Wed,  6 Sep 2023 11:06:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB066C433C8;
+	Wed,  6 Sep 2023 11:06:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1693997553;
-	bh=zyz7GhJxnCjg7T5CX81Z7JYheTASRgKR7Yceivx00d4=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=iMIsjCBwP7Br8BthChV9kE0Qr54F5bHkIwd2Dyg5iDfeen30naPeAylduqQXXAGz8
-	 eAKbUX/tiMXFnvVZeBFli/mjIeHV3QkAjkZt+WHPzU44BqeC6/N2iLdJ1I691+aJ8y
-	 lE6FLjMNc9e5Gw+kf7QJnrPyQHJe2Bzifaf9f2ptcjXwUyNjRgE5eWcdSAtZVJVU75
-	 1gjUj8QZf2yTJ+CacbdGPlKPk8GvBIjeicMXwMbwBapOXTocWq3/qVS709q4Ew6yrZ
-	 3S79GVWbVKdtVt/oLIufarcOfqI+uqsTignYWSuSUvd/oFXUfer5PzhxmjE2/bWW8a
-	 nLMAeNOwoVNyQ==
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-d7830c5b20aso1126873276.0
-        for <linux-firmware@kernel.org>; Wed, 06 Sep 2023 03:52:33 -0700 (PDT)
-X-Gm-Message-State: AOJu0YxJy5wSQfSJ01jlegf6LedUb/ScemxurEevipK6/MKqbwXqRLjY
-	65UQH33KKw0ECrqhsR1BxDoMeQZd5T3jlkK0M44=
-X-Google-Smtp-Source: AGHT+IEMdHomw3SXh9o1msJgBXfRdE8Cqbif7ENExg2VFDA5wG0AFclbPOJp5O7hHS6KVUXCP9YogQDMOTHo4NISe1k=
-X-Received: by 2002:a25:2654:0:b0:d7b:9ce0:c8c9 with SMTP id
- m81-20020a252654000000b00d7b9ce0c8c9mr19978680ybm.9.1693997552818; Wed, 06
- Sep 2023 03:52:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <41fb7957-98e8-4ad6-b958-1e673e7476e0@amd.com> <20230901065226.13607-1-juerg.haefliger@canonical.com>
-In-Reply-To: <20230901065226.13607-1-juerg.haefliger@canonical.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Wed, 6 Sep 2023 06:52:21 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA61B=HpM_WhOxyJ0O_VYNbS=h6OMSm50hr2faDQanipsQ@mail.gmail.com>
-Message-ID: <CA+5PVA61B=HpM_WhOxyJ0O_VYNbS=h6OMSm50hr2faDQanipsQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] Support RawFile in check_whence and update WHENCE
-To: Juerg Haefliger <juerg.haefliger@canonical.com>
+	s=k20201202; t=1693998390;
+	bh=D38m9GvqEAKfaUtM6EZEV3uzpRT9zqOWh0ZSBhKUkbM=;
+	h=Date:From:List-Id:To:Cc:Subject:References:In-Reply-To:From;
+	b=oHHChaL8hpCfkv/IU6LdjUNjm3BA3Zm/Fr0RHIeoYNvcUE/e/DVHJktp+D3iYNpat
+	 ecz03SdWM/lT8uRuaGiRdph68mNiH1r+cTw5gUEYi7WldfHuO5MhWw3fq8ZE4AwRZ/
+	 Sw11Nza63Texz+GXBtI/6lRL+JDvInAceXDzQq1Sl8W9Yv+BeINde+WibheysrOu+z
+	 SPgSDnUVG/F6jJ/QC6DZXPEG1gUx2uh6bG9+pg82Gz0/c0cKDccOBI73/2SB+6sEiv
+	 3414rF9jw+MedPFwxwxV9Qn4NwnJY20E1eNx8rnMSJjD31+y6H1UREHDiMZkdfclKa
+	 UqhXP8C6RLlbw==
+Received: from johan by xi.lan with local (Exim 4.96)
+	(envelope-from <johan@kernel.org>)
+	id 1qdqN5-0001pj-2c;
+	Wed, 06 Sep 2023 13:06:56 +0200
+Date: Wed, 6 Sep 2023 13:06:55 +0200
+From: Johan Hovold <johan@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: mario.limonciello@amd.com, linux-firmware@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	linux-firmware@kernel.org
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Johan Hovold <johan+linaro@kernel.org>,
+	linux-arm-msm@vger.kernel.org,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [GIT PULL] Add soft link for Audio topology firmware for
+ SC8280XP X13s platform
+Message-ID: <ZPhdT9gr1AUt0Gxq@hovoldconsulting.com>
+References: <cd373622-9c44-4fe4-011a-73e879e8667a@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cd373622-9c44-4fe4-011a-73e879e8667a@linaro.org>
 
-On Fri, Sep 1, 2023 at 2:52=E2=80=AFAM Juerg Haefliger
-<juerg.haefliger@canonical.com> wrote:
->
-> This series updates check_whence to understand the RawFile keyword and
-> updates WHENCE to use that for currently known firmware files.
->
-> v2:
->   - Rebase to latest upstream.
+Hi Srini (and linux-firmware),
 
-All applied and pushed out.
+I was going to send a reminder about this not having been merged yet,
+but it appears you managed to screw up the recipient list somehow so
+that it was never even sent to linux-firmware@kernel.org:
 
-josh
+	https://lore.kernel.org/all/cd373622-9c44-4fe4-011a-73e879e8667a@linaro.org/
 
->
-> Juerg Haefliger (3):
->   check_whence: Recognize RawFile keyword
->   WHENCE: amd-ucode: Use new RawFile keyword
->   WHENCE: Don't compress qcom json files
->
->  WHENCE          | 47 +++++++++++++++++++++--------------------------
->  check_whence.py |  6 +++---
->  2 files changed, 24 insertions(+), 29 deletions(-)
->
-> --
-> 2.39.2
->
+As this is needed for audio on the Lenovo ThinkPad X13s, can we try to
+get this merged as soon as possible, please.
+
+Not sure if you need to resend the pull request or if the above (and
+below) will suffice.
+
+On Mon, Jul 24, 2023 at 02:11:16PM +0100, Srinivas Kandagatla wrote:
+> The following changes since commit c7824580d310809b55f95626b4b46954911be820:
+> 
+>    Merge branch 'v2.0.21961' of 
+> https://github.com/yunfei-mtk/linux_fw_10bit (2023-07-24 08:30:51 -0400)
+> 
+> are available in the Git repository at:
+> 
+>  
+> https://git.kernel.org/pub/scm/linux/kernel/git/srini/linux-firmware.git 
+> sc8280xp-audio-fw-fixes
+> 
+> for you to fetch changes up to a8b2a94c58f5cd9dc93b56dbdce83c867ea1e916:
+> 
+>    linux-firmware: add link to sc8280xp audioreach firmware (2023-07-24 
+> 14:05:12 +0100)
+> 
+> ----------------------------------------------------------------
+> Srinivas Kandagatla (1):
+>        linux-firmware: add link to sc8280xp audioreach firmware
+> 
+>   WHENCE | 1 +
+>   1 file changed, 1 insertion(+)
+
+Johan
