@@ -4,102 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0E86EB8FAF
-	for <linux-firmware@archiver.kernel.org>; Wed,  6 Sep 2023 11:13:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8BDD1EB8FB6
+	for <linux-firmware@archiver.kernel.org>; Wed,  6 Sep 2023 11:17:08 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 8E391C433CC; Wed,  6 Sep 2023 11:13:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 733F8C433CA
-	for <linux-firmware@kernel.org>; Wed,  6 Sep 2023 11:13:57 +0000 (UTC)
+	id 759ACC433C9; Wed,  6 Sep 2023 11:17:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EDDBC433CA;
+	Wed,  6 Sep 2023 11:17:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1693998837;
-	bh=VA+KRdZ6Xu/+oUKfVMlzosWmfmKoCa2PZzYp2JsxjMQ=;
+	s=k20201202; t=1693999028;
+	bh=XRzL6qdmBQtHVaGQm07QtLPaLqubXpcpmOgbpiXWbCE=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=HNEWLdfbmqV4+nsIQebWRuuHy/98tNdtPMPdpWhAzDWtoqKgSna5g0/4fS+D3vNMK
-	 GGE7x+mjYp7ezvtWORiBBGsK4v4mBPsM/IMl3Wqnu3xq4vqc/C6UazEcsFyQhYPT2y
-	 j9QOxiOliHbsrJ/4Q/Oqr2sXtXqJ4VZb3zorw7v6wvswMlte/DdZhCyMUS2OWOu9xC
-	 FBE9WJkDJftyNQ6pBie79ctJWzo2/o82NqI7w4KVBZXeT3XKDejvMd9nolU9a7AXRa
-	 DxL79NjHYjd1qJSDY76khIJIn6StfabbZZuvQgwkdm2KX2MBNznzeW5W28J3ahuPmS
-	 DL7U5zjPL6JFQ==
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-d7b89ae27d3so3032009276.3
-        for <linux-firmware@kernel.org>; Wed, 06 Sep 2023 04:13:57 -0700 (PDT)
-X-Gm-Message-State: AOJu0YytlJe6u+J20+VM5WNY9xyhOQ8yohDJlq++E/lbJ1ruOcqqg7cX
-	7IbP3vGYG9S4i+3pRirrn28ZjcVKDN+IhtOa1Xc=
-X-Google-Smtp-Source: AGHT+IF8FeSb2z1O5NS7k0gnphlOLii3FAuyEYqRveRm5xG6GhzDLVi99cxDA+E6YATL+NfmEDEi2fyQe144YwB0fTY=
-X-Received: by 2002:a25:d6d8:0:b0:d78:30ef:e9eb with SMTP id
- n207-20020a25d6d8000000b00d7830efe9ebmr16495279ybg.2.1693998836481; Wed, 06
- Sep 2023 04:13:56 -0700 (PDT)
+	b=dEeBbdmpxppxSsMAKpi1WeQgUes2UY01Mi8U3L8n5T+Q4RBYWQsGjylgsVREAf0fT
+	 /NiPjNaRuK/2eBBPTN4RwL/R53Et4TF0OTip94DyBrOLe59KY7Bf5VgaBelKWhuVu0
+	 OvN1zEsb8ctVKSSYiTV2XLzrAGAIjWIxZewXk/J99nyHBH6YcK1t2xWyjYE4iTO4zw
+	 1KdcR29F2oraR7evzs6g4zawiVcROo5vj44aBEKc0LwZikEyfCJr22uzbqbDmCbXrt
+	 JyuJ+rBuDVg+OnjDm/c0VZfkdO5jmIBBmAQ18pocNwMrqOXaYP+890+XHK54xwWf0B
+	 TJHqi5Ik8qB+w==
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-d77a4e30e97so2994879276.2;
+        Wed, 06 Sep 2023 04:17:08 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxoAlU9n9Xw6qPE9rXhfLAYdRfcB5swlQ+3Z16WS0e6TEknLwDx
+	ccT9lcDVVeuTGBKNV/V6+XVicV+C1zl2yr/9aHc=
+X-Google-Smtp-Source: AGHT+IGEHPoj7BujhGfWarJlgQvDTwoMF67OgkDpfAdq0MqS8uBLmgVKsF6Tn5IWuAxBzVIhM/htaLYHW8pWSOr+ixM=
+X-Received: by 2002:a25:cfd7:0:b0:d78:18c3:23dd with SMTP id
+ f206-20020a25cfd7000000b00d7818c323ddmr16678684ybg.62.1693999027389; Wed, 06
+ Sep 2023 04:17:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230906002107.1311378-1-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230906002107.1311378-1-dmitry.baryshkov@linaro.org>
+References: <20230906000213.1286283-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230906000213.1286283-1-dmitry.baryshkov@linaro.org>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Wed, 6 Sep 2023 07:13:45 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA52gC0NYaC7GyddfOJ_jR2q44dq+t+Aa89B8+fxFvRMHw@mail.gmail.com>
-Message-ID: <CA+5PVA52gC0NYaC7GyddfOJ_jR2q44dq+t+Aa89B8+fxFvRMHw@mail.gmail.com>
-Subject: Re: [PATCH] ath10k/WCN3990: move wlanmdsp to qcom/sdm845
+Date: Wed, 6 Sep 2023 07:16:56 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA71iXzkjWU7x27k3qGxTFz4rdcFAArU9AGVE+Eg0-sdoQ@mail.gmail.com>
+Message-ID: <CA+5PVA71iXzkjWU7x27k3qGxTFz4rdcFAArU9AGVE+Eg0-sdoQ@mail.gmail.com>
+Subject: Re: [PULL] qcom: firmware for Qualcomm Robotics RB1 and RB2 platforms
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 List-Id: <linux-firmware.lore.kernel.org>
 Cc: linux-firmware@kernel.org, linux-arm-msm@vger.kernel.org, 
-	Kalle Valo <kvalo@qca.qualcomm.com>
+	Bjorn Andersson <andersson@kernel.org>, Kalle Valo <kvalo@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 5, 2023 at 8:21=E2=80=AFPM Dmitry Baryshkov
+On Tue, Sep 5, 2023 at 8:02=E2=80=AFPM Dmitry Baryshkov
 <dmitry.baryshkov@linaro.org> wrote:
 >
-> The firmware file ath10k/WCN3990/hw1.0/wlanmdsp.mbn is platform-specific
-> (rather than being specific to the WiFi chip itself) and can be used
-> only on the Qualcomm SDM845 platform and close relatives. Other
-> platforms (e.g. Qualcomm QCM2290, QRB4210) are going to provie their own
-> copies of the wlanmdsp.mbn firmware.
+> Please pull in firmware files for new Thundercomm boards, Qualcomm Roboti=
+cs RB1
+> and RB2 platforms. This includes Audio, Compute and Modem DSP, WiFi, vide=
+o
+> en/decoder (venus) and Adreno GPU firmware files.
 >
-> As discussed with Kalle, move this file to the platform-specific folder,
-> providing the backwards-compatibility symlink.
+> The following changes since commit 7be2766de1f45a494a3e913f2e9fb77191a8dd=
+b5:
 >
-> Cc: Kalle Valo <kvalo@qca.qualcomm.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  WHENCE                                              |   6 +++---
->  .../hw1.0 =3D> qcom/sdm845}/notice.txt_wlanmdsp       |   0
->  {ath10k/WCN3990/hw1.0 =3D> qcom/sdm845}/wlanmdsp.mbn  | Bin
->  3 files changed, 3 insertions(+), 3 deletions(-)
->  rename {ath10k/WCN3990/hw1.0 =3D> qcom/sdm845}/notice.txt_wlanmdsp (100%=
-)
->  rename {ath10k/WCN3990/hw1.0 =3D> qcom/sdm845}/wlanmdsp.mbn (100%)
+>   Merge branch 'rb3-update' of https://github.com/lumag/linux-firmware (2=
+023-08-04 06:33:54 -0400)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/lumag/linux-firmware rb12-fw-v2
+>
+> for you to fetch changes up to f29e3265b02430630222fb3aba8b76ebcba632be:
+>
+>   qcom: add firmware for the onboard WiFi on qcm2290 / qrb4210 (2023-08-2=
+3 20:24:47 +0300)
+>
+> ----------------------------------------------------------------
+> Dmitry Baryshkov (5):
+>       qcom: add GPU firmware for QCM2290 / QRB2210
+>       qcom: add firmware for QCM2290 platforms
+>       qcom: add firmware for QRB4210 platforms
+>       qcom: add venus firmware files for v6.0
+>       qcom: add firmware for the onboard WiFi on qcm2290 / qrb4210
+>
+>  WHENCE                    |  27 +++++++++++++++++++++++++++
 
-Applied and pushed out.
+This conflicts in WHENCE now with the addition of the RawFile type.
+Can you rebase on top of the main branch?
 
 josh
 
->
-> diff --git a/WHENCE b/WHENCE
-> index 390a5689408e..7c3c34d51f53 100644
-> --- a/WHENCE
-> +++ b/WHENCE
-> @@ -3395,10 +3395,10 @@ Version: WLAN.TF.2.1-00021-QCARMSWP-1
->  File: ath10k/QCA9377/hw1.0/notice_ath10k_firmware-6.txt
->  File: ath10k/WCN3990/hw1.0/board-2.bin
->  File: ath10k/WCN3990/hw1.0/firmware-5.bin
-> -File: ath10k/WCN3990/hw1.0/wlanmdsp.mbn
-> -Link: qcom/sdm845/wlanmdsp.mbn -> ../../ath10k/WCN3990/hw1.0/wlanmdsp.mb=
-n
-> +File: qcom/sdm845/wlanmdsp.mbn
-> +Link: ath10k/WCN3990/hw1.0/wlanmdsp.mbn -> ../../../qcom/sdm845/wlanmdsp=
-.mbn
->  Version: WLAN.HL.2.0-01387-QCAHLSWMTPLZ-1
-> -File: ath10k/WCN3990/hw1.0/notice.txt_wlanmdsp
-> +File: qcom/sdm845/notice.txt_wlanmdsp
->
->  Licence: Redistributable. See LICENSE.QualcommAtheros_ath10k for details
->
-> diff --git a/ath10k/WCN3990/hw1.0/notice.txt_wlanmdsp b/qcom/sdm845/notic=
-e.txt_wlanmdsp
-> similarity index 100%
-> rename from ath10k/WCN3990/hw1.0/notice.txt_wlanmdsp
-> rename to qcom/sdm845/notice.txt_wlanmdsp
-> diff --git a/ath10k/WCN3990/hw1.0/wlanmdsp.mbn b/qcom/sdm845/wlanmdsp.mbn
-> similarity index 100%
-> rename from ath10k/WCN3990/hw1.0/wlanmdsp.mbn
-> rename to qcom/sdm845/wlanmdsp.mbn
-> --
-> 2.40.1
->
+>  qcom/a702_sqe.fw          | Bin 0 -> 20388 bytes
+>  qcom/qcm2290/a702_zap.mbn | Bin 0 -> 13804 bytes
+>  qcom/qcm2290/adsp.mbn     | Bin 0 -> 12826756 bytes
+>  qcom/qcm2290/adspr.jsn    |  21 +++++++++++++++++++++
+>  qcom/qcm2290/adsps.jsn    |  21 +++++++++++++++++++++
+>  qcom/qcm2290/adspua.jsn   |  27 +++++++++++++++++++++++++++
+>  qcom/qcm2290/modem.mbn    | Bin 0 -> 8881672 bytes
+>  qcom/qcm2290/modemr.jsn   |  27 +++++++++++++++++++++++++++
+>  qcom/qcm2290/modemuw.jsn  |  33 +++++++++++++++++++++++++++++++++
+>  qcom/qcm2290/wlanmdsp.mbn | Bin 0 -> 3828228 bytes
+>  qcom/qrb4210/a610_zap.mbn | Bin 0 -> 14384 bytes
+>  qcom/qrb4210/adsp.mbn     | Bin 0 -> 13196348 bytes
+>  qcom/qrb4210/adspr.jsn    |  21 +++++++++++++++++++++
+>  qcom/qrb4210/adsps.jsn    |  21 +++++++++++++++++++++
+>  qcom/qrb4210/adspua.jsn   |  27 +++++++++++++++++++++++++++
+>  qcom/qrb4210/cdsp.mbn     | Bin 0 -> 3003924 bytes
+>  qcom/qrb4210/cdspr.jsn    |  21 +++++++++++++++++++++
+>  qcom/qrb4210/modem.mbn    | Bin 0 -> 8881672 bytes
+>  qcom/qrb4210/modemr.jsn   |  27 +++++++++++++++++++++++++++
+>  qcom/qrb4210/modemuw.jsn  |  33 +++++++++++++++++++++++++++++++++
+>  qcom/venus-6.0/venus.mbn  | Bin 0 -> 1794076 bytes
+>  22 files changed, 306 insertions(+)
+>  create mode 100644 qcom/a702_sqe.fw
+>  create mode 100644 qcom/qcm2290/a702_zap.mbn
+>  create mode 100644 qcom/qcm2290/adsp.mbn
+>  create mode 100644 qcom/qcm2290/adspr.jsn
+>  create mode 100644 qcom/qcm2290/adsps.jsn
+>  create mode 100644 qcom/qcm2290/adspua.jsn
+>  create mode 100644 qcom/qcm2290/modem.mbn
+>  create mode 100644 qcom/qcm2290/modemr.jsn
+>  create mode 100644 qcom/qcm2290/modemuw.jsn
+>  create mode 100644 qcom/qcm2290/wlanmdsp.mbn
+>  create mode 100644 qcom/qrb4210/a610_zap.mbn
+>  create mode 100644 qcom/qrb4210/adsp.mbn
+>  create mode 100644 qcom/qrb4210/adspr.jsn
+>  create mode 100644 qcom/qrb4210/adsps.jsn
+>  create mode 100644 qcom/qrb4210/adspua.jsn
+>  create mode 100644 qcom/qrb4210/cdsp.mbn
+>  create mode 100644 qcom/qrb4210/cdspr.jsn
+>  create mode 100644 qcom/qrb4210/modem.mbn
+>  create mode 100644 qcom/qrb4210/modemr.jsn
+>  create mode 100644 qcom/qrb4210/modemuw.jsn
+>  create mode 100644 qcom/venus-6.0/venus.mbn
