@@ -4,53 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8BDD1EB8FB6
-	for <linux-firmware@archiver.kernel.org>; Wed,  6 Sep 2023 11:17:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 238D5EB8FB6
+	for <linux-firmware@archiver.kernel.org>; Wed,  6 Sep 2023 11:19:06 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 759ACC433C9; Wed,  6 Sep 2023 11:17:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EDDBC433CA;
-	Wed,  6 Sep 2023 11:17:08 +0000 (UTC)
+	id D026BC433CA; Wed,  6 Sep 2023 11:19:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B61E6C433C7;
+	Wed,  6 Sep 2023 11:19:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1693999028;
-	bh=XRzL6qdmBQtHVaGQm07QtLPaLqubXpcpmOgbpiXWbCE=;
+	s=k20201202; t=1693999146;
+	bh=XS6jwmse7EVTfm8oBzDE4bTR+j8NBQlGXxeuDURLHtU=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=dEeBbdmpxppxSsMAKpi1WeQgUes2UY01Mi8U3L8n5T+Q4RBYWQsGjylgsVREAf0fT
-	 /NiPjNaRuK/2eBBPTN4RwL/R53Et4TF0OTip94DyBrOLe59KY7Bf5VgaBelKWhuVu0
-	 OvN1zEsb8ctVKSSYiTV2XLzrAGAIjWIxZewXk/J99nyHBH6YcK1t2xWyjYE4iTO4zw
-	 1KdcR29F2oraR7evzs6g4zawiVcROo5vj44aBEKc0LwZikEyfCJr22uzbqbDmCbXrt
-	 JyuJ+rBuDVg+OnjDm/c0VZfkdO5jmIBBmAQ18pocNwMrqOXaYP+890+XHK54xwWf0B
-	 TJHqi5Ik8qB+w==
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-d77a4e30e97so2994879276.2;
-        Wed, 06 Sep 2023 04:17:08 -0700 (PDT)
-X-Gm-Message-State: AOJu0YxoAlU9n9Xw6qPE9rXhfLAYdRfcB5swlQ+3Z16WS0e6TEknLwDx
-	ccT9lcDVVeuTGBKNV/V6+XVicV+C1zl2yr/9aHc=
-X-Google-Smtp-Source: AGHT+IGEHPoj7BujhGfWarJlgQvDTwoMF67OgkDpfAdq0MqS8uBLmgVKsF6Tn5IWuAxBzVIhM/htaLYHW8pWSOr+ixM=
-X-Received: by 2002:a25:cfd7:0:b0:d78:18c3:23dd with SMTP id
- f206-20020a25cfd7000000b00d7818c323ddmr16678684ybg.62.1693999027389; Wed, 06
- Sep 2023 04:17:07 -0700 (PDT)
+	b=Y1eE8EyIyEprrNK+FTToljbngVjztaGXeTXbVKlISBanz1jbyRpsJZJJiweT2LDgm
+	 I47yCIwUTXrg3JqaYkx61si93NOeka/E7E5pmOrGo3P8hYrC8FDTCZxPpG6s+u0eJf
+	 50bFI20dicYDjifGvhlZi4rJEAIqJQN88zS9WmHuN5hse78sMHQF7hjXqg/XUDX9GX
+	 9jZYSPASu7VG7R5l73fsAVo58H8A1SHRJ3Phh+RcaJVsjPJx7+ITcAiinaXFvm6G1p
+	 68DLt0SD+H4pKjaloFe5CaM6EN2adev8dNx1S2w1t3r93GwCpWreSauFJ1XLu2yc5g
+	 3pvCbRFwzS6LQ==
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-d77ad095e5cso3129391276.0;
+        Wed, 06 Sep 2023 04:19:06 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwvgrUfZ6ZmWPNIhQIGAt3rDmlBugU3rv8hbIHixlRPeTd9iuLv
+	IDQtzPG3JTQFgvv/MCodibkGugqSPiwQ9WtL9ZQ=
+X-Google-Smtp-Source: AGHT+IHl9zw1zxOV2EOJhqegM6ukGlR45czUvb8wBG2DYsa+mnva8pOE5RcuCdC4Ue9mx5CV6uBtv0PP/PM9SktgIdI=
+X-Received: by 2002:a25:ef0a:0:b0:d78:3047:62c6 with SMTP id
+ g10-20020a25ef0a000000b00d78304762c6mr14932749ybd.21.1693999145713; Wed, 06
+ Sep 2023 04:19:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230906000213.1286283-1-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230906000213.1286283-1-dmitry.baryshkov@linaro.org>
+References: <20230906004459.1311755-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230906004459.1311755-1-dmitry.baryshkov@linaro.org>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Wed, 6 Sep 2023 07:16:56 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA71iXzkjWU7x27k3qGxTFz4rdcFAArU9AGVE+Eg0-sdoQ@mail.gmail.com>
-Message-ID: <CA+5PVA71iXzkjWU7x27k3qGxTFz4rdcFAArU9AGVE+Eg0-sdoQ@mail.gmail.com>
-Subject: Re: [PULL] qcom: firmware for Qualcomm Robotics RB1 and RB2 platforms
+Date: Wed, 6 Sep 2023 07:18:55 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA6rzmv7oF9XngMjkLiqydcmnMyck1rtYySHBajWQQDyxw@mail.gmail.com>
+Message-ID: <CA+5PVA6rzmv7oF9XngMjkLiqydcmnMyck1rtYySHBajWQQDyxw@mail.gmail.com>
+Subject: Re: [PULL] qcom: firmware updates for the sm8250 / RB5 platform
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 List-Id: <linux-firmware.lore.kernel.org>
 Cc: linux-firmware@kernel.org, linux-arm-msm@vger.kernel.org, 
-	Bjorn Andersson <andersson@kernel.org>, Kalle Valo <kvalo@kernel.org>
+	Bjorn Andersson <andersson@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 5, 2023 at 8:02=E2=80=AFPM Dmitry Baryshkov
+On Tue, Sep 5, 2023 at 8:45=E2=80=AFPM Dmitry Baryshkov
 <dmitry.baryshkov@linaro.org> wrote:
 >
-> Please pull in firmware files for new Thundercomm boards, Qualcomm Roboti=
-cs RB1
-> and RB2 platforms. This includes Audio, Compute and Modem DSP, WiFi, vide=
-o
-> en/decoder (venus) and Adreno GPU firmware files.
+> Please pull in firmware updates for the Qualcomm Robotics RB5 platform. T=
+his
+> includes SM8250 DSP firmware updates, video encoder/decoder (venus.mbn)
+> firmware update. Also as a part of this update is included the board-spec=
+ific
+> firmware for the Sensors DSP.
 >
 > The following changes since commit 7be2766de1f45a494a3e913f2e9fb77191a8dd=
 b5:
@@ -60,68 +61,37 @@ b5:
 >
 > are available in the Git repository at:
 >
->   https://github.com/lumag/linux-firmware rb12-fw-v2
+>   https://github.com/lumag/linux-firmware rb5-update
 >
-> for you to fetch changes up to f29e3265b02430630222fb3aba8b76ebcba632be:
+> for you to fetch changes up to 60b397dfd9d77da4b62e08572bdc7174a29f53a8:
 >
->   qcom: add firmware for the onboard WiFi on qcm2290 / qrb4210 (2023-08-2=
-3 20:24:47 +0300)
+>   qcom: sm8250: add RB5 sensors DSP firmware (2023-08-16 16:03:46 +0300)
 >
 > ----------------------------------------------------------------
-> Dmitry Baryshkov (5):
->       qcom: add GPU firmware for QCM2290 / QRB2210
->       qcom: add firmware for QCM2290 platforms
->       qcom: add firmware for QRB4210 platforms
->       qcom: add venus firmware files for v6.0
->       qcom: add firmware for the onboard WiFi on qcm2290 / qrb4210
+> Dmitry Baryshkov (3):
+>       qcom: sm8250: update DSP firmware
+>       qcom: Update vpu-1.0 firmware
+>       qcom: sm8250: add RB5 sensors DSP firmware
 >
->  WHENCE                    |  27 +++++++++++++++++++++++++++
+>  qcom/sm8250/Thundercomm/RB5/slpi.mbn   | Bin 0 -> 5646296 bytes
+>  qcom/sm8250/Thundercomm/RB5/slpir.jsn  |  21 +++++++++++++++++++++
+>  qcom/sm8250/Thundercomm/RB5/slpius.jsn |  21 +++++++++++++++++++++
+>  qcom/sm8250/adsp.mbn                   | Bin 15515796 -> 15515796 bytes
+>  qcom/sm8250/cdsp.mbn                   | Bin 5822228 -> 5826324 bytes
+>  qcom/vpu-1.0/venus.mbn                 | Bin 1973540 -> 1974884 bytes
+>  6 files changed, 42 insertions(+)
+>  create mode 100644 qcom/sm8250/Thundercomm/RB5/slpi.mbn
+>  create mode 100644 qcom/sm8250/Thundercomm/RB5/slpir.jsn
+>  create mode 100644 qcom/sm8250/Thundercomm/RB5/slpius.jsn
 
-This conflicts in WHENCE now with the addition of the RawFile type.
-Can you rebase on top of the main branch?
+This misses WHENCE entries for the new files.
+
+[jwboyer@vader linux-firmware]$ ./check_whence.py
+E: qcom/sm8250/Thundercomm/RB5/slpi.mbn not listed in WHENCE
+E: qcom/sm8250/Thundercomm/RB5/slpir.jsn not listed in WHENCE
+E: qcom/sm8250/Thundercomm/RB5/slpius.jsn not listed in WHENCE
+[jwboyer@vader linux-firmware]$
+
+Can you rebase against the main branch and fix this?
 
 josh
-
->  qcom/a702_sqe.fw          | Bin 0 -> 20388 bytes
->  qcom/qcm2290/a702_zap.mbn | Bin 0 -> 13804 bytes
->  qcom/qcm2290/adsp.mbn     | Bin 0 -> 12826756 bytes
->  qcom/qcm2290/adspr.jsn    |  21 +++++++++++++++++++++
->  qcom/qcm2290/adsps.jsn    |  21 +++++++++++++++++++++
->  qcom/qcm2290/adspua.jsn   |  27 +++++++++++++++++++++++++++
->  qcom/qcm2290/modem.mbn    | Bin 0 -> 8881672 bytes
->  qcom/qcm2290/modemr.jsn   |  27 +++++++++++++++++++++++++++
->  qcom/qcm2290/modemuw.jsn  |  33 +++++++++++++++++++++++++++++++++
->  qcom/qcm2290/wlanmdsp.mbn | Bin 0 -> 3828228 bytes
->  qcom/qrb4210/a610_zap.mbn | Bin 0 -> 14384 bytes
->  qcom/qrb4210/adsp.mbn     | Bin 0 -> 13196348 bytes
->  qcom/qrb4210/adspr.jsn    |  21 +++++++++++++++++++++
->  qcom/qrb4210/adsps.jsn    |  21 +++++++++++++++++++++
->  qcom/qrb4210/adspua.jsn   |  27 +++++++++++++++++++++++++++
->  qcom/qrb4210/cdsp.mbn     | Bin 0 -> 3003924 bytes
->  qcom/qrb4210/cdspr.jsn    |  21 +++++++++++++++++++++
->  qcom/qrb4210/modem.mbn    | Bin 0 -> 8881672 bytes
->  qcom/qrb4210/modemr.jsn   |  27 +++++++++++++++++++++++++++
->  qcom/qrb4210/modemuw.jsn  |  33 +++++++++++++++++++++++++++++++++
->  qcom/venus-6.0/venus.mbn  | Bin 0 -> 1794076 bytes
->  22 files changed, 306 insertions(+)
->  create mode 100644 qcom/a702_sqe.fw
->  create mode 100644 qcom/qcm2290/a702_zap.mbn
->  create mode 100644 qcom/qcm2290/adsp.mbn
->  create mode 100644 qcom/qcm2290/adspr.jsn
->  create mode 100644 qcom/qcm2290/adsps.jsn
->  create mode 100644 qcom/qcm2290/adspua.jsn
->  create mode 100644 qcom/qcm2290/modem.mbn
->  create mode 100644 qcom/qcm2290/modemr.jsn
->  create mode 100644 qcom/qcm2290/modemuw.jsn
->  create mode 100644 qcom/qcm2290/wlanmdsp.mbn
->  create mode 100644 qcom/qrb4210/a610_zap.mbn
->  create mode 100644 qcom/qrb4210/adsp.mbn
->  create mode 100644 qcom/qrb4210/adspr.jsn
->  create mode 100644 qcom/qrb4210/adsps.jsn
->  create mode 100644 qcom/qrb4210/adspua.jsn
->  create mode 100644 qcom/qrb4210/cdsp.mbn
->  create mode 100644 qcom/qrb4210/cdspr.jsn
->  create mode 100644 qcom/qrb4210/modem.mbn
->  create mode 100644 qcom/qrb4210/modemr.jsn
->  create mode 100644 qcom/qrb4210/modemuw.jsn
->  create mode 100644 qcom/venus-6.0/venus.mbn
