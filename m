@@ -4,75 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A926EB8FB7
-	for <linux-firmware@archiver.kernel.org>; Wed,  6 Sep 2023 11:33:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0AB9EB8FAF
+	for <linux-firmware@archiver.kernel.org>; Wed,  6 Sep 2023 11:36:49 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 4471AC433C9; Wed,  6 Sep 2023 11:33:20 +0000 (UTC)
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+	id D6086C433CB; Wed,  6 Sep 2023 11:36:49 +0000 (UTC)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 1A9BCC43391
-	for <linux-firmware@kernel.org>; Wed,  6 Sep 2023 11:33:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 1A9BCC43391
+	by smtp.kernel.org (Postfix) with ESMTPS id CB712C433C8
+	for <linux-firmware@kernel.org>; Wed,  6 Sep 2023 11:36:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org CB712C433C8
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-6bf298ef1f5so2634582a34.0
-        for <linux-firmware@kernel.org>; Wed, 06 Sep 2023 04:33:14 -0700 (PDT)
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-d7bbaa8efa7so3133024276.3
+        for <linux-firmware@kernel.org>; Wed, 06 Sep 2023 04:36:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693999994; x=1694604794; darn=kernel.org;
+        d=linaro.org; s=google; t=1694000207; x=1694605007; darn=kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SK8NHS2iC+EdIrz93YoOnu4w+oJGTzeh1xrolghJ1sE=;
-        b=lCoz13Mnexhk0GQtVSkEfK9GY6Jhhge8ObDjW2WsNTJUVTyq2noRW0tCHSx2M0APFs
-         e5wNx9aceI/4ws0tXzYTEeuMcOpJZDuR3i+ahBNecptJRudXfLVZCj87HtsQRrUBB7Yx
-         a8qPxCGc9/PleXwQ0np0UCOkt0jJX0XCp7ZRpHLsCrC+ZWiaOA+DuVfLMfZN13gtT/cy
-         KetAXx4sR6OEcPBPPDRiyY/cknYDXC7xj1020K/DeDVgGewYG8M0G3uSXewRqS47v6IC
-         WpcMfPfDwAdataB0tsTSYW1XisIFEKklXpKdg+InMOEoIAS1fL1hWTvyk7XxandeJlyt
-         4ENA==
+        bh=ARqqnV5RUKOZrE62CjUH+mZxkGrJ3vy4uKrUnWYINHw=;
+        b=MoZeqLIomZrk8ITuMl8BSX+WSA8sSse5jtGYhsSlsTUvN/v0CsBUp641ERtVvEIgx4
+         ZO4NSgoswOEPd77jKBiViiTSdZsZ8WihDUHTILF2vKjpXUMkWjLEso97DKJahI+LIPjU
+         wO4CHDEN8qy0PP3bOwk6mSr08+rVm3iEXhMZ8ulcQTLlpb87+wwRM95vqrxq5WRVfToe
+         uADR357zTalQ3yCjPs0MLAbWkndZYWdCJk8NdyrN+Qbzgx7ZIING6JegLjfIw1WHZAFq
+         W8SYxGfeD6eaN94NGiUvlUqWgzIu+Nb/tI0l6q8NGPwyXou+2LJCN8mU+KMke+MAPVrz
+         +NhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693999994; x=1694604794;
+        d=1e100.net; s=20221208; t=1694000207; x=1694605007;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SK8NHS2iC+EdIrz93YoOnu4w+oJGTzeh1xrolghJ1sE=;
-        b=lqmv2FnPqpPEGAkwOHpVeUIaLKu51vTidleRJa3mQbiIzoVHW1YGiPSYIpEC2j0RKx
-         32OYlm+X5gHueEhatI3PUBlL49GYeB2t4UvWUO5V5vI9a8GJDV1t0pHe9gvlpJ0r7ldQ
-         OZJievT3ewL4HAr1E2Mfo19y/pXNuCmWI7AsKsUgrEKw2gMMmsBsgpdQXZBFQrA2mz8w
-         Krn8Zz+c9Q64UACTaEE1o8Wt46BBF2mRexPyR1eF3RfrnC9VbpCGjbPhLA02TUQZyj+Y
-         z7EtTiTVB1vX4Xyq2oBQTivHmzXnRCwzuU0qFL8TxqGlkxnKmQSLjRReFKzfq6h5HRkL
-         Qn9w==
-X-Gm-Message-State: AOJu0YyT01tsx2pYsMgVfEl/5kqzPEJ8KfN63groQdfSS/sBfBX5dfLp
-	DmBHAwQcUq8+vT9h/DJt/jY0xneNbRrniVqrtXAefg==
-X-Google-Smtp-Source: AGHT+IEL+0Z0XHNTz7i2K/mMp7ueLzlwT/AaPbcDh8kRFJFEJmq0WxqnWGkdTYlDm6LWmROLnuMaO3obmL4C5DgIdok=
-X-Received: by 2002:a9d:6956:0:b0:6b9:6481:8e33 with SMTP id
- p22-20020a9d6956000000b006b964818e33mr16933615oto.13.1693999993888; Wed, 06
- Sep 2023 04:33:13 -0700 (PDT)
+        bh=ARqqnV5RUKOZrE62CjUH+mZxkGrJ3vy4uKrUnWYINHw=;
+        b=khRxsF2QtYxmK2pjSV/v65XXCwsbyialE7ioNbraCgSPMghDNSr6tQcU0LN5rBxUNQ
+         WVPpbfeNJQlig2U62HVAzDftW/84CjCa+Zm9Qegi/h5xbTmGWTacVhXfU9x6xnAl9nPf
+         z8+MaPrRhxDs0Ew0efzT6+dW04OsOLG/7UY733zFEjbTS8BILjKLdKBY2w2jtqL0hkv8
+         jlTrQiThUFBABKkbB15jv4oNHnm6wEskDHNeMl7meWkyAgR6/Q2pP1R7tiipTgYMVzlo
+         85UiFnIzYlskDWImSnzin+ve/tAYLPkHYq94WBYwUbqA9w1gd4w1YOtiVxbWIkyo7EEK
+         0PFw==
+X-Gm-Message-State: AOJu0YztpkjZolOYw5rUniWEW/5tE5f0CN5hlmegMavxU35V93GzUDDw
+	DTRqMDXNHtK0iLUSmvD8HwIlJu1aNMLW55ZaDKeuEw==
+X-Google-Smtp-Source: AGHT+IHzN1O4eKhhaHQsSNTImOt728Le7M43YBqMykRfepRO2PBuT3k9nODQuABhWHpayV2T1mbw6Hsshs4JQzYt5qc=
+X-Received: by 2002:a25:26c9:0:b0:d11:c89:4256 with SMTP id
+ m192-20020a2526c9000000b00d110c894256mr16819309ybm.31.1694000207521; Wed, 06
+ Sep 2023 04:36:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230906000213.1286283-1-dmitry.baryshkov@linaro.org> <CA+5PVA71iXzkjWU7x27k3qGxTFz4rdcFAArU9AGVE+Eg0-sdoQ@mail.gmail.com>
-In-Reply-To: <CA+5PVA71iXzkjWU7x27k3qGxTFz4rdcFAArU9AGVE+Eg0-sdoQ@mail.gmail.com>
+References: <20230906004459.1311755-1-dmitry.baryshkov@linaro.org> <CA+5PVA6rzmv7oF9XngMjkLiqydcmnMyck1rtYySHBajWQQDyxw@mail.gmail.com>
+In-Reply-To: <CA+5PVA6rzmv7oF9XngMjkLiqydcmnMyck1rtYySHBajWQQDyxw@mail.gmail.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 6 Sep 2023 14:33:02 +0300
-Message-ID: <CAA8EJpqTd20xGZFpgsA=yoQELonn4QtOwAE6OX9abmv01SWDpA@mail.gmail.com>
-Subject: Re: [PULL] qcom: firmware for Qualcomm Robotics RB1 and RB2 platforms
+Date: Wed, 6 Sep 2023 14:36:36 +0300
+Message-ID: <CAA8EJpqTwbEDcws=Wd1tuXkmEdRZnh_DkMydofKZ-n9srEyJWQ@mail.gmail.com>
+Subject: Re: [PULL] qcom: firmware updates for the sm8250 / RB5 platform
 To: Josh Boyer <jwboyer@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
 Cc: linux-firmware@kernel.org, linux-arm-msm@vger.kernel.org, 
-	Bjorn Andersson <andersson@kernel.org>, Kalle Valo <kvalo@kernel.org>
+	Bjorn Andersson <andersson@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 6 Sept 2023 at 14:17, Josh Boyer <jwboyer@kernel.org> wrote:
+On Wed, 6 Sept 2023 at 14:19, Josh Boyer <jwboyer@kernel.org> wrote:
 >
-> On Tue, Sep 5, 2023 at 8:02=E2=80=AFPM Dmitry Baryshkov
+> On Tue, Sep 5, 2023 at 8:45=E2=80=AFPM Dmitry Baryshkov
 > <dmitry.baryshkov@linaro.org> wrote:
 > >
-> > Please pull in firmware files for new Thundercomm boards, Qualcomm Robo=
-tics RB1
-> > and RB2 platforms. This includes Audio, Compute and Modem DSP, WiFi, vi=
-deo
-> > en/decoder (venus) and Adreno GPU firmware files.
+> > Please pull in firmware updates for the Qualcomm Robotics RB5 platform.=
+ This
+> > includes SM8250 DSP firmware updates, video encoder/decoder (venus.mbn)
+> > firmware update. Also as a part of this update is included the board-sp=
+ecific
+> > firmware for the Sensors DSP.
 > >
 > > The following changes since commit 7be2766de1f45a494a3e913f2e9fb77191a8=
 ddb5:
@@ -82,28 +83,43 @@ ddb5:
 > >
 > > are available in the Git repository at:
 > >
-> >   https://github.com/lumag/linux-firmware rb12-fw-v2
+> >   https://github.com/lumag/linux-firmware rb5-update
 > >
-> > for you to fetch changes up to f29e3265b02430630222fb3aba8b76ebcba632be=
+> > for you to fetch changes up to 60b397dfd9d77da4b62e08572bdc7174a29f53a8=
 :
 > >
-> >   qcom: add firmware for the onboard WiFi on qcm2290 / qrb4210 (2023-08=
--23 20:24:47 +0300)
+> >   qcom: sm8250: add RB5 sensors DSP firmware (2023-08-16 16:03:46 +0300=
+)
 > >
 > > ----------------------------------------------------------------
-> > Dmitry Baryshkov (5):
-> >       qcom: add GPU firmware for QCM2290 / QRB2210
-> >       qcom: add firmware for QCM2290 platforms
-> >       qcom: add firmware for QRB4210 platforms
-> >       qcom: add venus firmware files for v6.0
-> >       qcom: add firmware for the onboard WiFi on qcm2290 / qrb4210
+> > Dmitry Baryshkov (3):
+> >       qcom: sm8250: update DSP firmware
+> >       qcom: Update vpu-1.0 firmware
+> >       qcom: sm8250: add RB5 sensors DSP firmware
 > >
-> >  WHENCE                    |  27 +++++++++++++++++++++++++++
+> >  qcom/sm8250/Thundercomm/RB5/slpi.mbn   | Bin 0 -> 5646296 bytes
+> >  qcom/sm8250/Thundercomm/RB5/slpir.jsn  |  21 +++++++++++++++++++++
+> >  qcom/sm8250/Thundercomm/RB5/slpius.jsn |  21 +++++++++++++++++++++
+> >  qcom/sm8250/adsp.mbn                   | Bin 15515796 -> 15515796 byte=
+s
+> >  qcom/sm8250/cdsp.mbn                   | Bin 5822228 -> 5826324 bytes
+> >  qcom/vpu-1.0/venus.mbn                 | Bin 1973540 -> 1974884 bytes
+> >  6 files changed, 42 insertions(+)
+> >  create mode 100644 qcom/sm8250/Thundercomm/RB5/slpi.mbn
+> >  create mode 100644 qcom/sm8250/Thundercomm/RB5/slpir.jsn
+> >  create mode 100644 qcom/sm8250/Thundercomm/RB5/slpius.jsn
 >
-> This conflicts in WHENCE now with the addition of the RawFile type.
-> Can you rebase on top of the main branch?
+> This misses WHENCE entries for the new files.
+>
+> [jwboyer@vader linux-firmware]$ ./check_whence.py
+> E: qcom/sm8250/Thundercomm/RB5/slpi.mbn not listed in WHENCE
+> E: qcom/sm8250/Thundercomm/RB5/slpir.jsn not listed in WHENCE
+> E: qcom/sm8250/Thundercomm/RB5/slpius.jsn not listed in WHENCE
+> [jwboyer@vader linux-firmware]$
+>
+> Can you rebase against the main branch and fix this?
 
-Done.
+Done. Please give it a try:
 
 The following changes since commit 20d250e3e9093486a5b70daa942ffbaa3bade901=
 :
@@ -112,12 +128,11 @@ The following changes since commit 20d250e3e9093486a5b70daa942ffbaa3bade901=
 
 are available in the Git repository at:
 
-  https://github.com/lumag/linux-firmware rb12-fw-v2
+  https://github.com/lumag/linux-firmware rb5-update
 
-for you to fetch changes up to 74cc8ca8217cb0967ade52953f9d9242f09e3460:
+for you to fetch changes up to bb3d5bc99fe629cab2024c9bac528c3b466d2f31:
 
-  qcom: add firmware for the onboard WiFi on qcm2290 / qrb4210
-(2023-09-06 14:30:16 +0300)
+  qcom: sm8250: add RB5 sensors DSP firmware (2023-09-06 14:35:32 +0300)
 
 
 --=20
