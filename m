@@ -1,297 +1,376 @@
-Return-Path: <SRS0=ZW8P=EX=jozti.co=artemis.ramirez@kernel.org>
+Return-Path: <SRS0=wK22=EX=gmail.com=rogan.dawes@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 353D5EB8FB1
-	for <linux-firmware@archiver.kernel.org>; Thu,  7 Sep 2023 12:07:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45156EC8735
+	for <linux-firmware@archiver.kernel.org>; Thu,  7 Sep 2023 14:59:00 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id EBFB8C32783; Thu,  7 Sep 2023 12:07:37 +0000 (UTC)
-Received: from IND01-MAX-obe.outbound.protection.outlook.com (mail-maxind01on2084.outbound.protection.outlook.com [40.107.222.84])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id 0ADD8C4AF69; Thu,  7 Sep 2023 14:59:00 +0000 (UTC)
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A6BCCC4936D
-	for <linux-firmware@kernel.org>; Thu,  7 Sep 2023 12:07:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A6BCCC4936D
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=jozti.co
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=jozti.co
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AiHlou7aawDYSUOR1yULZsTUGE5u/JQUlfAxvonhbw774xVQwaQJdhMPKIZcXw7YaPra7weLh+GtaLNWEcL8GwRN0XVNRpyJIcYyywD9GNKx/siY5zsCPAEVAI34gar9Jnk8AIYJ7wXt8ZkLsfSJHJza9Z2o1KZBh6glrtdNZ5AuWOQPaU0rLn7W/MQ7nTx/ifkT+ocb8IRkkyLM56oA4onLhLZUNwbscMlN6xXz+NkOaLJW+P0TrW4q6sKh1koWvhqdHxAigu1NwNWfQ/S52TX2A56kzbeQGrDQcZ2FimaPQn2v1/EvbF1s5tYMtmPovDoeyky0rU3DeiWLsJuyCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ew/ASiDGrSXHMdUXqjMt3i2N5mcXcxEvYcp+irJm8Zg=;
- b=AEA/N8pFlaRBV3h2NMbHBg+lF93wFsYhx91PTN88kYl8sNo702xVLETlm1FZDLBSYNORbOT9tdjLJ+uwEdkyqnGCzqlPniZ4FjVGF71Q8lkfeKc/OQ8O9otqD0MIisAfZ5B1QY9ai5t6oCbs/cvs1v6eT3HP8929lyd/o8aPTm8SjnwqP0hcjEOvu54xbnSAU1IRDx1C1D58XMte9WhdqFPO/1MGuZqc3z3XeXkAEY+xIiDOSpLuwWg2geCZl12IfTmuDegEhLaBD4Hxb+jn9+Wh8qZrmUYmrgqgrFtA5Kd6J9BBQDcl6u/wZmEcfwIbxcLrUZU9W7658n5UqRXVxw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=jozti.co; dmarc=pass action=none header.from=jozti.co;
- dkim=pass header.d=jozti.co; arc=none
-Received: from PN2PR01MB9570.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:fa::10)
- by MAZPR01MB5947.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:67::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.36; Thu, 7 Sep
- 2023 12:07:31 +0000
-Received: from PN2PR01MB9570.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::57dd:f85b:b385:70f9]) by PN2PR01MB9570.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::57dd:f85b:b385:70f9%5]) with mapi id 15.20.6745.035; Thu, 7 Sep 2023
- 12:07:31 +0000
-From: Artemis Ramirez <artemis.ramirez@jozti.co>
-List-Id: <linux-firmware.lore.kernel.org>
-To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-Subject: kernel
-Thread-Topic: kernel
-Thread-Index: Adnhg96VQ3RQjzJyS7qcNksTl7z/YQ==
-Date: Thu, 7 Sep 2023 12:07:31 +0000
-Message-ID:
- <PN2PR01MB9570F2B02DBF1388A400B0049BEEA@PN2PR01MB9570.INDPRD01.PROD.OUTLOOK.COM>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=jozti.co;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN2PR01MB9570:EE_|MAZPR01MB5947:EE_
-x-ms-office365-filtering-correlation-id: 984083a3-3fa9-42a0-9682-08dbaf9b0362
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- 0UOoLofdlKkBya+2rc7LWzZ6hFcrEVhcdeSk4JEh1+pj6zDTVgvcokCGxr+BxR5DR9EBNu4v9bm68YchVrSPKRNUVSdKqtJwK6+zT95eKqYEjo79oyYnlzdyDNtXbZUSYbvtBUmEmJJy3VmoMJSv+od6CXzJC3v8jynROYGSbh6lnnn/Zx2jXqW3zb60NBmM8xKBcdZdG3gVW8448zl1KwV2cn4ls1QDza6Uolwn7sxtHQNhRUMnHMhbnlGOZPeSq5r7HWnB0UHwFEIBb7aE9UZqG3xdqArMvBDRU0Ko+ZZ+xeSr06sPei5g2R8YsdNoHRBDppiEyjTPI0ahqtc5YN9MyZAMUUVVfldx7Yi+CVLikIBXhjePqYFXyQvOLX4yDtA3gtLfs8F2R/7wSM1VAuebqep4TNy6l4mxpMhRrLbF1ydGd1ao/rfCg9zYQXfpevnJqd22E67WBdHaBx6vb+48cox/R+JTifoA/8Tdmp0fEkQ5Ti9cOCP/V/JwdPMe4hNXpWZ0Ap23Mo6kfLCc5b+/Tz0ek16/d/wMB3hQfAtQOoV6ffcVkNxs2Jqavm2nsF0CfvI6tH9APp+sdVJmKDLV6ETr0KNrrw8/yy4v/fWdV1QvKoz4AMzChnjSyy3z7oBTIR2hI4dfe402Ao9LO+sN/pVDUTWSqsFxk2KzdGI=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN2PR01MB9570.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(376002)(39850400004)(346002)(136003)(451199024)(1800799009)(186009)(122000001)(66899024)(71200400001)(7696005)(6506007)(86362001)(33656002)(3480700007)(38070700005)(55016003)(38100700002)(4744005)(9686003)(83380400001)(478600001)(52536014)(7116003)(8676002)(5660300002)(8936002)(76116006)(6916009)(2906002)(44832011)(316002)(66556008)(66446008)(66946007)(66476007)(41300700001)(64756008)(135393001)(220243001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?I9l9siRkG51vi+VthkTJxJqlFLxf6o8C+B5BlIRV2VNbtM6ktsMeJsrAY8RI?=
- =?us-ascii?Q?YzWUOuAhjLNkRf8/WJFOe2ydl8uam42206bFb8uQGddtziMoEeQxQAuFwqtn?=
- =?us-ascii?Q?rSQwCtO+m1LfWH+5bmbL1gmZMHarPADgr5c+0tK2rjpHvnm9D+6QgCq7Oon7?=
- =?us-ascii?Q?65xnO2a4Tu32aT+a/4H4JNFwtZLMuCubQo4w7BSsBX8gwdJrniwO7wKZBu3D?=
- =?us-ascii?Q?70sevwQ5fdQYukLn1hSURLuhlAsdbsxY6WvAwV+TRlFjsYf/gcKLLxSosujA?=
- =?us-ascii?Q?sTt1PgkyKXNKAnkcdYuFE0MtmPXpfdmwAAVzEzURDwqIQarje/hgtFHHqz9N?=
- =?us-ascii?Q?q/3ErXMrK6R/oJZdTZ1WzZrKTz7QUo1hNn7S+fPuVjI1vGIRNb/QiPCfB5xy?=
- =?us-ascii?Q?XINjU4jWy+SE/p9bY1jpHQ7LPypJrMnwsGj2rpf9YcVJocKvbcZwOB5TauDd?=
- =?us-ascii?Q?NPZ8K2LdampFJeqXUOwlOxKyV2byK4rkhm4ZXmHxPhKPj9bpqBgDt/j0Uk0j?=
- =?us-ascii?Q?L8OSnBg5vNxY0LP7DcKQH/DqQ5avzAmKEs4lkoDTR4T7UzEJnzxzx4mziaTz?=
- =?us-ascii?Q?TJaqXvb3XQGYePSdILUngkYXzSI9V+E1XeAEc6QMTOGLC+OqUGuGRXp3bqCA?=
- =?us-ascii?Q?HTYbitXr/ozZOG6P1BObHdWvfoDziUtGojY3eF+a5N1d4T7fGfrBdqBvniJP?=
- =?us-ascii?Q?md8JOFLcZANgP7DbZWmIqbGdcCeq6heMa/e5QC/fIJ9SuGXGf61aj3TYhnCG?=
- =?us-ascii?Q?CMc4zvkduw5aA3gnQR+rNJ+0h6JWnWkBTNzZE+QSdU+Xxr90CQK3fETvUcni?=
- =?us-ascii?Q?GZCf7+3DRXfwjKBx6q6UWtCM4tBNeAZsemyqeoRhwPhrJXmqDZJY/8GiKnT2?=
- =?us-ascii?Q?tuhJHEAuncT7qFF3u/sR9vgI2GiYYI0eICHoBHfyUSHsHWxjedh8caBy7c1Q?=
- =?us-ascii?Q?wuM3u6eB0c2/kjbk5LqSNQxQU4xP03YrKa5+YBCUM3IqlF0757Jm7zjkd6Cc?=
- =?us-ascii?Q?OQf5TuMuaHIv/Osm6LsAVJCDFLWSHVxFgdlYAJ/mJdyLNny2MS8drcolvOrX?=
- =?us-ascii?Q?vs+0GcAeUZ+MhkSXyWgmZI9UBs5OAxNvC7txnLzzal/NzesWJCCt/ZURZppH?=
- =?us-ascii?Q?IFsqrOXhkS49p5XXNWEZkIvwAbvT99kUXqbrUNn+KwYxMezaHjulyTjTdo38?=
- =?us-ascii?Q?y40UwY2bEFib6HBgPAgR0eTw2AB3d9WP8b7cFIQfNyRFLDUc7fCxMh461+TL?=
- =?us-ascii?Q?6d6veoQwRLa9n/1gGUZMOboTYt3MP3g9hA5scQKh/KimUJNmyebQUNZ6UMkb?=
- =?us-ascii?Q?Nb69saJUBgCdXUxa/WdTk2t6BlxmTxkGTKhTqSUpVtj8ykr3QJOHR4L/07n/?=
- =?us-ascii?Q?vcvyewmcGBskncKZIKEApy71bOxNOa7Eyiz1hiJH8yyHhIjaQotf8zAIBzuN?=
- =?us-ascii?Q?wF1kmU8qpJ8HxECwUaJNJDQIrsQ0hfVEG7hm3gJN8vae7pecOKMRO0EoEOUO?=
- =?us-ascii?Q?/r9HHU3HaF9em4nUviWqrzVRMIAi9Tp3ztDl4sKZlCuBCfECOl/qKxSKcYg1?=
- =?us-ascii?Q?oWjJoE9B/9j6yU/OZDWn0TIAfvoh4Wyex9t/SQRZF242yCWexilLxqRP3Zg5?=
- =?us-ascii?Q?bER0m+eDj7onFc+1cok/aDaGecf1R61cnYSTBhZxeB7Q?=
-Content-Type: multipart/alternative;
-	boundary="_000_PN2PR01MB9570F2B02DBF1388A400B0049BEEAPN2PR01MB9570INDP_"
+	by smtp.kernel.org (Postfix) with ESMTPS id DAAF7C36AF0;
+	Thu,  7 Sep 2023 14:58:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org DAAF7C36AF0
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=dawes.za.net
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6bd066b0fd4so745110a34.2;
+        Thu, 07 Sep 2023 07:58:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dawes-za-net.20230601.gappssmtp.com; s=20230601; t=1694098736; x=1694703536; darn=kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=7zwcMur4Yyn/vbyW8iBg1EnJdAk52Bew+6g1efMBMv0=;
+        b=1wWC/GzD0vkrXLHfo0ge2KvykM1fy7u5fGYdkWNlHiKFqDnmorFL5akGC7S/a1iwl8
+         QFp6vlVCLnmXlrNeU3G68UalHdVQnZTSQ8bMsog5uVUzlPHEAFftxOknfjnDeoMOxFiG
+         llbcaL1OdUjG5JhVb5j2Bck+2G4Rm2I+FD/SUdCIsyvORO6YdT2VG6GveNMEZfdq6XfM
+         kVbw8INsUr7RUwNHtBhkKEYiSbufiwK1uKPyK+kDkWb2squxkftMDURKjtCsJNwmHvoB
+         eOu2+JZyjTV1X27Q0xCw8ab6pyvwF+EBiHDY/D+G8LUMyno0a79IUNFSwa/7re0ueFCc
+         wBHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1694098736; x=1694703536;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7zwcMur4Yyn/vbyW8iBg1EnJdAk52Bew+6g1efMBMv0=;
+        b=Ys5vSs2jpkAn301RgGlbfcI2R37B9pAlDQmTIIDm5cbFV3AwvHoN+Bnl2ZA+VNtodQ
+         9Ls/OeTjRkYMiK7hnSwVP+ijVdMFFuGzaNGlMdnjuvM20gRRILrpM8F6DBrlfyeIRCUq
+         DBozjtm8B/p5LRND9NicKrmtssHiJGLm6bTbcsdBTEfFU01/3dSj+cP7SRh6ls9H27ui
+         4rp/hs1LmUrr1HNqulyEGCU4x4s9XLdmhvK8C5N+Kg8vuCsV0202/4g6HAYwm+qw9Eof
+         ttyMMnMYoS83Ea/m0yYIW6AEgxBHwxpsouuH7f1ERo+xKwaGq99ZayNQnzbuloNP2JGH
+         FD8w==
+X-Gm-Message-State: AOJu0YwkfMc0hl8mIUZxM5hYnB0NPJZuXwJWrT4/Au0LvsGg3ZsIkaft
+	/O9Q3teFcz4IgSEOBeGLldaITEZ83S8jN9d+He1mvSfN
+X-Google-Smtp-Source: AGHT+IGjaOlmbtoDnj6vCr8FLMclXjQR62XK9B3WshplG1mjegUHtwamBgkIMx52bt1trSc+34IFDS1AgzhpkmCEqKM=
+X-Received: by 2002:a05:6830:22e7:b0:6b9:a9a8:7807 with SMTP id
+ t7-20020a05683022e700b006b9a9a87807mr19143663otc.23.1694098736517; Thu, 07
+ Sep 2023 07:58:56 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: jozti.co
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN2PR01MB9570.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 984083a3-3fa9-42a0-9682-08dbaf9b0362
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Sep 2023 12:07:31.4630
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3e1b58fe-8e59-4146-b4ee-fd127fc4b931
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Yf0k6ikRte7PGJIdEbzEi4XkDc5TUu7XFHI1ent+fh400ePRdShWslulrA20oPmnz8Vo2I36uo03gsuDT4hw4RnbJHptw7S3p0jK+7Ia0/g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAZPR01MB5947
+References: <CAOYdKdhsMWGtubm-sRs3f8Y0K4Raz1ATbV_NhGw+04MtALiLQw@mail.gmail.com>
+ <CA+5PVA79oa-9vrgMmgf9VoR0mswVr+H4DuMtrPCYVg0odZf2Pg@mail.gmail.com>
+In-Reply-To: <CA+5PVA79oa-9vrgMmgf9VoR0mswVr+H4DuMtrPCYVg0odZf2Pg@mail.gmail.com>
+From: Rogan Dawes <rogan@dawes.za.net>
+Date: Thu, 7 Sep 2023 16:58:45 +0200
+Message-ID: <CAOYdKdiGRK3dCz2fx+=vmZ5ZcwstmH=Q=OQyC3aJctNYnMbqKg@mail.gmail.com>
+Subject: Re: [PATCH] brcm: Add 4334 NVRAM for the Wink Hub v1
+To: Josh Boyer <jwboyer@kernel.org>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: linux-firmware@kernel.org
+Content-Type: multipart/alternative; boundary="0000000000006798d80604c61991"
 
---_000_PN2PR01MB9570F2B02DBF1388A400B0049BEEAPN2PR01MB9570INDP_
-Content-Type: text/plain; charset="us-ascii"
+--0000000000006798d80604c61991
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Dear Exhibitor,
+Hi Josh,
 
-I am following up to confirm, if you are interested acquiring the Attendee =
-List
+Thanks for taking a look. This configuration file was taken verbatim from
+the vendor firmware, shipped with the device, but had no license directly
+attributable to this file. Is it something that can still be accepted?
 
-ECOC Exhibition 2023
+Not sure how to add that sort of origin to the WHENCE file (although it was
+described in the commit message).
 
-01 - 05 Oct 2023
+If you could give me a pointer to something similar, I would be happy to
+resubmit.
 
-Scottish Event Campus, Glasgow, UK
+Regards,
 
-Counts: 1,060
-
-Attendee Includes: Client Name, Business Name, Title, Email Address, Phone =
-Number, and Web Address etc.
-
-Let me know your thoughts, so that I can send discount cost & additional in=
-formation.
-
-Artemis Ramirez | Attendee List Consultant.
+Rogan
 
 
+On Thu, 7 Sept 2023 at 13:44, Josh Boyer <jwboyer@kernel.org> wrote:
 
-
-
-
---_000_PN2PR01MB9570F2B02DBF1388A400B0049BEEAPN2PR01MB9570INDP_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+> On Wed, Sep 6, 2023 at 11:28=E2=80=AFAM Rogan Dawes <rogan@dawes.za.net> =
+wrote:
+> >
+> > Add a NVRAM file for the Broadcom 4334 Wifi/BT module as used on the
+> > Wink Hub v1 home automation gateway. This file has been lifted directly
+> > from the vendor firmware image, and has been tested using a custom
+> > OpenWrt build.
+> >
+> > Signed-off-by: Rogan Dawes <rogan@dawes.za.net>
+> > ---
+> >  ...cmfmac4334-sdio.wink,imx28-wink-hub-v1.txt | 101 ++++++++++++++++++
+> >  1 file changed, 101 insertions(+)
+> >  create mode 100644 brcm/brcmfmac4334-sdio.wink,imx28-wink-hub-v1.txt
+> >
+> > diff --git a/brcm/brcmfmac4334-sdio.wink,imx28-wink-hub-v1.txt
+> b/brcm/brcmfmac4334-sdio.wink,imx28-wink-hub-v1.txt
+> > new file mode 100644
+> > index 00000000..e63019b0
+> > --- /dev/null
+> > +++ b/brcm/brcmfmac4334-sdio.wink,imx28-wink-hub-v1.txt
 >
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Verdana;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;
-	mso-ligatures:none;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
-break-word">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal" style=3D"text-autospace:none"><a name=3D"_Hlk1342001=
-14"></a><a name=3D"_Hlk106268218"><span style=3D"mso-bookmark:_Hlk134200114=
-"><span style=3D"font-size:9.0pt;font-family:&quot;Verdana&quot;,sans-serif=
-;color:#7030A0">Dear Exhibitor,<o:p></o:p></span></span></a></p>
-<p class=3D"MsoNormal" style=3D"text-autospace:none"><span style=3D"mso-boo=
-kmark:_Hlk106268218"><span style=3D"mso-bookmark:_Hlk134200114"><span style=
-=3D"font-size:9.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:#7030A=
-0"><o:p>&nbsp;</o:p></span></span></span></p>
-<p class=3D"MsoNormal" style=3D"text-autospace:none"><span style=3D"mso-boo=
-kmark:_Hlk106268218"><span style=3D"mso-bookmark:_Hlk134200114"><span style=
-=3D"font-size:9.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:#7030A=
-0">I am following up to confirm, if you are interested
- acquiring the </span></span></span><span style=3D"mso-bookmark:_Hlk1062682=
-18"><span style=3D"mso-bookmark:_Hlk134200114"><b><u><span style=3D"font-si=
-ze:9.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:#00B050">Attendee=
- List<o:p></o:p></span></u></b></span></span></p>
-<p class=3D"MsoNormal" style=3D"text-autospace:none"><span style=3D"mso-boo=
-kmark:_Hlk106268218"><span style=3D"mso-bookmark:_Hlk134200114"><b><span st=
-yle=3D"font-size:9.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:#70=
-30A0"><o:p>&nbsp;</o:p></span></b></span></span></p>
-<p class=3D"MsoNormal" style=3D"text-autospace:none"><span style=3D"mso-boo=
-kmark:_Hlk106268218"><span style=3D"mso-bookmark:_Hlk134200114"><b><span st=
-yle=3D"font-size:9.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:#70=
-30A0;background:yellow;mso-highlight:yellow">ECOC Exhibition
- 2023</span></b></span></span><span style=3D"mso-bookmark:_Hlk106268218"><s=
-pan style=3D"mso-bookmark:_Hlk134200114"><b><span style=3D"font-size:9.0pt;=
-font-family:&quot;Verdana&quot;,sans-serif;color:#7030A0"><o:p></o:p></span=
-></b></span></span></p>
-<p class=3D"MsoNormal" style=3D"text-autospace:none"><span style=3D"mso-boo=
-kmark:_Hlk106268218"><span style=3D"mso-bookmark:_Hlk134200114"><b><span st=
-yle=3D"font-size:9.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:#70=
-30A0"><o:p>&nbsp;</o:p></span></b></span></span></p>
-<p class=3D"MsoNormal" style=3D"text-autospace:none"><span style=3D"mso-boo=
-kmark:_Hlk106268218"><span style=3D"mso-bookmark:_Hlk134200114"><b><span st=
-yle=3D"font-size:9.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:#70=
-30A0">01 - 05 Oct 2023<o:p></o:p></span></b></span></span></p>
-<p class=3D"MsoNormal" style=3D"text-autospace:none"><span style=3D"mso-boo=
-kmark:_Hlk106268218"><span style=3D"mso-bookmark:_Hlk134200114"><b><span st=
-yle=3D"font-size:9.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:#70=
-30A0"><o:p>&nbsp;</o:p></span></b></span></span></p>
-<p class=3D"MsoNormal" style=3D"text-autospace:none"><span style=3D"mso-boo=
-kmark:_Hlk106268218"><span style=3D"mso-bookmark:_Hlk134200114"><b><span st=
-yle=3D"font-size:9.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:#70=
-30A0">Scottish Event Campus, Glasgow, UK<o:p></o:p></span></b></span></span=
-></p>
-<p class=3D"MsoNormal" style=3D"text-autospace:none"><span style=3D"mso-boo=
-kmark:_Hlk106268218"><span style=3D"mso-bookmark:_Hlk134200114"><b><span st=
-yle=3D"font-size:9.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:#70=
-30A0"><o:p>&nbsp;</o:p></span></b></span></span></p>
-<p class=3D"MsoNormal" style=3D"text-autospace:none"><span style=3D"mso-boo=
-kmark:_Hlk106268218"><span style=3D"mso-bookmark:_Hlk134200114"><b><span st=
-yle=3D"font-size:9.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:#70=
-30A0;background:yellow;mso-highlight:yellow">Counts:
- 1,060</span></b></span></span><span style=3D"mso-bookmark:_Hlk106268218"><=
-span style=3D"mso-bookmark:_Hlk134200114"><b><span style=3D"font-size:9.0pt=
-;font-family:&quot;Verdana&quot;,sans-serif;color:#7030A0"><o:p></o:p></spa=
-n></b></span></span></p>
-<p class=3D"MsoNormal" style=3D"text-autospace:none"><span style=3D"mso-boo=
-kmark:_Hlk106268218"><span style=3D"mso-bookmark:_Hlk134200114"><b><span st=
-yle=3D"font-size:9.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:#70=
-30A0"><o:p>&nbsp;</o:p></span></b></span></span></p>
-<p class=3D"MsoNormal" style=3D"text-autospace:none"><span style=3D"mso-boo=
-kmark:_Hlk106268218"><span style=3D"mso-bookmark:_Hlk134200114"><b><span st=
-yle=3D"font-size:9.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:#70=
-30A0">Attendee Includes:
-</span></b></span></span><span style=3D"mso-bookmark:_Hlk106268218"><span s=
-tyle=3D"mso-bookmark:_Hlk134200114"><span style=3D"font-size:9.0pt;font-fam=
-ily:&quot;Verdana&quot;,sans-serif;color:#7030A0">Client Name, Business Nam=
-e, Title, Email Address, Phone Number, and Web Address
- etc<b>.<o:p></o:p></b></span></span></span></p>
-<p class=3D"MsoNormal" style=3D"text-autospace:none"><span style=3D"mso-boo=
-kmark:_Hlk106268218"><span style=3D"mso-bookmark:_Hlk134200114"><b><span st=
-yle=3D"font-size:9.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:#70=
-30A0"><o:p>&nbsp;</o:p></span></b></span></span></p>
-<p class=3D"MsoNormal" style=3D"text-autospace:none"><span style=3D"mso-boo=
-kmark:_Hlk106268218"><span style=3D"mso-bookmark:_Hlk134200114"><span style=
-=3D"font-size:9.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:#7030A=
-0">Let me know your thoughts, so that I can send discount
- cost &amp; additional information.<b><o:p></o:p></b></span></span></span><=
-/p>
-<p class=3D"MsoNormal" style=3D"text-autospace:none"><span style=3D"mso-boo=
-kmark:_Hlk106268218"><span style=3D"mso-bookmark:_Hlk134200114"><span style=
-=3D"font-size:9.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:#7030A=
-0"><o:p>&nbsp;</o:p></span></span></span></p>
-<p class=3D"MsoNormal" style=3D"text-autospace:none"><span style=3D"mso-boo=
-kmark:_Hlk106268218"><span style=3D"mso-bookmark:_Hlk134200114"><b><span st=
-yle=3D"font-size:9.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:#70=
-30A0">Artemis Ramirez | Attendee List Consultant.<o:p></o:p></span></b></sp=
-an></span></p>
-<p class=3D"MsoNormal" style=3D"text-autospace:none"><span style=3D"mso-boo=
-kmark:_Hlk106268218"><span style=3D"mso-bookmark:_Hlk134200114"><b><span st=
-yle=3D"font-size:9.0pt;font-family:&quot;Verdana&quot;,sans-serif"><o:p>&nb=
-sp;</o:p></span></b></span></span></p>
-<p class=3D"MsoNormal"><span style=3D"mso-bookmark:_Hlk106268218"><span sty=
-le=3D"mso-bookmark:_Hlk134200114">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<o:p></o:p></span></span></p>
-<span style=3D"mso-bookmark:_Hlk106268218"></span>
-<p class=3D"MsoNormal"><span style=3D"mso-bookmark:_Hlk134200114"><o:p>&nbs=
-p;</o:p></span></p>
-<span style=3D"mso-bookmark:_Hlk134200114"></span>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
+> This fails to apply for some reason, and you didn't add an entry into
+> WHENCE.  Can you fix it up and resend?
+>
+> josh
+>
+> > @@ -0,0 +1,101 @@
+> > +# SWB-B53_B1_R04_eLNA 10/21/2011
+> > +
+> > +manfid=3D0x2d0
+> > +prodid=3D0x05c1
+> > +vendid=3D0x14e4
+> > +devid=3D0x4380
+> > +boardtype=3D0x05de
+> > +boardrev=3D0x1105
+> > +boardnum=3D22
+> > +macaddr=3D00:90:4c:c5:12:38
+> > +sromrev=3D0
+> > +
+> > +boardflags=3D0x10081a00
+> > +xtalfreq=3D37400
+> > +nocrc=3D1
+> > +ag0=3D255
+> > +aa2g=3D1
+> > +ccode=3DALL
+> > +pa0itssit=3D0x20
+> > +
+> > +#PA parameters for 2.4GHz (0x15A7,0xFD54,0xFF4A)
+> > +pa0b0=3D0x19B7
+> > +pa0b1=3D0xFD2A
+> > +pa0b2=3D0xFF7B
+> > +extpagain2g=3D2
+> > +extpagain5g=3D2
+> > +
+> > +# rssi params for 2.4GHz
+> > +rssismf2g=3D0x2
+> > +rssismc2g=3D0x7
+> > +rssisav2g=3D0x1
+> > +cckPwrOffset=3D0
+> > +
+> > +# rssi params for 5GHz
+> > +rssismf5g=3D0x8
+> > +rssismc5g=3D0x8
+> > +rssisav5g=3D0x1
+> > +
+> > +
+> > +#PA parameters for lower a-band
+> > +pa1lob0=3D5516
+> > +pa1lob1=3D-680
+> > +pa1lob2=3D-182
+> > +#PA parameters for midband
+> > +pa1b0=3D5560
+> > +pa1b1=3D-683
+> > +pa1b2=3D-178
+> > +#PA paramasdeters for high band
+> > +pa1hib0=3D5438
+> > +pa1hib1=3D-681
+> > +pa1hib2=3D-193
+> > +rxpo5g=3D0
+> > +
+> > +
+> > +maxp2ga0=3D66
+> > +ofdm2gpo=3D0x22222222
+> > +mcs2gpo0=3D0x4444
+> > +mcs2gpo1=3D0x4444
+> > +
+> > +maxp5ga0=3D0x4a
+> > +maxp5gla0=3D0x4a
+> > +maxp5gha0=3D0x4a
+> > +ofdm5gpo=3D0x66666666
+> > +ofdm5glpo=3D0x66666666
+> > +ofdm5ghpo=3D0x66666666
+> > +mcs5gpo0=3D0x8888
+> > +mcs5gpo1=3D0x8888
+> > +mcs5glpo0=3D0x8888
+> > +mcs5glpo1=3D0x8888
+> > +mcs5ghpo0=3D0x8888
+> > +mcs5ghpo1=3D0x8888
+> > +
+> > +#il0macaddr=3D00:90:4c:c5:12:38
+> > +wl0id=3D0x431b
+> > +pagc2g=3D0x10
+> > +#dacgc2g=3D4
+> > +txalpfbyp=3D1
+> > +
+> > +#For SEMCO B53-R04-eLNA Module
+> > +swctrlmap_2g=3D0x0c0c0c0c,0x12121212,0x02020202,0x11202,0x1ff
+> > +swctrlmap_5g=3D0x40404040,0x20202020,0x20202020,0x12202,0x2f8
+> > +
+> > +gain=3D32
+> > +triso2g=3D12
+> > +triso5g=3D8
+> > +
+> > +hostwake=3D0x40
+> > +hostrdy=3D0x41
+> > +usbrdy=3D0x03
+> > +usbrdydelay=3D100
+> > +deadman_to=3D0xffffffff
+> > +muxenab=3D0x1
+> > +
+> > +tssioffsetmax=3D27
+> > +
+> > +PwrOffset40mhz2g=3D0
+> > +PwrOffset40mhz5g=3D-8
+> > +
+> > +tssioffsetmax5gl=3D21
+> > +tssioffsetmax5gm=3D23
+> > +tssioffsetmax5gh=3D20
+> > --
+> > 2.34.1
+> >
+>
 
---_000_PN2PR01MB9570F2B02DBF1388A400B0049BEEAPN2PR01MB9570INDP_--
+--0000000000006798d80604c61991
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi Josh,<div><br></div><div>Thanks for taking a look. This=
+ configuration file was taken verbatim from the vendor firmware, shipped wi=
+th the device, but had no license directly attributable to this file. Is it=
+ something that can still be accepted?</div><div><br></div><div>Not sure ho=
+w to add that sort of origin to the WHENCE file (although it was described =
+in the commit message).</div><div><br></div><div>If you could give me a poi=
+nter to something similar, I would be happy to resubmit.</div><div><br></di=
+v><div>Regards,</div><div><br></div><div>Rogan</div><div><br></div></div><b=
+r><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, =
+7 Sept 2023 at 13:44, Josh Boyer &lt;<a href=3D"mailto:jwboyer@kernel.org">=
+jwboyer@kernel.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">On Wed, Sep 6, 2023 at 11:28=E2=80=AFAM Rogan Dawes &lt;<=
+a href=3D"mailto:rogan@dawes.za.net" target=3D"_blank">rogan@dawes.za.net</=
+a>&gt; wrote:<br>
+&gt;<br>
+&gt; Add a NVRAM file for the Broadcom 4334 Wifi/BT module as used on the<b=
+r>
+&gt; Wink Hub v1 home automation gateway. This file has been lifted directl=
+y<br>
+&gt; from the vendor firmware image, and has been tested using a custom<br>
+&gt; OpenWrt build.<br>
+&gt;<br>
+&gt; Signed-off-by: Rogan Dawes &lt;<a href=3D"mailto:rogan@dawes.za.net" t=
+arget=3D"_blank">rogan@dawes.za.net</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 ...cmfmac4334-sdio.wink,imx28-wink-hub-v1.txt | 101 ++++++++++++=
+++++++<br>
+&gt;=C2=A0 1 file changed, 101 insertions(+)<br>
+&gt;=C2=A0 create mode 100644 brcm/brcmfmac4334-sdio.wink,imx28-wink-hub-v1=
+.txt<br>
+&gt;<br>
+&gt; diff --git a/brcm/brcmfmac4334-sdio.wink,imx28-wink-hub-v1.txt b/brcm/=
+brcmfmac4334-sdio.wink,imx28-wink-hub-v1.txt<br>
+&gt; new file mode 100644<br>
+&gt; index 00000000..e63019b0<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/brcm/brcmfmac4334-sdio.wink,imx28-wink-hub-v1.txt<br>
+<br>
+This fails to apply for some reason, and you didn&#39;t add an entry into<b=
+r>
+WHENCE.=C2=A0 Can you fix it up and resend?<br>
+<br>
+josh<br>
+<br>
+&gt; @@ -0,0 +1,101 @@<br>
+&gt; +# SWB-B53_B1_R04_eLNA 10/21/2011<br>
+&gt; +<br>
+&gt; +manfid=3D0x2d0<br>
+&gt; +prodid=3D0x05c1<br>
+&gt; +vendid=3D0x14e4<br>
+&gt; +devid=3D0x4380<br>
+&gt; +boardtype=3D0x05de<br>
+&gt; +boardrev=3D0x1105<br>
+&gt; +boardnum=3D22<br>
+&gt; +macaddr=3D00:90:4c:c5:12:38<br>
+&gt; +sromrev=3D0<br>
+&gt; +<br>
+&gt; +boardflags=3D0x10081a00<br>
+&gt; +xtalfreq=3D37400<br>
+&gt; +nocrc=3D1<br>
+&gt; +ag0=3D255<br>
+&gt; +aa2g=3D1<br>
+&gt; +ccode=3DALL<br>
+&gt; +pa0itssit=3D0x20<br>
+&gt; +<br>
+&gt; +#PA parameters for 2.4GHz (0x15A7,0xFD54,0xFF4A)<br>
+&gt; +pa0b0=3D0x19B7<br>
+&gt; +pa0b1=3D0xFD2A<br>
+&gt; +pa0b2=3D0xFF7B<br>
+&gt; +extpagain2g=3D2<br>
+&gt; +extpagain5g=3D2<br>
+&gt; +<br>
+&gt; +# rssi params for 2.4GHz<br>
+&gt; +rssismf2g=3D0x2<br>
+&gt; +rssismc2g=3D0x7<br>
+&gt; +rssisav2g=3D0x1<br>
+&gt; +cckPwrOffset=3D0<br>
+&gt; +<br>
+&gt; +# rssi params for 5GHz<br>
+&gt; +rssismf5g=3D0x8<br>
+&gt; +rssismc5g=3D0x8<br>
+&gt; +rssisav5g=3D0x1<br>
+&gt; +<br>
+&gt; +<br>
+&gt; +#PA parameters for lower a-band<br>
+&gt; +pa1lob0=3D5516<br>
+&gt; +pa1lob1=3D-680<br>
+&gt; +pa1lob2=3D-182<br>
+&gt; +#PA parameters for midband<br>
+&gt; +pa1b0=3D5560<br>
+&gt; +pa1b1=3D-683<br>
+&gt; +pa1b2=3D-178<br>
+&gt; +#PA paramasdeters for high band<br>
+&gt; +pa1hib0=3D5438<br>
+&gt; +pa1hib1=3D-681<br>
+&gt; +pa1hib2=3D-193<br>
+&gt; +rxpo5g=3D0<br>
+&gt; +<br>
+&gt; +<br>
+&gt; +maxp2ga0=3D66<br>
+&gt; +ofdm2gpo=3D0x22222222<br>
+&gt; +mcs2gpo0=3D0x4444<br>
+&gt; +mcs2gpo1=3D0x4444<br>
+&gt; +<br>
+&gt; +maxp5ga0=3D0x4a<br>
+&gt; +maxp5gla0=3D0x4a<br>
+&gt; +maxp5gha0=3D0x4a<br>
+&gt; +ofdm5gpo=3D0x66666666<br>
+&gt; +ofdm5glpo=3D0x66666666<br>
+&gt; +ofdm5ghpo=3D0x66666666<br>
+&gt; +mcs5gpo0=3D0x8888<br>
+&gt; +mcs5gpo1=3D0x8888<br>
+&gt; +mcs5glpo0=3D0x8888<br>
+&gt; +mcs5glpo1=3D0x8888<br>
+&gt; +mcs5ghpo0=3D0x8888<br>
+&gt; +mcs5ghpo1=3D0x8888<br>
+&gt; +<br>
+&gt; +#il0macaddr=3D00:90:4c:c5:12:38<br>
+&gt; +wl0id=3D0x431b<br>
+&gt; +pagc2g=3D0x10<br>
+&gt; +#dacgc2g=3D4<br>
+&gt; +txalpfbyp=3D1<br>
+&gt; +<br>
+&gt; +#For SEMCO B53-R04-eLNA Module<br>
+&gt; +swctrlmap_2g=3D0x0c0c0c0c,0x12121212,0x02020202,0x11202,0x1ff<br>
+&gt; +swctrlmap_5g=3D0x40404040,0x20202020,0x20202020,0x12202,0x2f8<br>
+&gt; +<br>
+&gt; +gain=3D32<br>
+&gt; +triso2g=3D12<br>
+&gt; +triso5g=3D8<br>
+&gt; +<br>
+&gt; +hostwake=3D0x40<br>
+&gt; +hostrdy=3D0x41<br>
+&gt; +usbrdy=3D0x03<br>
+&gt; +usbrdydelay=3D100<br>
+&gt; +deadman_to=3D0xffffffff<br>
+&gt; +muxenab=3D0x1<br>
+&gt; +<br>
+&gt; +tssioffsetmax=3D27<br>
+&gt; +<br>
+&gt; +PwrOffset40mhz2g=3D0<br>
+&gt; +PwrOffset40mhz5g=3D-8<br>
+&gt; +<br>
+&gt; +tssioffsetmax5gl=3D21<br>
+&gt; +tssioffsetmax5gm=3D23<br>
+&gt; +tssioffsetmax5gh=3D20<br>
+&gt; --<br>
+&gt; 2.34.1<br>
+&gt;<br>
+</blockquote></div>
+
+--0000000000006798d80604c61991--
