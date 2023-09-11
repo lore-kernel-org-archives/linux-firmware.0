@@ -1,70 +1,180 @@
-Return-Path: <SRS0=CuQk=E2=russelltech.com=btv1==6176d5123c5==Ericboss17@kernel.org>
+Return-Path: <SRS0=dyQD=E3=vicinformationdata.com=gabrielle@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDED2C71153
-	for <linux-firmware@archiver.kernel.org>; Sun, 10 Sep 2023 21:39:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EBAC8EE57DF
+	for <linux-firmware@archiver.kernel.org>; Mon, 11 Sep 2023 09:12:18 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 82A09C433C9; Sun, 10 Sep 2023 21:39:22 +0000 (UTC)
-Received: from barracuda.3gl.ca (mail.3gl.ca [74.123.68.234])
+	id A2C97C433C9; Mon, 11 Sep 2023 09:12:18 +0000 (UTC)
+Received: from mail-m120131.xmail.ntesmail.com (mail-m120131.xmail.ntesmail.com [115.236.120.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id EFF77C433CB
-	for <linux-firmware@kernel.org>; Sun, 10 Sep 2023 21:39:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org EFF77C433CB
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=russelltech.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=russelltech.com
-X-ASG-Debug-ID: 1694381945-242b751f8167f370005-DxPAMX
-Received: from [185.216.71.138] ([185.216.71.138]) by barracuda.3gl.ca with ESMTP id ExEsQjcIEwSX6tvO for <linux-firmware@kernel.org>; Sun, 10 Sep 2023 15:39:10 -0600 (MDT)
-X-Barracuda-Envelope-From: Ericboss17@russelltech.com
-X-Barracuda-Effective-Source-IP: UNKNOWN[185.216.71.138]
-X-Barracuda-Apparent-Source-IP: 185.216.71.138
-Content-Type: text/plain; charset="iso-8859-1"
+	by smtp.kernel.org (Postfix) with ESMTPS id E57CFC433C8
+	for <linux-firmware@kernel.org>; Mon, 11 Sep 2023 09:12:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org E57CFC433C8
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=vicinformationdata.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=vicinformationdata.com
+Received: from vicinformationdata.com (localhost [127.0.0.1])
+	by mail-m12774.qiye.163.com (Hmail) with ESMTP id B040880070C;
+	Mon, 11 Sep 2023 17:11:25 +0800 (CST)
+Content-Type: multipart/alternative; BOUNDARY="=_Part_344172_1420021714.1694423485714"
+Message-ID: <AGEAaQCTFxHnir0Nx1gKJ4po.1.1694423485714.Hmail.gabrielle@vicinformationdata.com>
+Subject: =?UTF-8?B?5biC5Zy656CU56m277yaKEZsYXQgUGFuZWwgRGlzcGxheSBUZXN0IFNvbHV0aW9uKSBNYXJrZXQgQW5hbHlzaXM6VGhpcyBpcyBhIHJlcG9ydCBvZiBvdXIgbGF0ZXN0IHJlc2VhcmNoIHRoYXQgeW91IGNhbiBzaGFyZSB3aXRoIHlvdXIgdGVhbQ==?=
+X-Priority: 3
+X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
+X-Originating-IP: 113.101.101.130
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: REVERT
+Received: from gabrielle@vicinformationdata.com( [113.101.101.130) ] by ajax-webmail ( [127.0.0.1] ) ; Mon, 11 Sep 2023 17:11:25 +0800 (GMT+08:00)
+From: Gabrielle <gabrielle@vicinformationdata.com>
+Date: Mon, 11 Sep 2023 17:11:25 +0800 (GMT+08:00)
+X-HM-Spam-Status: e1kfGhgUHx5ZQUhXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCGUNKVkgfTB8aSkkfQhhPT1UTARMWGhIXJBQOD1
+	lXWRgSC1lBWUpKSFVKS0pVSktKVUpIS1lXWRYaDxIVHRRZQVlPS0hVSk9CQk9LVU9VSk9ZBg++
+X-HM-Tid: 0a8a83828d12b24akuuu18a6a950919
+X-HM-MType: 1
+X-HM-NTES-SC: AL0_4z5B86Wr4Tz9jdMF+bhXMXLpewrmlGiAOgFOUgzE6elzQFUO22lKSOHjb9
+	q07MuL9PL1Rxi864z9/G2qfu3ht4EDHbOHoZds1BlizxgOeVO9dORc+nEPIN72NhMRXFhDI8eYA1
+	KSCi494rajik2De1Xu1UZt66lgmKbxRfExSOA=
+X-HM-Sender-Digest: e1kMHhlZQQ8JDh5XWRIfHhUPWUFZRzo8PjoaKjgvPQMzFRIJSzUDShww
+	MU8LFFVKVUpNQk9PSUhPQ01NTExVMxYaEhdVHBoZCRIeFxceOw0SGBIVHRQJFhoPEhQVHxoPGlUY
+	FBZFWVdZFBUeCRgLD1lBSldZEgtZQVlKSkhVSktKVUpLSlVKSEtZV1kIAVlBSkJMSEs3Bg++
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-X-ASG-Orig-Subj: REVERT
-From: Ericboss17@russelltech.com
-Date: Sun, 10 Sep 2023 23:39:09 +0200
-Reply-To: basicinvest11@outlook.com
-X-Barracuda-Connect: UNKNOWN[185.216.71.138]
-X-Barracuda-Start-Time: 1694381949
-X-Barracuda-URL: https://barracuda.3gl.ca:8003/cgi-mod/mark.cgi
-X-Barracuda-BRTS-Status: 0
-X-Virus-Scanned: by bsmtpd at 3gl.ca
-X-Barracuda-Scan-Msg-Size: 401
-X-Barracuda-Spam-Score: 1.35
-X-Barracuda-Spam-Status: No, SCORE=1.35 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=7.0 tests=BSF_SC0_SA620b, BSF_SC0_SA912_RP_FR, BSF_SC7_SA298e, MAILTO_TO_SPAM_ADDR, MISSING_MID, NO_REAL_NAME
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.113934
-	Rule breakdown below
-	 pts rule name              description
-	---- ---------------------- --------------------------------------------------
-	0.00 NO_REAL_NAME           From: does not include a real name
-	0.14 MISSING_MID            Missing Message-Id: header
-	0.00 MAILTO_TO_SPAM_ADDR    Includes a link to a likely spammer email
-	0.01 BSF_SC0_SA912_RP_FR    Custom Rule BSF_SC0_SA912_RP_FR
-	1.00 BSF_SC0_SA620b         Custom Rule SA620b
-	0.20 BSF_SC7_SA298e         Custom Rule SA298e
-Message-Id: <20230910213920.EFF77C433CB@smtp.kernel.org>
 
-Hi,
+--=_Part_344172_1420021714.1694423485714
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-I have a private investor who is willing to invest a substantial sum in an =
-existing company to increase profitability and then share from Return On In=
-vestment (ROI).
+R29vZCBEYXnvvIEKVGhpcyBpcyBhIG1hcmtldCByZXBvcnQgb2YgRmxhdCBQYW5lbCBEaXNwbGF5
+IFRlc3QgU29sdXRpb24uIElmIHlvdSB3YW50IHRvIGtub3cgdGhlIGltcG9ydGFudCBpbmZvcm1h
+dGlvbiBvZiB0aGUgbWFqb3IgbWFudWZhY3R1cmVycyBpbiB0aGlzIGluZHVzdHJ5LCB5b3UgY2Fu
+IGNvbnRhY3QgbWUgZGlyZWN0bHksIGFuZCBJIHdpbGwgc2VuZCB5b3UgdGhlIHJlcG9ydCBzYW1w
+bGUgZm9yIHlvdXIgcmV2aWV3LgpNYW51ZmFjdHVyZXJzIExpc3TvvJoKICAgIENocm9tYSBBVEUK
+ICAgIENvaHUKICAgIFRleGFzIEluc3RydW1lbnRzCiAgICBUZXN0b0NoZW0KICAgIFNUQXIgVGVj
+aG5vbG9naWVzIEluYy4KICAgIE9yYm90ZWNoCiAgICBXZXN0Ym9ybyBQaG90b25pY3MKICAgIEtv
+bmljYSBNaW5vbHRhIFNlbnNpbmcKICAgIEFzdHJvbmljcyBUZXN0IFN5c3RlbQouLi4uLi4KSSB3
+b3VsZCBiZSB2ZXJ5IGdyYXRlZnVsIGlmIHlvdSBjb3VsZCByZXBseSBvciBmb3J3YXJkIGl0IHRv
+IHRoZSByZWxldmFudCBkZXBhcnRtZW50LlRoYW5rcyBpbiBhZHZhbmNlLgpXaXNoIHlvdSBhbmQg
+eW91ciBjb21wYW55IGFsbCB0aGUgYmVzdCEKQXByaWwgfCBTYWxlcyBNYW5hZ2VyClRFTDogKzg2
+LTE4ODIwMTgxNDE1CldlQ2hhdDogMTg4MjAxODE0MTUKRS1NYWlsOiBhcHJpbEB2aWNtYXJrZXRy
+ZXNlYXJjaC5jb20KCgoNCg0K
+--=_Part_344172_1420021714.1694423485714
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-Details would be furnished as soon as I get a positive response from you. K=
-indly send your response to this email address: basicinvest11@outlook.com
-
-
-I look forward to hearing from you.
-
-Respectfully,
-
-Eric Bossman.
+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
+Zm9udC1mYW1pbHk6QXJpYWwiPjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJtc28t
+c3BhY2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAw
+cHQ7Cm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij5Hb29kIERhee+8gTwvc3Bhbj48c3BhbiBz
+dHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTtmb250LXNp
+emU6MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+PG86cD48L286cD48L3Nw
+YW4+PC9wPjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJtc28tc3BhY2VydW46J3ll
+cyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAwcHQ7Cm1zby1mb250
+LWtlcm5pbmc6MS4wMDAwcHQ7Ij5UaGlzIGlzIGE8L3NwYW4+PHNwYW4gc3R5bGU9Im1zby1zcGFj
+ZXJ1bjoneWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBwdDsK
+bXNvLWZvbnQta2VybmluZzoxLjAwMDBwdDsiPiZuYnNwOzxmb250IGZhY2U9IuW+rui9r+mbhem7
+kSI+bWFya2V0IHJlcG9ydCBvZiA8L2ZvbnQ+PC9zcGFuPjxzcGFuIHN0eWxlPSJmb250LWZhbWls
+eTog5b6u6L2v6ZuF6buROyBjb2xvcjogcmdiKDAsIDAsIDI1NSk7IGZvbnQtc2l6ZTogMTAuNXB0
+OyI+RmxhdCBQYW5lbCBEaXNwbGF5IFRlc3QgU29sdXRpb248L3NwYW4+PHNwYW4gc3R5bGU9Im1z
+by1zcGFjZXJ1bjoneWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUw
+MDBwdDsKbXNvLWZvbnQta2VybmluZzoxLjAwMDBwdDsiPi4gSWYgeW91IHdhbnQgdG8ga25vdyB0
+aGUgaW1wb3J0YW50IGluZm9ybWF0aW9uIG9mIHRoZSBtYWpvciBtYW51ZmFjdHVyZXJzIGluIHRo
+aXMgaW5kdXN0cnksIHlvdSBjYW4gY29udGFjdCBtZSBkaXJlY3RseSwgYW5kIEkgd2lsbCBzZW5k
+IHlvdSB0aGUgcmVwb3J0IHNhbXBsZSBmb3IgeW91ciByZXZpZXcuPC9zcGFuPjxzcGFuIHN0eWxl
+PSJtc28tc3BhY2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZTox
+MC41MDAwcHQ7Cm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij48bzpwPjwvbzpwPjwvc3Bhbj48
+L3A+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9Im1zby1zcGFjZXJ1bjoneWVzJztm
+b250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBwdDsKbXNvLWZvbnQta2Vy
+bmluZzoxLjAwMDBwdDsiPk1hbnVmYWN0dXJlcnMgTGlzdDwvc3Bhbj48c3BhbiBzdHlsZT0ibXNv
+LXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTtmb250LXNpemU6MTAuNTAw
+MHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+77yaPC9zcGFuPjxzcGFuIHN0eWxlPSJt
+c28tc3BhY2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41
+MDAwcHQ7Cm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij48bzpwPjwvbzpwPjwvc3Bhbj48L3A+
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9Im1zby1zcGFjZXJ1bjoneWVzJztmb250
+LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBwdDsKbXNvLWZvbnQta2Vybmlu
+ZzoxLjAwMDBwdDsiPiZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwO0Nocm9tYSBBVEU8L3NwYW4+PHNw
+YW4gc3R5bGU9Im1zby1zcGFjZXJ1bjoneWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9u
+dC1zaXplOjEwLjUwMDBwdDsKbXNvLWZvbnQta2VybmluZzoxLjAwMDBwdDsiPjxvOnA+PC9vOnA+
+PC9zcGFuPjwvcD48cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVu
+Oid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTtmb250LXNpemU6MTAuNTAwMHB0Owptc28t
+Zm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Q29odTwvc3Bh
+bj48c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7
+kTtmb250LXNpemU6MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+PG86cD48
+L286cD48L3NwYW4+PC9wPjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJtc28tc3Bh
+Y2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAwcHQ7
+Cm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDtUZXhh
+cyBJbnN0cnVtZW50czwvc3Bhbj48c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQt
+ZmFtaWx5OuW+rui9r+mbhem7kTtmb250LXNpemU6MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5n
+OjEuMDAwMHB0OyI+PG86cD48L286cD48L3NwYW4+PC9wPjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
+cGFuIHN0eWxlPSJtc28tc3BhY2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2Zv
+bnQtc2l6ZToxMC41MDAwcHQ7Cm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij4mbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDtUZXN0b0NoZW08L3NwYW4+PHNwYW4gc3R5bGU9Im1zby1zcGFjZXJ1bjon
+eWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBwdDsKbXNvLWZv
+bnQta2VybmluZzoxLjAwMDBwdDsiPjxvOnA+PC9vOnA+PC9zcGFuPjwvcD48cCBjbGFzcz0iTXNv
+Tm9ybWFsIj48c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9
+r+mbhem7kTtmb250LXNpemU6MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7U1RBciBUZWNobm9sb2dpZXMgSW5jLjwvc3Bhbj48c3Bh
+biBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTtmb250
+LXNpemU6MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+PG86cD48L286cD48
+L3NwYW4+PC9wPjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJtc28tc3BhY2VydW46
+J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAwcHQ7Cm1zby1m
+b250LWtlcm5pbmc6MS4wMDAwcHQ7Ij4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDtPcmJvdGVjaDwv
+c3Bhbj48c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mb
+hem7kTtmb250LXNpemU6MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+PG86
+cD48L286cD48L3NwYW4+PC9wPjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJtc28t
+c3BhY2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAw
+cHQ7Cm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDtX
+ZXN0Ym9ybyBQaG90b25pY3M8L3NwYW4+PHNwYW4gc3R5bGU9Im1zby1zcGFjZXJ1bjoneWVzJztm
+b250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBwdDsKbXNvLWZvbnQta2Vy
+bmluZzoxLjAwMDBwdDsiPjxvOnA+PC9vOnA+PC9zcGFuPjwvcD48cCBjbGFzcz0iTXNvTm9ybWFs
+Ij48c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7
+kTtmb250LXNpemU6MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7S29uaWNhIE1pbm9sdGEgU2Vuc2luZzwvc3Bhbj48c3BhbiBzdHls
+ZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTtmb250LXNpemU6
+MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+PG86cD48L286cD48L3NwYW4+
+PC9wPjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJtc28tc3BhY2VydW46J3llcyc7
+Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAwcHQ7Cm1zby1mb250LWtl
+cm5pbmc6MS4wMDAwcHQ7Ij4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDtBc3Ryb25pY3MgVGVzdCBT
+eXN0ZW08L3NwYW4+PHNwYW4gc3R5bGU9Im1zby1zcGFjZXJ1bjoneWVzJztmb250LWZhbWlseTrl
+vq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBwdDsKbXNvLWZvbnQta2VybmluZzoxLjAwMDBw
+dDsiPjxvOnA+PC9vOnA+PC9zcGFuPjwvcD48cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBz
+dHlsZT0iZm9udC1mYW1pbHk6IOW+rui9r+mbhem7kTsgZm9udC1zaXplOiAxMC41cHQ7Ij4uLi4u
+Li48L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJtc28tc3BhY2VydW46J3llcyc7Zm9udC1mYW1pbHk6
+5b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAwcHQ7Cm1zby1mb250LWtlcm5pbmc6MS4wMDAw
+cHQ7Ij48bzpwPjwvbzpwPjwvc3Bhbj48L3A+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5
+bGU9Im1zby1zcGFjZXJ1bjoneWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXpl
+OjEwLjUwMDBwdDsKbXNvLWZvbnQta2VybmluZzoxLjAwMDBwdDsiPkkgd291bGQgYmUgdmVyeSBn
+cmF0ZWZ1bCBpZiB5b3UgY291bGQgcmVwbHkgb3IgZm9yd2FyZCBpdCB0byB0aGUgcmVsZXZhbnQg
+ZGVwYXJ0bWVudC5UaGFua3MgaW4gYWR2YW5jZS48L3NwYW4+PHNwYW4gc3R5bGU9Im1zby1zcGFj
+ZXJ1bjoneWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBwdDsK
+bXNvLWZvbnQta2VybmluZzoxLjAwMDBwdDsiPjxvOnA+PC9vOnA+PC9zcGFuPjwvcD48cCBjbGFz
+cz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5
+OuW+rui9r+mbhem7kTtmb250LXNpemU6MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAw
+MHB0OyI+V2lzaCB5b3UgYW5kIHlvdXIgY29tcGFueSBhbGwgdGhlIGJlc3QhPC9zcGFuPjxzcGFu
+IHN0eWxlPSJtc28tc3BhY2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQt
+c2l6ZToxMC41MDAwcHQ7Cm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij48bzpwPjwvbzpwPjwv
+c3Bhbj48L3A+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9Im1zby1zcGFjZXJ1bjon
+eWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBwdDsKbXNvLWZv
+bnQta2VybmluZzoxLjAwMDBwdDsiPkFwcmlsIHwgU2FsZXMgTWFuYWdlcjwvc3Bhbj48c3BhbiBz
+dHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTtmb250LXNp
+emU6MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+PG86cD48L286cD48L3Nw
+YW4+PC9wPjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJtc28tc3BhY2VydW46J3ll
+cyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAwcHQ7Cm1zby1mb250
+LWtlcm5pbmc6MS4wMDAwcHQ7Ij5URUw6ICs4Ni0xODgyMDE4MTQxNTwvc3Bhbj48c3BhbiBzdHls
+ZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTtmb250LXNpemU6
+MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+PG86cD48L286cD48L3NwYW4+
+PC9wPjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJtc28tc3BhY2VydW46J3llcyc7
+Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAwcHQ7Cm1zby1mb250LWtl
+cm5pbmc6MS4wMDAwcHQ7Ij5XZUNoYXQ6IDE4ODIwMTgxNDE1PC9zcGFuPjxzcGFuIHN0eWxlPSJt
+c28tc3BhY2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41
+MDAwcHQ7Cm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij48bzpwPjwvbzpwPjwvc3Bhbj48L3A+
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9Im1zby1zcGFjZXJ1bjoneWVzJztmb250
+LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBwdDsKbXNvLWZvbnQta2Vybmlu
+ZzoxLjAwMDBwdDsiPkUtTWFpbDogYXByaWxAdmljbWFya2V0cmVzZWFyY2guY29tPC9zcGFuPjxz
+cGFuIHN0eWxlPSJtc28tc3BhY2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2Zv
+bnQtc2l6ZToxMC41MDAwcHQ7Cm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij48bzpwPjwvbzpw
+Pjwvc3Bhbj48L3A+PC9kaXY+PGJyPg==
+--=_Part_344172_1420021714.1694423485714--
