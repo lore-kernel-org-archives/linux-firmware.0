@@ -4,85 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2243CD37B0
-	for <linux-firmware@archiver.kernel.org>; Mon, 18 Sep 2023 11:28:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA25EC46CA1
+	for <linux-firmware@archiver.kernel.org>; Mon, 18 Sep 2023 11:36:39 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B3A84C433CB; Mon, 18 Sep 2023 11:28:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E6EAC433CA
-	for <linux-firmware@kernel.org>; Mon, 18 Sep 2023 11:28:21 +0000 (UTC)
+	id 75F41C433CB; Mon, 18 Sep 2023 11:36:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E56BC433C9;
+	Mon, 18 Sep 2023 11:36:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1695036501;
-	bh=dRHK6+q7w35hkHxF5TLLurO050bYKeUwTQ2BIyvmKB8=;
+	s=k20201202; t=1695036999;
+	bh=Gn7JKWmRc5B7Muypb+/Lz90MGn2wS3rqLP+IucfNG3c=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=VUyyH3LSxVzqjJpEPN5PLFrdqu00seA1zBp2TzwgySNTtRoTTKGDAJKrsvV4dq5Pa
-	 Mlyhsv5ZOvMYKbZNsdUff59tTQSiDY7o4laxQaPuBSzAex1NVCl1ezk984/H8eMe4w
-	 iKlpW3uDvoUtbHtbr92rqRYxJ1CzdtqTVgKSGnB9xQDIrM+g05FTuhqaPtzlwBGsSl
-	 oUuC3iryaG2SpYyM6hiCI2+eZN1hNTORLViO2u8GRjsScn8zrr6dY0rxcvgeA/IP69
-	 WCz6DjVauqhO56B8ZI47CMdANOZtRkHZLhg8q/egPVFruYaG9IGiqHm7iuLcd+S0eD
-	 MzbtOu/IEqs9Q==
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-d81afd5273eso3501573276.3
-        for <linux-firmware@kernel.org>; Mon, 18 Sep 2023 04:28:21 -0700 (PDT)
-X-Gm-Message-State: AOJu0YzD9tobPlNIjcABgaKvW6RWhqDOS1dc8zkdRICeD+zxl0/VJEvT
-	4ykcJmzHF9bT1lv7zt9rYmrLOKs7MZ8OcK1ZHWg=
-X-Google-Smtp-Source: AGHT+IHONTCz0c8MhJc5zoNaUjEwSpAzWQe+gtv7g+0asZxTGl+tKoRY3TfL11+VHePjRj825ccfJqNvy8rhJ/HeZ6Y=
-X-Received: by 2002:a25:6885:0:b0:d7e:b89c:9919 with SMTP id
- d127-20020a256885000000b00d7eb89c9919mr7773602ybc.1.1695036500752; Mon, 18
- Sep 2023 04:28:20 -0700 (PDT)
+	b=g2geKuOMTBabqJv+QwDhEPzNdF8o7LWTq6Ayxm3+pP70F580+fXEinra2jd7bFxSa
+	 Za6twjbmPa3KKzR8YtE9I5AzMfXeHfsBe02GxSJtjr51PFfAuts9SG7zX4taHcmJhl
+	 QzQFLehjm71T5qdj6zQqYVq/M5i/7G/xveTJtRCkILSLEcZgIG1k7Le+79qzygkX2d
+	 pwrzcqpD7n1r2K/MXP/3rNcRgfKBjyzJYNIYKeCrOUz7g+6xSQqD2GS62NwUDT6W8g
+	 AOMoXm/mRWD3RZ0qUh74w3mFLDOa04K068RmMUAumkNPT5RKfK9HExIwOlw3YITWy1
+	 PwqyN0M7RrejA==
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-58dce1f42d6so74525107b3.0;
+        Mon, 18 Sep 2023 04:36:39 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yy2ohNkUCKkJBn/N70mXM3RzaVHGxSsdublifL/aD5ndvK1hL3v
+	oYwETP2IK1l8PB2ES78901ldAWuZooWmvdC9BYw=
+X-Google-Smtp-Source: AGHT+IHP4a7yKSxUlZEvWZ+RK7RUIizZOg38zVGZRX9LhZBup1jLWEXITWS/W2r+ug87KGhnHTXDwRfrELacXq2dj4s=
+X-Received: by 2002:a25:2d0f:0:b0:d71:8786:625d with SMTP id
+ t15-20020a252d0f000000b00d718786625dmr14135552ybt.1.1695036998516; Mon, 18
+ Sep 2023 04:36:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230914144651.272047-1-sandipan.das@amd.com>
-In-Reply-To: <20230914144651.272047-1-sandipan.das@amd.com>
+References: <20230914154225.2821571-1-daniele.ceraolospurio@intel.com>
+In-Reply-To: <20230914154225.2821571-1-daniele.ceraolospurio@intel.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 18 Sep 2023 07:28:10 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA6DnzatN69YSV3jZFJ8eKHNZy1HjvxCTD6TG9fAP_ELBA@mail.gmail.com>
-Message-ID: <CA+5PVA6DnzatN69YSV3jZFJ8eKHNZy1HjvxCTD6TG9fAP_ELBA@mail.gmail.com>
-Subject: Re: [PATCH] linux-firmware: amd-ucode: Add note on fam19h warnings
-To: Sandipan Das <sandipan.das@amd.com>
+Date: Mon, 18 Sep 2023 07:36:27 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA7SK9N+KbiaZbswYXi52P10RvXZ9ucwjsfcCbww-ComHw@mail.gmail.com>
+Message-ID: <CA+5PVA7SK9N+KbiaZbswYXi52P10RvXZ9ucwjsfcCbww-ComHw@mail.gmail.com>
+Subject: Re: PR for HuC v8.5.4 for MTL
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, john.allen@amd.com, bp@alien8.de, 
-	suravee.suthikulpanit@amd.com, ananth.narayan@amd.com, ravi.bangoria@amd.com, 
-	santosh.shukla@amd.com
+Cc: linux-firmware@kernel.org, kyle@kernel.org, ben@decadent.org.uk, 
+	intel-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 14, 2023 at 10:47=E2=80=AFAM Sandipan Das <sandipan.das@amd.com=
-> wrote:
+On Thu, Sep 14, 2023 at 11:49=E2=80=AFAM Daniele Ceraolo Spurio
+<daniele.ceraolospurio@intel.com> wrote:
 >
-> When running 5.19+ kernels on Genoa or Bergamo systems, some microcode
-> patches are known to trigger warnings in the PMI handler. Add a note
-> to list the required minimum patch levels for addressing this problem.
+> The following changes since commit dfa11466cf000120d1551146fd5bf78c44941e=
+da:
 >
-> Signed-off-by: Sandipan Das <sandipan.das@amd.com>
+>   Merge branch 'main' into 'main' (2023-09-07 11:36:57 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://anongit.freedesktop.org/drm/drm-firmware mtl_huc_8.5.4
 
-Applied and pushed out.
+Pulled and pushed out.
 
 josh
 
-> ---
->  amd-ucode/README | 9 +++++++++
->  1 file changed, 9 insertions(+)
 >
-> diff --git a/amd-ucode/README b/amd-ucode/README
-> index fac11524..f47743c1 100644
-> --- a/amd-ucode/README
-> +++ b/amd-ucode/README
-> @@ -53,3 +53,12 @@ a32b0f0db3f3 ("x86/microcode/AMD: Load late on both th=
-reads too")
->  When late loading the patches for Genoa or Bergamo, there may be one spu=
-rious
->  NMI observed per physical core. These NMIs are benign and don't cause an=
-y
->  functional issue but will result in kernel messages being logged.
-> +
-> +NOTE: When running 5.19+ kernels on Genoa or Bergamo systems, some micro=
-code
-> +patches are known to trigger warnings in the PMI handler. The following =
-are
-> +the required minimum patch levels to address this problem:
-> +
-> +  Family=3D0x19 Model=3D0x11 Stepping=3D0x01: Patch=3D0x0a10113e
-> +  Family=3D0x19 Model=3D0x11 Stepping=3D0x02: Patch=3D0x0a10123e
-> +  Family=3D0x19 Model=3D0xa0 Stepping=3D0x01: Patch=3D0x0aa00116
-> +  Family=3D0x19 Model=3D0xa0 Stepping=3D0x02: Patch=3D0x0aa00212
-> --
-> 2.34.1
+> for you to fetch changes up to a5dbe400f776b0dc2d0a402ba76b4c16c231b38e:
 >
+>   i915: update MTL HuC to version 8.5.4 (2023-09-14 08:34:08 -0700)
+>
+> ----------------------------------------------------------------
+> Daniele Ceraolo Spurio (1):
+>       i915: update MTL HuC to version 8.5.4
+>
+>  WHENCE               |   2 +-
+>  i915/mtl_huc_gsc.bin | Bin 569344 -> 561152 bytes
+>  2 files changed, 1 insertion(+), 1 deletion(-)
