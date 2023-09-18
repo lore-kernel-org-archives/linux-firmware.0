@@ -4,87 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83AA6CD37B0
-	for <linux-firmware@archiver.kernel.org>; Mon, 18 Sep 2023 11:24:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2243CD37B0
+	for <linux-firmware@archiver.kernel.org>; Mon, 18 Sep 2023 11:28:21 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 4ABB2C433CA; Mon, 18 Sep 2023 11:24:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33B74C433C8
-	for <linux-firmware@kernel.org>; Mon, 18 Sep 2023 11:24:56 +0000 (UTC)
+	id B3A84C433CB; Mon, 18 Sep 2023 11:28:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E6EAC433CA
+	for <linux-firmware@kernel.org>; Mon, 18 Sep 2023 11:28:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1695036296;
-	bh=Tt/dpF9DkSsVaRKf3st+YMf00N4R/wExuWYAu3MN5u8=;
+	s=k20201202; t=1695036501;
+	bh=dRHK6+q7w35hkHxF5TLLurO050bYKeUwTQ2BIyvmKB8=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=Gc4KA57D6Uk01Sdf+K6qEmJ9In4rWzD2rdbXwnEH0v2EzVbChqRpNbbS7zDd/4O39
-	 6/MhP8BLvjNrPy+Lefj8NV0heRF2/ArXbwx9OwQpzhr/7hH/lzLA9kS/jR/82W1V4K
-	 BXDlVvxtchAY7URv81YtPB6qQ8O9O8KgEYA07dRZYmt4c8adcH535yLX/ZpkXdSSzh
-	 dZrXp49yc3KUzR9tORvw0xqYebDrpOH+dgaYCnLHswssLW/SU2725qnzisGKng0sod
-	 jKUFB44rtxoR1PGiOtrS8496oXQnoy+aS/YWMLh3B46n5ZIifv88sl+6SO20ZgxJNv
-	 n0hqxiFGtYp+A==
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-d81b9f0487eso3276619276.2
-        for <linux-firmware@kernel.org>; Mon, 18 Sep 2023 04:24:56 -0700 (PDT)
-X-Gm-Message-State: AOJu0YwJYV3VUPERxMlbBAyMsmwPAmrMDSm0tGQV5fWj2Vmjd0kg9Vpo
-	zv/IBb+EehD19dDL3nLOXf2i/dhRsyvBHDaDmVg=
-X-Google-Smtp-Source: AGHT+IH0QlcHGwTRKKPE49lKpD5nh2WnYCuiHuI1/XpnKSmyn52dX0nLY2oS5PcbGNkDbu7+tIhJfAUlFo8jdaNL0Tk=
-X-Received: by 2002:a25:ae1b:0:b0:cea:b62d:620f with SMTP id
- a27-20020a25ae1b000000b00ceab62d620fmr7582675ybj.45.1695036295295; Mon, 18
- Sep 2023 04:24:55 -0700 (PDT)
+	b=VUyyH3LSxVzqjJpEPN5PLFrdqu00seA1zBp2TzwgySNTtRoTTKGDAJKrsvV4dq5Pa
+	 Mlyhsv5ZOvMYKbZNsdUff59tTQSiDY7o4laxQaPuBSzAex1NVCl1ezk984/H8eMe4w
+	 iKlpW3uDvoUtbHtbr92rqRYxJ1CzdtqTVgKSGnB9xQDIrM+g05FTuhqaPtzlwBGsSl
+	 oUuC3iryaG2SpYyM6hiCI2+eZN1hNTORLViO2u8GRjsScn8zrr6dY0rxcvgeA/IP69
+	 WCz6DjVauqhO56B8ZI47CMdANOZtRkHZLhg8q/egPVFruYaG9IGiqHm7iuLcd+S0eD
+	 MzbtOu/IEqs9Q==
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-d81afd5273eso3501573276.3
+        for <linux-firmware@kernel.org>; Mon, 18 Sep 2023 04:28:21 -0700 (PDT)
+X-Gm-Message-State: AOJu0YzD9tobPlNIjcABgaKvW6RWhqDOS1dc8zkdRICeD+zxl0/VJEvT
+	4ykcJmzHF9bT1lv7zt9rYmrLOKs7MZ8OcK1ZHWg=
+X-Google-Smtp-Source: AGHT+IHONTCz0c8MhJc5zoNaUjEwSpAzWQe+gtv7g+0asZxTGl+tKoRY3TfL11+VHePjRj825ccfJqNvy8rhJ/HeZ6Y=
+X-Received: by 2002:a25:6885:0:b0:d7e:b89c:9919 with SMTP id
+ d127-20020a256885000000b00d7eb89c9919mr7773602ybc.1.1695036500752; Mon, 18
+ Sep 2023 04:28:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <BN9PR12MB5145D1065DEC1C708C56AAB0FFEDA@BN9PR12MB5145.namprd12.prod.outlook.com>
-In-Reply-To: <BN9PR12MB5145D1065DEC1C708C56AAB0FFEDA@BN9PR12MB5145.namprd12.prod.outlook.com>
+References: <20230914144651.272047-1-sandipan.das@amd.com>
+In-Reply-To: <20230914144651.272047-1-sandipan.das@amd.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 18 Sep 2023 07:24:44 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA698UXvj9O+trQt197cEvL5DsM55PdGHrqSvDpJEPiogw@mail.gmail.com>
-Message-ID: <CA+5PVA698UXvj9O+trQt197cEvL5DsM55PdGHrqSvDpJEPiogw@mail.gmail.com>
-Subject: Re: pull request: amdgpu: update DMCUB firmware (2023-09-08)
-To: "Wang, Chao-kai (Stylon)" <Stylon.Wang@amd.com>
+Date: Mon, 18 Sep 2023 07:28:10 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA6DnzatN69YSV3jZFJ8eKHNZy1HjvxCTD6TG9fAP_ELBA@mail.gmail.com>
+Message-ID: <CA+5PVA6DnzatN69YSV3jZFJ8eKHNZy1HjvxCTD6TG9fAP_ELBA@mail.gmail.com>
+Subject: Re: [PATCH] linux-firmware: amd-ucode: Add note on fam19h warnings
+To: Sandipan Das <sandipan.das@amd.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
-	"Deucher, Alexander" <Alexander.Deucher@amd.com>, 
-	"Limonciello, Mario" <Mario.Limonciello@amd.com>, "Sharma, Deepak" <Deepak.Sharma@amd.com>
+Cc: linux-firmware@kernel.org, john.allen@amd.com, bp@alien8.de, 
+	suravee.suthikulpanit@amd.com, ananth.narayan@amd.com, ravi.bangoria@amd.com, 
+	santosh.shukla@amd.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 8, 2023 at 11:05=E2=80=AFAM Wang, Chao-kai (Stylon)
-<Stylon.Wang@amd.com> wrote:
+On Thu, Sep 14, 2023 at 10:47=E2=80=AFAM Sandipan Das <sandipan.das@amd.com=
+> wrote:
 >
-> [AMD Official Use Only - General]
+> When running 5.19+ kernels on Genoa or Bergamo systems, some microcode
+> patches are known to trigger warnings in the PMI handler. Add a note
+> to list the required minimum patch levels for addressing this problem.
 >
->
-> The following changes since commit 2bbca647e4aeed3813ba7776d309c4525e0ad8=
-41:
->
->   amdgpu: update DMCUB to 0.0.183.0 for various AMDGPU ASICs (2023-09-08 =
-22:30:18 +0800)
->
-> are available in the Git repository at:
->
->   git@gitlab.freedesktop.org:drm/firmware.git tags/amd-2023-09-08
+> Signed-off-by: Sandipan Das <sandipan.das@amd.com>
 
-Pulled and pushed out.
+Applied and pushed out.
 
 josh
 
+> ---
+>  amd-ucode/README | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 >
-> for you to fetch changes up to 2bbca647e4aeed3813ba7776d309c4525e0ad841:
->
->   amdgpu: update DMCUB to 0.0.183.0 for various AMDGPU ASICs (2023-09-08 =
-22:30:18 +0800)
->
->
-> Regards
->
-> Stylon Wang
->
-> MTS Software Development Eng.  |  AMD
-> Display Solution Team
->
-> O +(886) 2-3789-3667 ext. 23667  C +(886) 921-897-142
->
-> -------------------------------------------------------------------------=
----------------------------------------------------------
->
-> 6F, 3, YuanCyu St (NanKang Software Park) Taipei, Taiwan
->
-> Facebook |  Twitter |  amd.com
->
+> diff --git a/amd-ucode/README b/amd-ucode/README
+> index fac11524..f47743c1 100644
+> --- a/amd-ucode/README
+> +++ b/amd-ucode/README
+> @@ -53,3 +53,12 @@ a32b0f0db3f3 ("x86/microcode/AMD: Load late on both th=
+reads too")
+>  When late loading the patches for Genoa or Bergamo, there may be one spu=
+rious
+>  NMI observed per physical core. These NMIs are benign and don't cause an=
+y
+>  functional issue but will result in kernel messages being logged.
+> +
+> +NOTE: When running 5.19+ kernels on Genoa or Bergamo systems, some micro=
+code
+> +patches are known to trigger warnings in the PMI handler. The following =
+are
+> +the required minimum patch levels to address this problem:
+> +
+> +  Family=3D0x19 Model=3D0x11 Stepping=3D0x01: Patch=3D0x0a10113e
+> +  Family=3D0x19 Model=3D0x11 Stepping=3D0x02: Patch=3D0x0a10123e
+> +  Family=3D0x19 Model=3D0xa0 Stepping=3D0x01: Patch=3D0x0aa00116
+> +  Family=3D0x19 Model=3D0xa0 Stepping=3D0x02: Patch=3D0x0aa00212
+> --
+> 2.34.1
 >
