@@ -1,436 +1,158 @@
-Return-Path: <SRS0=Norx=FQ=sendersrv.com=bounces+KrWV3mVn0J_HDQKG@kernel.org>
+Return-Path: <SRS0=GIwT=FQ=intel.com=gustavo.sousa@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61EB5E7849A
-	for <linux-firmware@archiver.kernel.org>; Mon,  2 Oct 2023 04:31:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7080E784AC
+	for <linux-firmware@archiver.kernel.org>; Mon,  2 Oct 2023 12:59:17 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 1586EC433C9; Mon,  2 Oct 2023 04:31:28 +0000 (UTC)
-Received: from mail3.sendersrv.com (mail3.sendersrv.com [185.3.229.127])
+	id 85F5BC433C9; Mon,  2 Oct 2023 12:59:17 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id D6633C433C7
-	for <linux-firmware@kernel.org>; Mon,  2 Oct 2023 04:31:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D6633C433C7
-Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=dynamiccore.co
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=sendersrv.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=s2309201540; d=sendersrv.com;
- h=MIME-Version:Subject:To:Content-Type:From:Message-ID:List-Unsubscribe:Date:
- Subject:From:To:CC:Date;
- bh=JiyV18wO2zyNOc1m8h5mnPmI9qXgPbTeME8mKpJVAe4=;
- b=loUqKyanFat7aJDxa27/c7Er1J1IVkuCxR+Z7EQqNzWu/Puh9TjpZpkBgokQ5hnEhGalrRSLvf0H
-   XQ7lI9wmFobpAg7/tMgXHaP06O2sZc+Wn/YjygGGcL4m8A1grpbSr+BLZLOyaS9veM04JkIQftBk
-   bspP/JLZnWJEaKTu3p6Zgo2mxg4fIY85O8CxSBA3D9TwPXleudqtBCnKjuXVc/JxKUnMkAP99BTg
-   fsxvMRf4HBhsJJCHwwWmwSQ7GPWRARRUQFB0hPPW1dOf6aRFrcCJR5HbZvG3jL7Elr6v3b0f6nca
-   tAThtrrtbYlbolma+EKsKh4BUUkT8La/reGgcg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=s2309201540; d=sendersrv.com;
- h=MIME-Version:Subject:To:Content-Type:From:Message-ID:List-Unsubscribe:Date:
- Subject:From:To:CC:Date;
- bh=JiyV18wO2zyNOc1m8h5mnPmI9qXgPbTeME8mKpJVAe4=;
- b=loUqKyanFat7aJDxa27/c7Er1J1IVkuCxR+Z7EQqNzWu/Puh9TjpZpkBgokQ5hnEhGalrRSLvf0H
-   XQ7lI9wmFobpAg7/tMgXHaP06O2sZc+Wn/YjygGGcL4m8A1grpbSr+BLZLOyaS9veM04JkIQftBk
-   bspP/JLZnWJEaKTu3p6Zgo2mxg4fIY85O8CxSBA3D9TwPXleudqtBCnKjuXVc/JxKUnMkAP99BTg
-   fsxvMRf4HBhsJJCHwwWmwSQ7GPWRARRUQFB0hPPW1dOf6aRFrcCJR5HbZvG3jL7Elr6v3b0f6nca
-   tAThtrrtbYlbolma+EKsKh4BUUkT8La/reGgcg==
-MIME-Version: 1.0
-Subject: DYNAMIC CORE /Fire Alarm/Fire Fighting /MEP WORKS
+	by smtp.kernel.org (Postfix) with ESMTPS id A0B47C433C7;
+	Mon,  2 Oct 2023 12:59:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A0B47C433C7
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696251555; x=1727787555;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Qo54fZzSPeJ+9iizFGBnTDBHM8EuALjPJi4L8gHgDuo=;
+  b=JhTgY/ZJ5RPrTKdLF1fR2a3AFVASQ0FafERvbjscX7O96UbmparGJ50k
+   /GntT/y481w3lothyC8UGZ7e1oae1MgEbADINtDtAF7ef0i++mcXSMljz
+   ZHVS4QjhCc0dlMHD5TyF2LAK0alenTqHBk4wK1DBa5v69qEqFCFlpalHb
+   3U1Ktx9mJ7ebmRo9BVRm3L5rz7lgS6bUgAX0y/ig8Gfc3sxtZK6CuKTR+
+   caV85pJ4Y9j86RwvLy8x4CZLkH+1kuKf6pEf2SasBrSbIcShm+win92tU
+   isFDf0fntIizGbv6GcjX9q3xoFNt+4YfCueVJFn4dvEGIEG4RncnuGA2M
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="468911640"
+X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
+   d="scan'208";a="468911640"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 05:59:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="779922101"
+X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
+   d="scan'208";a="779922101"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by orsmga008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 02 Oct 2023 05:59:14 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Mon, 2 Oct 2023 05:59:13 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Mon, 2 Oct 2023 05:59:13 -0700
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.172)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Mon, 2 Oct 2023 05:59:13 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UruqTcXLGUdZik8yPZ/ndb3GcC2iOcWiNIQREAR3UrwxdPDh96IXBARMN2dszsW3pWlI0+FrWjhiuFH6Q+uVt2QGjY6YduV+dm9pUBS9zVHYIpwOfRNhYegeqbzSWzkFrM4mf4EjbvXHchx5nFofEwv30xNMhDxLo7GJgSa8n2hND3lag+o9mWyrNGpWekvxQcuNC9Nh8N8z+poQPLINc4emoJlIS4K5wiemdBSXhrR//6AcfFBTDL6S7S5VRo08R12qvqj9tzsplVAnREwIhM0yxh7ykCoNEVXKTSfib95s3hmVNDIzkdaX8nwUp7JCcsZGZ+V3KFpzh+S6Cd9ijg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zT2JKe6WzO9HWK4HBjbCLumUCB93TXt4FUkndHpIpGU=;
+ b=gjtKWU4YvNH/2eMhGBmP2Tc5/JlHfB/I6olQ0YU04Nw2dQpupCz/AlhI4y+kuAlgxqkS6j5T+Ulz/eQ/cj/DH5xuIGtzlFep7EAVCjI+++hg1y3tnQ/STkwJjElbuozckWtAGBCoLOGLgo+1GmzL6Fvi92FRcEvD1rw7RN3ujdh79n8ENEdOmyc2SStyA22nvKKoJKC+xi2zs0K2ZZaTZP+EflEQuphZzfF2DdtFsgNkgV5Kid97COolpsBREMOGAJ5qC47MkuGwmKcVyacCTpKOaYJ5x+vHdZg4IFh5OMlOw9FBSjwtXc6/87WHVxbc5y3kUyZFtwtO7ONNW7NdRw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BN8PR11MB3556.namprd11.prod.outlook.com (2603:10b6:408:8d::31)
+ by SA2PR11MB5019.namprd11.prod.outlook.com (2603:10b6:806:f8::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.28; Mon, 2 Oct
+ 2023 12:59:11 +0000
+Received: from BN8PR11MB3556.namprd11.prod.outlook.com
+ ([fe80::d89f:e7e6:dbb3:3ddf]) by BN8PR11MB3556.namprd11.prod.outlook.com
+ ([fe80::d89f:e7e6:dbb3:3ddf%6]) with mapi id 15.20.6813.038; Mon, 2 Oct 2023
+ 12:59:11 +0000
+Date: Mon, 2 Oct 2023 09:59:05 -0300
+From: Gustavo Sousa <gustavo.sousa@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Content-Type: multipart/alternative; boundary="=--sender_1197825286_1696220466853_60279308"
-From: =?utf-8?b?WW91c2lmLURZTkFNSUMgQ09SRSBFTEVDVFJPTUVDSEFOSUNBTCBXT1JLUw==?= <yousif@dynamiccore.co>
-X-Sender-ID: KrWV3mVn0J_HDQKG
-Message-ID: <KrWV3mVn0J_HDQKG@sendersrv.com>
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-List-Unsubscribe: <https://campaign-statistics.com/unsubscribe/KrWV3mVn0J_HDQKG>, <mailto:unsubscribe+KrWV3mVn0J_HDQKG@sendersrv.com?subject=KrWV3mVn0J_HDQKG>
-Date: Mon, 2 Oct 2023 07:31:26 +0300
+To: <linux-firmware@kernel.org>
+CC: Josh Boyer <jwboyer@kernel.org>, <kyle@mcmartin.ca>,
+	<ben@decadent.org.uk>, <intel-gfx@lists.freedesktop.org>, Anusha Srivatsa
+	<anusha.srivatsa@intel.com>
+Subject: PR for MTL DMC v2.17
+Message-ID: <thqm4hqbkgqxj5fh6olad5brvwvtlof55tjk3kfzzz6r65xcd4@pww7dj5lvr25>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: BYAPR11CA0043.namprd11.prod.outlook.com
+ (2603:10b6:a03:80::20) To BN8PR11MB3556.namprd11.prod.outlook.com
+ (2603:10b6:408:8d::31)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR11MB3556:EE_|SA2PR11MB5019:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8b43d79c-5b59-4200-3fdc-08dbc3475f80
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: U4lGhzvYrlxtG+iE1vYAIhnHZYs7iRqApPYVNmBYyqOK/z/ywhvJS0V3WaQE8fT6z3rC2x8Zqo61f8+oPESootvTyksuiKT6rrEP6Fql/UhsKAzAPaBpbUYQWu/vHlaC5A0AKzXWyjzEOGftZppeGSCzNRvrclgcMOgvz1dyru2wXL2Mn0A1+2QA5fYiN6uipLigq5SzS2LFu55Ch0DCJZdXEKg+WtYFPn5BK46o3oOJaBNOfx8CWiv71M0g8EmkEyeCuMCbcgZzcu9HHLc8y5s/qhte+hErOjv/6qPbNCVoAuWTRLbR7bQ1C9c8BJq3PZKOX/QlkIznBbsSde5HU47JdsRnIRCTypr05adFmaw2J4Tm8uA1HRWE+ExWDwH3ATLS+5dTVHezsyYE60+HDi7z1t01eR1LG/R/YN5UCICx849bW1kFB6PxwyaTrrlgRsPLmt/BrjelKD/3vmYeO7KGI0P+/QE/0J7mTJgV8HSiuKeaHlPSCerysWYNc4/8u9Yt3Bw2Z58iqbaibH4P17qsUy9XTQszWjFaUtedlmKIwfans1FBT+eTGiOAa9gn
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR11MB3556.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(396003)(39860400002)(366004)(346002)(376002)(136003)(230922051799003)(64100799003)(1800799009)(451199024)(186009)(86362001)(33716001)(26005)(107886003)(6666004)(2906002)(4744005)(6506007)(83380400001)(82960400001)(9686003)(478600001)(6486002)(6512007)(4326008)(8676002)(8936002)(44832011)(38100700002)(316002)(6916009)(66476007)(54906003)(41300700001)(5660300002)(66556008)(66946007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pf+S+mpCQWQliPUTzmQMO3QvRjl9Lk94hupXgeZbyRx/KT0jMfCmYngunZsJ?=
+ =?us-ascii?Q?hHYD/ckMeDX75oF4LRyBlxBOQPSComeIQboz7aj24Zm6YJkLuk7pRoFTL2J/?=
+ =?us-ascii?Q?t+AVISNW815ijPwDCAL2YjzDtMV8LWXpKxiEmvHKVD+lQc4TxjK8/IOJLj9f?=
+ =?us-ascii?Q?yK2Ir2RFIoea9XcJ+PFDRNkfmsYEjSLlnpeMH54r3n1AQIJXF9jhOhMAR37A?=
+ =?us-ascii?Q?cT4MU1CxFGIjTHVLmS+9/VkhvaCYYeVDV6/rKNqcXKxSUuqseVDWY9nUeRr6?=
+ =?us-ascii?Q?MGMFhRziqf9X/PQKZC2hVIjN2FCo0BRfq1hui++GCDk0J4e2dy9L+04PuVmn?=
+ =?us-ascii?Q?ixMEGgSIZNN1k4M73EcQpfEnQfEfu+EcpjMlhTujjYykvr9iSn62/YCQs9B2?=
+ =?us-ascii?Q?7vUSj3ezbL5BMcUplixs+DLGkvOEcqJbS5tNVjuefhIyB/CNN4mA0y5f7Mb2?=
+ =?us-ascii?Q?D4OwfWj8W4TDoFu3Hujiaic9hgBvTe3Fl2amVcu07wbSJtEej2C2MsBCkLg+?=
+ =?us-ascii?Q?XuBK0rk2txma//u6AoGX9UK2csA4G4mQW/WxHxVw416uquL2uK70S/K5+vta?=
+ =?us-ascii?Q?pCtxAOcEsmTPxdIsKreM1RbkN8GXoTKLmTLeQG7n6VGrxl2hyiKhwDl9q0+O?=
+ =?us-ascii?Q?z8/ncThTwlwgVTmib5uoxuPhjrJUwIp4kdmiKV4q9buNEeQQrjFmoTZPflPa?=
+ =?us-ascii?Q?zPUbhIPTo8qpqzLaXUkZRsDGUZW3dGpbigIxy0cUDWsmqWXVdS0pVGPGXx00?=
+ =?us-ascii?Q?fksonVe2nDwV8iwkWqSSJew5xjy3w7pnSUzziYKCTx/dquLRodnI3e1D4exm?=
+ =?us-ascii?Q?GRDUbsKP9A9bt3KuNm7+ZThpA8xRbx0wXrQbhzVYv/uH7YOEpoeievB6/IIu?=
+ =?us-ascii?Q?s4Yz5jNGQMBYO1T8dQK7jQQV+k6ad1Rjc+/K4ym6cdANhH0myxQmCuBZcO2h?=
+ =?us-ascii?Q?E3U9DsnhV9zjRRxXVht8JNxYelUettZfuw5q9+pc0rPPl8oAUh/fHutktX1z?=
+ =?us-ascii?Q?HN56HY3xlFt2OYVavXXMG0rXc7y45A9/AKiNSJy/gQvD/ASBt/AThiUfO7SH?=
+ =?us-ascii?Q?jSTyoGHJTeJbMIH7qDTXgcKt+1nskHFwO1ZXnbfq/YV0tRJXduz1ALMl6AH1?=
+ =?us-ascii?Q?g4nF0a5VXFbmjytgmQTabrXsX0p+XF0vHaApckadPk2qOj0fO+L0spTqmBvV?=
+ =?us-ascii?Q?r/sepPcjx2sl4yU4AG1k5Cn3KhRDe0pBSpDPkQaliWc1C/fyIDaONTB4YuQv?=
+ =?us-ascii?Q?1D4qTgFVbFwqjKeecjru/bPNJX7QrUw7HZ5Sr+zLdbKqwhOE1PNpCsugUMpY?=
+ =?us-ascii?Q?x5q0F0OZWpGvbiL5D9HFhmiH5yiXjzthhVnlNmZ8AuxK9emHh/F8w3MD7dtR?=
+ =?us-ascii?Q?PTBpi8aJRqU1WlgWwetUl9pYCP4LFGViN8KKQtI2nzVzmFPZMNqEuT5OMXD+?=
+ =?us-ascii?Q?V1ihytJlxiS90nrriAEHoYEoz+BXdj+aJdVCz+ZbVnEFfxUiZyRe+kVOWze1?=
+ =?us-ascii?Q?mjc9iYIPuOTFusp3r79n2R2MNdTZcPvaxzRViryRjjv5xbaJBYc1bZd9LvXe?=
+ =?us-ascii?Q?dIPpl37JYzX5QEKwMMW/9La0LDC/Rpyjo0EBhCAq+/nKHR2oBlJTEskEwM4Z?=
+ =?us-ascii?Q?TQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8b43d79c-5b59-4200-3fdc-08dbc3475f80
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR11MB3556.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2023 12:59:11.6280
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YfFUq4bZ/cwOaEJ1YhZHQMVWH2dultBXQmuuWZMf3VeijU/qi8oBviyKsKd1jxHFlBig9WpUzFrEPQ/Y3jL0Cg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5019
+X-OriginatorOrg: intel.com
 
---=--sender_1197825286_1696220466853_60279308
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit 8b855f3797e6b1d207b7a2b8dae0e9913f907e5b:
 
- [https://campaign-statistics.com/b/c/KrWV3mVn0J_HDQKG]
-Greetings For the day , DYNAMIC CORE /Fire Alarm/Fire Fighting /MEP
-WORKS
-=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=
-=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=
-=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=
-=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=
-=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=
-=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=
-=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=
-=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=
-=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=
-=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=
-=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=
-=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=
-=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=
-=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=
-=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=
-=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=
-=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=
-=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=
-=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=
-=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=
-=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=
-=CD=8F=E2=80=8C=C2=A0
+  Merge branch 'main' into 'main' (2023-09-26 18:31:16 +0000)
 
-=09=09Is this email not displaying correctly? View it in your browser.
-[https://campaign-statistics.com/browser_preview/KrWV3mVn0J_HDQKG]
+are available in the Git repository at:
 
-DYNAMIC CORE ELECTROMECHANICAL WORKS L.L.C
+  git://anongit.freedesktop.org/drm/drm-firmware dmc-mtl_2.17
 
-[Image description]
+for you to fetch changes up to 18b60f44e61c72eb5a5a36dc8e0381c77ba670b3:
 
-. .Dear All
+  i915: Update MTL DMC to v2.17 (2023-10-02 09:52:35 -0300)
 
-=EF=BB=BF
+----------------------------------------------------------------
+Gustavo Sousa (1):
+      i915: Update MTL DMC to v2.17
 
-=C2=A0We would like to introduce our Company, DYNAMIC CORE
-ELECTROMECHANICAL WORKS LLC, established in the Year 2012.To date, we
-have proven track records in providing ENGINEERING,=C2=A0INSTALLATION,
-MAINTENANCE, AND ASSOCIATED ELECTROMECHANICAL WORKS AND SERVICES=C2=A0WITH
-EXPERTISE IN FIRE PROTECTION AND SECURITY SYSTEMS, IN COMMERCIAL
-AND=C2=A0INDUSTRIAL FIELDS. We are a REGISTERED CONTRACTOR WITH THE CIVIL
-DEFENSE AUTHORITIES OF DUBAI and=C2=A0we have the capability to deliver
-TURNKEY PROJECTS having employed=C2=A0professional personnel who are
-specialists in their own respective engineering=C2=A0fields.
-
-We are an APPROVED VENDOR IN DUBAI ELECTRICITY AND WATER AUTHORITY
-(DEWA)
-and currently executing several projects in 400 & 132 KV Substations
-and Power Plants. We are also working with different small and
-large-scale=C2=A0projects with several Authorities in the Emirates. We are
-operating in a very professional and safe environment giving Top
-priority to=C2=A0meet and exceed Customer=E2=80=99s satisfaction by providi=
-ng
-the best Quality Workmanship,=C2=A0Materials, Services on time as well as
-providing innovative criteria on=C2=A0significant cost saving without
-compromising Quality and Safety. We strongly=C2=A0believe that forming
-strong relationships and partnerships is necessary hence=C2=A0it is our
-practice to give emphasis on a cordial relationship with Clients,
-Suppliers and respective Authorities.=C2=A0
-
-. OUR SERVICES INCLUDE THE FOLLOWING :=C2=A0
-
-=C2=A0.=C2=A0FIREFIGHTING/ FIRE ALARM (SPECIALIST)=C2=A0
-
-=C2=B7 Fire Pumps.=C2=A0
-
-=C2=B7 sprinkler system.=C2=A0
-
-=C2=B7=C2=A0 Fire Hose Reels/ Wet/ Dry Riser Systems FM 200 System.
-
-=C2=B7 Deluge water spray system
-
-.=C2=A0 Foam water spray system.
-
-=C2=B7 Pre-Action system (Single Interlock & Double Interlock).=C2=A0
-
-=C2=B7 Clean agent system.=C2=A0
-
-=C2=B7 Water Mist system. =C2=B7=C2=A0
-
-. Cable Sealants.=C2=A0
-
-. FIRE ALARM
-
- =C2=B7 All Addressable & Conventional (Detection and Alarming) system.
-
-=C2=B7 Fire Alarm & Detection for all extinguishing systems.=C2=A0
-
-=C2=B7 Air Aspiration system.=C2=A0
-
-=C2=B7 Voice Evacuation system.
-
-.AMC for FA/FF System.
-
-. EMERGENCY/ EXIT LIGHT SYSTEM
-
- =C2=B7 Monitoring system. =C2=B7 Central Battery system.
-
-. HVAC LOW CURRENT SOLUTIONS=C2=A0
-
-. PLUMBING ELECTRICAL=C2=A0MAINTENANCE=C2=A0
-
-. FIT OUT PROJECTS.
-
-.AMC for FF/FA SYSYEM ,CD Approval .
-
-=EF=BB=BF
-
-WWW.DYNAMICCORE.CO
-[https://campaign-statistics.com/link_click/KrWV3mVn0J_HDQKG/acd328d17a29d5=
-d51c3492afc357f997]
-
-TEL: 009714 5801502
-MOB: 00971 588249633
-
-=EF=BB=BF
-
-Email: yousif@dynamiccore.co=20
-
-=EF=BB=BF
-
-=EF=BB=BF
-
-[Image description]
-
-=09=09If you want to unsubscribe, click here.
-[https://campaign-statistics.com/unsubscribe/KrWV3mVn0J_HDQKG]
---=--sender_1197825286_1696220466853_60279308
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-<html lang=3D"en" xmlns=3D"http://www.w3.org/1999/xhtml" xmlns:v=3D"urn:sch=
-emas-microsoft-com:vml" xmlns:o=3D"urn:schemas-microsoft-com:office:office"=
-><head><meta charset=3D"utf-8"><meta name=3D"viewport" content=3D"width=3Dd=
-evice-width"><meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge"><me=
-ta name=3D"x-apple-disable-message-reformatting"><meta name=3D"format-detec=
-tion" content=3D"telephone=3Dno,address=3Dno,email=3Dno,date=3Dno,url=3Dno"=
-><meta name=3D"color-scheme" content=3D"light"><meta name=3D"supported-colo=
-r-schemes" content=3D"light"><title>DYNAMIC CORE /Fire Alarm/Fire Fighting =
-/MEP WORKS</title> <!--[if (gte mso 9)|(IE)]><!--> <link rel=3D"stylesheet"=
- href=3D"https://fonts.googleapis.com/css2?family=3DArvo:ital,wght@0,400;0,=
-700;1,400;1,700&amp;display=3Dswap"> <!--<![endif]--> <!--[if gte mso 9]><x=
-ml><o:OfficeDocumentSettings><o:AllowPNG /><o:PixelsPerInch>96</o:PixelsPer=
-Inch></o:OfficeDocumentSettings></xml><![endif]--><!--[if mso]><style>*{fon=
-t-family: sans-serif !important;}</style><![endif]--><style type=3D"text/cs=
-s"> :root { color-scheme: light; supported-color-schemes: light; } html, bo=
-dy { margin: 0 auto !important; padding: 0 !important; height: 100% !import=
-ant; width: 100% !important; } * { -ms-text-size-adjust: 100%; -webkit-text=
--size-adjust: 100%; } .body a {color: inherit;} div[style*=3D"margin: 16px =
-0"] { margin: 0 !important; } #MessageViewBody, #MessageWebViewDiv{ width: =
-100% !important; } table, td { mso-table-lspace: 0pt !important; mso-table-=
-rspace: 0pt !important; } table { border-spacing: 0 !important; border-coll=
-apse: collapse !important; table-layout: fixed !important; margin: 0 auto !=
-important; } img { -ms-interpolation-mode:bicubic; } a { text-decoration: n=
-one; } a[x-apple-data-detectors], .aBn { border-bottom: 0 !important; curso=
-r: default !important; color: inherit !important; text-decoration: none !im=
-portant; font-size: inherit !important; font-family: inherit !important; fo=
-nt-weight: inherit !important; line-height: inherit !important; } .im { col=
-or: inherit !important; } .a6S { display: none !important; opacity: 0.01 !i=
-mportant; } img.g-img + div { display: none } @media only screen and (min-d=
-evice-width: 320px) and (max-device-width: 374px) { u ~ div .e-c { min-widt=
-h: 320px !important; } } @media only screen and (min-device-width: 375px) a=
-nd (max-device-width: 413px) { u ~ div .e-c { min-width: 375px !important; =
-} } @media only screen and (min-device-width: 414px) { u ~ div .e-c { min-w=
-idth: 414px !important; } } @media screen and (max-width: 480px){.t-md{font=
--size: 9px;}} .t-f{font-family: Arial, sans-serif;} </style><style type=3D"=
-text/css"> @media screen and (max-width: 480px) { table\0{table-layout: aut=
-o !important; } } </style><style type=3D"text/css"> .st-c, .st-ca { display=
-: inline-table } @media screen and (max-width: 480px) { .st-ci { padding-le=
-ft: 0 !important; } .h-mb { display: none !important } .mb-p { padding-bott=
-om: 10px !important; } .st-ca {min-height: 0!important;} .st-c { min-height=
-: 0 !important; display: block; width: 100% !important; max-width: 100% !im=
-portant; direction: ltr !important; margin: 0 !important; } } </style><styl=
-e type=3D"text/css"> img { height: auto; } p, span, h1, h2, h3, h4, h5, h6 =
-{ word-wrap: break-word; word-break: break-word; } p, h1, h2, h3 { margin: =
-0; font-weight: inherit; } h1.i-rc_w p, h2.i-rc_w p, h3.i-rc_w p { font-sty=
-le: inherit; font-weight: inherit; text-decoration: inherit; } #brnd a {pad=
-ding-top: 10px !important} #unsub + #brnd a { padding-top: 0 !important; } =
-.ms-st_c .st-c { margin-left: 0 !important; max-width: 100% !important; wid=
-th: 100% !important} .ms-b_w a { background: none !important; border-color:=
- transparent !important;} ol ol li { list-style-type: lower-alpha; } ol ol =
-ol li { list-style-type: lower-roman; } .t-f span { word-break: break-word =
-} </style><style type=3D"text/css"> @media screen and (max-width: 480px) { =
-.i-tltd img { margin-left: auto; margin-right: auto; } .btn-wr_t th { displ=
-ay: block !important; clear: both; margin-bottom: 5px; } .btn-wr_t th a { d=
-isplay: block !important; width: 100% !important; } a.r-rt_a span { font-si=
-ze: 15px !important; } .i-tltd > table > tbody > tr { display: block; } .i-=
-tltd > table > tbody > tr > td { display: inline-block; } .i-tltd > table >=
- tbody > tr > td[width=3D'10'] { display: none } .i-tltd > table > tbody > =
-tr img { padding-left: 5px; padding-right: 5px; margin-bottom: 5px; max-wid=
-th: 100%; } .i-tltd.social-block > table > tbody > tr img { padding: 0; mar=
-gin: 0; }} </style><style type=3D"text/css"> .rl:hover .rl-f { max-height: =
-0px !important; display: none !important; } .rl:hover .rl-s { max-height: n=
-one !important; display: block !important; } .ms-h_a {mso-hide: all} </styl=
-e><style type=3D"text/css"> .st-cmvs { display: none; } @media (max-width: =
-480px) { .st-cmvs, .st-csa .st-ca { display: table-cell; } .st-csa { displa=
-y: table-row } .st-csa .st-ca.c-2 {width: 50% !important; max-width: 50% !i=
-mportant;} .st-csa .st-ca.c-3 {width: 33.3333% !important; max-width: 33.33=
-33% !important;} .st-csa .st-ca.c-4 {width: 25% !important; max-width: 25% =
-!important;} } </style><style type=3D"text/css">@media only screen and (max=
--width: 480px) {.s-sp { padding-top: 10px !important}.s-sp { padding-bottom=
-: 10px !important}.s-sp_l { padding-left: 40px !important}.s-sp_r { padding=
--left: 40px !important}}</style><style type=3D"text/css">@media only screen=
- and (max-width: 480px) {.sect-7a7ae743-f1b1-4892-b1d4-0aa0cd0bdf20 .s-sp {=
- padding-top: 10px !important}.sect-7a7ae743-f1b1-4892-b1d4-0aa0cd0bdf20 .s=
--sp { padding-bottom: 10px !important}.sect-7a7ae743-f1b1-4892-b1d4-0aa0cd0=
-bdf20 .s-sp_l { padding-left: 40px !important}.sect-7a7ae743-f1b1-4892-b1d4=
--0aa0cd0bdf20 .s-sp_r { padding-left: 40px !important}}</style></head><body=
- width=3D"100%" class=3D"body" style=3D'margin: 0px; padding: 0px !importan=
-t; background-color: rgb(63, 70, 80); background-image: url("https://test.s=
-ender.net/patterns/random_grey_variations.png"); background-size: auto; bac=
-kground-position: center center; background-repeat: repeat;'><a href=3D"htt=
-ps://campaign-statistics.com/b/c/KrWV3mVn0J_HDQKG"><img src=3D"https://camp=
-aign-statistics.com/email_open/KrWV3mVn0J_HDQKG" width=3D"1" height=3D"1" b=
-order=3D"0" alt=3D"" style=3D"height:1px !important;width:1px !important;bo=
-rder-width:0 !important;margin-top:0 !important;margin-bottom:0 !important;=
-margin-right:0 !important;margin-left:0 !important;padding-top:0 !important=
-;padding-bottom:0 !important;padding-right:0 !important;padding-left:0 !imp=
-ortant;outline-style:none;text-decoration:none;display:block;"></a><center =
-aria-roledescription=3D"email" lang=3D"en" style=3D'width: 100%; background=
--color: rgb(63, 70, 80); background-image: url("https://test.sender.net/pat=
-terns/random_grey_variations.png"); background-size: auto; background-posit=
-ion: center center; background-repeat: repeat;'><!--[if mso | IE]><table bo=
-rder=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%" style=3D"back=
-ground-color: #3f4650"><tr><td><![endif]--><div aria-hidden=3D"true" style=
-=3D"display: none; font-size: 1px; line-height: 1px; max-height: 0px; max-w=
-idth: 0px; opacity: 0; overflow: hidden; font-family: sans-serif;">Greeting=
-s For the day , DYNAMIC CORE /Fire Alarm/Fire Fighting /MEP WORKS</div><div=
- style=3D"display: none; max-height: 0px; max-width: 0px; opacity: 0; overf=
-low: hidden;">=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=
-=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=
-=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=
-=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=
-=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=
-=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=
-=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=
-=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=
-=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=
-=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=
-=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=
-=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=
-=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=
-=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=
-=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=
-=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=
-=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=
-=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=
-=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=
-=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=
-=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0=CD=8F=
-=E2=80=8C=C2=A0=CD=8F=E2=80=8C=C2=A0</div><div class=3D"sender-preheader-tr=
-acking" style=3D"display: none; font-size: 1px; line-height: 1px; max-heigh=
-t: 0px; max-width: 0px; opacity: 0; overflow: hidden; font-family: sans-ser=
-if;"></div><div class=3D"e-c" style=3D"max-width: 640px; margin: 0px auto;"=
-><!--[if mso]><table align=3D"center" cellspacing=3D"0" cellpadding=3D"0" b=
-order=3D"0" width=3D"640"><tr><td><![endif]--><table align=3D"center" cells=
-pacing=3D"0" cellpadding=3D"0" border=3D"0" width=3D"100%" style=3D"margin:=
- auto;"><tr><td style=3D"padding: 20px 10px; text-align: center;"><a href=
-=3D"https://campaign-statistics.com/browser_preview/KrWV3mVn0J_HDQKG" style=
-=3D"font-size: 13px; color: rgb(191, 191, 191);">Is this email not displayi=
-ng correctly? View it in your browser.</a></td></tr></table><!--[if mso]> <=
-/td> </tr> </table> <![endif]--></div><table align=3D"center" cellspacing=
-=3D"0" cellpadding=3D"0" border=3D"0" width=3D"100%" class=3D"e-c sect sect=
--7a7ae743-f1b1-4892-b1d4-0aa0cd0bdf20"><tr><td bgcolor=3D"#B32424" style=3D=
-"background-color: rgb(179, 36, 36);"><div class=3D"e-c" style=3D"max-width=
-: 640px; margin: 0px auto;"><!--[if mso]><table align=3D"center" cellspacin=
-g=3D"0" cellpadding=3D"0" border=3D"0" width=3D"640" style=3D"max-width: 64=
-0px; width: 640px;"><tr><td><![endif]--><table align=3D"center" cellspacing=
-=3D"0" cellpadding=3D"0" border=3D"0" width=3D"640" class=3D"s-r_t" style=
-=3D"max-width: 100%; width: 100%;"><tr><td bgcolor=3D"#FFFFFF" width=3D"100=
-%" style=3D"border-radius: 0px; background-color: rgb(255, 255, 255); width=
-: 100%;"><div style=3D"font-size: 0px; line-height: 0;"><table><tr><td clas=
-s=3D"s-sp_l" width=3D"30" style=3D"padding-left: 30px; padding-right: 0px;"=
-></td><td class=3D"s-sp" width=3D"100%" style=3D"padding: 10px 0px 11px;"><=
-table cellspacing=3D"0" cellpadding=3D"0" border=3D"0" width=3D"100%"><tr><=
-td align=3D"center" valign=3D"top" style=3D"font-size: 0px; padding: 0px;">=
-<!--[if mso]><table align=3D"center" cellspacing=3D"0" cellpadding=3D"0" bo=
-rder=3D"0" width=3D"100%"><tr><![endif]--><!--[if !mso]>--><!--<![endif]-->=
-<!--[if mso]><td class=3D"ms-st_c" width=3D"580" valign=3D"top" bgcolor=3D"=
-transparent" style=3D"background-color: transparent; padding: 0;"><![endif]=
---><div class=3D"st-c" style=3D"padding-left: 0px; padding-right: 0px; min-=
-height: 1599px; background-color: transparent; box-sizing: border-box; marg=
-in: 0px; vertical-align: top; max-width: 580px; min-width: 160px; width: 10=
-0%;"><div style=3D"display: table-cell; vertical-align: top;"><div class=3D=
-"st-ci"><table cellspacing=3D"0" cellpadding=3D"0" border=3D"0" width=3D"10=
-0%"><tr><td style=3D"padding: 0px; font-size: 16px; line-height: normal;"><=
-table align=3D"center" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" wid=
-th=3D"100%" style=3D"padding: 0px;"><tr><td align=3D"center" class=3D"i-tlt=
-d" bgcolor=3D"transparent" style=3D'padding: 5px 0px; direction: ltr; font-=
-family: Arial, "Helvetica Neue", Helvetica, sans-serif; color: rgb(20, 34, =
-102); font-size: 20px; text-align: center; font-weight: bold; font-style: n=
-ormal; text-decoration: underline; line-height: 120%;'><div><div class=3D"i=
-nline-redactor-wrapper"><div data-redactor-tag=3D"br"><strong>DYNAMIC CORE =
-ELECTROMECHANICAL WORKS L.L.C</strong></div></div></div></td></tr></table><=
-/td></tr></table><table cellspacing=3D"0" cellpadding=3D"0" border=3D"0" wi=
-dth=3D"100%"><tr><td style=3D"padding: 0px; font-size: 16px; line-height: n=
-ormal;"><table align=3D"center" cellspacing=3D"0" cellpadding=3D"0" border=
-=3D"0" width=3D"100%" style=3D"padding: 0px;"><tr><td class=3D"i-tltd" alig=
-n=3D"center" bgcolor=3D"transparent" style=3D"padding: 10px 0px;"><div clas=
-s=3D"b-ba4f1858-7f46-47dc-969e-a11b0372c09e"><img width=3D"121" src=3D"http=
-s://cdn.sender.net/email_images/39536/294122/dclogo8102295.jpg" alt=3D"Imag=
-e description" border=3D"0" class=3D"g-img" style=3D"display: block; box-si=
-zing: border-box; max-width: 100%; border-radius: 0px;"><div></div></div></=
-td></tr></table></td></tr></table><table cellspacing=3D"0" cellpadding=3D"0=
-" border=3D"0" width=3D"100%"><tr><td style=3D"padding: 0px; font-size: 16p=
-x; line-height: normal;"><table align=3D"center" cellspacing=3D"0" cellpadd=
-ing=3D"0" border=3D"0" width=3D"100%" style=3D"padding: 0px;"><tr><td align=
-=3D"left" class=3D"i-tltd" bgcolor=3D"transparent" style=3D'padding: 10px 0=
-px; direction: ltr; font-family: Arvo, "Times New Roman", "Trebuchet MS", s=
-erif; color: rgb(0, 0, 0); font-size: 13px; text-align: left; line-height: =
-160%;'><div><div class=3D"inline-redactor-wrapper"><p>. .Dear All</p><p>=EF=
-=BB=BF</p><p>=C2=A0We would like to introduce our Company, <strong>Dynamic<=
-/strong> <strong>Core Electromechanical Works LLC</strong>, established in =
-the Year 2012.To date, we have proven track records in providing <strong>En=
-gineering,=C2=A0Installation, Maintenance, and Associated Electromechanical=
- Works and Services=C2=A0with expertise in Fire Protection and Security Sys=
-tems, in Commercial and=C2=A0Industrial Fields.</strong> We are a <strong>r=
-egistered Contractor with the Civil Defense Authorities of Dubai </strong>a=
-nd=C2=A0we have the capability to deliver <strong>Turnkey Projects</strong>=
- having employed=C2=A0professional personnel who are specialists in their o=
-wn respective engineering=C2=A0fields.</p><p> We are an <strong>Approved Ve=
-ndor in Dubai Electricity and Water Authority (DEWA)</strong><br>and curren=
-tly executing several projects in <strong>400 &amp; 132 kV</strong> <strong=
->Substations<br>and Power Plants</strong>. We are also working with differe=
-nt small and large-scale=C2=A0projects with several Authorities in the Emir=
-ates. We are operating in a very professional and safe environment giving T=
-op priority to=C2=A0meet and exceed Customer=E2=80=99s satisfaction by prov=
-iding the best Quality Workmanship,=C2=A0Materials, Services on time as wel=
-l as providing innovative criteria on=C2=A0significant cost saving without =
-compromising Quality and Safety. We strongly=C2=A0believe that forming stro=
-ng relationships and partnerships is necessary hence=C2=A0it is our practic=
-e to give emphasis on a cordial relationship with Clients,<br>Suppliers and=
- respective Authorities.=C2=A0</p><p><strong>. Our services include the fol=
-lowing :=C2=A0</strong></p><p><strong></strong>=C2=A0.=C2=A0<strong>Firefig=
-hting/ Fire Alarm (Specialist)</strong>=C2=A0</p><p>=C2=B7 Fire Pumps.=C2=
-=A0</p><p>=C2=B7 sprinkler system.=C2=A0</p><p>=C2=B7=C2=A0 Fire Hose Reels=
-/ Wet/ Dry Riser Systems FM 200 System.</p><p> =C2=B7 Deluge water spray sy=
-stem</p><p>.=C2=A0 Foam water spray system.</p><p> =C2=B7 Pre-Action system=
- (Single Interlock &amp; Double Interlock).=C2=A0</p><p>=C2=B7 Clean agent =
-system.=C2=A0</p><p>=C2=B7 Water Mist system. =C2=B7=C2=A0</p><p>. Cable Se=
-alants.=C2=A0</p><p><strong>. fire alarm</strong></p><p><strong></strong> =
-=C2=B7 All Addressable &amp; Conventional (Detection and Alarming) system.<=
-/p><p> =C2=B7 Fire Alarm &amp; Detection for all extinguishing systems.=C2=
-=A0</p><p>=C2=B7 Air Aspiration system.=C2=A0</p><p>=C2=B7 Voice Evacuation=
- system.</p><p>.AMC for FA/FF System.</p><p> <strong>. Emergency/ Exit Ligh=
-t system</strong></p><p><strong></strong> =C2=B7 Monitoring system. =C2=B7 =
-Central Battery system.</p><p> <strong>. HVAC</strong> <strong>Low Current =
-Solutions=C2=A0</strong></p><p><strong>.</strong> <strong>Plumbing</strong>=
- <strong>Electrical=C2=A0</strong><strong>Maintenance</strong>=C2=A0</p><p>=
-<strong>. Fit Out Projects</strong>.</p><p>.AMC for FF/FA SYSYEM ,CD Approv=
-al .</p><p>=EF=BB=BF</p><p><a style=3D"color: #B32424" href=3D"https://camp=
-aign-statistics.com/link_click/KrWV3mVn0J_HDQKG/acd328d17a29d5d51c3492afc35=
-7f997" target=3D"_blank" rel=3D"acd328d17a29d5d51c3492afc357f997">WWW.DYNAM=
-ICCORE.CO</a></p><p><a style=3D"color: #B32424" href=3D"https://campaign-st=
-atistics.com/link_click/KrWV3mVn0J_HDQKG/5585c1ea2e836f23e0c2685eeeddcd90" =
-target=3D"_blank" rel=3D"5585c1ea2e836f23e0c2685eeeddcd90"><br></a>TEL: 009=
-714 5801502<br>MOB: 00971 588249633</p><p>=EF=BB=BF</p><p>Email: yousif@dyn=
-amiccore.co <br></p><p>=EF=BB=BF</p><p>=EF=BB=BF</p></div></div></td></tr><=
-/table></td></tr></table><table cellspacing=3D"0" cellpadding=3D"0" border=
-=3D"0" width=3D"100%"><tr><td style=3D"padding: 0px; font-size: 16px; line-=
-height: normal;"><table align=3D"center" cellspacing=3D"0" cellpadding=3D"0=
-" border=3D"0" width=3D"100%" style=3D"padding: 0px;"><tr><td class=3D"i-tl=
-td" align=3D"center" bgcolor=3D"transparent" style=3D"padding: 10px 0px;"><=
-div class=3D"b-F-Zulw"><img width=3D"580" src=3D"https://cdn.sender.net/ema=
-il_images/39536/images/all/pme0516wilmot_istock_01.png" alt=3D"Image descri=
-ption" border=3D"0" class=3D"g-img" style=3D"display: block; box-sizing: bo=
-rder-box; max-width: 100%; border-radius: 0px;"><div></div></div></td></tr>=
-</table></td></tr></table></div></div></div><!--[if mso]></td><![endif]--><=
-!--[if mso]></tr></table><![endif]--></td></tr></table></td><td class=3D"s-=
-sp_r" width=3D"30" style=3D"padding-left: 30px; padding-right: 0px;"></td><=
-/tr></table></div></td></tr></table><!--[if mso]></td></tr></table><![endif=
-]--></div></td></tr></table><div class=3D"e-c" style=3D"max-width: 640px; m=
-argin: 0px auto;"><!--[if mso]><table align=3D"center" cellspacing=3D"0" ce=
-llpadding=3D"0" border=3D"0" width=3D"640"><tr><td><![endif]--><table align=
-=3D"center" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" width=3D"100%"=
- class=3D"e-c" style=3D"margin: auto;"><tr><td style=3D"padding: 20px 0px; =
-text-align: center;"><a href=3D"https://campaign-statistics.com/unsubscribe=
-/KrWV3mVn0J_HDQKG" style=3D"font-size: 13px; color: rgb(191, 191, 191);">If=
- you want to unsubscribe, click here.</a></td></tr></table><!--[if mso]></t=
-d></tr></table><![endif]--></div><!--[if mso | IE]></td></tr></table><![end=
-if]--></center></body></html>
---=--sender_1197825286_1696220466853_60279308--
+ WHENCE           |   2 +-
+ i915/mtl_dmc.bin | Bin 52388 -> 52508 bytes
+ 2 files changed, 1 insertion(+), 1 deletion(-)
