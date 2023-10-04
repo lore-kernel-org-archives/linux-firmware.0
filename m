@@ -4,60 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E7F2E7B5F9
-	for <linux-firmware@archiver.kernel.org>; Wed,  4 Oct 2023 11:49:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07C70E7B601
+	for <linux-firmware@archiver.kernel.org>; Wed,  4 Oct 2023 12:28:18 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id E1F2DC43391; Wed,  4 Oct 2023 11:49:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCAEBC433D9
-	for <linux-firmware@kernel.org>; Wed,  4 Oct 2023 11:49:29 +0000 (UTC)
+	id CA073C433CB; Wed,  4 Oct 2023 12:28:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4CD5C433CC
+	for <linux-firmware@kernel.org>; Wed,  4 Oct 2023 12:28:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1696420169;
-	bh=VlU3YIQE7HYFy/oNnXxRGhVieetVkB0NhxuB0lBN6fg=;
+	s=k20201202; t=1696422498;
+	bh=s6MIaYFoLBiUrWFoNZyyjP10lI4I2oeizymP5aERV/E=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=PvV//gkyrupxNa/TBqmWePru8V8kPbS0DBSZ6VE1Lxoy3Jg8yVSrpu2L8k60U5gFx
-	 n3IAGSXHQgbscB7EI7FA8HPXtgNeGJ2b0AdHQQI6m2FIWGUmqqu0tNp0cSU1KHI3tu
-	 ps7cCiYfVUD80cO/mXHbmziB1eRyXhQCEm7h3Zrv3U5rajK0LlajyB0QCsIRRvVS/S
-	 CZ7y+Bdr32GAor4EM2H8/IJi6GA3zpK+0ks61reHocgfSmEQ38y0nNaTfUjpg3oNnA
-	 VTgVQ+2TGuiZhWZaMvsVw7hHZbVTIhX0k9dKzkmr4CJl/6CgX9Lvu/gg2cnl1DlDR5
-	 jmhH6oLv8nBug==
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-59e77e4f707so24824407b3.0
-        for <linux-firmware@kernel.org>; Wed, 04 Oct 2023 04:49:29 -0700 (PDT)
-X-Gm-Message-State: AOJu0YwmZwyTDtya51MXG8OH5v0EoyW/2o44ggYiZ9sqz4wwzxPIufpz
-	UXRemWyDO8Lhx6+XWBrQyFF0i08Mog070V8B0po=
-X-Google-Smtp-Source: AGHT+IEiott/iw/9uCMEWLEB2rm5mFJmiw5iqPQ+X1iXBhJae3U+23r8Rx3CWbGAaGVj+N4J+rVbcHvUarX6avttSYE=
-X-Received: by 2002:a25:a407:0:b0:d7b:985b:278f with SMTP id
- f7-20020a25a407000000b00d7b985b278fmr1610920ybi.16.1696420168892; Wed, 04 Oct
- 2023 04:49:28 -0700 (PDT)
+	b=nv9/Dup1T6nljnAKcScZCTuGyKY8ZhW3XqoA+GQbJkFwx+WF208+KXkugodO6S+2S
+	 GkXneDbqQaB3TuDXuYz1sGeIGvZcmmvVi2g52wUzojKtVp17FxNHKr63KdNA50YjL3
+	 S6x1Dego+YkZYNZd6aeyLqF6R+VpsA4s7JNtcswsMn07efr3RmhIS5MiQGnnFVfxcP
+	 Kjs9F7p7IAG/5T9xhcC5h+S5vTCaR/E2EmD/bWe9QmZfMIuJhcKy8Va3PMOIktjVEf
+	 DAJn2GOEf2RZuG97/k4bd3RUwDg5y86ht+juiaxggtFljGb3hnYMpPO7sQawQ15sq1
+	 xAFdJih+E+gFg==
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-59f55c276c3so24743767b3.2
+        for <linux-firmware@kernel.org>; Wed, 04 Oct 2023 05:28:18 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwyH8v39CC74xT6ZrPZCcias8hdONtsIWgwDIkRJJQZkf+kh96b
+	J/u/bt7GgFFJAwwSIfwR8t3630Bl9/Isr5Vy0UM=
+X-Google-Smtp-Source: AGHT+IHA9/MbVARLlM8LWdL6THD+U88plnrQK3x9BxLdFGt6e48JR4IfmA7hTsR8Y1DNUquQ4HCRiuoCV33U6e2iw9w=
+X-Received: by 2002:a5b:285:0:b0:d7b:9d44:7574 with SMTP id
+ x5-20020a5b0285000000b00d7b9d447574mr1679243ybl.64.1696422497875; Wed, 04 Oct
+ 2023 05:28:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <edb251a86c9cc6c3fcdfa9b4304d9a7ae9c074dc.camel@intel.com>
-In-Reply-To: <edb251a86c9cc6c3fcdfa9b4304d9a7ae9c074dc.camel@intel.com>
+References: <thqm4hqbkgqxj5fh6olad5brvwvtlof55tjk3kfzzz6r65xcd4@pww7dj5lvr25>
+In-Reply-To: <thqm4hqbkgqxj5fh6olad5brvwvtlof55tjk3kfzzz6r65xcd4@pww7dj5lvr25>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Wed, 4 Oct 2023 07:49:17 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA56t896+zTs2Ed5im4ASb9JYkydeS=rAgFmupyagGNepQ@mail.gmail.com>
-Message-ID: <CA+5PVA56t896+zTs2Ed5im4ASb9JYkydeS=rAgFmupyagGNepQ@mail.gmail.com>
-Subject: Re: pull request: iwlwifi firmware updates 2023-09-27
-To: "Greenman, Gregory" <gregory.greenman@intel.com>
+Date: Wed, 4 Oct 2023 08:27:00 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA4RVQDWMrZkA3_XVfM8j3y5KjVokhzjLRgNMoQSHHmGrg@mail.gmail.com>
+Message-ID: <CA+5PVA4RVQDWMrZkA3_XVfM8j3y5KjVokhzjLRgNMoQSHHmGrg@mail.gmail.com>
+Subject: Re: PR for MTL DMC v2.17
+To: Gustavo Sousa <gustavo.sousa@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, "Hutchings, Ben" <ben@decadent.org.uk>, 
-	"kyle@infradead.org" <kyle@infradead.org>, 
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, "Ben Ami, Golan" <golan.ben.ami@intel.com>, 
-	"Yang, You-Sheng" <vicamo.yang@canonical.com>
+Cc: linux-firmware@kernel.org, kyle@mcmartin.ca, ben@decadent.org.uk, 
+	intel-gfx@lists.freedesktop.org, Anusha Srivatsa <anusha.srivatsa@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 27, 2023 at 4:24=E2=80=AFAM Greenman, Gregory
-<gregory.greenman@intel.com> wrote:
->
-> Hi,
->
-> This contains several new firmwares along with PNVM files
-> for the new GL/MA devices.
->
-> Please pull or let me know if there are any issues.
->
-> --
-> Thanks,
-> Gregory
+On Mon, Oct 2, 2023 at 8:59=E2=80=AFAM Gustavo Sousa <gustavo.sousa@intel.c=
+om> wrote:
 >
 > The following changes since commit 8b855f3797e6b1d207b7a2b8dae0e9913f907e=
 5b:
@@ -66,41 +53,21 @@ On Wed, Sep 27, 2023 at 4:24=E2=80=AFAM Greenman, Gregory
 >
 > are available in the Git repository at:
 >
->   http://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.g=
-it tags/iwlwifi-fw-2023-09-27
+>   git://anongit.freedesktop.org/drm/drm-firmware dmc-mtl_2.17
 
 Pulled and pushed out.
 
 josh
 
 >
-> for you to fetch changes up to a6744df81a307cfee5b0271dae65f8fcdeb84fcf:
+> for you to fetch changes up to 18b60f44e61c72eb5a5a36dc8e0381c77ba670b3:
 >
->   iwlwifi: add FWs for new GL and MA device types with multiple RF module=
-s (2023-09-27 11:05:10 +0300)
->
-> ----------------------------------------------------------------
-> add FWs for new GL and MA device types with multiple RF modules
-> GL and MA HWs with Gf/Gf4/Hr radio modules.
+>   i915: Update MTL DMC to v2.17 (2023-10-02 09:52:35 -0300)
 >
 > ----------------------------------------------------------------
-> Gregory Greenman (1):
->       iwlwifi: add FWs for new GL and MA device types with multiple RF mo=
-dules
+> Gustavo Sousa (1):
+>       i915: Update MTL DMC to v2.17
 >
->  WHENCE                        |  18 ++++++++++++++++++
->  iwlwifi-gl-c0-fm-c0-83.ucode  | Bin 0 -> 1799504 bytes
->  iwlwifi-gl-c0-fm-c0.pnvm      | Bin 0 -> 246228 bytes
->  iwlwifi-ma-b0-gf-a0-83.ucode  | Bin 0 -> 1753308 bytes
->  iwlwifi-ma-b0-gf-a0.pnvm      | Bin 0 -> 55500 bytes
->  iwlwifi-ma-b0-gf4-a0-83.ucode | Bin 0 -> 1721448 bytes
->  iwlwifi-ma-b0-gf4-a0.pnvm     | Bin 0 -> 28024 bytes
->  iwlwifi-ma-b0-hr-b0-83.ucode  | Bin 0 -> 1572104 bytes
->  8 files changed, 18 insertions(+)
->  create mode 100644 iwlwifi-gl-c0-fm-c0-83.ucode
->  create mode 100644 iwlwifi-gl-c0-fm-c0.pnvm
->  create mode 100644 iwlwifi-ma-b0-gf-a0-83.ucode
->  create mode 100644 iwlwifi-ma-b0-gf-a0.pnvm
->  create mode 100644 iwlwifi-ma-b0-gf4-a0-83.ucode
->  create mode 100644 iwlwifi-ma-b0-gf4-a0.pnvm
->  create mode 100644 iwlwifi-ma-b0-hr-b0-83.ucode
+>  WHENCE           |   2 +-
+>  i915/mtl_dmc.bin | Bin 52388 -> 52508 bytes
+>  2 files changed, 1 insertion(+), 1 deletion(-)
