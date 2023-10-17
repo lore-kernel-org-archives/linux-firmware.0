@@ -1,179 +1,339 @@
-Return-Path: <SRS0=GkXa=F2=intel.com=gregory.greenman@kernel.org>
+Return-Path: <SRS0=/ssE=F7=amd.com=Alexander.Deucher@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3491CDB482
-	for <linux-firmware@archiver.kernel.org>; Thu, 12 Oct 2023 13:40:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 385DDCDB483
+	for <linux-firmware@archiver.kernel.org>; Tue, 17 Oct 2023 19:12:24 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 829B9C433C8; Thu, 12 Oct 2023 13:40:56 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	id 05A46C433CA; Tue, 17 Oct 2023 19:12:24 +0000 (UTC)
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2073.outbound.protection.outlook.com [40.107.95.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 41E75C433C7;
-	Thu, 12 Oct 2023 13:40:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 41E75C433C7
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697118054; x=1728654054;
-  h=from:to:cc:subject:date:message-id:content-id:
-   content-transfer-encoding:mime-version;
-  bh=pv/fLgDMfqiLUKZI2liPC8aRwOxSnqgUKxmx/9hsBbU=;
-  b=QUmrQNAepRjDDN3uiZPX6RjIexdDIR6PGCPObzbbKAbJ7UaedZQN6Aal
-   g4NPAN998nog0FMViS0AGEYAUd2Sij9PRwhOtu5xuvCXf4TAytolY2sVb
-   PRBchWO4uY1LC2DUI8TkYYPTtIzzpFtb5dV6lwjknRjt5MfHwDRHSnh7e
-   nZq/4ffJHW9cu9j+5nQ4f+zxN1VWMezY59UiTtlY8zWp9aJ65WSqwM2Md
-   O9zA0Wut+6YfJhACgAO1Q2DCJGaczKuKzRZl3mYhKfbVR5vVGxpZe22am
-   7NrTtcuWSryxGAX+QGk2sfFOtE0MrsDshmaIQcEls27vTJLAvi7vZN28+
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="3524528"
-X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="3524528"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 06:40:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="870581052"
-X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="870581052"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Oct 2023 06:40:53 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Thu, 12 Oct 2023 06:40:52 -0700
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Thu, 12 Oct 2023 06:40:52 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Thu, 12 Oct 2023 06:40:52 -0700
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.41) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Thu, 12 Oct 2023 06:40:52 -0700
+	by smtp.kernel.org (Postfix) with ESMTPS id EF64BC433C8;
+	Tue, 17 Oct 2023 19:12:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org EF64BC433C8
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GHh7Mt8rG6j78xNxD/lQyAor9GZO0I7l2uE45QQOzRhtVcBcRYMSrlPfZMNjRYmV4DVD7+Mdyc2xrjd/E5sq8kgT195BkDJvRVLuDqh2wq6XXKLoMbVB+JTlJ59WfJudSyFdW1H73gzCiIQ4Be5XAyKvXbE49Oati3DlFFLmEfSE6Cp2AVylvT62VSOf575zY7ZtIUst7CftlNuVNhRtjRS29cz1b3d7WMrI7PzsRvLYfNXH4vOBzJubO1WgmH2fwzTzArTyM9mvT6OkhIPNbpzQtEjpoWTRvUMHhDH9E1aqPe0z9juI/O0z+HUFNWAmaCNqZiSlR4s4rRyC3/W53w==
+ b=hHlGOP9hhwS/1OSwi7w8o2AgPnYtufm3wk4bIteqZq1pY7PnfzDTde0DfSLjjJRTfrWVOdsVjAz7Ulnyt+6fr5rlCyLgJsPFkl9rTKE4seJ6ZRrFboXliPu/wRay/G0eyddCd1uRFiyOhR8+skkQytuEelrrdpCDW4yUZO1B7JeNC97FZSRGgj4AltoOcr984Ima65cvtMSQq2vZ3VxMLeX0ZWkk+n8C5OZRsDtibrOycPsdy4/ianmkHKf/ESAw6oJ6lIQ/BSTsKUbDUy/G5b7u8kkjx2om/ZWgFDqNJj4vboul+c18Stuiukp7NDbqfWjtok4AFRw1tXiNvNDH4g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pv/fLgDMfqiLUKZI2liPC8aRwOxSnqgUKxmx/9hsBbU=;
- b=ZXQ/g6pMsGEwqtRI+Ub4HPGVznK72P17uIa5RP+nf74xhQRSRjqEmu369AGZyFBlWYOwTw/UtxG8BaYZqlHX71oavrZiiv5esZ5EEqKkz5X8ugz6rO2m0SoOaHFvP7uTB1q9op0FG9nwtKT6jBc/0ix7Yi0hA8Q6YoAMyrc2nCm/iSXeHMM6anIcM4Z8ESwfkGtyblRlxuV8B5xZUL/OoRnTtWIyh17vSFdg7o+MxqzHHApVV34/q1EQKIDckGbeF+oHech4N8W2HLr30lwAUXRRtf0959uM7+hJTjqIEsioRuPyoEFytMmdmNRwggOqflzfs/kIxS22MIa2pq0i8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MN0PR11MB5987.namprd11.prod.outlook.com (2603:10b6:208:372::8)
- by SA1PR11MB8490.namprd11.prod.outlook.com (2603:10b6:806:3a7::14) with
+ bh=BW8p42L6ZYWPIV8EfcyNx6/yXjw2gQGUl9XQcO74+O4=;
+ b=ajRb6syFqs0aoMiSTXY7hLJfQbbAU7ko8x4rLP0TFHoes1NlAztkUDIv089SDqym+zzsuYE+JQqfkH9ozH/TfUPbvTj0sikzD2MEISl7XttpWkAUXjhUH4Epgd6lE6d0A4PtJzRzyb5Bs8s4UT1uAlHNfqxvafH3B+4nMVSIrjgKll9Vg1qemxZgxoPydJL5GYdJoOaZQKu2ojB1AnL1wq5pdB4Ibk44eEfJOhl4c2maD0B41Ul/fMNZNBZV461P8w0ZvE3EWM5kCxxtfIaHqnybi34uJ+wi46S5Suj7i08lRWxDiMxknH7tFUuI6WIZ5UHOn9BgDoaX6ZrBspXKqA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BW8p42L6ZYWPIV8EfcyNx6/yXjw2gQGUl9XQcO74+O4=;
+ b=dCzpbOh55GbHkhe5tImQ+7DtRRZMSvNWbXMLGcJsojYffpX+LeT+QWAIZjepqTQNfnHcnFd/JbIdhWT4d6NJLRO0qNZq/poPfHBPhlOXVa4tc+qRHtxSAhtOay74e/mLp/VMEOB+jp85pjU1lNkicdW9ItTGJJw+iGGCc/VU7Gk=
+Received: from PH8PR15CA0024.namprd15.prod.outlook.com (2603:10b6:510:2d2::9)
+ by CY5PR12MB6549.namprd12.prod.outlook.com (2603:10b6:930:43::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.38; Thu, 12 Oct
- 2023 13:40:43 +0000
-Received: from MN0PR11MB5987.namprd11.prod.outlook.com
- ([fe80::fe36:eb09:813b:5e01]) by MN0PR11MB5987.namprd11.prod.outlook.com
- ([fe80::fe36:eb09:813b:5e01%4]) with mapi id 15.20.6863.043; Thu, 12 Oct 2023
- 13:40:43 +0000
-From: "Greenman, Gregory" <gregory.greenman@intel.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.36; Tue, 17 Oct
+ 2023 19:12:18 +0000
+Received: from SN1PEPF0002BA50.namprd03.prod.outlook.com
+ (2603:10b6:510:2d2::4) by PH8PR15CA0024.outlook.office365.com
+ (2603:10b6:510:2d2::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.21 via Frontend
+ Transport; Tue, 17 Oct 2023 19:12:17 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SN1PEPF0002BA50.mail.protection.outlook.com (10.167.242.73) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6907.20 via Frontend Transport; Tue, 17 Oct 2023 19:12:17 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 17 Oct
+ 2023 14:12:16 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-CC: "Hutchings, Ben" <ben@decadent.org.uk>, "kyle@infradead.org"
-	<kyle@infradead.org>, "Ben Ami, Golan" <golan.ben.ami@intel.com>,
-	"jwboyer@kernel.org" <jwboyer@kernel.org>, "Yang, You-Sheng"
-	<vicamo.yang@canonical.com>, "linux-wireless@vger.kernel.or"
-	<linux-wireless@vger.kernel.or>
-Subject: pull request: iwlwifi firmware updates 2023-10-12
-Thread-Topic: pull request: iwlwifi firmware updates 2023-10-12
-Thread-Index: AQHZ/RGycaigdDLGl0m0Fzsf3hoqwQ==
-Date: Thu, 12 Oct 2023 13:40:43 +0000
-Message-ID: <d922d3246f1e62d8380a7566bfe23479d8c0e748.camel@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Evolution 3.42.4 (3.42.4-2.fc35) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN0PR11MB5987:EE_|SA1PR11MB8490:EE_
-x-ms-office365-filtering-correlation-id: 587f2df7-ed2a-4578-9c03-08dbcb28d4fe
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: lB8Gb++0upLCcEejqy4126qrBa76D51+wlZRGFvLUyoISxjvUX18iydP3KPqAu1Dr/8XFdp/o+llOAs9rP5hX1mmpOjFeiLbVqLU87kTysanjFx9cZ895JNk19E6flukERGMcHuNbURh/SM4L1s3lIOIFZfA4OZCVYMvTx7o7yVuVh5AuBHCl74uHKluJVYIdsfB5tf6+vbL2dpxbnTT6sJq4aB90LsNl9EuCgAVZB8AQPj/1EgDRmYS+kWxq4o3T7JlOUdfrwyUo/xAckWBHGR8i/c69PlWXxeB6AoaqfmwbGtmoRKMG5Md90dH74GWxLEtx4ZP1E5GG5YcaxR/g7qCeyUvV3/K4yYtK02FCglKgESIcLfZKNvwXua2QZtzZ9nPMSvI4J0M9izSqrHnzS1LSCEwTNHOG2YU0gDr8qKfz0dkUlPzjnzz166hVxXsWzCR63fGSZF6RtjH2InSD5WP80tL9P29vy3aXTQ6aTp1ELu6wMOXNX2wpoigMUEQqz7og/zgOAoj/iGyQ8gkRXAmz2Cv0rLFVZNewTBbeFmPV3yr1XUkXrwqLPdGtxRofsQ8GdjiyvGIK3nDxbiiIQaMv6TdRRy+iSucK8+LBag=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB5987.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(396003)(346002)(136003)(366004)(39860400002)(230922051799003)(64100799003)(186009)(1800799009)(451199024)(66556008)(6506007)(6512007)(4001150100001)(966005)(478600001)(26005)(6916009)(71200400001)(6486002)(8676002)(4744005)(83380400001)(2906002)(91956017)(76116006)(64756008)(66946007)(5660300002)(2616005)(66446008)(66476007)(8936002)(4326008)(41300700001)(54906003)(316002)(82960400001)(38100700002)(36756003)(122000001)(38070700005)(86362001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YnlZSVdVMHBYL2ljQ3M1OXNDMlplTFFIUVpsRUl3RzA0cmlEaHEvSDJ4dWsv?=
- =?utf-8?B?ODM1K1JJUVc3dVlTYytxRlFoOXA3Y0syTGpUeG9OSVdZWTRBR0UrSXduUnBw?=
- =?utf-8?B?eUY5RTIzakpNcHA5U0lFUVgxYW9INU5nL3dyOTFtTjdXWUZIL1RhVEJYTFZN?=
- =?utf-8?B?eDlJUzlnS1ArKzZQclA1a0tERGd0Q0hma1NwN0huRVBqMmJZV3Bya1ByNC9S?=
- =?utf-8?B?TmtFaTZzMDhNMm90RTZRaE1yWm9SUGlDR3lZdW94VTFSSEpoQTRaUy9aejdh?=
- =?utf-8?B?RXRYNTgwZjBJdktRdVpJRGJFZVlGdkE4TzJIaW5kQ0hHNytSS0lOOGkyV0tV?=
- =?utf-8?B?bWpSeFEvU1lCU1c3VmpVZ3dYS2V4bXFVcVZEQXJxN0NXSWwxSWhNNXZ5UVMw?=
- =?utf-8?B?aDdaRkJtRXErZ1BETDlBUDlxSUtTTXFUVFo1Ym50akFmbVR0SExsdzdzNS9r?=
- =?utf-8?B?Q3pZSzY2RENvRHJETEZ0Q3ZKZ1Bta3A2V3J0eTREQzZ6QUhyeU5XMXoyY3pJ?=
- =?utf-8?B?UVVnWmVZZlgzVEdrdi85akp4MFBsN0ZFeG9sTFdlb1VkMjJFYlF3NGRaN0Ur?=
- =?utf-8?B?bWVENGhRMU41cU1ZRXoxUjN6aEFDZWd3NC9BSTVZOVRpSDBiSEt0T2VNN2V4?=
- =?utf-8?B?THFZM1ZsTk93WWVYaHFGbDlraVF3RmhscHF5OXNZbzdpdTg4UVRSb280VXAw?=
- =?utf-8?B?VVhWdnh4UFhuc3lRekNONW15QkphbjljZ0EycStmc29RZlUrbHc2YlV0RmpB?=
- =?utf-8?B?Y1ZRMUMrdnByU2ozbzJlTTI1TElWanpGOFlUU2t4dy9mbmw1M3pJUy83cWtj?=
- =?utf-8?B?RXlKdkZjRnh2Q3ZqcXU3WVFOSFhJbVRHYzYwWWJUcmdiNnE5aS9KWERJOXZG?=
- =?utf-8?B?bnZwSVMwbVdxd2FlQzRUejJ2NlpNREdobWRIWW5YeXk2azNkdjlxNXVvVkJu?=
- =?utf-8?B?akxxVlBxWFZObXpxcklsVGQ1dlBib2RrcGl4VEdqQmF0UktFRnlYMFRsdjl3?=
- =?utf-8?B?QUVHTTZ1VlA3QmFjVVhwaEJFL20xbE02VFRlVituaVd0Qm9rQzdEUGI1TlM1?=
- =?utf-8?B?SjNJc1pyMm1QOW5ZZEVEdHAyWGttRlc4dVRrR0ZuYk1yMGpUV0F5eXN4QkFM?=
- =?utf-8?B?NWMzY0NxcFJETWRrSlM1Z3VjWGttNkcvNDRxcnJkcmJQWnBKb0oyRG9UVVZH?=
- =?utf-8?B?S1h0SGUweHAwMWNmcHRVcjRxa2NsMERFZnFHRFFEVzJvK0o4WFJiM01FREZS?=
- =?utf-8?B?WUtya20rMGpXanVOeGJrZjJQNmdESEZZZ2pXSG52cWRQZ1krYVpVT3lZVCtI?=
- =?utf-8?B?aGNCUjg0S05mUXNvbkxFeG81bjYxQ2duSy9UaDlMNVkxcm5OOU1RRUJPTEVp?=
- =?utf-8?B?RlJScVBEc09HN3N3MjlrNEJrMXIxTEZkVTRkUG54bjVFQ0ZkYUhub2tJUmli?=
- =?utf-8?B?NUowU3RJRXVOb0lhZEVVRUdlS1JlSG9KS21EQ3M0a21FVks1SFlGTEtQNUlT?=
- =?utf-8?B?amZqa3Q2djhoSkFkWWN4dUw0MGY3d2J2TjRPeFB5TE5TT2gzUlluTGt1c0FZ?=
- =?utf-8?B?d21PNEJBK0k5QTE0T0FsaS8rSUN5NmRuMzFNNWMyNTVMS0paNlFSR1hCOXJt?=
- =?utf-8?B?NnoybFNUbktRNHlVNkdDNE1WdEthUVE2dFNpRVpjT3ozb2tPREVqTlZ2c3k0?=
- =?utf-8?B?eUphdlJXZGpPcDJsY0JCWTNYUm1xRUE5a0xFVkNJQkJNUnRxUG5XNmgyRmlR?=
- =?utf-8?B?Q1czdFA4S2ZXMy9OU013R1prWDcvV3V5bmIveHM3bjdRejBLaVVTM3FSeUtW?=
- =?utf-8?B?d3IzeGVXQmU1TjZObFI4MHp5ZlBwWTJNMm1VSGVXOENBMVNEcGIrNmRrRFpT?=
- =?utf-8?B?MkZaWWNNRjE5TUJWQTVBcGV3Y3VjdEtXU2pmZ0pTZ0FzaXJ0QlhDcVlLWWFB?=
- =?utf-8?B?OXgwOXEvMm5UNUl6aXRTMzVtQ2s5aHhHT1NrRmdYcHNVVmxIbjRLN0xEZTNr?=
- =?utf-8?B?YVJZWjd2UjhHeWtONjhDc0xwaUJSTkhOaDkrRkZ2VHV0TDJIamF2eXlIRDZN?=
- =?utf-8?B?T1d6bGd3bE0zbXVXWDd2L1dsTVlvZnMrTm5uZGxCOXJtQk92cTN4cWlvMlZI?=
- =?utf-8?B?bEFPT0NlRkZCUUF1ZW9jMGRaSVNJenBlYlR1cXJOVFVlNkhjaXNndEtmMGFV?=
- =?utf-8?B?Q1E9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <AE581EBFF5397C458BE0E7F94EB39946@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+To: <linux-firmware@kernel.org>, <jwboyer@kernel.org>
+CC: <Mario.Limonciello@amd.com>, <stylon.wang@amd.com>,
+	<deepak.sharma@amd.com>, Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] amdgpu firmware amd-2023-10-17
+Date: Tue, 17 Oct 2023 15:11:58 -0400
+Message-ID: <20231017191158.2247834-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB5987.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 587f2df7-ed2a-4578-9c03-08dbcb28d4fe
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Oct 2023 13:40:43.5125
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA50:EE_|CY5PR12MB6549:EE_
+X-MS-Office365-Filtering-Correlation-Id: 952998db-1234-42d0-48c1-08dbcf44faf7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	VL8kQgYsVkkBkZmfNgkM6B2sAJtPjJyzwhbG+vXDbXGeKpqcGckNu6dQPN7piX7DQUKvxxTjIN08to11gQrd8ThfceFVtuLGaPev0/6WvMOERrhrJBPNhE46sXbXkqi3i2NlVMeizgHOeiJF0gpJ+aF4n62Gr1WZBkVSN6BgZDTfaaeiSkfQQRFc/3sCHCOEWtuEQFfMCd9sofygV/aw5KkZx6eTmJ6WA2DAES9NLwQZnGOqvTxtN7yMp7I7Zm+/KFvV30wfiwTI/t49HNrJqIctLekAbRBBrKZPZrpsB2Y8w1Q3l/PLKiLVy2jl9ArRYHB86vm06xmLxB3GS6m0w+uE9Cvkrb6bfgmw9OWq3S6aQJ0B2wuM51Fb2qFNJ/hfKpR0TkXi5bXJFbgfNUL8sUD+WO5vy4YUd70y+JspR8C4rz/tU+uEiUrsTG6ZN34e1ZB6gec1LMQ8J1zOFqvpmKixuhkTLTnQVHEd2wR4dzXom0n9yeBeel7paieAT+lVbgb49mbVeBhl8iqUFJ6bOfaZi6AEPB9wHLhMINxkcfSA9NLTb8+8wISX+4aQXMW63VgAkJ2U02NMBfkoLBjkjckPxtkL5s4tZowMtmR+YJWDshjCHbls5zB/ThvQwABosPjlapRvSsdzKqSdeUvvS3XCE6Cd+yXl7HuA0rodsnaqxzyczIIe4pghlR7l6n1af8b890980JoeNdltXx5PfHYzVYWYl8jfiqJpfdJ9+dWwFm7LfTpbHSOn9pDNfeFO
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(136003)(396003)(39860400002)(346002)(376002)(230922051799003)(1800799009)(451199024)(82310400011)(186009)(64100799003)(36840700001)(46966006)(40470700004)(7696005)(40480700001)(5660300002)(6666004)(1076003)(40460700003)(2906002)(4001150100001)(16526019)(83380400001)(2616005)(426003)(336012)(26005)(30864003)(356005)(82740400003)(86362001)(36860700001)(81166007)(47076005)(316002)(478600001)(36756003)(966005)(41300700001)(110136005)(54906003)(70586007)(70206006)(450100002)(8676002)(4326008)(8936002)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2023 19:12:17.7667
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: C6WbLtcKer5vJQVQZMZqDMNXJjYjS2e/lS3LB/BcZOwzUiSqS8LeQMStWg9qIwOEDGJa7ZX0DhDVtep1P5avPStJfCOxtLGmtFEE1Gxb9AY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8490
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 952998db-1234-42d0-48c1-08dbcf44faf7
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF0002BA50.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6549
 
-SGksDQoNCk9uZSBmaXJtYXJlIGZpbGUgd2FzIG1pc3NpbmcgZnJvbSB0aGUgcHVsbCByZXF1ZXN0
-IGZvciBjb3JlODAtMzkuDQpTZW5kIHRoZSBtaXNzaW5nIGZpbGUuDQoNClBsZWFzZSBwdWxsIG9y
-IGxldCBtZSBrbm93IGlmIHRoZXJlIGFyZSBhbnkgaXNzdWVzLg0KDQotLQ0KVGhhbmtzLA0KR3Jl
-Z29yeQ0KDQpUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2luY2UgY29tbWl0IDc3MjdmN2UzYjMzNTg3
-MTNjN2M5MWM2NGE4MzVlODBjMzMxYTZiOGI6DQoNCiAgTWVyZ2UgYnJhbmNoICdwYXRjaC0xNjk2
-NTYxMzI1JyBpbnRvICdtYWluJyAoMjAyMy0xMC0wNiAwMzowNDo1NyArMDAwMCkNCg0KYXJlIGF2
-YWlsYWJsZSBpbiB0aGUgR2l0IHJlcG9zaXRvcnkgYXQ6DQoNCiAgaHR0cDovL2dpdC5rZXJuZWwu
-b3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9pd2x3aWZpL2xpbnV4LWZpcm13YXJlLmdpdCB0
-YWdzL2l3bHdpZmktZnctMjAyMy0xMC0xMg0KDQpmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAg
-dG8gOTJlMjRlMDQ4MTM2ZDZlYmYyOWJkOWYzYWZhYmEwZjI0Zjg5OTdjZDoNCg0KICBpd2x3aWZp
-OiBhZGQgYSBtaXNzaW5nIEZXIGZyb20gY29yZTgwLTM5IHJlbGVhc2UgKDIwMjMtMTAtMTIgMTY6
-MjI6NTUgKzAzMDApDQoNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCml3bHdpZmkgZmlybXdhcmUgZm9yIFNvIHdpdGggSFIg
-cmFkaW8NCg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLQ0KR3JlZ29yeSBHcmVlbm1hbiAoMSk6DQogICAgICBpd2x3aWZpOiBh
-ZGQgYSBtaXNzaW5nIEZXIGZyb20gY29yZTgwLTM5IHJlbGVhc2UNCg0KIFdIRU5DRSAgICAgICAg
-ICAgICAgICAgICAgICAgfCAgIDMgKysrDQogaXdsd2lmaS1zby1hMC1oci1iMC04My51Y29kZSB8
-IEJpbiAwIC0+IDE1NTI0ODAgYnl0ZXMNCiAyIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygr
-KQ0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBpd2x3aWZpLXNvLWEwLWhyLWIwLTgzLnVjb2RlDQo=
+Hi,
+
+Updated amdgpu firmwares.  Please pull!
+
+The following changes since commit 2bbca647e4aeed3813ba7776d309c4525e0ad841:
+
+  amdgpu: update DMCUB to 0.0.183.0 for various AMDGPU ASICs (2023-09-08 22:30:18 +0800)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/firmware.git tags/amd-2023-10-17
+
+for you to fetch changes up to a3bcbbf2e5d13b49197ecd39ae47715515bf38c2:
+
+  amdgpu: update SMU 13.0.0 firmware (2023-10-17 09:31:52 -0400)
+
+----------------------------------------------------------------
+amd-2023-10-17:
+
+Update firmwares from 5.7 branch.
+
+----------------------------------------------------------------
+Alex Deucher (44):
+      amdgpu: update aldebaran firmware from 5.7 branch
+      amdgpu: update GC 11.0.3 firmware from 5.7 branch
+      amdgpu: update PSP 13.0.10 firmware from 5.7 branch
+      amdgpu: update SMU 13.0.10 firmware from 5.7 branch
+      amdgpu: update raven2 firmware from 5.7 branch
+      amdgpu: update navi10 firmware from 5.7 branch
+      amdgpu: update yellow carp firmware from 5.7 branch
+      amdgpu: update GC 11.0.2 firmware from 5.7 branch
+      amdgpu: update PSP 13.0.7 firmware from 5.7 branch
+      amdgpu: update SDMA 6.0.2 firmware from 5.7 branch
+      amdgpu: update SMU 13.0.7 firmware from 5.7 branch
+      amdgpu: update VCN 4.0.4 firmware from 5.7 branch
+      amdgpu: update navi12 firmware from 5.7 branch
+      amdgpu: update renoir firmware from 5.7 branch
+      amdgpu: update navi14 firmware from 5.7 branch
+      amdgpu: update GC 11.0.1 firmware from 5.7 branch
+      amdgpu: update PSP 13.0.4 firmware from 5.7 branch
+      amdgpu: update SDMA 6.0.1 firmware from 5.7 branch
+      amdgpu: update GC 11.0.4 firmware from 5.7 branch
+      amdgpu: update PSP 13.0.11 firmware from 5.7 branch
+      amdgpu: update sienna cichlid firmware from 5.7 branch
+      amdgpu: update green sardine firmware from 5.7 branch
+      amdgpu: update vangogh firmware from 5.7 branch
+      amdgpu: update navy flounder firmware from 5.7 branch
+      amdgpu: update picasso firmware from 5.7 branch
+      amdgpu: update dimgrey cavefish firmware from 5.7 branch
+      amdgpu: update vega10 firmware from 5.7 branch
+      amdgpu: update vega12 firmware from 5.7 branch
+      amdgpu: update beige goby firmware from 5.7 branch
+      amdgpu: update vega20 firmware from 5.7 branch
+      amdgpu: update GC 11.0.0 firmware from 5.7 branch
+      amdgpu: update PSP 13.0.0 firmware from 5.7 branch
+      amdgpu: update SDMA 6.0.0 firmware from 5.7 branch
+      amdgpu: update SMU 13.0.0 firmware from 5.7 branch
+      amdgpu: update VCN 4.0.0 firmware from 5.7 branch
+      amdgpu: update GC 10.3.6 firmware from 5.7 branch
+      amdgpu: update PSP 13.0.5 firmware from 5.7 branch
+      amdgpu: update SDMA 5.2.6 firmware from 5.7 branch
+      amdgpu: update DCN 3.1.6 firmware from 5.7 branch
+      amdgpu: update GC 10.3.7 firmware from 5.7 branch
+      amdgpu: update PSP 13.0.8 firmware from 5.7 branch
+      amdgpu: update SDMA 5.2.7 firmware from 5.7 branch
+      amdgpu: update raven firmware from 5.7 branch
+      amdgpu: update SMU 13.0.0 firmware
+
+ amdgpu/aldebaran_mec.bin         | Bin 268576 -> 268560 bytes
+ amdgpu/aldebaran_mec2.bin        | Bin 268576 -> 268560 bytes
+ amdgpu/aldebaran_sjt_mec.bin     | Bin 268576 -> 268560 bytes
+ amdgpu/aldebaran_sjt_mec2.bin    | Bin 268576 -> 268560 bytes
+ amdgpu/aldebaran_sos.bin         | Bin 442080 -> 442080 bytes
+ amdgpu/beige_goby_ce.bin         | Bin 263296 -> 263296 bytes
+ amdgpu/beige_goby_dmcub.bin      | Bin 112116 -> 113908 bytes
+ amdgpu/beige_goby_me.bin         | Bin 263424 -> 263424 bytes
+ amdgpu/beige_goby_mec.bin        | Bin 268720 -> 268720 bytes
+ amdgpu/beige_goby_mec2.bin       | Bin 268720 -> 268720 bytes
+ amdgpu/beige_goby_pfp.bin        | Bin 263424 -> 263424 bytes
+ amdgpu/beige_goby_smc.bin        | Bin 244934 -> 244934 bytes
+ amdgpu/beige_goby_sos.bin        | Bin 205984 -> 205984 bytes
+ amdgpu/beige_goby_ta.bin         | Bin 218368 -> 226560 bytes
+ amdgpu/beige_goby_vcn.bin        | Bin 579568 -> 579568 bytes
+ amdgpu/dcn_3_1_6_dmcub.bin       | Bin 215568 -> 215568 bytes
+ amdgpu/dimgrey_cavefish_ce.bin   | Bin 263296 -> 263296 bytes
+ amdgpu/dimgrey_cavefish_me.bin   | Bin 263424 -> 263424 bytes
+ amdgpu/dimgrey_cavefish_mec.bin  | Bin 268720 -> 268720 bytes
+ amdgpu/dimgrey_cavefish_mec2.bin | Bin 268720 -> 268720 bytes
+ amdgpu/dimgrey_cavefish_pfp.bin  | Bin 263424 -> 263424 bytes
+ amdgpu/dimgrey_cavefish_smc.bin  | Bin 244902 -> 244902 bytes
+ amdgpu/dimgrey_cavefish_sos.bin  | Bin 210416 -> 210416 bytes
+ amdgpu/dimgrey_cavefish_ta.bin   | Bin 218368 -> 226560 bytes
+ amdgpu/dimgrey_cavefish_vcn.bin  | Bin 579568 -> 579568 bytes
+ amdgpu/gc_10_3_6_rlc.bin         | Bin 177088 -> 177088 bytes
+ amdgpu/gc_10_3_7_rlc.bin         | Bin 177088 -> 177088 bytes
+ amdgpu/gc_11_0_0_imu.bin         | Bin 132352 -> 132352 bytes
+ amdgpu/gc_11_0_0_me.bin          | Bin 189520 -> 197216 bytes
+ amdgpu/gc_11_0_0_mec.bin         | Bin 407072 -> 407072 bytes
+ amdgpu/gc_11_0_0_mes_2.bin       | Bin 289280 -> 239136 bytes
+ amdgpu/gc_11_0_0_pfp.bin         | Bin 207984 -> 211104 bytes
+ amdgpu/gc_11_0_0_rlc.bin         | Bin 184992 -> 184992 bytes
+ amdgpu/gc_11_0_1_me.bin          | Bin 263424 -> 263424 bytes
+ amdgpu/gc_11_0_1_mec.bin         | Bin 268704 -> 268704 bytes
+ amdgpu/gc_11_0_1_mes_2.bin       | Bin 289152 -> 235072 bytes
+ amdgpu/gc_11_0_1_pfp.bin         | Bin 263424 -> 263424 bytes
+ amdgpu/gc_11_0_1_rlc.bin         | Bin 160592 -> 160592 bytes
+ amdgpu/gc_11_0_2_me.bin          | Bin 189552 -> 197216 bytes
+ amdgpu/gc_11_0_2_mec.bin         | Bin 407072 -> 407072 bytes
+ amdgpu/gc_11_0_2_mes_2.bin       | Bin 289408 -> 239136 bytes
+ amdgpu/gc_11_0_2_pfp.bin         | Bin 207984 -> 211088 bytes
+ amdgpu/gc_11_0_3_imu.bin         | Bin 132352 -> 132352 bytes
+ amdgpu/gc_11_0_3_me.bin          | Bin 197232 -> 197232 bytes
+ amdgpu/gc_11_0_3_mec.bin         | Bin 407072 -> 407072 bytes
+ amdgpu/gc_11_0_3_mes1.bin        | Bin 216768 -> 211792 bytes
+ amdgpu/gc_11_0_3_mes_2.bin       | Bin 235616 -> 239200 bytes
+ amdgpu/gc_11_0_3_pfp.bin         | Bin 211088 -> 211088 bytes
+ amdgpu/gc_11_0_3_rlc.bin         | Bin 178832 -> 178832 bytes
+ amdgpu/gc_11_0_4_me.bin          | Bin 263424 -> 263424 bytes
+ amdgpu/gc_11_0_4_mec.bin         | Bin 268704 -> 268704 bytes
+ amdgpu/gc_11_0_4_mes_2.bin       | Bin 289152 -> 234048 bytes
+ amdgpu/gc_11_0_4_pfp.bin         | Bin 263424 -> 263424 bytes
+ amdgpu/gc_11_0_4_rlc.bin         | Bin 159472 -> 158752 bytes
+ amdgpu/green_sardine_asd.bin     | Bin 172544 -> 180736 bytes
+ amdgpu/green_sardine_ce.bin      | Bin 36608 -> 36608 bytes
+ amdgpu/green_sardine_dmcub.bin   | Bin 121608 -> 121608 bytes
+ amdgpu/green_sardine_me.bin      | Bin 69376 -> 69376 bytes
+ amdgpu/green_sardine_mec.bin     | Bin 268048 -> 268048 bytes
+ amdgpu/green_sardine_mec2.bin    | Bin 268048 -> 268048 bytes
+ amdgpu/green_sardine_pfp.bin     | Bin 85760 -> 85760 bytes
+ amdgpu/green_sardine_ta.bin      | Bin 33536 -> 33536 bytes
+ amdgpu/green_sardine_vcn.bin     | Bin 402880 -> 403136 bytes
+ amdgpu/navi10_asd.bin            | Bin 172544 -> 180736 bytes
+ amdgpu/navi10_ta.bin             | Bin 33536 -> 33536 bytes
+ amdgpu/navi10_vcn.bin            | Bin 402112 -> 403136 bytes
+ amdgpu/navi12_asd.bin            | Bin 172544 -> 184832 bytes
+ amdgpu/navi12_ce.bin             | Bin 263296 -> 263296 bytes
+ amdgpu/navi12_me.bin             | Bin 263424 -> 263424 bytes
+ amdgpu/navi12_mec.bin            | Bin 268592 -> 268592 bytes
+ amdgpu/navi12_mec2.bin           | Bin 268592 -> 268592 bytes
+ amdgpu/navi12_pfp.bin            | Bin 263424 -> 263424 bytes
+ amdgpu/navi12_ta.bin             | Bin 33536 -> 33536 bytes
+ amdgpu/navi12_vcn.bin            | Bin 402112 -> 403136 bytes
+ amdgpu/navi14_asd.bin            | Bin 172544 -> 180736 bytes
+ amdgpu/navi14_ta.bin             | Bin 33536 -> 33536 bytes
+ amdgpu/navi14_vcn.bin            | Bin 402112 -> 403136 bytes
+ amdgpu/navy_flounder_ce.bin      | Bin 263296 -> 263296 bytes
+ amdgpu/navy_flounder_me.bin      | Bin 263424 -> 263424 bytes
+ amdgpu/navy_flounder_mec.bin     | Bin 268720 -> 268720 bytes
+ amdgpu/navy_flounder_mec2.bin    | Bin 268720 -> 268720 bytes
+ amdgpu/navy_flounder_pfp.bin     | Bin 263424 -> 263424 bytes
+ amdgpu/navy_flounder_smc.bin     | Bin 244902 -> 244902 bytes
+ amdgpu/navy_flounder_ta.bin      | Bin 218368 -> 226560 bytes
+ amdgpu/navy_flounder_vcn.bin     | Bin 579568 -> 579568 bytes
+ amdgpu/picasso_asd.bin           | Bin 172544 -> 180736 bytes
+ amdgpu/picasso_ce.bin            | Bin 9344 -> 9344 bytes
+ amdgpu/picasso_me.bin            | Bin 17536 -> 17536 bytes
+ amdgpu/picasso_mec.bin           | Bin 268064 -> 268064 bytes
+ amdgpu/picasso_mec2.bin          | Bin 268064 -> 268064 bytes
+ amdgpu/picasso_pfp.bin           | Bin 21632 -> 21632 bytes
+ amdgpu/picasso_ta.bin            | Bin 41984 -> 41984 bytes
+ amdgpu/psp_13_0_0_sos.bin        | Bin 268304 -> 268304 bytes
+ amdgpu/psp_13_0_0_ta.bin         | Bin 242944 -> 242944 bytes
+ amdgpu/psp_13_0_10_sos.bin       | Bin 355808 -> 355808 bytes
+ amdgpu/psp_13_0_11_ta.bin        | Bin 271808 -> 218560 bytes
+ amdgpu/psp_13_0_4_ta.bin         | Bin 271808 -> 218560 bytes
+ amdgpu/psp_13_0_5_asd.bin        | Bin 172544 -> 184832 bytes
+ amdgpu/psp_13_0_5_ta.bin         | Bin 205824 -> 218112 bytes
+ amdgpu/psp_13_0_7_sos.bin        | Bin 248496 -> 248496 bytes
+ amdgpu/psp_13_0_7_ta.bin         | Bin 218112 -> 218112 bytes
+ amdgpu/psp_13_0_8_ta.bin         | Bin 205824 -> 218112 bytes
+ amdgpu/raven2_asd.bin            | Bin 168448 -> 180736 bytes
+ amdgpu/raven2_ce.bin             | Bin 9344 -> 9344 bytes
+ amdgpu/raven2_me.bin             | Bin 17536 -> 17536 bytes
+ amdgpu/raven2_mec.bin            | Bin 268048 -> 268048 bytes
+ amdgpu/raven2_mec2.bin           | Bin 268048 -> 268048 bytes
+ amdgpu/raven2_pfp.bin            | Bin 21632 -> 21632 bytes
+ amdgpu/raven2_ta.bin             | Bin 33536 -> 33536 bytes
+ amdgpu/raven_asd.bin             | Bin 168448 -> 180736 bytes
+ amdgpu/raven_ce.bin              | Bin 9344 -> 9344 bytes
+ amdgpu/raven_me.bin              | Bin 17536 -> 17536 bytes
+ amdgpu/raven_mec.bin             | Bin 268048 -> 268064 bytes
+ amdgpu/raven_mec2.bin            | Bin 268048 -> 268064 bytes
+ amdgpu/raven_pfp.bin             | Bin 21632 -> 21632 bytes
+ amdgpu/raven_ta.bin              | Bin 33536 -> 33536 bytes
+ amdgpu/renoir_asd.bin            | Bin 172544 -> 180736 bytes
+ amdgpu/renoir_ce.bin             | Bin 9344 -> 9344 bytes
+ amdgpu/renoir_dmcub.bin          | Bin 121608 -> 121608 bytes
+ amdgpu/renoir_me.bin             | Bin 17536 -> 17536 bytes
+ amdgpu/renoir_mec.bin            | Bin 268064 -> 268048 bytes
+ amdgpu/renoir_mec2.bin           | Bin 268064 -> 268048 bytes
+ amdgpu/renoir_pfp.bin            | Bin 21632 -> 21632 bytes
+ amdgpu/renoir_ta.bin             | Bin 41984 -> 41984 bytes
+ amdgpu/renoir_vcn.bin            | Bin 402880 -> 403136 bytes
+ amdgpu/sdma_5_2_6.bin            | Bin 34048 -> 34048 bytes
+ amdgpu/sdma_5_2_7.bin            | Bin 34048 -> 34048 bytes
+ amdgpu/sdma_6_0_0.bin            | Bin 34560 -> 34560 bytes
+ amdgpu/sdma_6_0_1.bin            | Bin 34560 -> 34560 bytes
+ amdgpu/sdma_6_0_2.bin            | Bin 34560 -> 34560 bytes
+ amdgpu/sienna_cichlid_ce.bin     | Bin 263296 -> 263296 bytes
+ amdgpu/sienna_cichlid_me.bin     | Bin 263424 -> 263424 bytes
+ amdgpu/sienna_cichlid_mec.bin    | Bin 268720 -> 268720 bytes
+ amdgpu/sienna_cichlid_mec2.bin   | Bin 268720 -> 268720 bytes
+ amdgpu/sienna_cichlid_pfp.bin    | Bin 263424 -> 263424 bytes
+ amdgpu/sienna_cichlid_rlc.bin    | Bin 132960 -> 132960 bytes
+ amdgpu/sienna_cichlid_sos.bin    | Bin 227440 -> 227456 bytes
+ amdgpu/sienna_cichlid_ta.bin     | Bin 345856 -> 354048 bytes
+ amdgpu/sienna_cichlid_vcn.bin    | Bin 579568 -> 579568 bytes
+ amdgpu/smu_13_0_0.bin            | Bin 292452 -> 292452 bytes
+ amdgpu/smu_13_0_10.bin           | Bin 271520 -> 271520 bytes
+ amdgpu/smu_13_0_7.bin            | Bin 287080 -> 287080 bytes
+ amdgpu/vangogh_asd.bin           | Bin 172544 -> 184832 bytes
+ amdgpu/vangogh_ce.bin            | Bin 263296 -> 263296 bytes
+ amdgpu/vangogh_me.bin            | Bin 263424 -> 263424 bytes
+ amdgpu/vangogh_mec.bin           | Bin 268720 -> 268720 bytes
+ amdgpu/vangogh_mec2.bin          | Bin 268720 -> 268720 bytes
+ amdgpu/vangogh_pfp.bin           | Bin 263424 -> 263424 bytes
+ amdgpu/vcn_4_0_0.bin             | Bin 384336 -> 385232 bytes
+ amdgpu/vcn_4_0_4.bin             | Bin 379056 -> 385232 bytes
+ amdgpu/vega10_asd.bin            | Bin 172544 -> 180736 bytes
+ amdgpu/vega10_ce.bin             | Bin 9344 -> 9344 bytes
+ amdgpu/vega10_me.bin             | Bin 17536 -> 17536 bytes
+ amdgpu/vega10_mec.bin            | Bin 268064 -> 268048 bytes
+ amdgpu/vega10_mec2.bin           | Bin 268064 -> 268048 bytes
+ amdgpu/vega10_pfp.bin            | Bin 21632 -> 21632 bytes
+ amdgpu/vega12_asd.bin            | Bin 172544 -> 180736 bytes
+ amdgpu/vega12_ce.bin             | Bin 9344 -> 9344 bytes
+ amdgpu/vega12_me.bin             | Bin 17536 -> 17536 bytes
+ amdgpu/vega12_mec.bin            | Bin 268064 -> 268048 bytes
+ amdgpu/vega12_mec2.bin           | Bin 268064 -> 268048 bytes
+ amdgpu/vega12_pfp.bin            | Bin 21632 -> 21632 bytes
+ amdgpu/vega20_asd.bin            | Bin 172544 -> 180736 bytes
+ amdgpu/vega20_ce.bin             | Bin 9344 -> 9344 bytes
+ amdgpu/vega20_me.bin             | Bin 17536 -> 17536 bytes
+ amdgpu/vega20_mec.bin            | Bin 268064 -> 268048 bytes
+ amdgpu/vega20_mec2.bin           | Bin 268064 -> 268048 bytes
+ amdgpu/vega20_pfp.bin            | Bin 21632 -> 21632 bytes
+ amdgpu/yellow_carp_ce.bin        | Bin 263296 -> 263296 bytes
+ amdgpu/yellow_carp_me.bin        | Bin 263424 -> 263424 bytes
+ amdgpu/yellow_carp_mec.bin       | Bin 268720 -> 268720 bytes
+ amdgpu/yellow_carp_mec2.bin      | Bin 268720 -> 268720 bytes
+ amdgpu/yellow_carp_pfp.bin       | Bin 263424 -> 263424 bytes
+ amdgpu/yellow_carp_sdma.bin      | Bin 34048 -> 34048 bytes
+ amdgpu/yellow_carp_ta.bin        | Bin 205824 -> 218112 bytes
+ 175 files changed, 0 insertions(+), 0 deletions(-)
