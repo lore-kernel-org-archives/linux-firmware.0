@@ -1,89 +1,80 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=jNrl=GT=finmannzum.com=sales@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61F78C4332F
-	for <linux-firmware@archiver.kernel.org>; Mon,  6 Nov 2023 14:05:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2F7AFC4332F
+	for <linux-firmware@archiver.kernel.org>; Mon,  6 Nov 2023 20:09:36 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 28901C433C9; Mon,  6 Nov 2023 14:05:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13046C433C7
-	for <linux-firmware@kernel.org>; Mon,  6 Nov 2023 14:05:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699279522;
-	bh=M8vrZIHaEkMA18B8ToZfZOeZurdvC43xa12CCXw4pfE=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=jLjzMbAfwtVHWlFDaP1k01MRNo+Y+nM4QnRBsFo4NaBoiSeak+EIWBjp89rxgi4xd
-	 5JlCdOYkkU1xKgF3yl45ZSyA7j3Oh6Css0yYiA9/+q0rGQIFmsqXv6nApJbFiRQz1/
-	 yHIiMlKxF87GxMHcGoHvCGSm0xSDjhx/yWG0Ts6lI6evL2a2AvYKU2WPGrdiA3TbrW
-	 bBvFZfzyXsUbtry9OPA0v5tbj6LOEGO2s9tDDXsFmn+0d4Ay5QyP8MGXJS6ByddDm3
-	 aRsAB0CwSVU0g2Xcb+KqebC3pZvFfoZAewtR5RhD48JQvg3cBwgnM6uSDgsxZwKvAu
-	 Xsg48tfQg3Ebg==
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-59e88a28b98so38502337b3.1
-        for <linux-firmware@kernel.org>; Mon, 06 Nov 2023 06:05:22 -0800 (PST)
-X-Gm-Message-State: AOJu0YzHHs0beL2KnaMz9ODA9RIqNAU9UDv+7HEkcRoKsEfxU54wctBj
-	Wh13sHJrT01dn8Vim4+xelYG2SltQ6CaEnZr6OM=
-X-Google-Smtp-Source: AGHT+IHvLYrACicViT5CH5Hx5K83UteV6WL4r18u3Bse3A7+UYHMcgDgxnHUavjujwwDYpT5N1JblS/l0po27AjiMOg=
-X-Received: by 2002:a81:6c90:0:b0:5a7:af51:fa39 with SMTP id
- h138-20020a816c90000000b005a7af51fa39mr7013027ywc.8.1699279521212; Mon, 06
- Nov 2023 06:05:21 -0800 (PST)
-MIME-Version: 1.0
-References: <baed3fc347269c3dd34244f34946e09dff183825.camel@realtek.com>
-In-Reply-To: <baed3fc347269c3dd34244f34946e09dff183825.camel@realtek.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 6 Nov 2023 09:05:10 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA4GOdObcpt5e-MuZQuTX9OQQBVi+YHD8FhaWxJ_mbdyMA@mail.gmail.com>
-Message-ID: <CA+5PVA4GOdObcpt5e-MuZQuTX9OQQBVi+YHD8FhaWxJ_mbdyMA@mail.gmail.com>
-Subject: Re: pull request: rtw89: update 8851b/8852b fw to v0.29.41.3/v0.29.29.5
-To: Ping-Ke Shih <pkshih@realtek.com>
+	id E89A5C433C9; Mon,  6 Nov 2023 20:09:35 +0000 (UTC)
+Received: from mail0.finmannzum.com (mail0.finmannzum.com [192.236.146.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id E3523C433C7
+	for <linux-firmware@kernel.org>; Mon,  6 Nov 2023 20:09:34 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; dmarc=permerror header.from=finmannzum.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=finmannzum.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=default; d=finmannzum.com;
+ h=Reply-To:From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:
+ Content-Transfer-Encoding; i=sales@finmannzum.com;
+ bh=hMHp2LtAckIKirovLtJOXHoyBlKyXzmTfAZdqtJv+SA=;
+ b=CjX3aG63mA2RLBZVEUSw/xgISktjWoaix6Dr6k4o8y9KAuhUzSuANLXeffTRPOGrNTGV/HZHIR52
+   l6Lt2koYmZcSsTye0CwmT9sjHJ0hS0Oqa0hbTfWi7W0SGAvxcqOM/uUK0F/VarhI1SQ9qfdsC4BE
+   d26rT4sMcy4kZglhZWs=
+Reply-To: PhilipRoger101@mail.com
+From: sales@finmannzum.com
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, Timlee <timlee@realtek.com>
-Content-Type: text/plain; charset="UTF-8"
+To: linux-firmware@kernel.org
+Subject: Collaboration Opportunity
+Date: 06 Nov 2023 12:04:17 -0800
+Message-ID: <20231106120417.1D6348468D725B06@finmannzum.com>
+MIME-Version: 1.0
+Content-Type: text/plain;
+	charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 30, 2023 at 11:34=E2=80=AFPM Ping-Ke Shih <pkshih@realtek.com> =
-wrote:
->
-> Hi,
->
-> Update 8851b/8852b firmware of rtw89 driver to v0.29.41.3/v0.29.29.5.
-> This is mainly to fix BT-coexistence issue that causes BT works improperl=
-y
-> when WiFi enters power saving mode.
->
-> Thank you
-> Ping-Ke
->
-> ---
-> The following changes since commit 2b304bfecb274d53f38b676d85b43bcb83db30=
-dd:
->
->   Merge branch 'main' into 'main' (2023-10-30 11:20:13 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/pkshih/linux-firmware.git HEAD
->
-> for you to fetch changes up to 2afd1423e4765eb691711ea5e78a19853cb2f6eb:
->
->   rtw89: 8852b: update fw to v0.29.29.5 (2023-10-31 11:26:16 +0800)
+Good day,
+I'm glad we can connect here, I'm Philip Roger, a Research=20
+Assistant of the Research and Development Department working with=20
+Med Pharmaceutical Laboratories UK, One of the leading Bio=20
+Pharmaceutical Companies here in England.
+I'm looking for a reliable businessman/individual in your region=20
+to represent my company in sourcing some of our basic raw=20
+material used in the manufacturing of high quality Anti-Viral=20
+Vaccines, Cancer treatment and other life saving Pharmaceutical=20
+Products.
+This may not be your area of specialization but it will be=20
+another income generating business out of your specialty. This is=20
+because our company is yet to locate any seller to buy from,=20
+however, I have been able to discover a local dealer who can=20
+supply us with this product.
+He is selling at a cheap rate , which is far more cheaper than=20
+our previous purchases.
+Now THIS IS MY PROPOSAL TO YOU; I want you to stand in as a new=20
+local dealer from your country and I will introduce you to our=20
+company.
+The reason for this is because I don't want my company to have=20
+direct contact with the local agent that sells this herbal oil=20
+extract very cheaply.
+This will enable us to work together as partners and make real=20
+cool profits. You as the local seller will supply to our company=20
+at a good rate which I will inform you later when we are in=20
+agreement and This will attract the attention of our company=20
+director to buy from you as against the previous rate .
+You will be amazed with our total profit .
+I will give you more specific profit details when I receive=20
+feedback from you if you are interested.
 
-Merged and pushed out.
+Regards,=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+ Philip Roger=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20
+Executive Administrator.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/48
-
-josh
-
->
-> ----------------------------------------------------------------
-> Chin-Yen Lee (3):
->       rtw89: 8851b: update fw to v0.29.41.3
->       rtw89: 8852b: update fw to v0.29.29.4
->       rtw89: 8852b: update fw to v0.29.29.5
->
->  rtw89/rtw8851b_fw.bin   | Bin 1160984 -> 1162024 bytes
->  rtw89/rtw8852b_fw-1.bin | Bin 1237704 -> 1242808 bytes
->  2 files changed, 0 insertions(+), 0 deletions(-)
->
