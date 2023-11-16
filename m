@@ -1,242 +1,193 @@
-Return-Path: <SRS0=ULKT=G4=candelatech.com=greearb@kernel.org>
+Return-Path: <SRS0=WBVj=G5=intel.com=gregory.greenman@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47E7CC2BB3F
-	for <linux-firmware@archiver.kernel.org>; Wed, 15 Nov 2023 21:16:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2FE4C54FB9
+	for <linux-firmware@archiver.kernel.org>; Thu, 16 Nov 2023 10:26:22 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id EE533C433CB; Wed, 15 Nov 2023 21:16:22 +0000 (UTC)
-Received: from dispatch1-us1.ppe-hosted.com (dispatch1-us1.ppe-hosted.com [148.163.129.52])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id 81585C433C7; Thu, 16 Nov 2023 10:26:22 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 59415C433C7;
-	Wed, 15 Nov 2023 21:16:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 59415C433C7
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=candelatech.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=candelatech.com
-X-Virus-Scanned: Proofpoint Essentials engine
-Received: from mail3.candelatech.com (mail2.candelatech.com [208.74.158.173])
-	by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTP id 3638EB0006D;
-	Wed, 15 Nov 2023 21:16:12 +0000 (UTC)
-Received: from [192.168.100.159] (50-251-239-81-static.hfc.comcastbusiness.net [50.251.239.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail3.candelatech.com (Postfix) with ESMTPSA id 5E1B713C2B0;
-	Wed, 15 Nov 2023 13:16:09 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail3.candelatech.com 5E1B713C2B0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=candelatech.com;
-	s=default; t=1700082969;
-	bh=hmrHj2TZon78G5c3vDocP2sbUoiog8K/cpZF/vEv6EE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qvScktDO47uzFPvZNs3bGK2yLCJXY9HSnbRDTHKXzS4JnTDe6RItcGNGaqVLnmIWh
-	 kUx80mUx5CLr8W3LMglEf4dC4m+QEdacyWtxWHmsxGNirpy4dR0wgHsWEs3TkB/Mr5
-	 jwSWfguujxRSnz3iVSYqEJFQTeSKPrkMhIcF67SE=
-Message-ID: <16c7fe0c-19c0-4b9f-60dd-9a892a9390cd@candelatech.com>
-Date: Wed, 15 Nov 2023 13:16:06 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: iwlwifi firmware updates 2023-11-15-fixed
-Content-Language: en-US
+	by smtp.kernel.org (Postfix) with ESMTPS id 6E74AC433C8;
+	Thu, 16 Nov 2023 10:26:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 6E74AC433C8
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700130380; x=1731666380;
+  h=from:to:cc:subject:date:message-id:content-id:
+   content-transfer-encoding:mime-version;
+  bh=D2Bg2+gIovrdnKXwE62W8wmnQafBp+ONIzkTKVdV4ic=;
+  b=I7DkuRbfg/XlpzUZXf/IVGkYgM6eG3/fOId1w1h7Ams8vIsF+8BSxkxG
+   TtxYMhNURGHw1uUQOEcd2bmoUUv4IBM884r1zUjBJy6Hr3CmWD9CofWzm
+   NEiq0f0+fWkOXTkzcpnCYtlTF5X0psQJuVlwvCRI9VcLPJ1xFHaqCUm7e
+   bOI0qE2V3RJm3HLBopWUZCPsaF721TeCNsA/oYle0vUrc5mNfitsd+0tZ
+   D1c5GCgVSsQ80QWr4tufQXha2mJ2PPkSZXHN7TO2Eg8YYdl+qJyIWgUEE
+   hvIQCAgR3j1Jbb5/mL6WfqKWsxziLuoapbPbyNvWmo1BsKPLdFJUR52wz
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="389920811"
+X-IronPort-AV: E=Sophos;i="6.03,308,1694761200"; 
+   d="scan'208";a="389920811"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2023 02:26:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,308,1694761200"; 
+   d="scan'208";a="13077723"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 16 Nov 2023 02:26:19 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 16 Nov 2023 02:26:18 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 16 Nov 2023 02:26:18 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Thu, 16 Nov 2023 02:26:18 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Thu, 16 Nov 2023 02:26:18 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cX49Z3w7gElk+I9V+hBFnp+rkQQBVf3tnkiS7G81gTSrHFaIIJvF2Wz0tMbnB97IG4aX8AzM5NH6ZX+TeCW4oF6cYSsVh5OFf0hv/cpQYtAd0L1eVBBSjuKWtmKDg0R4t0oJVwxZbwkbRJll5N0V/VmOYD4vwMGtm0yfqQl/QywLR8XSLYU3zY7ASfFmWpUJyMSueXxxTYb/kiPvtKZKGqJzBxX2IH9wi/d9QnXOVsM44jvHy/3LdLG0MS4uVqgHJS04cVJFqb3OXSnBXl/U5dIsZAvczlKnkDasJFbJP31K4MwoNUKkyOfejo8tnFxq5F/prz5UnqWYQm/k8I2rwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D2Bg2+gIovrdnKXwE62W8wmnQafBp+ONIzkTKVdV4ic=;
+ b=kYz6NcOqVE1H/daWvj3ZAugxJ6rQtdmWIoHd8gqc4Rp/dPbbhdGmGy9xTHxvZsvcVZeogLWBTg7LbWq9p0Mf+foEvFppbLcrE7Qq8qA8CaNMbBLBUQtyzhngSEtLQzzYRXJ+G9W3Y4/D6ESFqpozLu6IgR8aata9gXMAlMn+KzfbB8O5Yvnq275wj8DaHdSo1ZkrTaFMa1JYwXPhWRUlBSxEhaQHAFTOAcYI0gueLM7OPb3jcMpK28HLEF3saNJzbso11bBXl6wSX8xVNsQWHWsYBRSVVrFQPqYQ/IVuuMk5pdtyALkSYgFPF4gHsBihxDsl61NqqFoyE8zor5pFCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MN0PR11MB5987.namprd11.prod.outlook.com (2603:10b6:208:372::8)
+ by MW4PR11MB7103.namprd11.prod.outlook.com (2603:10b6:303:225::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.18; Thu, 16 Nov
+ 2023 10:26:14 +0000
+Received: from MN0PR11MB5987.namprd11.prod.outlook.com
+ ([fe80::b045:b0aa:bae8:706]) by MN0PR11MB5987.namprd11.prod.outlook.com
+ ([fe80::b045:b0aa:bae8:706%6]) with mapi id 15.20.7002.019; Thu, 16 Nov 2023
+ 10:26:14 +0000
+From: "Greenman, Gregory" <gregory.greenman@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: "Greenman, Gregory" <gregory.greenman@intel.com>,
- "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-Cc: "jwboyer@kernel.org" <jwboyer@kernel.org>,
- "Yang, You-Sheng" <vicamo.yang@canonical.com>,
- "Hutchings, Ben" <ben@decadent.org.uk>,
- "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
- "Ben Ami, Golan" <golan.ben.ami@intel.com>,
- "Korenblit, Miriam Rachel" <miriam.rachel.korenblit@intel.com>,
- "Grumbach, Emmanuel" <emmanuel.grumbach@intel.com>,
- "kyle@infradead.org" <kyle@infradead.org>
-References: <a2cd0356c69d1e0c1f0489bad22ecab7b9e589a0.camel@intel.com>
-From: Ben Greear <greearb@candelatech.com>
-Organization: Candela Technologies
-In-Reply-To: <a2cd0356c69d1e0c1f0489bad22ecab7b9e589a0.camel@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MDID: 1700082973-ndlyPGdIirPK
-X-MDID-O:
- us5;ut7;1700082973;ndlyPGdIirPK;<greearb@candelatech.com>;c4cb9ae18b457cd2373b30bda2d9c03e
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+CC: "jwboyer@kernel.org" <jwboyer@kernel.org>, "Yang, You-Sheng"
+	<vicamo.yang@canonical.com>, "Hutchings, Ben" <ben@decadent.org.uk>,
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+	"Korenblit, Miriam Rachel" <miriam.rachel.korenblit@intel.com>, "Ben Ami,
+ Golan" <golan.ben.ami@intel.com>, "kyle@infradead.org" <kyle@infradead.org>,
+	"Grumbach, Emmanuel" <emmanuel.grumbach@intel.com>
+Subject: iwlwifi firmware updates 2023-11-16-fixed
+Thread-Topic: iwlwifi firmware updates 2023-11-16-fixed
+Thread-Index: AQHaGHdTlVpHcGYyJk2V+p0yvIfLuQ==
+Date: Thu, 16 Nov 2023 10:26:14 +0000
+Message-ID: <877cd7e05d187b48ec2615c7b4c1def200370eef.camel@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN0PR11MB5987:EE_|MW4PR11MB7103:EE_
+x-ms-office365-filtering-correlation-id: ca1d89a4-70ca-4001-935b-08dbe68e7629
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: rtNlZK0a+cfVwr0xfUMGaP1eZZQ/gS90Hi0hoQqx1/+nDeKKe6sn0IWG7BKW4E7lnxAcisj2qdvW4IgEx9fbRpj6SaS9qXgBsva9SWi8chIAEiGl0xONnV1vwui6ZnOvAs7bjJ6WfFmEVhSeKgDuB4apR/ggdD+oQvoo+4HV5lJJ2R/6mEKtTGt8RVb1zbulvd7qbND/DBDq7IOiXn+SNVpnfzw0rsh1d/5dCafTLw7IcjFChZb/JRvE+ZMfa3v0yzr49/V8ZpmjEq6RCTKKQoN3DJXibe4Kph95TF/2oa0D1rMnWXZIoUkENf4s7Eq5czlEKtAsr6ArUiBvdi3CFHyoGXhKMG75N/mNvHHFVedvZWqdn3q5G/lORdTATRU5yVjVKc0YKYB8bKHXyVz0j/JUd+X03KZd25CH/HFUYBNkfNh4mPKenbzqKoJKHqM/ypwmMWctt/HYgW5D2XzxzIUXOUlzW5dklHc5hMjjlQ0cn4aE7HN9g0iDBSWMnidBthXhV6Nh3vPGRGjbZRdoB1ax7DCchFPWS8yln7NkJGwZrIH6HCNJBNA095dDPLQuB2V9rGxj0aG/ssSiMykU3bxImHPC9GZ4Ms44zd1E9p8=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB5987.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(136003)(376002)(39860400002)(366004)(396003)(230922051799003)(1800799009)(451199024)(64100799003)(186009)(6486002)(966005)(478600001)(2906002)(6506007)(6512007)(4001150100001)(2616005)(91956017)(71200400001)(86362001)(5660300002)(316002)(6916009)(64756008)(76116006)(66476007)(4326008)(66446008)(66556008)(66946007)(8936002)(8676002)(54906003)(38100700002)(38070700009)(83380400001)(41300700001)(26005)(82960400001)(107886003)(36756003)(122000001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QTZ6MkZoUzVmaXJ2U1ZtaWhFMUE0OWlwK2I5Sm15RlF1M2NTbzFLbkZPRUtR?=
+ =?utf-8?B?SklNUEw4dUUxZDErZklDWklYdnVVenZNK0p3SE41NEpuWWZkamQ0VWNENk9v?=
+ =?utf-8?B?ME1ScFVjazM2LzNnbm50S0JTcERRQ0FxUmNTQmI4Ym1nNlJDemVwU081bGJ5?=
+ =?utf-8?B?L0Z2NWZmbDRuNTQvU3UwSFFkMGFwWlBzVndtbnVyOTFSdVlYOGpXbFkvV2RY?=
+ =?utf-8?B?VW13eGUwek13QWJYQ3hYRnZBdzJWd1lKVExRMVNvRkxvUnRmMTJFTzRET2g3?=
+ =?utf-8?B?eWJVeDJKVDdDKzRoTXVrVDdnV3JYdGdvRlFRdUs5YXpyTXV3UHhmYjc4THJp?=
+ =?utf-8?B?eSsyR0NsUmM3WmpCUXU5WWE5S2ppSTdHUE15b0VNRmNmcUdBMEhWZGx1SDhn?=
+ =?utf-8?B?UHJVcVcrZGUrKzczK2ZuWVFnMnZNV2xXMUtObnBlTVAvU29DNy8zZTlaWVhR?=
+ =?utf-8?B?Vy94cHkwOUJiWEo2K1djQnhjSW1JYUs4enB0ZWtadzN6TCsvZHNWZzJ1VTlm?=
+ =?utf-8?B?RzJWUVhvbUVqd05oRExnS09WK002TGRrU012U0ExWjlZT1JMWmhIQzFqaHhM?=
+ =?utf-8?B?c25Ja2hDK25BNWkvNVJvK1EyQTE0d3Rtc3d6ME1jeWV0cVBDNGNRK2Z5MjVh?=
+ =?utf-8?B?SUx4aTB6UTFESExSeW0xaUtvczZ3aWkwOENremJQRXBMS2VDTjJqR0Z2eDhJ?=
+ =?utf-8?B?T25vcENLRXN3Q2pEb3RhNGt1bk5meStjNjM5TzBmeklObXRSMkxqUFg2Vldj?=
+ =?utf-8?B?TzM0RzNZKzYrZWc0UkovdWFYRjVWR2Nob1dwWGJIY3paN3R2Z3dOUjhiWENF?=
+ =?utf-8?B?V0pNV1luVC9zOU5WZ2E0a25VdU8veVRwbjdHTnk0cXJocXMxeFJaRGlBakFG?=
+ =?utf-8?B?dDVlWG5yalkyVTFkWitoUXRwcmhJS1lCdlFBdVhMc3ZYWThVNFNpLytYNXFB?=
+ =?utf-8?B?MUFKWVNwYndrbmhPQnh3Rmhxd1RvdTNKTEdEYjdJWFlnc2xVQ0R1NklzQlhl?=
+ =?utf-8?B?ejNCa3RqTzhub1FKSnVLRGJqUHM3WHFPdE5ZQU5LUFNESEs0dFNIODc4MmFB?=
+ =?utf-8?B?M3ZVajYvNzN0ZVFxeXVZVHRDZWRpZjd3Q0JTTmsvOVRMSW8vZzQxNFRoZk0r?=
+ =?utf-8?B?YWVwTVQybVVUSVMvNWdFalBFdFpmQ2s5VDVwUmRzQ29OQURLbktaVDljUDdm?=
+ =?utf-8?B?dWtGdkFuWnd5M0xUTEJuRklsVUhQOG9renRHeU5BaFBnVEV3V0hRblBjYjht?=
+ =?utf-8?B?M1k5YkM4MktMSURBNU1Nem9PUFFhc1NBaUVKUU4xM0l5V0Y2dWsvUFpsUFJI?=
+ =?utf-8?B?bzNJMm9mdUZ6cS9JdWliSTIwMis2T1NzOW5KUFZFa3VqcEx6am8rSm9FTDlP?=
+ =?utf-8?B?aE1HMiswQklmUzJnWjdPeU1aUDUrZmEzdmxQN2dwcEl5Y2cvcGZrV2Zjc3hV?=
+ =?utf-8?B?VklrbVRiWGY0UkhXUXB2dFZIbEkxMXdrZlBoNitSRlExdHIveStUdjBkUVk1?=
+ =?utf-8?B?VTBBRDB4UFJTelZPMmV6NVFjWXNsejNDdGUvOGgzbFZjZU5ZUDJ6UHgzUmZy?=
+ =?utf-8?B?WXBhbmpXa1pCVE82UmV5S0hUcUZVeE1wWlNpcE9mbTg5ZkxKVkdob2RzV2gv?=
+ =?utf-8?B?VlRhSlVLSGFLbnJ5SmhhTkFONkRmbkxwSFByd0h5Y25KWmNmNlkxVFZOWER5?=
+ =?utf-8?B?VHB1U0VWSTZPNlBxc21sK0dJTWJzZXYwK05FN3VRSjV2Nk9kN0hkcGJYV2I0?=
+ =?utf-8?B?Tno2NHh0VzZXc0creFVFYms2Zi9hUGRoY2F0d3hXNkhEZ0EyeDZtM2dNbFJu?=
+ =?utf-8?B?NWNVcjgrdzR5bG1vTSs2VGU0cEE0OFE3WWlLM3UwMXBicU9EUFdMWm9IeHZq?=
+ =?utf-8?B?L0Q2Y3orMkNJNGJvc0JTOHl0MytsM1I1T2NFZlJKOU5MNk1uYzRCUEN2aWFv?=
+ =?utf-8?B?MnR2L3NycW41ZkJncHNLNzAyZC9VWFlVQXFPYjBVeGt1ZCtHVzdha3FvWExj?=
+ =?utf-8?B?VUlyOHdsWEtyM05zS2Z0VEgzb29rVnJWRVcwdXpGUnhJdlVYakRqZHFqd1VY?=
+ =?utf-8?B?R1d6ODhVTk9GVW1EVnNvTFdBTjNnOHRXSUxYVDJFOWM4d1FHK0hZUWFWcnhN?=
+ =?utf-8?B?QkdaRzM0dTVoNkpYaitrVVhqVFhMOXJwZFpmdGRIdUpWWkRYTGk2Q3FuKy9t?=
+ =?utf-8?Q?0+QiFwzQ2Bx2LbQq0j6m13E=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <F3561BCD7503014B92799358096CE666@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB5987.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ca1d89a4-70ca-4001-935b-08dbe68e7629
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Nov 2023 10:26:14.5030
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: nrlO8BuwgwQyjmp4n6hEzRhFbdDK7iPuBMXCwSlgZdPYKUIVFi+UuGqelSYd9Jf34HvjLryj1XkmNkjtCY1/kDAG0W/Og8sLvfuvgjBw3kM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB7103
+X-OriginatorOrg: intel.com
 
-Hello Gregory,
-
-Still won't load for me:
-
-# md5sum /lib/firmware/iwlwifi-gl-c0-fm-c0-86.ucode
-7809461c1cb181003f5844937e7aa3fc  /lib/firmware/iwlwifi-gl-c0-fm-c0-86.ucode
-
-
-[  176.219456] iwlwifi 0000:2a:00.0: Loaded firmware version: 86.fb5c9aeb.0 gl-c0-fm-c0-86.ucode
-[  176.226745] iwlwifi 0000:2a:00.0: 0x00000071 | NMI_INTERRUPT_UMAC_FATAL
-[  176.232437] iwlwifi 0000:2a:00.0: 0x000002F0 | trm_hw_status0
-[  176.236904] iwlwifi 0000:2a:00.0: 0x00000000 | trm_hw_status1
-[  176.241377] iwlwifi 0000:2a:00.0: 0x002C3FDA | branchlink2
-[  176.245586] iwlwifi 0000:2a:00.0: 0x002B8B86 | interruptlink1
-[  176.250053] iwlwifi 0000:2a:00.0: 0x002B8B86 | interruptlink2
-[  176.254522] iwlwifi 0000:2a:00.0: 0x002A5A70 | data1
-[  176.258204] iwlwifi 0000:2a:00.0: 0x00000010 | data2
-[  176.261888] iwlwifi 0000:2a:00.0: 0x00000000 | data3
-[  176.265572] iwlwifi 0000:2a:00.0: 0x00000000 | beacon time
-[  176.269788] iwlwifi 0000:2a:00.0: 0x000164F6 | tsf low
-[  176.273649] iwlwifi 0000:2a:00.0: 0x00000000 | tsf hi
-[  176.277417] iwlwifi 0000:2a:00.0: 0x00000000 | time gp1
-[  176.281363] iwlwifi 0000:2a:00.0: 0x0004051E | time gp2
-[  176.285306] iwlwifi 0000:2a:00.0: 0x00000001 | uCode revision type
-[  176.290219] iwlwifi 0000:2a:00.0: 0x00000056 | uCode version major
-[  176.295126] iwlwifi 0000:2a:00.0: 0xFB5C9AEB | uCode version minor
-[  176.300033] iwlwifi 0000:2a:00.0: 0x00000472 | hw version
-[  176.304158] iwlwifi 0000:2a:00.0: 0x18C80002 | board version
-[  176.308540] iwlwifi 0000:2a:00.0: 0x8001FF03 | hcmd
-[  176.312141] iwlwifi 0000:2a:00.0: 0x00020000 | isr0
-[  176.315745] iwlwifi 0000:2a:00.0: 0x20000000 | isr1
-[  176.319347] iwlwifi 0000:2a:00.0: 0x58F80002 | isr2
-[  176.322942] iwlwifi 0000:2a:00.0: 0x00C0001C | isr3
-[  176.326544] iwlwifi 0000:2a:00.0: 0x02000000 | isr4
-[  176.330145] iwlwifi 0000:2a:00.0: 0x00000000 | last cmd Id
-[  176.334355] iwlwifi 0000:2a:00.0: 0x002A5A70 | wait_event
-[  176.338476] iwlwifi 0000:2a:00.0: 0x10000414 | l2p_control
-[  176.342679] iwlwifi 0000:2a:00.0: 0x00000000 | l2p_duration
-[  176.346967] iwlwifi 0000:2a:00.0: 0x00000000 | l2p_mhvalid
-[  176.351178] iwlwifi 0000:2a:00.0: 0x00000000 | l2p_addr_match
-[  176.355842] iwlwifi 0000:2a:00.0: 0x0000000B | lmpm_pmg_sel
-[  176.360310] iwlwifi 0000:2a:00.0: 0x00000000 | timestamp
-[  176.364518] iwlwifi 0000:2a:00.0: 0x00000020 | flow_handler
-[  176.368933] iwlwifi 0000:2a:00.0: Start IWL Error Log Dump:
-[  176.373229] iwlwifi 0000:2a:00.0: Transport status: 0x00000042, valid: 7
-[  176.378665] iwlwifi 0000:2a:00.0: 0x201000B6 | ADVANCED_SYSASSERT
-[  176.383489] iwlwifi 0000:2a:00.0: 0x00000000 | umac branchlink1
-[  176.388130] iwlwifi 0000:2a:00.0: 0xC00809B8 | umac branchlink2
-[  176.392774] iwlwifi 0000:2a:00.0: 0x8026FB40 | umac interruptlink1
-[  176.397668] iwlwifi 0000:2a:00.0: 0x010293A0 | umac interruptlink2
-[  176.402581] iwlwifi 0000:2a:00.0: 0x00000009 | umac data1
-[  176.406704] iwlwifi 0000:2a:00.0: 0xDEADBEEF | umac data2
-[  176.410826] iwlwifi 0000:2a:00.0: 0xDEADBEEF | umac data3
-[  176.414941] iwlwifi 0000:2a:00.0: 0x00000056 | umac major
-[  176.419059] iwlwifi 0000:2a:00.0: 0xFB5C9AEB | umac minor
-[  176.423178] iwlwifi 0000:2a:00.0: 0x00040511 | frame pointer
-[  176.427560] iwlwifi 0000:2a:00.0: 0xD00D6B10 | stack pointer
-[  176.431936] iwlwifi 0000:2a:00.0: 0x00000000 | last host cmd
-[  176.436315] iwlwifi 0000:2a:00.0: 0x00000000 | isr status reg
-[  176.440940] iwlwifi 0000:2a:00.0: TCM1 status:
-[  176.444103] iwlwifi 0000:2a:00.0: 0x00000070 | error ID
-[  176.448049] iwlwifi 0000:2a:00.0: 0x000019C2 | tcm branchlink2
-[  176.452599] iwlwifi 0000:2a:00.0: 0x00001DB8 | tcm interruptlink1
-[  176.457411] iwlwifi 0000:2a:00.0: 0x00001DB8 | tcm interruptlink2
-[  176.462228] iwlwifi 0000:2a:00.0: 0x40000000 | tcm data1
-[  176.466259] iwlwifi 0000:2a:00.0: 0xDEADBEEF | tcm data2
-[  176.470298] iwlwifi 0000:2a:00.0: 0xDEADBEEF | tcm data3
-[  176.474325] iwlwifi 0000:2a:00.0: 0x00001A20 | tcm log PC
-[  176.478489] iwlwifi 0000:2a:00.0: 0x00803FF0 | tcm frame pointer
-[  176.483224] iwlwifi 0000:2a:00.0: 0x00803F4C | tcm stack pointer
-[  176.488221] iwlwifi 0000:2a:00.0: 0x00000000 | tcm msg ID
-[  176.492404] iwlwifi 0000:2a:00.0: 0x40000000 | tcm ISR status
-[  176.496898] iwlwifi 0000:2a:00.0: 0x000002F0 | tcm HW status[0]
-[  176.501608] iwlwifi 0000:2a:00.0: 0x00000000 | tcm HW status[1]
-[  176.506431] iwlwifi 0000:2a:00.0: 0x00000000 | tcm HW status[2]
-[  176.511174] iwlwifi 0000:2a:00.0: 0x00008000 | tcm HW status[3]
-[  176.515822] iwlwifi 0000:2a:00.0: 0x00000000 | tcm HW status[4]
-[  176.520461] iwlwifi 0000:2a:00.0: 0x00000000 | tcm SW status[0]
-[  176.525268] iwlwifi 0000:2a:00.0: RCM1 status:
-[  176.528439] iwlwifi 0000:2a:00.0: 0x00000070 | error ID
-[  176.532386] iwlwifi 0000:2a:00.0: 0x00001CFA | rcm branchlink2
-[  176.536946] iwlwifi 0000:2a:00.0: 0x000022D8 | rcm interruptlink1
-[  176.541763] iwlwifi 0000:2a:00.0: 0x000022D8 | rcm interruptlink2
-[  176.546583] iwlwifi 0000:2a:00.0: 0x20000000 | rcm data1
-[  176.550627] iwlwifi 0000:2a:00.0: 0xDEADBEEF | rcm data2
-[  176.554665] iwlwifi 0000:2a:00.0: 0xDEADBEEF | rcm data3
-[  176.558702] iwlwifi 0000:2a:00.0: 0x00001D5C | rcm log PC
-[  176.562824] iwlwifi 0000:2a:00.0: 0x00803FF0 | rcm frame pointer
-[  176.567553] iwlwifi 0000:2a:00.0: 0x00803F4C | rcm stack pointer
-[  176.572281] iwlwifi 0000:2a:00.0: 0x00000000 | rcm msg ID
-[  176.576402] iwlwifi 0000:2a:00.0: 0x20000000 | rcm ISR status
-[  176.580867] iwlwifi 0000:2a:00.0: 0x00420500 | frame HW status
-[  176.585428] iwlwifi 0000:2a:00.0: 0x00000000 | LMAC-to-RCM request mbox
-[  176.590785] iwlwifi 0000:2a:00.0: 0x00000000 | RCM-to-LMAC request mbox
-[  176.596125] iwlwifi 0000:2a:00.0: 0x00000000 | MAC header control
-[  176.600943] iwlwifi 0000:2a:00.0: 0x00000000 | MAC header addr1 low
-[  176.605934] iwlwifi 0000:2a:00.0: 0x003C0000 | MAC header info
-[  176.610487] iwlwifi 0000:2a:00.0: 0x00000000 | MAC header error
-[  176.615548] iwlwifi 0000:2a:00.0: TCM2 status:
-[  176.618842] iwlwifi 0000:2a:00.0: 0x00000070 | error ID
-[  176.622854] iwlwifi 0000:2a:00.0: 0x000019C2 | tcm branchlink2
-[  176.627590] iwlwifi 0000:2a:00.0: 0x00001DB8 | tcm interruptlink1
-[  176.632473] iwlwifi 0000:2a:00.0: 0x00001DB8 | tcm interruptlink2
-[  176.637321] iwlwifi 0000:2a:00.0: 0x40000000 | tcm data1
-[  176.641506] iwlwifi 0000:2a:00.0: 0xDEADBEEF | tcm data2
-[  176.645607] iwlwifi 0000:2a:00.0: 0xDEADBEEF | tcm data3
-[  176.649809] iwlwifi 0000:2a:00.0: 0x00001A20 | tcm log PC
-[  176.654041] iwlwifi 0000:2a:00.0: 0x00803FF0 | tcm frame pointer
-[  176.658944] iwlwifi 0000:2a:00.0: 0x00803F4C | tcm stack pointer
-[  176.663845] iwlwifi 0000:2a:00.0: 0x00000000 | tcm msg ID
-[  176.668134] iwlwifi 0000:2a:00.0: 0x40000000 | tcm ISR status
-[  176.672607] iwlwifi 0000:2a:00.0: 0x000002F0 | tcm HW status[0]
-[  176.677252] iwlwifi 0000:2a:00.0: 0x00000000 | tcm HW status[1]
-[  176.681896] iwlwifi 0000:2a:00.0: 0x00000000 | tcm HW status[2]
-[  176.686544] iwlwifi 0000:2a:00.0: 0x00008000 | tcm HW status[3]
-[  176.691187] iwlwifi 0000:2a:00.0: 0x00000000 | tcm HW status[4]
-[  176.695851] iwlwifi 0000:2a:00.0: 0x00000000 | tcm SW status[0]
-[  176.700660] iwlwifi 0000:2a:00.0: RCM2 status:
-[  176.703832] iwlwifi 0000:2a:00.0: 0x00000070 | error ID
-[  176.707782] iwlwifi 0000:2a:00.0: 0x00001CFA | rcm branchlink2
-[  176.712333] iwlwifi 0000:2a:00.0: 0x000022D8 | rcm interruptlink1
-[  176.717154] iwlwifi 0000:2a:00.0: 0x000022D8 | rcm interruptlink2
-[  176.721988] iwlwifi 0000:2a:00.0: 0x20000000 | rcm data1
-[  176.726028] iwlwifi 0000:2a:00.0: 0xDEADBEEF | rcm data2
-[  176.730067] iwlwifi 0000:2a:00.0: 0xDEADBEEF | rcm data3
-[  176.734104] iwlwifi 0000:2a:00.0: 0x00001D5C | rcm log PC
-[  176.738226] iwlwifi 0000:2a:00.0: 0x00803FF0 | rcm frame pointer
-[  176.742954] iwlwifi 0000:2a:00.0: 0x00803F4C | rcm stack pointer
-[  176.747692] iwlwifi 0000:2a:00.0: 0x00000000 | rcm msg ID
-[  176.751820] iwlwifi 0000:2a:00.0: 0x20000000 | rcm ISR status
-[  176.756290] iwlwifi 0000:2a:00.0: 0x00420500 | frame HW status
-[  176.760848] iwlwifi 0000:2a:00.0: 0x00000000 | LMAC-to-RCM request mbox
-[  176.766180] iwlwifi 0000:2a:00.0: 0x00000000 | RCM-to-LMAC request mbox
-[  176.771519] iwlwifi 0000:2a:00.0: 0x00000000 | MAC header control
-[  176.776336] iwlwifi 0000:2a:00.0: 0x00000000 | MAC header addr1 low
-[  176.781331] iwlwifi 0000:2a:00.0: 0x003C0000 | MAC header info
-[  176.785888] iwlwifi 0000:2a:00.0: 0x00000000 | MAC header error
-[  176.790585] iwlwifi 0000:2a:00.0: IML/ROM dump:
-[  176.793841] iwlwifi 0000:2a:00.0: 0x00000B03 | IML/ROM error/state
-[  176.798815] iwlwifi 0000:2a:00.0: 0x0000EE6C | IML/ROM data1
-[  176.803254] iwlwifi 0000:2a:00.0: 0x00000080 | IML/ROM WFPM_AUTH_KEY_0
-[  176.808548] iwlwifi 0000:2a:00.0: Fseq Registers:
-[  176.812013] iwlwifi 0000:2a:00.0: 0x66A00000 | FSEQ_ERROR_CODE
-[  176.816608] iwlwifi 0000:2a:00.0: 0x80B00004 | FSEQ_TOP_INIT_VERSION
-[  176.821721] iwlwifi 0000:2a:00.0: 0x00550000 | FSEQ_CNVIO_INIT_VERSION
-[  176.827007] iwlwifi 0000:2a:00.0: 0x0000AA14 | FSEQ_OTP_VERSION
-[  176.831692] iwlwifi 0000:2a:00.0: 0x0000000F | FSEQ_TOP_CONTENT_VERSION
-[  176.837065] iwlwifi 0000:2a:00.0: 0x4552414E | FSEQ_ALIVE_TOKEN
-[  176.841746] iwlwifi 0000:2a:00.0: 0x02001910 | FSEQ_CNVI_ID
-[  176.846080] iwlwifi 0000:2a:00.0: 0x02001910 | FSEQ_CNVR_ID
-[  176.850413] iwlwifi 0000:2a:00.0: 0x02001910 | CNVI_AUX_MISC_CHIP
-[  176.855270] iwlwifi 0000:2a:00.0: 0x02001910 | CNVR_AUX_MISC_CHIP
-[  176.860124] iwlwifi 0000:2a:00.0: 0x00001BE5 | CNVR_SCU_SD_REGS_SD_REG_DIG_DCDC_VTRIM
-[  176.866723] iwlwifi 0000:2a:00.0: 0x00000000 | CNVR_SCU_SD_REGS_SD_REG_ACTIVE_VDIG_MIRROR
-[  176.873672] iwlwifi 0000:2a:00.0: 0x00550000 | FSEQ_PREV_CNVIO_INIT_VERSION
-[  176.879393] iwlwifi 0000:2a:00.0: 0x00B00004 | FSEQ_WIFI_FSEQ_VERSION
-[  176.884598] iwlwifi 0000:2a:00.0: 0xFF12475A | FSEQ_BT_FSEQ_VERSION
-[  176.889619] iwlwifi 0000:2a:00.0: 0x000000BF | FSEQ_CLASS_TP_VERSION
-[  176.894802] iwlwifi 0000:2a:00.0: UMAC CURRENT PC: 0x8026b3aa
-[  176.899310] iwlwifi 0000:2a:00.0: LMAC1 CURRENT PC: 0xd0
-[  176.903396] iwlwifi 0000:2a:00.0: LMAC2 CURRENT PC: 0xd0
-[  176.907465] iwlwifi 0000:2a:00.0: UMAC CURRENT PC 1: 0x8026b3a8
-[  176.912148] iwlwifi 0000:2a:00.0: TCM1 CURRENT PC: 0xd0
-[  176.916134] iwlwifi 0000:2a:00.0: RCM1 CURRENT PC: 0xd0
-[  176.920121] iwlwifi 0000:2a:00.0: RCM2 CURRENT PC: 0xd0
-[  176.924352] iwlwifi 0000:2a:00.0: Function Scratch status:
-[  176.928742] iwlwifi 0000:2a:00.0: 0x01010101 | Func Scratch
-[  176.995430] iwlwifi 0000:2a:00.0: Failed to run INIT ucode: -110
-[  177.048087] iwlwifi 0000:2a:00.0: retry init count 2
-
-Thanks,
-Ben
-
--- 
-Ben Greear <greearb@candelatech.com>
-Candela Technologies Inc  http://www.candelatech.com
-
-
+SGksDQoNClRoaXMgY29udGFpbnMgYSBzZWNvbmQgZml4IGZvciBjb3JlODMtNTUgZmlybXdhcmUg
+d2hpY2ggaGFkIGEgc2lnbmluZyBpc3N1ZS4NCkl0IHNob3VsZCBiZSB3b3JraW5nIHRoaXMgdGlt
+ZSwgc29ycnkgZm9yIHRoZSBtZXNzLg0KDQpQbGVhc2UgcHVsbCBvciBsZXQgbWUga25vdyBpZiB0
+aGVyZSBhcmUgYW55IGlzc3Vlcy4NCg0KVGhhbmtzLA0KR3JlZ29yeQ0KDQoNClRoZSBmb2xsb3dp
+bmcgY2hhbmdlcyBzaW5jZSBjb21taXQgMTI0YjY2Mzk2YWM3YTZkY2U3MjRkMDRhYzdiM2JjZWYx
+ZGIxZDU1MToNCg0KICBNZXJnZSBicmFuY2ggJ3JvYm90L3ByLTAtMTcwMDA2ODk2NScgaW50byAn
+bWFpbicgKDIwMjMtMTEtMTUgMTc6MjQ6NDYgKzAwMDApDQoNCmFyZSBhdmFpbGFibGUgaW4gdGhl
+IEdpdCByZXBvc2l0b3J5IGF0Og0KDQogIGh0dHA6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xp
+bnV4L2tlcm5lbC9naXQvaXdsd2lmaS9saW51eC1maXJtd2FyZS5naXQgdGFncy9pd2x3aWZpLWZ3
+LTIwMjMtMTEtMTYtZml4ZWQNCg0KZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRvIGYyN2Rl
+YzYxNmUyOWU0NGNkOTA2NDU5MjZjMTQ1OTYzOWQxMTJjM2Q6DQoNCiAgaXdsd2lmaTogZml4IGZv
+ciB0aGUgbmV3IEZXcyBmcm9tIGNvcmU4My01NSByZWxlYXNlICgyMDIzLTExLTE2IDEyOjE1OjUz
+ICswMjAwKQ0KDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tDQpGaXhlZCBmaXJtd2FyZSBhbmQgUE5WTSBzaWduYXR1cmVzDQoN
+Ci0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0NCkdyZWdvcnkgR3JlZW5tYW4gKDEpOg0KICAgICAgaXdsd2lmaTogZml4IGZvciB0
+aGUgbmV3IEZXcyBmcm9tIGNvcmU4My01NSByZWxlYXNlDQoNCiBpd2x3aWZpLWdsLWMwLWZtLWMw
+LTg2LnVjb2RlICB8IEJpbiAxODQwMTE2IC0+IDE4NDAxMTYgYnl0ZXMNCiBpd2x3aWZpLWdsLWMw
+LWZtLWMwLnBudm0gICAgICB8IEJpbiAyMjY2NjggLT4gMjI2NjY4IGJ5dGVzDQogaXdsd2lmaS1t
+YS1iMC1nZi1hMC04Ni51Y29kZSAgfCBCaW4gMTY5NTc4OCAtPiAxNjk1Nzg4IGJ5dGVzDQogaXds
+d2lmaS1tYS1iMC1nZi1hMC5wbnZtICAgICAgfCBCaW4gNTUwOTIgLT4gNTUwOTIgYnl0ZXMNCiBp
+d2x3aWZpLW1hLWIwLWdmNC1hMC04Ni51Y29kZSB8IEJpbiAxNjcwOTQwIC0+IDE2NzA5NDAgYnl0
+ZXMNCiBpd2x3aWZpLW1hLWIwLWdmNC1hMC5wbnZtICAgICB8IEJpbiAyNzgyMCAtPiAyNzgyMCBi
+eXRlcw0KIGl3bHdpZmktbWEtYjAtaHItYjAtODYudWNvZGUgIHwgQmluIDE1MjA2MzYgLT4gMTUy
+MDYzNiBieXRlcw0KIGl3bHdpZmktc28tYTAtZ2YtYTAtODYudWNvZGUgIHwgQmluIDE2Nzk3ODgg
+LT4gMTY3OTc4OCBieXRlcw0KIGl3bHdpZmktc28tYTAtZ2YtYTAucG52bSAgICAgIHwgQmluIDU1
+MTcyIC0+IDU1MTcyIGJ5dGVzDQogaXdsd2lmaS1zby1hMC1nZjQtYTAtODYudWNvZGUgfCBCaW4g
+MTY1MzgzNiAtPiAxNjUzODM2IGJ5dGVzDQogaXdsd2lmaS1zby1hMC1nZjQtYTAucG52bSAgICAg
+fCBCaW4gMjc4NjAgLT4gMjc4NjAgYnl0ZXMNCiBpd2x3aWZpLXNvLWEwLWhyLWIwLTg2LnVjb2Rl
+ICB8IEJpbiAxNTA3Mzg4IC0+IDE1MDczODggYnl0ZXMNCiBpd2x3aWZpLXR5LWEwLWdmLWEwLTg2
+LnVjb2RlICB8IEJpbiAxNjMyNDY0IC0+IDE2MzI0NjQgYnl0ZXMNCiBpd2x3aWZpLXR5LWEwLWdm
+LWEwLnBudm0gICAgICB8IEJpbiA1NTAyMCAtPiA1NTAyMCBieXRlcw0KIDE0IGZpbGVzIGNoYW5n
+ZWQsIDAgaW5zZXJ0aW9ucygrKSwgMCBkZWxldGlvbnMoLSkNCg==
