@@ -1,104 +1,74 @@
-Return-Path: <SRS0=sK9h=G6=sdaoden.eu=steffen@kernel.org>
+Return-Path: <SRS0=pjNs=G6=intel.com=gustavo.sousa@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A426EC54E76
-	for <linux-firmware@archiver.kernel.org>; Fri, 17 Nov 2023 01:46:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5E82FC072A2
+	for <linux-firmware@archiver.kernel.org>; Fri, 17 Nov 2023 15:07:48 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 707EAC433C9; Fri, 17 Nov 2023 01:46:36 +0000 (UTC)
-Received: from sdaoden.eu (sdaoden.eu [217.144.132.164])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	id 0C0EFC433C7; Fri, 17 Nov 2023 15:07:48 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 3C2A4C433C7
-	for <linux-firmware@kernel.org>; Fri, 17 Nov 2023 01:46:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 3C2A4C433C7
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=sdaoden.eu
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=sdaoden.eu
-Date: Fri, 17 Nov 2023 02:46:30 +0100
-Author: Steffen Nurpmeso <steffen@sdaoden.eu>
-From: Steffen Nurpmeso <steffen@sdaoden.eu>
-To: Mario Limonciello <mario.limonciello@amd.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id ECBC2C433C8;
+	Fri, 17 Nov 2023 15:07:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org ECBC2C433C8
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700233667; x=1731769667;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=68Xm7vADGJ5OF+cjUOQG0x5GVggy3s3O7u6sovNibrw=;
+  b=I3Dfi8erTc3LxNUxD33rpAKSMOBp9jA4AB8+wPc7VnIFAm3rjzdFjyaB
+   WzJuXrJqoVG2//RRY1Mc93L40aPbIhxp+GCm01FcpJZZ7cFDfxcEEwR02
+   hw16AO7qQoT6C5XhxMbL7BDKGmxcZjF3HsC6wUSWndmkZQcmLSFjRnJO6
+   eEcAK80Gli9iDed53W+39h+8erCvP8rWgDaf2hfF1WS5xhpg9AkxEc0ET
+   +FDkGRmLwyCgcVN9DdKxWghUjMf9wiX3QaDIPyJPsJ0VyXmmjx7LSY6nK
+   /1WGBtadDxTA6LbUwhPHJ9DY0pUqwnDPUgsWhZaI/O4/ZBsbr3X77MQY7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="391095935"
+X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
+   d="scan'208";a="391095935"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 07:07:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
+   d="scan'208";a="13953856"
+Received: from bappiagy-mobl.amr.corp.intel.com (HELO gjsousa-mobl2.intel.com) ([10.255.36.146])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 07:07:44 -0800
+From: Gustavo Sousa <gustavo.sousa@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, Steffen Nurpmeso <steffen@sdaoden.eu>
-Subject: Re: Question: v20231111 adds rdfind dependency: why not at
- ball build time?
-Message-ID: <20231117014630.lO5xbFXr@steffen%sdaoden.eu>
-In-Reply-To: <20231117011925.PPRKHhpq@steffen%sdaoden.eu>
-References: <20231113215300.Fw2CJ%steffen@sdaoden.eu>
- <73529434-9b82-4131-8cbd-05eff75537db@amd.com>
- <20231117011925.PPRKHhpq@steffen%sdaoden.eu>
-Mail-Followup-To: Mario Limonciello <mario.limonciello@amd.com>,
- linux-firmware@kernel.org, Steffen Nurpmeso <steffen@sdaoden.eu>
-User-Agent: s-nail v14.9.24-568-g80560405a6
-OpenPGP: id=EE19E1C1F2F7054F8D3954D8308964B51883A0DD;
- url=https://ftp.sdaoden.eu/steffen.asc; preference=signencrypt
-BlahBlahBlah: Any stupid boy can crush a beetle. But all the professors in
- the world can make no bugs.
+To: linux-firmware@kernel.org
+Cc: jwboyer@kernel.org,
+	kyle@kernel.org,
+	ben@decadent.org.uk,
+	intel-gfx@lists.freedesktop.org
+Subject: PR for MTL DMC v2.19
+Date: Fri, 17 Nov 2023 12:07:11 -0300
+Message-ID: <20231117150711.24379-1-gustavo.sousa@intel.com>
+X-Mailer: git-send-email 2.42.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Steffen Nurpmeso wrote in
- <20231117011925.PPRKHhpq@steffen%sdaoden.eu>:
- |Mario Limonciello wrote in
- | <73529434-9b82-4131-8cbd-05eff75537db@amd.com>:
- ||On 11/13/2023 15:53, Steffen Nurpmeso wrote:
- ||> I see my Linux distro updating its package, and adding hard
- ||> rdfind(1) dependency because that copy-*.sh file uses it (and even
- ||> added an error-out if not available).
- ||> 
- ||> That made me wonder two times: first of all i like that duplicates
- ||> vanish, but that is not "a killer".  People downloaded the ball,
- ||> and then they get thrown out because the ball is to be slimmed on
- ||> their box.  And then, why is the ball slimmed-down on all those
- ||> myriads of user boxes after having been downloaded, instead of
- ||> once when the ball is created during release?  That is so strange,
- ||> you know?
- ||
- ||I believe it's because of the way it's created and signed it's not 
- ||possible to run a build action before creation.
- |
- |That is bitter.  (And cannot be changed??)
- |
- ||Another possibility is that we can just run rdfind on the repo and store 
- ||a bunch of symlinks but I worry that if a vendor submits a binary that
- ||used to be the same for two products but no longer is it will lead to 
- ||unexpected results.
- |
- |If you could run it at ball-build time then you could simply
- |create the entire installation plan as a shell script, instead of
- |running these complicated pipes on the user boxes.
- |I mean the ball is so huge and few kilobytes shell script does
- |then not matter.  (Not that i think i say something noone ever has
- |thought of, you know -- it just all seems so, hm, excessive.)
+The following changes since commit 6723a8d9092325d00a125a1b3ca058644f74d314:
 
-Now it goes too far, but i have a simple backup script (for those
-few resource files not under git control), and it places all files
-under /root/hosts/$HOSTNAME/backup.d/ and creates a .restore.dat
-like
+  Merge branch 'robot/pr-5-1700153542' into 'main' (2023-11-16 16:54:38 +0000)
 
-  . root root 644 _etc_adjtime /etc/adjtime
-...
-  . root users 640 _etc_krb5_conf /etc/krb5.conf
-...
-  @ root root 777 _etc_localtime /etc/localtime
-...
+are available in the Git repository at:
 
-etc etc, with / being dir (first), . files and @ symlinks.
-Ie what i mean is, why store symlinks in the ball at all?  Simply
-create an installation script via rdfind at ball-build time which
-then does the necessary things.
+  git://anongit.freedesktop.org/drm/drm-firmware mtl_dmc_2.19
 
- ||> Thank you for all your effort.  (Not subscribed.)
- |
- |Yes.
- |Ciao,
+for you to fetch changes up to 451090149cecfae5e674d24944579a564afefe8a:
 
-Greetings.
+  i915: Update MTL DMC to v2.19 (2023-11-17 11:03:16 -0300)
 
---steffen
-|
-|Der Kragenbaer,                The moon bear,
-|der holt sich munter           he cheerfully and one by one
-|einen nach dem anderen runter  wa.ks himself off
-|(By Robert Gernhardt)
+----------------------------------------------------------------
+Gustavo Sousa (1):
+      i915: Update MTL DMC to v2.19
+
+ WHENCE           |   2 +-
+ i915/mtl_dmc.bin | Bin 52508 -> 52476 bytes
+ 2 files changed, 1 insertion(+), 1 deletion(-)
