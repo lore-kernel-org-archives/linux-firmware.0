@@ -1,49 +1,49 @@
-Return-Path: <SRS0=5QMl=HB=pobox.com=Ahmadramcfa03@kernel.org>
+Return-Path: <SRS0=9GGP=HB=pobox.com=Ahmadramcfacffa3@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F74EC54E76
-	for <linux-firmware@archiver.kernel.org>; Mon, 20 Nov 2023 09:56:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A08A9C197A0
+	for <linux-firmware@archiver.kernel.org>; Mon, 20 Nov 2023 16:47:09 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C44BCC433C8; Mon, 20 Nov 2023 09:56:24 +0000 (UTC)
-Received: from GHMG01.great-harvest.local (marine.unionapex.com [202.82.82.2])
+	id 7C6B8C433C9; Mon, 20 Nov 2023 16:47:09 +0000 (UTC)
+Received: from GHMG01.great-harvest.local (mail.great-harvest.com.hk [202.82.82.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 03495C433BB
-	for <linux-firmware@kernel.org>; Mon, 20 Nov 2023 09:56:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 03495C433BB
+	by smtp.kernel.org (Postfix) with ESMTPS id E5859C433C7
+	for <linux-firmware@kernel.org>; Mon, 20 Nov 2023 16:47:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org E5859C433C7
 Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=pobox.com
 Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=pobox.com
-X-AuditID: c0a80a26-927612400000462b-bd-655b2a43180d
-Received: from [194.26.192.108] (194.26.192.108.powered.by.rdp.sh [194.26.192.108])
+X-AuditID: c0a80a26-927612400000462b-2b-655b7f41e913
+Received: from [45.154.98.249] (Unknown_Domain [45.154.98.249])
 	(using TLS with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(Client did not present a certificate)
-	by GHMG01.great-harvest.local (Symantec Messaging Gateway) with SMTP id 97.90.17963.34A2B556; Mon, 20 Nov 2023 17:43:32 +0800 (HKT)
+	by GHMG01.great-harvest.local (Symantec Messaging Gateway) with SMTP id 15.F0.17963.14F7B556; Mon, 20 Nov 2023 23:46:09 +0800 (HKT)
 Content-Type: text/plain; charset="iso-8859-1"
-Message-ID: <97.90.17963.34A2B556@GHMG01.great-harvest.local>
+Message-ID: <15.F0.17963.14F7B556@GHMG01.great-harvest.local>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Description: Mail message body
 Subject: Investment Expression of Interest (IEOI)
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-From: "Ramadan Ahmad" <Ahmadramcfa03@pobox.com>
-Date: Mon, 20 Nov 2023 10:43:30 +0100
+From: "Ramadan Ahmad" <Ahmadramcfacffa3@pobox.com>
+Date: Mon, 20 Nov 2023 16:46:07 +0100
 Reply-To: finance@almnadrinvestment.com
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrOJMWRmVeSWpSXmKPExsVySOpAjq6LVnSqQdMGDosDy20cGD02repk
-	C2CM4rJJSc3JLEst0rdL4MpYfbqo4ABzxZ+1BxgbGN8xdTFyckgImEhcOfiJHcQWEtjHJDF7
-	lxOIzSygJ3Fj6hQ2EJtXwFZi67Un7BC2oMTJmU9YIGq0JZYtfM3cxcgBZKtJfO0qAQkLCxhK
-	PD1ylREkLCIgK7H0YDmIySagLzF3Ux5IBYuAqsTNdTehlqpLnJ96hWkCI88sJHtnIdk1C8mu
-	WQi7FjCyrGKUcvfwdTcw1EsvSk0s0c1ILCpLLS7Ry8lPTszZxAgMmwMruNR2MH6c9FHvECMT
-	B+MhRgkOZiUR3m9CEalCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeQMCpOKFBNITS1KzU1MLUotg
-	skwcnFINTDo771wyL908QScrMvDZrhl7724VP9H/8s98Fb36g6Kcnpk32ELzoyKZXVv8OWYZ
-	XJ5680Gc4mntS8fu766pk5Ty+5FlX2L7MPRtsuu7xhdHrO8eE0riv588793Ln9H9R3l0Vztc
-	++o27ZJuLJuCAuM6rb2Ti03ZD/ZNyWRerP1hbumVg44ft9oVz4rJV54jJtDG8+vEat2PCmHS
-	+adiA1oYF9m7n079b8drXaEgENPmbnHg53qxmeeMVdUSmk4tfnnX0v6T14U4xorM33Yv+nIW
-	/XDeUllXHs+/XDnsFcvl1Qun1q48Nutm3Qo5ttzPMYL7NLpsZ7LJPfl+MLTNYSJDkOKXf28y
-	FoQbML2MUWIpzkg01GIuKk4EAG4580eKAgAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrJJMWRmVeSWpSXmKPExsWiOyvpp65jfXSqwfwWXYsDy20cGD02repk
+	C2CM4rJJSc3JLEst0rdL4MpYfbqo4ABzxZ+1BxgbGN8xdTFyckgImEjsWfqNtYuRi0NIYBWT
+	xOYF39lBEswCehI3pk5hA7F5BWwl7t95ywxhC0qcnPmEBaJGW2LZwtdAcQ4gW03ia1cJSFhY
+	wFDi6ZGrjCBhEQFZiaUHy0HCbAJGEu3Tz4J1sgioSmw5fYcVxBYSUJc4P/UK0wRGnllIFs9C
+	smwWkmWzEJYtYGRZxSjl7uHrbmCol16Umliim5FYVJZaXKKXk5+cmLOJERg6B1Zwqe1g/Djp
+	o94hRiYOxkOMEhzMSiK834QiUoV4UxIrq1KL8uOLSnNSiw8xSnOwKInzBgRIxQsJpCeWpGan
+	phakFsFkmTg4pRqYTHe08c4XsW5TYRHoL7ydcP347G2BHCpLbNwSo53Tvn3N12IL5PwnI1hl
+	dO3R+uzHWZ36lVOVNXvv33wpnb339/33cmw1V2pmK+Y88BH5uMh06ga7ZUKaZ9qdC77UbKvi
+	+WtaLJ3FrK5Tyl2V5yRsFchVu3ai8+kfDz5NqFhzqTnH21NH4oiNEHvuzaLylqObXafcf/e+
+	6cT/6c3nWUQMJa8/65mtVnR0SomXiWj9Sk/VTZMd93B+/vRQwt3PZpvKFAaPE3YlZkkvvwT2
+	BjxXWHC+YfvPlpnPWBXZThU+v+f5mfvhUZV/MvWt3GdnMnZOCm+17o5Y+OfvxhtcZ+zSRRnn
+	XnHbLZjDkjHz8RIlluKMREMt5qLiRABUQYrDjAIAAA==
 
 Attn: linux-firmware@kernel.org
 Date: 20-11-2023
