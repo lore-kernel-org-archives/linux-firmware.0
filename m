@@ -4,59 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4953BC4167B
-	for <linux-firmware@archiver.kernel.org>; Sun, 26 Nov 2023 17:02:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47A4CC4167B
+	for <linux-firmware@archiver.kernel.org>; Sun, 26 Nov 2023 17:03:06 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 20277C433C8; Sun, 26 Nov 2023 17:02:12 +0000 (UTC)
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
+	id 2E740C433C7; Sun, 26 Nov 2023 17:03:06 +0000 (UTC)
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 34EEFC433C7
-	for <linux-firmware@kernel.org>; Sun, 26 Nov 2023 17:02:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 34EEFC433C7
+	by smtp.kernel.org (Postfix) with ESMTPS id 52F04C433C8
+	for <linux-firmware@kernel.org>; Sun, 26 Nov 2023 17:03:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 52F04C433C8
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-io1-f49.google.com with SMTP id ca18e2360f4ac-7b3968cc62aso13536539f.0
-        for <linux-firmware@kernel.org>; Sun, 26 Nov 2023 09:02:10 -0800 (PST)
+Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-35cb5b21c41so1963915ab.1
+        for <linux-firmware@kernel.org>; Sun, 26 Nov 2023 09:03:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701018130; x=1701622930; darn=kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
+        d=gmail.com; s=20230601; t=1701018184; x=1701622984; darn=kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=8F+5YZfkN9RwE4Kd57T+zs4SS7L9mONtDm9TX27Wtyg=;
-        b=jFs4wuRUFp3VCHlhRz+BBie2FCeEJddGIjnYoBVdB44bhNVMQNQKTdeKf27+GfCBeS
-         HrCegVXD5PkMTpbRkztE2+B1lNLnyomcWqH0e5EsAzhNA425nD1V73qHe1johKvnW1fB
-         F+aNNAJMpQwGM94zQt+qcAmtAoTbL5Rna+h/PFalpIYmg5LHyfImk4q+n+VXmv9a49Bj
-         iH2/g/5EdZXPfyMB12qOASE4KquOu2F15LBhKP3YabTSNSQsa6OIdZtgSMPqQDkjwYBf
-         vNg4QAStWRPdxW9ERi5sxSeO+N2Lh4PMGufUXnrp3+4E5TawafohhfXs/kuiwKCwU+qy
-         se2g==
+        b=Gb2cu/ZR/mcWwAHlX8FwNq3ruNYQ1Y5Ofz0afO5sWG3qOmrMDM1z8CoOn5lZ7m18Sg
+         C/l1cObnGDxv3t93t72aK6eDXGH9OZhrpTqGHjHoNsbghLGr21E20d40qY0kq8qOwtKH
+         n0FYa1MT5zEFXK524tF4BNY60LSrsn1n7gaMjfbv/OsKu/jZjsTQWvsZWULeOlcjbZ2h
+         4oHJ2Eiv7cpQrGp/+IibV9PCdSKHhvkU5WsEKxYaV0PcZm05cGY7oJbFasnm2fmfef/g
+         fOtmy4pDVM4Z5IpYMyjlViMjGP6WcPkShvJZlNTPdb9oayMeB65CSiexHsCxtDtbD7sK
+         93pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701018130; x=1701622930;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        d=1e100.net; s=20230601; t=1701018184; x=1701622984;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
         bh=8F+5YZfkN9RwE4Kd57T+zs4SS7L9mONtDm9TX27Wtyg=;
-        b=AS1RguL/B9KtUuLiw64XfIYIlZo+6jh/4QKKXx79tyw2S2WU4ZICxB9nx0afEfKmPE
-         hR+f93vaxVZWPSKaBOKBuz/irP3RJG2r9sdxf6oW7Zp3R7OpaZ/hEzTyF6btXMJmcs/S
-         pg0QLWnh8SJZXgitxBqDLcpNpRy9GFABY2I2nr1ugvn5K8NLYvh7L7Fc7GeVzmo1GJLJ
-         yfJSBUgVqTpg1iC4gEvHIWhbQaQGCsVbeinIRy0fKO+93+AWAIgVV/oVgQLWo59iBnLO
-         XfW/MJhYqiBHvlW9Em0kIX+Xu14Zw67kgw0rnVaTzLF+7RmuzRO0XMAVISZy1TATGUok
-         8Xsw==
-X-Gm-Message-State: AOJu0YzQq1JhJViCMQG93Hjq8X/YowGtBFFy11OBBdC81xfoqaMfTsqr
-	rURRbQIGaBSOVQaC4lQ18CgZvqS2O5Q=
-X-Google-Smtp-Source: AGHT+IH5wC6F1J5GyXv9xVoXk4nDCCMqjen/Jufn0uwpOpbGvy5A+wiB6HctTi5WTOtNr79apOLjOQ==
-X-Received: by 2002:a6b:5918:0:b0:7b3:7f27:750d with SMTP id n24-20020a6b5918000000b007b37f27750dmr6189803iob.8.1701018129590;
-        Sun, 26 Nov 2023 09:02:09 -0800 (PST)
+        b=DB+a5gy3UCFoQI+ct9ZnSN1rSBtRhFvbhcyRtqhneTcyi02zNpLI0F9fzBapC5A4MG
+         QBbRiRCsi5LSRRzOR2ej75cecxxgjD4oWmpRTbEy/OM+eBJ1+J6OyWkMuf5HEJCMbZZ1
+         kfoXjYrgSvKMZ3dME77UqcDvVoLrxRfiBkPCzxLoqrS8L7LQq9H0Pv/vcD+GAd8fYrBv
+         G0bwlDoPfS7vKiE7qxkUfib7RS9fhACe/LH978ngV7Ds/iYq+Fb6Kn3qzvGN9d4Jtw+S
+         7ZxNlfbLfiVfh18u/MnibVuMPjsO6Qth+9JyIrcUGfSB/ZghCegy2koTNSWSceMtbQ4Q
+         iMAg==
+X-Gm-Message-State: AOJu0YyLmoWO09DgejdOrU7dAC3iDsTlAjCbqUa2bOKCBMliZj3lXJlE
+	LH8qMS7R31Y6rq4UnySDpkyVDqy+tdk=
+X-Google-Smtp-Source: AGHT+IGS6EiYk4ztuI2w2SnC1LP/x5gr5PuGUEfW+2dIYRhqrzOf2wfEJYppaXMywMNwTpZl5aDtlg==
+X-Received: by 2002:a92:c249:0:b0:359:4199:1fea with SMTP id k9-20020a92c249000000b0035941991feamr16078814ilo.14.1701018183682;
+        Sun, 26 Nov 2023 09:03:03 -0800 (PST)
 Received: from acleverhostname.attlocal.net (108-200-163-197.lightspeed.bcvloh.sbcglobal.net. [108.200.163.197])
-        by smtp.gmail.com with ESMTPSA id m8-20020a056638270800b00466714033desm1954292jav.27.2023.11.26.09.02.08
-        for <linux-firmware@kernel.org>
+        by smtp.gmail.com with ESMTPSA id a12-20020a92c54c000000b0035b2eaa8b04sm2381092ilj.60.2023.11.26.09.03.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Nov 2023 09:02:09 -0800 (PST)
+        Sun, 26 Nov 2023 09:03:03 -0800 (PST)
 From: Eli Schwartz <eschwartz93@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
+Cc: sam@gentoo.org
 Subject: [PATCH] Makefile, copy-firmware: Use portable "command -v" to detect installed programs
-Date: Sun, 26 Nov 2023 12:01:51 -0500
-Message-ID: <20231126170207.1309537-1-eschwartz93@gmail.com>
+Date: Sun, 26 Nov 2023 12:02:59 -0500
+Message-ID: <20231126170301.1309596-1-eschwartz93@gmail.com>
 X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
