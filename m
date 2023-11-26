@@ -1,417 +1,122 @@
-Return-Path: <SRS0=ypd7=HH=a2173097.bnc3.mailjet.com=a4ca12c3.AUcAAC3CuHMAAchjsIwAAThs8zoAAYCsTGEAnYSVACEoqQBlYwWC@kernel.org>
+Return-Path: <SRS0=DA9k=HH=gmail.com=eschwartz93@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25A9BC4167B
-	for <linux-firmware@archiver.kernel.org>; Sun, 26 Nov 2023 08:44:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4953BC4167B
+	for <linux-firmware@archiver.kernel.org>; Sun, 26 Nov 2023 17:02:12 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id DE31DC433C7; Sun, 26 Nov 2023 08:44:54 +0000 (UTC)
-Received: from o153.p9.mailjet.com (o153.p9.mailjet.com [87.253.234.153])
+	id 20277C433C8; Sun, 26 Nov 2023 17:02:12 +0000 (UTC)
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id DBA9EC433C9
-	for <linux-firmware@kernel.org>; Sun, 26 Nov 2023 08:44:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org DBA9EC433C9
-Authentication-Results: smtp.kernel.org; dmarc=fail (p=reject dis=none) header.from=backpack-drink-dispenser.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=a2173097.bnc3.mailjet.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; q=dns/txt;
-  d=backpack-drink-dispenser.com; i=rocketpacks@backpack-drink-dispenser.com; s=mailjet; x=1700995490;
-  h=message-id:mime-version:from:from:to:to:subject:subject:date:date:list-id:list-unsubscribe:
-  list-unsubscribe-post:feedback-id:precedence:x-campaignid:x-csa-complaints:
-  x-mj-mid:x-mj-smtpguid:x-report-abuse-to:content-type;
-  bh=UzPqk5HtmUNIpZHb03lqob8MqaBa1jmkl7lBX4R/LlM=;
-  b=atP9P1p4uTE89+RNArsMQFJfoyJolNMfto2ykjC+escMnpk0JWFq52kjh
- rj6GtB/qzc4sn2Jbz57UupJh/W9OWOPj130SR+MyS5BGC/ilRUfq8REBrMMg
- R1og67GqJ1R6P1qPRzcXifX90Km12xac0qeR+JuJrwOwtErvOPHYfI=
-Message-Id: <a4ca12c3.AUcAAC3CuHMAAchjsIwAAThs8zoAAYCsTGEAnYSVACEoqQBlYwWC@mailjet.com>
-MIME-Version: 1.0
-From: Rocketpacks Team <rocketpacks@backpack-drink-dispenser.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 34EEFC433C7
+	for <linux-firmware@kernel.org>; Sun, 26 Nov 2023 17:02:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 34EEFC433C7
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-io1-f49.google.com with SMTP id ca18e2360f4ac-7b3968cc62aso13536539f.0
+        for <linux-firmware@kernel.org>; Sun, 26 Nov 2023 09:02:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701018130; x=1701622930; darn=kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8F+5YZfkN9RwE4Kd57T+zs4SS7L9mONtDm9TX27Wtyg=;
+        b=jFs4wuRUFp3VCHlhRz+BBie2FCeEJddGIjnYoBVdB44bhNVMQNQKTdeKf27+GfCBeS
+         HrCegVXD5PkMTpbRkztE2+B1lNLnyomcWqH0e5EsAzhNA425nD1V73qHe1johKvnW1fB
+         F+aNNAJMpQwGM94zQt+qcAmtAoTbL5Rna+h/PFalpIYmg5LHyfImk4q+n+VXmv9a49Bj
+         iH2/g/5EdZXPfyMB12qOASE4KquOu2F15LBhKP3YabTSNSQsa6OIdZtgSMPqQDkjwYBf
+         vNg4QAStWRPdxW9ERi5sxSeO+N2Lh4PMGufUXnrp3+4E5TawafohhfXs/kuiwKCwU+qy
+         se2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701018130; x=1701622930;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8F+5YZfkN9RwE4Kd57T+zs4SS7L9mONtDm9TX27Wtyg=;
+        b=AS1RguL/B9KtUuLiw64XfIYIlZo+6jh/4QKKXx79tyw2S2WU4ZICxB9nx0afEfKmPE
+         hR+f93vaxVZWPSKaBOKBuz/irP3RJG2r9sdxf6oW7Zp3R7OpaZ/hEzTyF6btXMJmcs/S
+         pg0QLWnh8SJZXgitxBqDLcpNpRy9GFABY2I2nr1ugvn5K8NLYvh7L7Fc7GeVzmo1GJLJ
+         yfJSBUgVqTpg1iC4gEvHIWhbQaQGCsVbeinIRy0fKO+93+AWAIgVV/oVgQLWo59iBnLO
+         XfW/MJhYqiBHvlW9Em0kIX+Xu14Zw67kgw0rnVaTzLF+7RmuzRO0XMAVISZy1TATGUok
+         8Xsw==
+X-Gm-Message-State: AOJu0YzQq1JhJViCMQG93Hjq8X/YowGtBFFy11OBBdC81xfoqaMfTsqr
+	rURRbQIGaBSOVQaC4lQ18CgZvqS2O5Q=
+X-Google-Smtp-Source: AGHT+IH5wC6F1J5GyXv9xVoXk4nDCCMqjen/Jufn0uwpOpbGvy5A+wiB6HctTi5WTOtNr79apOLjOQ==
+X-Received: by 2002:a6b:5918:0:b0:7b3:7f27:750d with SMTP id n24-20020a6b5918000000b007b37f27750dmr6189803iob.8.1701018129590;
+        Sun, 26 Nov 2023 09:02:09 -0800 (PST)
+Received: from acleverhostname.attlocal.net (108-200-163-197.lightspeed.bcvloh.sbcglobal.net. [108.200.163.197])
+        by smtp.gmail.com with ESMTPSA id m8-20020a056638270800b00466714033desm1954292jav.27.2023.11.26.09.02.08
+        for <linux-firmware@kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Nov 2023 09:02:09 -0800 (PST)
+From: Eli Schwartz <eschwartz93@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Subject: Backpack drink dispenser for 19 liter beer cola coffee
-Date: Sun, 26 Nov 2023 08:44:48 +0000 (UTC)
-List-Id: <rocketpacks.backpack-drink-dispenser.com.0izvg-5k4ss.mj>
-List-Unsubscribe:
-	<mailto:unsub-a4ca12c3.0izvg.ll72wnylqq8r@bnc3.mailjet.com>,
-	<https://0izvg.mjt.lu/unsub2?m=AUcAAC3CuHMAAchjsIwAAThs8zoAAYCsTGEAnYSVACEoqQBlYwWCqNr0kcVbTcaCndc2_CMBHwAfMTE&b=a4ca12c3&e=03dd10ef&x=Yuvri_XL5EoNNxWfJRBbka1OQQ6f3JMdrQHmWOa9hLc>
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-Feedback-Id: 42.2173097.2044209:MJ
-Precedence: bulk
-X-CampaignID: 7656943756
-X-CSA-Complaints: csa-complaints@eco.de
-X-MJ-Mid:
-	AUcAAC3CuHMAAchjsIwAAThs8zoAAYCsTGEAnYSVACEoqQBlYwWCqNr0kcVbTcaCndc2_CMBHwAfMTE
-X-MJ-SMTPGUID: a8daf491-c55b-4dc6-829d-d736fc23011f
-X-REPORT-ABUSE-TO: Message sent by Mailjet please report to
-	abuse@mailjet.com with a copy of the message
-Content-Type: multipart/alternative; boundary="=-6L3pZ4yxL7Ulab5I6lza"
+Subject: [PATCH] Makefile, copy-firmware: Use portable "command -v" to detect installed programs
+Date: Sun, 26 Nov 2023 12:01:51 -0500
+Message-ID: <20231126170207.1309537-1-eschwartz93@gmail.com>
+X-Mailer: git-send-email 2.41.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---=-6L3pZ4yxL7Ulab5I6lza
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+The "which" utility is not guaranteed to be installed either, and if it
+is, its behavior is not portable either. This means that when rdfind /
+pre-commit are installed, the `which` check will report a fatal error
+because the which tool did not exist and the shell returned a nonzero
+status when attempting to fork+exec. If it did exist, it might not be an
+implementation of `which` that returns nonzero when commands do not
+exist.
 
-Dear,=C2=A0
+Conversely, the "command -v" shell builtin is required to exist in all
+POSIX 2008 compliant shells, and is thus guaranteed to work everywhere.
 
+For some in-depth discussions on the topic, see:
+- https://mywiki.wooledge.org/BashFAQ/081
+- https://unix.stackexchange.com/questions/85249/why-not-use-which-what-to-use-then/85250#85250
 
-We are a manufacturer of backpack drink dispensers for beer, coke, and coff=
-ee for use at events.
+Examples of open-source shells likely to be installed as /bin/sh on
+Linux, which implement the 15-year-old standard: ash, bash, busybox,
+dash, ksh, mksh and zsh.
 
+A side benefit of using the POSIX portable option is that it requires
+neither an external disk executable, nor (because unlike "which", the
+exit code is reliable) a subshell fork. This therefore represents a mild
+speedup.
 
+Signed-off-by: Eli Schwartz <eschwartz93@gmail.com>
+---
+ Makefile         | 2 +-
+ copy-firmware.sh | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-<<backpack drink dispenser>> [https://0izvg.mjt.lu/tplimg/0izvg/b/l6nok/h4w=
-mj.jpeg]
-
-
-
-=C2=A0
-
-Give away free drinks, activate product promotions with flyer distribution
-
-=C2=A0
-<<drink water backpack>> [https://0izvg.mjt.lu/tplimg/0izvg/b/l6nok/hvkmh.j=
-peg]
-=C2=A0
-
-Donating water in the heat on the street and handing out flyers of products
-
-=C2=A0
-<<sun lotion backpack>> [https://0izvg.mjt.lu/tplimg/0izvg/b/l6nok/hvkmi.jp=
-eg]
-=C2=A0
-
-Donate sunscreen from your backpack. Hand out product flyers.
-
-=C2=A0
-<<backpack display>> [https://0izvg.mjt.lu/tplimg/0izvg/b/l6nok/h4wp1.jpeg]
-=C2=A0
-
-Easy change the printed display!=C2=A0
-
-=C2=A0
-
-=C2=A0
-<<rocketpacks >> [https://0izvg.mjt.lu/tplimg/0izvg/b/l6nok/h4w24.jpeg]
-=C2=A0
-
-The backpack can be customized with your brand logo and slogan to make your=
- product and company instantly recognizable and distribute free drink and f=
-lyers of products
-=C2=A0
-
-Backpack Drink Dispenser Rocketpacks is a global supplier of mobile marketi=
-ng for hot and cold drinks such as beer, coffee, cola etc. Made in Germany.
-
-The can and bottle dispenser can be easily used to fill cans, bottles, or e=
-ven dispense snacks from the backpack's exit holes.
-
-You can brand this backpack beverage dispenser, move around with the crew a=
-nd serve the event's drinks.
-
-Vendor tray production and distribution, belly tray for mobile marketing, h=
-awker's tray for ice cream food and drink.
-
-Kind regards,
-
-Rocketpacks Team
-
-Frankfurt/ Main =E2=80=93 Germany
-
-Phone: +49 (0) 69 95297708
-
-www.backpack-drink-dispenser.com [https://www.backpack-drink-dispenser.com/=
-]
-
-www.rocketpacks.de [https://www.rocketpacks.de/]
-
-info@rocketpacks.de [info@rocketpacks.de]
-
-
-
-This e-mail has been sent to click here to unsubscribe https://0izvg.mjt.lu=
-/unsub2?hl=3Den&m=3DAUcAAC3CuHMAAchjsIwAAThs8zoAAYCsTGEAnYSVACEoqQBlYwWCqNr=
-0kcVbTcaCndc2_CMBHwAfMTE&b=3Da4ca12c3&e=3D03dd10ef&x=3DYuvri_XL5EoNNxWfJRBb=
-ka1OQQ6f3JMdrQHmWOa9hLc.=
-
---=-6L3pZ4yxL7Ulab5I6lza
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-<!doctype html><html xmlns=3D"http://www.w3.org/1999/xhtml" xmlns:v=3D"urn:=
-schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-microsoft-com:office:offi=
-ce"><head><title></title><!--[if !mso]><!--><meta http-equiv=3D"X-UA-Compat=
-ible" content=3D"IE=3Dedge"><!--<![endif]--><meta http-equiv=3D"Content-Typ=
-e" content=3D"text/html; charset=3DUTF-8"><meta name=3D"viewport" content=
-=3D"width=3Ddevice-width,initial-scale=3D1"><style type=3D"text/css">#outlo=
-ok a { padding:0; }
-      body { margin:0;padding:0;-webkit-text-size-adjust:100%;-ms-text-size=
--adjust:100%; }
-      table, td { border-collapse:collapse;mso-table-lspace:0pt;mso-table-r=
-space:0pt; }
-      img { border:0;height:auto;line-height:100%; outline:none;text-decora=
-tion:none;-ms-interpolation-mode:bicubic; }
-      p { display:block;margin:13px 0; }</style><!--[if mso]>
-    <noscript>
-    <xml>
-    <o:OfficeDocumentSettings>
-      <o:AllowPNG/>
-      <o:PixelsPerInch>96</o:PixelsPerInch>
-    </o:OfficeDocumentSettings>
-    </xml>
-    </noscript>
-    <![endif]--><!--[if lte mso 11]>
-    <style type=3D"text/css">
-      .mj-outlook-group-fix { width:100% !important; }
-    </style>
-    <![endif]--><!--[if !mso]><!--><link href=3D"https://fonts.googleapis.c=
-om/css?family=3DUbuntu:300,400,500,700" rel=3D"stylesheet" type=3D"text/css=
-"><style type=3D"text/css">@import url(https://fonts.googleapis.com/css?fam=
-ily=3DUbuntu:300,400,500,700);</style><!--<![endif]--><style type=3D"text/c=
-ss">@media only screen and (min-width:480px) {
-        .mj-column-per-100 { width:100% !important; max-width: 100%; }
-      }</style><style media=3D"screen and (min-width:480px)">.moz-text-html=
- .mj-column-per-100 { width:100% !important; max-width: 100%; }</style><sty=
-le type=3D"text/css">[owa] .mj-column-per-100 { width:100% !important; max-=
-width: 100%; }</style><style type=3D"text/css">@media only screen and (max-=
-width:479px) {
-      table.mj-full-width-mobile { width: 100% !important; }
-      td.mj-full-width-mobile { width: auto !important; }
-    }</style><style type=3D"text/css"></style></head><body style=3D"word-sp=
-acing:normal;background-color:#F4F4F4;"><div style=3D"background-color:#F4F=
-4F4;"><!--[if mso | IE]><table align=3D"center" border=3D"0" cellpadding=3D=
-"0" cellspacing=3D"0" class=3D"" role=3D"presentation" style=3D"width:600px=
-;" width=3D"600" bgcolor=3D"#ffffff" ><tr><td style=3D"line-height:0px;font=
--size:0px;mso-line-height-rule:exactly;"><![endif]--><div style=3D"backgrou=
-nd:#ffffff;background-color:#ffffff;margin:0px auto;max-width:600px;"><tabl=
-e align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D=
-"presentation" style=3D"background:#ffffff;background-color:#ffffff;width:1=
-00%;"><tbody><tr><td style=3D"direction:ltr;font-size:0px;padding:20px 0px =
-20px 0px;text-align:center;"><!--[if mso | IE]><table role=3D"presentation"=
- border=3D"0" cellpadding=3D"0" cellspacing=3D"0"><tr><td class=3D"" style=
-=3D"vertical-align:top;width:600px;" ><![endif]--><div class=3D"mj-column-p=
-er-100 mj-outlook-group-fix" style=3D"font-size:0px;text-align:left;directi=
-on:ltr;display:inline-block;vertical-align:top;width:100%;"><table border=
-=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"v=
-ertical-align:top;" width=3D"100%"><tbody><tr><td align=3D"left" style=3D"f=
-ont-size:0px;padding:0px 25px 0px 25px;padding-top:0px;padding-right:25px;p=
-adding-bottom:0px;padding-left:25px;word-break:break-word;"><div style=3D"f=
-ont-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:14px;line-height:=
-1;text-align:left;color:#000000;"><h1 class=3D"text-build-content" data-tes=
-tid=3D"wZ0AvXahp8v17LZ4oWcLA" style=3D"margin-top: 10px; font-weight: norma=
-l;"><span style=3D"color:#55575d;font-family:Arial;font-size:14px;line-heig=
-ht:22px;">Dear,&nbsp;</span></h1><h1 class=3D"text-build-content" data-test=
-id=3D"wZ0AvXahp8v17LZ4oWcLA" style=3D"margin-bottom: 10px; font-weight: nor=
-mal;"><span style=3D"color:#55575d;font-family:Arial;font-size:14px;line-he=
-ight:22px;">We are a manufacturer of backpack drink dispensers for beer, co=
-ke, and coffee for use at events.</span></h1></div></td></tr></tbody></tabl=
-e></div><!--[if mso | IE]></td></tr></table><![endif]--></td></tr></tbody><=
-/table></div><!--[if mso | IE]></td></tr></table><table align=3D"center" bo=
-rder=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"" role=3D"presentat=
-ion" style=3D"width:600px;" width=3D"600" bgcolor=3D"#ffffff" ><tr><td styl=
-e=3D"line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]=
---><div style=3D"background:#ffffff;background-color:#ffffff;margin:0px aut=
-o;max-width:600px;"><table align=3D"center" border=3D"0" cellpadding=3D"0" =
-cellspacing=3D"0" role=3D"presentation" style=3D"background:#ffffff;backgro=
-und-color:#ffffff;width:100%;"><tbody><tr><td style=3D"direction:ltr;font-s=
-ize:0px;padding:20px 0;padding-bottom:0px;padding-top:0px;text-align:center=
-;"><!--[if mso | IE]><table role=3D"presentation" border=3D"0" cellpadding=
-=3D"0" cellspacing=3D"0"><tr><td class=3D"" style=3D"vertical-align:top;wid=
-th:600px;" ><![endif]--><div class=3D"mj-column-per-100 mj-outlook-group-fi=
-x" style=3D"font-size:0px;text-align:left;direction:ltr;display:inline-bloc=
-k;vertical-align:top;width:100%;"><table border=3D"0" cellpadding=3D"0" cel=
-lspacing=3D"0" role=3D"presentation" style=3D"vertical-align:top;" width=3D=
-"100%"><tbody><tr><td align=3D"center" style=3D"font-size:0px;padding:10px =
-25px;word-break:break-word;"><table border=3D"0" cellpadding=3D"0" cellspac=
-ing=3D"0" role=3D"presentation" style=3D"border-collapse:collapse;border-sp=
-acing:0px;"><tbody><tr><td style=3D"width:550px;"><img alt=3D"backpack drin=
-k dispenser" src=3D"https://0izvg.mjt.lu/tplimg/0izvg/b/l6nok/h4wmj.jpeg" s=
-tyle=3D"border:none;display:block;outline:none;text-decoration:none;height:=
-auto;width:100%;font-size:13px;" width=3D"550" height=3D"auto"></td></tr></=
-tbody></table></td></tr></tbody></table></div><!--[if mso | IE]></td></tr><=
-/table><![endif]--></td></tr></tbody></table></div><!--[if mso | IE]></td><=
-/tr></table><table align=3D"center" border=3D"0" cellpadding=3D"0" cellspac=
-ing=3D"0" class=3D"" role=3D"presentation" style=3D"width:600px;" width=3D"=
-600" bgcolor=3D"#ffffff" ><tr><td style=3D"line-height:0px;font-size:0px;ms=
-o-line-height-rule:exactly;"><![endif]--><div style=3D"background:#ffffff;b=
-ackground-color:#ffffff;margin:0px auto;max-width:600px;"><table align=3D"c=
-enter" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentatio=
-n" style=3D"background:#ffffff;background-color:#ffffff;width:100%;"><tbody=
-><tr><td style=3D"direction:ltr;font-size:0px;padding:20px 0;text-align:cen=
-ter;"><!--[if mso | IE]><table role=3D"presentation" border=3D"0" cellpaddi=
-ng=3D"0" cellspacing=3D"0"><tr><td class=3D"" style=3D"vertical-align:top;w=
-idth:600px;" ><![endif]--><div class=3D"mj-column-per-100 mj-outlook-group-=
-fix" style=3D"font-size:0px;text-align:left;direction:ltr;display:inline-bl=
-ock;vertical-align:top;width:100%;"><table border=3D"0" cellpadding=3D"0" c=
-ellspacing=3D"0" role=3D"presentation" style=3D"vertical-align:top;" width=
-=3D"100%"><tbody><tr><td align=3D"left" style=3D"font-size:0px;padding:10px=
- 25px;padding-top:0px;padding-bottom:0px;word-break:break-word;"><div style=
-=3D"font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;letter-=
-spacing:normal;line-height:1;text-align:left;color:#000000;"><p class=3D"te=
-xt-build-content" data-testid=3D"EJsxCuILnDs6x6Cl3YhS6" style=3D"margin: 10=
-px 0; margin-top: 10px;">&nbsp;</p><p class=3D"text-build-content" data-tes=
-tid=3D"EJsxCuILnDs6x6Cl3YhS6" style=3D"margin: 10px 0;"><span style=3D"font=
--family:Arial, sans-serif;">Give away free drinks, activate product promoti=
-ons with flyer distribution</span></p><p class=3D"text-build-content" data-=
-testid=3D"EJsxCuILnDs6x6Cl3YhS6" style=3D"margin: 10px 0; margin-bottom: 10=
-px;">&nbsp;</p></div></td></tr><tr><td align=3D"center" style=3D"font-size:=
-0px;padding:10px 25px;word-break:break-word;"><table border=3D"0" cellpaddi=
-ng=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"border-collapse:c=
-ollapse;border-spacing:0px;"><tbody><tr><td style=3D"width:550px;"><img alt=
-=3D"drink water backpack" src=3D"https://0izvg.mjt.lu/tplimg/0izvg/b/l6nok/=
-hvkmh.jpeg" style=3D"border:none;display:block;outline:none;text-decoration=
-:none;height:auto;width:100%;font-size:13px;" width=3D"550" height=3D"auto"=
-></td></tr></tbody></table></td></tr><tr><td align=3D"left" style=3D"font-s=
-ize:0px;padding:10px 25px;padding-top:0px;padding-bottom:0px;word-break:bre=
-ak-word;"><div style=3D"font-family:Ubuntu, Helvetica, Arial, sans-serif;fo=
-nt-size:13px;letter-spacing:normal;line-height:1;text-align:left;color:#000=
-000;"><p class=3D"text-build-content" data-testid=3D"G-o8tmbYrEnPtnaySOmnZ"=
- style=3D"margin: 10px 0; margin-top: 10px;">&nbsp;</p><p class=3D"text-bui=
-ld-content" data-testid=3D"G-o8tmbYrEnPtnaySOmnZ" style=3D"margin: 10px 0;"=
-><span style=3D"font-family:Arial, sans-serif;">Donating water in the heat =
-on the street and handing out flyers of products</span></p><p class=3D"text=
--build-content" data-testid=3D"G-o8tmbYrEnPtnaySOmnZ" style=3D"margin: 10px=
- 0; margin-bottom: 10px;">&nbsp;</p></div></td></tr><tr><td align=3D"center=
-" style=3D"font-size:0px;padding:10px 25px;word-break:break-word;"><table b=
-order=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=
-=3D"border-collapse:collapse;border-spacing:0px;"><tbody><tr><td style=3D"w=
-idth:550px;"><img alt=3D"sun lotion backpack" src=3D"https://0izvg.mjt.lu/t=
-plimg/0izvg/b/l6nok/hvkmi.jpeg" style=3D"border:none;display:block;outline:=
-none;text-decoration:none;height:auto;width:100%;font-size:13px;" width=3D"=
-550" height=3D"auto"></td></tr></tbody></table></td></tr><tr><td align=3D"l=
-eft" style=3D"font-size:0px;padding:10px 25px;padding-top:0px;padding-botto=
-m:0px;word-break:break-word;"><div style=3D"font-family:Ubuntu, Helvetica, =
-Arial, sans-serif;font-size:14px;letter-spacing:normal;line-height:1;text-a=
-lign:left;color:#000000;"><p class=3D"text-build-content" data-testid=3D"Ia=
-cfMs0Oq847suV-Qhumc" style=3D"margin: 10px 0; margin-top: 10px;">&nbsp;</p>=
-<p class=3D"text-build-content" data-testid=3D"IacfMs0Oq847suV-Qhumc" style=
-=3D"margin: 10px 0;"><span style=3D"font-family:Arial, sans-serif;font-size=
-:14px;">Donate sunscreen from your backpack. Hand out product flyers.</span=
-></p><p class=3D"text-build-content" data-testid=3D"IacfMs0Oq847suV-Qhumc" =
-style=3D"margin: 10px 0; margin-bottom: 10px;">&nbsp;</p></div></td></tr><t=
-r><td align=3D"center" style=3D"font-size:0px;padding:10px 25px;word-break:=
-break-word;"><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=
-=3D"presentation" style=3D"border-collapse:collapse;border-spacing:0px;"><t=
-body><tr><td style=3D"width:550px;"><img alt=3D"backpack display" src=3D"ht=
-tps://0izvg.mjt.lu/tplimg/0izvg/b/l6nok/h4wp1.jpeg" style=3D"border:none;di=
-splay:block;outline:none;text-decoration:none;height:auto;width:100%;font-s=
-ize:13px;" width=3D"550" height=3D"auto"></td></tr></tbody></table></td></t=
-r><tr><td align=3D"left" style=3D"font-size:0px;padding:10px 25px;padding-t=
-op:0px;padding-bottom:0px;word-break:break-word;"><div style=3D"font-family=
-:Arial, sans-serif;font-size:14px;letter-spacing:normal;line-height:1;text-=
-align:left;color:#000000;"><p class=3D"text-build-content" data-testid=3D"c=
-mlwmJJLZNXjURda15thp" style=3D"margin: 10px 0; margin-top: 10px;"><span sty=
-le=3D"color:#55575d;font-family:Arial, Helvetica, sans-serif;font-size:14px=
-;">&nbsp;</span></p><p class=3D"text-build-content" data-testid=3D"cmlwmJJL=
-ZNXjURda15thp" style=3D"margin: 10px 0;"><span style=3D"color:#55575d;font-=
-family:Arial, Helvetica, sans-serif;font-size:14px;">Easy change the printe=
-d display!&nbsp;</span></p><p class=3D"text-build-content" data-testid=3D"c=
-mlwmJJLZNXjURda15thp" style=3D"margin: 10px 0;">&nbsp;</p><p class=3D"text-=
-build-content" data-testid=3D"cmlwmJJLZNXjURda15thp" style=3D"margin: 10px =
-0; margin-bottom: 10px;">&nbsp;</p></div></td></tr><tr><td align=3D"center"=
- style=3D"font-size:0px;padding:10px 25px;word-break:break-word;"><table bo=
-rder=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=
-=3D"border-collapse:collapse;border-spacing:0px;"><tbody><tr><td style=3D"w=
-idth:550px;"><img alt=3D"rocketpacks " src=3D"https://0izvg.mjt.lu/tplimg/0=
-izvg/b/l6nok/h4w24.jpeg" style=3D"border:none;display:block;outline:none;te=
-xt-decoration:none;height:auto;width:100%;font-size:13px;" width=3D"550" he=
-ight=3D"auto"></td></tr></tbody></table></td></tr><tr><td align=3D"left" st=
-yle=3D"font-size:0px;padding:10px 25px;padding-top:0px;padding-bottom:0px;w=
-ord-break:break-word;"><div style=3D"font-family:Arial, sans-serif;font-siz=
-e:14px;letter-spacing:normal;line-height:1;text-align:left;color:#000000;">=
-<p class=3D"text-build-content" data-testid=3D"QjTjzf2hw_JzNsn7rY-q4" style=
-=3D"margin: 10px 0; margin-top: 10px;">&nbsp;</p><p class=3D"text-build-con=
-tent" data-testid=3D"QjTjzf2hw_JzNsn7rY-q4" style=3D"margin: 10px 0; margin=
--bottom: 10px;"><span style=3D"color:#55575d;font-family:Arial, Helvetica, =
-sans-serif;font-size:14px;">The backpack can be customized with your brand =
-logo and slogan to make your product and company instantly recognizable and=
- distribute free drink and flyers of products</span></p></div></td></tr><tr=
-><td align=3D"left" style=3D"font-size:0px;padding:10px 25px;padding-top:0p=
-x;padding-bottom:0px;word-break:break-word;"><div style=3D"font-family:Ubun=
-tu, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;text-align:le=
-ft;color:#000000;"><p class=3D"text-build-content" data-testid=3D"qKtG4i6lV=
-e231DT3JnTNq" style=3D"margin: 10px 0; margin-top: 10px;">&nbsp;</p><p clas=
-s=3D"text-build-content" data-testid=3D"qKtG4i6lVe231DT3JnTNq" style=3D"mar=
-gin: 10px 0;"><span style=3D"color:#55575d;font-family:Arial;font-size:14px=
-;line-height:22px;">Backpack Drink Dispenser Rocketpacks is a global suppli=
-er of mobile marketing for hot and cold drinks such as beer, coffee, cola e=
-tc. Made in Germany.</span></p><p class=3D"text-build-content" data-testid=
-=3D"qKtG4i6lVe231DT3JnTNq" style=3D"margin: 10px 0;"><span style=3D"color:#=
-55575d;font-family:Arial;font-size:14px;line-height:22px;">The can and bott=
-le dispenser can be easily used to fill cans, bottles, or even dispense sna=
-cks from the backpack's exit holes.</span></p><p class=3D"text-build-conten=
-t" data-testid=3D"qKtG4i6lVe231DT3JnTNq" style=3D"margin: 10px 0;"><span st=
-yle=3D"color:#55575d;font-family:Arial;font-size:14px;line-height:22px;">Yo=
-u can brand this backpack beverage dispenser, move around with the crew and=
- serve the event's drinks.</span></p><p class=3D"text-build-content" data-t=
-estid=3D"qKtG4i6lVe231DT3JnTNq" style=3D"margin: 10px 0;"><span style=3D"co=
-lor:#55575d;font-family:Arial;font-size:14px;line-height:22px;">Vendor tray=
- production and distribution, belly tray for mobile marketing, hawker's tra=
-y for ice cream food and drink.</span></p><p class=3D"text-build-content" d=
-ata-testid=3D"qKtG4i6lVe231DT3JnTNq" style=3D"margin: 10px 0;"><span style=
-=3D"color:#55575d;font-family:Arial;font-size:14px;line-height:22px;">Kind =
-regards,</span></p><p class=3D"text-build-content" data-testid=3D"qKtG4i6lV=
-e231DT3JnTNq" style=3D"margin: 10px 0;"><span style=3D"color:#55575d;font-f=
-amily:Arial;font-size:14px;line-height:22px;">Rocketpacks Team</span></p><p=
- class=3D"text-build-content" data-testid=3D"qKtG4i6lVe231DT3JnTNq" style=
-=3D"margin: 10px 0;"><span style=3D"color:#55575d;font-family:Arial;font-si=
-ze:14px;line-height:22px;">Frankfurt/ Main =E2=80=93 Germany</span></p><p c=
-lass=3D"text-build-content" data-testid=3D"qKtG4i6lVe231DT3JnTNq" style=3D"=
-margin: 10px 0;"><span style=3D"color:#55575d;font-family:Arial;font-size:1=
-4px;line-height:22px;">Phone: +49 (0) 69 95297708</span></p><p class=3D"tex=
-t-build-content" data-testid=3D"qKtG4i6lVe231DT3JnTNq" style=3D"margin: 10p=
-x 0;"><a class=3D"link-build-content" style=3D"color:inherit;; text-decorat=
-ion: none;" target=3D"_blank" href=3D"https://0izvg.mjt.lu/lnk/AUcAAC3CuHMA=
-AchjsIwAAThs8zoAAYCsTGEAnYSVACEoqQBlYwWCqNr0kcVbTcaCndc2_CMBHwAfMTE/1/GcJkG=
-8DPmwTxHWj1RijeZQ/aHR0cHM6Ly93d3cuYmFja3BhY2stZHJpbmstZGlzcGVuc2VyLmNvbS8">=
-<span style=3D"color:#1a42b8;font-family:Arial;font-size:14px;"><u>www.back=
-pack-drink-dispenser.com</u></span></a></p><p class=3D"text-build-content" =
-data-testid=3D"qKtG4i6lVe231DT3JnTNq" style=3D"margin: 10px 0;"><a class=3D=
-"link-build-content" style=3D"color:inherit;; text-decoration: none;" targe=
-t=3D"_blank" href=3D"https://0izvg.mjt.lu/lnk/AUcAAC3CuHMAAchjsIwAAThs8zoAA=
-YCsTGEAnYSVACEoqQBlYwWCqNr0kcVbTcaCndc2_CMBHwAfMTE/2/CGIGPdiLyBxgbpgHQajefQ=
-/aHR0cHM6Ly93d3cucm9ja2V0cGFja3MuZGUv"><span style=3D"color:#1a42b8;font-fa=
-mily:Arial;font-size:14px;line-height:22px;"><u>www.rocketpacks.de</u></spa=
-n></a></p><p class=3D"text-build-content" data-testid=3D"qKtG4i6lVe231DT3Jn=
-TNq" style=3D"margin: 10px 0; margin-bottom: 10px;"><a class=3D"link-build-=
-content" style=3D"color:inherit;; text-decoration: none;" href=3D"mailto:in=
-fo@rocketpacks.de"><span style=3D"color:#1a42b8;font-family:Arial;font-size=
-:14px;line-height:22px;"><u>info@rocketpacks.de</u></span></a></p></div></t=
-d></tr></tbody></table></div><!--[if mso | IE]></td></tr></table><![endif]-=
--></td></tr></tbody></table></div><!--[if mso | IE]></td></tr></table><tabl=
-e align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=
-=3D"" role=3D"presentation" style=3D"width:600px;" width=3D"600" ><tr><td s=
-tyle=3D"line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![end=
-if]--><div style=3D"margin:0px auto;max-width:600px;"><table align=3D"cente=
-r" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" s=
-tyle=3D"width:100%;"><tbody><tr><td style=3D"direction:ltr;font-size:0px;pa=
-dding:20px 0px 20px 0px;text-align:center;"><!--[if mso | IE]><table role=
-=3D"presentation" border=3D"0" cellpadding=3D"0" cellspacing=3D"0"><tr><td =
-class=3D"" style=3D"vertical-align:top;width:600px;" ><![endif]--><div clas=
-s=3D"mj-column-per-100 mj-outlook-group-fix" style=3D"font-size:0px;text-al=
-ign:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;"=
-><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentati=
-on" width=3D"100%"><tbody><tr><td style=3D"vertical-align:top;padding:0;"><=
-table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation=
-" width=3D"100%"><tbody><tr><td align=3D"center" style=3D"font-size:0px;pad=
-ding:10px 25px;word-break:break-word;"><div style=3D"font-family:Ubuntu, He=
-lvetica, Arial, sans-serif;font-size:11px;line-height:22px;text-align:cente=
-r;color:#000000;"><p class=3D"text-build-content" data-testid=3D"REBrhdXc8l=
-yy8Ye2Ufo9h" style=3D"margin: 10px 0; margin-top: 10px; margin-bottom: 10px=
-;">This e-mail has been sent to <a class=3D"link-build-content" style=3D"co=
-lor:inherit;; text-decoration: none;" target=3D"_blank" href=3D"https://0iz=
-vg.mjt.lu/unsub2?hl=3Den&amp;m=3DAUcAAC3CuHMAAchjsIwAAThs8zoAAYCsTGEAnYSVAC=
-EoqQBlYwWCqNr0kcVbTcaCndc2_CMBHwAfMTE&amp;b=3Da4ca12c3&amp;e=3D03dd10ef&amp=
-;x=3DYuvri_XL5EoNNxWfJRBbka1OQQ6f3JMdrQHmWOa9hLc">click here to unsubscribe=
-</a>.</p></div></td></tr></tbody></table></td></tr></tbody></table></div><!=
---[if mso | IE]></td></tr></table><![endif]--></td></tr></tbody></table></d=
-iv><!--[if mso | IE]></td></tr></table><![endif]--></div>
-<br/><img src=3D"https://0izvg.mjt.lu/oo/AUcAAC3CuHMAAchjsIwAAThs8zoAAYCsTG=
-EAnYSVACEoqQBlYwWCqNr0kcVbTcaCndc2_CMBHwAfMTE/7e9d96fc/e.gif" height=3D"1" =
-width=3D"1" alt=3D"" border=3D"0" style=3D"height:1px;width:1px;border:0;"/=
->
-</body></html>=
-
---=-6L3pZ4yxL7Ulab5I6lza--
+diff --git a/Makefile b/Makefile
+index 1d28d8a..f7e6323 100644
+--- a/Makefile
++++ b/Makefile
+@@ -6,7 +6,7 @@ FIRMWAREDIR = /lib/firmware
+ all:
+ 
+ check:
+-	@if ! which pre-commit >/dev/null; then \
++	@if ! command -v pre-commit >/dev/null; then \
+ 		echo "Install pre-commit to check files"; \
+ 		exit 1; \
+ 	fi
+diff --git a/copy-firmware.sh b/copy-firmware.sh
+index f9b1f0f..6f2268b 100755
+--- a/copy-firmware.sh
++++ b/copy-firmware.sh
+@@ -69,7 +69,7 @@ if [ -z "$destdir" ]; then
+ 	exit 1
+ fi
+ 
+-if ! which rdfind 2>/dev/null >/dev/null; then
++if ! command -v rdfind >/dev/null; then
+ 	echo "ERROR: rdfind is not installed"
+ 	exit 1
+ fi
+-- 
+2.41.0
 
