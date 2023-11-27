@@ -1,85 +1,65 @@
-Return-Path: <SRS0=/iwf=HI=molgen.mpg.de=pmenzel@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E55A1C4167B
-	for <linux-firmware@archiver.kernel.org>; Mon, 27 Nov 2023 11:51:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0A5DC4167B
+	for <linux-firmware@archiver.kernel.org>; Mon, 27 Nov 2023 13:40:30 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B2674C433C9; Mon, 27 Nov 2023 11:51:07 +0000 (UTC)
-Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 8FB20C433C8;
-	Mon, 27 Nov 2023 11:51:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 8FB20C433C8
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
-Received: from [141.14.220.40] (g40.guest.molgen.mpg.de [141.14.220.40])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pmenzel)
-	by mx.molgen.mpg.de (Postfix) with ESMTPSA id E026161E5FE01;
-	Mon, 27 Nov 2023 12:50:20 +0100 (CET)
-Message-ID: <e2f67283-90ea-4f74-977d-dde8bdd0a8ea@molgen.mpg.de>
-Date: Mon, 27 Nov 2023 12:50:20 +0100
+	id A2F26C433C7; Mon, 27 Nov 2023 13:40:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 894B9C433C9
+	for <linux-firmware@kernel.org>; Mon, 27 Nov 2023 13:40:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701092430;
+	bh=tW6jQ9L2ZBt92Ge3AbOTrYVTEHkjf+ybjLUO9Men1QE=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=NAJXuw+n0oDRfbNntNG0PTzgR2De4H3W+Uoz9C89pU5Hks7P7m5e+IbQPqMqpQ4bP
+	 +9f6CJC6HfhJA/Q3XxkVYSAecHDbRnfc87AWAmMs4bROAhfESzta6O9HDIrpXYXD7+
+	 2STbtfdlGGMBmYSUGRA52Eieh6dX2UVcj8p1vFjTkEdn+azX1uTvRsWqPLy/YKaoFK
+	 Kh96iZlkU6MYDCYdWbrLdIou+f24kUjuc+f73XuEUdi7Rtq6u6jBRJRM333mdi6ADp
+	 klNEG1c5FrVGTu8pHhTOy9pnrLRTaQG+EghPeGErNyH74F/fMKTGdQLQ626grm+8YO
+	 O5MoxREtvfW6A==
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5cc77e23218so42599057b3.3
+        for <linux-firmware@kernel.org>; Mon, 27 Nov 2023 05:40:30 -0800 (PST)
+X-Gm-Message-State: AOJu0YzzPTLv/eh4dE2yxHS0EAmEZ8AZfWZl12dI6P5xaGGLn22uvKWt
+	UocJzlSe5oaBnHnRkYkibU6+FXtKOsPLgMGjV7o=
+X-Google-Smtp-Source: AGHT+IE6pqg723PUO+eNEowpb0JzcIMHI1QkiPOX2SyFTM4ZFlIMXO2kZJWk8To4UcCxLI2SXcxJF5II6lncHf+Dw6c=
+X-Received: by 2002:a0d:cf83:0:b0:5cb:dcfe:2ee0 with SMTP id
+ r125-20020a0dcf83000000b005cbdcfe2ee0mr12871025ywd.12.1701092429694; Mon, 27
+ Nov 2023 05:40:29 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] linux-firmware: update firmware for mediatek bluetooth
- chip (MT7922)
-Content-Language: en-US
-To: Chris Lu <chris.lu@mediatek.com>
+References: <20231125042741.112038-1-chiahsuan.chung@amd.com>
+In-Reply-To: <20231125042741.112038-1-chiahsuan.chung@amd.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Mon, 27 Nov 2023 08:40:18 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA4eeRym6EUA9mZa9pXvY9m8iYubcAoACtcTARFLQBuoWw@mail.gmail.com>
+Message-ID: <CA+5PVA4eeRym6EUA9mZa9pXvY9m8iYubcAoACtcTARFLQBuoWw@mail.gmail.com>
+Subject: Re: pull request: amdgpu: update DMCUB firmware to v0.0.194.0\n
+To: Tom Chung <chiahsuan.chung@amd.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Josh Boyer <jwboyer@kernel.org>, David Woodhouse <dwmw2@infradead.org>,
- Ben Hutchings <ben@decadent.org.uk>, Marcel Holtmann <marcel@holtmann.org>,
- Johan Hedberg <johan.hedberg@gmail.com>, Sean Wang <sean.wang@mediatek.com>,
- Deren Wu <deren.Wu@mediatek.com>, Aaron Hou <aaron.hou@mediatek.com>,
- KM Lin <km.lin@mediatek.com>, Robin Chiu <robin.chiu@mediatek.com>,
- Steve Lee <steve.lee@mediatek.com>, linux-bluetooth@vger.kernel.org,
- linux-firmware@kernel.org, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org
-References: <20231127085827.13060-1-chris.lu@mediatek.com>
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <20231127085827.13060-1-chris.lu@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Cc: linux-firmware@kernel.org, Alex Deucher <alexander.deucher@amd.com>, 
+	Mario Limonciello <mario.limonciello@amd.com>, Deepak Sharma <deepak.sharma@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Dear Chris,
+On Fri, Nov 24, 2023 at 11:27=E2=80=AFPM Tom Chung <chiahsuan.chung@amd.com=
+> wrote:
+>
+>   amdgpu: update DMCUB firmware to 0.0.194.0 for DCN321 and DCN32 (2023-1=
+1-25 12:14:44 +0800)
+>
+> are available in the Git repository at:
+>
+>   git@gitlab.freedesktop.org:drm/firmware.git tags/amd-2023-11-25
+>
+> for you to fetch changes up to 87427f23282eb587a375c0e6e89f15e2b7a06db5:
+>
+>   amdgpu: update DMCUB firmware to 0.0.194.0 for DCN321 and DCN32 (2023-1=
+1-25 12:14:44 +0800)
 
+Pulled and pushed out.
 
-Thank you for the patch.
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/78
 
-Am 27.11.23 um 09:58 schrieb Chris Lu:
-> Update binary firmware for MT7922 BT devices.
-> 
-> File: mediatek/BT_RAM_CODE_MT7922_1_1_hdr.bin
-> Version: 20231120183620
-
-It’d be great if you added the version in the git commit message 
-summary/title too. The `linux-firmware` prefix is probably redundant. No 
-idea if a tag exists for it. So, maybe:
-
-mediatek: Update BT MT7921 fw from 20230627144220 to 20231120183620
-
-or
-
-Update Mediatek BT MT7921 fw to 20231120183620
-
-Also, it would be great if you added the change-log to the commit 
-message, so people have an idea, what improved.
-
-> Signed-off-by: Chris Lu <chris.lu@mediatek.com>
-> ---
->   WHENCE                                  |   2 +-
->   mediatek/BT_RAM_CODE_MT7922_1_1_hdr.bin | Bin 512022 -> 513878 bytes
->   2 files changed, 1 insertion(+), 1 deletion(-)
-
-[…]
-
-
-Kind regards,
-
-Paul
+josh
