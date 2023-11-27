@@ -4,62 +4,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0A5DC4167B
-	for <linux-firmware@archiver.kernel.org>; Mon, 27 Nov 2023 13:40:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E8D96C4167B
+	for <linux-firmware@archiver.kernel.org>; Mon, 27 Nov 2023 13:42:51 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id A2F26C433C7; Mon, 27 Nov 2023 13:40:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 894B9C433C9
-	for <linux-firmware@kernel.org>; Mon, 27 Nov 2023 13:40:30 +0000 (UTC)
+	id D2755C433C7; Mon, 27 Nov 2023 13:42:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B66BEC433C8
+	for <linux-firmware@kernel.org>; Mon, 27 Nov 2023 13:42:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701092430;
-	bh=tW6jQ9L2ZBt92Ge3AbOTrYVTEHkjf+ybjLUO9Men1QE=;
+	s=k20201202; t=1701092571;
+	bh=gToEA8ZZ68rdk9uZ1K8zNw6j+HWJmyWOHcySsfSgS2o=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=NAJXuw+n0oDRfbNntNG0PTzgR2De4H3W+Uoz9C89pU5Hks7P7m5e+IbQPqMqpQ4bP
-	 +9f6CJC6HfhJA/Q3XxkVYSAecHDbRnfc87AWAmMs4bROAhfESzta6O9HDIrpXYXD7+
-	 2STbtfdlGGMBmYSUGRA52Eieh6dX2UVcj8p1vFjTkEdn+azX1uTvRsWqPLy/YKaoFK
-	 Kh96iZlkU6MYDCYdWbrLdIou+f24kUjuc+f73XuEUdi7Rtq6u6jBRJRM333mdi6ADp
-	 klNEG1c5FrVGTu8pHhTOy9pnrLRTaQG+EghPeGErNyH74F/fMKTGdQLQ626grm+8YO
-	 O5MoxREtvfW6A==
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5cc77e23218so42599057b3.3
-        for <linux-firmware@kernel.org>; Mon, 27 Nov 2023 05:40:30 -0800 (PST)
-X-Gm-Message-State: AOJu0YzzPTLv/eh4dE2yxHS0EAmEZ8AZfWZl12dI6P5xaGGLn22uvKWt
-	UocJzlSe5oaBnHnRkYkibU6+FXtKOsPLgMGjV7o=
-X-Google-Smtp-Source: AGHT+IE6pqg723PUO+eNEowpb0JzcIMHI1QkiPOX2SyFTM4ZFlIMXO2kZJWk8To4UcCxLI2SXcxJF5II6lncHf+Dw6c=
-X-Received: by 2002:a0d:cf83:0:b0:5cb:dcfe:2ee0 with SMTP id
- r125-20020a0dcf83000000b005cbdcfe2ee0mr12871025ywd.12.1701092429694; Mon, 27
- Nov 2023 05:40:29 -0800 (PST)
+	b=ICp5ZaeHv76KsjOaZ/kVTOj0w2jDP/xFxs8sGE09jU4x5S1Bmhd0OLoN6aHC9RqzP
+	 D+rMQIJYxvz/ssEOVlVO6OTx+UIVXLNw0yvRKYsZAcwRhJjI7TNZxJhNikfwDWOkwu
+	 4RUq8fQvffiYTnHjkCA9whB9jOu+Lk3GD1fulBu3PWY8oGR/LUbcB6dxtdZMwpMY04
+	 Va1cBv19GTduMKEHJEdBQL09IxyCegi7xAD7I9McAUlWC7cyINOV7Hw2bLUn9imOi2
+	 sYycJ4ccQamegIBWpoJdldmcHSz2vuX15+5q7uMeJzXyn0mcsy9ytzOwo9M8eNZSaE
+	 tUar9l0UnK+Ow==
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5d12bf5d9b4so786757b3.3
+        for <linux-firmware@kernel.org>; Mon, 27 Nov 2023 05:42:51 -0800 (PST)
+X-Gm-Message-State: AOJu0YyAOo7K5W92Vqyd0IOSMwnLeFglkAE4+68aeZhzNxh0CO1PijcW
+	QdyBe/e+LFmauuHY/Xz5qoWfYqq/lPiO/Ig6FeA=
+X-Google-Smtp-Source: AGHT+IGQLBKaxYxn24EefWXlTnZiX0DlOXUf7AYLIE9pilHx8wkxgjg3IQ2sp6iEHPGOCrjTJJseh0lm4xfuX4uH+Y4=
+X-Received: by 2002:a05:690c:408c:b0:5ce:eba2:90df with SMTP id
+ gb12-20020a05690c408c00b005ceeba290dfmr6213134ywb.3.1701092570892; Mon, 27
+ Nov 2023 05:42:50 -0800 (PST)
 MIME-Version: 1.0
-References: <20231125042741.112038-1-chiahsuan.chung@amd.com>
-In-Reply-To: <20231125042741.112038-1-chiahsuan.chung@amd.com>
+References: <20231126170207.1309537-1-eschwartz93@gmail.com>
+In-Reply-To: <20231126170207.1309537-1-eschwartz93@gmail.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 27 Nov 2023 08:40:18 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA4eeRym6EUA9mZa9pXvY9m8iYubcAoACtcTARFLQBuoWw@mail.gmail.com>
-Message-ID: <CA+5PVA4eeRym6EUA9mZa9pXvY9m8iYubcAoACtcTARFLQBuoWw@mail.gmail.com>
-Subject: Re: pull request: amdgpu: update DMCUB firmware to v0.0.194.0\n
-To: Tom Chung <chiahsuan.chung@amd.com>
+Date: Mon, 27 Nov 2023 08:42:40 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA7pzYi3SYrwA4K1vSMk994Pw1NuDTdYkQFNoWbw5rwdxg@mail.gmail.com>
+Message-ID: <CA+5PVA7pzYi3SYrwA4K1vSMk994Pw1NuDTdYkQFNoWbw5rwdxg@mail.gmail.com>
+Subject: Re: [PATCH] Makefile, copy-firmware: Use portable "command -v" to
+ detect installed programs
+To: Eli Schwartz <eschwartz93@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, Alex Deucher <alexander.deucher@amd.com>, 
-	Mario Limonciello <mario.limonciello@amd.com>, Deepak Sharma <deepak.sharma@amd.com>
+Cc: linux-firmware@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 24, 2023 at 11:27=E2=80=AFPM Tom Chung <chiahsuan.chung@amd.com=
-> wrote:
+On Sun, Nov 26, 2023 at 12:02=E2=80=AFPM Eli Schwartz <eschwartz93@gmail.co=
+m> wrote:
 >
->   amdgpu: update DMCUB firmware to 0.0.194.0 for DCN321 and DCN32 (2023-1=
-1-25 12:14:44 +0800)
+> The "which" utility is not guaranteed to be installed either, and if it
+> is, its behavior is not portable either. This means that when rdfind /
+> pre-commit are installed, the `which` check will report a fatal error
+> because the which tool did not exist and the shell returned a nonzero
+> status when attempting to fork+exec. If it did exist, it might not be an
+> implementation of `which` that returns nonzero when commands do not
+> exist.
 >
-> are available in the Git repository at:
+> Conversely, the "command -v" shell builtin is required to exist in all
+> POSIX 2008 compliant shells, and is thus guaranteed to work everywhere.
 >
->   git@gitlab.freedesktop.org:drm/firmware.git tags/amd-2023-11-25
+> For some in-depth discussions on the topic, see:
+> - https://mywiki.wooledge.org/BashFAQ/081
+> - https://unix.stackexchange.com/questions/85249/why-not-use-which-what-t=
+o-use-then/85250#85250
 >
-> for you to fetch changes up to 87427f23282eb587a375c0e6e89f15e2b7a06db5:
+> Examples of open-source shells likely to be installed as /bin/sh on
+> Linux, which implement the 15-year-old standard: ash, bash, busybox,
+> dash, ksh, mksh and zsh.
 >
->   amdgpu: update DMCUB firmware to 0.0.194.0 for DCN321 and DCN32 (2023-1=
-1-25 12:14:44 +0800)
+> A side benefit of using the POSIX portable option is that it requires
+> neither an external disk executable, nor (because unlike "which", the
+> exit code is reliable) a subshell fork. This therefore represents a mild
+> speedup.
+>
+> Signed-off-by: Eli Schwartz <eschwartz93@gmail.com>
 
-Pulled and pushed out.
+Applied and pushed out.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/78
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/79
 
 josh
+
+> ---
+>  Makefile         | 2 +-
+>  copy-firmware.sh | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index 1d28d8a..f7e6323 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -6,7 +6,7 @@ FIRMWAREDIR =3D /lib/firmware
+>  all:
+>
+>  check:
+> -       @if ! which pre-commit >/dev/null; then \
+> +       @if ! command -v pre-commit >/dev/null; then \
+>                 echo "Install pre-commit to check files"; \
+>                 exit 1; \
+>         fi
+> diff --git a/copy-firmware.sh b/copy-firmware.sh
+> index f9b1f0f..6f2268b 100755
+> --- a/copy-firmware.sh
+> +++ b/copy-firmware.sh
+> @@ -69,7 +69,7 @@ if [ -z "$destdir" ]; then
+>         exit 1
+>  fi
+>
+> -if ! which rdfind 2>/dev/null >/dev/null; then
+> +if ! command -v rdfind >/dev/null; then
+>         echo "ERROR: rdfind is not installed"
+>         exit 1
+>  fi
+> --
+> 2.41.0
+>
