@@ -1,168 +1,91 @@
-Return-Path: <SRS0=VfQK=HP=vicresearchdata.com=jessica.q@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25394C10F04
-	for <linux-firmware@archiver.kernel.org>; Mon,  4 Dec 2023 10:11:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11C78C10DC1
+	for <linux-firmware@archiver.kernel.org>; Mon,  4 Dec 2023 13:09:16 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id DE2D2C433C7; Mon,  4 Dec 2023 10:11:07 +0000 (UTC)
-Received: from mail-m120130.xmail.ntesmail.com (mail-m120130.xmail.ntesmail.com [115.236.120.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id D114CC433C8
-	for <linux-firmware@kernel.org>; Mon,  4 Dec 2023 10:11:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D114CC433C8
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=vicresearchdata.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=vicresearchdata.com
-List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-Received: from vicresearchdata.com (localhost [127.0.0.1])
-	by mail-m12745.qiye.163.com (Hmail) with ESMTP id B40C29A06F2;
-	Mon,  4 Dec 2023 17:57:01 +0800 (CST)
-Content-Type: multipart/alternative; BOUNDARY="=_Part_353708_95526353.1701683821729"
-Message-ID: <AIcAsQCbGEqtI9deYwBnU4ra.1.1701683821729.Hmail.jessica.q@vicresearchdata.com>
-Subject: =?UTF-8?B?5biC5Zy65bGV5pybIFplcm8tRHJpZnQgT3AgQW1wIE1hcmtldCBhcmUgYW5hbHl6ZWQgYW5kIGluc2lnaHRlZCAyMDE5LTIwMjk=?=
-X-Priority: 3
-X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com web
-X-Originating-IP: 14.122.150.227
+	id E127CC433CB; Mon,  4 Dec 2023 13:09:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC1C3C433C7
+	for <linux-firmware@kernel.org>; Mon,  4 Dec 2023 13:09:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701695356;
+	bh=SeXx+O1jNdAy6o6/NUQ1Q6hvXK2Yw0wQE39mTw9yxBU=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=EcOcOcNucVgYGBFJ474u8I/t4lv33vqdLbVhr1SQuH6ruBNo5pHPAvpPxsbnfRkPq
+	 mwRhTbXI/okI+SAaIk3+Ajb16zEoLlfIFF2aDRNsWl11vHhw5+tgtWMpGmR4GCkwPx
+	 z62Msn31g6tdfShb+mb8bZxVXcBf240C+NeApZBw2SVQ9F+2S3exQqxG2favOeYW9O
+	 udH2eYSA3XS09q06vFZzbcACj/3vb2Fnn7MvFa8z6FuKhtsk5prSjSbCXM+cYxAQTF
+	 2wH3wJgiUTdRisy6Q7oS9zJ7DlhhwyAAWUiz7QZ3284c3bfqvQjwv4p8qLZ0ev0FOX
+	 l6ik0x5m1ZbdQ==
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-5cdc0b3526eso36463757b3.1
+        for <linux-firmware@kernel.org>; Mon, 04 Dec 2023 05:09:16 -0800 (PST)
+X-Gm-Message-State: AOJu0Yyzo2AiKwVMIgIvrzM2cM6JujZK2aHlOCYyzIVAXNYRlsVTpc4+
+	hc+2rnP121MzWqdlI87MgYUrvzacez2BuOcDcZQ=
+X-Google-Smtp-Source: AGHT+IFdA03VsHc9mkzkLi18rspXQV4a8CWM9+zhTgxaDf+z9wWlm1zE8rm30s40ZKjelYF/3R8GXm79ueA+yFLl4SA=
+X-Received: by 2002:a81:4e90:0:b0:5d9:2d08:bf65 with SMTP id
+ c138-20020a814e90000000b005d92d08bf65mr280272ywb.0.1701695355983; Mon, 04 Dec
+ 2023 05:09:15 -0800 (PST)
 MIME-Version: 1.0
-Received: from jessica.q@vicresearchdata.com( [14.122.150.227) ] by ajax-webmail ( [127.0.0.1] ) ; Mon, 4 Dec 2023 17:57:01 +0800 (GMT+08:00)
-From: Jessica <jessica.q@vicresearchdata.com>
-Date: Mon, 4 Dec 2023 17:57:01 +0800 (GMT+08:00)
-X-HM-Spam-Status: e1kfGhgUHx5ZQUhXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCSUgYVk0YTBlLSEodTUtDTVUTARMWGhIXJBQOD1
-	lXWRgSC1lBWUpPVUpJSVVKTktVSUlMWVdZFhoPEhUdFFlBWU9CTFVISFVPVUtZBg++
-X-HM-Tid: 0a8c34427ca1b218kuuu18c15a67baf
-X-HM-MType: 1
-X-HM-NTES-SC: AL0_4z5B86Wr4Tz9jdMF+bhXMcb5IJsED/3El0LoOHt0zTZM0BjnS++LR0ESZN
-	BzYVnXuOSbJ+QHNsVDUpnDicXnEhOZfzJBsNSEJ0rtaliCswKxxOHrJjn+0l/FnXSo4p4fCmbqWt
-	deOD7LtFuWpXYR8BvBYdt5v/t+ilsAv7nvVKk=
-X-HM-Sender-Digest: e1kMHhlZQQ8JDh5XWRIfHhUPWUFZRzoyGDoIKjgZPD4KDzJCHx4iDDkV
-	Lk8JGlVKVUpMS0pNQ0hDSUlNSU9VMxYaEhdVER4ICBIYGlUKOw0SGAkeCB4aCRgTHxoPGlUYFBZF
-	WVdZFBUeCRgLD1lBSldZEgtZQVlKT1VKSUlVSk5LVUlJTFlXWQgBWUFJS0lIQzcG
+References: <ZWikFs6ZxaxyDMZc@chelsio.com>
+In-Reply-To: <ZWikFs6ZxaxyDMZc@chelsio.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Mon, 4 Dec 2023 08:09:04 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA5sZ5AmQjLU2f-LeYH4tK+8O=5Bg25BUMy7onn1Pt4TKA@mail.gmail.com>
+Message-ID: <CA+5PVA5sZ5AmQjLU2f-LeYH4tK+8O=5Bg25BUMy7onn1Pt4TKA@mail.gmail.com>
+Subject: Re: pull request: linux-firmware: update cxgb4 firmware to 1.27.5.0
+To: Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-
---=_Part_353708_95526353.1701683821729
+Cc: linux-firmware@kernel.org, linux-kernel@vger.kernel.org, 
+	ramaraju@chelsio.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
 
-SG93IGFyZSB5b3U/CkFuYWx5c2lzIGFuZCBJbnNpZ2h0cyBvZiBaZXJvLURyaWZ0IE9wIEFtcCBN
-YXJrZXQgaW4gMjAyMy4gVGhlIGNvbnRlbnQgb2Ygb3VyIHJlcG9ydCBpcyBkZXRhaWxlZCBhbmQg
-cmljaCwgaXQgY2FuIGxldCB5b3UgZ2V0IGEgbG90IG9mIGluZHVzdHJ5IGluZm9ybWF0aW9uLiBJ
-ZiB5b3UgbmVlZCBhIHNhbXBsZSByZXBvcnQsIHdlIGFyZSBoYXBweSB0byBzaGFyZSBpdCB3aXRo
-IHlvdS4KUmVsZXZhbnQgbWFudWZhY3R1cmVycyBhcmUgbGlzdGVk77yaCkFOQUxPRwpEaWdpLUtl
-eSBFbGVjdHJvbmljClRleGFzIEluc3RydW1lbnRzCk1vdXNlciBFbGVjdHJvbmljcwpJbmZvcm1h
-IFVTQQpBc2FoaSBLYXNlaSBNaWNyb2RldmljZXMKTWljcm9jaGlwIFRlY2hub2xvZ3kKTUEgQnVz
-aW5lc3MKTmV3IEphcGFuIFJhZGlvCi4uLi4uLgpJZiB5b3UgY291bGQgcmVwbHkgb3IgZm9yd2Fy
-ZCBpdCB0byBzdWl0YWJsZSBkZXBhcnRtZW50LCB3ZSB3b3VsZCBiZSBncmF0ZWZ1bC4KQnJpZ2h0
-IGZ1dHVyZSwganViaWxhbnQuCkFwcmlsKFNhbGVzIE1hbmFnZXIpClQ6Kzg2LTE4ODIwMTgxNDE1
-CkU6IGFwcmlsQHZpY21hcmtldHJlc2VhcmNoLmNvbQoKCg0KDQo=
---=_Part_353708_95526353.1701683821729
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
+On Thu, Nov 30, 2023 at 10:03=E2=80=AFAM Rahul Lakkireddy
+<rahul.lakkireddy@chelsio.com> wrote:
+>
+> Please pull the new Chelsio firmware from the following URL.
+>
+>  http://git.chelsio.net/pub/git/linux-firmware.git for-upstream
+>
+> Thanks,
+> Rahul
+>
+>
+> The following changes since commit 034e24b835d1f8b8e8266f766d610683aefe14=
+c3:
+>
+>   Merge branch 's5p-mfc-v12' into 'main' (2023-11-29 17:05:38 +0000)
+>
+> are available in the Git repository at:
+>
+>   http://git.chelsio.net/pub/git/linux-firmware.git for-upstream
+>
+> for you to fetch changes up to dbf82492ca9000ad794dc8fac6feda1179cd5216:
+>
+>   cxgb4: Update firmware to revision 1.27.5.0 (2023-11-30 14:11:49 +0000)
 
-PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
-Zm9udC1mYW1pbHk6QXJpYWwiPjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJtc28t
-c3BhY2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAw
-cHQ7Cm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij5Ib3cgYXJlIHlvdT88L3NwYW4+PHNwYW4g
-c3R5bGU9Im1zby1zcGFjZXJ1bjoneWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1z
-aXplOjEwLjUwMDBwdDsKbXNvLWZvbnQta2VybmluZzoxLjAwMDBwdDsiPjxvOnA+PC9vOnA+PC9z
-cGFuPjwvcD48cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVuOid5
-ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTtmb250LXNpemU6MTAuNTAwMHB0Owptc28tZm9u
-dC1rZXJuaW5nOjEuMDAwMHB0OyI+QW5hbHlzaXMgYW5kIEluc2lnaHRzIG9mIDwvc3Bhbj48c3Bh
-biBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTtjb2xv
-cjpyZ2IoMCwwLDI1NSk7CmZvbnQtc2l6ZToxMC41MDAwcHQ7bXNvLWZvbnQta2VybmluZzoxLjAw
-MDBwdDsiPlplcm8tRHJpZnQgT3AgQW1wPC9zcGFuPjxzcGFuIHN0eWxlPSJtc28tc3BhY2VydW46
-J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAwcHQ7Cm1zby1m
-b250LWtlcm5pbmc6MS4wMDAwcHQ7Ij4mbmJzcDs8Zm9udCBmYWNlPSLlvq7ova/pm4Xpu5EiPk1h
-cmtldCBpbiAyMDIzLiBUaGUgY29udGVudCBvZiBvdXIgcmVwb3J0IGlzIGRldGFpbGVkIGFuZCBy
-aWNoLCBpdCBjYW4gbGV0IHlvdSBnZXQgYSBsb3Qgb2YgaW5kdXN0cnkgaW5mb3JtYXRpb24uIElm
-IHlvdSBuZWVkIGEgc2FtcGxlIHJlcG9ydCwgd2UgYXJlIGhhcHB5IHRvIHNoYXJlIGl0IHdpdGgg
-eW91LjwvZm9udD48L3NwYW4+PHNwYW4gc3R5bGU9Im1zby1zcGFjZXJ1bjoneWVzJztmb250LWZh
-bWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBwdDsKbXNvLWZvbnQta2VybmluZzox
-LjAwMDBwdDsiPjxvOnA+PC9vOnA+PC9zcGFuPjwvcD48cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
-biBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTtmb250
-LXNpemU6MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+UmVsZXZhbnQgbWFu
-dWZhY3R1cmVycyBhcmUgbGlzdGVk77yaPC9zcGFuPjxzcGFuIHN0eWxlPSJtc28tc3BhY2VydW46
-J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAwcHQ7Cm1zby1m
-b250LWtlcm5pbmc6MS4wMDAwcHQ7Ij48bzpwPjwvbzpwPjwvc3Bhbj48L3A+PHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PHNwYW4gc3R5bGU9Im1zby1zcGFjZXJ1bjoneWVzJztmb250LWZhbWlseTrlvq7o
-va/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBwdDsKbXNvLWZvbnQta2VybmluZzoxLjAwMDBwdDsi
-PkFOQUxPRzwvc3Bhbj48c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5
-OuW+rui9r+mbhem7kTtmb250LXNpemU6MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAw
-MHB0OyI+PG86cD48L286cD48L3NwYW4+PC9wPjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0
-eWxlPSJtc28tc3BhY2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6
-ZToxMC41MDAwcHQ7Cm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij5EaWdpLUtleSBFbGVjdHJv
-bmljPC9zcGFuPjxzcGFuIHN0eWxlPSJtc28tc3BhY2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u
-6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAwcHQ7Cm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7
-Ij48bzpwPjwvbzpwPjwvc3Bhbj48L3A+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9
-Im1zby1zcGFjZXJ1bjoneWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEw
-LjUwMDBwdDsKbXNvLWZvbnQta2VybmluZzoxLjAwMDBwdDsiPlRleGFzIEluc3RydW1lbnRzPC9z
-cGFuPjxzcGFuIHN0eWxlPSJtc28tc3BhY2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF
-6buRO2ZvbnQtc2l6ZToxMC41MDAwcHQ7Cm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij48bzpw
-PjwvbzpwPjwvc3Bhbj48L3A+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9Im1zby1z
-cGFjZXJ1bjoneWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBw
-dDsKbXNvLWZvbnQta2VybmluZzoxLjAwMDBwdDsiPk1vdXNlciBFbGVjdHJvbmljczwvc3Bhbj48
-c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTtm
-b250LXNpemU6MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+PG86cD48L286
-cD48L3NwYW4+PC9wPjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJtc28tc3BhY2Vy
-dW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAwcHQ7Cm1z
-by1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij5JbmZvcm1hIFVTQTwvc3Bhbj48c3BhbiBzdHlsZT0i
-bXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTtmb250LXNpemU6MTAu
-NTAwMHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+PG86cD48L286cD48L3NwYW4+PC9w
-PjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJtc28tc3BhY2VydW46J3llcyc7Zm9u
-dC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAwcHQ7Cm1zby1mb250LWtlcm5p
-bmc6MS4wMDAwcHQ7Ij5Bc2FoaSBLYXNlaSBNaWNyb2RldmljZXM8L3NwYW4+PHNwYW4gc3R5bGU9
-Im1zby1zcGFjZXJ1bjoneWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEw
-LjUwMDBwdDsKbXNvLWZvbnQta2VybmluZzoxLjAwMDBwdDsiPjxvOnA+PC9vOnA+PC9zcGFuPjwv
-cD48cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2Zv
-bnQtZmFtaWx5OuW+rui9r+mbhem7kTtmb250LXNpemU6MTAuNTAwMHB0Owptc28tZm9udC1rZXJu
-aW5nOjEuMDAwMHB0OyI+TWljcm9jaGlwIFRlY2hub2xvZ3k8L3NwYW4+PHNwYW4gc3R5bGU9Im1z
-by1zcGFjZXJ1bjoneWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUw
-MDBwdDsKbXNvLWZvbnQta2VybmluZzoxLjAwMDBwdDsiPjxvOnA+PC9vOnA+PC9zcGFuPjwvcD48
-cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQt
-ZmFtaWx5OuW+rui9r+mbhem7kTtmb250LXNpemU6MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5n
-OjEuMDAwMHB0OyI+TUEgQnVzaW5lc3M8L3NwYW4+PHNwYW4gc3R5bGU9Im1zby1zcGFjZXJ1bjon
-eWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBwdDsKbXNvLWZv
-bnQta2VybmluZzoxLjAwMDBwdDsiPjxvOnA+PC9vOnA+PC9zcGFuPjwvcD48cCBjbGFzcz0iTXNv
-Tm9ybWFsIj48c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9
-r+mbhem7kTtmb250LXNpemU6MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+
-TmV3IEphcGFuIFJhZGlvPC9zcGFuPjxzcGFuIHN0eWxlPSJtc28tc3BhY2VydW46J3llcyc7Zm9u
-dC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAwcHQ7Cm1zby1mb250LWtlcm5p
-bmc6MS4wMDAwcHQ7Ij48bzpwPjwvbzpwPjwvc3Bhbj48L3A+PHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PHNwYW4gc3R5bGU9Im1zby1zcGFjZXJ1bjoneWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7
-Zm9udC1zaXplOjEwLjUwMDBwdDsKbXNvLWZvbnQta2VybmluZzoxLjAwMDBwdDsiPi4uLi4uLjwv
-c3Bhbj48c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mb
-hem7kTtmb250LXNpemU6MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+PG86
-cD48L286cD48L3NwYW4+PC9wPjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJtc28t
-c3BhY2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQtc2l6ZToxMC41MDAw
-cHQ7Cm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij5JZiB5b3UgY291bGQgcmVwbHkgb3IgZm9y
-d2FyZCBpdCB0byBzdWl0YWJsZSBkZXBhcnRtZW50LCB3ZSB3b3VsZCBiZSBncmF0ZWZ1bC48L3Nw
-YW4+PHNwYW4gc3R5bGU9Im1zby1zcGFjZXJ1bjoneWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xp
-u5E7Zm9udC1zaXplOjEwLjUwMDBwdDsKbXNvLWZvbnQta2VybmluZzoxLjAwMDBwdDsiPjxvOnA+
-PC9vOnA+PC9zcGFuPjwvcD48cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0ibXNvLXNw
-YWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTtmb250LXNpemU6MTAuNTAwMHB0
-Owptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+QnJpZ2h0IGZ1dHVyZSwganViaWxhbnQuPC9z
-cGFuPjxzcGFuIHN0eWxlPSJtc28tc3BhY2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF
-6buRO2ZvbnQtc2l6ZToxMC41MDAwcHQ7Cm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij48bzpw
-PjwvbzpwPjwvc3Bhbj48L3A+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9Im1zby1z
-cGFjZXJ1bjoneWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBw
-dDsKbXNvLWZvbnQta2VybmluZzoxLjAwMDBwdDsiPkFwcmlsKFNhbGVzIE1hbmFnZXIpPC9zcGFu
-PjxzcGFuIHN0eWxlPSJtc28tc3BhY2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buR
-O2ZvbnQtc2l6ZToxMC41MDAwcHQ7Cm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij48bzpwPjwv
-bzpwPjwvc3Bhbj48L3A+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9Im1zby1zcGFj
-ZXJ1bjoneWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBwdDsK
-bXNvLWZvbnQta2VybmluZzoxLjAwMDBwdDsiPlQ6Kzg2LTE4ODIwMTgxNDE1PC9zcGFuPjxzcGFu
-IHN0eWxlPSJtc28tc3BhY2VydW46J3llcyc7Zm9udC1mYW1pbHk65b6u6L2v6ZuF6buRO2ZvbnQt
-c2l6ZToxMC41MDAwcHQ7Cm1zby1mb250LWtlcm5pbmc6MS4wMDAwcHQ7Ij48bzpwPjwvbzpwPjwv
-c3Bhbj48L3A+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9Im1zby1zcGFjZXJ1bjon
-eWVzJztmb250LWZhbWlseTrlvq7ova/pm4Xpu5E7Zm9udC1zaXplOjEwLjUwMDBwdDsKbXNvLWZv
-bnQta2VybmluZzoxLjAwMDBwdDsiPkU6IGFwcmlsQHZpY21hcmtldHJlc2VhcmNoLmNvbTwvc3Bh
-bj48c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVuOid5ZXMnO2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7
-kTtmb250LXNpemU6MTAuNTAwMHB0Owptc28tZm9udC1rZXJuaW5nOjEuMDAwMHB0OyI+PG86cD48
-L286cD48L3NwYW4+PC9wPjwvZGl2Pjxicj4=
---=_Part_353708_95526353.1701683821729--
+Pulled and pushed out.
+
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/91
+
+josh
+
+>
+> ----------------------------------------------------------------
+> Rahul Lakkireddy (1):
+>       cxgb4: Update firmware to revision 1.27.5.0
+>
+>  WHENCE                                         |  12 ++++++------
+>  cxgb4/{t4fw-1.27.4.0.bin =3D> t4fw-1.27.5.0.bin} | Bin 570880 -> 570880 =
+bytes
+>  cxgb4/{t5fw-1.27.4.0.bin =3D> t5fw-1.27.5.0.bin} | Bin 678912 -> 678912 =
+bytes
+>  cxgb4/{t6fw-1.27.4.0.bin =3D> t6fw-1.27.5.0.bin} | Bin 730624 -> 730624 =
+bytes
+>  4 files changed, 6 insertions(+), 6 deletions(-)
+>  rename cxgb4/{t4fw-1.27.4.0.bin =3D> t4fw-1.27.5.0.bin} (99%)
+>  rename cxgb4/{t5fw-1.27.4.0.bin =3D> t5fw-1.27.5.0.bin} (59%)
+>  rename cxgb4/{t6fw-1.27.4.0.bin =3D> t6fw-1.27.5.0.bin} (76%)
