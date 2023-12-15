@@ -1,82 +1,127 @@
-Return-Path: <SRS0=ZYz2=HZ=linaro.org=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=pZkd=H2=qualityservice.top=info7@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2F46BC4332F
-	for <linux-firmware@archiver.kernel.org>; Thu, 14 Dec 2023 13:25:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D476C4332F
+	for <linux-firmware@archiver.kernel.org>; Fri, 15 Dec 2023 03:47:43 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 16CE7C433C7; Thu, 14 Dec 2023 13:25:33 +0000 (UTC)
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 339DFC433CD
-	for <linux-firmware@kernel.org>; Thu, 14 Dec 2023 13:25:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 339DFC433CD
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3b9df0a6560so5587028b6e.2
-        for <linux-firmware@kernel.org>; Thu, 14 Dec 2023 05:25:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702560331; x=1703165131; darn=kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=eo7TGQBzn+xvDaIXlVE1yhtwxZPi3kc+TmPKNu4tZfk=;
-        b=qmpHMRDIh5qkXs3i0vh9dtU201LCnseb/r//jDff0Spu2JETqI8lzsur0xxVGJNf+H
-         PJHDHBjSS23vPyW93AiQYWqlwyu7av04z2DmWGvNk9tir8OJ8Yhfzcr4xulUIwX2vLZP
-         iwc8QbRNSVbZQ0kSJAhXPzkgjFe7x2NeCRfbfEIof8gD9WJfUle/i9ebCqOHBz2o6poo
-         /YaYhEL4iUe3n0iPzCPP7GQPKFtAJPCeQnbJiGfuey6HPYfd2qJK5wzWiZMNIwd26Iy9
-         8YPy1H7FUrS88jVrWXB9YV08ks0shK2uO/GxxvV1fW8C5045hLPN/elbx4iKfP2/qErv
-         a4Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702560331; x=1703165131;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eo7TGQBzn+xvDaIXlVE1yhtwxZPi3kc+TmPKNu4tZfk=;
-        b=EfK0yBRI6GS5DGEQoGqG4SZcM4utlA+Ehe1VG8pkKfrVyJ+NR3pwtJq1fcGDIzMlJi
-         7onY0UFcXK7s2uD+rqMHOAz9Rfr2nIxetxYxAl6gddB3hckz0jPtnXwQJI43acKomNZi
-         J6B0/rIY/wu+m7Ho9AR3A2p/OJdjOfb6rKBL1myHSf9HaL8FyPiQnp6EB4LsjU/cR+jF
-         1FiV0sd+QqokrepomSimINiB7rdH+5D0K6WQTI0MVxc6lfVgQTPEHVHsdUzlfW0DTsjG
-         amH8+2/3CU4RTgBbEVY62sLOb5lj4mS15QH9i7m+Dp7zXbPLtdMRtgYHrtOZTcDqnAm/
-         E9+Q==
-X-Gm-Message-State: AOJu0Ywn4BkPOyhMfE7zKNn5LCSTyWtOADZ0eQ6WSEq9aBfZOoLi3aDo
-	O+6d1j1RN8g4OTiWUv7G2b3GmqVvGylEJLwO5QGwpA==
-X-Google-Smtp-Source: AGHT+IFzdyL1hLeqb8Sbzc8WcBydPWEyXrbfKDtVNXXVr3Jq/fC9bOiQavMRKtNc8m4GTFyYjRL/EATVRO2Y28yHMBw=
-X-Received: by 2002:a05:6808:11d0:b0:3ba:1309:4375 with SMTP id
- p16-20020a05680811d000b003ba13094375mr5150407oiv.57.1702560331209; Thu, 14
- Dec 2023 05:25:31 -0800 (PST)
-MIME-Version: 1.0
-References: <1353f064-62b2-486e-b6d3-1f9fcf5bb1e1@linaro.org>
-In-Reply-To: <1353f064-62b2-486e-b6d3-1f9fcf5bb1e1@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 14 Dec 2023 15:25:20 +0200
-Message-ID: <CAA8EJpr-yQyqEFGpo2hj6+s4z+W=gAFns=19=6p52wDphi5ThQ@mail.gmail.com>
-Subject: Re: [GIT PULL] Add Audio topology firmware for Qualcomm SM8550 and
- SM8650 QRD platforms
-To: neil.armstrong@linaro.org
+	id 01315C433C9; Fri, 15 Dec 2023 03:47:43 +0000 (UTC)
+Received: from info.mdalsga.top (unknown [152.136.145.72])
+	by smtp.kernel.org (Postfix) with ESMTP id A42BBC433C7
+	for <linux-firmware@kernel.org>; Fri, 15 Dec 2023 03:47:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A42BBC433C7
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=manoinstrument.com
+Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=qualityservice.top
+Received: from DESKTOP-S5TPQI3 (61.185.131.88) by info.mdalsga.top id hff65k0e97ca for <linux-firmware@kernel.org>; Fri, 15 Dec 2023 11:47:30 +0800 (envelope-from <info7@qualityservice.top>)
+From: "pressure gauge factory" <sales@manoinstrument.com>
+Subject: Factory cooperate of Pressure gauge/ Manometer
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, linux-arm-msm <linux-arm-msm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To: linux-firmware@kernel.org
+Content-Type: multipart/alternative; boundary="cmh1=_U7LTQt6tCFeeQHjjtZNamIcJOnLc"
+MIME-Version: 1.0
+Sender: info7@qualityservice.top
+Reply-To: sales@manoinstrument.com
+Date: Fri, 15 Dec 2023 11:47:31 +0800
+Message-Id: <20231215034738.A42BBC433C7@smtp.kernel.org>
 
-On Thu, 14 Dec 2023 at 14:55, Neil Armstrong <neil.armstrong@linaro.org> wrote:
->
-> The following changes since commit c52dc2526009abe1a685f190423f605c01ac1b86:
->
->    Merge branch 'mlimonci/missing-dep-ci' into 'main' (2023-12-12 11:56:26 +0000)
->
-> are available in the Git repository at:
->
->    https://git.codelinaro.org/neil.armstrong/linux-firmware.git sm8550-sm8650-audio-fw
->
-> for you to fetch changes up to b80907ec3a811aff9afdeceb7410ad408f7e0de4:
->
->    qcom: Add Audio firmware for SM8650 QRD (2023-12-14 13:22:35 +0100)
+This is a multi-part message in MIME format
 
-Acked-by: Dmitry Baryshov <dmitry.baryshkov@linaro.org>
+--cmh1=_U7LTQt6tCFeeQHjjtZNamIcJOnLc
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 
--- 
-With best wishes
-Dmitry
+Your reader does not support HTML
+Hi=A0greeting,
+
+It brings me joy to learn that you are interested in pressure gauges, =
+digital pressure gauge instruments.
+
+By leveraging our 3 workshops, 1 professional calibration Lab, and ext=
+ensive 10-year experience,=20
+we consistently provide top-notch quality and competitive prices to ou=
+r valued customers worldwide.
+
+Our main products cover:
+1.Full series pressure gauges.
+2.Full series digital pressure gauges
+3.Thermometers
+4.Pressure calibrations
+5.OEM and ODM
+
+Should you find any product that meets your requirements, please get i=
+n touch with us.=A0
+You can receive catalogs and free samples from us.
+
+We assure you that any inquiry or requirement you may have will be giv=
+en prompt attention.
+
+
+Best regards,=A0
+Shirly=A0
+
+Ankang Mano Instrument Co., Ltd
+www.manoinstrument.com=A0
+sales@manoinstrument.com=A0
+Whatsapp:+86 18729482322
+Mobile:+86 18729482322
+skype: chengshirly@hotmail.com
+
+
+--cmh1=_U7LTQt6tCFeeQHjjtZNamIcJOnLc
+Content-Type: multipart/related; type="text/html";
+	boundary="VpJhgk6kW9IMqipLFqN3Ehf=_YHqMDSsw4"
+
+--VpJhgk6kW9IMqipLFqN3Ehf=_YHqMDSsw4
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+
+<HTML><BODY style=3D'font-family:"ARIAL, HELVETICA, SANS-SERIF";font-s=
+tyle:normal;font-weight:normal;font-size:14pt'></FONT><FONT face=3D"Ar=
+ial" style=3D"font-size:12pt" color=3D"#000000">Hi?greeting,<BR><BR></=
+FONT><FONT face=3D"Arial" style=3D"font-size:12pt" color=3D"#000000">I=
+t brings me joy to learn that you are interested in pressure gauges, d=
+igital pressure gauge instruments.<BR><BR></FONT><FONT face=3D"Arial" =
+style=3D"font-size:12pt" color=3D"#000000">By leveraging our 3 worksho=
+ps, 1 professional calibration Lab, and extensive 10-year experience, =
+<BR></FONT><FONT face=3D"Arial" style=3D"font-size:12pt" color=3D"#000=
+000">we consistently provide top-notch quality and competitive prices =
+to our valued customers worldwide.<BR><BR></FONT><FONT face=3D"Arial" =
+style=3D"font-size:12pt" color=3D"#000000">Our main products cover:<BR=
+></FONT><B><FONT face=3D"Arial" style=3D"font-size:12pt" color=3D"#000=
+000">1.Full series pressure gauges.<BR></FONT><FONT face=3D"Arial" sty=
+le=3D"font-size:12pt" color=3D"#000000">2.Full series digital pressure=
+ gauges<BR></FONT><FONT face=3D"Arial" style=3D"font-size:12pt" color=3D=
+"#000000">3.Thermometers<BR></FONT><FONT face=3D"Arial" style=3D"font-=
+size:12pt" color=3D"#000000">4.Pressure calibrations<BR></FONT><FONT f=
+ace=3D"Arial" style=3D"font-size:12pt" color=3D"#000000">5.OEM and ODM=
+<BR><BR></FONT></B><FONT face=3D"Arial" style=3D"font-size:12pt" color=
+=3D"#000000">Should you find any product that meets your requirements,=
+ please get in touch with us.?<BR></FONT><FONT face=3D"Arial" style=3D=
+"font-size:12pt" color=3D"#000000">You can receive catalogs and free s=
+amples from us.<BR><BR></FONT><FONT face=3D"Arial" style=3D"font-size:=
+12pt" color=3D"#000000">We assure you that any inquiry or requirement =
+you may have will be given prompt attention.<BR><BR><BR></FONT><FONT f=
+ace=3D"Arial" style=3D"font-size:12pt" color=3D"#000000">Best regards,=
+?<BR></FONT><FONT face=3D"Arial" style=3D"font-size:12pt" color=3D"#00=
+0000">Shirly</FONT><FONT face=3D"Arial" style=3D"font-size:14pt" color=
+=3D"#000000">?<BR><BR></FONT><FONT face=3D"Arial" style=3D"font-size:1=
+2pt" color=3D"#000000">Ankang Mano Instrument Co., Ltd<BR><A href=3D"f=
+ile:///C:/Users/lenovo/AppData/Roaming/Foxmail7/Temp-14740-20230823155=
+128/www.manoinstrument.com"></FONT><FONT face=3D"Arial" style=3D"font-=
+size:12pt">www.manoinstrument.com</A></FONT><FONT face=3D"Arial" style=
+=3D"font-size:12pt" color=3D"#000000">?<BR></FONT><FONT face=3D"Arial"=
+ style=3D"font-size:12pt" color=3D"#000000">sales@manoinstrument.com?<=
+BR></FONT><FONT face=3D"Arial" style=3D"font-size:12pt" color=3D"#0000=
+00">Whatsapp:+86 18729482322<BR></FONT><FONT face=3D"Arial" style=3D"f=
+ont-size:12pt" color=3D"#000000">Mobile:+86 18729482322<BR></FONT><FON=
+T face=3D"Arial" style=3D"font-size:12pt" color=3D"#000000">skype: che=
+ngshirly@hotmail.com<BR></FONT></BODY></HTML>
+
+--VpJhgk6kW9IMqipLFqN3Ehf=_YHqMDSsw4--
+
+--cmh1=_U7LTQt6tCFeeQHjjtZNamIcJOnLc--
+
