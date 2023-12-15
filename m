@@ -1,110 +1,102 @@
-Return-Path: <SRS0=xnSj=H2=amd.com=Wayne.Lin@kernel.org>
+Return-Path: <SRS0=jNYL=H2=gmail.com=jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9AACC4332F
-	for <linux-firmware@archiver.kernel.org>; Fri, 15 Dec 2023 07:03:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DB214C35274
+	for <linux-firmware@archiver.kernel.org>; Fri, 15 Dec 2023 12:17:57 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B0284C433C9; Fri, 15 Dec 2023 07:03:20 +0000 (UTC)
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2075.outbound.protection.outlook.com [40.107.100.75])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id 9BB38C433C9; Fri, 15 Dec 2023 12:17:57 +0000 (UTC)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 62F34C433C7;
-	Fri, 15 Dec 2023 07:03:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 62F34C433C7
-Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YHEVLUEoTQ7HzrUN68FJIV0dqu8NcqOVMhNgJsa3OZvI17IUo99n1WEQZLCLeIYqg0vmLehm84Ph4xli4a/kHb/P7xKtaNktkWna/3KhrizXKXsPrgTlzWUNuhsW3L/IzBLmd+wva2STMJyUF9SMIfqH4RvNeGRM38NkzecbMQ7QxRjlHa+eyiN/kBx+MihNlT/xslg6EF36+pR5mWx5Bmcd3BaWkuDmXeWtbguice98Qs9ctYnehxgid1baCvWyvPnJqSnmenPf8Q21wVRGqSyDHnCKctWAbYbrjylv5HdbI2DBE9U8C6/ea5b4unG6flSGZDlCCE5QGtFfvzTTUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=F2KB81ClU1uYVJAywSTw6ocfY9zMs38xTKsn2xAzeGU=;
- b=kXGFGEccq9hQ/C1D+bwR9AbKRhmbbkEJOtx3iqME9MwjO/YpMp0M5IzSYgzVD7O/jwS0XnwBVUWyBqzgFzS6+yd5ILRoGjAAECvA6YG0ylLwZnKUkAi7iO8PYVaQzLwbW1zqRjqZeT+HgltB7Ov/dFFqo1JITf0jXuQli1Xi5TxeEVOORimx6Mcm8YbVah+fnjiV6x+Ur4PfMmoGcZbXC+aRHIs2XIqieH2mhqlLDGlqhCjRmbBV/QoSMuCeq2wuhHlMaTnHqgrievJbzTc4GxJK+3kqoYWF0vKhxSZELKR1aqlI9KtOtY0otysIvyZ8VJmmMCPj6jJaG4JmX6k/MQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=F2KB81ClU1uYVJAywSTw6ocfY9zMs38xTKsn2xAzeGU=;
- b=kVx8EwoWyxI1xXMHVYl/PRa4IB3emPOFAhK3XQsoq4zKzlA/tVXDeCr+uCUP1Fx5cmYWXHRr27uxA3rl4T5OfIJVul67v+wr0X2kDnm3UIYDWBIvEtIxIIrW0mU6gtJSLkKDoAqiYNtKZ1lUesq2QX83WMv9vBIxDJ3sbTZeKck=
-Received: from SA1P222CA0101.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:35e::9)
- by IA0PR12MB8715.namprd12.prod.outlook.com (2603:10b6:208:487::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.31; Fri, 15 Dec
- 2023 07:03:16 +0000
-Received: from SN1PEPF00026369.namprd02.prod.outlook.com
- (2603:10b6:806:35e:cafe::84) by SA1P222CA0101.outlook.office365.com
- (2603:10b6:806:35e::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.31 via Frontend
- Transport; Fri, 15 Dec 2023 07:03:16 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SN1PEPF00026369.mail.protection.outlook.com (10.167.241.134) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7091.26 via Frontend Transport; Fri, 15 Dec 2023 07:03:16 +0000
-Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Fri, 15 Dec
- 2023 01:03:11 -0600
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB08.amd.com
- (10.181.40.132) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.32; Thu, 14 Dec
- 2023 23:03:00 -0800
-Received: from wayne-dev-lnx.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.34 via Frontend
- Transport; Fri, 15 Dec 2023 01:02:58 -0600
-From: Wayne Lin <Wayne.Lin@amd.com>
-List-Id: <linux-firmware.lore.kernel.org>
-To: Josh Boyer <jwboyer@kernel.org>, <linux-firmware@kernel.org>
-CC: Alex Deucher <alexander.deucher@amd.com>, Mario Limonciello
-	<mario.limonciello@amd.com>, Deepak Sharma <deepak.sharma@amd.com>
-Subject: pull request: amdgpu: update DMCUB firmware to v0.0.197.0
-Date: Fri, 15 Dec 2023 15:02:56 +0800
-Message-ID: <20231215070256.3850993-1-Wayne.Lin@amd.com>
-X-Mailer: git-send-email 2.37.3
+	by smtp.kernel.org (Postfix) with ESMTPS id 8FC22C433C7
+	for <linux-firmware@kernel.org>; Fri, 15 Dec 2023 12:17:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 8FC22C433C7
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-dbce6056e85so479485276.3
+        for <linux-firmware@kernel.org>; Fri, 15 Dec 2023 04:17:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702642675; x=1703247475; darn=kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YVUgt3o5mUcfJYh8WI1Bvo3s5NmfbkvnzCcFCafce1g=;
+        b=iykT6LW/8gahQxu2sAZF3WMSA5pZB6k+U+t5KpHNfGMpaMbiSkFku6Rc6/w9MORTKi
+         N7Fo1VrU3lfUCOrFvtUnX6jH16TRxfJ2jfPjRb5fBd4C6cPARQFqg/mF0gWrWFfNlMG5
+         1IQq4ypg/2KN6FXkq7o/AhYPo0Eg73j9qY0RRU8X4JCbTqCswFQs1y68t8QzSUagmtsP
+         AwJV/R9x0HUWSlLHM82Yt3lDPxO3fj/H7wbBofRU6FpAAbFWbutKpelcoQwsuDScDQai
+         BiYVsq1S5SVRoB6Ec8Y8avynmbkeIOkZk8zFuJ+p5VHKAGeYiEk/F/y7rfgOSisDFi/W
+         ENKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702642675; x=1703247475;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YVUgt3o5mUcfJYh8WI1Bvo3s5NmfbkvnzCcFCafce1g=;
+        b=G6b3yAuDADI0Q8ZXT2RrmqQA13WwiCZEyAi/ZjvsrPpdtUTNa9Bz9OgNx/OQIb+1gH
+         CgwkKfr0fEjz9gl1STRNlbAOuYTETo17itGnB6yzEnm0GmCh8JMCu3F8GThw6g5Za1fc
+         M6RbHCPwiH1iBDe3xbZCEIjW9fr3PTISOAp2KxnzBiUHb4FRLpold/zxr8/LObaP154W
+         XpBIUny6Dwixu3iAXSX8nJ+mBoQhn2R1iPgQBkec4Q1wKjYH8SML6BU/fhVI/RdKnW4F
+         D3rC3jvP6G/0eDnVwMZRuYspa8UeA/oH9PsoF58nf0p2IjptMBtWFPPtlE6ZxDlf4ZvZ
+         3guw==
+X-Gm-Message-State: AOJu0Ywjb7uggqaWSi9h6pMqAL7nmWMzHUftS6gwD5focZPT9AqcV54y
+	h6QQXjmBcA3azJ5LMeNkq5UoHJ+/eTvEmUC5heo=
+X-Google-Smtp-Source: AGHT+IFeJ9g1nM4/h4KsH4odOlzsrb69XGUx2rrfVzZQhgOKkL55WPfX5PkQXV5nZB5KEtf9wL8VbLU1tByFsCqpl/4=
+X-Received: by 2002:a25:6d45:0:b0:dbc:de49:6366 with SMTP id
+ i66-20020a256d45000000b00dbcde496366mr2491851ybc.18.1702642675365; Fri, 15
+ Dec 2023 04:17:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF00026369:EE_|IA0PR12MB8715:EE_
-X-MS-Office365-Filtering-Correlation-Id: e487cfb5-82b3-4b2e-df8f-08dbfd3be97c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	3G3cvaRV34FFnWew7slLTxX8ubiC8woe2SoZ5PqyG3FFdbNBehZvyrRewKtnZIDLja+M49Lik+TWc/iWIOMq64ZG98QWPYi3nzehDOXvbjd3skpbNs/lK76mCkG5NVmBKmKTWbijfResk0C9PmKTlyoJbGS13K66QNG9fV6YMqPb8asOX2ye6BNcPCR3t4qwyrNWio7Izxx/eAkcSoTzrvj1EfQvpNY7nEjFkOid1QJBAP/hea1+/cvaQObLwwj6xQ0Fv9PgdA8+3z0WjX8Azcjx5u5ODzlkZYoPcBuVohZ6Fmg5E19oDEDcdwGgfQyHZPQmSNCoVgOS51gmQx6Jr5wEmqdn8Zdks/MAHjVKVKv11XV1FuHV7KEWg734VRNm3pXMSX6gGTRrkcqppEQpJEzak/arguHr9R6ohjeUNYdMEZx80f1qtI0ETBodG5NofdzVrTD4/DQREA8HE/VkZaRuZh+8duoUkcy9D7PZ2QBAKoxE7PDWetwfror2WhJ5CzmxAsqaEY/y2UI0R5lfS96iZgSGNzF+jNLiD67ml9Zi2vqVCat1m3X9eFb1l7tQ3tp9NDvRfcy9yGx1XFOPSPXY/UPHAL4XOyq3jFFIIjaz7CWI/jfPhebm9K+bWy0szlv8YaUgM/ZxFTdH6li+ZXPsLRpYYw7rIzPW0OGAw6+caWYXGYs5duNrAcmteLBC8la/DOeHB1GqGCdwVMTCiBWMuiSTBqs20Q91u9OtGpKi/XrDOwXLWWd44kkYyLIuAOrY+SJxbnkiP2bJWZvW5A==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(346002)(136003)(396003)(39860400002)(376002)(230922051799003)(82310400011)(451199024)(64100799003)(186009)(1800799012)(36840700001)(46966006)(40470700004)(4744005)(86362001)(15650500001)(26005)(36756003)(2616005)(4001150100001)(1076003)(478600001)(7696005)(2906002)(336012)(83380400001)(426003)(40480700001)(8936002)(47076005)(82740400003)(41300700001)(8676002)(356005)(450100002)(110136005)(54906003)(36860700001)(70206006)(70586007)(316002)(81166007)(5660300002)(4326008)(40460700003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2023 07:03:16.4448
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e487cfb5-82b3-4b2e-df8f-08dbfd3be97c
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SN1PEPF00026369.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8715
+References: <1353f064-62b2-486e-b6d3-1f9fcf5bb1e1@linaro.org>
+In-Reply-To: <1353f064-62b2-486e-b6d3-1f9fcf5bb1e1@linaro.org>
+From: Josh Boyer <jwboyer@gmail.com>
+Date: Fri, 15 Dec 2023 07:17:44 -0500
+Message-ID: <CA+5PVA6Qj5a8s2dSXTp2t32mNC76MwdXHbZWjOyCECM_bTbi2w@mail.gmail.com>
+Subject: Re: [GIT PULL] Add Audio topology firmware for Qualcomm SM8550 and
+ SM8650 QRD platforms
+To: neil.armstrong@linaro.org
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: linux-firmware@kernel.org, linux-arm-msm <linux-arm-msm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  amdgpu: DMCUB updates for various AMDGPU ASICs (2023-12-15 14:54:01 +0800)
+On Thu, Dec 14, 2023 at 7:55=E2=80=AFAM Neil Armstrong
+<neil.armstrong@linaro.org> wrote:
+>
+> The following changes since commit c52dc2526009abe1a685f190423f605c01ac1b=
+86:
+>
+>    Merge branch 'mlimonci/missing-dep-ci' into 'main' (2023-12-12 11:56:2=
+6 +0000)
+>
+> are available in the Git repository at:
+>
+>    https://git.codelinaro.org/neil.armstrong/linux-firmware.git sm8550-sm=
+8650-audio-fw
+>
+> for you to fetch changes up to b80907ec3a811aff9afdeceb7410ad408f7e0de4:
+>
+>    qcom: Add Audio firmware for SM8650 QRD (2023-12-14 13:22:35 +0100)
+>
+> ----------------------------------------------------------------
+> Neil Armstrong (2):
+>        qcom: Add Audio firmware for SM8550 QRD
+>        qcom: Add Audio firmware for SM8650 QRD
 
-are available in the Git repository at:
+Merged and pushed out.
 
-  git@gitlab.freedesktop.org:drm/firmware.git tags/amd-2023-12-15
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/98
 
-for you to fetch changes up to 87be457c2e50d35caeefc00cd590af21c29a8b83:
+josh
 
-  amdgpu: DMCUB updates for various AMDGPU ASICs (2023-12-15 14:54:01 +0800)
-
-----------------------------------------------------------------
+>
+>   WHENCE                          |  18 ++++++++++++++++++
+>   qcom/sm8550/SM8550-QRD-tplg.bin | Bin 0 -> 24296 bytes
+>   qcom/sm8650/SM8650-QRD-tplg.bin | Bin 0 -> 24296 bytes
+>   3 files changed, 18 insertions(+)
+>   create mode 100644 qcom/sm8550/SM8550-QRD-tplg.bin
+>   create mode 100644 qcom/sm8650/SM8650-QRD-tplg.bin
+>
