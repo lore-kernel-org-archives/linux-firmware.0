@@ -1,203 +1,150 @@
-Return-Path: <SRS0=gWRW=H5=opensource.cirrus.com=prvs=7716b2c674=sbinding@kernel.org>
+Return-Path: <SRS0=RO8a=H5=linux.intel.com=sakari.ailus@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9DE32C35274
-	for <linux-firmware@archiver.kernel.org>; Mon, 18 Dec 2023 16:53:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFB6FC35274
+	for <linux-firmware@archiver.kernel.org>; Mon, 18 Dec 2023 21:16:39 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 82C43C433C9; Mon, 18 Dec 2023 16:53:34 +0000 (UTC)
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	id A50EBC433C9; Mon, 18 Dec 2023 21:16:39 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id F075FC433C8
-	for <linux-firmware@kernel.org>; Mon, 18 Dec 2023 16:53:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org F075FC433C8
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BI6mGpF005953
-	for <linux-firmware@kernel.org>; Mon, 18 Dec 2023 10:53:25 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	message-id:date:mime-version:to:cc:from:subject:content-type
-	:content-transfer-encoding; s=PODMain02222019; bh=0CtVaMkyj1OKFU
-	ojBC/5sDKeyTUDOy7LVl2qdNu6H1U=; b=b14Vbn2nnG5IJBl2a/+YQt/sLpYxd2
-	24N3R3LdhpFRfCU/5M3oI5ArwiYMJJfHXTRhePMwV6g2EJS9UIcl0lrhtsy/6/TK
-	E6aF+MZEwNnsA5lUWeEmN4W+tiJ7GDkvtovwBa2IPwAXQ17Z0WBJbmwwcBxjivfn
-	sHVGW+sz6sSO1j/WmEvYeUgGu1Gj0GIRLtIJZCRM/QA2QcTlasYkaupnOzrJqXCv
-	Nlnd7vcZVSpOopAf3yN1jRsG6f7GGVQbUmrcq+iDccBHgHd5NHYfkaJruJiPCbRp
-	8CD8A0KNNWfKfBql7BbegV8OB0AbjlQHSvImbbS7vAu5Z56lHVGMvIAA==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3v196nay9r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-firmware@kernel.org>; Mon, 18 Dec 2023 10:53:07 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 18 Dec
- 2023 16:53:06 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.40 via Frontend Transport; Mon, 18 Dec 2023 16:53:05 +0000
-Received: from [198.61.64.132] (LONN2DGDQ73.ad.cirrus.com [198.61.64.132])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id DB8FD468;
-	Mon, 18 Dec 2023 16:53:05 +0000 (UTC)
-Message-ID: <32b7fab2-ef5d-4ae3-8d81-c1143419d36f@opensource.cirrus.com>
-Date: Mon, 18 Dec 2023 16:53:05 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-GB
+	by smtp.kernel.org (Postfix) with ESMTPS id 8C42DC433C7
+	for <linux-firmware@kernel.org>; Mon, 18 Dec 2023 21:16:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 8C42DC433C7
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702934199; x=1734470199;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ble2IgRu4xLYTwYoApPa8VJAPh7C3WB88wztpq8xWvw=;
+  b=HvREGU4AXpPhMmf1I4+EXq0EZ/is8VqZft7KZEFFLc3rhEShBO9YOwIH
+   w9mVD7vFTD42FnzPp4se4GuXEf5pt8hHcIyXG286O/43x7GoXmo+hSSSC
+   snF+OkfcK4+p2PmGpM/IKUu3+inOnQ1CP9fkQM34BURVqprWLZcAjxBlZ
+   UfesZwS2yrJUnvYUEFbTzbrjcZbQB68I/YGfOKx2alO2FFlZT2o57ORN9
+   RXdprBP5+9jfwvLbC0wCiE9Znls4NlEcNOzghrtWP7BOpHrDRLKQx6k8R
+   CRjEh0PZc8itDuDlUSCZ5t8oO/sT8pTiKusy9/bnV7S0P0kBM3hEHWBYu
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="14254813"
+X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
+   d="scan'208";a="14254813"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 13:16:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="809969163"
+X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
+   d="scan'208";a="809969163"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 13:16:37 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 4C2CA11FC43;
+	Mon, 18 Dec 2023 23:16:34 +0200 (EET)
+Date: Mon, 18 Dec 2023 21:16:34 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-CC: "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-Subject: [PULL v1 linux-firmware] Add firmware for Cirrus Smart Amp CS35L41
- for ASUS Zenbook 2022/2023 laptops
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: 72ZNZsizTup-bbCTBQEeauiH96clNUVm
-X-Proofpoint-GUID: 72ZNZsizTup-bbCTBQEeauiH96clNUVm
-X-Proofpoint-Spam-Reason: safe
+To: linux-firmware@kernel.org
+Cc: Wentong Wu <wentong.wu@intel.com>
+Subject: [GIT PULL] Intel Visual Sensing Controller firmware
+Message-ID: <ZYC2sqDmHb3jiI9I@kekkonen.localdomain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-We would like to add firmware files to support Cirrus Logic Smart Amp 
-CS35L41 for ASUS Zenbook 2022/2023 laptops.
+Hi folks,
 
-Thanks,
+This PR adds firmware binaries for Intel Visual Sensing Controller (VSC).
+The driver for the device has been recently merged to the char-misc tree
+and is expected to make it to Linux 6.8.
 
-Stefan Binding
+Please pull.
+
 
 The following changes since commit c156e6be6d4a0a2290e7059bc74fb0612aa19693:
 
-   Merge branch 'robot/pr-0-1702625169' into 'main' (2023-12-15 12:16:57 
-+0000)
+  Merge branch 'robot/pr-0-1702625169' into 'main' (2023-12-15 12:16:57 +0000)
 
 are available in the Git repository at:
 
-   https://github.com/CirrusLogic/linux-firmware/ for-upstream
+  https://git.kernel.org/pub/scm/linux/kernel/git/sailus/linux-firmware.git tags/ivsc-2023-12-18
 
-for you to fetch changes up to 4471d9c47a3d05bbea9a369ae8c63bdd95bb773e:
+for you to fetch changes up to cfc997c664f076c6800b749ed7ef315b1e8e76fd:
 
-   cirrus: Add CS35L41 firmware and tunings for ASUS Zenbook 2023 Models 
-(2023-12-18 16:44:19 +0000)
+  intel: vsc: Add firmware for Visual Sensing Controller (2023-12-18 22:59:39 +0200)
 
 ----------------------------------------------------------------
-Stefan Binding (2):
-       cirrus: Add CS35L41 firmware and tunings for ASUS Zenbook 2022 Models
-       cirrus: Add CS35L41 firmware and tunings for ASUS Zenbook 2023 Models
+Add Intel Visual Sensing Controller firmware
 
-  WHENCE                                              |  72 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  cirrus/cs35l41-dsp1-spk-cali-104316d3-spkid0-l0.bin | Bin 0 -> 1936 bytes
-  cirrus/cs35l41-dsp1-spk-cali-104316d3-spkid0-r0.bin | Bin 0 -> 1936 bytes
-  cirrus/cs35l41-dsp1-spk-cali-104316d3-spkid1-l0.bin | Bin 0 -> 1944 bytes
-  cirrus/cs35l41-dsp1-spk-cali-104316d3-spkid1-r0.bin | Bin 0 -> 1944 bytes
-  cirrus/cs35l41-dsp1-spk-cali-104316f3-spkid0-l0.bin | Bin 0 -> 2024 bytes
-  cirrus/cs35l41-dsp1-spk-cali-104316f3-spkid0-r0.bin | Bin 0 -> 2024 bytes
-  cirrus/cs35l41-dsp1-spk-cali-104316f3-spkid1-l0.bin | Bin 0 -> 2024 bytes
-  cirrus/cs35l41-dsp1-spk-cali-104316f3-spkid1-r0.bin | Bin 0 -> 2024 bytes
-  cirrus/cs35l41-dsp1-spk-cali-10431863-spkid0-l0.bin | Bin 0 -> 1964 bytes
-  cirrus/cs35l41-dsp1-spk-cali-10431863-spkid0-r0.bin | Bin 0 -> 1968 bytes
-  cirrus/cs35l41-dsp1-spk-cali-10431863-spkid1-l0.bin | Bin 0 -> 1964 bytes
-  cirrus/cs35l41-dsp1-spk-cali-10431863-spkid1-r0.bin | Bin 0 -> 1968 bytes
-  cirrus/cs35l41-dsp1-spk-cali-104318d3-spkid0-l0.bin | Bin 0 -> 1928 bytes
-  cirrus/cs35l41-dsp1-spk-cali-104318d3-spkid0-r0.bin | Bin 0 -> 1928 bytes
-  cirrus/cs35l41-dsp1-spk-cali-104318d3-spkid1-l0.bin | Bin 0 -> 1928 bytes
-  cirrus/cs35l41-dsp1-spk-cali-104318d3-spkid1-r0.bin | Bin 0 -> 1928 bytes
-  cirrus/cs35l41-dsp1-spk-cali-10431da2-spkid0-l0.bin | Bin 0 -> 2024 bytes
-  cirrus/cs35l41-dsp1-spk-cali-10431da2-spkid0-r0.bin | Bin 0 -> 2020 bytes
-  cirrus/cs35l41-dsp1-spk-cali-10431da2-spkid1-l0.bin | Bin 0 -> 2024 bytes
-  cirrus/cs35l41-dsp1-spk-cali-10431da2-spkid1-r0.bin | Bin 0 -> 2020 bytes
-  cirrus/cs35l41-dsp1-spk-cali-10431ee2-l0.bin        | Bin 0 -> 1944 bytes
-  cirrus/cs35l41-dsp1-spk-cali-10431ee2-r0.bin        | Bin 0 -> 1948 bytes
-  cirrus/cs35l41-dsp1-spk-cali-10431f1f-l0.bin        | Bin 0 -> 1984 bytes
-  cirrus/cs35l41-dsp1-spk-cali-10431f1f-r0.bin        | Bin 0 -> 1984 bytes
-  cirrus/cs35l41-dsp1-spk-cali-10431f62-spkid0-l0.bin | Bin 0 -> 1924 bytes
-  cirrus/cs35l41-dsp1-spk-cali-10431f62-spkid0-r0.bin | Bin 0 -> 1924 bytes
-  cirrus/cs35l41-dsp1-spk-cali-10431f62-spkid1-l0.bin | Bin 0 -> 1924 bytes
-  cirrus/cs35l41-dsp1-spk-cali-10431f62-spkid1-r0.bin | Bin 0 -> 1924 bytes
-  cirrus/cs35l41-dsp1-spk-prot-104316d3-spkid0-l0.bin | Bin 0 -> 4728 bytes
-  cirrus/cs35l41-dsp1-spk-prot-104316d3-spkid0-r0.bin | Bin 0 -> 4728 bytes
-  cirrus/cs35l41-dsp1-spk-prot-104316d3-spkid1-l0.bin | Bin 0 -> 4736 bytes
-  cirrus/cs35l41-dsp1-spk-prot-104316d3-spkid1-r0.bin | Bin 0 -> 4736 bytes
-  cirrus/cs35l41-dsp1-spk-prot-104316f3-spkid0-l0.bin | Bin 0 -> 5492 bytes
-  cirrus/cs35l41-dsp1-spk-prot-104316f3-spkid0-r0.bin | Bin 0 -> 5204 bytes
-  cirrus/cs35l41-dsp1-spk-prot-104316f3-spkid1-l0.bin | Bin 0 -> 5492 bytes
-  cirrus/cs35l41-dsp1-spk-prot-104316f3-spkid1-r0.bin | Bin 0 -> 5204 bytes
-  cirrus/cs35l41-dsp1-spk-prot-10431863-spkid0-l0.bin | Bin 0 -> 4756 bytes
-  cirrus/cs35l41-dsp1-spk-prot-10431863-spkid0-r0.bin | Bin 0 -> 4760 bytes
-  cirrus/cs35l41-dsp1-spk-prot-10431863-spkid1-l0.bin | Bin 0 -> 4756 bytes
-  cirrus/cs35l41-dsp1-spk-prot-10431863-spkid1-r0.bin | Bin 0 -> 4760 bytes
-  cirrus/cs35l41-dsp1-spk-prot-104318d3-spkid0-l0.bin | Bin 0 -> 4720 bytes
-  cirrus/cs35l41-dsp1-spk-prot-104318d3-spkid0-r0.bin | Bin 0 -> 4720 bytes
-  cirrus/cs35l41-dsp1-spk-prot-104318d3-spkid1-l0.bin | Bin 0 -> 4720 bytes
-  cirrus/cs35l41-dsp1-spk-prot-104318d3-spkid1-r0.bin | Bin 0 -> 4720 bytes
-  cirrus/cs35l41-dsp1-spk-prot-10431da2-spkid0-l0.bin | Bin 0 -> 5024 bytes
-  cirrus/cs35l41-dsp1-spk-prot-10431da2-spkid0-r0.bin | Bin 0 -> 5020 bytes
-  cirrus/cs35l41-dsp1-spk-prot-10431da2-spkid1-l0.bin | Bin 0 -> 5024 bytes
-  cirrus/cs35l41-dsp1-spk-prot-10431da2-spkid1-r0.bin | Bin 0 -> 5020 bytes
-  cirrus/cs35l41-dsp1-spk-prot-10431ee2-l0.bin        | Bin 0 -> 4920 bytes
-  cirrus/cs35l41-dsp1-spk-prot-10431ee2-r0.bin        | Bin 0 -> 4924 bytes
-  cirrus/cs35l41-dsp1-spk-prot-10431f1f-l0.bin        | Bin 0 -> 4860 bytes
-  cirrus/cs35l41-dsp1-spk-prot-10431f1f-r0.bin        | Bin 0 -> 4860 bytes
-  cirrus/cs35l41-dsp1-spk-prot-10431f62-spkid0-l0.bin | Bin 0 -> 5284 bytes
-  cirrus/cs35l41-dsp1-spk-prot-10431f62-spkid0-r0.bin | Bin 0 -> 4996 bytes
-  cirrus/cs35l41-dsp1-spk-prot-10431f62-spkid1-l0.bin | Bin 0 -> 5284 bytes
-  cirrus/cs35l41-dsp1-spk-prot-10431f62-spkid1-r0.bin | Bin 0 -> 4996 bytes
-  57 files changed, 72 insertions(+)
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-104316d3-spkid0-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-104316d3-spkid0-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-104316d3-spkid1-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-104316d3-spkid1-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-104316f3-spkid0-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-104316f3-spkid0-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-104316f3-spkid1-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-104316f3-spkid1-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-10431863-spkid0-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-10431863-spkid0-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-10431863-spkid1-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-10431863-spkid1-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-104318d3-spkid0-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-104318d3-spkid0-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-104318d3-spkid1-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-104318d3-spkid1-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-10431da2-spkid0-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-10431da2-spkid0-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-10431da2-spkid1-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-10431da2-spkid1-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-10431ee2-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-10431ee2-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-10431f1f-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-10431f1f-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-10431f62-spkid0-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-10431f62-spkid0-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-10431f62-spkid1-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-10431f62-spkid1-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-104316d3-spkid0-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-104316d3-spkid0-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-104316d3-spkid1-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-104316d3-spkid1-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-104316f3-spkid0-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-104316f3-spkid0-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-104316f3-spkid1-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-104316f3-spkid1-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-10431863-spkid0-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-10431863-spkid0-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-10431863-spkid1-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-10431863-spkid1-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-104318d3-spkid0-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-104318d3-spkid0-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-104318d3-spkid1-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-104318d3-spkid1-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-10431da2-spkid0-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-10431da2-spkid0-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-10431da2-spkid1-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-10431da2-spkid1-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-10431ee2-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-10431ee2-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-10431f1f-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-10431f1f-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-10431f62-spkid0-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-10431f62-spkid0-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-10431f62-spkid1-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-10431f62-spkid1-r0.bin
+----------------------------------------------------------------
+Sakari Ailus (1):
+      intel: vsc: Add firmware for Visual Sensing Controller
 
+ LICENSE.ivsc                           |  38 +++++++++++++++++++++++++++++++++
+ WHENCE                                 |  36 +++++++++++++++++++++++++++++++
+ intel/vsc/ivsc_fw.bin                  | Bin 0 -> 966560 bytes
+ intel/vsc/ivsc_pkg_hi556_0.bin         | Bin 0 -> 767068 bytes
+ intel/vsc/ivsc_pkg_himx11b1_0.bin      | Bin 0 -> 730204 bytes
+ intel/vsc/ivsc_pkg_himx2170_0.bin      | Bin 0 -> 771164 bytes
+ intel/vsc/ivsc_pkg_himx2172_0.bin      | Bin 0 -> 799836 bytes
+ intel/vsc/ivsc_pkg_int3537_0.bin       | Bin 0 -> 767068 bytes
+ intel/vsc/ivsc_pkg_ovti01a0_0.bin      | Bin 0 -> 726108 bytes
+ intel/vsc/ivsc_pkg_ovti01af_0.bin      | Bin 0 -> 726108 bytes
+ intel/vsc/ivsc_pkg_ovti01as_0.bin      | Bin 0 -> 726108 bytes
+ intel/vsc/ivsc_pkg_ovti02c1_0.bin      | Bin 0 -> 762972 bytes
+ intel/vsc/ivsc_pkg_ovti02e1_0.bin      | Bin 0 -> 791644 bytes
+ intel/vsc/ivsc_pkg_ovti2740_0.bin      | Bin 0 -> 726108 bytes
+ intel/vsc/ivsc_pkg_ovti5678_0.bin      | Bin 0 -> 726108 bytes
+ intel/vsc/ivsc_pkg_ovti9734_0.bin      | Bin 0 -> 730204 bytes
+ intel/vsc/ivsc_pkg_ovti9738_0.bin      | Bin 0 -> 730204 bytes
+ intel/vsc/ivsc_skucfg_hi556_0_1.bin    | Bin 0 -> 4100 bytes
+ intel/vsc/ivsc_skucfg_himx11b1_0_1.bin | Bin 0 -> 4100 bytes
+ intel/vsc/ivsc_skucfg_himx2170_0_1.bin | Bin 0 -> 4100 bytes
+ intel/vsc/ivsc_skucfg_himx2172_0_1.bin | Bin 0 -> 4100 bytes
+ intel/vsc/ivsc_skucfg_int3537_0_1.bin  | Bin 0 -> 4100 bytes
+ intel/vsc/ivsc_skucfg_ovti01a0_0_1.bin | Bin 0 -> 4100 bytes
+ intel/vsc/ivsc_skucfg_ovti01af_0_1.bin | Bin 0 -> 4100 bytes
+ intel/vsc/ivsc_skucfg_ovti01as_0_1.bin | Bin 0 -> 4100 bytes
+ intel/vsc/ivsc_skucfg_ovti02c1_0_1.bin | Bin 0 -> 4100 bytes
+ intel/vsc/ivsc_skucfg_ovti02e1_0_1.bin | Bin 0 -> 4100 bytes
+ intel/vsc/ivsc_skucfg_ovti2740_0_1.bin | Bin 0 -> 4100 bytes
+ intel/vsc/ivsc_skucfg_ovti5678_0_1.bin | Bin 0 -> 4100 bytes
+ intel/vsc/ivsc_skucfg_ovti9734_0_1.bin | Bin 0 -> 4100 bytes
+ intel/vsc/ivsc_skucfg_ovti9738_0_1.bin | Bin 0 -> 4100 bytes
+ 31 files changed, 74 insertions(+)
+ create mode 100644 LICENSE.ivsc
+ create mode 100644 intel/vsc/ivsc_fw.bin
+ create mode 100644 intel/vsc/ivsc_pkg_hi556_0.bin
+ create mode 100644 intel/vsc/ivsc_pkg_himx11b1_0.bin
+ create mode 100644 intel/vsc/ivsc_pkg_himx2170_0.bin
+ create mode 100644 intel/vsc/ivsc_pkg_himx2172_0.bin
+ create mode 100644 intel/vsc/ivsc_pkg_int3537_0.bin
+ create mode 100644 intel/vsc/ivsc_pkg_ovti01a0_0.bin
+ create mode 100644 intel/vsc/ivsc_pkg_ovti01af_0.bin
+ create mode 100644 intel/vsc/ivsc_pkg_ovti01as_0.bin
+ create mode 100644 intel/vsc/ivsc_pkg_ovti02c1_0.bin
+ create mode 100644 intel/vsc/ivsc_pkg_ovti02e1_0.bin
+ create mode 100644 intel/vsc/ivsc_pkg_ovti2740_0.bin
+ create mode 100644 intel/vsc/ivsc_pkg_ovti5678_0.bin
+ create mode 100644 intel/vsc/ivsc_pkg_ovti9734_0.bin
+ create mode 100644 intel/vsc/ivsc_pkg_ovti9738_0.bin
+ create mode 100644 intel/vsc/ivsc_skucfg_hi556_0_1.bin
+ create mode 100644 intel/vsc/ivsc_skucfg_himx11b1_0_1.bin
+ create mode 100644 intel/vsc/ivsc_skucfg_himx2170_0_1.bin
+ create mode 100644 intel/vsc/ivsc_skucfg_himx2172_0_1.bin
+ create mode 100644 intel/vsc/ivsc_skucfg_int3537_0_1.bin
+ create mode 100644 intel/vsc/ivsc_skucfg_ovti01a0_0_1.bin
+ create mode 100644 intel/vsc/ivsc_skucfg_ovti01af_0_1.bin
+ create mode 100644 intel/vsc/ivsc_skucfg_ovti01as_0_1.bin
+ create mode 100644 intel/vsc/ivsc_skucfg_ovti02c1_0_1.bin
+ create mode 100644 intel/vsc/ivsc_skucfg_ovti02e1_0_1.bin
+ create mode 100644 intel/vsc/ivsc_skucfg_ovti2740_0_1.bin
+ create mode 100644 intel/vsc/ivsc_skucfg_ovti5678_0_1.bin
+ create mode 100644 intel/vsc/ivsc_skucfg_ovti9734_0_1.bin
+ create mode 100644 intel/vsc/ivsc_skucfg_ovti9738_0_1.bin
+
+-- 
+Kind regards,
+
+Sakari Ailus
