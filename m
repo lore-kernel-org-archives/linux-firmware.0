@@ -1,61 +1,95 @@
-Return-Path: <SRS0=6c34=IG=irl.hu=soyer@kernel.org>
+Return-Path: <SRS0=6UUF=IH=ti.com=shenghao-ding@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5579C46CD2
-	for <linux-firmware@archiver.kernel.org>; Wed, 27 Dec 2023 11:40:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B093C3DA6E
+	for <linux-firmware@archiver.kernel.org>; Thu, 28 Dec 2023 07:29:46 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id A0506C433C8; Wed, 27 Dec 2023 11:40:58 +0000 (UTC)
-Received: from irl.hu (irl.hu [95.85.9.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id 05DEBC433C9; Thu, 28 Dec 2023 07:29:46 +0000 (UTC)
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 38595C433C7
-	for <linux-firmware@kernel.org>; Wed, 27 Dec 2023 11:40:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 38595C433C7
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=irl.hu
-Received: from [192.168.2.4] (51b681e3.dsl.pool.telekom.hu [::ffff:81.182.129.227])
-  (AUTH: CRAM-MD5 soyer@irl.hu, )
-  by irl.hu with ESMTPSA
-  id 0000000000071CB4.00000000658C0D40.001494F8; Wed, 27 Dec 2023 12:40:48 +0100
-Message-ID: <313b19531261e5b94870043be7bdd4666176f562.camel@irl.hu>
-Subject: Re: [PATCH v1] ASoC: tas2781: Add dsp firmware for different laptops
-From: Gergo Koteles <soyer@irl.hu>
+	by smtp.kernel.org (Postfix) with ESMTPS id 9D3A0C433C7
+	for <linux-firmware@kernel.org>; Thu, 28 Dec 2023 07:29:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 9D3A0C433C7
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3BS7T6GX096132;
+	Thu, 28 Dec 2023 01:29:06 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1703748546;
+	bh=1Uahl43zbK1id3/87lEalQn37aSnZ4WpUUa39zZb3Is=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To;
+	b=R6qifvzdgPmB0YLKuoj+5GPMJagxsTt3Ho3J7ZH3/ll4WFoBsI8j5jBtXonPk9GL/
+	 KxiS5GVmH1Hz3aDvU+4i7xOQmSwKuuQV2md+G5RJmdkQt+c33DuPz+k3xR9qjysO+j
+	 1FfQZtaS5t61c/ZLePpEylHcZI5T1KGC+UBz2Reg=
+Received: from DLEE101.ent.ti.com (dlee101.ent.ti.com [157.170.170.31])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3BS7T6QV111122
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 28 Dec 2023 01:29:06 -0600
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 28
+ Dec 2023 01:29:05 -0600
+Received: from DLEE101.ent.ti.com ([fe80::91ee:60bc:bfb7:851c]) by
+ DLEE101.ent.ti.com ([fe80::91ee:60bc:bfb7:851c%18]) with mapi id
+ 15.01.2507.023; Thu, 28 Dec 2023 01:29:05 -0600
+From: "Ding, Shenghao" <shenghao-ding@ti.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, linux-firmware@kernel.org
-Cc: kevin-lu@ti.com, baojun.xu@ti.com, 13916275206@139.com,
-  linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-  peeyush@ti.com, navada@ti.com
-Date: Wed, 27 Dec 2023 12:40:47 +0100
-In-Reply-To: <20231223141242.676-1-shenghao-ding@ti.com>
+To: Gergo Koteles <soyer@irl.hu>,
+        "linux-firmware@kernel.org"
+	<linux-firmware@kernel.org>
+CC: "Lu, Kevin" <kevin-lu@ti.com>, "Xu, Baojun" <baojun.xu@ti.com>,
+        "13916275206@139.com" <13916275206@139.com>,
+        "linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>,
+        "Gupta, Peeyush" <peeyush@ti.com>,
+        "Navada
+ Kanyana, Mukund" <navada@ti.com>
+Subject: RE: [EXTERNAL] Re: [PATCH v1] ASoC: tas2781: Add dsp firmware for
+ different laptops
+Thread-Topic: [EXTERNAL] Re: [PATCH v1] ASoC: tas2781: Add dsp firmware for
+ different laptops
+Thread-Index: AQHaNaoeYIgT67EOakulK8pd+rbBkbC9bFGAgADmKdA=
+Date: Thu, 28 Dec 2023 07:29:05 +0000
+Message-ID: <4c924d6a31b54bdba36ce8f71f143fb5@ti.com>
 References: <20231223141242.676-1-shenghao-ding@ti.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.2 (3.50.2-1.fc39) 
+ <313b19531261e5b94870043be7bdd4666176f562.camel@irl.hu>
+In-Reply-To: <313b19531261e5b94870043be7bdd4666176f562.camel@irl.hu>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [10.85.14.93]
+x-exclaimer-md-config: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
 
-Hi Shenghao,
-
-On Sat, 2023-12-23 at 22:12 +0800, Shenghao Ding wrote:
->=20
-> +Licence: Allegedly GPLv2+, but no source visible. Marked:
-> +	 Copyright (C) 2023 Texas Instruments
-> +
-> +Found in hex form in kernel source.
-
-Is this true? Isn't this a new driver?
-
-> \ No newline at end of file
-> diff --git a/ti/tas2781/TAS2XXX387D.bin b/ti/tas2781/TAS2XXX387D.bin
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..3ce40ae9d715727092bffe1e1=
-8a6a7e50ea41eed
-> GIT binary patch
-> literal 64504
-
-Regards,
-Gergo
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogR2VyZ28gS290ZWxlcyA8
+c295ZXJAaXJsLmh1Pg0KPiBTZW50OiBXZWRuZXNkYXksIERlY2VtYmVyIDI3LCAyMDIzIDc6NDEg
+UE0NCj4gVG86IERpbmcsIFNoZW5naGFvIDxzaGVuZ2hhby1kaW5nQHRpLmNvbT47IGxpbnV4LWZp
+cm13YXJlQGtlcm5lbC5vcmcNCj4gQ2M6IEx1LCBLZXZpbiA8a2V2aW4tbHVAdGkuY29tPjsgWHUs
+IEJhb2p1biA8YmFvanVuLnh1QHRpLmNvbT47DQo+IDEzOTE2Mjc1MjA2QDEzOS5jb207IGxpbnV4
+LXNvdW5kQHZnZXIua2VybmVsLm9yZzsgbGludXgtDQo+IGtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7
+IEd1cHRhLCBQZWV5dXNoIDxwZWV5dXNoQHRpLmNvbT47IE5hdmFkYQ0KPiBLYW55YW5hLCBNdWt1
+bmQgPG5hdmFkYUB0aS5jb20+DQo+IFN1YmplY3Q6IFtFWFRFUk5BTF0gUmU6IFtQQVRDSCB2MV0g
+QVNvQzogdGFzMjc4MTogQWRkIGRzcCBmaXJtd2FyZSBmb3INCj4gZGlmZmVyZW50IGxhcHRvcHMN
+Cj4gDQo+IEhpIFNoZW5naGFvLA0KPiANCj4gT24gU2F0LCAyMDIzLTEyLTIzIGF0IDIyOjEyICsw
+ODAwLCBTaGVuZ2hhbyBEaW5nIHdyb3RlOg0KPiA+DQo+ID4gK0xpY2VuY2U6IEFsbGVnZWRseSBH
+UEx2MissIGJ1dCBubyBzb3VyY2UgdmlzaWJsZS4gTWFya2VkOg0KPiA+ICsJIENvcHlyaWdodCAo
+QykgMjAyMyBUZXhhcyBJbnN0cnVtZW50cw0KPiA+ICsNCj4gPiArRm91bmQgaW4gaGV4IGZvcm0g
+aW4ga2VybmVsIHNvdXJjZS4NCj4gDQo+IElzIHRoaXMgdHJ1ZT8gSXNuJ3QgdGhpcyBhIG5ldyBk
+cml2ZXI/DQpNYXliZSBmb2xsb3dpbmcgZXhwcmVzc2lvbiB3aWxsIGJlIG1vcmUgY2xlYXINCkZp
+cm13YXJlIHdpbGwgYmUgZm91bmQgaW4gaGV4IGZvcm0gaW4gdGhlIHN5c3RlbS4NCj4gDQo+ID4g
+XCBObyBuZXdsaW5lIGF0IGVuZCBvZiBmaWxlDQo+ID4gZGlmZiAtLWdpdCBhL3RpL3RhczI3ODEv
+VEFTMlhYWDM4N0QuYmluIGIvdGkvdGFzMjc4MS9UQVMyWFhYMzg3RC5iaW4NCj4gPiBuZXcgZmls
+ZSBtb2RlIDEwMDY0NCBpbmRleA0KPiA+DQo+IDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+MDAwMDAwMDAwMDAuLjNjZTQwYWU5ZDcxNTcyNzA5MmJmZg0KPiBlMWUxOGE2DQo+ID4gYTdlNTBl
+YTQxZWVkDQo+ID4gR0lUIGJpbmFyeSBwYXRjaA0KPiA+IGxpdGVyYWwgNjQ1MDQNCj4gDQo+IFJl
+Z2FyZHMsDQo+IEdlcmdvDQoNCg==
