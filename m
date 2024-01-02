@@ -4,76 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 674CAC47074
-	for <linux-firmware@archiver.kernel.org>; Tue,  2 Jan 2024 13:05:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2E4E3C46CD2
+	for <linux-firmware@archiver.kernel.org>; Tue,  2 Jan 2024 13:11:55 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 39293C433C8; Tue,  2 Jan 2024 13:05:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23E4EC433C9
-	for <linux-firmware@kernel.org>; Tue,  2 Jan 2024 13:05:04 +0000 (UTC)
+	id 1AD71C433C9; Tue,  2 Jan 2024 13:11:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0521DC433C8
+	for <linux-firmware@kernel.org>; Tue,  2 Jan 2024 13:11:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704200704;
-	bh=sSnmjh4qdaWTUkCsEBVG8VCmIJYmhNfm4TACpVlTP0w=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=KXYfhFFFDjJ5wVJJx0TYJfEhaMOfe6oyYDbCNS12DpkihWexJ1ZsuonTjXTvpfRkG
-	 6RFP1yLIT7hZ70x4K7cWwN0Rsa6Ry/VL+4dwcj4WLYrbtr5+JmCbWQcIUATXH6BHwZ
-	 Dsu+PkIqK3AmOwt7h3ZDIeRfUgOl+Exv3AvDEy+llu8pcpuwU63JLZZhIRWqq7SIey
-	 uRJdUfO/CK1Y4WXebL5AQmn4gsNtp2U1HFv3cyMR4d/nhH4Ty5ZA16AzjarbSdgY/h
-	 OZSOIpZUnkkXNTZ+ihnqJy5EWxokbznP8wLelzeg6EK3JlUTkKESGtRc1UqjGDzO9W
-	 t7qrdFw5RbwIQ==
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-dbd73ac40ecso6304408276.1
-        for <linux-firmware@kernel.org>; Tue, 02 Jan 2024 05:05:04 -0800 (PST)
-X-Gm-Message-State: AOJu0Yw8NM58QDccwVNG+HogkW3prdv8v1HfM/16jqT3ob6YIcGij0+D
-	vOFVV4JRcuIddabli57FNpI2IMD0a4Grf3rGXcw=
-X-Google-Smtp-Source: AGHT+IE7AXPhyUzEBAJH6tragROnPU44iUXSsQb9Z9TnnAyWV3BM9xDbykuAVzWCXvslV9LX2AbrNcax9D3VUMTKVKU=
-X-Received: by 2002:a25:b20c:0:b0:dbd:9d84:5892 with SMTP id
- i12-20020a25b20c000000b00dbd9d845892mr8789553ybj.67.1704200703271; Tue, 02
- Jan 2024 05:05:03 -0800 (PST)
+	s=k20201202; t=1704201115;
+	bh=97CqFaZzLI3GxGeAiK3wu4yQE0IQg7zVUltInSTbfFU=;
+	h=References:In-Reply-To:From:Date:Subject:List-Id:To:From;
+	b=uuT7K4FT86pmjzb3kQ0ZZWwA/G1Oja9eHQiyfSiMZoznH3hrv2aIvxn0NkjGlVFpH
+	 5xMPRnwXmtjmLmKVcqJ+PbN/j7imF8HKO5XZUFiEvdhMA91uL8ZiF437kkDGyEDklO
+	 5BiOStDg2eWyboWm5F4Et94RIKMVuYBLhL2xo1LTUeDzC7enntTo9Ga4asnwKzi+rB
+	 4uKL4icR407kIqDW3Y8DsGeRQ7HcfXn7W40HnHrrZk8JrE76t6Vl7BIvhtBFdyvFA3
+	 IX/szh52ZWCT5wUJfgVLEl7iyfzyQBh5GFFBL/viUfzw9yrxRG6RKj1L1Zud88K/vu
+	 iJBBboQJLcuhA==
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5e76948cda7so59616647b3.3
+        for <linux-firmware@kernel.org>; Tue, 02 Jan 2024 05:11:54 -0800 (PST)
+X-Gm-Message-State: AOJu0Yy2xcBIk8zvMuftR4M6UG7gaUDHJxGYfsn9ULphg+c3r82IABoU
+	HcpHhnvRcmhi+Gc1cxUe8MjurLYgCrIt8FVG5Vs=
+X-Google-Smtp-Source: AGHT+IFjVUUnjdvUVBcJdQ1o7Cq3sXkkdttGDIIL+VGRdpYj8MdMNJLGUGH943FsMVTQcNITkVnNPejIgXmlSb2NIHo=
+X-Received: by 2002:a81:a782:0:b0:5f3:10fa:a8b2 with SMTP id
+ e124-20020a81a782000000b005f310faa8b2mr961784ywh.6.1704201114139; Tue, 02 Jan
+ 2024 05:11:54 -0800 (PST)
 MIME-Version: 1.0
-References: <02a60c43-9077-4387-934d-71885ead1eeb@quicinc.com>
-In-Reply-To: <02a60c43-9077-4387-934d-71885ead1eeb@quicinc.com>
+References: <20231113215300.Fw2CJ%steffen@sdaoden.eu> <73529434-9b82-4131-8cbd-05eff75537db@amd.com>
+ <20231117011925.PPRKHhpq@steffen%sdaoden.eu> <20231117014630.lO5xbFXr@steffen%sdaoden.eu>
+ <20231216223619.nRgZNdqv@steffen%sdaoden.eu>
+In-Reply-To: <20231216223619.nRgZNdqv@steffen%sdaoden.eu>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Tue, 2 Jan 2024 08:04:52 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA6v3rQwztoow6bNEDgjZYuHdedo0gvzvO8cv6ta9OB1Og@mail.gmail.com>
-Message-ID: <CA+5PVA6v3rQwztoow6bNEDgjZYuHdedo0gvzvO8cv6ta9OB1Og@mail.gmail.com>
-Subject: Re: Update QCA2066 Bluetooth firmware to 2.1.0-00629 request-pull
-To: quic_zijuhu <quic_zijuhu@quicinc.com>
+Date: Tue, 2 Jan 2024 08:11:43 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA7fCsgSAYDcMq4NSC4u1ax0f=6WmHo76LZsBRe3gvt5og@mail.gmail.com>
+Message-ID: <CA+5PVA7fCsgSAYDcMq4NSC4u1ax0f=6WmHo76LZsBRe3gvt5og@mail.gmail.com>
+Subject: Re: Question: v20231111 adds rdfind dependency: why not at ball build time?
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org
+To: linux-firmware@kernel.org, Steffen Nurpmeso <steffen@sdaoden.eu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 25, 2023 at 3:34=E2=80=AFAM quic_zijuhu <quic_zijuhu@quicinc.co=
-m> wrote:
+On Sat, Dec 16, 2023 at 5:36=E2=80=AFPM Steffen Nurpmeso <steffen@sdaoden.e=
+u> wrote:
 >
-> Hi linux-firmware maintainers,
+> Thank you very much for making rdfind an optional thing!
 >
-> Here's a pull request for btqca bluetooth driver. Please let me know if y=
-ou have any problems.
->
-> The following changes since commit c156e6be6d4a0a2290e7059bc74fb0612aa196=
-93:
->
->   Merge branch 'robot/pr-0-1702625169' into 'main' (2023-12-15 12:16:57 +=
-0000)
->
-> are available in the git repository at:
->
->   https://github.com/zijun-hu/qca_btfw
+> I still have not understood why this complicated mechanism is
+> applied twice, for both creating a distribution tarball and then
+> again on the user box, instead of maybe (if it really has to be
+> done that hard) doing a final find(1) run during tarball creation,
+> and creating a schedule what to cp(1) and what to ln(1) -s (and
+> where to, of course), however.
 
-Pulled and pushed out.
+The tarball is created automatically by kernel.org infrastructure
+based on a signed git tag.  The maintainers do not have access to the
+backend that creates the tarball, so we can't run rdfind during
+creation.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/110
+> But i wanted to say thank you, and then i was wondering why the
+> Linux kernel uses --ultra -22 for zstd(1), whereas Linux-firmware
+> uses a very, very low number.  Also note that zstd(1) -T0 works
+> regardless of whether SMP is compiled in or not, last time
+> i looked, it is simply ignored without.  And it is very helpful,
+> especially with --ultra -22 and on a modern box.
 
+I'm honestly not sure.  You'd have to ask the author of the commit
+that introduced zstd support as to why they chose those numbers.
 
 josh
-
->
-> for you to fetch changes up to adb26935b5440c5f4cdb6d3f174c4fdf59b56fef:
->
->   QCA: Add bluetooth firmware nvm files for QCA2066 (2023-12-18 15:01:25 =
-+0800)
->
-> ----------------------------------------------------------------
-> Zijun Hu (2):
->       QCA: Update Bluetooth QCA2066 firmware to 2.1.0-00629
->       QCA: Add bluetooth firmware nvm files for QCA2066
