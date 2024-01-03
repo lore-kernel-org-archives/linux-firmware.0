@@ -1,187 +1,169 @@
-Return-Path: <SRS0=pTbo=IN=broadcom.com=arend.vanspriel@kernel.org>
+Return-Path: <SRS0=efYu=IN=sdaoden.eu=steffen@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6D001C3DA6E
-	for <linux-firmware@archiver.kernel.org>; Wed,  3 Jan 2024 09:22:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20949C3DA6E
+	for <linux-firmware@archiver.kernel.org>; Wed,  3 Jan 2024 19:43:07 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 2BC75C433C9; Wed,  3 Jan 2024 09:22:47 +0000 (UTC)
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	id D8313C433C9; Wed,  3 Jan 2024 19:43:07 +0000 (UTC)
+Received: from sdaoden.eu (sdaoden.eu [217.144.132.164])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 3755AC433C7
-	for <linux-firmware@kernel.org>; Wed,  3 Jan 2024 09:22:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 3755AC433C7
-Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=broadcom.com
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3bbf67d619cso2133249b6e.2
-        for <linux-firmware@kernel.org>; Wed, 03 Jan 2024 01:22:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1704273765; x=1704878565; darn=kernel.org;
-        h=mime-version:subject:user-agent:references:in-reply-to:message-id
-         :date:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4piWB8OC2mUJnhfwVW14JodhgoqEfeLBNSR9Sh5Iljw=;
-        b=ZJziigLgXXvsYJG+jWOJyX5JK30fWgxlRwGvEXvoNAddURSPKC2x86Lypp29T4JOls
-         OMvrrQ/gsiJOxgCuk76mOLZeO86MoW8IwsKc4I7FWgF2tmvX/gNxtVMG6GlW9jbyoLTV
-         l83wUdY1XBYr+a2SaXabpPQ8w2DWf+ng/dA3k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704273765; x=1704878565;
-        h=mime-version:subject:user-agent:references:in-reply-to:message-id
-         :date:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4piWB8OC2mUJnhfwVW14JodhgoqEfeLBNSR9Sh5Iljw=;
-        b=tTfbILHXA0h5dwXbXVEb/+qhNRo+r0TxvDDqTKSVDHAgRJV2aokPXa7Zf/xGEN8JN2
-         yTKeX6FatMiMD0HtEgQLFL4YMCW8QaZw/l4bX9L4p3cGdT/BxXAGVRetjNYc4UiBQHAm
-         uOlta2xH0mnLWacINP3oJCKP4qDdQwBAXKWljJU0ZTeWvjzxt5mKs/amrinxLL9YOWtd
-         XofhYKtB7sc1zElashmms206S0JuWPazNPnvba+9AU6/isiK4cIoy3EprWLIGnf4A5BJ
-         8O3rxZfKBG4CXGHFmE6+9y7gyyCtHTWzWnwo7uRE5HinzOac043V9YUVK2PkDQjXC5hE
-         1shQ==
-X-Gm-Message-State: AOJu0Yx9+sj/EfTnU7KqwpaLcYfQbNOzoTKsZqSWib9GRxEI5uDina0I
-	yBQ9yXRj5ic4bPyJ4TsG8kwPJcFWCniy
-X-Google-Smtp-Source: AGHT+IFU34ZU3g57GZoVjbekoPXX5cLR+C6CuPbeBYr+yHGIkKUFUvDeVmtEM39aqxg5uXb9lo5lSQ==
-X-Received: by 2002:a05:6358:3a0e:b0:175:4048:c590 with SMTP id g14-20020a0563583a0e00b001754048c590mr4305849rwe.58.1704273765053;
-        Wed, 03 Jan 2024 01:22:45 -0800 (PST)
-Received: from [192.168.178.38] (f215227.upc-f.chello.nl. [80.56.215.227])
-        by smtp.gmail.com with ESMTPSA id f24-20020a63f758000000b005cda4d88933sm20031054pgk.43.2024.01.03.01.22.42
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 03 Jan 2024 01:22:44 -0800 (PST)
-From: Arend Van Spriel <arend.vanspriel@broadcom.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id ACF17C433C7;
+	Wed,  3 Jan 2024 19:43:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org ACF17C433C7
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=sdaoden.eu
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=sdaoden.eu
+Date: Wed, 03 Jan 2024 20:43:00 +0100
+Author: Steffen Nurpmeso <steffen@sdaoden.eu>
+From: Steffen Nurpmeso <steffen@sdaoden.eu>
+To: Josh Boyer <jwboyer@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
-CC: <hdegoede@redhat.com>, <linux-wireless@vger.kernel.org>, <linux-firmware@kernel.org>
-Date: Wed, 03 Jan 2024 10:22:42 +0100
-Message-ID: <18ccea1d6d0.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
-In-Reply-To: <18cce9a7818.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
-References: <CAPVz0n2Ky350xhOv6WvE0YhFJ9QBe59LnWvKiafs2tjFnptP+g@mail.gmail.com>
- <22115037-3a81-4a52-8e64-bc85c2be4212@broadcom.com>
- <CAPVz0n2Dah1b45c0yUjMZNph5AVJjneLsc2LOQ-dkXNRTv6y+Q@mail.gmail.com>
- <18cce9a7818.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
-User-Agent: AquaMail/1.49.0 (build: 104900403)
-Subject: Re: License of old broadcom BT firmwares and WiFi calibration files
+Cc: linux-firmware@kernel.org, Steffen Nurpmeso <steffen@sdaoden.eu>
+Subject: Re: Question: v20231111 adds rdfind dependency: why not at
+ ball build time?
+Message-ID: <20240103194300.jKoOqQ-g@steffen%sdaoden.eu>
+In-Reply-To: <20240102221621.YaA1nlef@steffen%sdaoden.eu>
+References: <20231113215300.Fw2CJ%steffen@sdaoden.eu>
+ <73529434-9b82-4131-8cbd-05eff75537db@amd.com>
+ <20231117011925.PPRKHhpq@steffen%sdaoden.eu>
+ <20231117014630.lO5xbFXr@steffen%sdaoden.eu>
+ <20231216223619.nRgZNdqv@steffen%sdaoden.eu>
+ <CA+5PVA7fCsgSAYDcMq4NSC4u1ax0f=6WmHo76LZsBRe3gvt5og@mail.gmail.com>
+ <20240102221621.YaA1nlef@steffen%sdaoden.eu>
+Mail-Followup-To: Josh Boyer <jwboyer@kernel.org>,
+ linux-firmware@kernel.org, Steffen Nurpmeso <steffen@sdaoden.eu>
+User-Agent: s-nail v14.9.24-585-g9999e323b6
+OpenPGP: id=EE19E1C1F2F7054F8D3954D8308964B51883A0DD;
+ url=https://ftp.sdaoden.eu/steffen.asc; preference=signencrypt
+BlahBlahBlah: Any stupid boy can crush a beetle. But all the professors in
+ the world can make no bugs.
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000635306060e0728dd"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
---000000000000635306060e0728dd
-Content-Type: text/plain; format=flowed; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Hm, hello again.
 
-On January 3, 2024 10:14:42 AM Arend Van Spriel 
-<arend.vanspriel@broadcom.com> wrote:
+Steffen Nurpmeso wrote in
+ <20240102221621.YaA1nlef@steffen%sdaoden.eu>:
+ |Josh Boyer wrote in
+ | <CA+5PVA7fCsgSAYDcMq4NSC4u1ax0f=3D6WmHo76LZsBRe3gvt5og@mail.gmail.com>:
+ ||On Sat, Dec 16, 2023 at 5:36=E2=80=AFPM Steffen Nurpmeso <steffen@sdaode=
+n.eu> \
+ ||wrote:
+ ||> Thank you very much for making rdfind an optional thing!
+ ||>
+ ||> I still have not understood why this complicated mechanism is
 
-> + linux-wireless
-> + Hans de Goede
->
->
-> On December 16, 2023 9:14:48 PM Svyatoslav Ryhel <clamor95@gmail.com> wrote:
->
->> сб, 16 груд. 2023 р. о 21:57 Arend van Spriel
->> <arend.vanspriel@broadcom.com> пише:
->>>
->>> On 12/16/2023 6:45 PM, Svyatoslav Ryhel wrote:
->>>> Greetings!
->>>>
->>>> I am trying to submit bluetooth firmwares (BCM4329B1.*,*.hcd and
->>>> BCM4330B1.*,*.hcd) and wifi calibration files
->>>> (brcmfmac4329-sdio.*,*.txt and brcmfmac4329-sdio.*,*.txt) from a few
->>>> Tegra 2 and Tegra 3 based devices into linux-fimware.
->>>>
->>>> I have faced ambiguous license issue since those files were part of
->>>> Android Images of different vendors. Those vendors did not provide a
->>>> license nor for android images, not for these files.
+It is a _terrible_ and terribly redundant build system.
+But that is not my problem, i will not look into what these
+build_packages.py things do...
+However my thing from yesterday is wrong in so far as the
+duplicates are only removed when run from "make dist", which is at
+least once or twice not enough, then.
 
-Does this mean you extracted them from the android image? That probably 
-never get accepted without any license information.
+So please this one simply hammers always (unless dedup is not
+desired).  Also it uses -f arg to ln(1) for whatever reason.
+Otherwise identical.
 
-Regards,
-Arend
->>>>
+Again i personally would instead do copy_firmware.sh once, and do
+not create any links during that run at all.  Instead i would
+place those with the target in a text file to be shipped along.
+At install time (i would look in an "updates" path??) i would run
+that recipe and create according (compressed?) links as necessary.
+(If "updates" contains file, these have to be taken into account
+when doing so, possibly skipping a link, but doing a copy.)
 
+I do no understand how copy-firmware.sh can currently work on
+already linked data "when there are updates to take into account"
+(and there is a mismatch).
 
+Anyhow.  This diff should also work on github, or wherever "make
+dist" is run, since cksum, sort, cp, find and xargs should all be
+available by default.
 
+Ciao from Germany!
 
---000000000000635306060e0728dd
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+--- copy-firmware.sh.orig	2024-01-02 22:30:43.000000000 +0100
++++ copy-firmware.sh	2024-01-03 20:38:58.157253235 +0100
+@@ -40,7 +40,7 @@ while test $# -gt 0; do
+                 exit 1
+             fi
+             # shellcheck disable=3DSC2209
+-            compress=3D"zstd --compress --quiet --stdout"
++            compress=3D"zstd -T0 --ultra -22 --compress --quiet --stdout"
+             compext=3D".zst"
+             shift
+             ;;
+@@ -75,13 +75,6 @@ if [ -z "$destdir" ]; then
+ 	exit 1
+ fi
+=20
+-if ! command -v rdfind >/dev/null; then
+-	if [ "$skip_dedup" !=3D 1 ]; then
+-    		echo "ERROR: rdfind is not installed.  Pass --ignore-duplicates to s=
+kip deduplication"
+-		exit 1
+-	fi
+-fi
+-
+ # shellcheck disable=3DSC2162 # file/folder name can include escaped symbo=
+ls
+ grep -E '^(RawFile|File):' WHENCE | sed -E -e 's/^(RawFile|File): */\1 /;s=
+/"//g' | while read k f; do
+     test -f "$f" || continue
+@@ -89,20 +82,34 @@ grep -E '^(RawFile|File):' WHENCE | sed
+     $verbose "copying/compressing file $f$compext"
+     if test "$compress" !=3D "cat" && test "$k" =3D "RawFile"; then
+         $verbose "compression will be skipped for file $f"
+-        cat "$f" > "$destdir/$f"
++        cp "$f" "$destdir/$f"
++    elif [ "$compress" =3D cat ]; then
++        cp "$f" "$destdir/$f"
+     else
+         $compress "$f" > "$destdir/$f$compext"
+     fi
+ done
+=20
+-if [ "$skip_dedup" !=3D 1 ] ; then
++if [ "$skip_dedup" !=3D 1 ]; then
+ 	$verbose "Finding duplicate files"
+-	rdfind -makesymlinks true -makeresultsfile false "$destdir" >/dev/null
+-	find "$destdir" -type l | while read -r l; do
+-		target=3D"$(realpath "$l")"
+-		$verbose "Correcting path for $l"
+-		ln -fs "$(realpath --relative-to=3D"$(dirname "$(realpath -s "$l")")" "$=
+target")" "$l"
+-	done
++    (
++    cd "$destdir" && find . -type f | xargs cksum | sort | {
++        ls=3D lf=3D
++        while read s1 s2 f; do
++            s=3D"$s1 $s2"
++            #$verbose $s $f
++            if [ "$s" =3D "$ls" ] && cmp "$lf" "$f"; then
++                $verbose 'duplicate '"${lf##*/}" "${f#./*}"
++                rm -f "$f"
++                #ln -s "${lf#./*}" "${f#./*}"
++                ln -sf "${lf##*/}" "${f#./*}"
++            else
++                ls=3D$s
++                lf=3D$f
++            fi
++        done
++    }
++    )
+ fi
+=20
+ # shellcheck disable=3DSC2162 # file/folder name can include escaped symbo=
+ls
 
-MIIQdwYJKoZIhvcNAQcCoIIQaDCCEGQCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-gg3OMIIFDTCCA/WgAwIBAgIQeEqpED+lv77edQixNJMdADANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA5MTYwMDAwMDBaFw0yODA5MTYwMDAwMDBaMFsxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBS
-MyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA
-vbCmXCcsbZ/a0fRIQMBxp4gJnnyeneFYpEtNydrZZ+GeKSMdHiDgXD1UnRSIudKo+moQ6YlCOu4t
-rVWO/EiXfYnK7zeop26ry1RpKtogB7/O115zultAz64ydQYLe+a1e/czkALg3sgTcOOcFZTXk38e
-aqsXsipoX1vsNurqPtnC27TWsA7pk4uKXscFjkeUE8JZu9BDKaswZygxBOPBQBwrA5+20Wxlk6k1
-e6EKaaNaNZUy30q3ArEf30ZDpXyfCtiXnupjSK8WU2cK4qsEtj09JS4+mhi0CTCrCnXAzum3tgcH
-cHRg0prcSzzEUDQWoFxyuqwiwhHu3sPQNmFOMwIDAQABo4IB2jCCAdYwDgYDVR0PAQH/BAQDAgGG
-MGAGA1UdJQRZMFcGCCsGAQUFBwMCBggrBgEFBQcDBAYKKwYBBAGCNxQCAgYKKwYBBAGCNwoDBAYJ
-KwYBBAGCNxUGBgorBgEEAYI3CgMMBggrBgEFBQcDBwYIKwYBBQUHAxEwEgYDVR0TAQH/BAgwBgEB
-/wIBADAdBgNVHQ4EFgQUljPR5lgXWzR1ioFWZNW+SN6hj88wHwYDVR0jBBgwFoAUj/BLf6guRSSu
-TVD6Y5qL3uLdG7wwegYIKwYBBQUHAQEEbjBsMC0GCCsGAQUFBzABhiFodHRwOi8vb2NzcC5nbG9i
-YWxzaWduLmNvbS9yb290cjMwOwYIKwYBBQUHMAKGL2h0dHA6Ly9zZWN1cmUuZ2xvYmFsc2lnbi5j
-b20vY2FjZXJ0L3Jvb3QtcjMuY3J0MDYGA1UdHwQvMC0wK6ApoCeGJWh0dHA6Ly9jcmwuZ2xvYmFs
-c2lnbi5jb20vcm9vdC1yMy5jcmwwWgYDVR0gBFMwUTALBgkrBgEEAaAyASgwQgYKKwYBBAGgMgEo
-CjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAN
-BgkqhkiG9w0BAQsFAAOCAQEAdAXk/XCnDeAOd9nNEUvWPxblOQ/5o/q6OIeTYvoEvUUi2qHUOtbf
-jBGdTptFsXXe4RgjVF9b6DuizgYfy+cILmvi5hfk3Iq8MAZsgtW+A/otQsJvK2wRatLE61RbzkX8
-9/OXEZ1zT7t/q2RiJqzpvV8NChxIj+P7WTtepPm9AIj0Keue+gS2qvzAZAY34ZZeRHgA7g5O4TPJ
-/oTd+4rgiU++wLDlcZYd/slFkaT3xg4qWDepEMjT4T1qFOQIL+ijUArYS4owpPg9NISTKa1qqKWJ
-jFoyms0d0GwOniIIbBvhI2MJ7BSY9MYtWVT5jJO3tsVHwj4cp92CSFuGwunFMzCCA18wggJHoAMC
-AQICCwQAAAAAASFYUwiiMA0GCSqGSIb3DQEBCwUAMEwxIDAeBgNVBAsTF0dsb2JhbFNpZ24gUm9v
-dCBDQSAtIFIzMRMwEQYDVQQKEwpHbG9iYWxTaWduMRMwEQYDVQQDEwpHbG9iYWxTaWduMB4XDTA5
-MDMxODEwMDAwMFoXDTI5MDMxODEwMDAwMFowTDEgMB4GA1UECxMXR2xvYmFsU2lnbiBSb290IENB
-IC0gUjMxEzARBgNVBAoTCkdsb2JhbFNpZ24xEzARBgNVBAMTCkdsb2JhbFNpZ24wggEiMA0GCSqG
-SIb3DQEBAQUAA4IBDwAwggEKAoIBAQDMJXaQeQZ4Ihb1wIO2hMoonv0FdhHFrYhy/EYCQ8eyip0E
-XyTLLkvhYIJG4VKrDIFHcGzdZNHr9SyjD4I9DCuul9e2FIYQebs7E4B3jAjhSdJqYi8fXvqWaN+J
-J5U4nwbXPsnLJlkNc96wyOkmDoMVxu9bi9IEYMpJpij2aTv2y8gokeWdimFXN6x0FNx04Druci8u
-nPvQu7/1PQDhBjPogiuuU6Y6FnOM3UEOIDrAtKeh6bJPkC4yYOlXy7kEkmho5TgmYHWyn3f/kRTv
-riBJ/K1AFUjRAjFhGV64l++td7dkmnq/X8ET75ti+w1s4FRpFqkD2m7pg5NxdsZphYIXAgMBAAGj
-QjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSP8Et/qC5FJK5N
-UPpjmove4t0bvDANBgkqhkiG9w0BAQsFAAOCAQEAS0DbwFCq/sgM7/eWVEVJu5YACUGssxOGhigH
-M8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9ubG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmU
-Y/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaMld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V
-14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcy
-a5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/fhO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/
-XzCCBVYwggQ+oAMCAQICDE79bW6SMzVJMuOi1zANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJC
-RTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMg
-UGVyc29uYWxTaWduIDIgQ0EgMjAyMDAeFw0yMjA5MTAxMTQzMjNaFw0yNTA5MTAxMTQzMjNaMIGV
-MQswCQYDVQQGEwJJTjESMBAGA1UECBMJS2FybmF0YWthMRIwEAYDVQQHEwlCYW5nYWxvcmUxFjAU
-BgNVBAoTDUJyb2FkY29tIEluYy4xGTAXBgNVBAMTEEFyZW5kIFZhbiBTcHJpZWwxKzApBgkqhkiG
-9w0BCQEWHGFyZW5kLnZhbnNwcmllbEBicm9hZGNvbS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IB
-DwAwggEKAoIBAQDxOB8Yu89pZLsG9Ic8ZY3uGibuv+NRsij+E70OMJQIwugrByyNq5xgH0BI22vJ
-LT7VKCB6YJC88ewEFfYi3EKW/sn6RL16ImUM40beDmQ12WBquJRoxVNyoByNalmTOBNYR95ZQZJw
-1nrzaoJtK0XIsv0dNCUcLlAc+jHkngD+I0ptVuWoMO1BcJexqJf5iX2M1CdC8PXTh9g4FIQnG2mc
-2Gzj3QNJRLsZu1TLyOyBBIr/BE7UiY3RabgRzknBGAPmzhS+fmyM8OtM5BYBsFBrSUFtZZO2p/tf
-Nbc24J2zf2peoZ8MK+7WQqummYlOnz+FyDkA9EybeNMcS5C+xi/PAgMBAAGjggHdMIIB2TAOBgNV
-HQ8BAf8EBAMCBaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJl
-Lmdsb2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYI
-KwYBBQUHMAGGNWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24y
-Y2EyMDIwME0GA1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3
-dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqG
-OGh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3Js
-MCcGA1UdEQQgMB6BHGFyZW5kLnZhbnNwcmllbEBicm9hZGNvbS5jb20wEwYDVR0lBAwwCgYIKwYB
-BQUHAwQwHwYDVR0jBBgwFoAUljPR5lgXWzR1ioFWZNW+SN6hj88wHQYDVR0OBBYEFIikAXd8CEtv
-ZbDflDRnf3tuStPuMA0GCSqGSIb3DQEBCwUAA4IBAQCdS5XCYx6k2GGZui9DlFsFm75khkqAU7rT
-zBX04sJU1+B1wtgmWTVIzW7ugdtDZ4gzaV0S9xRhpDErjJaltxPbCylb1DEsLj+AIvBR34caW6ZG
-sQk444t0HPb29HnWYj+OllIGMbdJWr0/P95ZrKk2bP24ub3ZP/8SyzrohfIba9WZKMq6g2nTLZE3
-BtkeSGJx/8dy0h8YmRn+adOrxKXHxhSL8BNn8wsmIZyYWe6fRcBtO3Ks2DOLyHCdkoFlN8x9VUQF
-N2ulEgqCbRKkx+qNirW86eF138lr1gRxzclu/38ko//MmkAYR/+hP3WnBll7zbpIt0jc9wyFkSqH
-p8a1MYICbTCCAmkCAQEwazBbMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1z
-YTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMgUGVyc29uYWxTaWduIDIgQ0EgMjAyMAIMTv1t
-bpIzNUky46LXMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCC7hl4SLFi62WxDjh8P
-EIzspvWIblKEZD5jCSMh8E6WVDAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
-BTEPFw0yNDAxMDMwOTIyNDVaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUDBAEqMAsGCWCGSAFl
-AwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsGCSqGSIb3DQEBBzAL
-BglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAZxwt5A8EiXQZaILlwtB8zdxlL8xBiZ4gzgtj
-CnKoFx1mlxvFTC7T8iBjawD1oTedtnCsbj8yJtBunheTcrga+2YzlsfsCL2F1kXNT8GNVr9ix1j4
-8FEEcZ0TDMptdcIaGXppqx/td9vVGNx4PTl0NzpGfjLnQK7bfgqaZTxJpCO0WYxeRCEF8awgRPvt
-T1cGcEg8YPKTQbJt7JPcDjh0vu1Dv/G0xAoZwAiFtR/hi9/Du8/8yH9dPEG+GXB7haqIi5l/wVfD
-sB8cwC1BEeTBZTEf2nYt3SjMUF8yo2uNN21PRCzkmDdfxVGYKlbF8Jsvompo4rRVSVbq6u6bwRNO
-Tw==
---000000000000635306060e0728dd--
+--steffen
+|
+|Der Kragenbaer,                The moon bear,
+|der holt sich munter           he cheerfully and one by one
+|einen nach dem anderen runter  wa.ks himself off
+|(By Robert Gernhardt)
