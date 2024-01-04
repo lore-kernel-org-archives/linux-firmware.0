@@ -1,169 +1,133 @@
-Return-Path: <SRS0=efYu=IN=sdaoden.eu=steffen@kernel.org>
+Return-Path: <SRS0=+Oot=IO=gmail.com=clamor95@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20949C3DA6E
-	for <linux-firmware@archiver.kernel.org>; Wed,  3 Jan 2024 19:43:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1CAD9C47074
+	for <linux-firmware@archiver.kernel.org>; Thu,  4 Jan 2024 09:08:06 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id D8313C433C9; Wed,  3 Jan 2024 19:43:07 +0000 (UTC)
-Received: from sdaoden.eu (sdaoden.eu [217.144.132.164])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	id D648EC433C9; Thu,  4 Jan 2024 09:08:06 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id ACF17C433C7;
-	Wed,  3 Jan 2024 19:43:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org ACF17C433C7
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=sdaoden.eu
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=sdaoden.eu
-Date: Wed, 03 Jan 2024 20:43:00 +0100
-Author: Steffen Nurpmeso <steffen@sdaoden.eu>
-From: Steffen Nurpmeso <steffen@sdaoden.eu>
-To: Josh Boyer <jwboyer@kernel.org>
-List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, Steffen Nurpmeso <steffen@sdaoden.eu>
-Subject: Re: Question: v20231111 adds rdfind dependency: why not at
- ball build time?
-Message-ID: <20240103194300.jKoOqQ-g@steffen%sdaoden.eu>
-In-Reply-To: <20240102221621.YaA1nlef@steffen%sdaoden.eu>
-References: <20231113215300.Fw2CJ%steffen@sdaoden.eu>
- <73529434-9b82-4131-8cbd-05eff75537db@amd.com>
- <20231117011925.PPRKHhpq@steffen%sdaoden.eu>
- <20231117014630.lO5xbFXr@steffen%sdaoden.eu>
- <20231216223619.nRgZNdqv@steffen%sdaoden.eu>
- <CA+5PVA7fCsgSAYDcMq4NSC4u1ax0f=6WmHo76LZsBRe3gvt5og@mail.gmail.com>
- <20240102221621.YaA1nlef@steffen%sdaoden.eu>
-Mail-Followup-To: Josh Boyer <jwboyer@kernel.org>,
- linux-firmware@kernel.org, Steffen Nurpmeso <steffen@sdaoden.eu>
-User-Agent: s-nail v14.9.24-585-g9999e323b6
-OpenPGP: id=EE19E1C1F2F7054F8D3954D8308964B51883A0DD;
- url=https://ftp.sdaoden.eu/steffen.asc; preference=signencrypt
-BlahBlahBlah: Any stupid boy can crush a beetle. But all the professors in
- the world can make no bugs.
+	by smtp.kernel.org (Postfix) with ESMTPS id 8D6A5C433C7
+	for <linux-firmware@kernel.org>; Thu,  4 Jan 2024 09:08:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 8D6A5C433C7
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-33723ad790cso223053f8f.1
+        for <linux-firmware@kernel.org>; Thu, 04 Jan 2024 01:08:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704359284; x=1704964084; darn=kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Vu69+F4VLRlaBCdU/TQtcQNi2BkTn42ySbPdCve9vZE=;
+        b=m/IP6N7i47v13D3/79Np4UH1ZgpgERcxf7Px7iT0RyQdhWYzBxpCLxHrjcThPYW6zj
+         riaXivJdBPrgzwr3DSqV41kdYhKh0sDaFrjHV4U3ZTdf2lzfRqqEMIArYGUDPkkd+J9S
+         n5NFsH/ngb/2TLONzVGAfvpR2n6JmGzRerCByjWRs2U5mPmPmNKs0h12ONX355+bzKJq
+         tYrDoCRbKAXK02Q5dP/yy4u1bDN48e6hgpHgRFQLjCmXbZGhIsbIN+Q9mNUtHtaVU3Ov
+         dUec2bWwkM3/mVZktFAtfkXjyuO3pUAs/JiHxYGuylDMJOcHcmL/vf6eRzlHuyoAceE+
+         18kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704359284; x=1704964084;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Vu69+F4VLRlaBCdU/TQtcQNi2BkTn42ySbPdCve9vZE=;
+        b=rayla+yasRceqTsQzpTmrcxVQ/X1rrz3LtQGoZ8JMQC/xSotjtBJraL3wyAI9/7vH+
+         ZGlK0KAYtkVUigz5ov40AF2gXjvezNQvPAGB/O5ikgdmsKg3TBaFRJ+zyVl3AxHwQTse
+         fY/ZDJGoqS67jisESws9QRnaMO4t+M/kN6MeQ6KGZTedm9vTKSHatguAkVP1ZZIYhCOM
+         SapOUHzoSQAPSOMyJopfEyopAX9uXypsXA2tCoCHVGmO6sk1uADj+/Dp55t0+1TE+Edx
+         ATUrHE+o8LzvlSmNysVWNH9ZROdeTjUO0/VrBspZB82/0WJCHgtoZ2F4/44vxFaXh24m
+         2fVg==
+X-Gm-Message-State: AOJu0YyFVPyRBi+P2mbjOy3E+szJj2laK81d9s/B05FvrKQR5gqFtq4Q
+	BORA8EAZAcg59dbqJ7U5r5nhmddPcI4sOwZ4JYCDgUd9
+X-Google-Smtp-Source: AGHT+IFnLkTxcruD7Hp1LV4wDr6+30vNm48XHdgQUg4VzXCoYkEGYb5bRjLqoDMIRwbBgeRfzf13lL8tY47F3kq0esI=
+X-Received: by 2002:adf:e601:0:b0:336:4308:28df with SMTP id
+ p1-20020adfe601000000b00336430828dfmr120570wrm.204.1704359283391; Thu, 04 Jan
+ 2024 01:08:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <CAPVz0n2Ky350xhOv6WvE0YhFJ9QBe59LnWvKiafs2tjFnptP+g@mail.gmail.com>
+ <22115037-3a81-4a52-8e64-bc85c2be4212@broadcom.com> <CAPVz0n2Dah1b45c0yUjMZNph5AVJjneLsc2LOQ-dkXNRTv6y+Q@mail.gmail.com>
+ <18cce9a7818.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
+ <18ccea1d6d0.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
+ <BFE6B9E5-CAF5-4E30-A4A2-A2489423C961@gmail.com> <18cd08e83d0.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
+In-Reply-To: <18cd08e83d0.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Thu, 4 Jan 2024 11:07:52 +0200
+Message-ID: <CAPVz0n347PVv28H2wswmO3N63dpfPZ0d3VrdxmQHXMoo9LS69g@mail.gmail.com>
+Subject: Re: License of old broadcom BT firmwares and WiFi calibration files
+List-Id: <linux-firmware.lore.kernel.org>
+To: Arend Van Spriel <arend.vanspriel@broadcom.com>, linux-wireless@vger.kernel.org, 
+	linux-firmware@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hm, hello again.
+=D1=81=D1=80, 3 =D1=81=D1=96=D1=87. 2024=E2=80=AF=D1=80. =D0=BE 20:20 Arend=
+ Van Spriel <arend.vanspriel@broadcom.com> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On January 3, 2024 6:28:33 PM Svyatoslav Ryhel <clamor95@gmail.com> wrote=
+:
+>
+> > 3 =D1=81=D1=96=D1=87=D0=BD=D1=8F 2024 =D1=80. 11:22:42 GMT+02:00, Arend=
+ Van Spriel
+> > <arend.vanspriel@broadcom.com> =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=
+=B2(-=D0=BB=D0=B0):
+> >> On January 3, 2024 10:14:42 AM Arend Van Spriel
+> >> <arend.vanspriel@broadcom.com> wrote:
+> >>
+> >>> + linux-wireless
+> >>> + Hans de Goede
+> >>>
+> >>>
+> >>> On December 16, 2023 9:14:48 PM Svyatoslav Ryhel <clamor95@gmail.com>=
+ wrote:
+> >>>
+> >>>> =D1=81=D0=B1, 16 =D0=B3=D1=80=D1=83=D0=B4. 2023=E2=80=AF=D1=80. =D0=
+=BE 21:57 Arend van Spriel
+> >>>> <arend.vanspriel@broadcom.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> >>>>>
+> >>>>> On 12/16/2023 6:45 PM, Svyatoslav Ryhel wrote:
+> >>>>>> Greetings!
+> >>>>>>
+> >>>>>> I am trying to submit bluetooth firmwares (BCM4329B1.*,*.hcd and
+> >>>>>> BCM4330B1.*,*.hcd) and wifi calibration files
+> >>>>>> (brcmfmac4329-sdio.*,*.txt and brcmfmac4329-sdio.*,*.txt) from a f=
+ew
+> >>>>>> Tegra 2 and Tegra 3 based devices into linux-fimware.
+> >>>>>>
+> >>>>>> I have faced ambiguous license issue since those files were part o=
+f
+> >>>>>> Android Images of different vendors. Those vendors did not provide=
+ a
+> >>>>>> license nor for android images, not for these files.
+> >>
+> >> Does this mean you extracted them from the android image? That probabl=
+y
+> >> never get accepted without any license information.
+> >
+> > Can Broadcom re-grant license to these files?
+> >
+> > This license is for bcm4329 in crespo
+> > <https://android.googlesource.com/device/samsung/crespo/+/refs/heads/ma=
+in/self-extractors/broadcom/LICENSE>
+>
+> Actually checked this link:
+>
+> https://android.googlesource.com/device/samsung/crespo/+/refs/heads/main/=
+proprietary-blobs.txt
+>
+> It lists the bcm4329.hcd file as falling under Apache-2.0 license. Same f=
+or
+> asus/grouper.
+>
+> Regards,
+> Arend
 
-Steffen Nurpmeso wrote in
- <20240102221621.YaA1nlef@steffen%sdaoden.eu>:
- |Josh Boyer wrote in
- | <CA+5PVA7fCsgSAYDcMq4NSC4u1ax0f=3D6WmHo76LZsBRe3gvt5og@mail.gmail.com>:
- ||On Sat, Dec 16, 2023 at 5:36=E2=80=AFPM Steffen Nurpmeso <steffen@sdaode=
-n.eu> \
- ||wrote:
- ||> Thank you very much for making rdfind an optional thing!
- ||>
- ||> I still have not understood why this complicated mechanism is
+So this actually resolves ambiguity. Thanks
 
-It is a _terrible_ and terribly redundant build system.
-But that is not my problem, i will not look into what these
-build_packages.py things do...
-However my thing from yesterday is wrong in so far as the
-duplicates are only removed when run from "make dist", which is at
-least once or twice not enough, then.
-
-So please this one simply hammers always (unless dedup is not
-desired).  Also it uses -f arg to ln(1) for whatever reason.
-Otherwise identical.
-
-Again i personally would instead do copy_firmware.sh once, and do
-not create any links during that run at all.  Instead i would
-place those with the target in a text file to be shipped along.
-At install time (i would look in an "updates" path??) i would run
-that recipe and create according (compressed?) links as necessary.
-(If "updates" contains file, these have to be taken into account
-when doing so, possibly skipping a link, but doing a copy.)
-
-I do no understand how copy-firmware.sh can currently work on
-already linked data "when there are updates to take into account"
-(and there is a mismatch).
-
-Anyhow.  This diff should also work on github, or wherever "make
-dist" is run, since cksum, sort, cp, find and xargs should all be
-available by default.
-
-Ciao from Germany!
-
---- copy-firmware.sh.orig	2024-01-02 22:30:43.000000000 +0100
-+++ copy-firmware.sh	2024-01-03 20:38:58.157253235 +0100
-@@ -40,7 +40,7 @@ while test $# -gt 0; do
-                 exit 1
-             fi
-             # shellcheck disable=3DSC2209
--            compress=3D"zstd --compress --quiet --stdout"
-+            compress=3D"zstd -T0 --ultra -22 --compress --quiet --stdout"
-             compext=3D".zst"
-             shift
-             ;;
-@@ -75,13 +75,6 @@ if [ -z "$destdir" ]; then
- 	exit 1
- fi
-=20
--if ! command -v rdfind >/dev/null; then
--	if [ "$skip_dedup" !=3D 1 ]; then
--    		echo "ERROR: rdfind is not installed.  Pass --ignore-duplicates to s=
-kip deduplication"
--		exit 1
--	fi
--fi
--
- # shellcheck disable=3DSC2162 # file/folder name can include escaped symbo=
-ls
- grep -E '^(RawFile|File):' WHENCE | sed -E -e 's/^(RawFile|File): */\1 /;s=
-/"//g' | while read k f; do
-     test -f "$f" || continue
-@@ -89,20 +82,34 @@ grep -E '^(RawFile|File):' WHENCE | sed
-     $verbose "copying/compressing file $f$compext"
-     if test "$compress" !=3D "cat" && test "$k" =3D "RawFile"; then
-         $verbose "compression will be skipped for file $f"
--        cat "$f" > "$destdir/$f"
-+        cp "$f" "$destdir/$f"
-+    elif [ "$compress" =3D cat ]; then
-+        cp "$f" "$destdir/$f"
-     else
-         $compress "$f" > "$destdir/$f$compext"
-     fi
- done
-=20
--if [ "$skip_dedup" !=3D 1 ] ; then
-+if [ "$skip_dedup" !=3D 1 ]; then
- 	$verbose "Finding duplicate files"
--	rdfind -makesymlinks true -makeresultsfile false "$destdir" >/dev/null
--	find "$destdir" -type l | while read -r l; do
--		target=3D"$(realpath "$l")"
--		$verbose "Correcting path for $l"
--		ln -fs "$(realpath --relative-to=3D"$(dirname "$(realpath -s "$l")")" "$=
-target")" "$l"
--	done
-+    (
-+    cd "$destdir" && find . -type f | xargs cksum | sort | {
-+        ls=3D lf=3D
-+        while read s1 s2 f; do
-+            s=3D"$s1 $s2"
-+            #$verbose $s $f
-+            if [ "$s" =3D "$ls" ] && cmp "$lf" "$f"; then
-+                $verbose 'duplicate '"${lf##*/}" "${f#./*}"
-+                rm -f "$f"
-+                #ln -s "${lf#./*}" "${f#./*}"
-+                ln -sf "${lf##*/}" "${f#./*}"
-+            else
-+                ls=3D$s
-+                lf=3D$f
-+            fi
-+        done
-+    }
-+    )
- fi
-=20
- # shellcheck disable=3DSC2162 # file/folder name can include escaped symbo=
-ls
-
---steffen
-|
-|Der Kragenbaer,                The moon bear,
-|der holt sich munter           he cheerfully and one by one
-|einen nach dem anderen runter  wa.ks himself off
-|(By Robert Gernhardt)
+Best regards,
+Svyatoslav R.
