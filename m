@@ -1,120 +1,219 @@
-Return-Path: <SRS0=Jthy=IS=amd.com=Rodrigo.Siqueira@kernel.org>
+Return-Path: <SRS0=10A1=IS=broadcom.com=arend.vanspriel@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA6D7C3DA6E
-	for <linux-firmware@archiver.kernel.org>; Mon,  8 Jan 2024 15:41:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6136C3DA6E
+	for <linux-firmware@archiver.kernel.org>; Mon,  8 Jan 2024 15:43:39 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C2086C433CD; Mon,  8 Jan 2024 15:41:58 +0000 (UTC)
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id A18CAC43397; Mon,  8 Jan 2024 15:43:39 +0000 (UTC)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 8540BC433D9;
-	Mon,  8 Jan 2024 15:41:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 8540BC433D9
-Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Gf6fzYtIknTuNpPR0q+iO/R/fsnkJ6NrliquWnrPo2iG2Xp3SjgiT/OTsmJmvktVd4OOEdG+NAgfLu63ulb/p6581zPiq14fSTKdwXUhlxZRX0kYyUASU8oqTtAeBxnhBXZTIAkZmffVroFV009o/irw8aUyfEeZbg72S2mvafBhXMI3kfIGe+/L579KyARLl8nh0TZgWeZjEXfZsfQ3nhGpblrtyvpzkewdJDDmI9sqCMRCTBH+pNpfvXPpus610yXHbOR/vhK27YXHTOKYYuoSk3qq/zLEX2P3SZsODoy+0TGUy1bpzKBHvXeWZNCaojXeqX9UooUABcA5at9h0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hxAjzK+EmU+G6AO7Mv3gZD5F71R1kHKPt0fWsX8kK8Q=;
- b=PE2c0eriOnDAOR2eiSEhhW5jWSLNZEMsNGuvoAkxathuCJioqlLq+bS0IRtY2wKY5aGmrDrywZCGD3EpkUKbPhFJSX4LCg1C2Gv2NJjMzmMJo2Q0Gb1kUFXmD/Sxs81cKB6UKwrDgvHIKPjty7t4DmpdgrNOoy5eR7gpZfeGaVqzYVG0na19v5C42XwZdPkTioetz+WjpK5cwLrqGrTFr70YmcPS0BKWCw1rJb9IdR7DNmNljMqtZG5fHnyBPoLscXy3aWNZO6ECV7pQrIBFy6K3esfWY2KEOw3wKs8winWW9o9VLkcuFwnXKPfLCMSsO6BSD6BkbQO4U77Hg3saeg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hxAjzK+EmU+G6AO7Mv3gZD5F71R1kHKPt0fWsX8kK8Q=;
- b=0u9h9MsEHtFX03BeDZFIwgSuwVaJpweCwZqBoRju+5kTyTuv1e0w6IsOgyZb9zb7csuq6CQcQVTnMLh1FpyMSgDKYjaaTzv6MISIrsC2tEiftvi3kcLPCguaKNr4NGtss3Qb8gO4tjfLaGei3CUAsLGB/0PMpdlOR+XMek6Gqkc=
-Received: from MN2PR20CA0056.namprd20.prod.outlook.com (2603:10b6:208:235::25)
- by DS7PR12MB8418.namprd12.prod.outlook.com (2603:10b6:8:e9::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.21; Mon, 8 Jan
- 2024 15:41:50 +0000
-Received: from BL6PEPF0001AB71.namprd02.prod.outlook.com
- (2603:10b6:208:235:cafe::e7) by MN2PR20CA0056.outlook.office365.com
- (2603:10b6:208:235::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.21 via Frontend
- Transport; Mon, 8 Jan 2024 15:41:50 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL6PEPF0001AB71.mail.protection.outlook.com (10.167.242.164) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7181.13 via Frontend Transport; Mon, 8 Jan 2024 15:41:50 +0000
-Received: from smtp.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Mon, 8 Jan
- 2024 09:41:48 -0600
-From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id A3D7DC43395
+	for <linux-firmware@kernel.org>; Mon,  8 Jan 2024 15:43:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A3D7DC43395
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a29c4bbb2f4so203515766b.1
+        for <linux-firmware@kernel.org>; Mon, 08 Jan 2024 07:43:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1704728617; x=1705333417; darn=kernel.org;
+        h=mime-version:subject:user-agent:references:in-reply-to:message-id
+         :date:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KrxCV6+k1MXRkyDOYrbDqOFTINOWcio+E9Vj67r6i9g=;
+        b=dT2zVXxXBTVomL6xFBqgl7oxADFO8P9c8GOcTpsdPiDm/ai/hT1Pmk/qzmnHVgiOQo
+         k2FSvHg6IwHyczxuL+zLqu75CIqI5YS4iFG7lFGruXsgrwWvQGHDhGU/1/xUSmabqrP6
+         ycknKux+tCxZDPd1MEH+IO92t9tXJipIA0oxg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704728617; x=1705333417;
+        h=mime-version:subject:user-agent:references:in-reply-to:message-id
+         :date:to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KrxCV6+k1MXRkyDOYrbDqOFTINOWcio+E9Vj67r6i9g=;
+        b=KirGT11AzBNn5RHGil0tMaMVJ83ItLflOSmtL1cS2zCZzpYO69bvIfukLsj27qMSer
+         i5VM2PDNtLiG4ON6HmVotKTRPNkeONrZlbqpkj8qPvHUeeSyhl4NQvM+DpxHQK0R964i
+         5QsFkAx80boQukGUQtby3p/HKlmIm0r8Dea1IKkH5hVcr41fREF6zYNRqDp8pqETloxr
+         dtzCMHyVNb+SM7uahhjcw8ATRL8acbOL+c9v5cDoa51qMjQQOkCUj1bUAjvmlwLyZV8l
+         /Ut1s9/Zhr/GQ2wXu351HSCDSsn+kThMMrOQHnGFkFVZuc98GGPEL2Kn8TMk4x7xK4J2
+         UeVg==
+X-Gm-Message-State: AOJu0YxZQYiu7S7VisJ8Y/ayP6EuBK5zTEQJtjWGK6DPWnc0Wc5r+axm
+	ozsjU6VBIVdpsUvqLN8YTvG54zPEd8/t
+X-Google-Smtp-Source: AGHT+IFRL+FIszE8k7M/ajNOyMmV3+oLDy3mu/qxDkcnpkC4cSaFO9rmUPRQqszPyziKeTKMAvXk1w==
+X-Received: by 2002:a17:906:c441:b0:a27:4217:b22b with SMTP id ck1-20020a170906c44100b00a274217b22bmr1412980ejb.18.1704728616838;
+        Mon, 08 Jan 2024 07:43:36 -0800 (PST)
+Received: from [192.168.178.38] (f215227.upc-f.chello.nl. [80.56.215.227])
+        by smtp.gmail.com with ESMTPSA id h15-20020a1709062dcf00b00a2a4be4932fsm13196eji.60.2024.01.08.07.43.35
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 08 Jan 2024 07:43:35 -0800 (PST)
+From: Arend Van Spriel <arend.vanspriel@broadcom.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: Josh Boyer <jwboyer@kernel.org>, <linux-firmware@kernel.org>
-CC: Alex Deucher <alexander.deucher@amd.com>, Mario Limonciello
-	<mario.limonciello@amd.com>, Deepak Sharma <deepak.sharma@amd.com>, "Rodrigo
- Siqueira" <Rodrigo.Siqueira@amd.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>,
-	Anson Tsao <anson.tsao@amd.com>, Amit Bhutani <Amit.Bhutani@amd.com>,
-	Aurabindo Pillai <aurabindo.pillai@amd.com>
-Subject: pull request: amdgpu: update DMCUB firmware for DCN312 to v0.0.199.0
-Date: Mon, 8 Jan 2024 08:40:35 -0700
-Message-ID: <20240108154035.23859-1-Rodrigo.Siqueira@amd.com>
-X-Mailer: git-send-email 2.43.0
+To: Svyatoslav Ryhel <clamor95@gmail.com>, <linux-wireless@vger.kernel.org>, <linux-firmware@kernel.org>
+Date: Mon, 08 Jan 2024 16:43:34 +0100
+Message-ID: <18ce9be5470.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
+In-Reply-To: <CAPVz0n347PVv28H2wswmO3N63dpfPZ0d3VrdxmQHXMoo9LS69g@mail.gmail.com>
+References: <CAPVz0n2Ky350xhOv6WvE0YhFJ9QBe59LnWvKiafs2tjFnptP+g@mail.gmail.com>
+ <22115037-3a81-4a52-8e64-bc85c2be4212@broadcom.com>
+ <CAPVz0n2Dah1b45c0yUjMZNph5AVJjneLsc2LOQ-dkXNRTv6y+Q@mail.gmail.com>
+ <18cce9a7818.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
+ <18ccea1d6d0.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
+ <BFE6B9E5-CAF5-4E30-A4A2-A2489423C961@gmail.com>
+ <18cd08e83d0.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
+ <CAPVz0n347PVv28H2wswmO3N63dpfPZ0d3VrdxmQHXMoo9LS69g@mail.gmail.com>
+User-Agent: AquaMail/1.49.0 (build: 104900403)
+Subject: Re: License of old broadcom BT firmwares and WiFi calibration files
 MIME-Version: 1.0
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="000000000000aa9f60060e710f2e"
+
+--000000000000aa9f60060e710f2e
+Content-Type: text/plain; format=flowed; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB71:EE_|DS7PR12MB8418:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6c43eb25-27ee-4af7-ddb7-08dc106054d3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	PbnrdY6Ledbm7//GLMNj6/YzZhORSOXYW1LNj1ayDLjeORKmIts/YL8BvlMydwmbMAPIBPvnDBea/lFR2XSxAhczfxrOe0tVCYbxTO8wel+W+jhsfaqs3kBo/CpLq2AUX5glNuw32XP29kBnYg9triKaptvQwCtFWuYgl0GItD4wDG5ifIPBzW9kOz5ux34fYZCEAYKpb8QYcDlWoMsZjbwirEjp3lPi4itUvs7mwyqxPnMlZGSMxSLJ7bkgHV9mkh+YrQrpiID5OV5VILKFj83uDUusriF4BCVZGE/6wg6x7X0UvI5VhjkQAB5BqKbGUWtZeQJkBPPFY16hC+OJpla56FIanq5IduuqIVgCvSQTIOa6QWVRKgNzb0lOOSzcL101LAHlabDbo7SyuMz0XXvmdzqIl+cBoFaILll8I4XKa5SFFQnu3XOwGmy2abKP2AOABWerhjwcARN/vwZJis7DMjWabMLildqyrISl50ehRoOTLBbhwWwb0hlvdZqPhPEwgVhy7xR2gYTsocsN6HttLj7Nf0heb3BwB2LPSNl1LP9N80oy0gXt4G4ScndqdVF7KHohWivwg+gicVXzaEazQTSkToOkm9EexnDpdVOk9yaea6eMgdShIp/1g4+DFG3lNEjRkDF6L6XZvpB6A/orCKb9sXUTUeDnQPdiqGxv1fSffJU7olMugg11ktczY55Pvv1+So02Ck/ALYttVoRf2LVt1GvZdjs7TDvaWs5UfbRC3xA06TZwfgtxqefj66oPnBmlUGJ3BwVFeEPwww==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(346002)(376002)(136003)(396003)(39860400002)(230922051799003)(186009)(1800799012)(82310400011)(451199024)(64100799003)(36840700001)(46966006)(40470700004)(2616005)(8936002)(8676002)(26005)(83380400001)(336012)(426003)(16526019)(1076003)(41300700001)(86362001)(450100002)(4326008)(316002)(54906003)(110136005)(4744005)(5660300002)(2906002)(15650500001)(4001150100001)(36756003)(70586007)(70206006)(6666004)(478600001)(36860700001)(356005)(81166007)(47076005)(40480700001)(82740400003)(40460700003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2024 15:41:50.5374
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6c43eb25-27ee-4af7-ddb7-08dc106054d3
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF0001AB71.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8418
 
-The following changes since commit 87be457c2e50d35caeefc00cd590af21c29a8b83:
+On January 4, 2024 10:08:04 AM Svyatoslav Ryhel <clamor95@gmail.com> wrote:
 
-  amdgpu: DMCUB updates for various AMDGPU ASICs (2023-12-15 14:54:01 +0800)
+> ср, 3 січ. 2024 р. о 20:20 Arend Van Spriel <arend.vanspriel@broadcom.com> 
+> пише:
+>>
+>> On January 3, 2024 6:28:33 PM Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+>>
+>>> 3 січня 2024 р. 11:22:42 GMT+02:00, Arend Van Spriel
+>>> <arend.vanspriel@broadcom.com> написав(-ла):
+>>>> On January 3, 2024 10:14:42 AM Arend Van Spriel
+>>>> <arend.vanspriel@broadcom.com> wrote:
+>>>>
+>>>>> + linux-wireless
+>>>>> + Hans de Goede
+>>>>>
+>>>>>
+>>>>> On December 16, 2023 9:14:48 PM Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+>>>>>
+>>>>>> сб, 16 груд. 2023 р. о 21:57 Arend van Spriel
+>>>>>> <arend.vanspriel@broadcom.com> пише:
+>>>>>>>
+>>>>>>> On 12/16/2023 6:45 PM, Svyatoslav Ryhel wrote:
+>>>>>>>> Greetings!
+>>>>>>>>
+>>>>>>>> I am trying to submit bluetooth firmwares (BCM4329B1.*,*.hcd and
+>>>>>>>> BCM4330B1.*,*.hcd) and wifi calibration files
+>>>>>>>> (brcmfmac4329-sdio.*,*.txt and brcmfmac4329-sdio.*,*.txt) from a few
+>>>>>>>> Tegra 2 and Tegra 3 based devices into linux-fimware.
+>>>>>>>>
+>>>>>>>> I have faced ambiguous license issue since those files were part of
+>>>>>>>> Android Images of different vendors. Those vendors did not provide a
+>>>>>>>> license nor for android images, not for these files.
+>>>>
+>>>> Does this mean you extracted them from the android image? That probably
+>>>> never get accepted without any license information.
+>>>
+>>> Can Broadcom re-grant license to these files?
+>>>
+>>> This license is for bcm4329 in crespo
+>>> <https://android.googlesource.com/device/samsung/crespo/+/refs/heads/main/self-extractors/broadcom/LICENSE>
+>>
+>> Actually checked this link:
+>>
+>> https://android.googlesource.com/device/samsung/crespo/+/refs/heads/main/proprietary-blobs.txt
+>>
+>> It lists the bcm4329.hcd file as falling under Apache-2.0 license. Same for
+>> asus/grouper.
+>>
+>> Regards,
+>> Arend
+>
+> So this actually resolves ambiguity. Thanks
 
-are available in the Git repository at:
+Yes, but ... you should add them to linux-firmware under the same license. 
+That means you need to mark them as such in the WHENCE file. Feel free to 
+cc: me for the patch so I can have a look at it.
 
-  git@gitlab.freedesktop.org:drm/firmware.git tags/amd-2024-01-08
+Regards,
+Arend
 
-for you to fetch changes up to 2909bf41a051601e86129a9c2fcebf31c15eebc8:
 
-  amdgpu: DMCUB updates for DCN314 (2024-01-08 07:26:59 -0700)
 
-----------------------------------------------------------------
-Rodrigo Siqueira (1):
-      amdgpu: DMCUB updates for DCN314
 
- amdgpu/yellow_carp_dmcub.bin | Bin 234768 -> 234768 bytes
- 1 file changed, 0 insertions(+), 0 deletions(-)
+--000000000000aa9f60060e710f2e
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
-diff --git a/amdgpu/yellow_carp_dmcub.bin b/amdgpu/yellow_carp_dmcub.bin
-index cc1c5c75..a72743bc 100644
-Binary files a/amdgpu/yellow_carp_dmcub.bin and b/amdgpu/yellow_carp_dmcub.bin differ
+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
+2Gzj3QNJRLsZu1TLyOyBBIr/BE7UiY3RabgRzknBGAPmzhS+fmyM8OtM5BYBsFBrSUFtZZO2p/tf
+Nbc24J2zf2peoZ8MK+7WQqummYlOnz+FyDkA9EybeNMcS5C+xi/PAgMBAAGjggHdMIIB2TAOBgNV
+HQ8BAf8EBAMCBaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJl
+Lmdsb2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYI
+KwYBBQUHMAGGNWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24y
+Y2EyMDIwME0GA1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3
+dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqG
+OGh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3Js
+MCcGA1UdEQQgMB6BHGFyZW5kLnZhbnNwcmllbEBicm9hZGNvbS5jb20wEwYDVR0lBAwwCgYIKwYB
+BQUHAwQwHwYDVR0jBBgwFoAUljPR5lgXWzR1ioFWZNW+SN6hj88wHQYDVR0OBBYEFIikAXd8CEtv
+ZbDflDRnf3tuStPuMA0GCSqGSIb3DQEBCwUAA4IBAQCdS5XCYx6k2GGZui9DlFsFm75khkqAU7rT
+zBX04sJU1+B1wtgmWTVIzW7ugdtDZ4gzaV0S9xRhpDErjJaltxPbCylb1DEsLj+AIvBR34caW6ZG
+sQk444t0HPb29HnWYj+OllIGMbdJWr0/P95ZrKk2bP24ub3ZP/8SyzrohfIba9WZKMq6g2nTLZE3
+BtkeSGJx/8dy0h8YmRn+adOrxKXHxhSL8BNn8wsmIZyYWe6fRcBtO3Ks2DOLyHCdkoFlN8x9VUQF
+N2ulEgqCbRKkx+qNirW86eF138lr1gRxzclu/38ko//MmkAYR/+hP3WnBll7zbpIt0jc9wyFkSqH
+p8a1MYICbTCCAmkCAQEwazBbMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1z
+YTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMgUGVyc29uYWxTaWduIDIgQ0EgMjAyMAIMTv1t
+bpIzNUky46LXMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCDtlKgBA6dt4QJpI0zp
+gCQgOGQqUS+AkHyoMEMzKvnFNTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
+BTEPFw0yNDAxMDgxNTQzMzdaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUDBAEqMAsGCWCGSAFl
+AwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsGCSqGSIb3DQEBBzAL
+BglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAzdMZQe75H01MO+/tO7p59PsHFFlwSCrcw4ht
+yF7gM5az2BQw0M0B8OE5g6F/kR1oeTRg/A7qrJn9bu8NW/KaTvDbQWTOqPT35Oo9WQoAWan+ijOt
+cmvoTLiBi8dvIIlSrTKmpg7o6pM2QhKxDMUZaEK6DjUpDbtENESXv1rijZkcuq0MMudwnghDB7G2
+dJ1X2iEporJ5BhEOyseFdr7JWmQgKMs5px7Uv2tsjr/jxs+Jkk8u3v1z8gu8DeVuuLMi54jFVlDk
+duxYZ+7xo/wU6REag+U6Uo0dzarsX/TtrLFhxUMl3TVjbNIpeDKQRz3GxxCLIZI0Cg1nEjwlaETs
+jA==
+--000000000000aa9f60060e710f2e--
