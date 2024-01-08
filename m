@@ -1,153 +1,87 @@
-Return-Path: <SRS0=II4c=IS=gmail.com=clamor95@kernel.org>
+Return-Path: <SRS0=Rzdl=IS=opensource.cirrus.com=prvs=8737e28d43=ckeepax@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5156C3DA6E
-	for <linux-firmware@archiver.kernel.org>; Mon,  8 Jan 2024 16:48:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B4DCC3DA6E
+	for <linux-firmware@archiver.kernel.org>; Mon,  8 Jan 2024 17:03:05 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 8DB6DC433C7; Mon,  8 Jan 2024 16:48:39 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id E5115C433C9; Mon,  8 Jan 2024 17:03:04 +0000 (UTC)
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 9855BC433CA
-	for <linux-firmware@kernel.org>; Mon,  8 Jan 2024 16:48:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 9855BC433CA
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3368d1c7b23so2026665f8f.0
-        for <linux-firmware@kernel.org>; Mon, 08 Jan 2024 08:48:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704732517; x=1705337317; darn=kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TDbtiLbA1iRT2Xe0QDhUmpbL4hjpDHQ12hK+fzVUvx8=;
-        b=gTOYKOYNGpj2kx8bOnEoPQin96R4OMhh8Dmu5zTq+2qsPoq0ffwfviIhFzsZAuajiZ
-         bH/ctTMEZHcGpvxpyeVi+RTme6agFitezFO0cIw8aAjaYwHjYM7KPeHUB20+AWbMm8YL
-         ijAC/xLosDvQEbtEcTbFvlL1SJtl2Rta3KYWDUJjg+VXkU2iuOCzY7YUm+jqiJYhRrr4
-         cZHw/9XQ/RYrQzv0h6LpZ9QwMIvYi7rPEQEggdKoad3pKgsUm2xfDsvkRxMNlQf5MXqO
-         wIbHE8u/0LCWtVDV3k8siNL/OIHn9ZgpERx+vCTuslHH70DDgERoUBOCBcV9YmJDqBUF
-         vBhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704732517; x=1705337317;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TDbtiLbA1iRT2Xe0QDhUmpbL4hjpDHQ12hK+fzVUvx8=;
-        b=Ygc4Fq29XsZ0cbhwQ7jnAAnrShdrTQGTrl2kqlfTqOcg+E2TgGa4eN2Bfm4T9pMGsO
-         QeFnfrD+8QiqKHbcpcZGxwmDkpyp/zqKp24L8lE+ph8YvxOaPhZOMxINOKcup21sMuUB
-         QLxh/WepERmwpsG/WsscZGtQyzdoeJQck/TQo60zgbstFIXJ6A9WmXxVA88YlhfBzluB
-         wIRYZeMkY6sgn2qt3tSgd5U5mT8fxsMai1y23BFlezNDKN16lFVZi/dNGCO/krMouzd6
-         6xBr7jvmGJAUxbxhakErFfsBgUo3GA2jFwSJxGB42HSHRfkvE7+M6FT1YBPIu0GLIPXa
-         XxLA==
-X-Gm-Message-State: AOJu0YzHWPR0PevApf1GT+8mdsb4V0XGTCqDectuYzpxuk9Ippo8skGJ
-	V6+nwrfTcZRMAYlHvP0Fj7g8igSi4WyLbd8j8co=
-X-Google-Smtp-Source: AGHT+IG/wdGcIK9K0Z2aUS74RQ+7EAINO4ZCISdXTiC4gH6o5gnkLilU2B6Gdf9NRsWD5A/eb/o3uI3mAe38nV8suJc=
-X-Received: by 2002:a5d:440e:0:b0:337:3efd:37a2 with SMTP id
- z14-20020a5d440e000000b003373efd37a2mr2210153wrq.111.1704732516589; Mon, 08
- Jan 2024 08:48:36 -0800 (PST)
-MIME-Version: 1.0
-References: <CAPVz0n2Ky350xhOv6WvE0YhFJ9QBe59LnWvKiafs2tjFnptP+g@mail.gmail.com>
- <22115037-3a81-4a52-8e64-bc85c2be4212@broadcom.com> <CAPVz0n2Dah1b45c0yUjMZNph5AVJjneLsc2LOQ-dkXNRTv6y+Q@mail.gmail.com>
- <18cce9a7818.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
- <18ccea1d6d0.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
- <BFE6B9E5-CAF5-4E30-A4A2-A2489423C961@gmail.com> <18cd08e83d0.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
- <CAPVz0n347PVv28H2wswmO3N63dpfPZ0d3VrdxmQHXMoo9LS69g@mail.gmail.com> <18ce9be5470.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
-In-Reply-To: <18ce9be5470.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Mon, 8 Jan 2024 18:48:25 +0200
-Message-ID: <CAPVz0n3BxJjaudDnC=QLHa-0NsE9JSs1ezFpwK2yb=9ySyr2cw@mail.gmail.com>
-Subject: Re: License of old broadcom BT firmwares and WiFi calibration files
-To: Arend Van Spriel <arend.vanspriel@broadcom.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id C740BC433C8
+	for <linux-firmware@kernel.org>; Mon,  8 Jan 2024 17:03:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C740BC433C8
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4087WAaB017577
+	for <linux-firmware@kernel.org>; Mon, 8 Jan 2024 11:02:56 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:mime-version:content-type; s=
+	PODMain02222019; bh=KDxM6mNhXDHloZnZVuGF57DzoxpPxHElH8B2YpDNASw=; b=
+	P0QfocodtM9aL3aPXyVv7ujKkQOglQtKWtYs6DmwLLT75zVgjono1zuAySIVzDPt
+	HeYGcJCwOYjwT1LAURTk46v51LjZxHTyFiIiKSx3mDdm2vE3qO8//EAYNaALZfv/
+	reBp/P+31RarE6qLZQxswmNcw9KR3OXVUAgIITv7aS2LMWFHkgbpybGVhA9Wkv6A
+	6jHxKl2t8lZdhhBEHnLD0ZZwJjOTD9sAGMXfDuQctCOOto+UYaeWnyQ647vmDQpY
+	HXN2Yst+IZ53SxJ1rVOBIn8sXpnQQ7hwAMsQO9xy/8mSekbGEOL2Dxww0ycHEvaF
+	D+EuTCTl6zgc8GIwob9C2g==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3vf45pjjsg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <linux-firmware@kernel.org>; Mon, 08 Jan 2024 11:02:56 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 8 Jan
+ 2024 17:02:54 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.40 via Frontend Transport; Mon, 8 Jan 2024 17:02:54 +0000
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id AF72E15A2;
+	Mon,  8 Jan 2024 17:02:54 +0000 (UTC)
+Date: Mon, 8 Jan 2024 17:02:54 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-wireless@vger.kernel.org, linux-firmware@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: <linux-firmware@kernel.org>
+CC: <patches@opensource.cirrus.com>
+Subject: [PULL linux-firmware] Add firmware for Cirrus cs42l43 codec
+Message-ID: <20240108170254.GK14858@ediswmail.ad.cirrus.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-GUID: 2IvJ_vt2Ec45NsxzTTl5Bjcxgevdw7-b
+X-Proofpoint-ORIG-GUID: 2IvJ_vt2Ec45NsxzTTl5Bjcxgevdw7-b
+X-Proofpoint-Spam-Reason: safe
 
-=D0=BF=D0=BD, 8 =D1=81=D1=96=D1=87. 2024=E2=80=AF=D1=80. =D0=BE 17:43 Arend=
- Van Spriel <arend.vanspriel@broadcom.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On January 4, 2024 10:08:04 AM Svyatoslav Ryhel <clamor95@gmail.com> wrot=
-e:
->
-> > =D1=81=D1=80, 3 =D1=81=D1=96=D1=87. 2024=E2=80=AF=D1=80. =D0=BE 20:20 A=
-rend Van Spriel <arend.vanspriel@broadcom.com>
-> > =D0=BF=D0=B8=D1=88=D0=B5:
-> >>
-> >> On January 3, 2024 6:28:33 PM Svyatoslav Ryhel <clamor95@gmail.com> wr=
-ote:
-> >>
-> >>> 3 =D1=81=D1=96=D1=87=D0=BD=D1=8F 2024 =D1=80. 11:22:42 GMT+02:00, Are=
-nd Van Spriel
-> >>> <arend.vanspriel@broadcom.com> =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=
-=D0=B2(-=D0=BB=D0=B0):
-> >>>> On January 3, 2024 10:14:42 AM Arend Van Spriel
-> >>>> <arend.vanspriel@broadcom.com> wrote:
-> >>>>
-> >>>>> + linux-wireless
-> >>>>> + Hans de Goede
-> >>>>>
-> >>>>>
-> >>>>> On December 16, 2023 9:14:48 PM Svyatoslav Ryhel <clamor95@gmail.co=
-m> wrote:
-> >>>>>
-> >>>>>> =D1=81=D0=B1, 16 =D0=B3=D1=80=D1=83=D0=B4. 2023=E2=80=AF=D1=80. =
-=D0=BE 21:57 Arend van Spriel
-> >>>>>> <arend.vanspriel@broadcom.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> >>>>>>>
-> >>>>>>> On 12/16/2023 6:45 PM, Svyatoslav Ryhel wrote:
-> >>>>>>>> Greetings!
-> >>>>>>>>
-> >>>>>>>> I am trying to submit bluetooth firmwares (BCM4329B1.*,*.hcd and
-> >>>>>>>> BCM4330B1.*,*.hcd) and wifi calibration files
-> >>>>>>>> (brcmfmac4329-sdio.*,*.txt and brcmfmac4329-sdio.*,*.txt) from a=
- few
-> >>>>>>>> Tegra 2 and Tegra 3 based devices into linux-fimware.
-> >>>>>>>>
-> >>>>>>>> I have faced ambiguous license issue since those files were part=
- of
-> >>>>>>>> Android Images of different vendors. Those vendors did not provi=
-de a
-> >>>>>>>> license nor for android images, not for these files.
-> >>>>
-> >>>> Does this mean you extracted them from the android image? That proba=
-bly
-> >>>> never get accepted without any license information.
-> >>>
-> >>> Can Broadcom re-grant license to these files?
-> >>>
-> >>> This license is for bcm4329 in crespo
-> >>> <https://android.googlesource.com/device/samsung/crespo/+/refs/heads/=
-main/self-extractors/broadcom/LICENSE>
-> >>
-> >> Actually checked this link:
-> >>
-> >> https://android.googlesource.com/device/samsung/crespo/+/refs/heads/ma=
-in/proprietary-blobs.txt
-> >>
-> >> It lists the bcm4329.hcd file as falling under Apache-2.0 license. Sam=
-e for
-> >> asus/grouper.
-> >>
-> >> Regards,
-> >> Arend
-> >
-> > So this actually resolves ambiguity. Thanks
->
-> Yes, but ... you should add them to linux-firmware under the same license=
-.
-> That means you need to mark them as such in the WHENCE file. Feel free to
-> cc: me for the patch so I can have a look at it.
->
-> Regards,
-> Arend
+We would like to merge the firmware for the cs42l43 codec, this
+firmware requires some additional license details to cover code
+used within the firmware.
 
-Thank you for your assistance, it is really appreciated and valued but
-it was rejected
+Thanks,
+Charles
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/114
+The following changes since commit 5179d3558a336a270b38555579252ec81073ee5c:
 
-I have referred to our conversation.
+  Merge branch 'robot/pr-0-1704729100' into 'main' (2024-01-08 16:16:40 +0000)
+
+are available in the Git repository at:
+
+  git@github.com:CirrusLogic/linux-firmware.git cs42l43
+
+for you to fetch changes up to b620ad7f5def0f6b3f0c82300685a76f410b4d51:
+
+  cirrus: Add firmware file for cs42l43 (2024-01-08 16:20:30 +0000)
+
+----------------------------------------------------------------
+Charles Keepax (1):
+      cirrus: Add firmware file for cs42l43
+
+ LICENSE.cirrus | 310 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ WHENCE         |  14 ++++
+ cs42l43.bin    | Bin 0 -> 560 bytes
+ 3 files changed, 324 insertions(+)
+ create mode 100755 cs42l43.bin
