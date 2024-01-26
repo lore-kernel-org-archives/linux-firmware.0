@@ -1,428 +1,115 @@
-Return-Path: <SRS0=YDLy=JE=opensource.cirrus.com=prvs=8755fd102d=sbinding@kernel.org>
+Return-Path: <SRS0=HDB/=JE=linaro.org=neil.armstrong@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1C55C47422
-	for <linux-firmware@archiver.kernel.org>; Fri, 26 Jan 2024 11:35:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 066E1C47DDF
+	for <linux-firmware@archiver.kernel.org>; Fri, 26 Jan 2024 13:35:25 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 9E546C43390; Fri, 26 Jan 2024 11:35:07 +0000 (UTC)
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id AD785C433F1; Fri, 26 Jan 2024 13:35:25 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 4EE54C433C7
-	for <linux-firmware@kernel.org>; Fri, 26 Jan 2024 11:35:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 4EE54C433C7
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40Q7iesG027762
-	for <linux-firmware@kernel.org>; Fri, 26 Jan 2024 05:34:58 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	message-id:date:mime-version:to:cc:from:subject:content-type
-	:content-transfer-encoding; s=PODMain02222019; bh=YSknMhO0AINtT4
-	5I6XpUg88MaXAVz3JIkxQ7umrGOJw=; b=qNdoaJsYcyjLREWqYmxrEIaf4UKWbV
-	Hfft5CMyV5fVxZd22FVtsHwJOmK6Z+rrdcCV39Q2Tx4xeRQKnPUcZJ6rm6h/bkyS
-	mHRe4qi0E1lu+ujuHTwq/upMMgGNSuc+YVHaFIF+hhxlCi/uNm5kIEUCxNSXnYu9
-	ZwnYHDpIvoxn0KQGnVq5+Rm94VC7oweinzpFDtuXlb6sQ4nUzCm4oORIixRAmF/A
-	17ILDUAtFw+vLsE5pVuvaVJw4ZrojaFKkSKcUU25a28F4VKIXTj2+HgWEIwrmngj
-	pN/mVyBd618Nk4zEbnRxPZinh7hjnAnEM+82S2HqgX1L0l38QewwLyuQ==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3vtmf9unvd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-firmware@kernel.org>; Fri, 26 Jan 2024 05:34:57 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 26 Jan
- 2024 11:34:56 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40 via Frontend Transport; Fri, 26 Jan 2024 11:34:56 +0000
-Received: from [198.61.65.232] (LONN2DGDQ73.ad.cirrus.com [198.61.65.232])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 16D6B820243;
-	Fri, 26 Jan 2024 11:34:56 +0000 (UTC)
-Message-ID: <9ea61a5b-17c1-4c7c-8560-cbd9fe7678f4@opensource.cirrus.com>
-Date: Fri, 26 Jan 2024 11:34:55 +0000
+	by smtp.kernel.org (Postfix) with ESMTPS id A131AC433B2
+	for <linux-firmware@kernel.org>; Fri, 26 Jan 2024 13:35:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A131AC433B2
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40ee894c5easo774225e9.1
+        for <linux-firmware@kernel.org>; Fri, 26 Jan 2024 05:35:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1706276123; x=1706880923; darn=kernel.org;
+        h=content-transfer-encoding:organization:autocrypt:content-language
+         :cc:to:reply-to:subject:from:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=b9a5bBdyFVhJIwedix1U39wl9TOtCRTgVWMBfmVGZGQ=;
+        b=JIFLpZr0KMks1Tia5ztKhbK4J+aBezISdeFUzp7Czv8VkHPWLdEC+KH4+RHlNY25D4
+         jbuSoKzAT53VP4WrOw3XTKLGfptzhFuV1GW78xKkVXdjEwko7ng02TzdQvKFGkh4PIRA
+         jCBD1+9Ppdzfb+/b4haWDVQqz+jW34/oklKhq5gbTU1cxaguAGisM7Y8bun2MO1jiuLi
+         Po/07eMeJRwBMic4RoiIykWfkTPcfYKw2UDCXb54FfkAXEThbYIpUni2SeN/fUAp55RH
+         nrotCiNfPuY9X1oaIj+lHapq+K/ZjLdnVUs1rf587rpZHePdG/B2J0Jeu+Nj93KRmYkN
+         bOlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706276123; x=1706880923;
+        h=content-transfer-encoding:organization:autocrypt:content-language
+         :cc:to:reply-to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=b9a5bBdyFVhJIwedix1U39wl9TOtCRTgVWMBfmVGZGQ=;
+        b=wCy2KbPzzRO2v5/zlZ+1ZcerdQeF1k6aNcGFYuz8Ng5zNj2NNI3/UW115A0BcCJA16
+         KKZ553JurSm5O9l1XR0ttLkyvvHUPMvfis9+s3EQrMmCOvMPgcDnqKMShYGaD56DT8Pw
+         BuTOSEi9bQE/ttSzXdi1nWsTU6QX7ZVxwKWfzpv671mFcFL+4w3mWoX0qeS+D3KlZ1rU
+         CtfzAKXNnpzeVZ7QNh0l38HIkW660pM4miGsphfABpH5lWNBjPqEmPzMomAHgGIfJRSn
+         tqsHaOFQTTt8w0ar7sisddeB6yliOoAOSBv4lOMXjl2VNpyIWotSzoA0pIdNvjXCPrsz
+         RnZA==
+X-Gm-Message-State: AOJu0Yx1wUMBgxxBcfgYGjOtKLWh6ZOIQB9s9DjZpVnozVbOEK4FQk95
+	5i8rWg4/QNZbwEPtEAN389dv+DLZ502N3QhFm/fQjX+ZK+XVrt5Yf5S8gNp6uEhooo9ECcqpXrX
+	bLOQ=
+X-Google-Smtp-Source: AGHT+IGRHnqu89a3/XRm7EvLaRhopFG61nVUf1pw5Lt73M+Y/fLSzI+TrLXyYBqXjsjMEQbYXLHYow==
+X-Received: by 2002:a05:600c:248:b0:40e:ab7f:3448 with SMTP id 8-20020a05600c024800b0040eab7f3448mr894814wmj.144.1706276122772;
+        Fri, 26 Jan 2024 05:35:22 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:b66c:951b:e9ef:af35? ([2a01:e0a:982:cbb0:b66c:951b:e9ef:af35])
+        by smtp.gmail.com with ESMTPSA id fa6-20020a05600c518600b0040ee8765901sm147536wmb.43.2024.01.26.05.35.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Jan 2024 05:35:22 -0800 (PST)
+Message-ID: <465420cc-c40e-45df-9cc0-80244fed7bf4@linaro.org>
+Date: Fri, 26 Jan 2024 14:35:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-GB
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [GIT PULL] Add Audio topology firmware for Qualcomm SM8650 MTP
+ platform
+Reply-To: neil.armstrong@linaro.org
 List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-CC: "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-Subject: [PULL v1 linux-firmware] Add firmware for Cirrus Smart Amp CS35L41
- for HP Laptops
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: qwFQsXX6rZWqkhtG6kGCfsYAfec83F4a
-X-Proofpoint-ORIG-GUID: qwFQsXX6rZWqkhtG6kGCfsYAfec83F4a
-X-Proofpoint-Spam-Reason: safe
-
-We would like to add firmware files to support Cirrus Logic Smart Amp 
-CS35L41 for various HP Consumer laptops.
-
-Thanks,
-
-Stefan Binding
+To: linux-firmware@kernel.org
+Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro Developer Services
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 The following changes since commit 0c40df810685c15141413cee5bea7233e1db43fb:
 
-   Merge branch 'consistent-file-spacing' into 'main' (2024-01-24 
-16:42:17 +0000)
+   Merge branch 'consistent-file-spacing' into 'main' (2024-01-24 16:42:17 +0000)
 
 are available in the Git repository at:
 
-   https://github.com/CirrusLogic/linux-firmware/ hp_fw_nodsd
+   https://git.codelinaro.org/neil.armstrong/linux-firmware.git sm8650-mtp-audio-fw
 
-for you to fetch changes up to 9f4771365348f41a7cfae9469d47fffc1869aa10:
+for you to fetch changes up to 85d372744a19cf78f7437c6027d7037baa0f0a52:
 
-   linux-firmware: Add firmware for Cirrus CS35L41 on HP Consumer 
-Laptops (2024-01-26 11:11:42 +0000)
+   qcom: Add Audio firmware for SM8650 MTP (2024-01-26 14:31:24 +0100)
 
 ----------------------------------------------------------------
-Stefan Binding (1):
-       linux-firmware: Add firmware for Cirrus CS35L41 on HP Consumer 
-Laptops
+Neil Armstrong (1):
+       qcom: Add Audio firmware for SM8650 MTP
 
-  WHENCE                                                  | 416 
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
-  cirrus/cs35l41-dsp1-spk-cali-103c89e7-l0.bin            | Bin 0 -> 
-1880 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c89e7-r0.bin            | Bin 0 -> 
-1880 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8a28-spkid0-l0.bin     | Bin 0 -> 
-1896 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8a28-spkid0-r0.bin     | Bin 0 -> 
-1900 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8a28-spkid1-l0.bin     | Bin 0 -> 
-1900 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8a28-spkid1-r0.bin     | Bin 0 -> 
-1900 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8a29-spkid0-l0.bin     | Bin 0 -> 
-1776 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8a29-spkid0-r0.bin     | Bin 0 -> 
-1776 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8a29-spkid1-l0.bin     | Bin 0 -> 
-1780 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8a29-spkid1-r0.bin     | Bin 0 -> 
-1780 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8a2c-spkid0-l0.bin     | Bin 0 -> 
-1796 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8a2c-spkid0-r0.bin     | Bin 0 -> 
-1796 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8a2c-spkid1-l0.bin     | Bin 0 -> 
-1800 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8a2c-spkid1-r0.bin     | Bin 0 -> 
-1800 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8a2e-spkid0-l0.bin     | Bin 0 -> 
-1788 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8a2e-spkid0-r0.bin     | Bin 0 -> 
-1788 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8a2e-spkid1-l0.bin     | Bin 0 -> 
-1792 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8a2e-spkid1-r0.bin     | Bin 0 -> 
-1792 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8a6e-l0.bin            | Bin 0 -> 
-1888 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8a6e-l1.bin            | Bin 0 -> 
-1892 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8a6e-r0.bin            | Bin 0 -> 
-1892 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8a6e-r1.bin            | Bin 0 -> 
-1888 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8bb3-spkid0-l0.bin     | Bin 0 -> 
-1916 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8bb3-spkid0-r0.bin     | Bin 0 -> 
-1916 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8bb3-spkid1-l0.bin     | Bin 0 -> 
-1904 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8bb3-spkid1-r0.bin     | Bin 0 -> 
-1908 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8bdd-spkid0-l0.bin     | Bin 0 -> 
-1892 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8bdd-spkid0-r0.bin     | Bin 0 -> 
-1892 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8bdd-spkid1-l0.bin     | Bin 0 -> 
-1892 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8bdd-spkid1-r0.bin     | Bin 0 -> 
-1892 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8bdf-spkid0-l0.bin     | Bin 0 -> 
-1864 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8bdf-spkid0-r0.bin     | Bin 0 -> 
-1864 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8bdf-spkid1-l0.bin     | Bin 0 -> 
-1864 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8bdf-spkid1-r0.bin     | Bin 0 -> 
-1864 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8c15-spkid0-l0.bin     | Bin 0 -> 
-1940 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8c15-spkid0-r0.bin     | Bin 0 -> 
-1940 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8c15-spkid1-l0.bin     | Bin 0 -> 
-1940 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8c15-spkid1-r0.bin     | Bin 0 -> 
-1940 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8c16-spkid0-l0.bin     | Bin 0 -> 
-1936 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8c16-spkid0-r0.bin     | Bin 0 -> 
-1936 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8c16-spkid1-l0.bin     | Bin 0 -> 
-1932 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8c16-spkid1-r0.bin     | Bin 0 -> 
-1932 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8c66-spkid0-l0.bin     | Bin 0 -> 
-1928 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8c66-spkid0-r0.bin     | Bin 0 -> 
-1928 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8c66-spkid1-l0.bin     | Bin 0 -> 
-1924 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8c66-spkid1-r0.bin     | Bin 0 -> 
-1924 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8c67-spkid0-l0.bin     | Bin 0 -> 
-1920 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8c67-spkid0-r0.bin     | Bin 0 -> 
-1916 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8c67-spkid1-l0.bin     | Bin 0 -> 
-1916 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8c67-spkid1-r0.bin     | Bin 0 -> 
-1916 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8cdd-spkid0.bin        | Bin 0 -> 
-1892 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8cde-spkid0.bin        | Bin 0 -> 
-1892 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8cde-spkid1.bin        | Bin 0 -> 
-1892 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8d01-l0.bin            | Bin 0 -> 
-1888 bytes
-  cirrus/cs35l41-dsp1-spk-cali-103c8d01-l1.bin            | Bin 0 -> 
-1888 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c89e7-l0.bin            | Bin 0 -> 
-5328 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c89e7-r0.bin            | Bin 0 -> 
-5328 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8a28-spkid0-l0.bin     | Bin 0 -> 
-4672 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8a28-spkid0-r0.bin     | Bin 0 -> 
-4672 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8a28-spkid1-l0.bin     | Bin 0 -> 
-4672 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8a28-spkid1-r0.bin     | Bin 0 -> 
-4672 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8a29-spkid0-l0.bin     | Bin 0 -> 
-3936 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8a29-spkid0-r0.bin     | Bin 0 -> 
-3936 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8a29-spkid1-l0.bin     | Bin 0 -> 
-3940 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8a29-spkid1-r0.bin     | Bin 0 -> 
-3940 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8a2c-spkid0-l0.bin     | Bin 0 -> 
-3956 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8a2c-spkid0-r0.bin     | Bin 0 -> 
-3956 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8a2c-spkid1-l0.bin     | Bin 0 -> 
-3960 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8a2c-spkid1-r0.bin     | Bin 0 -> 
-3960 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8a2e-spkid0-l0.bin     | Bin 0 -> 
-3948 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8a2e-spkid0-r0.bin     | Bin 0 -> 
-3948 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8a2e-spkid1-l0.bin     | Bin 0 -> 
-3952 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8a2e-spkid1-r0.bin     | Bin 0 -> 
-3952 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8a6e-l0.bin            | Bin 0 -> 
-4312 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8a6e-l1.bin            | Bin 0 -> 
-4268 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8a6e-r0.bin            | Bin 0 -> 
-4316 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8a6e-r1.bin            | Bin 0 -> 
-4360 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8bb3-spkid0-l0.bin     | Bin 0 -> 
-4184 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8bb3-spkid0-r0.bin     | Bin 0 -> 
-4184 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8bb3-spkid1-l0.bin     | Bin 0 -> 
-4088 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8bb3-spkid1-r0.bin     | Bin 0 -> 
-4084 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8bdd-spkid0-l0.bin     | Bin 0 -> 
-4712 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8bdd-spkid0-r0.bin     | Bin 0 -> 
-4712 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8bdd-spkid1-l0.bin     | Bin 0 -> 
-4712 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8bdd-spkid1-r0.bin     | Bin 0 -> 
-4712 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8bdf-spkid0-l0.bin     | Bin 0 -> 
-4684 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8bdf-spkid0-r0.bin     | Bin 0 -> 
-4684 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8bdf-spkid1-l0.bin     | Bin 0 -> 
-4684 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8bdf-spkid1-r0.bin     | Bin 0 -> 
-4684 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8c15-spkid0-l0.bin     | Bin 0 -> 
-4160 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8c15-spkid0-r0.bin     | Bin 0 -> 
-4160 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8c15-spkid1-l0.bin     | Bin 0 -> 
-4160 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8c15-spkid1-r0.bin     | Bin 0 -> 
-4160 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8c16-spkid0-l0.bin     | Bin 0 -> 
-4156 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8c16-spkid0-r0.bin     | Bin 0 -> 
-4156 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8c16-spkid1-l0.bin     | Bin 0 -> 
-4152 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8c16-spkid1-r0.bin     | Bin 0 -> 
-4152 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8c66-spkid0-l0.bin     | Bin 0 -> 
-4716 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8c66-spkid0-r0.bin     | Bin 0 -> 
-4716 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8c66-spkid1-l0.bin     | Bin 0 -> 
-4712 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8c66-spkid1-r0.bin     | Bin 0 -> 
-4712 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8c67-spkid0-l0.bin     | Bin 0 -> 
-4708 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8c67-spkid0-r0.bin     | Bin 0 -> 
-4708 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8c67-spkid1-l0.bin     | Bin 0 -> 
-4708 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8c67-spkid1-r0.bin     | Bin 0 -> 
-4708 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8cdd-spkid0.bin        | Bin 0 -> 
-4056 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8cde-spkid0.bin        | Bin 0 -> 
-4060 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8cde-spkid1.bin        | Bin 0 -> 
-4056 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8d01-l0.bin            | Bin 0 -> 
-4052 bytes
-  cirrus/cs35l41-dsp1-spk-prot-103c8d01-l1.bin            | Bin 0 -> 
-4052 bytes
-  cirrus/cs35l41/v6.56.0/halo_cspl_RAM_revB2_29.58.0.wmfw | Bin 0 -> 
-33664 bytes
-  cirrus/cs35l41/v6.68.0/halo_cspl_RAM_revB2_29.70.0.wmfw | Bin 0 -> 
-33868 bytes
-  113 files changed, 415 insertions(+), 1 deletion(-)
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c89e7-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c89e7-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8a28-spkid0-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8a28-spkid0-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8a28-spkid1-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8a28-spkid1-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8a29-spkid0-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8a29-spkid0-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8a29-spkid1-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8a29-spkid1-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8a2c-spkid0-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8a2c-spkid0-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8a2c-spkid1-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8a2c-spkid1-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8a2e-spkid0-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8a2e-spkid0-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8a2e-spkid1-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8a2e-spkid1-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8a6e-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8a6e-l1.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8a6e-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8a6e-r1.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8bb3-spkid0-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8bb3-spkid0-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8bb3-spkid1-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8bb3-spkid1-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8bdd-spkid0-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8bdd-spkid0-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8bdd-spkid1-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8bdd-spkid1-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8bdf-spkid0-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8bdf-spkid0-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8bdf-spkid1-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8bdf-spkid1-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8c15-spkid0-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8c15-spkid0-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8c15-spkid1-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8c15-spkid1-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8c16-spkid0-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8c16-spkid0-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8c16-spkid1-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8c16-spkid1-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8c66-spkid0-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8c66-spkid0-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8c66-spkid1-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8c66-spkid1-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8c67-spkid0-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8c67-spkid0-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8c67-spkid1-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8c67-spkid1-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8cdd-spkid0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8cde-spkid0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8cde-spkid1.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8d01-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8d01-l1.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c89e7-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c89e7-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8a28-spkid0-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8a28-spkid0-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8a28-spkid1-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8a28-spkid1-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8a29-spkid0-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8a29-spkid0-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8a29-spkid1-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8a29-spkid1-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8a2c-spkid0-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8a2c-spkid0-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8a2c-spkid1-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8a2c-spkid1-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8a2e-spkid0-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8a2e-spkid0-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8a2e-spkid1-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8a2e-spkid1-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8a6e-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8a6e-l1.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8a6e-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8a6e-r1.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8bb3-spkid0-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8bb3-spkid0-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8bb3-spkid1-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8bb3-spkid1-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8bdd-spkid0-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8bdd-spkid0-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8bdd-spkid1-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8bdd-spkid1-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8bdf-spkid0-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8bdf-spkid0-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8bdf-spkid1-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8bdf-spkid1-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8c15-spkid0-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8c15-spkid0-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8c15-spkid1-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8c15-spkid1-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8c16-spkid0-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8c16-spkid0-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8c16-spkid1-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8c16-spkid1-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8c66-spkid0-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8c66-spkid0-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8c66-spkid1-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8c66-spkid1-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8c67-spkid0-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8c67-spkid0-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8c67-spkid1-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8c67-spkid1-r0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8cdd-spkid0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8cde-spkid0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8cde-spkid1.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8d01-l0.bin
-  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8d01-l1.bin
-  create mode 100755 cirrus/cs35l41/v6.56.0/halo_cspl_RAM_revB2_29.58.0.wmfw
-  create mode 100755 cirrus/cs35l41/v6.68.0/halo_cspl_RAM_revB2_29.70.0.wmfw
-
+  WHENCE                          |   1 +
+  qcom/sm8650/SM8650-MTP-tplg.bin | Bin 0 -> 24296 bytes
+  2 files changed, 1 insertion(+)
+  create mode 100644 qcom/sm8650/SM8650-MTP-tplg.bin
