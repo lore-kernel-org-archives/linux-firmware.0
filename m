@@ -1,362 +1,154 @@
-Return-Path: <SRS0=DBQy=JK=linaro.org=neil.armstrong@kernel.org>
+Return-Path: <SRS0=sRWc=JK=gmail.com=superm1@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5CBB8C47DDF
-	for <linux-firmware@archiver.kernel.org>; Thu,  1 Feb 2024 09:37:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 778E0C47DDF
+	for <linux-firmware@archiver.kernel.org>; Thu,  1 Feb 2024 12:08:18 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 13458C43390; Thu,  1 Feb 2024 09:37:38 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	id 3F5C5C43390; Thu,  1 Feb 2024 12:08:18 +0000 (UTC)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 24B35C433C7
-	for <linux-firmware@kernel.org>; Thu,  1 Feb 2024 09:37:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 24B35C433C7
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5101f2dfdadso1022461e87.2
-        for <linux-firmware@kernel.org>; Thu, 01 Feb 2024 01:37:36 -0800 (PST)
+	by smtp.kernel.org (Postfix) with ESMTPS id 6FC25C433F1
+	for <linux-firmware@kernel.org>; Thu,  1 Feb 2024 12:08:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 6FC25C433F1
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-5d7005ea1d0so547677a12.1
+        for <linux-firmware@kernel.org>; Thu, 01 Feb 2024 04:08:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706780255; x=1707385055; darn=kernel.org;
-        h=organization:autocrypt:content-language:cc:to:reply-to:subject:from
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JiGsiOIfkxOO+ZW8crFwwZJB+hkJn8asjEtGEv1scio=;
-        b=FxvP76mQNG6wyaNmAN7SWTJjUga/hsFBYWUkGPS+ScUrHeb5yxIcw3oprJTTlBYZck
-         Vq56LG6Q1jjU7CV8wxI8IQOKYBkTYa7VZGmO6Wg91hjYip/AUwbzjvoPRPkEn1eoRprL
-         Em9h3VeeDSbNVHNQGTpfcEfOcHZVcMBLFx1+AqNW/dSRjh9Cv4hMIYPuCw7OFIfmS43j
-         HewPf6YkW88EKceyx3o1WCAFFMtmsAoVzDaFdynZeG44UVue+lbdxk84x4ZasYpPWV4i
-         jaEZ4XOcR5ROsFLjm7d1kIK3SWVjkASGiqvwQC2KEg9eDKD5Q6pvpEBEux3/wvMPnvIw
-         MgEg==
+        d=gmail.com; s=20230601; t=1706789296; x=1707394096; darn=kernel.org;
+        h=mime-version:content-language:accept-language:in-reply-to
+         :references:message-id:date:thread-index:thread-topic:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=V+D+D4Kb5vCI7Cwqmz0A+8jbT4f3GSYnQjqlxDl/6MI=;
+        b=RFc7/U0nsJoMYKH1dgkGT8YaIh7pxMrigYp2C3QmwZFjWwbFBiuRwkVS88j1aqJDJh
+         jMOVGNnKcpicTuI8e5Ts3f89s8nLwjFr1/GSMsxAdCW6cWw+K6q9FhIjDbU8QTByJbRI
+         +B7Xk8HOAdsjqIJ1/Hrk/vW2070vux3C6ZYd+9THYpEG9pv+svmrhu8tGYZ0/+gJFKxu
+         J9tG+6VQ6e2l/gzyi4n46LXoMiRbdNy7oIUBS0UVzg78V8Q44VC/9s4jh0OZ76BOH3es
+         RBK77Q8cPlGYvdtAXkJGy+w0ad7JcFHQythE4HJ2TPZKXqcNwGk2PRbqA0D54ReDWryn
+         ssAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706780255; x=1707385055;
-        h=organization:autocrypt:content-language:cc:to:reply-to:subject:from
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=JiGsiOIfkxOO+ZW8crFwwZJB+hkJn8asjEtGEv1scio=;
-        b=tFzikJMQzh7898JZxOm/V9Yr6+vuDS6hl80mHhTblP5wmPn6PxKcEkjtu928r16iG6
-         t3hTYmJvzV+BwbTKwAANZmqrH15gPmVxGX0zSEprtlMowEGYvvUN3m6p+xAya9e9UD7L
-         kieMWwxWUBC7fbwiGan4IcVC4FBMN68YOGZRqarQTO8gGtdZoBVoVXr1TTqvqNBKPNDX
-         EAL+0goXLazqWBhV2mzcGfjXCWe+6WZZkbXBYugbR9RzypymAdpdKSpzDH1lWlZ9qC+s
-         ij6rBxWhW5SSvxQPhiMvn8AfAriI69CowWzecXQg8Yr9zMKyd3j1w3PClQtakvpZKUG1
-         n8dw==
-X-Gm-Message-State: AOJu0Yw+SOjZf9I/ghkl//00JRTx0vVLs5JJRoeJEJRM1ci5Ktk4oA11
-	iA8B2mSaMiAe5czV6bTXpfAXBS8DDIwkUT7TTCA6JHzE4hV02ft6iJ6qHFgBQnwv3Q1clr851cR
-	DkzuCkA==
-X-Google-Smtp-Source: AGHT+IG+NwDp5I9Ts+zjohlQmxNP7wUbsWrI/V69WOcl28iPADhqfI3HJMy2nseEzAJlLx+SkWdW1g==
-X-Received: by 2002:a19:9112:0:b0:511:1531:76aa with SMTP id t18-20020a199112000000b00511153176aamr1345012lfd.64.1706780255163;
-        Thu, 01 Feb 2024 01:37:35 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:dc50:59dd:9613:b7b1? ([2a01:e0a:982:cbb0:dc50:59dd:9613:b7b1])
-        by smtp.gmail.com with ESMTPSA id h8-20020a05600c314800b0040efc845cb6sm3919049wmo.7.2024.02.01.01.37.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Feb 2024 01:37:34 -0800 (PST)
-Message-ID: <efe74937-bd6e-43eb-a2e3-9e52deb92946@linaro.org>
-Date: Thu, 1 Feb 2024 10:37:33 +0100
+        d=1e100.net; s=20230601; t=1706789296; x=1707394096;
+        h=mime-version:content-language:accept-language:in-reply-to
+         :references:message-id:date:thread-index:thread-topic:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=V+D+D4Kb5vCI7Cwqmz0A+8jbT4f3GSYnQjqlxDl/6MI=;
+        b=G+6weEwPdjIJ6GOdwpieJsHC0UjnoK+F8khVTbyw6drctYDDbZdLsf6Fl7gJpQSVGp
+         HmYfZWtd8Kv+FfAOaCu1U0jhBxvt3US7RtaOxRcMrsLP96uhLRHu3ElWQLyDw3l3NRMo
+         E+7LGy5DGsa0DHknGU+3ILg+B1AnPMXSk4zdQLUovB6uOnw2X2HHBya7+utml147CWEl
+         qDUh7wkOd2LlCbmtzXqhIkusHKToY0SXQq/+k8YE0hEzVOh4t1x59h/YsgKEyo2gHFu6
+         E3hd/Fv245c2Ov7VKVP//wY038xkI6yBYJ2t4BopXnCedkpCA4RznCdhv353rbNbugkn
+         vMpA==
+X-Gm-Message-State: AOJu0Yx32ow/qe4AbFX+826g4Zt8iFZYzOmZgNxe+JV36naNESoG76Bq
+	VvBWZmX7FbnvJR7PivTYYr3PRyXXL1VrQUVIqd/cTVtix+1ReNRV
+X-Google-Smtp-Source: AGHT+IEfFsWA02Zw53JIiuebNEvlzSdeUkvGM+uRrtNWm7+HN4OR6xD1bBu0OYO4DCqi2/Z8dF0Qfw==
+X-Received: by 2002:a05:6a21:918b:b0:19a:5485:fdef with SMTP id tp11-20020a056a21918b00b0019a5485fdefmr5865690pzb.7.1706789296330;
+        Thu, 01 Feb 2024 04:08:16 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCWNAWckSJK+3d2NFneKMqI5YJpf1HPfP537yJ1E/ajnjtM0Z5Cl45M2yz4LNbADEMhjgkviW4fOPbfTkQGxAQurA8hl83CSsdXl6jjR9aYPR21T65pqbdWddYQbO5LY
+Received: from MW5PR84MB1500.NAMPRD84.PROD.OUTLOOK.COM ([2603:1036:308:3822::5])
+        by smtp.gmail.com with ESMTPSA id y17-20020a62f251000000b006dd8643d468sm11448852pfl.193.2024.02.01.04.08.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Feb 2024 04:08:15 -0800 (PST)
+From: Mario Limonciello <superm1@gmail.com>
+List-Id: <linux-firmware.lore.kernel.org>
+To: Sakari Ailus <sakari.ailus@iki.fi>, "linux-firmware@kernel.org"
+	<linux-firmware@kernel.org>
+CC: Bingbu Cao <bingbu.cao@linux.intel.com>, Hans de Goede
+	<hdegoede@redhat.com>
+Subject: Re: IPU6 firmware license
+Thread-Topic: IPU6 firmware license
+Thread-Index: AQHaVOP0p0t43vXx3EyOfVIvBpW3ErD1ZNtV
+X-MS-Exchange-MessageSentRepresentingType: 1
+Date: Thu, 1 Feb 2024 12:08:14 +0000
+Message-ID:
+	<MW5PR84MB1500E45AA1DDB1B8A117C109F0432@MW5PR84MB1500.NAMPRD84.PROD.OUTLOOK.COM>
+References: <ZbrCw1AVnW6APq56@kekkonen.localdomain>
+ <ZbtOQ34d5etYC42F@valkosipuli.retiisi.eu>
+In-Reply-To: <ZbtOQ34d5etYC42F@valkosipuli.retiisi.eu>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-Exchange-Organization-SCL: -1
+X-MS-TNEF-Correlator:
+X-MS-Exchange-Organization-RecordReviewCfmType: 0
+Content-Type: multipart/alternative;
+	boundary="_000_MW5PR84MB1500E45AA1DDB1B8A117C109F0432MW5PR84MB1500NAMP_"
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [GIT PULL] Add Audio topology firmware for Qualcomm SM8550 HDK
- platform
-Reply-To: neil.armstrong@linaro.org
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------RQ1s1Zb1YC93YUVuP2pYEJsQ"
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------RQ1s1Zb1YC93YUVuP2pYEJsQ
-Content-Type: multipart/mixed; boundary="------------hKEEdOvYsbkIw0bMLxDGRqDQ";
- protected-headers="v1"
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>
-Message-ID: <efe74937-bd6e-43eb-a2e3-9e52deb92946@linaro.org>
-Subject: [GIT PULL] Add Audio topology firmware for Qualcomm SM8550 HDK
- platform
-
---------------hKEEdOvYsbkIw0bMLxDGRqDQ
-Content-Type: multipart/mixed; boundary="------------GVYF8Pn6QIiYpYxNASZOQB5q"
-
---------------GVYF8Pn6QIiYpYxNASZOQB5q
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-
-VGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCAxYTk1MThjNzNjNGI1NDg1NGM5
-Y2Q4ZjQxNmZkM2I4ZjhlMzQ1NmU3Og0KDQogICBNZXJnZSBicmFuY2ggJ21saW1vbmNpL2Ft
-ZC0yMDI0LTAxLTMwLjInIGludG8gJ21haW4nICgyMDI0LTAxLTMwIDE1OjU1OjMwICswMDAw
-KQ0KDQphcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3NpdG9yeSBhdDoNCg0KICAgaHR0
-cHM6Ly9naXQuY29kZWxpbmFyby5vcmcvbmVpbC5hcm1zdHJvbmcvbGludXgtZmlybXdhcmUu
-Z2l0IHNtODU1MC1oZGstYXVkaW8tZncNCg0KZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVw
-IHRvIDNiZTJlMTY1ZTUyOTlmMDE2MjAwM2Q0YzVlYWEyODMyZGE0YzMwYmM6DQoNCiAgIHFj
-b206IEFkZCBBdWRpbyBmaXJtd2FyZSBmb3IgU004NTUwIEhESyAoMjAyNC0wMS0zMCAxNzoz
-NjowMyArMDEwMCkNCg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KTmVpbCBBcm1zdHJvbmcgKDEpOg0KICAgICAg
-IHFjb206IEFkZCBBdWRpbyBmaXJtd2FyZSBmb3IgU004NTUwIEhESw0KDQogIFdIRU5DRSAg
-ICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDEgKw0KICBxY29tL3NtODU1MC9TTTg1NTAt
-SERLLXRwbGcuYmluIHwgQmluIDAgLT4gMjQyOTYgYnl0ZXMNCiAgMiBmaWxlcyBjaGFuZ2Vk
-LCAxIGluc2VydGlvbigrKQ0KICBjcmVhdGUgbW9kZSAxMDA2NDQgcWNvbS9zbTg1NTAvU004
-NTUwLUhESy10cGxnLmJpbg0K
---------------GVYF8Pn6QIiYpYxNASZOQB5q
-Content-Type: application/pgp-keys; name="OpenPGP_0x169AB7B1A4CFF8AE.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x169AB7B1A4CFF8AE.asc"
-Content-Description: OpenPGP public key
+--_000_MW5PR84MB1500E45AA1DDB1B8A117C109F0432MW5PR84MB1500NAMP_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+Got it, thanks.
 
-xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTW
-xuRx8WWPGTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURT
-LmS2id5wWi3lqVH4BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGG
-FlfIML3sfqnIvMAxIMZrvcl9qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ET
-gzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik80TZcE6f8M76Xa6yU8VcNko94Ck7iB4v
-j70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEBAAHNJE5laWwgQXJtc3Ryb25n
-IDxzdXBlcm5hQG5hLXByb2QuY29tPsLAeAQTAQoAIgIbIwYLCQgHAwIGFQgCCQoL
-BBYCAwECHgECF4AFAlcM7XkACgkQFpq3saTP+K6OtggAs8WPVG9TvQ401g7/cBYc
-Yj5fmfFQB/Ztp8SLzZJ1gkIcOgtPRyMI1XFTlylOHe20NEwFYIJEer6akVS64GaX
-HpwUJOGu4Spz4W6MGdmsssdy/dWEODWCZrHhb87b+hhU1BS2imu0QibWDWsfnM0q
-0213Wlk86uqzAuMpvchGPmYcVSmqvCIx24sqS0fLJh9A4/bG5+RfBwtbYTmebMrx
-jkAEnd11xc12y72YeK+3jjKxtyG9Ta11tN4ceCU27T6h0qRx0x+Y2Jx4we80a/ex
-qkQstSUZk17OxgBLJDyw/KbL1mcaol5ALZ6wj4vozEY+ykaIXv3DtJ+R/APC01Nv
-hMLAkgQTAQIAJQIbIwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AFAk1ZB9sCGQEA
-IQkQFpq3saTP+K4WIQSJ7D0FhEYhdFDyKEgWmrexpM/4rphYCAC9f2uK2PppvbqU
-3hXP44ytscATjQDJ0KqOty75Se6ykWLor105FZsNdBWU6tQ8mYLpjm23foAXBJ0W
-7zY8nWecN2YHB1rT/DL4LgTf4Zrg+FeyYIzULXzjGJ0SVOOU+irrU6FW0MEtuTPX
-KwaTGqaxoogDWD891x5MuF4xWVeS6AAFPiz9yh77tNCpmJt6sUYO6z9sDmKBUiw5
-5hMuK75QfcDBfWSHDDBxMBvrNMEecSEEl7xjolUwkjISjWsWAypIXTGOFo4LPRXn
-O/a3YrRurmWJPZRVsIBUThtVtLXh68V+Yt6wuzvOR3d9O6pDbWkWPTSFHDT8I+EC
-b2QGesTzwsCPBBMBAgAiBQJNWQbPAhsjBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIX
-gAAhCRAWmrexpM/4rhYhBInsPQWERiF0UPIoSBaat7Gkz/iunfAIAOHpoFmFawkY
-J08eQ4o44NZRy55YBY7tMyjadTehmnwrliejT1EY2HySEr8BL0r74vlLhcxiIuot
-5KessWxh4mTHXgcQQRu5T8ASd+tBOXPNVaaOU/kOdso4m2nePn1Z/f2hDROZjcRz
-YCy5Ti+Lcyjl3TPIaZjh9iXz0XRaTfGP1c1SJy2iS366Se7fhTDPPWg85vzrNSf/
-ZhVIPhVyuugZV7Lp1ph8LU9Err21uXVDmx+CfJ8ElaSdszx6vj5itmwUJk3z7xUg
-eID45qa1C71j2Ij43pEH7kWt58KZRRYpD9kfqLsxZn4yUpioV9nWUJgT/Y83q8LR
-gOqydiDYf97NHVN1cGVybmEgPHN1cGVybmFAbmEtcHJvZC5jb20+wsB4BBMBAgAi
-BQJNWQcCAhsjBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRAWmrexpM/4roFF
-B/0aSUHX1grjtS1OxaIghietSU2nVsOA+qoH/QWRKYBUfK+Qc1VXGRThRUQ9+rW7
-Qlaaaj5dqQuLf5A4GeJy1cVDAma/ejabcxHxC6+BCc4Re6DrwWR0jg560qZ81Uwz
-wB0MJRwwF3PQsB5+cfN4wcvQwzUYaXDJKYUipIOi0MBPsYjB9z+rj7rjIKGXehGc
-OblFGgwrRr3kIJwemkFTRZUpkJVGUwHV3F/+4UnrCcRMsbxZ7K0kRxDktnjZYpdK
-UYynySjL0IrPE2MZ6rKbX8lhZIXUibT0DzQue56niuj2F6kHMmNTBLkBnFlEndM1
-3tprzQO2QelqB3OnL6MDQ1CgzSVOZWlsIEFybXN0cm9uZyA8YXJtLm5laWxAbmEt
-cHJvZC5jb20+wsB4BBMBAgAiBQJNWQcUAhsjBgsJCAcDAgYVCAIJCgsEFgIDAQIe
-AQIXgAAKCRAWmrexpM/4rtrsCACN6apETK7ZUKtXnPpOkD/K/qViI7ZSc5MRRNef
-ARiknQ2xhknrqFi1bwWQ51maXabZSvDapiDs8bWJtOpZijAJbP44kJ8hlxMie9TX
-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
-+ZaLA63j3T4B
-=3DEiBM
------END PGP PUBLIC KEY BLOCK-----
+________________________________
+From: Sakari Ailus <sakari.ailus@iki.fi>
+Sent: Thursday, February 1, 2024 1:54:43 AM
+To: linux-firmware@kernel.org <linux-firmware@kernel.org>; Mario Limonciell=
+o <superm1@gmail.com>
+Cc: Bingbu Cao <bingbu.cao@linux.intel.com>; Hans de Goede <hdegoede@redhat=
+.com>
+Subject: IPU6 firmware license
 
---------------GVYF8Pn6QIiYpYxNASZOQB5q--
+Hi Mario,
 
---------------hKEEdOvYsbkIw0bMLxDGRqDQ--
+(Resending with correct list address.)
 
---------------RQ1s1Zb1YC93YUVuP2pYEJsQ
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+LICENSE.ivsc is already present in the tree. I could add another file for
+IPU6 firmware but it'd be a copy of LICENSE.ivsc.
 
------BEGIN PGP SIGNATURE-----
+--
+Regards,
 
-wsF5BAABCAAjFiEEPVPGJshWBf4d9CyLd9zb2sjISdEFAmW7Zl0FAwAAAAAACgkQd9zb2sjISdFo
-VA/7BuyD69jb7v6xMSylFpWvqVHnLOfElst6bQ7+Amj/GqV2HiYDuu19D6XFmXmhFIijbB9VSVEr
-E0d0KR6BTJnRzqtVLVxKTxzSA9ccLzJSVbs7Z6G7Du+D2O06Dc/ZYqacBlWUWQCCNUcu5YOAcE5d
-ihEy2P3w9bitxyINsHA04Tvtm+l40vRvXzc0VlVYgPUk5HkC6dlJSW6egnPnXtj0xikLuafj1ebH
-yQJKgAfQTjmezIlkWXJmibIMINFR7qHi0YZbU13wS+GNX402ZsWr/hpyFnycQDbxK8RzYqSG8p/8
-Fsjl1izK7pcT+UHdncxHiE17++zsJF4jGh88Bb/P+dpIl/mB6SQwAMfa8GcE6uKbcCm4XmI/ZrcZ
-L8TDYcpImTSX5SaN16N85Au/XB9IMW0LyZNJ2HUkrV5+3NUYMP1yktJXZeYXXy6xJMPiCdD0nfWI
-rdp1pztA7X1DvG/wA7uNa7kY4wZly5xmaFK/xHbrG+jsYYcdqPGay1SHZn0652XafG61UMZLCpew
-yq4A04uAU+tDvOJ3Hxedh69SKreXTveJZ0PsiAtClMyPmvqMoc3Lg7232bawPxbyzibJTCjF4mjz
-cXIiF5DKfGZZxl7GzOMsSO7LyMPdPdf4MmytdP2WS47Q4yCEEJuZ4FPbKKEk9mlHAB9XSG2nvMfI
-4Ts=
-=br9h
------END PGP SIGNATURE-----
+Sakari Ailus
 
---------------RQ1s1Zb1YC93YUVuP2pYEJsQ--
+--_000_MW5PR84MB1500E45AA1DDB1B8A117C109F0432MW5PR84MB1500NAMP_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+</head>
+<body>
+<div dir=3D"auto">Got it, thanks.</div>
+<div><br>
+</div>
+<div id=3D"ms-outlook-mobile-signature" dir=3D"auto"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Sakari Ailus &lt;saka=
+ri.ailus@iki.fi&gt;<br>
+<b>Sent:</b> Thursday, February 1, 2024 1:54:43 AM<br>
+<b>To:</b> linux-firmware@kernel.org &lt;linux-firmware@kernel.org&gt;; Mar=
+io Limonciello &lt;superm1@gmail.com&gt;<br>
+<b>Cc:</b> Bingbu Cao &lt;bingbu.cao@linux.intel.com&gt;; Hans de Goede &lt=
+;hdegoede@redhat.com&gt;<br>
+<b>Subject:</b> IPU6 firmware license</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">Hi Mario,<br>
+<br>
+(Resending with correct list address.)<br>
+<br>
+LICENSE.ivsc is already present in the tree. I could add another file for<b=
+r>
+IPU6 firmware but it'd be a copy of LICENSE.ivsc.<br>
+<br>
+-- <br>
+Regards,<br>
+<br>
+Sakari Ailus<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_MW5PR84MB1500E45AA1DDB1B8A117C109F0432MW5PR84MB1500NAMP_--
