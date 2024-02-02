@@ -4,87 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70445C4828E
-	for <linux-firmware@archiver.kernel.org>; Fri,  2 Feb 2024 12:27:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7CB7FC47DB3
+	for <linux-firmware@archiver.kernel.org>; Fri,  2 Feb 2024 12:28:38 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 27115C433C7; Fri,  2 Feb 2024 12:27:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1132AC43399;
-	Fri,  2 Feb 2024 12:27:12 +0000 (UTC)
+	id 40FE8C43390; Fri,  2 Feb 2024 12:28:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C142C433C7
+	for <linux-firmware@kernel.org>; Fri,  2 Feb 2024 12:28:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706876832;
-	bh=touhaxaAdJle9IpRdiLb/BuCH/K63CXh37IPTsucA44=;
+	s=k20201202; t=1706876918;
+	bh=NwsvKvn+NfBOcfMYzhC7/512l6d6BU8DIYCh/pqaaVs=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=FOfy3xkQuJLCa/8utMZ7Z+/l8979Nkn++NJ8oYq/+kY1EWZ/CBdeenmUp0HKzkaZx
-	 +djF5TSbKE7ziPUibatTcIBDVNlVTJQdtvcbZz9GQTUlOmJ3dcIpEqe06Ra9U+Tsoo
-	 pt/zAxVlBggVauirYFlNcvbec/VhGUus0WGAOOpm8ngJNhZf/2gMfFiUn3viA+9JWr
-	 qEsa7moFgc5mT9c5EawszTnUgcqddr0APcKIYMR0IiLmdLWNpmG7ec5RIECuRMqTK3
-	 N/5Q79CusYDU21aDq0c+Jb6napV8/QmdrNcqn2Okkzho0kD2GGK8OiCyhUnf6+2JXt
-	 pTsQDW03IasLA==
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6041779e75eso21652207b3.3;
-        Fri, 02 Feb 2024 04:27:12 -0800 (PST)
-X-Gm-Message-State: AOJu0YzqVrig8Le6blGXN2T2/GIZccSmi8Nq41LoZ8FVv0f4r21WBXfi
-	zTO+KoD+K5s73eOuTEl+JJMASK2hScBIl99Jupb0eELq4Xw1GbjZRChpX6A78wzCWzdKxnBzuRI
-	sHLe2dxO6NrXUU0wGVheQaM1WJBM=
-X-Google-Smtp-Source: AGHT+IGsOfXqhV/8fwaOfdUYofJMLh85JNkTrPVoVUFGs6T8y8xVasqQtpavtGo+pw0jUlR15wn96uhuUFl7ur7Nni4=
-X-Received: by 2002:a05:6902:102e:b0:db5:6e6b:9b40 with SMTP id
- x14-20020a056902102e00b00db56e6b9b40mr2291792ybt.31.1706876831150; Fri, 02
- Feb 2024 04:27:11 -0800 (PST)
+	b=ckmXjMgB4F60XJOPu5gRS+/gueclwn3nu/1a0Wqcwn2gcLjUlt/fsFZa7fYc5D0kh
+	 MOfU6CD1dKPk6YlZyA4BhMIuJ4aAMypYkEDKimJCE5lptMUWeWLNwUbYmMS5djL/3y
+	 soTrPom15cFuYjIMrJCnlVgCpOI1sHixaQt96o5WAgVxKpv68SC1WiuRe2ROrnab+S
+	 Dq0LcgSCPgR7GbtjTu4K7+OCphe6+0QlY1xiy+Mkf69h1ZZ5xzKLWjB/5mfRlhNZlk
+	 jPL9WHau5te5hGSbp6afJTzsMy+coOfC07pgYITXK85j8EVKkeNpfeN4rl/SqdtFY8
+	 9AWs3b4HG4j8Q==
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-60406da718aso20795457b3.1
+        for <linux-firmware@kernel.org>; Fri, 02 Feb 2024 04:28:38 -0800 (PST)
+X-Gm-Message-State: AOJu0YwL+zJVPThyUAE5kTPsbCvyr17i0PSO4V+NDxc/wQ7QYNNi2Kvd
+	x6s7w1GxBZUCInOqnIsD0ldsIiZpVtGBeWfNKKidAIjoCogNR7KAA0TsTn71GRP92HHIMk7BBTc
+	j4vhq+4aTLvLo+wpcYwaDuJ32D2c=
+X-Google-Smtp-Source: AGHT+IFGYrbwm00GynbseP5PAIFk/nVTLXYrOrpukW6WorNaaBQmBLps6XnI7iTUevJ4XkgwW76MX4BCdUAu/6AKtb4=
+X-Received: by 2002:a81:af5c:0:b0:602:da5e:816b with SMTP id
+ x28-20020a81af5c000000b00602da5e816bmr2145935ywj.32.1706876917333; Fri, 02
+ Feb 2024 04:28:37 -0800 (PST)
 MIME-Version: 1.0
-References: <8734uewvi9.fsf@kernel.org>
-In-Reply-To: <8734uewvi9.fsf@kernel.org>
+References: <ZbrCw1AVnW6APq56@kekkonen.localdomain>
+In-Reply-To: <ZbrCw1AVnW6APq56@kekkonen.localdomain>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Fri, 2 Feb 2024 07:27:00 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA6hsTbSWRzyxv6a9yhKZUKA-zCKm2y+N0A+TEE3dMXt-Q@mail.gmail.com>
-Message-ID: <CA+5PVA6hsTbSWRzyxv6a9yhKZUKA-zCKm2y+N0A+TEE3dMXt-Q@mail.gmail.com>
-Subject: Re: [PULL linux-firmware] ath10k, ath11k and ath12k firmware 20240130
-To: Kalle Valo <kvalo@kernel.org>
+Date: Fri, 2 Feb 2024 07:28:26 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA5_WaVsVRzUbj04xrvgLvs2comQQhLrhcc08PkenMJ3xw@mail.gmail.com>
+Message-ID: <CA+5PVA5_WaVsVRzUbj04xrvgLvs2comQQhLrhcc08PkenMJ3xw@mail.gmail.com>
+Subject: Re: [GIT PULL] Intel Image Processing Unit 6 firmware
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, linux-wireless@vger.kernel.org, 
-	ath10k@lists.infradead.org, ath11k@lists.infradead.org, 
-	ath12k@lists.infradead.org
+Cc: linux-firmware@kernel.org, Bingbu Cao <bingbu.cao@linux.intel.com>, 
+	Hans de Goede <hdegoede@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 30, 2024 at 1:01=E2=80=AFPM Kalle Valo <kvalo@kernel.org> wrote=
-:
+On Wed, Jan 31, 2024 at 4:59=E2=80=AFPM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
 >
-> Hi,
+> Hi folks,
 >
-> We have one important update for ath11k WCN6855 which fixes a suspend
-> regression reported by several people.
+> This PR adds firmware binaries for Intel Image Processing Unit 6 (IPU6).
+> The driver isn't merged yet but work to get it there is nearing completio=
+n.
 >
-> Please let me know if there are any problems.
+> Please pull.
 >
-> Kalle
 >
-> The following changes since commit 1a9518c73c4b54854c9cd8f416fd3b8f8e3456=
-e7:
+> The following changes since commit 001ba06d9ded2a8e9a91f1824954bcb41f372d=
+6f:
 >
->   Merge branch 'mlimonci/amd-2024-01-30.2' into 'main' (2024-01-30 15:55:=
-30 +0000)
+>   Merge branch 'robot/pr-0-1706638273' into 'main' (2024-01-30 18:39:07 +=
+0000)
 >
 > are available in the Git repository at:
 >
->   git://git.kernel.org/pub/scm/linux/kernel/git/kvalo/linux-firmware.git =
-ath10k-20240130
+>   https://git.kernel.org/pub/scm/linux/kernel/git/sailus/linux-firmware.g=
+it tags/ipu6-2024-01-31
 
 Pulled and pushed out.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/137
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/138
 
 josh
 
 >
-> for you to fetch changes up to 5217b76bed90ae86d5f3fe9a5f4e2301868cdd02:
+> for you to fetch changes up to 1b24d7d3379b5dde99fcb17e796cdd5fe0a668bd:
 >
->   ath11k: WCN6855 hw2.0: update to WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SI=
-LICONZ_LITE-3.6510.37 (2024-01-30 19:58:18 +0200)
+>   linux-firmware: intel: Add IPU6 firmware binaries (2024-01-31 23:52:37 =
++0200)
 >
 > ----------------------------------------------------------------
-> Kalle Valo (1):
->       ath11k: WCN6855 hw2.0: update to WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V=
-2_SILICONZ_LITE-3.6510.37
+> Intel IPU6 firmware
 >
->  WHENCE                        |   2 +-
->  ath11k/WCN6855/hw2.0/amss.bin | Bin 4988928 -> 4988928 bytes
->  2 files changed, 1 insertion(+), 1 deletion(-)
+> ----------------------------------------------------------------
+> Bingbu Cao (1):
+>       linux-firmware: intel: Add IPU6 firmware binaries
+>
+>  WHENCE                  |  15 +++++++++++++++
+>  intel/ipu6_fw.bin       | Bin 0 -> 471040 bytes
+>  intel/ipu6ep_fw.bin     | Bin 0 -> 466944 bytes
+>  intel/ipu6epadln_fw.bin | Bin 0 -> 466944 bytes
+>  intel/ipu6epmtl_fw.bin  | Bin 0 -> 466944 bytes
+>  intel/ipu6se_fw.bin     | Bin 0 -> 380928 bytes
+>  6 files changed, 15 insertions(+)
+>  create mode 100644 intel/ipu6_fw.bin
+>  create mode 100644 intel/ipu6ep_fw.bin
+>  create mode 100644 intel/ipu6epadln_fw.bin
+>  create mode 100644 intel/ipu6epmtl_fw.bin
+>  create mode 100644 intel/ipu6se_fw.bin
+>
+> --
+> Sakari Ailus
