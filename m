@@ -1,187 +1,108 @@
-Return-Path: <SRS0=CsBo=JL=canonical.com=juerg.haefliger@kernel.org>
+Return-Path: <SRS0=UVxI=JL=amd.com=Hamza.Mahfooz@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4167C4828F
-	for <linux-firmware@archiver.kernel.org>; Fri,  2 Feb 2024 15:39:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2DAA7C4828E
+	for <linux-firmware@archiver.kernel.org>; Fri,  2 Feb 2024 22:00:57 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 808E3C433A6; Fri,  2 Feb 2024 15:39:18 +0000 (UTC)
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id E7506C43394; Fri,  2 Feb 2024 22:00:56 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2062.outbound.protection.outlook.com [40.107.244.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id D863CC433C7
-	for <linux-firmware@kernel.org>; Fri,  2 Feb 2024 15:39:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D863CC433C7
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=canonical.com
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com [209.85.128.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 07AF7404AB
-	for <linux-firmware@kernel.org>; Fri,  2 Feb 2024 15:39:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1706888354;
-	bh=5G7F1C79XLUcEClc0LseRXrX63IEJ/r6WHq5nKl4Cys=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
-	b=HcNW0ic3CbJFECRbfhCO6FtVtA8TSfW52HAdlCMha3FNzYDtaJHmPxCFW3sWM4Syr
-	 P4XGqep1dRs9yzW5/bUO91madlYlKEV2wd+lh520M5umWh3PKAvXUXR9F1uaSJ3Uh4
-	 28nijDjGv/uEGVG32aaAP7jzCt4RENYf5+W91LVnQZtjlehIviLS0ET8BwypmWXdbr
-	 XA1tm5rxHne6+nz3pziJ5WONX3jKJvtL20pK3KtxtBnVp417tJgmxwZXk9UE8d320f
-	 10zrgbWEonX2e8clRvmGE1symXN8TiUZE7nOss4kq/ougK+QB455hLgiISBc30OJ/y
-	 oRBMcj50ynhYQ==
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-40ef6b8d0f6so12373435e9.2
-        for <linux-firmware@kernel.org>; Fri, 02 Feb 2024 07:39:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706888353; x=1707493153;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5G7F1C79XLUcEClc0LseRXrX63IEJ/r6WHq5nKl4Cys=;
-        b=pas7UMsVcCaK+0b8xA7TV3Qdlb8rcgSbqdgrxt3W+7Ed8mtRnSfjDZmtia32BveMRy
-         XJhS3WsLPy0nW+0drdT4hV85loJ/eeZN+npqnrVobWl2PYw2cxSHMUakzmNn8VpwG/RE
-         tgMF4EERMSQxdDz2Zqj1g7fGSjgwJOikx/W6N9xRbHfnjjcQZNLbywWMbPQlehlLbs2o
-         wUqRyjrOhgsG/EsbP6etMhW+zfE5rxPno75rJQg1HJPZ/4UJxBypiuGYQ7LDIu2MzGXI
-         bcexW7XRV9oJ+rQsfGWEJezCsP0GhdhfAUhMtEtnYbsb60ca/pZGUM1SzpGcNAeupw5P
-         a3Uw==
-X-Gm-Message-State: AOJu0YyX6IwUKdiaRerT3EQOvaIp9G3jD0YoNLUcCPxZIcvhejP9PeDa
-	CiUTvQBCKhRs1bXNtlkoSXxB2BUYSBXYdZWfFZqnrf4EqCKRI86Igl9VgdB6KGWudI6MTVmn2Sa
-	/mEimwoqvOTc/KbNeHgiEv+prCHxCmUaQfX9HmD18dnZ9HLITYJWaV26fRijlhUM4w2aKR+c7Ub
-	5VxZeydw==
-X-Received: by 2002:a05:600c:5191:b0:40f:cb0d:a44e with SMTP id fa17-20020a05600c519100b0040fcb0da44emr867168wmb.9.1706888353246;
-        Fri, 02 Feb 2024 07:39:13 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG4q98aKTAoyOlkcX4G1vEo8XUMgCfsOWH0d3OhLVC7qaDk94gdYSbLMmUNJ8iyLMYbT+fmgA==
-X-Received: by 2002:a05:600c:5191:b0:40f:cb0d:a44e with SMTP id fa17-20020a05600c519100b0040fcb0da44emr867157wmb.9.1706888352870;
-        Fri, 02 Feb 2024 07:39:12 -0800 (PST)
-Received: from localhost ([81.221.247.52])
-        by smtp.gmail.com with ESMTPSA id g9-20020a5d46c9000000b0033af4848124sm2170004wrs.109.2024.02.02.07.39.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Feb 2024 07:39:12 -0800 (PST)
-From: Juerg Haefliger <juerg.haefliger@canonical.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id D2AB2C433C7;
+	Fri,  2 Feb 2024 22:00:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D2AB2C433C7
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Vx5weIrMCZULs3/MzfOtgV7d/bunUkuENTH+xDEikds5uy3r3qesrml2fIhAIG8Id4nCMhJUTR+OdB3mdsvAvze+6NhGk5fOklGOvUWJ6Qa8qXSlrpjlUGQYPEQ1z92vYxLu+xLPL0RQVFSAqZD9lMGFa6Lp3e/tCgwHXffNX6vRVvjhLeXHTEOVL5PN5fRNvugPfQwiBnWgk6v+8ceyFcCbqG1HPcFTqtHb+ypclXFCRjKz4qOQHJq5OykJY+NpVmopTPlbaK3WkvXcu6eMrl6HYW8deb3ti3IyzV5tdcqeKSnAnPqnoFmzQ4Tz2KY97gDBWR4GoTco5y47ld/ddA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HIYflpOrEtFQItiKNdgLbte0K5KjK50F2zArK/gSjXk=;
+ b=VtHRFM51nGxlmT012SeT9B173NyNaP+Z7t3+HWJ/p28T0iZVUqBpOGmsDMnwfo68VoqgBsBdNbov7UScfzgr40Yfe2mwG9UWdte/I3ZqiZRgD/Qfl1IrinfQNZTTLqxQ8OVHzltgbWIKkusGxA9UtShNkQU6mRF/Olq29k93aUrFTILkrdGk7A0Qd3uJExJquAsFLRLJqBXJLCVl+zvvJgKU9S2G3D+MiSVHjcGzlr2Vl/Ga2hdurTthFdi01Ud6gnq+trnjzYxPGyD5DC5/Hw3z31yh8LMeQyxPgE6O84vlCAE9z2lLnoHiKhq5z8pLS4ils9A19bw6/fkLr83EEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HIYflpOrEtFQItiKNdgLbte0K5KjK50F2zArK/gSjXk=;
+ b=smpuazm0519j+QV60uNMnDlHxhwU3kF8G4cIQbhPzhrrVWrCCBBX+q4U3e9tz7RNzdXvRmL4FMSD685Z+V+MmJ67FUQ79hsztbdvlZcCC/7bq59mpJD65RtfmB1s+Gd3fLo1UKoc4OwQql3NEvnP9x7TkD0Oo1JX6ih+xBX+ma4=
+Received: from CH5PR04CA0001.namprd04.prod.outlook.com (2603:10b6:610:1f4::6)
+ by CH3PR12MB8458.namprd12.prod.outlook.com (2603:10b6:610:155::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.11; Fri, 2 Feb
+ 2024 22:00:53 +0000
+Received: from CH2PEPF00000099.namprd02.prod.outlook.com
+ (2603:10b6:610:1f4:cafe::1a) by CH5PR04CA0001.outlook.office365.com
+ (2603:10b6:610:1f4::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.31 via Frontend
+ Transport; Fri, 2 Feb 2024 22:00:53 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CH2PEPF00000099.mail.protection.outlook.com (10.167.244.20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7249.19 via Frontend Transport; Fri, 2 Feb 2024 22:00:53 +0000
+Received: from hamza-pc.localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Fri, 2 Feb
+ 2024 16:00:52 -0600
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: jwboyer@kernel.org
-Subject: [PATCH] WHENCE: Clean up section separators
-Date: Fri,  2 Feb 2024 16:39:11 +0100
-Message-Id: <20240202153911.1256524-1-juerg.haefliger@canonical.com>
-X-Mailer: git-send-email 2.40.1
+To: Josh Boyer <jwboyer@kernel.org>, <linux-firmware@kernel.org>
+CC: Alex Deucher <alexander.deucher@amd.com>, Mario Limonciello
+	<mario.limonciello@amd.com>, Deepak Sharma <deepak.sharma@amd.com>
+Subject: pull request: amdgpu: update DMCUB firmware to v0.0.203.0
+Date: Fri, 2 Feb 2024 17:00:41 -0500
+Message-ID: <20240202220041.138919-1-hamza.mahfooz@amd.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF00000099:EE_|CH3PR12MB8458:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0d46b573-1338-47f7-a207-08dc243a6d0a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	Rfn8cseB12rXtGRnYwo9u8wsMAssNDLhmCcgLRCsOG8AqV7kWe0M+Fcw5aFCbknRLW62dgS7vRxbD2l96BkyDl1UrQBMMlezS7iBnhori+XyBU4y8H/9SIL34Fc3639xYLDF1+TfaWG0WBA4r3o79pQuWGhPsSjuqDj1STH1TFwbv5Xjjbf3iAE47WXgAnc38wlNvp/7nnCe1LeMEoS0MaidNdV/TyMQ09pojp3cvO23nvyEAecHLcTvDoislnnzDg2ws/sn2VwEciHtSQIgcjmd8fqKeN/fJyFRtgQP3tG/eJgcg6zTNBRyOjmVZ2hTQAPgejczgCvUk8zloULA0Z7C5iNCaOVyaR27p91gJfhF75ZUuHqFtFM7ZiKxFKUWZRLd+cl7DPg7hIoCLT/Xf1B8BCDdc4ObI+aSfI+T/UuvfO+E6sMORZzVImz/4V86Xz8DXy82SCDOGR42PNL7czzpgj6uB6dniCCi+fiuN3aNxuQtmMxWpBs6O6tSTpvaoM0lMBVqAyxeaso6rn3CGjckjnDKzqx4kUzBkh5HzIy0myIna7ru6owOe7Oj4e0tXKyBho0VuhgMKfG1odOF4CfUw8mju4nYVePfWXqgItZvc/KLtA1SswG14Wjs+8ev6K/IvBIR84XuYfxgE/RTXGU9Wk1Axt7k6BSdQw4iXj5YZHphNu7Azy/3VZiBQlKGV1ikEUnKQY7SumMqGPDZNgT494+HEXDD5KsqF+dN5qHD5G85m5AXFjj1qALB3M6GInoPwFFI+cYyHNXUsKy7S4guDyk+T7nXF4GUppWf4lGQMpYzAAMKDCd0Yn1Yki90
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(376002)(346002)(136003)(39860400002)(230922051799003)(82310400011)(186009)(451199024)(64100799003)(1800799012)(36840700001)(46966006)(40470700004)(336012)(83380400001)(2616005)(26005)(81166007)(2906002)(1076003)(16526019)(426003)(5660300002)(36860700001)(4326008)(8936002)(450100002)(8676002)(44832011)(15650500001)(478600001)(54906003)(6666004)(70206006)(70586007)(4744005)(82740400003)(316002)(110136005)(86362001)(41300700001)(47076005)(356005)(36756003)(40460700003)(40480700001)(36900700001)(16060500005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2024 22:00:53.5259
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d46b573-1338-47f7-a207-08dc243a6d0a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH2PEPF00000099.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8458
 
-Remove an erroneous extra separator and make them all the same length.
+The following changes since commit bd2ad5e65d3bc38fc35eed8c3dbb5e40ae45df20:
 
-Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
----
- WHENCE | 22 ++++++++++------------
- 1 file changed, 10 insertions(+), 12 deletions(-)
+  amdgpu: update DMCUB to v0.0.203.0 for DCN314 and DCN32 (2024-02-02 16:58:17 -0500)
 
-diff --git a/WHENCE b/WHENCE
-index 5e736230d496..6742cf675dfe 100644
---- a/WHENCE
-+++ b/WHENCE
-@@ -1541,7 +1541,7 @@ Licence: Redistributable. See LICENCE.ralink-firmware.txt for details
- 
- Downloaded from http://www.ralinktech.com/ralink/Home/Support/Linux.html
- 
-----------------------------------------------------------------------------
-+--------------------------------------------------------------------------
- 
- Driver: mt7601u - MediaTek MT7601U Wireless MACs
- 
-@@ -2580,8 +2580,6 @@ Licence: Redistributable. See LICENSE.amdgpu for details.
- 
- --------------------------------------------------------------------------
- 
----------------------------------------------------------------------------
--
- Driver: amd_pmf - AMD Platform Management Framework TA
- 
- File: amdtee/773bd96f-b83f-4d52-b12dc529b13d8543.bin
-@@ -5497,7 +5495,7 @@ Version: 1.0.07-b370
- 
- Licence: Redistributable. See LICENCE.mediatek for details.
- 
-----------------------------------------------------------------------------
-+--------------------------------------------------------------------------
- 
- Driver: mt76x2e - MediaTek MT76x2 Wireless MACs
- 
-@@ -5511,7 +5509,7 @@ Link: mt7662_rom_patch.bin -> mediatek/mt7662_rom_patch.bin
- 
- Licence: Redistributable. See LICENCE.ralink_a_mediatek_company_firmware for details
- 
-----------------------------------------------------------------------------
-+--------------------------------------------------------------------------
- 
- Driver: mt76x2u - MediaTek MT76x2u Wireless MACs
- 
-@@ -6180,7 +6178,7 @@ Permission is hereby granted for the distribution of this firmware
- as part of Linux or other Open Source operating system kernel,
- provided this copyright notice is accompanying it.
- 
--------------------------------------------------
-+--------------------------------------------------------------------------
- 
- Driver: prestera - Marvell driver for Prestera family ASIC devices
- 
-@@ -6192,7 +6190,7 @@ File: mrvl/prestera/mvsw_prestera_fw_arm64-v4.1.img
- 
- Licence: Redistributable. See LICENCE.Marvell for details.
- 
--------------------------------------------------
-+--------------------------------------------------------------------------
- 
- Driver: lt9611uxc - Lontium DSI to HDMI bridge
- 
-@@ -6228,7 +6226,7 @@ File: cnm/wave521c_k3_codec_fw.bin
- 
- Licence: Redistributable. See LICENCE.cnm for details.
- 
-----------------------------------------------------------------------------
-+--------------------------------------------------------------------------
- 
- Driver: rvu_cptpf - Marvell CPT driver
- 
-@@ -6248,7 +6246,7 @@ Version: v1.21
- 
- Licence: Redistributable. See LICENCE.Marvell for details.
- 
-----------------------------------------------------------------------------
-+--------------------------------------------------------------------------
- 
- Driver: amphion - Amphion VPU(Video Processing Unit) Codec IP driver
- 
-@@ -6259,7 +6257,7 @@ Version: 1.3.4
- 
- Licence: Redistributable. See LICENSE.amphion_vpu for details
- 
-----------------------------------------------------------------------------
-+--------------------------------------------------------------------------
- 
- Driver: cs35l41_hda - CS35l41 ALSA HDA audio driver
- 
-@@ -7469,7 +7467,7 @@ only in connection with Cirrus Logic hardware products.
- Copyright © 2022 Cirrus Logic, Inc. and Cirrus Logic International
- Semiconductor Ltd. All Rights Reserved.
- 
-----------------------------------------------------------------------------
-+--------------------------------------------------------------------------
- 
- Driver: cs42l43 - CS42L43 ALSA audio driver
- 
-@@ -7483,7 +7481,7 @@ only in connection with Cirrus Logic hardware products.
- Copyright © 2023 Cirrus Logic, Inc. and Cirrus Logic International
- Semiconductor Ltd. All Rights Reserved.
- 
-----------------------------------------------------------------------------
-+--------------------------------------------------------------------------
- 
- Driver: mtk-sof - MediaTek Sound Open Firmware driver
- 
--- 
-2.40.1
+are available in the Git repository at:
 
+  git@gitlab.freedesktop.org:drm/firmware.git tags/amd-2024-02-02
+
+for you to fetch changes up to bd2ad5e65d3bc38fc35eed8c3dbb5e40ae45df20:
+
+  amdgpu: update DMCUB to v0.0.203.0 for DCN314 and DCN32 (2024-02-02 16:58:17 -0500)
+
+----------------------------------------------------------------
