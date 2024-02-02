@@ -4,143 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 08427C47DB3
-	for <linux-firmware@archiver.kernel.org>; Fri,  2 Feb 2024 12:26:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70445C4828E
+	for <linux-firmware@archiver.kernel.org>; Fri,  2 Feb 2024 12:27:12 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id E1C71C43399; Fri,  2 Feb 2024 12:26:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA524C43394
-	for <linux-firmware@kernel.org>; Fri,  2 Feb 2024 12:26:00 +0000 (UTC)
+	id 27115C433C7; Fri,  2 Feb 2024 12:27:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1132AC43399;
+	Fri,  2 Feb 2024 12:27:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706876760;
-	bh=ASt7A+MCrqjLpRiJUhXElVDLBlov1Zz4vaFF8R2yuDY=;
+	s=k20201202; t=1706876832;
+	bh=touhaxaAdJle9IpRdiLb/BuCH/K63CXh37IPTsucA44=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=t6pPI7yxDeirm/enBHnRpOQM1eTo5vP3G6rIKwP6moIDvSg8Q1iUzOcNyW/OET4NX
-	 u8SRQW77sIIN67SNlS1fwHU2JZSEpK5zOpDg8/59Mr+EXxtsfALNOeO6/WCpU0inHR
-	 NiaWPql27vcwiNXoYZ6VhK1k4LM9QkzXb9VJO67umt71OJxdRxDCpaOpGz9R+/mNGu
-	 z8dr8OyRXnFZ+YBEROD0COdVfiBNC4E9hHiGm1xzk6+gVlSH0KzpKR8jIIAL8zN3iV
-	 YJu0ZpyJt49FLYeIhG5JmWl0mX2MK8xyGfh+mfL1YwKMK1rDMwvXuGDVF+H019j28j
-	 P3VWeWvHImxIg==
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-dc6e0fe3195so1367228276.0
-        for <linux-firmware@kernel.org>; Fri, 02 Feb 2024 04:26:00 -0800 (PST)
-X-Gm-Message-State: AOJu0YwRM9K+BdPTbqo/FT79rBXahMQR0wbuc0Rdv3/6TIkdi2aWnNjn
-	AH93cWmaFBEQOvQii3/luIEqAWVZaQ3NJwIFQdGHW34puAQQBBSMX0qeOgYShyMzT1/MWBvEjSe
-	mNrEFx2l/1e/TIv9yAqZ+NOXn+UE=
-X-Google-Smtp-Source: AGHT+IHvQ8/+Yrqt2yKqdSR4gnygeZFpWMdICWpFa1z73ymsNzgulHGzyybJc6u0kUmNEMoqwmp9z++PPznE5bG5tfg=
-X-Received: by 2002:a25:6412:0:b0:dbd:b892:ef1d with SMTP id
- y18-20020a256412000000b00dbdb892ef1dmr7041959ybb.24.1706876759909; Fri, 02
- Feb 2024 04:25:59 -0800 (PST)
+	b=FOfy3xkQuJLCa/8utMZ7Z+/l8979Nkn++NJ8oYq/+kY1EWZ/CBdeenmUp0HKzkaZx
+	 +djF5TSbKE7ziPUibatTcIBDVNlVTJQdtvcbZz9GQTUlOmJ3dcIpEqe06Ra9U+Tsoo
+	 pt/zAxVlBggVauirYFlNcvbec/VhGUus0WGAOOpm8ngJNhZf/2gMfFiUn3viA+9JWr
+	 qEsa7moFgc5mT9c5EawszTnUgcqddr0APcKIYMR0IiLmdLWNpmG7ec5RIECuRMqTK3
+	 N/5Q79CusYDU21aDq0c+Jb6napV8/QmdrNcqn2Okkzho0kD2GGK8OiCyhUnf6+2JXt
+	 pTsQDW03IasLA==
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6041779e75eso21652207b3.3;
+        Fri, 02 Feb 2024 04:27:12 -0800 (PST)
+X-Gm-Message-State: AOJu0YzqVrig8Le6blGXN2T2/GIZccSmi8Nq41LoZ8FVv0f4r21WBXfi
+	zTO+KoD+K5s73eOuTEl+JJMASK2hScBIl99Jupb0eELq4Xw1GbjZRChpX6A78wzCWzdKxnBzuRI
+	sHLe2dxO6NrXUU0wGVheQaM1WJBM=
+X-Google-Smtp-Source: AGHT+IGsOfXqhV/8fwaOfdUYofJMLh85JNkTrPVoVUFGs6T8y8xVasqQtpavtGo+pw0jUlR15wn96uhuUFl7ur7Nni4=
+X-Received: by 2002:a05:6902:102e:b0:db5:6e6b:9b40 with SMTP id
+ x14-20020a056902102e00b00db56e6b9b40mr2291792ybt.31.1706876831150; Fri, 02
+ Feb 2024 04:27:11 -0800 (PST)
 MIME-Version: 1.0
-References: <20240129170422.48797-1-hdegoede@redhat.com>
-In-Reply-To: <20240129170422.48797-1-hdegoede@redhat.com>
+References: <8734uewvi9.fsf@kernel.org>
+In-Reply-To: <8734uewvi9.fsf@kernel.org>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Fri, 2 Feb 2024 07:25:49 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA56fqJOCWAvmfft4pPaUezHastsB4b-xEQ0HNEzN=3d1w@mail.gmail.com>
-Message-ID: <CA+5PVA56fqJOCWAvmfft4pPaUezHastsB4b-xEQ0HNEzN=3d1w@mail.gmail.com>
-Subject: Re: [PATCH linux-firmware] brcm: Add brcmfmac43430-sdio.xxx.txt nvram
- for the Chuwi Hi8 (CWI509) tablet
-To: Hans de Goede <hdegoede@redhat.com>
+Date: Fri, 2 Feb 2024 07:27:00 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA6hsTbSWRzyxv6a9yhKZUKA-zCKm2y+N0A+TEE3dMXt-Q@mail.gmail.com>
+Message-ID: <CA+5PVA6hsTbSWRzyxv6a9yhKZUKA-zCKm2y+N0A+TEE3dMXt-Q@mail.gmail.com>
+Subject: Re: [PULL linux-firmware] ath10k, ath11k and ath12k firmware 20240130
+To: Kalle Valo <kvalo@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Mario Limonciello <superm1@gmail.com>, linux-firmware@kernel.org
+Cc: linux-firmware@kernel.org, linux-wireless@vger.kernel.org, 
+	ath10k@lists.infradead.org, ath11k@lists.infradead.org, 
+	ath12k@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 29, 2024 at 12:04=E2=80=AFPM Hans de Goede <hdegoede@redhat.com=
-> wrote:
+On Tue, Jan 30, 2024 at 1:01=E2=80=AFPM Kalle Valo <kvalo@kernel.org> wrote=
+:
 >
-> Add a NVRAM file for the brcmfmac43430[a1] wifi/bt chip found on some
-> versions of the Chuw Hi8 (CWI509) tablet. This is based on copy of
-> the existing brcmfmac43430-sdio.Hampoo-D2D3_Vi8A1.txt NVRAM file with som=
-e
-> the calibration values adjusted for the Chuwi Hi8 tablet.
+> Hi,
 >
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> We have one important update for ath11k WCN6855 which fixes a suspend
+> regression reported by several people.
+>
+> Please let me know if there are any problems.
+>
+> Kalle
+>
+> The following changes since commit 1a9518c73c4b54854c9cd8f416fd3b8f8e3456=
+e7:
+>
+>   Merge branch 'mlimonci/amd-2024-01-30.2' into 'main' (2024-01-30 15:55:=
+30 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/kvalo/linux-firmware.git =
+ath10k-20240130
 
-Applied and pushed out.
+Pulled and pushed out.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/135
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/137
 
 josh
 
-> ---
->  WHENCE                                 |  1 +
->  brcm/brcmfmac43430-sdio.ilife-S806.txt | 50 ++++++++++++++++++++++++++
->  2 files changed, 51 insertions(+)
->  create mode 100644 brcm/brcmfmac43430-sdio.ilife-S806.txt
 >
-> diff --git a/WHENCE b/WHENCE
-> index c3a59846..3fc8a53c 100644
-> --- a/WHENCE
-> +++ b/WHENCE
-> @@ -2842,6 +2842,7 @@ Link: brcm/brcmfmac43430-sdio.starfive,visionfive-v=
-1.txt -> brcmfmac43430-sdio.A
->  Link: brcm/brcmfmac43430-sdio.beagle,beaglev-starlight-jh7100-a1.txt -> =
-brcmfmac43430-sdio.AP6212.txt
->  Link: brcm/brcmfmac43430-sdio.beagle,beaglev-starlight-jh7100-r0.txt -> =
-brcmfmac43430-sdio.AP6212.txt
->  File: "brcm/brcmfmac43430-sdio.Hampoo-D2D3_Vi8A1.txt"
-> +File: "brcm/brcmfmac43430-sdio.ilife-S806.txt"
->  File: "brcm/brcmfmac43430-sdio.MUR1DX.txt"
->  File: "brcm/brcmfmac43430-sdio.raspberrypi,3-model-b.txt"
->  Link: brcm/brcmfmac43430-sdio.raspberrypi,model-zero-w.txt -> brcmfmac43=
-430-sdio.raspberrypi,3-model-b.txt
-> diff --git a/brcm/brcmfmac43430-sdio.ilife-S806.txt b/brcm/brcmfmac43430-=
-sdio.ilife-S806.txt
-> new file mode 100644
-> index 00000000..162b1e70
-> --- /dev/null
-> +++ b/brcm/brcmfmac43430-sdio.ilife-S806.txt
-> @@ -0,0 +1,50 @@
-> +# SPDX-License-Identifier: GPL-2.0+
-> +# (C) Copyright 2018 Linaro Ltd
-> +# NVRAM config file for the 43430A1 WiFi/BT chip as found on the Chuwi H=
-i8
-> +# tablet's mainboard
-> +aa2g=3D1
-> +ag0=3D255
-> +AvVmid_c0=3D0x0,0xc8
-> +boardflags=3D0x00404201
-> +# boardflags3 is not set
-> +boardnum=3D22
-> +boardrev=3D0x1101
-> +boardtype=3D0x0726
-> +# btc_params is not set
-> +cckbw202gpo=3D0x5555
-> +cckpwroffset0=3D5
-> +ccode=3DX2
-> +# cldo_pwm is not set
-> +deadman_to=3D0xffffffff
-> +devid=3D0x43e2
-> +extpagain2g=3D0
-> +hostrdy=3D0x41
-> +hostwake=3D0x40
-> +il0macaddr=3D00:90:4c:c5:12:38
-> +legofdmbw202gpo=3D0x77777777
-> +macaddr=3D00:90:4c:c5:12:38
-> +manfid=3D0x2d0
-> +maxp2ga0=3D90
-> +mcsbw202gpo=3D0xaaaaaaaa
-> +nocrc=3D1
-> +ofdmdigfilttype=3D7
-> +pa0itssit=3D0x20
-> +pa2ga0=3D-168,7161,-820
-> +# pacalidx2g is not set
-> +# papdendidx is not set
-> +# papdepsoffset is not set
-> +papdmode=3D2
-> +# papdvalidtest is not set
-> +prodid=3D0x0726
-> +# propbw202gpois not set
-> +sd_gpdc=3D0
-> +sd_gpout=3D0
-> +sd_gpval=3D1
-> +# spurconfig is not set
-> +sromrev=3D11
-> +txpwrbckof=3D6
-> +usbrdy=3D0x03
-> +usbrdydelay=3D100
-> +vendid=3D0x14e4
-> +wl0id=3D0x431b
-> +xtalfreq=3D26000
-> --
-> 2.43.0
+> for you to fetch changes up to 5217b76bed90ae86d5f3fe9a5f4e2301868cdd02:
 >
+>   ath11k: WCN6855 hw2.0: update to WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SI=
+LICONZ_LITE-3.6510.37 (2024-01-30 19:58:18 +0200)
+>
+> ----------------------------------------------------------------
+> Kalle Valo (1):
+>       ath11k: WCN6855 hw2.0: update to WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V=
+2_SILICONZ_LITE-3.6510.37
+>
+>  WHENCE                        |   2 +-
+>  ath11k/WCN6855/hw2.0/amss.bin | Bin 4988928 -> 4988928 bytes
+>  2 files changed, 1 insertion(+), 1 deletion(-)
