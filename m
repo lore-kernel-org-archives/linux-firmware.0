@@ -4,134 +4,103 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3108AC4828F
-	for <linux-firmware@archiver.kernel.org>; Fri,  2 Feb 2024 14:40:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6DAAEC4828F
+	for <linux-firmware@archiver.kernel.org>; Fri,  2 Feb 2024 14:41:30 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id EACE5C43399; Fri,  2 Feb 2024 14:40:42 +0000 (UTC)
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+	id 546E5C433C7; Fri,  2 Feb 2024 14:41:30 +0000 (UTC)
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 435E2C433F1
-	for <linux-firmware@kernel.org>; Fri,  2 Feb 2024 14:40:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 435E2C433F1
+	by smtp.kernel.org (Postfix) with ESMTPS id 79AC1C433F1
+	for <linux-firmware@kernel.org>; Fri,  2 Feb 2024 14:41:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 79AC1C433F1
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com [209.85.221.71])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 9D8983F17F
-	for <linux-firmware@kernel.org>; Fri,  2 Feb 2024 14:40:37 +0000 (UTC)
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id DFE6D3FE40
+	for <linux-firmware@kernel.org>; Fri,  2 Feb 2024 14:41:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1706884837;
-	bh=YjR/b/AR+wcp1YSZJGwlyZXvofipIzvjF8r9v4fz5Ps=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type;
-	b=DN2BnREzePB4s/pyyUurZ1GKgf5HlGmbHAyutFefPt2XpJ2hAFg2Qp5C+vR2C5Dbj
-	 QqJa6UDU2cdzuN2t0Z9UKksgdC3hdkIkpbcv64wvGqmdVQFztOOxcNjOa/UtKqusCf
-	 eTJt0VEfWQdm5RhDvbhJNiWu7kVs9kO+3dF17wOn6AcJRN2227L+nBYvbEpR/HevYO
-	 NbVX1c2yi7FkrPcfV1+eIGDxha0b7jEAca9q2rGTA5lysqfKT3L6RupdyoJwZTifBs
-	 Yteox7YRmJJNT19iFdNDJZ0R6hwXd/QNDiCA0L7rVCUXzB3EUrVtqM7GblH1X83cO4
-	 SyR5ddatQhBJA==
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-33b2875eaa9so34897f8f.3
-        for <linux-firmware@kernel.org>; Fri, 02 Feb 2024 06:40:37 -0800 (PST)
+	s=20210705; t=1706884880;
+	bh=y1FTQlLMTWxk2q+iCjAKtwP2bATZg/NrQW43sYHg8aw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+	b=VBmjgCbOKB/PxbyOOaHEM8DPDtVuxjZ08UJzyN6rtVR9iV9FoMWduFzIBK0lVPvrW
+	 qd03InzNdcKV8aI9CAe9HWwyxotOiaG83UTLWTRDOlN2oOuGLeF2aAhuFYy4ck4Pmz
+	 yZ9Y0Azd/6wXlVYLtfPWaEpYnQPrqluPA3ePINxPUNi7kUpg2wz08o+gH7CMg129T/
+	 3DVTYI5o4g48c3rhJQB59ghMtyeqcEhnnWOAPV29Oj76ITu3+DSe3ZAOnNy3yOoQ/X
+	 hK/GH2ZoMSp1FXCE/2lSsAYbwkTOewu3tH+htaS7AMLDB418i4e4N4siihIep4ynX1
+	 W0Imuge8PvU/g==
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-33b248e7cf0so186315f8f.0
+        for <linux-firmware@kernel.org>; Fri, 02 Feb 2024 06:41:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706884837; x=1707489637;
-        h=mime-version:organization:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YjR/b/AR+wcp1YSZJGwlyZXvofipIzvjF8r9v4fz5Ps=;
-        b=c486s3qMn4zCLad/hsgfDaYN3A16t6Yj0n3V552C3F+TvPNs9M7T2CG9rz5G/Ko7ul
-         CfXWboiNUhVoqzaZrZPrI1a/nC9C23kjtY5y7sI/oDtWL71myiYM+K0GTFEIKRQAKKun
-         Zrpw7GUbJKcAHY+pN2Mqtz7CGwc6PMD6uu/l0v5xU5Mojxbmd8J+B5ulFQvmtdK3Kx8s
-         yStmp0BXauh7MKDUfNSg+OHsgfdcSnfhd+1RpQrs3nGVSg7F+i0EEv5ORj1A8dQKS7M0
-         fUub/ovac6FP0R/NEZT5QA2lfx6aK3guX4p6nDuv3S8UGXXaFNj2Ocs7ZfswQILU48E5
-         jTyw==
-X-Gm-Message-State: AOJu0YyRVOHNmzoDkGbqtboXO6EGAIKKiueQ2jGsyIZD4EyQzIw5/APN
-	hlxqOkreIKuepr/+9zDQb58thL156N2pKb8iBOT7zoCrSiuftKNbJwWCdTQziCM/oo1z+LJFPD7
-	+gU4+WPGDyuNZ5e+oqofJuY4fMIaVzM3KNmil+4ZD8zZi90U+v5xSTJCMj2bc7wJAkE4IWdI6EO
-	hk+qBBrQ==
-X-Received: by 2002:a5d:4d83:0:b0:33a:fcb5:af39 with SMTP id b3-20020a5d4d83000000b0033afcb5af39mr6692440wru.39.1706884837293;
-        Fri, 02 Feb 2024 06:40:37 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEvrSLVVJARJijtL1q1a1J7N+oMzRj0JwhCLqtEkzbZ36/Z7YXUB7FsDX3EhZ64oWXoq5Dvmw==
-X-Received: by 2002:a5d:4d83:0:b0:33a:fcb5:af39 with SMTP id b3-20020a5d4d83000000b0033afcb5af39mr6692429wru.39.1706884836960;
-        Fri, 02 Feb 2024 06:40:36 -0800 (PST)
-Received: from gollum ([81.221.247.52])
-        by smtp.gmail.com with ESMTPSA id m13-20020adfa3cd000000b0033af9b7db6esm2112184wrb.22.2024.02.02.06.40.36
+        d=1e100.net; s=20230601; t=1706884880; x=1707489680;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=y1FTQlLMTWxk2q+iCjAKtwP2bATZg/NrQW43sYHg8aw=;
+        b=pOrC1N2qLLVeEMXfKkzx8iHbo3TCVDOqRVY470s5VN4TlfsKzFT61yYFOg/M8TuUv3
+         av9YXCRICkpqBsJcbhyKKFXksDCJWvI42EMvbSwSr1szG3Z5GLoCuOSqv0dwmE7nw3/8
+         y24aXuE9EjvCB6yTmq0vJHkCyxUD4HBcH/sqrqDpOQ5gr4LJKDlasVd2Dy/kw2AY7RMU
+         L4nMieTGx0svPn27G6H8ayWEk71yGtdvP0tFp03pA1rP8ZmZXQfS5P7GjMRnDJkiAWQ2
+         ARPueJcA4jP2YyligwAadupZyKZKwl+aJiWRnADsnREM1hLMxHbiYcCh/mIYSDCOupiW
+         w+Vw==
+X-Gm-Message-State: AOJu0YzDoZqDJok1ZDfbt5ciiylD/PBcMQsiAOT6ZeC1FhDQFf+NW/B8
+	biblVES9IlzOOqizhorwNH5+iJng9a41POr/CKfRr5T99TMtHcPiOlorftxN79EpE7ebQc66mnh
+	IXy73w+pUDHY6u3SkEk5k2KOBxs/HK8PUUSVRw5OxzlxN92PXVY9my8tr2ygs3rWpB60swtyDGu
+	HVyT9nhg==
+X-Received: by 2002:a5d:6905:0:b0:33a:e477:d220 with SMTP id t5-20020a5d6905000000b0033ae477d220mr3916319wru.37.1706884880555;
+        Fri, 02 Feb 2024 06:41:20 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHfEEK1qzUD1a7XwKa2IJ6tziU7w8Q06lb6QU6vA70gyHEFakhZofei0lG+L/Bnbi2tzLp4Ig==
+X-Received: by 2002:a5d:6905:0:b0:33a:e477:d220 with SMTP id t5-20020a5d6905000000b0033ae477d220mr3916314wru.37.1706884880272;
+        Fri, 02 Feb 2024 06:41:20 -0800 (PST)
+Received: from localhost ([81.221.247.52])
+        by smtp.gmail.com with ESMTPSA id o1-20020a5d6481000000b0033af26545c8sm2097806wri.50.2024.02.02.06.41.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Feb 2024 06:40:36 -0800 (PST)
-Date: Fri, 2 Feb 2024 15:40:32 +0100
+        Fri, 02 Feb 2024 06:41:19 -0800 (PST)
 From: Juerg Haefliger <juerg.haefliger@canonical.com>
-To: sbinding@opensource.cirrus.com
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org
-Subject: linux-firmware: Duplicate links
-Message-ID: <20240202154032.52fb9475@gollum>
-Organization: Canonical Ltd
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+To: linux-firmware@kernel.org
+Cc: jwboyer@kernel.org
+Subject: [PATCH] check_whence: Add a check for duplicate link entries
+Date: Fri,  2 Feb 2024 15:41:02 +0100
+Message-Id: <20240202144102.1209374-1-juerg.haefliger@canonical.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/uD1cUB0rWT2aE0JrGkQ7dX6";
- protocol="application/pgp-signature"; micalg=pgp-sha512
+Content-Transfer-Encoding: 8bit
 
---Sig_/uD1cUB0rWT2aE0JrGkQ7dX6
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Verify that there a no duplicate 'Link:' entries in the WHENCE file.
 
-Stefan,
+Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
+---
+ check_whence.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Your commit [1] introduced duplicate symlinks in WHENCE pointing to differe=
-nt
-binaries:
+diff --git a/check_whence.py b/check_whence.py
+index 4b5471e04a6f..fd74a56a5c5a 100755
+--- a/check_whence.py
++++ b/check_whence.py
+@@ -70,6 +70,7 @@ def main():
+     whence_list = list(list_whence())
+     whence_files = list(list_whence_files())
+     links_list = list(list_links_list())
++    whence_links = list(zip(*links_list))[0]
+     known_files = set(name for name in whence_list if not name.endswith("/")) | set(
+         [
+             ".gitignore",
+@@ -102,6 +103,10 @@ def main():
+         sys.stderr.write("E: %s listed in WHENCE twice\n" % name)
+         ret = 1
+ 
++    for name in set(link for link in whence_links if whence_links.count(link) > 1):
++        sys.stderr.write("E: %s listed in WHENCE twice\n" % name)
++        ret = 1
++
+     for name in set(link for link in whence_files if os.path.islink(link)):
+         sys.stderr.write("E: %s listed in WHENCE as File, but is a symlink\n" % name)
+         ret = 1
+-- 
+2.40.1
 
-Link: cirrus/cs35l41-dsp1-spk-prot-103c8ca7.wmfw -> cs35l41/v6.83.0/halo_cs=
-pl_RAM_revB2_29.85.0.wmfw
-Link: cirrus/cs35l41-dsp1-spk-cali-103c8ca7.wmfw -> cs35l41/v6.83.0/halo_cs=
-pl_RAM_revB2_29.85.0.wmfw
-
-Link: cirrus/cs35l41-dsp1-spk-prot-103c8ca7.wmfw -> cs35l41-dsp1-spk-prot-1=
-03c8ca4.bin
-Link: cirrus/cs35l41-dsp1-spk-cali-103c8ca7.wmfw -> cs35l41-dsp1-spk-cali-1=
-03c8ca4.bin
-
-Link: cirrus/cs35l41-dsp1-spk-prot-103c8ca7.wmfw -> cs35l41/v6.83.0/halo_cs=
-pl_RAM_revB2_29.85.0.wmfw
-Link: cirrus/cs35l41-dsp1-spk-cali-103c8ca7.wmfw -> cs35l41/v6.83.0/halo_cs=
-pl_RAM_revB2_29.85.0.wmfw
-
-Which two are the correct ones?
-
-...Juerg
-
-
-[1]
-commit 4f498d09a4a6a905f231a52f33886f8a5d22d5de
-Author: Stefan Binding <sbinding@opensource.cirrus.com>
-Date:   Fri Oct 20 14:58:26 2023 +0100
-
-    linux-firmware: Add firmware for Cirrus CS35L41 on HP G11 Laptops
-   =20
-    Support for 3 laptops using CS35L41.
-   =20
-    Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
-
---Sig_/uD1cUB0rWT2aE0JrGkQ7dX6
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEhZfU96IuprviLdeLD9OLCQumQrcFAmW8/uAACgkQD9OLCQum
-QrdF7Q/5AWi+DHuQpo7naPmC9/qU/Jm+3ecxjmC7SoxT2xvCNbPG3b0/wFyXtHuF
-v0JGXhjH2E3qEgwkIEJ+GY6S754a9zL3zZ0guK/J0LL9IHy7YJb0otU8X8C5oBI5
-C9/RrQ6T0nNWCE2MwyYyBr1JZRzWiHRImYOF2CD+Jm2gj/Pfl6E9wNykw9/Oea3z
-LQDHNGLc7oVuqqVwjGP2VqoVrPXjlzlDqjIj3/JWtnbrtAbfbrU2HiWa9a4S+80u
-hm2h85U4EPuPBjkamRQCOoGbLfFkRQfQc0RzcBi9qP5CQejrrHi8HZ3Nx+HgM3Is
-G5Mpdln9WVfKkZAVd8w6Xvf2vLsZiBwC5236+gSl2xQsX0mBFNHcoGpBJtCBIwVE
-Akcylk/BTshyGXzMTpN0DmbRYAKmw0LRPHehFN8vLCcGHFQcUWE3tSnMdtkr6IYQ
-mygR6C9lHV/E5isCWa5fq3VYBNeZx6C7O3e68YGNhhsgEBAhjPtdq/S85R8IHjPS
-EtXrt+TH7XlslERXEXVS1Ndb9q376BQZ2k44f2BNiZxA7g6oLF460yrfscbEjB32
-Bsxb5S4E5NcoZTI09W+O968wSp3cm/t0EUI7+owbBQQQqdtdnUguzjAVvOnGxuw0
-BgXCa2jucVoiF4ChZIExnPJ1Tj3L/zWCDhiKG7uoyTI6RdzxjmU=
-=QoGV
------END PGP SIGNATURE-----
-
---Sig_/uD1cUB0rWT2aE0JrGkQ7dX6--
