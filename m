@@ -1,159 +1,89 @@
-Return-Path: <SRS0=iKxV=JM=sdaoden.eu=steffen@kernel.org>
+Return-Path: <SRS0=UjEc=JP=craftyguy.net=clayton@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C17EC4828D
-	for <linux-firmware@archiver.kernel.org>; Sat,  3 Feb 2024 23:06:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9000C48297
+	for <linux-firmware@archiver.kernel.org>; Tue,  6 Feb 2024 12:24:25 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id EB5EBC433F1; Sat,  3 Feb 2024 23:06:17 +0000 (UTC)
-Received: from sdaoden.eu (sdaoden.eu [217.144.132.164])
+	id 6B7DEC43394; Tue,  6 Feb 2024 12:24:25 +0000 (UTC)
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 5E6FAC433C7;
-	Sat,  3 Feb 2024 23:06:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 5E6FAC433C7
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=sdaoden.eu
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=sdaoden.eu
-Date: Sun, 04 Feb 2024 00:06:01 +0100
-Author: Steffen Nurpmeso <steffen@sdaoden.eu>
-From: Steffen Nurpmeso <steffen@sdaoden.eu>
+	by smtp.kernel.org (Postfix) with ESMTPS id 9B37FC433F1
+	for <linux-firmware@kernel.org>; Tue,  6 Feb 2024 12:24:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 9B37FC433F1
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=craftyguy.net
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=craftyguy.net
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4TTj9G0vmNz9spj
+	for <linux-firmware@kernel.org>; Tue,  6 Feb 2024 13:24:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=craftyguy.net;
+	s=MBO0001; t=1707222258;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 references:references; bh=Wu7vgIBe/xm8jUhTcj04SBAWjhhto0rQINbFQP0iNh8=;
+	b=C6KLu35fdchqeW166YSmfanvv76Lum4KHV3sR/RYMuCzy9w9n2uQB6Rf24VteaKl17kh1y
+	Uq++8N+8XHezvpA00FlDNmSYey8iRiwAY8kNjEcBxrah7fVGARNOcKJyfWms0prxEQCVIg
+	ilHEZkZOVRl9bMEIaHu4dWSojPK+kgwdGIC6gIUchodtcKHU+P+kjkuR3mQsc7Zdt4ofgQ
+	s61bYLlnwuaXbPHEsJybu96jws/4nDN6MqyDwYOEskt4UKGXdOXIhZNenNODbmLgoRrUuM
+	0pk6V2XntWe1OyO+FlWy0YqLFtbAvJnIuRhog4Wv9EV6H/azjBsgTSUFSM+s+g==
+Date: Tue, 6 Feb 2024 04:24:16 -0800
+Message-ID: <20240206042416.GB5111@craftyguy.net>
+From: clayton@craftyguy.net
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Cc: Josh Boyer <jwboyer@kernel.org>,
- Steffen Nurpmeso <steffen@sdaoden.eu>
-Subject: Re: Question: v20231111 adds rdfind dependency: why not at
- ball build time?
-Message-ID: <20240203230601.F2O6TNp0@steffen%sdaoden.eu>
-In-Reply-To: <20240103194300.jKoOqQ-g@steffen%sdaoden.eu>
-References: <20231113215300.Fw2CJ%steffen@sdaoden.eu>
- <73529434-9b82-4131-8cbd-05eff75537db@amd.com>
- <20231117011925.PPRKHhpq@steffen%sdaoden.eu>
- <20231117014630.lO5xbFXr@steffen%sdaoden.eu>
- <20231216223619.nRgZNdqv@steffen%sdaoden.eu>
- <CA+5PVA7fCsgSAYDcMq4NSC4u1ax0f=6WmHo76LZsBRe3gvt5og@mail.gmail.com>
- <20240102221621.YaA1nlef@steffen%sdaoden.eu>
- <20240103194300.jKoOqQ-g@steffen%sdaoden.eu>
-Mail-Followup-To: linux-firmware@kernel.org,
- Josh Boyer <jwboyer@kernel.org>, Steffen Nurpmeso <steffen@sdaoden.eu>
-User-Agent: s-nail v14.9.24-596-g7894190075
-OpenPGP: id=EE19E1C1F2F7054F8D3954D8308964B51883A0DD;
- url=https://ftp.sdaoden.eu/steffen.asc; preference=signencrypt
-BlahBlahBlah: Any stupid boy can crush a beetle. But all the professors in
- the world can make no bugs.
+Subject: firmware files located in root of repo
+References:
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; boundary="a7out1/sw9Mxpcwm"; micalg="pgp-sha512"; protocol="application/pgp-signature"
+X-Rspamd-Queue-Id: 4TTj9G0vmNz9spj
 
-Hello again,
 
-i though i ask again after a month has passed.
+--a7out1/sw9Mxpcwm
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: base64
 
-Steffen Nurpmeso wrote in
- <20240103194300.jKoOqQ-g@steffen%sdaoden.eu>:
- |Steffen Nurpmeso wrote in
- | <20240102221621.YaA1nlef@steffen%sdaoden.eu>:
- ||Josh Boyer wrote in
- || <CA+5PVA7fCsgSAYDcMq4NSC4u1ax0f=3D6WmHo76LZsBRe3gvt5og@mail.gmail.com>:
- |||On Sat, Dec 16, 2023 at 5:36=E2=80=AFPM Steffen Nurpmeso <steffen@sdaod=
-en.eu> \
- |||wrote:
- |||> Thank you very much for making rdfind an optional thing!
- ...
- |Anyhow.  This diff should also work on github, or wherever "make
- |dist" is run, since cksum, sort, cp, find and xargs should all be
- |available by default.
+U29tZSBkaXN0cmlidXRpb25zIHNoaXBwaW5nIGxpbnV4LWZpcm13YXJlIChlLmcuIEFscGluZSBM
+aW51eCkgc3BsaXQgdGhlCmxpbnV4LWZpcm13YXJlIHByb2plY3QgaW50byBtdWx0aXBsZSBwYWNr
+YWdlcyBiYXNlZCBvbiBzdWJkaXJlY3RvcmllcyBpbiB0aGUKcmVwbywgZS5nLiAvYW1kZ3B1IG1p
+Z2h0IGJlIGluIGEgbGludXgtZmlybXdhcmUtYW1kZ3B1IHBhY2thZ2UsIHRvIGFsbG93IGZvcgpy
+ZWR1Y2luZyB0aGUgcm9vdGZzIHNpemUuIERpc3RybyBpbWFnZXMgYW5kIHVzZXJzIGNhbiBpbnN0
+YWxsIG9ubHkgdGhlIGZpcm13YXJlCnRoZXkgbmVlZC4gSWRlYWxseSwgZm9yIHRoaXMgdXNlIGNh
+c2UsIGFsbCB2ZW5kb3IgZmlybXdhcmUgaW4gbGludXgtZmlybXdhcmUKd291bGQgYmUgaW4gc3Vi
+ZGlyZWN0b3JpZXMuCgppd2x3aWZpIG1ha2VzIHRoaXMgbW9yZSBkaWZmaWN1bHQgdG8gc3VwcG9y
+dC4gSSBjYWxsZWQgb3V0IGl3bHdpZmkgYmVjYXVzZSAxKQp0aGUgY29sbGVjdGl2ZSBzaXplIGlz
+IGxhcmdlICh+MTc1TUIsIGFsbW9zdCAyMCUgb2YgdGhlIGVudGlyZSBsaW51eC1maXJtd2FyZQpy
+ZXBvKSwgMikgdGhlcmUgYXJlIG90aGVyICJmcmVlIGZsb2F0aW5nIiBmaXJtd2FyZSBmaWxlcyBh
+dCB0aGUgcm9vdCBvZiB0aGUKcHJvamVjdCBidXQgaXQgaXMgYnkgZmFyIHRoZSB3b3JzdCAib2Zm
+ZW5kZXIiLgoKSXMgdGhlcmUgYSByZWFzb24gd2h5IGl3bHdpZmkgKGFuZCBvdGhlcikgZmlybXdh
+cmUgaXMgaW4gdGhlIHJvb3Qgb2YgdGhlIHJlcG8KYW5kIG5vdCBpbiBzb21lIHN1YmRpcmVjdG9y
+eSAoJ2ludGVsJyA/KSA/IAoKLUNsYXl0b24K
 
-Is there anything i can do to bring this forward?
-I mean, copy-firmware.sh would loose the (now soft) dependency to
-rdfind, replacing it with all-POSIX and by-default programs.
-I could remove the zstd(1) adjustment (which brings linux-firmware
-into alignment with the linux kernel), other than that it seems to
-be fine?  Really no interest in keeping the functionality but
-without rdfind that is needed for no other purpose?
+--a7out1/sw9Mxpcwm
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Ciao already here,
+-----BEGIN PGP SIGNATURE-----
 
- |--- copy-firmware.sh.orig     2024-01-02 22:30:43.000000000 +0100
- |+++ copy-firmware.sh  2024-01-03 20:38:58.157253235 +0100
- |@@ -40,7 +40,7 @@ while test $# -gt 0; do
- |                 exit 1
- |             fi
- |             # shellcheck disable=3DSC2209
- |-            compress=3D"zstd --compress --quiet --stdout"
- |+            compress=3D"zstd -T0 --ultra -22 --compress --quiet --stdout"
- |             compext=3D".zst"
- |             shift
- |             ;;
- |@@ -75,13 +75,6 @@ if [ -z "$destdir" ]; then
- |  exit 1
- | fi
- |=20
- |-if ! command -v rdfind >/dev/null; then
- |-     if [ "$skip_dedup" !=3D 1 ]; then
- |-             echo "ERROR: rdfind is not installed.  Pass --ignore-dupli\
- |cates to skip deduplication"
- |-             exit 1
- |-     fi
- |-fi
- |-
- | # shellcheck disable=3DSC2162 # file/folder name can include escaped sym=
-bols
- | grep -E '^(RawFile|File):' WHENCE | sed -E -e 's/^(RawFile|File): \
- | */\1 /;s/"//g' | while read k f; do
- |     test -f "$f" || continue
- |@@ -89,20 +82,34 @@ grep -E '^(RawFile|File):' WHENCE | sed
- |     $verbose "copying/compressing file $f$compext"
- |     if test "$compress" !=3D "cat" && test "$k" =3D "RawFile"; then
- |         $verbose "compression will be skipped for file $f"
- |-        cat "$f" > "$destdir/$f"
- |+        cp "$f" "$destdir/$f"
- |+    elif [ "$compress" =3D cat ]; then
- |+        cp "$f" "$destdir/$f"
- |     else
- |         $compress "$f" > "$destdir/$f$compext"
- |     fi
- | done
- |=20
- |-if [ "$skip_dedup" !=3D 1 ] ; then
- |+if [ "$skip_dedup" !=3D 1 ]; then
- |  $verbose "Finding duplicate files"
- |-     rdfind -makesymlinks true -makeresultsfile false "$destdir" >/dev/\
- |null
- |-     find "$destdir" -type l | while read -r l; do
- |-             target=3D"$(realpath "$l")"
- |-             $verbose "Correcting path for $l"
- |-             ln -fs "$(realpath --relative-to=3D"$(dirname "$(realpath \
- |-s "$l")")" "$target")" "$l"
- |-     done
- |+    (
- |+    cd "$destdir" && find . -type f | xargs cksum | sort | {
- |+        ls=3D lf=3D
- |+        while read s1 s2 f; do
- |+            s=3D"$s1 $s2"
- |+            #$verbose $s $f
- |+            if [ "$s" =3D "$ls" ] && cmp "$lf" "$f"; then
- |+                $verbose 'duplicate '"${lf##*/}" "${f#./*}"
- |+                rm -f "$f"
- |+                #ln -s "${lf#./*}" "${f#./*}"
- |+                ln -sf "${lf##*/}" "${f#./*}"
- |+            else
- |+                ls=3D$s
- |+                lf=3D$f
- |+            fi
- |+        done
- |+    }
- |+    )
- | fi
- |=20
- | # shellcheck disable=3DSC2162 # file/folder name can include escaped sym=
-bols
+iQIzBAABCgAdFiEEkdOrrjmBP3eB7DeWSkztbX7flQoFAmXCJPAACgkQSkztbX7f
+lQpT3hAAmoqFi5BxiaFd+08qtTao1Iosh6aA/dsqL1UeQsfPMd+tnA3sMtFfMgFq
+i2NxAvOdih9DqT6lmtbKMCpgxA9bJ8TpVWPyVtelqJ8skiQcopR53bNo2c+XrSWy
+bXVhJyovH5P57nmuar95rqf4I9NgkZ6/Z0Q4VHHpJvN31xsGXCjTP1UsBEzext07
+eRBWSQnrau0eBlYW1CbVl+rmZ81KrwYaNHW3U/zSbv/FMcZwvyhbZHpPXPTtoFdU
+0bGw28nYtGAzs/jFmU9uXRbAJ/Ts0GbSNaMPXfYCS/t2JM912lB+joi42hzAKltC
+QSxUbh1mkgYM+B5L98Ug3yCKo0RAg6Wr0Wix5FiP55wE/6Ck8sxdziVNBKhlMECn
+a41tJQcOJbUHemoikbi7439JArshnW+U5nU0tp3z3GdB+O47SNa7y6Zw02qIobXE
+1s7ECLv3NVR/Jh1k0LucMDSN1NoxovZF/WtcXVUnzitTt0hXaetetnyVGJznkA/5
+ZdU5Va5Gcwa8GNTafFcr1XfldwqFCeTyJu7UbW/vLR8VZgWga9OYYIzf/cek0WxM
+CQzjTkNTVGje1CG/GuBh/x/a7mcAAv8VA5Q9IllSc/5BaTAACCLXoGj4wrC2lUCH
+xOoZek1wkqFwXxMdoQ4Zqu+KjshMrchdr0FS0B+1PjB1W8sT6do=
+=4zRo
+-----END PGP SIGNATURE-----
 
---steffen
-|
-|Der Kragenbaer,                The moon bear,
-|der holt sich munter           he cheerfully and one by one
-|einen nach dem anderen runter  wa.ks himself off
-|(By Robert Gernhardt)
+--a7out1/sw9Mxpcwm--
