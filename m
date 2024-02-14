@@ -1,89 +1,100 @@
-Return-Path: <SRS0=Wdkt=JS=opensource.cirrus.com=prvs=9769893da0=sbinding@kernel.org>
+Return-Path: <SRS0=xp8S=JX=linux.intel.com=sakari.ailus@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 808DDC4828F
-	for <linux-firmware@archiver.kernel.org>; Fri,  9 Feb 2024 14:43:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C194BC48BC4
+	for <linux-firmware@archiver.kernel.org>; Wed, 14 Feb 2024 07:59:00 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 310E7C43390; Fri,  9 Feb 2024 14:43:21 +0000 (UTC)
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	id 74307C43390; Wed, 14 Feb 2024 07:59:00 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 19173C433C7
-	for <linux-firmware@kernel.org>; Fri,  9 Feb 2024 14:43:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 19173C433C7
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 419BeHOY000486
-	for <linux-firmware@kernel.org>; Fri, 9 Feb 2024 08:43:18 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	message-id:date:mime-version:to:cc:from:subject:content-type
-	:content-transfer-encoding; s=PODMain02222019; bh=rtPGb+bt20asJQ
-	tkxCKdf8BGGrLl0a7CZIcNKBa8DYU=; b=JEWFoRpEVjg+Ddnj57OX8umV0CjItN
-	EEYzhdF5OCsHrOuN5PrltEHzTG8wDbecBNftEt8QqSAd4f8EBUAItHLiSaqbiuHc
-	xGAHjIEJrcXzYyMcijy0vo0VSfXNkw0xr07DNWsuGY3Kd8Lnq10eO/9XmFTOmm/t
-	0/kvso0edHKYjZSW2TYdyxaWPTRdlpDTGgK3vPHYDybAR90VN5rWM9MAGXsq5hKs
-	uEd2dMmxhkLvt5VP15pHYhh8WH9S3Ktqt4tiF/uFBKPe65PiO0FmTvMauaN52kZ5
-	LQAFdkw1W9/yH3/Xw5Pxo4TTnHt+wfaDB6GqpCPVhfSdSmTUJYs9PTrw==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3w46p7b6jn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-firmware@kernel.org>; Fri, 09 Feb 2024 08:43:18 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 9 Feb
- 2024 14:43:16 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.40 via Frontend Transport; Fri, 9 Feb 2024 14:43:16 +0000
-Received: from [198.90.238.186] (unknown [198.90.238.186])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 7288D820243;
-	Fri,  9 Feb 2024 14:43:16 +0000 (UTC)
-Message-ID: <f49de145-d78e-4283-aff2-9074e4df67e6@opensource.cirrus.com>
-Date: Fri, 9 Feb 2024 14:43:16 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-GB
+	by smtp.kernel.org (Postfix) with ESMTPS id 562FEC433F1
+	for <linux-firmware@kernel.org>; Wed, 14 Feb 2024 07:58:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 562FEC433F1
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707897539; x=1739433539;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=e94wWW1fuEpgNPMZ2D34RkTB+CRzTDEjN7tPl0kpjh8=;
+  b=SClKUO+9W1lOQZuZ7s0vurF4tlUJqNH14FZ+Bo79MdizWKkw5tnkbFRd
+   CS+PVSa2EwGx+Pb75JG2R6sScytMvHkadyt7/mjV4ppZyPc+D8iamMHRA
+   Rljhgqwnp4f+FtbDl0UA3v+QUjOEuRuJVrcXrtceIo7l+Y4rHaXI+NYIv
+   bRTn4tjuprkIYIPzK0xHEoQXUuRQjK5j7lH1z4h+hOocX/slBmZbJ900w
+   FnE64778APg+Q2WBFyu8gp6824KPpGP8OOMIRrZnV1STQZJ5qZlYbXDIN
+   8O3ZJexMkyYApRrpbNTs8UGu6jZzeGWvEWx2yxWqg0IBDYfwd6+Mpd0nw
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="1800967"
+X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
+   d="scan'208";a="1800967"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 23:58:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
+   d="scan'208";a="40597050"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 23:58:57 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id D24FF11F86A;
+	Wed, 14 Feb 2024 09:49:42 +0200 (EET)
+Date: Wed, 14 Feb 2024 07:49:42 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-CC: "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-Subject: [PULL v1 linux-firmware] Add CS35L41 firmware for additional ASUS
- Zenbook 2023 models
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: 3rlCrLouQb9qbJeFg85qzX1R4Zu3u2fp
-X-Proofpoint-GUID: 3rlCrLouQb9qbJeFg85qzX1R4Zu3u2fp
-X-Proofpoint-Spam-Reason: safe
+To: linux-firmware@kernel.org
+Cc: Bingbu Cao <bingbu.cao@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>
+Subject: [GIT PULL] Intel Image Processing Unit 6 firmware
+Message-ID: <ZcxwlqJMztS_lUtb@kekkonen.localdomain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-We would like to add firmware files to support Cirrus Logic Smart Amp 
-CS35L41 for 3 ASUS Zenbook 2023 models.
+Hi folks,
 
-Thanks,
+This PR moves Intel IPU firmware files under ipu subdirectory for easier
+packaging. WHENCE is updated for IPU3 ImgU firmware links.
 
-Stefan Binding
+Please pull.
+
 
 The following changes since commit fbef4d381e3d0143427e1a8c924be8e738c0fc2d:
 
-   Merge branch 'main' into 'main' (2024-02-08 12:24:01 +0000)
+  Merge branch 'main' into 'main' (2024-02-08 12:24:01 +0000)
 
 are available in the Git repository at:
 
-   https://github.com/CirrusLogic/linux-firmware/ asus_zenbook_2023
+  https://git.kernel.org/pub/scm/linux/kernel/git/sailus/linux-firmware.git tags/ipu6-2024-02-14
 
-for you to fetch changes up to 4cccf3f90e98a6f5ec8fbe7c7b89b598ab605dd9:
+for you to fetch changes up to 9b25ed59b5de4b70f0ac57e760055f880a677b75:
 
-   linux-firmware: Add CS35L41 firmware for additional ASUS Zenbook 2023 
-models (2024-02-09 14:38:07 +0000)
+  Intel IPU3 ImgU: Move firmware file under intel/ipu (2024-02-09 15:28:35 +0200)
 
 ----------------------------------------------------------------
-Stefan Binding (1):
-       linux-firmware: Add CS35L41 firmware for additional ASUS Zenbook 
-2023 models
+Move IPU firmware under ipu
 
-  WHENCE | 30 ++++++++++++++++++++++++++++++
-  1 file changed, 30 insertions(+)
+----------------------------------------------------------------
+Sakari Ailus (2):
+      Intel IPU6: Move firmware binaries under ipu/
+      Intel IPU3 ImgU: Move firmware file under intel/ipu
 
+ WHENCE                                                   |  15 ++++++++-------
+ intel/{ => ipu}/ipu6_fw.bin                              | Bin
+ intel/{ => ipu}/ipu6ep_fw.bin                            | Bin
+ intel/{ => ipu}/ipu6epadln_fw.bin                        | Bin
+ intel/{ => ipu}/ipu6epmtl_fw.bin                         | Bin
+ intel/{ => ipu}/ipu6se_fw.bin                            | Bin
+ .../irci_irci_ecr-master_20161208_0213_20170112_1500.bin | Bin
+ 7 files changed, 8 insertions(+), 7 deletions(-)
+ rename intel/{ => ipu}/ipu6_fw.bin (100%)
+ rename intel/{ => ipu}/ipu6ep_fw.bin (100%)
+ rename intel/{ => ipu}/ipu6epadln_fw.bin (100%)
+ rename intel/{ => ipu}/ipu6epmtl_fw.bin (100%)
+ rename intel/{ => ipu}/ipu6se_fw.bin (100%)
+ rename intel/{ => ipu}/irci_irci_ecr-master_20161208_0213_20170112_1500.bin (100%)
+
+-- 
+Sakari Ailus
