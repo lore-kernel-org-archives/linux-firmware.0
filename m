@@ -1,96 +1,84 @@
-Return-Path: <SRS0=Bfs6=JZ=opensource.cirrus.com=prvs=9776c197b6=sbinding@kernel.org>
+Return-Path: <SRS0=X6yi=JZ=intel.com=John.C.Harrison@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2087C48260
-	for <linux-firmware@archiver.kernel.org>; Fri, 16 Feb 2024 16:19:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07AA2C48260
+	for <linux-firmware@archiver.kernel.org>; Fri, 16 Feb 2024 21:16:54 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 87BF6C43390; Fri, 16 Feb 2024 16:19:21 +0000 (UTC)
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	id BAD11C43399; Fri, 16 Feb 2024 21:16:54 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 7C249C433C7
-	for <linux-firmware@kernel.org>; Fri, 16 Feb 2024 16:19:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 7C249C433C7
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41G6kiDP028331
-	for <linux-firmware@kernel.org>; Fri, 16 Feb 2024 10:19:19 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	message-id:date:mime-version:to:cc:from:subject:content-type
-	:content-transfer-encoding; s=PODMain02222019; bh=BLgmEDG3fcQch6
-	M5Jm4dD+0L/oWzqEtFpHUjkV+rY+Q=; b=J5pPnJdFsLX1Yok64jUKwG8MzXUdPf
-	Tm/wHqnfJvbzjAYFzBQhxIbSxt00k9oyS7VmWTW9UpKNRJelZcU6JsWrpoAA8yc5
-	CA9O+PZ1cE9n+2bjiU83/+D11AFX/98pI5f39SfEOSNtqqyo5li1d94Xo2jcG3YI
-	bXawHnrZE4nOH5E5LXyc/K3MZyEGjFwx5EC1CWgdDmqCrD3QRKSka1pARoHSOirH
-	ajeLbYGX4Phv9lfkdOL/3PKoGx699Fjv+ySBAoKmCdaHdSAliOjrE38di5N/Y1lb
-	4bj2M0zA9w1jHbdgozNum8Uch9RnZHqn8XVO+JplNsUmuTddoL8tDL2w==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3w67e279sn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-firmware@kernel.org>; Fri, 16 Feb 2024 10:19:19 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 16 Feb
- 2024 16:19:16 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.40 via Frontend Transport; Fri, 16 Feb 2024 16:19:16 +0000
-Received: from [198.61.64.235] (LONN2DGDQ73.ad.cirrus.com [198.61.64.235])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id C09AA820242;
-	Fri, 16 Feb 2024 16:19:16 +0000 (UTC)
-Message-ID: <b8e9a2a8-1524-4358-9e23-27875a4b3243@opensource.cirrus.com>
-Date: Fri, 16 Feb 2024 16:19:16 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-GB
+	by smtp.kernel.org (Postfix) with ESMTPS id 4EB2CC433F1;
+	Fri, 16 Feb 2024 21:16:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 4EB2CC433F1
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=Intel.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708118214; x=1739654214;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=0yZ8zrzJpCExwY+veE2cWY4w/utip4VIvJ8BOgtSJn0=;
+  b=OySVwDv9808vRiJpiG1vN15RMyyb6TOpeQwPZHKDlxO4L4aCJPI22TzS
+   yYfF/2SvO/knUrWqRcBaoqZLv5f3cqsd2ZuC09Yq0Boi97/SzDza9W2r/
+   EAbOPJs+ztOKPmN/6JZmgCIjLstKb5x6SoLYGsQgV4oPGxRw8SjHske7H
+   KH7Kr8Mxnp8Xs78LK8CaO5bsV2AV7GNKTuG11gn505MZ7obM7xZ7QCAzT
+   isOQ3eDzmrZmFAzJZAgiXbO24EsAKyBF8Bd/vdWJDXFG/010095v/oye3
+   cQcLYEKC5J4TevQTJ+mAjP9Cks7fktRyT7BISMm/HP8mVe4GEq271QY75
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="19683349"
+X-IronPort-AV: E=Sophos;i="6.06,165,1705392000"; 
+   d="scan'208";a="19683349"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 13:16:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,165,1705392000"; 
+   d="scan'208";a="27105854"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
+  by fmviesa002.fm.intel.com with ESMTP; 16 Feb 2024 13:16:52 -0800
+From: John.C.Harrison@Intel.com
 List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-CC: "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-Subject: [PULL v1 linux-firmware] Add firmware for Cirrus Smart Amp CS35L41
- for Lenovo Legion 7i gen7 laptop (16IAX7)
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: linux-firmware@kernel.org
+Cc: jwboyer@kernel.org,
+	kyle@kernel.org,
+	ben@decadent.org.uk,
+	intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org
+Subject: PR for new GuC v70.20.0 binaries
+Date: Fri, 16 Feb 2024 13:14:32 -0800
+Message-ID: <20240216211432.519411-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: whniHYHZrH3k5vQI4qk8YQ8yRLSU14U2
-X-Proofpoint-GUID: whniHYHZrH3k5vQI4qk8YQ8yRLSU14U2
-X-Proofpoint-Spam-Reason: safe
 
-We would like to add firmware files to support Cirrus Logic Smart Amp 
-CS35L41 for Lenovo Legion 7i gen7 laptop (16IAX7)
+The following changes since commit fbef4d381e3d0143427e1a8c924be8e738c0fc2d:
 
-Thanks,
-
-Stefan Binding
-
-The following changes since commit f0e2f70ceb682d38604d88343dfc7f80cc46a694:
-
-   Merge branch 'robot/patch-0-1708082607' into 'main' (2024-02-16 
-11:29:57 +0000)
+  Merge branch 'main' into 'main' (2024-02-08 12:24:01 +0000)
 
 are available in the Git repository at:
 
-   https://github.com/CirrusLogic/linux-firmware/ Lenovo16IAX7
+  git://anongit.freedesktop.org/drm/drm-firmware guc_70.20.0
 
-for you to fetch changes up to d9fa75944debb977e635a302a1ccd94932fe7cea:
+for you to fetch changes up to 28c2472d37d089edb56c75e3af83511babaa756c:
 
-   linux-firmware: Add CS35L41 firmware for Lenovo Legion 7i gen7 laptop 
-(16IAX7) (2024-02-16 14:26:27 +0000)
+  xe: First GuC release for LNL and Xe (2024-02-14 16:28:32 -0800)
 
 ----------------------------------------------------------------
-Stefan Binding (1):
-       linux-firmware: Add CS35L41 firmware for Lenovo Legion 7i gen7 
-laptop (16IAX7)
+John Harrison (2):
+      i915: Add GuC v70.20.0 for ADL-P, DG1, DG2, MTL and TGL
+      xe: First GuC release for LNL and Xe
 
-  WHENCE                                       |   5 +++++
-  cirrus/cs35l41-dsp1-spk-cali-17aa386f.bin    | Bin 0 -> 1580 bytes
-  cirrus/cs35l41-dsp1-spk-prot-17aa386f-l0.bin | Bin 0 -> 4808 bytes
-  cirrus/cs35l41-dsp1-spk-prot-17aa386f-r0.bin | Bin 0 -> 4812 bytes
-  4 files changed, 5 insertions(+)
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-17aa386f.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa386f-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa386f-r0.bin
-
+ LICENSE.xe           |  39 +++++++++++++++++++++++++++++++++++++++
+ WHENCE               |  20 ++++++++++++++------
+ i915/adlp_guc_70.bin | Bin 342848 -> 347584 bytes
+ i915/dg1_guc_70.bin  | Bin 272512 -> 321472 bytes
+ i915/dg2_guc_70.bin  | Bin 443200 -> 410368 bytes
+ i915/mtl_guc_70.bin  | Bin 365376 -> 332544 bytes
+ i915/tgl_guc_70.bin  | Bin 330304 -> 335168 bytes
+ xe/lnl_guc_70.bin    | Bin 0 -> 336640 bytes
+ 8 files changed, 53 insertions(+), 6 deletions(-)
+ create mode 100644 LICENSE.xe
+ create mode 100644 xe/lnl_guc_70.bin
