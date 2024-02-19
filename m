@@ -4,82 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AAC0C48BC3
-	for <linux-firmware@archiver.kernel.org>; Mon, 19 Feb 2024 12:45:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1DB73C48BC3
+	for <linux-firmware@archiver.kernel.org>; Mon, 19 Feb 2024 12:47:10 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id F18DBC43399; Mon, 19 Feb 2024 12:45:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB673C43394;
-	Mon, 19 Feb 2024 12:45:20 +0000 (UTC)
+	id D7C57C43390; Mon, 19 Feb 2024 12:47:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1A98C433F1
+	for <linux-firmware@kernel.org>; Mon, 19 Feb 2024 12:47:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708346720;
-	bh=e7mMUZWo5YhuNllD0gWdAThtgZfQ0LlGszn85q+IdWA=;
+	s=k20201202; t=1708346830;
+	bh=23CLwgVnS3Ti6EWKja1d3y4OSdJZioR7lcTl+R6jjso=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=q7I5AxEfybMWMtzLcv0UyKmUK/eiKX2W50PG7bd+c+3K2AhREBxkbkIwOfPTkZ+0h
-	 dn+MOTT2Hv8SvLZ654j7GrQH4sKxWbgTrQTTT2L8/0VXIAcqTH1UAJpD+KbvokyvUV
-	 Kd59dh964EQdDOJAqOMAcbtQ9NYpeiYUrVVfze7u7fS9qI1iDZEvzkhEyCFSfjaZJq
-	 i7BR1+dw+R/QcHQzYBnJfwSI7o+pJf2w2/LkmtEivmAxMnSFw9HYWEkjslPa0KEsVZ
-	 dmNwU3LNe9zObwB0QrPiV5/fmSrLAbs5FA+3/DvR43w5O9CpfMiedS9Czc0qESi6zU
-	 /5K1KnXLz3Uag==
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-607eefeea90so28926367b3.1;
-        Mon, 19 Feb 2024 04:45:20 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUh/MBKtXOzWkIs+pAvWzczO+3BQaDWqRbcPLlOTRWV1m7H8Xs2n1qePPa4Nt8+wv+6RLV/gk/y6PmX4AVEGGI=
-X-Gm-Message-State: AOJu0Yygnc4UmupSCBCkuNySW8hLe74mygOzBxUKD0NsFs/m8AyvhW+0
-	5cR1f1v7uh4Fim8Hjhc17i7A1gckgNH78Ic21G0b6RqHPypj8uPHSjPAiME1xIr2S9CEiUpqNED
-	u5YBcaGPuty3vZIGwOxt9dHLYIes=
-X-Google-Smtp-Source: AGHT+IHAEON4SmS+VCfUEs2H9U/jtJ7Y0XtxYH/deQXiTkty4ZCsoxuXH4akdX+WS2DHCO8grV04bfm+LWTnUSEd6Ko=
-X-Received: by 2002:a81:920f:0:b0:604:de1c:5406 with SMTP id
- j15-20020a81920f000000b00604de1c5406mr7828698ywg.8.1708346720010; Mon, 19 Feb
- 2024 04:45:20 -0800 (PST)
+	b=ebM1XrKDaMIyZfbCns+XyJ8H6vVIzj3nK/S7+IiXogUWIT2WCX8cjNnkXgYNNngIH
+	 SIAphCiQbV+FhzA/TdFXdH86YjeXByBx2gG3vafJ6FbgHx0VBq6npHd8u1KO+S+dnF
+	 twK9wW5F664wWfRGGb0MPMI8+0Lc9BGPahiU5f9eCnNnFRjjwjKeAblCObIGvrpby8
+	 3NvjjJ4tBhf0KnQHNDCtgC1p2iTADpdRdcJLZENdFaPF7yZZ3X64ud5fwZtr54Q5F5
+	 OlJBTBINYq1wX43BnaCdXv3BOalyJkaso7aJl7/vYeGHFUQbfB09VpuOBAVS0UC3Lk
+	 qFb5NoXd4DHnA==
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6084c93f80eso3364547b3.3
+        for <linux-firmware@kernel.org>; Mon, 19 Feb 2024 04:47:10 -0800 (PST)
+X-Gm-Message-State: AOJu0Yz6mBwMXHj/GGuj1qTIKMoqkmHzLCk+y82HFu9RuQIaIL3+hOLx
+	gEelELfSJbsajPrdcjs/4b6zYeelF+2I487wUN62tk6HNLqSafzHymkgHax+mf23pZ9qfKSV6Js
+	OC7MyuZqElGFQgNpWYIUwjpXD3Ks=
+X-Google-Smtp-Source: AGHT+IEfdJoMsCFFAraBM4F+WnBtxENGsEsbXVge/I6wAcIdwLYHHj0nA2UaoSvARYrk6wXPPUNkdMn9Ebj2DgtJDpA=
+X-Received: by 2002:a81:8446:0:b0:608:13ee:8f3f with SMTP id
+ u67-20020a818446000000b0060813ee8f3fmr5184269ywf.27.1708346829948; Mon, 19
+ Feb 2024 04:47:09 -0800 (PST)
 MIME-Version: 1.0
-References: <20240216211432.519411-1-John.C.Harrison@Intel.com>
-In-Reply-To: <20240216211432.519411-1-John.C.Harrison@Intel.com>
+References: <b8e9a2a8-1524-4358-9e23-27875a4b3243@opensource.cirrus.com>
+In-Reply-To: <b8e9a2a8-1524-4358-9e23-27875a4b3243@opensource.cirrus.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 19 Feb 2024 07:45:09 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA4HNHBpR_5LBi8KbE3artRf6WZUMFXTR_myiDhm58YXkA@mail.gmail.com>
-Message-ID: <CA+5PVA4HNHBpR_5LBi8KbE3artRf6WZUMFXTR_myiDhm58YXkA@mail.gmail.com>
-Subject: Re: PR for new GuC v70.20.0 binaries
-To: John.C.Harrison@intel.com
+Date: Mon, 19 Feb 2024 07:46:59 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA64TNve_k=stZRSB4ucnbC_z3PEkFMxauDh9yauMe8_3Q@mail.gmail.com>
+Message-ID: <CA+5PVA64TNve_k=stZRSB4ucnbC_z3PEkFMxauDh9yauMe8_3Q@mail.gmail.com>
+Subject: Re: [PULL v1 linux-firmware] Add firmware for Cirrus Smart Amp
+ CS35L41 for Lenovo Legion 7i gen7 laptop (16IAX7)
+To: Stefan Binding <sbinding@opensource.cirrus.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, kyle@kernel.org, ben@decadent.org.uk, 
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Cc: linux-firmware@kernel.org, 
+	"patches@opensource.cirrus.com" <patches@opensource.cirrus.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 16, 2024 at 4:16=E2=80=AFPM <John.C.Harrison@intel.com> wrote:
+On Fri, Feb 16, 2024 at 11:19=E2=80=AFAM Stefan Binding
+<sbinding@opensource.cirrus.com> wrote:
 >
-> The following changes since commit fbef4d381e3d0143427e1a8c924be8e738c0fc=
-2d:
+> We would like to add firmware files to support Cirrus Logic Smart Amp
+> CS35L41 for Lenovo Legion 7i gen7 laptop (16IAX7)
 >
->   Merge branch 'main' into 'main' (2024-02-08 12:24:01 +0000)
+> Thanks,
+>
+> Stefan Binding
+>
+> The following changes since commit f0e2f70ceb682d38604d88343dfc7f80cc46a6=
+94:
+>
+>    Merge branch 'robot/patch-0-1708082607' into 'main' (2024-02-16
+> 11:29:57 +0000)
 >
 > are available in the Git repository at:
 >
->   git://anongit.freedesktop.org/drm/drm-firmware guc_70.20.0
+>    https://github.com/CirrusLogic/linux-firmware/ Lenovo16IAX7
 
-Merged and pushed out.
+Pulled and pushed out.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/156
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/155
 
 josh
 
 >
-> for you to fetch changes up to 28c2472d37d089edb56c75e3af83511babaa756c:
+> for you to fetch changes up to d9fa75944debb977e635a302a1ccd94932fe7cea:
 >
->   xe: First GuC release for LNL and Xe (2024-02-14 16:28:32 -0800)
+>    linux-firmware: Add CS35L41 firmware for Lenovo Legion 7i gen7 laptop
+> (16IAX7) (2024-02-16 14:26:27 +0000)
 >
 > ----------------------------------------------------------------
-> John Harrison (2):
->       i915: Add GuC v70.20.0 for ADL-P, DG1, DG2, MTL and TGL
->       xe: First GuC release for LNL and Xe
+> Stefan Binding (1):
+>        linux-firmware: Add CS35L41 firmware for Lenovo Legion 7i gen7
+> laptop (16IAX7)
 >
->  LICENSE.xe           |  39 +++++++++++++++++++++++++++++++++++++++
->  WHENCE               |  20 ++++++++++++++------
->  i915/adlp_guc_70.bin | Bin 342848 -> 347584 bytes
->  i915/dg1_guc_70.bin  | Bin 272512 -> 321472 bytes
->  i915/dg2_guc_70.bin  | Bin 443200 -> 410368 bytes
->  i915/mtl_guc_70.bin  | Bin 365376 -> 332544 bytes
->  i915/tgl_guc_70.bin  | Bin 330304 -> 335168 bytes
->  xe/lnl_guc_70.bin    | Bin 0 -> 336640 bytes
->  8 files changed, 53 insertions(+), 6 deletions(-)
->  create mode 100644 LICENSE.xe
->  create mode 100644 xe/lnl_guc_70.bin
+>   WHENCE                                       |   5 +++++
+>   cirrus/cs35l41-dsp1-spk-cali-17aa386f.bin    | Bin 0 -> 1580 bytes
+>   cirrus/cs35l41-dsp1-spk-prot-17aa386f-l0.bin | Bin 0 -> 4808 bytes
+>   cirrus/cs35l41-dsp1-spk-prot-17aa386f-r0.bin | Bin 0 -> 4812 bytes
+>   4 files changed, 5 insertions(+)
+>   create mode 100755 cirrus/cs35l41-dsp1-spk-cali-17aa386f.bin
+>   create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa386f-l0.bin
+>   create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa386f-r0.bin
+>
