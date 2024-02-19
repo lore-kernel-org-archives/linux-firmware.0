@@ -4,79 +4,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0044BC48BC3
-	for <linux-firmware@archiver.kernel.org>; Mon, 19 Feb 2024 12:48:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0995C48BF8
+	for <linux-firmware@archiver.kernel.org>; Mon, 19 Feb 2024 12:50:21 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id E0496C433C7; Mon, 19 Feb 2024 12:48:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB0F6C43390
-	for <linux-firmware@kernel.org>; Mon, 19 Feb 2024 12:48:40 +0000 (UTC)
+	id B8F32C43394; Mon, 19 Feb 2024 12:50:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3190C43399
+	for <linux-firmware@kernel.org>; Mon, 19 Feb 2024 12:50:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708346920;
-	bh=hMQfTz/xPbfcne0+aJGWJcVBUjqdM8gnaqC6PRFC/PY=;
+	s=k20201202; t=1708347021;
+	bh=wiitRUpEfi6wkcEYZ3w7fn9GolEDShmIbZWQlTiSdzA=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=LoUdzijEkcgjdk57PbMVmydUtMsVJr+rP3G/UjtcpjiJVeYj87hbqKqJCXWWqLK/W
-	 cmY0EuOQkmdEj4m/UTvzH5NrAzfp68h3hDvyiBj0Igkf3b9MX8Htk/fZjQ6vmp/cVR
-	 UjICQr3vHtcfR/Wg+hJHzhNSGxgHwC06NiPZtL2yx/mwyTpYAXhDC7YxcveKQo54Aq
-	 QzRdHQ5BF+9GgG1o1XjJ3RodG2AgyeVGCjN8nowDbPzpBBV0Nu6ph+ep/uikpEKApU
-	 ZxbkzAM0kDmrgLGJ0Xd8EyYyUIRMU1A6/azEQ+IciUCAxr1zIiXgm+IWjDIiCKnPZv
-	 5LaB+SbisE+rA==
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-60823dd1703so10711657b3.3
-        for <linux-firmware@kernel.org>; Mon, 19 Feb 2024 04:48:40 -0800 (PST)
-X-Gm-Message-State: AOJu0YzGYZ20y7SYUNROmBWc0j1dMuME/IfSjYYNODyyLUPWa6pnqwgU
-	MxevNl/6cgGPpYAaPtZXuRC9+HM8sjQaXDunnNjvB28t/afnA/j2rsxZylrI3PQGR3pLvj6rhoP
-	Kpc0fhNHo9un9Jp7mCH+Jy14yvKk=
-X-Google-Smtp-Source: AGHT+IH9YIWGsafpGPNySokrb7VKe5gxYi4ff/i5WDLrAxRbtdz2ByxMlUuy6MlafMjNmYRwKNHMsmZZEozSDnFK/J4=
-X-Received: by 2002:a81:6d50:0:b0:608:24b4:2591 with SMTP id
- i77-20020a816d50000000b0060824b42591mr4024760ywc.27.1708346919939; Mon, 19
- Feb 2024 04:48:39 -0800 (PST)
+	b=SqrGdPxryRcox0xiiLzCsfYJxck0tUd/T0X3iYtrcMpMJ88XsBAst4foMjjPVuwt9
+	 jSuT5Z/O55PAhSNNzWBocQKUJP/SliDB4qIj1M6kQf/vjCw1svjh+zfiDVSdfui8fp
+	 jxQvkBcLeQLDBbJjne+8N7AgVNtbRNedco8tZEAbyagn+P3RoVimUVAq9QjPxFUYjE
+	 PKF21K5MW+F3Ary/RgvOHJ75W5Y2+/FUfesAnlrudWE55n/NMc2dQfD10eQ38kw0WL
+	 i2AYv93vDzk50epNkqwr4FyBej9RsHKxQOwXqYV2yOdbe59h3MrF4GzBholBCh2VJG
+	 dSWjU0QSZ78Eg==
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-607c5679842so42216497b3.2
+        for <linux-firmware@kernel.org>; Mon, 19 Feb 2024 04:50:21 -0800 (PST)
+X-Gm-Message-State: AOJu0Yx6etDaPt29SFaRdwQPWE785btMXBLJbZu8M1d4sPUGVYvP9K5S
+	2SzpBKWKCnChMZp9/Nn9bbdaqq0+6JeBpeaZAmVTblA/HgBkhcOfLZttnSbtVJb3k1xHQcEoiR8
+	ctMdJPa3XVBs2xIMROBVwByF/gEs=
+X-Google-Smtp-Source: AGHT+IFpAEMEjl3pV4iQ6ZlK0YsrFalN9DbiC9jhQ4jAml5ijD71J4ZuxmevhKpol8q/lgwK3RoSLG+idClnb4fBj+o=
+X-Received: by 2002:a0d:d947:0:b0:604:9cad:8c23 with SMTP id
+ b68-20020a0dd947000000b006049cad8c23mr11838669ywe.11.1708347020793; Mon, 19
+ Feb 2024 04:50:20 -0800 (PST)
 MIME-Version: 1.0
-References: <20240214182340.3220667-1-anthony.l.nguyen@intel.com>
-In-Reply-To: <20240214182340.3220667-1-anthony.l.nguyen@intel.com>
+References: <Zcx8i978Bx7QRSNJ@kekkonen.localdomain>
+In-Reply-To: <Zcx8i978Bx7QRSNJ@kekkonen.localdomain>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 19 Feb 2024 07:48:29 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA4suNZ5Yurexk3KsvCAfHoqxCWCw4PU0Qq5Fq2CaZumdw@mail.gmail.com>
-Message-ID: <CA+5PVA4suNZ5Yurexk3KsvCAfHoqxCWCw4PU0Qq5Fq2CaZumdw@mail.gmail.com>
-Subject: Re: [linux-firmware v1 0/1][pull request] Intel Wired LAN Firmware
- Updates 2024-02-14
-To: Tony Nguyen <anthony.l.nguyen@intel.com>
+Date: Mon, 19 Feb 2024 07:50:10 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA5aYOO5acdfjgcXfqTgBh-ZWwyQuYEE+9oORvVjZhVR+A@mail.gmail.com>
+Message-ID: <CA+5PVA5aYOO5acdfjgcXfqTgBh-ZWwyQuYEE+9oORvVjZhVR+A@mail.gmail.com>
+Subject: Re: [GIT PULL v2] Intel Image Processing Unit 6 firmware
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, przemyslaw.kitszel@intel.com
+Cc: linux-firmware@kernel.org, Bingbu Cao <bingbu.cao@linux.intel.com>, 
+	Hans de Goede <hdegoede@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 14, 2024 at 1:23=E2=80=AFPM Tony Nguyen <anthony.l.nguyen@intel=
-.com> wrote:
+On Wed, Feb 14, 2024 at 3:40=E2=80=AFAM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
 >
-> Update ice DDP to support additional devices.
+> Hi folks,
 >
-> The following changes since commit 98db5411b132623478549d3abdb06e18472412=
-8b:
+> This PR moves Intel IPU firmware files under ipu subdirectory for easier
+> packaging. WHENCE is updated for IPU3 ImgU firmware links.
 >
->   Merge branch 'robot/pr-0-1707900738' into 'main' (2024-02-14 12:28:41 +=
-0000)
+> since v1:
+>
+> - Rebase on the Gitlab repository main branch. The one in git.kernel.org
+>   was not up to date. :-(
+
+There was an issue with the machine doing syncing.  It's been
+resolved.  Apologies for the inconvenience.
+
+> Please pull.
+>
+>
+> The following changes since commit 8acf0a98dbe1606cf696b0ee61bcce7eed5db8=
+0f:
+>
+>   Merge branch 'robot/patch-10-1707787255' into 'main' (2024-02-13 01:31:=
+56 +0000)
 >
 > are available in the Git repository at:
 >
->   git://git.kernel.org/pub/scm/linux/kernel/git/tnguy/firmware.git dev-qu=
-eue
+>   https://git.kernel.org/pub/scm/linux/kernel/git/sailus/linux-firmware.g=
+it tags/ipu6-2024-02-14-2
 
-Pulled and pushed out.
+Merged and pushed out.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/153
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/152
 
 josh
 
 >
-> for you to fetch changes up to 4bbb468986a7df041c90659115d9331b57ac2708:
+> for you to fetch changes up to 08ab13d5d079c90dc21145710a2cc42326562aee:
 >
->   ice: update ice DDP package to 1.3.36.0 (2024-02-14 10:08:22 -0800)
+>   Intel IPU3 ImgU: Move firmware file under intel/ipu (2024-02-14 10:37:5=
+7 +0200)
 >
 > ----------------------------------------------------------------
-> Przemek Kitszel (1):
->       ice: update ice DDP package to 1.3.36.0
+> Move IPU firmware under ipu
 >
->  WHENCE                                             |   4 ++--
->  .../ice/ddp/{ice-1.3.35.0.pkg =3D> ice-1.3.36.0.pkg} | Bin 692776 -> 692=
-776 bytes
->  2 files changed, 2 insertions(+), 2 deletions(-)
->  rename intel/ice/ddp/{ice-1.3.35.0.pkg =3D> ice-1.3.36.0.pkg} (98%)
+> ----------------------------------------------------------------
+> Sakari Ailus (2):
+>       Intel IPU6: Move firmware binaries under ipu/
+>       Intel IPU3 ImgU: Move firmware file under intel/ipu
+>
+>  WHENCE                                                   |  15 ++++++++-=
+------
+>  intel/{ =3D> ipu}/ipu6_fw.bin                              | Bin
+>  intel/{ =3D> ipu}/ipu6ep_fw.bin                            | Bin
+>  intel/{ =3D> ipu}/ipu6epadln_fw.bin                        | Bin
+>  intel/{ =3D> ipu}/ipu6epmtl_fw.bin                         | Bin
+>  intel/{ =3D> ipu}/ipu6se_fw.bin                            | Bin
+>  .../irci_irci_ecr-master_20161208_0213_20170112_1500.bin | Bin
+>  7 files changed, 8 insertions(+), 7 deletions(-)
+>  rename intel/{ =3D> ipu}/ipu6_fw.bin (100%)
+>  rename intel/{ =3D> ipu}/ipu6ep_fw.bin (100%)
+>  rename intel/{ =3D> ipu}/ipu6epadln_fw.bin (100%)
+>  rename intel/{ =3D> ipu}/ipu6epmtl_fw.bin (100%)
+>  rename intel/{ =3D> ipu}/ipu6se_fw.bin (100%)
+>  rename intel/{ =3D> ipu}/irci_irci_ecr-master_20161208_0213_20170112_150=
+0.bin (100%)
+>
+> --
+> Sakari Ailus
