@@ -4,96 +4,192 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22650C48BF8
-	for <linux-firmware@archiver.kernel.org>; Mon, 19 Feb 2024 12:52:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C086C48BF8
+	for <linux-firmware@archiver.kernel.org>; Mon, 19 Feb 2024 12:52:32 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 0CE39C433C7; Mon, 19 Feb 2024 12:52:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBC54C433F1
-	for <linux-firmware@kernel.org>; Mon, 19 Feb 2024 12:52:03 +0000 (UTC)
+	id 85F58C433B2; Mon, 19 Feb 2024 12:52:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 701CCC433F1
+	for <linux-firmware@kernel.org>; Mon, 19 Feb 2024 12:52:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708347124;
-	bh=J87Tu6u2oT2H62KsZ/68VXLsbYfYlPpW8UpwxoYYmT0=;
+	s=k20201202; t=1708347152;
+	bh=rMHHr6NenLL5kbjZ49qFA0fcSK3oKwzc2pf72tvo7MY=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=UaNhpDW0T0SyLhSkH0b0WBd5m7XQHX/Dced68qAhLIAjTLhOD7oZkgEouhoF5vQH5
-	 l377DBZvlJHwaSNVNNy12wM8wSESwIWNkXOcO1hll0MJWmTlnucaaoryoQUY9f5UPX
-	 t1uIVcwIN/tAQPpFIgWhVBYLMjgnmb3xTz2Opuy4fXP9xProJcCgK7kxDio8C9RBCD
-	 5QCPRDxNYjg493dgqtQOfPW8VyaQBc9FyrA/oMCLdBgt+n62BrQSDy4MdzculqSwac
-	 jVoN9DjkWu8TwN93r2xIMVjaxriQGAw5WWztdXfMxKtBwcwmCb6NXDscdc+kmgaxxf
-	 TYUCgRUQJAgKw==
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6080beb19ddso18778577b3.1
-        for <linux-firmware@kernel.org>; Mon, 19 Feb 2024 04:52:03 -0800 (PST)
-X-Gm-Message-State: AOJu0YxdrLNkjp7Q7B1I62baUPWbdHUepdV48Dz6YZxC921LJM/xnwkq
-	81K09/51JyI+/mCa2DznIMKTkCwUAboVF8+yS4Uc/2/ITFJVFy4yzs76g9sBS97PLT76Na+O8vo
-	CemJxUEAz9bq5Rz23szIscwYtwVE=
-X-Google-Smtp-Source: AGHT+IFpzcr7Qll5o6WZfF8q4iC/5AjZURR7ke0LVebxgWvfdjWqQpxMM49cV/az1bQKECcKQ08inthj2Hnb7AAP/BU=
-X-Received: by 2002:a0d:cb89:0:b0:607:c93f:2c2a with SMTP id
- n131-20020a0dcb89000000b00607c93f2c2amr12005271ywd.46.1708347123064; Mon, 19
- Feb 2024 04:52:03 -0800 (PST)
+	b=mCZML2RFOlMNd498QDuOD0n4yKlp9fl3ZVaHZ1vh/tXd/SHEy+TuAiDt9LpfCBXaK
+	 TH+cIRj3O79PYoqFtp+0WhyYJh0GzsrjVBXbeDfwXMy+JIjBfBoo5881xoW8N1isZM
+	 KIlQJJTs8MhFLgdWGlDhjMLLczx4AV0WVz5W5w8ZI4aL3oGx+KO3ETe8paoYUxWNQB
+	 ezEENBP1Tsr3SNGFPsrFlv93uwWJYTU/nrVOQkee8sM8hX1yR2Clhx8poYMKbJpGJF
+	 8jEzW/Ybm5b1D+DsYJ1OJUecSXRyY6fX/V79SMWeh9Wlx8qa+m0OIsY7XrI1rFHG0i
+	 hZ08KKj78kOMg==
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-607eefeea90so28993387b3.1
+        for <linux-firmware@kernel.org>; Mon, 19 Feb 2024 04:52:32 -0800 (PST)
+X-Gm-Message-State: AOJu0Ywh5UzlIMzzoeIiDLUSkQ2QTIawpAoFcjTwjgZpeMbQdT/76czK
+	PgQiyrN6MLfzMON4HQtLAGgNUDy8SdIQ/jXSMPHl948ilVe2Ta9ihUX98BfvPoWGB33sV3FuZBw
+	ytQBDpPSZHp8TYr+am6GjYZ0gcZs=
+X-Google-Smtp-Source: AGHT+IFLKQqfKRsmLAQnCAdxTgFU/0G9SEfsPFubbUmg8DWMY6kAD26sr6EEb3B3GgKxn4jBzfQKqp9VDf8UhoeFRxQ=
+X-Received: by 2002:a81:b641:0:b0:607:7dcf:7a83 with SMTP id
+ h1-20020a81b641000000b006077dcf7a83mr8267056ywk.22.1708347151604; Mon, 19 Feb
+ 2024 04:52:31 -0800 (PST)
 MIME-Version: 1.0
-References: <6688576e-64dd-4638-b8e3-4ef09c84d8de@opensource.cirrus.com>
-In-Reply-To: <6688576e-64dd-4638-b8e3-4ef09c84d8de@opensource.cirrus.com>
+References: <20240202153911.1256524-1-juerg.haefliger@canonical.com>
+In-Reply-To: <20240202153911.1256524-1-juerg.haefliger@canonical.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 19 Feb 2024 07:51:52 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA6BfjW9_Ej++Ba0UjEtWNSyvUpL7SQj78h7EeLknApFPQ@mail.gmail.com>
-Message-ID: <CA+5PVA6BfjW9_Ej++Ba0UjEtWNSyvUpL7SQj78h7EeLknApFPQ@mail.gmail.com>
-Subject: Re: [PULL v1 linux-firmware] Correct issues to CS35L41 firmware and
- tuning for HP laptops
-To: Stefan Binding <sbinding@opensource.cirrus.com>
+Date: Mon, 19 Feb 2024 07:52:20 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA5eXNNawnvR3_zJEkZs_zqd6OHqMsUgVU9-qCwsB6xtbQ@mail.gmail.com>
+Message-ID: <CA+5PVA5eXNNawnvR3_zJEkZs_zqd6OHqMsUgVU9-qCwsB6xtbQ@mail.gmail.com>
+Subject: Re: [PATCH] WHENCE: Clean up section separators
+To: Juerg Haefliger <juerg.haefliger@canonical.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, 
-	"patches@opensource.cirrus.com" <patches@opensource.cirrus.com>
+Cc: linux-firmware@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 2, 2024 at 10:22=E2=80=AFAM Stefan Binding
-<sbinding@opensource.cirrus.com> wrote:
+On Fri, Feb 2, 2024 at 10:39=E2=80=AFAM Juerg Haefliger
+<juerg.haefliger@canonical.com> wrote:
 >
-> We would like to make some corrections to some issues with CS35L41
-> firmware for HP laptops.
-> Patch 1 corrects symlinks for a couple of HP laptops.
-> Patch 2 removes firmware and tuning for a couple of laptops which are
-> not longer required.
+> Remove an erroneous extra separator and make them all the same length.
 >
-> Thanks,
->
-> Stefan
->
-> The following changes since commit 3677750467cb8286c59462e490df23d8462a84=
-f9:
->
->    Merge branch 'robot/patch-0-1706798549' into 'main' (2024-02-01
-> 20:46:31 +0000)
->
-> are available in the Git repository at:
->
->    https://github.com/CirrusLogic/linux-firmware/ hp_fw_fix
+> Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
 
-Pulled and pushed out.
+Applied and pushed out.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/147
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/148
 
 josh
 
+> ---
+>  WHENCE | 22 ++++++++++------------
+>  1 file changed, 10 insertions(+), 12 deletions(-)
 >
-> for you to fetch changes up to 1cf931df1c390227c02594b61edebca6cf77a2f4:
+> diff --git a/WHENCE b/WHENCE
+> index 5e736230d496..6742cf675dfe 100644
+> --- a/WHENCE
+> +++ b/WHENCE
+> @@ -1541,7 +1541,7 @@ Licence: Redistributable. See LICENCE.ralink-firmwa=
+re.txt for details
 >
->    linux-firmware: Remove 2 HP laptops using CS35L41 Audio Firmware
-> (2024-02-02 15:17:12 +0000)
+>  Downloaded from http://www.ralinktech.com/ralink/Home/Support/Linux.html
 >
-> ----------------------------------------------------------------
-> Stefan Binding (2):
->        linux-firmware: Fix filenames for some CS35L41 firmwares for HP
->        linux-firmware: Remove 2 HP laptops using CS35L41 Audio Firmware
+> -------------------------------------------------------------------------=
+---
+> +------------------------------------------------------------------------=
+--
 >
->   WHENCE                                       |  28
-> ++++------------------------
->   cirrus/cs35l41-dsp1-spk-cali-103c8d01-l0.bin | Bin 1888 -> 0 bytes
->   cirrus/cs35l41-dsp1-spk-cali-103c8d01-l1.bin | Bin 1888 -> 0 bytes
->   cirrus/cs35l41-dsp1-spk-prot-103c8d01-l0.bin | Bin 4052 -> 0 bytes
->   cirrus/cs35l41-dsp1-spk-prot-103c8d01-l1.bin | Bin 4052 -> 0 bytes
->   5 files changed, 4 insertions(+), 24 deletions(-)
->   delete mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8d01-l0.bin
->   delete mode 100644 cirrus/cs35l41-dsp1-spk-cali-103c8d01-l1.bin
->   delete mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8d01-l0.bin
->   delete mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8d01-l1.bin
+>  Driver: mt7601u - MediaTek MT7601U Wireless MACs
+>
+> @@ -2580,8 +2580,6 @@ Licence: Redistributable. See LICENSE.amdgpu for de=
+tails.
+>
+>  ------------------------------------------------------------------------=
+--
+>
+> -------------------------------------------------------------------------=
+--
+> -
+>  Driver: amd_pmf - AMD Platform Management Framework TA
+>
+>  File: amdtee/773bd96f-b83f-4d52-b12dc529b13d8543.bin
+> @@ -5497,7 +5495,7 @@ Version: 1.0.07-b370
+>
+>  Licence: Redistributable. See LICENCE.mediatek for details.
+>
+> -------------------------------------------------------------------------=
+---
+> +------------------------------------------------------------------------=
+--
+>
+>  Driver: mt76x2e - MediaTek MT76x2 Wireless MACs
+>
+> @@ -5511,7 +5509,7 @@ Link: mt7662_rom_patch.bin -> mediatek/mt7662_rom_p=
+atch.bin
+>
+>  Licence: Redistributable. See LICENCE.ralink_a_mediatek_company_firmware=
+ for details
+>
+> -------------------------------------------------------------------------=
+---
+> +------------------------------------------------------------------------=
+--
+>
+>  Driver: mt76x2u - MediaTek MT76x2u Wireless MACs
+>
+> @@ -6180,7 +6178,7 @@ Permission is hereby granted for the distribution o=
+f this firmware
+>  as part of Linux or other Open Source operating system kernel,
+>  provided this copyright notice is accompanying it.
+>
+> -------------------------------------------------
+> +------------------------------------------------------------------------=
+--
+>
+>  Driver: prestera - Marvell driver for Prestera family ASIC devices
+>
+> @@ -6192,7 +6190,7 @@ File: mrvl/prestera/mvsw_prestera_fw_arm64-v4.1.img
+>
+>  Licence: Redistributable. See LICENCE.Marvell for details.
+>
+> -------------------------------------------------
+> +------------------------------------------------------------------------=
+--
+>
+>  Driver: lt9611uxc - Lontium DSI to HDMI bridge
+>
+> @@ -6228,7 +6226,7 @@ File: cnm/wave521c_k3_codec_fw.bin
+>
+>  Licence: Redistributable. See LICENCE.cnm for details.
+>
+> -------------------------------------------------------------------------=
+---
+> +------------------------------------------------------------------------=
+--
+>
+>  Driver: rvu_cptpf - Marvell CPT driver
+>
+> @@ -6248,7 +6246,7 @@ Version: v1.21
+>
+>  Licence: Redistributable. See LICENCE.Marvell for details.
+>
+> -------------------------------------------------------------------------=
+---
+> +------------------------------------------------------------------------=
+--
+>
+>  Driver: amphion - Amphion VPU(Video Processing Unit) Codec IP driver
+>
+> @@ -6259,7 +6257,7 @@ Version: 1.3.4
+>
+>  Licence: Redistributable. See LICENSE.amphion_vpu for details
+>
+> -------------------------------------------------------------------------=
+---
+> +------------------------------------------------------------------------=
+--
+>
+>  Driver: cs35l41_hda - CS35l41 ALSA HDA audio driver
+>
+> @@ -7469,7 +7467,7 @@ only in connection with Cirrus Logic hardware produ=
+cts.
+>  Copyright =C2=A9 2022 Cirrus Logic, Inc. and Cirrus Logic International
+>  Semiconductor Ltd. All Rights Reserved.
+>
+> -------------------------------------------------------------------------=
+---
+> +------------------------------------------------------------------------=
+--
+>
+>  Driver: cs42l43 - CS42L43 ALSA audio driver
+>
+> @@ -7483,7 +7481,7 @@ only in connection with Cirrus Logic hardware produ=
+cts.
+>  Copyright =C2=A9 2023 Cirrus Logic, Inc. and Cirrus Logic International
+>  Semiconductor Ltd. All Rights Reserved.
+>
+> -------------------------------------------------------------------------=
+---
+> +------------------------------------------------------------------------=
+--
+>
+>  Driver: mtk-sof - MediaTek Sound Open Firmware driver
+>
+> --
+> 2.40.1
 >
