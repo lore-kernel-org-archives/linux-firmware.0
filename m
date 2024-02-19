@@ -4,112 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0995C48BF8
-	for <linux-firmware@archiver.kernel.org>; Mon, 19 Feb 2024 12:50:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9F41C48BC3
+	for <linux-firmware@archiver.kernel.org>; Mon, 19 Feb 2024 12:51:12 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B8F32C43394; Mon, 19 Feb 2024 12:50:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3190C43399
-	for <linux-firmware@kernel.org>; Mon, 19 Feb 2024 12:50:21 +0000 (UTC)
+	id 6D837C433F1; Mon, 19 Feb 2024 12:51:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5755CC43390;
+	Mon, 19 Feb 2024 12:51:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708347021;
-	bh=wiitRUpEfi6wkcEYZ3w7fn9GolEDShmIbZWQlTiSdzA=;
+	s=k20201202; t=1708347072;
+	bh=+Ht3sH9T/1/41W0JOIQDVtzr2WXmCKlwt+b6CnqwX1U=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=SqrGdPxryRcox0xiiLzCsfYJxck0tUd/T0X3iYtrcMpMJ88XsBAst4foMjjPVuwt9
-	 jSuT5Z/O55PAhSNNzWBocQKUJP/SliDB4qIj1M6kQf/vjCw1svjh+zfiDVSdfui8fp
-	 jxQvkBcLeQLDBbJjne+8N7AgVNtbRNedco8tZEAbyagn+P3RoVimUVAq9QjPxFUYjE
-	 PKF21K5MW+F3Ary/RgvOHJ75W5Y2+/FUfesAnlrudWE55n/NMc2dQfD10eQ38kw0WL
-	 i2AYv93vDzk50epNkqwr4FyBej9RsHKxQOwXqYV2yOdbe59h3MrF4GzBholBCh2VJG
-	 dSWjU0QSZ78Eg==
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-607c5679842so42216497b3.2
-        for <linux-firmware@kernel.org>; Mon, 19 Feb 2024 04:50:21 -0800 (PST)
-X-Gm-Message-State: AOJu0Yx6etDaPt29SFaRdwQPWE785btMXBLJbZu8M1d4sPUGVYvP9K5S
-	2SzpBKWKCnChMZp9/Nn9bbdaqq0+6JeBpeaZAmVTblA/HgBkhcOfLZttnSbtVJb3k1xHQcEoiR8
-	ctMdJPa3XVBs2xIMROBVwByF/gEs=
-X-Google-Smtp-Source: AGHT+IFpAEMEjl3pV4iQ6ZlK0YsrFalN9DbiC9jhQ4jAml5ijD71J4ZuxmevhKpol8q/lgwK3RoSLG+idClnb4fBj+o=
-X-Received: by 2002:a0d:d947:0:b0:604:9cad:8c23 with SMTP id
- b68-20020a0dd947000000b006049cad8c23mr11838669ywe.11.1708347020793; Mon, 19
- Feb 2024 04:50:20 -0800 (PST)
+	b=NME3yU0Apze+yFdb4+lIDyZXoN/XkcTS7Txo+E3lpJvPZ87x8tG4T/3GQ7yKq5ZXJ
+	 xVzbo4i57j3VkW/1RmNUWr8y3x+05wMcYcPMA1uTjg7o7qCwpM0pQDKgMKnaJ36KUv
+	 cTacgxDLPPt9jurzodzQuw3v8KYwSdLghhqYwfUg12bhCLoxsJkmGz0XkfddXx5v6C
+	 8PeuVL4lgl/fgnawArsG3vt5StXfSz2ADA2FYgMKIW1Up5hWfrCLgp0gPSHBiv6BuF
+	 3TBK4AC4ELT468UI/MsY+6E6WchQJ7nJSevDYGO1BMrkuxqSad29H5p49DQaCIKCZb
+	 hjl+ZtoHn1q+g==
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-607fc3e69adso31230987b3.0;
+        Mon, 19 Feb 2024 04:51:12 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXMhOd4/dgrc0x5V4hQDyDo8//OZSmVEDQwlti8Y5URS32Y4OjREaBqbmDUlHlLYdpl3neg+wQe+0ycrNw9bBFSFNQ=
+X-Gm-Message-State: AOJu0YwBXAE5ln9Yaip/H9UvXHxZLYoFa1a11LGvOcya8NV7AwM/yB/E
+	KT/e8GtOWa5QnzV9yfzt4MPhYYyXD1AcA/kPigi6iJ1OJGXBl45JLjy6Ewlkwus+XiH5RiEE7dK
+	ush6QrqdTDsmVOqzGFK+iR7ssuH4=
+X-Google-Smtp-Source: AGHT+IETtx0kx02YwedN54ICDgDuf7r1fpurZ/bpCFbUAOJto5bM5t4A0R9mmtfO+HI/otBIxI6ba2Jea/r72fNsS0o=
+X-Received: by 2002:a81:8706:0:b0:607:dfc7:abd8 with SMTP id
+ x6-20020a818706000000b00607dfc7abd8mr11341239ywf.21.1708347071434; Mon, 19
+ Feb 2024 04:51:11 -0800 (PST)
 MIME-Version: 1.0
-References: <Zcx8i978Bx7QRSNJ@kekkonen.localdomain>
-In-Reply-To: <Zcx8i978Bx7QRSNJ@kekkonen.localdomain>
+References: <20240202144102.1209374-1-juerg.haefliger@canonical.com>
+In-Reply-To: <20240202144102.1209374-1-juerg.haefliger@canonical.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 19 Feb 2024 07:50:10 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA5aYOO5acdfjgcXfqTgBh-ZWwyQuYEE+9oORvVjZhVR+A@mail.gmail.com>
-Message-ID: <CA+5PVA5aYOO5acdfjgcXfqTgBh-ZWwyQuYEE+9oORvVjZhVR+A@mail.gmail.com>
-Subject: Re: [GIT PULL v2] Intel Image Processing Unit 6 firmware
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Date: Mon, 19 Feb 2024 07:51:00 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA6rZ4UjdyWz3q0LfE+VqmqJoRSquqykD2UhgW+Gd8znPQ@mail.gmail.com>
+Message-ID: <CA+5PVA6rZ4UjdyWz3q0LfE+VqmqJoRSquqykD2UhgW+Gd8znPQ@mail.gmail.com>
+Subject: Re: [PATCH] check_whence: Add a check for duplicate link entries
+To: Juerg Haefliger <juerg.haefliger@canonical.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, Bingbu Cao <bingbu.cao@linux.intel.com>, 
-	Hans de Goede <hdegoede@redhat.com>
+Cc: linux-firmware@kernel.org, jwboyer@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 14, 2024 at 3:40=E2=80=AFAM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
+On Fri, Feb 2, 2024 at 9:41=E2=80=AFAM Juerg Haefliger
+<juerg.haefliger@canonical.com> wrote:
 >
-> Hi folks,
+> Verify that there a no duplicate 'Link:' entries in the WHENCE file.
 >
-> This PR moves Intel IPU firmware files under ipu subdirectory for easier
-> packaging. WHENCE is updated for IPU3 ImgU firmware links.
->
-> since v1:
->
-> - Rebase on the Gitlab repository main branch. The one in git.kernel.org
->   was not up to date. :-(
+> Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
 
-There was an issue with the machine doing syncing.  It's been
-resolved.  Apologies for the inconvenience.
+Applied and pushed out.
 
-> Please pull.
->
->
-> The following changes since commit 8acf0a98dbe1606cf696b0ee61bcce7eed5db8=
-0f:
->
->   Merge branch 'robot/patch-10-1707787255' into 'main' (2024-02-13 01:31:=
-56 +0000)
->
-> are available in the Git repository at:
->
->   https://git.kernel.org/pub/scm/linux/kernel/git/sailus/linux-firmware.g=
-it tags/ipu6-2024-02-14-2
-
-Merged and pushed out.
-
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/152
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/146
 
 josh
 
+> ---
+>  check_whence.py | 5 +++++
+>  1 file changed, 5 insertions(+)
 >
-> for you to fetch changes up to 08ab13d5d079c90dc21145710a2cc42326562aee:
+> diff --git a/check_whence.py b/check_whence.py
+> index 4b5471e04a6f..fd74a56a5c5a 100755
+> --- a/check_whence.py
+> +++ b/check_whence.py
+> @@ -70,6 +70,7 @@ def main():
+>      whence_list =3D list(list_whence())
+>      whence_files =3D list(list_whence_files())
+>      links_list =3D list(list_links_list())
+> +    whence_links =3D list(zip(*links_list))[0]
+>      known_files =3D set(name for name in whence_list if not name.endswit=
+h("/")) | set(
+>          [
+>              ".gitignore",
+> @@ -102,6 +103,10 @@ def main():
+>          sys.stderr.write("E: %s listed in WHENCE twice\n" % name)
+>          ret =3D 1
 >
->   Intel IPU3 ImgU: Move firmware file under intel/ipu (2024-02-14 10:37:5=
-7 +0200)
->
-> ----------------------------------------------------------------
-> Move IPU firmware under ipu
->
-> ----------------------------------------------------------------
-> Sakari Ailus (2):
->       Intel IPU6: Move firmware binaries under ipu/
->       Intel IPU3 ImgU: Move firmware file under intel/ipu
->
->  WHENCE                                                   |  15 ++++++++-=
-------
->  intel/{ =3D> ipu}/ipu6_fw.bin                              | Bin
->  intel/{ =3D> ipu}/ipu6ep_fw.bin                            | Bin
->  intel/{ =3D> ipu}/ipu6epadln_fw.bin                        | Bin
->  intel/{ =3D> ipu}/ipu6epmtl_fw.bin                         | Bin
->  intel/{ =3D> ipu}/ipu6se_fw.bin                            | Bin
->  .../irci_irci_ecr-master_20161208_0213_20170112_1500.bin | Bin
->  7 files changed, 8 insertions(+), 7 deletions(-)
->  rename intel/{ =3D> ipu}/ipu6_fw.bin (100%)
->  rename intel/{ =3D> ipu}/ipu6ep_fw.bin (100%)
->  rename intel/{ =3D> ipu}/ipu6epadln_fw.bin (100%)
->  rename intel/{ =3D> ipu}/ipu6epmtl_fw.bin (100%)
->  rename intel/{ =3D> ipu}/ipu6se_fw.bin (100%)
->  rename intel/{ =3D> ipu}/irci_irci_ecr-master_20161208_0213_20170112_150=
-0.bin (100%)
->
+> +    for name in set(link for link in whence_links if whence_links.count(=
+link) > 1):
+> +        sys.stderr.write("E: %s listed in WHENCE twice\n" % name)
+> +        ret =3D 1
+> +
+>      for name in set(link for link in whence_files if os.path.islink(link=
+)):
+>          sys.stderr.write("E: %s listed in WHENCE as File, but is a symli=
+nk\n" % name)
+>          ret =3D 1
 > --
-> Sakari Ailus
+> 2.40.1
+>
