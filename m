@@ -4,68 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A244C54788
-	for <linux-firmware@archiver.kernel.org>; Thu, 22 Feb 2024 13:58:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7598C54791
+	for <linux-firmware@archiver.kernel.org>; Thu, 22 Feb 2024 19:56:55 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 4B1F7C433C7; Thu, 22 Feb 2024 13:58:53 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	id 84AF7C433F1; Thu, 22 Feb 2024 19:56:55 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id EAE76C43394
-	for <linux-firmware@kernel.org>; Thu, 22 Feb 2024 13:58:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org EAE76C43394
+	by smtp.kernel.org (Postfix) with ESMTPS id AD359C433C7
+	for <linux-firmware@kernel.org>; Thu, 22 Feb 2024 19:56:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org AD359C433C7
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708610332; x=1740146332;
+  t=1708631813; x=1740167813;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=Hb6mwgaj7qxUKh5pDLUzl5dsbQpa7yv4lOKhJ02zXsU=;
-  b=aOkucWsV6b1AKBQt8QINydarT5ILOhaT/iHfYtZawhXL9EO91O7pEdkn
-   vbmVPosqeGy6V3v7WGdfj6NplFMEetPfkX7wFtblpjVgySDl6brZmFTkn
-   UCUWsfqlc34c58+mimSZirM2KEWjhwQOEx+VwIgIRSy/CD9XnjoA+xNyN
-   nhfTRwJeeVn/Wf4EEfORmO8a4N++Nqv1HUTqtzy1BxIFrQSKE41P6bG46
-   /axkzlPeGRrdM1h54JpvilYPF1d0KN1zMK2DzpQIZIS8diryDQs0egwlz
-   xBoGqVT0BjRl8e12+exTyuijVEdeFXGEeTiFnkyZJyWv0QnUAipdVYbAa
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="28275102"
-X-IronPort-AV: E=Sophos;i="6.06,177,1705392000"; 
-   d="scan'208";a="28275102"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 05:58:51 -0800
+  bh=S36oj1zNqOvtqoh+zeZsUov4SwAYKn6+VNs9pFFIT+I=;
+  b=dDE7VA68nxAqGbi6lxbAaYYrv/SQOpD22OAVqVzwvHRNNunPVXNjYkMK
+   D0xBlm0HX/Fq6uFYP3k/qGHcQ6Iolrj87RzB6ris5QzAb9UCzZNyhCeX0
+   PkpBuAH8CdQSfhf+sFC08117U9Jrs3TGrmJPlqO9Fe4xQml4vNNm3Y8XR
+   f8mWF5oX00t6zA6G0hdEbnSaEAs3+W2iDPxxliEqScwzMD5od3grbWaaq
+   sHv56zgOzOxoYPA5mgPw6bj13qMJjz8OCC95N+J2i5ZkU4XNSpd81nmr/
+   eX80s4JWTx6/3BllTOXwcJg4Doxk4iu9PiuLWv8MFjvd59svVAGeT9ziQ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="3015207"
+X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
+   d="scan'208";a="3015207"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 11:56:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,177,1705392000"; 
-   d="scan'208";a="36503954"
-Received: from tgv15d-lfw01b-20.inn.intel.com (HELO gjsousa-mobl2.intel.com) ([10.125.20.2])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 05:58:50 -0800
+X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
+   d="scan'208";a="5969349"
+Received: from kdtweet-mobl.amr.corp.intel.com (HELO gjsousa-mobl2.intel.com) ([10.125.144.156])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 11:56:53 -0800
 From: Gustavo Sousa <gustavo.sousa@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Cc: intel-gfx@lists.freedesktop.org
-Subject: PR for MTL DMC v2.21
-Date: Thu, 22 Feb 2024 10:58:34 -0300
-Message-ID: <20240222135834.75378-1-gustavo.sousa@intel.com>
+Cc: intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org
+Subject: PR for Xe2LPD DMC v2.18
+Date: Thu, 22 Feb 2024 16:56:34 -0300
+Message-ID: <20240222195634.291662-1-gustavo.sousa@intel.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The following changes since commit 97b693d243f0bb464819fa3f8326edd4091032e4:
+The following changes since commit 78b99e9ebad8e4e24dded99842f94a8a7db3a5e8:
 
-  Merge branch 'mediatek' into 'main' (2024-02-20 15:13:01 +0000)
+  Merge branch 'robot/pr-0-1708610465' into 'main' (2024-02-22 14:24:47 +0000)
 
 are available in the Git repository at:
 
-  git://anongit.freedesktop.org/drm/drm-firmware mtl_dmc_2.21
+  git://anongit.freedesktop.org/drm/drm-firmware xe2lpd_dmc_2.18
 
-for you to fetch changes up to 98502ba83a6db0e4dc99aa1fa292e48b1dc8d0ce:
+for you to fetch changes up to 94d9a511a605cc0794bbe2d13328143e86df26e9:
 
-  i915: Update MTL DMC v2.21 (2024-02-22 10:51:16 -0300)
+  i915: Add Xe2LPD DMC v2.18 (2024-02-22 16:54:31 -0300)
 
 ----------------------------------------------------------------
 Gustavo Sousa (1):
-      i915: Update MTL DMC v2.21
+      i915: Add Xe2LPD DMC v2.18
 
- WHENCE           |   2 +-
- i915/mtl_dmc.bin | Bin 52476 -> 52476 bytes
- 2 files changed, 1 insertion(+), 1 deletion(-)
+ WHENCE              |   3 +++
+ i915/xe2lpd_dmc.bin | Bin 0 -> 61208 bytes
+ 2 files changed, 3 insertions(+)
+ create mode 100644 i915/xe2lpd_dmc.bin
