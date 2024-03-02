@@ -1,32 +1,32 @@
-Return-Path: <SRS0=E7ZC=KI=georgefwhite.co.uk=evelynjones@kernel.org>
+Return-Path: <SRS0=ij+6=KI=hardistyandco.com=chloe@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AEF70C54798
-	for <linux-firmware@archiver.kernel.org>; Sat,  2 Mar 2024 11:16:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3FCD5C54798
+	for <linux-firmware@archiver.kernel.org>; Sat,  2 Mar 2024 14:30:57 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 6628AC433F1; Sat,  2 Mar 2024 11:16:33 +0000 (UTC)
-Received: from georgefwhite.co.uk (unknown [147.124.212.205])
-	by smtp.kernel.org (Postfix) with ESMTP id 55FD2C433C7
-	for <linux-firmware@kernel.org>; Sat,  2 Mar 2024 11:16:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 55FD2C433C7
-Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=georgefwhite.co.uk
-Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=georgefwhite.co.uk
+	id 0701CC433C7; Sat,  2 Mar 2024 14:30:57 +0000 (UTC)
+Received: from hardistyandco.com (unknown [147.124.212.205])
+	by smtp.kernel.org (Postfix) with ESMTP id BAFDEC433F1
+	for <linux-firmware@kernel.org>; Sat,  2 Mar 2024 14:30:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org BAFDEC433F1
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=hardistyandco.com
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=hardistyandco.com
 Reply-To: abdispj@outlook.es
-From: Ashok Makanj<evelynjones@georgefwhite.co.uk>
+From: Ashok Makanj<chloe@hardistyandco.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Subject: Kindly quote best prices
-Date: 2 Mar 2024 03:16:29 -0800
-Message-ID: <20240302031629.198DD8CAAD597AAF@georgefwhite.co.uk>
+Subject: Request for qoute
+Date: 2 Mar 2024 06:30:50 -0800
+Message-ID: <20240302063049.CC3A77B466AFD733@hardistyandco.com>
 MIME-Version: 1.0
 Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0012_BA33ED70.6CDA1E3A"
+	boundary="----=_NextPart_000_0012_61D93F77.94F401B7"
 
 
-------=_NextPart_000_0012_BA33ED70.6CDA1E3A
+------=_NextPart_000_0012_61D93F77.94F401B7
 Content-Type: text/plain;
 	charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
@@ -36,7 +36,7 @@ Hi,
 For a quick and urgent task, could you share your WhatsApp number=20
 with me?
 
-------=_NextPart_000_0012_BA33ED70.6CDA1E3A
+------=_NextPart_000_0012_61D93F77.94F401B7
 Content-Type: text/html
 Content-Transfer-Encoding: quoted-printable
 
@@ -102,4 +102,4 @@ INC.</span></div><p>
 
 
 </body></html>
-------=_NextPart_000_0012_BA33ED70.6CDA1E3A--
+------=_NextPart_000_0012_61D93F77.94F401B7--
