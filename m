@@ -1,107 +1,94 @@
-Return-Path: <SRS0=ewID=KL=opensource.cirrus.com=prvs=0794717e92=sbinding@kernel.org>
+Return-Path: <SRS0=3jco=KM=quicklyemailsend77.com=info@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C5B3C54E41
-	for <linux-firmware@archiver.kernel.org>; Tue,  5 Mar 2024 14:11:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2D92C5475B
+	for <linux-firmware@archiver.kernel.org>; Wed,  6 Mar 2024 06:24:01 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 029D9C43390; Tue,  5 Mar 2024 14:11:02 +0000 (UTC)
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	id 8B8EDC43390; Wed,  6 Mar 2024 06:24:01 +0000 (UTC)
+Received: from quicklyemailsend77.com (quicklyemailsend77.com [57.128.172.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id B0D58C433C7
-	for <linux-firmware@kernel.org>; Tue,  5 Mar 2024 14:11:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org B0D58C433C7
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4254qdXM002030
-	for <linux-firmware@kernel.org>; Tue, 5 Mar 2024 08:10:59 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	message-id:date:mime-version:to:cc:from:subject:content-type
-	:content-transfer-encoding; s=PODMain02222019; bh=Bp2QhXcpAX74hY
-	DUT1unXHKb5PMphk66FNSchFfZl4o=; b=MpHVnK1dn/wBi+eSr7nIKP8MJAb1z7
-	qXZqcLLgsvK7CAu7FCqLlgQycALxhIlZyoi6q6/q+KNbmbrQEMOK+zF4xxiottFO
-	nfujTGUYGzhOuinuaBJuLs7ImJKZkN8qaPTTpRi5tbKTzFBpg2z2B/dWKYwCgpCV
-	jjzN1WlbASjJY5gBOyloq2kxEtJN/+Kr6qZEmXtNT7F7s/p8YEXfLJPoeXfGJmX9
-	n3KG0OrVCiC9z9pBuUEsepnyep5IVIgQCNwkwSewxUukIgSeiCYKiSj/6nuBw5dk
-	gxGZP5wL6kmNArGvP2+WscJYffPjCmu3DpCulVYwKJZwxRrgVdnmDlsg==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3wm1dpb9up-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-firmware@kernel.org>; Tue, 05 Mar 2024 08:10:59 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Tue, 5 Mar 2024
- 14:10:53 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4
- via Frontend Transport; Tue, 5 Mar 2024 14:10:52 +0000
-Received: from [198.61.64.84] (LONN2DGDQ73.ad.cirrus.com [198.61.64.84])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 71238820246;
-	Tue,  5 Mar 2024 14:10:47 +0000 (UTC)
-Message-ID: <f4d7b131-b62f-4bbd-ab03-946fcba36f51@opensource.cirrus.com>
-Date: Tue, 5 Mar 2024 14:10:47 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-GB
+	by smtp.kernel.org (Postfix) with ESMTPS id 89F56C433C7
+	for <linux-firmware@kernel.org>; Wed,  6 Mar 2024 06:24:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 89F56C433C7
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=quicklyemailsend77.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicklyemailsend77.com
+Received: from quicklyemailsend77.com (unknown [185.255.114.95])
+	by quicklyemailsend77.com (Postfix) with ESMTPA id B87F5397796
+	for <linux-firmware@kernel.org>; Wed,  6 Mar 2024 03:51:42 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 quicklyemailsend77.com B87F5397796
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=quicklyemailsend77.com; s=default; t=1709697103;
+	bh=eefLZdwY5mr6nwq86b3d+rtsxGUHJntuGmXl+R35AcQ=;
+	h=Reply-To:From:To:Subject:Date:From;
+	b=JdNvsPNfRylUXlhWcps2XxJzyd4HVOg+LTSQLsbMXoOTIQbzg+dQ/IPq1VzoP5ix5
+	 cXL/d9n2OlCPGQ8FeDFtMZkVTaLN0PABKFCVhWexZlIoOf+P+HZzJdhyknPe6BQK0d
+	 8qNfaqzU2p6UHaCwE6gFhtbA3xto3XZBC2BVBwzP7O3+gRiBsVEhBRG+AEdaAzxaZi
+	 wVWgTEluIZYzB7eayByQBLfm+VvvcyR7ouEWYX+sfkf6MIiTqimO+FE0eq7m1exzBU
+	 qalHloEapOUzyRM2xZmF6olUQvFnnvWBz46t0LYn5PuYiSvoMH1ealFfQduGv0Qzjd
+	 Lqiw4q+pKeqRw==
+Reply-To: joakimlarson@skendiaelevator.com
+From: info@quicklyemailsend77.com
 List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-CC: "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-Subject: [PULL v1 linux-firmware] Add firmware for Cirrus Smart Amp CS35L41
- for Thinkbook 16P laptops.
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: tjZtEwxrDGcfiJzGWVubnObKWjF2ynzC
-X-Proofpoint-GUID: tjZtEwxrDGcfiJzGWVubnObKWjF2ynzC
-X-Proofpoint-Spam-Reason: safe
+To: linux-firmware@kernel.org
+Subject: =?UTF-8?B?7YyQ66ekIOusuOydmCAyMDI0?=
+Date: 05 Mar 2024 19:51:42 -0800
+Message-ID: <20240305195142.84C65C4107D36DE7@quicklyemailsend77.com>
+MIME-Version: 1.0
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-We would like to add firmware files to support Cirrus Logic Smart Amp 
-CS35L41 for Lenovo Thinkbook 16P laptops.
 
-Thanks,
+=EC=95=88=EB=85=95=ED=95=98=EC=84=B8=EC=9A=94
+=20
+=EC=8A=A4=EC=9B=A8=EB=8D=B4 =EC=8A=A4=EC=B9=B8=EB=94=94=EC=95=84 =EC=97=98=
+=EB=A0=88=EB=B0=94=ED=86=A0(Skandia Elevato)=EC=97=90=EC=84=9C =EC=98=A8 =
+=EC=9A=94=EC=95=84=ED=82=B4 =EB=9D=BC=EB=A5=B4=EC=86=90(JOAKIM LARSSON) .
+=20
+=EC=9A=B0=EB=A6=AC=EB=8A=94 =EA=B8=B4=EA=B8=89=ED=95=98=EA=B2=8C =EA=B7=80=
+=ED=95=98=EC=9D=98 =EC=A0=9C=ED=92=88=EC=9D=84 =ED=95=84=EC=9A=94=EB=A1=9C =
+=ED=95=98=EB=A9=B0 =EA=B0=80=EB=8A=A5=ED=95=9C =ED=95=9C =EB=B9=A8=EB=A6=AC=
+ =EC=8B=9C=ED=97=98 =EC=A3=BC=EB=AC=B8=EC=9D=84 =ED=95=98=EA=B3=A0 =EC=8B=
+=B6=EC=8A=B5=EB=8B=88=EB=8B=A4. 
+=20
+=EC=98=A8=EB=9D=BC=EC=9D=B8=EC=9C=BC=EB=A1=9C =EC=A0=9C=ED=92=88=EC=97=90 =
+=EB=8C=80=ED=95=9C =EC=A0=95=EB=B3=B4=EB=A5=BC =EC=88=98=EC=A7=91=ED=95=98=
+=EA=B3=A0 =EC=9E=88=EC=8A=B5=EB=8B=88=EB=8B=A4. 
+=20
+=EA=B7=B8=EB=A6=AC=EA=B3=A0 =EB=82=B4 =EB=AA=A8=EC=9E=84=EC=97=90=EC=84=9C =
+=EB=82=98=EB=8A=94 =EC=9A=B0=EB=A6=AC=EA=B0=80 =EB=8B=B9=EC=8B=A0=EC=9D=98 =
+=EC=A0=9C=ED=92=88=EC=9D=84 =EC=A3=BC=EB=AC=B8=ED=95=A0 =EA=B2=83=EC=9D=B4=
+=EB=9D=BC=EA=B3=A0 =EC=83=9D=EA=B0=81=ED=95=A9=EB=8B=88=EB=8B=A4.
+=20
+1. =EC=B5=9C=EC=8B=A0 Catalouge=EB=A5=BC =EB=B3=B4=EB=82=BC =EC=88=98 =EC=
+=9E=88=EC=8A=B5=EB=8B=88=EA=B9=8C?
+=20
+2. =EC=9A=B0=EB=A6=AC=EA=B0=80 =EC=A3=BC=EB=AC=B8=ED=95=A0 =EC=88=98 =EC=9E=
+=88=EB=8A=94 =EC=B5=9C=EC=86=8C=ED=95=9C=EC=9D=80 =EB=AC=B4=EC=97=87=EC=9D=
+=B4=EA=B3=A0 =EB=98=90=ED=95=9C =EA=B8=B0=EA=B0=84=EC=9D=84 =EB=B3=B4=EB=82=
+=B4=EC=8B=AD=EC=8B=9C=EC=98=A4=20
+=EB=B0=8F =EC=A1=B0=EA=B1=B4.
+3. =EC=9A=B0=EB=A6=AC=EA=B0=80 =EC=A3=BC=EB=AC=B8=ED=95=98=EB=8A=94 =EA=B2=
+=BD=EC=9A=B0 =EC=A7=80=EB=B6=88=EC=9D=84 =EC=96=B4=EB=96=BB=EA=B2=8C =ED=95=
+=B4=EA=B2=B0=ED=95=98=EA=B8=B0=EB=A5=BC =EC=9B=90=ED=95=98=EC=8B=AD=EB=8B=
+=88=EA=B9=8C?
+=20
+=EA=B7=80=ED=95=98=EC=9D=98 =ED=9A=8C=EC=8B=A0 =EB=8C=80=EA=B8=B0 =EC=A4=91=
 
-Stefan Binding
 
-The following changes since commit 5cd471e3de782d1d5ae9e96909a08d264d866842:
+Mr Joakim larssonv(=EB=B6=80=EC=82=AC=EC=9E=A5/=EC=98=81=EC=97=85 =EA=B4=80=
+=EB=A6=AC=EC=9E=90)
 
-   Merge branch 'amd-staging' into 'main' (2024-02-29 16:44:55 +0000)
+=EB=B0=A9=EB=AC=B8=EC=9E=90 =EC=A3=BC=EC=86=8C: Kedumsv=C3=A4gen 14, SE-534=
+ 94 Vara, Sweden
 
-are available in the Git repository at:
+=EB=B0=B0=EC=86=A1 =EC=A3=BC=EC=86=8C: Industriv=C3=A4gen, SE-534 94 Vara, =
+Sweden
 
-   https://github.com/CirrusLogic/linux-firmware/ thinkbook16p
-
-for you to fetch changes up to 81ee899e6d79a8c7a052591f9ec44974b29d0876:
-
-   linux-firmware: Add CS35L41 HDA Firmware for Lenovo Thinkbook 16P 
-Laptops (2024-03-05 13:13:45 +0000)
-
-----------------------------------------------------------------
-Stefan Binding (1):
-       linux-firmware: Add CS35L41 HDA Firmware for Lenovo Thinkbook 16P 
-Laptops
-
-  WHENCE                                              |  20 
-++++++++++++++++++++
-  cirrus/cs35l41-dsp1-spk-cali-17aa38a9-spkid0-l0.bin | Bin 0 -> 1560 bytes
-  cirrus/cs35l41-dsp1-spk-cali-17aa38a9-spkid0-r0.bin | Bin 0 -> 1560 bytes
-  cirrus/cs35l41-dsp1-spk-cali-17aa38ab-spkid0-l0.bin | Bin 0 -> 1560 bytes
-  cirrus/cs35l41-dsp1-spk-cali-17aa38ab-spkid0-r0.bin | Bin 0 -> 1556 bytes
-  cirrus/cs35l41-dsp1-spk-prot-17aa38a9-spkid0-l0.bin | Bin 0 -> 5544 bytes
-  cirrus/cs35l41-dsp1-spk-prot-17aa38a9-spkid0-r0.bin | Bin 0 -> 5544 bytes
-  cirrus/cs35l41-dsp1-spk-prot-17aa38ab-spkid0-l0.bin | Bin 0 -> 5496 bytes
-  cirrus/cs35l41-dsp1-spk-prot-17aa38ab-spkid0-r0.bin | Bin 0 -> 5496 bytes
-  9 files changed, 20 insertions(+)
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-17aa38a9-spkid0-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-17aa38a9-spkid0-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-17aa38ab-spkid0-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-17aa38ab-spkid0-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa38a9-spkid0-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa38a9-spkid0-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa38ab-spkid0-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa38ab-spkid0-r0.bin
+joakimlarson@skendiaelevator.com
+https://skandiaelevator.com
 
