@@ -1,230 +1,81 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=Vin6=K3=realtek.com=pkshih@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B893C54E71
-	for <linux-firmware@archiver.kernel.org>; Tue, 19 Mar 2024 19:08:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AFF49C54E58
+	for <linux-firmware@archiver.kernel.org>; Thu, 21 Mar 2024 03:23:39 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 1A070C433C7; Tue, 19 Mar 2024 19:08:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0329AC433F1
-	for <linux-firmware@kernel.org>; Tue, 19 Mar 2024 19:08:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710875283;
-	bh=FvH+wpwA2925Tws99mG2ihauatLLz84xSTodrVWSkhw=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=Zd9fgl6m0MM0ke+hBVtiTzHy+KO+5ZOgJAc3KI9Tkahq7yajFMsxk5Tp9AOwLmxbo
-	 KzMedYuhXc7bO0rGEEUyJqZPFmkYK+6m4Muc/DY9EJRCE5V89GQ96DuyfSfF9HYc5+
-	 YRpCXXkPJXY0jxWmXEoXB+G5VzlOKO69CQUJQKuIX9plixZyouaeejRunxGzRMeS3D
-	 PKyHrfGxwjY7IfRCoNQAUYSYWACFZW19nMeWqdzBrRNOPFuMnuU1ftbclc1nkADJzh
-	 sCTim4xY23pCy+0Rd6DRjBUj/qnZ5GRrRJ92MAG5yuCyM3++gwpcKKG78W/2y0VQ6q
-	 R8nxkjx3TLmsA==
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dbed179f0faso139145276.1
-        for <linux-firmware@kernel.org>; Tue, 19 Mar 2024 12:08:02 -0700 (PDT)
-X-Gm-Message-State: AOJu0YwvXjPQPZM+fYyudFaBLVXy7NvSoR0i74AIdErZwMf9x8HxhkK+
-	Xt4Av/6KiegEq1rpPg1WNBmrZhKA5U1xuCcgY+6VMS/LZ/y8UoarNx/I3W0eNOYuXk12py5E4nX
-	OSdcHMlHx3HRuzBxrQt/K5o33oJI=
-X-Google-Smtp-Source: AGHT+IE+jRSC78MwnlnoqvWBqtkI3iT/1s3/m8d2b0GR86UlXTMxpzN7Rbtr01k1y+TNiTBTkxGc7jjFTBE2RhW4thY=
-X-Received: by 2002:a25:ef0f:0:b0:dd9:3ac0:5414 with SMTP id
- g15-20020a25ef0f000000b00dd93ac05414mr1941430ybd.7.1710875282123; Tue, 19 Mar
- 2024 12:08:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <000c01da7a0e$eb0e6190$c12b24b0$@opensource.cirrus.com>
-In-Reply-To: <000c01da7a0e$eb0e6190$c12b24b0$@opensource.cirrus.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Tue, 19 Mar 2024 15:07:51 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA4Skibrn8etfwVZPpF2fcfABQtHA_2585u3q9HQRW7w7w@mail.gmail.com>
-Message-ID: <CA+5PVA4Skibrn8etfwVZPpF2fcfABQtHA_2585u3q9HQRW7w7w@mail.gmail.com>
-Subject: Re: [PULL v1 linux-firmware] Add CS35L56 firmware for DELL XPS laptops
-To: Simon Trimmer <simont@opensource.cirrus.com>
+	id 87483C43390; Thu, 21 Mar 2024 03:23:39 +0000 (UTC)
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id E7E39C433F1
+	for <linux-firmware@kernel.org>; Thu, 21 Mar 2024 03:23:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org E7E39C433F1
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 42L3NMUw8854128, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/2.95/5.92) with ESMTPS id 42L3NMUw8854128
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 21 Mar 2024 11:23:22 +0800
+Received: from RTEXDAG02.realtek.com.tw (172.21.6.101) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Thu, 21 Mar 2024 11:23:23 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXDAG02.realtek.com.tw (172.21.6.101) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Thu, 21 Mar 2024 11:23:22 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::4c42:f80:bcc2:d00f]) by
+ RTEXMBS04.realtek.com.tw ([fe80::4c42:f80:bcc2:d00f%5]) with mapi id
+ 15.01.2507.035; Thu, 21 Mar 2024 11:23:22 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, patches@opensource.cirrus.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+CC: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        Timlee
+	<timlee@realtek.com>,
+        "fiona.klute@gmx.de" <fiona.klute@gmx.de>
+Subject: pull request: rtw: update/add firmware of Realtek WiFi 8703B, 8852C and 8922A
+Thread-Topic: pull request: rtw: update/add firmware of Realtek WiFi 8703B,
+ 8852C and 8922A
+Thread-Index: AQHaez8gfXswwKPojk2NYPBw/+RTQg==
+Date: Thu, 21 Mar 2024 03:23:22 +0000
+Message-ID: <063c9937acb36ccf352056d212a9a2733abb9dd5.camel@realtek.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+user-agent: Evolution 3.36.1-2 
+x-originating-ip: [172.21.69.94]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <276027C930F13F42896FC5AA023AC95F@realtek.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 
-On Tue, Mar 19, 2024 at 11:05=E2=80=AFAM Simon Trimmer
-<simont@opensource.cirrus.com> wrote:
->
-> We would like to add firmware files to support Cirrus Logic Smart Amp
->
-> CS35L56 for Dell XPS laptops
->
->
->
-> Thanks,
->
->  -Simon
->
->
->
-> The following changes since commit 37d26b9bbd46c656f9f56badb460b4886ecabd=
-c7:
->
->
->
->   Merge branch 'tsse_fw' into 'main' (2024-03-19 12:08:19 +0000)
->
->
->
-> are available in the Git repository at:
->
->
->
->   https://github.com/CirrusLogic/linux-firmware/ cs35l56
-
-Merged and pushed out.
-
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/181
-
-josh
-
->
->
->
-> for you to fetch changes up to 57077702373e7ef40f0ca197724428d614bd92f8:
->
->
->
->   linux-firmware: Add firmware for Cirrus CS35L56 for Dell laptops (2024-=
-03-19 15:00:16 +0000)
->
->
->
-> ----------------------------------------------------------------
->
-> Simon Trimmer (1):
->
->       linux-firmware: Add firmware for Cirrus CS35L56 for Dell laptops
->
->
->
-> WHENCE                                               |  44 ++++++++++++++=
-++++++++++++++++++++++++++++++
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c62-spkid0-amp1.bin | Bin 0 -> 11204 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c62-spkid0-amp2.bin | Bin 0 -> 11192 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c62-spkid0-amp3.bin | Bin 0 -> 11204 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c62-spkid0-amp4.bin | Bin 0 -> 11192 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c62-spkid1-amp1.bin | Bin 0 -> 11196 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c62-spkid1-amp2.bin | Bin 0 -> 11184 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c62-spkid1-amp3.bin | Bin 0 -> 11196 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c62-spkid1-amp4.bin | Bin 0 -> 11184 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c63-spkid0-amp1.bin | Bin 0 -> 11208 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c63-spkid0-amp2.bin | Bin 0 -> 11192 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c63-spkid0-amp3.bin | Bin 0 -> 11208 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c63-spkid0-amp4.bin | Bin 0 -> 11192 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c63-spkid1-amp1.bin | Bin 0 -> 11200 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c63-spkid1-amp2.bin | Bin 0 -> 11184 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c63-spkid1-amp3.bin | Bin 0 -> 11200 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c63-spkid1-amp4.bin | Bin 0 -> 11184 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c6b-spkid0-amp1.bin | Bin 0 -> 11180 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c6b-spkid0-amp2.bin | Bin 0 -> 11180 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c6b-spkid0-amp3.bin | Bin 0 -> 11180 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c6b-spkid0-amp4.bin | Bin 0 -> 11180 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c6b-spkid1-amp1.bin | Bin 0 -> 11188 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c6b-spkid1-amp2.bin | Bin 0 -> 11184 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c6b-spkid1-amp3.bin | Bin 0 -> 11188 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280c6b-spkid1-amp4.bin | Bin 0 -> 11184 byt=
-es
->
-> cirrus/cs35l56/CS35L56_Rev3.11.11.wmfw               | Bin 0 -> 30516 byt=
-es
->
-> 26 files changed, 44 insertions(+)
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c62-spkid0-amp1.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c62-spkid0-amp2.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c62-spkid0-amp3.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c62-spkid0-amp4.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c62-spkid1-amp1.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c62-spkid1-amp2.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c62-spkid1-amp3.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c62-spkid1-amp4.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c63-spkid0-amp1.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c63-spkid0-amp2.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c63-spkid0-amp3.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c63-spkid0-amp4.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c63-spkid1-amp1.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c63-spkid1-amp2.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c63-spkid1-amp3.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c63-spkid1-amp4.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c6b-spkid0-amp1.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c6b-spkid0-amp2.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c6b-spkid0-amp3.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c6b-spkid0-amp4.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c6b-spkid1-amp1.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c6b-spkid1-amp2.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c6b-spkid1-amp3.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280c6b-spkid1-amp4.bin
->
-> create mode 100644 cirrus/cs35l56/CS35L56_Rev3.11.11.wmfw
+SGksDQoNCkFkZC91cGRhdGUgdGhyZWUgZmlybXdhcmUgaW5jbHVkaW5nIA0KDQogLSBhZGQgaW5p
+dGlhbCBmaXJtd2FyZSB2MTEuMC4wIGZvciA4NzAzDQogLSB1cGRhdGUgODg1MkMgdG8gdjAuMjcu
+NTYuMTQNCiAtIGFkZCBpbml0aWFsIGZpcm13YXJlIHYwLjM1LjE4LjAgZm9yIDg5MjJBDQoNClRo
+YW5rIHlvdQ0KUGluZy1LZQ0KDQotLS0NClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21t
+aXQgMjJlZTFkOGNhNjY2M2NhN2MyODQ3NzU4MTk5M2Q2ZWQ1Y2M1NDMyMzoNCg0KICBNZXJnZSBi
+cmFuY2ggJ3JvYm90L3ByLTAtMTcxMDg2MTE2NCcgaW50byAnbWFpbicgKDIwMjQtMDMtMTkgMTk6
+MDc6MTQgKzAwMDApDQoNCmFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0Og0K
+DQogIGh0dHBzOi8vZ2l0aHViLmNvbS9wa3NoaWgvbGludXgtZmlybXdhcmUuZ2l0IEhFQUQNCg0K
+Zm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRvIDA4MjU5ZTdmMTdmNTUzZDVmOTg1YTUzMGY4
+MjVhYzhhZDZmNDg0NTA6DQoNCiAgcnR3ODk6IDg4NTJjOiB1cGRhdGUgZncgdG8gdjAuMjcuNTYu
+MTQgKDIwMjQtMDMtMjEgMTE6MDI6MzIgKzA4MDApDQoNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCkNoaW4tWWVuIExlZSAo
+MSk6DQogICAgICBydHc4OTogODg1MmM6IHVwZGF0ZSBmdyB0byB2MC4yNy41Ni4xNA0KDQpGaW9u
+YSBLbHV0ZSAoMSk6DQogICAgICBydHc4ODogQWRkIFJUTDg3MDNCIGZpcm13YXJlIHYxMS4wLjAN
+Cg0KUGluZy1LZSBTaGloICgxKToNCiAgICAgIHJ0dzg5OiA4OTIyYTogYWRkIGZpcm13YXJlIHYw
+LjM1LjE4LjANCg0KIFdIRU5DRSAgICAgICAgICAgICAgICAgICAgfCAgMTIgKysrKysrKysrLS0t
+DQogcnR3ODgvUkVBRE1FICAgICAgICAgICAgICB8ICAgMyArKysNCiBydHc4OC9ydHc4NzAzYl9m
+dy5iaW4gICAgIHwgQmluIDAgLT4gMjAyOTAgYnl0ZXMNCiBydHc4OC9ydHc4NzAzYl93b3dfZncu
+YmluIHwgQmluIDAgLT4gMjMwNzQgYnl0ZXMNCiBydHc4OS9ydHc4ODUyY19mdy5iaW4gICAgIHwg
+QmluIDE1MzI3MzYgLT4gMTUzMjY1NiBieXRlcw0KIHJ0dzg5L3J0dzg5MjJhX2Z3LmJpbiAgICAg
+fCBCaW4gMCAtPiAxNTM3NjkwIGJ5dGVzDQogNiBmaWxlcyBjaGFuZ2VkLCAxMiBpbnNlcnRpb25z
+KCspLCAzIGRlbGV0aW9ucygtKQ0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBydHc4OC9ydHc4NzAzYl9m
+dy5iaW4NCiBjcmVhdGUgbW9kZSAxMDA2NDQgcnR3ODgvcnR3ODcwM2Jfd293X2Z3LmJpbg0KIGNy
+ZWF0ZSBtb2RlIDEwMDY0NCBydHc4OS9ydHc4OTIyYV9mdy5iaW4NCg0K
