@@ -1,160 +1,93 @@
-Return-Path: <SRS0=9mKQ=K4=mediatek.com=hailong.fan@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0F4FC47DD9
-	for <linux-firmware@archiver.kernel.org>; Fri, 22 Mar 2024 09:32:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0DC51C54E71
+	for <linux-firmware@archiver.kernel.org>; Fri, 22 Mar 2024 13:39:45 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id BF105C43390; Fri, 22 Mar 2024 09:32:52 +0000 (UTC)
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 47BC0C433F1
-	for <linux-firmware@kernel.org>; Fri, 22 Mar 2024 09:32:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 47BC0C433F1
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 212f1092e82f11ee935d6952f98a51a9-20240322
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:Message-ID:Date:Subject:CC:To:From; bh=JEwsIZ4FtzO7lBJKqWPP+qtMC6OufNSx3Qb+n3cDFlw=;
-	b=CkYLfWE/3ko8cV4QIPlhH+fE1j3OanR8SiCO9JR1vlW35+dGebDUjWYNn5EkiCqp3N6UsBuUu1L3xC+4zGnIBQJkKuUfLyH/YinZA32Q3GfBKiNmO33vb6Cmu0/GaJ4VCWYf2x0VuySq/ov72874umwZHyDHiJWpsg7GC2E9aQQ=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.37,REQID:e28bd78b-b0e4-47ee-9839-05c3ab64bc1f,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:2,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-3
-X-CID-META: VersionHash:6f543d0,CLOUDID:de55cf81-4f93-4875-95e7-8c66ea833d57,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-UUID: 212f1092e82f11ee935d6952f98a51a9-20240322
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw02.mediatek.com
-	(envelope-from <hailong.fan@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 642424522; Fri, 22 Mar 2024 17:32:41 +0800
-Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 22 Mar 2024 17:32:40 +0800
-Received: from HK3PR03CU002.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Fri, 22 Mar 2024 17:32:40 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kAnNRmeRtLXOVawB9JZ+flG6UhrFa5MViDWUp/Taye/RT/tIyA03ocpc+0UtYofijjz967bAYVd3lx+ASTKjSQ96dtzhDUoNu7RuvDmod3/2KWsT6h4gj7Tgi+6ShyRyS0ZDJBHjrDz359Cv/imv7Jm/o5adRowjwiCuchSbsVJiBzqxSt7GoFTANH2fnFPK2QT3yXYPDCyDS0kkwaVFGbLJcJ7/MbF1FtuEgZRhcPX1oIuJZrFVrd7L9nhFoSffm3LvrqkOQKJUCLoBOZriC76MtWBzQg0d2Kkx4SMqbG/yOmSNx+4WXTXqUCiyPn7fbSd+aV5UtxD3lr/SvK8xyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JEwsIZ4FtzO7lBJKqWPP+qtMC6OufNSx3Qb+n3cDFlw=;
- b=eEYP4gIPsKlvcPJHQlEm1EgntfSVsYmzErYBlXBhz6JX4FbpqnWX8X9zj/UPHVQfh+Qt6zR0yv48CDIZ9Znjye5SzvBltV7MdpBwXnTHMqoNmyGaOOSU4J6Jn59UZ48+bOKiMs2NsyAdVsb64L4thcAoLJSgbtqJ3mSaHG89bEE89x6sZ/zWXO2t/bdNwPux8ogME/HMorDpqylbAH0/slG8O0QBcz8b33eHCA+bC+4SLBOxoEzgOfWh09d/KPE00CALQSku9Z6vvyxXFZ7jyi2C/OpNZJ5xomYgXdBHP+NhrTRUwPp+8vIdsDj9rrhQSC+tuWdu4Lm93idcqXqvLg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JEwsIZ4FtzO7lBJKqWPP+qtMC6OufNSx3Qb+n3cDFlw=;
- b=U+iAC8lEUxA6oWoPqY9u2u3QOEsBZJL03huJLXphDjzkt9UpzwCLSef+Y4rYugXYyiBaUDA7BReAthR+VHwymuvY+Um8KIoorhu+qxI7gHqUNaZvrIvI3D3O2U9x4I/usME+4zOH2ZsM9ZpNmpfWuvxgmJ0RJq39rrP2q89CKvU=
-Received: from KL1PR03MB6002.apcprd03.prod.outlook.com (2603:1096:820:8f::5)
- by JH0PR03MB8693.apcprd03.prod.outlook.com (2603:1096:990:9d::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.27; Fri, 22 Mar
- 2024 09:32:38 +0000
-Received: from KL1PR03MB6002.apcprd03.prod.outlook.com
- ([fe80::aa3e:806f:ea70:5a19]) by KL1PR03MB6002.apcprd03.prod.outlook.com
- ([fe80::aa3e:806f:ea70:5a19%3]) with mapi id 15.20.7409.023; Fri, 22 Mar 2024
- 09:32:38 +0000
-From: =?utf-8?B?SGFpbG9uZyBGYW4gKOiMg+a1t+m+mSk=?= <Hailong.Fan@mediatek.com>
-List-Id: <linux-firmware.lore.kernel.org>
-To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-CC: "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>
-Subject: [PULL] mediatek: Update mt8186 SOF firmware to v2.0.1
-Thread-Topic: [PULL] mediatek: Update mt8186 SOF firmware to v2.0.1
-Thread-Index: AQHafDvhHITeIugkOU6RWTvbA6fbvA==
-Date: Fri, 22 Mar 2024 09:32:38 +0000
-Message-ID: <30f41011495fb0b11a11eef9c7a536268306edb2.camel@mediatek.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: KL1PR03MB6002:EE_|JH0PR03MB8693:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 2u1RLf6x4jlgvq6uAGAgP5TGSopaANl/s2Bl2Kn9C4o+4G+GNg2YLn5+Jcci0cCmyUOf2jH6Gcww+GvMSKf/FxOdn0gPgKoEDjRIYi22RQAzEqN+CogMbvTctYZ+0y4bivo5MCytEWDGCB9oG1XqXk4Y9Wl6hZagczHRWv6Gt+kyuYwm3BP22I1rNJl46y5vx0Hg/nlxO9QTc3CT0IGbrhzlgChetNXgcb4QvjWhvcZ7+KQSQs1C6SsMZv4gN/ZlxYNCQKCs5s9ZMe1iINmp+S0RuAFfEYCn6wNTuDEWv8Yu2m1nvqMwTgSVrFwoP1SkghEwjhkDEcmVAs/yG2pNpgmXUSQUE2ZXP9WgbifavXS8jr73gE8GzkQFMTk287JHAq5XRHoQqwMbtGMir3zt5QglBJAVwjy+DrS67c1zNHHDNnsJo/y7nXXwurAPUgUWaVSxD9DpaO1bxG9j3d+XII1uP5x3Y6uilXeSNdWcKnIiSoQnj0cbMx7Imx5kpvnNAHBOJELGB/PX7PKXoMzY85wSNgJjPOVIRGX91FJ//ZcgpDVJhtNwEVnKzlBiYX6lC+PWzyjHAmObxY86D1wisPQbOcqsq87fpd4uhT24DxY=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KL1PR03MB6002.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YXhuWVg5eW1NSURkRXdYRlFkek9jb21iNWMrL3lySm5lTUxzSGZud1FSclZy?=
- =?utf-8?B?SlQ3MzBRN0lDZjJodlc2L3lZNTF4TThnZUdpT3BsRWlVU0s4d0JQME5iVVAx?=
- =?utf-8?B?cEttalpFcnpoencybE9XK0V4M0krUktHWUZkWG5JckF4UTMzcjhiVEM4TTZY?=
- =?utf-8?B?WVNXYnFmc0srU2NaWWx2aUtveElLemFjUlVrYmdEMjdRVjZUVEp1RW9iMHVY?=
- =?utf-8?B?OEZHWmxsWS90K2VqOTdTSEo1Y3M3SisrN0ZJM2FRK3NpZngwbGY3Z0ZqWCtt?=
- =?utf-8?B?ZEdoNmNJZjI0eUt3SmYwaW1sQzZBdlJoUnB1Y0JkekJtZkl6L25lSTduQ2dD?=
- =?utf-8?B?Z1BCcmpZUUcvOHFRRXNZQ2VFY0U0bGRycmtGRlhCY3g0Ukc1OHE3WjFpNEdT?=
- =?utf-8?B?eGREMjN4Q3NhUnNHeFRSR1JaNyt4Q1Y0bFVPRkwwdEpUaDdPK0NoOWFXY0oz?=
- =?utf-8?B?OFkwN2wxTUJVV0JzZ3NGYW5YUzhodHhreU9HZ3l3TW5jd3R4OEV0OVhGSDFj?=
- =?utf-8?B?SCtVMDVYdU1sZGk0L3JTRkx6SW9nMTNDZDFEWExDTFNvak40eGkwUDRWeDY4?=
- =?utf-8?B?NExrdnNHM3JNVDFYOTZxREhCS3ZubG9ITlFMSEhUQTYxbzlhOXZjdnFvWTRB?=
- =?utf-8?B?NTBKOVVmem5vZGY1cXhtMGhFZDg5TFpIbGY4OEJvWTVyRWkwcjRCMm9zekhi?=
- =?utf-8?B?ZEJ1OUJ0NStiN3g4b2Q1TVVpUUpIVEdud1JXazdRMGJ5VjdEYWhkdDRiTEF3?=
- =?utf-8?B?ZWlBM08rNG5VS3dEbDc0YUtOTlIzbXhGalpvTVMzUzU2MzZvem5xMlZZc0V2?=
- =?utf-8?B?VXJpVHlBeUxwZ05pdDV4SE8zcXkwcVNSRVRhb2U2bWZSRHJpS0pHYjlXMFMx?=
- =?utf-8?B?czV2K0UydDl2VXFGR1M1THBhcWZvMmRoMnFONVpzUUJYMDZVc0h4Wkd2RFEz?=
- =?utf-8?B?WFlYRFBPM2s2VG5OMnM3aGg5MzBDdDUwOUVPWlVFenJ6SkRZbFdPK1dwUDJB?=
- =?utf-8?B?MmxkSmRMT3ZTVk9PQlJNeDhGYmRkU1RLL1NaMTcwS1liWFVDbmVLV3U0VmdN?=
- =?utf-8?B?UVI5d0dFdHU1b1ZPeFR4Z2VwZlhYT1VqRS9kQnZLQ2lOTjl6RnM2M2hsVHFh?=
- =?utf-8?B?VlMyLzBQOEVua0Y2M0MxSjlvOHFMVGdpZlBhNTdyNmFGUUtCUFNhSzJobXJp?=
- =?utf-8?B?ZnNIeXo0WE9rK2FsUng5U2xFYTlPd3cyUFF3L2ppYWkvYWkyeWpqYlFyWTlr?=
- =?utf-8?B?Y3ZQL1R6blVlYzVCWExXNElQRlZWbytYQWZERUxVQ1dnRkxPNXhVdmtudWg2?=
- =?utf-8?B?YnJpQnFKc3hlNEthZkVqZGdyVXppa0puZC9EUG9NVHF1WjVXUU1YMzZGeTcr?=
- =?utf-8?B?S0huWU9Rdm4yaENOSC93cFpWa2lQZGFBaTJZQUFLUzNIa3NSMEk4Vy8raXNP?=
- =?utf-8?B?bE91SWRoWFR5MWtqUzBwYVBwekUrRWRaMWlZd3pIY3M3dFV4QmlBVnhyZSs1?=
- =?utf-8?B?MnFNUlpsYkNWSmM1VUtETlorQVFLbTIyVjZhT1lNcmVnejBvdHpWZUlQa2p6?=
- =?utf-8?B?TUROdk1hdndQdlVyS2hOS1ZTcDFkd0o2U1lNWWtuUTM0Rk5jOWMwa0REeEI4?=
- =?utf-8?B?U0hJQWFaNUk5Y01GenlpWktHR2hyL0FUd1J2aTB1MUVzYkFPbit2T01BZmN0?=
- =?utf-8?B?S1M5bVV6MXlTRGdmeXlabmZnRnAyQkVRRlpxdjZHc1ljdmc2cEtmYzFGaTk1?=
- =?utf-8?B?MHdjY2NYbmFSU21LdXN4NmZ3QmxWdTY3WUpnckxIa0JSVnJQTVUyRnRxOTZw?=
- =?utf-8?B?a1Q3Y2tMMURwbmFPSlB5WkpsLy9WK1V5bGhKdHRUaGhjNDNITzE3clEzdkp5?=
- =?utf-8?B?eWwxN2U3Z2UwRkNoNkEzbU92VUFENEZZQ1dEejVNS1NWdzVPdDRSa3BiL2d6?=
- =?utf-8?B?ZzdsanVybTI0VVJuN2ZNOVFxZktKUzBTTDU3TUJBNWRSM253Yk9LUVpnY3FL?=
- =?utf-8?B?V3pOcVFSaTAycjNLc0hjNVFtTDZkZTcxclVkSjlITlVvRlRuVThJZytSMHhp?=
- =?utf-8?B?VXBSaFdzekdwUG81ZFdrQkQxRFlvZGlvaW9wcVVDNTcwZVpmbFRRZjJ6N0ZS?=
- =?utf-8?B?WjV6NUxhdlRyczhaMG1JTmdYN0x3RzcvdnBVclZUSTdtVXVtc1JPZm04MDVM?=
- =?utf-8?B?YXc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <081B23388EE58448B55306AFB249A837@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	id CDFB0C43394; Fri, 22 Mar 2024 13:39:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8820C433C7
+	for <linux-firmware@kernel.org>; Fri, 22 Mar 2024 13:39:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711114785;
+	bh=5TgSuCauS8GT6QQBaZPrZ5FUn7IoDZ6oyTws1noJ3dU=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=jCRSWwtgI1VTREEpxVvdKrcnVV4Xc0WSWjDLuG5ZqA/F1eO8PPKIh9NB91vX1TSBC
+	 DbopIxSssShPK9LF3zZOuLct9A1mM6COnudYcucWsY6pcNRpTG8YiDvD8bLUQk1qkN
+	 RQLMrRj2Ugrn5tfHbpOHyvVtD7MUdzrhvUL3cadp5fRmuTFo63qrS4EE3M/GJIfpQ0
+	 tqZfkB1bQMwcfP+rn+wKTNVUDUqKWHFkCxS30MWXVC2hfEHDGIrnFqbg3DnaiGMgm8
+	 mXe8mqZQX/X90bp5E4oPXtVTyajuGL7H7FhGYCIm1XglDPS61yJasivi4vdwLO/9Ti
+	 OuJ5b3uMaIgaw==
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dcbef31a9dbso1640684276.1
+        for <linux-firmware@kernel.org>; Fri, 22 Mar 2024 06:39:45 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwW+XHnziDuGdzOkmz4ayCP/Mm7WaD0T98VWPQpalSPFJ+ooo16
+	d9wcoo+NvPUcIsqX2/31zLSuMYyBassFghg+rK/GKaYsAd4lvvx+v9Vy6NcHwmHIuAoBHx4EY0v
+	0sJdSQfNp2iRpkVth7uI84fziZpI=
+X-Google-Smtp-Source: AGHT+IG9QOnlmA925r/URlwN8TWyLSJ8cidRQ/KYULhpPmwaQG5KAQuoRS5+qmd5tlP2wVw70KmwZLmMHc3/VbuXD4A=
+X-Received: by 2002:a25:2f0c:0:b0:dcc:f5d4:8b43 with SMTP id
+ v12-20020a252f0c000000b00dccf5d48b43mr2071317ybv.9.1711114784961; Fri, 22 Mar
+ 2024 06:39:44 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: KL1PR03MB6002.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6082015-b12b-44b1-1ac7-08dc4a5303db
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Mar 2024 09:32:38.6897
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9A+y7AYPe1NrQqaWcQxinBvmDrjXD6mUJ1c0VCCWC0tyeLKuAbKFP3Qm0I3NbfLLP3pj7YBCOXs5W3dmyNFkCrI+UKRUck+vd1E4cSem5ts=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR03MB8693
+References: <30f41011495fb0b11a11eef9c7a536268306edb2.camel@mediatek.com>
+In-Reply-To: <30f41011495fb0b11a11eef9c7a536268306edb2.camel@mediatek.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Fri, 22 Mar 2024 09:39:33 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA5unmBTXbiksB=N5x16RinxnYGgevPYZ0Hd2j7owLGRsQ@mail.gmail.com>
+Message-ID: <CA+5PVA5unmBTXbiksB=N5x16RinxnYGgevPYZ0Hd2j7owLGRsQ@mail.gmail.com>
+Subject: Re: [PULL] mediatek: Update mt8186 SOF firmware to v2.0.1
+To: =?UTF-8?B?SGFpbG9uZyBGYW4gKOiMg+a1t+m+mSk=?= <Hailong.Fan@mediatek.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SGkgbWFpbnRhaW5lcnMsDQoNClRoaXMgcHVsbCByZXF1ZXN0IHVwZGF0ZXMgTVQ4MTg2IFNPRiBm
-aXJtd2FyZS4NCg0KSWYgdGhlcmUgaXMgYW55IHByb2JsZW0sIHBsZWFzZSBsZXQgbWUga25vdy4N
-ClRoYW5rIHlvdS4NCg0KQmVzdCByZWdhcmRzLA0KSGFpbG9uZw0KDQotLQ0KDQpUaGUgZm9sbG93
-aW5nIGNoYW5nZXMgc2luY2UgY29tbWl0DQoyMmVlMWQ4Y2E2NjYzY2E3YzI4NDc3NTgxOTkzZDZl
-ZDVjYzU0MzIzOg0KDQogIE1lcmdlIGJyYW5jaCAncm9ib3QvcHItMC0xNzEwODYxMTY0JyBpbnRv
-ICdtYWluJyAoMjAyNC0wMy0xOSAxOTowNzoxNA0KKzAwMDApDQoNCmFyZSBhdmFpbGFibGUgaW4g
-dGhlIEdpdCByZXBvc2l0b3J5IGF0Og0KDQogIGh0dHBzOi8vZ2l0aHViLmNvbS9oYWlsb25nZmFu
-LW10ay9saW51eF9md19zb2YgdjIuMC4xDQoNCmZvciB5b3UgdG8gZmV0Y2ggY2hhbmdlcyB1cCB0
-bw0KOWE2YTBjYzE5NWMxMDhjNjc3MTY1MDc1YzU1Y2JjMGU0MTdhMWU2NDoNCg0KICBtZWtkaWF0
-ZWs6IFVwZGF0ZSBtdDgxODYgU09GIGZpcm13YXJlIHRvIHYyLjAuMSAoMjAyNC0wMy0yMiAxNzow
-NDoyNw0KKzA4MDApDQoNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCkhhaWxvbmcgRmFuICgxKToNCiAgICAgIG1la2RpYXRl
-azogVXBkYXRlIG10ODE4NiBTT0YgZmlybXdhcmUgdG8gdjIuMC4xDQoNCiBtZWRpYXRlay9zb2Yt
-dHBsZy9zb2YtbXQ4MTg2LnRwbGcgfCBCaW4gMTYxOTEgLT4gMTYxOTEgYnl0ZXMNCiBtZWRpYXRl
-ay9zb2Yvc29mLW10ODE4Ni5sZGMgICAgICAgfCBCaW4gNDg0MzYgLT4gNDg1NjQgYnl0ZXMNCiBt
-ZWRpYXRlay9zb2Yvc29mLW10ODE4Ni5yaSAgICAgICAgfCBCaW4gMTI4NzEyIC0+IDEyOTMwNCBi
-eXRlcw0KIDMgZmlsZXMgY2hhbmdlZCwgMCBpbnNlcnRpb25zKCspLCAwIGRlbGV0aW9ucygtKQ0K
+On Fri, Mar 22, 2024 at 5:32=E2=80=AFAM Hailong Fan (=E8=8C=83=E6=B5=B7=E9=
+=BE=99)
+<Hailong.Fan@mediatek.com> wrote:
+>
+> Hi maintainers,
+>
+> This pull request updates MT8186 SOF firmware.
+>
+> If there is any problem, please let me know.
+> Thank you.
+>
+> Best regards,
+> Hailong
+>
+> --
+>
+> The following changes since commit
+> 22ee1d8ca6663ca7c28477581993d6ed5cc54323:
+>
+>   Merge branch 'robot/pr-0-1710861164' into 'main' (2024-03-19 19:07:14
+> +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/hailongfan-mtk/linux_fw_sof v2.0.1
+
+Merged and pushed out.
+
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/183
+
+josh
+
+>
+> for you to fetch changes up to
+> 9a6a0cc195c108c677165075c55cbc0e417a1e64:
+>
+>   mekdiatek: Update mt8186 SOF firmware to v2.0.1 (2024-03-22 17:04:27
+> +0800)
+>
+> ----------------------------------------------------------------
+> Hailong Fan (1):
+>       mekdiatek: Update mt8186 SOF firmware to v2.0.1
+>
+>  mediatek/sof-tplg/sof-mt8186.tplg | Bin 16191 -> 16191 bytes
+>  mediatek/sof/sof-mt8186.ldc       | Bin 48436 -> 48564 bytes
+>  mediatek/sof/sof-mt8186.ri        | Bin 128712 -> 129304 bytes
+>  3 files changed, 0 insertions(+), 0 deletions(-)
