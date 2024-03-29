@@ -1,62 +1,76 @@
-Return-Path: <SRS0=/PZ8=LC=mediatek.com=skylake.huang@kernel.org>
+Return-Path: <SRS0=lTHC=LD=mediatek.com=skylake.huang@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0561C54E64
-	for <linux-firmware@archiver.kernel.org>; Thu, 28 Mar 2024 10:30:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5DC46CD1288
+	for <linux-firmware@archiver.kernel.org>; Fri, 29 Mar 2024 02:14:43 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id ADD3CC43394; Thu, 28 Mar 2024 10:30:21 +0000 (UTC)
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	id 1B971C43390; Fri, 29 Mar 2024 02:14:43 +0000 (UTC)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 1622BC433C7;
-	Thu, 28 Mar 2024 10:30:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 1622BC433C7
+	by smtp.kernel.org (Postfix) with ESMTPS id A1EF7C433C7;
+	Fri, 29 Mar 2024 02:14:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A1EF7C433C7
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 227cc6baecee11ee935d6952f98a51a9-20240328
+X-UUID: 0e5cb058ed7211eeb8927bc1f75efef4-20240329
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=cEP7EpfDFfQYJV+g8/LyskzYXiu3KY2oevvlkVdTve0=;
-	b=gcz1/N8Ov/lC09DGjcjgHAwa0WozREYB3Xs8JhZFxljoB/EDysDvbRpsf8say8vN9PKnd409OeeYBSeUelrl9IbQfWq/0toRIDQi4tC5Ps21AmXiiDZJ7twLDOwZAZGqLg5lv5EkSyN+iGPq7ynVSOFMTdtnszDQv7uaWBytDbA=;
+	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=hKOSYJSKtfKiE7SwRoSnqh1/pa/SG4DgMOmXxmsXD+s=;
+	b=XnRrNrQsWv9MiByOiE5fMlhfKdIMitbxoZmUUHccIVWWmiT4yHnw/rQxwRtqMezNSSIBcc20ytNuJWp1Fzzkp1/zpJ8pU5/eGlrukd34+x1C87I+8zipClXPQaXZpsXeVcsXQ31ff5u7VcLqHVsXgZFRSqVswBCz7jXuJJ2URSg=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.37,REQID:a559980a-e468-43db-b213-7ca272ee5ff3,IP:0,U
+X-CID-O-INFO: VERSION:1.1.37,REQID:2990e0f0-2d5c-4a80-8f71-48d52223f7aa,IP:0,U
 	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
 	:release,TS:-5
-X-CID-META: VersionHash:6f543d0,CLOUDID:d56df190-e2c0-40b0-a8fe-7c7e47299109,B
+X-CID-META: VersionHash:6f543d0,CLOUDID:de3b7500-c26b-4159-a099-3b9d0558e447,B
 	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
 	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:1,OSI:0,OSA:0,AV:0,LES:1,
 	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
 X-CID-BVR: 2,OSH
 X-CID-BAS: 2,OSH,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 227cc6baecee11ee935d6952f98a51a9-20240328
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
+X-UUID: 0e5cb058ed7211eeb8927bc1f75efef4-20240329
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw01.mediatek.com
 	(envelope-from <skylake.huang@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1560856730; Thu, 28 Mar 2024 18:30:02 +0800
+	with ESMTP id 706673643; Fri, 29 Mar 2024 10:14:21 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 28 Mar 2024 18:30:00 +0800
+ 15.2.1118.26; Fri, 29 Mar 2024 10:14:20 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
  mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 28 Mar 2024 18:30:00 +0800
+ 15.2.1118.26 via Frontend Transport; Fri, 29 Mar 2024 10:14:20 +0800
 From: Sky Huang <SkyLake.Huang@mediatek.com>
 To: John Boyer <jwboyer@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
 CC: linux-firmware <linux-firmware@kernel.org>, linux-mediatek
 	<linux-mediatek@lists.infradead.org>, Steven Liu <Steven.Liu@mediatek.com>,
 	Daniel Golle <daniel@makrotopia.org>, SkyLake.Huang
-	<skylake.huang@mediatek.com>
-Subject: [PATCH] linux-firmware: update firmware for en8811h 2.5G ethernet phy
-Date: Thu, 28 Mar 2024 18:29:44 +0800
-Message-ID: <20240328102944.32478-1-SkyLake.Huang@mediatek.com>
+	<skylake.huang@mediatek.com>, "Lucien . Jheng" <lucien.jheng@airoha.com>
+Subject: [PATCH v2] linux-firmware: update firmware for en8811h 2.5G ethernet phy
+Date: Fri, 29 Mar 2024 10:14:01 +0800
+Message-ID: <20240329021402.9413-1-SkyLake.Huang@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
 Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: Yes-11-8.550000-8.000000
+X-TMASE-MatchedRID: 5YH/ouvBHd2GVqG4eYPDVozb2GR6Ttd3MZm0+sEE9msCgjr7b0ytGWdd
+	MCl1Fl5yVi/qI8MsP9SjJSd0SR/j/294Ipa1otxoBtTZHAJnUeBfNxt30ZJdm0a+7cKvw60WrAl
+	fLSaivio0pP3XshcFevVlqKoNJ4YDqEEnTkhYbRq628cXbnOhT9p4qT+OlQdxqQXmVQ1SrSW0Ds
+	7nMWwIvnthNHIviTslsfo38KkkNdXd28x92z+cgUwCxhhaquUV64HGR0nmxYyy9fyPFFYZl/11b
+	iCho4TaLuSrQLKLvonflGmGP0z+FyewD/09jsmER/j040fRFpK5jesBtJsVAlmRY0zEf+ItedqX
+	fk/XWPxKNcFfqTNZIeBp28RS8TykLdmg47genJ5MjOs0JtPraujr9aaLodgG9cKqur+Uwc3FpE+
+	2YTJfM5AzJ2k9Djzf42WC8ffme7UfE8yM4pjsDzUMVYvJHUbLxxnVxfk/TMgqtq5d3cxkNeqJII
+	boM4imWIaN9ljGQrK9NR38yksL4m+ii5ym78Kli47XR6fCCj4=
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 11-8.550000-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
 X-MTK: N
 
 From: "SkyLake.Huang" <skylake.huang@mediatek.com>
@@ -68,6 +82,7 @@ From: "SkyLake.Huang" <skylake.huang@mediatek.com>
 5. Improved IoT performance and stability
 
 Signed-off-by: SkyLake.Huang <skylake.huang@mediatek.com>
+Signed-off-by: Lucien.Jheng <lucien.jheng@airoha.com>
 ---
  airoha/EthMD32.DSP.bin | Bin 131072 -> 131072 bytes
  airoha/EthMD32.dm.bin  | Bin 16384 -> 16384 bytes
