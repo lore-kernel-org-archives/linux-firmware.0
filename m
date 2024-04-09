@@ -4,74 +4,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C124DC67861
-	for <linux-firmware@archiver.kernel.org>; Fri,  5 Apr 2024 16:17:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53F73C67861
+	for <linux-firmware@archiver.kernel.org>; Tue,  9 Apr 2024 12:31:23 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 8A90FC433C7; Fri,  5 Apr 2024 16:17:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75145C43390
-	for <linux-firmware@kernel.org>; Fri,  5 Apr 2024 16:17:36 +0000 (UTC)
+	id 27634C433A6; Tue,  9 Apr 2024 12:31:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 112FDC43390
+	for <linux-firmware@kernel.org>; Tue,  9 Apr 2024 12:31:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712333856;
-	bh=DdqN1+75+M1zDGqGhcEWpBeqFamQsjC0GLCJ5dl5Vi4=;
+	s=k20201202; t=1712665883;
+	bh=Smf8CqsXg9haM1YfQmcDVxHR/BjPzeFlKSG9GLUaZc4=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=Fc7nDKnuupTJGery08+0qj9Um45twnAafD3j2ufouL0Q7FhqkTKgSMmmtuP/BGSoL
-	 HGz7iOg6yZ7PCthmreCxykBO1GCi9uKqOzAmNNNgLnb2r5Nw+S6e4EiYsfVF0C1JIP
-	 /+0WaGDWLL3I7+IcL5XV9bYkYs7yuHRwWy06RQK7Gi1gi0opyowfGLAz61o1p5S2Qp
-	 TH64WfOWRHf9/MEzxqXJ3LS8dgfeT9+BONhyu/95mN1ktswNcU+fwc1A4ZLre9ZLZQ
-	 dUgzOEl7ROmnFvHFwVD//O9o8budJ/GXau/NOdA+0VbvE1CoTytKh1RQHEomD4+w34
-	 ZseYUcabDmBwg==
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dcc84ae94c1so2539370276.1
-        for <linux-firmware@kernel.org>; Fri, 05 Apr 2024 09:17:36 -0700 (PDT)
-X-Gm-Message-State: AOJu0YztrXPpLVmhcblgWgCWuOPpweNv3gjzN3UKgs80Z+Cv54B5a+M+
-	z+5HH1yWBiRWL9d+24AMmejKtgsOf/j+Of/wEzzm64ut+meQJwJiRotR0tTuq2ZiPmzmOxsQL9w
-	caL9T5aRFvw4yH66h7hGgMun9lCk=
-X-Google-Smtp-Source: AGHT+IEkVyTUVtr6OFCqWCmhArGL18PStJD0ASTAlHbghyWThmxZX1vdIgH4fspB748nKR14Qto+TYN/3Em+NkfFmPo=
-X-Received: by 2002:a25:900b:0:b0:dcc:d196:a573 with SMTP id
- s11-20020a25900b000000b00dccd196a573mr1816048ybl.36.1712333855709; Fri, 05
- Apr 2024 09:17:35 -0700 (PDT)
+	b=SP4KjDcFJ2bCEYqa0OlTYSGyYm1+MGf3qTmWEgLDGYhvBurCkkVYo15Iq3paVftq/
+	 WE6Iw0crN6YTofAoElRw2TzZvqpmSDTQkyrLZ9elNII5Lp0Ri8YFAP3RPPg1rT/c+2
+	 JmXoSOC1/lPll8GZQ2+YpdouZIOu/y4pferiqrKmWjQW9zwGTA8kRGAyS1EDElHY7+
+	 vBPP8WpCkC2sV5fJX6W9TyV8hUEDB3m3VfFvdvbKh2/5lzopc/fdFCJRYP84+plMUG
+	 IfQ6Y+vtoahGB7mnk1R3ZHbpS1JrS5WoCSzSxiAHaFIpFDVaXBF2UkWZP1qWpZClvG
+	 q51ccIsRdaUXA==
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dcc7cdb3a98so5205571276.2
+        for <linux-firmware@kernel.org>; Tue, 09 Apr 2024 05:31:23 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxL4f2BMlhHYmslFb95bqT9hlHr9g+nfI7yWWPUG/+sc6RAwGk8
+	SRR2AhuOtJUaYYrDOTLAIOja44R5R9cBLgVkdTbZVBw9mkU2mUkzRRKswcPyaiyyIxIxw1FNJx1
+	JCgJgI+QGEodieWLkDlHNT9/dX34=
+X-Google-Smtp-Source: AGHT+IE99X1JBsIJgtH7+iJVAR6Bk+3/OL9aBba9eT9vOnm5TO7JumZsOpnQnVxXUOhdxZX7RC4CQFfWOA+kNjIU8D8=
+X-Received: by 2002:a25:9947:0:b0:de1:1ac2:98e1 with SMTP id
+ n7-20020a259947000000b00de11ac298e1mr620160ybo.37.1712665882252; Tue, 09 Apr
+ 2024 05:31:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240401185015.624402-1-daniele.ceraolospurio@intel.com>
-In-Reply-To: <20240401185015.624402-1-daniele.ceraolospurio@intel.com>
+References: <063c9937acb36ccf352056d212a9a2733abb9dd5.camel@realtek.com>
+In-Reply-To: <063c9937acb36ccf352056d212a9a2733abb9dd5.camel@realtek.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Fri, 5 Apr 2024 12:17:25 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA76cR43jPCZmewp-sHtwufxMchM_TWoLJQXLE8HPQQeLw@mail.gmail.com>
-Message-ID: <CA+5PVA76cR43jPCZmewp-sHtwufxMchM_TWoLJQXLE8HPQQeLw@mail.gmail.com>
-Subject: Re: [PR] i915: Add DG2 HuC to 7.10.15
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Date: Tue, 9 Apr 2024 08:31:10 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA5T4imRCyiww4gzry0Qi+gVY2EQ9jznxvhCn3RL9Q-Wnw@mail.gmail.com>
+Message-ID: <CA+5PVA5T4imRCyiww4gzry0Qi+gVY2EQ9jznxvhCn3RL9Q-Wnw@mail.gmail.com>
+Subject: Re: pull request: rtw: update/add firmware of Realtek WiFi 8703B,
+ 8852C and 8922A
+To: Ping-Ke Shih <pkshih@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, intel-gfx@lists.freedesktop.org
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, Timlee <timlee@realtek.com>, 
+	"fiona.klute@gmx.de" <fiona.klute@gmx.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 1, 2024 at 2:50=E2=80=AFPM Daniele Ceraolo Spurio
-<daniele.ceraolospurio@intel.com> wrote:
+On Wed, Mar 20, 2024 at 11:23=E2=80=AFPM Ping-Ke Shih <pkshih@realtek.com> =
+wrote:
 >
-> The following changes since commit 93f329774542b9b7d57abb18ea8b6542f2d8fe=
-ac:
+> Hi,
 >
->   Merge branch 'robot/pr-0-1709214990' into 'main' (2024-02-29 14:10:53 +=
+> Add/update three firmware including
+>
+>  - add initial firmware v11.0.0 for 8703
+>  - update 8852C to v0.27.56.14
+>  - add initial firmware v0.35.18.0 for 8922A
+>
+> Thank you
+> Ping-Ke
+>
+> ---
+> The following changes since commit 22ee1d8ca6663ca7c28477581993d6ed5cc543=
+23:
+>
+>   Merge branch 'robot/pr-0-1710861164' into 'main' (2024-03-19 19:07:14 +=
 0000)
 >
 > are available in the Git repository at:
 >
->   git@gitlab.freedesktop.org:drm/firmware.git tags/intel-2024-04-01
+>   https://github.com/pkshih/linux-firmware.git HEAD
 
 Merged and pushed out.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/188
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/189
 
 josh
 
 >
-> for you to fetch changes up to ab144168469a77f54ad539ac98dede7ce4c6a75d:
+> for you to fetch changes up to 08259e7f17f553d5f985a530f825ac8ad6f48450:
 >
->   i915: Add DG2 HuC 7.10.15 (2024-03-28 13:45:41 -0700)
+>   rtw89: 8852c: update fw to v0.27.56.14 (2024-03-21 11:02:32 +0800)
 >
 > ----------------------------------------------------------------
-> Daniele Ceraolo Spurio (1):
->       i915: Add DG2 HuC 7.10.15
+> Chin-Yen Lee (1):
+>       rtw89: 8852c: update fw to v0.27.56.14
 >
->  WHENCE               |   2 +-
->  i915/dg2_huc_gsc.bin | Bin 622592 -> 630784 bytes
->  2 files changed, 1 insertion(+), 1 deletion(-)
->  mode change 100755 =3D> 100644 i915/dg2_huc_gsc.bin
+> Fiona Klute (1):
+>       rtw88: Add RTL8703B firmware v11.0.0
+>
+> Ping-Ke Shih (1):
+>       rtw89: 8922a: add firmware v0.35.18.0
+>
+>  WHENCE                    |  12 +++++++++---
+>  rtw88/README              |   3 +++
+>  rtw88/rtw8703b_fw.bin     | Bin 0 -> 20290 bytes
+>  rtw88/rtw8703b_wow_fw.bin | Bin 0 -> 23074 bytes
+>  rtw89/rtw8852c_fw.bin     | Bin 1532736 -> 1532656 bytes
+>  rtw89/rtw8922a_fw.bin     | Bin 0 -> 1537690 bytes
+>  6 files changed, 12 insertions(+), 3 deletions(-)
+>  create mode 100644 rtw88/rtw8703b_fw.bin
+>  create mode 100644 rtw88/rtw8703b_wow_fw.bin
+>  create mode 100644 rtw89/rtw8922a_fw.bin
+>
