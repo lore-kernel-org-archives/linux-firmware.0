@@ -1,183 +1,89 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=tm4Z=LW=gmail.com=superm1@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B154BC4345F
-	for <linux-firmware@archiver.kernel.org>; Wed, 17 Apr 2024 11:18:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 770CBC4345F
+	for <linux-firmware@archiver.kernel.org>; Wed, 17 Apr 2024 12:31:39 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id A3A1BC32781; Wed, 17 Apr 2024 11:18:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DD42C2BD10
-	for <linux-firmware@kernel.org>; Wed, 17 Apr 2024 11:18:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713352711;
-	bh=h9rP5BQQ3BeFTASINDfvL2QJJ/wWKwCap2y3EQTRNdc=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=NmdhhUhAuXBbiC5CpExR+5ucbUbLSfpmgeZwlDjNVNLpv1PjDlTVvEHdoQm4oJlSt
-	 6kMEp6Y2kGPQMCojq3b6Mhycvd83lUmQhpbCseI2QNKV1N9h+dWYL7oNHDLq6dJPsZ
-	 biMqZlgZ4FQfH9e1M8K/ps48AKt0mwS4J4ZGcorNCqNJKkEl11vwjIS4xwcJect/D3
-	 YiYr0ccZPUfg8yFD8Xo5mX2ub5WlMzUQIcNDzYmSs0muPD6shKeAx8BRYSoGJMQRFu
-	 TR+teln3R632boCG5BMUGhU5WkqFTj+GgQHEJQUeGs84L11vDgtZGSNxFze/Vi8vBm
-	 sHLhz1Gqr/j9w==
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-617ddc988f5so62778127b3.2
-        for <linux-firmware@kernel.org>; Wed, 17 Apr 2024 04:18:31 -0700 (PDT)
-X-Gm-Message-State: AOJu0YwhhZOtwE4/7J8xRtoyYmDsei+JLfKaYcKS0HPx8DjNyZvdremI
-	qr0Olbmx9lRCa4c2XTe5KzemxC+S82cUYhYFJ+YY9g2xGgIN0qlSolLGm7reQ3ymucBxMWAXH7m
-	P1GfR2vJj+r6/RjbDKiDJXZabMqE=
-X-Google-Smtp-Source: AGHT+IEkpRK+nOg8hEgvwarbdcADzHUbMbgzziEnWt0S2l+KdLGujXlROpzLij2kGfEpQhce0OfzVN1XejthdeXKkSM=
-X-Received: by 2002:a05:690c:399:b0:61a:e15d:72 with SMTP id
- bh25-20020a05690c039900b0061ae15d0072mr7150031ywb.28.1713352710813; Wed, 17
- Apr 2024 04:18:30 -0700 (PDT)
+	id 42B85C2BD10; Wed, 17 Apr 2024 12:31:39 +0000 (UTC)
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 7454CC072AA
+	for <linux-firmware@kernel.org>; Wed, 17 Apr 2024 12:31:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 7454CC072AA
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-2220a389390so319169fac.0
+        for <linux-firmware@kernel.org>; Wed, 17 Apr 2024 05:31:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713357097; x=1713961897; darn=kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=A6FP/2ClpXaTiUthsKID9Bzx30aESUzU+AMNyJVkfhc=;
+        b=DcSU0PdHLx3t55wDv3HQSjGWqYOTUKRGH7k83n5o0e3YCZUDTjpFa+bjTR10hznOLO
+         z+pg3pC4aD0RN0sc/ifwIunw07/Q6Fgq8hFN+z0amw5MP8gTWgjYDRCRubnba0OOhsQ4
+         QQ4AxKAm2PR7k/qnVSBkbnu0g7wrrn6Nlkp25a3kvoEJ0XNYXxgy2f/MAwgliSwRM9kU
+         JiQE/v2Kqv4c40tpJS30UlGXrf+J1bND+OzphvYHr9hwx+h6yH36P9aO9p9mV5voBs11
+         guzU5LPTYNW7mE1zUaN8YW1CM7mPYNZYnhXcBRPk8/mPTqzZAsvOMARyDLv0Tkl08fmS
+         RLxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713357097; x=1713961897;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=A6FP/2ClpXaTiUthsKID9Bzx30aESUzU+AMNyJVkfhc=;
+        b=F2U0vA9A5D74+9SarbMPwcMVd7iAqZ12EmDUKsZ8WB/jo2EwNSCOqyy2qvvjkcW4j8
+         6uIVDgiPlfTldCRqOiUQrgBUDe3aOIkU5jBaEUoNshCUMDJqNnzwOnjBbU2jiv0ibLT3
+         um48mooVR+nc76O+kewgah9Zw4Zs7sbTz15MwfYRq2Sa7jRGt1sBodBV8pWqTuMJeMq4
+         tb5AO3R2aMuvcKGA5C6bB6RB7AnRj4bZTXgtLTCUdU7/yxEIAOhfRRANRHcAuf8ymRsB
+         HhPg+MrcBOUGU+SIzzDHV7iGWTWocjq+ywJpKGpEqpyaeoUHvT0BvG6ZW9IPh61DIDmN
+         oCzw==
+X-Forwarded-Encrypted: i=1; AJvYcCVsnzC724qJahfVln/oYch4BnzoSd3tlGDRQVsvttSO37Nf8bHVwQNiGYrR4l+FjhnF2WN39OhSdHb9iKsjPIaXMyYji8P79dfp
+X-Gm-Message-State: AOJu0YxnJRbViyOlvUj51YNBBiryGIUxhFt2Ml5qKSmXKBTrJyVRlybS
+	PH7p3D6v0hRtBqiiJWw0ZHxOn8nTGUmn1iowAOKl4VlzRhXL8wsI
+X-Google-Smtp-Source: AGHT+IE3OE+iAfPHAVKKR3nodfINMck5zYvFu2yQRB8auXscURAAFjoOp/bRcuECCxmeCJ+MEJm1kg==
+X-Received: by 2002:a05:6870:d10f:b0:222:8961:43fa with SMTP id e15-20020a056870d10f00b00222896143famr1856788oac.15.1713357097285;
+        Wed, 17 Apr 2024 05:31:37 -0700 (PDT)
+Received: from ?IPV6:2600:1700:70:f702:9c77:c230:a0ba:a1a1? ([2600:1700:70:f702:9c77:c230:a0ba:a1a1])
+        by smtp.gmail.com with ESMTPSA id de6-20020a05687075c600b002389f42604asm260223oab.30.2024.04.17.05.31.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Apr 2024 05:31:36 -0700 (PDT)
+Message-ID: <9aa64d50-cb4d-4118-bc27-86c23410ff8b@gmail.com>
+Date: Wed, 17 Apr 2024 07:31:35 -0500
 MIME-Version: 1.0
-References: <MW5PR11MB58107B5828493B9CD700BAEDA30F2@MW5PR11MB5810.namprd11.prod.outlook.com>
-In-Reply-To: <MW5PR11MB58107B5828493B9CD700BAEDA30F2@MW5PR11MB5810.namprd11.prod.outlook.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Wed, 17 Apr 2024 07:18:19 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA5Y77uCdD+9+hXDhxhoue7bfmG+4_2PCTVV=fLpQYkg6Q@mail.gmail.com>
-Message-ID: <CA+5PVA5Y77uCdD+9+hXDhxhoue7bfmG+4_2PCTVV=fLpQYkg6Q@mail.gmail.com>
-Subject: Re: pull request: iwlwifi firmware updates 2024-04-17
-To: "Korenblit, Miriam Rachel" <miriam.rachel.korenblit@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: putting future iwlwifi firmware into intel/ ?
+Content-Language: en-US
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
-	"Yang, You-Sheng" <vicamo.yang@canonical.com>, "Hutchings, Ben" <ben@decadent.org.uk>, 
-	"Ben Ami, Golan" <golan.ben.ami@intel.com>, 
-	"Grumbach, Emmanuel" <emmanuel.grumbach@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Johannes Berg <johannes@sipsolutions.net>, linux-firmware@kernel.org
+Cc: linux-wireless@vger.kernel.org, miriam.rachel.korenblit@intel.com
+References: <fec30176f437d565d4c1dfc4944373f117d75a64.camel@sipsolutions.net>
+From: Mario Limonciello <superm1@gmail.com>
+In-Reply-To: <fec30176f437d565d4c1dfc4944373f117d75a64.camel@sipsolutions.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 17, 2024 at 5:54=E2=80=AFAM Korenblit, Miriam Rachel
-<miriam.rachel.korenblit@intel.com> wrote:
->
+
+
+On 4/17/24 06:18, Johannes Berg wrote:
 > Hi,
->
->
->
-> This contains some new and updated firmware=E2=80=99s for all our current=
-ly
->
-> maintained FW binaries.
->
->
->
-> Please pull or let me know if there are any issues.
->
->
->
-> --
->
-> Thanks,
->
-> Miri
->
->
->
->
->
-> The following changes since commit 5da74b16166d3c43e5435fda6916fc88575386=
-f1:
->
->
->
->   Merge branch 'robot/pr-0-1712895838' into 'main' (2024-04-12 13:04:30 +=
-0000)
->
->
->
-> are available in the Git repository at:
->
->
->
->   http://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.g=
-it tags/iwlwifi-fw-2024-04-17
+> 
+> Since I was just looking at some firmware related thing (files for the
+> hardware that might be shared between Intel BT and WiFi), I noticed that
+> just over 30% of the files/dirs in the top-level firmware tree are
+> iwlwifi-* files.
+> 
+> While we can't move the files that older drivers might consume, we could
+> e.g. change the driver to look up future versions/future hardware under
+> intel/ instead? Would that be worth doing?
+> 
+> johannes
+> 
 
-Merged and pushed out.
-
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/194
-
-josh
-
->
->
->
-> for you to fetch changes up to f3363b57042099edc95165bfcf9779ac701394f2:
->
->
->
->   iwlwifi: add gl FW for core87-44 release (2024-04-17 09:56:59 +0300)
->
->
->
-> ----------------------------------------------------------------
->
-> core87
->
->
->
-> ----------------------------------------------------------------
->
-> Miri Korenblit (3):
->
->       iwlwifi: update cc/Qu/QuZ firmwares for core87-44 release
->
->       iwlwifi: add ty/So/Ma firmwares for core87-44 release
->
->       iwlwifi: add gl FW for core87-44 release
->
->
->
->  WHENCE                        |  33 +++++++++++++++++++++++++++------
->
->  iwlwifi-Qu-b0-hr-b0-77.ucode  | Bin 1404824 -> 1405980 bytes
->
->  iwlwifi-Qu-b0-jf-b0-77.ucode  | Bin 1322476 -> 1322684 bytes
->
->  iwlwifi-Qu-c0-hr-b0-77.ucode  | Bin 1404840 -> 1405996 byte
->
-> iwlwifi-Qu-c0-jf-b0-77.ucode  | Bin 1322492 -> 1322700 bytes
->
-> iwlwifi-QuZ-a0-hr-b0-77.ucode | Bin 1404968 -> 1406116 bytes
->
->  iwlwifi-cc-a0-77.ucode        | Bin 1366272 -> 1367432 bytes
->
->  iwlwifi-gl-c0-fm-c0-90.ucode  | Bin 0 -> 1890864 bytes
->
->  iwlwifi-gl-c0-fm-c0.pnvm      | Bin 246228 -> 267272 bytes
->
->  iwlwifi-ma-b0-gf-a0-89.ucode  | Bin 0 -> 1721440 bytes
->
->  iwlwifi-ma-b0-gf-a0.pnvm      | Bin 55092 -> 55096 bytes
->
->  iwlwifi-ma-b0-gf4-a0-89.ucode | Bin 0 -> 1598424 bytes
->
->  iwlwifi-ma-b0-gf4-a0.pnvm     | Bin 27820 -> 27820 bytes
->
->  iwlwifi-so-a0-gf-a0-89.ucode  | Bin 0 -> 1709992 bytes
->
->  iwlwifi-so-a0-gf-a0.pnvm      | Bin 55172 -> 55176 bytes
->
->  iwlwifi-so-a0-gf4-a0-89.ucode | Bin 0 -> 1589216 bytes
->
->  iwlwifi-so-a0-gf4-a0.pnvm     | Bin 27860 -> 27860 bytes
->
->  iwlwifi-so-a0-hr-b0-89.ucode  | Bin 0 -> 1526136 bytes
->
->  iwlwifi-ty-a0-gf-a0-89.ucode  | Bin 0 -> 1651956 bytes
->
->  iwlwifi-ty-a0-gf-a0.pnvm      | Bin 55020 -> 55020 bytes
->
->  20 files changed, 27 insertions(+), 6 deletions(-)
->
->  create mode 100644 iwlwifi-gl-c0-fm-c0-90.ucode
->
->  create mode 100644 iwlwifi-ma-b0-gf-a0-89.ucode
->
->  create mode 100644 iwlwifi-ma-b0-gf4-a0-89.ucode
->
->  create mode 100644 iwlwifi-so-a0-gf-a0-89.ucode
->
->  create mode 100644 iwlwifi-so-a0-gf4-a0-89.ucode
->
->  create mode 100644 iwlwifi-so-a0-hr-b0-89.ucode
->
->  create mode 100644 iwlwifi-ty-a0-gf-a0-89.ucode
+How about moving them all now and then creating compat symlinks for 
+older kernels at linux-firmware 'make install' time?
