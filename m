@@ -4,72 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 35330C4345F
-	for <linux-firmware@archiver.kernel.org>; Wed, 17 Apr 2024 14:10:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5ED36C4345F
+	for <linux-firmware@archiver.kernel.org>; Wed, 17 Apr 2024 14:11:47 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 0CCBCC116B1; Wed, 17 Apr 2024 14:10:00 +0000 (UTC)
+	id 48DF6C116B1; Wed, 17 Apr 2024 14:11:47 +0000 (UTC)
 Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 5AB0FC072AA
-	for <linux-firmware@kernel.org>; Wed, 17 Apr 2024 14:09:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 5AB0FC072AA
+	by smtp.kernel.org (Postfix) with ESMTPS id 957B1C072AA;
+	Wed, 17 Apr 2024 14:11:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 957B1C072AA
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=sipsolutions.net
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
 	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
 	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-	Resent-Cc:Resent-Message-ID; bh=4wcEcjDMioCJvdEJBFh4Rw7VmBBlM0ZDq9pyplVl+bw=;
-	t=1713362997; x=1714572597; b=q4vG7qCdB+oBBCjgtDWLpaGwZfUY+MLHMAT9qMlBlSbQCMe
-	w4kjRF5vwL8sOZWo6mNQ+2izQHPK5cplFPGq5VF9v98iw1eVcE0Q4inK4Y9m6pxPyS3AXdF9A2Nz9
-	hu/rGe+fmBXElgV62nLBimofgNTm/WPv+h8fxcEwbtDDbjJhNKin72YfIE6DthjucyRvwuXuFl4wk
-	aGwssDo9qIieVpicYoqZiYMeYin2wMYwNDjrDp3UodkyyShRRjkieEGtNYAgw0DXi5NmOfez/kE8o
-	lzPV4Igti6lJstJ157PQxAXVx3qPIHS7VtOfggiXj84yyfGqXBgOcZ2S9c2+a50A==;
+	Resent-Cc:Resent-Message-ID; bh=ytE3RuR82kzReb6CQQ2/uk3bZZIXA92Udt32eR1wCG4=;
+	t=1713363106; x=1714572706; b=t4H/yDG7KOjYKViy5Yyn+r9b6yMv/Gd2h7QOzCMKfJgGe9y
+	x7hM9gV2iHNKB+IQdLmpf1GBtyG/HsHMQxmm8ljkPz3AE0ZyxCd1k3+WCVfsubySgNSsO2654aWfU
+	URdVNRWtxS+aMOJqdxqv4yUfSXTCQYFn8FpTSnY+UR1Gk8clwqydwIyxLQbgV7baMfedD2LZPp8lv
+	msEbaFgUs58rhnk2VogIdJguVb/mGhFmc/drrzcs04BHVYreo/i/Xef14Q4vhjliQ461LhDyFXKrk
+	tC4mS7dRHwDcUDONLepeh8JnHZqNwQKeFeiy1PLK+qlZttb3N5T4+020TDdENhuw==;
 Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
 	(Exim 4.97)
 	(envelope-from <johannes@sipsolutions.net>)
-	id 1rx5yz-0000000B0LN-3rBN;
-	Wed, 17 Apr 2024 16:09:54 +0200
-Message-ID: <2278e0d1026ed336559adbc9ffbf6e945eba422e.camel@sipsolutions.net>
+	id 1rx60l-0000000B0SI-1BlL;
+	Wed, 17 Apr 2024 16:11:43 +0200
+Message-ID: <4e07bb9f498566ed89e7e967e12f01821801acc8.camel@sipsolutions.net>
 Subject: Re: putting future iwlwifi firmware into intel/ ?
 From: Johannes Berg <johannes@sipsolutions.net>
+To: Kalle Valo <kvalo@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
-To: Mario Limonciello <superm1@gmail.com>, linux-firmware@kernel.org
-Cc: linux-wireless@vger.kernel.org, miriam.rachel.korenblit@intel.com
-Date: Wed, 17 Apr 2024 16:09:52 +0200
-In-Reply-To: <b7876373-08d9-4948-a49a-e79f42f3abcb@gmail.com>
+Cc: linux-firmware@kernel.org, linux-wireless@vger.kernel.org, 
+	miriam.rachel.korenblit@intel.com
+Date: Wed, 17 Apr 2024 16:11:42 +0200
+In-Reply-To: <87v84gi1v4.fsf@kernel.org>
 References: 
 	<fec30176f437d565d4c1dfc4944373f117d75a64.camel@sipsolutions.net>
-	 <9aa64d50-cb4d-4118-bc27-86c23410ff8b@gmail.com>
-	 <f65765b29ea7503fbbaa5e047c95a82de6fc2083.camel@sipsolutions.net>
-	 <b0e70576-a53f-4d03-a503-ddf1f98bbe9d@gmail.com>
-	 <b712f48a3e35221b7ff7f4c8cb495b5159bdd367.camel@sipsolutions.net>
-	 <b7876373-08d9-4948-a49a-e79f42f3abcb@gmail.com>
+	 <87v84gi1v4.fsf@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 MIME-Version: 1.0
 X-malware-bazaar: not-scanned
 
-On Wed, 2024-04-17 at 08:58 -0500, Mario Limonciello wrote:
-> >=20
-> > Yeah, I guess. Though not actually sure, do we need to support new
-> > kernel + old firmware install?
+On Wed, 2024-04-17 at 15:56 +0300, Kalle Valo wrote:
 >=20
-> I'd say you should.  Here's a few examples of why:
-
-Right, agree.
-
-> So yes; do the symlinks when you move directories.  It's one line in=20
-> WHENCE per file that you want a symlink.
+> Yes, please. It would be nice to cleanup linux-firmware.git top level
+> directory. But what about this:
 >=20
+> * convert iwlwifi to first use _all_ files under intel/ and then as a
+>   fallback top level directory
 
-That doesn't achieve it though. It means the driver needs to try for the
-file in intel/ and then fall back without the intel/ if it's not found.
-
-Or just look for new files in intel/ and old files without intel/, but
-then you don't really need the file move/symlinks?
+Yeah, that's quite annoying though since we currently look for something
+like "iwlwifi-<hw>-<version>.ucode", and version will go down from some
+number to another number (e.g. 73 ... 43.) So now we have to double that
+loop up and try intel/...-73, ...-73, intel/...-72, ...-72, etc.?
 
 johannes
