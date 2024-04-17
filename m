@@ -1,110 +1,142 @@
-Return-Path: <SRS0=1AFC=LV=qualityservice.top=info2@kernel.org>
+Return-Path: <SRS0=/7Z2=LW=126.com=airpipe1992@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E8EA1C4345F
-	for <linux-firmware@archiver.kernel.org>; Tue, 16 Apr 2024 03:31:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C692C4345F
+	for <linux-firmware@archiver.kernel.org>; Wed, 17 Apr 2024 07:48:56 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id BFA7DC113CE; Tue, 16 Apr 2024 03:31:13 +0000 (UTC)
-Received: from info.mdalsga.top (unknown [101.42.35.100])
-	by smtp.kernel.org (Postfix) with ESMTP id 0EBECC32783
-	for <linux-firmware@kernel.org>; Tue, 16 Apr 2024 03:31:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 0EBECC32783
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=manoinstrument.com
-Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=qualityservice.top
-Received: from DESKTOP-S5TPQI3 (61.185.131.88) by info.mdalsga.top id h3nofs0e97c2 for <linux-firmware@kernel.org>; Tue, 16 Apr 2024 11:31:08 +0800 (envelope-from <info2@qualityservice.top>)
-From: "pressure gauge factory" <sales@manoinstrument.com>
-Subject: Enquiry regarding pressure gauge and digital pressure gauge
+	id 4FF9BC2BD10; Wed, 17 Apr 2024 07:48:56 +0000 (UTC)
+Received: from m15.mail.126.com (m15.mail.126.com [45.254.50.223])
+	by smtp.kernel.org (Postfix) with ESMTP id CAB67C072AA
+	for <linux-firmware@kernel.org>; Wed, 17 Apr 2024 07:48:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org CAB67C072AA
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=lianfa-group.net
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=126.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=MrPx8AbrdoBFcTGL4p1TaEbsqbyBH027nVp3Id8YwK4=; b=k
+	zBIBYAszuMGu43aNTHRndKtuIw4XXg2Nf21/4W+h+LfqnNOxEbnCvkA0ZPYZ4ako
+	LxcrjMQ7EyIW3TKr1sLwqIzcCzu7pw+tkeo57BPF4Hu5eaSBYiJYqYyjuileGzM3
+	E7X7UECTCmdEy+Z23xJVbSUv99u2MG+3YhgjbfiALo=
+Received: from sales7$lianfa-group.net ( [60.168.33.10] ) by
+ ajax-webmail-wmsvr-41-117 (Coremail) ; Wed, 17 Apr 2024 15:21:25 +0800
+ (CST)
+X-Originating-IP: [60.168.33.10]
+Date: Wed, 17 Apr 2024 15:21:25 +0800 (CST)
+From: Sara  <sales7@lianfa-group.net>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Content-Type: multipart/alternative; boundary="RrJ57JveK78Tm82A6kKsV=_j3lSYWnVp1c"
+Subject: Bathroom Spiral Shower Hoses inquiry from Sara
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
+ Copyright (c) 2002-2024 www.mailtech.cn 126com
+Sender: airpipe1992@126.com
+X-NTES-SC: AL_Qu2aAf+Yt0wj4ySdYekfm04bjuw8Ucu0svgi1INVOJt4jA7j/BwxY1tnPEf40cWTKCO1rzyzSxVB0+NEdLJHYKEkggTE/N718PO92dg1pLuxLA==
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_86432_1885565794.1713338485460"
 MIME-Version: 1.0
-Sender: info2@qualityservice.top
-Reply-To: sales@manoinstrument.com
-Date: Tue, 16 Apr 2024 11:31:08 +0800
-Message-Id: <20240416033110.0EBECC32783@smtp.kernel.org>
+Message-ID: <2bc47888.5c5b.18eeaee8ad4.Coremail.sales7@lianfa-group.net>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:_____wD33651eB9mdhlTAA--.7912W
+X-CM-SenderInfo: xdlu1x1shrmmas6rjloofrz/1tbiGBDDXWVLaug08AACs8
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-This is a multi-part message in MIME format
+------=_Part_86432_1885565794.1713338485460
+Content-Type: text/plain; charset=GBK
+Content-Transfer-Encoding: base64
 
---RrJ57JveK78Tm82A6kKsV=_j3lSYWnVp1c
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+SGkKCiAKR29vZCBkYXkgdG8geW91LgogCldlIHdhbnQgeW91IGtub3cgdGhhdCB3ZSBhcmUgdGhl
+IGhvc2UgbWFudWZhY3R1cmVyLgogCk1haW5seSBoYXZlICBCYXRocm9vbSBTcGlyYWwgU2hvd2Vy
+IEhvc2Vzo6xQVkMgbGF5ZmxhdCBob3Nlo6wgd2VsZGluZyBob3NlLCBwdmMgaG9zZSBhbmQgc28g
+b24uCgoKTWF5IGkga25vdyBkbyB5b3UgaGF2ZSB0aGUgZGVtYW5kcyBvZiB0aGUgaG9zZXM/V2Ug
+Y2FuIHNlbmQgdGhlIGNhdGFsb2cgZm9yIHlvdXIgcmVmZXJlbmNlLgoKCldhaXRpbmcgZm9yIHlv
+dXIgZ29vZCBuZXdzLgpTYXJh
+------=_Part_86432_1885565794.1713338485460
+Content-Type: text/html; charset=GBK
+Content-Transfer-Encoding: base64
 
-Your reader does not support HTML
-Hi=A0how are you,
-
-I am pleased to know that you are exploring the market for=20
-pressure gauges, particularly digital pressure gauge instruments.
-
-With 3 workshops, 1 professional calibration Lab, and a decade of expe=
-rience,=20
-we maintain excellent quality and competitive prices for our valued cu=
-stomers across the globe.
-
-Our main products cover:
-1.Full series pressure gauges.
-2.Full series digital pressure gauges
-3.Thermometers
-4.Pressure calibrations
-5.OEM and ODM
-
-In the event that any product fulfills your needs,=20
-kindly reach out to us.=A0
-We provide catalogs and free samples.
-
-Rest assured that we will promptly address any inquiry or requirement =
-you may have.
-
-Best regards,=A0
-Shirly=A0
-
-Ankang Mano Instrument Co., Ltd
-www.manoinstrument.com=A0
-sales@manoinstrument.com=A0
-Whatsapp:+86 18729482322
-Mobile:+86 18729482322
-skype: chengshirly@hotmail.com
-
---RrJ57JveK78Tm82A6kKsV=_j3lSYWnVp1c
-Content-Type: multipart/related; type="text/html";
-	boundary="jq6BQ8DD9JfzxTthsFKmq=_Bw5DtW2PpMk"
-
---jq6BQ8DD9JfzxTthsFKmq=_Bw5DtW2PpMk
-Content-Type: text/html
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-
-<HTML><BODY style=3D'font-family:"????";font-style:normal;font-weight:=
-normal;font-size:10pt'><FONT color=3D"#000000">Hi?how are you,<BR><BR>=
-</FONT><FONT color=3D"#000000">I am pleased to know that you are explo=
-ring the market for <BR></FONT><FONT color=3D"#000000">pressure gauges=
-, particularly digital pressure gauge instruments.<BR><BR></FONT><FONT=
- color=3D"#000000">With 3 workshops, 1 professional calibration Lab, a=
-nd a decade of experience, <BR></FONT><FONT color=3D"#000000">we maint=
-ain excellent quality and competitive prices for our valued customers =
-across the globe.<BR><BR></FONT><FONT color=3D"#000000">Our main produ=
-cts cover:<BR></FONT><B><FONT color=3D"#000000">1.Full series pressure=
- gauges.<BR></FONT><FONT color=3D"#000000">2.Full series digital press=
-ure gauges<BR></FONT><FONT color=3D"#000000">3.Thermometers<BR></FONT>=
-<FONT color=3D"#000000">4.Pressure calibrations<BR></FONT><FONT color=3D=
-"#000000">5.OEM and ODM<BR><BR></FONT></B><FONT color=3D"#000000">In t=
-he event that any product fulfills your needs, <BR></FONT><FONT color=3D=
-"#000000">kindly reach out to us.?<BR></FONT><FONT color=3D"#000000">W=
-e provide catalogs and free samples.<BR><BR></FONT><FONT color=3D"#000=
-000">Rest assured that we will promptly address any inquiry or require=
-ment you may have.<BR><BR></FONT><FONT color=3D"#000000">Best regards,=
-?<BR></FONT><FONT color=3D"#000000">Shirly?<BR><BR></FONT><FONT color=3D=
-"#000000">Ankang Mano Instrument Co., Ltd<BR></FONT><FONT color=3D"#00=
-0000">www.manoinstrument.com?<BR></FONT><FONT color=3D"#000000">sales@=
-manoinstrument.com?<BR></FONT><FONT color=3D"#000000">Whatsapp:+86 187=
-29482322<BR></FONT><FONT color=3D"#000000">Mobile:+86 18729482322<BR><=
-/FONT><FONT color=3D"#000000">skype: chengshirly@hotmail.com<BR></FONT=
-><FONT color=3D"#000000"></FONT></BODY></HTML>
-
---jq6BQ8DD9JfzxTthsFKmq=_Bw5DtW2PpMk--
-
---RrJ57JveK78Tm82A6kKsV=_j3lSYWnVp1c--
+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
+Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0ibGlu
+ZS1oZWlnaHQ6IDEuNTsgY29sb3I6IHJnYigwLCAwLCAwKTsgZm9udC1zaXplOiAxMnB0OyB3b3Jk
+LWJyZWFrOiBicmVhay13b3JkICFpbXBvcnRhbnQ7Ij48c3BhbiBjbGFzcz0ieF9lbGVtZW50VG9Q
+cm9vZiIgc3R5bGU9Im1hcmdpbjogMHB4OyB3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBvcnRh
+bnQ7Ij48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6IGNhbGlicmksIEFyaWFsLCBIZWx2ZXRpY2Es
+IHNhbnMtc2VyaWY7IG1hcmdpbjogMHB4OyB3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBvcnRh
+bnQ7Ij48c3BhbiBzdHlsZT0ibWFyZ2luOiAwcHg7IHdvcmQtYnJlYWs6IGJyZWFrLXdvcmQgIWlt
+cG9ydGFudDsiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6IDE1cHg7IG1hcmdpbjogMHB4OyBjb2xv
+cjogcmdiKDM2LCAzNiwgMzYpOyB3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBvcnRhbnQ7Ij48
+c3BhbiBzdHlsZT0iZm9udC1zaXplOiAxMnB0OyBtYXJnaW46IDBweDsgY29sb3I6IGJsYWNrOyB3
+b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBvcnRhbnQ7Ij48c3BhbiBzdHlsZT0ibWFyZ2luOiAw
+cHg7IHdvcmQtYnJlYWs6IGJyZWFrLXdvcmQgIWltcG9ydGFudDsiPjxzcGFuIGNsYXNzPSJ4X0Nv
+bnRlbnRQYXN0ZWQwIENvbnRlbnRQYXN0ZWQwIiBzdHlsZT0iZm9udC1zaXplOiAxNHB4OyBmb250
+LWZhbWlseTogQXJpYWw7IG1hcmdpbjogMHB4OyB3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBv
+cnRhbnQ7Ij5IaTwvc3Bhbj48L3NwYW4+PC9zcGFuPjwvc3Bhbj48L3NwYW4+PC9zcGFuPjwvc3Bh
+bj48L2Rpdj48cCBzdHlsZT0ibWFyZ2luOjA7Ij48YSBjbGFzcz0ieG1fd3JpdGVfY2FyZCIgaHJl
+Zj0iaHR0cHM6Ly93eC5tYWlsLnFxLmNvbS9ob21lL2luZGV4P3Q9cmVhZG1haWxfYnVzaW5lc3Nj
+YXJkX21pZHBhZ2UmYW1wO25vY2hlY2s9dHJ1ZSZhbXA7bmFtZT1TYXJhK1lhbyZhbXA7aWNvbj1o
+dHRwcyUzQSUyRiUyRnJlcy5tYWlsLnFxLmNvbSUyRnpoX0NOJTJGaHRtbGVkaXRpb24lMkZpbWFn
+ZXMlMkZyc3MlMkZtYWxlLmdpZiUzRnJhbmQlM0QxNjE3MzQ5MjQyJmFtcDttYWlsPWNhcmx5bGUw
+MDIlNDBmb3htYWlsLmNvbSZhbXA7Y29kZT0iIHRhcmdldD0iX2JsYW5rIiBzdHlsZT0iZm9udC1m
+YW1pbHk6IENhbGlicmksIEFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGNvbG9yOiByZ2Io
+NzQsIDE0NCwgMjI2KTsgY3Vyc29yOiBwb2ludGVyOyBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7IHRl
+eHQtZGVjb3JhdGlvbi1saW5lOiBub25lICFpbXBvcnRhbnQ7Ij48L2E+PC9wPjxkaXYgY2xhc3M9
+ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0ibGluZS1oZWlnaHQ6IDEuNTsgY29sb3I6IHJnYigwLCAw
+LCAwKTsgZm9udC1zaXplOiAxMnB0OyB3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBvcnRhbnQ7
+Ij48ZGl2IGNsYXNzPSJ4X2VsZW1lbnRUb1Byb29mIiBzdHlsZT0ibGluZS1oZWlnaHQ6IDEuNTsg
+bWFyZ2luOiAwcHg7IHdvcmQtYnJlYWs6IGJyZWFrLXdvcmQgIWltcG9ydGFudDsiPjxkaXYgc3R5
+bGU9ImxpbmUtaGVpZ2h0OiAxLjU7IGZvbnQtZmFtaWx5OiBjYWxpYnJpLCBBcmlhbCwgSGVsdmV0
+aWNhLCBzYW5zLXNlcmlmOyBtYXJnaW46IDBweDsgd29yZC1icmVhazogYnJlYWstd29yZCAhaW1w
+b3J0YW50OyI+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6IDEuNTsgbWFyZ2luOiAwcHg7IHdvcmQt
+YnJlYWs6IGJyZWFrLXdvcmQgIWltcG9ydGFudDsiPjxkaXYgc3R5bGU9ImxpbmUtaGVpZ2h0OiAx
+LjU7IG1hcmdpbjogMHB4OyB3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBvcnRhbnQ7Ij48ZGl2
+IHN0eWxlPSJsaW5lLWhlaWdodDogMS41OyBtYXJnaW46IDBweDsgd29yZC1icmVhazogYnJlYWst
+d29yZCAhaW1wb3J0YW50OyI+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6IDEuNTsgZm9udC1zaXpl
+OiAxNHB4OyBmb250LWZhbWlseTogQXJpYWw7IG1hcmdpbjogMHB4OyB3b3JkLWJyZWFrOiBicmVh
+ay13b3JkICFpbXBvcnRhbnQ7Ij48ZGl2IGNsYXNzPSJ4X0NvbnRlbnRQYXN0ZWQwIENvbnRlbnRQ
+YXN0ZWQwIiBzdHlsZT0ibGluZS1oZWlnaHQ6IDEuNTsgbWFyZ2luOiAwcHg7IHdvcmQtYnJlYWs6
+IGJyZWFrLXdvcmQgIWltcG9ydGFudDsiPiZuYnNwOzwvZGl2PjxkaXYgY2xhc3M9InhfQ29udGVu
+dFBhc3RlZDAgQ29udGVudFBhc3RlZDAiIHN0eWxlPSJsaW5lLWhlaWdodDogMS41OyBtYXJnaW46
+IDBweDsgd29yZC1icmVhazogYnJlYWstd29yZCAhaW1wb3J0YW50OyI+R29vZCBkYXkgdG8geW91
+LjwvZGl2PjxkaXYgY2xhc3M9InhfQ29udGVudFBhc3RlZDAgQ29udGVudFBhc3RlZDAiIHN0eWxl
+PSJsaW5lLWhlaWdodDogMS41OyBtYXJnaW46IDBweDsgd29yZC1icmVhazogYnJlYWstd29yZCAh
+aW1wb3J0YW50OyI+Jm5ic3A7PC9kaXY+PGRpdiBjbGFzcz0ieF9Db250ZW50UGFzdGVkMCBDb250
+ZW50UGFzdGVkMCIgc3R5bGU9ImxpbmUtaGVpZ2h0OiAxLjU7IG1hcmdpbjogMHB4OyB3b3JkLWJy
+ZWFrOiBicmVhay13b3JkICFpbXBvcnRhbnQ7Ij5XZSB3YW50IHlvdSBrbm93IHRoYXQgd2UgYXJl
+IHRoZSBob3NlIG1hbnVmYWN0dXJlci48L2Rpdj48ZGl2IGNsYXNzPSJ4X0NvbnRlbnRQYXN0ZWQw
+IENvbnRlbnRQYXN0ZWQwIiBzdHlsZT0ibGluZS1oZWlnaHQ6IDEuNTsgbWFyZ2luOiAwcHg7IHdv
+cmQtYnJlYWs6IGJyZWFrLXdvcmQgIWltcG9ydGFudDsiPiZuYnNwOzwvZGl2PjxkaXYgc3R5bGU9
+ImxpbmUtaGVpZ2h0OiAxLjU7IG1hcmdpbjogMHB4OyB3b3JkLWJyZWFrOiBicmVhay13b3JkICFp
+bXBvcnRhbnQ7Ij48ZGl2IHN0eWxlPSJsaW5lLWhlaWdodDogMS41OyBtYXJnaW46IDBweDsgd29y
+ZC1icmVhazogYnJlYWstd29yZCAhaW1wb3J0YW50OyI+PHNwYW4gY2xhc3M9InhfQ29udGVudFBh
+c3RlZDAgQ29udGVudFBhc3RlZDAiIHN0eWxlPSJtYXJnaW46IDBweDsgd29yZC1icmVhazogYnJl
+YWstd29yZCAhaW1wb3J0YW50OyI+TWFpbmx5IGhhdmUgJm5ic3A7PGI+QmF0aHJvb20gU3BpcmFs
+IFNob3dlciBIb3Nlc6OsPC9iPjxiPlBWQyBsYXlmbGF0IGhvc2WjrCB3ZWxkaW5nPC9iPjwvc3Bh
+bj48c3Ryb25nIGNsYXNzPSJ4X0NvbnRlbnRQYXN0ZWQwIENvbnRlbnRQYXN0ZWQwIiBzdHlsZT0i
+d29yZC1icmVhazogYnJlYWstd29yZCAhaW1wb3J0YW50OyI+Jm5ic3A7aG9zZSwgcHZjIGhvc2Ug
+YW5kIHNvIG9uLjwvc3Ryb25nPjwvZGl2PjxkaXYgY2xhc3M9InhfQ29udGVudFBhc3RlZDAgQ29u
+dGVudFBhc3RlZDAiIHN0eWxlPSJsaW5lLWhlaWdodDogMS41OyBtYXJnaW46IDBweDsgd29yZC1i
+cmVhazogYnJlYWstd29yZCAhaW1wb3J0YW50OyI+PC9kaXY+PGRpdiBjbGFzcz0ieF9Db250ZW50
+UGFzdGVkMCBDb250ZW50UGFzdGVkMCIgc3R5bGU9ImxpbmUtaGVpZ2h0OiAxLjU7IG1hcmdpbjog
+MHB4OyB3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBvcnRhbnQ7Ij48YnI+PC9kaXY+PGRpdiBj
+bGFzcz0ieF9Db250ZW50UGFzdGVkMCBDb250ZW50UGFzdGVkMCIgc3R5bGU9ImxpbmUtaGVpZ2h0
+OiAxLjU7IG1hcmdpbjogMHB4OyB3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBvcnRhbnQ7Ij5N
+YXkgaSBrbm93IGRvIHlvdSBoYXZlIHRoZSBkZW1hbmRzIG9mIHRoZSBob3Nlcz9XZSBjYW4gc2Vu
+ZCB0aGUgY2F0YWxvZyBmb3IgeW91ciByZWZlcmVuY2UuPC9kaXY+PGRpdiBjbGFzcz0ieF9Db250
+ZW50UGFzdGVkMCBDb250ZW50UGFzdGVkMCIgc3R5bGU9ImxpbmUtaGVpZ2h0OiAxLjU7IG1hcmdp
+bjogMHB4OyB3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBvcnRhbnQ7Ij48YnIgc3R5bGU9Indv
+cmQtYnJlYWs6IGJyZWFrLXdvcmQgIWltcG9ydGFudDsiPjwvZGl2PjxkaXYgY2xhc3M9InhfQ29u
+dGVudFBhc3RlZDAgQ29udGVudFBhc3RlZDAiIHN0eWxlPSJsaW5lLWhlaWdodDogMS41OyBtYXJn
+aW46IDBweDsgd29yZC1icmVhazogYnJlYWstd29yZCAhaW1wb3J0YW50OyI+PC9kaXY+PGRpdiBj
+bGFzcz0ieF9Db250ZW50UGFzdGVkMCBDb250ZW50UGFzdGVkMCIgc3R5bGU9ImxpbmUtaGVpZ2h0
+OiAxLjU7IG1hcmdpbjogMHB4OyB3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBvcnRhbnQ7Ij5X
+YWl0aW5nIGZvciB5b3VyIGdvb2QgbmV3cy48L2Rpdj48ZGl2IGNsYXNzPSJ4X0NvbnRlbnRQYXN0
+ZWQwIENvbnRlbnRQYXN0ZWQwIiBzdHlsZT0ibGluZS1oZWlnaHQ6IDEuNTsgbWFyZ2luOiAwcHg7
+IHdvcmQtYnJlYWs6IGJyZWFrLXdvcmQgIWltcG9ydGFudDsiPjwvZGl2PjwvZGl2PjwvZGl2Pjwv
+ZGl2PjwvZGl2PjwvZGl2PjxzcGFuIGNsYXNzPSJ4X0NvbnRlbnRQYXN0ZWQwIENvbnRlbnRQYXN0
+ZWQwIiBzdHlsZT0iZm9udC1zaXplOiAxNHB4OyBmb250LWZhbWlseTogQXJpYWw7IG1hcmdpbjog
+MHB4OyB3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBvcnRhbnQ7Ij5TYXJhPC9zcGFuPjwvZGl2
+PjwvZGl2PjwvZGl2PjwvZGl2Pg==
+------=_Part_86432_1885565794.1713338485460--
 
