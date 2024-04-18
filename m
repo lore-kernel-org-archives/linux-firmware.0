@@ -1,105 +1,115 @@
-Return-Path: <SRS0=tm4Z=LW=gmail.com=superm1@kernel.org>
+Return-Path: <SRS0=QXuG=LX=opensource.cirrus.com=prvs=1838147d1d=sbinding@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47D2DC4345F
-	for <linux-firmware@archiver.kernel.org>; Wed, 17 Apr 2024 14:14:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 362EAC04FFE
+	for <linux-firmware@archiver.kernel.org>; Thu, 18 Apr 2024 15:53:30 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 2BD97C116B1; Wed, 17 Apr 2024 14:14:44 +0000 (UTC)
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id 0F9EDC32781; Thu, 18 Apr 2024 15:53:30 +0000 (UTC)
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 58B41C072AA
-	for <linux-firmware@kernel.org>; Wed, 17 Apr 2024 14:14:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 58B41C072AA
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-5ac5376c4b2so3469940eaf.2
-        for <linux-firmware@kernel.org>; Wed, 17 Apr 2024 07:14:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713363282; x=1713968082; darn=kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GjawpEZOcDH/6R+eopMAGA1z4x5Ko0AY4+QCsVzXPgQ=;
-        b=eIjeBUQDZMg7SN5DMQMHbTviiAnGED33TrIuHGFygIWkiTLT+rle/+5StLFcDHL0nv
-         roQAeP66Gj7QEngoxPWnL+M49UV7dr0q1UccrWzYs1TbWZgtYyeUkCUPzfhxMRGQ2wEU
-         cKdqt1kmZb4ZwKNSiQawav1UrX3x7RB2didQBKMRIKBIBDq6g+WKXpCkA4CDyBH83jBh
-         MZR+hSWPASVsN/gXhL/waO5PuiyUzt0EaWGZ1UrkZvZayr1VFU0276h25bpZ1X7jjEZt
-         s688vYIsVgm405qB3+jiQysEWGBJErAH9fmV8pjdMPNDUNzjZZDDTJFs1aObHqhoIkJ7
-         RR5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713363282; x=1713968082;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GjawpEZOcDH/6R+eopMAGA1z4x5Ko0AY4+QCsVzXPgQ=;
-        b=PPcIDaboYa4XeEOY1RLkBnFzLWf2bGtY37Iweh1pIrtTml9MZmrOQcJRk+9Zt1qvnp
-         EG7hlfvNBrMrsg0q4h6fTkrmWCOTygCsn6GXOz3ElAWRiXLugH3ejRR5zCr7F2jNuOtf
-         pUbgcnXA8bkOQYUbGCeXeIODk7XNE+A9lCYIH4DOpuir+4o+AEErc78VD/nDWOySKSyG
-         UHpmfs/DWbcPOSLeLMkhfm2SGsvEAe/dtCSUrE/Dwejo36sUxCTAXsy5kYKHWhZpISoo
-         WPJKM0OuT1fair3zTWQiP+yXH2PtEPvUXwMYdS6rpHETf27KonkNCAX4F8eMj8qC20NF
-         5erQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVHkjMybUBKr4WPvRF/XA67blW5B/A795MfUdj8GxCBDHEwmTOhkkMGIaOED/26IaROV1ijJzQQhS2WnYideAzeQfwPdFordnCZ
-X-Gm-Message-State: AOJu0Yyypa87nh6Ph2QS/ckT6zxGjUyfx2H65ucwEAiuC9sZZ8SHIq+n
-	V1bcng+ktIT9zGHbt+tps5E734AqTaIkDQoUAocBKIuyyCWWxn6T
-X-Google-Smtp-Source: AGHT+IE+ue6diJmzXmTPNAmaD2gap1v+6Y50xqsM5TCQVPDQ0//1F+etzxC8z/etHBZhebo/yqYB0g==
-X-Received: by 2002:a05:6820:c13:b0:5ac:6891:cee7 with SMTP id eh19-20020a0568200c1300b005ac6891cee7mr13334930oob.3.1713363282337;
-        Wed, 17 Apr 2024 07:14:42 -0700 (PDT)
-Received: from ?IPV6:2600:1700:70:f702:9c77:c230:a0ba:a1a1? ([2600:1700:70:f702:9c77:c230:a0ba:a1a1])
-        by smtp.gmail.com with ESMTPSA id v18-20020a4a8c52000000b005acd675194asm647068ooj.8.2024.04.17.07.14.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Apr 2024 07:14:42 -0700 (PDT)
-Message-ID: <9f0163ae-75bc-4a65-bc92-c9ae181ad83c@gmail.com>
-Date: Wed, 17 Apr 2024 09:14:41 -0500
+	by smtp.kernel.org (Postfix) with ESMTPS id C743CC3277B
+	for <linux-firmware@kernel.org>; Thu, 18 Apr 2024 15:53:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C743CC3277B
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43I7R4Zp028587
+	for <linux-firmware@kernel.org>; Thu, 18 Apr 2024 10:53:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	message-id:date:mime-version:to:cc:from:subject:content-type
+	:content-transfer-encoding; s=PODMain02222019; bh=O2+igCvG/AQQTZ
+	KIVqvsYbwjesg1jsyhNYOTs1DAWP0=; b=fDclz3xjsm6rOwCRlF1hdombAaVK6P
+	eRoqCxaOpYM0OsZuQ2B0oKpbt+85qqxm8H6ecInBr4vt897bmgcy3P8WVPg2ijvw
+	AQ+d6I7tDSP5keG/afzE/RDuGeZkMS8bzxibLvnzSSTjXO8aegHBHzZQSOy3VrJ7
+	m2yy18BvmhrPH9Y81p5KuMvkPRLPSJkLl5/n6vidfHie7U28mt+nVTjmLre/8OkX
+	InyeJpudsKhQIVoqK43DUopwNeLbWNG/0K4kfLu7T6DK38Vf7aPjX3RwV2JWV685
+	lX5dsmT1RpzEr4Ovbze2LjlOvSU+5tAwAZRWm5EPRe2bYx71Gz9+/g/Q==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3xfpfhvyf3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <linux-firmware@kernel.org>; Thu, 18 Apr 2024 10:53:27 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 18 Apr
+ 2024 16:53:25 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Thu, 18 Apr 2024 16:53:25 +0100
+Received: from [198.61.64.201] (LONN2DGDQ73.ad.cirrus.com [198.61.64.201])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 92933820244;
+	Thu, 18 Apr 2024 15:53:25 +0000 (UTC)
+Message-ID: <70a172c1-5f65-4392-a1f3-a3f2a8befa2c@opensource.cirrus.com>
+Date: Thu, 18 Apr 2024 16:53:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: putting future iwlwifi firmware into intel/ ?
-Content-Language: en-US
+Content-Language: en-GB
 List-Id: <linux-firmware.lore.kernel.org>
-To: Johannes Berg <johannes@sipsolutions.net>, linux-firmware@kernel.org
-Cc: linux-wireless@vger.kernel.org, miriam.rachel.korenblit@intel.com
-References: <fec30176f437d565d4c1dfc4944373f117d75a64.camel@sipsolutions.net>
- <9aa64d50-cb4d-4118-bc27-86c23410ff8b@gmail.com>
- <f65765b29ea7503fbbaa5e047c95a82de6fc2083.camel@sipsolutions.net>
- <b0e70576-a53f-4d03-a503-ddf1f98bbe9d@gmail.com>
- <b712f48a3e35221b7ff7f4c8cb495b5159bdd367.camel@sipsolutions.net>
- <b7876373-08d9-4948-a49a-e79f42f3abcb@gmail.com>
- <2278e0d1026ed336559adbc9ffbf6e945eba422e.camel@sipsolutions.net>
-From: Mario Limonciello <superm1@gmail.com>
-In-Reply-To: <2278e0d1026ed336559adbc9ffbf6e945eba422e.camel@sipsolutions.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: <linux-firmware@kernel.org>
+CC: "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>
+From: Stefan Binding <sbinding@opensource.cirrus.com>
+Subject: [PULL v1 linux-firmware] Add firmware, tuning parameters and fixes
+ for CS35L41
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: PILDaVHVmSJUMFVNyYlT7XcR2TU3o5pH
+X-Proofpoint-GUID: PILDaVHVmSJUMFVNyYlT7XcR2TU3o5pH
+X-Proofpoint-Spam-Reason: safe
 
+We would like to add firmware files to support Cirrus Logic Smart Amp 
+CS35L41 for Lenovo Legion Slim 7 16ARHA7.
+In addition there is a fix for the firmware and tuning files names for 
+104316a3.
+Also add tuning parameter files for various laptops.
+Tuning parameter files are loaded by the driver at the same time the 
+Firmware and tuning is loaded.
 
+Thanks,
 
-On 4/17/24 09:09, Johannes Berg wrote:
-> On Wed, 2024-04-17 at 08:58 -0500, Mario Limonciello wrote:
->>>
->>> Yeah, I guess. Though not actually sure, do we need to support new
->>> kernel + old firmware install?
->>
->> I'd say you should.  Here's a few examples of why:
-> 
-> Right, agree.
-> 
->> So yes; do the symlinks when you move directories.  It's one line in
->> WHENCE per file that you want a symlink.
->>
-> 
-> That doesn't achieve it though. It means the driver needs to try for the
-> file in intel/ and then fall back without the intel/ if it's not found.
-> 
-> Or just look for new files in intel/ and old files without intel/, but
-> then you don't really need the file move/symlinks?
-> 
-> johannes
+Stefan Binding
 
-It's probably easiest to look in intel/ and then fallback to the 
-toplevel path if -ENOENT and try again.
+The following changes since commit e6786998c1b5faa669d4154436232dc490079d6b:
 
-Like Kalle mentioned, wait a few years and then tear out the fallback 
-code and the symlink creation.
+   Merge branch 'mt7922' into 'main' (2024-04-17 11:59:01 +0000)
+
+are available in the Git repository at:
+
+   https://github.com/CirrusLogic/linux-firmware/ cs35l41-various
+
+for you to fetch changes up to dfadf5687922f239eb8b04df0e1726230098b802:
+
+   linux-firmware: Add tuning parameter configs for CS35L41 Firmware 
+(2024-04-18 16:39:54 +0100)
+
+----------------------------------------------------------------
+Stefan Binding (3):
+       linux-firmware: Add CS35L41 HDA Firmware for Lenovo Legion Slim 7 
+16ARHA7
+       linux-firmware: Fix firmware names for Laptop SSID 104316a3
+       linux-firmware: Add tuning parameter configs for CS35L41 Firmware
+
+  WHENCE                                            | 129 
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----------
+  cirrus/cs35l41-dsp1-spk-cali-17aa3877.bin         | Bin 0 -> 1536 bytes
+  cirrus/cs35l41-dsp1-spk-cali-17aa3878.bin         | Bin 0 -> 1540 bytes
+  cirrus/cs35l41-dsp1-spk-prot-17aa3877-l0.bin      | Bin 0 -> 5680 bytes
+  cirrus/cs35l41-dsp1-spk-prot-17aa3877-r0.bin      | Bin 0 -> 5680 bytes
+  cirrus/cs35l41-dsp1-spk-prot-17aa3878-l0.bin      | Bin 0 -> 5704 bytes
+  cirrus/cs35l41-dsp1-spk-prot-17aa3878-r0.bin      | Bin 0 -> 5704 bytes
+  cirrus/cs35l41/bincfgs/cs35l41-dsp1-14_5dB.bincfg | Bin 0 -> 32 bytes
+  cirrus/cs35l41/bincfgs/cs35l41-dsp1-16_5dB.bincfg | Bin 0 -> 32 bytes
+  cirrus/cs35l41/bincfgs/cs35l41-dsp1-19_5dB.bincfg | Bin 0 -> 32 bytes
+  10 files changed, 119 insertions(+), 10 deletions(-)
+  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-17aa3877.bin
+  create mode 100755 cirrus/cs35l41-dsp1-spk-cali-17aa3878.bin
+  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa3877-l0.bin
+  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa3877-r0.bin
+  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa3878-l0.bin
+  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa3878-r0.bin
+  create mode 100644 cirrus/cs35l41/bincfgs/cs35l41-dsp1-14_5dB.bincfg
+  create mode 100644 cirrus/cs35l41/bincfgs/cs35l41-dsp1-16_5dB.bincfg
+  create mode 100644 cirrus/cs35l41/bincfgs/cs35l41-dsp1-19_5dB.bincfg
+
