@@ -4,22 +4,23 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6895DC4345F
-	for <linux-firmware@archiver.kernel.org>; Thu, 25 Apr 2024 16:04:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1548BC4345F
+	for <linux-firmware@archiver.kernel.org>; Thu, 25 Apr 2024 16:51:52 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 2C149C2BD10; Thu, 25 Apr 2024 16:04:04 +0000 (UTC)
+	id CAC3FC2BD10; Thu, 25 Apr 2024 16:51:52 +0000 (UTC)
 Received: from zu.zuperhappy.us (zu.zuperhappy.us [88.209.237.67])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 0E24EC113CE
-	for <linux-firmware@kernel.org>; Thu, 25 Apr 2024 16:04:02 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id C24C5C113CC
+	for <linux-firmware@kernel.org>; Thu, 25 Apr 2024 16:51:51 +0000 (UTC)
+Reply-To: e41899778@gmail.com
 From: <Miss Ozlem B. Kurt><e41899778@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
 Subject: Credit union
-Date: 25 Apr 2024 17:53:47 +0200
-Message-ID: <20240425175347.4453F1C667ADAEF0@gmail.com>
+Date: 25 Apr 2024 18:51:43 +0200
+Message-ID: <20240425185142.28F8FB8D44E1BFEB@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain;
 	charset="utf-8"
