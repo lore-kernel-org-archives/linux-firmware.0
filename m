@@ -1,112 +1,106 @@
-Return-Path: <SRS0=QTZ6=NI=opensource.cirrus.com=prvs=388799c159=sbinding@kernel.org>
+Return-Path: <SRS0=mVV1=NI=h08.hostsharing.net=foo00@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36B1DC25B75
-	for <linux-firmware@archiver.kernel.org>; Thu,  6 Jun 2024 13:48:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3820CC27C54
+	for <linux-firmware@archiver.kernel.org>; Thu,  6 Jun 2024 13:50:03 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 0A931C32786; Thu,  6 Jun 2024 13:48:08 +0000 (UTC)
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id 04411C32781; Thu,  6 Jun 2024 13:50:03 +0000 (UTC)
+Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net [83.223.78.240])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id C8B45C2BD10
-	for <linux-firmware@kernel.org>; Thu,  6 Jun 2024 13:48:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C8B45C2BD10
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 456Djtep030886
-	for <linux-firmware@kernel.org>; Thu, 6 Jun 2024 08:48:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=v3tAaSjwHRY7vOyH
-	L3MOQUU+VxN4W6Tfqe43Qeqi0Uk=; b=KRkuXjiqVt1sHchcj96AZNnS1MAxOlFd
-	7E4x1sClTs9z/00EjUJnZHq0JpHIqWVi9nvuBFSP7oUfD0ou9ofcIECFuVRCstWh
-	xBR3EfDCbQ8u1VjCzDrSDzdpEpMonk/m3RYqOWjvF9SYzPSY3I89vSVfxcLMmukJ
-	LZchkjXO6zsnfnr5eG/8qowgu49lAWX06h7PWNiTwoaVMIOe+0TzM6FRzfH9f/F5
-	LRUNTDcZJYeUEpoj2TrZrZPSvKlu11/Xiq7rVSdJPLk/WDU/x7YZiM6ZkydfCpE2
-	nK/EHIUg1gUO8wKrCHB+LpCjrcY+z29DwqXJuvwxpdgiI4COjse97w==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3yg02hn7v3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-firmware@kernel.org>; Thu, 06 Jun 2024 08:48:01 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 6 Jun 2024
- 14:48:00 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Thu, 6 Jun 2024 14:48:00 +0100
-Received: from [198.61.65.119] (LONN2DGDQ73.ad.cirrus.com [198.61.65.119])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 19B10820249;
-	Thu,  6 Jun 2024 13:48:00 +0000 (UTC)
-Message-ID: <643c03aa-12dd-4e02-9086-e139d7671adf@opensource.cirrus.com>
-Date: Thu, 6 Jun 2024 14:48:00 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-GB
+	by smtp.kernel.org (Postfix) with ESMTPS id B27F5C2BD10
+	for <linux-firmware@kernel.org>; Thu,  6 Jun 2024 13:50:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org B27F5C2BD10
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
+Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=h08.hostsharing.net
+Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
+	by bmailout2.hostsharing.net (Postfix) with ESMTPS id 2118A2800B6F5;
+	Thu,  6 Jun 2024 15:49:53 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id 09C5AFF5B4; Thu,  6 Jun 2024 15:49:53 +0200 (CEST)
+Date: Thu, 6 Jun 2024 15:49:53 +0200
+From: Lukas Wunner <lukas@wunner.de>
+To: Francesco Dolcini <francesco@dolcini.it>,
+	Sherry Sun <sherry.sun@nxp.com>,
+	Dinesh Phatak <dinesh.phatak@nxp.com>,
+	Pankaj Razdan <pankaj.razdan@nxp.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-CC: "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-Subject: [PULL v1 linux-firmware] Add firmware for Cirrus Smart Amp CS35L41
- for Lenovo Thinkbooks
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 5AS6N0dTwBMma69sYpMMTOYxFG4DSodX
-X-Proofpoint-ORIG-GUID: 5AS6N0dTwBMma69sYpMMTOYxFG4DSodX
-X-Proofpoint-Spam-Reason: safe
+Cc: Andreas Kemnade <andreas@kemnade.info>, yu-hao.lin@nxp.com,
+	Neeraj Kale <neeraj.sanjaykale@nxp.com>,
+	=?iso-8859-1?Q?Tam=E1s?= Sz??cs <tszucs@protonmail.ch>,
+	linux-firmware@kernel.org, briannorris@chromium.org,
+	linux-wireless@vger.kernel.org,
+	Nicolai Buchwitz <n.buchwitz@kunbus.com>,
+	Philipp Rosenberger <p.rosenberger@kunbus.com>,
+	Lino Sanfilippo <LinoSanfilippo@gmx.de>
+Subject: Re: mwifiex firmware mrvl/sd8987_uapsta.bin missing in the firmware
+ git
+Message-ID: <ZmG-gZ306WXZUa-n@wunner.de>
+References: <20240605160013.6bea8d4d@aktux>
+ <_pNnwoI9WHlb2EY635KdIv6t_goU-ZYp9Vav31jkFOCf9fCE9EeKdyCea2m-L8pgfsKIQvODlnQLhQqmWSYip9e6FFZwaJHL5-u5rdOS_kY=@protonmail.ch>
+ <20240605174709.5043af8f@akair>
+ <20240606101839.GA76158@francesco-nb>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240606101839.GA76158@francesco-nb>
 
-We would like to add firmware files to support Cirrus Logic Smart Amp 
-CS35L41 for Lenovo Thinkbook 13X Gen 4 and Lenovo Thinkbook 16P Gen 5.
+[add more interested parties to cc]
+
+On Thu, Jun 06, 2024 at 12:18:39PM +0200, Francesco Dolcini wrote:
+> On Wed, Jun 05, 2024 at 05:47:09PM +0200, Andreas Kemnade wrote:
+> > But that is all legalese and I am not a lawyer... Best is of course
+> > something officially added from NXP. No idea if it can be done
+> > otherwise. How to make NXP add something?
+> 
+> Would it be possible for you to get these firmware files added to the
+> official linux-firmware git repo? 
+> 
+> I am not using sd8987 myself, from what I read in the thread probably
+> some file name would need to be corrected (I would say in the mwifiex
+> driver).
+
+I'd appreciate if NXP could additionally greenlight addition of:
+
+https://github.com/nxp-imx/imx-firmware/blob/lf-6.6.3_1.0.0/nxp/FwImage_IW416_SD/sdiouartiw416_combo_v0.bin
+https://github.com/nxp-imx/imx-firmware/blob/lf-6.6.3_1.0.0/nxp/FwImage_IW416_SD/uartiw416_bt_v0.bin
+
+...to the linux-firmware repo.  They're necessary for SD8978 (aka IW416),
+which has been supported by mwifiex since commit bba047f15851 ("wifi:
+mwifiex: Support SD8978 chipset").
+
+Back in the day when I submitted that commit, I concurrently reached out
+to NXP.  Sherry Sun kindly responded that Dinesh Phatak and Pankaj
+Razdan need to confirm upstreaming into linux-firmware (both +cc).
+
+
+The problem is that mwifiex firmware originating from
+
+https://github.com/NXP/mwifiex-firmware/
+
+is available under a simple 3-clause licence, but only contains outdated
+firmware for older chips.
+
+
+More recent firmware available from
+
+https://github.com/nxp-imx/imx-firmware
+
+seems to be distributed under different and much longer licensing terms:
+
+https://github.com/nxp-imx/imx-firmware/blob/lf-6.6.3_1.0.0/LICENSE.txt
+
+So I think we need confirmation from NXP before we can add the firmware
+to the linux-firmware repo.
 
 Thanks,
 
-Stefan Binding
-
-The following changes since commit 22643bb4fb5e2693fa67cfca1f133d650bcf16be:
-
-   Merge branch 'amd-staging' into 'main' (2024-06-04 18:18:52 +0000)
-
-are available in the Git repository at:
-
-   https://github.com/CirrusLogic/linux-firmware/ 2024-06-06
-
-for you to fetch changes up to 7f194335c1872ab7c68c17cac41e7070d0e8ae41:
-
-   linux-firmware: Add firmware for Lenovo Thinkbooks (2024-06-06 
-14:18:56 +0100)
-
-----------------------------------------------------------------
-Stefan Binding (1):
-       linux-firmware: Add firmware for Lenovo Thinkbooks
-
-  WHENCE                                              |  16 ++++++++++++++++
-  cirrus/cs35l41-dsp1-spk-prot-17aa38c7-spkid0-l0.bin | Bin 0 -> 5396 bytes
-  cirrus/cs35l41-dsp1-spk-prot-17aa38c7-spkid0-l1.bin | Bin 0 -> 4280 bytes
-  cirrus/cs35l41-dsp1-spk-prot-17aa38c7-spkid0-r0.bin | Bin 0 -> 5396 bytes
-  cirrus/cs35l41-dsp1-spk-prot-17aa38c7-spkid0-r1.bin | Bin 0 -> 4280 bytes
-  cirrus/cs35l41-dsp1-spk-prot-17aa38c8-spkid1-l0.bin | Bin 0 -> 5396 bytes
-  cirrus/cs35l41-dsp1-spk-prot-17aa38c8-spkid1-l1.bin | Bin 0 -> 4360 bytes
-  cirrus/cs35l41-dsp1-spk-prot-17aa38c8-spkid1-r0.bin | Bin 0 -> 5396 bytes
-  cirrus/cs35l41-dsp1-spk-prot-17aa38c8-spkid1-r1.bin | Bin 0 -> 4360 bytes
-  cirrus/cs35l41-dsp1-spk-prot-17aa38f9-spkid1-l0.bin | Bin 0 -> 5496 bytes
-  cirrus/cs35l41-dsp1-spk-prot-17aa38f9-spkid1-r0.bin | Bin 0 -> 5496 bytes
-  cirrus/cs35l41-dsp1-spk-prot-17aa38fa-spkid0-l0.bin | Bin 0 -> 5544 bytes
-  cirrus/cs35l41-dsp1-spk-prot-17aa38fa-spkid0-r0.bin | Bin 0 -> 5544 bytes
-  13 files changed, 16 insertions(+)
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa38c7-spkid0-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa38c7-spkid0-l1.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa38c7-spkid0-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa38c7-spkid0-r1.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa38c8-spkid1-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa38c8-spkid1-l1.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa38c8-spkid1-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa38c8-spkid1-r1.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa38f9-spkid1-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa38f9-spkid1-r0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa38fa-spkid0-l0.bin
-  create mode 100755 cirrus/cs35l41-dsp1-spk-prot-17aa38fa-spkid0-r0.bin
-
+Lukas
