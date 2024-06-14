@@ -1,220 +1,132 @@
-Return-Path: <SRS0=85yZ=NQ=nxp.com=neeraj.sanjaykale@kernel.org>
+Return-Path: <SRS0=IuTX=NQ=amd.com=Hamza.Mahfooz@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9CF9DC27C77
-	for <linux-firmware@archiver.kernel.org>; Fri, 14 Jun 2024 05:42:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0C21DC27C6E
+	for <linux-firmware@archiver.kernel.org>; Fri, 14 Jun 2024 18:59:54 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 57929C32786; Fri, 14 Jun 2024 05:42:34 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2040.outbound.protection.outlook.com [40.107.22.40])
+	id DCD20C4AF1C; Fri, 14 Jun 2024 18:59:54 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2084.outbound.protection.outlook.com [40.107.93.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 9DA95C4AF1C
-	for <linux-firmware@kernel.org>; Fri, 14 Jun 2024 05:42:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 9DA95C4AF1C
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.kernel.org (Postfix) with ESMTPS id B2100C2BD10;
+	Fri, 14 Jun 2024 18:59:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org B2100C2BD10
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ct+IjZHGPyTOD/COpGCHLx7R53I0lKCnJz6c/PvmR/yL6I8cUk5Df3fBvRhzR+y6ruFMwsvU6UrC03Z6DUGvwCtR09fndX9VblFmMDjKxdfL6NqUQEuRpYzAlMJqA8pJnlQx6yZ9iJGhBaAQIV8lXiKkcwI7ErFDrnseD4ksE9o2ZxkmWyQ72AYOZ83FNdxStHTwo7+o70F2shfZce0yMBfvBF+12AnePp0n6FbIBQsE4Vs70y4Jpm9sX6tsqyT0sEb9oyZMW+ZkmvYZVlFZmgDHbpH20MuANwDfmrsAw9HM2jq5AagBcQ0PIpHB9IHkQDMw9urdbFwsBJVHKiNJ/Q==
+ b=JPXHnxPHohyCH75FQXLe4S/1WPZOl8NnOdtmpkFNYBO3Y/9DHK1xR3FyuXNLFLEdZKFWl8V//CUty7gXD8AMo4IenmXoj1vBZuuA4OxZy3pnc1m15RgDKM6C9+d7RAmh5PMhH8FdAYEEZTcR+xvjFg26BQ2mJg3UDHagDCf7uZjv48HefmqSedVYnxEQ3FHut/0JfrRAAiVpFzdA5lY5BlK4QApGGDyg+M5jEXLVYMlflyzbjIVReCBnMgXBltSDpX/WvE+wKm2EVp63tUtrsioHaLeMve1MsiLHTvHkd6+CGuKMsZje7lhC6Cf4fsMAJNoL9zA4GZY86dKWhMDFbw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FG4znRluhKZY8qC2PlGT43QP2KkN8jfFItK4E/RHcnk=;
- b=HPNpkRuwu6zJTi5FwEIheoCkVaY4axC8TkdhcXvK4N/2nP2v7wuMk4ddzt67sO6TAvUpcKnnSyWkttyaNRCOHLmMON7GLXKOGa9edKuLJ6mUVG/GbOnnjIRbx7qTI5QxmQohbhHzA23IaqZvRgfdkl4fIsRDb3P+JRWrs+MSPhCVfQhD/W60gC2ZCltbfptijQHK7dBYrqd/oJZW34dXMGqk3HHmQELpry/KZtca6pMrrmpVp6p+GO1QBOOKlAaMLqPthUURA80KCGf/VprWchJMmXcIemE/oElw/qtgK+5AEzL6DnK8j68lSbf+M6OoP7+PfvUneztP8aan4lhPTg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ bh=DsU9cA2qayPVwBsHac3TWegFrqzql7abPmOn0ea0ukM=;
+ b=I0wRbAds+zhpvo5eHJP+J2cwDpOoQ4/Df5zs9CS01uxnWTyQF6RTsrKUVUXTnJRg6/4v8GzNPvwxqPPCj/SBipbNRc1ndygOXEKYClwqLB0fKDXOcQ4gd4drXgtTEgVZwzkKQ/tn0UMMDeQVDLtroQrQ4QeSDeHuDCswU1OUCjmXFYZ6acjppqt5ZPo436YmRmywva2Kj5b8uVkT0zxkl5gO/0CczLQcungdFqOOuCHxCx1atLJ7iDED7jfOe/7l7oKTIYIOLhq87HZp4MaUkdOqCV7+eswH0SbCqO2ree+CEGLENjwRKJYKNQHNfMC6SgJ3iFp1lVzLp8uZQ0/QjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FG4znRluhKZY8qC2PlGT43QP2KkN8jfFItK4E/RHcnk=;
- b=btPwB2DupB7n+J93Rayng7ZAhhy8otiqdxyrXDEDVvfPWPLt8vNWSNa5sMCTNxtsepvayHI99ECpg1trh9PMPhih9KyRapnciLHd9DihKQjAE5epoThj7JbfZIwXuTQWVpZwBiH+YeUUgjj2hOELkm72mLVw4akfCk6XIo4zrn8=
-Received: from AS4PR04MB9692.eurprd04.prod.outlook.com (2603:10a6:20b:4fe::20)
- by AM0PR04MB7028.eurprd04.prod.outlook.com (2603:10a6:208:19a::7) with
+ bh=DsU9cA2qayPVwBsHac3TWegFrqzql7abPmOn0ea0ukM=;
+ b=HsNjE30VM+tr4yTBgTXk9K7zIuo4urz7WsDg+8GOs+/j0nu1fWafSnC6hCBQXhiWEWZwlnUUKO1+xSqTo8xQolaRY4zDCj8IpqfdD9M4jjcQL+lE/8SuKKuU2NbeI2JORXa59qRBMAS+EtZ0GxCcAxVxqVfLDcFvLnEOooUyhOE=
+Received: from SJ0PR03CA0351.namprd03.prod.outlook.com (2603:10b6:a03:39c::26)
+ by SN7PR12MB6912.namprd12.prod.outlook.com (2603:10b6:806:26d::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.25; Fri, 14 Jun
- 2024 05:42:28 +0000
-Received: from AS4PR04MB9692.eurprd04.prod.outlook.com
- ([fe80::a2bf:4199:6415:f299]) by AS4PR04MB9692.eurprd04.prod.outlook.com
- ([fe80::a2bf:4199:6415:f299%5]) with mapi id 15.20.7677.024; Fri, 14 Jun 2024
- 05:42:28 +0000
-From: Neeraj Sanjay Kale <neeraj.sanjaykale@nxp.com>
-To: Francesco Dolcini <francesco@dolcini.it>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.21; Fri, 14 Jun
+ 2024 18:59:50 +0000
+Received: from CO1PEPF000042A9.namprd03.prod.outlook.com
+ (2603:10b6:a03:39c:cafe::a7) by SJ0PR03CA0351.outlook.office365.com
+ (2603:10b6:a03:39c::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.25 via Frontend
+ Transport; Fri, 14 Jun 2024 18:59:50 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1PEPF000042A9.mail.protection.outlook.com (10.167.243.38) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7677.15 via Frontend Transport; Fri, 14 Jun 2024 18:59:49 +0000
+Received: from hamza-pc.localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 14 Jun
+ 2024 13:59:48 -0500
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
 List-Id: <linux-firmware.lore.kernel.org>
-CC: =?iso-8859-2?Q?Tam=E1s_Sz=FBcs?= <tszucs@protonmail.ch>,
-	"linux-firmware@kernel.org" <linux-firmware@kernel.org>,
-	"briannorris@chromium.org" <briannorris@chromium.org>,
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-	"lukas@wunner.de" <lukas@wunner.de>, Andreas Kemnade <andreas@kemnade.info>,
-	David Lin <yu-hao.lin@nxp.com>, Pushkar Sudame <pushkar.sudame@nxp.com>, Pete
- Hsieh <tsung-hsien.hsieh@nxp.com>, Amitkumar Karwar
-	<amitkumar.karwar@nxp.com>, Pankaj Razdan <pankaj.razdan@nxp.com>
-Subject: Re: mwifiex firmware mrvl/sd8987_uapsta.bin missing in the firmware
- git
-Thread-Topic: mwifiex firmware mrvl/sd8987_uapsta.bin missing in the firmware
- git
-Thread-Index: AQHavh2k8ezUsPURmka9vzjmrYkoUQ==
-Date: Fri, 14 Jun 2024 05:42:28 +0000
-Message-ID:
- <AS4PR04MB96928325EC87268AC7CD897AE7C22@AS4PR04MB9692.eurprd04.prod.outlook.com>
-References: <20240605160013.6bea8d4d@aktux>
-	<_pNnwoI9WHlb2EY635KdIv6t_goU-ZYp9Vav31jkFOCf9fCE9EeKdyCea2m-L8pgfsKIQvODlnQLhQqmWSYip9e6FFZwaJHL5-u5rdOS_kY=@protonmail.ch>
-	<20240605174709.5043af8f@akair>	<20240606101839.GA76158@francesco-nb>
-	<PA4PR04MB9638D1FD47BFBFDDB096C778D1C02@PA4PR04MB9638.eurprd04.prod.outlook.com>
- <20240612094011.311c2421@aktux>
-In-Reply-To: <20240612094011.311c2421@aktux>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS4PR04MB9692:EE_|AM0PR04MB7028:EE_
-x-ms-office365-filtering-correlation-id: 320d6a2e-e765-4e53-ddac-08dc8c34c728
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230035|1800799019|366011|376009|38070700013;
-x-microsoft-antispam-message-info:
- =?iso-8859-2?Q?3HxrZp8Uwz2QVcIYAFEf6tlM5T+RguMkGwSzx4S5rdVKjeHxESjnjWHL63?=
- =?iso-8859-2?Q?uYwH0crBvfToLFZXeAYtRnvqLFnTal0sjQfCsS1HRvP/4AkL7PwVJvUCS8?=
- =?iso-8859-2?Q?luJe8JG8PeTFAtgcGEfGFmU4ZN9kM+Q/oOQxUS/QyDxNiddkVomKgJR4lT?=
- =?iso-8859-2?Q?/0LQOrqI8vO7xY1GsOyMWuwgpc1mPaHaI8/qJYKjnanr0jpYt9sDIZfxKZ?=
- =?iso-8859-2?Q?m+pqfZRtKMBuWxh/EoXwXkLJZoLbkxpMVIH9QEjkN6ASpyLQ6Nb+8L13sD?=
- =?iso-8859-2?Q?PQ8N9L4420zRxnwOxIQNMGnuHKyCx7MWMv5asiGlMsICnVOUXuxGuC63yo?=
- =?iso-8859-2?Q?NndMyRAjxnGEFz4xZMMtCSTfrMst0TY6e6npl32PzI/REtu7C+4iOagS6W?=
- =?iso-8859-2?Q?yyaTCA1fxLE5cUXnJfUXAZ2hGyqqV585eOaP/bY1GwYK7wRwwpFRqPWRwO?=
- =?iso-8859-2?Q?9+8P7JNzI4czGusQsAWmDuOVN0vj0RQGNhUC9bqBqCdAydmgHDudbjf0hJ?=
- =?iso-8859-2?Q?myeFh4e5dPbP4bRUAJzidcnKgvJeWh7OOl7ZyN9ba8AgG/2OYSMRRLuz+H?=
- =?iso-8859-2?Q?D+6GgyEJW1NSuSkn6PlsrKvNqUfvRrCQsm1ZHUJAyGz/5LZoZpTifjkhw2?=
- =?iso-8859-2?Q?KBHHKXUeqUbk5SV7wfHPrCiwn20B9D0b6cH+Pvre0qb9zGBAo6XjPprEs4?=
- =?iso-8859-2?Q?JcTjzmMqfV35zu6B+FQh18AwEgbSTVzA9SD+Upo4Tqo6Oxxn8s5HuOIEep?=
- =?iso-8859-2?Q?SEnwO5NV2Bos5LdXJC9E9dTJvXs4YqmrOWOT8najAXC1M+ik/MDwGJPrOy?=
- =?iso-8859-2?Q?4poN/M0gXIeDJQsFkggnnQ6LWIw2CRXwYDrhSRuSGfMt6CPeBdV9YFBa4p?=
- =?iso-8859-2?Q?BUKo1bKTHpGBMR7n1SRyyfnWnDSPIzED2Ewy5fFHgQHByUo8puQgvXuIoI?=
- =?iso-8859-2?Q?C3+VM0FWFeCg8aI/kcd82J9dsMhOpJ4iWZJk8UcZfnRZkVs9f0Uq/qfjR3?=
- =?iso-8859-2?Q?P1EY1noJTdxYGSRTfBnBbgEqkSVviOvGmQhaAOCPgUDNKfShqT3/m1rray?=
- =?iso-8859-2?Q?gWBxV4m7zRWm63Rx2bLQH6Fjsb0XIOXfQHLs5s5fJAcPJTunHuLrxKd/1S?=
- =?iso-8859-2?Q?62S1c8nex3datySIqSOeCe7E1tDMc0nVC+oNZ4R+biTv88RJpJmKiNxqQJ?=
- =?iso-8859-2?Q?B/na39/xSPxV3jxtWK842fI1AmhedYsgu5As0YqdSy1nimECjPMuzTryaD?=
- =?iso-8859-2?Q?6Wd5PVxg315w7sZIsWAaS9DAghx0w5eyPSu1k+5T8tfbdjphc4BZj1La9O?=
- =?iso-8859-2?Q?dC9rCC8jb5AZm2RqCnavGRwx+XEco1SNOVjM+qJWWoiSkGT/bXLVX/FqQd?=
- =?iso-8859-2?Q?oOlsWzGwP9nyktsERYh79RvHWl5W4R3zu7qhtmGEWERUxIGj1y1i8=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9692.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230035)(1800799019)(366011)(376009)(38070700013);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-2?Q?q5AzbCnvUJGZxCIHSoVrpacKpzjBivLvkrcEGFIXzaDVL0Ma5ddcbHIGiw?=
- =?iso-8859-2?Q?QwPOh+Ghju/tJqh6ZejlWNQ4RYPKSXTEDPB+g5ius630o0RbtxBK38e2we?=
- =?iso-8859-2?Q?H53E1geWCAFyLY1b1rSCS8bH+536Dr/pEwqwViRF9pl8mpGCaxwnAQBWYG?=
- =?iso-8859-2?Q?cUnP65ghqrEv9ad+v4cZ6ln8+bB3gy3yy51vRfW/d/gmryEddJFupgxaU4?=
- =?iso-8859-2?Q?YmJU/pmYQiKN+PILwciAoG8XnhhlkbZMM0AoY0ez7AIg3YYPXEayBIllYj?=
- =?iso-8859-2?Q?j5qU7jdfNakqzErKMrA86f+6szEsM0HKk0AOmyAu1x91R5Dbc4q3Bb/doF?=
- =?iso-8859-2?Q?4fMKs27cog39Mzpm9CApFXQ5LjuQ4vf4IQ2sJrfREgtgcwmkBP8Ui3p2iC?=
- =?iso-8859-2?Q?FrKHyVGf0o8/BTm3MpMT1InluEZegYARsl04koHM4oqdtQhv2Rduh5xn7i?=
- =?iso-8859-2?Q?r58YAGNYpe7W5XMhi/YgdZotwbACfntpT9tJXfF6kR18o6qFZJl387JAtR?=
- =?iso-8859-2?Q?o0H5yW1Wck9wS0HblTuFpaUkTnSdSmtV/wwKI0L/sPGHUd3PBKcOPZx5WJ?=
- =?iso-8859-2?Q?T0JxXlG6Fe3IJKaPobPMlK7urW2C23tiGsUzPpxon2gbswClC6Jw4S05vu?=
- =?iso-8859-2?Q?cV1aMqf/BTJ9Rvn+UNFhxFIALO36FUYVl0Z1CII9I189YvzdXWvRLaaVT1?=
- =?iso-8859-2?Q?2ULALXMUN0dh8/MEa7I26hHgAaXJn/kliC/1vKBkXlkiGhih6xVjW2EEyY?=
- =?iso-8859-2?Q?zfLtedWdifngaBEkqhH3xutwxxDgIucsYz3B3QZwycHNxCUQ18UUyu9JaY?=
- =?iso-8859-2?Q?7Fc2ZTZzwz64UkoP3fPa1+MYjGhq3P+H6IEqiNah9fmlpMph4sJ5qktMoM?=
- =?iso-8859-2?Q?oFkJ2LLUfahcn2ZZ2MmMFh8snPq+FZGKPNmZnA2HeF2Ec2Owbexzc4HPnW?=
- =?iso-8859-2?Q?xDFalKOjjcK5DRovYFhlCwpcsTIDSpefW3jAbv9AVlHUoILiWrBUqaCGrx?=
- =?iso-8859-2?Q?6Y0qHuJNT5Cu6GtHLGaeJwfwFVZCnn0Nj5p43vfC4AHeLumkyq4LZOLD9n?=
- =?iso-8859-2?Q?hGls24Qsqig3jP79vkcPdLWmVpEecW9ghLuEuhnMlN59kIqXI/7DPEB104?=
- =?iso-8859-2?Q?WmSN6UZWH5/tytPwv6GZb5WCQH7i7O6tM3FlD1dXxdl+skgGYtR6w70yrA?=
- =?iso-8859-2?Q?pN5jSz8sI5tAUya6/8HXDkdfcI9FeAssM+966Bolqc8ypHUpVDnaG6fZ/V?=
- =?iso-8859-2?Q?i/boRLqZBjd4eVn1z8tDMZNB9c8vtRnK3KksNh+JYsO4gAGjZzjINj353z?=
- =?iso-8859-2?Q?AnWuk3UsZLeyR81Tib8Kqv/und59CAZaNJLf4+MlZbvZxiTCDt0nH4ZEZs?=
- =?iso-8859-2?Q?hprh2RnThj3VnM85Trykrm+gAGAfLSHBBesvN0AyJhHV7NzJSJtjURinys?=
- =?iso-8859-2?Q?r8ojx5lGPWNPf/NyVvNp69zjGhnkF6+VW7h3pOgkP5Q+fM5NTczhfHIckT?=
- =?iso-8859-2?Q?bD9pFRp1oAzw8H0qNMCNvl3CJR8zznv1RiDgZW8cgUXL4bDqaVTWT6OIuZ?=
- =?iso-8859-2?Q?QF/1tyfdDbdM2pvjfu2DPXM/EPSpI4KUUaH9r2w9msRobHSjjZ9XjDNEDQ?=
- =?iso-8859-2?Q?k3C8/ZCa244wUt7KALjTGKE/BsUZrqHFp1?=
-Content-Type: text/plain; charset="iso-8859-2"
-Content-Transfer-Encoding: quoted-printable
+To: Josh Boyer <jwboyer@kernel.org>, <linux-firmware@kernel.org>
+CC: Alex Deucher <alexander.deucher@amd.com>, Mario Limonciello
+	<mario.limonciello@amd.com>, Deepak Sharma <deepak.sharma@amd.com>
+Subject: pull request: amdgpu: update DMCUB firmware to v0.0.222.0
+Date: Fri, 14 Jun 2024 14:59:36 -0400
+Message-ID: <20240614185936.249658-1-hamza.mahfooz@amd.com>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9692.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 320d6a2e-e765-4e53-ddac-08dc8c34c728
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2024 05:42:28.6948
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000042A9:EE_|SN7PR12MB6912:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4c1764dd-1112-4beb-e61b-08dc8ca42afd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230037|36860700010|376011|1800799021|82310400023;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?CF/PrygQFfe3t25gEtaVY67nkNsO1XFUvZCAjt44/6N4aV+5aoKE0jzLrvuf?=
+ =?us-ascii?Q?FnnKewph+6ydpbqtM+MoOLGT3FBKXjLRdEUgq4R8VVH3dc0qYrIu4BNLQbaT?=
+ =?us-ascii?Q?CTb7u2M1Se4H8yfnWgjEMcUqJGh/CkTVdNHJMtvL6BZsLg6uFnnsX97tWehU?=
+ =?us-ascii?Q?dXQL9zEDLfmBJWOHSsOr3KPnviqqo8021lcwNUECve568GlPhlI1mOmzNJwI?=
+ =?us-ascii?Q?9bWkSJN+eyR1CQOwXE6ohykKNnHqP0TWh0V5zvvCr/TK7CRbHVk5TxDLuFIj?=
+ =?us-ascii?Q?rRZTyvkWlRXgYTR1XuOo45ttmgb3GT2xOSgPvYh6fd8ykXmq4eT2LmBW64mQ?=
+ =?us-ascii?Q?/nEPUjzTHCR1SRkvNO64MdEAVGADkIkAFi4dqkl6DaA0NChFns7ys+/bCUYr?=
+ =?us-ascii?Q?4FcMoPqlvm8wEbCLLmcc0aKx0CC4c92zpcC3w9tmAvMhJ58FI6yZluPVZYdI?=
+ =?us-ascii?Q?AMIErEcBOacRxbzII7sJZhWv2VZ1VBkWbQWqV/10K1HNXeLOvj7YoDGpXERy?=
+ =?us-ascii?Q?fOk5lUqDs5j/+iUUA+b1BYHMFB/Di6PNXoSKpxScb27m+faLr7TYML3nf4Z4?=
+ =?us-ascii?Q?3V94y2S99O0bxTCqzZxYCJ6zuvRnzIPue6gMuxgDQVeytlau+KCwjuP3NP+R?=
+ =?us-ascii?Q?Do/Zwidymczts/P1xs+k8TjDBkJB/ZDYcdvS1fmGui8K/k1Rk3Cf8iUYMMDb?=
+ =?us-ascii?Q?IP4wKJA9M4HoPauGvB3L9M1R9Dnb+ZuczBrmQ6LmFbDLBJ4p3BRPXjukew21?=
+ =?us-ascii?Q?M4Ua5Kzabs9Bcmllf6GKZ40pERLuuqk9ZHZnJAc6qATBULShP9gF1lwAdlQ1?=
+ =?us-ascii?Q?wrwp1+e/fEfEIdMJSm/dn3hzkNnqdylkzA4Fbtuk9vyrmqu3UNyDuRiCzdsA?=
+ =?us-ascii?Q?oecxMvwNA7H2sL+//jEGf4Rw6s4FR+/9LqOJ/TSTC6pSYAXnsejb7Mj/Q6m8?=
+ =?us-ascii?Q?vzYQD0c2JTVSTQeKXs3Z4buvpCrBl2ZLIVK9KC5ZJbbEiMiNzCQeK0GgK0Tu?=
+ =?us-ascii?Q?s01QQQGPdfJN0DOT43btZ3F9dH3A/GdPc1AiINfRf12t/0IxvKZV3F7nesKU?=
+ =?us-ascii?Q?MQqw0BCQfpHhqstaezHTYTnm9ml3IcUQfH+RZv3rtmwnX5uzo60SEtMen0SP?=
+ =?us-ascii?Q?xNju0VSVB2HUxPXwjtaXE3t65kKcJirZo4QELE7Mm7EH4itArffJX85llKPS?=
+ =?us-ascii?Q?ro5PFbMDQiIftReB023pQfmGRkul5RK9y0nbL6PNr2DCnaQLm9+YVAcwWe4T?=
+ =?us-ascii?Q?iGBUJGYeMHaRLgGgqLUP3zxtwgeTqFi/DuWvc7HMzMWbYFsZiPiQrRqQvqEw?=
+ =?us-ascii?Q?iZzqfet6jDvA5fdatgGTUhSMKrXXjk848GkftdjW4q1KVSuWtIksFZCZeejc?=
+ =?us-ascii?Q?C+SC2spzoJPqKfbg23ny/8zUvt1JYyBBlyShhfr8WkK+sv+RCQ=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230037)(36860700010)(376011)(1800799021)(82310400023);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2024 18:59:49.9981
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wmkLmCBKbX1eO8cB3S4T51lQmWCWZBhuz/7FHwbMl8k+WwPU2sTDMnXvOmvm9OfMrOg6scTXWwz+eVMdwaIn7Yd6md/+XZybsnR8I9/bKnM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB7028
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4c1764dd-1112-4beb-e61b-08dc8ca42afd
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF000042A9.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6912
 
-++ Pushkar, Pete, Amit, Pankaj in CC
+The following changes since commit 51372fc19e8e3d0cded8d96f1708030b3d51a7e8:
 
-Hi Francesco,
+  amdgpu: update DMCUB to v0.0.222.0 for DCN314 (2024-06-14 14:48:52 -0400)
 
-I am not responsible for mwifiex or wifi firmware aspects, but I have forwa=
-rded this query internally within NXP and added few stakeholders in CC who =
-can comment in this regards.
+are available in the Git repository at:
 
-Thanks,
-Neeraj
+  git@gitlab.freedesktop.org:drm/firmware.git tags/amd-2024-06-14
 
-> > > Hello David, hello Neeraj
-> > >
-> > > On Wed, Jun 05, 2024 at 05:47:09PM +0200, Andreas Kemnade wrote:
-> > > > But that is all legalese and I am not a lawyer... Best is of
-> > > > course something officially added from NXP. No idea if it can be
-> > > > done otherwise. How to make NXP add something?
-> > >
-> > > Would it be possible for you to get these firmware files added to
-> > > the official linux-firmware git repo?
-> > >
-> > > I am not using sd8987 myself, from what I read in the thread
-> > > probably some file name would need to be corrected (I would say in th=
-e
-> mwifiex driver).
-> > >
-> > > Thanks,
-> > > Francesco
-> >
-> > I am not responsible for firmware release.
-> >
-> > You can get updated firmware from
-> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgithu=
-b.
-> com%2Fnxp-imx%2Fimx-
-> firmware%2F&data=3D05%7C02%7Cneeraj.sanjaykale%40nxp.com%7Cf6a593f3
-> 0cbd4db4c25708dc8ab2e6c3%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0
-> %7C0%7C638537748179838808%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC
-> 4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C40000
-> %7C%7C%7C&sdata=3D3VpeUrG20NMjgFHNaN32m11zeyBobUX%2BBoeipSEUnz
-> s%3D&reserved=3D0.
-> >
-> > Normally the firmware will be merged to NXP Yocto project.
-> >
-> yes, I think most of us are aware of this.
-> So what is the problem: E.g. I have bought a new device, ported a linux d=
-istro
-> to it, ok, for my personal use, I can just download the firmware from
-> mentioned link. So now I want to pave the road for others so that wifi "j=
-ust
-> works" So the question is about redistributing the firmware:
->=20
-> Citing License:
-> "(b)     to copy and distribute as needed, solely in connection with an
-> Authorized System and for use in combination with a NXP Product, non-
-> confidential NXP information provided as part of the Licensed Software fo=
-r the
-> purpose of maintaining and supporting Authorized Systems with which the
-> Licensed Software is integrated."
->=20
-> to me it looks like the firmware might not allowed to be part of a linux
-> distribution if that linux distribution is not just for one device.
-> So an official permission to do so is really helpful. The most clearest t=
-hing
-> would be an addition of the files to the official linux firmware repo
-> (git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.gi=
-t)
-> by some NXP people.
->=20
+for you to fetch changes up to 51372fc19e8e3d0cded8d96f1708030b3d51a7e8:
 
+  amdgpu: update DMCUB to v0.0.222.0 for DCN314 (2024-06-14 14:48:52 -0400)
+
+----------------------------------------------------------------
