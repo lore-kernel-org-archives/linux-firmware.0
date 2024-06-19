@@ -1,31 +1,49 @@
-Return-Path: <SRS0=Nn3s=NU=giangtuongvan.cfd=olivia@kernel.org>
+Return-Path: <administrator@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A2EBAC27C4F
-	for <linux-firmware@archiver.kernel.org>; Tue, 18 Jun 2024 12:59:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B269C27C4F
+	for <linux-firmware@archiver.kernel.org>; Tue, 18 Jun 2024 18:28:29 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 63268C3277B; Tue, 18 Jun 2024 12:59:54 +0000 (UTC)
-Received: from tonyhai.com (unknown [64.112.61.248])
-	by smtp.kernel.org (Postfix) with ESMTP id 9B4A6C32786
-	for <linux-firmware@kernel.org>; Tue, 18 Jun 2024 12:59:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 9B4A6C32786
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=giangtuongvan.cfd
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=giangtuongvan.cfd
+	id 2C051C3277B; Tue, 18 Jun 2024 18:28:29 +0000 (UTC)
+Received: from mail.etoremail.com (unknown [38.143.136.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 5772FC4AF1A
+	for <linux-firmware@kernel.org>; Tue, 18 Jun 2024 18:28:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 5772FC4AF1A
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=kernel.org
+Received: from localhost (localhost [127.0.0.1])
+	by mail.etoremail.com (Postfix) with ESMTP id 4B551C099D191
+	for <linux-firmware@kernel.org>; Tue, 18 Jun 2024 14:28:27 -0400 (EDT)
+Received: from mail.etoremail.com ([127.0.0.1])
+	by localhost (mail.etoremail.com [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id EABypVklOoDe for <linux-firmware@kernel.org>;
+	Tue, 18 Jun 2024 14:28:26 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.etoremail.com (Postfix) with ESMTP id 8944BC099D18E
+	for <linux-firmware@kernel.org>; Tue, 18 Jun 2024 14:28:26 -0400 (EDT)
+X-Virus-Scanned: amavisd-new at etoremail.com
+Received: from mail.etoremail.com ([127.0.0.1])
+	by localhost (mail.etoremail.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id 8oQo7Bay_Eke for <linux-firmware@kernel.org>;
+	Tue, 18 Jun 2024 14:28:26 -0400 (EDT)
 Received: from DESKTOP-5D9CB29 (unknown [164.92.126.11])
-	by tonyhai.com (Postfix) with ESMTPA id 0FD2FE8ED
-	for <linux-firmware@kernel.org>; Tue, 18 Jun 2024 04:46:14 -0800 (AKDT)
-From: "administrator@kernel.org" <olivia@giangtuongvan.cfd>
+	by mail.etoremail.com (Postfix) with ESMTPSA id 1F33FC099CB6B
+	for <linux-firmware@kernel.org>; Tue, 18 Jun 2024 14:28:26 -0400 (EDT)
+From: "administrator@kernel.org" <administrator@kernel.org>
 Subject: Password Expired - linux-firmware@kernel.org
 List-Id: <linux-firmware.lore.kernel.org>
 To: <linux-firmware@kernel.org>
 Content-Type: multipart/alternative; boundary="harAprdV9qTV14Hl=_CkYHXf0MPnhg7WQk"
 MIME-Version: 1.0
 Reply-To: <no-reply@kernel.org>
-Date: Tue, 18 Jun 2024 12:46:14 -1200
-Message-Id: <18142024064612AD9C7D9C3B$1022104CAB@giangtuongvan.cfd>
+Date: Tue, 18 Jun 2024 18:28:26 -1200
+Message-Id: <18262024062818871574249A-5357FEDF41@kernel.org>
 
 This is a multi-part message in MIME format
 
