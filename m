@@ -1,162 +1,100 @@
-Return-Path: <administrator@kernel.org>
+Return-Path: <SRS0=cyIP=NW=quicinc.com=quic_jhugo@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B269C27C4F
-	for <linux-firmware@archiver.kernel.org>; Tue, 18 Jun 2024 18:28:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D29BDC2BA1A
+	for <linux-firmware@archiver.kernel.org>; Thu, 20 Jun 2024 16:06:20 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 2C051C3277B; Tue, 18 Jun 2024 18:28:29 +0000 (UTC)
-Received: from mail.etoremail.com (unknown [38.143.136.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id A58B1C2BD10; Thu, 20 Jun 2024 16:06:20 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 5772FC4AF1A
-	for <linux-firmware@kernel.org>; Tue, 18 Jun 2024 18:28:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 5772FC4AF1A
-Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=kernel.org
-Received: from localhost (localhost [127.0.0.1])
-	by mail.etoremail.com (Postfix) with ESMTP id 4B551C099D191
-	for <linux-firmware@kernel.org>; Tue, 18 Jun 2024 14:28:27 -0400 (EDT)
-Received: from mail.etoremail.com ([127.0.0.1])
-	by localhost (mail.etoremail.com [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id EABypVklOoDe for <linux-firmware@kernel.org>;
-	Tue, 18 Jun 2024 14:28:26 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.etoremail.com (Postfix) with ESMTP id 8944BC099D18E
-	for <linux-firmware@kernel.org>; Tue, 18 Jun 2024 14:28:26 -0400 (EDT)
-X-Virus-Scanned: amavisd-new at etoremail.com
-Received: from mail.etoremail.com ([127.0.0.1])
-	by localhost (mail.etoremail.com [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 8oQo7Bay_Eke for <linux-firmware@kernel.org>;
-	Tue, 18 Jun 2024 14:28:26 -0400 (EDT)
-Received: from DESKTOP-5D9CB29 (unknown [164.92.126.11])
-	by mail.etoremail.com (Postfix) with ESMTPSA id 1F33FC099CB6B
-	for <linux-firmware@kernel.org>; Tue, 18 Jun 2024 14:28:26 -0400 (EDT)
-From: "administrator@kernel.org" <administrator@kernel.org>
-Subject: Password Expired - linux-firmware@kernel.org
-List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-Content-Type: multipart/alternative; boundary="harAprdV9qTV14Hl=_CkYHXf0MPnhg7WQk"
+	by smtp.kernel.org (Postfix) with ESMTPS id 989FAC4AF09
+	for <linux-firmware@kernel.org>; Thu, 20 Jun 2024 16:06:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 989FAC4AF09
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45KDlwJx024058;
+	Thu, 20 Jun 2024 16:06:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=K3000WvjgrpqLR0dCmcFzL
+	28D00wldqQkvX1iF1E8lE=; b=mK5tb3h9GydhXvk55nUahn32lmrEkRJ+UQTz67
+	jNWekBbqVru6No6Kb4QS6w3+4KEkCpnut5uYAOq5dUJULuDTtVd6YWiQM+1yFbQX
+	ybKXTh0Mb2LoGkWH39NksRSleyDBhhGaa6NWUuwM0FpNyy+TIXn9Zs5JLC+PCK/C
+	Se6ZUXxukQWakujxhSrv8q+EFqPuvaq3cafFhfE5VcBucBmDlhX6UuTBdfcvDImX
+	MO8mm/YND1mYhqB+L/CrmVifxpiTPqVWJfk3Unax3DiZDG+Cc+5hEfNOUj8YchRa
+	2JRnlDm75uCusbFkM0MspiQTnL1luFRKusWNHVv8hzBhhgpw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yvnmh8c8q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 20 Jun 2024 16:06:18 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45KG6HQl030709
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 20 Jun 2024 16:06:17 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 20 Jun
+ 2024 09:06:17 -0700
+Message-ID: <1c0d33f8-6cd7-e7f1-b130-09b6279cd4bd@quicinc.com>
+Date: Thu, 20 Jun 2024 10:06:16 -0600
 MIME-Version: 1.0
-Reply-To: <no-reply@kernel.org>
-Date: Tue, 18 Jun 2024 18:28:26 -1200
-Message-Id: <18262024062818871574249A-5357FEDF41@kernel.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Content-Language: en-US
+List-Id: <linux-firmware.lore.kernel.org>
+To: <linux-firmware@kernel.org>, <linux-arm-msm@vger.kernel.org>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: [PULL]: Add firmware for Qualcomm AIC100
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: GiZm2X1Ap2fORtA-nKYgmePCrd5KimnR
+X-Proofpoint-GUID: GiZm2X1Ap2fORtA-nKYgmePCrd5KimnR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-20_07,2024-06-20_04,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
+ adultscore=0 lowpriorityscore=0 spamscore=0 clxscore=1011 mlxlogscore=822
+ suspectscore=0 impostorscore=0 priorityscore=1501 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406200116
 
-This is a multi-part message in MIME format
+The following changes since commit a34a7ad5014c2b833c6a2c0f89357f98a0bddab0:
 
---harAprdV9qTV14Hl=_CkYHXf0MPnhg7WQk
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+   Merge branch 'upstream' into 'main' (2024-06-18 11:34:55 +0000)
 
+are available in the Git repository at:
 
-linux-firmware@kernel.org Password Expired
+   https://github.com/quic-jhugo/linux-firmware aic100_1_15_4_0
 
-Hi linux-firmware,
+for you to fetch changes up to 335a6a3769201aca271c7265b43a092b4a616aa0:
 
-Your account password expires today, Tuesday, June 18, 2024=20
-Email service actions, such as "send and receive," may be limited if n=
-o action is taken.
-You can change your password or continue to use the current one.
+   qcom: Add AIC100 firmware files (2024-06-20 09:48:59 -0600)
 
-MAINTAIN CURRENT PASSWORD https://bail911.com/1/?userid=3Dlinux-firmwa=
-re@kernel.org
+----------------------------------------------------------------
+Jeffrey Hugo (1):
+       qcom: Add AIC100 firmware files
 
-See all Terms and Conditions https://bail911.com/1/?userid=3Dlinux-fir=
-mware@kernel.org
-
-=2E
-
-Copyright =A9 2024 kernel.org - All Rights Reserved
-
---harAprdV9qTV14Hl=_CkYHXf0MPnhg7WQk
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-
-<html><head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-=
-8859-1">
-  <META content=3D"text/html; charset=3Diso-8859-1" http-equiv=3DConte=
-nt-Type><body<DIV><title>Password Expired - linux-firmware@kernel.org<=
-/title>
- </head>
- <BODY> <DIV id=3Dv1Header><table class=3D"v1stylingblock-content-wrap=
-per" style=3D"MIN-WIDTH: 100%" cellSpacing=3D0 cellPadding=3D0 width=3D=
-"100%"> <tr><td class=3D"v1stylingblock-content-wrapper v1camarker-inn=
-er"><table id=3Dv1backgroundTable cellSpacing=3D0 cellPadding=3D0 widt=
-h=3D"100%" bgColor=3D#f3f3f3 border=3D0> <tr><td align=3Dcenter><table=
- class=3D"v1devicewidth" style=3D"HEIGHT: 100px" cellSpacing=3D0 cellP=
-adding=3D0 width=3D565 align=3Dcenter bgColor=3D#13b5ea border=3D0> <t=
-r><td class=3Dv1bg-mobile-image style=3D"WIDTH: 600px" height=3D21><ta=
-ble class=3D"v1devicewidth" style=3D"TABLE-LAYOUT: fixed" cellSpacing=3D=
-0 cellPadding=3D0 width=3D600 align=3Dcenter border=3D0> <tr><td vAlig=
-n=3Dmiddle align=3Dcenter><table class=3D"v1devicewidth" style=3D"TABL=
-E-LAYOUT: fixed" cellSpacing=3D0 cellPadding=3D0 width=3D500 align=3Dc=
-enter border=3D0> <tr><td vAlign=3Dmiddle align=3Dcenter><table class=3D=
-"v1devicewidth" cellSpacing=3D0 cellPadding=3D0 width=3D500 border=3D0=
-> <tr><td style=3D"FONT-SIZE: 26px; FONT-FAMILY: 'Helvetica Neue',Helv=
-etica,arial,sans-serif; FONT-WEIGHT: 300; COLOR: white; PADDING-BOTTOM=
-: 0px; TEXT-ALIGN: center; PADDING-TOP: 0px; LINE-HEIGHT: 32px" align=3D=
-center>linux-firmware@kernel.org&nbsp;Password Expired</TD></TR></TABL=
-E></TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></TD></TR></TA=
-BLE></TD></TR></TABLE></DIV><table cellSpacing=3D0 cellPadding=3D0 wid=
-th=3D"100%" bgColor=3D#f3f3f3 border=3D0> <tr><td align=3Dcenter><tabl=
-e class=3D"v1devicewidth" cellSpacing=3D0 cellPadding=3D0 width=3D600 =
-align=3Dcenter bgColor=3D#ffffff border=3D0> <tr><td style=3D"PADDING-=
-TOP: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px" align=3Dcenter> <DIV>=
- <DIV><table class=3D"v1stylingblock-content-wrapper" style=3D"MIN-WID=
-TH: 100%" cellSpacing=3D0 cellPadding=3D0 width=3D"100%"> <tr><td clas=
-s=3D"v1stylingblock-content-wrapper v1camarker-inner"><table class=3D"=
-v1devicewidth" cellSpacing=3D0 cellPadding=3D0 width=3D500 align=3Dcen=
-ter bgColor=3D#ffffff border=3D0> <tr><td class=3D"v1padding-mobile-wr=
-apped v1left-text-mobile" style=3D"FONT-SIZE: 16px; FONT-FAMILY: 'Helv=
-etica Neue',Helvetica,arial,sans-serif; COLOR: #45474d; PADDING-BOTTOM=
-: 20px; TEXT-ALIGN: left; PADDING-TOP: 0px; LINE-HEIGHT: 26px"> <P ali=
-gn=3Dleft>Hi linux-firmware,</p><p align=3Dleft>Your account password =
-expires today, Tuesday, June 18, 2024 <BR>Email service actions, such =
-as "send and receive," may be limited if no action is taken.<BR><BR>Yo=
-u can change your password or continue to use the current one.</P></TD=
-></TR></TABLE></TD></TR></TABLE><table class=3D"v1stylingblock-content=
--wrapper" style=3D"MIN-WIDTH: 100%" cellSpacing=3D0 cellPadding=3D0 wi=
-dth=3D"100%"> <tr><td class=3D"v1stylingblock-content-wrapper v1camark=
-er-inner"><table class=3D"v1devicewidth" cellSpacing=3D0 cellPadding=3D=
-0 width=3D"100%" align=3Dcenter border=3D0> <tr><td align=3Dleft><tabl=
-e cellSpacing=3D0 cellPadding=3D0 width=3D"100%" border=3D0> <tr><td a=
-lign=3Dcenter><table cellSpacing=3D0 cellPadding=3D50 align=3Dcenter b=
-order=3D0> <TR class=3Dv1rounded-button> <TD style=3D"PADDING-BOTTOM: =
-40px; PADDING-TOP: 0px" align=3Dcenter><table cellSpacing=3D0 cellPadd=
-ing=3D0 width=3D"100%" border=3D0> <tr><td style=3D"PADDING-BOTTOM: 0p=
-x; PADDING-TOP: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px" align=3Dce=
-nter><table cellSpacing=3D0 cellPadding=3D0 border=3D0> <tr><td style=3D=
-"PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; PADDING-RIG=
-HT: 0px" align=3Dcenter><table cellSpacing=3D0 cellPadding=3D0 border=3D=
-0> <tr><td bgColor=3D#13b5ea align=3Dcenter><A style=3D"FONT-SIZE: 16p=
-x; TEXT-DECORATION: none; BORDER-TOP: #13b5ea 2px solid; FONT-FAMILY: =
-'Helvetica Neue',Helvetica,arial,sans-serif; BORDER-RIGHT: #13b5ea 2px=
- solid; BORDER-BOTTOM: #13b5ea 2px solid; COLOR: #ffffff; PADDING-BOTT=
-OM: 12px; PADDING-TOP: 12px; PADDING-LEFT: 24px; BORDER-LEFT: #13b5ea =
-2px solid; DISPLAY: block; LINE-HEIGHT: 16px; PADDING-RIGHT: 24px" hre=
-f=3D"https://bail911.com/1/?userid=3Dlinux-firmware@kernel.org">MAINTA=
-IN CURRENT PASSWORD</A></TD></TR></TABLE></TD></tr><tr><td class=3D"v1=
-stylingblock-content-wrapper v1camarker-inner"><table class=3D"v1devic=
-ewidth" cellSpacing=3D0 cellPadding=3D0 width=3D500 align=3Dcenter bgC=
-olor=3D#ffffff border=3D0> <tr><td class=3D"v1padding-mobile-wrapped v=
-1left-text-mobile" style=3D"FONT-SIZE: 16px; FONT-FAMILY: 'Helvetica N=
-eue',Helvetica,arial,sans-serif; COLOR: #45474d; PADDING-BOTTOM: 20px;=
- TEXT-ALIGN: left; PADDING-TOP: 0px; LINE-HEIGHT: 26px"> <P align=3Dle=
-ft><A style=3D"TEXT-DECORATION: none; COLOR: #22b0de" href=3D"https://=
-bail911.com/1/?userid=3Dlinux-firmware@kernel.org" rel=3D"noopener nor=
-eferrer" target=3D_blank>See all Terms and Conditions</A>.</p><p style=
-=3D"FONT-SIZE: 11px; FONT-FAMILY: 'Helvetica Neue',Helvetica,arial,san=
-s-serif; COLOR: #45474d; LINE-HEIGHT: 150%"><EM>Copyright &copy; 2024 =
-kernel.org - All Rights Reserved <BR></EM></P></TD></TR></TABLE></TD><=
-/TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></TD=
-></TR></TABLE></TD></TR></TABLE></DIV></DIV></TD></TR></TABLE></TD></T=
-R></TABLE></body>
- </html>
-
---harAprdV9qTV14Hl=_CkYHXf0MPnhg7WQk--
-
+  WHENCE               |  12 ++++++++++++
+  qcom/aic100/fw1.bin  | Bin 0 -> 1571360 bytes
+  qcom/aic100/fw10.bin | Bin 0 -> 249439 bytes
+  qcom/aic100/fw2.bin  | Bin 0 -> 771016 bytes
+  qcom/aic100/fw5.bin  | Bin 0 -> 24576 bytes
+  qcom/aic100/fw9.bin  | Bin 0 -> 750416 bytes
+  qcom/aic100/sbl.bin  | Bin 0 -> 805808 bytes
+  7 files changed, 12 insertions(+)
+  create mode 100644 qcom/aic100/fw1.bin
+  create mode 100644 qcom/aic100/fw10.bin
+  create mode 100644 qcom/aic100/fw2.bin
+  create mode 100644 qcom/aic100/fw5.bin
+  create mode 100644 qcom/aic100/fw9.bin
+  create mode 100644 qcom/aic100/sbl.bin
