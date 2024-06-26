@@ -1,84 +1,181 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=7bT1=N4=logisticsglobaltrade.com=freight@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A6E5C2BD05
-	for <linux-firmware@archiver.kernel.org>; Mon, 24 Jun 2024 11:09:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23399C30653
+	for <linux-firmware@archiver.kernel.org>; Wed, 26 Jun 2024 12:36:58 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 6D263C32782; Mon, 24 Jun 2024 11:09:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57560C32786
-	for <linux-firmware@kernel.org>; Mon, 24 Jun 2024 11:09:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719227390;
-	bh=xQpJ0O+kFmzdnd+u2y9biX9+NfS+Otix6vWwyOgcJmU=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=qlDgg0xtHSu6BTGehgfLiSiYR9gYNg3ol4RFgHA9xh+XkG2CX4e5cmCuFx+mMuNiY
-	 /kBYHkFAQJwjcNxLcBCm2rkQDi8xOacvGfO3CUWckK51uGqCxvHb8lGjqjfhOisbVW
-	 s1UPYdKEFy6zofHBiuSu4c0+De47dgBs2EgkxMun8BUU02kHlqnPECvQmnXuysGzJA
-	 a6XJyoSep1ju8LoRV6JC7B1gsMjhTrT5W/dc100y8/fSB+ELHzjlw4NxviwKYJ2dgW
-	 EsWunf/9/8uLl7Kh8cjGtuvViBxFsliqnzU3Y7wV0hq1m5ycUVbRB34YHa+RzpykOf
-	 AkntivKplX3wA==
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-63036fa87dbso32658787b3.1
-        for <linux-firmware@kernel.org>; Mon, 24 Jun 2024 04:09:50 -0700 (PDT)
-X-Gm-Message-State: AOJu0Ywrh6x5Zumw2fxgZ40hGZ2fKV+xmneb9OZXCEinWj1JOLGlks2A
-	2O4UPsM8WMCs44GgWEiDdFpHdnj4UaESzuZxNLSJCuFJpUVhOo8M09BxTfs34OvoNfjRIf8ySNS
-	xI3PqyjCSOIiS+4ASKJtQWXJCP54=
-X-Google-Smtp-Source: AGHT+IHJewWlgVgVWeiPC8QQql7oiSxVMmM3qo+hU7W4gXmRpRgv1QFrjde4yVk+TqcJHqfarcbqEzFfGA9KZlXNCIY=
-X-Received: by 2002:a81:b654:0:b0:618:498f:9dbe with SMTP id
- 00721157ae682-6424908a767mr29142797b3.10.1719227389508; Mon, 24 Jun 2024
- 04:09:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240622102347.7004-1-irui.wang@mediatek.com>
-In-Reply-To: <20240622102347.7004-1-irui.wang@mediatek.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 24 Jun 2024 07:09:38 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA6dmCQpeaP0fhzx6RYc_sGPY=Ae3T7+r=pyt8rLoFLK3g@mail.gmail.com>
-Message-ID: <CA+5PVA6dmCQpeaP0fhzx6RYc_sGPY=Ae3T7+r=pyt8rLoFLK3g@mail.gmail.com>
-Subject: Re: pull request: linux-firmware: mediatek: Update MT8173 VPU
- firmware to v1.1.8
-To: Irui Wang <irui.wang@mediatek.com>
+	id E5900C32786; Wed, 26 Jun 2024 12:36:57 +0000 (UTC)
+Received: from mail-m254114.xmail.ntesmail.com (mail-m254114.xmail.ntesmail.com [103.129.254.114])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 639B1C2BD10
+	for <linux-firmware@kernel.org>; Wed, 26 Jun 2024 12:36:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 639B1C2BD10
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=logisticsglobaltrade.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=logisticsglobaltrade.com
+DKIM-Signature: a=rsa-sha256;
+	b=PUN2fu7zSzGmwWrgZp4YaAJmjKeZUhcpdw5T4Ux6wIdi2c1BBBKZ+w7vzzmTUAd3gyyaqdgeN5JYuTaOPISiGsAgdcZr2/ozeEaxe8U32ZBWmFEr5NnCL98mXiYaJewjX3cElGXtz79AuX7j3CyKjOcIwVgoI+z+4BQsFUjPGiI=; c=relaxed/relaxed; s=default; d=logisticsglobaltrade.com; v=1;
+	bh=r9UDoWjLoj28DAY164SdSvctX0QiXBzWxtnVUCsBQ20=;
+	h=date:mime-version:subject:message-id:from;
+Received: from logisticsglobaltrade.com (localhost [127.0.0.1])
+	by smtp.ntesmail.com (Wmail) with ESMTP id 9A39F281547
+	for <linux-firmware@kernel.org>; Wed, 26 Jun 2024 20:36:43 +0800 (CST)
+Content-Type: multipart/alternative; BOUNDARY="=_Part_1044246_984369567.1719405403627"
+Message-ID: <AI2ASQB4H*PRUIs7zBAzrqp4.1.1719405403627.Wmail.freight@logisticsglobaltrade.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
-	Project_Global_Chrome_Upstream_Group@mediatek.com
+To: linux-firmware@kernel.org
+Reply-To: tina03@easefrieghtinc.com
+Subject: =?UTF-8?B?VGhlIGJlc3QgY3VzdG9taXplZCBmcmVpZ2h0IHNvbHV0aW9uIGZyb20gRWFzZSBmcmVpZ2h0?=
+X-Priority: 3
+X-Originating-IP: 10.156.21.58
+MIME-Version: 1.0
+Received: from freight@logisticsglobaltrade.com( [10.156.21.58] ) by ajax-webmail ( [127.0.0.1] ) ; Wed, 26 Jun 2024 20:36:43 +0800 (GMT+08:00)
+From: Tina <freight@logisticsglobaltrade.com>
+Date: Wed, 26 Jun 2024 20:36:43 +0800 (GMT+08:00)
+X-WM-Spam-Status: e1kfGhgUHx5ZQUhXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFDSUNOSEtLS0k3V1ktWUFJV1kPCRoVCBIfWUFZGk9MGFYdTR9NTklPS01PGR9WDBZVEw
+	ETFhoSFyQUDg9ZV1kYEgtZQVlKS1VKTk1VSUpVTkNZV1kWGg8SFR0UWUFZT0tIVUpLSUJCQkhVT1
+	VLWQY+
+X-WM-Tid: 0a90548c5cf609b2kunm190495a332c
+X-WM-MType: 2
+X-WM-Sender-Digest: e1kMHhlZQQ8JDh5XWRIfHhUPWUFZRzoySTooKjlPM1ErKS4yCEwBOToB
+	CQoLT1VKVUpMSkJPS05PS09KS0pVMxYaEhdVHQkeEhwTDzsXFBwSCA8SGAgcFxQZGhcPCRofHlUY
+	FBZFWVdZEgtZQVlKS1VKTk1VSUpVTkNZV1kIAVlBSkpIT0k3V1kUCw8SFBUIWUFMNwY+
+
+--=_Part_1044246_984369567.1719405403627
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
 
-On Sat, Jun 22, 2024 at 6:24=E2=80=AFAM Irui Wang <irui.wang@mediatek.com> =
-wrote:
->
-> Dear linux-firmware maintainers,
->
-> The following changes since commit 77eb1a9398784c42e23ad087acddef599f0dd9=
-d7:
->
->   Merge branch 'robot/pr-0-1718900951' into 'main' (2024-06-20 16:54:34 +=
-0000)
->
-> are available in the Git repository at:
->
->   https://github.com/irui-wang/linux_fw_vpu_v1.2.0.git  v1.2.0
+CkhpCgoKCgpHcmVldGluZ3MgZnJvbSBFYXNlRnJlaWdodCEgSSdtIFRpbmEsIHRoZSBGcmVpZ2h0
+IE1hbmFnZXIgYXQgRWFzZUZyZWlnaHQsIGFuIEFJIGZyZWlnaHQgYWdlbnQgbmV0d29yayBlc3Rh
+Ymxpc2hlZCB1bmRlciBOZXRlYXNlLCBhIENoaW5lc2UgcHVibGljbHkgbGlzdGVkIGNvbXBhbnkg
+aW4gMjAwMS4gV2l0aCAxNSB5ZWFycyBvZiBleHBlcmllbmNlIGluIHRoZSBpbXBvcnQgYW5kIGV4
+cG9ydCBpbmR1c3RyeSwgd2UgaGF2ZSBnYXRoZXJlZCBvdmVyIDEwLDAwMCBDaGluZXNlIGZyZWln
+aHQgYWdlbnRzIHRvIGVuc3VyZSBvdXIgY3VzdG9tZXJzIHJlY2VpdmUgZWZmaWNpZW50IGFuZCBj
+b3N0LWVmZmVjdGl2ZSBmcmVpZ2h0IHNlcnZpY2VzLgoKCldlIHN1cHBvcnQgeW91OgoxLk11bHRp
+cGxlIGZyZWlnaHQgcXVvdGF0aW9ucyB0byBlbnN1cmUgeW91IGNob29zZSB0aGUgYmVzdCBzb2x1
+dGlvbi4KMi5UaGUgcXVvdGF0aW9uIGRldGFpbHMgYXJlIHNwZWNpZmljIGFuZCBjb21wcmVoZW5z
+aXZlLCBwcm92aWRpbmcgYSBjbGVhciB1bmRlcnN0YW5kaW5nIG9mIGVhY2ggY29zdCBpbnZvbHZl
+ZC4KMy5UcmFuc3BhcmVudCBwcmljaW5nLCBubyBtaWRkbGVtYW4gbWFya3Vwcy4KNC5PZmZlcmlu
+ZyBhIHZhcmlldHkgb2Ygc2hpcHBpbmcgbWV0aG9kcyBmb3IgZmxleGlibGUgc2VsZWN0aW9uIGJh
+c2VkIG9uIHNwZWNpZmljIG5lZWRzLgoKCgoKCldlIGJlbGlldmUgaW4gb3VyIGFiaWxpdHkgdG8g
+cHJvdmlkZSB5b3Ugd2l0aCBjdXN0b21pemVkIHNlcnZpY2VzLCBlYXJuaW5nIHlvdXIgcmVjb2du
+aXRpb24gdGhyb3VnaCBvdXIgcHJvZmVzc2lvbmFsaXNtLCBjYXBhYmlsaXRpZXMsIHNwZWVkLCBh
+bmQgZWZmaWNpZW5jeSwgZW5zdXJpbmcgeW91IGVuam95IHRoZSBiZXN0IHNoaXBwaW5nIHNvbHV0
+aW9ucy5QbGVhc2Uga2luZGx5IGNvbnRhY3QgdXMgbm93IGZvciBmcmVlIGNvbnRhaW5lciBzaGlw
+cGluZyBxdW90ZSEKCgoKCkJlc3QgcmVnYXJkcywKVGluYSBYaWUKUHJvZHVjdCBPcGVyYXRpb25z
+CgpFYXNlRnJlaWdodChOZXRFYXNlKQoKV2Vic2l0ZTpmcmVpZ2h0LmZhY3RvcnkuMTYzLmNvbQpF
+LW1haWw6dGluYTAzQGVhc2VmcmllZ2h0aW5jLmNvbQoKCgpBZGRyZXNzOk5ldGVhc2XCreKAlDM5
+OSBXYW5nc2hhbmcgUm9hZCwgQmluamlhbmcgRGlzdHJpY3QsIEhhbmd6aG91CgoKCgoKCgoKSWYg
+eW91IGRvbid0IHdhbnQgdG8gcmVjZWl2ZSBvdXIgZW1haWxzLCB5b3UgY2FuIGVhc2lseSB1bnN1
+YnNjcmliZSBoZXJlLgoKCg0KDQo=
+--=_Part_1044246_984369567.1719405403627
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-Merged and pushed out.
-
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/235
-
-josh
-
->
-> for you to fetch changes up to 9e6aff680098f0def484e018413ad7c002c2f4fd:
->
->   linux-firmware: mediatek: Update MT8173 VPU firmware to v1.2.0 (2024-06=
--22 18:06:17 +0800)
->
-> ----------------------------------------------------------------
-> Irui Wang (1):
->       linux-firmware: mediatek: Update MT8173 VPU firmware to v1.2.0
->
->  mediatek/mt8173/vpu_d.bin | Bin 2977184 -> 2977184 bytes
->  mediatek/mt8173/vpu_p.bin | Bin 131380 -> 131380 bytes
->  2 files changed, 0 insertions(+), 0 deletions(-)
->
->
+CjxkaXY+PHN0eWxlPgogICAgICAgICAgICAuZW1haWwtc2lnbmF0dXJlIHsKICAgICAgICAgICAg
+ICAgIGZvbnQtZmFtaWx5OiBBcmlhbCwgc2Fucy1zZXJpZjsKICAgICAgICAgICAgICAgIGNvbG9y
+OiAjMzMzMzMzOwogICAgICAgICAgICAgICAgYm9yZGVyLXRvcDogMnB4IHNvbGlkICM2NjY2NjY7
+CiAgICAgICAgICAgICAgICBwYWRkaW5nLXRvcDogMTBweDsKICAgICAgICAgICAgICAgIG1hcmdp
+bi10b3A6IDIwcHg7CiAgICAgICAgICAgIH0KICAgIAogICAgICAgICAgICAuZW1haWwtc2lnbmF0
+dXJlIHAgewogICAgICAgICAgICAgICAgbWFyZ2luOiAycHggMDsKICAgICAgICAgICAgfQogICAg
+CiAgICAgICAgICAgIC5uYW1lIHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogMTZweDsKICAg
+ICAgICAgICAgICAgIGZvbnQtd2VpZ2h0OiBib2xkOwogICAgICAgICAgICB9CiAgICAKICAgICAg
+ICAgICAgLnRpdGxlLXNpZ25pdHVyZSB7CiAgICAgICAgICAgICAgICBmb250LXNpemU6IDE0cHg7
+CiAgICAgICAgICAgICAgICBjb2xvcjogIzU1NTU1NTsKICAgICAgICAgICAgfQogICAgCiAgICAg
+ICAgICAgIC5jb21wYW55IHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogMTRweDsKICAgICAg
+ICAgICAgICAgIGZvbnQtc3R5bGU6IGl0YWxpYzsKICAgICAgICAgICAgfQogICAgCiAgICAgICAg
+ICAgIC5jb250YWN0LWluZm8gewogICAgICAgICAgICAgICAgZm9udC1zaXplOiAxMnB4OwogICAg
+ICAgICAgICB9CiAgICAgICAgPC9zdHlsZT48L2Rpdj48ZGl2IHN0eWxlPSJsaW5lLWhlaWdodDog
+MjsiIGRhdGEtbWNlLXN0eWxlPSJsaW5lLWhlaWdodDogMjsiPkhpPC9kaXY+PGRpdiBzdHlsZT0i
+bGluZS1oZWlnaHQ6IDI7IiBkYXRhLW1jZS1zdHlsZT0ibGluZS1oZWlnaHQ6IDI7Ij48YnIgZGF0
+YS1tY2UtYm9ndXM9IjEiPjwvZGl2PjxkaXYgc3R5bGU9ImxpbmUtaGVpZ2h0OiAyOyIgZGF0YS1t
+Y2Utc3R5bGU9ImxpbmUtaGVpZ2h0OiAyOyI+PGJyIGRhdGEtbWNlLWJvZ3VzPSIxIj48L2Rpdj48
+ZGl2IHN0eWxlPSJsaW5lLWhlaWdodDogMjsiIGRhdGEtbWNlLXN0eWxlPSJsaW5lLWhlaWdodDog
+MjsiPjxkaXY+R3JlZXRpbmdzIGZyb20gRWFzZUZyZWlnaHQhIEknbSBUaW5hLCB0aGUgRnJlaWdo
+dCBNYW5hZ2VyIGF0IDxzdHJvbmc+RWFzZUZyZWlnaHQ8L3N0cm9uZz4sIGFuIEFJIGZyZWlnaHQg
+YWdlbnQgbmV0d29yayBlc3RhYmxpc2hlZCB1bmRlciBOZXRlYXNlLCBhIENoaW5lc2UgcHVibGlj
+bHkgbGlzdGVkIGNvbXBhbnkgaW4gMjAwMS4gV2l0aCA8c3Ryb25nPjE1IHllYXJzPC9zdHJvbmc+
+IG9mIGV4cGVyaWVuY2UgaW4gdGhlIGltcG9ydCBhbmQgZXhwb3J0IGluZHVzdHJ5LCB3ZSBoYXZl
+IGdhdGhlcmVkIG92ZXIgPHN0cm9uZz4xMCwwMDAgQ2hpbmVzZSBmcmVpZ2h0IGFnZW50czwvc3Ry
+b25nPiB0byBlbnN1cmUgb3VyIGN1c3RvbWVycyByZWNlaXZlIGVmZmljaWVudCBhbmQgY29zdC1l
+ZmZlY3RpdmUgZnJlaWdodCBzZXJ2aWNlcy48L2Rpdj48ZGl2PjxiciBkYXRhLW1jZS1ib2d1cz0i
+MSI+PC9kaXY+PGRpdj5XZSBzdXBwb3J0IHlvdTo8YnI+MS48c3Ryb25nPk11bHRpcGxlIGZyZWln
+aHQgcXVvdGF0aW9uczwvc3Ryb25nPiB0byBlbnN1cmUgeW91IGNob29zZSB0aGUgYmVzdCBzb2x1
+dGlvbi48YnI+Mi5UaGUgPHN0cm9uZz5xdW90YXRpb24gZGV0YWlscyBhcmUgc3BlY2lmaWMgYW5k
+IGNvbXByZWhlbnNpdmU8L3N0cm9uZz4sIHByb3ZpZGluZyBhIGNsZWFyIHVuZGVyc3RhbmRpbmcg
+b2YgZWFjaCBjb3N0IGludm9sdmVkLjxicj4zLjxzdHJvbmc+VHJhbnNwYXJlbnQgcHJpY2luZzwv
+c3Ryb25nPiwgbm8gbWlkZGxlbWFuIG1hcmt1cHMuPGJyPjQuT2ZmZXJpbmcgYSA8c3Ryb25nPnZh
+cmlldHkgb2Ygc2hpcHBpbmcgbWV0aG9kczwvc3Ryb25nPiBmb3IgZmxleGlibGUgc2VsZWN0aW9u
+IGJhc2VkIG9uIHNwZWNpZmljIG5lZWRzLjwvZGl2PjxkaXY+PGJyIGRhdGEtbWNlLWJvZ3VzPSIx
+Ij48L2Rpdj48ZGl2PjwvZGl2PjxkaXY+PGJyIGRhdGEtbWNlLWJvZ3VzPSIxIj48L2Rpdj48ZGl2
+PldlIGJlbGlldmUgaW4gb3VyIGFiaWxpdHkgdG8gcHJvdmlkZSB5b3Ugd2l0aCBjdXN0b21pemVk
+IHNlcnZpY2VzLCBlYXJuaW5nIHlvdXIgcmVjb2duaXRpb24gdGhyb3VnaCBvdXIgcHJvZmVzc2lv
+bmFsaXNtLCBjYXBhYmlsaXRpZXMsIHNwZWVkLCBhbmQgZWZmaWNpZW5jeSwgZW5zdXJpbmcgeW91
+IGVuam95IHRoZSBiZXN0IHNoaXBwaW5nIHNvbHV0aW9ucy48c3Ryb25nPlBsZWFzZSBraW5kbHkg
+Y29udGFjdCB1cyBub3cgZm9yIGZyZWUgY29udGFpbmVyIHNoaXBwaW5nIHF1b3RlITwvc3Ryb25n
+PjwvZGl2PjxzcGFuIGRhdGEtbWNlLXR5cGU9ImJvb2ttYXJrIiBpZD0ibWNlXzJfc3RhcnQiIGRh
+dGEtbWNlLXN0eWxlPSJvdmVyZmxvdzpoaWRkZW47bGluZS1oZWlnaHQ6MHB4IiBzdHlsZT0ib3Zl
+cmZsb3c6IGhpZGRlbjsgbGluZS1oZWlnaHQ6IDBweDsiPjwvc3Bhbj48YnIgZGF0YS1tY2UtYm9n
+dXM9IjEiPjwvZGl2PjxkaXYgc3R5bGU9ImxpbmUtaGVpZ2h0OiAyOyIgZGF0YS1tY2Utc3R5bGU9
+ImxpbmUtaGVpZ2h0OiAyOyI+PGJyIGRhdGEtbWNlLWJvZ3VzPSIxIj48L2Rpdj48ZGl2IHN0eWxl
+PSJsaW5lLWhlaWdodDogMjsiIGRhdGEtbWNlLXN0eWxlPSJsaW5lLWhlaWdodDogMjsiPkJlc3Qg
+cmVnYXJkcyw8L2Rpdj48ZGl2IGNsYXNzPSJlbWFpbC1zaWduYXR1cmUiPgogICAgICAgIDxwIGNs
+YXNzPSJuYW1lIiBzdHlsZT0ibGluZS1oZWlnaHQ6IDEuNTsiIGRhdGEtbWNlLXN0eWxlPSJsaW5l
+LWhlaWdodDogMS41OyI+VGluYSBYaWU8L3A+CiAgICAgICAgPHAgY2xhc3M9InRpdGxlLXNpZ25p
+dHVyZSIgc3R5bGU9ImxpbmUtaGVpZ2h0OiAxLjU7IiBkYXRhLW1jZS1zdHlsZT0ibGluZS1oZWln
+aHQ6IDEuNTsiPlByb2R1Y3QgT3BlcmF0aW9uczwvcD48c3BhbiBkYXRhLW1jZS10eXBlPSJib29r
+bWFyayIgaWQ9Im1jZV8zX3N0YXJ0IiBkYXRhLW1jZS1zdHlsZT0ib3ZlcmZsb3c6aGlkZGVuO2xp
+bmUtaGVpZ2h0OjBweCIgc3R5bGU9Im92ZXJmbG93OiBoaWRkZW47IGxpbmUtaGVpZ2h0OiAwcHg7
+Ij48L3NwYW4+PHA+PC9wPgogICAgICAgIDxwIGNsYXNzPSJjb21wYW55IiBzdHlsZT0ibGluZS1o
+ZWlnaHQ6IDEuNTsiIGRhdGEtbWNlLXN0eWxlPSJsaW5lLWhlaWdodDogMS41OyI+RWFzZUZyZWln
+aHQoTmV0RWFzZSk8L3A+PHAgc3R5bGU9ImxpbmUtaGVpZ2h0OiAxLjU7IiBkYXRhLW1jZS1zdHls
+ZT0ibGluZS1oZWlnaHQ6IDEuNTsiPjwvcD48cCBjbGFzcz0iY29udGFjdC1pbmZvIiBzdHlsZT0i
+bGluZS1oZWlnaHQ6IDEuNTsiIGRhdGEtbWNlLXN0eWxlPSJsaW5lLWhlaWdodDogMS41OyI+V2Vi
+c2l0ZTpmcmVpZ2h0LmZhY3RvcnkuMTYzLmNvbTxzcGFuIGRhdGEtbWNlLXR5cGU9ImJvb2ttYXJr
+IiBpZD0ibWNlXzdfc3RhcnQiIGRhdGEtbWNlLXN0eWxlPSJvdmVyZmxvdzpoaWRkZW47bGluZS1o
+ZWlnaHQ6MHB4IiBzdHlsZT0ib3ZlcmZsb3c6IGhpZGRlbjsgbGluZS1oZWlnaHQ6IDBweDsiPjwv
+c3Bhbj48L3A+PHAgY2xhc3M9ImNvbnRhY3QtaW5mbyIgc3R5bGU9ImxpbmUtaGVpZ2h0OiAxLjU7
+IiBkYXRhLW1jZS1zdHlsZT0ibGluZS1oZWlnaHQ6IDEuNTsiPkUtbWFpbDp0aW5hMDNAZWFzZWZy
+aWVnaHRpbmMuY29tPGJyPjxzcGFuIGRhdGEtbWNlLXR5cGU9ImJvb2ttYXJrIiBpZD0ibWNlXzhf
+c3RhcnQiIGRhdGEtbWNlLXN0eWxlPSJvdmVyZmxvdzpoaWRkZW47bGluZS1oZWlnaHQ6MHB4IiBz
+dHlsZT0ib3ZlcmZsb3c6IGhpZGRlbjsgbGluZS1oZWlnaHQ6IDBweDsiPjwvc3Bhbj48L3A+PHNw
+YW4gZGF0YS1tY2UtdHlwZT0iYm9va21hcmsiIGlkPSJtY2VfNl9zdGFydCIgZGF0YS1tY2Utc3R5
+bGU9Im92ZXJmbG93OmhpZGRlbjtsaW5lLWhlaWdodDowcHgiIHN0eWxlPSJvdmVyZmxvdzogaGlk
+ZGVuOyBsaW5lLWhlaWdodDogMHB4OyI+PC9zcGFuPjxwPjwvcD48cCBjbGFzcz0iY29udGFjdC1p
+bmZvIiBzdHlsZT0ibGluZS1oZWlnaHQ6IDEuNTsiIGRhdGEtbWNlLXN0eWxlPSJsaW5lLWhlaWdo
+dDogMS41OyI+PHNwYW4gZGF0YS1tY2UtdHlwZT0iYm9va21hcmsiIGlkPSJtY2VfMTFfc3RhcnQi
+IGRhdGEtbWNlLXN0eWxlPSJvdmVyZmxvdzpoaWRkZW47bGluZS1oZWlnaHQ6MHB4IiBzdHlsZT0i
+b3ZlcmZsb3c6IGhpZGRlbjsgbGluZS1oZWlnaHQ6IDBweDsiPjwvc3Bhbj48L3A+PHAgY2xhc3M9
+ImNvbnRhY3QtaW5mbyIgc3R5bGU9ImxpbmUtaGVpZ2h0OiAxLjU7IiBkYXRhLW1jZS1zdHlsZT0i
+bGluZS1oZWlnaHQ6IDEuNTsiPkFkZHJlc3M6TmV0ZWFzZcKt4oCUMzk5IFdhbmdzaGFuZyBSb2Fk
+LCBCaW5qaWFuZyBEaXN0cmljdCwgSGFuZ3pob3U8c3BhbiBkYXRhLW1jZS10eXBlPSJib29rbWFy
+ayIgaWQ9Im1jZV8xMF9zdGFydCIgZGF0YS1tY2Utc3R5bGU9Im92ZXJmbG93OmhpZGRlbjtsaW5l
+LWhlaWdodDowcHgiIHN0eWxlPSJvdmVyZmxvdzogaGlkZGVuOyBsaW5lLWhlaWdodDogMHB4OyI+
+PC9zcGFuPjwvcD48cCBzdHlsZT0id2hpdGUtc3BhY2U6IHByZS13cmFwOyBtYXJnaW4tdG9wOiAw
+cHg7IG1hcmdpbi1ib3R0b206IDBweDsgbWFyZ2luLWxlZnQ6IDBweDsgbWFyZ2luLXJpZ2h0OiAw
+cHg7IC1xdC1ibG9jay1pbmRlbnQ6IDA7IHRleHQtaW5kZW50OiAwcHg7Ij48YnI+PC9wPjxzcGFu
+IGRhdGEtbWNlLXR5cGU9ImJvb2ttYXJrIiBpZD0ibWNlXzlfc3RhcnQiIGRhdGEtbWNlLXN0eWxl
+PSJvdmVyZmxvdzpoaWRkZW47bGluZS1oZWlnaHQ6MHB4IiBzdHlsZT0ib3ZlcmZsb3c6IGhpZGRl
+bjsgbGluZS1oZWlnaHQ6IDBweDsiPjwvc3Bhbj48cD48L3A+PHAgY2xhc3M9ImNvbnRhY3QtaW5m
+byI+PGJyPjwvcD48cCBjbGFzcz0iY29udGFjdC1pbmZvIj48YnIgZGF0YS1tY2UtYm9ndXM9IjEi
+PjwvcD48L2Rpdj48cCBjbGFzcz0idW5fc3ViX3RleHQiPklmIHlvdSBkb24ndCB3YW50IHRvIHJl
+Y2VpdmUgb3VyIGVtYWlscywgeW91IGNhbiBlYXNpbHkgPGEgaHJlZj0iaHR0cHM6Ly9seC1wbHV0
+by1tYWlsLnFpeWUuMTYzLmNvbS91bnN1YnNjcmliZV9lbi5odG1sP2hvc3Q9bHgtcGx1dG8tbWFp
+bC5xaXllLjE2My5jb20mYW1wO3NpZ249UHAzaEoxRnJnWGFnVlMwMDN5cDh1VlAzZFViWGtqOFZm
+U3d3YmlEUUxXU3pyJTJCcU1aekprZ2xmY0ZnQjZNS2xMUkMwMGQlMkJBbHVxbTglMEFpViUyQm1s
+b05IOHZKQk1va2d6b0t3QVdhVURqVyUyQjF6TzF6S2NzVHlEa2pmWDZjM1lIc1V0TnZKZjNVSSUy
+QlNoOUZSY2pCNnR6QUwzYlJOJTBBcjd6SjFtbEx0eEFFZk5KaXRhSU5XVHRCZHhaRmtZZ3o5NFFM
+OFFiRSZhbXA7ZnJvbT1mcmVpZ2h0QGxvZ2lzdGljc2dsb2JhbHRyYWRlLmNvbSIgdGFyZ2V0PSJf
+YmxhbmsiIGNsYXNzPSJlZG0tdW5zdWJzY3JpYmUgdGVtcC1lZG0tdW5zdWJzY3JpYmUtdXJsIj51
+bnN1YnNjcmliZTwvYT4gaGVyZS48L3A+PGRpdj48c3R5bGU+PC9zdHlsZT48L2Rpdj4KPGltZyB3
+aWR0aD0iMCIgaGVpZ2h0PSIwIiBzdHlsZT0iZGlzcGxheTpub25lIiBzcmM9Imh0dHBzOi8vbHgt
+cGx1dG8tbWFpbC5xaXllLjE2My5jb20vYXBpL3B1Yi9lZG0vcmVhZD9zaWduPTZXJTJGa1VtWUNJ
+THNkTHNCa1puM0dZc01PVGElMkJWRnY0eXpNeTVSbU83d2QydkZ4a0tOJTJCZ0w3bGcwaTg0anYx
+YXVqQkFDV0NSTGJQUmQlMEF5WkxXNHZESEdjdDB3ZkJJOHQ0UGhXY1hrSWRYSTlVJTNEIiAvPjxi
+cj4=
+--=_Part_1044246_984369567.1719405403627--
