@@ -1,114 +1,81 @@
-Return-Path: <SRS0=hHSn=OP=quicinc.com=quic_akhilpo@kernel.org>
+Return-Path: <SRS0=/xlt=OP=linaro.org=dmitry.baryshkov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3AF5C3DA59
-	for <linux-firmware@archiver.kernel.org>; Mon, 15 Jul 2024 14:04:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E304C3DA4B
+	for <linux-firmware@archiver.kernel.org>; Mon, 15 Jul 2024 14:15:58 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C8280C4AF0D; Mon, 15 Jul 2024 14:04:02 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id 6A13DC4AF0A; Mon, 15 Jul 2024 14:15:58 +0000 (UTC)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id C0FAEC32782;
-	Mon, 15 Jul 2024 14:04:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C0FAEC32782
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46FA7KPH031019;
-	Mon, 15 Jul 2024 14:03:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=CZY0Mzz38Hfu1jva/DOA85Tc
-	A9kkdV4GIiO7U4tQ6/4=; b=nYtXY4CvrHHRWsrIEVCelA0TbJjZUJkibvCDro0U
-	eqWZH5Si/+i/Jngmk1Z4Y9C8fzNhRIwgewYeIvGK2vTsLqqXAQRKWddP7F/VOwwS
-	IIBV2GolgritaIPgR1weWVr4mpQnRjCVa4Rz1MbYp1sD1slsbYV8+AvrEMIib69M
-	/eb5foXilCCgMsKrU59oa1UBKHb1UEj+HmKqfqSZgBd58wTBvfFN4aYkIBM1eHHa
-	PGjkp442B5OZjSjE5hYVMkVOd6AmrBQmIEr8ttgphqj2XfH5v7AKYcbaZ61Qpe3V
-	vaLeok8rVjF/Ofh6krAEgXD4W6bbXTE55r7ktHzNlbH+6Q==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40bjv8m86n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 15 Jul 2024 14:03:58 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 46FE3vdf001893
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 15 Jul 2024 14:03:57 GMT
-Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Mon, 15 Jul 2024 07:03:55 -0700
-Date: Mon, 15 Jul 2024 19:33:51 +0530
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-List-Id: <linux-firmware.lore.kernel.org>
-CC: <linux-firmware@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <quic_rajeshk@quicinc.com>
-Subject: Re: [PATCH] qcom: move signed x1e80100 signed firmware to the SoC
- subdir
-Message-ID: <20240715140351.olqzaiz32jpplpnx@hu-akhilpo-hyd.qualcomm.com>
-References: <20240715122500.3115456-1-dmitry.baryshkov@linaro.org>
+	by smtp.kernel.org (Postfix) with ESMTPS id 058A6C4AF0F
+	for <linux-firmware@kernel.org>; Mon, 15 Jul 2024 14:15:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 058A6C4AF0F
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e057ae1adbeso3239310276.0
+        for <linux-firmware@kernel.org>; Mon, 15 Jul 2024 07:15:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1721052956; x=1721657756; darn=kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=R2wB2W0fKwhATZ+3uinQ9oRmxEy7VIVSTwoUTBV0Uek=;
+        b=uPvM1sJvEAA+fQ4ByGx4KRwUo/e+E4O0lm5qguIjjykWYJCiqkj+0o95ZqvbENs1R5
+         HbQT101B1I84wljyQmKDfe6qAMQPJIw04US95LNPoM9ceoDuteRVrEmKvj9uVFssSyYc
+         Zlk6CWImKe2F0rmfS/oORNd5f2tO48oKOsG5tyC5nOnLX5kOZM4Ff4ctszvtjHxG3vMh
+         IKDJFpdDd0bzMYDQ2KPrsv3/+9pNc0mGDi4p4eVEj2P4jzwFekN3FLbjN3AvnfbLng4h
+         XTCKYT8i1y2BJHLHgzVK/IKtGnLZUH5cgbU1fnYhuk30/GYqv4nxHwWu0zEYsQgIfHNN
+         oCRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721052956; x=1721657756;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R2wB2W0fKwhATZ+3uinQ9oRmxEy7VIVSTwoUTBV0Uek=;
+        b=GJbJnclopXU9XVp++TQx36fuWt9wCVvGnqp2fXETDKcPX9hU7FntRXqURTpqXs0nJF
+         SHoAc4Oh4v4Ly3iMUTz7L9fUFjphdlp51t/Ihu2yZnYeefWpPKhQ/I9N4ER+VGXuZrSF
+         CEac66InyAmIJ6qVedsdmOSQ5eZS8/6qqj/mrcXdXz/0QP68C7L8AifHJQIxtdG8houy
+         UvA06xKsKk46k0eh9EAaMot+IrEGpZEBkO9cJKyJ7Z45S2Xz/pQDPsyIPAC5QL/SztDL
+         Z2MteQMHX8IWr6CMyDzkLs8HB21HYZltZSy9ltXQu7D+gJkD5zuSPr73r53cnLo57fZZ
+         wJ/g==
+X-Gm-Message-State: AOJu0Ywz14AYtGN5dNUqjjeix4zt9RjP9p24JRomzXIdJ8cAKAy9vqzc
+	LL+zbDUAcde+5+8nBwCbVYEuvMAjJ4P6oiF1t4cX5WBcpr/QBX7ic6gRAhDry0LrSmDP8F7X9Rc
+	JHp3O4EuKdo5ISsonkkZsmwhg17DO/Y0O+JXeqL4fJ02Lq32PrOc2Rw==
+X-Google-Smtp-Source: AGHT+IFSnls45DRWzcf09yMhTK+spEP6tpEh1C0wOeRCIP6b5YLKMSx7ejE6MxjLgDPh49CBh90q8yIPNwxUUr37SLE=
+X-Received: by 2002:a05:6902:1615:b0:e03:359a:6a54 with SMTP id
+ 3f1490d57ef6-e05d25e44f2mr82710276.6.1721052955898; Mon, 15 Jul 2024 07:15:55
+ -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240715122500.3115456-1-dmitry.baryshkov@linaro.org>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: UsaAT72KSjqfHOKBvGsrGEN0xgnm8qJe
-X-Proofpoint-GUID: UsaAT72KSjqfHOKBvGsrGEN0xgnm8qJe
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-15_08,2024-07-11_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- suspectscore=0 spamscore=0 malwarescore=0 clxscore=1015 priorityscore=1501
- phishscore=0 lowpriorityscore=0 mlxscore=0 adultscore=0 bulkscore=0
- mlxlogscore=812 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2407150111
+References: <20240715122500.3115456-1-dmitry.baryshkov@linaro.org> <20240715140351.olqzaiz32jpplpnx@hu-akhilpo-hyd.qualcomm.com>
+In-Reply-To: <20240715140351.olqzaiz32jpplpnx@hu-akhilpo-hyd.qualcomm.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 15 Jul 2024 17:15:45 +0300
+Message-ID: <CAA8EJprZ2x7tkLnOq4pyuAYqDHgt8C0EGHNbhhK7Xqve4Z+4tg@mail.gmail.com>
+Subject: Re: [PATCH] qcom: move signed x1e80100 signed firmware to the SoC subdir
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: linux-firmware@kernel.org, Bjorn Andersson <andersson@kernel.org>, 
+	linux-arm-msm@vger.kernel.org, quic_rajeshk@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jul 15, 2024 at 03:25:00PM +0300, Dmitry Baryshkov wrote:
-> The ZAP shader is signed and is specific for the particular SoC. As such
-> it should be put the corresponding subdir rather than the topdir.
-> 
-> Move it to the subdir (like all other zap.mbn files).
+On Mon, 15 Jul 2024 at 17:04, Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+>
+> On Mon, Jul 15, 2024 at 03:25:00PM +0300, Dmitry Baryshkov wrote:
+> > The ZAP shader is signed and is specific for the particular SoC. As such
+> > it should be put the corresponding subdir rather than the topdir.
+> >
+> > Move it to the subdir (like all other zap.mbn files).
+>
+> This need a similar change in x1e devicetree too, right? Are you
+> planning to send that?
 
-This need a similar change in x1e devicetree too, right? Are you
-planning to send that?
+Why was the firmware name incorporated into the x1e80100.dtsi? Yes, it
+needs to be dropped.
 
--Akhil
-
-> 
-> Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> Cc: Bjorn Andersson <andersson@kernel.org>
-> Cc: linux-arm-msm@vger.kernel.org
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  WHENCE                               |   2 +-
->  qcom/{ => x1e80100}/gen70500_zap.mbn | Bin
->  2 files changed, 1 insertion(+), 1 deletion(-)
->  rename qcom/{ => x1e80100}/gen70500_zap.mbn (100%)
-> 
-> diff --git a/WHENCE b/WHENCE
-> index e4e06b966e89..b6451372a6ef 100644
-> --- a/WHENCE
-> +++ b/WHENCE
-> @@ -5992,7 +5992,7 @@ File: qcom/leia_pm4_470.fw
->  File: qcom/sc8280xp/LENOVO/21BX/qcdxkmsuc8280.mbn
->  File: qcom/gen70500_gmu.bin
->  File: qcom/gen70500_sqe.fw
-> -File: qcom/gen70500_zap.mbn
-> +File: qcom/x1e80100/gen70500_zap.mbn
->  
->  Licence: Redistributable. See LICENSE.qcom and qcom/NOTICE.txt for details
->  
-> diff --git a/qcom/gen70500_zap.mbn b/qcom/x1e80100/gen70500_zap.mbn
-> similarity index 100%
-> rename from qcom/gen70500_zap.mbn
-> rename to qcom/x1e80100/gen70500_zap.mbn
-> -- 
-> 2.43.0
-> 
+-- 
+With best wishes
+Dmitry
