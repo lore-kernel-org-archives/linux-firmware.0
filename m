@@ -4,84 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2533FC3DA59
-	for <linux-firmware@archiver.kernel.org>; Mon, 15 Jul 2024 12:19:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4EB0CC3DA4B
+	for <linux-firmware@archiver.kernel.org>; Mon, 15 Jul 2024 12:25:04 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 0F79BC4AF0A; Mon, 15 Jul 2024 12:19:23 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	id 37AFEC4AF0E; Mon, 15 Jul 2024 12:25:04 +0000 (UTC)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 2F4CDC32782
-	for <linux-firmware@kernel.org>; Mon, 15 Jul 2024 12:19:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 2F4CDC32782
+	by smtp.kernel.org (Postfix) with ESMTPS id 4A315C4AF0B
+	for <linux-firmware@kernel.org>; Mon, 15 Jul 2024 12:25:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 4A315C4AF0B
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-52e99060b41so4369148e87.2
-        for <linux-firmware@kernel.org>; Mon, 15 Jul 2024 05:19:21 -0700 (PDT)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2eecd2c6432so58419851fa.3
+        for <linux-firmware@kernel.org>; Mon, 15 Jul 2024 05:25:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1721045960; x=1721650760; darn=kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AirN9AaG97xF0J6M3pd1tEzg2nxbKMsQsM9U22/k1nc=;
-        b=pLRqGyzXhwFubLsyJre8Ag0YBEn3EBc6CouN5LmVqyl3mkPVQgcpJEiMJQJAdifXeO
-         8tF+cAcgpm1GMCNeqw7YfBnvVvcNwpFe4fro/ulnsP9YaHxT1FL7AEc2gEeokV0mVmoR
-         f99VXoUvZ3E6bE49YGLa5hBLdrJ7XXWDB6IB7lLhjlt+cU/J6ud0hVYbdQi+VlaCmAYz
-         ak0QRw6qyDeHCsc1wRh4rEp8FC3AhSSWyXRNtPjVYZvwtNVO0P0/uk7lmSnaI+DgcXtq
-         9Z9XkAyaIknUo0LgPpgOcDhk1okX3rJRBWN2PH8SfCrJnizugr1Gfp3dMiSgE0e2AFt2
-         bQNA==
+        d=linaro.org; s=google; t=1721046301; x=1721651101; darn=kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FCPqymuE1696F1HXcUi+tB+c7mFe5Hm0KK5Kdb2Bj6o=;
+        b=bURNNdyefiqFna1n0bPYw3av6djkmlLH9YQlAFOjwo4v7DFV8U2lXagjEELMCafr/o
+         zLYk+DxQjJe3cpu3iWtCpIpDChp+jmK0e/wuwaIuzZ1WGUb7uN6fVl3IaK45zktIHJfC
+         GN8ksZpqKjxVW+428YP6GFIrRqzKIpTIyu9hGuCiM1l9w/ZzI+kVfZXC0QURNEMnvcc3
+         nA4Qp4NW8j258sMLNhN7BPERqLSI1uNSmN1F8VED6rCK3NN3iXvFRjZVQ8ns3x0sQ5LO
+         xIiuyKl0/jxQvgBgL3dugiwMCwfiloq4UZTkBc4kqSwNfjbNF8vLWeOlcSw8LrljxKqD
+         NUhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721045960; x=1721650760;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AirN9AaG97xF0J6M3pd1tEzg2nxbKMsQsM9U22/k1nc=;
-        b=P9PXNIrJ79VJpoVBn88TS55NbqesjyGckmmZh8KosOJ2rToBIiT4LOXpAtLyQtK0LU
-         eIh6qEXMHJv+bIVQPvRIebChMxvMVlb6KD4YvcStquuPMjEzpfMHTGE5vDy3IyaA35da
-         nDliJNAq7kgH/ExJuPrDag9+JR6clYq9rnFztcjszKGS03FaZEi3ZtC+Qu3CTkylE7SB
-         8Yyltmd2BBFQHvWgTqkCLdFjwEN5L/za0Av9wRbIG8llUBg+ybYnbJ5nFv8Aphy+f4Jb
-         892TAp/RxpiNgKL4JvcwN/QKR5kRg+uQ2SaLQ1E++2he62gp6RZvkf68MwiWDzvGdW88
-         Tnqg==
-X-Gm-Message-State: AOJu0Yy/SnPpCpR3m7NpCdoD3moWRnnn3zomK3J6WYaZxXVEFvGIR37/
-	Z50BpjG2B/58j7rL0XAJFDFTfeYY07ng4ZeKrkubEk3h3ZdqF19BWpzoA131imU=
-X-Google-Smtp-Source: AGHT+IF5YA/83IfdbW0XrNTUxJLLP6oImjkgYB5h5Ztzm/+FX+Gf9dsfz8W7yKexHzUp19QKG50Ozw==
-X-Received: by 2002:a19:a414:0:b0:52d:582e:8093 with SMTP id 2adb3069b0e04-52eb9995541mr9732971e87.23.1721045960313;
-        Mon, 15 Jul 2024 05:19:20 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52ed24f5938sm833626e87.117.2024.07.15.05.19.19
+        d=1e100.net; s=20230601; t=1721046301; x=1721651101;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FCPqymuE1696F1HXcUi+tB+c7mFe5Hm0KK5Kdb2Bj6o=;
+        b=WOcRtaG+eb5WNovLDRL72sD+rbqtx81RMcvlfj6xNKU5d437IW4HTfYzeed64Ql0yP
+         TerDvUAkwycx682BAqXX31pNySz1gkGApGdrZvjBJJMzL0MBNBj4WCjPN1qGEv8UZGEz
+         LBUgQVcAHvbrapvrBQyNQwFJZgBgKNItbVh8g6UdIAI/p2SY0WHHjtvTE4gVhnkISl1I
+         QxTrcK39Mwtgn+3NxlWRon8ROKOeTbdjSvrXKHVTakPeZP3nnBiEqg/GIBF2S4l0gBuq
+         m8sVRnSjMtCREvKFibSn/ENcu7WQ+MbhCcGNz/CRiywTZ0qz1CrLbcdXB2PIJ8lDmwtr
+         KY3Q==
+X-Gm-Message-State: AOJu0Yxl6S90+kOuGIGmmuNf/BTf5hSgvmr/kU3o4wK1q36pXGFNkOMn
+	tIGhs4DbNM4DvAuabx9w6b6KjnrBtC+9IBqKn9AVqCMcLkPzEEwt+N2SBGqZRCtbBF3lRSu8MjA
+	9QNXG6g==
+X-Google-Smtp-Source: AGHT+IFuaB5hWdlEUlx+L2Fk0YWQZUNUsQXsLuGZDH7wxw0vxm8nrCvNGmOzNWXYTI7eL6PnKlFkyg==
+X-Received: by 2002:a2e:8ed3:0:b0:2ee:4d37:91df with SMTP id 38308e7fff4ca-2eeb30fef50mr147387991fa.27.1721046301088;
+        Mon, 15 Jul 2024 05:25:01 -0700 (PDT)
+Received: from eriador.lan (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2eee1939b56sm8287711fa.115.2024.07.15.05.25.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jul 2024 05:19:19 -0700 (PDT)
-Date: Mon, 15 Jul 2024 15:19:18 +0300
+        Mon, 15 Jul 2024 05:25:00 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, rajeshk@qti.qualcomm.com
-Subject: Re: [PATCH] qcom: add gpu firmwares for x1e80100 chipset
-Message-ID: <ebqrik4chxjjabhdozfu54ifc6xdojisqfcojcggov74kyva3b@lafmmd3qxpzn>
-References: <20240712175922.3740583-1-quic_akhilpo@quicinc.com>
+To: linux-firmware@kernel.org
+Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	linux-arm-msm@vger.kernel.org
+Subject: [PATCH] qcom: move signed x1e80100 signed firmware to the SoC subdir
+Date: Mon, 15 Jul 2024 15:25:00 +0300
+Message-ID: <20240715122500.3115456-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240712175922.3740583-1-quic_akhilpo@quicinc.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 12, 2024 at 11:29:22PM GMT, Akhil P Oommen wrote:
-> Add the following gpu related firmwares for Snapdragon X1 Elite
-> chipset (x1e80100):
-> 
-> qcom/gen70500_gmu.bin: v4.03.11
-> qcom/gen70500_sqe.fw: v1.62
-> qcom/gen70500_zap.mbn: v0.15
-> 
-> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> ---
->  WHENCE                |   3 +++
->  qcom/gen70500_gmu.bin | Bin 0 -> 81312 bytes
->  qcom/gen70500_sqe.fw  | Bin 0 -> 77332 bytes
->  qcom/gen70500_zap.mbn | Bin 0 -> 12088 bytes
+The ZAP shader is signed and is specific for the particular SoC. As such
+it should be put the corresponding subdir rather than the topdir.
 
-The ZAP firmware is signed, so it should have gone to the SoC subdir.
-I'll submit a patch to fix it.
+Move it to the subdir (like all other zap.mbn files).
 
+Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: Bjorn Andersson <andersson@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ WHENCE                               |   2 +-
+ qcom/{ => x1e80100}/gen70500_zap.mbn | Bin
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename qcom/{ => x1e80100}/gen70500_zap.mbn (100%)
+
+diff --git a/WHENCE b/WHENCE
+index e4e06b966e89..b6451372a6ef 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -5992,7 +5992,7 @@ File: qcom/leia_pm4_470.fw
+ File: qcom/sc8280xp/LENOVO/21BX/qcdxkmsuc8280.mbn
+ File: qcom/gen70500_gmu.bin
+ File: qcom/gen70500_sqe.fw
+-File: qcom/gen70500_zap.mbn
++File: qcom/x1e80100/gen70500_zap.mbn
+ 
+ Licence: Redistributable. See LICENSE.qcom and qcom/NOTICE.txt for details
+ 
+diff --git a/qcom/gen70500_zap.mbn b/qcom/x1e80100/gen70500_zap.mbn
+similarity index 100%
+rename from qcom/gen70500_zap.mbn
+rename to qcom/x1e80100/gen70500_zap.mbn
 -- 
-With best wishes
-Dmitry
+2.43.0
+
