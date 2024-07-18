@@ -1,70 +1,111 @@
-Return-Path: <SRS0=oGkB=OS=gmail.com=malefumakhalanyane@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3781C3DA49
-	for <linux-firmware@archiver.kernel.org>; Thu, 18 Jul 2024 12:48:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A016C3DA60
+	for <linux-firmware@archiver.kernel.org>; Thu, 18 Jul 2024 13:12:45 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id CA859C4AF0A; Thu, 18 Jul 2024 12:48:46 +0000 (UTC)
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 13B15C116B1
-	for <linux-firmware@kernel.org>; Thu, 18 Jul 2024 12:48:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 13B15C116B1
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-70b42250526so531895b3a.1
-        for <linux-firmware@kernel.org>; Thu, 18 Jul 2024 05:48:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721306925; x=1721911725; darn=kernel.org;
-        h=mime-version:date:subject:to:reply-to:message-id:from:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=29hom0yIUKXyxGpaBfQEDkClvVe6uzQV9qrVVpyHZAQ=;
-        b=PyPE/8kd46V6IUjrVwwPWtyXtrfG/HvgLJwi1SSm4YzOgv58JmUyBKH2AjWfoDGvPS
-         kgqNZPxHq9b48LBnSob0p9lUUuiaG4TV1E/Y/ugLJZMBKESnQV9tBQnUKRs/yjJIsZsj
-         zngdzo4Xgbj7IMVjWCGL6QQSm3UhzeUx8WWKIwUWCs6M5zDqE8Uw3DXJwMJdjZ0+uucL
-         qkFbGgRQHUC6nd/9RHTBUIzIJPyD4PRBLGNhN6c3zylswckuI8ltWDEpw5+3HuZReRLW
-         9mQEtypzgNcdbk/TUDjrbsgCNKP2WXC0hVZ4vTsrRaEvuinvdqcMEcpOT878GiU4Ijea
-         gZGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721306925; x=1721911725;
-        h=mime-version:date:subject:to:reply-to:message-id:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=29hom0yIUKXyxGpaBfQEDkClvVe6uzQV9qrVVpyHZAQ=;
-        b=MhE6WLh0nMu9m7wqCtQ4b/j/ta+zy8oJkalSQZ2GGtd1sz4q0fq3m7eq6DbSHW/O77
-         hjAUzZ+kT07DIb1DBSQDccO86OmyydYDmbYFtVvq3q0xWq6pgSnjLJKyrqkTb8hAolYk
-         0F398hCjnlbqeokyk+f7mx1YQRpamRd1VTqf5scIs1sGm5uG+KVWp02Kt9f6tIYfHKEP
-         DM3WEsaKiH/vQIID7RGh/HbXPNiqCMnC4+j1Sb6GeZKrvZVLa/KF1FxDEM98m+ignkS+
-         WMt1y/qqYNizPlpj2RIFfj2zvu23v+mwjMcoRPpXImdrFqVta4BlJadAGOVO1nU3H21a
-         K14g==
-X-Gm-Message-State: AOJu0Yx23xSJ+Dk/4cMSKoY6k0SK8tGoxl4v+b53xYsCZFO4pbG2ckT6
-	SnQLwQdLuvvBOP0xWXGbwzNjkIwD7qR8F8sYtN/vn0ojBJZb7f1db7HiZK1d
-X-Google-Smtp-Source: AGHT+IFllNswr2qGIKrdiyZLB4R1TxE8f3A2fTrk0683ok/CK6wsqh6xAY7Kcb8pYpzXNZpBnmuVZQ==
-X-Received: by 2002:a05:6a00:23c1:b0:706:5d85:61a5 with SMTP id d2e1a72fcca58-70ce4f9003amr5763132b3a.8.1721306924947;
-        Thu, 18 Jul 2024 05:48:44 -0700 (PDT)
-Received: from [103.67.163.162] ([103.67.163.162])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70b7ea794b7sm10015167b3a.0.2024.07.18.05.48.43
-        for <linux-firmware@kernel.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 18 Jul 2024 05:48:44 -0700 (PDT)
-From: Gina Fogle <malefumakhalanyane@gmail.com>
-X-Google-Original-From: Gina Fogle <ginafogle@outlook.com>
-Message-ID: <2d8927a108e3eee2b5f9d4183e827f0caa46b5a61539b96ab3a11fa5dca8c340@mx.google.com>
-Reply-To: ginafogle@outlook.com
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Subject: Grand Piano 07/18
-Date: Thu, 18 Jul 2024 08:48:43 -0400
+	id F22F8C4AF10; Thu, 18 Jul 2024 13:12:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCA80C4AF0A
+	for <linux-firmware@kernel.org>; Thu, 18 Jul 2024 13:12:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721308364;
+	bh=vYl8MNkELU4Ts7nwqTZXYDv94oAOQlp6vOMvp3c6lbk=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=mNZOdzPU3IGxduoRU3eUL8+SX4K40LDy43/8SFyyUGj22aTZUbJcavTaKvCCXaQb0
+	 x86PJXfz31XIQdtuOnQls/V7gf4vxWQOmRxxPoLFcaZfeWkktO1CeYnKPvSkhKdiUO
+	 rgu2Nrv1Vcpj2Gj/4iqrKWjjg4JVLIQAD2FwprcXGD7ncx8+28RVs+O964iS3yC2IL
+	 n55bS1Nd1OiOAvbbRz6MfhGbL1qZgwhAi7+ZeLGBIU7l7TRU0e7lPhUCeuBvQwqHb/
+	 8FLmFwLMLfq4BKUwqME4qEwFlf7wgu7xuwwm+6kezNO0tKMk6RwT9qWgZOAEmk/9t3
+	 WVB7hotnzJHjQ==
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6678a45eaa3so6050137b3.2
+        for <linux-firmware@kernel.org>; Thu, 18 Jul 2024 06:12:44 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yz/efb0faDcAN/llS7wkAk/mjSTb4fw+2n8BPZCGkAEO9jKEfEF
+	MMQTIXFu8nqsjFeebEsbyQ2HRXTqTVMukqs9WIoFTsVNMKQcwWJw0j/cnYC43s/v1lc1+PYsRIY
+	LKX6qQ7LUg7J6SKW8piYqxoyv20U=
+X-Google-Smtp-Source: AGHT+IGHGsKu3aGgiDsmP3QMUlXnyDu/titXfL14zN189O3HKZ68TtQ10LQvGGJTe2Rdb33EsSSV39sXbLdHNJmfdlQ=
+X-Received: by 2002:a0d:e443:0:b0:63b:ce21:da7f with SMTP id
+ 00721157ae682-664fe74049dmr51662367b3.21.1721308364100; Thu, 18 Jul 2024
+ 06:12:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+References: <20240718070022.591-1-shenghao-ding@ti.com>
+In-Reply-To: <20240718070022.591-1-shenghao-ding@ti.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Thu, 18 Jul 2024 09:12:32 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA4cRtsC6a3AvW65==seufG3zoiUtL0N9PPLpYNEvNYwwQ@mail.gmail.com>
+Message-ID: <CA+5PVA4cRtsC6a3AvW65==seufG3zoiUtL0N9PPLpYNEvNYwwQ@mail.gmail.com>
+Subject: Re: [PATCH v2] ASoC: tas2781: fix the license issue for tas781 firmware
+To: Shenghao Ding <shenghao-ding@ti.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: linux-firmware@kernel.org, zigo@debian.org, baojun.xu@ti.com, 
+	13564923607@139.com, v-po@ti.com, linux-sound@vger.kernel.org, 
+	robinchen@ti.com, linux-kernel@vger.kernel.org, mimperial@lenovo.com, 
+	cchen50@lenovo.com, soyer@irl.hu, stuart.a.hayhurst@gmail.com, navada@ti.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Thu, Jul 18, 2024 at 3:01=E2=80=AFAM Shenghao Ding <shenghao-ding@ti.com=
+> wrote:
+>
+> Fix the license issue for tas781 firmware, which are shipped as .bin
+> opaque. Remove the GPL-2+, which imposes having the source code
+> available.
+>
+> Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
 
-I'm offering my late husband's Yamaha Piano to any music enthusiast who may appreciate it. If you or someone you know might be interested in receiving this instrument for free, please feel free to reach out to me.
+Merged and pushed out.
 
-Warm regards,
-Gina
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/257
+
+josh
+
+>
+> ---
+> v2:
+>  - Drop "Found in hex form in kernel source."
+>  - Drop Allegedly, Add Redistributable.
+> v1:
+>  - Remove the GPL-2+ and fix the license issue.
+>  - Update the year of copyright.
+> ---
+>  WHENCE | 12 ++++--------
+>  1 file changed, 4 insertions(+), 8 deletions(-)
+>
+> diff --git a/WHENCE b/WHENCE
+> index b2fc018..3d95a97 100644
+> --- a/WHENCE
+> +++ b/WHENCE
+> @@ -7384,10 +7384,8 @@ Link: TAS2XXX38E0.bin -> ti/tas2781/TAS2XXX38E0.bi=
+n
+>  Link: TIAS2781RCA2.bin -> ti/tas2781/TIAS2781RCA2.bin
+>  Link: TIAS2781RCA4.bin -> ti/tas2781/TIAS2781RCA4.bin
+>
+> -Licence: Allegedly GPLv2+, but no source visible. Marked:
+> -        Copyright (C) 2023 Texas Instruments
+> -
+> -Found in hex form in kernel source.
+> +Licence: Redistributable. See LICENCE.ti-tspa for details. Marked:
+> +        Copyright (C) 2023 - 2024 Texas Instruments
+>
+>  ------------------------------------------------------------------------=
+--
+>
+> @@ -7397,10 +7395,8 @@ File: ti/tas2563/INT8866RCA2.bin
+>  Link: TAS2XXX3870.bin -> ti/tas2563/TAS2XXX3870.bin
+>  Link: INT8866RCA2.bin -> ti/tas2563/INT8866RCA2.bin
+>
+> -Licence: Allegedly GPLv2+, but no source visible. Marked:
+> -        Copyright (C) 2023 Texas Instruments
+> -
+> -Found in hex form in kernel source.
+> +Licence: Redistributable. LICENCE.ti-tspa for details. Marked:
+> +        Copyright (C) 2023 - 2024 Texas Instruments
+>
+>  ------------------------------------------------------------------------=
+--
+>
+> --
+> 2.34.1
+>
