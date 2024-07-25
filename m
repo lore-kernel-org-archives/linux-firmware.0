@@ -1,143 +1,77 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=QOMH=OZ=sipsolutions.net=johannes@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04E4FC3DA49
-	for <linux-firmware@archiver.kernel.org>; Thu, 25 Jul 2024 20:04:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C9CBC3DA49
+	for <linux-firmware@archiver.kernel.org>; Thu, 25 Jul 2024 20:46:43 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id BA03DC4AF10; Thu, 25 Jul 2024 20:04:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3861C4AF0B
-	for <linux-firmware@kernel.org>; Thu, 25 Jul 2024 20:04:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721937849;
-	bh=FGFdOGUs6vnV8uH7fubUl3VOiYyO2p6PFoVQ+dWtZfY=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=Rb1k7k++emt+IczlrhZ+E6Fi7dmuKanA9xvZUJedJpPuQ/3aM26nqrCsR8VK3wUDg
-	 Bbv8aI8pnijHS/t/RGjkrzYIe0LDgdAZpXyLXxe+smrOshmSwvnuRX3GK8ZO21zSf7
-	 CGaPFqZTQngqw7vv/xDZtKHtw6G0RG60hbzvXIiU/LUVzRi07+LrCxYUo5eWQ3kbhl
-	 xlscTdcXmkihtEndARK14u9vGAZs0q28VBys5IQZYceWZjBAi19+Y+MGACF53WOKYx
-	 f1j0TqC+zqU7W8SL6pZ1IvQ+EJxnbNuWfUAVocsJWTra9qgxR6dU7KTa96LnUkNxhs
-	 YT8PlBUZQYpnQ==
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-66526e430e0so14595997b3.2
-        for <linux-firmware@kernel.org>; Thu, 25 Jul 2024 13:04:09 -0700 (PDT)
-X-Gm-Message-State: AOJu0YzaqrPgHVkLTM8M8PuO3HmHnfe+BloC0Lw+K1rSwnlnCNMXavzf
-	wdLZwx05aONu+EV9Gi5PNaLDzdckoawNMEJ4GdMXCRt1w40tdBVJWpPvleCBtFy0V6F0DkOMAzF
-	lrMA3dejH55k0libUp4VS1kLJpCU=
-X-Google-Smtp-Source: AGHT+IFQrNNgWClgGET66ahdMkh8p2XT5FFZylFHpU9xLAAVZQpAtG5Kef+u5mLu4mbLsYK5v7E4J/mvrjaZHvBA3Fw=
-X-Received: by 2002:a0d:ee44:0:b0:61b:3304:b702 with SMTP id
- 00721157ae682-675b3a11661mr32940127b3.5.1721937848927; Thu, 25 Jul 2024
- 13:04:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <MW5PR11MB581002D586D332CACEB335BAA3AB2@MW5PR11MB5810.namprd11.prod.outlook.com>
-In-Reply-To: <MW5PR11MB581002D586D332CACEB335BAA3AB2@MW5PR11MB5810.namprd11.prod.outlook.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Thu, 25 Jul 2024 16:03:57 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA6zGFMsV16BhmbB9QnZQ9UsUw1-44MK6gOc84MnhroDXA@mail.gmail.com>
-Message-ID: <CA+5PVA6zGFMsV16BhmbB9QnZQ9UsUw1-44MK6gOc84MnhroDXA@mail.gmail.com>
+	id 58FBFC116B1; Thu, 25 Jul 2024 20:46:43 +0000 (UTC)
+Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 6B1A3C32786;
+	Thu, 25 Jul 2024 20:46:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 6B1A3C32786
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=sipsolutions.net
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+	Resent-Cc:Resent-Message-ID; bh=Phw4NttKMMcf/h3rDAaLPFPthPuilYGOaVPYPZvU0l4=;
+	t=1721940400; x=1723150000; b=KFDyVYQ1NMGnoDolLrBvWyNaZJ+ES/xvSJqSQwyhrkSRBPE
+	feCCd69x0h8/xaecIG6fqBuXZgMjSrw/OxUAhSzkX0pmuwBm8PgEid/p0Jgguu4n0VUJnfLYxWCLX
+	tZGSWidoZxCtGKJSxvGR/w8aNx9EGtf56Bm0tCRUT5zgQdrF/6f4GOa/CHri9O8lASAYiAEIhp1ZR
+	9ZH7Zgj9brKX5eCGsqG7fNYoyNBdKOiUrtrcF2YwTIMdrPsSRTFrpy2SuwEvs9NCHH3ehqVTAnHYO
+	y5QfMjAth3IIP+ZDNJEW4dJxM6zTItrNR+bWumRTx9gwBnrlbkUlcHCJYfzWAvrg==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.97)
+	(envelope-from <johannes@sipsolutions.net>)
+	id 1sX5MC-0000000H326-1syE;
+	Thu, 25 Jul 2024 22:46:36 +0200
+Message-ID: <92696aa1704e43897cbed421136845745e023127.camel@sipsolutions.net>
 Subject: Re: pull request: iwlwifi firmware updates 2024-07-25
-To: "Korenblit, Miriam Rachel" <miriam.rachel.korenblit@intel.com>
+From: Johannes Berg <johannes@sipsolutions.net>
+To: Josh Boyer <jwboyer@kernel.org>, "Korenblit, Miriam Rachel"
+	 <miriam.rachel.korenblit@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, "kyle@infradead.org" <kyle@infradead.org>, 
-	"Hutchings, Ben" <ben@decadent.org.uk>, "Ben Ami, Golan" <golan.ben.ami@intel.com>, 
-	"Yang, You-Sheng" <vicamo.yang@canonical.com>, Wireless <linux-wireless@vger.kernel.org>
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
+ "kyle@infradead.org" <kyle@infradead.org>, "Hutchings, Ben"
+ <ben@decadent.org.uk>, "Ben Ami, Golan" <golan.ben.ami@intel.com>, "Yang,
+ You-Sheng" <vicamo.yang@canonical.com>,  Wireless
+ <linux-wireless@vger.kernel.org>
+Date: Thu, 25 Jul 2024 22:46:35 +0200
+In-Reply-To: <CA+5PVA6zGFMsV16BhmbB9QnZQ9UsUw1-44MK6gOc84MnhroDXA@mail.gmail.com>
+References: 
+	<MW5PR11MB581002D586D332CACEB335BAA3AB2@MW5PR11MB5810.namprd11.prod.outlook.com>
+	 <CA+5PVA6zGFMsV16BhmbB9QnZQ9UsUw1-44MK6gOc84MnhroDXA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3 (3.52.3-1.fc40) 
+MIME-Version: 1.0
+X-malware-bazaar: not-scanned
 
-On Thu, Jul 25, 2024 at 11:15=E2=80=AFAM Korenblit, Miriam Rachel
-<miriam.rachel.korenblit@intel.com> wrote:
->
-> Hi,
->
-> This reverts the firmware updates for So/Ma/Ty.
->
-> (an unexpected API change went in these firmwares, that isn't actually co=
-mpatible with all drivers supporting this API version.)
->
-> --
->
-> Thanks,
->
-> Miri
->
->
->
-> The following changes since commit f032eea14345546dd09457358413b186c08006=
-bf:
->
->
->
->   iwlwifi: add gl FW for core89-58 release (2024-07-23 13:17:27 +0300)
->
->
->
-> are available in the Git repository at:
->
->
->
->   http://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.g=
-it tags/iwlwifi-fw-2024-07
+On Thu, 2024-07-25 at 16:03 -0400, Josh Boyer wrote:
+> >=20
+> >   http://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware=
+.git tags/iwlwifi-fw-2024-07
+>=20
+> git fetch https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-f=
+irmware.git
+> tags/iwlwifi-fw-2024-07
+> fatal: couldn't find remote ref tags/iwlwifi-fw-2024-07
+>=20
+> Did you forget to push the tag out?
+>=20
 
-git fetch https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-fir=
-mware.git
-tags/iwlwifi-fw-2024-07
-fatal: couldn't find remote ref tags/iwlwifi-fw-2024-07
+That's ... curious :)
 
-Did you forget to push the tag out?
+Seems like the day ("-25") got cut off at the end, we've always used
+dated tags here, and there is one from today around the time Miri and I
+were discussing this issue, named "iwlwifi-fw-2024-07-25", which also
+matches the subject. No idea how it got cut off in the email though.
 
-josh
-
->
->
->
-> for you to fetch changes up to f1e56cc8218a35770f1c1fd3756912297258d750:
->
->
->
->   Revert "iwlwifi: update ty/So/Ma firmwares for core89-58 release" (2024=
--07-25 17:52:22 +0300)
->
->
->
-> ----------------------------------------------------------------
->
-> revert core89 FW updates for Ty/So/Ma
->
->
->
-> ----------------------------------------------------------------
->
-> Miri Korenblit (1):
->
->       Revert "iwlwifi: update ty/So/Ma firmwares for core89-58 release"
->
->
->
->  WHENCE                        |  14 +++++++-------
->
->  iwlwifi-ma-b0-gf-a0-89.ucode  | Bin 1746904 -> 1746844 bytes
->
->  iwlwifi-ma-b0-gf-a0.pnvm      | Bin 55112 -> 55112 bytes
->
->  iwlwifi-ma-b0-gf4-a0-89.ucode | Bin 1599332 -> 1599272 bytes
->
->  iwlwifi-ma-b0-gf4-a0.pnvm     | Bin 27828 -> 27828 bytes
->
->  iwlwifi-ma-b0-hr-b0-89.ucode  | Bin 1539360 -> 1539360 bytes
->
->  iwlwifi-so-a0-gf-a0-89.ucode  | Bin 1739424 -> 1731172 bytes
->
->  iwlwifi-so-a0-gf-a0.pnvm      | Bin 55192 -> 55192 bytes
->
->  iwlwifi-so-a0-gf4-a0-89.ucode | Bin 1589924 -> 1589864 bytes
->
->  iwlwifi-so-a0-gf4-a0.pnvm     | Bin 27868 -> 27868 bytes
->
->  iwlwifi-so-a0-hr-b0-89.ucode  | Bin 1530624 -> 1530624 bytes
->
->  iwlwifi-ty-a0-gf-a0-89.ucode  | Bin 1681292 -> 1681232 bytes
->
->  iwlwifi-ty-a0-gf-a0.pnvm      | Bin 55036 -> 55036 bytes
->
->  13 files changed, 7 insertions(+), 7 deletions(-)
+johannes
