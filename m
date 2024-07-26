@@ -4,78 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 216D2C3DA49
-	for <linux-firmware@archiver.kernel.org>; Fri, 26 Jul 2024 11:32:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF04CC3DA7F
+	for <linux-firmware@archiver.kernel.org>; Fri, 26 Jul 2024 11:38:55 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id EBCE0C4AF10; Fri, 26 Jul 2024 11:32:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D55ABC4AF0F;
-	Fri, 26 Jul 2024 11:32:54 +0000 (UTC)
+	id AD55CC4AF0B; Fri, 26 Jul 2024 11:38:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97BC4C4AF09
+	for <linux-firmware@kernel.org>; Fri, 26 Jul 2024 11:38:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721993574;
-	bh=w9xFYhmu1Bzy8WoLpg3H1kMbSk/5sIlDqvltcKRXSjk=;
+	s=k20201202; t=1721993935;
+	bh=wjRy1DwQ/EKAisKs+qDmlHdJZTf5YIBuMiEvzAi6RNA=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=XCrNa0lPj6JYDGkcffcr8HqmBpkFlGZvRONm0y+KfnHqmS7PqY0PcgL6w9UmOi28z
-	 /DmbzLEGj9qnpqYxxOZjVprRiZ9gyTl1QQ8nvtFI5q2IArWTdxp7KiENHy78nakMmu
-	 rZlvRO8hSITVFnbD3J/Vq5pEurBqyZvVy63VsRxsgzxJq+SgQcfSVJ8fDqYYKdFM0n
-	 Bd21qN2/dpjoTunQEx7bmQGNhUnJlJ0PCxkY1aWbc9/u9sUfyh7M9/Y0nuN9ZJrWH/
-	 WrWx/qhvg5awNP47+Jc0kavKvOPx53gcZcXM6IOsBg20z0lBvOO1HGWoBFtKlqShuE
-	 x7f1WHZWAmMGA==
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-66c7aeac627so21358327b3.1;
-        Fri, 26 Jul 2024 04:32:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUyzpztLnjNvc6fz5AWcrwqNmuTgcucyxdxcRIqjWhJdoPnYez/LrI/Y5KM/Sa9LcPzCIMyypQKjrz8nSD6CET1z966uFBnufQO
-X-Gm-Message-State: AOJu0YxVkV3DnMiWjPZqan3ZG5b2YZIqjgpGT8lKDQdWuCVKRWoqbcJ2
-	RukK8m0/CxcYoJP5xXCo5w3bmpyMKt/uMyHrc8MGIB0PJFfOpzN7nrCI6DGWPL4HprVwA2VOJXk
-	KNEEugm7TRo6NhkvoH3iY9byILDE=
-X-Google-Smtp-Source: AGHT+IF66Xsb6EysU8CaIQd6YwLPPit8Un4f+snzvBgCraLWhDTxmNy/Mm4ivO8x82y9XaSWvGJ9JPT+WlaNZXOEn1E=
-X-Received: by 2002:a81:8a82:0:b0:652:d0a9:87de with SMTP id
- 00721157ae682-675b70fbf95mr54199737b3.35.1721993574096; Fri, 26 Jul 2024
- 04:32:54 -0700 (PDT)
+	b=Qhh0UozQhPMJ7/bXctdHVm8Hutbd/C9mQmM+j0oSY9tDxZ3nGNAyWcHLCBvn8a0z/
+	 Og8ptOGlNQ1khps+8hjX1ffqEW2P/Q50BPH2/3Xz3HQkPOMju9fa4Q1hdxOP9jetw8
+	 mvM5ZMhsxiX6gA2KPc4+dgFvqigkU9CPUyOeAIBtbCtpq1Bov2LHxUab/ejEECN5wr
+	 bklDxqGgwIITbxPY2r0f1KGmK07G8qGD293lk+c0L89WZ+9cjq4ondVYPiFiLeY6vL
+	 1iUy4eoNveIuaahtPxIAJGIdkR61PMOSBRBUvFnRbBchPlphtepheIkOaFOQigKI6B
+	 O4BTUiKUrsOmA==
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-66108213e88so18594267b3.1
+        for <linux-firmware@kernel.org>; Fri, 26 Jul 2024 04:38:55 -0700 (PDT)
+X-Gm-Message-State: AOJu0YyATan/6QnU5MgIX+pg9bjwJ7/5eq46uuA1v0y89JtrhLF8Lc5a
+	ZqV0hq42ETy9lF8LRnZ7Q8SLYcl/SEfrzxxIi5/cZWuj46ryLyclU+PqY6l8m74X38LZo55aFEx
+	GGhwnQtrJyGQE1URxzt3/q89SQLQ=
+X-Google-Smtp-Source: AGHT+IEh9dLtF1pmfKL02xiCQTd9+NCCa/d2yBukpa/DBI0ziMMloMdbhHROIyRt04oWEy5jzXSOr6w2kvPRoZIQr08=
+X-Received: by 2002:a05:690c:7208:b0:648:bca0:1e71 with SMTP id
+ 00721157ae682-67515406767mr70299507b3.35.1721993934803; Fri, 26 Jul 2024
+ 04:38:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <MW5PR11MB581002D586D332CACEB335BAA3AB2@MW5PR11MB5810.namprd11.prod.outlook.com>
- <CA+5PVA6zGFMsV16BhmbB9QnZQ9UsUw1-44MK6gOc84MnhroDXA@mail.gmail.com> <92696aa1704e43897cbed421136845745e023127.camel@sipsolutions.net>
-In-Reply-To: <92696aa1704e43897cbed421136845745e023127.camel@sipsolutions.net>
+References: <20240725213856.115428-1-pratap.nirujogi@amd.com>
+In-Reply-To: <20240725213856.115428-1-pratap.nirujogi@amd.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Fri, 26 Jul 2024 07:32:42 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA4zbkNYyigULrcOons7bCx2yL+Jgg7jWjo7AOn3d0bOGw@mail.gmail.com>
-Message-ID: <CA+5PVA4zbkNYyigULrcOons7bCx2yL+Jgg7jWjo7AOn3d0bOGw@mail.gmail.com>
-Subject: Re: pull request: iwlwifi firmware updates 2024-07-25
-To: Johannes Berg <johannes@sipsolutions.net>
+Date: Fri, 26 Jul 2024 07:38:43 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA7YT5-DT_ogTk8V=at0yE2SemCwW-t2pz=m1DSYMJ5Wtw@mail.gmail.com>
+Message-ID: <CA+5PVA7YT5-DT_ogTk8V=at0yE2SemCwW-t2pz=m1DSYMJ5Wtw@mail.gmail.com>
+Subject: Re: pull request: amdgpu: Update ISP FW for isp v4.1.1
+To: Pratap Nirujogi <pratap.nirujogi@amd.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Josh Boyer <jwboyer@kernel.org>, 
-	"Korenblit, Miriam Rachel" <miriam.rachel.korenblit@intel.com>, 
-	"linux-firmware@kernel.org" <linux-firmware@kernel.org>, "kyle@infradead.org" <kyle@infradead.org>, 
-	"Hutchings, Ben" <ben@decadent.org.uk>, "Ben Ami, Golan" <golan.ben.ami@intel.com>, 
-	"Yang, You-Sheng" <vicamo.yang@canonical.com>, Wireless <linux-wireless@vger.kernel.org>
+Cc: linux-firmware@kernel.org, Alex Deucher <alexander.deucher@amd.com>, 
+	Mario Limonciello <mario.limonciello@amd.com>, Rodrigo Siqueira <rodrigo.siqueira@amd.com>, 
+	Deepak Sharma <deepak.sharma@amd.com>, Benjamin Chan <benjamin.chan@amd.com>, King Li <king.li@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 25, 2024 at 4:46=E2=80=AFPM Johannes Berg <johannes@sipsolution=
-s.net> wrote:
+On Thu, Jul 25, 2024 at 5:39=E2=80=AFPM Pratap Nirujogi <pratap.nirujogi@am=
+d.com> wrote:
 >
-> On Thu, 2024-07-25 at 16:03 -0400, Josh Boyer wrote:
-> > >
-> > >   http://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmwa=
-re.git tags/iwlwifi-fw-2024-07
-> >
-> > git fetch https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux=
--firmware.git
-> > tags/iwlwifi-fw-2024-07
-> > fatal: couldn't find remote ref tags/iwlwifi-fw-2024-07
-> >
-> > Did you forget to push the tag out?
-> >
+>   amdgpu: Update ISP FW for isp v4.1.1 (2024-07-24 17:33:17 -0400)
 >
-> That's ... curious :)
+> are available in the Git repository at:
 >
-> Seems like the day ("-25") got cut off at the end, we've always used
-> dated tags here, and there is one from today around the time Miri and I
-> were discussing this issue, named "iwlwifi-fw-2024-07-25", which also
-> matches the subject. No idea how it got cut off in the email though.
+>   git@gitlab.freedesktop.org:drm/firmware.git amd-isp-staging
 
-OK, thanks for the info.
+I don't have a freedesktop git account, so this doesn't work.  I found
+the https equivalent, but there are merge conflicts.
 
-Merged and pushed out.
+[jwboyer@vader linux-firmware]$ git fetch
+https://gitlab.freedesktop.org/drm/firmware.git amd-isp-staging
+remote: Enumerating objects: 17, done.
+remote: Counting objects: 100% (17/17), done.
+remote: Compressing objects: 100% (13/13), done.
+remote: Total 14 (delta 9), reused 2 (delta 1), pack-reused 0 (from 0)
+Unpacking objects: 100% (14/14), 3.15 MiB | 8.52 MiB/s, done.
+From https://gitlab.freedesktop.org/drm/firmware
+ * branch              amd-isp-staging -> FETCH_HEAD
+[jwboyer@vader linux-firmware]$ git merge --no-gpg-sign --signoff FETCH_HEA=
+D
+Auto-merging WHENCE
+CONFLICT (content): Merge conflict in WHENCE
+warning: Cannot merge binary files: amdgpu/isp_4_1_1.bin (HEAD vs.
+231bc1316da608e95cec919fbbabf7c587b93b47)
+Auto-merging amdgpu/isp_4_1_1.bin
+CONFLICT (add/add): Merge conflict in amdgpu/isp_4_1_1.bin
+Automatic merge failed; fix conflicts and then commit the result.
+[jwboyer@vader linux-firmware]$
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/261
+
+The last commit from you here was:
+
+[jwboyer@vader linux-firmware]$ git log amdgpu/isp_4_1_1.bin
+commit 33a950828c87646c82b6b715ed970bb399afa1b4
+Author: Pratap Nirujogi <pratap.nirujogi@amd.com>
+Date:   Wed Jun 26 11:36:48 2024 -0400
+
+    amdgpu: Update ISP FW for isp v4.1.1
+
+    From internal git commit:
+    ed700d1c929a8d64fe569e901bada95668e21bc3
+
+    Signed-off-by: Pratap Nirujogi <pratap.nirujogi@amd.com>
 
 josh
+
+>
+> for you to fetch changes up to 231bc1316da608e95cec919fbbabf7c587b93b47:
+>
+>   amdgpu: Update ISP FW for isp v4.1.1 (2024-07-24 17:33:17 -0400)
+>
+> ----------------------------------------------------------------
