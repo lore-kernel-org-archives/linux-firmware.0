@@ -4,99 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF04CC3DA7F
-	for <linux-firmware@archiver.kernel.org>; Fri, 26 Jul 2024 11:38:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12CA0C3DA49
+	for <linux-firmware@archiver.kernel.org>; Fri, 26 Jul 2024 11:42:10 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id AD55CC4AF0B; Fri, 26 Jul 2024 11:38:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97BC4C4AF09
-	for <linux-firmware@kernel.org>; Fri, 26 Jul 2024 11:38:55 +0000 (UTC)
+	id 066FCC4AF09; Fri, 26 Jul 2024 11:42:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFFABC32782
+	for <linux-firmware@kernel.org>; Fri, 26 Jul 2024 11:42:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721993935;
-	bh=wjRy1DwQ/EKAisKs+qDmlHdJZTf5YIBuMiEvzAi6RNA=;
+	s=k20201202; t=1721994129;
+	bh=doExzJ2ZWf9E3QCqdbKMU91IxRLSlFznr+mcxRtjxgI=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=Qhh0UozQhPMJ7/bXctdHVm8Hutbd/C9mQmM+j0oSY9tDxZ3nGNAyWcHLCBvn8a0z/
-	 Og8ptOGlNQ1khps+8hjX1ffqEW2P/Q50BPH2/3Xz3HQkPOMju9fa4Q1hdxOP9jetw8
-	 mvM5ZMhsxiX6gA2KPc4+dgFvqigkU9CPUyOeAIBtbCtpq1Bov2LHxUab/ejEECN5wr
-	 bklDxqGgwIITbxPY2r0f1KGmK07G8qGD293lk+c0L89WZ+9cjq4ondVYPiFiLeY6vL
-	 1iUy4eoNveIuaahtPxIAJGIdkR61PMOSBRBUvFnRbBchPlphtepheIkOaFOQigKI6B
-	 O4BTUiKUrsOmA==
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-66108213e88so18594267b3.1
-        for <linux-firmware@kernel.org>; Fri, 26 Jul 2024 04:38:55 -0700 (PDT)
-X-Gm-Message-State: AOJu0YyATan/6QnU5MgIX+pg9bjwJ7/5eq46uuA1v0y89JtrhLF8Lc5a
-	ZqV0hq42ETy9lF8LRnZ7Q8SLYcl/SEfrzxxIi5/cZWuj46ryLyclU+PqY6l8m74X38LZo55aFEx
-	GGhwnQtrJyGQE1URxzt3/q89SQLQ=
-X-Google-Smtp-Source: AGHT+IEh9dLtF1pmfKL02xiCQTd9+NCCa/d2yBukpa/DBI0ziMMloMdbhHROIyRt04oWEy5jzXSOr6w2kvPRoZIQr08=
-X-Received: by 2002:a05:690c:7208:b0:648:bca0:1e71 with SMTP id
- 00721157ae682-67515406767mr70299507b3.35.1721993934803; Fri, 26 Jul 2024
- 04:38:54 -0700 (PDT)
+	b=rhQWsrdKhLifX3fKZoV0pJ76Rhjnfr0LuYpzSjnxk3CSXV1kQ108hn7t7QfiggB4n
+	 CfSroK5gspUbHpkCK3rAzM5Qgd0wVWYUMHDktqLyPqabv2xRa7JcqhUQ2kmVXJIpZq
+	 1UEJvYdSEu3OebS7xayTsBR4p8xCW+RajK/dx0MVKK7NMPvCr3rc163qYKOcv2M20l
+	 6bQC/jZOOealvnQuiuQZ/Ow8Y6vRTyHBcSWigjKTWhpSgFA3RwghvyjH0uKvL3qBtl
+	 komfUHdUtJIwNkDYiG1XSJAfmuf5v6X6grJUBn4hGDEL/HFGlP1YqhiykOPNXkD5el
+	 Gn/i+ptVjAtXA==
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a7a8a4f21aeso204615266b.2
+        for <linux-firmware@kernel.org>; Fri, 26 Jul 2024 04:42:09 -0700 (PDT)
+X-Gm-Message-State: AOJu0YznZ1Z5sxS+R/OZS7qhH8lHyDYTm1SRjnmqdui8dYJKHYLD9FP2
+	bY8+1s7E4E4P3u0Glz+/1RQnC9GQppg565XqLp58LE1i5lEFDf0uHqKxBwuBbyo3n6akqWpJll2
+	SfIDUqhU4nXOF1sbYkWmZ6MT9Q6Q=
+X-Google-Smtp-Source: AGHT+IE0PcFDgbiC9IoV2ZdXLMs3FrM3LKq8VjOdgUXos40oRUlOjrroKHrpcxaMk+RM0niE0+SYIOoRHwXJRwB93dk=
+X-Received: by 2002:a17:907:3ea8:b0:a7a:ab1a:2d65 with SMTP id
+ a640c23a62f3a-a7acb9adb36mr388343766b.67.1721994128473; Fri, 26 Jul 2024
+ 04:42:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240725213856.115428-1-pratap.nirujogi@amd.com>
-In-Reply-To: <20240725213856.115428-1-pratap.nirujogi@amd.com>
+References: <20240725231548.145196-1-Rodrigo.Siqueira@amd.com>
+In-Reply-To: <20240725231548.145196-1-Rodrigo.Siqueira@amd.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Fri, 26 Jul 2024 07:38:43 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA7YT5-DT_ogTk8V=at0yE2SemCwW-t2pz=m1DSYMJ5Wtw@mail.gmail.com>
-Message-ID: <CA+5PVA7YT5-DT_ogTk8V=at0yE2SemCwW-t2pz=m1DSYMJ5Wtw@mail.gmail.com>
-Subject: Re: pull request: amdgpu: Update ISP FW for isp v4.1.1
-To: Pratap Nirujogi <pratap.nirujogi@amd.com>
+Date: Fri, 26 Jul 2024 07:41:35 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA4nh=ry2srNz0eWdi+xnOmARx-FL43iK4hZM74igZ1b4w@mail.gmail.com>
+Message-ID: <CA+5PVA4nh=ry2srNz0eWdi+xnOmARx-FL43iK4hZM74igZ1b4w@mail.gmail.com>
+Subject: Re: pull request: amdgpu: update DMCUB firmware to v0.0.227.0
+To: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 List-Id: <linux-firmware.lore.kernel.org>
 Cc: linux-firmware@kernel.org, Alex Deucher <alexander.deucher@amd.com>, 
-	Mario Limonciello <mario.limonciello@amd.com>, Rodrigo Siqueira <rodrigo.siqueira@amd.com>, 
-	Deepak Sharma <deepak.sharma@amd.com>, Benjamin Chan <benjamin.chan@amd.com>, King Li <king.li@amd.com>
+	Mario Limonciello <mario.limonciello@amd.com>, Deepak Sharma <deepak.sharma@amd.com>, 
+	Harry Wentland <harry.wentland@amd.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 25, 2024 at 5:39=E2=80=AFPM Pratap Nirujogi <pratap.nirujogi@am=
-d.com> wrote:
+On Thu, Jul 25, 2024 at 7:16=E2=80=AFPM Rodrigo Siqueira
+<Rodrigo.Siqueira@amd.com> wrote:
 >
->   amdgpu: Update ISP FW for isp v4.1.1 (2024-07-24 17:33:17 -0400)
+> The following changes since commit b29f570a9b03d30e33966d653a214597f8132b=
+4b:
+>
+>   amdgpu: update DMCUB to v0.0.227.0 for DCN35 and DCN351 (2024-07-25 15:=
+21:21 -0600)
 >
 > are available in the Git repository at:
 >
->   git@gitlab.freedesktop.org:drm/firmware.git amd-isp-staging
+>   git@gitlab.freedesktop.org:drm/firmware.git tags/amd-2024-07-25
 
-I don't have a freedesktop git account, so this doesn't work.  I found
-the https equivalent, but there are merge conflicts.
+This tree produces merge conflicts.
 
 [jwboyer@vader linux-firmware]$ git fetch
-https://gitlab.freedesktop.org/drm/firmware.git amd-isp-staging
-remote: Enumerating objects: 17, done.
-remote: Counting objects: 100% (17/17), done.
-remote: Compressing objects: 100% (13/13), done.
-remote: Total 14 (delta 9), reused 2 (delta 1), pack-reused 0 (from 0)
-Unpacking objects: 100% (14/14), 3.15 MiB | 8.52 MiB/s, done.
+https://gitlab.freedesktop.org/drm/firmware.git tags/amd-2024-07-25
+remote: Enumerating objects: 603, done.
+remote: Counting objects: 100% (596/596), done.
+remote: Compressing objects: 100% (91/91), done.
+remote: Total 503 (delta 484), reused 425 (delta 412), pack-reused 0 (from =
+0)
+Receiving objects: 100% (503/503), 4.55 MiB | 17.76 MiB/s, done.
+Resolving deltas: 100% (484/484), completed with 66 local objects.
 From https://gitlab.freedesktop.org/drm/firmware
- * branch              amd-isp-staging -> FETCH_HEAD
+ * tag                 amd-2024-07-25 -> FETCH_HEAD
 [jwboyer@vader linux-firmware]$ git merge --no-gpg-sign --signoff FETCH_HEA=
 D
 Auto-merging WHENCE
-CONFLICT (content): Merge conflict in WHENCE
-warning: Cannot merge binary files: amdgpu/isp_4_1_1.bin (HEAD vs.
-231bc1316da608e95cec919fbbabf7c587b93b47)
-Auto-merging amdgpu/isp_4_1_1.bin
-CONFLICT (add/add): Merge conflict in amdgpu/isp_4_1_1.bin
+warning: Cannot merge binary files: amdgpu/dcn_3_5_1_dmcub.bin (HEAD
+vs. b29f570a9b03d30e33966d653a214597f8132b4b)
+Auto-merging amdgpu/dcn_3_5_1_dmcub.bin
+CONFLICT (add/add): Merge conflict in amdgpu/dcn_3_5_1_dmcub.bin
+warning: Cannot merge binary files: amdgpu/dcn_3_5_dmcub.bin (HEAD vs.
+b29f570a9b03d30e33966d653a214597f8132b4b)
+Auto-merging amdgpu/dcn_3_5_dmcub.bin
+CONFLICT (add/add): Merge conflict in amdgpu/dcn_3_5_dmcub.bin
 Automatic merge failed; fix conflicts and then commit the result.
 [jwboyer@vader linux-firmware]$
 
-
-The last commit from you here was:
-
-[jwboyer@vader linux-firmware]$ git log amdgpu/isp_4_1_1.bin
-commit 33a950828c87646c82b6b715ed970bb399afa1b4
-Author: Pratap Nirujogi <pratap.nirujogi@amd.com>
-Date:   Wed Jun 26 11:36:48 2024 -0400
-
-    amdgpu: Update ISP FW for isp v4.1.1
-
-    From internal git commit:
-    ed700d1c929a8d64fe569e901bada95668e21bc3
-
-    Signed-off-by: Pratap Nirujogi <pratap.nirujogi@amd.com>
-
 josh
 
+> for you to fetch changes up to b29f570a9b03d30e33966d653a214597f8132b4b:
 >
-> for you to fetch changes up to 231bc1316da608e95cec919fbbabf7c587b93b47:
->
->   amdgpu: Update ISP FW for isp v4.1.1 (2024-07-24 17:33:17 -0400)
+>   amdgpu: update DMCUB to v0.0.227.0 for DCN35 and DCN351 (2024-07-25 15:=
+21:21 -0600)
 >
 > ----------------------------------------------------------------
