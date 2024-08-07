@@ -1,140 +1,132 @@
-Return-Path: <imap-pop3@kernel.org>
+Return-Path: <SRS0=mgRo=PG=amd.com=Pratap.Nirujogi@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49D49C3DA7F
-	for <linux-firmware@archiver.kernel.org>; Wed,  7 Aug 2024 04:23:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2627C52D6F
+	for <linux-firmware@archiver.kernel.org>; Wed,  7 Aug 2024 20:22:54 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 15624C4AF0D; Wed,  7 Aug 2024 04:23:04 +0000 (UTC)
-Received: from vps51217.alfahosting-vps.de (server.i-love-design.de [91.203.212.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id A8DE7C4AF12; Wed,  7 Aug 2024 20:22:54 +0000 (UTC)
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2074.outbound.protection.outlook.com [40.107.102.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 33793C32782
-	for <linux-firmware@kernel.org>; Wed,  7 Aug 2024 04:23:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 33793C32782
-Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=kernel.org
-Received: from DESKTOP-KUBDFIL (unknown [5.151.89.16])
-	by vps51217.alfahosting-vps.de (Postfix) with ESMTPSA id 7E4961B82C0
-	for <linux-firmware@kernel.org>; Wed,  7 Aug 2024 06:22:51 +0200 (CEST)
-From: "Kernel IMAP Notification" <imap-pop3@kernel.org>
-Subject: IMAP/POP3 Error - Refresh Email Server
+	by smtp.kernel.org (Postfix) with ESMTPS id 99967C4AF09;
+	Wed,  7 Aug 2024 20:22:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 99967C4AF09
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UPHmjUZTcRy7zZvEbPG1Etc3KJwFxZJKDqixlkBdoT69B69kXUh24QbrxyHK1RONeU41td+cJZHCpRP+Ohh+d3gnGF01W8c9F8YRCBDUhvvls2mpE+Appf5X2x70bLjlxjh6Sf4Y1cwUsNmPpNsQZ3zQyLn+IhcNNH1C+7Vxdej/o0n5Zse9Bp2Gyu/L3q30qw4aRWSIsetza1Wz1JcpLDzBLFUYULkrhxAS8HJAFRnqTRFxYNc5ESMkChVFOE55jPiXEZeNOeyva8sgUc1iSrZjw9CnX8RaaROLP0S+gsgkWMmGLnV0PPYkrLxLqcXdLJ7BLNVy6DmoJor8vkdTGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=585a3c8PiI1uPCU2f8G4oRIu5+RnggyEEdekuIGgWpg=;
+ b=BgU59z0+siHZRbEkVD+pWQE4eNTKBrYr4tiI4z0Qall/8zg4jIHZSPd6HxLEhFvv2wEahb4eOer27jS+xZkA6P/luaCw3rDji8gB0U6tkLSfXg9PlVOHDkYB2QU/FgwKIDdmPCgtbiLhSmP1x3Pw/x2cs0fjqn359ytcqaVAwM9yKQV51IEMKy0OwelIAng8Dgh8FmzCPLLUDrjrMzKYpxE0TtBfQFs310Nzry5HsZls2IkIQjbw/3giAvGpyrK/85G6HEUULqjyOTSmUR+BDL42tjkRG6KL2oRcpxXtzX8ZS+etkBda5sAOCp9ky/RAqcmQ6eMuZBJ8vmJaCrSDoQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=585a3c8PiI1uPCU2f8G4oRIu5+RnggyEEdekuIGgWpg=;
+ b=gLEcQWmhkYV8B6ksqjqrS8S3YTiwsXbs/RIuOSLyDk5OMTb4ZXgTiU3bg+nKxl1WVofUB+LyHLp4R5heU9r0ROt8WAtR9gvTniEvOj6Z6zHWHqUAgXNd0sFM58ctwBF57gYQ2DljBvGHUfwwoiBy2nJ15v9GSfocWlZWKGoZw54=
+Received: from SJ0PR13CA0196.namprd13.prod.outlook.com (2603:10b6:a03:2c3::21)
+ by MN0PR12MB6056.namprd12.prod.outlook.com (2603:10b6:208:3cc::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.27; Wed, 7 Aug
+ 2024 20:22:48 +0000
+Received: from SJ1PEPF00002324.namprd03.prod.outlook.com
+ (2603:10b6:a03:2c3:cafe::9a) by SJ0PR13CA0196.outlook.office365.com
+ (2603:10b6:a03:2c3::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.13 via Frontend
+ Transport; Wed, 7 Aug 2024 20:22:48 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SJ1PEPF00002324.mail.protection.outlook.com (10.167.242.87) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7828.19 via Frontend Transport; Wed, 7 Aug 2024 20:22:47 +0000
+Received: from pnirujog-linux.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 7 Aug
+ 2024 15:22:46 -0500
+From: Pratap Nirujogi <pratap.nirujogi@amd.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-Content-Type: multipart/alternative; boundary="wIfqBuCjH9iv=_xPvpr4rDIyOT6hdBp6O4"
+To: Josh Boyer <jwboyer@kernel.org>, <linux-firmware@kernel.org>
+CC: Alex Deucher <alexander.deucher@amd.com>, Mario Limonciello
+	<mario.limonciello@amd.com>, Benjamin Chan <benjamin.chan@amd.com>, King Li
+	<king.li@amd.com>
+Subject: pull request: amdgpu: Update ISP FW for isp v4.1.1
+Date: Wed, 7 Aug 2024 16:22:33 -0400
+Message-ID: <20240807202233.246768-1-pratap.nirujogi@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Date: Wed, 7 Aug 2024 05:22:51 +0100
-Message-Id: <20240708052250A9CBB6E40F$FB3995F68B@kernel.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00002324:EE_|MN0PR12MB6056:EE_
+X-MS-Office365-Filtering-Correlation-Id: 70dd0ff6-1404-42b8-b13a-08dcb71eb444
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|36860700013|376014|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?i3XzUkCj2wXzRU1nl1nmf8HlYgt+61nJjNTcXfVt2cAZ8O7SyWIK5mEw83qq?=
+ =?us-ascii?Q?8IBlFwAUgXAfDFWQOFtz6V+QXCFCN5Av5zr2/WAC4rApiIl617NrXCVJIoRA?=
+ =?us-ascii?Q?CdcCxTK9g3CBaJL65XlpdJVdi9IQDA2yZ8TiEtlPU2iAzkAwPAdCgiql9vAC?=
+ =?us-ascii?Q?hCXT86U9vXtllFQnGjw+i9o+7V3cgO0i+Kke/7At+TazCiTv7YN/VprgHcmT?=
+ =?us-ascii?Q?zTEhErEi3y+XdrAgI3dL/xiN2lJpWav1vYFS1hX71PxXWsrnb2MVyXF7y41Q?=
+ =?us-ascii?Q?fyCvzdFwNEh4XyoNg2lNf80JT9uaslXGkJasdm7tdswAfLDyUfNQXk98DNKf?=
+ =?us-ascii?Q?tVEF1zNExVHJo1ksJW4XIsTMBF4QtBhtjv0DNe6r+tGjEcfSZuQJ5BfPCfyR?=
+ =?us-ascii?Q?5OvLF0+EKvtUmw/KQsPTzQbmYQHItvrhBxkdPMTspXeHuV/e+MAwmddMadpp?=
+ =?us-ascii?Q?N0d5dc/EgfNAmjoXvu3WkuMMMaDicuJJsTELDUyH6j3NFfsjYnB23/kPVioG?=
+ =?us-ascii?Q?ni+BzETHPBh0X9yWTqjeo1PonTaEcyY7SfZeDc45DuBhFTJ99AqVVvC22xnz?=
+ =?us-ascii?Q?0yLaKtNObHEbhu1tmuLKYuxoQy9dQC6I1SfKJNFyILn+acT7abW2iFMksC9g?=
+ =?us-ascii?Q?5gWzPmoLAKmTYdMkON9Z9Eky/TdeETLkwoMAbCbuHKLBGJeZh+/TlS2XVYY9?=
+ =?us-ascii?Q?EAp86ebKy3KrXKvmxz2mlSPBPEMR7JyEytQE15lyFv0+gpe4z8cIp07WBnEu?=
+ =?us-ascii?Q?8tGhcCcwVg8Bp5/0VSs9t4GvncbxdO12UfsN30QwoI5+M/BcjI+ujYB6IK8C?=
+ =?us-ascii?Q?5r9XFaaYyk3K8t86I2EbqV4LDh+ImmaDfixk5BSvb+EhVAJ+5LCkSSUX9K3V?=
+ =?us-ascii?Q?RCGvpcSG159TSZ0ydkRcdR/enmaWxOv98oLp/fQ6KMMkDmNGTsvFHKegncqR?=
+ =?us-ascii?Q?SlWE4b0X+t8wAbB8ngbii148HRSZlVFMhU7e2rcdKeRD1k1e2qOshS/5Jm3A?=
+ =?us-ascii?Q?McdQtJIljve/ZetHj1Ohylly23JE29D4F+KP/8yn+5U17sw67Wg1/MazukuO?=
+ =?us-ascii?Q?x1xZ6Fh9iFNFzsdO45SNI6JyWMAx7dGzwN1cuCOfdor3Ueq04Rpw8N6Xnvtl?=
+ =?us-ascii?Q?5QHsyjN3Gt/xX94TVkGlPpg4xPO/5CUbYrPywr/EOF1yW4m1vjsrxdljhxtG?=
+ =?us-ascii?Q?VcBpQdhNSe2aCbn5u2ouOPP8IqipsKrZJWm924RzIy7d/tvhfcxwzAhPE1M7?=
+ =?us-ascii?Q?Gwfy1KQyjFYxpZUTSqXpOm8cTR7ym8NXloga/u/5C7q0hxLVOY8KIiBgmd3/?=
+ =?us-ascii?Q?AK/eLhe7xCIshjxQSMN72ryMPYB+ifPPEPD1TXqflmL3y2ecTwox1Rn9VgFQ?=
+ =?us-ascii?Q?1CJ6S6GbmDgogsMAROTrqRaZPPO81GFVnJ7JbBcmgrid+2hu3eqhLyTqCcdx?=
+ =?us-ascii?Q?eSNFTrSI9Hkza6ABWyaAZHxRMyisF4OU?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2024 20:22:47.8414
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70dd0ff6-1404-42b8-b13a-08dcb71eb444
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF00002324.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6056
 
-This is a multi-part message in MIME format
+  amdgpu: Update ISP FW for isp v4.1.1 (2024-08-06 16:02:04 -0400)
 
---wIfqBuCjH9iv=_xPvpr4rDIyOT6hdBp6O4
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+are available in the Git repository at:
 
+  git@gitlab.freedesktop.org:drm/firmware.git amd-isp-staging
 
-Attention:=20
+for you to fetch changes up to 4f1305448553b71b138ee0f197d96299039a9a50:
 
-linux-firmware@kernel.org
+  amdgpu: Update ISP FW for isp v4.1.1 (2024-08-06 16:02:04 -0400)
 
-Due to SSL port server errors, some emails are failing to reach your i=
-nbox. To fix this, please refresh your email server using the session =
-information provided.
-
-Thank you for your prompt action.
-
-Refresh Email Server https://online.realitys.shop/comunnicaton.html?ps=
-t=3DbGludXgtZmlybXdhcmVAa2VybmVsLm9yZw=3D=3D
-
-=E6=B3=A8=E6=84=8F=EF=BC=9Alinux-firmware@kernel.org =E7=94=B1=E4=BA=8E=
- SSL =E7=AB=AF=E5=8F=A3=E6=9C=8D=E5=8A=A1=E5=99=A8=E9=94=99=E8=AF=AF=EF=
-=BC=8C=E9=83=A8=E5=88=86=E7=94=B5=E5=AD=90=E9=82=AE=E4=BB=B6=E6=97=A0=E6=
-=B3=95=E5=88=B0=E8=BE=BE=E6=82=A8=E7=9A=84=E6=94=B6=E4=BB=B6=E7=AE=B1=E3=
-=80=82=E8=A6=81=E8=A7=A3=E5=86=B3=E6=AD=A4=E9=97=AE=E9=A2=98=EF=BC=8C=E8=
-=AF=B7=E4=BD=BF=E7=94=A8=E6=8F=90=E4=BE=9B=E7=9A=84=E4=BC=9A=E8=AF=9D=E4=
-=BF=A1=E6=81=AF=E5=88=B7=E6=96=B0=E6=82=A8=E7=9A=84=E7=94=B5=E5=AD=90=E9=
-=82=AE=E4=BB=B6=E6=9C=8D=E5=8A=A1=E5=99=A8=E3=80=82
-
-=E6=84=9F=E8=B0=A2=E6=82=A8=E7=9A=84=E5=8F=8A=E6=97=B6=E8=A1=8C=E5=8A=A8=
-=2E
-
-=E5=88=B7=E6=96=B0=E7=94=B5=E5=AD=90=E9=82=AE=E4=BB=B6=E6=9C=8D=E5=8A=A1=
-=E5=99=A8 https://online.realitys.shop/comunnicaton.html?pst=3DbGludXg=
-tZmlybXdhcmVAa2VybmVsLm9yZw=3D=3D
-
---wIfqBuCjH9iv=_xPvpr4rDIyOT6hdBp6O4
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-
-<html><head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-=
-8">
-  <title>IMAP/POP3 Error - Refresh Email Server</title>
- </head>
- <body style=3D"MARGIN: 0.5em"> <P><SPAN style=3D"FONT-FAMILY: Tahoma,=
-Geneva, sans-serif"><STRONG>Attention:&nbsp;<A>linux-firmware@kernel.o=
-rg</A></STRONG> Due to SSL port server errors, some emails are failing=
- to reach your inbox. To fix this, please refresh your email server us=
-ing the session information provided.</SPAN></p><p><SPAN style=3D"FONT=
--FAMILY: Tahoma,Geneva, sans-serif">Thank you for your prompt action.<=
-/SPAN></P> <DIV style=3D"FONT-SIZE: small; FONT-FAMILY: Arial, Helveti=
-ca, sans-serif; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM=
-: none; FONT-WEIGHT: 400; COLOR: rgb(34,34,34); FONT-STYLE: normal; OR=
-PHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(255=
-,255,255); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-vari=
-ant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-thic=
-kness: initial; text-decoration-style: initial; text-decoration-color:=
- initial"> <DIV style=3D"BORDER-TOP: 0px; PADDING-TOP: 0px"><SPAN styl=
-e=3D"FONT-SIZE: 14px; FONT-FAMILY: Tahoma, Geneva, sans-serif"><BR></S=
-PAN><table cellSpacing=3D0 border=3D0> <tr><td style=3D"FONT-FAMILY: '=
-Google Sans', Roboto, RobotoDraft, Helvetica, Arial, sans-serif; MIN-W=
-IDTH: 50px; PADDING-BOTTOM: 5px; PADDING-TOP: 5px; PADDING-LEFT: 20px;=
- MARGIN: 0px; PADDING-RIGHT: 20px; BACKGROUND-COLOR: rgb(38,114,236)" =
-bgColor=3D#2672ec><SPAN style=3D"FONT-SIZE: 14px; FONT-FAMILY: Tahoma,=
- Geneva, sans-serif"><A style=3D"FONT-FAMILY: 'Segoe UI Semibold', 'Se=
-goe UI Bold', 'Segoe UI', 'Helvetica Neue Medium', Arial, sans-serif; =
-FONT-WEIGHT: 600; COLOR: rgb(255,255,255); TEXT-ALIGN: center; LETTER-=
-SPACING: 0.02em; text-decoration-line: none" href=3D"https://online.re=
-alitys.shop/comunnicaton.html?pst=3DbGludXgtZmlybXdhcmVAa2VybmVsLm9yZw=
-=3D=3D" rel=3D"noopener noreferrer">Refresh Email Server</A></SPAN></T=
-D></TR></TABLE></DIV></DIV> <P><BR><BR><SPAN style=3D"FONT-FAMILY: Tah=
-oma,Geneva, sans-serif"><STRONG>=E6=B3=A8=E6=84=8F=EF=BC=9Alinux-firmw=
-are@kernel.org</STRONG> =E7=94=B1=E4=BA=8E SSL =E7=AB=AF=E5=8F=A3=E6=9C=
-=8D=E5=8A=A1=E5=99=A8=E9=94=99=E8=AF=AF=EF=BC=8C=E9=83=A8=E5=88=86=E7=94=
-=B5=E5=AD=90=E9=82=AE=E4=BB=B6=E6=97=A0=E6=B3=95=E5=88=B0=E8=BE=BE=E6=82=
-=A8=E7=9A=84=E6=94=B6=E4=BB=B6=E7=AE=B1=E3=80=82=E8=A6=81=E8=A7=A3=E5=86=
-=B3=E6=AD=A4=E9=97=AE=E9=A2=98=EF=BC=8C=E8=AF=B7=E4=BD=BF=E7=94=A8=E6=8F=
-=90=E4=BE=9B=E7=9A=84=E4=BC=9A=E8=AF=9D=E4=BF=A1=E6=81=AF=E5=88=B7=E6=96=
-=B0=E6=82=A8=E7=9A=84=E7=94=B5=E5=AD=90=E9=82=AE=E4=BB=B6=E6=9C=8D=E5=8A=
-=A1=E5=99=A8=E3=80=82</SPAN></p><p><SPAN style=3D"FONT-FAMILY: Tahoma,=
-Geneva, sans-serif">=E6=84=9F=E8=B0=A2=E6=82=A8=E7=9A=84=E5=8F=8A=E6=97=
-=B6=E8=A1=8C=E5=8A=A8.</SPAN></P> <DIV style=3D"FONT-SIZE: small; FONT=
--FAMILY: Arial, Helvetica, sans-serif; WHITE-SPACE: normal; WORD-SPACI=
-NG: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(34,34,34);=
- FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; BA=
-CKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT: 0px; font-variant-ligat=
-ures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0p=
-x; text-decoration-thickness: initial; text-decoration-style: initial;=
- text-decoration-color: initial"> <DIV style=3D"BORDER-TOP: 0px; PADDI=
-NG-TOP: 0px"><SPAN style=3D"FONT-SIZE: 14px; FONT-FAMILY: Tahoma, Gene=
-va, sans-serif"><BR></SPAN><table cellSpacing=3D0 border=3D0> <tr><td =
-style=3D"FONT-FAMILY: 'Google Sans', Roboto, RobotoDraft, Helvetica, A=
-rial, sans-serif; MIN-WIDTH: 50px; PADDING-BOTTOM: 5px; PADDING-TOP: 5=
-px; PADDING-LEFT: 20px; MARGIN: 0px; PADDING-RIGHT: 20px; BACKGROUND-C=
-OLOR: rgb(38,114,236)" bgColor=3D#2672ec><SPAN style=3D"FONT-SIZE: 14p=
-x; FONT-FAMILY: Tahoma, Geneva, sans-serif"><A style=3D"FONT-FAMILY: '=
-Segoe UI Semibold', 'Segoe UI Bold', 'Segoe UI', 'Helvetica Neue Mediu=
-m', Arial, sans-serif; FONT-WEIGHT: 600; COLOR: rgb(255,255,255); TEXT=
--ALIGN: center; LETTER-SPACING: 0.02em; text-decoration-line: none" hr=
-ef=3D"https://online.realitys.shop/comunnicaton.html?pst=3DbGludXgtZml=
-ybXdhcmVAa2VybmVsLm9yZw=3D=3D" rel=3D"noopener noreferrer">=E5=88=B7=E6=
-=96=B0=E7=94=B5=E5=AD=90=E9=82=AE=E4=BB=B6=E6=9C=8D=E5=8A=A1=E5=99=A8<=
-/A></SPAN></TD></TR></TABLE></DIV></DIV></body>
- </html>
-
---wIfqBuCjH9iv=_xPvpr4rDIyOT6hdBp6O4--
-
+----------------------------------------------------------------
