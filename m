@@ -1,142 +1,128 @@
-Return-Path: <SRS0=Os7O=PI=qualcomm.com=dikshita@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9060FC52D7C
-	for <linux-firmware@archiver.kernel.org>; Fri,  9 Aug 2024 10:38:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01766C52D7C
+	for <linux-firmware@archiver.kernel.org>; Fri,  9 Aug 2024 11:37:34 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 45663C32786; Fri,  9 Aug 2024 10:38:02 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id BEE6CC32782
-	for <linux-firmware@kernel.org>; Fri,  9 Aug 2024 10:38:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org BEE6CC32782
-Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4792M0XU024816;
-	Fri, 9 Aug 2024 10:37:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:date:from:message-id:subject:to; s=qcppdkim1; bh=NwASUo6W4zGs
-	x4Gd9iWd4z+5102U6xaIjCyHuxHLRfI=; b=NMw1KBdc12Z19pP9LpUv2aj+kV7k
-	0uN6mq4MyuOC8iZlc6+lPWOEK9jf9zGEqURApFaMUypO01Rup4aOkxN1lxtQDX3/
-	cRxc9fpbHXXufaE2VCf3V/gDquC87ZmJp/VUK4CkBKtAlFQ1G1dOcQy/Ikfx+VVA
-	j06JF+ekQO/YfkpUTucWqb7zBXOavBszrexYbKJm+4Tri9wSD7qg/RGtmWSumE1i
-	gC++vUnKxMjL1r0X6BnsGYR3oXhYwuJ3+L35OgnQOxX5r61UPrT0U6C4lXMKrK4y
-	eMQXTBUyHv+sLUavrMQReoU6ILQiMZ+WFzRdvJ7aF2TLbJ8PU9gR5+I6zQ==
-Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40scx70yt2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 09 Aug 2024 10:37:58 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTP id 479Abt4F025378;
-	Fri, 9 Aug 2024 10:37:55 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 40sdmmqdhg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Fri, 09 Aug 2024 10:37:55 +0000
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 479AbsEw025373;
-	Fri, 9 Aug 2024 10:37:54 GMT
-Received: from hu-sgudaval-hyd.qualcomm.com (hu-dikshita-hyd.qualcomm.com [10.213.110.13])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 479AbscB025372;
-	Fri, 09 Aug 2024 10:37:54 +0000
-Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 347544)
-	id BF526257B; Fri,  9 Aug 2024 16:07:53 +0530 (+0530)
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+	id CCD3EC4AF0F; Fri,  9 Aug 2024 11:37:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7065C4AF0E
+	for <linux-firmware@kernel.org>; Fri,  9 Aug 2024 11:37:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723203454;
+	bh=ZwAcWLlU39muzWePM6HOVRO/Qw8ENw3rT+P5dMEP3NQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=G/SXGhnsnudnIGz8Sq5OaNmqnwGQPQjI2sfLgN61ChWGzZ+FaIZkVeqJVjL1qwac+
+	 6jxJXKLSxq1TIroDJmuGVGvUuucrHciiD1tT/5UvTyYWMwNLJCoZrL6C7RtBsAsfar
+	 X3vjggQBhUldmvX+N/haeUKBN3ec1k+UsYDen195Ew24Whd/i84G4FD8aZn0A8P+AC
+	 GYvrSi16POVdqBKykqYsujMGTwIDLNdw1iTJwb6Z8ZP13c6cD0Q2fbYTDDafbconfK
+	 WSzYx6jol7N0QKgCkl7OQCDh94arL85U7eaEyFcfMAi74b+64JPOif3kBMhgP6gpx4
+	 m1Qq9qtU/Ua9g==
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-64b417e1511so17584517b3.3
+        for <linux-firmware@kernel.org>; Fri, 09 Aug 2024 04:37:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVUEyUIMxtR2ar5PyDL4f0Y3f5YL3kmYVRk5wtgVH3brAezTkD790KeSLmNMe4c2T0AySIjl7Oc7lUsxUbOodWdP3rQHr7nRRim
+X-Gm-Message-State: AOJu0Yze952seevQ7/gdJ0kGjDyRURji73zIh3dY4nCKmpCt8t8zcjDx
+	JVGaHxIiUzhaEhuRcW+RBud8c9z1gSk0vwyyx6scu6l7eop/M2MBwo35e7qJxKxWAerAbW/3kje
+	826mR7ThYoHPIHP84CUzP/k7jYxg=
+X-Google-Smtp-Source: AGHT+IHEbamcs/tRkZqt3Cmeiv0ZLwfiAoio7QyjgkkLLUiHuE5Gs2StIqcf9FRGE6Z4TiDl/7zpxyF2gofXOTVi4pY=
+X-Received: by 2002:a05:690c:2b02:b0:615:8c1:d7ec with SMTP id
+ 00721157ae682-69ec89aeec8mr12676747b3.33.1723203453925; Fri, 09 Aug 2024
+ 04:37:33 -0700 (PDT)
+MIME-Version: 1.0
+References: <1723188568-20342-1-git-send-email-quic_dikshita@quicinc.com>
+ <7A614880-F6AA-435F-9504-B9731773DF58@linaro.org> <08dc4b92-5f98-8408-1111-fc3bccb03ae8@quicinc.com>
+ <B7612BB8-A086-42DE-810E-09F6B5A544FB@linaro.org>
+In-Reply-To: <B7612BB8-A086-42DE-810E-09F6B5A544FB@linaro.org>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Fri, 9 Aug 2024 07:37:22 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA75z3ZD4rhabo=tF3sa6YpoKoP7DQqGcTR4p2YQOJj63g@mail.gmail.com>
+Message-ID: <CA+5PVA75z3ZD4rhabo=tF3sa6YpoKoP7DQqGcTR4p2YQOJj63g@mail.gmail.com>
+Subject: Re: [PATCH v2] qcom: update path for video firmware for vpu-1/2/3.0
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: quic_vgarodia@quicinc.com, dmitry.baryshkov@linaro.org,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>
-Subject: [PATCH v3] qcom: update path for video firmware for vpu-1/2/3.0
-Date: Fri,  9 Aug 2024 16:07:37 +0530
-Message-Id: <1723199857-10405-1-git-send-email-quic_dikshita@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: YkRQyEwlBqvmRXPyGwDZ_dPnYZYDaJzh
-X-Proofpoint-GUID: YkRQyEwlBqvmRXPyGwDZ_dPnYZYDaJzh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-09_07,2024-08-07_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- malwarescore=0 bulkscore=0 clxscore=1015 suspectscore=0 phishscore=0
- spamscore=0 adultscore=0 lowpriorityscore=0 mlxscore=0 priorityscore=1501
- mlxlogscore=924 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2408090076
+Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>, linux-firmware@kernel.org, 
+	quic_vgarodia@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-- Rename qcom/vpu-3.0/ to qcom/vpu/ to have common sub-folder for
-  new firmware files.
-- Move firmware files from vpu-1.0/ and vpu-2.0/ to vpu/ with
-  proper names for firmware binaries and provide backwards-compatible
-  links.
+On Fri, Aug 9, 2024 at 6:20=E2=80=AFAM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On August 9, 2024 4:51:39 PM GMT+07:00, Dikshita Agarwal <quic_dikshita@q=
+uicinc.com> wrote:
+> >
+> >
+> >On 8/9/2024 1:48 PM, Dmitry Baryshkov wrote:
+> >> On August 9, 2024 2:29:28 PM GMT+07:00, Dikshita Agarwal <quic_dikshit=
+a@quicinc.com> wrote:
+> >>> - Rename qcom/vpu-3.0/ to qcom/vpu/ to have common sub-folder for
+> >>>  new firmware files.
+> >>> - Move firmware files from vpu-1.0/ and vpu-2.0/ to vpu/ with
+> >>>  proper names for firmware binaries and provide backwards-compatible
+> >>>  links.
+> >>>
+> >>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> >>> ---
+> >>> Changes since v1:
+> >>> - Updated firmware binary names to better names following
+> >>>   common convention.
+> >>> - Used Link: tag in WHENCE to create symlinks.
+> >>>
+> >>> WHENCE                                          |  10 ++++++----
+> >>> qcom/{vpu-2.0/venus.mbn =3D> vpu/vpu20_p1.mbn}    | Bin
+> >>> qcom/{vpu-1.0/venus.mbn =3D> vpu/vpu20_p4.mbn}    | Bin
+> >>> qcom/{vpu-3.0/vpu30_4v.mbn =3D> vpu/vpu30_p4.mbn} | Bin
+> >>> 4 files changed, 6 insertions(+), 4 deletions(-)
+> >>> rename qcom/{vpu-2.0/venus.mbn =3D> vpu/vpu20_p1.mbn} (100%)
+> >>> rename qcom/{vpu-1.0/venus.mbn =3D> vpu/vpu20_p4.mbn} (100%)
+> >>> rename qcom/{vpu-3.0/vpu30_4v.mbn =3D> vpu/vpu30_p4.mbn} (100%)
+> >>>
+> >>> diff --git a/WHENCE b/WHENCE
+> >>> index 0a737b6..edee7a9 100644
+> >>> --- a/WHENCE
+> >>> +++ b/WHENCE
+> >>> @@ -5961,12 +5961,13 @@ File: qcom/venus-6.0/venus.mbn
+> >>>
+> >>> Version: VIDEO.VE.6.0-00049-PROD-1
+> >>>
+> >>> -File: qcom/vpu-1.0/venus.mbn
+> >>> -Link: qcom/vpu-1.0/venus.mdt -> venus.mbn
+> >>> +File: qcom/vpu/vpu20_p4.mbn
+> >>> +Link: qcom/vpu-1.0/venus.mbn -> ../vpu/vpu20_p4.mbn
+> >>>
+> >>> Version: VIDEO.VPU.1.0-00087-PROD-1
+> >>>
+> >>> -File: qcom/vpu-2.0/venus.mbn
+> >>> +File: qcom/vpu/vpu20_p1.mbn
+> >>> +Link: qcom/vpu-2.0/venus.mbn -> ../vpu/vpu20_p1.mbn
+> >>>
+> >>> Version: VIDEO.VPU.2.0-00049-PROD-1
+> >>>
+> >>> @@ -5979,7 +5980,8 @@ https://developer.qualcomm.com/hardware/dragonb=
+oard-410c/tools
+> >>>
+> >>> Driver: iris - Qualcomm Iris video codec accelerator
+> >>>
+> >>> -File: qcom/vpu-3.0/vpu30_4v.mbn
+> >>> +File: qcom/vpu/vpu30_p4.mbn
+> >>> +Link: qcom/vpu-3.0/vpu30_4v.mbn -> ../vpu/vpu30_p4.mbn
+> >>
+> >> Since there was no linux-firmware release with qcom/vpu-3.0 subdir, ca=
+n we drop this extra symlink? I don't think there is a need to be compatibl=
+e with the interim git revisions.
+> >>
+> >> Other than that LGTM, thank you!
+> >
+> >Sure, will remove the link for vpu-3.0 in next revision.
+>
+> Thanks!
+>
+> Josh, could we please get v3 (hoping Dikshita posts it soon) into the nex=
+t release (I guess it is due in a couple if days), so that we won't have to=
+ bother everybody with yet another compatibility symlink?
 
-Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
----
-Changes since v2:
- - Dropped the symlink for vpu-3.0.
+OK.  Plan to do a release later today, and I'll make sure to include v3.
 
-Changes since v1:
- - Updated firmware binary names to better names following
-   common convention.
- - Used Link: tag in WHENCE to create symlinks.
-
- WHENCE                                          |   9 +++++----
- qcom/{vpu-2.0/venus.mbn => vpu/vpu20_p1.mbn}    | Bin
- qcom/{vpu-1.0/venus.mbn => vpu/vpu20_p4.mbn}    | Bin
- qcom/{vpu-3.0/vpu30_4v.mbn => vpu/vpu30_p4.mbn} | Bin
- 4 files changed, 5 insertions(+), 4 deletions(-)
- rename qcom/{vpu-2.0/venus.mbn => vpu/vpu20_p1.mbn} (100%)
- rename qcom/{vpu-1.0/venus.mbn => vpu/vpu20_p4.mbn} (100%)
- rename qcom/{vpu-3.0/vpu30_4v.mbn => vpu/vpu30_p4.mbn} (100%)
-
-diff --git a/WHENCE b/WHENCE
-index 0a737b6..b7dc6ff 100644
---- a/WHENCE
-+++ b/WHENCE
-@@ -5961,12 +5961,13 @@ File: qcom/venus-6.0/venus.mbn
- 
- Version: VIDEO.VE.6.0-00049-PROD-1
- 
--File: qcom/vpu-1.0/venus.mbn
--Link: qcom/vpu-1.0/venus.mdt -> venus.mbn
-+File: qcom/vpu/vpu20_p4.mbn
-+Link: qcom/vpu-1.0/venus.mbn -> ../vpu/vpu20_p4.mbn
- 
- Version: VIDEO.VPU.1.0-00087-PROD-1
- 
--File: qcom/vpu-2.0/venus.mbn
-+File: qcom/vpu/vpu20_p1.mbn
-+Link: qcom/vpu-2.0/venus.mbn -> ../vpu/vpu20_p1.mbn
- 
- Version: VIDEO.VPU.2.0-00049-PROD-1
- 
-@@ -5979,7 +5980,7 @@ https://developer.qualcomm.com/hardware/dragonboard-410c/tools
- 
- Driver: iris - Qualcomm Iris video codec accelerator
- 
--File: qcom/vpu-3.0/vpu30_4v.mbn
-+File: qcom/vpu/vpu30_p4.mbn
- 
- Version: VIDEO.VPU.3.1-0076
- 
-diff --git a/qcom/vpu-2.0/venus.mbn b/qcom/vpu/vpu20_p1.mbn
-similarity index 100%
-rename from qcom/vpu-2.0/venus.mbn
-rename to qcom/vpu/vpu20_p1.mbn
-diff --git a/qcom/vpu-1.0/venus.mbn b/qcom/vpu/vpu20_p4.mbn
-similarity index 100%
-rename from qcom/vpu-1.0/venus.mbn
-rename to qcom/vpu/vpu20_p4.mbn
-diff --git a/qcom/vpu-3.0/vpu30_4v.mbn b/qcom/vpu/vpu30_p4.mbn
-similarity index 100%
-rename from qcom/vpu-3.0/vpu30_4v.mbn
-rename to qcom/vpu/vpu30_p4.mbn
--- 
-2.7.4
-
+josh
