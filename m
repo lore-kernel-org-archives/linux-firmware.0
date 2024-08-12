@@ -1,420 +1,138 @@
-Return-Path: <SRS0=kWCA=PJ=rp.pmail.daneshkar.net=dusc7u@kernel.org>
+Return-Path: <SRS0=/QPB=PL=amd.com=ChiaHsuan.Chung@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9AAD7C3DA4A
-	for <linux-firmware@archiver.kernel.org>; Sat, 10 Aug 2024 08:36:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6055C3DA7F
+	for <linux-firmware@archiver.kernel.org>; Mon, 12 Aug 2024 05:52:59 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 6A3F5C32781; Sat, 10 Aug 2024 08:36:37 +0000 (UTC)
-Received: from pmail.daneshkar.net (static.231.1.235.167.clients.your-server.de [167.235.1.231])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id B8BCAC4AF0F; Mon, 12 Aug 2024 05:52:59 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2072.outbound.protection.outlook.com [40.107.223.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 9F940C4AF0C
-	for <linux-firmware@kernel.org>; Sat, 10 Aug 2024 08:36:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 9F940C4AF0C
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=daneshkar.net
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=rp.pmail.daneshkar.net
-Resent-Sender: dusc7u@rp.pmail.daneshkar.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=daneshkar.net;
-	s=postal-UkMeMe; t=1723278648;
-	bh=lWpwVie8EXOsxjgZLsUzobny6j4r59OwS2UakgWe++E=;
-	h=message-id:date:subject:from:reply-to:to:mime-version:content-type:list-unsubscribe;
-	b=hMfjereGBUOtwlGkWYtjhWjJmuTMHfRmYLVYagxnsTE0fYjVvUv8yF/jwwGedSefWIrXZAJd
-	MKwAVSmlx1WR0reFhzhpasMo/2eTIee5aZt4rt+QYUxWjTP+ZRO0e24g0FdLFpATW1WRT6eh
-	mHkS9/FPSte2jJrDs9U+OYcqjUE=
-X-Postal-MsgID: paYbV8VK8iQt
-Received: from mautic.daneshkar.net (::ffff:172.26.0.3 [::ffff:172.26.0.3]) by pmail.daneshkar.net with SMTP; Sat, 10 Aug 2024 08:09:37 -0000
-Message-ID: <ac54b806f32ff5f653f45f43b85a4b6c@mautic.daneshkar.net>
-Date: Sat, 10 Aug 2024 08:08:55 +0000
-Subject: =?utf-8?Q?=D8=A7=D9=86=D8=AA=D8=B4=D8=A7=D8=B1_=D8=B1?=
- =?utf-8?Q?=D8=A7=DB=8C=DA=AF=D8=A7=D9=86_=D8=A2=DA=AF=D9=87=DB=8C_=D8=A7?=
- =?utf-8?Q?=D8=B3=D8=AA=D8=AE=D8=AF=D8=A7=D9=85_=D8=AF=D8=B1_=D8=A8=DB=8C?=
- =?utf-8?Q?=D9=86?= 300
- =?utf-8?Q?=D9=87=D8=B2=D8=A7=D8=B1_=D9=85=D8=AA=D8=AE?=
- =?utf-8?Q?=D8=B5=D8=B5?=
-From: =?utf-8?Q?=D8=AF=D8=A7=D9=86=D8=B4=DA=A9=D8=A7=D8=B1?=
- <info@daneshkar.net>
-Reply-To: info@daneshkar.net
+	by smtp.kernel.org (Postfix) with ESMTPS id A49F4C32782;
+	Mon, 12 Aug 2024 05:52:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A49F4C32782
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fH9oEkQHNADXsXn7ibacJjhwJzCIVwjIRganp3PRwENxMVWChy3epLIK08IF5ckyXqPA6eWgdYYoF43Sim1X/Tu64Rd9j0w4QmT90mb2wrNQwPL5p1D2SeYbNtREB4VnQXOXznxourSpZWyYTrBhxAFrauvKuSvU2Gu1fPrmykCMeFaMxgMJCNCmL2IRxdSCy+C99hB/GWojz6/MzUYgGHbkTZXYZA4CHb6XkF013VP/4Lysopm1/f8n7grExhLuiNphR0+huoXAHvg9T1GCNZIVIu+ST/5WmVMpOZg7SYIGcSNKiTSCNIEdP16EQuCrTE514lezle19GsX4c5W0Vg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vhbfrRdw2NpiY4c9Scxu7p2dg4X3efMoRbMV2N4Yq7U=;
+ b=tQSurIRIMgSWLXlZelFmFSBq/q6bakXc2HdkKRrsL02UlSQh2AZXwiLXkPvLm6a/KuUREL1coIIQn2hxaVWtg/7a8Hdvmw4uhBFTZ96DjhlIj28u/q45EfZRpsF2gQXetmZOSqmUg4XD9EXGrLhmpmIj6E1lbGrJAXyzw/lDJmOcngP8X8qSoOQcv+wchlxZTtwxqvjl1vznAivPE+1cGA2l8P+/eKQV3SXgTqkw6Yfwz08EMDBFTAKImyGgUS2eMQvEPoj8GXPyxjhMAxlj2oswXPx+EEji1VjqzM0vXEYwLraT6cUzC66FVwcvyo29NSn0BxVW1GiHN1dgqEt/+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vhbfrRdw2NpiY4c9Scxu7p2dg4X3efMoRbMV2N4Yq7U=;
+ b=pbl4NcF3CnqzAwbev09TMZ/VvyfdvDshHLkdzUjbZZL+oGFKici54Dm2bkGpccGqCtCK6EBzhbClIFCJNjVn8ca86oEseeFbSpgwH7gqKfZE58oN4BqV1nnYf+8ZLDo3mbT8tGqdkaI6vBVT2zs+lsF+ZyQFH+GC8eyKxGL0phs=
+Received: from BN0PR04CA0096.namprd04.prod.outlook.com (2603:10b6:408:ec::11)
+ by MN0PR12MB6295.namprd12.prod.outlook.com (2603:10b6:208:3c0::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.20; Mon, 12 Aug
+ 2024 05:52:54 +0000
+Received: from BN2PEPF00004FC1.namprd04.prod.outlook.com
+ (2603:10b6:408:ec:cafe::78) by BN0PR04CA0096.outlook.office365.com
+ (2603:10b6:408:ec::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.20 via Frontend
+ Transport; Mon, 12 Aug 2024 05:52:54 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN2PEPF00004FC1.mail.protection.outlook.com (10.167.243.187) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7849.8 via Frontend Transport; Mon, 12 Aug 2024 05:52:53 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 12 Aug
+ 2024 00:52:53 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 12 Aug
+ 2024 00:52:53 -0500
+Received: from tom-r5.amd.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Mon, 12 Aug 2024 00:52:51 -0500
+From: Tom Chung <chiahsuan.chung@amd.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
+To: Josh Boyer <jwboyer@kernel.org>, <linux-firmware@kernel.org>
+CC: Alex Deucher <alexander.deucher@amd.com>, Mario Limonciello
+	<mario.limonciello@amd.com>, Deepak Sharma <deepak.sharma@amd.com>, Tom Chung
+	<chiahsuan.chung@amd.com>
+Subject: pull request: amdgpu: update DMCUB firmware to v0.0.229.0
+Date: Mon, 12 Aug 2024 13:52:46 +0800
+Message-ID: <20240812055246.9294-1-chiahsuan.chung@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="_=_swift_1723277335_535422556d7a4c791aa97c5c77506dd6_=_"
-X-EMAIL-ID: 91
-Precedence: Bulk
-List-Unsubscribe: <http://mautic.daneshkar.net/email/unsubscribe/66b72041a09b7187003632>
-Resent-Message-Id: <20240810083634.9F940C4AF0C@smtp.kernel.org>
-Resent-Date: Sat, 10 Aug 2024 08:36:34 +0000 (UTC)
-Resent-From: SRS0=kWCA=PJ=rp.pmail.daneshkar.net=dusc7u@kernel.org
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: None (SATLEXMB05.amd.com: chiahsuan.chung@amd.com does not
+ designate permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF00004FC1:EE_|MN0PR12MB6295:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2c43a126-3dd6-4cfa-2079-08dcba93023b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|1800799024|376014|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?63/bsO3+EljY8NfKX7O8kgy9q9fen/HrEpibcDyM3akWdBMWtk+EKzIby4IU?=
+ =?us-ascii?Q?e474QpXWtWtW0qlKtkH9qFjc9qcttHCCL+MBPZcTolHZ8Qe84F1/ss91mbNw?=
+ =?us-ascii?Q?gow90Z56g2I/2Y3cCXG/Uhh8gDXIxSjtjw9duXAsVLjudFwfzckV1bjLdmwr?=
+ =?us-ascii?Q?5BTZHvnUEgFrC7e5bzMd0Sv4l/jCyQr8COjBaAOM9wVwXfnHXR8sM9ao+lGL?=
+ =?us-ascii?Q?zKfINyL+lPGSCpUq1hRSnrR+8WMFGPiz4Z03n/E0lHR5g2IjxOgUlaUiaRZk?=
+ =?us-ascii?Q?+J/rl4/X9Gf3nYO2gHc1M3K1bONotYBM5rh4u271nN1+q+x21xJDBUYvMV2w?=
+ =?us-ascii?Q?qNfzumJk8zJgq68EeqqLZkpGPk6Bhn/n6ThLyLY9bd9utfo0PkXT0m580gJL?=
+ =?us-ascii?Q?ToTa6mUsBH7UBEAmRpkuFufOzwUUTl/V8wNGCXJGfzdRhkm89tOqcWoVVagg?=
+ =?us-ascii?Q?AMgCwFII69rL3DNEWrvaY5mpvs1yQNwhOEs6pFoaxWUA14bjUuF2i8Z5qg8O?=
+ =?us-ascii?Q?PVahYlGvuJjdBDTZ7e4Vd4uFP09+gETG+jHilzrfOdqjoxxFri7UCkjdNYVQ?=
+ =?us-ascii?Q?SzDZeAuM+ol+U1xnXmp3rlmgCkq8CMd4SYj7iMfoS/AuApZfU7uH7S2lB3fi?=
+ =?us-ascii?Q?yLxPiR8kQT+X1LY6dUvpozsAMEp6B4jokDf37AB2Rj2a/ywlb28eL1hTq+LC?=
+ =?us-ascii?Q?Mtjr4UvFD5cAcJ/YqN+GXQKAjRfiOsGs/uyZd24LyCJ4Qx8DT6dxuOXfvOa/?=
+ =?us-ascii?Q?LbwF9wqixaOM2WFO642xHKkD4GsRe4hR0yF3RLi6I6C5YFiUQdCZbQT9t6EH?=
+ =?us-ascii?Q?R6UwIgDCU2Fk4zdDTtflKznj42DuKp6xJ/GJxd+t9KfXfcIkZq2LWteOuOU1?=
+ =?us-ascii?Q?wAm5Sd57DsaGNjRRwNDX5JhD0KuWkjPQU0lBp3EGITNalA3+Qbe0nqsE9w8l?=
+ =?us-ascii?Q?359NxqUf24C26eFRVJZLrUW9vXtWsPyEV2QuRpJY9yePtjJJIGv137JY38XB?=
+ =?us-ascii?Q?Sjnf0UVG75o/pM/h8pjvRjl40nAEj3Ibm9oluX+Q1uyH0s0QhYWk7xxd/QEL?=
+ =?us-ascii?Q?CGqokJD2yEk29Hdb3VRHP8seceA+6HrcldXyUiTRnG1Apfp8n6isXEWV+UYq?=
+ =?us-ascii?Q?SuY6qOWBSX3U1M1tbLqPgcJ0kvN3rcGMoQN4/+q4pSMfGCxAVxmKGNXGy4y5?=
+ =?us-ascii?Q?h2+78zvczB9Ytyta8j/A0zJh/Vq0seWpVPsVZpIvFvJL8g+VhFD3pAnRUcw4?=
+ =?us-ascii?Q?YNtTrSQTnm+XigukgtykOkmZOiOtonnAwN7AYVCj0n40iVnKxBGxgp9vrhv8?=
+ =?us-ascii?Q?5xwZGH6lt0+ZuMBV4xAc/ssYPs8eaLlk64j/+rxoEE8xGgAn9F59WaP2JNAW?=
+ =?us-ascii?Q?UE6WTvNKnIGBMt67tFMN+8LLkyaj7CF+Ktq7D1Y999FGR6M9ijz296JKRqd8?=
+ =?us-ascii?Q?wHBXtUUlCVKiLXIskpj82+ovUUzQqor0?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2024 05:52:53.9530
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2c43a126-3dd6-4cfa-2079-08dcba93023b
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN2PEPF00004FC1.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6295
 
+  amdgpu: DMCUB updates for various AMDGPU ASICs (2024-08-12 13:43:13 +0800)
 
---_=_swift_1723277335_535422556d7a4c791aa97c5c77506dd6_=_
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+are available in the Git repository at:
 
-=D8=A7=DA=AF=D8=B1 =D9=82=D8=A7=D8=AF=D8=B1 =D8=A8=D9=87 =D8=AF=DB=8C=D8=
-=AF=D9=86 =D8=A7=DB=8C=D9=86 =D8=A7=DB=8C=D9=85=DB=8C=D9=84 =D9=86=DB=8C=
-=D8=B3=D8=AA=DB=8C=D8=AF=D8=8C
-=D8=A7=DB=8C=D9=86=D8=AC=D8=A7 [http://mau=
-tic.daneshkar.net/r/e7e534da520c76c2916cc5f76?ct=3DYTo1OntzOjY6InNvdXJjZSI7=
-YToyOntpOjA7czo1OiJlbWFpbCI7aToxO2k6OTE7fXM6NToiZW1haWwiO2k6OTE7czo0OiJzdGF=
-0IjtzOjIyOiI2NmI3MjA0MWEwOWI3MTg3MDAzNjMyIjtzOjQ6ImxlYWQiO3M6NjoiNzUwNzM3Ij=
-tzOjc6ImNoYW5uZWwiO2E6MTp7czo1OiJlbWFpbCI7aTo5MTt9fQ%3D%3D&] =DA=A9=D9=
-=84=DB=8C=DA=A9
-=DA=A9=D9=86=DB=8C=D8=AF
+  git@gitlab.freedesktop.org:drm/firmware.git tags/amd-2024-08-12
 
-[http://mautic.daneshkar.ne=
-t/r/c654d191724ef14b7e5b8bb6a?ct=3DYTo1OntzOjY6InNvdXJjZSI7YToyOntpOjA7czo1=
-OiJlbWFpbCI7aToxO2k6OTE7fXM6NToiZW1haWwiO2k6OTE7czo0OiJzdGF0IjtzOjIyOiI2NmI=
-3MjA0MWEwOWI3MTg3MDAzNjMyIjtzOjQ6ImxlYWQiO3M6NjoiNzUwNzM3IjtzOjc6ImNoYW5uZW=
-wiO2E6MTp7czo1OiJlbWFpbCI7aTo5MTt9fQ%3D%3D&]
+for you to fetch changes up to 0600ef249c32e761d2f31d50fddc4f17e6676849:
 
-Unsubscribe
+  amdgpu: DMCUB updates for various AMDGPU ASICs (2024-08-12 13:43:13 +0800)
 
---_=_swift_1723277335_535422556d7a4c791aa97c5c77506dd6_=_
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-<!doctype html>
-<html lang=3D"en" xmlns=3D"http://www.w3.org/1999/xhtml" xmlns:v=3D"urn:sch=
-emas-microsoft-com:vml" xmlns:o=3D"urn:schemas-microsoft-com:office:office"=
->
-
-<head>
-  <title>=D8=A7=D9=86=D8=AA=D8=B4=D8=A7=D8=B1 =D8=B1=D8=A7=DB=8C=DA=AF=
-=D8=A7=D9=86 =D8=A2=DA=AF=D9=87=DB=8C =D8=A7=D8=B3=D8=AA=D8=AE=D8=AF=D8=
-=A7=D9=85 =D8=AF=D8=B1 =D8=A8=DB=8C=D9=86 300 =D9=87=D8=B2=D8=A7=D8=B1 =
-=D9=85=D8=AA=D8=AE=D8=B5=D8=B5</title>
-  <!--[if !mso]><!-->
-  <meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
-  <!--<![endif]-->
-  <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8">
-  <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D=
-1">
-  <style type=3D"text/css">
-    #outlook a {
-      padding: 0;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      -webkit-text-size-adjust: 100%;
-      -ms-text-size-adjust: 100%;
-    }
-
-    table,
-    td {
-      border-collapse: collapse;
-      mso-table-lspace: 0pt;
-      mso-table-rspace: 0pt;
-    }
-
-    img {
-      border: 0;
-      height: auto;
-      line-height: 100%;
-      outline: none;
-      text-decoration: none;
-      -ms-interpolation-mode: bicubic;
-    }
-
-    p {
-      display: block;
-      margin: 13px 0;
-    }
-  </style>
-  <!--[if mso]>
-        <noscript>
-        <xml>
-        <o:OfficeDocumentSettings>
-          <o:AllowPNG/>
-          <o:PixelsPerInch>96</o:PixelsPerInch>
-        </o:OfficeDocumentSettings>
-        </xml>
-        </noscript>
-        <![endif]-->
-  <!--[if lte mso 11]>
-        <style type=3D"text/css">
-          .mj-outlook-group-fix { width:100% !important; }
-        </style>
-        <![endif]-->
-  <!--[if !mso]><!-->
-  <link href=3D"https://fonts.googleapis.com/css?family=3DUbuntu:300,400,50=
-0,700" rel=3D"stylesheet" type=3D"text/css">
-  <style type=3D"text/css">
-    @import url(https://fonts.googleapis.com/css?family=3DUbuntu:300,400,50=
-0,700);
-  </style>
-  <!--<![endif]-->
-  <style type=3D"text/css">
-    @media only screen and (min-width:480px) {
-      .mj-column-per-100 {
-        width: 100% !important;
-        max-width: 100%;
-      }
-    }
-  </style>
-  <style media=3D"screen and (min-width:480px)">
-    .moz-text-html .mj-column-per-100 {
-      width: 100% !important;
-      max-width: 100%;
-    }
-  </style>
-  <style type=3D"text/css">
-    @media only screen and (max-width:480px) {
-      table.mj-full-width-mobile {
-        width: 100% !important;
-      }
-
-      td.mj-full-width-mobile {
-        width: auto !important;
-      }
-    }
-  </style>
-  <style type=3D"text/css">
-  </style>
-  <!-- CSS-STYLE -->
-</head>
-
-<body style=3D"word-spacing:normal;background-color:#d6dde5;">
-  <div style=3D"background-color:#d6dde5;">
-    <!-- LOGO HEADER -->
-    <!-- SECTION HEADER -->
-    <!-- SECTION HERO -->
-    <!-- SECTION TEXT + BUTTON -->
-    <!-- SECTION SPACER -->
-    <!--[if mso | IE]><table align=3D"center" border=3D"0" cellpadding=3D"0=
-" cellspacing=3D"0" class=3D"" role=3D"presentation" style=3D"width:600px;"=
- width=3D"600" ><tr><td style=3D"line-height:0px;font-size:0px;mso-line-hei=
-ght-rule:exactly;"><![endif]-->
-    <div style=3D"margin:0px auto;max-width:600px;">
-      <table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D=
-"0" role=3D"presentation" style=3D"width:100%;">
-        <tbody>
-          <tr>
-            <td style=3D"direction:ltr;font-size:0px;padding:20px 0;padding=
--bottom:0px;padding-top:0px;text-align:center;">
-              <!--[if mso | IE]><table role=3D"presentation" border=3D"0" c=
-ellpadding=3D"0" cellspacing=3D"0"><tr></tr></table><![endif]-->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--[if mso | IE]></td></tr></table><![endif]-->
-    <!-- SECTION IMAGE + TEXT + BUTTON -->
-    <!-- SECTION SPACER -->
-    <!--[if mso | IE]><table align=3D"center" border=3D"0" cellpadding=3D"0=
-" cellspacing=3D"0" class=3D"" role=3D"presentation" style=3D"width:600px;"=
- width=3D"600" ><tr><td style=3D"line-height:0px;font-size:0px;mso-line-hei=
-ght-rule:exactly;"><![endif]-->
-    <div style=3D"margin:0px auto;max-width:600px;">
-      <table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D=
-"0" role=3D"presentation" style=3D"width:100%;">
-        <tbody>
-          <tr>
-            <td style=3D"direction:ltr;font-size:0px;padding:20px 0;padding=
--bottom:0px;padding-top:0px;text-align:center;">
-              <!--[if mso | IE]><table role=3D"presentation" border=3D"0" c=
-ellpadding=3D"0" cellspacing=3D"0"><tr></tr></table><![endif]-->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--[if mso | IE]></td></tr></table><![endif]-->
-    <!-- SECTION 2-COLUMNS IMAGE + TEXT + BUTTON -->
-    <!-- SECTION SPACER -->
-    <!--[if mso | IE]><table align=3D"center" border=3D"0" cellpadding=3D"0=
-" cellspacing=3D"0" class=3D"" role=3D"presentation" style=3D"width:600px;"=
- width=3D"600" ><tr><td style=3D"line-height:0px;font-size:0px;mso-line-hei=
-ght-rule:exactly;"><![endif]-->
-    <div style=3D"margin:0px auto;max-width:600px;">
-      <table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D=
-"0" role=3D"presentation" style=3D"width:100%;">
-        <tbody>
-          <tr>
-            <td style=3D"direction:ltr;font-size:0px;padding:20px 0;padding=
--bottom:0px;padding-top:0px;text-align:center;">
-              <!--[if mso | IE]><table role=3D"presentation" border=3D"0" c=
-ellpadding=3D"0" cellspacing=3D"0"><tr></tr></table><![endif]-->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--[if mso | IE]></td></tr></table><![endif]-->
-    <!-- SECTION FOOTER -->
-    <!--[if mso | IE]><table align=3D"center" border=3D"0" cellpadding=3D"0=
-" cellspacing=3D"0" class=3D"" role=3D"presentation" style=3D"width:600px;"=
- width=3D"600" ><tr><td style=3D"line-height:0px;font-size:0px;mso-line-hei=
-ght-rule:exactly;"><![endif]-->
-    <div style=3D"margin:0px auto;max-width:600px;">
-      <table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D=
-"0" role=3D"presentation" style=3D"width:100%;">
-        <tbody>
-          <tr>
-            <td style=3D"direction:ltr;font-size:0px;padding:20px 0;padding=
--bottom:0px;padding-top:0px;text-align:center;">
-              <!--[if mso | IE]><table role=3D"presentation" border=3D"0" c=
-ellpadding=3D"0" cellspacing=3D"0"><tr></tr></table><![endif]-->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--[if mso | IE]></td></tr></table><![endif]-->
-    <!-- SECTION POLICY -->
-    <!--[if mso | IE]><table align=3D"center" border=3D"0" cellpadding=3D"0=
-" cellspacing=3D"0" class=3D"" role=3D"presentation" style=3D"width:600px;"=
- width=3D"600" ><tr><td style=3D"line-height:0px;font-size:0px;mso-line-hei=
-ght-rule:exactly;"><![endif]-->
-    <div style=3D"margin:0px auto;max-width:600px;">
-      <table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D=
-"0" role=3D"presentation" style=3D"width:100%;">
-        <tbody>
-          <tr>
-            <td style=3D"direction:ltr;font-size:0px;padding:20px 0;text-al=
-ign:center;">
-              <!--[if mso | IE]><table role=3D"presentation" border=3D"0" c=
-ellpadding=3D"0" cellspacing=3D"0"><tr><td class=3D"" style=3D"vertical-ali=
-gn:top;width:600px;" ><![endif]-->
-              <div class=3D"mj-column-per-100 mj-outlook-group-fix" style=
-=3D"font-size:0px;text-align:left;direction:ltr;display:inline-block;vertic=
-al-align:top;width:100%;">
-                <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" rol=
-e=3D"presentation" style=3D"vertical-align:top;" width=3D"100%">
-                  <tbody>
-                    <tr>
-                      <td align=3D"center" style=3D"font-size:0px;padding:1=
-0px 25px;word-break:break-word;">
-                        <div style=3D"font-family:Ubuntu, Helvetica, Arial,=
- sans-serif;font-size:13px;line-height:1;text-align:center;color:#000000;">
-                          <p style=3D"margin: 0; padding: 0;">=D8=A7=DA=
-=AF=D8=B1 =D9=82=D8=A7=D8=AF=D8=B1 =D8=A8=D9=87 =D8=AF=DB=8C=D8=AF=D9=86 =
-=D8=A7=DB=8C=D9=86 =D8=A7=DB=8C=D9=85=DB=8C=D9=84 =D9=86=DB=8C=D8=B3=D8=
-=AA=DB=8C=D8=AF=D8=8C <a href=3D"http://mautic.daneshkar.net/r/e7e534da520c=
-76c2916cc5f76?ct=3DYTo1OntzOjY6InNvdXJjZSI7YToyOntpOjA7czo1OiJlbWFpbCI7aTox=
-O2k6OTE7fXM6NToiZW1haWwiO2k6OTE7czo0OiJzdGF0IjtzOjIyOiI2NmI3MjA0MWEwOWI3MTg=
-3MDAzNjMyIjtzOjQ6ImxlYWQiO3M6NjoiNzUwNzM3IjtzOjc6ImNoYW5uZWwiO2E6MTp7czo1Oi=
-JlbWFpbCI7aTo5MTt9fQ%3D%3D&">=D8=A7=DB=8C=D9=86=D8=AC=D8=A7</a> =DA=A9=
-=D9=84=DB=8C=DA=A9 =DA=A9=D9=86=DB=8C=D8=AF</p>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td align=3D"center" style=3D"font-size:0px;padding:1=
-0px 25px;padding-top:0;padding-right:0;padding-bottom:0;padding-left:0;word=
--break:break-word;">
-                        <table border=3D"0" cellpadding=3D"0" cellspacing=
-=3D"0" role=3D"presentation" style=3D"border-collapse:collapse;border-spaci=
-ng:0px;">
-                          <tbody>
-                            <tr>
-                              <td style=3D"width:600px;">
-                                <img height=3D"auto" src=3D"http://mautic.d=
-aneshkar.net/media/images/employer-email-top.jpg" style=3D"border:0;display=
-:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:1=
-3px;" width=3D"600">
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td align=3D"center" style=3D"font-size:0px;padding:1=
-0px 25px;padding-top:0;padding-right:0;padding-bottom:0;padding-left:0;word=
--break:break-word;">
-                        <table border=3D"0" cellpadding=3D"0" cellspacing=
-=3D"0" role=3D"presentation" style=3D"border-collapse:collapse;border-spaci=
-ng:0px;">
-                          <tbody>
-                            <tr>
-                              <td style=3D"width:600px;">
-                                <a href=3D"http://mautic.daneshkar.net/r/c6=
-54d191724ef14b7e5b8bb6a?ct=3DYTo1OntzOjY6InNvdXJjZSI7YToyOntpOjA7czo1OiJlbW=
-FpbCI7aToxO2k6OTE7fXM6NToiZW1haWwiO2k6OTE7czo0OiJzdGF0IjtzOjIyOiI2NmI3MjA0M=
-WEwOWI3MTg3MDAzNjMyIjtzOjQ6ImxlYWQiO3M6NjoiNzUwNzM3IjtzOjc6ImNoYW5uZWwiO2E6=
-MTp7czo1OiJlbWFpbCI7aTo5MTt9fQ%3D%3D&" target=3D"_blank">
-                                  <img alt=3D"=D9=81=D8=B1=D8=B5=D8=AA =
-=D8=B4=D8=BA=D9=84=DB=8C =D8=AE=D9=88=D8=AF =D8=B1=D8=A7 =D8=A8=D9=87 =
-=D8=B5=D9=88=D8=B1=D8=AA =D8=B1=D8=A7=DB=8C=DA=AF=D8=A7=D9=86 =D8=AF=D8=
-=B1 =D9=88=D8=A8=D8=B3=D8=A7=DB=8C=D8=AA =D8=AF=D8=A7=D9=86=D8=B4=DA=A9=
-=D8=A7=D8=B1 =D8=AB=D8=A8=D8=AA =DA=A9=D9=86=DB=8C=D8=AF =D9=88 =D8=A8=
-=D8=A7=D8=B2=D8=AE=D9=88=D8=B1=D8=AF =D8=B9=D8=A7=D9=84=DB=8C =D8=AF=D8=
-=B1=DB=8C=D8=A7=D9=81=D8=AA =DA=A9=D9=86=DB=8C=D8=AF." height=3D"auto" src=
-=3D"http://mautic.daneshkar.net/media/images/employer-email-bottom.jpg" sty=
-le=3D"border:0;display:block;outline:none;text-decoration:none;height:auto;=
-width:100%;font-size:13px;" width=3D"600">
-                                </a>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!--[if mso | IE]></td></tr></table><![endif]-->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--[if mso | IE]></td></tr></table><table align=3D"center" border=3D"0=
-" cellpadding=3D"0" cellspacing=3D"0" class=3D"graylink-outlook" role=3D"pr=
-esentation" style=3D"width:600px;" width=3D"600" ><tr><td style=3D"line-hei=
-ght:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-    <div class=3D"graylink" style=3D"margin:0px auto;max-width:600px;">
-      <table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D=
-"0" role=3D"presentation" style=3D"width:100%;">
-        <tbody>
-          <tr>
-            <td style=3D"direction:ltr;font-size:0px;padding:20px 0;padding=
--bottom:60px;padding-top:20px;text-align:center;">
-              <!--[if mso | IE]><table role=3D"presentation" border=3D"0" c=
-ellpadding=3D"0" cellspacing=3D"0"><tr><td class=3D"" style=3D"vertical-ali=
-gn:middle;width:600px;" ><![endif]-->
-              <div class=3D"mj-column-per-100 mj-outlook-group-fix" style=
-=3D"font-size:0px;text-align:left;direction:ltr;display:inline-block;vertic=
-al-align:middle;width:100%;">
-                <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" rol=
-e=3D"presentation" style=3D"vertical-align:middle;" width=3D"100%">
-                  <tbody>
-                    <tr>
-                      <td align=3D"center" style=3D"font-size:0px;padding:1=
-0px 25px;padding-top:0px;padding-bottom:0px;word-break:break-word;">
-                        <div style=3D"font-family:Ubuntu, Helvetica, Arial,=
- sans-serif;font-size:13px;line-height:1.5;text-align:center;color:#6d6d6d;=
-">
-                          <p style=3D"margin: 0; padding: 0; font-size: 11p=
-x;"><a href=3D"http://mautic.daneshkar.net/email/unsubscribe/66b72041a09b71=
-87003632">Unsubscribe</a> </p>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!--[if mso | IE]></td></tr></table><![endif]-->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--[if mso | IE]></td></tr></table><![endif]-->
-  </div>
-<img height=3D"1" width=3D"1" src=3D"http://mautic.daneshkar.net/email/66b7=
-2041a09b7187003632.gif" alt=3D"" /></body>
-
-</html>
-
---_=_swift_1723277335_535422556d7a4c791aa97c5c77506dd6_=_--
-
+----------------------------------------------------------------
