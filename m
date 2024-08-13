@@ -1,97 +1,417 @@
-Return-Path: <SRS0=Sjdv=PM=quicinc.com=quic_dikshita@kernel.org>
+Return-Path: <SRS0=RnIW=PM=rp.pmail.daneshkar.net=dusc7u@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 079ABC52D7B
-	for <linux-firmware@archiver.kernel.org>; Tue, 13 Aug 2024 06:10:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 120A6C52D7B
+	for <linux-firmware@archiver.kernel.org>; Tue, 13 Aug 2024 08:30:38 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C33F7C4AF0B; Tue, 13 Aug 2024 06:10:27 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id C6FBCC4AF17; Tue, 13 Aug 2024 08:30:38 +0000 (UTC)
+Received: from pmail.daneshkar.net (static.231.1.235.167.clients.your-server.de [167.235.1.231])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 8975FC4AF09
-	for <linux-firmware@kernel.org>; Tue, 13 Aug 2024 06:10:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 8975FC4AF09
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47D4Ge4j006270
-	for <linux-firmware@kernel.org>; Tue, 13 Aug 2024 06:10:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=APsbUD0A8Wsh2tyE2ihrNf
-	lVdvW3Q7OjY3IE74MuJMc=; b=CA39ae3hOJyQGY35FNtf9QTC0dKEpI9j6VThBc
-	YAzAod5GEwZyO82maW9mj1XBcjXvfavTicmffDRbFD5TpREzrxaGwkeg0IbCqZrn
-	oerPRjcTd0RaKPzJU2fNSo+Y6UTU4fUhLuaMusab5czNXNJb9gJg+59wm+5vREDV
-	vlv94Ej2PeK7ijB1LC4/QFxM7Z+nPRDcR0xhQShRCscIqwgN/EqwkSLBNzwBUamF
-	wgNDJnRY+jnOLbH5iWR4+R+HE4Zwo9TVQob/SiFZ+TES2I/smsuN6Aeh02kgGtWL
-	CKuc8J9jwrkz2Jgj94qaSsiicj/11pj7qyY7mC7wqa7JkqhQ==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40x18xxeaj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-firmware@kernel.org>; Tue, 13 Aug 2024 06:10:25 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47D6ANcJ020433
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-firmware@kernel.org>; Tue, 13 Aug 2024 06:10:23 GMT
-Received: from [10.216.47.3] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 12 Aug
- 2024 23:10:22 -0700
-Message-ID: <876a7bad-70ac-8daf-671f-80bf84bdaef3@quicinc.com>
-Date: Tue, 13 Aug 2024 11:40:18 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Content-Language: en-US
+	by smtp.kernel.org (Postfix) with ESMTPS id 379FBC4AF10
+	for <linux-firmware@kernel.org>; Tue, 13 Aug 2024 08:30:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 379FBC4AF10
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=daneshkar.net
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=rp.pmail.daneshkar.net
+Resent-Sender: dusc7u@rp.pmail.daneshkar.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=daneshkar.net;
+	s=postal-UkMeMe; t=1723537835;
+	bh=Sxr9+JpICny81WYMIDca8RZLgv32pPvSKmN9S0P57cM=;
+	h=message-id:date:subject:from:reply-to:to:mime-version:content-type:list-unsubscribe;
+	b=Dave/NIbXSMGeuUJqps2/bEHG9iu3NxhfEbbXgoH/d+j/KD3Pbx0yfECADcGp5Uh0eB6PyKC
+	3ytiJ0KqGgfsZx9Z6djYF7M8ZJF4+tlsrDFrlIvv7zNNksWn+HyFyrQbP6TrW4qsKjgDKJeU
+	UQBDGRjneWs46y7JfzxCnLZxzM4=
+X-Postal-MsgID: XMEFjkYR3XkX
+Received: from mautic.daneshkar.net (::ffff:172.26.0.3 [::ffff:172.26.0.3]) by pmail.daneshkar.net with SMTP; Tue, 13 Aug 2024 07:46:43 -0000
+Message-ID: <a305e8e1cabeca3da2a62d1717483d51@mautic.daneshkar.net>
+Date: Tue, 13 Aug 2024 07:46:26 +0000
+Subject: =?utf-8?Q?=D8=A7=D8=B2_=D9=85=D8=B3=D8=AA=D8=B9=D8=AF?=
+ =?utf-8?Q?=D8=AA=D8=B1=DB=8C=D9=86=E2=80=8C=D9=87=D8=A7_?=
+ =?utf-8?Q?=D8=A7=D8=B3=D8=AA=D8=AE=D8=AF=D8=A7=D9=85_?=
+ =?utf-8?Q?=DA=A9=D9=86=DB=8C=D8=AF=2E?=
+From: =?utf-8?Q?=D8=AF=D8=A7=D9=86=D8=B4=DA=A9=D8=A7=D8=B1?=
+ <info@daneshkar.net>
+Reply-To: info@daneshkar.net
 List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-CC: "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Subject: add video firmware for sa8775p
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Y9VX0gyNRAXaqX6P1Kchqx_WLZwREDg7
-X-Proofpoint-ORIG-GUID: Y9VX0gyNRAXaqX6P1Kchqx_WLZwREDg7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-12_12,2024-08-12_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=551
- suspectscore=0 phishscore=0 malwarescore=0 mlxscore=0 spamscore=0
- lowpriorityscore=0 impostorscore=0 clxscore=1015 priorityscore=1501
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2408130042
+To: linux-firmware@kernel.org
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="_=_swift_1723535186_2f7a1538afd5c81f6877a89ab8cd715d_=_"
+X-EMAIL-ID: 95
+Precedence: Bulk
+List-Unsubscribe: <http://mautic.daneshkar.net/email/unsubscribe/66bb0f6380000614118982>
+Resent-Message-Id: <20240813083036.379FBC4AF10@smtp.kernel.org>
+Resent-Date: Tue, 13 Aug 2024 08:30:35 +0000 (UTC)
+Resent-From: SRS0=RnIW=PM=rp.pmail.daneshkar.net=dusc7u@kernel.org
 
-Hello,
 
-The following changes since commit 594600762910b4bbe8a88d0dc6495521366c880c:
+--_=_swift_1723535186_2f7a1538afd5c81f6877a89ab8cd715d_=_
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-  Merge branch 'vpu' into 'main' (2024-08-09 13:02:09 +0000)
+=D8=A7=DA=AF=D8=B1 =D9=82=D8=A7=D8=AF=D8=B1 =D8=A8=D9=87 =D8=AF=DB=8C=D8=
+=AF=D9=86 =D8=A7=DB=8C=D9=86 =D8=A7=DB=8C=D9=85=DB=8C=D9=84 =D9=86=DB=8C=
+=D8=B3=D8=AA=DB=8C=D8=AF=D8=8C
+=D8=A7=DB=8C=D9=86=D8=AC=D8=A7 [http://mau=
+tic.daneshkar.net/r/e8757db11094bfb036c66916a?ct=3DYTo1OntzOjY6InNvdXJjZSI7=
+YToyOntpOjA7czo1OiJlbWFpbCI7aToxO2k6OTU7fXM6NToiZW1haWwiO2k6OTU7czo0OiJzdGF=
+0IjtzOjIyOiI2NmJiMGY2MzgwMDAwNjE0MTE4OTgyIjtzOjQ6ImxlYWQiO3M6NjoiNzUwNzM3Ij=
+tzOjc6ImNoYW5uZWwiO2E6MTp7czo1OiJlbWFpbCI7aTo5NTt9fQ%3D%3D&] =DA=A9=D9=
+=84=DB=8C=DA=A9
+=DA=A9=D9=86=DB=8C=D8=AF.
 
-are available in the git repository at:
+[http://mautic.daneshkar.n=
+et/r/a763fbe0f564b5802cd7a190d?ct=3DYTo1OntzOjY6InNvdXJjZSI7YToyOntpOjA7czo=
+1OiJlbWFpbCI7aToxO2k6OTU7fXM6NToiZW1haWwiO2k6OTU7czo0OiJzdGF0IjtzOjIyOiI2Nm=
+JiMGY2MzgwMDAwNjE0MTE4OTgyIjtzOjQ6ImxlYWQiO3M6NjoiNzUwNzM3IjtzOjc6ImNoYW5uZ=
+WwiO2E6MTp7czo1OiJlbWFpbCI7aTo5NTt9fQ%3D%3D&]
 
-  https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
-video-fw-SA8775p
+Unsubscribe
 
-for you to fetch changes up to a55d7a750828688e2c215e01bdf22a2516f9cd4a:
+--_=_swift_1723535186_2f7a1538afd5c81f6877a89ab8cd715d_=_
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-  qcom: vpu: add video firmware for sa8775p (2024-08-13 11:28:02 +0530)
+<!doctype html>
+<html lang=3D"en" xmlns=3D"http://www.w3.org/1999/xhtml" xmlns:v=3D"urn:sch=
+emas-microsoft-com:vml" xmlns:o=3D"urn:schemas-microsoft-com:office:office"=
+>
 
-----------------------------------------------------------------
-Dikshita Agarwal (1):
-      qcom: vpu: add video firmware for sa8775p
+<head>
+  <title>=D8=A7=D8=B2 =D9=85=D8=B3=D8=AA=D8=B9=D8=AF=D8=AA=D8=B1=DB=8C=
+=D9=86=E2=80=8C=D9=87=D8=A7 =D8=A7=D8=B3=D8=AA=D8=AE=D8=AF=D8=A7=D9=85 =
+=DA=A9=D9=86=DB=8C=D8=AF.</title>
+  <!--[if !mso]><!-->
+  <meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
+  <!--<![endif]-->
+  <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8">
+  <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D=
+1">
+  <style type=3D"text/css">
+    #outlook a {
+      padding: 0;
+    }
 
- WHENCE                   |   4 ++++
- qcom/vpu/vpu30_p4_s6.mbn | Bin 0 -> 2300692 bytes
- 2 files changed, 4 insertions(+)
- create mode 100644 qcom/vpu/vpu30_p4_s6.mbn
+    body {
+      margin: 0;
+      padding: 0;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
 
-Thanks,
-Dikshita
+    table,
+    td {
+      border-collapse: collapse;
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+    }
+
+    img {
+      border: 0;
+      height: auto;
+      line-height: 100%;
+      outline: none;
+      text-decoration: none;
+      -ms-interpolation-mode: bicubic;
+    }
+
+    p {
+      display: block;
+      margin: 13px 0;
+    }
+  </style>
+  <!--[if mso]>
+        <noscript>
+        <xml>
+        <o:OfficeDocumentSettings>
+          <o:AllowPNG/>
+          <o:PixelsPerInch>96</o:PixelsPerInch>
+        </o:OfficeDocumentSettings>
+        </xml>
+        </noscript>
+        <![endif]-->
+  <!--[if lte mso 11]>
+        <style type=3D"text/css">
+          .mj-outlook-group-fix { width:100% !important; }
+        </style>
+        <![endif]-->
+  <!--[if !mso]><!-->
+  <link href=3D"https://fonts.googleapis.com/css?family=3DUbuntu:300,400,50=
+0,700" rel=3D"stylesheet" type=3D"text/css">
+  <style type=3D"text/css">
+    @import url(https://fonts.googleapis.com/css?family=3DUbuntu:300,400,50=
+0,700);
+  </style>
+  <!--<![endif]-->
+  <style type=3D"text/css">
+    @media only screen and (min-width:480px) {
+      .mj-column-per-100 {
+        width: 100% !important;
+        max-width: 100%;
+      }
+    }
+  </style>
+  <style media=3D"screen and (min-width:480px)">
+    .moz-text-html .mj-column-per-100 {
+      width: 100% !important;
+      max-width: 100%;
+    }
+  </style>
+  <style type=3D"text/css">
+    @media only screen and (max-width:480px) {
+      table.mj-full-width-mobile {
+        width: 100% !important;
+      }
+
+      td.mj-full-width-mobile {
+        width: auto !important;
+      }
+    }
+  </style>
+  <style type=3D"text/css">
+  </style>
+  <!-- CSS-STYLE -->
+</head>
+
+<body style=3D"word-spacing:normal;background-color:#d6dde5;">
+  <div style=3D"background-color:#d6dde5;">
+    <!-- LOGO HEADER -->
+    <!-- SECTION HEADER -->
+    <!-- SECTION HERO -->
+    <!-- SECTION TEXT + BUTTON -->
+    <!-- SECTION SPACER -->
+    <!--[if mso | IE]><table align=3D"center" border=3D"0" cellpadding=3D"0=
+" cellspacing=3D"0" class=3D"" role=3D"presentation" style=3D"width:600px;"=
+ width=3D"600" ><tr><td style=3D"line-height:0px;font-size:0px;mso-line-hei=
+ght-rule:exactly;"><![endif]-->
+    <div style=3D"margin:0px auto;max-width:600px;">
+      <table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D=
+"0" role=3D"presentation" style=3D"width:100%;">
+        <tbody>
+          <tr>
+            <td style=3D"direction:ltr;font-size:0px;padding:20px 0;padding=
+-bottom:0px;padding-top:0px;text-align:center;">
+              <!--[if mso | IE]><table role=3D"presentation" border=3D"0" c=
+ellpadding=3D"0" cellspacing=3D"0"><tr></tr></table><![endif]-->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!--[if mso | IE]></td></tr></table><![endif]-->
+    <!-- SECTION IMAGE + TEXT + BUTTON -->
+    <!-- SECTION SPACER -->
+    <!--[if mso | IE]><table align=3D"center" border=3D"0" cellpadding=3D"0=
+" cellspacing=3D"0" class=3D"" role=3D"presentation" style=3D"width:600px;"=
+ width=3D"600" ><tr><td style=3D"line-height:0px;font-size:0px;mso-line-hei=
+ght-rule:exactly;"><![endif]-->
+    <div style=3D"margin:0px auto;max-width:600px;">
+      <table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D=
+"0" role=3D"presentation" style=3D"width:100%;">
+        <tbody>
+          <tr>
+            <td style=3D"direction:ltr;font-size:0px;padding:20px 0;padding=
+-bottom:0px;padding-top:0px;text-align:center;">
+              <!--[if mso | IE]><table role=3D"presentation" border=3D"0" c=
+ellpadding=3D"0" cellspacing=3D"0"><tr></tr></table><![endif]-->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!--[if mso | IE]></td></tr></table><![endif]-->
+    <!-- SECTION 2-COLUMNS IMAGE + TEXT + BUTTON -->
+    <!-- SECTION SPACER -->
+    <!--[if mso | IE]><table align=3D"center" border=3D"0" cellpadding=3D"0=
+" cellspacing=3D"0" class=3D"" role=3D"presentation" style=3D"width:600px;"=
+ width=3D"600" ><tr><td style=3D"line-height:0px;font-size:0px;mso-line-hei=
+ght-rule:exactly;"><![endif]-->
+    <div style=3D"margin:0px auto;max-width:600px;">
+      <table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D=
+"0" role=3D"presentation" style=3D"width:100%;">
+        <tbody>
+          <tr>
+            <td style=3D"direction:ltr;font-size:0px;padding:20px 0;padding=
+-bottom:0px;padding-top:0px;text-align:center;">
+              <!--[if mso | IE]><table role=3D"presentation" border=3D"0" c=
+ellpadding=3D"0" cellspacing=3D"0"><tr></tr></table><![endif]-->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!--[if mso | IE]></td></tr></table><![endif]-->
+    <!-- SECTION FOOTER -->
+    <!--[if mso | IE]><table align=3D"center" border=3D"0" cellpadding=3D"0=
+" cellspacing=3D"0" class=3D"" role=3D"presentation" style=3D"width:600px;"=
+ width=3D"600" ><tr><td style=3D"line-height:0px;font-size:0px;mso-line-hei=
+ght-rule:exactly;"><![endif]-->
+    <div style=3D"margin:0px auto;max-width:600px;">
+      <table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D=
+"0" role=3D"presentation" style=3D"width:100%;">
+        <tbody>
+          <tr>
+            <td style=3D"direction:ltr;font-size:0px;padding:20px 0;padding=
+-bottom:0px;padding-top:0px;text-align:center;">
+              <!--[if mso | IE]><table role=3D"presentation" border=3D"0" c=
+ellpadding=3D"0" cellspacing=3D"0"><tr></tr></table><![endif]-->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!--[if mso | IE]></td></tr></table><![endif]-->
+    <!-- SECTION POLICY -->
+    <!--[if mso | IE]><table align=3D"center" border=3D"0" cellpadding=3D"0=
+" cellspacing=3D"0" class=3D"" role=3D"presentation" style=3D"width:600px;"=
+ width=3D"600" ><tr><td style=3D"line-height:0px;font-size:0px;mso-line-hei=
+ght-rule:exactly;"><![endif]-->
+    <div style=3D"margin:0px auto;max-width:600px;">
+      <table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D=
+"0" role=3D"presentation" style=3D"width:100%;">
+        <tbody>
+          <tr>
+            <td style=3D"direction:ltr;font-size:0px;padding:20px 0;text-al=
+ign:center;">
+              <!--[if mso | IE]><table role=3D"presentation" border=3D"0" c=
+ellpadding=3D"0" cellspacing=3D"0"><tr><td class=3D"" style=3D"vertical-ali=
+gn:top;width:600px;" ><![endif]-->
+              <div class=3D"mj-column-per-100 mj-outlook-group-fix" style=
+=3D"font-size:0px;text-align:left;direction:ltr;display:inline-block;vertic=
+al-align:top;width:100%;">
+                <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" rol=
+e=3D"presentation" style=3D"vertical-align:top;" width=3D"100%">
+                  <tbody>
+                    <tr>
+                      <td align=3D"center" style=3D"font-size:0px;padding:1=
+0px 25px;word-break:break-word;">
+                        <div style=3D"font-family:Ubuntu, Helvetica, Arial,=
+ sans-serif;font-size:13px;line-height:1;text-align:center;color:#000000;">
+                          <p style=3D"margin: 0; padding: 0;">=D8=A7=DA=
+=AF=D8=B1 =D9=82=D8=A7=D8=AF=D8=B1 =D8=A8=D9=87 =D8=AF=DB=8C=D8=AF=D9=86 =
+=D8=A7=DB=8C=D9=86 =D8=A7=DB=8C=D9=85=DB=8C=D9=84 =D9=86=DB=8C=D8=B3=D8=
+=AA=DB=8C=D8=AF=D8=8C <a href=3D"http://mautic.daneshkar.net/r/e8757db11094=
+bfb036c66916a?ct=3DYTo1OntzOjY6InNvdXJjZSI7YToyOntpOjA7czo1OiJlbWFpbCI7aTox=
+O2k6OTU7fXM6NToiZW1haWwiO2k6OTU7czo0OiJzdGF0IjtzOjIyOiI2NmJiMGY2MzgwMDAwNjE=
+0MTE4OTgyIjtzOjQ6ImxlYWQiO3M6NjoiNzUwNzM3IjtzOjc6ImNoYW5uZWwiO2E6MTp7czo1Oi=
+JlbWFpbCI7aTo5NTt9fQ%3D%3D&">=D8=A7=DB=8C=D9=86=D8=AC=D8=A7</a> =DA=A9=
+=D9=84=DB=8C=DA=A9 =DA=A9=D9=86=DB=8C=D8=AF.</p>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align=3D"center" style=3D"font-size:0px;padding:1=
+0px 25px;padding-top:0;padding-right:0;padding-bottom:0;padding-left:0;word=
+-break:break-word;">
+                        <table border=3D"0" cellpadding=3D"0" cellspacing=
+=3D"0" role=3D"presentation" style=3D"border-collapse:collapse;border-spaci=
+ng:0px;">
+                          <tbody>
+                            <tr>
+                              <td style=3D"width:600px;">
+                                <img height=3D"auto" src=3D"http://mautic.d=
+aneshkar.net/media/images/internship-talent-email-top.jpg" style=3D"border:=
+0;display:block;outline:none;text-decoration:none;height:auto;width:100%;fo=
+nt-size:13px;" width=3D"600">
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align=3D"center" style=3D"font-size:0px;padding:1=
+0px 25px;padding-top:0;padding-right:0;padding-bottom:0;padding-left:0;word=
+-break:break-word;">
+                        <table border=3D"0" cellpadding=3D"0" cellspacing=
+=3D"0" role=3D"presentation" style=3D"border-collapse:collapse;border-spaci=
+ng:0px;">
+                          <tbody>
+                            <tr>
+                              <td style=3D"width:600px;">
+                                <a href=3D"http://mautic.daneshkar.net/r/a7=
+63fbe0f564b5802cd7a190d?ct=3DYTo1OntzOjY6InNvdXJjZSI7YToyOntpOjA7czo1OiJlbW=
+FpbCI7aToxO2k6OTU7fXM6NToiZW1haWwiO2k6OTU7czo0OiJzdGF0IjtzOjIyOiI2NmJiMGY2M=
+zgwMDAwNjE0MTE4OTgyIjtzOjQ6ImxlYWQiO3M6NjoiNzUwNzM3IjtzOjc6ImNoYW5uZWwiO2E6=
+MTp7czo1OiJlbWFpbCI7aTo5NTt9fQ%3D%3D&" target=3D"_blank">
+                                  <img alt=3D"=D8=AB=D8=A8=D8=AA =D8=A2=
+=DA=AF=D9=87=DB=8C =D8=B4=D8=BA=D9=84=DB=8C =D8=AF=D8=B1 =D8=A8=D9=87=D8=
+=AA=D8=B1=DB=8C=D9=86 =D9=BE=D9=84=D8=AA=D9=81=D8=B1=D9=85 =DA=A9=D8=A7=
+=D8=B1=D8=A2=D9=85=D9=88=D8=B2=DB=8C =D9=88 =D8=AF=D8=A7=D9=86=D8=B4=D8=
+=AC=D9=88=DB=8C=DB=8C =D8=A8=D9=87 =D8=B5=D9=88=D8=B1=D8=AA =D8=B1=D8=A7=
+=DB=8C=DA=AF=D8=A7=D9=86! =D8=A7=DB=8C=D9=86=D8=AC=D8=A7 =DA=A9=D9=84=DB=
+=8C=DA=A9 =DA=A9=D9=86=DB=8C=D8=AF." height=3D"auto" src=3D"http://mautic.d=
+aneshkar.net/media/images/internship-talent-email-bottom.jpg" style=3D"bord=
+er:0;display:block;outline:none;text-decoration:none;height:auto;width:100%=
+;font-size:13px;" width=3D"600">
+                                </a>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!--[if mso | IE]></td></tr></table><![endif]-->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!--[if mso | IE]></td></tr></table><table align=3D"center" border=3D"0=
+" cellpadding=3D"0" cellspacing=3D"0" class=3D"graylink-outlook" role=3D"pr=
+esentation" style=3D"width:600px;" width=3D"600" ><tr><td style=3D"line-hei=
+ght:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+    <div class=3D"graylink" style=3D"margin:0px auto;max-width:600px;">
+      <table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D=
+"0" role=3D"presentation" style=3D"width:100%;">
+        <tbody>
+          <tr>
+            <td style=3D"direction:ltr;font-size:0px;padding:20px 0;padding=
+-bottom:60px;padding-top:20px;text-align:center;">
+              <!--[if mso | IE]><table role=3D"presentation" border=3D"0" c=
+ellpadding=3D"0" cellspacing=3D"0"><tr><td class=3D"" style=3D"vertical-ali=
+gn:middle;width:600px;" ><![endif]-->
+              <div class=3D"mj-column-per-100 mj-outlook-group-fix" style=
+=3D"font-size:0px;text-align:left;direction:ltr;display:inline-block;vertic=
+al-align:middle;width:100%;">
+                <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" rol=
+e=3D"presentation" style=3D"vertical-align:middle;" width=3D"100%">
+                  <tbody>
+                    <tr>
+                      <td align=3D"center" style=3D"font-size:0px;padding:1=
+0px 25px;padding-top:0px;padding-bottom:0px;word-break:break-word;">
+                        <div style=3D"font-family:Ubuntu, Helvetica, Arial,=
+ sans-serif;font-size:13px;line-height:1.5;text-align:center;color:#6d6d6d;=
+">
+                          <p style=3D"margin: 0; padding: 0; font-size: 11p=
+x;"><a href=3D"http://mautic.daneshkar.net/email/unsubscribe/66bb0f63800006=
+14118982">Unsubscribe</a> </p>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!--[if mso | IE]></td></tr></table><![endif]-->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!--[if mso | IE]></td></tr></table><![endif]-->
+  </div>
+<img height=3D"1" width=3D"1" src=3D"http://mautic.daneshkar.net/email/66bb=
+0f6380000614118982.gif" alt=3D"" /></body>
+
+</html>
+
+--_=_swift_1723535186_2f7a1538afd5c81f6877a89ab8cd715d_=_--
+
