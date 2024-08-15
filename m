@@ -1,92 +1,69 @@
-Return-Path: <kvalo@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3E39C52D7C
-	for <linux-firmware@archiver.kernel.org>; Tue, 13 Aug 2024 16:44:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3845C3DA7F
+	for <linux-firmware@archiver.kernel.org>; Thu, 15 Aug 2024 13:35:52 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B56E8C4AF09; Tue, 13 Aug 2024 16:44:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FF08C4AF0B;
-	Tue, 13 Aug 2024 16:44:07 +0000 (UTC)
+	id 759BAC4AF0D; Thu, 15 Aug 2024 13:35:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FFADC4AF0C
+	for <linux-firmware@kernel.org>; Thu, 15 Aug 2024 13:35:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723567448;
-	bh=xYyT1jdZW9+VRI9b3mmRuSwMQCc/AU1cbEeq1xxXdqI=;
-	h=From:List-Id:To:Cc:Subject:Date:From;
-	b=qgWj1/f45FsiBjyvxVIsvfiyZWbOjDa2zUWIhvZ8wCjDognaZpO446u7f0K2jaE9l
-	 Fc9Q2Kt4IZK424bqFSkFOKwOrN7s8DLNUZfanTCnqgzYP/XKdl5aFSljtqWuEEssiK
-	 V01sE5wu4vA/8BuHln3NO22OcPbDgjj1Wiun485ZEsBsuDU/YGkXi1DOTcjKvCX2t2
-	 Dp/YTovZxaUpcoOiYKV9xqcfASuhBfRDftzakYDNqJJ+QkVf+2EX+av4AEFQ+/IXE7
-	 6u0AjyjyQB4OQllQA9L0z5yHXfjnLnLcncNEHWrPFEIcIwdJRrv9CkE2IF5TQ0Fgqb
-	 HdnueSfdk/v/w==
-From: Kalle Valo <kvalo@kernel.org>
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: linux-wireless@vger.kernel.org, ath10k@lists.infradead.org,
- ath11k@lists.infradead.org, ath12k@lists.infradead.org,
-    Jeff Johnson <quic_jjohnson@quicinc.com>
-Subject: [PULL linux-firmware] ath11k and ath12k firmware 20240813
-Date: Tue, 13 Aug 2024 19:44:05 +0300
-Message-ID: <87cymc1iga.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	s=k20201202; t=1723728952;
+	bh=3819GQrsgL7wwpWATbBMaAGHYadzNeajD4BlBqyAwZ4=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=PWExAgcH6PuNuo6JiDljXMc1UyIbDovdRTXFCXjTcebkhwFX9mOQnoF86A+eBFSFp
+	 uw2+wMHDqbAuVn45zHjts2VXWhKyPHUCIxJq2p6G/b6yHCR5oJUe0Tqe1xykRQPnp3
+	 Tyos/Tox20n1iG2KHQ7YQtAQ7odd91TA+c2AzoMY+avlS4y3HGIUi2Uf3Ea02t7p1T
+	 w5irkE6g5LMgi6Ze8aYW6hAdAo6bqx/YIyX/JTI4fz5zWUh9ojtIeIjbGeX8BpPrpE
+	 RPakvzZD9YZMTqYrn1bHmKxIELd0KbAyxMVSH0X5logI+k2yTPQ1T5331jzTldP0gI
+	 M7/pffO/b8xYw==
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-690ad83d4d7so9176387b3.3
+        for <linux-firmware@kernel.org>; Thu, 15 Aug 2024 06:35:52 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxoO0hvq81zufPrkRc7M1oLksKj8wZMoTHPTtXZy7x2JraC0cma
+	p1xoBTR+ZfHv19I/qayxbCy29jHv5fX05rPYYhGkbfLVcNdrcZzeOC8JJnRhonJbPmoUYrjDbSy
+	9jkV9S6CkSMfvuklZcBkZgiUk/cM=
+X-Google-Smtp-Source: AGHT+IGhqnMV9wrfKndcVmORIGHcRbwbRRlLppLycGDwkxFRHFX6uUAY0uRw6//gBND7IU9n9xNnL54J6d//RWeQAGE=
+X-Received: by 2002:a05:690c:4d83:b0:64a:efa6:b3d5 with SMTP id
+ 00721157ae682-6ac9a47849bmr82380347b3.37.1723728951646; Thu, 15 Aug 2024
+ 06:35:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20240812055246.9294-1-chiahsuan.chung@amd.com>
+In-Reply-To: <20240812055246.9294-1-chiahsuan.chung@amd.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Thu, 15 Aug 2024 09:35:39 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA4Hy=zLVM-2RWoPeV=y0+2hbrtO0Fx-NTHk2MX_9o6BLw@mail.gmail.com>
+Message-ID: <CA+5PVA4Hy=zLVM-2RWoPeV=y0+2hbrtO0Fx-NTHk2MX_9o6BLw@mail.gmail.com>
+Subject: Re: pull request: amdgpu: update DMCUB firmware to v0.0.229.0
+To: Tom Chung <chiahsuan.chung@amd.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: linux-firmware@kernel.org, Alex Deucher <alexander.deucher@amd.com>, 
+	Mario Limonciello <mario.limonciello@amd.com>, Deepak Sharma <deepak.sharma@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Mon, Aug 12, 2024 at 1:53=E2=80=AFAM Tom Chung <chiahsuan.chung@amd.com>=
+ wrote:
+>
+>   amdgpu: DMCUB updates for various AMDGPU ASICs (2024-08-12 13:43:13 +08=
+00)
+>
+> are available in the Git repository at:
+>
+>   git@gitlab.freedesktop.org:drm/firmware.git tags/amd-2024-08-12
 
-Here's a pull request for ath11k and ath12k. We have new ath11k hardware
-QCA2066 hw2.1 and usual smaller updates.
+Merged and pushed out.
 
-Please let me know if there are any problems.
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/273
 
-Kalle
+josh
 
-The following changes since commit 594600762910b4bbe8a88d0dc6495521366c880c:
-
-  Merge branch 'vpu' into 'main' (2024-08-09 13:02:09 +0000)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/ath/linux-firmware.git ath-20240813
-
-for you to fetch changes up to 82318c966fd1af87044299d34611751c76f70927:
-
-  ath12k: WCN7850 hw2.0: update board-2.bin (2024-08-13 19:36:13 +0300)
-
-----------------------------------------------------------------
-Kalle Valo (6):
-      ath11k: IPQ5018 hw1.0: update to WLAN.HK.2.6.0.1-01291-QCAHKSWPL_SILICONZ-1
-      ath11k: QCA2066 hw2.1: add board-2.bin
-      ath11k: QCA2066 hw2.1: add to WLAN.HSP.1.1-03926.13-QCAHSPSWPL_V2_SILICONZ_CE-2.52297.3
-      ath11k: WCN6855 hw2.0: update board-2.bin
-      ath11k: WCN6855 hw2.0: update to WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.41
-      ath12k: WCN7850 hw2.0: update board-2.bin
-
- WHENCE                           |    9 +-
- ath11k/IPQ5018/hw1.0/m3_fw.b01   |  Bin 136 -> 136 bytes
- ath11k/IPQ5018/hw1.0/m3_fw.b02   |  Bin 262144 -> 262144 bytes
- ath11k/IPQ5018/hw1.0/m3_fw.mdt   |  Bin 284 -> 284 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.b00   |  Bin 532 -> 532 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.b01   |  Bin 520 -> 520 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.b02   |  Bin 7552 -> 7552 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.b04   |  Bin 86788 -> 86788 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.b08   |  Bin 4096 -> 4096 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.b09   |  Bin 2330624 -> 2334720 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.b10   |  Bin 269028 -> 269220 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.b11   |  Bin 99436 -> 99456 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.b13   |  Bin 7024 -> 7072 bytes
- ath11k/IPQ5018/hw1.0/q6_fw.mdt   |  Bin 1052 -> 1052 bytes
- ath11k/QCA2066/hw2.1/Notice.txt  | 3658 ++++++++++++++++++++++++++++++++++++++
- ath11k/QCA2066/hw2.1/amss.bin    |  Bin 0 -> 5349376 bytes
- ath11k/QCA2066/hw2.1/board-2.bin |  Bin 0 -> 685144 bytes
- ath11k/QCA2066/hw2.1/m3.bin      |  Bin 0 -> 266684 bytes
- ath11k/WCN6855/hw2.0/amss.bin    |  Bin 4988928 -> 4988928 bytes
- ath11k/WCN6855/hw2.0/board-2.bin |  Bin 6308684 -> 6429240 bytes
- ath11k/WCN6855/hw2.0/m3.bin      |  Bin 266684 -> 266684 bytes
- ath12k/WCN7850/hw2.0/board-2.bin |  Bin 382856 -> 1897968 bytes
- 22 files changed, 3665 insertions(+), 2 deletions(-)
- create mode 100644 ath11k/QCA2066/hw2.1/Notice.txt
- create mode 100644 ath11k/QCA2066/hw2.1/amss.bin
- create mode 100644 ath11k/QCA2066/hw2.1/board-2.bin
- create mode 100644 ath11k/QCA2066/hw2.1/m3.bin
+>
+> for you to fetch changes up to 0600ef249c32e761d2f31d50fddc4f17e6676849:
+>
+>   amdgpu: DMCUB updates for various AMDGPU ASICs (2024-08-12 13:43:13 +08=
+00)
+>
+> ----------------------------------------------------------------
