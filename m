@@ -1,120 +1,75 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=LYiI=PO=intel.com=gustavo.sousa@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9AF77C3DA7F
-	for <linux-firmware@archiver.kernel.org>; Thu, 15 Aug 2024 13:55:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B292C52D7F
+	for <linux-firmware@archiver.kernel.org>; Thu, 15 Aug 2024 21:22:31 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 84885C4AF0F; Thu, 15 Aug 2024 13:55:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DA04C4AF10;
-	Thu, 15 Aug 2024 13:55:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723730156;
-	bh=MsSF0ZMUFFKBilcSHXDg3Wgfc1Du5Oe51UnolXkzzvQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=P0cEgGkTVxCOyhlzQ3El8NHry3MfF+l32ATuun3K5VT+yqZ+3BDZj1AtK3PQnHV7D
-	 4mE4GyGi7QUIGdVBG2CdxIteJQMiRUI9oGT+11M/cif9/FBFnOHinWGuhg04aAUhqZ
-	 VzyFJZmCVD+xcyCMe6GyUwX4QwJSWGO9D+Uzn69Mta+YZH4nqX/PU9OuSloH79Lrps
-	 dDlgYCSpAl5RWpS9EaKzI2q9+Bs1gviQBfh3snO2/E1lEKv3wSDVtvKcFgWvUqdScD
-	 xD1MAmyzQ/63N7LGd1CMa3YB4iGqXZEXFghbpTfgat5rzIKLjY9v/4bGXXspyDJQw/
-	 vniTpSjkR9wsg==
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-691c85525ebso9517847b3.0;
-        Thu, 15 Aug 2024 06:55:56 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yy84IOW1ZDWdLZaEhCeiJGEJaVOIcnWeycOEWINU7CkVqqTraRa
-	ZCtdC//qb2SbiQpL79v1L9uftn9hPb2KNQHQsQpJMEsmQ3FoogfSVnhY9vyGpgCOEMvztU49HV0
-	uMzJGq5AimBwzu04UPnX8NqD/Y/c=
-X-Google-Smtp-Source: AGHT+IE9g8Et9/7N9qT7VqtHIV42bP2F1ImRodlvjO4IZyU8D4JRPGtVEFXM1hFoSuCz+Mw4pNGd3uYxCaaPPr6u6k0=
-X-Received: by 2002:a05:690c:fcb:b0:62f:37c9:77bc with SMTP id
- 00721157ae682-6ac8fe09107mr83314787b3.0.1723730155534; Thu, 15 Aug 2024
- 06:55:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <87cymc1iga.fsf@kernel.org>
-In-Reply-To: <87cymc1iga.fsf@kernel.org>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Thu, 15 Aug 2024 09:55:44 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA5M1vcSH2z41zQwBuv8pj89GG-wGkHApMOe=UiDmhHAkw@mail.gmail.com>
-Message-ID: <CA+5PVA5M1vcSH2z41zQwBuv8pj89GG-wGkHApMOe=UiDmhHAkw@mail.gmail.com>
-Subject: Re: [PULL linux-firmware] ath11k and ath12k firmware 20240813
-To: Kalle Valo <kvalo@kernel.org>
+	id 1D569C4AF0C; Thu, 15 Aug 2024 21:22:31 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 483E6C32786
+	for <linux-firmware@kernel.org>; Thu, 15 Aug 2024 21:22:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 483E6C32786
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723756949; x=1755292949;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=tcD5FumD9HjF98d6IQV/A2SMU6uG+UDDBty5jatbBjY=;
+  b=OhmDGKPT42EHQ8GJmf+lF3weXb5v2BE6mvaUIaY6gHp7b2V2ctkJVaEU
+   8b8kqDucsBKg5Xr5v3isAEbMkuSGO13LbPkTGo0iHGyt6Ic5RYq67n7bc
+   ujTa3R3gO5Y756BcqT69V3AtUKksD2RVOVKY21wykACBrSteqUFqvg57k
+   1iQ1iQ9FeXN0xdS66seSxWSkcPPS15UdrKeOfPo9GzVSINIYFBkoASfci
+   Mh/HdO9eVwrPFqbLgx0cSvPYO22Ws+QeXUDx6UqSLJDTj1pLVJK17WX9I
+   9CDvyGjWLCsLlsp9TfORK0LKonlRczeC0ST7w2mov7YaXYU3r2yJJV4of
+   g==;
+X-CSE-ConnectionGUID: FIrlFtlhSFavUIgoN8xI5w==
+X-CSE-MsgGUID: qexpF74gTHCZiizvePog5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11165"; a="47445182"
+X-IronPort-AV: E=Sophos;i="6.10,150,1719903600"; 
+   d="scan'208";a="47445182"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2024 14:22:28 -0700
+X-CSE-ConnectionGUID: VmeCHToSR3CdXmckbL1cog==
+X-CSE-MsgGUID: WGifvSZkS5egcZqSjMwq8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,150,1719903600"; 
+   d="scan'208";a="59149827"
+Received: from rchatre-mobl4.amr.corp.intel.com (HELO gjsousa-mobl2.intel.com) ([10.125.110.233])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2024 14:22:27 -0700
+From: Gustavo Sousa <gustavo.sousa@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, linux-wireless@vger.kernel.org, 
-	ath10k@lists.infradead.org, ath11k@lists.infradead.org, 
-	ath12k@lists.infradead.org, Jeff Johnson <quic_jjohnson@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: linux-firmware@kernel.org
+Cc: Dnyaneshwar Bhadane <dnyaneshwar.bhadane@intel.com>
+Subject: PR to revert MTL DMC to v2.21
+Date: Thu, 15 Aug 2024 18:21:59 -0300
+Message-ID: <20240815212216.66557-1-gustavo.sousa@intel.com>
+X-Mailer: git-send-email 2.46.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 13, 2024 at 12:44=E2=80=AFPM Kalle Valo <kvalo@kernel.org> wrot=
-e:
->
-> Hi,
->
-> Here's a pull request for ath11k and ath12k. We have new ath11k hardware
-> QCA2066 hw2.1 and usual smaller updates.
->
-> Please let me know if there are any problems.
->
-> Kalle
->
-> The following changes since commit 594600762910b4bbe8a88d0dc6495521366c88=
-0c:
->
->   Merge branch 'vpu' into 'main' (2024-08-09 13:02:09 +0000)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/ath/linux-firmware.git at=
-h-20240813
+The following changes since commit b1de0237a78a84baf7e1e2a1e9585405b88d82f8:
 
-Merged and pushed out.
+  Merge branch 'ath-20240813' into 'main' (2024-08-15 13:43:05 +0000)
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/275
+are available in the Git repository at:
 
-josh
+  https://gitlab.freedesktop.org/drm/firmware.git intel/mtl-dmc-revert-to-v2.21
 
->
-> for you to fetch changes up to 82318c966fd1af87044299d34611751c76f70927:
->
->   ath12k: WCN7850 hw2.0: update board-2.bin (2024-08-13 19:36:13 +0300)
->
-> ----------------------------------------------------------------
-> Kalle Valo (6):
->       ath11k: IPQ5018 hw1.0: update to WLAN.HK.2.6.0.1-01291-QCAHKSWPL_SI=
-LICONZ-1
->       ath11k: QCA2066 hw2.1: add board-2.bin
->       ath11k: QCA2066 hw2.1: add to WLAN.HSP.1.1-03926.13-QCAHSPSWPL_V2_S=
-ILICONZ_CE-2.52297.3
->       ath11k: WCN6855 hw2.0: update board-2.bin
->       ath11k: WCN6855 hw2.0: update to WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V=
-2_SILICONZ_LITE-3.6510.41
->       ath12k: WCN7850 hw2.0: update board-2.bin
->
->  WHENCE                           |    9 +-
->  ath11k/IPQ5018/hw1.0/m3_fw.b01   |  Bin 136 -> 136 bytes
->  ath11k/IPQ5018/hw1.0/m3_fw.b02   |  Bin 262144 -> 262144 bytes
->  ath11k/IPQ5018/hw1.0/m3_fw.mdt   |  Bin 284 -> 284 bytes
->  ath11k/IPQ5018/hw1.0/q6_fw.b00   |  Bin 532 -> 532 bytes
->  ath11k/IPQ5018/hw1.0/q6_fw.b01   |  Bin 520 -> 520 bytes
->  ath11k/IPQ5018/hw1.0/q6_fw.b02   |  Bin 7552 -> 7552 bytes
->  ath11k/IPQ5018/hw1.0/q6_fw.b04   |  Bin 86788 -> 86788 bytes
->  ath11k/IPQ5018/hw1.0/q6_fw.b08   |  Bin 4096 -> 4096 bytes
->  ath11k/IPQ5018/hw1.0/q6_fw.b09   |  Bin 2330624 -> 2334720 bytes
->  ath11k/IPQ5018/hw1.0/q6_fw.b10   |  Bin 269028 -> 269220 bytes
->  ath11k/IPQ5018/hw1.0/q6_fw.b11   |  Bin 99436 -> 99456 bytes
->  ath11k/IPQ5018/hw1.0/q6_fw.b13   |  Bin 7024 -> 7072 bytes
->  ath11k/IPQ5018/hw1.0/q6_fw.mdt   |  Bin 1052 -> 1052 bytes
->  ath11k/QCA2066/hw2.1/Notice.txt  | 3658 ++++++++++++++++++++++++++++++++=
-++++++
->  ath11k/QCA2066/hw2.1/amss.bin    |  Bin 0 -> 5349376 bytes
->  ath11k/QCA2066/hw2.1/board-2.bin |  Bin 0 -> 685144 bytes
->  ath11k/QCA2066/hw2.1/m3.bin      |  Bin 0 -> 266684 bytes
->  ath11k/WCN6855/hw2.0/amss.bin    |  Bin 4988928 -> 4988928 bytes
->  ath11k/WCN6855/hw2.0/board-2.bin |  Bin 6308684 -> 6429240 bytes
->  ath11k/WCN6855/hw2.0/m3.bin      |  Bin 266684 -> 266684 bytes
->  ath12k/WCN7850/hw2.0/board-2.bin |  Bin 382856 -> 1897968 bytes
->  22 files changed, 3665 insertions(+), 2 deletions(-)
->  create mode 100644 ath11k/QCA2066/hw2.1/Notice.txt
->  create mode 100644 ath11k/QCA2066/hw2.1/amss.bin
->  create mode 100644 ath11k/QCA2066/hw2.1/board-2.bin
->  create mode 100644 ath11k/QCA2066/hw2.1/m3.bin
+for you to fetch changes up to ad8d5f76c429e5485764a9ecb7a2ce3fbc1386ae:
+
+  Revert "i915: Update MTL DMC v2.22" (2024-08-15 18:10:27 -0300)
+
+----------------------------------------------------------------
+Gustavo Sousa (1):
+      Revert "i915: Update MTL DMC v2.22"
+
+ WHENCE           |   2 +-
+ i915/mtl_dmc.bin | Bin 52700 -> 52476 bytes
+ 2 files changed, 1 insertion(+), 1 deletion(-)
