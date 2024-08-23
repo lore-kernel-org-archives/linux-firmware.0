@@ -1,104 +1,84 @@
-Return-Path: <SRS0=1xpr=PW=realtek.com=pkshih@kernel.org>
+Return-Path: <kabel@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C83C5C531DF
-	for <linux-firmware@archiver.kernel.org>; Fri, 23 Aug 2024 00:59:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 636A8C52D7C
+	for <linux-firmware@archiver.kernel.org>; Fri, 23 Aug 2024 08:14:25 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 9DF7AC4AF09; Fri, 23 Aug 2024 00:59:05 +0000 (UTC)
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id ED532C32782
-	for <linux-firmware@kernel.org>; Fri, 23 Aug 2024 00:59:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org ED532C32782
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 47N0wu5uB341684, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
-	t=1724374736; bh=LC0YsIRmLH6WGleLIVmrQd2uGiF7wCuGhNLmoVilsMY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=YM4UQWwXUgQgDTW6hXRz4Lqq0e3ESMiptaujP3vYFwDGLZTZtjTt5hQjFtmY5ouLY
-	 djeV6HNQKdQaeugco0n3akueDUbIZEr7Rohrrik6HLWC7bTSgrDxDCmx4tYrHSXfJ+
-	 NS8I9mk3A2XHjHsTy26gT+j6qDc3LbSSimc9TTdOES8CvaInZ7KqvZXcsfwuFOerXR
-	 CIBR4RgQpZ4EOQXFbBb5Nz1c+39w5y1HuY/KrlbmDllvRPIO4m74GnrTwuDb2TSqws
-	 XYgfD3WFAJETlvW4n79yU/mphpE/L/iiG8vZSuG7k7cQkTVqVzl2lSAyi7EMNEQiLq
-	 ZIxnzZm9e0SGQ==
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-	by rtits2.realtek.com.tw (8.15.2/3.02/5.92) with ESMTPS id 47N0wu5uB341684
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 23 Aug 2024 08:58:56 +0800
-Received: from RTEXMBS03.realtek.com.tw (172.21.6.96) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Fri, 23 Aug 2024 08:58:57 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS03.realtek.com.tw (172.21.6.96) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 23 Aug 2024 08:58:56 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::2882:4142:db9:db1f]) by
- RTEXMBS04.realtek.com.tw ([fe80::2882:4142:db9:db1f%11]) with mapi id
- 15.01.2507.035; Fri, 23 Aug 2024 08:58:56 +0800
-From: Ping-Ke Shih <pkshih@realtek.com>
+	id 1739BC4AF18; Fri, 23 Aug 2024 08:14:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3DF2C4AF0C;
+	Fri, 23 Aug 2024 08:14:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724400865;
+	bh=aNGQbm5SByG9KVF1Htse4RIwLHRlnPVM48nAcALiI9I=;
+	h=Date:From:List-Id:To:Cc:Subject:From;
+	b=XO/tTk7QNDXq2LpyPbE1cCqQQh+ZCy2xcPfQrNG0vtgSSrNDE57CAhWDk+ReUb73l
+	 3oR08exN45jCQH5A7i1T/v1FnnTND0asls1NubsukQB3H7OwZTOINVYvmjKCE+NmHe
+	 CIRP1fCLD3DkPFh+JCGQjelW52gPgnAkoj+Sie5w8OEjJGD1yfmVR4b4yMZ4w1dVxf
+	 2G0e8TihsGfiM8LboELl6ZND4PJPhADRCYTwoDC4bTSEKCp5t85tHFyhKKzGDbqHcn
+	 clzFxJZq/ysjQhPhV7O/ESbHA3clXZnU8IktEam3qJcAHsRPlzLVs8IIHcp5Ab3Dlv
+	 9JEpOZd1VxoEQ==
+Date: Fri, 23 Aug 2024 10:14:18 +0200
+From: Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
-To: Nick Morrow <usbwifi2024@gmail.com>,
-        "linux-firmware@kernel.org"
-	<linux-firmware@kernel.org>
-CC: Bitterblue Smith <rtl8821cerfe2@gmail.com>,
-        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
-Subject: RE: [PATCH V2] linux-firmware: Add firmware for RTL8812AU device
-Thread-Topic: [PATCH V2] linux-firmware: Add firmware for RTL8812AU device
-Thread-Index: AQHa9MSID1+G4fkYOk+1V5IwmOeYj7I0BAFA
-Date: Fri, 23 Aug 2024 00:58:56 +0000
-Message-ID: <774a7dd01718448da4048e966f5430f1@realtek.com>
-References: <f815d748-6578-441e-b61e-0a220d45e168@gmail.com>
-In-Reply-To: <f815d748-6578-441e-b61e-0a220d45e168@gmail.com>
-Accept-Language: en-US, zh-TW
-Content-Language: zh-TW
-x-originating-ip: [172.21.6.42]
-x-kse-serverinfo: RTEXMBS03.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+To: linux-firmware@kernel.org
+Cc: Vinod Koul <vkoul@kernel.org>, linux-usb@vger.kernel.org
+Subject: question about Renesas USB3 host controller firmware license
+Message-ID: <mbtpgfzqs5fud7pfrqi6wrzxg5eo47iet5sntdclwdzwo7zzhi@wtn4b55gpcp2>
 MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-K2xpbnV4LXdpcmVsZXNzDQoNCkhpIE5pY2ssDQoNClBsZWFzZSBhbHdheXMgQ2MgbGludXgtd2ly
-ZWxlc3MgZm9yIHJ0dzg4IGZpcm13YXJlLiANCg0KQW5kIHN1YmplY3QgcHJlZml4IHdvdWxkIGJl
-ICJydHc4ODogLi4uIg0KDQpOaWNrIE1vcnJvdyA8dXNid2lmaTIwMjRAZ21haWwuY29tPiB3cm90
-ZToNCj4gVGhpcyBmaXJtd2FyZSB3YXMgZXh0cmFjdGVkIGZyb20gdGhlICAyMDIxMDcwOCAtIHY1
-LjEzLjYtMjMgcmVsZWFzZSBvZg0KPiB0aGUgdmVuZG9yIGRyaXZlciBmb3IgdGhpcyBkZXZpY2Ug
-YW5kIGlzIGJlbGlldmVkIHRvIGJlIHRoZSBsYXRlc3QNCj4gcmVsZWFzZSBieSBSZWFsdGVrLiBU
-ZXN0aW5nIG9mIHRoZSBuZXcgZHJpdmVyIGhhcyBiZWVuIGFjY29tcGxpc2hlZA0KPiB1c2luZyB0
-aGlzIGZpcm13YXJlLiBOdW1lcm91cyB0ZXN0ZXJzIGhhdmUgYmVlbiBpbnZvbHZlZC4NCj4gDQo+
-IFNpZ25lZC1vZmYtYnk6IE5pY2sgTW9ycm93IDxVU0JXaUZpMjAyNEBnbWFpbC5jb20+DQo+IC0t
-LQ0KPiB2MjoNCj4gICAgLSBObyBjaGFuZ2UuIFJlc3VibWl0dGVkIG5vdyB0aGF0IHRoZSBkcml2
-ZXIgaXMgaW4gcmV2aWV3Lg0KPiAtLS0NCj4gICBXSEVOQ0UgICAgICAgICAgICAgICAgfCAgIDEg
-Kw0KPiAgIHJ0dzg4L1JFQURNRSAgICAgICAgICB8ICAgMyArKysNCj4gICBydHc4OC9ydHc4ODEy
-YV9mdy5iaW4gfCBCaW4gMCAtPiAyNzAzMCBieXRlcw0KPiAgIDMgZmlsZXMgY2hhbmdlZCwgNCBp
-bnNlcnRpb25zKCspDQo+ICAgY3JlYXRlIG1vZGUgMTAwNjQ0IHJ0dzg4L3J0dzg4MTJhX2Z3LmJp
-bg0KPiANCj4gZGlmZiAtLWdpdCBhL1dIRU5DRSBiL1dIRU5DRQ0KPiBpbmRleCA4YWViZTU2Yi4u
-ZDZiZDQ4MTQgMTAwNjQ0DQo+IC0tLSBhL1dIRU5DRQ0KPiArKysgYi9XSEVOQ0UNCj4gQEAgLTMy
-NzAsNiArMzI3MCw3IEBAIExpY2VuY2U6IFJlZGlzdHJpYnV0YWJsZS4gU2VlIExJQ0VOQ0UucnRs
-d2lmaV9maXJtd2FyZS50eHQgZm9yIGRldGFpbHMuDQo+ICAgRHJpdmVyOiBydHc4OCAtIFJlYWx0
-ZWsgODAyLjExYWMgV0xBTiBkcml2ZXIgZm9yIFJUTDg4MjJCRSBhbmQgUlRMODgyMkNFDQo+IA0K
-PiAgIEluZm86IFNlbnQgdG8gTGFycnkgRmluZ2VyIGJ5IFJlYWx0ZWsgZW5naW5lZXIgWWFuLUhz
-dWFuIENodWFuZyA8eWhjaHVhbmdAcmVhbHRlay5jb20+DQo+ICtGaWxlOiBydHc4OC9ydHc4ODEy
-YV9mdy5iaW4NCj4gICBGaWxlOiBydHc4OC9ydHc4ODIxYV9mdy5iaW4NCg0KSSBmYWlsZWQgdG8g
-YXBwbHkgdGhpcyBwYXRjaCwgZXZlbiB0aGlzIHRleHR1YWwgcGFydC4gDQoNClR3byBsZWFkaW5n
-IHNwYWNlcyBiZWZvcmUgIkZpbGU6IHJ0dzg4L3J0dzg4MjFhX2Z3LmJpbiIsIGJ1dCBhY3R1YWxs
-eSB0aGlzDQpzaG91bGQgYmUgb25seSBvbmUuIE5vdCBzdXJlIHdoYXQgaXMgd3JvbmcuDQoNCg0K
-PiAgIEZpbGU6IHJ0dzg4L3J0dzg4MjJiX2Z3LmJpbg0KPiAgIEZpbGU6IHJ0dzg4L3J0dzg4MjJj
-X2Z3LmJpbg0KPiBkaWZmIC0tZ2l0IGEvcnR3ODgvUkVBRE1FIGIvcnR3ODgvUkVBRE1FDQo+IGlu
-ZGV4IDQ2OWRiMmY3Li5lZjNhNzUwNSAxMDA2NDQNCj4gLS0tIGEvcnR3ODgvUkVBRE1FDQo+ICsr
-KyBiL3J0dzg4L1JFQURNRQ0KPiBAQCAtMTksNiArMTksOSBAQCBleGNlcHQgdGhhdCB0aGUgZGV2
-aWNlIGNhbm5vdCBiZSB3YWtlbiBmcm9tIHRoZSB3aXJlbGVzcyBOSUNzLg0KPiANCj4gICBDdXJy
-ZW50bHkgc3VwcG9ydGVkIGRldmljZXMgd2l0aCBjb3JyZXNwb25kaW5nIGZpcm13YXJlczoNCj4g
-DQo+ICtSVEw4ODEyQVUNCj4gKyAgICBydHc4ODEyYV9mdy5iaW4NCj4gKw0KPiAgIFJUTDg4MjFB
-VQ0KPiAgICAgICBydHc4ODIxYV9mdy5iaW4NCg0KU2ltaWxhciBwcm9ibGVtIGhlcmUuIA0KDQoN
-Cg==
+Hello,
+
+I have a question related to whether it is possible to add a specific
+firmware binary to linux-firmware, due to licensing.
+
+the Renesas upd720202 USB 3 host controller requires a firmware binary
+that can be downloaded from Renesas website [1].
+
+This latest version of the firmware (2.0.2.6) is from 2013 and is
+available on several places online, including Github.
+
+But the license for this firmware [2], displayed when downloading from
+Renesas' website, is different from the other Renesas firmware licesne
+that already is in the linux-firmware repository [3].
+
+The license [2] says in paragraph 2.1. that:
+  grants to you a personal, non-exclusive, non-transferable, recovable
+  license ... to distribute binary versions ... only as incorporated
+  into Customer Products or Renesas Products
+
+According to the above it should not be possible to add into
+linux-firmware, but then we have paragraphs 6.1 and 6.2:
+
+  6.1. ... the Licensed Software shall not be disclosed by you to any
+       third party ...
+
+  6.2. Your confidentiality obligations under Section 6.1, above, do not
+       extend to information which you can demonstrate: (i) is or
+       becomes generally available in the public domain without fault of
+       you, ...; (ii) is rightfully obtained by you from a third party
+       without restriction as to use and disclosure and without breach
+       of any confidentiality ...
+
+If I understand correctly, according to 6.2. (ii). people who for
+example bought a product containing the firmware, but weren't asked to
+agree to this license, may have already started redistributing it. The
+firmware is generally available on the internet for some time now (for
+example on Github).
+
+Can someone who understands legal mojo determine whether it is possible
+to add this firmware to linux-firmware?
+
+The drivers/usb/host/xhci-pci-renesas.c code is already written to use
+this firmware under the name renesas_usb_fw.mem. The code is there for 4
+years already.
+
+Marek
+
+[1] https://www.renesas.com/us/en/products/interface/usb-switches-hubs/upd720202-usb-30-host-controller
+[2] https://www.renesas.com/us/en/document/oth/disclaimer8?r=1021051
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/LICENCE.r8a779x_usb3
