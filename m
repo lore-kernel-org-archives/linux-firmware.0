@@ -1,84 +1,47 @@
-Return-Path: <kabel@kernel.org>
+Return-Path: <gregkh@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 636A8C52D7C
-	for <linux-firmware@archiver.kernel.org>; Fri, 23 Aug 2024 08:14:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3DC82C531DC
+	for <linux-firmware@archiver.kernel.org>; Fri, 23 Aug 2024 09:25:02 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 1739BC4AF18; Fri, 23 Aug 2024 08:14:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3DF2C4AF0C;
-	Fri, 23 Aug 2024 08:14:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724400865;
-	bh=aNGQbm5SByG9KVF1Htse4RIwLHRlnPVM48nAcALiI9I=;
-	h=Date:From:List-Id:To:Cc:Subject:From;
-	b=XO/tTk7QNDXq2LpyPbE1cCqQQh+ZCy2xcPfQrNG0vtgSSrNDE57CAhWDk+ReUb73l
-	 3oR08exN45jCQH5A7i1T/v1FnnTND0asls1NubsukQB3H7OwZTOINVYvmjKCE+NmHe
-	 CIRP1fCLD3DkPFh+JCGQjelW52gPgnAkoj+Sie5w8OEjJGD1yfmVR4b4yMZ4w1dVxf
-	 2G0e8TihsGfiM8LboELl6ZND4PJPhADRCYTwoDC4bTSEKCp5t85tHFyhKKzGDbqHcn
-	 clzFxJZq/ysjQhPhV7O/ESbHA3clXZnU8IktEam3qJcAHsRPlzLVs8IIHcp5Ab3Dlv
-	 9JEpOZd1VxoEQ==
-Date: Fri, 23 Aug 2024 10:14:18 +0200
-From: Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>
+	id 19CECC4AF0F; Fri, 23 Aug 2024 09:25:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AAAFC4AF0C;
+	Fri, 23 Aug 2024 09:25:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1724405102;
+	bh=lBox3i04v9r7q+JiUCbfN2Ws/2slpXblT7B6XEe+utc=;
+	h=Date:From:To:List-Id:Cc:Subject:References:In-Reply-To:From;
+	b=AkqnLab8GxhxnmGcH0/BsCPaGXJEb4kiCsJOD5mkTbTIhlvVZT29UZbS34H54gIvK
+	 PtcTj4nzJguJd//RumfNJC/dF5pXrlfF/b9eiF6BNMWBjYsen/L4fGbv4DsC8Quqqk
+	 RrP16dTRyYc68pcvVdUfFW1JQpzZyODwuHVV3G1k=
+Date: Fri, 23 Aug 2024 17:24:59 +0800
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: Vinod Koul <vkoul@kernel.org>, linux-usb@vger.kernel.org
-Subject: question about Renesas USB3 host controller firmware license
-Message-ID: <mbtpgfzqs5fud7pfrqi6wrzxg5eo47iet5sntdclwdzwo7zzhi@wtn4b55gpcp2>
+Cc: linux-firmware@kernel.org, Vinod Koul <vkoul@kernel.org>,
+	linux-usb@vger.kernel.org
+Subject: Re: question about Renesas USB3 host controller firmware license
+Message-ID: <2024082340-ream-crumpled-9434@gregkh>
+References: <mbtpgfzqs5fud7pfrqi6wrzxg5eo47iet5sntdclwdzwo7zzhi@wtn4b55gpcp2>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <mbtpgfzqs5fud7pfrqi6wrzxg5eo47iet5sntdclwdzwo7zzhi@wtn4b55gpcp2>
 
-Hello,
+On Fri, Aug 23, 2024 at 10:14:18AM +0200, Marek Behún wrote:
+> Can someone who understands legal mojo determine whether it is possible
+> to add this firmware to linux-firmware?
 
-I have a question related to whether it is possible to add a specific
-firmware binary to linux-firmware, due to licensing.
+Please ask legal questions to lawyers, not kernel developers.  Would you
+ask medical questions to kernel developers?  :)
 
-the Renesas upd720202 USB 3 host controller requires a firmware binary
-that can be downloaded from Renesas website [1].
+Why not just contact the company themselves and ask if this is
+acceptable or not?
 
-This latest version of the firmware (2.0.2.6) is from 2013 and is
-available on several places online, including Github.
+thanks,
 
-But the license for this firmware [2], displayed when downloading from
-Renesas' website, is different from the other Renesas firmware licesne
-that already is in the linux-firmware repository [3].
-
-The license [2] says in paragraph 2.1. that:
-  grants to you a personal, non-exclusive, non-transferable, recovable
-  license ... to distribute binary versions ... only as incorporated
-  into Customer Products or Renesas Products
-
-According to the above it should not be possible to add into
-linux-firmware, but then we have paragraphs 6.1 and 6.2:
-
-  6.1. ... the Licensed Software shall not be disclosed by you to any
-       third party ...
-
-  6.2. Your confidentiality obligations under Section 6.1, above, do not
-       extend to information which you can demonstrate: (i) is or
-       becomes generally available in the public domain without fault of
-       you, ...; (ii) is rightfully obtained by you from a third party
-       without restriction as to use and disclosure and without breach
-       of any confidentiality ...
-
-If I understand correctly, according to 6.2. (ii). people who for
-example bought a product containing the firmware, but weren't asked to
-agree to this license, may have already started redistributing it. The
-firmware is generally available on the internet for some time now (for
-example on Github).
-
-Can someone who understands legal mojo determine whether it is possible
-to add this firmware to linux-firmware?
-
-The drivers/usb/host/xhci-pci-renesas.c code is already written to use
-this firmware under the name renesas_usb_fw.mem. The code is there for 4
-years already.
-
-Marek
-
-[1] https://www.renesas.com/us/en/products/interface/usb-switches-hubs/upd720202-usb-30-host-controller
-[2] https://www.renesas.com/us/en/document/oth/disclaimer8?r=1021051
-[3] https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/LICENCE.r8a779x_usb3
+greg k-h
