@@ -1,123 +1,119 @@
-Return-Path: <SRS0=7+Sx=PX=gmail.com=usbwifi2024@kernel.org>
+Return-Path: <SRS0=7AAG=PZ=realtek.com=pkshih@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9004AC52D6F
-	for <linux-firmware@archiver.kernel.org>; Sat, 24 Aug 2024 19:18:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91BC0C5320E
+	for <linux-firmware@archiver.kernel.org>; Mon, 26 Aug 2024 00:55:06 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 53506C4AF0E; Sat, 24 Aug 2024 19:18:36 +0000 (UTC)
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	id 570DEC4AF1A; Mon, 26 Aug 2024 00:55:06 +0000 (UTC)
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 668CDC32781
-	for <linux-firmware@kernel.org>; Sat, 24 Aug 2024 19:18:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 668CDC32781
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-70943b07c2cso2826637a34.1
-        for <linux-firmware@kernel.org>; Sat, 24 Aug 2024 12:18:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724527114; x=1725131914; darn=kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=aZn3T3TMp54nUloXbXnxjQ0Ru/RTXJEf7kHaHIFc6Ng=;
-        b=gEMdcJbXxswMlofwf5xOpwC3bgZs/LDZ3Ru0NHirCCTTzE2GY0IpD98qCcX8PnRsuu
-         Tiqt1AwCwUYmPoAH38HsBLUx1dOSJtcPp1lc2DxpbTG4v4isBxOhj0NBTY9Wz2xxIyXc
-         R4von2Bqiebuf1FUnJXIUhlJpFX7JxbO/XQNH3D24gsjEeeOvu3NKWCsh0TnUTg9fy/e
-         fPqivHXKuQbqCb3ibegyAlquJWCXPOIFXLWNkGYtaFOQYKE5vsuGInkda2W68wBU6PHH
-         A8Kt152Xqn5Iq0wmBw4XlEawxo+wJQV89qLVfWWKDAzRfmcM5tznoVGnCSRvRUT9MAQb
-         WG9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724527114; x=1725131914;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aZn3T3TMp54nUloXbXnxjQ0Ru/RTXJEf7kHaHIFc6Ng=;
-        b=AE09zDk4IQV3RBKsSrrCxFrTxvzBYF2N0YHnvdiL6zYeAWxhaNTQwsH3RytDnE30oM
-         RVxundbvKhndEURelIJhOsxnmN27BYhykMgqUWpPFfW0EER4Jtm7vHWAxBlflCEJoiZi
-         cVIUingt7R0kSBWsMPQ6aq0sQIbWYccg6XJIFH6YceLq5fh3X3F0Z/9UaNKWw/vrbjR/
-         ow23HcMkRyR8m3GWKK4cBwJgQkUipmkLxhJh5rh0mL8BQ6Ikj6thVVZOVwAvMvGGmuMX
-         ydsOl4RsLroJPRPw6R5yqaAZAodo5UT/RcXBxQODDA52TE8sa2d3xs/JK16vj8eEA4xJ
-         7zjg==
-X-Forwarded-Encrypted: i=1; AJvYcCVtpH7GCVpYqSfu3TkTOcq0OqrVzF4pl3XsZTggi4ykMyBJHulsRjp06oGxGNO6ZbARI+oml67xTcjaFnouPw==@kernel.org
-X-Gm-Message-State: AOJu0Yxq6/5aM7aTXZRToNVRVgzaSHGoyz1AlUCvULdJRJJiPJNEQjG/
-	J240J+F8qKoP65D+MlJ9DhdYO0RHGE3MfFd79todFuNwe6YgXGvFvP112A==
-X-Google-Smtp-Source: AGHT+IG2rgsVwJntp+zHu54ZMj5RMzdgO7wHYHSDgd/hzAmdHT+qIc7TaNasisFgM65lve2ZH4Ha3g==
-X-Received: by 2002:a05:6808:1815:b0:3da:d8b9:6e56 with SMTP id 5614622812f47-3de2a8867e3mr7717423b6e.15.1724527114115;
-        Sat, 24 Aug 2024 12:18:34 -0700 (PDT)
-Received: from ?IPV6:2600:8804:8c40:89::28e? ([2600:8804:8c40:89::28e])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3de225c52a6sm1307462b6e.44.2024.08.24.12.18.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 24 Aug 2024 12:18:33 -0700 (PDT)
-From: Nick Morrow <usbwifi2024@gmail.com>
-X-Google-Original-From: Nick Morrow <USBWiFi2024@gmail.com>
-Message-ID: <db84ee3a-1aed-4721-ac27-8c6d116979bf@gmail.com>
-Date: Sat, 24 Aug 2024 14:18:33 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2] linux-firmware: Add firmware for RTL8812AU device
+	by smtp.kernel.org (Postfix) with ESMTPS id 5D7BFC4AF18
+	for <linux-firmware@kernel.org>; Mon, 26 Aug 2024 00:55:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 5D7BFC4AF18
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 47Q0snTO33418702, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
+	t=1724633689; bh=MBCCWiaC7HS0XPfu7kNTP5DmJMEnZC08mxLZ3tvVu5A=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	b=VHf61Won6hG/kOnXRt8E6TWNpTGJX+XcxNEdBIfStDido54v6lDiOk0swErsLFcEW
+	 CzKvRTuq547Lu2/KFo5uMUfUW038KaRtsdaamK+ype/3d6SFdN2K1x+J/VKeDyjm1W
+	 LBPtjkN+b4qCTqTNRz+uFRnOf7VreomMknW/jRQfeBVlqrFHkys/lihdmtVU+iPB4i
+	 ByAdOaeUea4JUjQJHqEfteXfGuax+H6SAWr14KcLLfLSaK9K5/YZePUDflLz1qYMwH
+	 5r4L0VW9dcZjNQUuMnV/H+bayjEzTZIbOO87ksZlPWv1v+SftAlImodYcMWElWs0er
+	 bfdoKW8cRIwxA==
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/3.02/5.92) with ESMTPS id 47Q0snTO33418702
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 26 Aug 2024 08:54:49 +0800
+Received: from RTEXDAG01.realtek.com.tw (172.21.6.100) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 26 Aug 2024 08:54:50 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXDAG01.realtek.com.tw (172.21.6.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Mon, 26 Aug 2024 08:54:49 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::2882:4142:db9:db1f]) by
+ RTEXMBS04.realtek.com.tw ([fe80::2882:4142:db9:db1f%11]) with mapi id
+ 15.01.2507.035; Mon, 26 Aug 2024 08:54:49 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: Ping-Ke Shih <pkshih@realtek.com>,
- "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-Cc: Bitterblue Smith <rtl8821cerfe2@gmail.com>,
- "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
+To: Nick Morrow <usbwifi2024@gmail.com>,
+        "linux-firmware@kernel.org"
+	<linux-firmware@kernel.org>
+CC: Bitterblue Smith <rtl8821cerfe2@gmail.com>,
+        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
+Subject: RE: [PATCH V2] linux-firmware: Add firmware for RTL8812AU device
+Thread-Topic: [PATCH V2] linux-firmware: Add firmware for RTL8812AU device
+Thread-Index: AQHa9MSID1+G4fkYOk+1V5IwmOeYj7I0BAFAgAJBK4CAAnSvMA==
+Date: Mon, 26 Aug 2024 00:54:49 +0000
+Message-ID: <87dceee9137f4bde8bbc1249583d3f0e@realtek.com>
 References: <f815d748-6578-441e-b61e-0a220d45e168@gmail.com>
  <774a7dd01718448da4048e966f5430f1@realtek.com>
-Content-Language: en-US
-In-Reply-To: <774a7dd01718448da4048e966f5430f1@realtek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <db84ee3a-1aed-4721-ac27-8c6d116979bf@gmail.com>
+In-Reply-To: <db84ee3a-1aed-4721-ac27-8c6d116979bf@gmail.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+x-originating-ip: [172.21.6.42]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 
-On 8/22/24 19:58, Ping-Ke Shih wrote:
-> +linux-wireless
-> 
-> Hi Nick,
-> 
-> Please always Cc linux-wireless for rtw88 firmware.
-> 
-> And subject prefix would be "rtw88: ..."
-
-Hi Ping-Ke, I am trying to resolve what you are asking for vs. the instructions at linux-firmware. Should the subject for V3 be:
-
-  [PATCH V3] linux-firmware: rtw88: Add firmware for RTL8812AU device
-
-> 
-> Nick Morrow <usbwifi2024@gmail.com> wrote:
->> This firmware was extracted from the  20210708 - v5.13.6-23 release of
->> the vendor driver for this device and is believed to be the latest
->> release by Realtek. Testing of the new driver has been accomplished
->> using this firmware. Numerous testers have been involved.
->>
->> Signed-off-by: Nick Morrow <USBWiFi2024@gmail.com>
->> ---
->> v2:
->>     - No change. Resubmitted now that the driver is in review.
->> ---
->>    WHENCE                |   1 +
->>    rtw88/README          |   3 +++
->>    rtw88/rtw8812a_fw.bin | Bin 0 -> 27030 bytes
->>    3 files changed, 4 insertions(+)
->>    create mode 100644 rtw88/rtw8812a_fw.bin
->>
->> diff --git a/WHENCE b/WHENCE
->> index 8aebe56b..d6bd4814 100644
->> --- a/WHENCE
->> +++ b/WHENCE
->> @@ -3270,6 +3270,7 @@ Licence: Redistributable. See LICENCE.rtlwifi_firmware.txt for details.
->>    Driver: rtw88 - Realtek 802.11ac WLAN driver for RTL8822BE and RTL8822CE
->>
->>    Info: Sent to Larry Finger by Realtek engineer Yan-Hsuan Chuang <yhchuang@realtek.com>
->> +File: rtw88/rtw8812a_fw.bin
->>    File: rtw88/rtw8821a_fw.bin
-> 
-> I failed to apply this patch, even this textual part.
-> 
-> Two leading spaces before "File: rtw88/rtw8821a_fw.bin", but actually this
-> should be only one. Not sure what is wrong.
-
-I am carefully going over this patch again... while preparing a new version of the patch. I do not recall editing the line that has two leading spaces.
-
+TmljayBNb3Jyb3cgPHVzYndpZmkyMDI0QGdtYWlsLmNvbT4gd3JvdGU6DQo+IE9uIDgvMjIvMjQg
+MTk6NTgsIFBpbmctS2UgU2hpaCB3cm90ZToNCj4gPiArbGludXgtd2lyZWxlc3MNCj4gPg0KPiA+
+IEhpIE5pY2ssDQo+ID4NCj4gPiBQbGVhc2UgYWx3YXlzIENjIGxpbnV4LXdpcmVsZXNzIGZvciBy
+dHc4OCBmaXJtd2FyZS4NCj4gPg0KPiA+IEFuZCBzdWJqZWN0IHByZWZpeCB3b3VsZCBiZSAicnR3
+ODg6IC4uLiINCj4gDQo+IEhpIFBpbmctS2UsIEkgYW0gdHJ5aW5nIHRvIHJlc29sdmUgd2hhdCB5
+b3UgYXJlIGFza2luZyBmb3IgdnMuIHRoZSBpbnN0cnVjdGlvbnMgYXQgbGludXgtZmlybXdhcmUu
+IFNob3VsZA0KPiB0aGUgc3ViamVjdCBmb3IgVjMgYmU6DQo+IA0KPiAgIFtQQVRDSCBWM10gbGlu
+dXgtZmlybXdhcmU6IHJ0dzg4OiBBZGQgZmlybXdhcmUgZm9yIFJUTDg4MTJBVSBkZXZpY2UNCg0K
+TW9zdCBjb21taXRzIGV4Y2VwdGluZyB0byBtZWRpYXRlaydzIG9uZXMgZG9uJ3QgdXNlICJsaW51
+eC1maXJtd2FyZTogIiBhcyBwcmVmaXguDQpJIGRvbid0IHdhbnQgdGhhdCBuZWl0aGVyLiBPciBJ
+IG1pc3MgdGhpcyBuZXcgcnVsZT8NCg0KPiANCj4gPg0KPiA+IE5pY2sgTW9ycm93IDx1c2J3aWZp
+MjAyNEBnbWFpbC5jb20+IHdyb3RlOg0KPiA+PiBUaGlzIGZpcm13YXJlIHdhcyBleHRyYWN0ZWQg
+ZnJvbSB0aGUgIDIwMjEwNzA4IC0gdjUuMTMuNi0yMyByZWxlYXNlIG9mDQo+ID4+IHRoZSB2ZW5k
+b3IgZHJpdmVyIGZvciB0aGlzIGRldmljZSBhbmQgaXMgYmVsaWV2ZWQgdG8gYmUgdGhlIGxhdGVz
+dA0KPiA+PiByZWxlYXNlIGJ5IFJlYWx0ZWsuIFRlc3Rpbmcgb2YgdGhlIG5ldyBkcml2ZXIgaGFz
+IGJlZW4gYWNjb21wbGlzaGVkDQo+ID4+IHVzaW5nIHRoaXMgZmlybXdhcmUuIE51bWVyb3VzIHRl
+c3RlcnMgaGF2ZSBiZWVuIGludm9sdmVkLg0KPiA+Pg0KPiA+PiBTaWduZWQtb2ZmLWJ5OiBOaWNr
+IE1vcnJvdyA8VVNCV2lGaTIwMjRAZ21haWwuY29tPg0KPiA+PiAtLS0NCj4gPj4gdjI6DQo+ID4+
+ICAgICAtIE5vIGNoYW5nZS4gUmVzdWJtaXR0ZWQgbm93IHRoYXQgdGhlIGRyaXZlciBpcyBpbiBy
+ZXZpZXcuDQo+ID4+IC0tLQ0KPiA+PiAgICBXSEVOQ0UgICAgICAgICAgICAgICAgfCAgIDEgKw0K
+PiA+PiAgICBydHc4OC9SRUFETUUgICAgICAgICAgfCAgIDMgKysrDQo+ID4+ICAgIHJ0dzg4L3J0
+dzg4MTJhX2Z3LmJpbiB8IEJpbiAwIC0+IDI3MDMwIGJ5dGVzDQo+ID4+ICAgIDMgZmlsZXMgY2hh
+bmdlZCwgNCBpbnNlcnRpb25zKCspDQo+ID4+ICAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBydHc4OC9y
+dHc4ODEyYV9mdy5iaW4NCj4gPj4NCj4gPj4gZGlmZiAtLWdpdCBhL1dIRU5DRSBiL1dIRU5DRQ0K
+PiA+PiBpbmRleCA4YWViZTU2Yi4uZDZiZDQ4MTQgMTAwNjQ0DQo+ID4+IC0tLSBhL1dIRU5DRQ0K
+PiA+PiArKysgYi9XSEVOQ0UNCj4gPj4gQEAgLTMyNzAsNiArMzI3MCw3IEBAIExpY2VuY2U6IFJl
+ZGlzdHJpYnV0YWJsZS4gU2VlIExJQ0VOQ0UucnRsd2lmaV9maXJtd2FyZS50eHQgZm9yIGRldGFp
+bHMuDQo+ID4+ICAgIERyaXZlcjogcnR3ODggLSBSZWFsdGVrIDgwMi4xMWFjIFdMQU4gZHJpdmVy
+IGZvciBSVEw4ODIyQkUgYW5kIFJUTDg4MjJDRQ0KPiA+Pg0KPiA+PiAgICBJbmZvOiBTZW50IHRv
+IExhcnJ5IEZpbmdlciBieSBSZWFsdGVrIGVuZ2luZWVyIFlhbi1Ic3VhbiBDaHVhbmcgPHloY2h1
+YW5nQHJlYWx0ZWsuY29tPg0KPiA+PiArRmlsZTogcnR3ODgvcnR3ODgxMmFfZncuYmluDQo+ID4+
+ICAgIEZpbGU6IHJ0dzg4L3J0dzg4MjFhX2Z3LmJpbg0KPiA+DQo+ID4gSSBmYWlsZWQgdG8gYXBw
+bHkgdGhpcyBwYXRjaCwgZXZlbiB0aGlzIHRleHR1YWwgcGFydC4NCj4gPg0KPiA+IFR3byBsZWFk
+aW5nIHNwYWNlcyBiZWZvcmUgIkZpbGU6IHJ0dzg4L3J0dzg4MjFhX2Z3LmJpbiIsIGJ1dCBhY3R1
+YWxseSB0aGlzDQo+ID4gc2hvdWxkIGJlIG9ubHkgb25lLiBOb3Qgc3VyZSB3aGF0IGlzIHdyb25n
+Lg0KPiANCj4gSSBhbSBjYXJlZnVsbHkgZ29pbmcgb3ZlciB0aGlzIHBhdGNoIGFnYWluLi4uIHdo
+aWxlIHByZXBhcmluZyBhIG5ldyB2ZXJzaW9uIG9mIHRoZSBwYXRjaC4gSSBkbyBub3QgcmVjYWxs
+DQo+IGVkaXRpbmcgdGhlIGxpbmUgdGhhdCBoYXMgdHdvIGxlYWRpbmcgc3BhY2VzLg0KDQpJIHVw
+ZGF0ZSBteSBsaW51eC1maXJtd2FyZSByZXBvc2l0b3J5IHRvIHRoZSBuZXdlc3Q6IA0KICAgMmNk
+YzExYTdiM2JmICgiTWVyZ2UgYnJhbmNoICdtdDc5MjUnIGludG8gJ21haW4nIikNCg0KQW5kLCBh
+ZGQgdGhlIGxpbmUuIFRoZSBkaWZmZXJlbmNlIGxvb2tzIGxpa2UgDQoNCmRpZmYgLS1naXQgYS9X
+SEVOQ0UgYi9XSEVOQ0UNCmluZGV4IGMxOGIyZTBkOGRiOS4uMGMwM2IyZDAzYjgzIDEwMDY0NA0K
+LS0tIGEvV0hFTkNFDQorKysgYi9XSEVOQ0UNCkBAIC0zMjcwLDYgKzMyNzAsNyBAQCBMaWNlbmNl
+OiBSZWRpc3RyaWJ1dGFibGUuIFNlZSBMSUNFTkNFLnJ0bHdpZmlfZmlybXdhcmUudHh0IGZvciBk
+ZXRhaWxzLg0KIERyaXZlcjogcnR3ODggLSBSZWFsdGVrIDgwMi4xMWFjIFdMQU4gZHJpdmVyIGZv
+ciBSVEw4ODIyQkUgYW5kIFJUTDg4MjJDRQ0KDQogSW5mbzogU2VudCB0byBMYXJyeSBGaW5nZXIg
+YnkgUmVhbHRlayBlbmdpbmVlciBZYW4tSHN1YW4gQ2h1YW5nIDx5aGNodWFuZ0ByZWFsdGVrLmNv
+bT4NCitGaWxlOiBydHc4OC9ydHc4ODEyYV9mdy5iaW4NCiBGaWxlOiBydHc4OC9ydHc4ODIxYV9m
+dy5iaW4NCiBGaWxlOiBydHc4OC9ydHc4ODIyYl9mdy5iaW4NCiBGaWxlOiBydHc4OC9ydHc4ODIy
+Y19mdy5iaW4NCg0KVGhpcyBpcyB3aGF0IEkgZXhwZWN0LiBDYW4geW91IGFwcGx5IHlvdXIgcGF0
+Y2ggc3VjY2Vzc2Z1bGx5IGluIHlvdXIgc2lkZT8gDQoNCg0K
