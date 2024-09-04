@@ -1,91 +1,114 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=EbgE=QC=gmail.com=jirislaby@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 90481CD343D
-	for <linux-firmware@archiver.kernel.org>; Tue,  3 Sep 2024 14:47:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92283CA0ED3
+	for <linux-firmware@archiver.kernel.org>; Wed,  4 Sep 2024 05:27:40 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 5F7C3C4CECA; Tue,  3 Sep 2024 14:47:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A074C4CEC8
-	for <linux-firmware@kernel.org>; Tue,  3 Sep 2024 14:47:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725374866;
-	bh=s0qNyF8Z0L2RIYLiNDrEXtPAa6gWe40+lDGzeOQdiK8=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=Qfs7ZYZoELaqff2wInrDbw8CGiFqpGy5gMjNDId9vzv1cWC4sWPuc1az/Em5LqHBm
-	 BdIp5aDMJucrzG8sdQqSHTLDG0p9BMuAkoAWgYvMwO9RrUIq0EPTiauWZGUXrq7H2W
-	 2hbglOWxlAyodvAhHFFK1QUrVcLLRE74mIYIv8BLxeQsyOsR9nRdFrhqZXgRBw9+Y+
-	 7hdhwIQOJUrDEBUpNG5k1Kjw4S2QuB4RBzIbMKDdqPNO2aSEXTYpZWmkNqB0RYswBR
-	 8+qNLYYb6agf+piik5WpSZSWsaG1FOrndQKCPYZBXbzg6Y4VePeIJjILS4Ro8hKuGP
-	 b6f0soinorp4w==
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-690aabe2600so43965787b3.0
-        for <linux-firmware@kernel.org>; Tue, 03 Sep 2024 07:47:46 -0700 (PDT)
-X-Gm-Message-State: AOJu0YxJjFGyWG6aITqdbD81EkbzA6I9F93fIDqGYcvkjiaz7A0TjwBT
-	JPBuoPnNFKeCxMGp/BkKTaoDqbIRV+TnTMIje1trJhrhDNX9TYeVdwfeAFEKECrEGMCuAza4HFa
-	mMDX3sT19Q//F1C/Xz6D8GgZ4LoE=
-X-Google-Smtp-Source: AGHT+IGmaP9BZ7tNhCzK5ZmT/pxf5wR0cHZ6gHfjqAkqJ4GKH+UKpeV3xtl/RHlSRE4O+beoVCJ9pfTzeTvPmazgh5c=
-X-Received: by 2002:a05:690c:3245:b0:6b0:a6f0:b0da with SMTP id
- 00721157ae682-6d40f340af9mr126775307b3.12.1725374865447; Tue, 03 Sep 2024
- 07:47:45 -0700 (PDT)
+	id 62397C4CEC3; Wed,  4 Sep 2024 05:27:40 +0000 (UTC)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 96DE5C4CEC2
+	for <linux-firmware@kernel.org>; Wed,  4 Sep 2024 05:27:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 96DE5C4CEC2
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a83562f9be9so581124866b.0
+        for <linux-firmware@kernel.org>; Tue, 03 Sep 2024 22:27:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725427657; x=1726032457;
+        h=content-transfer-encoding:autocrypt:subject:from:to
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/wrrq4uZI6GueaLo64ApUjVV3KqKW5FxmN4/DtRNoJU=;
+        b=gS3U9ocAQvjvtssOp3Haj8gi6/2A9vGfeO8BgZQ1m8dUVuj8fYVyJMXoQpKXuka/ZI
+         UyvuOz3AhUTUq1LpmvZDg5hmW8l9ILyB0vU2u9uPQtuzeFWe8dWdDoLMCclLLYOVe0WN
+         7rvMLn5Lksb8fw5Mvuf6lYCu9xL3AThfiVUneY3LvamexHqoQ1NoA/d/lhonkwpXXnL5
+         JqZjetxdDPLs7wvPQ4ZmwHqLlKfSXesvUiUmqmA7xgDVxqfvjh39WEJR7KR3uzPTQpWz
+         5n0Yh+yxEkeMzTvWwDegcrsNE9onj21BUV4WHUFs3sQI8Buzl6c0Fc1V+sAk1rLyPKuu
+         I2LA==
+X-Gm-Message-State: AOJu0YxZVqEaLizP85yHc35TDbSUP6nIzse4nXrxUQdlz28yeuQjlRnD
+	5ZjKZnuABDweu5ol4LyIqW/H18n1vARB0E1yL5C7+QjxXUIOcB4kRM0yFFFW
+X-Google-Smtp-Source: AGHT+IESW19/N7BeXVJjaIh8RR+12x02t69rCdQwfNsbPG6BmSIFVHGmoy291SdxUlWouMQ9Kw3l9Q==
+X-Received: by 2002:a17:907:7ba3:b0:a7d:e5b1:bf65 with SMTP id a640c23a62f3a-a89b94c7384mr987175266b.21.1725427657321;
+        Tue, 03 Sep 2024 22:27:37 -0700 (PDT)
+Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:69? ([2a0b:e7c0:0:107::aaaa:69])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8988fefc12sm760436766b.9.2024.09.03.22.27.36
+        for <linux-firmware@kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Sep 2024 22:27:36 -0700 (PDT)
+Message-ID: <9b5a5238-0e08-41e5-9cc0-346b446e0562@kernel.org>
+Date: Wed, 4 Sep 2024 07:27:36 +0200
 MIME-Version: 1.0
-References: <MW5PR11MB5810E786AA5A366E2DD412ACA3932@MW5PR11MB5810.namprd11.prod.outlook.com>
-In-Reply-To: <MW5PR11MB5810E786AA5A366E2DD412ACA3932@MW5PR11MB5810.namprd11.prod.outlook.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Tue, 3 Sep 2024 10:47:33 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA6EOXPTb0dQwyV9q1-bqmdfp5_OHqEwaALG0PTwRk+i+g@mail.gmail.com>
-Message-ID: <CA+5PVA6EOXPTb0dQwyV9q1-bqmdfp5_OHqEwaALG0PTwRk+i+g@mail.gmail.com>
-Subject: Re: pull request: iwlwifi firmware updates 2024-09-03
-To: "Korenblit, Miriam Rachel" <miriam.rachel.korenblit@intel.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, Wireless <linux-wireless@vger.kernel.org>, 
-	"kyle@infradead.org" <kyle@infradead.org>, "Hutchings, Ben" <ben@decadent.org.uk>, 
-	"Ben Ami, Golan" <golan.ben.ami@intel.com>, "Yang, You-Sheng" <vicamo.yang@canonical.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: linux-firmware@kernel.org
+From: Jiri Slaby <jirislaby@kernel.org>
+Subject: brcmfmac434*6 firmwares inclusion
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Sep 3, 2024 at 10:23=E2=80=AFAM Korenblit, Miriam Rachel
-<miriam.rachel.korenblit@intel.com> wrote:
->
-> Hi,
->
->
->
-> This contains the new firmware for Bz devices.
->
->
->
-> Please pull or let me know if there are any issues.
->
->
->
-> --
->
-> Thanks,
->
-> Miri
->
->
->
-> The following changes since commit a0ff525ced1ebcaae1ace6c4a431242c39667c=
-ba:
->
->
->
->   Merge branch 'rtl81261-3' into 'main' (2024-09-03 11:24:33 +0000)
->
->
->
-> are available in the Git repository at:
->
->
->
->   http://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.g=
-it tags/iwlwifi-fw-2024-09-03
+Hi,
 
-Merged and pushed out.
+would it be possible to incorporate these broadcom firmwares:
+   https://github.com/bsdkurt/brcm-supplemental
+into linux-firmware.git?
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/288
+The license appears to be the same as:
+ 
+https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/LICENCE.broadcom_bcm43xx
 
-josh
+It would fix:
+https://bugzilla.suse.com/show_bug.cgi?id=1201112
+
+thanks,
+-- 
+js
+suse labs
