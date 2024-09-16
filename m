@@ -1,139 +1,112 @@
-Return-Path: <SRS0=MznX=QL=suse.de=tiwai@kernel.org>
+Return-Path: <SRS0=Sa13=QO=heusel.eu=christian@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97838FA3736
-	for <linux-firmware@archiver.kernel.org>; Fri, 13 Sep 2024 09:20:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 228A1C3ABB2
+	for <linux-firmware@archiver.kernel.org>; Mon, 16 Sep 2024 10:49:47 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 63765C4CEC0; Fri, 13 Sep 2024 09:20:40 +0000 (UTC)
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	id DF2EAC4CEC7; Mon, 16 Sep 2024 10:49:47 +0000 (UTC)
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A953BC4CECD
-	for <linux-firmware@kernel.org>; Fri, 13 Sep 2024 09:20:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A953BC4CECD
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9C304218ED;
-	Fri, 13 Sep 2024 09:20:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1726219236; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=vVcGxtCsucx7/qosy72/MyNz3WeeSZ63XSScGFyR6OY=;
-	b=HwnCQgOdhnSMD3Gj79x3N48CYOX+C6taNUv3QYdE0SGzLpX6u2JpZl2463/n0vuQMltpbn
-	1n8dV/+7l/FodaW+6qwvUBKe0s6K/IwE9iGcIYP0qtP93dpWK8I/UQAMDLorRH9c/IoUdX
-	VWe7H6CmURwNthCSAWLwi17z7VmEJ/I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1726219236;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=vVcGxtCsucx7/qosy72/MyNz3WeeSZ63XSScGFyR6OY=;
-	b=6mZXP1fvNRoyqhmtqhhttun0PKmxABYj1N69n/WMz4mrCzlrft1xu6HTRDL51zML9qcuMk
-	z0VTtJF4pbfOytAw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1726219236; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=vVcGxtCsucx7/qosy72/MyNz3WeeSZ63XSScGFyR6OY=;
-	b=HwnCQgOdhnSMD3Gj79x3N48CYOX+C6taNUv3QYdE0SGzLpX6u2JpZl2463/n0vuQMltpbn
-	1n8dV/+7l/FodaW+6qwvUBKe0s6K/IwE9iGcIYP0qtP93dpWK8I/UQAMDLorRH9c/IoUdX
-	VWe7H6CmURwNthCSAWLwi17z7VmEJ/I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1726219236;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=vVcGxtCsucx7/qosy72/MyNz3WeeSZ63XSScGFyR6OY=;
-	b=6mZXP1fvNRoyqhmtqhhttun0PKmxABYj1N69n/WMz4mrCzlrft1xu6HTRDL51zML9qcuMk
-	z0VTtJF4pbfOytAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7EAEF13999;
-	Fri, 13 Sep 2024 09:20:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MrqvHeQD5GZ+UAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 13 Sep 2024 09:20:36 +0000
-From: Takashi Iwai <tiwai@suse.de>
+	by smtp.kernel.org (Postfix) with ESMTPS id E241DC4CEC4
+	for <linux-firmware@kernel.org>; Mon, 16 Sep 2024 10:49:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org E241DC4CEC4
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=heusel.eu
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=heusel.eu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=heusel.eu;
+	s=s1-ionos; t=1726483775; x=1727088575; i=christian@heusel.eu;
+	bh=5hzAWYY/NEknJFwWKGv/E8u8GFLlfQeAYhbo9E7ZVyg=;
+	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:
+	 MIME-Version:Content-Type:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=s2W1mORAYIsMpGpyPrze4wdA2mqmHCwJWijIfcuAQXpAcTai8+EcSsOfvfNEiy68
+	 EBkrFUBD9l3UamuiOvV1IvHJeZLVWKv54LZ3t575d83qmR/SEpTpy6mUHwBSCEQOD
+	 Uh8Fv3MbbCZ8Wn6a0svaLSkkdQdRqQRMOrbddp0hKHvscd64d8rqCAUckkLHSRjAm
+	 VOjfgEQU0Hgchs21+P4BP+jCt9bBhC6E+hNy1kU2f3VVAR/R1aCjVyLdvJDYfprQ6
+	 htUsa/fmrNbh/wOIpqGzZbEMcXvBYxlBc8cAfw29DThndzvBR3Nt29Gl2GjTEZYNT
+	 GuL45aNhYt7OE15MYQ==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from localhost ([141.70.80.5]) by mrelayeu.kundenserver.de (mreue106
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1Msqpq-1rxLok2fwe-00xpRZ; Mon, 16
+ Sep 2024 12:49:35 +0200
+Date: Mon, 16 Sep 2024 12:49:33 +0200
+From: Christian Heusel <christian@heusel.eu>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH linux-firmware] copy-firmware: Fix incorrect symlinks to uncompressed targets
-Date: Fri, 13 Sep 2024 11:21:08 +0200
-Message-ID: <20240913092122.19523-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+To: linux-firmware@kernel.org, Kalle Valo <kvalo@qca.qualcomm.com>
+Cc: regressions@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [REGRESSION] Update of linux-firmware breaks wifi on Thinkpad T14
+Message-ID: <44ae68d2-24b6-49d2-a4f9-ae9cbf6f9950@heusel.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.98%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_TWO(0.00)[2];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-
-The script tries to make a symlink to the target with the compressed
-extension, but it ends up with a wrong symlink if the compression is
-skipped for the target (e.g. via RawFile entry).
-
-Add more checks to make a correct symlink.
-
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
-
-This fixes the installation failure with the recent change for qcom
-commit 541f96c0fa47b70e9bc13035f7a082064e5b2d4c
-
-The workaround is pretty ad hoc, so if you have a better way to manage
-it, feel free to scratch this.
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="qtwz73t4edjtsbyg"
+Content-Disposition: inline
+X-Provags-ID: V03:K1:QsWglT6DP2QQ6QNSnZTOoWt5LXUFxyBEcnz36034CXpymEqk5Fr
+ Y/ksxIb7uuIgqg/81rErmJgB2g74gxP9ihktXYXku4V3Xvm4bGlFQ8/FL0HQsHTzOqk5qWy
+ HActdzqPpAv86Q30Dgr3yPNEoo5H5tFiQl4JS3SSt3AETJqewX+uxnLIJiPVGe0VuW6wZU1
+ physKz9GvuEc4cnsAuiIA==
+UI-OutboundReport: notjunk:1;M01:P0:gkH3q8Bu69c=;2jv/yQBSGIGFJozcIV6797HCfDW
+ qzJm4vcMpm4Qaw7C+9aWJa8rEEZqA5xyAX6ALyXqK3gMMftrz/8npsj/bc1iW8hu0OvA/7sSD
+ JxBslIEJiVSp755thVNTGrn17ZjZ72vLtR9O/owuSvkEzIVeAfzWTSFex24okOdTRTWPIGrN+
+ h2A1nET4wh+syZZ2hyh8HNygyVydzNfY+HtVQJEBnBWbL89vDO9zV8NLbTr9x5HB6fT/cE00O
+ 1ZmPnArK+3uHaorxKRWpAvOC0LhLI+84HhTU/UbKP4UbjS83OGwpIwNnNDxDfoc5dXLh39KHe
+ sHOPQsyxF/G4vduggrADk0+wsXk6KC1x9cPzXrNtdzxFuHSuAqSwaLM66bq0jx0rtBWF7mTXd
+ ZbUrLgZ4q2dDA+EC4aLMfj+DMNnpHOw7KaSsv4q7Xv2HKH7fHle6mEaE4c6QrAA7s0u9szp6q
+ tSucKP/NZeEHTXiPNw/gWgT9v60ABfXHFPMms7Hunc0ewxttzB5jOSR+FZ1XzVOSQ2oBFN9+b
+ tR4CjR3dHmbMT5MZacui1kbys5+xooBVx1QkX9gLyJc60MH1Ve3eHe7AyuYwhw9TkoFjbbIxN
+ AqLS1Twl3nzMeqZkbn01fknOB4Px+IaF/3yAWFtaCvF0YGJwFyRjriHLT3W3Ndx+0kKdkxjER
+ FKtLrirsh+1zG/Gy/zuu1uTZ/pFxu+Nm5IKavpnFo0up+VzR8acFh004eaNTyyQpvgxU1CzGy
+ VKQ1Qvj3PezOM9aTryIEseKjhMsmgykOg==
 
 
- copy-firmware.sh | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+--qtwz73t4edjtsbyg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/copy-firmware.sh b/copy-firmware.sh
-index 6757c6ce03a3..fc096dd6daf0 100755
---- a/copy-firmware.sh
-+++ b/copy-firmware.sh
-@@ -136,9 +136,15 @@ grep -E '^Link:' WHENCE | sed -e 's/^Link: *//g;s/-> //g' | while read f d; do
-         if test -d "$target"; then
-             $verbose "creating link $f -> $d"
-             ln -s "$d" "$destdir/$f"
--        else
-+        elif test -f "$target$compext"; then
-             $verbose "creating link $f$compext -> $d$compext"
-             ln -s "$d$compext" "$destdir/$f$compext"
-+        elif test -f "$target"; then
-+            $verbose "creating link $f -> $d"
-+            ln -s "$d" "$destdir/$f"
-+        else
-+            $verbose "creating link (not yet existing) $f$compext -> $d$compext"
-+            ln -s "$d$compext" "$destdir/$f$compext"
-         fi
-     fi
- done
--- 
-2.43.0
+Hello Kalle,
 
+the commit 82318c96 ("ath12k: WCN7850 hw2.0: update board-2.bin") in the
+linux firmware repository apparently breaks card recognition in Thinkpad
+T14 laptops with the following journal entries:
+
+    Sep 10 12:34:01 gdb-arch-t14-5 kernel: ath12k_pci 0000:02:00.0: failed to fetch board data for bus=pci,vendor=17cb,device=1107,subsystem-vendor=17aa,subsystem>
+    Sep 10 12:34:01 gdb-arch-t14-5 kernel: ath12k_pci 0000:02:00.0: failed to fetch board.bin from WCN7850/hw2.0
+    Sep 10 12:34:01 gdb-arch-t14-5 kernel: ath12k_pci 0000:02:00.0: qmi failed to load bdf:
+    Sep 10 12:34:01 gdb-arch-t14-5 kernel: ath12k_pci 0000:02:00.0: qmi failed to load board data file:-2
+
+Is there any more information you would need to debug this issue or does
+the above already tell you enough?
+
+This issue was discovered by Arch Linux Forum user "Mezzy12" with
+debugging help from user "loqs" and me.
+
+Regards,
+Chris
+
+[0]: https://bbs.archlinux.org/viewtopic.php?id=299286
+
+--qtwz73t4edjtsbyg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEb3ea3iR6a4oPcswTwEfU8yi1JYUFAmboDT0ACgkQwEfU8yi1
+JYXn7hAAy4QCSRzmKXEmAbMIKZaG0C3VjzePWedQqNpzFw66FWxIsjSGrqs+p2Qy
+/jYWJ7OL0UgHAXtHwFEaAv4oidWrSXTwgNTI216Valdm3vijffyFyPOp0lbJ6Iuq
+GH4mW7ogHAZgUqyhvoK9HmZugaufCVi/BACBF8hz4cTbKY5i7HAa5CNkJ0jfWheX
+PbvMNS6lEA6xdVfyv0ot7TZYeudfIGZcaDcyyGQeGm655iyHhJTjnhhr+iOUvi0P
+3IStoZ52p0t4xw/Li0scBIhenrHIguDLzqHiwOpSeZUG4a1zvPlm0GPMO//lfWvF
+j/XNTDCjUhsyiD3geVX4k0V3rhbiQS5LCHL0OSLD6Um+yyv4jFKY6sv5dzxorCDq
+nul3digeUItTbvSopt8CuN+Pu0S01I7Hdhczw/p5cWCHxj2Pjwf5SduPOZgpKYjl
+qPL2q0EogLYEh61Txi6V7qrHL3krofEmbBpXFBmpA80iuw4OJ6N3+Vn0xBpmCL6n
+S/6aplzFV2in4USIYmqIy82eT2me0aDR3P7W4lj7P20HKqE5vIsXE6eifSL04x0z
+hHfBYYnuKld56D7xXSnFhyFDqWTihznU+ektVIHpHtxpObyt8ikZQkU9gLgWyNb9
+9rQ9KZDpLmrcUVChgho4VLxjE5XjqhcVQRF2tAM9724kQW91a2s=
+=ekkO
+-----END PGP SIGNATURE-----
+
+--qtwz73t4edjtsbyg--
