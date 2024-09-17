@@ -4,74 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB930C3ABA2
-	for <linux-firmware@archiver.kernel.org>; Tue, 17 Sep 2024 06:38:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 361C0C35FEC
+	for <linux-firmware@archiver.kernel.org>; Tue, 17 Sep 2024 07:24:34 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 6ADF8C4CECE; Tue, 17 Sep 2024 06:38:28 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	id 082FAC4CECF; Tue, 17 Sep 2024 07:24:34 +0000 (UTC)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 779D8C4CEC6
-	for <linux-firmware@kernel.org>; Tue, 17 Sep 2024 06:38:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 779D8C4CEC6
+	by smtp.kernel.org (Postfix) with ESMTPS id DF64FC4CEC7
+	for <linux-firmware@kernel.org>; Tue, 17 Sep 2024 07:24:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org DF64FC4CEC7
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5365c060f47so5658234e87.2
-        for <linux-firmware@kernel.org>; Mon, 16 Sep 2024 23:38:27 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6d6a3ab427aso37561517b3.2
+        for <linux-firmware@kernel.org>; Tue, 17 Sep 2024 00:24:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1726555105; x=1727159905; darn=kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QYtQouVq2+ET7X0FX1a7PsLliHLNF7Qx32sXu40R69w=;
-        b=g7U3CCOY2ia2OFXOcxfTa+B3cC5tJZTYD6kRkE1JtABASmlBLlGqudqzKylCAtlc96
-         FppRK5zXwMp/SJxXtiDz0UwLqXnKKlGgVUa4M7T9ZRFoqoYoCgOwAmK0uwnbj5XgYYq3
-         AgoiJmUTaWIwQPdVhEKSNCNMIA6UM3HVY9Vi91v/tE1kRbyQg4WpZvpbnTJefwrcnx9J
-         wYpNKcnWSKANWcMHn8HUZXI6HnO8tvUyfN+3fg4OcPq4T/bkUhWkv8aumCMDLpFZLnES
-         L5JWe+VvSvcbSL0SJsqwPwJRbhIWpTNy1jJbcJSCO6xjarGwAMja3CuEv/OPCZXnjFi+
-         ES3g==
+        d=linaro.org; s=google; t=1726557871; x=1727162671; darn=kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=OmgscrOPhMEcy0uId9tGU3KjdrIyplMAEWEgLPs05Y8=;
+        b=kRX5wHtEfccUpyFiJq1DclHwY14xW7YfN3y9c4wi5D8Dght+36Wb6fa++o8mJ2bvUb
+         +d7OnaYRkSAj27Y2FmffXofYKcPctoLiKDMTjOlNBeRGQDfkimC+yZDSYFrpfI6V0qY/
+         nqMDrdR9o0590M2gowSSBp5Ix9ByLrLn+bt477I00Bqh4vGRrbWPIOIGpXOXqjF+Rkpu
+         pgp+v0vDtYCTyIGD7jveLfojMpI4bQyRoEEP5g7VmJtZ+Ux5OdCtolcc1WEeOGe/AK5B
+         d6Rm4vxoC58gh5ySXcNsT9nLffiHqkO5rXv2NlhwUoziHr/SAOgaQkJj5KOq/a9B+jwa
+         mWrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726555105; x=1727159905;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QYtQouVq2+ET7X0FX1a7PsLliHLNF7Qx32sXu40R69w=;
-        b=DO02TjLOFyt8lEIMeXwR+2PpYSmPalEnQbUvtgMYNriZdBemVGUmkH26W9l29UQglh
-         75S9ce9bML+xo6j4Qk1i+8QtratOS8kcsrZwpTu6IE3tzqI+127jfHyB984kLTg5ohae
-         FdE2eQvDOoQ0zgsccBvAnaW4oR+8q+gUHHrQc22jqmKAEqY10vyZ8g/GF22n3b69/o4k
-         8TkxjsWtjq9T2LTM9FL6YtPzis5e5uO5AAgiK2vaBN/hDsDIe+BTCFh9bwpLcHzlxLXi
-         rVSZ9yPtW70Hn6kAsRkh00WrWsyFVLkuRBBDHdpKKoGrzG78r3Pb1iFhG/jSaSYGlBS6
-         dhHg==
-X-Gm-Message-State: AOJu0YwAeaZCjJgVtWRN2uQhzi1r98UPV7+adlgjk4Iz5OUQnnWTS0YJ
-	oqXQB8pcKyUjbSVwkXMwR2JavgxlOHp8zc4zeFvLXQk8yC7TsLv/bsgKHmohGok=
-X-Google-Smtp-Source: AGHT+IH2Lx8vuXDwaE6XMOqwecwrVkOeWCIBR1/ujcVJ+HP+MPw0UAtM1HB8wyiboa1TyGIohYjEoA==
-X-Received: by 2002:a05:6512:e9e:b0:535:6cf6:92fc with SMTP id 2adb3069b0e04-53678fb74d2mr9320210e87.8.1726555105105;
-        Mon, 16 Sep 2024 23:38:25 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5368704db51sm1102666e87.105.2024.09.16.23.38.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Sep 2024 23:38:24 -0700 (PDT)
-Date: Tue, 17 Sep 2024 09:38:22 +0300
+        d=1e100.net; s=20230601; t=1726557871; x=1727162671;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OmgscrOPhMEcy0uId9tGU3KjdrIyplMAEWEgLPs05Y8=;
+        b=WsUFOBWSvKP8lGyeOgX306/LS6npPBzfj5TsDNI3/E+r7cUJlE9agjOhQo9ywuEJ06
+         77oP8BjH6PlZ+xxBS6gsUqe6CnwXgtBBbBXHEsgJ381FKY8/x7RwxYe+ddONg2a0muBC
+         Kt5ENuJ4dcrobK7e84gJuCMA06SnHUBo0pDteHlZLyVI0ehwS1aDA5O35rTdg9zGSila
+         Z1AjviDYxrgbiUWdLuDwrlRUaeDfszdls9rtrCLJSDuBHZCNlnGzSMyGiW5K/SFq/NW9
+         02L75Gn+Qs9P6dipUuwvGUrOHfG95vrbKiHjefo3JHpFBDw9Jz5/0MLtroYBik8mvcZO
+         IWaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVdrBVpdZEpFynfLTtm2KnVopl0eq2u5iibUzv4JU1CbjjSlNqRG7qxAaXDngPFJkYDf5ji2FhZ9bz8LidbSg==@kernel.org
+X-Gm-Message-State: AOJu0YzMuvs484+wNKsrul0PPWjbGmPU5pP75ECqMQY1NC1IuGUxf2oQ
+	THZSffFHPrt3CxCrgL3v+5JygKKpx9KRav5nlsGcmz0Z3P9MPU5M2pGz7Hztt0MXVGL5YEEvjOn
+	L7fluXNK+1AFGFPdNz71jZ5JJq+loDxKEoH8hAIwfm6f26+e/PU4=
+X-Google-Smtp-Source: AGHT+IEY652w068+1jH/6xJFViHxLxQAP6EDYnODteIzAmiVPzZuQA0QRaZhXskrovkGJTVqpK2aYdl5Aa9N2mRS+bA=
+X-Received: by 2002:a05:690c:dd2:b0:6db:afa4:7600 with SMTP id
+ 00721157ae682-6dbb6ad71e8mr162813837b3.4.1726557870787; Tue, 17 Sep 2024
+ 00:24:30 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240917071016.gp43cuysm4kdznzx@hu-akhilpo-hyd.qualcomm.com>
+In-Reply-To: <20240917071016.gp43cuysm4kdznzx@hu-akhilpo-hyd.qualcomm.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 17 Sep 2024 09:24:19 +0200
+Message-ID: <CAA8EJpp4tGH_v7z9Um7Y+xxWPyFFMq4P3-cytNSJe3dqhLD_OA@mail.gmail.com>
+Subject: Re:
 To: Akhil P Oommen <quic_akhilpo@quicinc.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, quic_rajeshk@quicinc.com
-Subject: Re: [PATCH] qcom: add gpu firmwares for sa8775p chipset
-Message-ID: <tlq62pwr7qsoerfjyn4cnoefllw4gbyyoocon3si45om7ua5oc@ikfkikb3xw3u>
-References: <20240916220450.357752-1-quic_akhilpo@quicinc.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240916220450.357752-1-quic_akhilpo@quicinc.com>
+Cc: GPUfirmwareforSA8775Pchipset@hu-akhilpo-hyd.qualcomm.com, 
+	linux-firmware@kernel.org, quic_rajeshk@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Sep 17, 2024 at 03:33:16AM GMT, Akhil P Oommen wrote:
-> Add the following gpu related firmwares for SA8775P chipset:
-> 
-> qcom/a663_gmu.bin: v3.05.01
-> qcom/sa8775p/a663_zap.mbn: v0.09
-> 
-> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> ---
+On Tue, 17 Sept 2024 at 09:10, Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+>
+> The following changes since commit 6c88d9b8253b8ec6df701a551a56438ea2e5bacf:
+>
+>   Merge branch 'amd-staging' into 'main' (2024-09-13 20:28:50 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git gpu-fw-SA8775p
+>
+> for you to fetch changes up to 43c971bcd74d9793140a8fbbcc805204cb797f96:
+>
+>   qcom: add gpu firmwares for sa8775p chipset (2024-09-17 11:57:51 +0530)
+>
+> ----------------------------------------------------------------
+> Akhil P Oommen (1):
+>       qcom: add gpu firmwares for sa8775p chipset
+>
 >  WHENCE                    |   2 ++
 >  qcom/a663_gmu.bin         | Bin 0 -> 55892 bytes
 >  qcom/sa8775p/a663_zap.mbn | Bin 0 -> 1054680 bytes
@@ -79,12 +88,9 @@ On Tue, Sep 17, 2024 at 03:33:16AM GMT, Akhil P Oommen wrote:
 >  create mode 100644 qcom/a663_gmu.bin
 >  create mode 100644 qcom/sa8775p/a663_zap.mbn
 
-Got the following error when trying to apply the patch:
+Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Applying: qcom: add gpu firmwares for sa8775p chipset
-error: corrupt binary patch at line 905: --
-
-(git version 2.45.2 and 2.39.5)
+Thank you!
 
 -- 
 With best wishes
