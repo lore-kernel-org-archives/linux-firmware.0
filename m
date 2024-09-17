@@ -1,144 +1,91 @@
-Return-Path: <SRS0=E6S/=QP=altech.co.jp=y-morita@kernel.org>
+Return-Path: <SRS0=5j3L=QP=linaro.org=dmitry.baryshkov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71958C3ABB2
-	for <linux-firmware@archiver.kernel.org>; Tue, 17 Sep 2024 02:34:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB930C3ABA2
+	for <linux-firmware@archiver.kernel.org>; Tue, 17 Sep 2024 06:38:28 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 2BA9BC4CECC; Tue, 17 Sep 2024 02:34:44 +0000 (UTC)
-Received: from srv1a.liquidsphere.nl (unknown [62.84.241.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id 6ADF8C4CECE; Tue, 17 Sep 2024 06:38:28 +0000 (UTC)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 047F9C4CEC4
-	for <linux-firmware@kernel.org>; Tue, 17 Sep 2024 02:34:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 047F9C4CEC4
-Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=altech.co.jp
-Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=altech.co.jp
-Received: from [139.64.172.61] (helo=altech.co.jp)
-	by srv1a.liquidsphere.nl with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.82)
-	(envelope-from <y-morita@altech.co.jp>)
-	id 1sqO36-0002Pq-1W
-	for linux-firmware@kernel.org; Tue, 17 Sep 2024 04:34:40 +0200
-From: E-mail Support1 <y-morita@altech.co.jp>
+	by smtp.kernel.org (Postfix) with ESMTPS id 779D8C4CEC6
+	for <linux-firmware@kernel.org>; Tue, 17 Sep 2024 06:38:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 779D8C4CEC6
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5365c060f47so5658234e87.2
+        for <linux-firmware@kernel.org>; Mon, 16 Sep 2024 23:38:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1726555105; x=1727159905; darn=kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QYtQouVq2+ET7X0FX1a7PsLliHLNF7Qx32sXu40R69w=;
+        b=g7U3CCOY2ia2OFXOcxfTa+B3cC5tJZTYD6kRkE1JtABASmlBLlGqudqzKylCAtlc96
+         FppRK5zXwMp/SJxXtiDz0UwLqXnKKlGgVUa4M7T9ZRFoqoYoCgOwAmK0uwnbj5XgYYq3
+         AgoiJmUTaWIwQPdVhEKSNCNMIA6UM3HVY9Vi91v/tE1kRbyQg4WpZvpbnTJefwrcnx9J
+         wYpNKcnWSKANWcMHn8HUZXI6HnO8tvUyfN+3fg4OcPq4T/bkUhWkv8aumCMDLpFZLnES
+         L5JWe+VvSvcbSL0SJsqwPwJRbhIWpTNy1jJbcJSCO6xjarGwAMja3CuEv/OPCZXnjFi+
+         ES3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726555105; x=1727159905;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QYtQouVq2+ET7X0FX1a7PsLliHLNF7Qx32sXu40R69w=;
+        b=DO02TjLOFyt8lEIMeXwR+2PpYSmPalEnQbUvtgMYNriZdBemVGUmkH26W9l29UQglh
+         75S9ce9bML+xo6j4Qk1i+8QtratOS8kcsrZwpTu6IE3tzqI+127jfHyB984kLTg5ohae
+         FdE2eQvDOoQ0zgsccBvAnaW4oR+8q+gUHHrQc22jqmKAEqY10vyZ8g/GF22n3b69/o4k
+         8TkxjsWtjq9T2LTM9FL6YtPzis5e5uO5AAgiK2vaBN/hDsDIe+BTCFh9bwpLcHzlxLXi
+         rVSZ9yPtW70Hn6kAsRkh00WrWsyFVLkuRBBDHdpKKoGrzG78r3Pb1iFhG/jSaSYGlBS6
+         dhHg==
+X-Gm-Message-State: AOJu0YwAeaZCjJgVtWRN2uQhzi1r98UPV7+adlgjk4Iz5OUQnnWTS0YJ
+	oqXQB8pcKyUjbSVwkXMwR2JavgxlOHp8zc4zeFvLXQk8yC7TsLv/bsgKHmohGok=
+X-Google-Smtp-Source: AGHT+IH2Lx8vuXDwaE6XMOqwecwrVkOeWCIBR1/ujcVJ+HP+MPw0UAtM1HB8wyiboa1TyGIohYjEoA==
+X-Received: by 2002:a05:6512:e9e:b0:535:6cf6:92fc with SMTP id 2adb3069b0e04-53678fb74d2mr9320210e87.8.1726555105105;
+        Mon, 16 Sep 2024 23:38:25 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5368704db51sm1102666e87.105.2024.09.16.23.38.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Sep 2024 23:38:24 -0700 (PDT)
+Date: Tue, 17 Sep 2024 09:38:22 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Subject: kernel.org is De-activating soon
-Date: 16 Sep 2024 19:34:39 -0700
-Message-ID: <20240916193439.1FB2861473E3E23E@altech.co.jp>
+Cc: linux-firmware@kernel.org, quic_rajeshk@quicinc.com
+Subject: Re: [PATCH] qcom: add gpu firmwares for sa8775p chipset
+Message-ID: <tlq62pwr7qsoerfjyn4cnoefllw4gbyyoocon3si45om7ua5oc@ikfkikb3xw3u>
+References: <20240916220450.357752-1-quic_akhilpo@quicinc.com>
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0012_6943CF5D.8C205F64"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240916220450.357752-1-quic_akhilpo@quicinc.com>
 
+On Tue, Sep 17, 2024 at 03:33:16AM GMT, Akhil P Oommen wrote:
+> Add the following gpu related firmwares for SA8775P chipset:
+> 
+> qcom/a663_gmu.bin: v3.05.01
+> qcom/sa8775p/a663_zap.mbn: v0.09
+> 
+> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> ---
+>  WHENCE                    |   2 ++
+>  qcom/a663_gmu.bin         | Bin 0 -> 55892 bytes
+>  qcom/sa8775p/a663_zap.mbn | Bin 0 -> 1054680 bytes
+>  3 files changed, 2 insertions(+)
+>  create mode 100644 qcom/a663_gmu.bin
+>  create mode 100644 qcom/sa8775p/a663_zap.mbn
 
-------=_NextPart_000_0012_6943CF5D.8C205F64
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Got the following error when trying to apply the patch:
 
-Recipient: linux-firmware@kernel.org
+Applying: qcom: add gpu firmwares for sa8775p chipset
+error: corrupt binary patch at line 905: --
 
-FW : : Shipment  Recevied FROM Dhl
+(git version 2.45.2 and 2.39.5)
 
-YOU HAVE 4 NEW NOTIFICATION via Dhl. 
-
- kernel.org] Secured Attachment 
-
-Name: A63434GDVh363LMML
-
- Number: 4065698872 
-
-Encryption: linux-firmware@kernel.org
-_________________ 
-
-NEC SL1100 InMail This email was sent to [EMail]
-
-------=_NextPart_000_0012_6943CF5D.8C205F64
-Content-Type: text/html
-Content-Transfer-Encoding: quoted-printable
-
-<HTML><HEAD><TITLE></TITLE>
-<META name=3DGENERATOR content=3D"MSHTML 11.00.10570.1001"></HEAD>
-<BODY>
-<TABLE style=3D"FONT-SIZE: small; BORDER-TOP: rgb(204,204,204) 1px solid; F=
-ONT-FAMILY: Arial, Helvetica, sans-serif; BORDER-RIGHT: rgb(204,204,204) 1p=
-x solid; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: rgb(204,204,204) 1px sol=
-id; COLOR: rgb(34,34,34); BORDER-SPACING: 0px; BORDER-LEFT: rgb(204,204,204=
-) 1px solid; BACKGROUND-COLOR: rgb(228,228,228)" cellSpacing=3D0 cellPaddin=
-g=3D0 width=3D"100%" border=3D0>
-<TBODY>
-<TR height=3D32>
-<TD style=3D"BORDER-COLLAPSE: collapse; PADDING-LEFT: 15px; MARGIN: 0px; PA=
-DDING-RIGHT: 15px" vAlign=3Dmiddle width=3D32 align=3Dleft><BR>&nbsp;</TD>
-<TD style=3D'FONT-SIZE: 16px; FONT-FAMILY: "symantec sans"; BORDER-COLLAPSE=
-: collapse; MARGIN: 0px' vAlign=3Dmiddle align=3Dleft><FONT style=3D"VERTIC=
-AL-ALIGN: inherit">Web Server Administrator |&nbsp;IT Support kernel.org</F=
-ONT></TD></TR>
-<TR style=3D"PADDING-LEFT: 15px" height=3D3>
-<TD style=3D"BORDER-COLLAPSE: collapse; MARGIN: 0px">&nbsp;</TD>
-<TD style=3D"BORDER-COLLAPSE: collapse; MARGIN: 0px">&nbsp;</TD></TR></TBOD=
-Y></TABLE>
-<P style=3D'FONT-SIZE: 15px; FONT-FAMILY: "Segoe UI", "Segoe WP", "Segoe UI=
- WPC", Tahoma, Arial, sans-serif; COLOR: rgb(33,33,33); BACKGROUND-COLOR: r=
-gb(255,255,255)'>&nbsp;</P>
-<TABLE style=3D"FONT-SIZE: small; BORDER-TOP: rgb(204,204,204) 1px solid; F=
-ONT-FAMILY: Arial, Helvetica, sans-serif; BORDER-RIGHT: rgb(204,204,204) 1p=
-x solid; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: rgb(204,204,204) 1px sol=
-id; COLOR: rgb(34,34,34); BORDER-SPACING: 0px; BORDER-LEFT: rgb(204,204,204=
-) 1px solid; BACKGROUND-COLOR: rgb(255,255,255)" cellSpacing=3D0 cellPaddin=
-g=3D0 width=3D"100%" bgColor=3D#ffffff border=3D0>
-<TBODY>
-<TR>
-<TD style=3D"FONT-SIZE: 13px; FONT-FAMILY: calibri; BORDER-COLLAPSE: collap=
-se; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 15px; MARGIN: 0px;=
- LINE-HEIGHT: 27px; PADDING-RIGHT: 15px; BACKGROUND-COLOR: rgb(236,243,249)=
-">&nbsp;</TD></TR>
-<TR>
-<TD style=3D"FONT-SIZE: 13px; FONT-FAMILY: calibri; BORDER-COLLAPSE: collap=
-se; PADDING-BOTTOM: 5px; PADDING-TOP: 0px; PADDING-LEFT: 15px; MARGIN: 0px;=
- LINE-HEIGHT: 27px; PADDING-RIGHT: 15px; BACKGROUND-COLOR: rgb(236,243,249)=
-">
-<TABLE style=3D"FONT-SIZE: small; FONT-FAMILY: arial, helvetica, sans-serif=
-" cellSpacing=3D0 cellPadding=3D0 width=3D"100%" border=3D0>
-<TBODY>
-<TR style=3D'FONT-SIZE: 16px; FONT-FAMILY: "open sans", helveticaneue-light=
-, "helvetica neue light", "helvetica neue", helvetica, arial, "lucida grand=
-e", sans-serif; COLOR: rgb(64,64,64); LINE-HEIGHT: 26px'>
-<TD style=3D"MARGIN: 0px">
-<P><FONT style=3D"VERTICAL-ALIGN: inherit"><FONT style=3D"VERTICAL-ALIGN: i=
-nherit"><FONT style=3D"VERTICAL-ALIGN: inherit">Hello&nbsp;</FONT></FONT>&n=
-bsp;</FONT><FONT style=3D"VERTICAL-ALIGN: inherit">linux-firmware@kernel.or=
-g</FONT></P>
-<P><FONT style=3D"VERTICAL-ALIGN: inherit">iust.ac.ir is Deactivating all o=
-ld versions and inactive users&nbsp;from 9/16/2024 7:34:39 p.m..</FONT></P>=
-
-<P><FONT style=3D"VERTICAL-ALIGN: inherit">Please Re-confirm linux-firmware=
-@kernel.org so your account is not deactivated.</FONT></P></TD></TR></TBODY=
-></TABLE></TD></TR>
-<TR>
-<TD style=3D"BORDER-COLLAPSE: collapse; PADDING-BOTTOM: 10px; PADDING-TOP: =
-10px; PADDING-LEFT: 10px; MARGIN: 0px; PADDING-RIGHT: 10px" width=3D300 ali=
-gn=3Dleft><FONT style=3D"VERTICAL-ALIGN: inherit">
-<A style=3D'FONT-SIZE: 15px; MAX-WIDTH: 210px; FONT-FAMILY: "open sans", "h=
-elvetica neue", arial; WIDTH: 210px; COLOR: white; PADDING-BOTTOM: 14px; TE=
-XT-ALIGN: center; PADDING-TOP: 14px; PADDING-LEFT: 7px; MARGIN: 0px; PADDIN=
-G-RIGHT: 7px; BACKGROUND-COLOR: darkblue' href=3D"http://vxrrjpa.virtualedu=
-=2Esite/updsc#bGludXgtZmlybXdhcmVAa2VybmVsLm9yZw=3D=3D " target=3D_blank><F=
-ONT style=3D"VERTICAL-ALIGN: inherit">Validate your e-mail here</FONT></A><=
-/FONT></TD></TR>
-<TR>
-<TD style=3D"FONT-SIZE: 0px; BORDER-COLLAPSE: collapse; PADDING-BOTTOM: 5px=
-; PADDING-TOP: 5px; PADDING-LEFT: 15px; MARGIN: 0px; LINE-HEIGHT: 0; PADDIN=
-G-RIGHT: 15px">&nbsp;</TD></TR>
-<TR style=3D"MARGIN-TOP: 10px; BACKGROUND-COLOR: rgb(228,228,228)">
-<TD style=3D"FONT-SIZE: 13px; FONT-FAMILY: calibri; BORDER-COLLAPSE: collap=
-se; PADDING-BOTTOM: 10px; PADDING-TOP: 10px; PADDING-LEFT: 15px; MARGIN: 0p=
-x; LINE-HEIGHT: 20px; PADDING-RIGHT: 15px">
-<P><FONT style=3D"VERTICAL-ALIGN: inherit">&nbsp;After 9/16/2024 7:34:39 p.=
-m.., the account is automatically deleted.&nbsp;You can change the frequenc=
-y of these notifications within your mailbox portal.</FONT></P></TD></TR></=
-TBODY></TABLE></BODY></HTML>
-------=_NextPart_000_0012_6943CF5D.8C205F64--
-
+-- 
+With best wishes
+Dmitry
