@@ -1,108 +1,95 @@
-Return-Path: <SRS0=5j3L=QP=linaro.org=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=/0NN=QP=quicinc.com=quic_akhilpo@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 041A1C3601A
-	for <linux-firmware@archiver.kernel.org>; Tue, 17 Sep 2024 14:13:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F674CAC5A2
+	for <linux-firmware@archiver.kernel.org>; Tue, 17 Sep 2024 21:03:31 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B3B45C4CECD; Tue, 17 Sep 2024 14:13:27 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id 3A0BAC4CECE; Tue, 17 Sep 2024 21:03:31 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 923C8C4CEC5
-	for <linux-firmware@kernel.org>; Tue, 17 Sep 2024 14:13:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 923C8C4CEC5
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2f761461150so61311561fa.0
-        for <linux-firmware@kernel.org>; Tue, 17 Sep 2024 07:13:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1726582405; x=1727187205; darn=kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=20CNLvOyUUOXoU+FkRSTMZDwqqaWT7yX2cgwiXTVbpo=;
-        b=usliAyZKvTNu0Svd3dzRs4q4c09VTsjCh8TgtqwRP5a8G/CTLJnZnSNaubqnmJWfoW
-         9Wy9HooT9YY3Maqf2D+bvMU62Tl+ThCzSFnSWbkO4kdvhOxWL7Sq4GbnO7qIQGKP/RON
-         U0QVYgojkZpJdUqKe24LtajEJuyoP+upjDgVNjxSy2jbhH5ib6YPdtbbABIUPT24zOzH
-         P7ssQG/ElanpLGd7bRv9N4WHP+xZDgnyaFd/w74LfBjJUxF43Y0ZaHMroTcXs/F2vcza
-         vkCWsjDKzz6xmG0e/fWrSy4q+/tWlsSf4pXwh19xfi69VDJRyIkoxwRroCbkpwLLbRZP
-         r0Gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726582405; x=1727187205;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=20CNLvOyUUOXoU+FkRSTMZDwqqaWT7yX2cgwiXTVbpo=;
-        b=WEqL+k72mzeD0EKiOO7RTvV8FhfOrHcpuW/YGQ37k1gLWP8jkUVZ9Os0V73MT8MwMN
-         5nahqj5fXeIWyasrg7EkanGCh2Obt/ZpW1eFi7lYXRT6uKB4G794aQz+9LqIhwLGhLre
-         yIlR5p2suFT10mc3fAIZeSR/iDxA8wSGTs4a3VSjfwjezUd6xFS/mpL/+3DEjhYhDPhi
-         IGQZWZ/qu/PxoC7Aqjku7StNSk7EJj159gUmD9SRaAU5Jb9GPz9dSeVGwFmUo6Mip+33
-         uTmMiTxFukE+tK/1TxOdB9QfmF12FFioVei4Db55crnDpYyqQUm3c7/iX26tH49hU7Pf
-         zyRA==
-X-Gm-Message-State: AOJu0YxdoKm/AB3bQFv2Opg8cnAvb/Slk4aAc1kRl1K2IkDyDuyKrCzT
-	EVqrJqrzy++SirWL0KLi7LA0D5agl7tQV8xWs16LcljPl7I1xFN9ojGhdFNx8/0=
-X-Google-Smtp-Source: AGHT+IF3ANdFFNjkMP69lAqM1H3KxfGPX7iDKp4IsjBTwV6kB1b0WX/YZIbOF6JWiiZdNrPjBu7EVw==
-X-Received: by 2002:a05:6512:a8e:b0:52c:e17c:cd7b with SMTP id 2adb3069b0e04-5367fed250bmr10763816e87.22.1726582404391;
-        Tue, 17 Sep 2024 07:13:24 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-536870966basm1204640e87.138.2024.09.17.07.13.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Sep 2024 07:13:23 -0700 (PDT)
-Date: Tue, 17 Sep 2024 17:13:22 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 54305C4CEC5
+	for <linux-firmware@kernel.org>; Tue, 17 Sep 2024 21:03:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 54305C4CEC5
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48HJhXJb007900;
+	Tue, 17 Sep 2024 21:03:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-type:date:from:message-id:mime-version:subject:to; s=
+	qcppdkim1; bh=xbP/3dC44ccvd3dBnrG7OAbepRGPIGeEwWVGA3y9dJU=; b=V4
+	PcKwuuuWL8+d2QY2UQFHY+0Xxzg9eFNir7w5fUA+TlofPaH1XwBUZKIM/a2j4mgE
+	1cxoe4sTEe8NgUMq7GdzUrncwkQVp+8kO/f6+MdNIh98//PbQxAUtwWOo5ThEU37
+	qAPz2BhXpk4Y/HYBkYcnufi4+bnLB4s4GtNB0/ZDfVdS/5DjXq+b7CaGBjViJydH
+	7tJF1p2qYlyiSn1DWt/s1sjjVXpDk1QgF/8Gpfc91JB1Ja5VHWSG5DEXfSw2L3z9
+	KoKWczpW7fpog1+RWsHZ7VvfZ29oPbWHXEC+jDv9zHgIo1nNX9mDPkSu9g8LWKc/
+	JcczjDpJLIjuL+CKUUYA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41n4hf01m5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Sep 2024 21:03:28 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48HL3RIG010354
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Sep 2024 21:03:27 GMT
+Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 17 Sep 2024 14:03:26 -0700
+Date: Wed, 18 Sep 2024 02:33:23 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, quic_rajeshk@quicinc.com
-Subject: Re: your mail
-Message-ID: <gmss4xrecjq4pyuoggpoa35suetarsmcx5vfl3nc75ous2hhbl@zej5qjjkd2oz>
-References: <20240917071016.gp43cuysm4kdznzx@hu-akhilpo-hyd.qualcomm.com>
- <CAA8EJpp4tGH_v7z9Um7Y+xxWPyFFMq4P3-cytNSJe3dqhLD_OA@mail.gmail.com>
- <20240917080326.vpks3w3dmhgn5aiq@hu-akhilpo-hyd.qualcomm.com>
+To: <linux-firmware@kernel.org>
+CC: <dmitry.baryshkov@linaro.org>
+Subject: qcom: add gpu firmwares for sa8775p chipset
+Message-ID: <20240917210323.tkzmi53qbm7jse4n@hu-akhilpo-hyd.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20240917080326.vpks3w3dmhgn5aiq@hu-akhilpo-hyd.qualcomm.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: t4WrHRdUSbeHv7_eUPHUExKa0S6XBN4-
+X-Proofpoint-GUID: t4WrHRdUSbeHv7_eUPHUExKa0S6XBN4-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
+ suspectscore=0 bulkscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015
+ mlxlogscore=314 adultscore=0 malwarescore=0 phishscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2408220000
+ definitions=main-2409170149
 
-On Tue, Sep 17, 2024 at 01:33:26PM GMT, Akhil P Oommen wrote:
-> On Tue, Sep 17, 2024 at 09:24:19AM +0200, Dmitry Baryshkov wrote:
-> > On Tue, 17 Sept 2024 at 09:10, Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
-> > >
-> > > The following changes since commit 6c88d9b8253b8ec6df701a551a56438ea2e5bacf:
-> > >
-> > >   Merge branch 'amd-staging' into 'main' (2024-09-13 20:28:50 +0000)
-> > >
-> > > are available in the Git repository at:
-> > >
-> > >   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git gpu-fw-SA8775p
-> > >
-> > > for you to fetch changes up to 43c971bcd74d9793140a8fbbcc805204cb797f96:
-> > >
-> > >   qcom: add gpu firmwares for sa8775p chipset (2024-09-17 11:57:51 +0530)
-> > >
-> > > ----------------------------------------------------------------
-> > > Akhil P Oommen (1):
-> > >       qcom: add gpu firmwares for sa8775p chipset
-> > >
-> > >  WHENCE                    |   2 ++
-> > >  qcom/a663_gmu.bin         | Bin 0 -> 55892 bytes
-> > >  qcom/sa8775p/a663_zap.mbn | Bin 0 -> 1054680 bytes
-> > >  3 files changed, 2 insertions(+)
-> > >  create mode 100644 qcom/a663_gmu.bin
-> > >  create mode 100644 qcom/sa8775p/a663_zap.mbn
-> > 
-> > Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
-> Sent it out sooner without a subject due to a 'Mutt' fiasco. Please excuse
-> me for the missing subject.
-> 
-> Hope this is sufficient to pull the firmwares.
+Hi,
 
-I think the pull request didn't hit the mailing list. At least I don't
-see it in the archives on lore.
+The following changes since commit 6c88d9b8253b8ec6df701a551a56438ea2e5bacf:
 
--- 
-With best wishes
-Dmitry
+  Merge branch 'amd-staging' into 'main' (2024-09-13 20:28:50 +0000)
+
+are available in the Git repository at:
+
+  https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git gpu-fw-SA8775p
+
+for you to fetch changes up to 43c971bcd74d9793140a8fbbcc805204cb797f96:
+
+  qcom: add gpu firmwares for sa8775p chipset (2024-09-17 11:57:51 +0530)
+
+----------------------------------------------------------------
+Akhil P Oommen (1):
+      qcom: add gpu firmwares for sa8775p chipset
+
+ WHENCE                    |   2 ++
+ qcom/a663_gmu.bin         | Bin 0 -> 55892 bytes
+ qcom/sa8775p/a663_zap.mbn | Bin 0 -> 1054680 bytes
+ 3 files changed, 2 insertions(+)
+ create mode 100644 qcom/a663_gmu.bin
+ create mode 100644 qcom/sa8775p/a663_zap.mbn
+
+ regards,
+ Akhil
