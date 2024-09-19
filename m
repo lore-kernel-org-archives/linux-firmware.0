@@ -1,157 +1,62 @@
-Return-Path: <SRS0=2NHE=QQ=163.com=jessie00507@kernel.org>
+Return-Path: <kvalo@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8DD5CCD184
-	for <linux-firmware@archiver.kernel.org>; Wed, 18 Sep 2024 07:40:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44810CE8D58
+	for <linux-firmware@archiver.kernel.org>; Thu, 19 Sep 2024 07:44:56 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 9D7A0C4CECE; Wed, 18 Sep 2024 07:40:02 +0000 (UTC)
-Received: from mail-8160.188.com (mail-8160.188.com [60.191.81.60])
-	by smtp.kernel.org (Postfix) with ESMTP id 046E9C4CEC3
-	for <linux-firmware@kernel.org>; Wed, 18 Sep 2024 07:39:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 046E9C4CEC3
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=lianfa-group.net
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=163.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=BJW7F2S1I5vKr/fMDu0Ki9JfdKlKCob61Sp61GtL4mI=; b=m
-	gABT9+y+GafSkptGP6AiWM4lSWieuTmiPsCbu+IZ73dU+vaNmNbpR88DYRSpGY8S
-	FcNSY2vmvYGYMNyW9wf3KhhpAKaQInstSHp9zPGLSk3JYlB6hCjXWv9jiK7oP+2+
-	be5HWVQNVrw2q9ldV1+7+rWwkcD9OTX3THtTh9WSTM=
-Received: from sales5$lianfa-group.net ( [60.168.253.224] ) by
- ajax-webmail-wmsvr-40-107 (Coremail) ; Wed, 18 Sep 2024 15:34:14 +0800
- (CST)
-X-Originating-IP: [60.168.253.224]
-Date: Wed, 18 Sep 2024 15:34:14 +0800 (CST)
-From: Jessie  <sales5@lianfa-group.net>
+	id 0CBE5C4CEC5; Thu, 19 Sep 2024 07:44:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A000CC4CEC4;
+	Thu, 19 Sep 2024 07:44:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726731896;
+	bh=N/tB5kurtPU5UipR1x6mXZYuDqe3q1sB0b5AxUJp0TM=;
+	h=From:To:List-Id:Cc:Subject:References:Date:In-Reply-To:From;
+	b=NNAevjV8ih7g1atCXk0IekM/cPzw6JUwk7EGJ23E0CXyCm82bA+qWIznwSdEhor2O
+	 WxGPEvKRmM7EZT1ytV+iV3UDms1c8Jvy9EY3UOrsgi+rlzVMdqLZZTFbNxbOCqGa6E
+	 QgruianCkw3Oy1tWDXtcYBdaF5njvo2oy84jr9v+oq3Wli+Y5EdIXFmgB0ZLsyNeG4
+	 wPbGjLZoHwDOXhVHO57BAbwBfJODF+36YNa05/ZEdl7Qd1K5T5T5yiOTBW5X9muGue
+	 sb2KR0ECPDI0+V76X3BA377MaRU9NAxntyjhLhuPTPMCKtp3HnA5HRz9rhCQkXQUD/
+	 tK5YbUp4J3T9Q==
+From: Kalle Valo <kvalo@kernel.org>
+To: "Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Subject: welding hose
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-Sender: jessie00507@163.com
-X-NTES-SC: AL_Qu2ZBPqfu0Au4iKRZ+kWmE4Sjug4XMe3s/ov1YJVN5k0uSTk/B8heFFtL3f26MeuGiqmnjazSR5X7NVWQIB/ba+r+0BlqNyYkjimxJMyb7nd
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_134196_798729692.1726644854302"
+Cc: Christian Heusel <christian@heusel.eu>,  linux-firmware@kernel.org,
+  Linux regressions mailing list <regressions@lists.linux.dev>,
+  linux-kernel@vger.kernel.org,
+    ath12k@lists.infradead.org
+Subject: Re: [REGRESSION] Update of linux-firmware breaks wifi on Thinkpad T14
+References: <44ae68d2-24b6-49d2-a4f9-ae9cbf6f9950@heusel.eu>
+	<a6ea491c-f238-4c84-a51a-3304f6781468@leemhuis.info>
+Date: Thu, 19 Sep 2024 10:44:52 +0300
+In-Reply-To: <a6ea491c-f238-4c84-a51a-3304f6781468@leemhuis.info> (Linux
+	regression tracking's message of "Mon, 16 Sep 2024 14:53:06 +0200")
+Message-ID: <87r09g9jez.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Message-ID: <20589428.7f51.192040d9e1e.Coremail.sales5@lianfa-group.net>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:_____wDX39N2gupmimUUAA--.40832W
-X-CM-SenderInfo: 5mhv2xjhqqkiqx6rljoofrz/1tbiXRZeM2XAnUle7gAAsn
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain
 
-------=_Part_134196_798729692.1726644854302
-Content-Type: text/plain; charset=GBK
-Content-Transfer-Encoding: base64
+"Linux regression tracking (Thorsten Leemhuis)"
+<regressions@leemhuis.info> writes:
 
-SGksCgoKR2xhZCB0byBjb250YWN0IHdpdGggeW91IQoKClRoaXMgaXMgSmVzc2llIGZyb20gQ2hp
-bmEsIGluZHVzdHJpYWwgaG9zZSBtYW51ZmFjdHVyZXIuCkRvIHlvdSBoYXZlIHRoZSBuZXcgZGVt
-YW5kcyBvZiB0aGUgd2VsZGluZyBob3NlIGxpa2Ugc2luZ2xlL3R3aW4gb3h5Z2VuIGFjZXR5bGVu
-ZSBob3NlLGxwZyBob3NlLCBhaXIvd2F0ZXIgaG9zZSx0aWcgaG9zZSBldGMuPwoKCklmIHllcywg
-cGxlYXNlIHNlbmQgbWUgaW5xdWlyeSwgaG9wZSB3ZSBjYW4gaGF2ZSBhIGNoYW5jZSB0byBjb29w
-ZXJhdGUuCgoKTW9yZSBpbmZvcm1hdGlvbiBhbmQgY2F0YWxvZyB3aWxsIGJlIHNlbmQgaWYgeW91
-IG5lZWQuCgoKV2FpdGluZyBmb3IgeW91ciBraW5kbHkgcmVwbHkuCgoKQmVzdCByZWdhcmRzCkpl
-c3NpZQ==
-------=_Part_134196_798729692.1726644854302
-Content-Type: text/html; charset=GBK
-Content-Transfer-Encoding: base64
+> On 16.09.24 12:49, Christian Heusel wrote:
+>> 
+>> the commit 82318c96 ("ath12k: WCN7850 hw2.0: update board-2.bin") in the
+>> linux firmware repository apparently breaks card recognition in Thinkpad
+>> T14 laptops with the following journal entries:
+>
+> TWIMC, another report (that is 5 minutes older :-D ) about this can be
+> found here: https://lore.kernel.org/all/87bk0nc1yb.wl-tiwai%40suse.de
 
-PGRpdiBkYXRhLW50ZXM9Im50ZXNfbWFpbF9ib2R5X3Jvb3QiIHN0eWxlPSJsaW5lLWhlaWdodDox
-Ljc7Y29sb3I6IzAwMDAwMDtmb250LXNpemU6MTRweDtmb250LWZhbWlseTpBcmlhbCI+PGRpdiBp
-ZD0ic3BuRWRpdG9yQ29udGVudCI+PGRpdiBkYXRhLW50ZXM9Im50ZXNfbWFpbF9ib2R5X3Jvb3Qi
-IHN0eWxlPSJsaW5lLWhlaWdodDogMS43OyI+PGRpdiBpZD0ic3BuRWRpdG9yQ29udGVudCI+PGRp
-diBkYXRhLW50ZXM9Im50ZXNfbWFpbF9ib2R5X3Jvb3QiIHN0eWxlPSJsaW5lLWhlaWdodDogMS43
-OyI+PGRpdiBpZD0ic3BuRWRpdG9yQ29udGVudCI+PGRpdiBkYXRhLW50ZXM9Im50ZXNfbWFpbF9i
-b2R5X3Jvb3QiIHN0eWxlPSJsaW5lLWhlaWdodDogMS43OyI+PGRpdiBkYXRhLW50ZXM9Im50ZXNf
-bWFpbF9ib2R5X3Jvb3QiIHN0eWxlPSJsaW5lLWhlaWdodDogMS43OyI+PGRpdiBpZD0ic3BuRWRp
-dG9yQ29udGVudCI+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6IDEuNTsgZm9udC1mYW1pbHk6IFZl
-cmRhbmE7Ij48Zm9udCBmYWNlPSJBcmlhbCIgc2l6ZT0iMiIgc3R5bGU9ImxpbmUtaGVpZ2h0OiAx
-LjU7Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOiAxNHB4OyI+SGksPC9zcGFuPjwvZm9udD48L2Rp
-dj48ZGl2IHN0eWxlPSJsaW5lLWhlaWdodDogMS41OyBmb250LWZhbWlseTogVmVyZGFuYTsiPjxm
-b250IGZhY2U9IkFyaWFsIiBzaXplPSIyIiBzdHlsZT0ibGluZS1oZWlnaHQ6IDEuNTsiPjxicj48
-L2ZvbnQ+PC9kaXY+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6IDEuNTsgZm9udC1mYW1pbHk6IFZl
-cmRhbmE7Ij48Zm9udCBmYWNlPSJBcmlhbCIgc2l6ZT0iMiIgc3R5bGU9ImxpbmUtaGVpZ2h0OiAx
-LjU7Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOiAxNHB4OyI+R2xhZCB0byBjb250YWN0IHdpdGgg
-eW91ITwvc3Bhbj48L2ZvbnQ+PC9kaXY+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6IDEuNTsgZm9u
-dC1mYW1pbHk6IFZlcmRhbmE7Ij48Zm9udCBmYWNlPSJBcmlhbCIgc2l6ZT0iMiIgc3R5bGU9Imxp
-bmUtaGVpZ2h0OiAxLjU7Ij48YnI+PC9mb250PjwvZGl2PjxkaXYgc3R5bGU9ImxpbmUtaGVpZ2h0
-OiAxLjU7IGZvbnQtZmFtaWx5OiBWZXJkYW5hOyI+PGZvbnQgZmFjZT0iQXJpYWwiIHNpemU9IjIi
-IHN0eWxlPSJsaW5lLWhlaWdodDogMS41OyI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTogMTRweDsi
-PlRoaXMgaXMgSmVzc2llIGZyb20gQ2hpbmEsIGluZHVzdHJpYWwgaG9zZSBtYW51ZmFjdHVyZXIu
-PC9zcGFuPjwvZm9udD48L2Rpdj48ZGl2IHN0eWxlPSJsaW5lLWhlaWdodDogMS41OyBmb250LWZh
-bWlseTogVmVyZGFuYTsiPjxmb250IGNvbG9yPSIjMzMzMzMzIiBmYWNlPSJBcmlhbCIgc2l6ZT0i
-MiIgc3R5bGU9ImxpbmUtaGVpZ2h0OiAxLjU7Ij48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2UtY29s
-bGFwc2U6IHByZXNlcnZlLWJyZWFrczsgZm9udC1zaXplOiAxNHB4OyI+RG8geW91IGhhdmUgdGhl
-IG5ldyBkZW1hbmRzIG9mIHRoZSB3ZWxkaW5nIGhvc2UgbGlrZSBzaW5nbGUvdHdpbiBveHlnZW4g
-YWNldHlsZW5lIGhvc2UsbHBnIGhvc2UsIGFpci93YXRlciBob3NlLHRpZyBob3NlIGV0Yy4/PC9z
-cGFuPjwvZm9udD48L2Rpdj48ZGl2IHN0eWxlPSJsaW5lLWhlaWdodDogMS41OyBmb250LWZhbWls
-eTogVmVyZGFuYTsiPjxicj48L2Rpdj48ZGl2IHN0eWxlPSJsaW5lLWhlaWdodDogMS41OyBmb250
-LWZhbWlseTogVmVyZGFuYTsiPjxmb250IGZhY2U9IkFyaWFsIiBzaXplPSIyIiBzdHlsZT0ibGlu
-ZS1oZWlnaHQ6IDEuNTsiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6IDE0cHg7Ij5JZiB5ZXMsIHBs
-ZWFzZSBzZW5kIG1lIGlucXVpcnksIGhvcGUgd2UgY2FuIGhhdmUgYSBjaGFuY2UgdG8gY29vcGVy
-YXRlLjwvc3Bhbj48L2ZvbnQ+PC9kaXY+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6IDEuNTsgZm9u
-dC1mYW1pbHk6IFZlcmRhbmE7Ij48Zm9udCBmYWNlPSJBcmlhbCIgc2l6ZT0iMiIgc3R5bGU9Imxp
-bmUtaGVpZ2h0OiAxLjU7Ij48YnI+PC9mb250PjwvZGl2PjxkaXYgc3R5bGU9ImxpbmUtaGVpZ2h0
-OiAxLjU7IGZvbnQtZmFtaWx5OiBWZXJkYW5hOyI+PGZvbnQgZmFjZT0iQXJpYWwiIHNpemU9IjIi
-IHN0eWxlPSJsaW5lLWhlaWdodDogMS41OyI+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6IDEuNTsg
-Zm9udC1mYW1pbHk6IFZlcmRhbmE7Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOiAxNHB4OyBmb250
-LWZhbWlseTogQXJpYWw7Ij5Nb3JlIGluZm9ybWF0aW9uIGFuZCBjYXRhbG9nIHdpbGwgYmUgc2Vu
-ZCBpZiB5b3UgbmVlZC48L3NwYW4+PC9kaXY+PC9mb250PjwvZGl2PjxkaXYgc3R5bGU9ImxpbmUt
-aGVpZ2h0OiAxLjU7IGZvbnQtZmFtaWx5OiBWZXJkYW5hOyI+PGZvbnQgZmFjZT0iQXJpYWwiIHNp
-emU9IjIiIHN0eWxlPSJsaW5lLWhlaWdodDogMS41OyI+PGJyPjwvZm9udD48L2Rpdj48ZGl2IHN0
-eWxlPSJsaW5lLWhlaWdodDogMS41OyBmb250LWZhbWlseTogVmVyZGFuYTsiPjxmb250IGZhY2U9
-IkFyaWFsIiBzaXplPSIyIiBzdHlsZT0ibGluZS1oZWlnaHQ6IDEuNTsiPjxzcGFuIHN0eWxlPSJm
-b250LXNpemU6IDE0cHg7Ij5XYWl0aW5nIGZvciB5b3VyIGtpbmRseSByZXBseS48L3NwYW4+PC9m
-b250PjwvZGl2PjxkaXYgc3R5bGU9ImxpbmUtaGVpZ2h0OiAxLjU7IGZvbnQtZmFtaWx5OiBWZXJk
-YW5hOyI+PGZvbnQgZmFjZT0iQXJpYWwiIHNpemU9IjIiIHN0eWxlPSJsaW5lLWhlaWdodDogMS41
-OyI+PGJyPjwvZm9udD48L2Rpdj48ZGl2IHN0eWxlPSJsaW5lLWhlaWdodDogMS41OyBmb250LWZh
-bWlseTogVmVyZGFuYTsiPjxkaXYgc3R5bGU9ImxpbmUtaGVpZ2h0OiAxLjU7Ij48Zm9udCBmYWNl
-PSJBcmlhbCIgc2l6ZT0iMiIgc3R5bGU9ImxpbmUtaGVpZ2h0OiAxLjU7Ij48c3BhbiBzdHlsZT0i
-Zm9udC1zaXplOiAxNHB4OyI+QmVzdCByZWdhcmRzPC9zcGFuPjwvZm9udD48L2Rpdj48ZGl2IHN0
-eWxlPSJsaW5lLWhlaWdodDogMS41OyI+PGZvbnQgZmFjZT0iQXJpYWwiIHNpemU9IjIiIHN0eWxl
-PSJsaW5lLWhlaWdodDogMS41OyI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTogMTRweDsiPkplc3Np
-ZTwvc3Bhbj48L2ZvbnQ+PC9kaXY+PC9kaXY+PC9kaXY+PGRpdiBzdHlsZT0icG9zaXRpb246IHJl
-bGF0aXZlOyB6b29tOiAxOyI+PGRpdiBzdHlsZT0iY2xlYXI6IGJvdGg7Ij48L2Rpdj48L2Rpdj48
-L2Rpdj48cCBzdHlsZT0ibWFyZ2luOiAwcHg7Ij48aW1nIHNyYz0iaHR0cHM6Ly9jb3VudC5tYWls
-LjE2My5jb20vYmVhY29uL3dlYm1haWwuZ2lmP3R5cGU9d2VibWFpbF9tYWlsdHJhY2UmYW1wO2d1
-aWQ9cHJlXzE1OTYwZTE0NWJmMzBmOTI4MGZiMGRjNmUwMjdkNTllIiBzdHlsZT0id2lkdGg6IDFw
-eDsgaGVpZ2h0OiAxcHg7Ij48aW1nIHNyYz0iaHR0cHM6Ly9jb3VudC5tYWlsLjE2My5jb20vYmVh
-Y29uL3dlYm1haWwuZ2lmP3R5cGU9d2VibWFpbF9tYWlsdHJhY2UmYW1wO2d1aWQ9cHJlXzk3Mzdi
-MWYzZTlmZTM3ZTAzYTI1Yzc5YTlkNDA5MzM2IiBzdHlsZT0id2lkdGg6IDFweDsgaGVpZ2h0OiAx
-cHg7Ij48aW1nIHNyYz0iaHR0cHM6Ly9jb3VudC5tYWlsLjE2My5jb20vYmVhY29uL3dlYm1haWwu
-Z2lmP3R5cGU9d2VibWFpbF9tYWlsdHJhY2UmYW1wO2d1aWQ9cHJlXzJmYjA0NTk2N2EzZTRlZTdk
-NGZhNjBkMDdlNTJhYTkxIiBzdHlsZT0id2lkdGg6IDFweDsgaGVpZ2h0OiAxcHg7Ij48aW1nIHNy
-Yz0iaHR0cHM6Ly9jb3VudC5tYWlsLjE2My5jb20vYmVhY29uL3dlYm1haWwuZ2lmP3R5cGU9d2Vi
-bWFpbF9tYWlsdHJhY2UmYW1wO2d1aWQ9cHJlXzA2NjZkMmQyMWIxNDJjMzYzMWU1YzQzMWE3YTgy
-Nzc2IiBzdHlsZT0id2lkdGg6IDFweDsgaGVpZ2h0OiAxcHg7Ij48aW1nIHNyYz0iaHR0cHM6Ly9j
-b3VudC5tYWlsLjE2My5jb20vYmVhY29uL3dlYm1haWwuZ2lmP3R5cGU9d2VibWFpbF9tYWlsdHJh
-Y2UmYW1wO2d1aWQ9cHJlXzk3YWNjZmJiNDFjMjIyMTAyYTg0MDI0NmU5NjhkYzgwIiBzdHlsZT0i
-d2lkdGg6IDFweDsgaGVpZ2h0OiAxcHg7Ij48L3A+PC9kaXY+PHAgc3R5bGU9Im1hcmdpbjogMHB4
-OyI+PGltZyBzcmM9Imh0dHBzOi8vY291bnQubWFpbC4xNjMuY29tL2JlYWNvbi93ZWJtYWlsLmdp
-Zj90eXBlPXdlYm1haWxfbWFpbHRyYWNlJmFtcDtndWlkPXByZV85YmUzOWNhMjRiMjg1ZDg5Yzlj
-YWI3NjgwMzU0MDFkYiIgc3R5bGU9IndpZHRoOiAxcHg7IGhlaWdodDogMXB4OyI+PGltZyBzcmM9
-Imh0dHBzOi8vY291bnQubWFpbC4xNjMuY29tL2JlYWNvbi93ZWJtYWlsLmdpZj90eXBlPXdlYm1h
-aWxfbWFpbHRyYWNlJmFtcDtndWlkPXByZV9lMjE2NDQ0YTRhODMxOWU3NjVkZjU4ODEyMzIyNmU1
-MCIgc3R5bGU9IndpZHRoOiAxcHg7IGhlaWdodDogMXB4OyI+PGltZyBzcmM9Imh0dHBzOi8vY291
-bnQubWFpbC4xNjMuY29tL2JlYWNvbi93ZWJtYWlsLmdpZj90eXBlPXdlYm1haWxfbWFpbHRyYWNl
-JmFtcDtndWlkPXByZV80YmIzYTRmZTlhZTBmMzVjNWQ5ZGY0MmMxMDdiY2I1NSIgc3R5bGU9Indp
-ZHRoOiAxcHg7IGhlaWdodDogMXB4OyI+PGltZyBzcmM9Imh0dHBzOi8vY291bnQubWFpbC4xNjMu
-Y29tL2JlYWNvbi93ZWJtYWlsLmdpZj90eXBlPXdlYm1haWxfbWFpbHRyYWNlJmFtcDtndWlkPXBy
-ZV82ODM0ZDg2Yjc1YjY1N2ZlNTJhMWNmNDc3MmM1YTYxOCIgc3R5bGU9IndpZHRoOiAxcHg7IGhl
-aWdodDogMXB4OyI+PC9wPjwvZGl2PjxkaXYgc3R5bGU9InBvc2l0aW9uOiByZWxhdGl2ZTsgem9v
-bTogMTsiPjxkaXYgc3R5bGU9ImNsZWFyOiBib3RoOyI+PC9kaXY+PC9kaXY+PC9kaXY+PHAgc3R5
-bGU9Im1hcmdpbjogMHB4OyI+PGltZyBzcmM9Imh0dHBzOi8vY291bnQubWFpbC4xNjMuY29tL2Jl
-YWNvbi93ZWJtYWlsLmdpZj90eXBlPXdlYm1haWxfbWFpbHRyYWNlJmFtcDtndWlkPXByZV9kOTZh
-MmE5Y2I1YWVlNzM5YzE4NWJkMDA2M2JmZjk5MCIgc3R5bGU9IndpZHRoOiAxcHg7IGhlaWdodDog
-MXB4OyI+PC9wPjwvZGl2PjxkaXYgc3R5bGU9InBvc2l0aW9uOiByZWxhdGl2ZTsgem9vbTogMTsi
-PjxkaXYgc3R5bGU9ImNsZWFyOiBib3RoOyI+PC9kaXY+PC9kaXY+PC9kaXY+PHAgc3R5bGU9Im1h
-cmdpbjogMHB4OyI+PGltZyBzcmM9Imh0dHBzOi8vY291bnQubWFpbC4xNjMuY29tL2JlYWNvbi93
-ZWJtYWlsLmdpZj90eXBlPXdlYm1haWxfbWFpbHRyYWNlJmFtcDtndWlkPXByZV80MjJiZDlhYWQx
-NTk5NDQxZDU3ZGY0YjgyNWQwY2E5NSIgc3R5bGU9IndpZHRoOiAxcHg7IGhlaWdodDogMXB4OyI+
-PC9wPjwvZGl2PjxkaXYgc3R5bGU9InBvc2l0aW9uOnJlbGF0aXZlO3pvb206MSI+PGRpdiBzdHls
-ZT0iY2xlYXI6Ym90aCI+PC9kaXY+PC9kaXY+PC9kaXY+
-------=_Part_134196_798729692.1726644854302--
+And this is now tracked in bugzilla:
 
+https://bugzilla.kernel.org/show_bug.cgi?id=219282
+
+Please cc the ath12k list for all ath12k related issues, adding it now.
+
+-- 
+https://patchwork.kernel.org/project/linux-wireless/list/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
