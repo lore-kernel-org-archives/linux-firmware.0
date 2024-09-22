@@ -4,46 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 816C8CF9C71
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E0C3CF9C6F
 	for <linux-firmware@archiver.kernel.org>; Sun, 22 Sep 2024 20:17:53 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 4BCC5C4CED0; Sun, 22 Sep 2024 20:17:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2E963C4CEC3;
+	id 572F0C4CED2; Sun, 22 Sep 2024 20:17:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 356ADC4CECE;
 	Sun, 22 Sep 2024 20:17:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1727036273;
-	bh=gPdYPmgOiCqykQi54mmzXCLSECkoPe2Mct1HGMY7WU0=;
-	h=From:Subject:Date:List-Id:To:Cc:Reply-To:From;
-	b=ns7+L/gjwOLMGg5/4qjiQ/swj/+xUONnO486Gk/hLmO33lkre8kH8VUWqVYUIZ5/P
-	 iPxLDfqzLnB1fWfuEZ/viUhjlxSLx982N9kL7I/BvGzlwfcMklVDKXDw9Czt7yy+N8
-	 gyoD0a6nJmmBuCEGSXOLSmSjTHjIMhQ+MUTIX/YS3NiiNEBurDNcoINBz3xRdGbO1I
-	 1T9P2xEiC+Zwx4MTvANJdf4i/iEc15aeMYWCrjo1bovYm2Mr6XTN2ujFG2dTbGjT0N
-	 M95s7HgAozyUsu65OQBEeSrE9d0dXLBYeUCz6sg45Iqs2O+OQeEmOX/vRjT+GlIK2i
-	 WVOOswaJjudzA==
+	bh=Ghucb0krYr7zvn5WPCCAyBpP13hsWFVPFO/De5VZvto=;
+	h=From:Date:Subject:References:In-Reply-To:List-Id:To:Cc:Reply-To:
+	 From;
+	b=X8ynn3x3v7p61DovP7eI1SJJP8xbi3nvuGfTrnY/XMLHKX2F52a66CevfsGQ4uSLL
+	 Fn2ZE3eC6z/I3tatqERjRtt5zMRm5fdV2gFLKfU/Xq+0/zkieJF5agqDzVFbiyo2Zz
+	 32JvIXbwGlVbaOMn/6nlJLD+yDBAgLZbNjO2o9ZOaTLtGSEFVWWC+rqohLU3czS474
+	 hCTom2yUW2mGEDXL0GpvnrpvyFm0TeZNeim683MdYJSt+E6LjR2s5AxSWVxQ8yPr+z
+	 zPBdSl8AMl3rysm0lW0hi7iiEFHILnAd4SYeAQFaS4YA3ZO9TQuLpiLrxSW+SVKRj/
+	 0yIMNJlSjmg0w==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C55FCF9C63;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2730DCF9C64;
 	Sun, 22 Sep 2024 20:17:53 +0000 (UTC)
 From: Emil Velikov via B4 Relay <devnull+emil.l.velikov.gmail.com@kernel.org>
-Subject: [PATCH 00/16] Range of copy-firmware/check_whence fixes
-Date: Sun, 22 Sep 2024 21:17:35 +0100
-Message-Id: <20240922-misc-fixes-v1-0-8c6e52997c94@gmail.com>
+Date: Sun, 22 Sep 2024 21:17:36 +0100
+Subject: [PATCH 01/16] check_whence.py: use consistent naming
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGB78GYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDSyMj3dzM4mTdtMyK1GJdi0RD48TkZHPDREtjJaCGgqJUsARQfXRsbS0
- AfgqMlFwAAAA=
-X-Change-ID: 20240922-misc-fixes-8a13acc71a93
+Message-Id: <20240922-misc-fixes-v1-1-8c6e52997c94@gmail.com>
+References: <20240922-misc-fixes-v1-0-8c6e52997c94@gmail.com>
+In-Reply-To: <20240922-misc-fixes-v1-0-8c6e52997c94@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Cc: Emil Velikov <emil.l.velikov@gmail.com>, 
- Juerg Haefliger <juerg.haefliger@canonical.com>
+Cc: Emil Velikov <emil.l.velikov@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727036271; l=2460;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727036271; l=1740;
  i=emil.l.velikov@gmail.com; s=20230301; h=from:subject:message-id;
- bh=gPdYPmgOiCqykQi54mmzXCLSECkoPe2Mct1HGMY7WU0=;
- b=gM/CLabDVy/tQZ4l7zg+W3KyargnKZMfHqgqxNbT/Ltr4SScai8N+WnyNzbDCxPC/UQdLY26g
- p9Mm3P+bcNRC/q8M1R9KgYThbBntQ8ugxloi6IE9vux7biJz48Odxcp
+ bh=+wYedyIHQdeXvxtfLekWNvAK9v0wDJG46Op9Xb0SWes=;
+ b=nIER3NHzaei5Ph+ZN1MuShTyzgNS96zpiwOUqjAa8gxHe3rv/lhXxNS1TYr6kqpqralQ7riKu
+ TTixZZR/GlsAN+9jHGI+kzhApDSq9sc3Cawk07IgjzWIUVJ/65tYnP5
 X-Developer-Key: i=emil.l.velikov@gmail.com; a=ed25519;
  pk=qeUTVTNyI3rcR2CfNNWsloTihgzmtbZo98GdxwZKCkY=
 X-Endpoint-Received: by B4 Relay for emil.l.velikov@gmail.com/20230301 with
@@ -51,62 +49,53 @@ X-Endpoint-Received: by B4 Relay for emil.l.velikov@gmail.com/20230301 with
 X-Original-From: Emil Velikov <emil.l.velikov@gmail.com>
 Reply-To: emil.l.velikov@gmail.com
 
-Hello all,
+From: Emil Velikov <emil.l.velikov@gmail.com>
 
-With the latest python 3.12 check_whence.py started throwing some
-warnings. The more I looked around, the more loose ends and bugs reared
-their (ugly) heads.
+Namely: file(name) and sym(link) ... which were swapped in a few places.
+One of which by yours truly :facepalm:
 
-In this series:
- - check_whence.py: sort the filenames, use consistent variable names
- - check_whence.py: fix links-to-links and band them
- - editorconfig: add the config and fix the yaml+sh indentation
- - copy-firmware.sh: factor out dedup fix broken ad-hoc symlink handling
- - copy-firmware.sh: remove the hacky argument injection
- - copy-firmware.sh: warn if the destination folder is NOT empty
- - copy-firmware.sh: call ./check_whence.py and remove the dead code
- - Dockerfile: remove unused packages... based on local testing
-
-I've tried to keep the rant to a minimum, thus some commit messages may
-seem sparse. Let me know and I would happily add a few extra words.
-
-As always, input is highly appreciated. Thanks o/
-
+Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
-Emil Velikov (16):
-      check_whence.py: use consistent naming
-      check_whence.py: ban link-to-a-link
-      check_whence.py: LC_ALL=C sort -u the filelist
-      check_whence.py: annotate replacement strings as raw
-      editorconfig: add initial config file
-      Style update yaml files
-      Flesh out deduplicate-firmware.sh script
-      Revert "copy-firmware: Support additional compressor options"
-      copy-firmware.sh: fixup indentation, consistently use test
-      copy-firmware.sh: add err() helper
-      copy-firmware.sh: warn if the destination folder is not empty
-      copy-firmware.sh: call ./check_whence.py before parsing the file
-      copy-firmware.sh: remove no longer reachable test -f
-      copy-firmware.sh: remove no longer reachable test -L
-      copy-firmware.sh: rename variables in symlink hanlding
-      Dockerfile: remove unused packages
+ check_whence.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
- .editorconfig           |  21 +++++++++
- .gitlab-ci.yml          |   2 +-
- .pre-commit-config.yaml |  38 ++++++++---------
- Dockerfile              |   5 +--
- Makefile                |   7 ++-
- WHENCE                  |  14 +++---
- check_whence.py         |  42 +++++++++++-------
- copy-firmware.sh        | 110 +++++++++++++-----------------------------------
- deduplicate-firmware.sh |  50 ++++++++++++++++++++++
- 9 files changed, 157 insertions(+), 132 deletions(-)
----
-base-commit: 6c88d9b8253b8ec6df701a551a56438ea2e5bacf
-change-id: 20240922-misc-fixes-8a13acc71a93
+diff --git a/check_whence.py b/check_whence.py
+index fd74a56a5c5a1fbbc989588626ba1d9bc072d602..c270ee6020083044645353235a94eee0b2497960 100755
+--- a/check_whence.py
++++ b/check_whence.py
+@@ -99,7 +99,7 @@ def main():
+         sys.stderr.write("E: %s listed in WHENCE as File, but is directory\n" % name)
+         ret = 1
+ 
+-    for name in set(fw for fw in whence_files if whence_files.count(fw) > 1):
++    for name in set(name for name in whence_files if whence_files.count(name) > 1):
+         sys.stderr.write("E: %s listed in WHENCE twice\n" % name)
+         ret = 1
+ 
+@@ -107,7 +107,7 @@ def main():
+         sys.stderr.write("E: %s listed in WHENCE twice\n" % name)
+         ret = 1
+ 
+-    for name in set(link for link in whence_files if os.path.islink(link)):
++    for name in set(file for file in whence_files if os.path.islink(file)):
+         sys.stderr.write("E: %s listed in WHENCE as File, but is a symlink\n" % name)
+         ret = 1
+ 
+@@ -131,10 +131,10 @@ def main():
+                 break
+             valid_targets.add(dirname)
+ 
+-    for name, target in sorted(links_list):
++    for link, target in sorted(links_list):
+         if target not in valid_targets:
+             sys.stderr.write(
+-                "E: target %s of link %s in WHENCE" " does not exist\n" % (target, name)
++                "E: target %s of link %s in WHENCE" " does not exist\n" % (target, link)
+             )
+             ret = 1
+ 
 
-Best regards,
 -- 
-Emil Velikov <emil.l.velikov@gmail.com>
+2.46.1
 
 
