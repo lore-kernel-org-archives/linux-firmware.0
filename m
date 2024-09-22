@@ -4,44 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D60C0CF9C78
-	for <linux-firmware@archiver.kernel.org>; Sun, 22 Sep 2024 20:17:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 141CFCF9C6D
+	for <linux-firmware@archiver.kernel.org>; Sun, 22 Sep 2024 20:17:54 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C953EC4CEDE; Sun, 22 Sep 2024 20:17:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B3B95C4CED0;
+	id E8663C4CECF; Sun, 22 Sep 2024 20:17:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CE445C4CEDD;
 	Sun, 22 Sep 2024 20:17:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1727036273;
-	bh=Tra9g9JoJAgi05+oLmc6pRWVYAsrJ/27lr0BziDagu4=;
+	bh=WDkdWy/F3aVRLNiamiMgcapqsbaZVIXuqFv7sM27JgM=;
 	h=From:Date:Subject:References:In-Reply-To:List-Id:To:Cc:Reply-To:
 	 From;
-	b=HPgK9BsZIXHIABQoclIdjufD8/WsQlry7KAcm/Qhf6West46ywI7P9mEqHs1Tlcrw
-	 efepIBrd+vHTtnQc7oWjkMU4VLlq8M+1kO1zgXiEHv53CemEzFy7wbLNdtIZmqZXM0
-	 8Vv25BqEemlU1i4pByBZsviaL9TOxg1Bp8rhg4Lnb+TmzUU0TOGGMeZg/QyJHzpw8q
-	 DT7ApMO1r/Mk5yLR6Mf7WtzHcJpuMflwrd3R8TEHKVIxil3b0FjIPH8aIWNo5NP+yM
-	 skjpDLKQJvvMmShxTd82+77YQK2IexF3G2l/Brsu6n6KEVxAvLR8q+a71PSggSx2y2
-	 flyNt+h4zoOJw==
+	b=kE5HkGLfa/2/xk7WAISSyWetG2EmnXYJqOPwtBDtynabRg4IhBYvb5xFAKvWM7bMG
+	 FzRZVufHhFuh3wMfPwi0bp0g13hs5TrNuVnh8x9dDT1AXmbOM5N1iYA1/8tJapOgkG
+	 8WIZMY1ui9nQqrBn6z7Mk/n4++ULaR9yEe2GFNTB1S0RW2PWBUAciNogG3r+GJ8+F8
+	 vzc+j5G99pxpgUNGU9B1lYPOf9Wt9LB8cQgzOaqJLGEhpisfwaVzQt1BFkON5BnlCY
+	 OTj0oQ5VweyGi3UAFthhvGJlsYbwxd9a3FvkuempsrON885pRNBL7Z4YZUNPyIkvJY
+	 Mw++Nbj5q/wkw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA58DCF9C78;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C72EECF9C7B;
 	Sun, 22 Sep 2024 20:17:53 +0000 (UTC)
 From: Emil Velikov via B4 Relay <devnull+emil.l.velikov.gmail.com@kernel.org>
-Date: Sun, 22 Sep 2024 21:17:45 +0100
-Subject: [PATCH 10/16] copy-firmware.sh: add err() helper
+Date: Sun, 22 Sep 2024 21:17:47 +0100
+Subject: [PATCH 12/16] copy-firmware.sh: call ./check_whence.py before
+ parsing the file
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240922-misc-fixes-v1-10-8c6e52997c94@gmail.com>
+Message-Id: <20240922-misc-fixes-v1-12-8c6e52997c94@gmail.com>
 References: <20240922-misc-fixes-v1-0-8c6e52997c94@gmail.com>
 In-Reply-To: <20240922-misc-fixes-v1-0-8c6e52997c94@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
 Cc: Emil Velikov <emil.l.velikov@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727036271; l=2187;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727036271; l=911;
  i=emil.l.velikov@gmail.com; s=20230301; h=from:subject:message-id;
- bh=EJ089N84vDRdbLAQhH8BQRLgcvQ7Br4Tp+pP9zwM87c=;
- b=dSQz5WRCq2SUhhkFcWy/Xb4ihMv9S9+y7oeySXT/f8oBL0rDX3MH1nIQ+EYKgYyK9IeHqaOHw
- FV3atA8aRcxA5H0B2yMMGAAYH2pT6PvLYVL+PMMQSZcMo3QLXoXCm5N
+ bh=HBkBN3KMWwFD5mmZPHeopiW498PMbVobsiZupVQ9os4=;
+ b=1xy3n0AZjTt9jclFAS7Hp231LL49Rgn1RQBaBNj4pPeO9uSpwJa0m6QzJkzT5IPjigyrXQhf1
+ /c9i30TSMaSCoiX77B0ge4C0hI4DC6xmt0Wz4TI+Lv6BVGjRCV06VN+
 X-Developer-Key: i=emil.l.velikov@gmail.com; a=ed25519;
  pk=qeUTVTNyI3rcR2CfNNWsloTihgzmtbZo98GdxwZKCkY=
 X-Endpoint-Received: by B4 Relay for emil.l.velikov@gmail.com/20230301 with
@@ -51,78 +52,28 @@ Reply-To: emil.l.velikov@gmail.com
 
 From: Emil Velikov <emil.l.velikov@gmail.com>
 
+This will prevent accidental changes (eg. you're hacking locally) to wreaking
+chaos, as copy-firmware.sh expect a specific format.
+
 Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- copy-firmware.sh | 21 ++++++++++-----------
- 1 file changed, 10 insertions(+), 11 deletions(-)
+ copy-firmware.sh | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/copy-firmware.sh b/copy-firmware.sh
-index e46bb9926f86a813bc76f1da1604c1b7a4980848..f59d8403ab3f4c6928f6976069c134dfb98b1246 100755
+index dc959cbad3be3e79a1174afd0ff68b8d6c0567a5..ff3124d9d055f1f72351f472609d0158bd91dfb7 100755
 --- a/copy-firmware.sh
 +++ b/copy-firmware.sh
-@@ -10,6 +10,11 @@ prune=no
- compress=cat
- compext=
+@@ -70,6 +70,9 @@ if test -d "$destdir"; then
+     find "$destdir" -type d -empty >/dev/null && warn "destination folder is not empty."
+ fi
  
-+err() {
-+    echo "ERROR: $*"
-+    exit 1
-+}
++$verbose "Checking that WHENCE file is formatted properly"
++./check_whence.py
 +
- while test $# -gt 0; do
-     case $1 in
-         -v | --verbose)
-@@ -25,8 +30,7 @@ while test $# -gt 0; do
- 
-         --xz)
-             if test "$compext" = ".zst"; then
--                echo "ERROR: cannot mix XZ and ZSTD compression"
--                exit 1
-+                err "cannot mix XZ and ZSTD compression"
-             fi
-             compress="xz --compress --quiet --stdout --check=crc32"
-             compext=".xz"
-@@ -35,8 +39,7 @@ while test $# -gt 0; do
- 
-         --zstd)
-             if test "$compext" = ".xz"; then
--                echo "ERROR: cannot mix XZ and ZSTD compression"
--                exit 1
-+                err "cannot mix XZ and ZSTD compression"
-             fi
-             # shellcheck disable=SC2209
-             compress="zstd --compress --quiet --stdout"
-@@ -46,8 +49,7 @@ while test $# -gt 0; do
- 
-         *)
-             if test "x$destdir" != "x"; then
--                echo "ERROR: unknown command-line options: $*"
--                exit 1
-+                err "unknown command-line options: $*"
-             fi
- 
-             destdir="$1"
-@@ -57,8 +59,7 @@ while test $# -gt 0; do
- done
- 
- if test -z "$destdir"; then
--    echo "ERROR: destination directory was not specified"
--    exit 1
-+    err "destination directory was not specified"
- fi
- 
  # shellcheck disable=SC2162 # file/folder name can include escaped symbols
-@@ -114,9 +115,7 @@ done
- 
- # Verify no broken symlinks
- if test "$(find "$destdir" -xtype l | wc -l)" -ne 0 ; then
--    echo "ERROR: Broken symlinks found:"
--    find "$destdir" -xtype l
--    exit 1
-+    err "Broken symlinks found:\n$(find "$destdir" -xtype l)"
- fi
- 
- exit 0
+ grep -E '^(RawFile|File):' WHENCE | sed -E -e 's/^(RawFile|File): */\1 /;s/"//g' | while read k f; do
+     test -f "$f" || continue
 
 -- 
 2.46.1
