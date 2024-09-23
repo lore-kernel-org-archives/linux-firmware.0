@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2D754C78859
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 209BBC78855
 	for <linux-firmware@archiver.kernel.org>; Mon, 23 Sep 2024 13:09:44 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 24842C4CECE; Mon, 23 Sep 2024 13:09:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0E17AC4CED3;
-	Mon, 23 Sep 2024 13:09:44 +0000 (UTC)
+	id ECFB2C4CED5; Mon, 23 Sep 2024 13:09:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D5AD5C4CEEA;
+	Mon, 23 Sep 2024 13:09:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727096984;
-	bh=IEGj1NfElSDEgsIKR1MfNZV7qyN1ETJjMlQUThfQljg=;
+	s=k20201202; t=1727096983;
+	bh=g8oO1kp6BcmB1+X7nC6OlNxsplp49UK4jQPPhrW2tkg=;
 	h=From:Date:Subject:References:In-Reply-To:List-Id:To:Cc:Reply-To:
 	 From;
-	b=XLGIzwK1qpDlmFHBq8SPBj6hp/1B6pNz1uKRIe7k1BGIy3SLARuPJua9SOiLj4yL6
-	 B3J5GZ2lTp9U/rM4dCsi9o39dV88Cs1G5VPA8M0MGRRE4j5q1SUoOKk0nXHlTAILeX
-	 J5/6ur2JTfzyvJHq6nXnJP+BJkuR8Pz/SGFU/QDlqFtoVECgsLu3qLhFD6nGuMz7Ca
-	 +lyCsxnP/mUGI/wdYbH4OlU0CWgKfJ6/i2K9gCgdoIL54TWiu9QjM/vQ4Icf+53eRw
-	 h9ApzUNts2ApoAASfVbSwW/3MLtGk4WnmIFihGlRMidHoPUcsvtO/K/TP4ePmoJVp7
-	 23lIAHUyN2ZvA==
+	b=K2AUytwO8AdGsjz4eqMJLjlsKnWnhyJaqmkPc71Ha8CM0IAcCxVUesc4gJ0m1wztj
+	 rUmHnzC7ipQrXjY1IuewZp5jTgr1dAWgUMQDn/wHo3lz79NM4WKuGqBUfTEdsSNwBx
+	 4P0VuYIn3Xz/nQBcoAffEP2GN618LIEKscjtqVywaE64+NYQVtMGwFVcoyIjVm4nEr
+	 Wv6M3zbQ2HOOWJSymPmmM/choqO8wCTmCyWBetRWJkJ+Tc+6VSrpHUqWv7qGR3u3fW
+	 0hif3qlCF56+TxinK0t9SacbQaasRQk+160jxVgWcBd303aU+GDA2m33XYDZ+q+QXj
+	 27gAbcH7xGKyQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAE5DCF9C7D;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCD9CCF9C69;
 	Mon, 23 Sep 2024 13:09:43 +0000 (UTC)
 From: Emil Velikov via B4 Relay <devnull+emil.l.velikov.gmail.com@kernel.org>
-Date: Mon, 23 Sep 2024 14:09:44 +0100
-Subject: [PATCH v2 16/16] copy-firmware.sh: rename variables in symlink
- hanlding
+Date: Mon, 23 Sep 2024 14:09:43 +0100
+Subject: [PATCH v2 15/16] copy-firmware.sh: remove no longer reachable test
+ -L
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240923-misc-fixes-v2-16-397f23443628@gmail.com>
+Message-Id: <20240923-misc-fixes-v2-15-397f23443628@gmail.com>
 References: <20240923-misc-fixes-v2-0-397f23443628@gmail.com>
 In-Reply-To: <20240923-misc-fixes-v2-0-397f23443628@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
 Cc: Emil Velikov <emil.l.velikov@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727096979; l=1507;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727096979; l=2811;
  i=emil.l.velikov@gmail.com; s=20230301; h=from:subject:message-id;
- bh=Z5/WxfoLZqkgFB6L8ZRR1GpWggGK55LAePYnh7qPIeY=;
- b=L4qfEt4ryL24H4JiUxSBVwDZXE5UXowZ37y/px22T0tCJOQaRWO6lsqIE4nE/xuIFEMj/giMg
- gRVk2FcgK9ZBNc9sdZtnemJQA948qEpMHatETovmLMzn9Mp6hZsm1TZ
+ bh=foXN6non/4EWErt8om9qjqY8pRMSAQXSwNiS34NG/Bk=;
+ b=wLkyUFsqCZVr8td8tkuFiZDcWOnsZ5XluRDKxwWSJh4RKEwkry9qXnT1+0vJZBKG0puNLelfA
+ LpVBCGC4B+NAvE15kjR1//LPUj1gjP00pp0aT5yJ7s8wUjtB6fUPE0J
 X-Developer-Key: i=emil.l.velikov@gmail.com; a=ed25519;
  pk=qeUTVTNyI3rcR2CfNNWsloTihgzmtbZo98GdxwZKCkY=
 X-Endpoint-Received: by B4 Relay for emil.l.velikov@gmail.com/20230301 with
@@ -52,39 +52,84 @@ Reply-To: emil.l.velikov@gmail.com
 
 From: Emil Velikov <emil.l.velikov@gmail.com>
 
-Currently we use f(ile) and d(irectory), over the more common ones t(arget) and
-l(ink). Rename things appropriately.
+The check_whence.py script ensures that links defined in WHENCE are not in-tree.
+Since we're calling the script, we no longer need the convoluted path and
+associated --prune tag.
 
 Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- copy-firmware.sh | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ copy-firmware.sh | 46 ++++++++--------------------------------------
+ 1 file changed, 8 insertions(+), 38 deletions(-)
 
 diff --git a/copy-firmware.sh b/copy-firmware.sh
-index 57d43cd004231e34c5349ccff90072b26af63093..e2d2945c926872e55800c2a637574e8234908a5d 100755
+index bdc20d596ef5f9d99b17e9cea74a0358f0f4de09..57d43cd004231e34c5349ccff90072b26af63093 100755
 --- a/copy-firmware.sh
 +++ b/copy-firmware.sh
-@@ -81,16 +81,16 @@ grep -E '^(RawFile|File):' WHENCE | sed -E -e 's/^(RawFile|File): */\1 /;s/"//g'
- done
+@@ -5,7 +5,6 @@
+ #
+ 
+ verbose=:
+-prune=no
+ # shellcheck disable=SC2209
+ compress=cat
+ compext=
+@@ -28,11 +27,6 @@ while test $# -gt 0; do
+             shift
+             ;;
+ 
+-        -P | --prune)
+-            prune=yes
+-            shift
+-            ;;
+-
+         --xz)
+             if test "$compext" = ".zst"; then
+                 err "cannot mix XZ and ZSTD compression"
+@@ -88,39 +82,15 @@ done
  
  # shellcheck disable=SC2162 # file/folder name can include escaped symbols
--grep -E '^Link:' WHENCE | sed -e 's/^Link: *//g;s/-> //g' | while read f d; do
--    directory="$destdir/$(dirname "$f")"
-+grep -E '^Link:' WHENCE | sed -e 's/^Link: *//g;s/-> //g' | while read l t; do
-+    directory="$destdir/$(dirname "$l")"
-     install -d "$directory"
--    target="$(cd "$directory" && realpath -m -s "$d")"
-+    target="$(cd "$directory" && realpath -m -s "$t")"
-     if test -e "$target"; then
--        $verbose "creating link $f -> $d"
--        ln -s "$d" "$destdir/$f"
-+        $verbose "creating link $l -> $t"
-+        ln -s "$t" "$destdir/$l"
+ grep -E '^Link:' WHENCE | sed -e 's/^Link: *//g;s/-> //g' | while read f d; do
+-    if test -L "$f$compext"; then
+-        test -f "$destdir/$f$compext" && continue
+-        $verbose "copying link $f$compext"
+-        install -d "$destdir/$(dirname "$f")"
+-        cp -d "$f$compext" "$destdir/$f$compext"
+-
+-        if test "x$d" != "x"; then
+-            target="$(readlink "$f")"
+-
+-            if test "x$target" != "x$d"; then
+-                $verbose "WARNING: inconsistent symlink target: $target != $d"
+-            else
+-                if test "x$prune" != "xyes"; then
+-                    $verbose "WARNING: unneeded symlink detected: $f"
+-                else
+-                    $verbose "WARNING: pruning unneeded symlink $f"
+-                    rm -f "$f$compext"
+-                fi
+-            fi
+-        else
+-            $verbose "WARNING: missing target for symlink $f"
+-        fi
++    directory="$destdir/$(dirname "$f")"
++    install -d "$directory"
++    target="$(cd "$directory" && realpath -m -s "$d")"
++    if test -e "$target"; then
++        $verbose "creating link $f -> $d"
++        ln -s "$d" "$destdir/$f"
      else
--        $verbose "creating link $f$compext -> $d$compext"
--        ln -s "$d$compext" "$destdir/$f$compext"
-+        $verbose "creating link $l$compext -> $t$compext"
-+        ln -s "$t$compext" "$destdir/$l$compext"
+-        directory="$destdir/$(dirname "$f")"
+-        install -d "$directory"
+-        target="$(cd "$directory" && realpath -m -s "$d")"
+-        if test -e "$target"; then
+-            $verbose "creating link $f -> $d"
+-            ln -s "$d" "$destdir/$f"
+-        else
+-            $verbose "creating link $f$compext -> $d$compext"
+-            ln -s "$d$compext" "$destdir/$f$compext"
+-        fi
++        $verbose "creating link $f$compext -> $d$compext"
++        ln -s "$d$compext" "$destdir/$f$compext"
      fi
  done
  
