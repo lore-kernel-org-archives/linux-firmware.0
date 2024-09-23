@@ -1,87 +1,121 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <devnull+emil.l.velikov.gmail.com@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EDF21CF9C69
-	for <linux-firmware@archiver.kernel.org>; Mon, 23 Sep 2024 12:35:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 913BACF9C73
+	for <linux-firmware@archiver.kernel.org>; Mon, 23 Sep 2024 13:09:43 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id D1E65C4CEC7; Mon, 23 Sep 2024 12:35:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBFB7C4CECD
-	for <linux-firmware@kernel.org>; Mon, 23 Sep 2024 12:35:13 +0000 (UTC)
+	id 56AC7C4AF0E; Mon, 23 Sep 2024 13:09:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 29600C4CECD;
+	Mon, 23 Sep 2024 13:09:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727094913;
-	bh=gYUyS7Zy83sLVLJ406QnRTLkFwRG+iZlkfHOIRWCOpo=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=r4G3YxSPPt276PjCoCMktxpVNx61DCRQIQad/XbE8nSSq2JlLMfaIFgyPOZ7aXjf9
-	 gmyIiX7jFB97kIv5RJhyhij+JyHhnCdY1po8MLlae9VwkctaekWlVC7oAEfse9u7g4
-	 NmSWeZnsb0j8RrTUEDDP91DulrgSM93j9CHsPPyKRQkkKGGTrO3oZUtDBRAhybJyQf
-	 gOaBICUQ7KDzRmAnlCsIYJHWJpsKibitSQJkHDhGXmtPPSq3vLPW2cdo244tNnuS42
-	 hr2x6E2bZwmBoRSt9rtPyTYUrz5z6AkuwvfhAFiEYgLAKlxLL684EXznFORE0l+X5B
-	 nRvrrRSer8/nA==
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-6d6891012d5so32809707b3.2
-        for <linux-firmware@kernel.org>; Mon, 23 Sep 2024 05:35:13 -0700 (PDT)
-X-Gm-Message-State: AOJu0YxuOSEfl+9FEVoQej93fl5hNkKe2k6shozlmJnGHdzYz4akPmgX
-	RPCT/LWNa8qUfocpKVh1yyo4QxU+A/V6gSlXYI+I7puU4Id99PMQgVX4j3mY0VhU2FrJUTfaFoS
-	S9ptpx4cF3lk7XjdDRCQXlc4//bo=
-X-Google-Smtp-Source: AGHT+IELMOj9emzteexxdV3fiRtRZPTcQ9NVan2r9uhwrNePXQXXSCv64Xfb9XnNJ09KH8N3H+9HvqjMIQ5J7d1dAL0=
-X-Received: by 2002:a05:690c:338d:b0:6de:b23:f2a1 with SMTP id
- 00721157ae682-6dff283be74mr91869217b3.15.1727094912977; Mon, 23 Sep 2024
- 05:35:12 -0700 (PDT)
+	s=k20201202; t=1727096983;
+	bh=dSzJv8s6B0lDFTSCiE9b4w+ai93VoUD5YEsgxw03ZLg=;
+	h=From:Subject:Date:List-Id:To:Cc:Reply-To:From;
+	b=fOaGwbi8q/1ND+II9K4v4PioybtnCKgL3XkTo6Vafeyu3eOrjEip+eU3xywvsoXq9
+	 C/RC/NwqlF5fbrsAamQHU10UJlLXC7sZEemH+zkL94FmjdtWpR/2HKzsefkWAzyTQ4
+	 ZMWNL9K+MNsLrNJPilQkPRZ3Ij8BkpYe1zL6bbruvUtae5ecMqYuvv8/Ob0NtoCMBF
+	 oXmmd6ChTkpqxyCXZbeoWNAaD/4DQFn3kbAJ5MiBwjSI/bcXguQBgMHGi2zzfRYRY9
+	 u8aL2W10orcOtFgjUGfXuR5k1+2dJ42BAB9vXVl8LDT+KWhWcZIgbdhZE82IqowXrC
+	 vyxdYiB0AMMug==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E65B2CF9C72;
+	Mon, 23 Sep 2024 13:09:42 +0000 (UTC)
+From: Emil Velikov via B4 Relay <devnull+emil.l.velikov.gmail.com@kernel.org>
+Subject: [PATCH v2 00/16] Range of copy-firmware/check_whence fixes
+Date: Mon, 23 Sep 2024 14:09:28 +0100
+Message-Id: <20240923-misc-fixes-v2-0-397f23443628@gmail.com>
 MIME-Version: 1.0
-References: <28a0ab5067a34a308c155f3ccc08790b@realtek.com>
-In-Reply-To: <28a0ab5067a34a308c155f3ccc08790b@realtek.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 23 Sep 2024 08:35:02 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA7aVsf3-Peqxk0+gg=GsYYNtoOXfHrVY5wx9yR06r3HWQ@mail.gmail.com>
-Message-ID: <CA+5PVA7aVsf3-Peqxk0+gg=GsYYNtoOXfHrVY5wx9yR06r3HWQ@mail.gmail.com>
-Subject: Re: pull request: rtw89: 8922a: add fw format-2 v0.35.42.1
-To: Ping-Ke Shih <pkshih@realtek.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIho8WYC/22MTQ6CMBBGr0Jm7Zi2oFBX3sOwaMYRJrGUtKbRk
+ N7dytrl+37eBomjcIJLs0HkLEnCUsEcGqDZLROj3CuDUaZT1hj0kggf8uaEg9OtI+q1sy3Uwxp
+ 5L+r+NlaeJb1C/OzurH/pX03WqHCgM5+MtT3Z7jp5J88jBQ9jKeUL+ld82aQAAAA=
+X-Change-ID: 20240922-misc-fixes-8a13acc71a93
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, Timlee <timlee@realtek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: linux-firmware@kernel.org
+Cc: Emil Velikov <emil.l.velikov@gmail.com>, 
+ Juerg Haefliger <juerg.haefliger@canonical.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727096979; l=2708;
+ i=emil.l.velikov@gmail.com; s=20230301; h=from:subject:message-id;
+ bh=dSzJv8s6B0lDFTSCiE9b4w+ai93VoUD5YEsgxw03ZLg=;
+ b=c3nTbosZXc9KCUSDWMqg4/Fqws7MtQpqu2jI9++WKvjfIPXia4eSffnTCvywuO1ZCW5BaHSqw
+ Aw+S5qOTdxHDC3CIYvOmz9JJnt+ByJlGgGcvE2yJDuHY9yg9jxDBXMy
+X-Developer-Key: i=emil.l.velikov@gmail.com; a=ed25519;
+ pk=qeUTVTNyI3rcR2CfNNWsloTihgzmtbZo98GdxwZKCkY=
+X-Endpoint-Received: by B4 Relay for emil.l.velikov@gmail.com/20230301 with
+ auth_id=35
+X-Original-From: Emil Velikov <emil.l.velikov@gmail.com>
+Reply-To: emil.l.velikov@gmail.com
 
-On Fri, Sep 13, 2024 at 3:34=E2=80=AFAM Ping-Ke Shih <pkshih@realtek.com> w=
-rote:
->
-> Hi,
->
-> Add rtw89 driver firmware for RTL8922A that firmware version is 0.35.42.1=
-.
->
-> Thank you
-> Ping-Ke
->
-> ---
-> The following changes since commit b9daf8c33f02650b79bd1c61d61d6b1fae470e=
-8b:
->
->   Merge branch 'amd-staging' into 'main' (2024-09-12 16:05:08 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/pkshih/linux-firmware.git tags/rtw-fw-2024-09-13
+Hello all,
 
-Merged and pushed out.
+With the latest python 3.12 check_whence.py started throwing some
+warnings. The more I looked around, the more loose ends and bugs reared
+their (ugly) heads.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/300
+In this series:
+ - check_whence.py: sort the filenames, use consistent variable names
+ - check_whence.py: fix links-to-links and band them
+ - editorconfig: add the config and fix the yaml+sh indentation
+ - copy-firmware.sh: factor out dedup fix broken ad-hoc symlink handling
+ - copy-firmware.sh: remove the hacky argument injection
+ - copy-firmware.sh: warn if the destination folder is NOT empty
+ - copy-firmware.sh: call ./check_whence.py and remove the dead code
 
-josh
+The series is a mix of cosmetics (style, names), existing bug fixes and
+trying loose ends. I'm happy to split it in sub-series, as per your
+suggestions.
 
->
-> for you to fetch changes up to 5685e14f2a1cf8ce8ee2ab5883eb327c9c9c5d15:
->
->   rtw89: 8922a: add fw format-2 v0.35.42.1 (2024-09-13 15:28:58 +0800)
->
-> ----------------------------------------------------------------
-> Chin-Yen Lee (1):
->       rtw89: 8922a: add fw format-2 v0.35.42.1
->
->  WHENCE                  |   1 +
->  rtw89/rtw8922a_fw-2.bin | Bin 0 -> 1586954 bytes
->  2 files changed, 1 insertion(+)
->  create mode 100644 rtw89/rtw8922a_fw-2.bin
->
+As always, input is highly appreciated. Thanks o/
+
+To: linux-firmware@kernel.org
+
+Changes in v2:
+- Commit message tweaks
+- Correct a few flipped test checks
+- Rename deduplicate-firmware.sh to dedup-firmware.sh
+- Change line width (editorconfig) to 90
+- Properly handle destdir
+- Link to v1: https://lore.kernel.org/r/20240922-misc-fixes-v1-0-8c6e52997c94@gmail.com
+
+---
+Emil Velikov (16):
+      check_whence.py: use consistent naming
+      check_whence.py: ban link-to-a-link
+      check_whence.py: LC_ALL=C sort -u the filelist
+      check_whence.py: annotate replacement strings as raw
+      editorconfig: add initial config file
+      Style update yaml files
+      copy-firmware.sh: flesh out and fix dedup-firmware.sh
+      Revert "copy-firmware: Support additional compressor options"
+      copy-firmware.sh: reset and consistently handle destdir
+      copy-firmware.sh: fix indentation
+      copy-firmware.sh: add err() helper
+      copy-firmware.sh: warn if the destination folder is not empty
+      copy-firmware.sh: call ./check_whence.py before parsing the file
+      copy-firmware.sh: remove no longer reachable test -f
+      copy-firmware.sh: remove no longer reachable test -L
+      copy-firmware.sh: rename variables in symlink hanlding
+
+ .editorconfig           |  21 +++++++++
+ .gitlab-ci.yml          |   2 +-
+ .pre-commit-config.yaml |  38 ++++++++--------
+ Makefile                |   9 ++--
+ WHENCE                  |  14 +++---
+ check_whence.py         |  42 +++++++++++-------
+ copy-firmware.sh        | 113 +++++++++++++-----------------------------------
+ dedup-firmware.sh       |  52 ++++++++++++++++++++++
+ 8 files changed, 162 insertions(+), 129 deletions(-)
+---
+base-commit: 6c88d9b8253b8ec6df701a551a56438ea2e5bacf
+change-id: 20240922-misc-fixes-8a13acc71a93
+
+Best regards,
+-- 
+Emil Velikov <emil.l.velikov@gmail.com>
+
+
