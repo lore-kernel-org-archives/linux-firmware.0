@@ -1,93 +1,94 @@
-Return-Path: <SRS0=Ialu=QU=gmail.com=emil.l.velikov@kernel.org>
+Return-Path: <SRS0=fOYR=QV=gmail.com=fujita.tomonori@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 637B2CF9C6D
-	for <linux-firmware@archiver.kernel.org>; Sun, 22 Sep 2024 21:01:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65CAACF9C6C
+	for <linux-firmware@archiver.kernel.org>; Mon, 23 Sep 2024 01:55:56 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 4C769C4CEC4; Sun, 22 Sep 2024 21:01:24 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+	id 2C56AC4CEC3; Mon, 23 Sep 2024 01:55:56 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 7ABD4C4CEC3
-	for <linux-firmware@kernel.org>; Sun, 22 Sep 2024 21:01:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 7ABD4C4CEC3
+	by smtp.kernel.org (Postfix) with ESMTPS id 56B41C4CEC6
+	for <linux-firmware@kernel.org>; Mon, 23 Sep 2024 01:55:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 56B41C4CEC6
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2f7529203ddso44188221fa.0
-        for <linux-firmware@kernel.org>; Sun, 22 Sep 2024 14:01:23 -0700 (PDT)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-208e0a021cfso14243315ad.0
+        for <linux-firmware@kernel.org>; Sun, 22 Sep 2024 18:55:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727038881; x=1727643681; darn=kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q0hKSkI7v6TTa+iCef3AuktKGKa2OutZKAtbEasj5Wo=;
-        b=AEOWw/3AY4Qr7NfirIDmawt3w/IRs/tkF7/lnCMeDpwVuQJJvhePkCmee6vs1FbqMk
-         d6m5wIj4XtI9ZTQ29JIw9qahUPbTZi52OSjOpsV1PTftlfdGIwbR6Zc+DlZf2AS7zF+l
-         YsBOWYq+StIvzri2CHBpuPvRds9KWhCjLHdM2xxsv/VedWMc+ZKIO3DoJ6uIdrJGtjaC
-         C2OyYZ6Xw3ay7/DwUR1+Q2698UkDLuyVZbxQ8y5bRcEzX082LtdtIiXBLTV3rKRFFeXg
-         2+iKdNCSE0puPZufg5KQptqhnZbRjuKZEZl1aI3091FOHw3Lm9EeZHTSkZyrQgniazya
-         M7tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727038881; x=1727643681;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1727056554; x=1727661354; darn=kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to:from
+         :subject:cc:to:message-id:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Q0hKSkI7v6TTa+iCef3AuktKGKa2OutZKAtbEasj5Wo=;
-        b=ltoomN/4q0Bxuo/PIAtUaElCGRLIYvOlR8qHaFRA3Fys3R25fqZmUxhzQiWpttIzl1
-         gl8gPW3UmfkqJI8+cQ7c12iSxX5vNqGkqgYK1jKmfbBLSBFUe24U046SKEqBCEe4aPAn
-         wJoSD8ZQxQt7UFqGe0b5/mzXbXncrjiE6qsrwOw8zLJ1ZAsNoVqyGTmciU8beT/1axzb
-         h1ROJwUn2RnFrlG5OzoRIM7G0OcoHkjxra4sx/zXYAuwuyl269zFYTcOqx91yOdCzftS
-         wUTA0DDO33hIU/P++79YdsVRWH8hpCUEvmLxBKiQZqq6bgElvbpE18P41ZKHwudKche4
-         7ZBg==
-X-Gm-Message-State: AOJu0Yy6kQyLXuaG3tWz8HWZNXhtnGbg3U8feTGxYYvTq2aI13uDD1zR
-	joXIrju4kB14ZDaCTmBle1LvL3WOYyK3H8joTljo6UafKvAVn+fHa/A3bjXv7KF8ZPI2Bxew+ty
-	9bZ+72485jNow2Ff3tjespJFkUc660A==
-X-Google-Smtp-Source: AGHT+IEEePS4bxMuROZeXHPzzaJJ1/YaNcIKaj78cZH4P37T51w2QDYx3PcJEuEukypqYVeyehoUrlEDCrd0VEvrDa4=
-X-Received: by 2002:a05:651c:2213:b0:2f7:7e07:770f with SMTP id
- 38308e7fff4ca-2f7c3d09951mr47690361fa.3.1727038881155; Sun, 22 Sep 2024
- 14:01:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240922-misc-fixes-v1-0-8c6e52997c94@gmail.com>
-In-Reply-To: <20240922-misc-fixes-v1-0-8c6e52997c94@gmail.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Sun, 22 Sep 2024 22:01:09 +0100
-Message-ID: <CACvgo53s2Rt1eWog5AdNF-LsXyB3pqoViw8yofz2n8RXqCY49w@mail.gmail.com>
-Subject: Re: [PATCH 00/16] Range of copy-firmware/check_whence fixes
-To: emil.l.velikov@gmail.com
+        bh=PHSRYX992296wwwAL7A1AfvRmEGoss4dMeP/ixAmUv4=;
+        b=TrU8D3N7YahcEvyKpgWt/6FOJck8yrJCUGyhVQ6Bi3ihHoZ+w7i/eVo7gh+jqor3Zd
+         YT55aJmVt4PTWFX53LFBoYDOC9h2tAL/xFWW7CcgK+IZ9P3cXv2Qi0PY6jmky/UbK/A/
+         E6zAMHnu2h7TieAvw8UlwzfV/oZDQU0UOiG12F2rhCd9Lc1tRcrHWKQF+la04FNFVAbM
+         NdC3mCQoLDx4QbHiRoIbaJDIu4wl5jW+3LeftsF4SquUcOatbiwvfWDtqSvGvsplpWeq
+         xtAvC2/X9D166DhGQTDF8UAmRV21x3RGAnTMPrpPd8VuctyNxcSP4jOAGWCYMhpr+2lq
+         /6LQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727056554; x=1727661354;
+        h=content-transfer-encoding:mime-version:references:in-reply-to:from
+         :subject:cc:to:message-id:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=PHSRYX992296wwwAL7A1AfvRmEGoss4dMeP/ixAmUv4=;
+        b=dE8FxSXb3sVOxgGT5XZKu9Ig0tF9XdLGXqi8sAD/csd6FEvdlIJt0SixPzdB2P7MYk
+         1sHk9oZYjnc6ThZepqUtkZrWFYCmLGFFnOGUYkkGZduixYMaUhmPjnpj4bKvWN+9acDV
+         SG4tEaeBHamh3f9v/wgUH7B/oq3v6Ub59oNw5WVevObbvOZ2G2upwxRC8EDfmTgswD3v
+         P0EX3ib6olXWSqCjexWKkHFFIiruZuk5tpqi+I65JI8aU0qeX5LQO1KK4iVamW9xfgo7
+         4i6q+4ElsuXfkxeSPXrNpCkd5as1iIIcRGs4ed1lbUUmiHVlFWBlgZfa7ytbYaYagpyQ
+         irHA==
+X-Gm-Message-State: AOJu0Yx4W4BcOM/s7aQtDIflqJ71r0KwxKL7EaAPNSUe+PczjYSCsoll
+	zUeRP9qN+7ow5IjxlcjyjZqa+jEsAXPU49+aj/GepQddalYVk0Lu
+X-Google-Smtp-Source: AGHT+IFYG70wyiWtCpu3JOu4ae4pj4LW8JRxV9Ynm1+NpSD7SYnMSTlgjWNnMegVyhPCUE8QRmnnOw==
+X-Received: by 2002:a17:902:e5c8:b0:202:49e:6a35 with SMTP id d9443c01a7336-208d836cb2bmr168681485ad.19.1727056554454;
+        Sun, 22 Sep 2024 18:55:54 -0700 (PDT)
+Received: from localhost (p4468007-ipxg23001hodogaya.kanagawa.ocn.ne.jp. [153.204.200.7])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-207945da563sm124104395ad.60.2024.09.22.18.55.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Sep 2024 18:55:53 -0700 (PDT)
+Date: Mon, 23 Sep 2024 01:55:40 +0000 (UTC)
+Message-Id: <20240923.015540.877935229136315744.fujita.tomonori@gmail.com>
+To: dmitry.baryshkov@linaro.org
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, Juerg Haefliger <juerg.haefliger@canonical.com>
-Content-Type: text/plain; charset="UTF-8"
+Cc: linux-firmware@kernel.org
+Subject: Re: [PATCH] Add AMCC QT2025 Ethernet Phy firmware
+From: FUJITA Tomonori <fujita.tomonori@gmail.com>
+In-Reply-To: <CAA8EJpp-ZR_DN6Ue5jOQnY521Y+AfaszZYtNruPuamhZY8BAgw@mail.gmail.com>
+References: <7xoyvgxj3rs6msm6yb4usnilnvbpgbgnzkc6wy4z6lg77fuklk@nfuybhnmfybi>
+	<20240922.144811.2042208012316465619.fujita.tomonori@gmail.com>
+	<CAA8EJpp-ZR_DN6Ue5jOQnY521Y+AfaszZYtNruPuamhZY8BAgw@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-On Sun, 22 Sept 2024 at 21:17, Emil Velikov via B4 Relay
-<devnull+emil.l.velikov.gmail.com@kernel.org> wrote:
->
-> Hello all,
->
-> With the latest python 3.12 check_whence.py started throwing some
-> warnings. The more I looked around, the more loose ends and bugs reared
-> their (ugly) heads.
->
-> In this series:
->  - check_whence.py: sort the filenames, use consistent variable names
->  - check_whence.py: fix links-to-links and band them
->  - editorconfig: add the config and fix the yaml+sh indentation
->  - copy-firmware.sh: factor out dedup fix broken ad-hoc symlink handling
->  - copy-firmware.sh: remove the hacky argument injection
->  - copy-firmware.sh: warn if the destination folder is NOT empty
->  - copy-firmware.sh: call ./check_whence.py and remove the dead code
->  - Dockerfile: remove unused packages... based on local testing
->
-> I've tried to keep the rant to a minimum, thus some commit messages may
-> seem sparse. Let me know and I would happily add a few extra words.
->
-> As always, input is highly appreciated. Thanks o/
->
+On Sun, 22 Sep 2024 16:51:04 +0200
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
 
-Please ignore the series for now... Seems like I've done quite a bad
-job at actually testing it
+>> >> +Driver: qt2025 - Applied Micro Circuits Corporation QT2025 Ethernet Phy
+>> >> +File: qt2025-2.0.3.3.fw
+>> >> +Version: 2.0.3.3
+>> >> +
+>> >> +Licence: GPLv2.
+>> >
+>> > If it is GPLv2, where is the source code?
+>>
+>> For example, the driver is available at Edimax site:
+> 
+> Where is the source code for the firmware itself? (or quoting GPL v2
+> "preferred form of the work for making modifications to it").
 
-Pardon for the noise o/
-Emil
+It's included in the distributed file. Someone extracted the file and
+uploaeded. To save you the trouble, here are the links:
+
+- the firmware
+https://github.com/acooks/tn40xx-driver/blob/vendor-drop/v0.3.6.15/QT2025_phy.h
+- the PHY driver
+https://github.com/acooks/tn40xx-driver/blob/vendor-drop/v0.3.6.15/QT2025_phy.c
+
+Am I understanding your question correctly?
