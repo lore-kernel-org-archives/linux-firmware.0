@@ -4,81 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47759CF9C6E
-	for <linux-firmware@archiver.kernel.org>; Mon, 23 Sep 2024 12:24:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EDF21CF9C69
+	for <linux-firmware@archiver.kernel.org>; Mon, 23 Sep 2024 12:35:13 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 28E6EC4CECD; Mon, 23 Sep 2024 12:24:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11C97C4CED0
-	for <linux-firmware@kernel.org>; Mon, 23 Sep 2024 12:24:10 +0000 (UTC)
+	id D1E65C4CEC7; Mon, 23 Sep 2024 12:35:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBFB7C4CECD
+	for <linux-firmware@kernel.org>; Mon, 23 Sep 2024 12:35:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727094250;
-	bh=X4A/8Wt3qIlioPsHrBAwxGR+3JN2ZtphAnSBVmOJH3Q=;
+	s=k20201202; t=1727094913;
+	bh=gYUyS7Zy83sLVLJ406QnRTLkFwRG+iZlkfHOIRWCOpo=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=LL8nhK1xYudVmiEJvx53XIxYRAgPqCqIRsR17cEtkjKM1d4KgzqRV9RKvGQuYSh3w
-	 ZSWN2T/UZy/LsFApf67BZToB1ZuKu3/OOAVYSQHVM/VKy2msFG7L83Z61rXzV9U5X5
-	 g1ENOW3p65rdPVEUNLgm4vKzTWLKTGKDqEcMU11I8WGbTkIJ/S4UW9oraSRtPYwCkG
-	 kYD9llogKWje71KFFwH52awrQTY9+s4yzFIQCFoeJoOtMONEDapHXbUdMj4oZRyWpe
-	 wpyIU9CENjc8NrCraPMg3kqG2erqXcizio9za2plVG1L2Nk5WBHp3IGdIhCcc3b3pP
-	 aJGffrRpoO3EA==
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-6ddca648c26so35068617b3.1
-        for <linux-firmware@kernel.org>; Mon, 23 Sep 2024 05:24:10 -0700 (PDT)
-X-Gm-Message-State: AOJu0YwdkDpbAlwF0t0OhTNE/eKXMK5rGyFBsiTPgkr1H2JQ1wTgeZpR
-	3zJvQCtLrjQxqSq7vOctrJAgGJYgowhyM4KuYoYGs75xMVsIpn/qmnhWamiI2HyGDpAtWcF0xhg
-	gJM7cya1kiPol1ojtFTAUAPmNETI=
-X-Google-Smtp-Source: AGHT+IHizBb15dA0Cr7Cs9fSvuV6otrZ+Yrbex9VmC7h963DDu8ynN3KMoRw3s+wT6idSt0HacDZcqmSTszSLs5td6c=
-X-Received: by 2002:a05:690c:6412:b0:6bf:1ca2:f6ce with SMTP id
- 00721157ae682-6dfee69d2aamr89458097b3.11.1727094249282; Mon, 23 Sep 2024
- 05:24:09 -0700 (PDT)
+	b=r4G3YxSPPt276PjCoCMktxpVNx61DCRQIQad/XbE8nSSq2JlLMfaIFgyPOZ7aXjf9
+	 gmyIiX7jFB97kIv5RJhyhij+JyHhnCdY1po8MLlae9VwkctaekWlVC7oAEfse9u7g4
+	 NmSWeZnsb0j8RrTUEDDP91DulrgSM93j9CHsPPyKRQkkKGGTrO3oZUtDBRAhybJyQf
+	 gOaBICUQ7KDzRmAnlCsIYJHWJpsKibitSQJkHDhGXmtPPSq3vLPW2cdo244tNnuS42
+	 hr2x6E2bZwmBoRSt9rtPyTYUrz5z6AkuwvfhAFiEYgLAKlxLL684EXznFORE0l+X5B
+	 nRvrrRSer8/nA==
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-6d6891012d5so32809707b3.2
+        for <linux-firmware@kernel.org>; Mon, 23 Sep 2024 05:35:13 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxuOSEfl+9FEVoQej93fl5hNkKe2k6shozlmJnGHdzYz4akPmgX
+	RPCT/LWNa8qUfocpKVh1yyo4QxU+A/V6gSlXYI+I7puU4Id99PMQgVX4j3mY0VhU2FrJUTfaFoS
+	S9ptpx4cF3lk7XjdDRCQXlc4//bo=
+X-Google-Smtp-Source: AGHT+IELMOj9emzteexxdV3fiRtRZPTcQ9NVan2r9uhwrNePXQXXSCv64Xfb9XnNJ09KH8N3H+9HvqjMIQ5J7d1dAL0=
+X-Received: by 2002:a05:690c:338d:b0:6de:b23:f2a1 with SMTP id
+ 00721157ae682-6dff283be74mr91869217b3.15.1727094912977; Mon, 23 Sep 2024
+ 05:35:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240917210323.tkzmi53qbm7jse4n@hu-akhilpo-hyd.qualcomm.com>
-In-Reply-To: <20240917210323.tkzmi53qbm7jse4n@hu-akhilpo-hyd.qualcomm.com>
+References: <28a0ab5067a34a308c155f3ccc08790b@realtek.com>
+In-Reply-To: <28a0ab5067a34a308c155f3ccc08790b@realtek.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 23 Sep 2024 08:23:58 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA6s78H_H6SWpMKc6ev7KCB_6TK5P5A77bWHL63EdLtg9g@mail.gmail.com>
-Message-ID: <CA+5PVA6s78H_H6SWpMKc6ev7KCB_6TK5P5A77bWHL63EdLtg9g@mail.gmail.com>
-Subject: Re: qcom: add gpu firmwares for sa8775p chipset
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Date: Mon, 23 Sep 2024 08:35:02 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA7aVsf3-Peqxk0+gg=GsYYNtoOXfHrVY5wx9yR06r3HWQ@mail.gmail.com>
+Message-ID: <CA+5PVA7aVsf3-Peqxk0+gg=GsYYNtoOXfHrVY5wx9yR06r3HWQ@mail.gmail.com>
+Subject: Re: pull request: rtw89: 8922a: add fw format-2 v0.35.42.1
+To: Ping-Ke Shih <pkshih@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, dmitry.baryshkov@linaro.org
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, Timlee <timlee@realtek.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 17, 2024 at 5:03=E2=80=AFPM Akhil P Oommen <quic_akhilpo@quicin=
-c.com> wrote:
+On Fri, Sep 13, 2024 at 3:34=E2=80=AFAM Ping-Ke Shih <pkshih@realtek.com> w=
+rote:
 >
 > Hi,
 >
-> The following changes since commit 6c88d9b8253b8ec6df701a551a56438ea2e5ba=
-cf:
+> Add rtw89 driver firmware for RTL8922A that firmware version is 0.35.42.1=
+.
 >
->   Merge branch 'amd-staging' into 'main' (2024-09-13 20:28:50 +0000)
+> Thank you
+> Ping-Ke
+>
+> ---
+> The following changes since commit b9daf8c33f02650b79bd1c61d61d6b1fae470e=
+8b:
+>
+>   Merge branch 'amd-staging' into 'main' (2024-09-12 16:05:08 +0000)
 >
 > are available in the Git repository at:
 >
->   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git gpu-fw-S=
-A8775p
+>   https://github.com/pkshih/linux-firmware.git tags/rtw-fw-2024-09-13
 
-Pulled and pushed out.
+Merged and pushed out.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/299
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/300
 
 josh
 
 >
-> for you to fetch changes up to 43c971bcd74d9793140a8fbbcc805204cb797f96:
+> for you to fetch changes up to 5685e14f2a1cf8ce8ee2ab5883eb327c9c9c5d15:
 >
->   qcom: add gpu firmwares for sa8775p chipset (2024-09-17 11:57:51 +0530)
+>   rtw89: 8922a: add fw format-2 v0.35.42.1 (2024-09-13 15:28:58 +0800)
 >
 > ----------------------------------------------------------------
-> Akhil P Oommen (1):
->       qcom: add gpu firmwares for sa8775p chipset
+> Chin-Yen Lee (1):
+>       rtw89: 8922a: add fw format-2 v0.35.42.1
 >
->  WHENCE                    |   2 ++
->  qcom/a663_gmu.bin         | Bin 0 -> 55892 bytes
->  qcom/sa8775p/a663_zap.mbn | Bin 0 -> 1054680 bytes
->  3 files changed, 2 insertions(+)
->  create mode 100644 qcom/a663_gmu.bin
->  create mode 100644 qcom/sa8775p/a663_zap.mbn
+>  WHENCE                  |   1 +
+>  rtw89/rtw8922a_fw-2.bin | Bin 0 -> 1586954 bytes
+>  2 files changed, 1 insertion(+)
+>  create mode 100644 rtw89/rtw8922a_fw-2.bin
 >
->  regards,
->  Akhil
