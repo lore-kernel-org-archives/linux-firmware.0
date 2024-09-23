@@ -4,44 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0B79CF9C7B
-	for <linux-firmware@archiver.kernel.org>; Mon, 23 Sep 2024 13:09:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05C09CF9C7E
+	for <linux-firmware@archiver.kernel.org>; Mon, 23 Sep 2024 13:09:44 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B0ACAC4CEE2; Mon, 23 Sep 2024 13:09:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7BCC7C4CED2;
+	id B6180C4AF09; Mon, 23 Sep 2024 13:09:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8657CC4CED9;
 	Mon, 23 Sep 2024 13:09:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1727096983;
-	bh=DTwEcIVZSUgGda1GqDbPTj2Dvcq/OAJsRBDAnHDIZAs=;
+	bh=N/RbeQeL0phNyWx4sr4I+dYeC15FA+8BK33Tm7DcnUE=;
 	h=From:Date:Subject:References:In-Reply-To:List-Id:To:Cc:Reply-To:
 	 From;
-	b=S7WtSPrOt3ZAmwMJ+FdfQXYqcoh4udHRKlmptFSDN9/5t1+Wef/Tth2drdhmBaVPA
-	 begp8UtLsegEC4xVtiNn/12xi79fIWSCbAhZXHhgArew9DJjSJZJJDzqiwWJcc8pA7
-	 HDTi9hgRAlf8nkBZkz4ZTXxsvqWdgTLdRGJnc8eahztovkZ0pvPDEgSmzqWIOx+ek0
-	 a5LDL+T/d7P2IsDEdR+r9ItAR+h2n7slHXA+x+Ie2q221BOUHMRAB2MXROSp/5eWZv
-	 75JUu536WZhtFuATBjgc6ATIkSEgynbbVw3mv+oC39ARLpSM0sVtD6jt8+VlVUrQ+V
-	 TFB4wdwimMrtw==
+	b=tbrktEkI44p9KEM2ILLr8+7IeBmIMWcI/ZmYb7GKWn9unAJOIjU4y+wBYoGKcGFvP
+	 3RNoUSD722dueIsMDpslQq+P/fDhx3fEf1LfleEv7su2ZbdJagEDf6MtuglP35zy+a
+	 hHHTH/OORgS3fRHf18jwnl+MT4gcA8rzNBcu3I0zrxjVcIxWe9q2N+ZqXAKizPKaLj
+	 Lcc2ewfkOEiQ6X5xFCm3eFEzxK2kZ9Q9W9Kf60VqGf6eTx+Zg4vPBGZFI4VVxgBRTY
+	 JK3PgM/H1sPgDQ/W9BXq/H3udXmTGKxIzYF12J3yLMtmdNwO/JS96CptKIUZPcKO3y
+	 hPK30Xz4aRIKw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4793ACF9C78;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64AAECF9C72;
 	Mon, 23 Sep 2024 13:09:43 +0000 (UTC)
 From: Emil Velikov via B4 Relay <devnull+emil.l.velikov.gmail.com@kernel.org>
-Date: Mon, 23 Sep 2024 14:09:34 +0100
-Subject: [PATCH v2 06/16] Style update yaml files
+Date: Mon, 23 Sep 2024 14:09:36 +0100
+Subject: [PATCH v2 08/16] Revert "copy-firmware: Support additional
+ compressor options"
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240923-misc-fixes-v2-6-397f23443628@gmail.com>
+Message-Id: <20240923-misc-fixes-v2-8-397f23443628@gmail.com>
 References: <20240923-misc-fixes-v2-0-397f23443628@gmail.com>
 In-Reply-To: <20240923-misc-fixes-v2-0-397f23443628@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Cc: Emil Velikov <emil.l.velikov@gmail.com>
+Cc: Juerg Haefliger <juerg.haefliger@canonical.com>, 
+ Emil Velikov <emil.l.velikov@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727096979; l=2390;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727096979; l=1362;
  i=emil.l.velikov@gmail.com; s=20230301; h=from:subject:message-id;
- bh=D3r7VDxVgMX1puFG4ztKGYc90o6Oa/2niv3K/sqOewM=;
- b=AQB1gvoLqViFOM94VpsEVqqhd9SYNe4Ha/dEE9htoTP3W9PidvuWoL9un/UdPQOni6ICKFEtE
- SCmpGsjs/YsC0IktGJjXFwiu/RNjYq0R7QgV5XqAXzgtk2L6/+TxM04
+ bh=iRKIMyz4ufu7c2aKu9PXL7X97R+u9oj8I+WBz/xsAo8=;
+ b=kYKHT9wIK3mpUebzgu4kNtInfEaQ54vmbiSLhmtXn3tNIuzNSSEPX/ws8SaRLo/El3vR6R/pk
+ B5FfIMiLlTrAU3v810qhXFX20HUZEv2wrZgMjdt8DnaDDMna4+06wnD
 X-Developer-Key: i=emil.l.velikov@gmail.com; a=ed25519;
  pk=qeUTVTNyI3rcR2CfNNWsloTihgzmtbZo98GdxwZKCkY=
 X-Endpoint-Received: by B4 Relay for emil.l.velikov@gmail.com/20230301 with
@@ -51,79 +53,45 @@ Reply-To: emil.l.velikov@gmail.com
 
 From: Emil Velikov <emil.l.velikov@gmail.com>
 
+This reverts commit 2bad80e7edd3c0f84718545d9338c8edfed16513.
+
+The commit effectively added accidental command injection, while it was aiming
+to control the compression flags.
+
+In practise you'd want to use ZSTD_CLEVEL and ZSTD_NBTHREADS for zstd. As
+documented in zstd(1) it allows for up-to level 19, which is fine since the
+kernel does not support higher levels.
+
+Arch, Alpine and likely other distributions have been using this approach
+since day one.
+
+The other compressors like xz have equivalent.
+
+Cc: Juerg Haefliger <juerg.haefliger@canonical.com>
 Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- .gitlab-ci.yml          |  2 +-
- .pre-commit-config.yaml | 38 +++++++++++++++++++-------------------
- 2 files changed, 20 insertions(+), 20 deletions(-)
+ copy-firmware.sh | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index ae96f7d859fc34ebc74c93a93993f623e05d78a2..e05ef3bb81c8f15049a3b068daac9fff35184d17 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -11,7 +11,7 @@ check-commits:
-   stage: test
-   image: registry.gitlab.com/kernel-firmware/linux-firmware
-   rules:
--   - if: $CI_MERGE_REQUEST_ID
-+    - if: $CI_MERGE_REQUEST_ID
-   script:
-     - ci-fairy check-commits --signed-off-by --textwidth=0
+diff --git a/copy-firmware.sh b/copy-firmware.sh
+index 344f478db74a7080b34c264645d6bcd9a80384a8..21ed20d5886fe71588b923914265f992cf5c29b0 100755
+--- a/copy-firmware.sh
++++ b/copy-firmware.sh
+@@ -44,14 +44,6 @@ while test $# -gt 0; do
+             shift
+             ;;
  
-diff --git a/.pre-commit-config.yaml b/.pre-commit-config.yaml
-index 7a49d063250e755b531059fe24b5a571d311005f..370a2970616bda3a340ebe523cd2ee2bb57759c1 100644
---- a/.pre-commit-config.yaml
-+++ b/.pre-commit-config.yaml
-@@ -1,30 +1,30 @@
- default_stages: [commit]
- repos:
---   repo: https://github.com/pre-commit/pre-commit-hooks
-+  - repo: https://github.com/pre-commit/pre-commit-hooks
-     rev: v4.0.1
-     hooks:
--    -   id: check-executables-have-shebangs
--    -   id: forbid-new-submodules
--    -   id: check-yaml
--    -   id: check-symlinks
--    -   id: destroyed-symlinks
---   repo: https://github.com/shellcheck-py/shellcheck-py
-+      - id: check-executables-have-shebangs
-+      - id: forbid-new-submodules
-+      - id: check-yaml
-+      - id: check-symlinks
-+      - id: destroyed-symlinks
-+  - repo: https://github.com/shellcheck-py/shellcheck-py
-     rev: v0.9.0.5
-     hooks:
--    -   id: shellcheck
---   repo: https://github.com/ambv/black
-+      - id: shellcheck
-+  - repo: https://github.com/ambv/black
-     rev: 22.6.0
-     hooks:
--    - id: black
---   repo: https://github.com/igorshubovych/markdownlint-cli
-+      - id: black
-+  - repo: https://github.com/igorshubovych/markdownlint-cli
-     rev: v0.33.0
-     hooks:
--    - id: markdownlint
--      args: ['--fix']
---   repo: local
-+      - id: markdownlint
-+        args: ['--fix']
-+  - repo: local
-     hooks:
--    - id: check-whence
--      name: Check whence
--      files: 'WHENCE'
--      language: script
--      entry: ./check_whence.py
-+      - id: check-whence
-+        name: Check whence
-+        files: 'WHENCE'
-+        language: script
-+        entry: ./check_whence.py
+-        -*)
+-            if test "$compress" = "cat"; then
+-                echo "ERROR: unknown command-line option: $1"
+-                exit 1
+-            fi
+-            compress="$compress $1"
+-            shift
+-            ;;
+         *)
+             if test "x$destdir" != "x"; then
+                 echo "ERROR: unknown command-line options: $*"
 
 -- 
 2.46.1
