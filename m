@@ -4,46 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05C09CF9C7E
-	for <linux-firmware@archiver.kernel.org>; Mon, 23 Sep 2024 13:09:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2F68CF9C7C
+	for <linux-firmware@archiver.kernel.org>; Mon, 23 Sep 2024 13:09:43 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B6180C4AF09; Mon, 23 Sep 2024 13:09:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8657CC4CED9;
+	id 9184CC4CEDC; Mon, 23 Sep 2024 13:09:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6E590C4CED8;
 	Mon, 23 Sep 2024 13:09:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1727096983;
-	bh=N/RbeQeL0phNyWx4sr4I+dYeC15FA+8BK33Tm7DcnUE=;
+	bh=5oty5BI0e5pDXmhR9NvUu5fcgg09jWTlaEnepGg2qCQ=;
 	h=From:Date:Subject:References:In-Reply-To:List-Id:To:Cc:Reply-To:
 	 From;
-	b=tbrktEkI44p9KEM2ILLr8+7IeBmIMWcI/ZmYb7GKWn9unAJOIjU4y+wBYoGKcGFvP
-	 3RNoUSD722dueIsMDpslQq+P/fDhx3fEf1LfleEv7su2ZbdJagEDf6MtuglP35zy+a
-	 hHHTH/OORgS3fRHf18jwnl+MT4gcA8rzNBcu3I0zrxjVcIxWe9q2N+ZqXAKizPKaLj
-	 Lcc2ewfkOEiQ6X5xFCm3eFEzxK2kZ9Q9W9Kf60VqGf6eTx+Zg4vPBGZFI4VVxgBRTY
-	 JK3PgM/H1sPgDQ/W9BXq/H3udXmTGKxIzYF12J3yLMtmdNwO/JS96CptKIUZPcKO3y
-	 hPK30Xz4aRIKw==
+	b=ipFZE7JN8PLhQ+JM46XQlYbJV72XzC4Ru/0bkB8RdxnMOhF6VIJ22B/5MqMLbZ680
+	 +G7Pglf33HMaJ7YM6N6RDdb9JsJV/p5xJ+tOrWrlg9nkJ2ToSpcbuXZ5JhWc9QeLO7
+	 S7KBDGSb11EDctzALNQXpudKkSQMcFVt0Cn7te6EF5/lTK/lNAG29H4dTj56PcE5Pw
+	 c7KOYcvI1wLrPenrYWGwMXNiweMSARy3Rkevdu4e/0T3Go+xTjd+wWG6n5GkU8HF5J
+	 cjnmY+JZsmHTx48tZdwWkStHMSQbX8R+zBVi03BJSdsXXUnfzuukD4sEIAVcXcShGy
+	 wEqAbR6h3y0uQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64AAECF9C72;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C2D0CF9C74;
 	Mon, 23 Sep 2024 13:09:43 +0000 (UTC)
 From: Emil Velikov via B4 Relay <devnull+emil.l.velikov.gmail.com@kernel.org>
-Date: Mon, 23 Sep 2024 14:09:36 +0100
-Subject: [PATCH v2 08/16] Revert "copy-firmware: Support additional
- compressor options"
+Date: Mon, 23 Sep 2024 14:09:33 +0100
+Subject: [PATCH v2 05/16] editorconfig: add initial config file
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240923-misc-fixes-v2-8-397f23443628@gmail.com>
+Message-Id: <20240923-misc-fixes-v2-5-397f23443628@gmail.com>
 References: <20240923-misc-fixes-v2-0-397f23443628@gmail.com>
 In-Reply-To: <20240923-misc-fixes-v2-0-397f23443628@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Cc: Juerg Haefliger <juerg.haefliger@canonical.com>, 
- Emil Velikov <emil.l.velikov@gmail.com>
+Cc: Emil Velikov <emil.l.velikov@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727096979; l=1362;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727096979; l=1431;
  i=emil.l.velikov@gmail.com; s=20230301; h=from:subject:message-id;
- bh=iRKIMyz4ufu7c2aKu9PXL7X97R+u9oj8I+WBz/xsAo8=;
- b=kYKHT9wIK3mpUebzgu4kNtInfEaQ54vmbiSLhmtXn3tNIuzNSSEPX/ws8SaRLo/El3vR6R/pk
- B5FfIMiLlTrAU3v810qhXFX20HUZEv2wrZgMjdt8DnaDDMna4+06wnD
+ bh=7nXGnViA4hCUNMSGxxwriz54l/lbiqgNNrjlTL3v8V0=;
+ b=a4DDBPmUlpNsZmNU5/Y5M/X3lxAiKdkajwVtMvESVZtaT3puT/61x8xtxGckON2NH1XB3EXkr
+ lAvgEG4Hu23CfAsk+T3X5ja4GPdlGwP0PL1XLoFjGvMIpG5QZwPm9Pe
 X-Developer-Key: i=emil.l.velikov@gmail.com; a=ed25519;
  pk=qeUTVTNyI3rcR2CfNNWsloTihgzmtbZo98GdxwZKCkY=
 X-Endpoint-Received: by B4 Relay for emil.l.velikov@gmail.com/20230301 with
@@ -53,45 +51,57 @@ Reply-To: emil.l.velikov@gmail.com
 
 From: Emil Velikov <emil.l.velikov@gmail.com>
 
-This reverts commit 2bad80e7edd3c0f84718545d9338c8edfed16513.
+It's a simple format handled by practically every supported platform or program
+out there.
 
-The commit effectively added accidental command injection, while it was aiming
-to control the compression flags.
+Add an initial configuration file, so we reduce the style variation of the files
+in-tree.
 
-In practise you'd want to use ZSTD_CLEVEL and ZSTD_NBTHREADS for zstd. As
-documented in zstd(1) it allows for up-to level 19, which is fine since the
-kernel does not support higher levels.
-
-Arch, Alpine and likely other distributions have been using this approach
-since day one.
-
-The other compressors like xz have equivalent.
-
-Cc: Juerg Haefliger <juerg.haefliger@canonical.com>
 Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- copy-firmware.sh | 8 --------
- 1 file changed, 8 deletions(-)
+ .editorconfig   | 21 +++++++++++++++++++++
+ check_whence.py |  1 +
+ 2 files changed, 22 insertions(+)
 
-diff --git a/copy-firmware.sh b/copy-firmware.sh
-index 344f478db74a7080b34c264645d6bcd9a80384a8..21ed20d5886fe71588b923914265f992cf5c29b0 100755
---- a/copy-firmware.sh
-+++ b/copy-firmware.sh
-@@ -44,14 +44,6 @@ while test $# -gt 0; do
-             shift
-             ;;
- 
--        -*)
--            if test "$compress" = "cat"; then
--                echo "ERROR: unknown command-line option: $1"
--                exit 1
--            fi
--            compress="$compress $1"
--            shift
--            ;;
-         *)
-             if test "x$destdir" != "x"; then
-                 echo "ERROR: unknown command-line options: $*"
+diff --git a/.editorconfig b/.editorconfig
+new file mode 100644
+index 0000000000000000000000000000000000000000..100bbcebaac4514cb2b8377c1e0b98f0c6964d9b
+--- /dev/null
++++ b/.editorconfig
+@@ -0,0 +1,21 @@
++# To use this config on you editor, follow the instructions at:
++# http://editorconfig.org
++
++root = true
++
++[*]
++charset = utf-8
++insert_final_newline = true
++tab_width = 8
++max_line_length = 90
++
++[Makefile]
++indent_style = tab
++
++[*.{sh,py}]
++indent_style = space
++indent_size = 4
++
++[*.{yml,yaml}]
++indent_style = space
++indent_size = 2
+diff --git a/check_whence.py b/check_whence.py
+index 64dc133551a68aeb24dbf7f02f617ea3913477b2..afe97a76cf5ed609117d07387a19c2092fa00c6c 100755
+--- a/check_whence.py
++++ b/check_whence.py
+@@ -74,6 +74,7 @@ def main():
+     known_files = set(name for name in whence_list if not name.endswith("/")) | set(
+         [
+             ".codespell.cfg",
++            ".editorconfig",
+             ".gitignore",
+             ".gitlab-ci.yml",
+             ".pre-commit-config.yaml",
 
 -- 
 2.46.1
