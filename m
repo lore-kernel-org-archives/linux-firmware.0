@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBB4ECF9C74
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0B79CF9C7B
 	for <linux-firmware@archiver.kernel.org>; Mon, 23 Sep 2024 13:09:43 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 9199DC4CEDD; Mon, 23 Sep 2024 13:09:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 55D76C4CED6;
+	id B0ACAC4CEE2; Mon, 23 Sep 2024 13:09:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7BCC7C4CED2;
 	Mon, 23 Sep 2024 13:09:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1727096983;
-	bh=vvveL+VhTvblJVkjiJCzcHg+zMGJWmO+/8yBPRzNC4s=;
+	bh=DTwEcIVZSUgGda1GqDbPTj2Dvcq/OAJsRBDAnHDIZAs=;
 	h=From:Date:Subject:References:In-Reply-To:List-Id:To:Cc:Reply-To:
 	 From;
-	b=SatXWsORJW8H/tRb3Wcxe+uRBIH4fxKYw15C2Xs4MDMSNmW9ZHGOnVf6VQwd/Afnd
-	 jXnwXPIENEjaA6Rlip9Clr45OWbsY/vzv2XhUJuLYrAAcotrcjrF2gj8ED5EUzMrcT
-	 mxqyvPQrmpJd1mBe+ltuBttWPz3Vc1RNCBaNSVEogIWpOAuMMBb3VhMSOzyKznreHW
-	 ZdWIQxKG6DxjUODX60hyBCRShgoZpc2XLDF/x+jtYIFwGOBFuQx4DIu8jn1jNSzaYq
-	 oF3utPZvmUK5D3KU32G5T1g48u6Ctpvy5Xnqpuwiu/mlb4CcSrk0UU+PHo6yvbZMjZ
-	 qPOcjT3nBz7Yw==
+	b=S7WtSPrOt3ZAmwMJ+FdfQXYqcoh4udHRKlmptFSDN9/5t1+Wef/Tth2drdhmBaVPA
+	 begp8UtLsegEC4xVtiNn/12xi79fIWSCbAhZXHhgArew9DJjSJZJJDzqiwWJcc8pA7
+	 HDTi9hgRAlf8nkBZkz4ZTXxsvqWdgTLdRGJnc8eahztovkZ0pvPDEgSmzqWIOx+ek0
+	 a5LDL+T/d7P2IsDEdR+r9ItAR+h2n7slHXA+x+Ie2q221BOUHMRAB2MXROSp/5eWZv
+	 75JUu536WZhtFuATBjgc6ATIkSEgynbbVw3mv+oC39ARLpSM0sVtD6jt8+VlVUrQ+V
+	 TFB4wdwimMrtw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24939CF9C69;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4793ACF9C78;
 	Mon, 23 Sep 2024 13:09:43 +0000 (UTC)
 From: Emil Velikov via B4 Relay <devnull+emil.l.velikov.gmail.com@kernel.org>
-Date: Mon, 23 Sep 2024 14:09:31 +0100
-Subject: [PATCH v2 03/16] check_whence.py: LC_ALL=C sort -u the filelist
+Date: Mon, 23 Sep 2024 14:09:34 +0100
+Subject: [PATCH v2 06/16] Style update yaml files
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240923-misc-fixes-v2-3-397f23443628@gmail.com>
+Message-Id: <20240923-misc-fixes-v2-6-397f23443628@gmail.com>
 References: <20240923-misc-fixes-v2-0-397f23443628@gmail.com>
 In-Reply-To: <20240923-misc-fixes-v2-0-397f23443628@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
 Cc: Emil Velikov <emil.l.velikov@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727096979; l=1536;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727096979; l=2390;
  i=emil.l.velikov@gmail.com; s=20230301; h=from:subject:message-id;
- bh=vmlCVRJbxEfo1wLPvzNCwHFHCqtETXk1ay13BZyXJX0=;
- b=5eozgF/r2TDlM3mTVAQi7Pb1pH6pg5Z+8UIsJAEK6H4TUHpim6rSGOSjrZjxnY9WiSx5T2C8V
- ojxeJ9IP+zeARBuQQMqRdz1+zseXhsZo+xmybn70EA0f28BkGXcLmFL
+ bh=D3r7VDxVgMX1puFG4ztKGYc90o6Oa/2niv3K/sqOewM=;
+ b=AQB1gvoLqViFOM94VpsEVqqhd9SYNe4Ha/dEE9htoTP3W9PidvuWoL9un/UdPQOni6ICKFEtE
+ SCmpGsjs/YsC0IktGJjXFwiu/RNjYq0R7QgV5XqAXzgtk2L6/+TxM04
 X-Developer-Key: i=emil.l.velikov@gmail.com; a=ed25519;
  pk=qeUTVTNyI3rcR2CfNNWsloTihgzmtbZo98GdxwZKCkY=
 X-Endpoint-Received: by B4 Relay for emil.l.velikov@gmail.com/20230301 with
@@ -51,48 +51,79 @@ Reply-To: emil.l.velikov@gmail.com
 
 From: Emil Velikov <emil.l.velikov@gmail.com>
 
-Sort the file list, so it's easier to manage.
-
 Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- check_whence.py | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ .gitlab-ci.yml          |  2 +-
+ .pre-commit-config.yaml | 38 +++++++++++++++++++-------------------
+ 2 files changed, 20 insertions(+), 20 deletions(-)
 
-diff --git a/check_whence.py b/check_whence.py
-index d7742f1ed951acab6efc89916c7f6621ba56881b..dbbb68f7ab51b8db52c1d2334a6d4d20962bbef8 100755
---- a/check_whence.py
-+++ b/check_whence.py
-@@ -73,23 +73,23 @@ def main():
-     whence_links = list(zip(*links_list))[0]
-     known_files = set(name for name in whence_list if not name.endswith("/")) | set(
-         [
--            ".gitignore",
-             ".codespell.cfg",
-+            ".gitignore",
-             ".gitlab-ci.yml",
-             ".pre-commit-config.yaml",
--            "build_packages.py",
--            "check_whence.py",
--            "configure",
-+            "Dockerfile",
-             "Makefile",
-             "README.md",
--            "copy-firmware.sh",
-             "WHENCE",
--            "Dockerfile",
-+            "build_packages.py",
-+            "check_whence.py",
-+            "configure",
-+            "contrib/process_linux_firmware.py",
-             "contrib/templates/debian.changelog",
-             "contrib/templates/debian.control",
-             "contrib/templates/debian.copyright",
-             "contrib/templates/rpm.spec",
--            "contrib/process_linux_firmware.py",
-+            "copy-firmware.sh",
-         ]
-     )
-     known_prefixes = set(name for name in whence_list if name.endswith("/"))
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index ae96f7d859fc34ebc74c93a93993f623e05d78a2..e05ef3bb81c8f15049a3b068daac9fff35184d17 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -11,7 +11,7 @@ check-commits:
+   stage: test
+   image: registry.gitlab.com/kernel-firmware/linux-firmware
+   rules:
+-   - if: $CI_MERGE_REQUEST_ID
++    - if: $CI_MERGE_REQUEST_ID
+   script:
+     - ci-fairy check-commits --signed-off-by --textwidth=0
+ 
+diff --git a/.pre-commit-config.yaml b/.pre-commit-config.yaml
+index 7a49d063250e755b531059fe24b5a571d311005f..370a2970616bda3a340ebe523cd2ee2bb57759c1 100644
+--- a/.pre-commit-config.yaml
++++ b/.pre-commit-config.yaml
+@@ -1,30 +1,30 @@
+ default_stages: [commit]
+ repos:
+--   repo: https://github.com/pre-commit/pre-commit-hooks
++  - repo: https://github.com/pre-commit/pre-commit-hooks
+     rev: v4.0.1
+     hooks:
+-    -   id: check-executables-have-shebangs
+-    -   id: forbid-new-submodules
+-    -   id: check-yaml
+-    -   id: check-symlinks
+-    -   id: destroyed-symlinks
+--   repo: https://github.com/shellcheck-py/shellcheck-py
++      - id: check-executables-have-shebangs
++      - id: forbid-new-submodules
++      - id: check-yaml
++      - id: check-symlinks
++      - id: destroyed-symlinks
++  - repo: https://github.com/shellcheck-py/shellcheck-py
+     rev: v0.9.0.5
+     hooks:
+-    -   id: shellcheck
+--   repo: https://github.com/ambv/black
++      - id: shellcheck
++  - repo: https://github.com/ambv/black
+     rev: 22.6.0
+     hooks:
+-    - id: black
+--   repo: https://github.com/igorshubovych/markdownlint-cli
++      - id: black
++  - repo: https://github.com/igorshubovych/markdownlint-cli
+     rev: v0.33.0
+     hooks:
+-    - id: markdownlint
+-      args: ['--fix']
+--   repo: local
++      - id: markdownlint
++        args: ['--fix']
++  - repo: local
+     hooks:
+-    - id: check-whence
+-      name: Check whence
+-      files: 'WHENCE'
+-      language: script
+-      entry: ./check_whence.py
++      - id: check-whence
++        name: Check whence
++        files: 'WHENCE'
++        language: script
++        entry: ./check_whence.py
 
 -- 
 2.46.1
