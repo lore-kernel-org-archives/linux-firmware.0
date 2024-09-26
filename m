@@ -1,126 +1,97 @@
-Return-Path: <SRS0=3qOU=QY=mediatek.com=shayne.chen@kernel.org>
+Return-Path: <SRS0=doEP=QY=quicinc.com=quic_akhilpo@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 808F8CCFA15
-	for <linux-firmware@archiver.kernel.org>; Thu, 26 Sep 2024 03:48:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B84BCCDE015
+	for <linux-firmware@archiver.kernel.org>; Thu, 26 Sep 2024 15:37:14 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 4C446C4CEC6; Thu, 26 Sep 2024 03:48:09 +0000 (UTC)
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id 8BC0FC4CEC6; Thu, 26 Sep 2024 15:37:14 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A4703C4CEC5
-	for <linux-firmware@kernel.org>; Thu, 26 Sep 2024 03:48:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A4703C4CEC5
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 21fc44127bba11ef8b96093e013ec31c-20240926
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=Owe6JGbV57Hakcmg6rIXeMQVYrdTrF26LEqeVCxBhWM=;
-	b=TAtsoqg7BeQ7ykZVfk3UuSJTBK0d2Fpb2Tkw2GHECcnr5jg/5qsL2mX3ZxbjDgX0xfDzMrhlVbrMHdPFRM8EOvPUzClyi+QiwUy92I2RXgSRNr9+fn++bwzgPiOxrPEolGqlO/TvXuiSrCPHG5pJp0OzcVK2YoLXNgjXvLG1aVM=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41,REQID:a12737de-cebc-43fe-bbba-193e189cdff0,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:6,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:1
-X-CID-META: VersionHash:6dc6a47,CLOUDID:053f4518-b42d-49a6-94d2-a75fa0df01d2,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-UUID: 21fc44127bba11ef8b96093e013ec31c-20240926
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
-	(envelope-from <shayne.chen@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1523962224; Thu, 26 Sep 2024 11:48:03 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+	by smtp.kernel.org (Postfix) with ESMTPS id 458B1C4CEC5
+	for <linux-firmware@kernel.org>; Thu, 26 Sep 2024 15:37:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 458B1C4CEC5
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48QEoN19005925;
+	Thu, 26 Sep 2024 15:37:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-type:date:from:message-id:mime-version:subject:to; s=
+	qcppdkim1; bh=RdjI8UXy6ytGAC2Ybs0pYmRMOGab7APjoODvIZ6XuHk=; b=Wj
+	y2vGEZOreKLHRVS3y1tckTB7LdACBSZF1J1jWPfJRJcBX+6/C9tTMj+bK6SLEwRR
+	DzlgE+OYAMHpQyynAkvmrh3ddG41V2OV0pU8LNcTkfG4CKJnHFyUxxBKJ6rdNVyT
+	276UTcrQplBv1CBZOJr5043bPiwYrl11M5Rt2cjXhNQBE8wAXC2NNZBpCqW8RDcX
+	nhV4NxfVX0+IofvGP97CP0BBAmU88ohYAmksqjuGa0E0bfJJem84trideoKSkZss
+	77cH+ZU1+XT88128YJlRi+objJAPqcOy2CfmYq/DS2JLSEDpysOt0Cs83s1NoqIW
+	LgCwB3NxW5+yvXwwYahA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41sqe9fuqm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 26 Sep 2024 15:37:06 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48QFb5gm016277
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 26 Sep 2024 15:37:05 GMT
+Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 26 Sep 2024 11:48:02 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 26 Sep 2024 11:48:02 +0800
-From: Shayne Chen <shayne.chen@mediatek.com>
+ 15.2.1544.9; Thu, 26 Sep 2024 08:37:04 -0700
+Date: Thu, 26 Sep 2024 21:07:01 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware <linux-firmware@kernel.org>
-CC: Felix Fietkau <nbd@nbd.name>, Evelyn Tsai <evelyn.tsai@mediatek.com>,
-	linux-wireless <linux-wireless@vger.kernel.org>, linux-mediatek
-	<linux-mediatek@lists.infradead.org>, Daniel Golle <daniel@makrotopia.org>
-Subject: [PULL,linux-firmware] mt76 firmware 20240926
-Date: Thu, 26 Sep 2024 11:48:02 +0800
-Message-ID: <20240926034802.28294-1-shayne.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+To: <linux-firmware@kernel.org>
+CC: <dmitry.baryshkov@linaro.org>
+Subject: qcom: update gpu firmwares for qcm6490 chipset
+Message-ID: <20240926153701.ymwkxr64x65b7euq@hu-akhilpo-hyd.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: aoBGWCxPNNkwj7d1_xmNHCILTfdBHx3M
+X-Proofpoint-GUID: aoBGWCxPNNkwj7d1_xmNHCILTfdBHx3M
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ mlxlogscore=321 spamscore=0 lowpriorityscore=0 adultscore=0 mlxscore=0
+ suspectscore=0 malwarescore=0 phishscore=0 impostorscore=0 clxscore=1015
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409260108
 
 Hi,
 
-Here's a pull request for adding WiFi firmware files for mt7996 and
-mt7992 chipset variants.
+Add/update the gpu firmwares required for Qualcomm's QCM6490 chipset.
 
-Please let me know if there are any problems.
+-Akhil
 
-Shayne
-
+---
 The following changes since commit 8306534b8a7265bee2f4323b45fd2a22a7c8b9b6:
 
   Merge branch '8922a' into 'main' (2024-09-23 12:36:21 +0000)
 
 are available in the Git repository at:
 
-  https://github.com/csyuanc/linux-firmware.git mt76-20240926
+  https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git gpu-fw-QCM6490
 
-for you to fetch changes up to 85ce6f7afdd3b63398990e53f67c653fc66ad271:
+for you to fetch changes up to 2aded3b604ae42d3f6b1c5a5873db021ec4e4207:
 
-  mt76: mt7996: add firmware files for mt7992 chipset (2024-09-26 00:59:54 +0800)
+  qcom: update gpu firmwares for qcm6490 chipset (2024-09-26 20:47:08 +0530)
 
 ----------------------------------------------------------------
-Shayne Chen (2):
-      mt76: mt7996: add firmware files for mt7996 chipset variants
-      mt76: mt7996: add firmware files for mt7992 chipset
+Akhil P Oommen (1):
+      qcom: update gpu firmwares for qcm6490 chipset
 
- WHENCE                                       |  43 ++++++++++++++++++++++++++++++++++++++++++-
- mediatek/mt7996/mt7992_dsp.bin               | Bin 0 -> 63536 bytes
- mediatek/mt7996/mt7992_dsp_23.bin            | Bin 0 -> 63536 bytes
- mediatek/mt7996/mt7992_eeprom.bin            | Bin 0 -> 7680 bytes
- mediatek/mt7996/mt7992_eeprom_23.bin         | Bin 0 -> 7680 bytes
- mediatek/mt7996/mt7992_eeprom_23_2i5i.bin    | Bin 0 -> 7680 bytes
- mediatek/mt7996/mt7992_eeprom_2i5e.bin       | Bin 0 -> 7680 bytes
- mediatek/mt7996/mt7992_eeprom_2i5i.bin       | Bin 0 -> 7680 bytes
- mediatek/mt7996/mt7992_rom_patch.bin         | Bin 0 -> 20640 bytes
- mediatek/mt7996/mt7992_rom_patch_23.bin      | Bin 0 -> 20640 bytes
- mediatek/mt7996/mt7992_wa.bin                | Bin 0 -> 536240 bytes
- mediatek/mt7996/mt7992_wa_23.bin             | Bin 0 -> 536240 bytes
- mediatek/mt7996/mt7992_wm.bin                | Bin 0 -> 1712336 bytes
- mediatek/mt7996/mt7992_wm_23.bin             | Bin 0 -> 1672256 bytes
- mediatek/mt7996/mt7996_eeprom_233.bin        | Bin 0 -> 7680 bytes
- mediatek/mt7996/mt7996_eeprom_233_2i5i6i.bin | Bin 0 -> 7680 bytes
- mediatek/mt7996/mt7996_eeprom_2i5i6i.bin     | Bin 0 -> 7680 bytes
- mediatek/mt7996/mt7996_rom_patch_233.bin     | Bin 0 -> 23968 bytes
- mediatek/mt7996/mt7996_wa_233.bin            | Bin 0 -> 516272 bytes
- mediatek/mt7996/mt7996_wm_233.bin            | Bin 0 -> 2620960 bytes
- 20 files changed, 42 insertions(+), 1 deletion(-)
- create mode 100644 mediatek/mt7996/mt7992_dsp.bin
- create mode 100644 mediatek/mt7996/mt7992_dsp_23.bin
- create mode 100644 mediatek/mt7996/mt7992_eeprom.bin
- create mode 100644 mediatek/mt7996/mt7992_eeprom_23.bin
- create mode 100644 mediatek/mt7996/mt7992_eeprom_23_2i5i.bin
- create mode 100644 mediatek/mt7996/mt7992_eeprom_2i5e.bin
- create mode 100644 mediatek/mt7996/mt7992_eeprom_2i5i.bin
- create mode 100644 mediatek/mt7996/mt7992_rom_patch.bin
- create mode 100644 mediatek/mt7996/mt7992_rom_patch_23.bin
- create mode 100644 mediatek/mt7996/mt7992_wa.bin
- create mode 100644 mediatek/mt7996/mt7992_wa_23.bin
- create mode 100644 mediatek/mt7996/mt7992_wm.bin
- create mode 100644 mediatek/mt7996/mt7992_wm_23.bin
- create mode 100644 mediatek/mt7996/mt7996_eeprom_233.bin
- create mode 100644 mediatek/mt7996/mt7996_eeprom_233_2i5i6i.bin
- create mode 100644 mediatek/mt7996/mt7996_eeprom_2i5i6i.bin
- create mode 100644 mediatek/mt7996/mt7996_rom_patch_233.bin
- create mode 100644 mediatek/mt7996/mt7996_wa_233.bin
- create mode 100644 mediatek/mt7996/mt7996_wm_233.bin
+ WHENCE                    |   1 +
+ qcom/a660_gmu.bin         | Bin 55444 -> 55252 bytes
+ qcom/a660_sqe.fw          | Bin 40496 -> 43292 bytes
+ qcom/qcm6490/a660_zap.mbn | Bin 0 -> 1054648 bytes
+ 4 files changed, 1 insertion(+)
+ create mode 100644 qcom/qcm6490/a660_zap.mbn
