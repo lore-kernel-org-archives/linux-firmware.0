@@ -1,424 +1,92 @@
-Return-Path: <SRS0=tUDk=RA=vps60433.dreamhostps.com=dh_seetjr@kernel.org>
+Return-Path: <SRS0=Ojjr=RA=realtek.com=pkshih@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0034CF34DD
-	for <linux-firmware@archiver.kernel.org>; Fri,  4 Oct 2024 01:17:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 27F7ACFA740
+	for <linux-firmware@archiver.kernel.org>; Fri,  4 Oct 2024 03:25:18 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 98386C4CEC7; Fri,  4 Oct 2024 01:17:03 +0000 (UTC)
-Received: from vps60433.dreamhostps.com (vps60433.dreamhostps.com [75.119.207.97])
+	id DF522C4CEC7; Fri,  4 Oct 2024 03:25:17 +0000 (UTC)
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 99AFBC4CECC
-	for <linux-firmware@kernel.org>; Fri,  4 Oct 2024 01:17:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 99AFBC4CECC
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=rcinc.org
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=vps60433.dreamhostps.com
-Received: by vps60433.dreamhostps.com (Postfix, from userid 6647336)
-	id 4XKVxc2YTNz4WsD; Fri,  4 Oct 2024 01:16:36 +0000 (UTC)
-Date: Thu, 3 Oct 2024 18:16:36 -0700
+	by smtp.kernel.org (Postfix) with ESMTPS id 2FB3EC4CEC6
+	for <linux-firmware@kernel.org>; Fri,  4 Oct 2024 03:25:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 2FB3EC4CEC6
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 4943OC8K0777658, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
+	t=1728012252; bh=D5D5JCx0QtPcfi43k5znZviCh4EHpDJKK79ZPj8wBEg=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	b=LOjLqKW46dGOHtSt2ceuI9Zflar1euiMgHgy8iwi6B4hOQUJ2ollV5EMwkf8W1TLY
+	 phuWbHS17xpTOHfJpQDppuTRa5qkPBQeuP2u7stHXeWXa1qV9H3ReDxuWKDi1HPIWk
+	 VAICGv95Auyj27wUCMH1Ydoa87vO0rUo5n4mTFcfiQQ1oAf4OWtTJ4zzJ4I+8+057h
+	 /2kO71xvxjZkXwNNm0D4fD839CpGJijvbv6M8NhtMn0SnBgHTlndgKc2cRI0Q4cwAy
+	 B++Sz6RcfpcdEoMmw1/WeGgz2ofViSEvBIYcbT9xfenUdo0jSz//TUwzWh01BZ9662
+	 Ib7gURTypxxhw==
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/3.05/5.92) with ESMTPS id 4943OC8K0777658
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 4 Oct 2024 11:24:12 +0800
+Received: from RTEXDAG02.realtek.com.tw (172.21.6.101) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Fri, 4 Oct 2024 09:22:34 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXDAG02.realtek.com.tw (172.21.6.101) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Fri, 4 Oct 2024 09:22:33 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::2882:4142:db9:db1f]) by
+ RTEXMBS04.realtek.com.tw ([fe80::2882:4142:db9:db1f%11]) with mapi id
+ 15.01.2507.035; Fri, 4 Oct 2024 09:22:33 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-From: Support <rootusers@rcinc.org>
-Subject: =?UTF-8?Q?Your_Netflix_Subscription_is_Expiring_Soon_=E2=80=93_Don't_Miss?=
- =?UTF-8?Q?_Out!?=
-Message-ID: <d35ddfc57269621418af22747d7924a1@rcinc.org>
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+CC: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "rtl8821cerfe2@gmail.com" <rtl8821cerfe2@gmail.com>
+Subject: pull request: rtlwifi: Add firmware v39.0 for RTL8192DU
+Thread-Topic: pull request: rtlwifi: Add firmware v39.0 for RTL8192DU
+Thread-Index: AdsV+7+iCmuFvzXHQ7+sPwzLrNMsMg==
+Date: Fri, 4 Oct 2024 01:22:33 +0000
+Message-ID: <2e2e7eac86db45e8a1980021c7a3983d@realtek.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+x-originating-ip: [172.21.6.42]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="1671acd737f26069703bed45b55515221"
-Content-Transfer-Encoding: 8bit
 
-This is a multi-part message in MIME format.
+Hi,
 
---1671acd737f26069703bed45b55515221
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Add firmware for RTL8192DU
 
+Thank you
+Ping-Ke
 
+---
+The following changes since commit 95bfe086cd84966449dc0cba734bc582b988b8e8=
+:
 
+  Merge branch 'mt76' into 'main' (2024-10-01 11:53:24 +0000)
 
+are available in the Git repository at:
 
+  https://github.com/pkshih/linux-firmware.git tags/rtw-fw-2024-10-04
 
+for you to fetch changes up to f2894a5b7e30621d6bb2a3f8547451990bad3496:
 
+  rtlwifi: Add firmware v39.0 for RTL8192DU (2024-10-04 09:18:06 +0800)
 
+----------------------------------------------------------------
+Bitterblue Smith (1):
+      rtlwifi: Add firmware v39.0 for RTL8192DU
 
+ WHENCE                  |  10 ++++++++++
+ rtlwifi/rtl8192dufw.bin | Bin 0 -> 31452 bytes
+ 2 files changed, 10 insertions(+)
+ create mode 100644 rtlwifi/rtl8192dufw.bin
 
-
-
-
-
-
-
- 
-
-
-
-
-
-Your Netflix Subscription is Expiring Soon !
-
-
-
- 
-
- 
-
-
-
-
-
-
-
-
-
-Hello,
-Unfortunately, we were unable to resolve the issue with your payment and your membership has been terminated..
-Of course we would be delighted to have you again. All you have to do is restart your membership.
-
-
-
-
- 
-
-
-
-
-
-
-
- 
-
-
-
-
-View or manage payment
- 
- 
-
-
-
-
-
-We thank you for your trust as a customer and we look forward to continuing to provide our services in the future.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---1671acd737f26069703bed45b55515221
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<DIV class=msg-view-text-cnt dojoattachpoint="_messageTextCntNode">
-<DIV class=xam_msg_class>
-<P><A id=German name=German rel="noopener noreferrer" target=_blank></A></P>
-<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
-<TBODY>
-<TR>
-<TD align=center>
-<TABLE class=xmprfx_bodyemail style="FONT-SIZE: 12px; BORDER-TOP: rgb(235,235,235) thin solid; HEIGHT: 454px; FONT-FAMILY: Arial, Helvetica, sans-serif; BORDER-RIGHT: rgb(235,235,235) thin solid; WIDTH: 470px; BACKGROUND: rgb(255,255,255); BORDER-BOTTOM: rgb(235,235,235) thin solid; TEXT-ALIGN: center; BORDER-LEFT: rgb(235,235,235) thin solid" cellSpacing=0 cellPadding=0 width=470 align=center bgColor=#ffffff>
-<TBODY>
-<TR>
-<TD vAlign=top align=left>
-<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
-<TBODY>
-<TR>
-<TD title="">
-<P align=center> </P>
-<P align=center>
-<TABLE style="FONT-SIZE: 12px; FONT-FAMILY: Arial, Helvetica, sans-serif; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(34,34,34); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(255,255,255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial" cellSpacing=0 cellPadding=0 width="100%" border=0>
-<TBODY>
-<TR>
-<TD title="" style="MARGIN: 0px">
-<P align=center><SPAN style="FONT-SIZE: 36px; FONT-FAMILY: NetflixSans-Bold, Helvetica, Roboto, sans-serif; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FLOAT: none; FONT-WEIGHT: 700; COLOR: rgb(34,31,31); FONT-STYLE: normal; TEXT-ALIGN: center; DISPLAY: inline !important; LETTER-SPACING: -1px; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial"><FONT size=5>Your Netflix Subscription is Expiring Soon !</FONT></SPAN></P></TD></TR></TBODY></TABLE><BR class=Apple-interchange-newline></P></TD></TR></TBODY></TABLE>
-<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
-<TBODY>
-<TR>
-<TD width=28> </TD>
-<TD></TD>
-<TD width=26> </TD></TR></TBODY></TABLE>
-<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
-<TBODY>
-<TR>
-<TD width=28></TD>
-<TD vAlign=top align=left>
-<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
-<TBODY>
-<TR>
-<TD>
-<P style="FONT-SIZE: 12px; FONT-FAMILY: Arial, Helvetica, sans-serif; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(34,34,34); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial"><STRONG><FONT color=#221f1f face=Helvetica>Hello,</FONT></STRONG></P>
-<P style="FONT-SIZE: 12px; FONT-FAMILY: Arial, Helvetica, sans-serif; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(34,34,34); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial">Unfortunately, we were unable to resolve the issue with your payment and your membership has been terminated..</P>
-<P style="FONT-SIZE: 12px; FONT-FAMILY: Arial, Helvetica, sans-serif; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(34,34,34); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial"><FONT face=Tahoma>Of course we would be delighted to have you again. All you have to do is restart your membership.</FONT></P></TD></TR></TBODY></TABLE>
-<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
-<TBODY>
-<TR>
-<TD style="FONT-SIZE: 14px; FONT-FAMILY: Arial, Helvetica, sans-serif" vAlign=top align=left>
-<P> </P></TD></TR>
-<TR>
-<TD></TD></TR>
-<TR>
-<TD style="FONT-SIZE: 12px; FONT-FAMILY: Arial, Helvetica, sans-serif" vAlign=top align=left>
-<DIV spellcheck=false role=textbox tabIndex=0 aria-label="Rich Text Editor, BODY" aria-describedby=cke_159 title="Rich Text Editor, BODY" style="POSITION: relative">
-<DIV class=xmprfx_OKaHwu>
-<DIV class=xmprfx_MnldPL>
-<DIV> </DIV></DIV></DIV></DIV>
-<DIV spellcheck=false role=textbox tabIndex=0 aria-label="Rich Text Editor, BODY" aria-describedby=cke_159 title="Rich Text Editor, BODY" style="POSITION: relative">
-<TABLE class="xmprfx_m_-2474863330050578787button xmprfx_m_-2474863330050578787red" style="FONT-SIZE: medium; FONT-FAMILY: Times New Roman; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(0,0,0); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(255,255,255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial" cellSpacing=0 cellPadding=0 align=center border=0>
-<TBODY>
-<TR>
-<TD style="MAX-WIDTH: 265px; COLOR: rgb(255,255,255); PADDING-BOTTOM: 10px; PADDING-TOP: 10px; PADDING-LEFT: 16px; PADDING-RIGHT: 16px; BACKGROUND-COLOR: rgb(229,9,20); border-radius: 2px"><U><A href="https://www.rcinc.org/app/show/"><FONT color=#ffffff>View or manage payment</FONT></A></U></TD></TR></TBODY></TABLE></DIV>
-<DIV spellcheck=false role=textbox tabIndex=0 aria-label="Rich Text Editor, BODY" aria-describedby=cke_159 title="Rich Text Editor, BODY" style="POSITION: relative"> </DIV>
-<DIV spellcheck=false role=textbox tabIndex=0 aria-label="Rich Text Editor, BODY" aria-describedby=cke_159 title="Rich Text Editor, BODY" style="POSITION: relative"> </DIV>
-<TABLE style="FONT-SIZE: 12px; FONT-FAMILY: Arial, Helvetica, sans-serif; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(34,34,34); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(255,255,255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial" cellSpacing=0 cellPadding=0 width="100%" border=0>
-<TBODY>
-<TR>
-<TD style="FONT-SIZE: 12px; FONT-FAMILY: Arial, Helvetica, sans-serif; MARGIN: 0px" vAlign=top align=left>
-<DIV role=textbox aria-label="Rich Text Editor, BODY" aria-describedby=cke_159 title="Rich Text Editor, BODY">
-<P><STRONG><FONT size=1>We thank you for your trust as a customer and we look forward to continuing to provide our services in the future.</FONT></STRONG></P></DIV></TD></TR></TBODY></TABLE><BR class=Apple-interchange-newline>
-<DIV spellcheck=false role=textbox tabIndex=0 aria-label="Rich Text Editor, BODY" aria-describedby=cke_159 title="Rich Text Editor, BODY" style="POSITION: relative">
-<P></P></DIV></TD></TR></TBODY></TABLE>
-<TABLE cellSpacing=3 cellPadding=0 width="100%" border=0>
-<TBODY></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV></DIV></DIV>
-
-
-
---1671acd737f26069703bed45b55515221--
