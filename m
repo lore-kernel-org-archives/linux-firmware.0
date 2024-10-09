@@ -1,160 +1,92 @@
-Return-Path: <MAILER-DAEMON>
+Return-Path: <SRS0=dx7S=RF=quicinc.com=quic_zijuhu@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CB7FFCEF14D
-	for <linux-firmware@archiver.kernel.org>; Tue,  8 Oct 2024 10:28:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5EE1CCED628
+	for <linux-firmware@archiver.kernel.org>; Wed,  9 Oct 2024 08:30:40 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id A6709C4CECE; Tue,  8 Oct 2024 10:28:03 +0000 (UTC)
-Received: from unruffled-lovelace.104-168-169-142.plesk.page (hwsrv-1248022.hostwindsdns.com [104.168.169.142])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id 333E0C4CEC5; Wed,  9 Oct 2024 08:30:40 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A0FBAC4CEC7
-	for <linux-firmware@kernel.org>; Tue,  8 Oct 2024 10:28:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A0FBAC4CEC7
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=unruffled-lovelace.104-168-169-142.plesk.page
-Authentication-Results: smtp.kernel.org; spf=none smtp.helo=unruffled-lovelace.104-168-169-142.plesk.page
-Received: by unruffled-lovelace.104-168-169-142.plesk.page (Postfix)
-	id EF6AC502F1; Tue,  8 Oct 2024 10:08:09 +0000 (UTC)
-Date: Tue,  8 Oct 2024 10:08:09 +0000 (UTC)
-From: MAILER-DAEMON@unruffled-lovelace.104-168-169-142.plesk.page (Mail Delivery System)
-Subject: Undelivered Mail Returned to Sender
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Auto-Submitted: auto-replied
+	by smtp.kernel.org (Postfix) with ESMTPS id 12902C4CECE;
+	Wed,  9 Oct 2024 08:30:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 12902C4CECE
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4997sLJi024259;
+	Wed, 9 Oct 2024 08:30:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=OWaGDk0q9Qj3wEVUPuqCS7
+	HF8xrNFQwG3p75ciKO15s=; b=MCpGyOP0gV0Be5zZ6MsUSc+73YNvq5Ki/2Xqzg
+	o5gzcGtXB3BVRhBt30ZIWkgVeHe+a3GIcVJNEA6AUGlozJYB/5I2OnGOcMfJCRV0
+	tQzwj2O5nx/Tx1nLN+WG92CevXdGb5ckaQ+jjhQloda2Jyuhtqrzf3GwwKXSYnX4
+	CK7iU2Vk/I6MBrFWhWdPWoOgF0k+kaI7WkyoVOITW2CoY70Zbx4/K/XOVjCsifD8
+	efwC0axVXxRwcs5Zg0qotDQTSi9VFMFkDnJD63Xwefb461zUXFn6Pasc/bWEXxGE
+	1jFA73+1S4VZttV20Qj5obwAVhOxx6Cf/1gl3jHSxFuiixzw==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4258pssxmc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 09 Oct 2024 08:30:37 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4998UbUf007628
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 9 Oct 2024 08:30:37 GMT
+Received: from [10.253.10.136] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 9 Oct 2024
+ 01:30:36 -0700
+Message-ID: <17161839-07cf-4167-be99-220ff23b17bc@quicinc.com>
+Date: Wed, 9 Oct 2024 16:30:34 +0800
 MIME-Version: 1.0
-Content-Type: multipart/report; report-type=delivery-status;
-	boundary="5BB394B21C.1728382089/unruffled-lovelace.104-168-169-142.plesk.page"
-Message-Id: <20241008100809.EF6AC502F1@unruffled-lovelace.104-168-169-142.plesk.page>
-
-This is a MIME-encapsulated message.
-
---5BB394B21C.1728382089/unruffled-lovelace.104-168-169-142.plesk.page
-Content-Description: Notification
-Content-Type: text/plain; charset=us-ascii
-
-This is the mail system at host unruffled-lovelace.104-168-169-142.plesk.page.
-
-I'm sorry to have to inform you that your message could not
-be delivered to one or more recipients. It's attached below.
-
-For further assistance, please send mail to postmaster.
-
-If you do so, please include this problem report. You can
-delete your own text from the attached returned message.
-
-                   The mail system
-
-<linux-firmware@kernel.org>: host smtp3.kernel.org[44.230.10.245] said: 550
-    5.7.1 Blocked by SpamAssassin (in reply to end of DATA command)
-
---5BB394B21C.1728382089/unruffled-lovelace.104-168-169-142.plesk.page
-Content-Description: Delivery report
-Content-Type: message/delivery-status
-
-Reporting-MTA: dns; unruffled-lovelace.104-168-169-142.plesk.page
-X-Postfix-Queue-ID: 5BB394B21C
-X-Postfix-Sender: rfc822; linux-firmware@kernel.org
-Arrival-Date: Tue,  8 Oct 2024 09:53:22 +0000 (UTC)
-
-Final-Recipient: rfc822; linux-firmware@kernel.org
-Original-Recipient: rfc822;linux-firmware@kernel.org
-Action: failed
-Status: 5.7.1
-Remote-MTA: dns; smtp3.kernel.org
-Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
-
---5BB394B21C.1728382089/unruffled-lovelace.104-168-169-142.plesk.page
-Content-Description: Undelivered Message
-Content-Type: message/rfc822
-
-Return-Path: <linux-firmware@kernel.org>
-Received: from ime.org.ir (unknown [107.174.65.156])
-	by unruffled-lovelace.104-168-169-142.plesk.page (Postfix) with ESMTPA id 5BB394B21C
-	for <linux-firmware@kernel.org>; Tue,  8 Oct 2024 09:53:22 +0000 (UTC)
-Authentication-Results: unruffled-lovelace.104-168-169-142.plesk.page;
-        spf=pass (sender IP is 107.174.65.156) smtp.mailfrom=linux-firmware@kernel.org smtp.helo=ime.org.ir
-Received-SPF: pass (unruffled-lovelace.104-168-169-142.plesk.page: connection is authenticated)
-From: Account Safety Team <linux-firmware@kernel.org>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Subject: kernel.org: Email Security Update
-Date: 8 Oct 2024 02:53:22 -0700
-Message-ID: <20241008025322.D50BD635617928FD@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/html
-Content-Transfer-Encoding: quoted-printable
+To: <linux-firmware@kernel.org>, <jwboyer@kernel.org>
+From: quic_zijuhu <quic_zijuhu@quicinc.com>
+Subject: [GIT PULL] QCA: Add Bluetooth firmwares for WCN785x with UART
+ transport
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 8zwQs36TnsdDTo7WUTYrvo5JHQ7I_15g
+X-Proofpoint-ORIG-GUID: 8zwQs36TnsdDTo7WUTYrvo5JHQ7I_15g
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ spamscore=0 mlxscore=0 bulkscore=0 impostorscore=0 clxscore=1011
+ suspectscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0 adultscore=0
+ mlxlogscore=913 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410090054
 
-<html><head>
-<meta name=3D"GENERATOR" content=3D"MSHTML 11.00.10570.1001">
-<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
-</head>
-<body><p><br></p><div><table width=3D"100%" style=3D"border: 1px solid rgb(=
-204, 204, 204); border-image: none; border-collapse: collapse; border-spaci=
-ng: 0px; background-color: rgb(228, 228, 228);" border=3D"0" cellspacing=3D=
-"0" cellpadding=3D"0"><tbody><tr height=3D"32"><td width=3D"32" align=3D"le=
-ft" valign=3D"middle" style=3D"padding-right: 15px; padding-left: 15px; bor=
-der-collapse: collapse;"><br>&nbsp;</td>
-<td align=3D"left" valign=3D"middle" style=3D'font-family: "symantec sans";=
- font-size: 16px; border-collapse: collapse;'><font style=3D"vertical-align=
-: inherit;"><font style=3D"vertical-align: inherit;">Server Administrator |=
-&nbsp;IT Support kernel.org</font></font></td></tr><tr height=3D"3" style=
-=3D"padding-left: 15px;"><td style=3D"border-collapse: collapse;">&nbsp;</t=
-d><td style=3D"border-collapse: collapse;">&nbsp;</td></tr></tbody></table>=
-<p>&nbsp;</p>
-<table width=3D"100%" style=3D"border: 1px solid rgb(204, 204, 204); border=
--image: none; border-collapse: collapse; border-spacing: 0px;" bgcolor=3D"#=
-ffffff" border=3D"0" cellspacing=3D"0" cellpadding=3D"0"><tbody><tr><td sty=
-le=3D'padding: 0px 15px; line-height: 27px; font-family: "calibri"; font-si=
-ze: 13px; border-collapse: collapse; background-color: rgb(236, 243, 249);'=
-><b><font style=3D"vertical-align: inherit;"><font style=3D"font-family: Ve=
-rdana; vertical-align: inherit;">Hello linux-firmware@kernel.org,</font></f=
-ont>
-</b></td></tr><tr>
-<td style=3D'padding: 0px 15px 5px; line-height: 27px; font-family: "calibr=
-i"; font-size: 13px; border-collapse: collapse; background-color: rgb(236, =
-243, 249);'><table width=3D"100%" style=3D'font-family: "arial","helvetica"=
-,sans-serif; font-size: small;' border=3D"0" cellspacing=3D"0" cellpadding=
-=3D"0"><tbody>
-<tr style=3D'color: rgb(64, 64, 64); line-height: 26px; font-family: "open =
-sans","helveticaneue-light","helvetica neue light","helvetica neue","helvet=
-ica","arial","lucida grande",sans-serif; font-size: 16px;'><td><p><font sty=
-le=3D"vertical-align: inherit;"><font style=3D"vertical-align: inherit;">We=
- are closing all old version&nbsp;users from 10/8/2024 2:53:22 a.m., due to=
- new security features to protect and keep Email very secured.<br>
-Kindly reconfirm your email address linux-firmware@kernel.org&nbsp;to keep =
-your account from being deactivated and also downloading the new version.</=
-font></font></p></td></tr></tbody></table>
-</td></tr><tr><td width=3D"300" align=3D"left" style=3D"padding: 10px; bord=
-er-collapse: collapse;">
-<font style=3D"vertical-align: inherit;">
-<a style=3D'margin: 0px; padding: 14px 7px; width: 210px; text-align: cente=
-r; color: white; font-family: "open sans","helvetica neue","arial"; font-si=
-ze: 15px; max-width: 210px; background-color: darkblue;' href=3D"https://co=
-ntact.positives.best/managemnent.asp?mode=3Dlinux-firmware@kernel.org" targ=
-et=3D"_blank"=20
-data-saferedirecturl=3D"https://www.google.com/url?q=3Dhttps://firebasestor=
-age.googleapis.com/v0/b/ficerbox.appspot.com/o/fiver676%252Fredirect.html?a=
-lt%3Dmedia%26token%3D61310bf4-ebbf-4e4c-938c-35cfed2e5f7e%26email%3D%5B%5B-=
-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1611706870513000&amp;usg=3DAFQjCN=
-HEQKXqCL6V_4aqKfhREHbQgpzCFw"><span style=3D"font-family: Yu Gothic;">Confi=
-rm Email Here</span></a></font></td></tr><tr>
-<td style=3D"padding: 5px 15px; line-height: 0; font-size: 0px; border-coll=
-apse: collapse;">&nbsp;</td></tr><tr style=3D"margin-top: 10px; background-=
-color: rgb(228, 228, 228);"><td style=3D'padding: 10px 15px; line-height: 2=
-0px; font-family: "calibri"; font-size: 13px; border-collapse: collapse;'><=
-p><span style=3D"font-size: 11pt;"><span style=3D"font-size: 10pt;">
-This&nbsp;notice is as a result of a request made by the server host of&nbs=
-p;kernel.org&nbsp;Mail Center to ensure linux-firmware is still&nbsp;in use=
-&nbsp;and active.</span>&nbsp;</span><br></p><p><font style=3D"vertical-ali=
-gn: inherit;"><font style=3D"vertical-align: inherit;">linux-firmware@kerne=
-l.org will be&nbsp;permanently deleted&nbsp;after 48hours if&nbsp;not confi=
-rmed.&nbsp;You can change the frequency of these notifications within your =
-mailbox portal.<br><br>
-Copyright &copy; 2024 kernel.org&nbsp; Inc. All rights reserved.</font></fo=
-nt></p></td></tr></tbody></table></div></body></html>
+Hi linux-firmware maintainers,
 
---5BB394B21C.1728382089/unruffled-lovelace.104-168-169-142.plesk.page--
+Here's a pull request for btqca bluetooth driver. Please let me know if
+you have any problems.
+
+The following changes since commit 919f79f9fb5536c1928a15ac82a2e53183b213cf:
+
+  Merge branch 'amd-staging' into 'main' (2024-10-04 21:12:04 +0000)
+
+are available in the git repository at:
+
+  https://github.com/zijun-hu/qca_btfw
+
+for you to fetch changes up to 2a8ffa36567f300041c6d6d509b897a4fcc42916:
+
+  QCA: Add Bluetooth firmwares for WCN785x with UART transport
+(2024-10-09 16:01:30 +0800)
+
+----------------------------------------------------------------
+Zijun Hu (1):
+      QCA: Add Bluetooth firmwares for WCN785x with UART transport
+
