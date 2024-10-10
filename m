@@ -1,106 +1,82 @@
-Return-Path: <SRS0=E1Kv=RG=quicinc.com=quic_jjohnson@kernel.org>
+Return-Path: <superm1@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D08EDCFC5F3
-	for <linux-firmware@archiver.kernel.org>; Thu, 10 Oct 2024 18:49:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B66BD24447
+	for <linux-firmware@archiver.kernel.org>; Thu, 10 Oct 2024 19:49:22 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id A8B05C4AF09; Thu, 10 Oct 2024 18:49:39 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A144DC4CECC;
-	Thu, 10 Oct 2024 18:49:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A144DC4CECC
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49ADqfwg029138;
-	Thu, 10 Oct 2024 18:49:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=WshWiJG5rtOw51cJjHeNCF
-	oUBMH/Kq/clAeS0vgUETw=; b=dfurgXEpGJExVOLq6ss+fQ8F021QM1RHO4S1jj
-	1NdXkC+Leq0yAitnuv3AXbL5Ls7cCU0XnjFubgcoOpRBEt0OMEviqxrfAZgGjLex
-	k7ZwyNhfwFMGn8r207+GdfjfSKQBMX6gJcRYPX58tu/7SG6EClyzzlc7N8vp0Y1j
-	GMsY2fmh01QrKQiMCfHmBSwefa5fD+4M5XMzFHZvUsV/eaAEskdNP6tunAz6SmcR
-	0jUk1lMVTWAa6qREKVw11rRq+onnS0ZKGuYX0kPYAEcm05bTcKwX4pFYzApWMvim
-	9+8FJ/e2O6D+Fu3rd7uA0jFlY0rvmDQ4OSDZUowLfxD7T7Rw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 426g6n8sbq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 10 Oct 2024 18:49:37 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49AInaRA013019
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 10 Oct 2024 18:49:36 GMT
-Received: from [10.48.240.152] (10.49.16.6) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 10 Oct
- 2024 11:49:36 -0700
-Message-ID: <015383e1-f37e-4a1d-b2de-f3261f5ea1f4@quicinc.com>
-Date: Thu, 10 Oct 2024 11:49:34 -0700
+	id BE62CC4CECC; Thu, 10 Oct 2024 19:49:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55123C4CED1;
+	Thu, 10 Oct 2024 19:49:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728589762;
+	bh=EvLeBgZqSdppgGWJOm+U6sHub4tcGfNP2VkxbwW+b8k=;
+	h=Date:Subject:List-Id:To:Cc:References:From:In-Reply-To:From;
+	b=GeTLWaz55bN+ndvsVL+7SiJIjL3M8LpPPLz+IYOz46nT+7TyaV4U7lG+2vgYNO6UM
+	 hga0omG1g5KqfIPxQEWNjsaRuY9WNnFNyV/5fF9K8f6vBdCsW7LiCKlwHmD+E5z/H8
+	 UYdknafcF9eYlu/AFSQbbwD6gvL1TXnMq9IGWeQ7qaV+pMd+Sl6a3OD8TnsGx4NuI2
+	 JzREHH260TKERFPxziYJQjlROlD14WGT3PJAKldWVLTbP7L+dqEhrIKHqTmnKCtBQN
+	 WdU718OEqb3L1iMf02/bD2UMMyexkc8ucDp+W93g/AIonueqDdp63PSiS3o5anE4Oy
+	 /Kh6Oe6OdyRYQ==
+Message-ID: <d5d6f0fd-ff53-4168-a00f-e6f9308aac5e@kernel.org>
+Date: Thu, 10 Oct 2024 14:49:20 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Subject: Re: [PULL v1 linux-firmware] cirrus: cs35l41: Add firmware for Cirrus
+ CS35L41 for some HP laptops
 List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-CC: <ath12k@lists.infradead.org>, Kalle Valo <kvalo@kernel.org>,
-        Jeff Johnson
-	<jjohnson@kernel.org>
-Subject: [PULL linux-firmware] ath12k firmware 20241009
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: ze2yYDbbwnKZon0x3yq1LM6Nsdh0zSsb
-X-Proofpoint-GUID: ze2yYDbbwnKZon0x3yq1LM6Nsdh0zSsb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- lowpriorityscore=0 bulkscore=0 adultscore=0 impostorscore=0
- mlxlogscore=994 mlxscore=0 spamscore=0 phishscore=0 malwarescore=0
- clxscore=1011 priorityscore=1501 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2409260000 definitions=main-2410100124
+To: Vitaly Rodionov <vitalyr@opensource.cirrus.com>, linux-firmware@kernel.org
+Cc: patches@opensource.cirrus.com
+References: <d7909fe6-6f06-4e82-8c27-28bdcc912171@opensource.cirrus.com>
+Content-Language: en-US
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <d7909fe6-6f06-4e82-8c27-28bdcc912171@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi,
+On 10/9/2024 10:21, Vitaly Rodionov wrote:
+> 
+> Hi,
+> 
+> We’d like to add the firmware for the Cirrus CS35L41 smart amplifiers on 
+> a couple of HP laptop.
+> Thanks,
+> Vitaly
+> 
+> The following changes since commit 
+> 919f79f9fb5536c1928a15ac82a2e53183b213cf:
+> 
+>    Merge branch 'amd-staging' into 'main' (2024-10-04 21:12:04 +0000)
+> 
+> are available in the Git repository at:
+> 
+>    origin/cs35l41_snowwhite
 
-Here's a pull request for ath12k. We have a new ath12k hardware
-QCN9274 hw2.0 and an updated board file for WCN7850 hw2.0 which
-addresses the issue described at:
-https://lore.kernel.org/all/44ae68d2-24b6-49d2-a4f9-ae9cbf6f9950@heusel.eu/
+This doesn't seem to be a valid Git repo.  Although we can take stuff 
+from the mailing list, the Gitlab flow is a lot easier to fix problems.
+If possible would you mind opening a MR instead at Gitlab [1].
 
-The following changes since commit 919f79f9fb5536c1928a15ac82a2e53183b213cf:
+[1] https://gitlab.com/kernel-firmware/linux-firmware
 
-  Merge branch 'amd-staging' into 'main' (2024-10-04 21:12:04 +0000)
+Thanks!
 
-are available in the Git repository at:
+> 
+> for you to fetch changes up to 72884e091e2e1a0842b5c11572aa4187de0b1d33:
+> 
+>    linux-firmware: Add firmware for Cirrus CS35L41 (2024-10-09 16:08:14 
+> +0100)
+> 
+> ----------------------------------------------------------------
+> Vitaly Rodionov (1):
+>        linux-firmware: Add firmware for Cirrus CS35L41
+> 
+>   WHENCE                                              |  10 ++++++++++
+>   cirrus/cs35l41-dsp1-spk-prot-103c8cdf-spkid0-l0.bin | Bin 0 -> 4080 bytes
+>   cirrus/cs35l41-dsp1-spk-prot-103c8cdf-spkid1-l0.bin | Bin 0 -> 4088 bytes
+>   3 files changed, 10 insertions(+)
+>   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8cdf-spkid0-l0.bin
+>   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8cdf-spkid1-l0.bin
+> 
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/ath/linux-firmware.git ath-20241009
-
-for you to fetch changes up to 42d754dc98e77e43bcb86def5ea60e009cc49be2:
-
-  ath12k: WCN7850 hw2.0: update board-2.bin (2024-10-09 14:24:59 -0700)
-
-----------------------------------------------------------------
-Jeff Johnson (3):
-      ath12k: QCN9274 hw2.0: add board-2.bin
-      ath12k: QCN9274 hw2.0: add to WLAN.WBE.1.3.1-00162-QCAHKSWPL_SILICONZ-1
-      ath12k: WCN7850 hw2.0: update board-2.bin
-
- WHENCE                              |    4 +
- ath12k/QCN9274/hw2.0/Notice.txt     | 3987 +++++++++++++++++++++++++++++++++++
- ath12k/QCN9274/hw2.0/board-2.bin    |  Bin 0 -> 292160 bytes
- ath12k/QCN9274/hw2.0/firmware-2.bin |  Bin 0 -> 15224888 bytes
- ath12k/WCN7850/hw2.0/board-2.bin    |  Bin 1897968 -> 1897968 bytes
- 5 files changed, 3991 insertions(+)
- create mode 100644 ath12k/QCN9274/hw2.0/Notice.txt
- create mode 100644 ath12k/QCN9274/hw2.0/board-2.bin
- create mode 100644 ath12k/QCN9274/hw2.0/firmware-2.bin
