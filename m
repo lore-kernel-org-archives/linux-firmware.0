@@ -1,157 +1,154 @@
-Return-Path: <SRS0=WX5V=RG=ti.com=shenghao-ding@kernel.org>
+Return-Path: <SRS0=dEQg=RG=gmail.com=superm1@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC5D7CF11CD
-	for <linux-firmware@archiver.kernel.org>; Thu, 10 Oct 2024 11:29:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE34BCF11F5
+	for <linux-firmware@archiver.kernel.org>; Thu, 10 Oct 2024 13:30:49 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 69EFDC4CECC; Thu, 10 Oct 2024 11:29:17 +0000 (UTC)
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id A9BA9C4CECC; Thu, 10 Oct 2024 13:30:49 +0000 (UTC)
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 190D2C4CEC5
-	for <linux-firmware@kernel.org>; Thu, 10 Oct 2024 11:29:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 190D2C4CEC5
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 49ABT3KV050502;
-	Thu, 10 Oct 2024 06:29:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1728559743;
-	bh=KMk+GsJubql3OxQoN/o6uiwjvaKjSDie6UzXe+7HzIs=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To;
-	b=WCieGJKD+93u5GTZYFpCgXT2q2XcTmlvRzwlber0GwKiExzpwssRIhmQb0A+Wim7Q
-	 Qcxl2C0aiNifvrtVOCln1FwAh3WJQbDiNCuTNMlHYzDF+noBep2eDKf/tlCHOGu0Xr
-	 Mdb3l5wL7cKLnVZkC5/MG7RaPH9IM+kd+0i4cHzU=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTP id 49ABT3UU094511;
-	Thu, 10 Oct 2024 06:29:03 -0500
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 10
- Oct 2024 06:29:02 -0500
-Received: from DLEE101.ent.ti.com ([fe80::91ee:60bc:bfb7:851c]) by
- DLEE101.ent.ti.com ([fe80::91ee:60bc:bfb7:851c%18]) with mapi id
- 15.01.2507.023; Thu, 10 Oct 2024 06:29:02 -0500
-From: "Ding, Shenghao" <shenghao-ding@ti.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id BCF0BC4CEC5
+	for <linux-firmware@kernel.org>; Thu, 10 Oct 2024 13:30:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org BCF0BC4CEC5
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-27beb2496f4so308768fac.1
+        for <linux-firmware@kernel.org>; Thu, 10 Oct 2024 06:30:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728567048; x=1729171848; darn=kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4SK4LT2nNm84AhZpXABE570v9PceMVgU3Fb2pHfApgw=;
+        b=fJOUs+d1Y7CI3DwxpHvY2tZK9ua4nz6y5mraPeiE3popvJbxDFwMm8kAv/S8GEowWn
+         Cqz2I8hQBjt70BbXUosyOLNLtPJ88gWwv+9sDai9Yk4nqYd5bdhwIvcLSIrm1jIPd8hd
+         b0sZWtaN9KY7lUCNe9q/PlO3Vn322v57/P/P5AuEkdraY7IzmY1jWMA1uP+kEeBxgXs+
+         2uuSkWP7zjgbGVORFNsyEVvNMl2D9j6TiamU6ddyRlWQZ5SztS7R/9mlVGLYkpW1ZjMW
+         ETq/q7ouC5g7BeD3NMB0TIp/et6e9U6WWuEcMBMpATlgYq8/6VEEZ04vLBm3ATZwyUdC
+         liEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728567048; x=1729171848;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4SK4LT2nNm84AhZpXABE570v9PceMVgU3Fb2pHfApgw=;
+        b=D/48WeWfJBcGvtuZJOEHjK1Dj//olyl/VPezFgb5z/4s41CcK5JlTpc/qKGNy/4dIB
+         bsm0GXiweD7lRJe7LReQ86S1oDQbnMtV9FVF7y9mx9PymjgL/fVXzmG0ce6QfAMp2GY6
+         KQrR3p4Gpev/P/vyTnRBSgWgaE99KIG2PX1dlfCwbx4SOKO7drGETu4NUI5E8iOkf9H1
+         SauIjnpKyzj7/BoQFLqsQJl5iU79odDr18TytQP86NdPH3g+32g3KdCmXy+9syveipW3
+         SRwJs2tbGluFTuhmUa99ZgJmysUr8EgTyH3IP23UZnUk8M1vueNe5qGHLCCiIk5phvX0
+         maNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVvaWhvILywH1JPRPCQUCmCCZRYQZf/YmhZ9anstGBWMDSLAIQt/QjWE/6fHdpiCISgkwx+7CWJg/gDfJKpkw==@kernel.org
+X-Gm-Message-State: AOJu0YxlSrfBEvBwsEeBESAVkiula6lHCjom2lOhpcRGoyCxm9yPJLRx
+	RsNGqpElUygRFsa+0XGtrDXN7SIKZ8eS8j8Sz3UZUIZgO3vo/DrZ
+X-Google-Smtp-Source: AGHT+IEkCCEyay3cKAq4bSPwIgeCPS8DRUBLuKqweN2kQt/3ee+FraBEJFL65l9+hg56tgRFbAH9Fg==
+X-Received: by 2002:a05:6870:d93:b0:25e:940:e934 with SMTP id 586e51a60fabf-2883454e9damr3677014fac.47.1728567047426;
+        Thu, 10 Oct 2024 06:30:47 -0700 (PDT)
+Received: from ?IPV6:2603:8080:1400:9f00:1ac8:ba3e:b226:eb6a? ([2603:8080:1400:9f00:1ac8:ba3e:b226:eb6a])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-28858360ebfsm274657fac.35.2024.10.10.06.30.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Oct 2024 06:30:47 -0700 (PDT)
+Message-ID: <3ef8a82f-5e71-4386-90e1-f34222a60bdf@gmail.com>
+Date: Thu, 10 Oct 2024 08:30:45 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [EXTERNAL] Re: [PATCH v1] Upload dsp firmware for ASUS laptop
+ 1EB30 & 1EB31 and Update WHENCE for both
 List-Id: <linux-firmware.lore.kernel.org>
-To: Mario Limonciello <superm1@gmail.com>,
-        "linux-firmware@kernel.org"
-	<linux-firmware@kernel.org>
-CC: "Xu, Baojun" <baojun.xu@ti.com>,
-        "derekjohn.clark@gmail.com"
-	<derekjohn.clark@gmail.com>,
-        "13916275206@139.com" <13916275206@139.com>,
-        "romangg@manjaro.org" <romangg@manjaro.org>,
-        "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>,
-        "Chen, Robin" <robinchen@ti.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Yi, Ken"
-	<k-yi@ti.com>, "philm@manjaro.org" <philm@manjaro.org>,
-        "jlobue10@gmail.com"
-	<jlobue10@gmail.com>,
-        "luke@ljones.dev" <luke@ljones.dev>,
-        "antheas.dk@gmail.com" <antheas.dk@gmail.com>
-Subject: RE: [EXTERNAL] Re: [PATCH v1] Upload dsp firmware for ASUS laptop
- 1EB30 & 1EB31 and Update WHENCE for both
-Thread-Topic: [EXTERNAL] Re: [PATCH v1] Upload dsp firmware for ASUS laptop
- 1EB30 & 1EB31 and Update WHENCE for both
-Thread-Index: AQHbGjSPgBpES4OxR0Wqg73tQY9Yj7J/oi0AgAA01PA=
-Date: Thu, 10 Oct 2024 11:29:02 +0000
-Message-ID: <7e138a1c8b6d4ace8c759bb2266216da@ti.com>
+To: "Ding, Shenghao" <shenghao-ding@ti.com>,
+ "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+Cc: "Xu, Baojun" <baojun.xu@ti.com>,
+ "derekjohn.clark@gmail.com" <derekjohn.clark@gmail.com>,
+ "13916275206@139.com" <13916275206@139.com>,
+ "romangg@manjaro.org" <romangg@manjaro.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "Chen, Robin" <robinchen@ti.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "Yi, Ken" <k-yi@ti.com>, "philm@manjaro.org" <philm@manjaro.org>,
+ "jlobue10@gmail.com" <jlobue10@gmail.com>, "luke@ljones.dev"
+ <luke@ljones.dev>, "antheas.dk@gmail.com" <antheas.dk@gmail.com>
 References: <20241009101807.1473-1-shenghao-ding@ti.com>
  <d1941b10-0549-4a0e-a3fe-a8d7c50c175b@gmail.com>
-In-Reply-To: <d1941b10-0549-4a0e-a3fe-a8d7c50c175b@gmail.com>
-Accept-Language: en-US, zh-CN
+ <7e138a1c8b6d4ace8c759bb2266216da@ti.com>
 Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-originating-ip: [10.85.14.104]
-x-c2processedorg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
+From: Mario Limonciello <superm1@gmail.com>
+In-Reply-To: <7e138a1c8b6d4ace8c759bb2266216da@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-SGkgTWFyaW8NClRoYW5rcyBmb3IgcmV2aWV3LCBJIG1ldCBzb21lIHRyb3VibGUgb24gIm1ha2Ug
-Y2hlY2siLiAgS2luZGx5IGRvIG1lIGEgZmF2b3IuDQpUaGUgZGV0YWlsIGlzIGlubGluZS4NCg0K
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBNYXJpbyBMaW1vbmNpZWxsbyA8
-c3VwZXJtMUBnbWFpbC5jb20+DQo+IFNlbnQ6IFRodXJzZGF5LCBPY3RvYmVyIDEwLCAyMDI0IDEx
-OjA2IEFNDQo+IFRvOiBEaW5nLCBTaGVuZ2hhbyA8c2hlbmdoYW8tZGluZ0B0aS5jb20+OyBsaW51
-eC1maXJtd2FyZUBrZXJuZWwub3JnDQo+IENjOiBYdSwgQmFvanVuIDxiYW9qdW4ueHVAdGkuY29t
-PjsgZGVyZWtqb2huLmNsYXJrQGdtYWlsLmNvbTsNCj4gMTM5MTYyNzUyMDZAMTM5LmNvbTsgcm9t
-YW5nZ0BtYW5qYXJvLm9yZzsgbGludXgtc291bmRAdmdlci5rZXJuZWwub3JnOw0KPiBDaGVuLCBS
-b2JpbiA8cm9iaW5jaGVuQHRpLmNvbT47IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IFlp
-LCBLZW4gPGstDQo+IHlpQHRpLmNvbT47IE5hdmFkYSBLYW55YW5hLCBNdWt1bmQgPG5hdmFkYUB0
-aS5jb20+OyBwaGlsbUBtYW5qYXJvLm9yZzsNCj4gamxvYnVlMTBAZ21haWwuY29tOyBsdWtlQGxq
-b25lcy5kZXY7IGFudGhlYXMuZGtAZ21haWwuY29tDQo+IFN1YmplY3Q6IFtFWFRFUk5BTF0gUmU6
-IFtQQVRDSCB2MV0gVXBsb2FkIGRzcCBmaXJtd2FyZSBmb3IgQVNVUyBsYXB0b3ANCj4gMUVCMzAg
-JiAxRUIzMSBhbmQgVXBkYXRlIFdIRU5DRSBmb3IgYm90aA0KPiANCj4gDQo+IE9uIDEwLzkvMjQg
-MDU6MTgsIFNoZW5naGFvIERpbmcgd3JvdGU6DQo+ID4gU2lnbmVkLW9mZi1ieTogU2hlbmdoYW8g
-RGluZyA8c2hlbmdoYW8tZGluZ0B0aS5jb20+DQo+ID4gLS0tDQo+ID4gICBXSEVOQ0UgICAgICAg
-ICAgICAgICAgICAgICB8ICAgNCArKysrDQo+ID4gICB0aS90YXMyNzgxL1RBUzJYWFgyMjM0LmJp
-biB8IEJpbg0KPiA+ICAgMiBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykNCj4gPiAgIG1v
-ZGUgY2hhbmdlIDEwMDY0NCA9PiAxMDA3NTUgdGkvdGFzMjc4MS9UQVMyWFhYMjIzNC5iaW4NCj4g
-Pg0KPiA+IGRpZmYgLS1naXQgYS9XSEVOQ0UgYi9XSEVOQ0UNCj4gPiBpbmRleCBhOWM4YmI1Li4w
-MDA5NmViIDEwMDY0NA0KPiA+IC0tLSBhL1dIRU5DRQ0KPiA+ICsrKyBiL1dIRU5DRQ0KPiA+IEBA
-IC03NDg3LDYgKzc0ODcsOCBAQCBPcmlnaW5hdGVzIGZyb20NCj4gSGVsbG8sDQo+IA0KPiBJIHRy
-aWVkIHRvIHByb2Nlc3MgdGhpcyBpbnRvIGEgTVIgb24gR2l0bGFiIGFuZCBpdCBmYWlsZWQgQ0ku
-DQo+IA0KPiBodHRwczovL3VybGRlZmVuc2UuY29tL3YzL19faHR0cHM6Ly9naXRsYWIuY29tL2tl
-cm5lbC1maXJtd2FyZS9saW51eC0NCj4gZmlybXdhcmUvLQ0KPiAvbWVyZ2VfcmVxdWVzdHMvMzEx
-X187ISFHM3ZLIVRfZl9JR1hodG1TRlI3UDZVWVoxNDgwNVhfazhzZXFrM0c1Mzg2DQo+IDJsWFJK
-c3NJd0tMczFIZWdjbjhOS01ucUM5VUdTUEdDWl9sWU9wb0RvJA0KPiANCj4gUGxlYXNlIHJ1biAn
-bWFrZSBjaGVjaycgYmVmb3JlIHN1Ym1pdHRpbmcuDQpBbHRob3VnaCBUQVMyWFhYMUVCMzAuYmlu
-IGFuZCBUQVMyWFhYMUVCMzEuYmluIGFyZSBib3RoIGluIHRpL3RhczI3ODEsIHlldCBpdCByZXBv
-cnRlZCAiZG9lcyBub3QgZXhpc3QiLg0KSSBoYXZlIG5vIGlkZWEgd2h5IHRoZSBmaWxlIGlzIHRo
-ZXJlIHdoaWxlIHJlcG9ydCAiZG9lcyBub3QgZXhpc3QiLiBBZnRlciBJIHJlbW92ZWQgdGhlIG5l
-d2x5LW1lcmdlZCwgbm8gc3VjaCByZXBvcnQuDQoNCkZvbGxvd2luZyBpcyB0aGUgbG9nLiANCg0K
-cm9vdEBMQVBUT1AtNzBSSjVCOFE6L3Vzci9sb2NhbC9zcmMvZndfbmV3IyBtYWtlIGNoZWNrDQpD
-aGVjayB0aGF0IGV4ZWN1dGFibGVzIGhhdmUgc2hlYmFuZ3MuLi4uLi4uLi4uLi4uLi4uLi4uLi4u
-Li4uLi4uLi4uLi4uLi4uUGFzc2VkDQpGb3JiaWQgbmV3IHN1Ym1vZHVsZXMuLi4uLi4uLi4uLi4u
-Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uUGFzc2VkDQpDaGVjayBZYW1s
-Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
-Li4uLi4uUGFzc2VkDQpDaGVjayBmb3IgYnJva2VuIHN5bWxpbmtzLi4uLi4uLi4uLi4uLi4uLi4u
-Li4uLi4uLi4uLihubyBmaWxlcyB0byBjaGVjaylTa2lwcGVkDQpEZXRlY3QgRGVzdHJveWVkIFN5
-bWxpbmtzLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uUGFz
-c2VkDQpzaGVsbGNoZWNrLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
-Li4uLi4uLi4uLi4uLi4uLi4uLi4uUGFzc2VkDQpibGFjay4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
-Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uUGFzc2VkDQptYXJr
-ZG93bmxpbnQuLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
-Li4uLi4uLi4uLi4uRmFpbGVkDQotIGhvb2sgaWQ6IG1hcmtkb3dubGludA0KLSBleGl0IGNvZGU6
-IDENCg0KaW50ZXJuYWwvbW9kdWxlcy9janMvbG9hZGVyLmpzOjgxOA0KICB0aHJvdyBlcnI7DQog
-IF4NCg0KRXJyb3I6IENhbm5vdCBmaW5kIG1vZHVsZSAnbm9kZTpmcycNClJlcXVpcmUgc3RhY2s6
-DQotIC9yb290Ly5jYWNoZS9wcmUtY29tbWl0L3JlcG94bDU5YzB1ei9ub2RlX2Vudi1zeXN0ZW0v
-bGliL25vZGVfbW9kdWxlcy9tYXJrZG93bmxpbnQtY2xpL21hcmtkb3dubGludC5qcw0KICAgIGF0
-IEZ1bmN0aW9uLk1vZHVsZS5fcmVzb2x2ZUZpbGVuYW1lIChpbnRlcm5hbC9tb2R1bGVzL2Nqcy9s
-b2FkZXIuanM6ODE1OjE1KQ0KICAgIGF0IEZ1bmN0aW9uLk1vZHVsZS5fbG9hZCAoaW50ZXJuYWwv
-bW9kdWxlcy9janMvbG9hZGVyLmpzOjY2NzoyNykNCiAgICBhdCBNb2R1bGUucmVxdWlyZSAoaW50
-ZXJuYWwvbW9kdWxlcy9janMvbG9hZGVyLmpzOjg4NzoxOSkNCiAgICBhdCByZXF1aXJlIChpbnRl
-cm5hbC9tb2R1bGVzL2Nqcy9oZWxwZXJzLmpzOjg1OjE4KQ0KICAgIGF0IE9iamVjdC48YW5vbnlt
-b3VzPiAoL3Jvb3QvLmNhY2hlL3ByZS1jb21taXQvcmVwb3hsNTljMHV6L25vZGVfZW52LXN5c3Rl
-bS9saWIvbm9kZV9tb2R1bGVzL21hcmtkb3dubGludC1jbGkvbWFya2Rvd25saW50LmpzOjU6MTIp
-DQogICAgYXQgTW9kdWxlLl9jb21waWxlIChpbnRlcm5hbC9tb2R1bGVzL2Nqcy9sb2FkZXIuanM6
-OTk5OjMwKQ0KICAgIGF0IE9iamVjdC5Nb2R1bGUuX2V4dGVuc2lvbnMuLmpzIChpbnRlcm5hbC9t
-b2R1bGVzL2Nqcy9sb2FkZXIuanM6MTAyNzoxMCkNCiAgICBhdCBNb2R1bGUubG9hZCAoaW50ZXJu
-YWwvbW9kdWxlcy9janMvbG9hZGVyLmpzOjg2MzozMikNCiAgICBhdCBGdW5jdGlvbi5Nb2R1bGUu
-X2xvYWQgKGludGVybmFsL21vZHVsZXMvY2pzL2xvYWRlci5qczo3MDg6MTQpDQogICAgYXQgRnVu
-Y3Rpb24uZXhlY3V0ZVVzZXJFbnRyeVBvaW50IFthcyBydW5NYWluXSAoaW50ZXJuYWwvbW9kdWxl
-cy9ydW5fbWFpbi5qczo2MDoxMikgew0KICBjb2RlOiAnTU9EVUxFX05PVF9GT1VORCcsDQogIHJl
-cXVpcmVTdGFjazogWw0KICAgICcvcm9vdC8uY2FjaGUvcHJlLWNvbW1pdC9yZXBveGw1OWMwdXov
-bm9kZV9lbnYtc3lzdGVtL2xpYi9ub2RlX21vZHVsZXMvbWFya2Rvd25saW50LWNsaS9tYXJrZG93
-bmxpbnQuanMnDQogIF0NCn0NCg0KQ2hlY2sgd2hlbmNlLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
-Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLkZhaWxlZA0KLSBob29rIGlkOiBj
-aGVjay13aGVuY2UNCi0gZXhpdCBjb2RlOiAxDQoNCkU6IHRpL3RhczI3ODEvVEFTMlhYWDFFQjMw
-LmJpbiBsaXN0ZWQgaW4gV0hFTkNFIGRvZXMgbm90IGV4aXN0DQpFOiB0aS90YXMyNzgxL1RBUzJY
-WFgxRUIzMS5iaW4gbGlzdGVkIGluIFdIRU5DRSBkb2VzIG5vdCBleGlzdA0KRTogdGFyZ2V0IHRp
-L3RhczI3ODEvVEFTMlhYWDFFQjMwLmJpbiBvZiBsaW5rIFRBUzJYWFgxRUIzMC5iaW4gaW4gV0hF
-TkNFIGRvZXMgbm90IGV4aXN0DQpFOiB0YXJnZXQgdGkvdGFzMjc4MS9UQVMyWFhYMUVCMzEuYmlu
-IG9mIGxpbmsgVEFTMlhYWDFFQjMxLmJpbiBpbiBXSEVOQ0UgZG9lcyBub3QgZXhpc3QNCg0KbWFr
-ZTogKioqIFtNYWtlZmlsZToxMDogY2hlY2tdIEVycm9yIDENCnJvb3RATEFQVE9QLTcwUko1QjhR
-Oi91c3IvbG9jYWwvc3JjL2Z3X25ldyMgbHMgdGkvdGFzMjc4MS9UQVMyWFhYMSogLWFsDQotcnct
-ci0tci0tIDEgcm9vdCByb290IDM1MjIwIFNlcCAyOCAyMTo1NCB0aS90YXMyNzgxL1RBUzJYWFgx
-RUIzMC5iaW4NCi1ydy1yLS1yLS0gMSByb290IHJvb3QgMzUyMjAgU2VwIDI4IDIxOjU1IHRpL3Rh
-czI3ODEvVEFTMlhYWDFFQjMxLmJpbg0Kcm9vdEBMQVBUT1AtNzBSSjVCOFE6L3Vzci9sb2NhbC9z
-cmMvZndfbmV3Iw0KPiANCj4gVGhhbmtzLA0K
+> Although TAS2XXX1EB30.bin and TAS2XXX1EB31.bin are both in ti/tas2781, yet it reported "does not exist".
+> I have no idea why the file is there while report "does not exist". After I removed the newly-merged, no such report.
+
+I think you forgot to git add them to the commit?
+
+> 
+> Following is the log.
+> 
+> root@LAPTOP-70RJ5B8Q:/usr/local/src/fw_new# make check
+> Check that executables have shebangs.....................................Passed
+> Forbid new submodules....................................................Passed
+> Check Yaml...............................................................Passed
+> Check for broken symlinks............................(no files to check)Skipped
+> Detect Destroyed Symlinks................................................Passed
+> shellcheck...............................................................Passed
+> black....................................................................Passed
+> markdownlint.............................................................Failed
+> - hook id: markdownlint
+> - exit code: 1
+> 
+> internal/modules/cjs/loader.js:818
+>    throw err;
+>    ^
+> 
+> Error: Cannot find module 'node:fs'
+> Require stack:
+> - /root/.cache/pre-commit/repoxl59c0uz/node_env-system/lib/node_modules/markdownlint-cli/markdownlint.js
+>      at Function.Module._resolveFilename (internal/modules/cjs/loader.js:815:15)
+>      at Function.Module._load (internal/modules/cjs/loader.js:667:27)
+>      at Module.require (internal/modules/cjs/loader.js:887:19)
+>      at require (internal/modules/cjs/helpers.js:85:18)
+>      at Object.<anonymous> (/root/.cache/pre-commit/repoxl59c0uz/node_env-system/lib/node_modules/markdownlint-cli/markdownlint.js:5:12)
+>      at Module._compile (internal/modules/cjs/loader.js:999:30)
+>      at Object.Module._extensions..js (internal/modules/cjs/loader.js:1027:10)
+>      at Module.load (internal/modules/cjs/loader.js:863:32)
+>      at Function.Module._load (internal/modules/cjs/loader.js:708:14)
+>      at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:60:12) {
+>    code: 'MODULE_NOT_FOUND',
+>    requireStack: [
+>      '/root/.cache/pre-commit/repoxl59c0uz/node_env-system/lib/node_modules/markdownlint-cli/markdownlint.js'
+>    ]
+> }
+> 
+
+This looks like you're missing some dependencie on you system for 
+markdownlint. You need nodejs v18.
+
+If you can't install this you can skip this check when you commit by 
+adding "SKIP=markdownlint" to your environment while running 'git commit'.
+
+> Check whence.............................................................Failed
+> - hook id: check-whence
+> - exit code: 1
+> 
+> E: ti/tas2781/TAS2XXX1EB30.bin listed in WHENCE does not exist
+> E: ti/tas2781/TAS2XXX1EB31.bin listed in WHENCE does not exist
+> E: target ti/tas2781/TAS2XXX1EB30.bin of link TAS2XXX1EB30.bin in WHENCE does not exist
+> E: target ti/tas2781/TAS2XXX1EB31.bin of link TAS2XXX1EB31.bin in WHENCE does not exist
+> 
+
+These files are missing in your commit or they have broken links. 
+Double check them.
+
+> make: *** [Makefile:10: check] Error 1
+> root@LAPTOP-70RJ5B8Q:/usr/local/src/fw_new# ls ti/tas2781/TAS2XXX1* -al
+> -rw-r--r-- 1 root root 35220 Sep 28 21:54 ti/tas2781/TAS2XXX1EB30.bin
+> -rw-r--r-- 1 root root 35220 Sep 28 21:55 ti/tas2781/TAS2XXX1EB31.bin
+> root@LAPTOP-70RJ5B8Q:/usr/local/src/fw_new#
+>>
+>> Thanks,
+
