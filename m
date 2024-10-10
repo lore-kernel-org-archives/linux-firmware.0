@@ -4,116 +4,148 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE75ECEDDA9
-	for <linux-firmware@archiver.kernel.org>; Thu, 10 Oct 2024 03:06:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDF0BCEDDB8
+	for <linux-firmware@archiver.kernel.org>; Thu, 10 Oct 2024 03:25:20 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 88208C4CECE; Thu, 10 Oct 2024 03:06:29 +0000 (UTC)
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+	id 84792C4CECD; Thu, 10 Oct 2024 03:25:20 +0000 (UTC)
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 86B2EC4CEC3
-	for <linux-firmware@kernel.org>; Thu, 10 Oct 2024 03:06:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 86B2EC4CEC3
+	by smtp.kernel.org (Postfix) with ESMTPS id 878E6C4CEC6
+	for <linux-firmware@kernel.org>; Thu, 10 Oct 2024 03:25:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 878E6C4CEC6
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7157c329d93so240825a34.3
-        for <linux-firmware@kernel.org>; Wed, 09 Oct 2024 20:06:27 -0700 (PDT)
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3e4d624ac53so209141b6e.2
+        for <linux-firmware@kernel.org>; Wed, 09 Oct 2024 20:25:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728529586; x=1729134386; darn=kernel.org;
+        d=gmail.com; s=20230601; t=1728530718; x=1729135518; darn=kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=0S9i0QsKrTEFXoLHFccDF34hrvX9l0HAkJSbDJmtsuk=;
-        b=h/2zXvcFVuD9viI3vF3yzc20fz9NfIBLq4EmMh1E2ftxXN+AvxvW4gT1Qbj7t6BrZ+
-         gnV8zmhQ6yRtCLwDlyaAa0lFSUa5aPkjGXvnqDG2oKoFlHcL3QePZUbMIYNmoqHclNsn
-         BKWKVZv4bGDxIgRcfl76r8uSFBNpdIL9lWAqw4xXtHHaG6WVNj5P0we1WVHS8MdGanY3
-         dsWg5f2hYXE0mBCON1sS7as2wKwTslplKiEfumtpldeVQTZmRAt2P0xs0gk4EYwZxKxA
-         8b0AWJ1YvfVhQQWW/unVyJhohA5P0Hw+bkY1X5ePuxn0w9I8iAGgIJ3Ip662cBD778Wd
-         wFZQ==
+        bh=Sm77+dmWp9c055NQXLkEEi2P3p5z1gBz9VheTDjPWwM=;
+        b=gHjrSZ4yusHhB7aRUI9nzcFCx2itDbdRvvDFx8T9n6l5HoxmDeo72IZui0eRTpgWPp
+         gs2F4jR57AQMOfBoDQBhYKWWHxHGY86EUptaS1vAuGkvNljzIW6gfDyoSEZJZUOb4BYp
+         baJKMEC5VNNO6H3R+y/1yby0ZWfNd5OPGu6jz4/S4NmT0DBkCy8uvvPt5nrHdMh+zKGp
+         VEWNOcejBaC6iu6cy9bf7I1DzBNje1JmVZUi73cx1tUG1mZ2h2UT2VCS5raPoajAMB2w
+         WlVPOzEWNVKf3H02KCeVuYE9NBrfU6BG269oayG96/jrwG11ljZb5Y2jDyAeOlcY9Mu8
+         M7PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728529586; x=1729134386;
+        d=1e100.net; s=20230601; t=1728530718; x=1729135518;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0S9i0QsKrTEFXoLHFccDF34hrvX9l0HAkJSbDJmtsuk=;
-        b=Mt67S4XzPsnBUi5geBgDD4sf/IwO3CNFGLMQ+HfKoi7wgCb0WvQjnsjBh9R4xDYTpF
-         19w2hxaeznZ+ikClkGmdI+I/pB2TXJN8KBHLV4HoQ56PI9cyw17Z1vGPeHk4EvIchXOz
-         Fm8Kd5lKAbaq6hZGONceMwodUspi8YIKLsyzBrlF3wCnDq5hf0RBs4r3YDxl+6v2U5Ml
-         4uirtdJnTdiCtOBy18vkKDhfhgq82UAf7raG7HiCr7TpSVsuBgrTssvfAf3q//k4RX4P
-         EYljdI5zzBmX9HJzieRbEabQJeuWy6j0m+Y+6KEOGu4zAaz525SMgq/Gt1xHDuTH005h
-         Ewlw==
-X-Forwarded-Encrypted: i=1; AJvYcCUPb08BgRRFELXbNuX6/XpficZ8ucG7VuaJ1ZKZGWbaCPwcIJuEjWbSdGKihVlxzq18gM4Ye6VzgfT/VtObIw==@kernel.org
-X-Gm-Message-State: AOJu0YxBYypgHd6l/cmXzXul/gwc0cZ0F17zBoY6XBNO+cBfiKcRIH3U
-	T25+voL2B1eYYYiqp6fWWBqoikrrNhK0tRL8XNfclFFDO2zSKKqP
-X-Google-Smtp-Source: AGHT+IENQKCoupa70Rsc818NrmBzIViwc1MsXFBDTbFtlqmHkomz1zji8Ovv17zTYRXXBs8loHJsUg==
-X-Received: by 2002:a05:6830:349e:b0:715:5494:5d34 with SMTP id 46e09a7af769-716a421dd6fmr3309545a34.20.1728529586370;
-        Wed, 09 Oct 2024 20:06:26 -0700 (PDT)
+        bh=Sm77+dmWp9c055NQXLkEEi2P3p5z1gBz9VheTDjPWwM=;
+        b=UWJNa+tiRHvdCasbB0cbVQv7XpouInJKWMg9d5YrUjK1WWcNkvUrAAqokHe0v/cKKX
+         fvEcoKP3eRoHTuv8CajW/DQdtSZYPi7NfyPE/P+6jiRTPh8CfGg2yCPt43arsXsNj49i
+         S5S7dCWeYzusUO4+o8dlysKUBWIVT0Qgma84zdGYAwrEEjySy7QLmln8jE7qmi3U+bfJ
+         15/ew+kZ04OtEb0QFKo1FS4LW5CTSUNpj55glSSK/H7CKJw/M+o/hSW2QACnGgqaLppc
+         Y+z8D0FPoc4j5/b9fnrSqWfJReNSw4nyIm9wq7mFs78G8UvabFcDRocR6rwysdJsed0M
+         lnyg==
+X-Forwarded-Encrypted: i=1; AJvYcCVgEyX/xYSUl2XXGGtaZzcqbSDT4aNTPmFHvGpowqR7cTef59rUn6dZufpmsjVbZaXot2dCayKS2pGjBHeoOQ==@kernel.org
+X-Gm-Message-State: AOJu0Yyf7kSM0UrCqkrw93IwDq8BqKpaI5zBo0+NGy4x8yKvY6QQ0mJZ
+	oLtxHJI5qsktaWCMpgF5c5OoVMgdr9uZqDtPPVvw9XUKNlDvC97hTMbeuqs/
+X-Google-Smtp-Source: AGHT+IGFZjdl2XQM/e3pqqp6WDSYsGza1hDy7uFYgjtO2FyTMWIsKzbWboRDkVOn8e2pmxgBnJ2MzA==
+X-Received: by 2002:a05:6808:1295:b0:3e3:a282:2a47 with SMTP id 5614622812f47-3e3e670b937mr3719435b6e.14.1728530718450;
+        Wed, 09 Oct 2024 20:25:18 -0700 (PDT)
 Received: from ?IPV6:2603:8080:1400:9f00:1ac8:ba3e:b226:eb6a? ([2603:8080:1400:9f00:1ac8:ba3e:b226:eb6a])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-717d0035698sm47835a34.76.2024.10.09.20.06.23
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3e5150230eesm50590b6e.47.2024.10.09.20.25.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Oct 2024 20:06:25 -0700 (PDT)
-Message-ID: <d1941b10-0549-4a0e-a3fe-a8d7c50c175b@gmail.com>
-Date: Wed, 9 Oct 2024 22:06:22 -0500
+        Wed, 09 Oct 2024 20:25:17 -0700 (PDT)
+Message-ID: <aef3385b-2d9e-4dc0-9762-8cbf92beb08c@gmail.com>
+Date: Wed, 9 Oct 2024 22:25:16 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] Upload dsp firmware for ASUS laptop 1EB30 & 1EB31 and
- Update WHENCE for both
+Subject: Re: [PATCH v2 00/16] Range of copy-firmware/check_whence fixes
 List-Id: <linux-firmware.lore.kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, linux-firmware@kernel.org
-Cc: baojun.xu@ti.com, derekjohn.clark@gmail.com, 13916275206@139.com,
- romangg@manjaro.org, linux-sound@vger.kernel.org, robinchen@ti.com,
- linux-kernel@vger.kernel.org, k-yi@ti.com, navada@ti.com, philm@manjaro.org,
- jlobue10@gmail.com, luke@ljones.dev, antheas.dk@gmail.com
-References: <20241009101807.1473-1-shenghao-ding@ti.com>
+To: emil.l.velikov@gmail.com, linux-firmware@kernel.org
+Cc: Juerg Haefliger <juerg.haefliger@canonical.com>
+References: <20240923-misc-fixes-v2-0-397f23443628@gmail.com>
 Content-Language: en-US
 From: Mario Limonciello <superm1@gmail.com>
-In-Reply-To: <20241009101807.1473-1-shenghao-ding@ti.com>
+In-Reply-To: <20240923-misc-fixes-v2-0-397f23443628@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 10/9/24 05:18, Shenghao Ding wrote:
-> Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
-> ---
->   WHENCE                     |   4 ++++
->   ti/tas2781/TAS2XXX2234.bin | Bin
->   2 files changed, 4 insertions(+)
->   mode change 100644 => 100755 ti/tas2781/TAS2XXX2234.bin
+On 9/23/24 08:09, Emil Velikov via B4 Relay wrote:
+> Hello all,
 > 
-> diff --git a/WHENCE b/WHENCE
-> index a9c8bb5..00096eb 100644
-> --- a/WHENCE
-> +++ b/WHENCE
-> @@ -7487,6 +7487,8 @@ Originates from https://git.codelinaro.org/linaro/qcomlt/audioreach-topology.git
->   --------------------------------------------------------------------------
->   
->   Driver: ti-tas2781 - tas2781 firmware
-> +File: ti/tas2781/TAS2XXX1EB30.bin
-> +File: ti/tas2781/TAS2XXX1EB31.bin
->   File: ti/tas2781/TAS2XXX2234.bin
->   File: ti/tas2781/TAS2XXX387D.bin
->   File: ti/tas2781/TAS2XXX387E.bin
-> @@ -7516,6 +7518,8 @@ File: ti/tas2781/TAS2XXX38DF.bin
->   File: ti/tas2781/TAS2XXX38E0.bin
->   File: ti/tas2781/TIAS2781RCA2.bin
->   File: ti/tas2781/TIAS2781RCA4.bin
-> +Link: TAS2XXX1EB30.bin -> ti/tas2781/TAS2XXX1EB30.bin
-> +Link: TAS2XXX1EB31.bin -> ti/tas2781/TAS2XXX1EB31.bin
->   Link: TAS2XXX2234.bin -> ti/tas2781/TAS2XXX2234.bin
->   Link: TAS2XXX387D.bin -> ti/tas2781/TAS2XXX387D.bin
->   Link: TAS2XXX387E.bin -> ti/tas2781/TAS2XXX387E.bin
-> diff --git a/ti/tas2781/TAS2XXX2234.bin b/ti/tas2781/TAS2XXX2234.bin
-> old mode 100644
-> new mode 100755
+> With the latest python 3.12 check_whence.py started throwing some
+> warnings. The more I looked around, the more loose ends and bugs reared
+> their (ugly) heads.
+> 
+> In this series:
+>   - check_whence.py: sort the filenames, use consistent variable names
+>   - check_whence.py: fix links-to-links and band them
+>   - editorconfig: add the config and fix the yaml+sh indentation
+>   - copy-firmware.sh: factor out dedup fix broken ad-hoc symlink handling
+>   - copy-firmware.sh: remove the hacky argument injection
+>   - copy-firmware.sh: warn if the destination folder is NOT empty
+>   - copy-firmware.sh: call ./check_whence.py and remove the dead code
+> 
+> The series is a mix of cosmetics (style, names), existing bug fixes and
+> trying loose ends. I'm happy to split it in sub-series, as per your
+> suggestions.
+> 
+> As always, input is highly appreciated. Thanks o/
+> 
+> To: linux-firmware@kernel.org
 
-Hello,
+Hi,
 
-I tried to process this into a MR on Gitlab and it failed CI.
+I passed this into a MR in Gitlab and it fails CI.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/311
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/316
 
-Please run 'make check' before submitting.
+Can you please run `make check` before submitting again?
 
-Thanks,
+Also ideally please submit a MR instead of an email.  Then you can force 
+push until CI passes or take into account any feedback.
+
+Thanks!
+> 
+> Changes in v2:
+> - Commit message tweaks
+> - Correct a few flipped test checks
+> - Rename deduplicate-firmware.sh to dedup-firmware.sh
+> - Change line width (editorconfig) to 90
+> - Properly handle destdir
+> - Link to v1: https://lore.kernel.org/r/20240922-misc-fixes-v1-0-8c6e52997c94@gmail.com
+> 
+> ---
+> Emil Velikov (16):
+>        check_whence.py: use consistent naming
+>        check_whence.py: ban link-to-a-link
+>        check_whence.py: LC_ALL=C sort -u the filelist
+>        check_whence.py: annotate replacement strings as raw
+>        editorconfig: add initial config file
+>        Style update yaml files
+>        copy-firmware.sh: flesh out and fix dedup-firmware.sh
+>        Revert "copy-firmware: Support additional compressor options"
+>        copy-firmware.sh: reset and consistently handle destdir
+>        copy-firmware.sh: fix indentation
+>        copy-firmware.sh: add err() helper
+>        copy-firmware.sh: warn if the destination folder is not empty
+>        copy-firmware.sh: call ./check_whence.py before parsing the file
+>        copy-firmware.sh: remove no longer reachable test -f
+>        copy-firmware.sh: remove no longer reachable test -L
+>        copy-firmware.sh: rename variables in symlink hanlding
+> 
+>   .editorconfig           |  21 +++++++++
+>   .gitlab-ci.yml          |   2 +-
+>   .pre-commit-config.yaml |  38 ++++++++--------
+>   Makefile                |   9 ++--
+>   WHENCE                  |  14 +++---
+>   check_whence.py         |  42 +++++++++++-------
+>   copy-firmware.sh        | 113 +++++++++++++-----------------------------------
+>   dedup-firmware.sh       |  52 ++++++++++++++++++++++
+>   8 files changed, 162 insertions(+), 129 deletions(-)
+> ---
+> base-commit: 6c88d9b8253b8ec6df701a551a56438ea2e5bacf
+> change-id: 20240922-misc-fixes-8a13acc71a93
+> 
+> Best regards,
+
