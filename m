@@ -1,178 +1,95 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=5C8Z=RL=opensource.cirrus.com=prvs=70187b8f35=vitalyr@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3DF0ED18144
-	for <linux-firmware@archiver.kernel.org>; Mon, 14 Oct 2024 20:35:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9F86ACFC267
+	for <linux-firmware@archiver.kernel.org>; Tue, 15 Oct 2024 05:18:01 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 0353EC4CED5; Mon, 14 Oct 2024 20:35:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0544C4CED0
-	for <linux-firmware@kernel.org>; Mon, 14 Oct 2024 20:35:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728938109;
-	bh=+5G6SKmagcmI5YhwOoZ4BXLLGiL20lBQrK/sSVDhXQo=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=eZaLKY5yFuU9Dga+H8HkRRtDG6m90RjPz2xi+ip4adCkU72j7vvQJcmm4iZFyMDBq
-	 Qgq1i71dfVrfQJb8o6gzqyabn27InyPGNQyW/ZuY+pxCzzWU4dzIV/aKF4O9jIY+pI
-	 aeYVblvg57nOGBD7W4tkXGB2nX5xFELfutULrbyOuvy2hzxUAF5zKo4luGYXTXQcHB
-	 cOvfgABaxUznXA9wo2X+2AJuSrZzCYrWMFGpp9lZsiypaRfnlCAnRnHKTkwXFy4k3B
-	 jaMN+7di9lSQOGyFpDjYROQ59dxVxJDbTRdkwt5ZHUR6nMbNTXfvP7hC8LtOjDleT3
-	 MOuSyIKVY5h/A==
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6e34fa656a2so26245697b3.1
-        for <linux-firmware@kernel.org>; Mon, 14 Oct 2024 13:35:09 -0700 (PDT)
-X-Gm-Message-State: AOJu0YyW6VAer74xurYSbvy4zbLm2r3l4Fes0PvJYuvC0t7RxDaadV7c
-	Du/U+w/YTJTrerUmxg26T63kp++dX+HAPnbB+MKL5jGSPRSnNrB/+OSiodAlLXjnHYUgctX8Cxb
-	XmzetSDaa9gCDuBNUp6JCi1uwPp0=
-X-Google-Smtp-Source: AGHT+IGB4ptS2rT0YcBTjluBBj/NelLNDWZFNd3GbCWqdCKOeH5bIxbTlH9bNTKNAHiTnfuBWb695W7vVzDbcGM+Pm8=
-X-Received: by 2002:a05:690c:6381:b0:6e3:36cc:eb74 with SMTP id
- 00721157ae682-6e3644c016dmr75453537b3.32.1728938109071; Mon, 14 Oct 2024
- 13:35:09 -0700 (PDT)
+	id 75862C4CEC7; Tue, 15 Oct 2024 05:18:01 +0000 (UTC)
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 4563FC4CECD
+	for <linux-firmware@kernel.org>; Tue, 15 Oct 2024 05:17:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 4563FC4CECD
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49F4Ovbn010598
+	for <linux-firmware@kernel.org>; Tue, 15 Oct 2024 00:17:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=skkge7X21FFjs5uv
+	KTcsb9CKvVmjwzQkN4zivFmouGI=; b=W0jTiSrfD7X81HhU2niwzM5z4IguzbLc
+	iwW/gDhvYujDMYUPOzv6uLyo0sl9RtPI/I3GdqKTTPy1LlxPP02i/DDWQRMcQRdy
+	D459wocIL4sDc1EWVw39u5STELIV9nfeiJxtml5Q/iA1zpNjim2M5FXwQlgSjlsk
+	0bf69uJ/fH/2P69rdmc0honCkGJBawjT/FXqjtXpUlKjAdLFtiUcgKaaCTjJZ+UB
+	Fgg7zBjpxJ18KW34FtiasLjmcfRxL1vLQt1hsYFZtOjuWH0B0stfzlbU99uZixdH
+	KCS6gM627T0/pzOLZMS8cuYImjnN9T1hcCeLM3NvliRioesmPBRmEg==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 427nhk2sc7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <linux-firmware@kernel.org>; Tue, 15 Oct 2024 00:17:58 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 15 Oct
+ 2024 06:17:56 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Tue, 15 Oct 2024 06:17:56 +0100
+Received: from [198.90.188.34] (lonswws03.ad.cirrus.com [198.90.188.34])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 8D033820248;
+	Tue, 15 Oct 2024 05:17:56 +0000 (UTC)
+Message-ID: <3b8e87de-a74e-45a9-9b2c-b5f94dcc2bb8@opensource.cirrus.com>
+Date: Tue, 15 Oct 2024 06:17:56 +0100
 MIME-Version: 1.0
-References: <MW5PR11MB5810AC10222B41ADE565FBD6A3442@MW5PR11MB5810.namprd11.prod.outlook.com>
-In-Reply-To: <MW5PR11MB5810AC10222B41ADE565FBD6A3442@MW5PR11MB5810.namprd11.prod.outlook.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 14 Oct 2024 16:34:57 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA4VvWAR+-T0Jy8y3xNxGuRN4k0xHLYg3VEyw42F1JhpWA@mail.gmail.com>
-Message-ID: <CA+5PVA4VvWAR+-T0Jy8y3xNxGuRN4k0xHLYg3VEyw42F1JhpWA@mail.gmail.com>
-Subject: Re: pull request: iwlwifi firmware updates 2024-10-14
-To: "Korenblit, Miriam Rachel" <miriam.rachel.korenblit@intel.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, Wireless <linux-wireless@vger.kernel.org>, 
-	"kyle@infradead.org" <kyle@infradead.org>, "Hutchings, Ben" <ben@decadent.org.uk>, 
-	"Ben Ami, Golan" <golan.ben.ami@intel.com>, "Yang, You-Sheng" <vicamo.yang@canonical.com>, 
-	"Grumbach, Emmanuel" <emmanuel.grumbach@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: <linux-firmware@kernel.org>
+CC: <patches@opensource.cirrus.com>
+From: Vitaly Rodionov <vitalyr@opensource.cirrus.com>
+Subject: [PULL v2 linux-firmware] cirrus: cs35l41: Add firmware for Cirrus
+ CS35L41 for some HP laptops
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: OtrAu9peFteKelcJbNAVxzaae8e8SE7k
+X-Proofpoint-ORIG-GUID: OtrAu9peFteKelcJbNAVxzaae8e8SE7k
+X-Proofpoint-Spam-Reason: safe
 
-On Mon, Oct 14, 2024 at 2:35=E2=80=AFPM Korenblit, Miriam Rachel
-<miriam.rachel.korenblit@intel.com> wrote:
->
-> Hi,
->
->
->
-> This contains some new and updated firmwares for all our currently
->
-> maintained FW binaries.
->
->
->
-> Please pull or let me know if there are any issues.
->
->
->
-> --
->
-> Thanks,
->
-> Miri
->
->
->
-> The following changes since commit 06bad2f17030ea91ca4c9b965c2131e468af9d=
-dc:
->
->
->
->   Merge branch 'robot/pr-0-1728664917' into 'main' (2024-10-11 17:01:39 +=
-0000)
->
->
->
-> are available in the Git repository at:
->
->
->
->   http://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.g=
-it tags/iwlwifi-fw-2024-10-14
 
-Merged and pushed out.
+Hi,
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/329
+We’d like to add the firmware for the Cirrus CS35L41 smart amplifiers on 
+a couple of HP laptop.
+Thanks,
+Vitaly
 
-josh
+Changes in v2:
+Fixed GitHub repo URL
 
->
->
->
-> for you to fetch changes up to d232b8dc6d48cc5bd6847d945b4e615c066458d2:
->
->
->
->   iwlwifi: add gl/Bz FW for core91-69 release (2024-10-14 21:28:53 +0300)
->
->
->
-> ----------------------------------------------------------------
->
-> core91
->
->
->
-> ----------------------------------------------------------------
->
-> Miri Korenblit (3):
->
->       iwlwifi: update cc/Qu/QuZ firmwares for core91-69 release
->
->       iwlwifi: update ty/So/Ma firmwares for core91-69 release
->
->       iwlwifi: add gl/Bz FW for core91-69 release
->
->
->
->  WHENCE                        |  34 ++++++++++++++++++++--------------
->
->  iwlwifi-Qu-b0-hr-b0-77.ucode  | Bin 1405980 -> 1405988 bytes
->
->  iwlwifi-Qu-b0-jf-b0-77.ucode  | Bin 1322684 -> 1322744 bytes
->
->  iwlwifi-Qu-c0-hr-b0-77.ucode  | Bin 1405996 -> 1406004 bytes
->
->  iwlwifi-Qu-c0-jf-b0-77.ucode  | Bin 1322700 -> 1322760 bytes
->
->  iwlwifi-QuZ-a0-hr-b0-77.ucode | Bin 1406116 -> 1406124 bytes
->
->  iwlwifi-QuZ-a0-jf-b0-77.ucode | Bin 1322760 -> 1322828 bytes
->
->  iwlwifi-bz-b0-fm-c0-94.ucode  | Bin 0 -> 1933520 bytes
->
->  iwlwifi-bz-b0-fm-c0.pnvm      | Bin 295832 -> 295324 bytes
->
->  iwlwifi-cc-a0-77.ucode        | Bin 1367496 -> 1367504 bytes
->
->  iwlwifi-gl-c0-fm-c0-94.ucode  | Bin 0 -> 1919788 bytes
->
->  iwlwifi-gl-c0-fm-c0.pnvm      | Bin 295512 -> 295004 bytes
->
->  iwlwifi-ma-b0-gf-a0-89.ucode  | Bin 1746844 -> 1747384 bytes
->
->  iwlwifi-ma-b0-gf-a0.pnvm      | Bin 55112 -> 55112 bytes
->
->  iwlwifi-ma-b0-gf4-a0-89.ucode | Bin 1599272 -> 1599724 bytes
->
->  iwlwifi-ma-b0-gf4-a0.pnvm     | Bin 27828 -> 27828 bytes
->
->  iwlwifi-ma-b0-hr-b0-89.ucode  | Bin 1539360 -> 1539472 bytes
->
->  iwlwifi-so-a0-gf-a0-89.ucode  | Bin 1731172 -> 1739904 bytes
->
->  iwlwifi-so-a0-gf-a0.pnvm      | Bin 55192 -> 55192 bytes
->
->  iwlwifi-so-a0-gf4-a0-89.ucode | Bin 1589864 -> 1590316 bytes
->
->  iwlwifi-so-a0-gf4-a0.pnvm     | Bin 27868 -> 27868 bytes
->
->  iwlwifi-so-a0-hr-b0-89.ucode  | Bin 1530624 -> 1530736 bytes
->
->  iwlwifi-ty-a0-gf-a0-89.ucode  | Bin 1681232 -> 1681772 bytes
->
->  iwlwifi-ty-a0-gf-a0.pnvm      | Bin 55036 -> 55036 bytes
->
->  24 files changed, 20 insertions(+), 14 deletions(-)
->
->  create mode 100644 iwlwifi-bz-b0-fm-c0-94.ucode
->
->  create mode 100644 iwlwifi-gl-c0-fm-c0-94.ucode
+The following changes since commit 919f79f9fb5536c1928a15ac82a2e53183b213cf:
+
+   Merge branch 'amd-staging' into 'main' (2024-10-04 21:12:04 +0000)
+
+are available in the Git repository at:
+
+  https://github.com/CirrusLogic/linux-firmware/cs35l41_snowwhite
+
+for you to fetch changes up to 72884e091e2e1a0842b5c11572aa4187de0b1d33:
+
+   linux-firmware: Add firmware for Cirrus CS35L41 (2024-10-09 16:08:14 
++0100)
+
+----------------------------------------------------------------
+Vitaly Rodionov (1):
+       linux-firmware: Add firmware for Cirrus CS35L41
+
+  WHENCE                                              |  10 ++++++++++
+  cirrus/cs35l41-dsp1-spk-prot-103c8cdf-spkid0-l0.bin | Bin 0 -> 4080 bytes
+  cirrus/cs35l41-dsp1-spk-prot-103c8cdf-spkid1-l0.bin | Bin 0 -> 4088 bytes
+  3 files changed, 10 insertions(+)
+  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8cdf-spkid0-l0.bin
+  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8cdf-spkid1-l0.bin
