@@ -1,114 +1,141 @@
-Return-Path: <SRS0=yZ4q=RO=linaro.org=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=f1q7=RO=quicinc.com=quic_jjohnson@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DFDBDD2FFFA
-	for <linux-firmware@archiver.kernel.org>; Fri, 18 Oct 2024 15:53:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DE252D3F2B4
+	for <linux-firmware@archiver.kernel.org>; Fri, 18 Oct 2024 22:16:07 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B55C0C4CEC5; Fri, 18 Oct 2024 15:53:25 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id A6C10C4CEC6; Fri, 18 Oct 2024 22:16:07 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 680CEC4CEC3
-	for <linux-firmware@kernel.org>; Fri, 18 Oct 2024 15:53:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 680CEC4CEC3
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-539e3f35268so183251e87.3
-        for <linux-firmware@kernel.org>; Fri, 18 Oct 2024 08:53:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729266802; x=1729871602; darn=kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LdfM9i00wvLElz7iehik+sKKNr66LSFXicebDz02HwQ=;
-        b=EAkRZW9rWLiQdu7q8r61vp4SO70YzjohFrGqlyMLimN+lfbK+k4+vr2Z6xWBLh92Hd
-         1NWWkeRSHUWzjPXG77umG5BmziOm2WrQfbhG7EUL1vNtlE79JbkfTfstMCHS1IUF5B0+
-         v5FGp7GPpuqZzvWe0lu9pDl51CYgwR2Nh5ITg+T+TI2a5Zgn7hTh3ZBhgJgb6JoRtBCX
-         Af5nMkbDWWcYc+3MLR5JEGKrUCMKVUnTCbJTh537QbhCJztNPntj3zWPQuCSsNJJVWYP
-         BhzVUoZzgqF3jdWm7I1vBEWw8tFGM8eyk/lTwFeov4nfkKSXdAZhHEgljXZ1Myj8WNE9
-         AoLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729266802; x=1729871602;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LdfM9i00wvLElz7iehik+sKKNr66LSFXicebDz02HwQ=;
-        b=jQweKoMKXx2Gu+zL5LJg4OQcD83HMDuIJ4jkN2hHoLdzdDduL/7YAztSutWbxQh824
-         N8hxlaEFEyxp3HIU2WUplNBpdgN5NSpod3LCakt+8zZaUfzdfFbWTOVAxmvo/PNf2Yr4
-         uzWqpqtvM1RipS0/XZvckqsYF/lWc9KV02vQPbsLUs4JVz/Tvzpz4gqQF5zlps3D2zWR
-         TjaZkEghvxRkcX3ihr245INdZHLdpfijkwT8flI5EFLAxephK9rMUxvFJSz1UsCtGpCc
-         jfQo4ly+Y24JlJyyHp/esnokdw4sKc0Oq6gKwfg80q1qu/P0988xo3iuNJS/p5VaJ5aS
-         oLcQ==
-X-Gm-Message-State: AOJu0YyCidKdOSzY3GxlNsOjDTFFUEGOvr1mRd/6wG/4coFcKlRKyNNp
-	Bw/d2WgqzImvc8uO3dK/6WnKQkyx0w5vDBJGhoE4KEWWAs8yFyqr39OYLUqGYzo=
-X-Google-Smtp-Source: AGHT+IEX0HSv/e78Z2/Wa3mwdUldhRxgePKlg/ZPtTpzw1a128uFb2Vz7AZau+yXaca52m7adxuTjg==
-X-Received: by 2002:a05:6512:2244:b0:539:e282:ce9e with SMTP id 2adb3069b0e04-53a154acb0bmr1630301e87.60.1729266802314;
-        Fri, 18 Oct 2024 08:53:22 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53a15211bbcsm252045e87.284.2024.10.18.08.53.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Oct 2024 08:53:21 -0700 (PDT)
-Date: Fri, 18 Oct 2024 18:53:20 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Sibi Sankar <quic_sibis@quicinc.com>
-List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, abickett@quicinc.com
-Subject: Re: qcom: Add Audio firmware for X1E80100 CRD/QCPs
-Message-ID: <a3znmntnj3jliy77qffmiukdwccz75mkg5xj72yw3zxkqmjjsb@geavo66vpbpe>
-References: <7f156ffe-9629-17c1-47c5-97e0d0f3e1e0@quicinc.com>
- <i4ihcid3ka67rhwziue5tblahs6bwaehazq74bd5y64ybs4ahv@l6ti4xqr3yq6>
- <d169bd29-b756-f027-9f33-02106b702359@quicinc.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 27153C4CEC3;
+	Fri, 18 Oct 2024 22:16:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 27153C4CEC3
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49ILK3ph005910;
+	Fri, 18 Oct 2024 22:16:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	ZNL0jqFWdQOGnm6VIGRZjM8Ug5MDoKzZo6g/fJk6yEQ=; b=YMB18N2+Qh3akVQs
+	Pp5WLxcVAPQcjtzfFgoSbhvv9iU4+20pnAESvRGfaVHOyDEbC2aWTBu+0dMhQ8m+
+	K3FGAAzUa9daU1AyV6KkSTvnvlwnI8GauLfaK9cTYRaYw2uYbbIU5LCOj7ZNnEY3
+	PofTrhvV5+sUPXtfcktX8NilIgYrhs4iooxap13wbA9zo6CKyw9CDNT3OAq9v1JL
+	TCUIvlElbBw8A4hSBTbKWjMrT3ydi7xMJycXYwuIyxfumvJB7WzTpiZOhzjxUlQU
+	WPjRGrQxZgVue6NU1yIE7RquB+vagGN4cgBIVRsZz56AjRSfd1HS0n/VbLeYcFad
+	t6YTPw==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42b8rr3v8c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 18 Oct 2024 22:16:04 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49IMG3S0007991
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 18 Oct 2024 22:16:03 GMT
+Received: from [10.48.241.209] (10.49.16.6) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 18 Oct
+ 2024 15:16:03 -0700
+Message-ID: <379780f5-bf30-4452-aa9e-f1b6915b6389@quicinc.com>
+Date: Fri, 18 Oct 2024 15:16:02 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d169bd29-b756-f027-9f33-02106b702359@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PULL] ath11k: move WCN6750 firmware to the device-specific
+ subdir
+List-Id: <linux-firmware.lore.kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Kalle Valo
+	<kvalo@kernel.org>, Jeff Johnson <jjohnson@kernel.org>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, <linux-firmware@kernel.org>
+CC: <ath11k@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>
+References: <20241011061606.1612918-1-dmitry.baryshkov@linaro.org>
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <20241011061606.1612918-1-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: h04S1F-VDBdhS1TE6Z5Md8fSu7Jd0fL3
+X-Proofpoint-ORIG-GUID: h04S1F-VDBdhS1TE6Z5Md8fSu7Jd0fL3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ lowpriorityscore=0 bulkscore=0 spamscore=0 mlxlogscore=661 clxscore=1015
+ mlxscore=0 suspectscore=0 phishscore=0 malwarescore=0 adultscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410180142
 
-On Fri, Oct 18, 2024 at 08:58:06PM +0530, Sibi Sankar wrote:
+On 10/10/2024 11:16 PM, Dmitry Baryshkov wrote:
+> The firmware under ath11k/WCN6750 can not be utilized on other devices using
+> WCN6750 to provide WiFi (e.g. on the Qualcomm RB3 gen2 board).  This is an
+> attempt to propose a solution by moving the file into device-specifig subdir.
+> Other platforms can place firmware files in other subdirs, depending on the
+> SoC.
 > 
+> Note, while performing the move I also propose squashing the firmware file.
+> This is the practice recommended by the msm platform maintainers for the DSP
+> firmware (not to mention that it also saves us from the extra symlinks). If
+> Kalle, ath11k maintainer, objects, I will keep the firmware in the split form.
 > 
-> On 10/18/24 16:13, Dmitry Baryshkov wrote:
-> > On Fri, Oct 18, 2024 at 12:43:14PM +0530, Sibi Sankar wrote:
-> > > 
-> > > Hello,
-> > > 
-> > > The following changes since commit 8dbcf94bfc68bdb1c6df3a42762b275557095558:
-> > > 
-> > >    Merge branch 'robot/patch-0-1729102102' into 'main' (2024-10-17 15:40:04
-> > > +0000)
-> > > 
-> > > are available in the Git repository at:
-> > > 
-> > >    https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
-> > > adsp-fw-x1e80100-crd
-> > 
-> > Could you please clarify, why adspr.jsn doesn't declare tms/pdr_enabled?
-> > Windows firmware has it in adspr.jsn.
+> For now this is an RFC in order to gather opinion form respective platform and
+> driver maintainers.
 > 
-> Hey Dmitry,
+> ----------------------------------------------------------------
 > 
-> Can you please share what device and META you are comparing this
-> firmware against? This firmware was taken from the build source
-> without any modification.
-
-I have been looking at the Windows driver from WSU for the CRD,
-qsubsys_ext_adsp8380.cab. DriverVer = 08/27/2024,2.0.4114.4600.
-
-For the reference, I checked several last drops, they have the following
-versions of qcadsp8380.mbn:
-QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00792-HAMOA-1
-QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00789.1-HAMOA-1
-QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00787.2-HAMOA-1
-QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00784-HAMOA-1
-QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00781-HAMOA-1
-
-All of them list tms/pdr_enabled in adspr.jsn
-
+> The following changes since commit d55315295cccf8ce5dc288a74d75cf09b8063cfc:
 > 
-> -Sibi
+>   Merge branch 'superm1/qci-patches' into 'main' (2024-10-10 19:11:13 +0000)
+> 
+> are available in the Git repository at:
+> 
+>   https://gitlab.com/lumag/linux-firmware wcn6750-device-specific
+> 
+> for you to fetch changes up to abe8c109a2b4c422b627335d124473734c8790d8:
+> 
+>   ath11k: move WCN6750 firmware to the device-specific subdir (2024-10-10 22:26:20 +0300)
+> 
+> ----------------------------------------------------------------
+> Dmitry Baryshkov (1):
+>       ath11k: move WCN6750 firmware to the device-specific subdir
+> 
+>  WHENCE                                             |  12 ++----------
+>  ath11k/WCN6750/hw1.0/{wpss.b04 => sc7280/wpss.mbn} | Bin 5819999 -> 7463728 bytes
+>  ath11k/WCN6750/hw1.0/wpss.b00                      | Bin 340 -> 0 bytes
+>  ath11k/WCN6750/hw1.0/wpss.b01                      | Bin 6848 -> 0 bytes
+>  ath11k/WCN6750/hw1.0/wpss.b02                      | Bin 10300 -> 0 bytes
+>  ath11k/WCN6750/hw1.0/wpss.b03                      | Bin 4096 -> 0 bytes
+>  ath11k/WCN6750/hw1.0/wpss.b05                      | Bin 164332 -> 0 bytes
+>  ath11k/WCN6750/hw1.0/wpss.b06                      | Bin 266684 -> 0 bytes
+>  ath11k/WCN6750/hw1.0/wpss.b07                      | Bin 1176368 -> 0 bytes
+>  ath11k/WCN6750/hw1.0/wpss.b08                      |   0
+>  ath11k/WCN6750/hw1.0/wpss.mdt                      | Bin 7188 -> 0 bytes
+>  11 files changed, 2 insertions(+), 10 deletions(-)
+>  rename ath11k/WCN6750/hw1.0/{wpss.b04 => sc7280/wpss.mbn} (77%)
+>  delete mode 100644 ath11k/WCN6750/hw1.0/wpss.b00
+>  delete mode 100644 ath11k/WCN6750/hw1.0/wpss.b01
+>  delete mode 100644 ath11k/WCN6750/hw1.0/wpss.b02
+>  delete mode 100644 ath11k/WCN6750/hw1.0/wpss.b03
+>  delete mode 100644 ath11k/WCN6750/hw1.0/wpss.b05
+>  delete mode 100644 ath11k/WCN6750/hw1.0/wpss.b06
+>  delete mode 100644 ath11k/WCN6750/hw1.0/wpss.b07
+>  delete mode 100644 ath11k/WCN6750/hw1.0/wpss.b08
+>  delete mode 100644 ath11k/WCN6750/hw1.0/wpss.mdt
 
--- 
-With best wishes
-Dmitry
+I'm waiting for Kalle to respond, but at a minimum I suspect our internal
+firmware tooling would be impacted by this change.
+
+Kalle, do you have concerns or suggestions on how to handle this issue?
+
+/jeff
