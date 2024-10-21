@@ -1,73 +1,95 @@
-Return-Path: <kvalo@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9571D0E6D3
-	for <linux-firmware@archiver.kernel.org>; Mon, 21 Oct 2024 08:58:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C805AD15D87
+	for <linux-firmware@archiver.kernel.org>; Mon, 21 Oct 2024 12:26:12 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 970DBC4CEE5; Mon, 21 Oct 2024 08:58:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57906C4CEC3;
-	Mon, 21 Oct 2024 08:58:02 +0000 (UTC)
+	id 91248C4CEE6; Mon, 21 Oct 2024 12:26:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B38BC4CEC3
+	for <linux-firmware@kernel.org>; Mon, 21 Oct 2024 12:26:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729501083;
-	bh=mf2/OOYJ8LwJZUCqardXjuJg508jYSPac/BVpOaGjUk=;
-	h=From:To:List-Id:Cc:Subject:References:Date:In-Reply-To:From;
-	b=mXx5okYeMcmRy5c+sdO7dq6Bt0uUlQwuC5jxZMJbr4NhsMt8vuLqBBznd1zSO539g
-	 C9zRbAKCGVKNcE30BkvOMKe2kmHTIWo2YnexuXybYH8MDXadjl2IT84yVPBDUF7+ML
-	 mvdyGw3TyspG/W/BNN9IwyBiXuSVPCPlUvr1aJSN6xrURW+neJSESTvWh/wP/s4EUt
-	 Wzew2aN8UsbZVGEZcwtF0thyL2tm5VLs7pbT/Uiz1r/VtNT9eENbUg1c3ofB/ilMtj
-	 pVuDCRg65vbaff32ELs2lcw1a1x+FVFRLTUBy1V82gt3EO6BWMfcneTglCtKXSBG2G
-	 x7DO0fU+Z8oxA==
-From: Kalle Valo <kvalo@kernel.org>
-To: Mario Limonciello <mario.limonciello@amd.com>
-List-Id: <linux-firmware.lore.kernel.org>
-Cc: Jeff Johnson <quic_jjohnson@quicinc.com>,  linux-firmware@kernel.org,
-  ath12k@lists.infradead.org,  Jeff Johnson <jjohnson@kernel.org>
-Subject: Re: [PULL linux-firmware] ath12k firmware 20241009
-References: <015383e1-f37e-4a1d-b2de-f3261f5ea1f4@quicinc.com>
-	<d496a87e-73a1-45e7-8ebb-b907d58dd4f2@amd.com>
-Date: Mon, 21 Oct 2024 11:58:00 +0300
-In-Reply-To: <d496a87e-73a1-45e7-8ebb-b907d58dd4f2@amd.com> (Mario
-	Limonciello's message of "Thu, 10 Oct 2024 14:52:49 -0500")
-Message-ID: <87bjzdq1d3.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	s=k20201202; t=1729513572;
+	bh=fMyA6kqav768oJZZGRgOaKzEwnO7pk02cx0aOyZpwLc=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=qAtB7zotTIcViIocMwHjW8j/AryMjITYJqmXr46MCJpCmTqHCsJnLXJHQJ5eTkU8S
+	 yb2ou51WqiOJOsvxYhWHb3G36qd+sAE2zQbSvCh8JK/15dBpoaFgDsM0vBC9xceTBQ
+	 Y76DciO+QRSc+yN2DpScnrvKD8EWr9zhx0eGYC22Vlg2cRGZxghMzn7VIft8rPMvfS
+	 uJKsvD9x/d+DKOZik7fYdxdfZSWwVHkq7Zd4JRlIt4iHC4HIOMS4hcBXKatscHO3xG
+	 Nf0toIKuyVf5gRcn/vujcnzm9Dlu/ZWBy4nYs5Ez9EaVxXi7ZfnWycfcNKGxYuGz4G
+	 J2Dauyg6uW6jg==
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6e5b7cd1ef5so31908797b3.1
+        for <linux-firmware@kernel.org>; Mon, 21 Oct 2024 05:26:12 -0700 (PDT)
+X-Gm-Message-State: AOJu0YzZsItCoszgH1dRS46PF+C25Xcr6q6OhwLtLBDzsTmJMufPSweC
+	HddS9qzX9d91Hw0UnjXLeJeTkxhmNOk7Osg93OX6YlYY7DivhqctSFsgpXIQcVIgUvxZ4yM57Qe
+	ZQn7o8b1c+/IQPnmFiBD9YeYhmJw=
+X-Google-Smtp-Source: AGHT+IE+W4emy/o6+SrBKeLp6lrX0xqacA4SQ6gw0mRguYiRnmP+nBB1U0/qvBk629uxHk3ek9xdMGgY7Ia/XTzx5wY=
+X-Received: by 2002:a05:690c:d:b0:6e2:f32:bd2c with SMTP id
+ 00721157ae682-6e5bfc0c83fmr104383847b3.29.1729513571644; Mon, 21 Oct 2024
+ 05:26:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <7f156ffe-9629-17c1-47c5-97e0d0f3e1e0@quicinc.com>
+In-Reply-To: <7f156ffe-9629-17c1-47c5-97e0d0f3e1e0@quicinc.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Mon, 21 Oct 2024 08:26:00 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA7TiDoG-OwSZuj1M68bnVP__trM9EfqTrAN5xsDVOnzWw@mail.gmail.com>
+Message-ID: <CA+5PVA7TiDoG-OwSZuj1M68bnVP__trM9EfqTrAN5xsDVOnzWw@mail.gmail.com>
+Subject: Re: qcom: Add Audio firmware for X1E80100 CRD/QCPs
+To: Sibi Sankar <quic_sibis@quicinc.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: linux-firmware@kernel.org, abickett@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Mario Limonciello <mario.limonciello@amd.com> writes:
-
-> On 10/10/2024 13:49, Jeff Johnson wrote:
->> Hi,
->> Here's a pull request for ath12k. We have a new ath12k hardware
->> QCN9274 hw2.0 and an updated board file for WCN7850 hw2.0 which
->> addresses the issue described at:
->> https://lore.kernel.org/all/44ae68d2-24b6-49d2-a4f9-ae9cbf6f9950@heusel.eu/
->> The following changes since commit
->> 919f79f9fb5536c1928a15ac82a2e53183b213cf:
->>    Merge branch 'amd-staging' into 'main' (2024-10-04 21:12:04
->> +0000)
->> are available in the Git repository at:
->>    git://git.kernel.org/pub/scm/linux/kernel/git/ath/linux-firmware.git
->> ath-20241009
->> for you to fetch changes up to
->> 42d754dc98e77e43bcb86def5ea60e009cc49be2:
->>    ath12k: WCN7850 hw2.0: update board-2.bin (2024-10-09 14:24:59
->> -0700)
->> 
+On Fri, Oct 18, 2024 at 3:14=E2=80=AFAM Sibi Sankar <quic_sibis@quicinc.com=
+> wrote:
 >
-> Hi,
 >
-> This is pulled after a rebase to main.  FYI we had a revert in place
-> upstream for that board-2.bin because of the regressions.
+> Hello,
 >
-> You can double check the result looks good.
+> The following changes since commit 8dbcf94bfc68bdb1c6df3a42762b2755570955=
+58:
+>
+>    Merge branch 'robot/patch-0-1729102102' into 'main' (2024-10-17
+> 15:40:04 +0000)
+>
+> are available in the Git repository at:
+>
+>    https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
+> adsp-fw-x1e80100-crd
 
-Could you cc the ath12k list if you make changes to ath12k files,
-please? That way we would have avoided the conflict in the first place.
+Merged and pushed out.
 
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/337
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+josh
+
+>
+> for you to fetch changes up to e1ebc2c9b9956f4115853c9feb07c56957503418:
+>
+>    qcom: Add Audio firmware for X1E80100 CRD/QCPs (2024-10-18 11:48:47
+> +0530)
+>
+> ----------------------------------------------------------------
+> Sibi Sankar (1):
+>        qcom: Add Audio firmware for X1E80100 CRD/QCPs
+>
+>   WHENCE                     |   7 +++++++
+>   qcom/x1e80100/adsp.mbn     | Bin 0 -> 22235528 bytes
+>   qcom/x1e80100/adsp_dtb.mbn | Bin 0 -> 73528 bytes
+>   qcom/x1e80100/adspr.jsn    |  22 ++++++++++++++++++++++
+>   qcom/x1e80100/adsps.jsn    |  22 ++++++++++++++++++++++
+>   qcom/x1e80100/adspua.jsn   |  29 +++++++++++++++++++++++++++++
+>   qcom/x1e80100/battmgr.jsn  |  22 ++++++++++++++++++++++
+>   7 files changed, 102 insertions(+)
+>   create mode 100644 qcom/x1e80100/adsp.mbn
+>   create mode 100644 qcom/x1e80100/adsp_dtb.mbn
+>   create mode 100644 qcom/x1e80100/adspr.jsn
+>   create mode 100644 qcom/x1e80100/adsps.jsn
+>   create mode 100644 qcom/x1e80100/adspua.jsn
+>   create mode 100644 qcom/x1e80100/battmgr.jsn
+>
+> Thanks,
+> Sibi Sankar
