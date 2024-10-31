@@ -1,55 +1,248 @@
-Return-Path: <SRS0=TRLl=RZ=bluehost.com=mailsystem@kernel.org>
+Return-Path: <SRS0=6VF5=R3=opensource.cirrus.com=prvs=80343ee108=simont@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B3B9D3A67B
-	for <linux-firmware@archiver.kernel.org>; Tue, 29 Oct 2024 18:57:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 054D6D767F5
+	for <linux-firmware@archiver.kernel.org>; Thu, 31 Oct 2024 17:57:21 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 20D0FC4CEE7; Tue, 29 Oct 2024 18:57:36 +0000 (UTC)
-Received: from bonniesstylepress.com (unknown [66.84.37.154])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	id C96CBC4CED7; Thu, 31 Oct 2024 17:57:21 +0000 (UTC)
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 50CA5C4CECD
-	for <linux-firmware@kernel.org>; Tue, 29 Oct 2024 18:57:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 50CA5C4CECD
-Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=bluehost.com
-Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=bluehost.com
-Received: from [188.190.10.15] (188-190-10-15.clevhosting.com [188.190.10.15] (may be forged))
-	(authenticated bits=0)
-	by bonniesstylepress.com (8.13.1/8.13.1) with ESMTP id 49TI8xMo028913
-	for <linux-firmware@kernel.org>; Tue, 29 Oct 2024 14:51:54 -0400
-Message-Id: <202410291851.49TI8xMo028913@bonniesstylepress.com>
-X-Orig: 188-190-10-15.clevhosting.com [188.190.10.15] (may be forged)
-X-Authentication-Warning: bonniesstylepress.com: h8233w99 owned process doing -bs
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Re:Profitable Funding Proposition.
+	by smtp.kernel.org (Postfix) with ESMTPS id EE59DC4CECF
+	for <linux-firmware@kernel.org>; Thu, 31 Oct 2024 17:57:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org EE59DC4CECF
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49V6QB2C009193
+	for <linux-firmware@kernel.org>; Thu, 31 Oct 2024 12:57:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:message-id:mime-version:subject:to; s=
+	PODMain02222019; bh=K1R79qGIRDyVj6ZMHJ54CDjGY+XNOecwXQsneAAE2t4=; b=
+	G98ZUGmZImFGDVOERZqdUayEawKicNjfhF99yyWBxZjLeV2xMexCsVcf6YG+NS20
+	iz+lU5u1FvnCPjqtSLprGZkV2Mwnv6NwVhdIZzNM4K5N+/VLFN0QbMPaVnEyQeui
+	pQNJUzX0KuWyiVC1149VqqzYbkU9hx1OHYIAP7ODv+WHmwme+DDKH40Hb7iWQpKe
+	jcpEG++yhLvjD4lh8ajf8Hzff8rM1dSaBsUx9m1X76/gOUr1zXEbYvEPRSD1g8QA
+	PlDY0Oqu9tLTFggLRR1en7fHtsFRP2JwcnJ4zP2Vjit8Uc3km1HnF/zTA7Gos3sA
+	nSAXYURUQ//nyJWkiahCCw==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 42gwtvxswv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <linux-firmware@kernel.org>; Thu, 31 Oct 2024 12:57:11 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 31 Oct
+ 2024 17:57:09 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Thu, 31 Oct 2024 17:57:09 +0000
+Received: from EDIN6ZZ2FY3 (EDIN6ZZ2FY3.ad.cirrus.com [198.90.188.28])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 8315D820241;
+	Thu, 31 Oct 2024 17:57:09 +0000 (UTC)
+From: Simon Trimmer <simont@opensource.cirrus.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-From: "Yousef Khaled" <mailsystem@bluehost.com>
-Date: Tue, 29 Oct 2024 11:57:25 -0700
-Reply-To: yousefkaledcl@gmail.com
+To: <linux-firmware@kernel.org>
+CC: <patches@opensource.cirrus.com>
+Subject: [PULL v1 linux-firmware] Update firmware for Cirrus Amps for some HP laptops
+Date: Thu, 31 Oct 2024 17:57:09 +0000
+Message-ID: <001801db2bbe$4e62ccc0$eb286640$@opensource.cirrus.com>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0019_01DB2BBE.4E6341F0"
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-gb
+Thread-Index: AdsrvkROCFN5pMpZQYCfm0ZJg+KRCw==
+X-Proofpoint-ORIG-GUID: iYyQvJMVg2t-LBa1PVuiF5TQ2B0Fu30E
+X-Proofpoint-GUID: iYyQvJMVg2t-LBa1PVuiF5TQ2B0Fu30E
+X-Proofpoint-Spam-Reason: safe
 
-Greetings,
+------=_NextPart_000_0019_01DB2BBE.4E6341F0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-I hope this message finds you well. I=E2=80=99m not sure if you saw my last=
- email. Our investors are ready to provide loan to fund your profitable pro=
-jects and business ideas. =
+Hi,
+
+We'd like to update the firmware for the Cirrus CS35L54 and CS35L56 smart
+amplifiers for some HP Laptops.
+
+Thanks,
+
+-Simon
+
+ 
+
+The following changes since commit 3c9f887a81aea0a69a3ec141602fef15603b56f4:
+
+ 
+
+  Merge branch 'robot/pr-0-1728627648' into 'main' (2024-10-29 13:04:21
++0000)
+
+ 
+
+are available in the Git repository at:
+
+ 
+
+  https://github.com/CirrusLogic/linux-firmware/ cs35l56-20241031
+
+ 
+
+for you to fetch changes up to a6f3ab98d416a311bb24c4b4cddf8276d4e699d2:
+
+ 
+
+  cirrus: cs35l56: Update firmware for Cirrus Amps for some HP laptops
+(2024-10-31 17:54:09 +0000)
+
+ 
+
+----------------------------------------------------------------
+
+Simon Trimmer (1):
+
+      cirrus: cs35l56: Update firmware for Cirrus Amps for some HP laptops
+
+ 
+
+cirrus/cs35l54-b0-dsp1-misc-103c8d8c-amp1.bin | Bin 7104 -> 7036 bytes
+
+cirrus/cs35l54-b0-dsp1-misc-103c8d8c-amp2.bin | Bin 7100 -> 7036 bytes
+
+cirrus/cs35l54-b0-dsp1-misc-103c8d8d-amp1.bin | Bin 7108 -> 7036 bytes
+
+cirrus/cs35l54-b0-dsp1-misc-103c8d8d-amp2.bin | Bin 7108 -> 7036 bytes
+
+cirrus/cs35l54-b0-dsp1-misc-103c8d8e-amp1.bin | Bin 7108 -> 7036 bytes
+
+cirrus/cs35l54-b0-dsp1-misc-103c8d8e-amp2.bin | Bin 7108 -> 7040 bytes
+
+cirrus/cs35l54-b0-dsp1-misc-103c8e14-amp1.bin | Bin 7100 -> 7036 bytes
+
+cirrus/cs35l54-b0-dsp1-misc-103c8e14-amp2.bin | Bin 7096 -> 7036 bytes
+
+cirrus/cs35l54-b0-dsp1-misc-103c8e15-amp1.bin | Bin 7108 -> 7040 bytes
+
+cirrus/cs35l54-b0-dsp1-misc-103c8e15-amp2.bin | Bin 7108 -> 7036 bytes
+
+cirrus/cs35l54-b0-dsp1-misc-103c8e1b-amp1.bin | Bin 7168 -> 7100 bytes
+
+cirrus/cs35l54-b0-dsp1-misc-103c8e1b-amp2.bin | Bin 7172 -> 7100 bytes
+
+cirrus/cs35l56-b0-dsp1-misc-103c8d90-amp1.bin | Bin 7172 -> 7100 bytes
+
+cirrus/cs35l56-b0-dsp1-misc-103c8d90-amp2.bin | Bin 7172 -> 7100 bytes
+
+14 files changed, 0 insertions(+), 0 deletions(-)
 
 
-We are eager to explore a partnership to finance any project in your countr=
-y that requires significant capital. Please get back to us at your earliest=
- convenience so we can discuss this potential loan financing partnership fu=
-rther.
+------=_NextPart_000_0019_01DB2BBE.4E6341F0
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Let me know if you=E2=80=99re interested=E2=80=94I=E2=80=99m looking forwar=
-d to your reply!
-
-Best Regards,
-Yousef Khalid
-Financial consultant and Managers.
-WhatsApp +1 (959) 258-5140
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><META =
+HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Aptos;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	font-size:11.0pt;
+	font-family:"Aptos",sans-serif;
+	mso-ligatures:standardcontextual;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#467886;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Aptos",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:11.0pt;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#467886" vlink=3D"#96607D" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal><span =
+lang=3DEN-GB>Hi,<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-GB>We&#8217;d like to update the firmware for the Cirrus =
+CS35L54 and CS35L56 smart amplifiers for some HP =
+Laptops.<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-GB>Thanks,<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-GB>-Simon<o:p></o:p></span></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal>The =
+following changes since commit =
+3c9f887a81aea0a69a3ec141602fef15603b56f4:<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal>&nbsp; Merge =
+branch 'robot/pr-0-1728627648' into 'main' (2024-10-29 13:04:21 =
++0000)<o:p></o:p></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal>are available in the Git repository =
+at:<o:p></o:p></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal>&nbsp; <a =
+href=3D"https://github.com/CirrusLogic/linux-firmware/">https://github.co=
+m/CirrusLogic/linux-firmware/</a> cs35l56-20241031<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal>for you to =
+fetch changes up to =
+a6f3ab98d416a311bb24c4b4cddf8276d4e699d2:<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal>&nbsp; =
+cirrus: cs35l56: Update firmware for Cirrus Amps for some HP laptops =
+(2024-10-31 17:54:09 +0000)<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal>-------------------------------------------------------=
+---------<o:p></o:p></p><p class=3DMsoNormal>Simon Trimmer =
+(1):<o:p></o:p></p><p class=3DMsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+cirrus: cs35l56: Update firmware for Cirrus Amps for some HP =
+laptops<o:p></o:p></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal> cirrus/cs35l54-b0-dsp1-misc-103c8d8c-amp1.bin | Bin =
+7104 -&gt; 7036 bytes<o:p></o:p></p><p class=3DMsoNormal> =
+cirrus/cs35l54-b0-dsp1-misc-103c8d8c-amp2.bin | Bin 7100 -&gt; 7036 =
+bytes<o:p></o:p></p><p class=3DMsoNormal> =
+cirrus/cs35l54-b0-dsp1-misc-103c8d8d-amp1.bin | Bin 7108 -&gt; 7036 =
+bytes<o:p></o:p></p><p class=3DMsoNormal> =
+cirrus/cs35l54-b0-dsp1-misc-103c8d8d-amp2.bin | Bin 7108 -&gt; 7036 =
+bytes<o:p></o:p></p><p class=3DMsoNormal> =
+cirrus/cs35l54-b0-dsp1-misc-103c8d8e-amp1.bin | Bin 7108 -&gt; 7036 =
+bytes<o:p></o:p></p><p class=3DMsoNormal> =
+cirrus/cs35l54-b0-dsp1-misc-103c8d8e-amp2.bin | Bin 7108 -&gt; 7040 =
+bytes<o:p></o:p></p><p class=3DMsoNormal> =
+cirrus/cs35l54-b0-dsp1-misc-103c8e14-amp1.bin | Bin 7100 -&gt; 7036 =
+bytes<o:p></o:p></p><p class=3DMsoNormal> =
+cirrus/cs35l54-b0-dsp1-misc-103c8e14-amp2.bin | Bin 7096 -&gt; 7036 =
+bytes<o:p></o:p></p><p class=3DMsoNormal> =
+cirrus/cs35l54-b0-dsp1-misc-103c8e15-amp1.bin | Bin 7108 -&gt; 7040 =
+bytes<o:p></o:p></p><p class=3DMsoNormal> =
+cirrus/cs35l54-b0-dsp1-misc-103c8e15-amp2.bin | Bin 7108 -&gt; 7036 =
+bytes<o:p></o:p></p><p class=3DMsoNormal> =
+cirrus/cs35l54-b0-dsp1-misc-103c8e1b-amp1.bin | Bin 7168 -&gt; 7100 =
+bytes<o:p></o:p></p><p class=3DMsoNormal> =
+cirrus/cs35l54-b0-dsp1-misc-103c8e1b-amp2.bin | Bin 7172 -&gt; 7100 =
+bytes<o:p></o:p></p><p class=3DMsoNormal> =
+cirrus/cs35l56-b0-dsp1-misc-103c8d90-amp1.bin | Bin 7172 -&gt; 7100 =
+bytes<o:p></o:p></p><p class=3DMsoNormal> =
+cirrus/cs35l56-b0-dsp1-misc-103c8d90-amp2.bin | Bin 7172 -&gt; 7100 =
+bytes<o:p></o:p></p><p class=3DMsoNormal> 14 files changed, 0 =
+insertions(+), 0 deletions(-)<o:p></o:p></p></div></body></html>
+------=_NextPart_000_0019_01DB2BBE.4E6341F0--
