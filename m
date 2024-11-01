@@ -1,132 +1,95 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=EYJX=R4=quicinc.com=quic_akhilpo@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D2BBE6B278
-	for <linux-firmware@archiver.kernel.org>; Fri,  1 Nov 2024 13:29:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E32B5E6F06D
+	for <linux-firmware@archiver.kernel.org>; Fri,  1 Nov 2024 16:10:01 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 0A5CDC4CED3; Fri,  1 Nov 2024 13:29:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1CBBC4CED2
-	for <linux-firmware@kernel.org>; Fri,  1 Nov 2024 13:29:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730467792;
-	bh=cXH71nPvj8JAAmQmV6mxtvWV8Xo9JST9alZiZB8stNY=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=nZhjsL8eQkCELvGlANjsUJdUhB4P8YtirUoBG6TPVFasNcAN3Mpd2heZWexojPbN4
-	 vvcrhPELSqqIvEX57xm89cQlrGo9QPLevFm4M7T8625RuB/OieC6OWoiahaet/wvg9
-	 /ezcRpO46Of92F60Rc5eU0WVsJMrzCDDnTy3v6ZWwHpI7WPWGR37Wlu+IzmHWC5b00
-	 m+tVldVonbiUSgwmYAS/HXA7RUwuv3aFXYhO0d0nu5Qa4oHdU7HbB3jL6RKfQ5Y4/X
-	 sTpvZm9K0Q/4pQ7sTZUh4fBEAKnTcWat9+bilg/vyEg4UZImXOEXEZ2xYmU9ES/Sjy
-	 iYCkHULULHFZw==
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2fb51f39394so17820381fa.2
-        for <linux-firmware@kernel.org>; Fri, 01 Nov 2024 06:29:52 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yw5EYbKPdllW3PxTW7ZfVa0BYvA8FmlfcxugWUebfY9AOiSLs8N
-	CAvBTyNAeXTM8HM5Lb6KXmb42c8EAyCGOfdU1hmJ1lXxcOIpUigjXikduujzM+0LtsX0kF+sVdG
-	xdOI6C/fbC7WG6jPnJvlRFkkGGys=
-X-Google-Smtp-Source: AGHT+IEzpSkdqkl0VdRpFHTp02OOtePMJE/WQugT8zMkNHig7VIE/IFcZFqI3ILZEENR+Xga3n9NHmN89Hh08AmGEmI=
-X-Received: by 2002:a2e:4c12:0:b0:2f6:57b1:98b0 with SMTP id
- 38308e7fff4ca-2fcbe0c3a14mr95369741fa.42.1730467791199; Fri, 01 Nov 2024
- 06:29:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <001801db2bbe$4e62ccc0$eb286640$@opensource.cirrus.com>
-In-Reply-To: <001801db2bbe$4e62ccc0$eb286640$@opensource.cirrus.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Fri, 1 Nov 2024 09:29:34 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA7mXH=T3C+ZVbCDrgY+9k+Myz0JR_UptUQ8C4TLO9r55g@mail.gmail.com>
-Message-ID: <CA+5PVA7mXH=T3C+ZVbCDrgY+9k+Myz0JR_UptUQ8C4TLO9r55g@mail.gmail.com>
-Subject: Re: [PULL v1 linux-firmware] Update firmware for Cirrus Amps for some
- HP laptops
-To: Simon Trimmer <simont@opensource.cirrus.com>
+	id BB9E2C4CED1; Fri,  1 Nov 2024 16:10:01 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 6D931C4CECD
+	for <linux-firmware@kernel.org>; Fri,  1 Nov 2024 16:10:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 6D931C4CECD
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A1CUscf002298;
+	Fri, 1 Nov 2024 16:09:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-type:date:from:message-id:mime-version:subject:to; s=
+	qcppdkim1; bh=jtfu9zqwxeQ+fq/jBDjUDIyY1OYZn3KnNQB3DGkcJt8=; b=g4
+	MFlN08H8h/u6BKDhc+iFInPFCrZf5SAcE2NNef8+YylxfvOnSQ18rAS22/O1rHMZ
+	fGGXKtu/KZ4xGV4XakN03db35GwBwSVN+3Qjxc1q7UJZGLxNGKwyY/4ZRgE8TXz+
+	7bk8orWJR3ayZKBQtcLcexPmRqJKQ1wl2OSfjFJ0ouxhV2SOR82frFCIUDOUikGs
+	JSbWJ7rAOv+imMs7Vkn5nn80WYeFqLmkbxy8gd9I2PNxHz/Dwg6Awreu4rlDVHRK
+	1xN4WUkfWu3Z7ujKuqWPGST0J8dvd3jRauFrfCt2HD25wC60Mjq3zGun+1ppX+kp
+	ChUVzCYMHvfwWNJTRvPA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42kmn5fv12-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 01 Nov 2024 16:09:59 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A1G9wpw027471
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 1 Nov 2024 16:09:58 GMT
+Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Fri, 1 Nov 2024 09:09:56 -0700
+Date: Fri, 1 Nov 2024 21:39:53 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, patches@opensource.cirrus.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: <linux-firmware@kernel.org>
+CC: <dmitry.baryshkov@linaro.org>
+Subject: qcom: update gpu firmwares for QCS615 chipset
+Message-ID: <20241101160953.6yxes4h37ip34kj5@hu-akhilpo-hyd.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: ZbhP3F5dC21p8CdV2CXY1H_WlivVvjpZ
+X-Proofpoint-GUID: ZbhP3F5dC21p8CdV2CXY1H_WlivVvjpZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 spamscore=0
+ lowpriorityscore=0 impostorscore=0 phishscore=0 mlxlogscore=248
+ priorityscore=1501 mlxscore=0 malwarescore=0 bulkscore=0 suspectscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411010117
 
-On Thu, Oct 31, 2024 at 1:57=E2=80=AFPM Simon Trimmer
-<simont@opensource.cirrus.com> wrote:
->
-> Hi,
->
-> We=E2=80=99d like to update the firmware for the Cirrus CS35L54 and CS35L=
-56 smart amplifiers for some HP Laptops.
->
-> Thanks,
->
-> -Simon
->
->
->
-> The following changes since commit 3c9f887a81aea0a69a3ec141602fef15603b56=
-f4:
->
->
->
->   Merge branch 'robot/pr-0-1728627648' into 'main' (2024-10-29 13:04:21 +=
-0000)
->
->
->
-> are available in the Git repository at:
->
->
->
->   https://github.com/CirrusLogic/linux-firmware/ cs35l56-20241031
+Hi,
 
-Merged and pushed out.
+Add/update the gpu firmwares required for Qualcomm's QCS615 chipset.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/350
+-Akhil
 
-josh
+---
+The following changes since commit 3cdc52d83e478e189669697eb244d48b592d1652:
 
->
->
->
-> for you to fetch changes up to a6f3ab98d416a311bb24c4b4cddf8276d4e699d2:
->
->
->
->   cirrus: cs35l56: Update firmware for Cirrus Amps for some HP laptops (2=
-024-10-31 17:54:09 +0000)
->
->
->
-> ----------------------------------------------------------------
->
-> Simon Trimmer (1):
->
->       cirrus: cs35l56: Update firmware for Cirrus Amps for some HP laptop=
-s
->
->
->
-> cirrus/cs35l54-b0-dsp1-misc-103c8d8c-amp1.bin | Bin 7104 -> 7036 bytes
->
-> cirrus/cs35l54-b0-dsp1-misc-103c8d8c-amp2.bin | Bin 7100 -> 7036 bytes
->
-> cirrus/cs35l54-b0-dsp1-misc-103c8d8d-amp1.bin | Bin 7108 -> 7036 bytes
->
-> cirrus/cs35l54-b0-dsp1-misc-103c8d8d-amp2.bin | Bin 7108 -> 7036 bytes
->
-> cirrus/cs35l54-b0-dsp1-misc-103c8d8e-amp1.bin | Bin 7108 -> 7036 bytes
->
-> cirrus/cs35l54-b0-dsp1-misc-103c8d8e-amp2.bin | Bin 7108 -> 7040 bytes
->
-> cirrus/cs35l54-b0-dsp1-misc-103c8e14-amp1.bin | Bin 7100 -> 7036 bytes
->
-> cirrus/cs35l54-b0-dsp1-misc-103c8e14-amp2.bin | Bin 7096 -> 7036 bytes
->
-> cirrus/cs35l54-b0-dsp1-misc-103c8e15-amp1.bin | Bin 7108 -> 7040 bytes
->
-> cirrus/cs35l54-b0-dsp1-misc-103c8e15-amp2.bin | Bin 7108 -> 7036 bytes
->
-> cirrus/cs35l54-b0-dsp1-misc-103c8e1b-amp1.bin | Bin 7168 -> 7100 bytes
->
-> cirrus/cs35l54-b0-dsp1-misc-103c8e1b-amp2.bin | Bin 7172 -> 7100 bytes
->
-> cirrus/cs35l56-b0-dsp1-misc-103c8d90-amp1.bin | Bin 7172 -> 7100 bytes
->
-> cirrus/cs35l56-b0-dsp1-misc-103c8d90-amp2.bin | Bin 7172 -> 7100 bytes
->
-> 14 files changed, 0 insertions(+), 0 deletions(-)
+  Merge branch 'robot/pr-0-1730397728' into 'main' (2024-10-31 18:19:48 +0000)
+
+are available in the Git repository at:
+
+  https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git gpu-fw-QCS615
+
+for you to fetch changes up to f4f5689fe58fe324193bf4fa014496b0ff062f87:
+
+  qcom: update gpu firmwares for qcs615 chipset (2024-11-01 20:50:54 +0530)
+
+----------------------------------------------------------------
+Akhil P Oommen (1):
+      qcom: update gpu firmwares for qcs615 chipset
+
+ WHENCE                   |   1 +
+ qcom/qcs615/a612_zap.mbn | Bin 0 -> 14256 bytes
+ 2 files changed, 1 insertion(+)
+ create mode 100644 qcom/qcs615/a612_zap.mbn
