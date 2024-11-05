@@ -1,87 +1,95 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=+gA2=SA=mediatek.com=yr.yang@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 533EDD132B5
-	for <linux-firmware@archiver.kernel.org>; Mon,  4 Nov 2024 12:31:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32EDBD1CA3A
+	for <linux-firmware@archiver.kernel.org>; Tue,  5 Nov 2024 07:16:05 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 2B6E2C4CED2; Mon,  4 Nov 2024 12:31:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15E8BC4CED4
-	for <linux-firmware@kernel.org>; Mon,  4 Nov 2024 12:31:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730723499;
-	bh=YCB9Ba6MUIZZUlo5wSLzfXDPz0pSxTc94MV/wk9HJIo=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=jmrgkLhYLaDbphA2CA4yfZ3IextVhvE46scM+r9+QbaCufO+khdjiTIbbtUji4N8B
-	 LjTyayK9/IrCoUJv2MYWt0klBeS/1XJ+skJQvuVa+ZEWJ66X6P9RzECpXY/u2qH5ql
-	 hFANlv8SBS0EYOBtmoVFJSTg9uxd2DKaR76H8P2uSe37Ef9VTCHwXg5gp3uV+b8bPJ
-	 c490bbrjEjBoicvGlvizrcauQIL+oOV3auuezJ1k4qYwqFcrRwn2y6xhLPmeRSlOa1
-	 6A9j8wWelgMD1eKqSAqF0s8XzBcCX6Y9J03JvV+7jPjR4XHsiiwNsBUdUUB1SX3dsH
-	 OY1eyAbiKxyHw==
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6e5a5a59094so36965607b3.3
-        for <linux-firmware@kernel.org>; Mon, 04 Nov 2024 04:31:39 -0800 (PST)
-X-Gm-Message-State: AOJu0Yzxp7mIR3nuZgcF0IZiomFUrJjrjlVDpnfcnuvvhUeq7MQhffgd
-	7dBpctPfH4FlgizRZ5O5QhAazJutyvFtf2lLITNcTmHdLABdPem0ucmMyKnRwbHG8HXuC0JyEbz
-	aHLiqQuLuaLx5rvZuLRH6ItU2a0s=
-X-Google-Smtp-Source: AGHT+IHpoMwUPxN91mpvsALhArLsVfGPWK7ANGXrVv+HQEXyjNNSqlZBksrRBUGGQHiLTeTR5iMwTQnwVnpUPgf/+88=
-X-Received: by 2002:a05:690c:74c1:b0:6e3:36cc:eb74 with SMTP id
- 00721157ae682-6ea64bb239emr126228357b3.32.1730723498259; Mon, 04 Nov 2024
- 04:31:38 -0800 (PST)
-MIME-Version: 1.0
-References: <20241101-qcs6490-firmware-v1-1-9bdb81ee3b89@quicinc.com>
-In-Reply-To: <20241101-qcs6490-firmware-v1-1-9bdb81ee3b89@quicinc.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 4 Nov 2024 07:31:26 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA7A0RV73sm8g3u1BMYOhEE3z6jHjeFVimOKEMQxzP2dKw@mail.gmail.com>
-Message-ID: <CA+5PVA7A0RV73sm8g3u1BMYOhEE3z6jHjeFVimOKEMQxzP2dKw@mail.gmail.com>
-Subject: Re: [PATCH] qcom: Add link for QCS6490 GPU firmware
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+	id 0D264C4CED3; Tue,  5 Nov 2024 07:16:05 +0000 (UTC)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id EA1FDC4CECF
+	for <linux-firmware@kernel.org>; Tue,  5 Nov 2024 07:16:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org EA1FDC4CECF
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: cd76aeb89b4511efbd192953cf12861f-20241105
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=zAcG4U16bKQFhsKkGG7xv5CA4zm+IXs3PR2YUVCjODs=;
+	b=O870lpWyidL/WFC6DsVKeL6nyWmMqPC8Ff26N89qbLwZJm8myZtOVC0uQLB6IWBaKvrr3u1g47Ul8zUgboR1hHiYQhqQBqC5XDrygpG2AGeYzLDaDeV30xUV/wRtfFtlNwLvZuJSLDQi1wr+O1fgVz+We+8eSffC1P3vpKeAozw=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.42,REQID:5ffafbef-17cb-47eb-b762-ab33cd873fb3,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:b0fcdc3,CLOUDID:3c949007-7990-429c-b1a0-768435f03014,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: cd76aeb89b4511efbd192953cf12861f-20241105
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw02.mediatek.com
+	(envelope-from <yr.yang@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 190372017; Tue, 05 Nov 2024 15:15:57 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 5 Nov 2024 15:15:52 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 5 Nov 2024 15:15:52 +0800
+From: yr.yang <yr.yang@mediatek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: <linux-firmware@kernel.org>
+CC: <linux-mediatek@lists.infradead.org>, <shawnku@google.com>
+Subject: pull request: linux-firmware: Add sof-tplg for mt8195
+Date: Tue, 5 Nov 2024 15:12:52 +0800
+Message-ID: <20241105071549.17476-1-yr.yang@mediatek.com>
+X-Mailer: git-send-email 2.46.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--1.568900-8.000000
+X-TMASE-MatchedRID: /IY58nGWDe4eMlyElPeCGC0x8J2DopENXXbpPagZMfcR34ro7k23nZgC
+	Mlq+sZ+fKyIRzcIhtVlwE7IPDDg1SB8TzIzimOwPlpYqKNmWxsHZs3HUcS/scCq2rl3dzGQ1Gpe
+	evGsoI5fxYVW9Dt9xPAALbFkH3VDIHvkNQnA1c2mCCcS+AMQypYLqKlN9pJTaQGswJytg1/k5cF
+	bcyjLLWi3d7VyUb1gvvvfQgwBZV59pp55fZDlsr34cY/B7JqXaYZ1R7NXn0MdBmmCXcKyFFH7cG
+	d19dSFd
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--1.568900-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP:
+	E4CA96BD09B3A63677EE62CB0E07DB498613047871E9C7BE21BD98C91B753EBC2000:8
 
-On Fri, Nov 1, 2024 at 12:22=E2=80=AFPM Akhil P Oommen <quic_akhilpo@quicin=
-c.com> wrote:
->
-> Create a symlink between qcom/qcm6490/a660_zap.mbn and
-> qcom/qcs6490/a660_zap.mbn.
->
-> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> ---
-> To: linux-firmware@kernel.org
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+The following changes since commit 8dbcf94bfc68bdb1c6df3a42762b275557095558:
 
-Merged and pushed out.
+  Merge branch 'robot/patch-0-1729102102' into 'main' (2024-10-17 15:40:04 +0000)
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/352
+are available in the Git repository at:
 
-josh
+  https://github.com/mtk13576/sof_tplg adspsof
 
-> ---
->  WHENCE | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/WHENCE b/WHENCE
-> index ff5b05f4ed01..ea8c2fc70b1f 100644
-> --- a/WHENCE
-> +++ b/WHENCE
-> @@ -6188,6 +6188,7 @@ File: qcom/sm8250/a650_zap.mbn
->  File: qcom/a660_gmu.bin
->  File: qcom/a660_sqe.fw
->  File: qcom/qcm6490/a660_zap.mbn
-> +Link: qcom/qcs6490/a660_zap.mbn -> ../qcm6490/a660_zap.mbn
->  File: qcom/a702_sqe.fw
->  File: qcom/leia_pfp_470.fw
->  File: qcom/leia_pm4_470.fw
->
-> ---
-> base-commit: 3cdc52d83e478e189669697eb244d48b592d1652
-> change-id: 20241101-qcs6490-firmware-c5eb17946cac
->
-> Best regards,
-> --
-> Akhil P Oommen <quic_akhilpo@quicinc.com>
->
+for you to fetch changes up to 7fbd03699a95b0624f26da4dbb00019669b9bed9:
+
+  WHENCE: Add sof-tolg for mt8195 (2024-11-05 14:43:15 +0800)
+
+----------------------------------------------------------------
+YR Yang (1):
+      mediatek: Add sof-tolg for mt8195
+
+yr.yang (1):
+      WHENCE: Add sof-tolg for mt8195
+
+ WHENCE                                                   |   3 +++
+ mediatek/sof-tplg/sof-mt8195-mt6359-max98390-rt5682.tplg | Bin 0 -> 16191 bytes
+ 2 files changed, 3 insertions(+)
+ create mode 100644 mediatek/sof-tplg/sof-mt8195-mt6359-max98390-rt5682.tplg
+
