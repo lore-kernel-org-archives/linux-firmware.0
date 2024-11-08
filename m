@@ -2,46 +2,46 @@ Return-Path: <SRS0=hjbc=SD=mediatek.com=chris.lu@kernel.org>
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 149D9D5E147
-	for <linux-firmware@archiver.kernel.org>; Fri,  8 Nov 2024 08:26:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6ACE0D5E149
+	for <linux-firmware@archiver.kernel.org>; Fri,  8 Nov 2024 09:33:32 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id F03C5C4CED3; Fri,  8 Nov 2024 08:26:36 +0000 (UTC)
+	id 527B7C4CED2; Fri,  8 Nov 2024 09:33:32 +0000 (UTC)
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id C7D91C4CECD;
-	Fri,  8 Nov 2024 08:25:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C7D91C4CECD
+	by smtp.kernel.org (Postfix) with ESMTPS id 490BFC4CECD;
+	Fri,  8 Nov 2024 09:32:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 490BFC4CECD
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 009c7d889dab11efb88477ffae1fc7a5-20241108
+X-UUID: 53dc9d4e9db411efb88477ffae1fc7a5-20241108
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=9DrjPiPUW8Vq0Fq2OHdlswmyE/zjgE3XAh25mS/Cocs=;
-	b=TKp0odCOTfBQnXAEcO6DIKv3wtE/R6421/B1ziU106O9q5lTJVt0YqMPbrIWSfBAEqGWT3vssb84Nb65497Mg7nb9M7xEqiUziv/2NoiSxbZxRdgzjUhqlLfEryCDfk2FeplUUu0B7oUfftgCy6v4nvoSC7BQeF3KZJMtAGlehw=;
+	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=TsPAI+Vd93AwISAoLMlWj5txUWxQU1N33rDaYXLE43o=;
+	b=mB1gydtylCj06UtrIOjkIrKtwDAjgOCC/gGEtnYCv/zNmZ0hI6XyilgUYEIy8zYqEBsET2qu5OTg49vAtKachOhCf5qufqcKH96NpiGB7ZT4rTEy7ntE+m6r5tZY14V5mRDMNwTg+hSsVTqvyIYlXqXClFpG7CBm59vmiNvxoiQ=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.42,REQID:3ccc6c6b-cc10-4c7b-826a-cbd93dd03e61,IP:0,U
+X-CID-O-INFO: VERSION:1.1.42,REQID:55778103-a771-4960-a14e-4c6d09a3ff46,IP:0,U
 	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
 	:release,TS:-5
-X-CID-META: VersionHash:b0fcdc3,CLOUDID:8a24c306-6ce0-4172-9755-bd2287e50583,B
+X-CID-META: VersionHash:b0fcdc3,CLOUDID:67fbbbca-91e6-4060-9516-6ba489b4e2dc,B
 	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
 	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:1,OSI:0,OSA:0,AV:0,LES:1,
 	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 2,OSH|NGT
 X-CID-BAS: 2,OSH|NGT,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 009c7d889dab11efb88477ffae1fc7a5-20241108
-Received: from mtkmbs09n1.mediatek.inc [(172.21.101.35)] by mailgw01.mediatek.com
+X-UUID: 53dc9d4e9db411efb88477ffae1fc7a5-20241108
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw01.mediatek.com
 	(envelope-from <chris.lu@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1397162076; Fri, 08 Nov 2024 16:25:24 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+	with ESMTP id 1910085719; Fri, 08 Nov 2024 17:32:09 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 8 Nov 2024 16:25:19 +0800
+ 15.2.1118.26; Fri, 8 Nov 2024 17:32:04 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Fri, 8 Nov 2024 16:25:19 +0800
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Fri, 8 Nov 2024 17:32:04 +0800
 From: Chris Lu <chris.lu@mediatek.com>
 To: Josh Boyer <jwboyer@kernel.org>, David Woodhouse <dwmw2@infradead.org>,
 	Ben Hutchings <ben@decadent.org.uk>, Marcel Holtmann <marcel@holtmann.org>,
@@ -53,9 +53,9 @@ CC: Sean Wang <sean.wang@mediatek.com>, Allan Wang <allan.wang@mediatek.com>,
 	<linux-firmware@kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>,
 	linux-mediatek <linux-mediatek@lists.infradead.org>, Chris Lu
 	<chris.lu@mediatek.com>
-Subject: [PATCH v1] linux-firmware: update firmware for mediatek bluetooth chip (MT7920)
-Date: Fri, 8 Nov 2024 16:25:15 +0800
-Message-ID: <20241108082515.19817-1-chris.lu@mediatek.com>
+Subject: [PATCH v2] mediatek MT7920: update bluetooth firmware to 20241104091246
+Date: Fri, 8 Nov 2024 17:32:01 +0800
+Message-ID: <20241108093201.29835-1-chris.lu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -66,6 +66,9 @@ File: mediatek/BT_RAM_CODE_MT7961_1a_2_hdr.bin
 Version: 20241104091246
 
 Signed-off-by: Chris Lu <chris.lu@mediatek.com>
+---
+v2:
+ -Change title
 ---
  WHENCE                                   |   2 +-
  mediatek/BT_RAM_CODE_MT7961_1a_2_hdr.bin | Bin 493809 -> 493809 bytes
