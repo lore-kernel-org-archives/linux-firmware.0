@@ -1,68 +1,81 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=FiWL=SD=realtek.com=pkshih@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5ABB3D4335D
-	for <linux-firmware@archiver.kernel.org>; Thu,  7 Nov 2024 13:30:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 28C49D5E141
+	for <linux-firmware@archiver.kernel.org>; Fri,  8 Nov 2024 06:36:14 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 1A7DFC4CED4; Thu,  7 Nov 2024 13:30:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03F4BC4CED3
-	for <linux-firmware@kernel.org>; Thu,  7 Nov 2024 13:30:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730986221;
-	bh=EdUHy+dJaT2hjot9BfU5nIFtHsjfeKtMy7/W74D8iDw=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=jT8EEkG2MOmhdwILypbKO2JgvVuLL2Z3GlKsn3sB3HnrOK/NxM4eMCj9BxtAplynJ
-	 O9xUxyYAzeE5w1d9poy4UgUq8HEXGvDNcsjlmvjTDOkZWqoLHIr3dyE2m9Z77FMvZA
-	 CwloSZwyXOzpiSTXq+lkVccIVcZgXfSb+EhCYQG/6tBJRhPOnXNE4IIb0o1vEkxZf3
-	 3gNdw1omujeObgVIzeJrkvQez17sN/PqjiqKH7oU0pr05gVfLwndSKa0/Na5Sj77aI
-	 nuLGJxH1TQLw7M/KmIbIHI4qd5r53hc6lDzxe6uzFYOJdan93GecfgfqH18zBOeQkP
-	 HAIKjy0KFJhBA==
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e30d517c82fso963019276.1
-        for <linux-firmware@kernel.org>; Thu, 07 Nov 2024 05:30:20 -0800 (PST)
-X-Gm-Message-State: AOJu0YxqOvnG8fJO3ptanqw+51i4JTzpDVcVIyEtYdKsbSjDh53zPcbW
-	9C/kys7DdsjMEWynxTmw1/tkHGIGQzy1zCh636kb7ZyD2xRP4ELXNPPQVpGviGFBHcAVvzJCSBg
-	Ec9IFIgk0ztImmwTM7RmvlY6ZjoY=
-X-Google-Smtp-Source: AGHT+IFqE9SiTrIbIR3jW1Lp8HrntjO9jRGgJASZJSv9BBpyfB81D2bbgfkCGLbvPr1HXnR0Wyz0hNG1id8V5iS89dU=
-X-Received: by 2002:a05:690c:48c4:b0:6ea:7861:799f with SMTP id
- 00721157ae682-6ead609d958mr12503357b3.38.1730986220252; Thu, 07 Nov 2024
- 05:30:20 -0800 (PST)
-MIME-Version: 1.0
-References: <20241107004830.14261-1-zenmchen@gmail.com> <20241107070707.1438-1-zenmchen@gmail.com>
-In-Reply-To: <20241107070707.1438-1-zenmchen@gmail.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Thu, 7 Nov 2024 08:30:09 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA6u5hnYf+5Z7MP1oJPF-ubETiY5oPPJDpa4FPjdAvKgtA@mail.gmail.com>
-Message-ID: <CA+5PVA6u5hnYf+5Z7MP1oJPF-ubETiY5oPPJDpa4FPjdAvKgtA@mail.gmail.com>
-Subject: Re: [PATCH] rtw88: Add firmware v52.14.0 for RTL8812AU
-To: Zenm Chen <zenmchen@gmail.com>
+	id EF22EC4CECF; Fri,  8 Nov 2024 06:36:13 +0000 (UTC)
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 1EFA4C4CECE
+	for <linux-firmware@kernel.org>; Fri,  8 Nov 2024 06:36:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 1EFA4C4CECE
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 4A86a78N11523839, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
+	t=1731047767; bh=HIFdOCx+pm7uM1VdWuE/XLQHiijn1x76Xxa6WtFKi3w=;
+	h=From:To:CC:Subject:MIME-Version:Content-Type:Message-ID:Date;
+	b=VeeSMbVhgNYdrtpLPkZuZrCpK9QaTytPRYJWKJvzcSgDPqjW4b/Y59gQbeg+DFu1T
+	 zgEKj4uv5/0fCvZf32RgiukhGTCZ8A4Hfk87xNkcXxNK/7rcmN2voTgBbeYoHdUO79
+	 RCSyrTgjcZu2Iy9M8wTWWnv1HUChw6acM0OU/Dx1NMb7IcNRBjGggXdPPvE/qqWRap
+	 rgyh1b1eqAZ1DkDWph4U48eYdIJukhd6jhE/wiEadTqAgc0JaYqAbAOt45z8JZ8trp
+	 h+bYg3pRhpdwyEP//VLtyB4EbPgBFj6Uxn/qQgtXb0U8Yf9WyvOJFS+5vouWXRMgdM
+	 umg4cHUk6drmg==
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 4A86a78N11523839
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <linux-firmware@kernel.org>; Fri, 8 Nov 2024 14:36:07 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Fri, 8 Nov 2024 14:36:07 +0800
+Received: from [127.0.1.1] (172.21.69.94) by RTEXMBS04.realtek.com.tw
+ (172.21.6.97) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Fri, 8 Nov
+ 2024 14:36:07 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, linux-wireless@vger.kernel.org, 
-	pkshih@realtek.com, rtl8821cerfe2@gmail.com, usbwifi2024@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: <linux-firmware@kernel.org>
+CC: <linux-wireless@vger.kernel.org.gary.chang@realtek.com>
+Subject: pull-request: rtw89: 8852a: update fw to v0.13.36.2
+MIME-Version: 1.0
+Content-Type: text/plain
+Message-ID: <3cb3db8e-eae3-4e0b-ba9d-94352397721c@RTEXMBS04.realtek.com.tw>
+Date: Fri, 8 Nov 2024 14:36:07 +0800
+X-Originating-IP: [172.21.69.94]
+X-ClientProxiedBy: RTEXMBS02.realtek.com.tw (172.21.6.95) To
+ RTEXMBS04.realtek.com.tw (172.21.6.97)
 
-On Thu, Nov 7, 2024 at 2:07=E2=80=AFAM Zenm Chen <zenmchen@gmail.com> wrote=
-:
->
-> > This file contains the firmware for RTL8812AU and was was extracted fro=
-m
->
-> Hi Josh,
->
-> I found I typed one more "was" in my commit message, could you please fix
-> this typo before merge the patch? many thanks!
+Hi,
 
-Fixed.
+Update firmware of 8852a to v0.13.36.2.
 
-Merged and pushed out.
+Thank you
+Ping-Ke
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/358
+---
 
-josh
+The following changes since commit e817e483c4b5bd0cd73a3d7e26c0a59c86b8c995:
 
->
-> > the vendor driver v5.13.6-23-g232107d9b.20210820 from
-> > https://github.com/morrownr/8812au-20210820
+  Merge branch 'rtw88' into 'main' (2024-11-07 13:29:19 +0000)
+
+are available in the Git repository at:
+
+  https://github.com/pkshih/linux-firmware.git tags/rtw-fw-2024-11-08
+
+for you to fetch changes up to b6bfff1a5b0fad254a693b9d4275271d4dda7f03:
+
+  rtw89: 8852a: update fw to v0.13.36.2 (2024-11-08 13:35:28 +0800)
+
+----------------------------------------------------------------
+Chih-Kang Chang (1):
+      rtw89: 8852a: update fw to v0.13.36.2
+
+ rtw89/rtw8852a_fw.bin | Bin 1423232 -> 1428272 bytes
+ 1 file changed, 0 insertions(+), 0 deletions(-)
