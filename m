@@ -1,339 +1,86 @@
-Return-Path: <SRS0=8LUo=SD=opensource.cirrus.com=prvs=8042f86517=simont@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F167CD5C0E5
-	for <linux-firmware@archiver.kernel.org>; Fri,  8 Nov 2024 14:58:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9E58FD12D44
+	for <linux-firmware@archiver.kernel.org>; Sun, 10 Nov 2024 15:26:00 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id D0A5FC4CECF; Fri,  8 Nov 2024 14:58:46 +0000 (UTC)
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 28D80C4CECD
-	for <linux-firmware@kernel.org>; Fri,  8 Nov 2024 14:58:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 28D80C4CECD
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A84hXlQ008900
-	for <linux-firmware@kernel.org>; Fri, 8 Nov 2024 08:58:38 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:message-id:mime-version:subject:to; s=
-	PODMain02222019; bh=Zr3xWQMft63XIEuVVPkD0YiPNJuczfCiQFsW+jxZfMU=; b=
-	B4AtKSXiH5Wz0eBmHjNSuBDjf+ACYM8NKHzlviTZaDoqVMzeHjJ3GQ2aPTITRZHg
-	cVFQLGw5oeCWJ7ocs4fc2D76Wbnfxs3pzleS7OqjuBSZwNpnhjYuT40WO8WIcw6n
-	AH4UROAUwzimCsj/9DdSyzs4umF1JaXBl+KhoEbZEPHm3sxlRBgMjIuksXFTeWBG
-	ezHoB4RIza+FzmrL1cij2Yl5wohVbppUAMMxP5twVGnqtEhj9GQPTT+72T4aIsOF
-	YAsI6Q0snnQL8C3CfWNX2Ydqlg2JxMc2IG02k2HSX1TUvcUQQjYDeINKNYcRO+aU
-	C4E47xKMsQv0PtVjdezbzQ==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 42s6f20rmx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-firmware@kernel.org>; Fri, 08 Nov 2024 08:58:38 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 8 Nov 2024
- 14:58:35 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Fri, 8 Nov 2024 14:58:35 +0000
-Received: from EDIN6ZZ2FY3 (EDIN6ZZ2FY3.ad.cirrus.com [198.90.188.28])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id B3026820241;
-	Fri,  8 Nov 2024 14:58:35 +0000 (UTC)
-From: Simon Trimmer <simont@opensource.cirrus.com>
-List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-CC: <patches@opensource.cirrus.com>
-Subject: [PULL v1 linux-firmware] Update firmware for Cirrus Amps for some Dell laptops
-Date: Fri, 8 Nov 2024 14:58:35 +0000
-Message-ID: <002301db31ee$afbfed50$0f3fc7f0$@opensource.cirrus.com>
+	id 6CB53C4CED8; Sun, 10 Nov 2024 15:26:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57287C4CECD
+	for <linux-firmware@kernel.org>; Sun, 10 Nov 2024 15:26:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731252360;
+	bh=lCY9Dk9j/RnYTEJ0QzN73BMuTGFNxPCLRKXEMC0vnZQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=VSy5mIj4PH703q/7TySF1Ueo5Y498hP+1w+g5XD7nQXdf7KNOFOLTcRhVrqoOiLJJ
+	 4N3LEgTLIlV+h/4MpeAqCBQdLIfqtkTly6dCw25f+2Xq1k1KqCbLEpuewX21QvDJQe
+	 pkENrrQESafWuI+40f7jc11Q2WlDVf+xq4H+S9a3VICy3WuaJ6E6+MWFdp8qYdHKJJ
+	 ZtJ9weL1SRvMVxhDg7X1IXMT4OlYDT5J1lyODmty4iJi5yHM09uwLCzagI8cA3Fsew
+	 7/3tQdMUGf9ZSjyhBOFdC7i5R4FvjUD+UmqE3J5ForhHxrdrTu5AXKlJ3h5xDo87uo
+	 mduqEu8rKyvuA==
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e29047bec8fso3625529276.0
+        for <linux-firmware@kernel.org>; Sun, 10 Nov 2024 07:26:00 -0800 (PST)
+X-Gm-Message-State: AOJu0YzW7EQWP8V1//wbL65QkIgQUkUOGly+LJO+JThVM76DJCjb61Bj
+	cI4O66fiTnlUgo8S/6/MAGStw0wHuded3Xa0Emqksl6bVE1YPiKGkJVqRJa3DzsEhYQaCYXl0h4
+	tzqTTgQyhOZagnfsrloUnG9HhCMs=
+X-Google-Smtp-Source: AGHT+IG0Vy7ECc59ERZ3pJT5mWmHLbRRB3Tloo6IhYXDtlTlxTRtjl86D6gJELf4iWNR3yEQEfQEXxFIMAi1sYkZPU4=
+X-Received: by 2002:a05:690c:6ac6:b0:6ea:7fa3:ab22 with SMTP id
+ 00721157ae682-6eade41955cmr69448657b3.8.1731252359583; Sun, 10 Nov 2024
+ 07:25:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0024_01DB31EE.AFC0B0A0"
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-gb
-Thread-Index: Adsx7cieXl8PPZxcRhmKYWJbNc+oGw==
-X-Proofpoint-GUID: VovjIb06u2atntPFq0152b3G9jZaDJek
-X-Proofpoint-ORIG-GUID: VovjIb06u2atntPFq0152b3G9jZaDJek
-X-Proofpoint-Spam-Reason: safe
-
-------=_NextPart_000_0024_01DB31EE.AFC0B0A0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-
-Hi,
-
-We'd like to update the firmware for the Cirrus CS35L56 smart amplifier for
-some Dell Laptops.
-
-Thanks,
-
--Simon
-
- 
-
-The following changes since commit 3bbb13a78b3defc5cfca702114108f0bd7fcf542:
-
- 
-
-  Merge branch 'amd-staging' into 'main' (2024-11-08 14:14:44 +0000)
-
- 
-
-are available in the Git repository at:
-
- 
-
-  https://github.com/CirrusLogic/linux-firmware/ cs35l56-20241108
-
- 
-
-for you to fetch changes up to 1486d9aa55fd5efea6e242eb993181fdeca43f5e:
-
- 
-
-  cirrus: cs35l56: Add firmware for Cirrus CS35L56 for various Dell laptops
-(2024-11-08 14:49:01 +0000)
-
- 
-
-----------------------------------------------------------------
-
-Simon Trimmer (1):
-
-      cirrus: cs35l56: Add firmware for Cirrus CS35L56 for various Dell
-laptops
-
- 
-
-WHENCE                                               |  25
-+++++++++++++++++++++++++
-
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid0-ampl.bin | Bin 0 -> 11612 bytes
-
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid0-ampr.bin | Bin 0 -> 11612 bytes
-
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid1-ampl.bin | Bin 0 -> 11616 bytes
-
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid1-ampr.bin | Bin 0 -> 11616 bytes
-
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid2-ampl.bin | Bin 0 -> 11612 bytes
-
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid2-ampr.bin | Bin 0 -> 11612 bytes
-
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid3-ampl.bin | Bin 0 -> 11616 bytes
-
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid3-ampr.bin | Bin 0 -> 11616 bytes
-
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid0-ampl.bin | Bin 0 -> 11620 bytes
-
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid0-ampr.bin | Bin 0 -> 11620 bytes
-
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid1-ampl.bin | Bin 0 -> 11620 bytes
-
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid1-ampr.bin | Bin 0 -> 11620 bytes
-
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid2-ampl.bin | Bin 0 -> 11620 bytes
-
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid2-ampr.bin | Bin 0 -> 11620 bytes
-
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid3-ampl.bin | Bin 0 -> 11624 bytes
-
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid3-ampr.bin | Bin 0 -> 11624 bytes
-
-cirrus/cs35l56/CS35L56_Rev3.11.25.wmfw               | Bin 0 -> 34596 bytes
-
-18 files changed, 25 insertions(+)
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid0-ampl.bin
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid0-ampr.bin
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid1-ampl.bin
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid1-ampr.bin
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid2-ampl.bin
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid2-ampr.bin
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid3-ampl.bin
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid3-ampr.bin
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid0-ampl.bin
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid0-ampr.bin
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid1-ampl.bin
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid1-ampr.bin
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid2-ampl.bin
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid2-ampr.bin
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid3-ampl.bin
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid3-ampr.bin
-
-create mode 100644 cirrus/cs35l56/CS35L56_Rev3.11.25.wmfw
-
- 
-
-
-------=_NextPart_000_0024_01DB31EE.AFC0B0A0
-Content-Type: text/html; charset="us-ascii"
+References: <1082df9a-5d1f-4044-b679-b2308971fc47@RTEXMBS04.realtek.com.tw>
+In-Reply-To: <1082df9a-5d1f-4044-b679-b2308971fc47@RTEXMBS04.realtek.com.tw>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Sun, 10 Nov 2024 10:25:48 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA5iko5JVP_XqAtHWKD7GkuDxFz=QAV=OqsmXNmr3yjwbA@mail.gmail.com>
+Message-ID: <CA+5PVA5iko5JVP_XqAtHWKD7GkuDxFz=QAV=OqsmXNmr3yjwbA@mail.gmail.com>
+Subject: Re: [RESEND v2] pull-request: rtw89: 8852a: update fw to v0.13.36.2
+To: Ping-Ke Shih <pkshih@realtek.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: linux-firmware@kernel.org, linux-wireless@vger.kernel.org, 
+	gary.chang@realtek.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Aptos;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	font-size:11.0pt;
-	font-family:"Aptos",sans-serif;
-	mso-ligatures:standardcontextual;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#467886;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Aptos",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:11.0pt;}
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#467886" vlink=3D"#96607D" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal><span =
-lang=3DEN-GB>Hi,<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB>We&#8217;d like to update the firmware for the Cirrus =
-CS35L56 smart amplifier for some Dell Laptops.<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB>Thanks,<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB>-Simon<o:p></o:p></span></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal>The =
-following changes since commit =
-3bbb13a78b3defc5cfca702114108f0bd7fcf542:<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal>&nbsp; Merge =
-branch 'amd-staging' into 'main' (2024-11-08 14:14:44 =
-+0000)<o:p></o:p></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal>are available in the Git repository =
-at:<o:p></o:p></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal>&nbsp; <a =
-href=3D"https://github.com/CirrusLogic/linux-firmware/">https://github.co=
-m/CirrusLogic/linux-firmware/</a> cs35l56-20241108<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal>for you to =
-fetch changes up to =
-1486d9aa55fd5efea6e242eb993181fdeca43f5e:<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal>&nbsp; =
-cirrus: cs35l56: Add firmware for Cirrus CS35L56 for various Dell =
-laptops (2024-11-08 14:49:01 +0000)<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal>-------------------------------------------------------=
----------<o:p></o:p></p><p class=3DMsoNormal>Simon Trimmer =
-(1):<o:p></o:p></p><p class=3DMsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
-cirrus: cs35l56: Add firmware for Cirrus CS35L56 for various Dell =
-laptops<o:p></o:p></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal> =
-WHENCE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; =
-25 +++++++++++++++++++++++++<o:p></o:p></p><p class=3DMsoNormal> =
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid0-ampl.bin | Bin 0 -&gt; 11612 =
-bytes<o:p></o:p></p><p class=3DMsoNormal> =
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid0-ampr.bin | Bin 0 -&gt; 11612 =
-bytes<o:p></o:p></p><p class=3DMsoNormal> =
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid1-ampl.bin | Bin 0 -&gt; 11616 =
-bytes<o:p></o:p></p><p class=3DMsoNormal> =
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid1-ampr.bin | Bin 0 -&gt; 11616 =
-bytes<o:p></o:p></p><p class=3DMsoNormal> =
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid2-ampl.bin | Bin 0 -&gt; 11612 =
-bytes<o:p></o:p></p><p class=3DMsoNormal> =
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid2-ampr.bin | Bin 0 -&gt; 11612 =
-bytes<o:p></o:p></p><p class=3DMsoNormal> =
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid3-ampl.bin | Bin 0 -&gt; 11616 =
-bytes<o:p></o:p></p><p class=3DMsoNormal> =
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid3-ampr.bin | Bin 0 -&gt; 11616 =
-bytes<o:p></o:p></p><p class=3DMsoNormal> =
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid0-ampl.bin | Bin 0 -&gt; 11620 =
-bytes<o:p></o:p></p><p class=3DMsoNormal> =
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid0-ampr.bin | Bin 0 -&gt; 11620 =
-bytes<o:p></o:p></p><p class=3DMsoNormal> =
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid1-ampl.bin | Bin 0 -&gt; 11620 =
-bytes<o:p></o:p></p><p class=3DMsoNormal> =
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid1-ampr.bin | Bin 0 -&gt; 11620 =
-bytes<o:p></o:p></p><p class=3DMsoNormal> =
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid2-ampl.bin | Bin 0 -&gt; 11620 =
-bytes<o:p></o:p></p><p class=3DMsoNormal> =
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid2-ampr.bin | Bin 0 -&gt; 11620 =
-bytes<o:p></o:p></p><p class=3DMsoNormal> =
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid3-ampl.bin | Bin 0 -&gt; 11624 =
-bytes<o:p></o:p></p><p class=3DMsoNormal> =
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid3-ampr.bin | Bin 0 -&gt; 11624 =
-bytes<o:p></o:p></p><p class=3DMsoNormal> =
-cirrus/cs35l56/CS35L56_Rev3.11.25.wmfw&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Bin 0 -&gt; 34596 =
-bytes<o:p></o:p></p><p class=3DMsoNormal> 18 files changed, 25 =
-insertions(+)<o:p></o:p></p><p class=3DMsoNormal> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid0-ampl.bin<o:p></o:p></p><p =
-class=3DMsoNormal> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid0-ampr.bin<o:p></o:p></p><p =
-class=3DMsoNormal> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid1-ampl.bin<o:p></o:p></p><p =
-class=3DMsoNormal> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid1-ampr.bin<o:p></o:p></p><p =
-class=3DMsoNormal> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid2-ampl.bin<o:p></o:p></p><p =
-class=3DMsoNormal> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid2-ampr.bin<o:p></o:p></p><p =
-class=3DMsoNormal> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid3-ampl.bin<o:p></o:p></p><p =
-class=3DMsoNormal> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280ce3-spkid3-ampr.bin<o:p></o:p></p><p =
-class=3DMsoNormal> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid0-ampl.bin<o:p></o:p></p><p =
-class=3DMsoNormal> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid0-ampr.bin<o:p></o:p></p><p =
-class=3DMsoNormal> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid1-ampl.bin<o:p></o:p></p><p =
-class=3DMsoNormal> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid1-ampr.bin<o:p></o:p></p><p =
-class=3DMsoNormal> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid2-ampl.bin<o:p></o:p></p><p =
-class=3DMsoNormal> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid2-ampr.bin<o:p></o:p></p><p =
-class=3DMsoNormal> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid3-ampl.bin<o:p></o:p></p><p =
-class=3DMsoNormal> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280ce4-spkid3-ampr.bin<o:p></o:p></p><p =
-class=3DMsoNormal> create mode 100644 =
-cirrus/cs35l56/CS35L56_Rev3.11.25.wmfw<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-------=_NextPart_000_0024_01DB31EE.AFC0B0A0--
+On Fri, Nov 8, 2024 at 1:52=E2=80=AFAM Ping-Ke Shih <pkshih@realtek.com> wr=
+ote:
+>
+> Hi,
+>
+> Update firmware of 8852a to v0.13.36.2
+>
+> Sorry that I messed my script to send improper first pull-request.
+>
+> Thank you
+> Ping-Ke
+>
+> ---
+>
+> The following changes since commit e817e483c4b5bd0cd73a3d7e26c0a59c86b8c9=
+95:
+>
+>   Merge branch 'rtw88' into 'main' (2024-11-07 13:29:19 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/pkshih/linux-firmware.git tags/rtw-fw-2024-11-08
+
+Merged and pushed out.
+
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/361
+
+josh
+
+>
+> for you to fetch changes up to b6bfff1a5b0fad254a693b9d4275271d4dda7f03:
+>
+>   rtw89: 8852a: update fw to v0.13.36.2 (2024-11-08 13:35:28 +0800)
+>
+> ----------------------------------------------------------------
+> Chih-Kang Chang (1):
+>       rtw89: 8852a: update fw to v0.13.36.2
+>
+>  rtw89/rtw8852a_fw.bin | Bin 1423232 -> 1428272 bytes
+>  1 file changed, 0 insertions(+), 0 deletions(-)
