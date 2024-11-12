@@ -1,94 +1,90 @@
-Return-Path: <SRS0=mZVA=SH=quicinc.com=quic_jhugo@kernel.org>
+Return-Path: <SRS0=m7Um=SH=quicinc.com=quic_batta@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C699AD41D4F
-	for <linux-firmware@archiver.kernel.org>; Tue, 12 Nov 2024 03:58:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C48D5D32D84
+	for <linux-firmware@archiver.kernel.org>; Tue, 12 Nov 2024 10:18:38 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 91638C4CED0; Tue, 12 Nov 2024 03:58:16 +0000 (UTC)
+	id 93579C4CED4; Tue, 12 Nov 2024 10:18:38 +0000 (UTC)
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 4AB30C4CECD
-	for <linux-firmware@kernel.org>; Tue, 12 Nov 2024 03:58:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 4AB30C4CECD
+	by smtp.kernel.org (Postfix) with ESMTPS id 535B4C4CECD
+	for <linux-firmware@kernel.org>; Tue, 12 Nov 2024 10:18:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 535B4C4CECD
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AC3TgpJ025360;
-	Tue, 12 Nov 2024 03:58:13 GMT
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AC38RRR007661;
+	Tue, 12 Nov 2024 10:18:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=bYy63dsumA698v4p9/TgRL
-	s+bXu6YA8P4yHJhsCfBbA=; b=cKah/4Tin1AG6Bd3HQ4VwsHyN7JwJfy0Noqaxj
-	2O9l8OrWfjRWakbqrSlQ8TOlp8Ftd2B1JsO147A+fJP3O22uDwOGgfahzqErjnSy
-	/x3+RE1k9063s/KYSTYkJQ13ymJBf8JGu1ez0InHxHjnvyDU3AauLPZJjdoujMLe
-	qmO0PeQyJbc79R9OOtRNtwDK7wiQTlIJLgbhhCNbpHdTfcXuxD81DQ4kTzu3QcxX
-	qwLMlaGmK4SBJEoQv5UK7V0/REX+eZY6vSmBgNTdttgR3fmbVdJOm8aFuXF516XQ
-	xOnJrLwYuYD3TgKZeG+4DsksbPpNuYUPzLhQbR4zs7dvcggA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42sytsp1ux-1
+	content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=fJvduDh6IodBLf1UrFin7x
+	AFtY/kjx88K6bKwEurPhE=; b=lqmgxqyh5c8ZMeTnQ4H0hdSkM80e3Q/myM3AsR
+	GnXDhYcy2WGwpvgdBxyV1OrGibfGa2JflSkBKfO4Y0u8qeuNA+hu7kWkO4lTjs63
+	0v88VCIjiFDuAgYVzdd7spY/78rFKnSd5ANdJuEhVJVsD9m2xGP8eNmw0qCyqRYy
+	xdH4f2YsCKppVOsMcMBxD4h6KLHUUDxq0vhpQgjAXzaRi29YaNr+Br82Bw52wQWI
+	v3Ih5Ye6IZOqGNqkj0XkzKGsEruI2pT1I0B3D7OPCvP3Utp6ULxHV3o17xb7f064
+	3bHbiV+R3ZMNqX3hN9Ru8anolwqTkOeSQA3bI40cDi2D4O8Q==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42t0466wa2-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 12 Nov 2024 03:58:12 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AC3wB0k018899
+	Tue, 12 Nov 2024 10:18:32 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ACAIVMl027607
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 12 Nov 2024 03:58:11 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 11 Nov
- 2024 19:58:11 -0800
-Message-ID: <9282f078-6e81-1854-8b8f-fc8ced869ad4@quicinc.com>
-Date: Mon, 11 Nov 2024 20:58:10 -0700
+	Tue, 12 Nov 2024 10:18:31 GMT
+Received: from [10.217.218.60] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 12 Nov
+ 2024 02:18:30 -0800
+Message-ID: <a16c9d20-fddf-41ac-b04b-460b38db7d10@quicinc.com>
+Date: Tue, 12 Nov 2024 15:48:27 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
+User-Agent: Mozilla Thunderbird
 Content-Language: en-US
+From: Kishore Batta <quic_batta@quicinc.com>
+Subject: [PULL]: Add firmware for Qualcomm QDU100
 List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-CC: linux-arm-msm <linux-arm-msm@vger.kernel.org>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: [PULL]: Update firmware for Qualcomm AIC100
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+To: <linux-firmware@kernel.org>, <linux-arm-msm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: ys8aMcRh9L2tmnLQEw4jLfYMuiF-nnXK
-X-Proofpoint-ORIG-GUID: ys8aMcRh9L2tmnLQEw4jLfYMuiF-nnXK
+X-Proofpoint-GUID: RinfnRBx8oy1iR3wYu7jKLMJzqW_TOIN
+X-Proofpoint-ORIG-GUID: RinfnRBx8oy1iR3wYu7jKLMJzqW_TOIN
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011
- priorityscore=1501 suspectscore=0 bulkscore=0 impostorscore=0 phishscore=0
- mlxlogscore=772 lowpriorityscore=0 malwarescore=0 spamscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411120031
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ bulkscore=0 clxscore=1011 priorityscore=1501 spamscore=0 suspectscore=0
+ mlxlogscore=908 impostorscore=0 adultscore=0 phishscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411120084
 
 The following changes since commit 6482750d396980a31f76edd5a84b03a96bbdf3fe:
 
-   Merge branch 'verb' into 'main' (2024-11-11 20:01:00 +0000)
+  Merge branch 'verb' into 'main' (2024-11-11 20:01:00 +0000)
 
 are available in the Git repository at:
 
-   https://github.com/quic-jhugo/linux-firmware aic100_1_18_2_0
+  https://github.com/quic-batta/linux-firmware/tree/qdu100_xbl_s_melf
 
-for you to fetch changes up to af7f6e4f72a11e8b2604ec476a1fea087b33d27b:
+for you to fetch changes up to 01842da45df0a9f862098d1597f6ae5774b3e48a:
 
-   qcom: Update aic100 firmware files (2024-11-11 20:47:16 -0700)
+  qcom: Add QDU100 firmware image files. (2024-11-12 15:23:11 +0530)
 
 ----------------------------------------------------------------
-Jeffrey Hugo (1):
-       qcom: Update aic100 firmware files
+Kishore Batta (1):
+      qcom: Add QDU100 firmware image files.
 
-  qcom/aic100/fw1.bin  | Bin 1571360 -> 2135752 bytes
-  qcom/aic100/fw10.bin | Bin 249439 -> 249439 bytes
-  qcom/aic100/fw2.bin  | Bin 771016 -> 783512 bytes
-  qcom/aic100/fw5.bin  | Bin 24576 -> 24576 bytes
-  qcom/aic100/fw9.bin  | Bin 750416 -> 762704 bytes
-  qcom/aic100/sbl.bin  | Bin 805808 -> 1048576 bytes
-  6 files changed, 0 insertions(+), 0 deletions(-)
+ WHENCE                 |   7 +++++++
+ qcom/qdu100/xbl_s.melf | Bin 0 -> 1424292 bytes
+ 2 files changed, 7 insertions(+)
+ create mode 100644 qcom/qdu100/xbl_s.melf
+
