@@ -4,99 +4,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2C1AD462B3
-	for <linux-firmware@archiver.kernel.org>; Wed, 13 Nov 2024 14:40:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46CE5D462B3
+	for <linux-firmware@archiver.kernel.org>; Wed, 13 Nov 2024 14:43:29 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id A8291C4CECD; Wed, 13 Nov 2024 14:40:26 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	id 120A1C4CECF; Wed, 13 Nov 2024 14:43:29 +0000 (UTC)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 9F942C4CEC3
-	for <linux-firmware@kernel.org>; Wed, 13 Nov 2024 14:40:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 9F942C4CEC3
+	by smtp.kernel.org (Postfix) with ESMTPS id 2B02FC4CED2
+	for <linux-firmware@kernel.org>; Wed, 13 Nov 2024 14:43:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 2B02FC4CED2
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-53da3b911b9so263424e87.2
-        for <linux-firmware@kernel.org>; Wed, 13 Nov 2024 06:40:25 -0800 (PST)
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2fb470a8b27so7996531fa.1
+        for <linux-firmware@kernel.org>; Wed, 13 Nov 2024 06:43:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731508824; x=1732113624; darn=kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+jZgAqEJpwS2/uZrgxbz3yGy8AU7XccctO9yfSAbCGk=;
-        b=FMDVsJ4FfMlc4YaYBWlN6HaxHwxhfUQ30LFGj9na51WTJ+Uf7Opu6oS1+/YoFAxA7b
-         uO5olXhq1Km+jH/2VBz2RgIJcFJ2YV9woCgRozCHF4WM3TazY4FYaGoj5awXmwuWoJq9
-         +BMEs8qEdKrz264KooxKxcIzCWZ7zRbQoENJ6yM/sFlkNOcY/g2YCUb9yhPvmOvMPAHm
-         2KUvIqXKayeZLHlw6weBHSM0FjBhfpX8osc/lpJs42kdh9MMk+zTnGaeAV7eeReaBALU
-         GPDcL2n098NXVggVKIdLdnccfMmOlgmwKRe0FEGCo5j8++FulOY1fIA8ID/Oh32JNw7n
-         Pubg==
+        d=linaro.org; s=google; t=1731509005; x=1732113805; darn=kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=3Fgxx52k6cRO07TbzcbtVihhXwwHHKoYqCr4jXepQY4=;
+        b=afmyFxFtGyJ6vWdmdGDqiX1vjQTM6CllQQB5hIKUkpD6Y7eWWHOIF+kNtiQr8cTIAs
+         Ql6jyvZljbItIwGMgHf+QNbSOvRdQNq2ZOxZSEuzHMEi0MdCHGHT+Z2BgTVa5ndwfbqx
+         XuQdzjy0GIOpe97PJAaEja8OifZJ/EaimqeamtoKXdhq5pUT0STFkcEZZHhJO+G4TEAP
+         J0DkZ4LInIneKxYMUzkCoYsGfa0Ye6Pf9qtVJm1f06oS4LOnztHN1X1FN7on8iCHoT7G
+         RC7JlvZO5ej09SDaEwS2tdCreWQnMbQEowjJt+nBRkIRzO2qap06hTL9+DkeAyEOc5s6
+         sgaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731508824; x=1732113624;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+jZgAqEJpwS2/uZrgxbz3yGy8AU7XccctO9yfSAbCGk=;
-        b=SjE4BadL7QkGReFOvZfxXFAyxicYcxmZZqeyDuUdastONzMyk5m3xNexcoMlwlZz+y
-         6kKCY8M3tY8wxqtVdA0ZM35fsuFIJu3W0NsI9PT4AL+H9L6xYT43EQs/NxMuBPZKK6vi
-         MYc2q8NWCxWWMgirvzWXkKvr/vHUABksfZr77gbkdEhgNIKrljbKoQ0Ck5coA0LfjqbR
-         5zaI/aMCOds3ly4uTrET8PfyhyRtG6yxiQ/5h4xxl4lnxRAUBz/lP4Ce1QNthW27Mp+g
-         /759QIQKwySpfyqTRFLxHBjLzxgf3Oack42lpUAhKOazQBt6xAjsNoM/rAdY8n+nr4yw
-         YWmw==
-X-Gm-Message-State: AOJu0YxgQV23ep9U0jRg45tIls2HOehX1KKgxL1VyFx4IopoM4fK3wAZ
-	MT9JQGRan1Q5jt1QBkbO9Bb79j+kDI7Jeg0dDiyfpNK49Jf5jvELlEfIAXtCo98=
-X-Google-Smtp-Source: AGHT+IESnonn4WA4V9eAjCb/Iy/klqjLJDKWelbfGSY+1HFO27ggzmsjtmHQ30X+wsA8ipHcmH9rqA==
-X-Received: by 2002:ac2:4e08:0:b0:530:ae4a:58d0 with SMTP id 2adb3069b0e04-53d9fe7231emr1712966e87.8.1731508823612;
-        Wed, 13 Nov 2024 06:40:23 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731509005; x=1732113805;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3Fgxx52k6cRO07TbzcbtVihhXwwHHKoYqCr4jXepQY4=;
+        b=gTXBkX3yt1Wl0OZ3+6OmWFHNKUX7LDyMVa5wTxSYkH38BaxK1U9D+aCaVIQJH8BcUn
+         RuTZOJdW0mHtOz4/RaWOyu0L9puVjTGG7Xtr/WEMuGYUf6oPiZALLs0YCK2CG6uICDly
+         8nxChF67tvFhN5i2aDy1gpEuMgIFDxTcj80u7urmEOu6t5bvc25US2Y3mv1m5ovqFT+0
+         mGrX4/SpNZJrL5EwGG3fT7jw1NnYYPAGD3ZeTTJ0fCdSvFOoTx7I5pMCdqZlyjgPppLW
+         WwppIgfYts9ntftQya6ywjoDAD64gVRnxRjLRswpfyggk0zbFdu/6FBS+LxbaRVGoTsw
+         aJnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUat5m2iPAjRj7WGvXx+X/zwNZbmbgpyxj2lKH2NZNBkpRb13T3u8S22sbveAXk4hxriptjH3lGphvDUE1ncA==@kernel.org
+X-Gm-Message-State: AOJu0Yxh67eZ7Cfm6WTril+txkATRwoudEL6wyT6sTIG/oSNmefpEt5B
+	gfOps5vnHyl8s4LfyMatJcPPLnS3DzwG0lXk+HMSDB0H8KGuAvSQPBTEQ0dlraE=
+X-Google-Smtp-Source: AGHT+IGuiQS8G3KYXVswMLT60oAVcwWDVcPu0Sxo4baUZ//Xkb7Dph3igRYbKe3iHN/BqoaKE9wphw==
+X-Received: by 2002:a05:651c:b2a:b0:2fb:597e:28f5 with SMTP id 38308e7fff4ca-2ff1f418805mr76208821fa.2.1731509005205;
+        Wed, 13 Nov 2024 06:43:25 -0800 (PST)
 Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53d826856e9sm2212984e87.66.2024.11.13.06.40.22
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ff178f3ca9sm24086331fa.41.2024.11.13.06.43.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2024 06:40:23 -0800 (PST)
-Date: Wed, 13 Nov 2024 16:40:21 +0200
+        Wed, 13 Nov 2024 06:43:23 -0800 (PST)
+Date: Wed, 13 Nov 2024 16:43:21 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: "Renjiang Han (QUIC)" <quic_renjiang@quicinc.com>
+To: Josh Boyer <jwboyer@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
-	"Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>, "Dikshita Agarwal (QUIC)" <quic_dikshita@quicinc.com>, 
-	"Qiwei Liu (QUIC)" <quic_qiweil@quicinc.com>, "quic_zhgao@quicinc.co" <quic_zhgao@quicinc.co>
+Cc: "Renjiang Han (QUIC)" <quic_renjiang@quicinc.com>, 
+	"linux-firmware@kernel.org" <linux-firmware@kernel.org>, "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>, 
+	"Dikshita Agarwal (QUIC)" <quic_dikshita@quicinc.com>, "Qiwei Liu (QUIC)" <quic_qiweil@quicinc.com>, 
+	"quic_zhgao@quicinc.co" <quic_zhgao@quicinc.co>, linux-arm-msm@vger.kernel.org, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>
 Subject: Re: add venus firmware file for qcs615
-Message-ID: <ng4o7sdejoh4jn4nnarjd4lio4lbx2tiuiz5c6bigjbtxldinr@xl5wx6dmdivy>
+Message-ID: <v7ltgyxqzrt7pmcgy7bfsanfxbuu5fr4rn7yxg7hal5londeqj@44v32zea44hg>
 References: <83153c5ab8374e008d62646f200f9a04@quicinc.com>
+ <CA+5PVA6B6cJ4sTVF_HN84_ommsMJzK5OsuaG+ikrzV1Sm441Jg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <83153c5ab8374e008d62646f200f9a04@quicinc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+5PVA6B6cJ4sTVF_HN84_ommsMJzK5OsuaG+ikrzV1Sm441Jg@mail.gmail.com>
 
-On Wed, Nov 13, 2024 at 10:50:44AM +0000, Renjiang Han (QUIC) wrote:
-> Hello
+On Wed, Nov 13, 2024 at 07:22:28AM -0500, Josh Boyer wrote:
+> On Wed, Nov 13, 2024 at 5:50 AM Renjiang Han (QUIC)
+> <quic_renjiang@quicinc.com> wrote:
+> >
+> > Hello
+> >
+> >
+> >
+> > The following changes since commit 6482750d396980a31f76edd5a84b03a96bbdf3fe:
+> >
+> >
+> >
+> >   Merge branch 'verb' into 'main' (2024-11-11 20:01:00 +0000)
+> >
+> >
+> >
+> > are available in the Git repository at:
+> >
+> >
+> >
+> >   git@git.codelinaro.org:clo/linux-kernel/linux-firmware.git video-firmware-qcs615
 > 
-> The following changes since commit 6482750d396980a31f76edd5a84b03a96bbdf3fe:
+> Merged and pushed out.
 > 
->   Merge branch 'verb' into 'main' (2024-11-11 20:01:00 +0000)
-> 
-> are available in the Git repository at:
-> 
->   git@git.codelinaro.org:clo/linux-kernel/linux-firmware.git<mailto:git@git.codelinaro.org:clo/linux-kernel/linux-firmware.git> video-firmware-qcs615
-> 
-> for you to fetch changes up to 1e7f65883150d3b48307b4f0d6871c60151ee25b:
-> 
->   qcom: venus-5.4: add venus firmware file for qcs615 (2024-11-13 15:50:29 +0530)
-> 
-> ----------------------------------------------------------------
-> Renjiang Han (1):
->       qcom: venus-5.4: add venus firmware file for qcs615
-> 
-> WHENCE                      |   1 +
+> https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/370
 
-Could you please be more specific, what is the difference between the
-existing file and a new file? According to the soc_vers the new file
-supports sdm845. Should it instead replace the old firmware?
-
-> qcom/venus-5.4/venus_s6.mbn | Bin 0 -> 922240 bytes
-> 2 files changed, 1 insertion(+)
-> create mode 100644 qcom/venus-5.4/venus_s6.mbn
-> 
-> Best Regards,
-> Renjiang
+Josh, it is very nice to see a promt merging of the firmware, thanks a
+lot. However is there a chance that you can give reviewers a time to
+react? Usually there are no issues, but I think it is important to let
+the comminity to be able to review the patch / pull request.
 
 -- 
 With best wishes
