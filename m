@@ -1,135 +1,122 @@
-Return-Path: <SRS0=YLXH=SJ=linaro.org=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=5QJi=SL=kemnade.info=andreas@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04943D65C79
-	for <linux-firmware@archiver.kernel.org>; Thu, 14 Nov 2024 11:31:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8F3A2D68BF6
+	for <linux-firmware@archiver.kernel.org>; Sat, 16 Nov 2024 21:41:36 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C60C9C4CECD; Thu, 14 Nov 2024 11:31:22 +0000 (UTC)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id 464C6C4CED0; Sat, 16 Nov 2024 21:41:36 +0000 (UTC)
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 91350C4CECF
-	for <linux-firmware@kernel.org>; Thu, 14 Nov 2024 11:31:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 91350C4CECF
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-6eb0e90b729so6395897b3.1
-        for <linux-firmware@kernel.org>; Thu, 14 Nov 2024 03:31:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731583880; x=1732188680; darn=kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9PUKRCePQxyjlwnWlBc3GAU2sYsTn18U7MQXC4Mlzzk=;
-        b=hP4YeYXt99PJZSjKb0PuTd5AMmOB0bpJih1Ry5+GkXuo0GhUfnfi4iDIrw21+PSvsF
-         +/0Cvsikpxl5BtLQY4PV3UmtQD/Xn+qYrJsTVwBrduV7OEYuWQt1u2ZeBD/1JEad3RR6
-         BGJPSglRKxXA6VEw3wo9nG8wTQbw1NP88TNyKM/va2lXX7iOwAem1uyDUNTibbMiPyeS
-         MB/ECbq+5YLRKLmfoPP18xl4lZqQcKEAihj374c/1zJS+/Y1vzwxmwV7iytx/G+p04li
-         RlGkKVFhnqurUM6zp75VQw1hBA8T5h2PrrB7O/D1mFHt36KuZiq5wYsuGul8KJbclOhL
-         8cPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731583880; x=1732188680;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9PUKRCePQxyjlwnWlBc3GAU2sYsTn18U7MQXC4Mlzzk=;
-        b=CrCtAM1BYcCwZDqJKkOvL1wK1I0HXtxTQKx/PdpQpMzsD4Q7tgOkjxYIus/ILL/nFl
-         LJQfmgJPKA/vivbf5iZJhA0/mnqM/NS/XvHSnwAtVzDZmypG3ZJuklNZXwR29S5mXhpM
-         5LF2RsaX9b7X4EQxP1nMrBFQ8ZUwvwA3y9BkC5cgFEwv7jBPhnF3wo0eUMynjXy70jPF
-         jzVPJtciVa4uM3KOEgUn2tDRmNq9hz61HUQXuREK+3wM+C+02EB6/KyMru1r0e+5kDmS
-         YF9HjXueKU0+7J1rvDLAE1Ph5gHycHlquczVIeDdKN/NEvfMMW+CeDABQGrytURVFr6V
-         MonA==
-X-Forwarded-Encrypted: i=1; AJvYcCW67dfVHx1VV1FZE85iOaqm6kb3198icwxtuxNPhKq/9pdKiiWIhjIclMhRxNQYpJFx3q9MExBG9eFRCC0z6A==@kernel.org
-X-Gm-Message-State: AOJu0YzJ/vBKCMhcDb6NEhnlaouxqSyHjJioMYrRTPsDiEFVTc5tpBtf
-	uSw1ZIMbBc20HPZNfBlcOkX5rF5V2tuH6/ovYeNP1UUmB+JUAZYbMWGTr50OhMT+XUn8x3YrYl/
-	d6qT6fVn0dgb+dpelxOfbVxUGKkBD9Ay+udRylA==
-X-Google-Smtp-Source: AGHT+IHyKg1Jw7I0bOCjudUOhlRkriBkABFKQeim2vJrcv932AJ93Cqf8uVYNM1OVMyCx9XM/iw4Gs9/qcc1V6VLDEk=
-X-Received: by 2002:a05:690c:6408:b0:6ea:4e1f:2b39 with SMTP id
- 00721157ae682-6ee4333ecebmr16935097b3.4.1731583880470; Thu, 14 Nov 2024
- 03:31:20 -0800 (PST)
-MIME-Version: 1.0
-References: <83153c5ab8374e008d62646f200f9a04@quicinc.com> <ng4o7sdejoh4jn4nnarjd4lio4lbx2tiuiz5c6bigjbtxldinr@xl5wx6dmdivy>
- <ab4f83c1-5cd6-a80b-fd85-ccc337c8f301@quicinc.com> <pqoq64hk2jedmqta5fs4ktcadw4getwkgz324vtrzzotcurpaw@zc6dlhbqtsnz>
- <a1bbc1d0-d3bd-e44e-e393-a7ade909a506@quicinc.com>
-In-Reply-To: <a1bbc1d0-d3bd-e44e-e393-a7ade909a506@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 14 Nov 2024 13:31:14 +0200
-Message-ID: <CAA8EJpoDXKbF5cqb_vzE28zjdC6OC66Zxb5j030QXaCe+FUmfw@mail.gmail.com>
-Subject: Re: add venus firmware file for qcs615
-To: Vikash Garodia <quic_vgarodia@quicinc.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 2D801C4CEC3
+	for <linux-firmware@kernel.org>; Sat, 16 Nov 2024 21:41:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 2D801C4CEC3
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=References:In-Reply-To:Cc:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=q4O05SJN3aOBLjXdxxOorTYju8mPNYTc4Lu3hJuqspk=; b=Bk1faLMmat0pZjSdnYBOOX9lTv
+	+cGJYlox36URofaiddldbi82O8y12rdqe5UyEowzWPgOcDNtjqXPutkgmjOfdgJNkBWJalFVjDNkM
+	Hq4xrNvKJ3MVrcpL7T0ERjr+OxGMPB4M4Upha367X+FgYAUABPMWeicB+hENAnGBvirxibl603LiX
+	JVWDd1ajyq2G3qU73QkxYkyP7tqxkAmUpAAxVw7ICiYXART+5zz7x4wpBIcA5QrqZk7Ife7xQV731
+	oHHngxgaWdf9t/aWbm6XXRO6qPms/j5xVIBGIOcrW7ROyKHYo0IW30Zpj0fUCqdOkVGIZXkUPHva6
+	PwY+HCUw==;
+Date: Sat, 16 Nov 2024 22:41:27 +0100
+From: Andreas Kemnade <andreas@kemnade.info>
+To: David Lin <yu-hao.lin@nxp.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "Renjiang Han (QUIC)" <quic_renjiang@quicinc.com>, 
-	"linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
-	"Dikshita Agarwal (QUIC)" <quic_dikshita@quicinc.com>, "Qiwei Liu (QUIC)" <quic_qiweil@quicinc.com>, 
-	"quic_zhgao@quicinc.co" <quic_zhgao@quicinc.co>
-Content-Type: text/plain; charset="UTF-8"
+Cc: Francesco Dolcini <francesco@dolcini.it>, Neeraj Sanjay Kale
+ <neeraj.sanjaykale@nxp.com>, =?UTF-8?B?VGFtw6FzIFN6xbFjcw==?=
+ <tszucs@protonmail.ch>, "linux-firmware@kernel.org"
+ <linux-firmware@kernel.org>, "briannorris@chromium.org"
+ <briannorris@chromium.org>, "linux-wireless@vger.kernel.org"
+ <linux-wireless@vger.kernel.org>, "lukas@wunner.de" <lukas@wunner.de>
+Subject: Re: [EXT] Re: mwifiex firmware mrvl/sd8987_uapsta.bin missing in
+ the firmware git
+Message-ID: <20241116224127.63efde40@akair>
+In-Reply-To: <PA4PR04MB96381A69AD86ED9C9E4AD9CDD1CD2@PA4PR04MB9638.eurprd04.prod.outlook.com>
+References: <20240605160013.6bea8d4d@aktux>
+	<_pNnwoI9WHlb2EY635KdIv6t_goU-ZYp9Vav31jkFOCf9fCE9EeKdyCea2m-L8pgfsKIQvODlnQLhQqmWSYip9e6FFZwaJHL5-u5rdOS_kY=@protonmail.ch>
+	<20240605174709.5043af8f@akair>
+	<20240606101839.GA76158@francesco-nb>
+	<PA4PR04MB9638D1FD47BFBFDDB096C778D1C02@PA4PR04MB9638.eurprd04.prod.outlook.com>
+	<ZmlEny2W0nArOf1T@gaggiata.pivistrello.it>
+	<PA4PR04MB96381A69AD86ED9C9E4AD9CDD1CD2@PA4PR04MB9638.eurprd04.prod.outlook.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 14 Nov 2024 at 13:05, Vikash Garodia <quic_vgarodia@quicinc.com> wrote:
->
->
-> On 11/14/2024 4:16 PM, Dmitry Baryshkov wrote:
-> > On Thu, Nov 14, 2024 at 09:06:55AM +0530, Vikash Garodia wrote:
-> >>
-> >> On 11/13/2024 8:10 PM, Dmitry Baryshkov wrote:
-> >>> On Wed, Nov 13, 2024 at 10:50:44AM +0000, Renjiang Han (QUIC) wrote:
-> >>>> Hello
-> >>>>
-> >>>> The following changes since commit 6482750d396980a31f76edd5a84b03a96bbdf3fe:
-> >>>>
-> >>>>   Merge branch 'verb' into 'main' (2024-11-11 20:01:00 +0000)
-> >>>>
-> >>>> are available in the Git repository at:
-> >>>>
-> >>>>   git@git.codelinaro.org:clo/linux-kernel/linux-firmware.git<mailto:git@git.codelinaro.org:clo/linux-kernel/linux-firmware.git> video-firmware-qcs615
-> >>>>
-> >>>> for you to fetch changes up to 1e7f65883150d3b48307b4f0d6871c60151ee25b:
-> >>>>
-> >>>>   qcom: venus-5.4: add venus firmware file for qcs615 (2024-11-13 15:50:29 +0530)
-> >>>>
-> >>>> ----------------------------------------------------------------
-> >>>> Renjiang Han (1):
-> >>>>       qcom: venus-5.4: add venus firmware file for qcs615
-> >>>>
-> >>>> WHENCE                      |   1 +
-> >>>
-> >>> Could you please be more specific, what is the difference between the
-> >>> existing file and a new file? According to the soc_vers the new file
-> >>> supports sdm845. Should it instead replace the old firmware?
-> >> SDM845, SC7180, qcs615 can be enabled on same firmware ideally, but due to a
-> >> different signing for qcs615, it takes a separate bin (xxx_s6.mbn).
+Hi,
+
+Am Mon, 17 Jun 2024 02:13:22 +0000
+schrieb David Lin <yu-hao.lin@nxp.com>:
+
+> > From: Francesco Dolcini <francesco@dolcini.it>
+> > Sent: Wednesday, June 12, 2024 2:48 PM
+> > To: David Lin <yu-hao.lin@nxp.com>
+> > Cc: Francesco Dolcini <francesco@dolcini.it>; Andreas Kemnade
+> > <andreas@kemnade.info>; Neeraj Sanjay Kale <neeraj.sanjaykale@nxp.com>;
+> > Tam=C3=A1s Sz=C5=B1cs <tszucs@protonmail.ch>; linux-firmware@kernel.org;
+> > briannorris@chromium.org; linux-wireless@vger.kernel.org; lukas@wunner.=
+de
+> > Subject: Re: [EXT] Re: mwifiex firmware mrvl/sd8987_uapsta.bin missing =
+in the
+> > firmware git
 > >
-> > Can SDM845 handle v6 signatures? It supports v5 and PSS. Or can QCS615
-> > use v5 signatures?
-> Infact we started with loading sc7180 firmware on qc615, video init failed. So
-> far i have seen 2 categories in signing version for video bins, either default
-> or v6 specific tool.
-
-Can firmware / security engineers actually advice us on using v5
-firmware signatures with QCS615 _and_ with older platforms?
-Existing venus-5.4/venus.mbn uses v3
-
->
-> Regards,
-> Vikash
+> > Caution: This is an external email. Please take care when clicking link=
+s or
+> > opening attachments. When in doubt, report the message using the 'Report
+> > this email' button
 > >
-> >>
-> >> Regards,
-> >> Vikash
-> >>>
-> >>>> qcom/venus-5.4/venus_s6.mbn | Bin 0 -> 922240 bytes
-> >>>> 2 files changed, 1 insertion(+)
-> >>>> create mode 100644 qcom/venus-5.4/venus_s6.mbn
-> >>>>
-> >>>> Best Regards,
-> >>>> Renjiang
-> >>>
 > >
+> > Hello David,
+> >
+> > On Wed, Jun 12, 2024 at 02:17:46AM +0000, David Lin wrote: =20
+> > > > From: Francesco Dolcini <francesco@dolcini.it> On Wed, Jun 05, 2024
+> > > > at 05:47:09PM +0200, Andreas Kemnade wrote: =20
+> > > > > But that is all legalese and I am not a lawyer... Best is of
+> > > > > course something officially added from NXP. No idea if it can be
+> > > > > done otherwise. How to make NXP add something? =20
+> > > >
+> > > > Would it be possible for you to get these firmware files added to
+> > > > the official linux-firmware git repo?
+> > > >
+> > > > I am not using sd8987 myself, from what I read in the thread
+> > > > probably some file name would need to be corrected (I would say in =
+the =20
+> > mwifiex driver). =20
+> > >
+> > > I am not responsible for firmware release.
+> > > You can get updated firmware from =20
+> > https://github.co/
+> > m%2Fnxp-imx%2Fimx-firmware%2F&data=3D05%7C02%7Cyu-hao.lin%40nxp.co
+> > m%7C10acf638ebf04b0979ed08dc8aab99d5%7C686ea1d3bc2b4c6fa92cd99c5
+> > c301635%7C0%7C0%7C638537716818815780%7CUnknown%7CTWFpbGZsb3d
+> > 8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3
+> > D%7C0%7C%7C%7C&sdata=3DZrU82HbKZ%2Ff87IG2tgInfq7kbyCuV8PcksxvTWiM
+> > HtQ%3D&reserved=3D0.
+> > Yes, I am aware of both, and most of the people in this thread is aware=
+ of the
+> > second.
+> >
+> > I was wondering if you could facilitate within NXP having these firmwar=
+e files
+> > added to the linux firmware git repository, where they should be for va=
+rious
+> > reasons. To whom should I write such a request? Can you help in any way?
+> >
+> > Francesco =20
+>=20
+> I reported this issue just like Neeraj did.
+>=20
+any update on this topic?
 
-
-
--- 
-With best wishes
-Dmitry
+Regards,
+Andreas
