@@ -1,283 +1,472 @@
-Return-Path: <SRS0=olzv=SX=opensource.cirrus.com=prvs=9062e49da0=simont@kernel.org>
+Return-Path: <SRS0=bwEO=SX=intel.com=miriam.rachel.korenblit@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E449AD69102
-	for <linux-firmware@archiver.kernel.org>; Thu, 28 Nov 2024 12:17:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 28EB9D70DE6
+	for <linux-firmware@archiver.kernel.org>; Thu, 28 Nov 2024 17:12:55 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B470FC4CED3; Thu, 28 Nov 2024 12:17:02 +0000 (UTC)
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	id F05CEC4CED2; Thu, 28 Nov 2024 17:12:54 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 0BE4EC4CECE
-	for <linux-firmware@kernel.org>; Thu, 28 Nov 2024 12:16:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 0BE4EC4CECE
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AS91no9015411
-	for <linux-firmware@kernel.org>; Thu, 28 Nov 2024 06:16:53 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:message-id:mime-version:subject:to; s=
-	PODMain02222019; bh=wlIeLSPSRRhmshljc+Ck5Wlofgk3f3CdDmK00T9+VyM=; b=
-	TKpFXeKdDzdM+2u8pv5anVnLMeMyVrDMUMZFc2FNnIXE0ZjL7Y1/r6G/w9nlNZcY
-	m1r8xKQWGNbTuJIbtA7b3pTga1R4XEjizsKfxv+92fUTYUFZgV/TgXgCbyxTV5bC
-	3qChmR4yQUlcFfAd1Wmh5zZjPbXWDHE2D6OvfhIXlWp0EOa8g7R0I0B55jVNrg2W
-	ssK5ORSqa9TlBCkkEd6UoCGpvhpGO3iLqT9vYvpEpCYvWFAgX9bUNTasyr7jIfIb
-	YCpeRF7NuF47bNwv8nLBYgd4sFmgL/g6g2FlQnheaSryT7Y8H+vagUMO5+UNma1R
-	Omps7WvzawlBw5zexTnJoQ==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4366yw9g4s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-firmware@kernel.org>; Thu, 28 Nov 2024 06:16:53 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Thu, 28 Nov
- 2024 12:16:50 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.13 via Frontend Transport; Thu, 28 Nov 2024 12:16:50 +0000
-Received: from EDIN6ZZ2FY3 (EDIN6ZZ2FY3.ad.cirrus.com [198.90.200.127])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id AC532820247;
-	Thu, 28 Nov 2024 12:16:50 +0000 (UTC)
-From: Simon Trimmer <simont@opensource.cirrus.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 42987C4CECE;
+	Thu, 28 Nov 2024 17:12:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 42987C4CECE
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732813973; x=1764349973;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=c0OnVYOj3H6C5K/7sa3ORD2x4zsu0rn4uI0ts7XWhuo=;
+  b=c5V8sa2yL+jMdumgH/gzDadteEHyuZ5MNSFltEBHqMq5vyRtO856bvnp
+   8lKOch+ScX1uMsMDIt68e2BekBQRLnf8oLqxXnITx+lzKWNJCBUw5Q2ff
+   ulh7K3sCZgUwyNPesQx+tHzxqbhoLqLvRbVtg+lgBlJUo/Mj5vz+Lepwq
+   Ui1YM3YBw8/0dQeFtVXPgRCvkKErDIDImiKDD7eZ4BoNkoRZhTOiVP+qK
+   NtbhPqzstlDHUqGBvaEDo7rvwaOGOJTBzQLLHO5/8oWHRgwXqvX6u2S8G
+   amVlYPRC/Gq1hpayhBq4O/QgMtpnSXSDjCaIDN5kyzFDYYRa4TJ/ZHQ2B
+   Q==;
+X-CSE-ConnectionGUID: iI4/IQGaTQ+UL65ZMdol+A==
+X-CSE-MsgGUID: e7HfYAC+T1W18+BlMEaReQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="36721317"
+X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
+   d="scan'208,217";a="36721317"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 09:12:46 -0800
+X-CSE-ConnectionGUID: gNIl3GiSRQyNM59zZyRvfQ==
+X-CSE-MsgGUID: KUtIKYvbRKG96PdA8Z2oaw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
+   d="scan'208,217";a="92164876"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 28 Nov 2024 09:12:46 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 28 Nov 2024 09:12:45 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Thu, 28 Nov 2024 09:12:45 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.170)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Thu, 28 Nov 2024 09:12:45 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wm3G2j88tM4xLSwmjG746x7Bh3lCRsBB+g2CL9Ywn/YYqIJ/IlzUmOkw6o98+meeqZw+bJNxBRw5PZE36E5WQDAvgHkQsRc6c+Fb04NQs0NVctC/cuxl4zNTb81X2i1rEZ0xxrdCwvEokwteOndnk3jIRGzzf70e54VZ65AHoULkpdvOyX3JGVX2LeqbAQcM8H/shNNEM21L2XpHTowccqxn1ByduXEcxiK2e7ZGA1X5BSx6xBEVO+M09eTVHJycZLIZ4uJ9xXVU/XyRMYftZX6HaqA0dBBfUQQdsGWHZlmwlw2qVHKXswJNB03ysVpAu2aYDy1lVPlOV7ST51JbtQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c0OnVYOj3H6C5K/7sa3ORD2x4zsu0rn4uI0ts7XWhuo=;
+ b=LFuqArS64yu+vJ34kW7Aa3VMlMy8yUB4CYTpHF8HUMdi7C9rO5vqbc24OKjFxLVrTy3buyBwmwfY7s51KGh3ZJyI5Lnzncu6ZBeCYEHs18sHvJ+wec0eK+UyW7rvv8Ae09R/DibjAN0j8NaIT40+XysDgrnwLlUKs9yb+3XR3uulV0ZhEgRPEFLZTSFJSqqauy08UcAazbk/NGXFRcDW0tEpL/TOxiwq/sfbdaBxtCewA7XVHU0izsA61qCwuhZiQ17hGlkaUK7cwSkXqUw751E7/HB9uHLHRfZv6amXkLEI85FiMQvxNfYTX26cPxRIGOLqHxAbaB43W/CttOd7+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MW5PR11MB5810.namprd11.prod.outlook.com (2603:10b6:303:192::22)
+ by CY8PR11MB7748.namprd11.prod.outlook.com (2603:10b6:930:87::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.14; Thu, 28 Nov
+ 2024 17:12:39 +0000
+Received: from MW5PR11MB5810.namprd11.prod.outlook.com
+ ([fe80::3a48:8c93:a074:a69b]) by MW5PR11MB5810.namprd11.prod.outlook.com
+ ([fe80::3a48:8c93:a074:a69b%5]) with mapi id 15.20.8182.019; Thu, 28 Nov 2024
+ 17:12:38 +0000
+From: "Korenblit, Miriam Rachel" <miriam.rachel.korenblit@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-CC: <patches@opensource.cirrus.com>
-Subject: [PULL v1 linux-firmware] Add firmware for Cirrus Amps for some Dell laptops
-Date: Thu, 28 Nov 2024 12:16:50 +0000
-Message-ID: <000201db418f$6757d5e0$360781a0$@opensource.cirrus.com>
-MIME-Version: 1.0
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+List-Id: <linux-firmware.lore.kernel.org>
+CC: "kyle@infradead.org" <kyle@infradead.org>, "jwboyer@kernel.org"
+	<jwboyer@kernel.org>, "Hutchings, Ben" <ben@decadent.org.uk>, "Ben Ami,
+ Golan" <golan.ben.ami@intel.com>, "Yang, You-Sheng"
+	<vicamo.yang@canonical.com>, "linux-firmware@kernel.org"
+	<linux-firmware@kernel.org>, "Berg, Johannes" <johannes.berg@intel.com>
+Subject: pull request: iwlwifi firmware updates 2024-11-28
+Thread-Topic: pull request: iwlwifi firmware updates 2024-11-28
+Thread-Index: AdtBuJ2/zdktIz4YTNCRHOTbBLrKUQ==
+Date: Thu, 28 Nov 2024 17:12:38 +0000
+Message-ID: <MW5PR11MB5810EC530D4AEAABD72BEF6FA3292@MW5PR11MB5810.namprd11.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MW5PR11MB5810:EE_|CY8PR11MB7748:EE_
+x-ms-office365-filtering-correlation-id: 34464f73-1f0c-4543-d161-08dd0fcfdc1a
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|8096899003|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?MG1QTHhqR2U1bjd4dGJCRjkzQzRGS1BhUG1yOUpZVXNJVExDczZFRkNvcXdE?=
+ =?utf-8?B?ZEc2Vk5vdE4wSGMyc3RrREk3dkxhYmVod3FaelFnWENocXRjWllhVUlocE9a?=
+ =?utf-8?B?aDh4RTlBSUR5UlhsMTQvOW14RXU0aEZRMjl2N2FRRlBaVkczUU1weTlWbEtZ?=
+ =?utf-8?B?YWJqUGF4ZDN6ZS92TWdKd0pEbzg0eEhOUUFzMnB4K2NpTW5YSE1ZSEZ5UW55?=
+ =?utf-8?B?eE43R1ZTN3pQcmc3RWo0aE9LS3I4Z1UzSjZOQnVwenB5d1UxTzNDTFpJTWVG?=
+ =?utf-8?B?ZHozdGdJak9oUWNjeHliNXlTMmgwYWZjYStaUWxaeG5YVDFsTzlXSlhMWDRs?=
+ =?utf-8?B?YlhwZHNLdzhrdWw3QXlBcDllbENuVFRheXBENllWTi9ydEJpNjN6V0VtYWQ3?=
+ =?utf-8?B?NU5vNnhPYjl3SkRGeTJlLzBrcVdrYnlqNDRpSS95dFlGRGhXdjhnd3JVaTly?=
+ =?utf-8?B?RDBRVUZEbUhnMUJpcnF2LzVvbXlDTzd4QTVtRGovQ2FLNTVXOGFDVklaVkE2?=
+ =?utf-8?B?Zms1dWlNMWpXYU5wWnpHTStHNmMrUUo0Z2RzR3dpcGlSVGF3cXY4VFNGQkRD?=
+ =?utf-8?B?MXhOSm1FWU1PN1lHSXhOdG5EL3VlN0U1Wkk1NVlnamNkMWJLNmozeGp1b3VK?=
+ =?utf-8?B?Y1JTc2dmTGlqYkl2ZzZjcmowU055bzZQb2lXSHE4ZTdYY20zS2QrQzdOMHRm?=
+ =?utf-8?B?Y3FBMHZrcWtZTnlxYkhLSG1LVVIxb255ek1sTlZ3M2MyQm15VGlycG1iTWhD?=
+ =?utf-8?B?Ylp5NCtLU3RISG5CZHJJdW9QWG9mM0pPNEcrcUs3czBhYkhDa292WGQ1UEIv?=
+ =?utf-8?B?d2pmVU9uMFV6ekxSZ3V3RVRKNVIwaXBkR3Vmd2U2RnZXVDBuZVd2dVVlcyts?=
+ =?utf-8?B?aUtxNllLT2hRSFdHZXdhbGF3MXpDQkhmNUdnWkhzcUcwY3JsTmlkYXdNcFdp?=
+ =?utf-8?B?c2xubU55THIxdjVQZlViNlhVL2trK2xvRWUrTnI1WDVHcnIrWHJqb3JjWWpE?=
+ =?utf-8?B?RVNYVmNReEsvK0trRmZwNi85Y0hLT1RieW5rQmk3a3lvTDc0dmlUMzMyM2pr?=
+ =?utf-8?B?dW5TNDZLa1V3bEZGVlRocHM4anQ4T0ZMRFFqY3VTVkVEbEgvV245YXJuSFV3?=
+ =?utf-8?B?VHpZYlpDK2ZqcHdvb1VETVdnRmNRUVVKRTI5OWQyOXV1aDkzTGlVNXRmYWRv?=
+ =?utf-8?B?SzExUmh6Rlhhc1BRenlrTDJFM2Yzb0JmYmRadHNNY21vTWpTekxwaDdDSWtV?=
+ =?utf-8?B?SDFzRzY1YjIvWjRPb1ErVHBsV2FWTzgvTFJMbWlESFQ3bk9oUEF5WjBwQm1C?=
+ =?utf-8?B?OEZ4QWFwQVI5UEh4ZTgvSlVEREVtaGJ4YWJwVjZ6cy9sQmswVGY3T09TQzM5?=
+ =?utf-8?B?THBFUndma3d1YS90M0s0ajRYdCs3SEc2cDFQdnRFa3dPbXJSV0NIQnBHbTA1?=
+ =?utf-8?B?QnV4S0ZjNmV5czFFeUVaTkZMMGc5VVJ1ZTM0VXA0NUZPLytjR1gycVpFeS8v?=
+ =?utf-8?B?MzJQajJpcjZiVGxoanNYZkQ5UllNdndoUmdrR1phYlgzVlBYbUxoR3BCMkMw?=
+ =?utf-8?B?aU9KQVBXZ0RTUWx4a0FtMml4V0FzTTBPZkxIdTVBUnJWeml1UUVoV2VEZkl1?=
+ =?utf-8?B?TDNEaXNPbVJrYkUxbStYM3lGdUF2VDNvc0I3NG5MQU5WY2d0ZkpoWjJkbHE5?=
+ =?utf-8?B?a3lmZ1phemlXakJDbk1HazExQ29hbUhNWi9KN3p5cEd5YnJMalBxUWozTlRE?=
+ =?utf-8?B?VkYyMjlNeUVBWldneURnNFNocmt6aWZodVpZWVFhZ0dDS2loUEZtWHA4ZTNh?=
+ =?utf-8?B?R0x2M0QyR1JTTk1SdVJqeTYwSmdZUU1lekkwek1NTFhBRFdWRDQ2WnZsSmUv?=
+ =?utf-8?B?V2tEM1YxdzFuZTkyMEhrWlJCWldtM2dUbkp5UEIrTW4xRHc9PQ==?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW5PR11MB5810.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(8096899003)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eWRDdnFVNmdkWGpaYnNYbGtTUzhRa0VDdzBpT09yS1l4eWJUZFFhb0dYQTFq?=
+ =?utf-8?B?aWNUeWM5N0xFc2tlYjJDZUowdDRDbHEwM0FIRSs1bS9hK1REU1FLRkVxd1g1?=
+ =?utf-8?B?VUpwOUJUQk1ib3ZwQzdqeEQ0NlF2cDBPSDBsZmhxQUsvYVhtM1JubTZqdkd6?=
+ =?utf-8?B?U3puQjc5ZEFBNkQzM0UrZnZ5c0RWS0hhMnpINS80bEFwNUk2Q3lkSHQvMlZQ?=
+ =?utf-8?B?OFpXTkFETTJzTmh1NlgxLzBYRzBZS3NtTEtTb240NEJGTE82WkZDdzFjSy9K?=
+ =?utf-8?B?Z1JqWU1aRTE1ajl0Zi9CNk43cFhQaFRWcXZjN3I0UVRZNGV0SnRkcS8wWXcv?=
+ =?utf-8?B?ZFFwWVZyc044ZFdONWlraWVSQzdEeVRUcHliUGh6c3grK2Ewa0NrUEt6U1Fh?=
+ =?utf-8?B?NXNCSjhDZEN0Y2NvdTRILzd6Q3pVSWl3dnQxNUJHTHpSSmx4SEpMNlVmQ0Ft?=
+ =?utf-8?B?MWJuUU1FMkkzWDA4WUd0d0VySW4vSFBYaWJkVUFJQ01FVjQzVTZtQmJleUhN?=
+ =?utf-8?B?akdJMVpOWHFNNFRtRlloS0lCRXZ0VkQyZ2Z5V0hwY21Rc1l5Ymhwa3ZTeTJS?=
+ =?utf-8?B?K3RGK1Z1SEM3TXV6RWRLWFNvZzJ1c01QM0U3Q2VMMFQ0UjJ6N3NXU2UwM1kw?=
+ =?utf-8?B?MTdFUTNmWnNGdmhETFc3bmNPUFhUV1JKV2g1MHFqLzEvWVpWRXVMMzFmUXdB?=
+ =?utf-8?B?VE9kTkJnM2ttWUhROC9SQVhlNVlobzNDMzBRMWpuajdGZTREeW1nNUdHTUt4?=
+ =?utf-8?B?MzQzQlJ5ZVcwVzlGTyt1Rk1TTWRNS2hCazF5SmlsZ25qRGhnQURValdSZnI1?=
+ =?utf-8?B?Q0FFcnlpRzhaLzBBeDRheUVDSjdsNVlST0FQNUZWUDErMFY1dlBjTUU5N05F?=
+ =?utf-8?B?amsyRVRCRjVkZHp0SXdaZHVvUEQxZDFpZDZ3TTI4ZE9NN1MrTnloRTU4d2p6?=
+ =?utf-8?B?eVhranFpK3BnZERadENuSXFGZU5pTnhPOW5jZVhnT2dKYkV5Sy9lZ29hNFlI?=
+ =?utf-8?B?OHZlUmtDeU1yK0c3UC9FUnlacld3aTlsendGS2gwVzdGQkNiMjBYZGpOWnBY?=
+ =?utf-8?B?ZlVCaTNhTEJQZGVZb0JLYy9ZYkt4ZHVkd1NiSlpjUFN5R1MrbGpzcDVxaDFt?=
+ =?utf-8?B?Z1pYaXNpQzQxQjd5T2orYkwzL0FPUFNWd2F1YlBMNDVyeERXRTZnRVFxMzBi?=
+ =?utf-8?B?WHJsZnk5QjdQNVc3L0pxT2ZRYjlMakxpMWR4UlhkVFdKZlhMR2pVV05PclFI?=
+ =?utf-8?B?Y2QxdXhDd1FTaEVBblhIWW5wQ3NObW5tWFNuR2QrZlBjQ3gyMm5VTit4aEpt?=
+ =?utf-8?B?S3YvOUNSL2cydFNPYk9tQ3dGK1pYcmZJanhyTTFHSjZ3ZmhkZE9MWTRKeWNB?=
+ =?utf-8?B?RVFGd0JoQjZJVldPL0duWGp4akZaalFEOXR2bXhWaFIzVS95Uk9ydHAxTHJv?=
+ =?utf-8?B?SGc3c0RSREN2TSt0cUsxM0NGaUxrWUpLZy9QT3lxbThaY3IrSmxhVnZKdnpQ?=
+ =?utf-8?B?V0F1RlpJaVQxelVOb3B4MGV2U0lCbXdpUk9XMmJxdy9HaXVXdkJ1bmtUb01M?=
+ =?utf-8?B?T1JKZU13UE55UE5iaThLWWJBZ1doYnVReWh4SW43SzBFZzliMjBQMVJGdFYy?=
+ =?utf-8?B?NEF1YkU3QnptT3BTS1RUYlRhbStCaWZkK1pIeHVhUTVpMDNjUk1oNjZYeXdK?=
+ =?utf-8?B?VjRrVms1Uy9XOWM2Q0dGd00rdzN1QjR5MTJWNTAwSkw1eVBqanBEanFTeDNa?=
+ =?utf-8?B?TFU1L1RiMkpzWHdsZ3dTZFo2RVlxcTNvV3RaSjJpREN3anZDQ0x6TzNFWFFt?=
+ =?utf-8?B?MlpMbHJJNmFOcVpGNUVvQkoybXB5Yjlubzh5Tms5eW1Xbm9EWnM0aW9MTTh6?=
+ =?utf-8?B?dmEzRUdzZW45MVlHUDJZUy9KUFUrYVR1QWYzRVl3QStvWlFEbVJEei9peldF?=
+ =?utf-8?B?azJYOEFOUjdFMXVMVUNOS2Z6cSsxWW9RUHE0QVZLa3ZsU0xTM0E1cU5sc3pD?=
+ =?utf-8?B?MytIb3ZISmtTWkVocVhjZW9PaU5nVnc4QmRWOFJIYitYNENjYlJ2TVl3bVNx?=
+ =?utf-8?B?VUdZTHJXcnMxellIZ2lWam01ZC9HNHJpc203R1ByaWIvVnYrQU85Q3diSmwr?=
+ =?utf-8?B?T2p1eW45RUsyZml1NGpXamlhcXY2amZ6ZmtuYWpQVVhVUTBUSk14WlVmMG54?=
+ =?utf-8?B?Vmc9PQ==?=
 Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0003_01DB418F.67587220"
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AdtBjy2KP22BUNHCSPGx0NHyi0xC9g==
-Content-Language: en-gb
-X-Proofpoint-ORIG-GUID: 4baQhQxVQkNRvweIdzi-4SQ1LfKl_I_O
-X-Proofpoint-GUID: 4baQhQxVQkNRvweIdzi-4SQ1LfKl_I_O
-X-Proofpoint-Spam-Reason: safe
+	boundary="_000_MW5PR11MB5810EC530D4AEAABD72BEF6FA3292MW5PR11MB5810namp_"
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW5PR11MB5810.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 34464f73-1f0c-4543-d161-08dd0fcfdc1a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Nov 2024 17:12:38.1786
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 6oJYlyHkVWuEAj7S2nmShB2PDBkq/UgaaA0lPrpYkZUkoQMRi7y5Wy0h6goPpMhPB00ivOdfhrD/UjmlcNudXYTSijqtJ3dhztD21e5hFz1XPCSpZo0Pop9mQnLVo6Oq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7748
+X-OriginatorOrg: intel.com
 
-------=_NextPart_000_0003_01DB418F.67587220
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+--_000_MW5PR11MB5810EC530D4AEAABD72BEF6FA3292MW5PR11MB5810namp_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Hi,
+SGksDQoNClRoaXMgY29udGFpbnMgc29tZSBuZXcgZmlybXdhcmVzIGZvciBCei1nZiBkZXZpY2Uu
+DQoNClBsZWFzZSBwdWxsIG9yIGxldCBtZSBrbm93IGlmIHRoZXJlIGFyZSBhbnkgaXNzdWVzLg0K
+DQotLQ0KVGhhbmtzLA0KTWlyaQ0KDQpUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2luY2UgY29tbWl0
+IDdjMzAzMWMxOGFiODUxNzkyYzQ5ZjU5NGE0ZDQzMjAwZDU1YTc5NDM6DQoNCiAgTWVyZ2UgYnJh
+bmNoICdyb2JvdC9wci0wLTE3MzI2MzQ3OTYnIGludG8gJ21haW4nICgyMDI0LTExLTI2IDE2OjEy
+OjE5ICswMDAwKQ0KDQphcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3NpdG9yeSBhdDoNCg0K
+ICBodHRwOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2l3bHdpZmkv
+bGludXgtZmlybXdhcmUuZ2l0IHRhZ3MvaXdsd2lmaS1mdy0yMDI0LTExLTI4DQoNCmZvciB5b3Ug
+dG8gZmV0Y2ggY2hhbmdlcyB1cCB0byA0MmIwMWQ0OTY4OWM3NTQ0MzhjN2I5YzMyYWFkZmE3MjJk
+YTk4NDI5Og0KDQogIGl3bHdpZmk6IGFkZCBCei1nZiBGVyBmb3IgY29yZTg5LTkxIHJlbGVhc2Ug
+KDIwMjQtMTEtMjggMTk6MDg6MjEgKzAyMDApDQoNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCmNvcmU4OSBiei1nZg0KDQot
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tDQpNaXJpIEtvcmVuYmxpdCAoMSk6DQogICAgICBpd2x3aWZpOiBhZGQgQnotZ2YgRlcg
+Zm9yIGNvcmU4OS05MSByZWxlYXNlDQoNCiBXSEVOQ0UgICAgICAgICAgICAgICAgICAgICAgIHwg
+ICAzICsrKw0KIGl3bHdpZmktYnotYjAtZ2YtYTAtOTIudWNvZGUgfCBCaW4gMCAtPiAxNzU3Mzky
+IGJ5dGVzDQogaXdsd2lmaS1iei1iMC1nZi1hMC5wbnZtICAgICB8IEJpbiA1NTE5MiAtPiA1NTE5
+MiBieXRlcw0KIDMgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspDQogY3JlYXRlIG1vZGUg
+MTAwNjQ0IGl3bHdpZmktYnotYjAtZ2YtYTAtOTIudWNvZGUNCg==
 
-We'd like to add the firmware for the Cirrus CS35L56 smart amplifier for
-some Dell Laptops.
+--_000_MW5PR11MB5810EC530D4AEAABD72BEF6FA3292MW5PR11MB5810namp_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Thanks,
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkFwdG9zO30NCi8qIFN0eWxlIERlZmluaXRpb25zICovDQpwLk1z
+b05vcm1hbCwgbGkuTXNvTm9ybWFsLCBkaXYuTXNvTm9ybWFsDQoJe21hcmdpbjowY207DQoJZm9u
+dC1zaXplOjExLjBwdDsNCglmb250LWZhbWlseToiQXB0b3MiLHNhbnMtc2VyaWY7DQoJbXNvLWxp
+Z2F0dXJlczpzdGFuZGFyZGNvbnRleHR1YWw7DQoJbXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVM7
+fQ0KYTpsaW5rLCBzcGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJ
+Y29sb3I6IzQ2Nzg4NjsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnNwYW4uRW1haWxT
+dHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLWNvbXBvc2U7DQoJZm9udC1mYW1pbHk6
+IkFwdG9zIixzYW5zLXNlcmlmOw0KCWNvbG9yOndpbmRvd3RleHQ7fQ0KLk1zb0NocERlZmF1bHQN
+Cgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1zaXplOjExLjBwdDsNCgltc28t
+ZmFyZWFzdC1sYW5ndWFnZTpFTi1VUzt9DQpAcGFnZSBXb3JkU2VjdGlvbjENCgl7c2l6ZTo2MTIu
+MHB0IDc5Mi4wcHQ7DQoJbWFyZ2luOjcyLjBwdCA3Mi4wcHQgNzIuMHB0IDcyLjBwdDt9DQpkaXYu
+V29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBn
+dGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIx
+MDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpz
+aGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIg
+Lz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxh
+bmc9ImVuLUlMIiBsaW5rPSIjNDY3ODg2IiB2bGluaz0iIzk2NjA3RCIgc3R5bGU9IndvcmQtd3Jh
+cDpicmVhay13b3JkIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj48c3BhbiBsYW5nPSJlbi1JTCI+SGksPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iZW4tSUwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9z
+cGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9ImVuLUlMIj5UaGlzIGNv
+bnRhaW5zIHNvbWUgbmV3IGZpcm13YXJlcyBmb3IgQnotZ2YgZGV2aWNlLjxvOnA+PC9vOnA+PC9z
+cGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9ImVuLUlMIj48bzpwPiZu
+YnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJl
+bi1JTCI+UGxlYXNlIHB1bGwgb3IgbGV0IG1lIGtub3cgaWYgdGhlcmUgYXJlIGFueSBpc3N1ZXMu
+PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0i
+ZW4tSUwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PjxzcGFuIGxhbmc9ImVuLUlMIj4tLTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPjxzcGFuIGxhbmc9ImVuLUlMIj5UaGFua3MsPG86cD48L286cD48L3NwYW4+PC9w
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iZW4tSUwiPk1pcmk8bzpwPjwvbzpw
+Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJlbi1JTCI+PG86
+cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFu
+Zz0iZW4tSUwiPlRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21taXQgN2MzMDMxYzE4YWI4
+NTE3OTJjNDlmNTk0YTRkNDMyMDBkNTVhNzk0MzombmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsNCjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
+cGFuIGxhbmc9ImVuLUlMIj4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDs8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5n
+PSJlbi1JTCI+Jm5ic3A7Jm5ic3A7TWVyZ2UgYnJhbmNoICdyb2JvdC9wci0wLTE3MzI2MzQ3OTYn
+IGludG8gJ21haW4nICgyMDI0LTExLTI2IDE2OjEyOjE5ICswMDAwKSZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOw0KPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
+YW4gbGFuZz0iZW4tSUwiPiZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9
+ImVuLUlMIj5hcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3NpdG9yeSBhdDombmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsNCjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPjxzcGFuIGxhbmc9ImVuLUlMIj4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDs8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij48c3BhbiBsYW5nPSJlbi1JTCI+Jm5ic3A7Jm5ic3A7PGEgaHJlZj0iaHR0cDovL2dpdC5rZXJu
+ZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9pd2x3aWZpL2xpbnV4LWZpcm13YXJlLmdp
+dCI+aHR0cDovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9pd2x3aWZp
+L2xpbnV4LWZpcm13YXJlLmdpdDwvYT4gdGFncy9pd2x3aWZpLWZ3LTIwMjQtMTEtMjg8bzpwPjwv
+bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJlbi1JTCI+
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7DQo8bzpwPjwvbzpwPjwvc3Bhbj48
+L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJlbi1JTCI+Zm9yIHlvdSB0byBm
+ZXRjaCBjaGFuZ2VzIHVwIHRvIDQyYjAxZDQ5Njg5Yzc1NDQzOGM3YjljMzJhYWRmYTcyMmRhOTg0
+Mjk6Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7DQo8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
+biBsYW5nPSJlbi1JTCI+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0i
+ZW4tSUwiPiZuYnNwOyZuYnNwO2l3bHdpZmk6IGFkZCBCei1nZiBGVyBmb3IgY29yZTg5LTkxIHJl
+bGVhc2UgKDIwMjQtMTEtMjggMTk6MDg6MjEgKzAyMDApJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7DQo8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJlbi1JTCI+Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iZW4tSUwiPi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0mbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsNCjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9ImVuLUlMIj5jb3JlODkgYnotZ2YmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsNCjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPjxzcGFuIGxhbmc9ImVuLUlMIj4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDs8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+c3BhbiBsYW5nPSJlbi1JTCI+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOw0KPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PHNwYW4gbGFuZz0iZW4tSUwiPk1pcmkgS29yZW5ibGl0ICgxKTombmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsNCjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9ImVuLUlMIj4mbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDtpd2x3aWZpOiBhZGQgQnotZ2YgRlcgZm9yIGNvcmU4OS05MSByZWxlYXNl
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7DQo8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJlbi1JTCI+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PHNwYW4gbGFuZz0iZW4tSUwiPiZuYnNwO1dIRU5DRSZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyB8Jm5ic3A7Jm5ic3A7IDMgKysrJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7DQo8bzpw
+PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJlbi1J
+TCI+Jm5ic3A7aXdsd2lmaS1iei1iMC1nZi1hMC05Mi51Y29kZSB8IEJpbiAwIC0mZ3Q7IDE3NTcz
+OTIgYnl0ZXMmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsNCjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
+IGxhbmc9ImVuLUlMIj4mbmJzcDtpd2x3aWZpLWJ6LWIwLWdmLWEwLnBudm0mbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsgfCBCaW4gNTUxOTIgLSZndDsgNTUxOTIgYnl0ZXMmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsNCjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9ImVuLUlMIj4mbmJzcDszIGZpbGVzIGNoYW5nZWQs
+IDMgaW5zZXJ0aW9ucygrKSZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOw0KPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iZW4tSUwiPiZuYnNwO2NyZWF0ZSBtb2RlIDEwMDY0
+NCBpd2x3aWZpLWJ6LWIwLWdmLWEwLTkyLnVjb2RlJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7DQo8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4N
+Cg==
 
--Simon
-
- 
-
-The following changes since commit 7c3031c18ab851792c49f594a4d43200d55a7943:
-
- 
-
-  Merge branch 'robot/pr-0-1732634796' into 'main' (2024-11-26 16:12:19
-+0000)
-
- 
-
-are available in the Git repository at:
-
- 
-
-  https://github.com/CirrusLogic/linux-firmware/ cs35l56-20241128
-
- 
-
-for you to fetch changes up to 741a828989a0356de48401d2f88b5eaeed6948c7:
-
- 
-
-  cirrus: cs35l56: Add firmware for Cirrus CS35L56 for various Dell laptops
-(2024-11-28 12:06:35 +0000)
-
- 
-
-----------------------------------------------------------------
-
-Simon Trimmer (1):
-
-      cirrus: cs35l56: Add firmware for Cirrus CS35L56 for various Dell
-laptops
-
- 
-
-WHENCE                                               |  13 +++++++++++++
-
-cirrus/cs35l56-b0-dsp1-misc-10280d12-spkid0-amp1.bin | Bin 0 -> 11532 bytes
-
-cirrus/cs35l56-b0-dsp1-misc-10280d12-spkid0-amp2.bin | Bin 0 -> 11532 bytes
-
-cirrus/cs35l56-b0-dsp1-misc-10280d12-spkid1-amp1.bin | Bin 0 -> 11532 bytes
-
-cirrus/cs35l56-b0-dsp1-misc-10280d12-spkid1-amp2.bin | Bin 0 -> 11532 bytes
-
-cirrus/cs35l56-b0-dsp1-misc-10280d13-spkid0-amp1.bin | Bin 0 -> 11532 bytes
-
-cirrus/cs35l56-b0-dsp1-misc-10280d13-spkid0-amp2.bin | Bin 0 -> 11532 bytes
-
-cirrus/cs35l56-b0-dsp1-misc-10280d13-spkid1-amp1.bin | Bin 0 -> 11532 bytes
-
-cirrus/cs35l56-b0-dsp1-misc-10280d13-spkid1-amp2.bin | Bin 0 -> 11532 bytes
-
-cirrus/cs35l56/CS35L56_Rev3.11.27.wmfw               | Bin 0 -> 34964 bytes
-
-10 files changed, 13 insertions(+)
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d12-spkid0-amp1.bin
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d12-spkid0-amp2.bin
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d12-spkid1-amp1.bin
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d12-spkid1-amp2.bin
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d13-spkid0-amp1.bin
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d13-spkid0-amp2.bin
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d13-spkid1-amp1.bin
-
-create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d13-spkid1-amp2.bin
-
-create mode 100644 cirrus/cs35l56/CS35L56_Rev3.11.27.wmfw
-
-
-------=_NextPart_000_0003_01DB418F.67587220
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:dt=3D"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><META =
-HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Aptos;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	font-size:11.0pt;
-	font-family:"Aptos",sans-serif;
-	mso-ligatures:standardcontextual;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#467886;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Aptos",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:11.0pt;}
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#467886" vlink=3D"#96607D" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal><span =
-lang=3DEN-GB>Hi,<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB>We&#8217;d like to add the firmware for the Cirrus CS35L56 =
-smart amplifier for some Dell Laptops.<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB>Thanks,<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB>-Simon<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB><o:p>&nbsp;</o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB>The following changes since commit =
-7c3031c18ab851792c49f594a4d43200d55a7943:<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB><o:p>&nbsp;</o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB>&nbsp; Merge branch =
-'robot/pr-0-1732634796' into 'main' (2024-11-26 16:12:19 =
-+0000)<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB>are available in the Git repository =
-at:<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB>&nbsp; <a =
-href=3D"https://github.com/CirrusLogic/linux-firmware/">https://github.co=
-m/CirrusLogic/linux-firmware/</a> =
-cs35l56-20241128<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB>for you to fetch changes up to =
-741a828989a0356de48401d2f88b5eaeed6948c7:<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB><o:p>&nbsp;</o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB>&nbsp; cirrus: cs35l56: Add =
-firmware for Cirrus CS35L56 for various Dell laptops (2024-11-28 =
-12:06:35 +0000)<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB>------------------------------------------------------------=
-----<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB>Simon =
-Trimmer (1):<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cirrus: cs35l56: Add =
-firmware for Cirrus CS35L56 for various Dell =
-laptops<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB> =
-WHENCE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; =
-13 +++++++++++++<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB> cirrus/cs35l56-b0-dsp1-misc-10280d12-spkid0-amp1.bin | Bin =
-0 -&gt; 11532 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB> cirrus/cs35l56-b0-dsp1-misc-10280d12-spkid0-amp2.bin | Bin =
-0 -&gt; 11532 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB> cirrus/cs35l56-b0-dsp1-misc-10280d12-spkid1-amp1.bin | Bin =
-0 -&gt; 11532 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB> cirrus/cs35l56-b0-dsp1-misc-10280d12-spkid1-amp2.bin | Bin =
-0 -&gt; 11532 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB> cirrus/cs35l56-b0-dsp1-misc-10280d13-spkid0-amp1.bin | Bin =
-0 -&gt; 11532 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB> cirrus/cs35l56-b0-dsp1-misc-10280d13-spkid0-amp2.bin | Bin =
-0 -&gt; 11532 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB> cirrus/cs35l56-b0-dsp1-misc-10280d13-spkid1-amp1.bin | Bin =
-0 -&gt; 11532 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB> cirrus/cs35l56-b0-dsp1-misc-10280d13-spkid1-amp2.bin | Bin =
-0 -&gt; 11532 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB> =
-cirrus/cs35l56/CS35L56_Rev3.11.27.wmfw&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Bin 0 -&gt; 34964 =
-bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB> 10 =
-files changed, 13 insertions(+)<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280d12-spkid0-amp1.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280d12-spkid0-amp2.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280d12-spkid1-amp1.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280d12-spkid1-amp2.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280d13-spkid0-amp1.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280d13-spkid0-amp2.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280d13-spkid1-amp1.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB> create mode 100644 =
-cirrus/cs35l56-b0-dsp1-misc-10280d13-spkid1-amp2.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB> create mode 100644 =
-cirrus/cs35l56/CS35L56_Rev3.11.27.wmfw<o:p></o:p></span></p></div></body>=
-</html>
-------=_NextPart_000_0003_01DB418F.67587220--
+--_000_MW5PR11MB5810EC530D4AEAABD72BEF6FA3292MW5PR11MB5810namp_--
