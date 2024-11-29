@@ -1,185 +1,198 @@
-Return-Path: <SRS0=Mr/M=SX=intel.com=golan.ben.ami@kernel.org>
+Return-Path: <SRS0=iedI=SY=intel.com=kuan-chen.chen@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CD1EDD70DE7
-	for <linux-firmware@archiver.kernel.org>; Thu, 28 Nov 2024 17:21:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA862D70E03
+	for <linux-firmware@archiver.kernel.org>; Fri, 29 Nov 2024 01:28:31 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B2C1BC4CED3; Thu, 28 Nov 2024 17:21:01 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	id 61E41C4CED2; Fri, 29 Nov 2024 01:28:31 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 74E7FC4CECE;
-	Thu, 28 Nov 2024 17:20:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 74E7FC4CECE
+	by smtp.kernel.org (Postfix) with ESMTPS id 7E230C4CECE;
+	Fri, 29 Nov 2024 01:28:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 7E230C4CECE
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732814460; x=1764350460;
+  t=1732843709; x=1764379709;
   h=from:to:cc:subject:date:message-id:references:
    in-reply-to:mime-version;
-  bh=C1YGuaV2g1VFWnyOR9mNw/omlqicdFWSrfpXq3IRwZw=;
-  b=n1JMg9RV5mL+e5LH8+T758cwS02/5a829Sd3S07bdBo9ldg4WSB/3Umd
-   fOEmQO7TranirsRE1pO4vhn080YcJPGLGp8ScadxOb8cflfDU9jBWsoKm
-   CcOzlqTY1Rhm03yRWMZc9U5Ww5QVLCsl7c47aBvHFTe9InUrOYUm+Ysxp
-   szfi1mx30sCEP0LW/Urrf7eDyRxrvQMCwjabzhDCd64eYDeFzMB7b0ZYJ
-   3Of6YOfRrlGx5cdUaei2oEvSwG+/BjYlAtf34gM3d8JysqPnGQ3fX1EeQ
-   74XixWGFK7aD8oK6tRfbdc4Bzp9k7WZDyyC6/HIIuZTPxVnelsLNxXmsH
+  bh=JPDmZG+u038mOY9+Ja/Y8x/NweclpmXO50RYr2Dd/gk=;
+  b=GNDum9FT7eLKpwqN8HV0PAgUiZEIF7eCkTlyzAK5JkUmbJkT1SwW/pGz
+   Bpyp4ZU/V7GzU3dkBb1KQ1kWK5kc7mMWPTJ+f/i/VbG8tRj2PAG/KOW8/
+   AXdzcx1o4DW66bQujuk8atoeZq56mUdoUKEdgiwMMiV7c9raaOmxK8vI4
+   E+GjVMqjnyV+IuohtVTTsgFQd+magcW5Ib/NKMU3NS5BddcPAxEc8sWwg
+   bmWYl8WsgzMNgsXpRpj9u0EATsmncFO9czoNTFb6BPswqlve7+we7tF3Z
+   AWKF9YJjh5VBMMKTdH5lSmSLIdSl1FPEcSyWuVSYJpD4sxPA3RHNBMXZV
    w==;
-X-CSE-ConnectionGUID: Ku7R5h82SDCdsZAs4yQKaQ==
-X-CSE-MsgGUID: 2at0gMxIRFCBL0xlzSOAOg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="50456005"
-X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
-   d="scan'208,217";a="50456005"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 09:20:59 -0800
-X-CSE-ConnectionGUID: CbeYytlLRZm9VWs9+BxWyg==
-X-CSE-MsgGUID: PNuvsFvQQf6kNKCYPQZmfQ==
+X-CSE-ConnectionGUID: 0hSIylnUR2uOF9kbEip9Dw==
+X-CSE-MsgGUID: qj2bmhT/SqqR+MDpAioazg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="33133027"
+X-IronPort-AV: E=Sophos;i="6.12,194,1728975600"; 
+   d="scan'208,217";a="33133027"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 17:28:29 -0800
+X-CSE-ConnectionGUID: TkoUrIUlQjORKwaKGuk8jw==
+X-CSE-MsgGUID: brGp3bY3TG+Em5Qs4WXBQA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
-   d="scan'208,217";a="97264883"
+X-IronPort-AV: E=Sophos;i="6.12,194,1728975600"; 
+   d="scan'208,217";a="92819310"
 Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 28 Nov 2024 09:20:59 -0800
+  by fmviesa009.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 28 Nov 2024 17:28:28 -0800
 Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
  fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 28 Nov 2024 09:20:58 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ 15.1.2507.39; Thu, 28 Nov 2024 17:28:28 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
  fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 28 Nov 2024 09:20:58 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.44) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ 15.1.2507.39 via Frontend Transport; Thu, 28 Nov 2024 17:28:28 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.171)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 28 Nov 2024 09:20:57 -0800
+ 15.1.2507.39; Thu, 28 Nov 2024 17:28:27 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hPCDVsAUD5JWV0DH9oJNL2z+ldo1q7EDw0qs1bzIxGWeg39kSPAUGMz+mWqEjg1ml8EN4Tzqg8uf9xDZIN7bSxScoExxUkbGPDE/+Ts8p8CLuZf3vfC4IPLF3ZstfjxF4CYQzAMUh2D3miCpur8AL6lPU23j9s8Aex25q14dxAVp51Z5uOcqth3X6HvV5lLiDPdw6YOPtjA49UGBsJneCW30qHnZnWXejRuBsraeI5Z12sdzAhFZIxdBXF0M2nG7ztaGtTIW4TzPbLsPV5y7d9fYVRe/gwwbc1cjRSU285Ec45PS32V4urY2Fx93sBB1c4hsSxhtvx6WkFj1knyEPQ==
+ b=XqzJS3Ty0K9Sp9wGNCeXTFQ77Z3ioqunODbz9vvr1wNe+DOdON6+j9TDUuTk6cQI9xrVeeIKvrd0SXw3+QfoAf4NfkjnKlKtjczX2V0CSEaZLSUgEUZmjtfwg3FMSvWIzYOXnrdO/Z23RSSE64AoycUEeFApUHf72lty4tOZQClUN3m78GdCqD3VEE0HvVBv2mCtfvLkzBXqUwNWgWPxNlXrtTIJsur36jhhqsI0+3Qyjg1FRVblU8JX7zUKHeanQR3BELzN4q1a29MPORmOX3EZ+8KHz3FqB7B4TQPQZDEQmRODJRwfKQIYyYBlMvjT8tEXhx0XMyw0qXunfXCtyA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2dHT0MxS1ZWe+GbNOPM+kmGk5ofKD2mHIRAPQf0xYyE=;
- b=kQK34C/CRw9DqFkWvzXwS6akSKIXiFLnV9+FKkNOLs1CEc0O806B+B5U1KSuwbBLcW2qyXTGTTQM05WIa3XjQhWvBSuPK7yqemiRhSnCGvUK96e0n52rKB/6Wm4QAsPo+JTFqNELsC7Zk+iAKtX4jo+9mmzsACO/VvAs3CVS86qKL0Is8uyjzOZjMzvm23/3g5PyR0stKLqSew/1nQImlNdAZhbC/L0p6V6QmVcAaKBorW0sSQo3Z4bbou46Fc8EdKY99uwB79N0GbiSuMZMTtSTBt0JTl56YR/jDjK9JCVAOtmdTWi/Ma4AbC0G52DdnalY5uyZprEJNcHviLjw5A==
+ bh=YkmzYkSWMkmygezehz+qpTsjOJbiY7wKLXg5hoq7eKY=;
+ b=v7IDvgBSfya+14NaLxDk6pa2Bt7SY/mKdq0n6umK36X54r7EgF+iO3/E03gbt/4Aw/oga+Q3c21ziB73kY3vLQtcHmOi1JcT1KOs7ssByfWeAS+HjGqn3WKzuj3th/dnRdYMb9Xr6+4m/xy/mdVnqAMJJ33KeiI3SSPe5NRym6382iVp6fgIwPUotSf/WgRDwFG1YQIk0PrOYNAL8J6/ytcYsXcc90lWVeKdm2W/EsCn6AJ0SUADWaVejFp/xCEMm0Na9HnShZZTuwyIcUmb9SaszogNLsoLFCQuE2OCX6gBbOewMZzsyEfLefPb0H/iXqRk1X8makxp1iK0szX8bg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
-Received: from CY8PR11MB6865.namprd11.prod.outlook.com (2603:10b6:930:5f::15)
- by SJ0PR11MB6670.namprd11.prod.outlook.com (2603:10b6:a03:44a::8) with
+Received: from PH0PR11MB5079.namprd11.prod.outlook.com (2603:10b6:510:3d::6)
+ by CO1PR11MB4772.namprd11.prod.outlook.com (2603:10b6:303:97::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.27; Thu, 28 Nov
- 2024 17:20:51 +0000
-Received: from CY8PR11MB6865.namprd11.prod.outlook.com
- ([fe80::3918:9807:8667:3b73]) by CY8PR11MB6865.namprd11.prod.outlook.com
- ([fe80::3918:9807:8667:3b73%4]) with mapi id 15.20.8182.019; Thu, 28 Nov 2024
- 17:20:51 +0000
-From: "Ben Ami, Golan" <golan.ben.ami@intel.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.13; Fri, 29 Nov
+ 2024 01:28:21 +0000
+Received: from PH0PR11MB5079.namprd11.prod.outlook.com
+ ([fe80::d8b2:ef6f:22e5:4a08]) by PH0PR11MB5079.namprd11.prod.outlook.com
+ ([fe80::d8b2:ef6f:22e5:4a08%5]) with mapi id 15.20.8207.014; Fri, 29 Nov 2024
+ 01:28:21 +0000
+From: "Chen, Kuan-chen" <kuan-chen.chen@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: "Korenblit, Miriam Rachel" <miriam.rachel.korenblit@intel.com>,
-	"linux-firmware@kernel.org" <linux-firmware@kernel.org>, "Chen, Kuan-chen"
-	<kuan-chen.chen@intel.com>, "Damary, Guy" <guy.damary@intel.com>
+To: "Ben Ami, Golan" <golan.ben.ami@intel.com>, "Korenblit, Miriam Rachel"
+	<miriam.rachel.korenblit@intel.com>, "linux-firmware@kernel.org"
+	<linux-firmware@kernel.org>, "Damary, Guy" <guy.damary@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
 CC: "kyle@infradead.org" <kyle@infradead.org>, "jwboyer@kernel.org"
 	<jwboyer@kernel.org>, "Hutchings, Ben" <ben@decadent.org.uk>, "Yang,
  You-Sheng" <vicamo.yang@canonical.com>, "linux-firmware@kernel.org"
-	<linux-firmware@kernel.org>, "Berg, Johannes" <johannes.berg@intel.com>
-Subject: Re: pull request: iwlwifi firmware updates 2024-11-28
+	<linux-firmware@kernel.org>, "Berg, Johannes" <johannes.berg@intel.com>,
+	"Chan, Hil-Yee" <walter.chan@intel.com>
+Subject: RE: pull request: iwlwifi firmware updates 2024-11-28
 Thread-Topic: pull request: iwlwifi firmware updates 2024-11-28
-Thread-Index: AdtBuJ2/zdktIz4YTNCRHOTbBLrKUQAATPDW
-Date: Thu, 28 Nov 2024 17:20:51 +0000
-Message-ID: <CY8PR11MB686573E13DDFBDD039779E1BA8292@CY8PR11MB6865.namprd11.prod.outlook.com>
+Thread-Index: AdtBuJ2/zdktIz4YTNCRHOTbBLrKUQAATPDWABEBPwA=
+Date: Fri, 29 Nov 2024 01:28:21 +0000
+Message-ID: <PH0PR11MB5079EC5B12BB9134D9981E87DD2A2@PH0PR11MB5079.namprd11.prod.outlook.com>
 References: <MW5PR11MB5810EC530D4AEAABD72BEF6FA3292@MW5PR11MB5810.namprd11.prod.outlook.com>
-In-Reply-To: <MW5PR11MB5810EC530D4AEAABD72BEF6FA3292@MW5PR11MB5810.namprd11.prod.outlook.com>
+ <CY8PR11MB686573E13DDFBDD039779E1BA8292@CY8PR11MB6865.namprd11.prod.outlook.com>
+In-Reply-To: <CY8PR11MB686573E13DDFBDD039779E1BA8292@CY8PR11MB6865.namprd11.prod.outlook.com>
 Accept-Language: en-US
-Content-Language: en-GB
-X-Mentions: kuan-chen.chen@intel.com,guy.damary@intel.com
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-reactions: allow
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY8PR11MB6865:EE_|SJ0PR11MB6670:EE_
-x-ms-office365-filtering-correlation-id: 77ad9fcf-41c3-4067-8230-08dd0fd101e3
+x-ms-traffictypediagnostic: PH0PR11MB5079:EE_|CO1PR11MB4772:EE_
+x-ms-office365-filtering-correlation-id: 7beea730-124b-4ee0-58c0-08dd10151cac
 x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|10070799003|366016|1800799024|8096899003|7053199007|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?XOeJmO7BKiFcdIQiNwgXgWlisOLeXt4g3Ir0Scpnkh3XdspxXWcOQAErOsXs?=
- =?us-ascii?Q?Ir479Dr4pBBrVqdZNIPxZWZpMpcXh7Ns1/1wM0JraZ8k5BWa+y+r8wv5yOx6?=
- =?us-ascii?Q?NrwmWtH/40yaIZbQVX3D+1MWUWocsWPObLO1+4yyziKBrnXAqzjIUUBv1ReQ?=
- =?us-ascii?Q?cPlzO9FiAxgUBD+2PYR9hbz5P1HaW0EYQ4ZKupmMFPsUpNlWP4wQs8etI2tx?=
- =?us-ascii?Q?GNnfonLncnzDUyJoCKM9namqEx0jzijuD2m/On3vvKRNoq56N7Kyyo1XGmFn?=
- =?us-ascii?Q?vlYtmE04fWjF1zdvOuulhSWPiZYpBHEW8QhqPhk2+DFzzMCSi0zRT4Yjwfkh?=
- =?us-ascii?Q?eyyBWl2AJK6sryzMW9qzVmqNKA+bUFBSPU1E4HQCg783Tld8fpjNWCHKa0AJ?=
- =?us-ascii?Q?DuIlIANppLu2K6BjhXApuLcXa2ScULWErB9/nW4jlytpwywQuF9YO0pccCNw?=
- =?us-ascii?Q?YGp2VZ+6cXqurY+yAB+QfqcsO5VUzZhy88iOR0XublvFWEW/p0/O8PXvVPvx?=
- =?us-ascii?Q?5k9yUf479tRn3LW+PCSWTLJBzYhbBeWMoZwP+yistTdfRxAL+YcHtLe1UGJf?=
- =?us-ascii?Q?26Z+X819y6iQAYxuZV2XV4Z1nq3qVDXioK4dRBpGmplMCx9q/GiH65JuYWxT?=
- =?us-ascii?Q?B47wuAz3Go6ZHSCppn0GnuHyCKFNQfG8ihP8nXaVXkY+/GPK5mHqTnAtqe6F?=
- =?us-ascii?Q?8rdQpYvwn13zqB8xuYCPUNKhDIL2praWPmudgn+Ff4GCrzn6b65HCmbiQB7Y?=
- =?us-ascii?Q?h9anDpsrV6vP+j1h+ZxDNcQSw7RxxkhO8KxbkZd2VQinmv+6oCaPV1Vna9qK?=
- =?us-ascii?Q?cfZPAgheY4tWxeKPMy4HYdqNDZQDEdKtK7xWgpJEDy0JKryp+ccI/EWdzklc?=
- =?us-ascii?Q?JUMAZLce3eWZ5yZU9iOsa3ode3kSiM/ATkMqjprg7Vioqv2tu1SEts8uw942?=
- =?us-ascii?Q?+8pAs7xH+I7WT3hT9h+bKKHr+dQYslbBTbLoCWiqCBjarIzhuOgrRAnO7qCC?=
- =?us-ascii?Q?CW51XA/PNwJIMKueEw9W0s3uZUbBqPajeIVw/jZiYitOciNHI8vndhcygLwF?=
- =?us-ascii?Q?omTU3I8t+iJj6QM0gdvq7CjHY5nvkfEiHuHgUPO4/L7zpPRwle01hC3VJO1x?=
- =?us-ascii?Q?3hNRdbdSqOBQlnPkMnLkGCPsQVq//evlQbLlX+GUgSXeSTK4zkWefzm25Orl?=
- =?us-ascii?Q?SnO3JcrPOIavRF35ewSoSdYqCWObVrtsjddd68z70fLmciJnd17r4/nzs6WM?=
- =?us-ascii?Q?KdXH4/ln3IXy+1qXE67tcd1/kaEfy2wFGqCS8lQDVi/zdZB3YqObhuLscUZm?=
- =?us-ascii?Q?pyfzCOm4+uc0tfDHX1GRNuvQgOvNUGcWc7PwVPlDh66PQ7ZQ/ciQ5+TKGYw5?=
- =?us-ascii?Q?fPameX0RJ1vYHOzxYFJuk0QXiutvkfIxx+O86QHKOv0CCkaZsw=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR11MB6865.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(10070799003)(366016)(1800799024)(8096899003)(7053199007)(38070700018);DIR:OUT;SFP:1101;
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|8096899003|7053199007|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?J+b8A3WQH8bci9mQvhSzkSU1Dcn0IwRHHOfvoXx8k9PcY7RwbYcY/bK9SR6I?=
+ =?us-ascii?Q?r2zRyQEBPYbWY6mv0goyldOG6BPx++phm0sLwHppTNek2JYl9+tnbQayi6nT?=
+ =?us-ascii?Q?K55gZsyd8+EzqgLFj3G+MEoT04i3ie1YR4SAcUobhoJt92EjHUghvBU8hfcm?=
+ =?us-ascii?Q?Dmw3rZeo5+0K/sCO1EhOytsH0gEvL0nNmBdPw+FCbc5XRc0QVF8wWvyy5qI6?=
+ =?us-ascii?Q?TLNNu8kLMeykFSqJXQ6Du5r+SYGhFPhZ/sXsR34NwBp8Idot4tsC0S4XvUVr?=
+ =?us-ascii?Q?yXq8h0d0y4NyPqtKRQxn3esukfjE07QI5KaxYIB16jC9ygZxH54ah3+GgDX8?=
+ =?us-ascii?Q?3pfAso7bU9qWVYhwnoaDOHV/RTA7bEsatlKM5gaZiMz6yO1tVIJyQZERo2HR?=
+ =?us-ascii?Q?AOVrTDxU2G40hGPxVhrYBTZx6tPo/GlFT86Hnf8JglARF5jM+cDjukWHLN1P?=
+ =?us-ascii?Q?QJL0qApjr3p3YkjDyoCo/0ANYs5roGEq45AzTSeZkervtlGOR6UpeugViLtl?=
+ =?us-ascii?Q?Z6AgmWMNGWYYjWsn24hI0Wi86Ppe0ifYs6YahOYeAT7icxCH9GHtPPtwud2M?=
+ =?us-ascii?Q?JQ7U+mdXuc1ZZFhTVkGW2mPZieBsvYx65vW3DndV9W85I0rLsqyQRJH/mSy4?=
+ =?us-ascii?Q?uDrGkrYLt6vcwhq0zRAh25xoM+EJe1nL33iMiIIExul438ASg3/FxYMoyVmj?=
+ =?us-ascii?Q?ProCsgk29iHKnVrbdp5uIjCG/TBUd+ubXfm4tu23KLmIr3XcOW17cVBg1UlE?=
+ =?us-ascii?Q?Ob0Sve5MiegeZD2wg/Gyi7Ah3PyOkEF9SdemDSUYXtXkEeGHA+RQYcrXlwlv?=
+ =?us-ascii?Q?bUowz2STdxW601aXsmdNUCRh2voNhn87BZcNXDtzsdLu4bmEmtMsqBWyfJqD?=
+ =?us-ascii?Q?vcDggLVCQjhnzNRwmhVxKabu30LiE38B1L2brVfAhO6qfVb1l8LmgZPwb1ql?=
+ =?us-ascii?Q?pyI3C32h9BBk2w2tGF3y8/9f9KuyUmH895YUqL22BVZ5P9zG+uInEBCfZ0UK?=
+ =?us-ascii?Q?gMSYNnzDQQidFK2Eoz+gkcYO8m/0u7ByqkefAQ9JxPB+Sm7Mky0i6pvyaXqm?=
+ =?us-ascii?Q?QuYxQ2JWBbXojFxdbiG/1/7hhxCVWsfloWsuPYShP96OaU8gX/3EKVElmk98?=
+ =?us-ascii?Q?D26L7GYGybF8W+9EgtsJpKtWbxfE+wOrVFJtxNk7qXG+ae0iKzr5ELYsShZh?=
+ =?us-ascii?Q?hCUxyXQ1mmgqUANL1vYEkxLeI34CdYg+Zhn0HBTdft3r4g/Gne0Hp1TJ9OFv?=
+ =?us-ascii?Q?DL7IbJtjUzuRzN/CDCIG/mktkQSxe4RM2cEKhbrGjqeSOmllGrT4wTCgrSst?=
+ =?us-ascii?Q?MzDs5xHNbj9rm5xwgkz35JNnAU731a68pyKx/n831SsD0jJXyE8BOiQEMwMX?=
+ =?us-ascii?Q?/ywglc4CEdZgHQ8WFy9fUCuqMYkGsPRThMaInjSRtcnVDZkygg=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5079.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(8096899003)(7053199007)(38070700018);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?c3o2+Tgtaz3rnbj9qn/ZmU+dcDDs4vl9ma7nkgnguCTmuJEjcIa2Fo90j279?=
- =?us-ascii?Q?rX/K8go6v+xcR+aJ7hU1A85u8PlzBm9rLblo+eCCxsKPRE3iUu+t1QUs1/ua?=
- =?us-ascii?Q?jAaRADgJZcNlYvBlNqkRJHG563NwhoQnCF8zzalxX7orCOQpy+zKXZTEIUEO?=
- =?us-ascii?Q?kcKya7ggk/L+89sr6c9aTGGTxLPQwOEsrjw/q/5ZR6Gj/F9Cqq9aiHVoZg9H?=
- =?us-ascii?Q?IgnaH/dz3QheylAb9oeZwdBu/DOGNwry6nB29NpdT1A6to1/v+4JTFKJt7jX?=
- =?us-ascii?Q?K7+usnj8XVjUJm05I8aeKFocvA9wSC08htrj/pf0Np2PSVD2QTwKrkvPR/fR?=
- =?us-ascii?Q?5BPDugGqmwJA2N1bwPvvYvZOFviBUBEZwzGmEh1iQuslWkl3cT5j4QW575lg?=
- =?us-ascii?Q?3RiaQS7coHih1A+BWzLB5i8fN06aN7g0q40MdDa3FjrxnEr8NbVJ2twvjAVJ?=
- =?us-ascii?Q?9Te9VA5jCFlSlRqToxTNaDq5PmykkQ/yX4b/nK5N2vIW++oTy8nwh8XRUSpM?=
- =?us-ascii?Q?7Mkt5k3QhRubXx0riwdV+fELE90FVSNXtE+yr1aM82vz7m6lTx9rHIjU03hw?=
- =?us-ascii?Q?WfurwYMe1s5NaREs3Y6TC2SyUfnmqWdZc6r/wkoqIPectR9yik6esXeBBYui?=
- =?us-ascii?Q?45G8yDmnc0gDjdWgRKAbmkYGQgTK/MG/H2A2s8iD2I9Em0tnWqDy2zqDkosM?=
- =?us-ascii?Q?loKnXGzNskeeu7VkoXDbGu1USA36t+KAdE20jCa/5fn89v7oikEYwJqSAnhg?=
- =?us-ascii?Q?u2/afIsg7NPY1B2HgME1nEuCv39QRYnYs9GOF+K6AroCw6Kvv//2ufcd8S1F?=
- =?us-ascii?Q?ppSlosfzOsVlmNkNzTrG/Lk9+51x46JMauh9BP8MmJsCLJ7GWL/DHAWgZ+QT?=
- =?us-ascii?Q?uSalU8Td4DNAiDmCZtFUz+pFcSPIPxYl0K/BP+ykMXS0gE5MMV065Ag3HSXU?=
- =?us-ascii?Q?tc086uYQfcRLkibyZ3q3rsIVtMHFqM9zM+9WJugzkd3ft2xt++/aPTU01hJY?=
- =?us-ascii?Q?Jd5zW/3Xi37JKqSgoMhRI7laYk609wfMAaV2L09L87UhJqI4mO/IfvQGf58P?=
- =?us-ascii?Q?FKnqGMp1AcRnQfDpR+/VKMvXs18pKv29/lmRpr3ku4YGAY3AISmIKnWdL1iz?=
- =?us-ascii?Q?MPMPLjanHDnXILw+A4KejqTzZ9DKwPELL4MNZya4UAdTIaTzzFEvlVCbRfVU?=
- =?us-ascii?Q?/OB/Rx2gZT/BcvRdrWgr6f/0mnpubsPILqpbEA9DtQ056b2a9bg82i2JIw/l?=
- =?us-ascii?Q?bSdosZRw7MWRChrTMb/Yj0pDntC3S2Thftnb1ylz0FbXIpvfu9MWkdAz+4VT?=
- =?us-ascii?Q?S797RzEtze9YqmFIuMTM7qKDyoYdJLBtxPmAdsz8MzjAwJbeFNeu8lGzYV3T?=
- =?us-ascii?Q?7glg89qac5C3UwXYgxv5zqYe5Ai9rbrrltvzaRV3c180rctemdy6poxZA1DU?=
- =?us-ascii?Q?aN0AuVKgA5B+XnnqTAi2jfcEunFNVxQTG6kdST319eYN774BwflMKn9dsllL?=
- =?us-ascii?Q?OOtc+xDOnnWrPR7DTGfg5SdzEB3oam5qGyw7KkbP1odNfJxesfGspUoq+hKO?=
- =?us-ascii?Q?fE0O8IC+d9ZJbL2S/ZqxBjERnkXiuq0nUz52uvgyCTmkQIrAJVM5d9sGPSOC?=
- =?us-ascii?Q?DV4pMfBYNRDayv3jSfhoqVLc5XguTTTa5uJbR2PBIOJ8Fofu/qm8POOMAQ4r?=
- =?us-ascii?Q?hkzKHA=3D=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?l8bSuP/4PrVnuXCFATXJSnKYmllN0GdaWzv3ODHVA5iIakYe26v17uZXd/Oo?=
+ =?us-ascii?Q?914o5wb5A8ohbiUeUocDNtGNsHBE3dhUvJKZhfSE0CKtPvaC7K75NnhKacrJ?=
+ =?us-ascii?Q?+TJib18cITj6tNwtYeKbwoB6R4AK5nF9zlE8VQ6bCGBATiHips7nj0A4VgrS?=
+ =?us-ascii?Q?FunABW54plN0oggfhOUR5+LcYFxabkfsExbbVgGoBPoOi3Vm6f2jZdeY6z0L?=
+ =?us-ascii?Q?VeCz5K7zb8LGFubobRgqQzfwrJTgChw15s+7IeS5zWSeFN9J/g4IoyHE1aXX?=
+ =?us-ascii?Q?x8KEP61Pr37Zyqmsj7faGcA6eqD5ddn660vdc/3yUUg6UGaJ5GXcMxO9FLDS?=
+ =?us-ascii?Q?95sYrXIKg2Ua8toD01CI5zOTUFGa7muxvMwuLqNnVoLLgzaatofquagSHhrZ?=
+ =?us-ascii?Q?11cuJ/0o8ohQKnYk29LcoeQy3Isl7BsxLJfSeaDfUAY2RQdlO7vxf10sLQGh?=
+ =?us-ascii?Q?raC1GVdNABFQ/Wz8S1fdLVQEn1ozmGkxe+yOgP6s6qeyeAR5UozPyGLk3Hgb?=
+ =?us-ascii?Q?Nq1CxLoiYK08nRZDsXV8cbEHsMF4H0n9ZUZBLn+PuGrV0P0zTZcOuviSFxKl?=
+ =?us-ascii?Q?+AwCRW2nG7/mGYvlweQEJ5fB/wj7ljFnHDplNRhXb27kdOSW6IQ4q6yvhSAK?=
+ =?us-ascii?Q?fbQQNX6QNRokBVcKOYkDjCm271AsJfO7kNtBTDOhCf/kqttJCitfhN1XQeU3?=
+ =?us-ascii?Q?fMIh9GrVSX+a5DrnAbs8eKIphfPeuHZe1k8jbeGrbFxs1d+gyoQWvllVqUJp?=
+ =?us-ascii?Q?re6Jo/Zm4cbNOC/m/au0MaNRJbi0EGXKtsX0NE3qdmsoEwDsi9PJ9pHQWGrv?=
+ =?us-ascii?Q?x2EwIY0wGe8lRaOHshsbaJS8sUp3wISwdknOQl1qkRISOqfdNqFFhiYJKsGf?=
+ =?us-ascii?Q?171Vhhtn9iJR0pYuI5z4U8YeE+Di5bAdfLUMA+QPVUYy/HRfcbo6JLkclY0M?=
+ =?us-ascii?Q?EUOpcAvVTXZsjs18NFoKIyTQTb6YyluK2aekmE8rDGJaXYNXG1S9Z5K9RVTB?=
+ =?us-ascii?Q?6bnOecdPfU3CIzKi7o0xHATgIWDZiiUQujUAQfK7rrv7j2vj0DgwVfSLCxgi?=
+ =?us-ascii?Q?9hS3K/eYNaTsNxoiHspVfR8af6N4BNB+TL+jh9S3IywRoCpk5BRAgyGT0NdW?=
+ =?us-ascii?Q?JpJUqRWbJ+7dv9B46jO0IAQyUbiF8imoEABeXtfJki74NSJmB7Pz+Bd4wJM+?=
+ =?us-ascii?Q?1dC/6+o1DSQUauEmlxIMPRa9cDbDrvMbYvEhmOHOe7/CdIRkCN1koapaqiNn?=
+ =?us-ascii?Q?PECgwJ4Ajw3hI1kgoMmuUli23B7Rrk6D566NUzDGBP14/lk4hEMP8koixSS0?=
+ =?us-ascii?Q?JkBGLJyS2N8oUB33ovTOGUlYtmbyINX12biWOYlMQkaosLnloerAlhH4L7D9?=
+ =?us-ascii?Q?ruYN2won0emm2WnS0JvCc4/zlO8FFuGMHkn/znwSeSgN11QjNSHYZIUhPCUu?=
+ =?us-ascii?Q?D2BucM+atM0uXT9uT44/cskrqjMmGvkMzIWhRRG3bQNpAqIaDhgdEY1yZ3Be?=
+ =?us-ascii?Q?E8eURp/AjTBkpY47hxMvL54HiffiVK3KbErwYwopOO2ZCKNZ9IPrW7ZK1CN6?=
+ =?us-ascii?Q?dLGW8oEjKe7z7hAIPkwYKVA+OwQgvUjpyaA+VMhiWlBam3VOxngW81YkOoNC?=
+ =?us-ascii?Q?ZA=3D=3D?=
 Content-Type: multipart/alternative;
-	boundary="_000_CY8PR11MB686573E13DDFBDD039779E1BA8292CY8PR11MB6865namp_"
+	boundary="_000_PH0PR11MB5079EC5B12BB9134D9981E87DD2A2PH0PR11MB5079namp_"
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY8PR11MB6865.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 77ad9fcf-41c3-4067-8230-08dd0fd101e3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Nov 2024 17:20:51.0196
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5079.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7beea730-124b-4ee0-58c0-08dd10151cac
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Nov 2024 01:28:21.7585
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: FJqhJv+a46Ex3OswvidCfouzz6ys3tlZI1PehBCI0d1iJQJ2qoUlGt54w4Ld6U3QzAvnmwPnLBzwOP/CfPBRtg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB6670
+X-MS-Exchange-CrossTenant-userprincipalname: O97S8exC/tKgodvdus+5vfykkUJIwDvhn8gHDa8XhOWqWS8dw0hJeiBPV9c97coiRm0Dvql9H7vTCyJ7SqjEFQ+FjKXfclBI3/P7oSHeqOc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4772
 X-OriginatorOrg: intel.com
 
---_000_CY8PR11MB686573E13DDFBDD039779E1BA8292CY8PR11MB6865namp_
+--_000_PH0PR11MB5079EC5B12BB9134D9981E87DD2A2PH0PR11MB5079namp_
 Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+Hi Golan and Team,
+Thanks for the support. Will share with customers.
+
+Best regards,
+KC
+From: Ben Ami, Golan <golan.ben.ami@intel.com>
+Sent: Friday, November 29, 2024 1:21 AM
+To: Korenblit, Miriam Rachel <miriam.rachel.korenblit@intel.com>; linux-fir=
+mware@kernel.org; Chen, Kuan-chen <kuan-chen.chen@intel.com>; Damary, Guy <=
+guy.damary@intel.com>
+Cc: kyle@infradead.org; jwboyer@kernel.org; Hutchings, Ben <ben@decadent.or=
+g.uk>; Yang, You-Sheng <vicamo.yang@canonical.com>; linux-firmware@kernel.o=
+rg; Berg, Johannes <johannes.berg@intel.com>
+Subject: Re: pull request: iwlwifi firmware updates 2024-11-28
 
 @Chen, Kuan-chen<mailto:kuan-chen.chen@intel.com>
 @Damary, Guy<mailto:guy.damary@intel.com>
@@ -187,14 +200,20 @@ Content-Transfer-Encoding: quoted-printable
 Thanks,
 Golan
 ________________________________
-From: Korenblit, Miriam Rachel <miriam.rachel.korenblit@intel.com>
+From: Korenblit, Miriam Rachel <miriam.rachel.korenblit@intel.com<mailto:mi=
+riam.rachel.korenblit@intel.com>>
 Sent: Thursday, November 28, 2024 7:12:38 PM
-To: linux-firmware@kernel.org <linux-firmware@kernel.org>
-Cc: kyle@infradead.org <kyle@infradead.org>; jwboyer@kernel.org <jwboyer@ke=
-rnel.org>; Hutchings, Ben <ben@decadent.org.uk>; Ben Ami, Golan <golan.ben.=
-ami@intel.com>; Yang, You-Sheng <vicamo.yang@canonical.com>; linux-firmware=
-@kernel.org <linux-firmware@kernel.org>; Berg, Johannes <johannes.berg@inte=
-l.com>
+To: linux-firmware@kernel.org<mailto:linux-firmware@kernel.org> <linux-firm=
+ware@kernel.org<mailto:linux-firmware@kernel.org>>
+Cc: kyle@infradead.org<mailto:kyle@infradead.org> <kyle@infradead.org<mailt=
+o:kyle@infradead.org>>; jwboyer@kernel.org<mailto:jwboyer@kernel.org> <jwbo=
+yer@kernel.org<mailto:jwboyer@kernel.org>>; Hutchings, Ben <ben@decadent.or=
+g.uk<mailto:ben@decadent.org.uk>>; Ben Ami, Golan <golan.ben.ami@intel.com<=
+mailto:golan.ben.ami@intel.com>>; Yang, You-Sheng <vicamo.yang@canonical.co=
+m<mailto:vicamo.yang@canonical.com>>; linux-firmware@kernel.org<mailto:linu=
+x-firmware@kernel.org> <linux-firmware@kernel.org<mailto:linux-firmware@ker=
+nel.org>>; Berg, Johannes <johannes.berg@intel.com<mailto:johannes.berg@int=
+el.com>>
 Subject: pull request: iwlwifi firmware updates 2024-11-28
 
 
@@ -218,7 +237,8 @@ Miri
 
 
 
-The following changes since commit 7c3031c18ab851792c49f594a4d43200d55a7943:
+The following changes since commit 7c3031c18ab851792c49f594a4d43200d55a7943=
+:
 
 
 
@@ -267,284 +287,365 @@ Miri Korenblit (1):
  3 files changed, 3 insertions(+)
 
  create mode 100644 iwlwifi-bz-b0-gf-a0-92.ucode
----------------------------------------------------------------------
-A member of the Intel Corporation group of companies
 
-This e-mail and any attachments may contain confidential material for
-the sole use of the intended recipient(s). Any review or distribution
-by others is strictly prohibited. If you are not the intended
-recipient, please contact the sender and delete all copies.
-
---_000_CY8PR11MB686573E13DDFBDD039779E1BA8292CY8PR11MB6865namp_
+--_000_PH0PR11MB5079EC5B12BB9134D9981E87DD2A2PH0PR11MB5079namp_
 Content-Type: text/html; charset="us-ascii"
-MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-<html>
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
 <head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii">
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<!--[if !mso]><style>v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style><![endif]--><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:PMingLiU;
+	panose-1:2 2 5 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Aptos;}
+@font-face
+	{font-family:"\@PMingLiU";
+	panose-1:2 1 6 1 0 1 1 1 1 1;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	font-size:12.0pt;
+	font-family:"Aptos",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#467886;
+	text-decoration:underline;}
+p.xmsonormal, li.xmsonormal, div.xmsonormal
+	{mso-style-name:x_msonormal;
+	margin:0cm;
+	font-size:11.0pt;
+	font-family:"Aptos",sans-serif;}
+span.EmailStyle24
+	{mso-style-type:personal-reply;
+	font-family:"Aptos",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;
+	mso-ligatures:none;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
 </head>
-<body>
+<body lang=3D"ZH-TW" link=3D"#467886" vlink=3D"purple" style=3D"word-wrap:b=
+reak-word">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Hi Golan and Team,<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Thanks for the support. Will sh=
+are with customers.
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Best regards,<o:p></o:p></span>=
+</p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">KC<o:p></o:p></span></p>
 <div>
-<div dir=3D"ltr">
-<div dir=3D"ltr"><a rel=3D"noreferrer noopener" id=3D"OWAAM342160" href=3D"=
-mailto:kuan-chen.chen@intel.com">@Chen, Kuan-chen</a></div>
-<div dir=3D"ltr"><a rel=3D"noreferrer noopener" id=3D"OWAAM538213" href=3D"=
-mailto:guy.damary@intel.com">@Damary, Guy</a></div>
+<div style=3D"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0cm =
+0cm 0cm">
+<p class=3D"MsoNormal"><b><span lang=3D"EN-US" style=3D"font-size:11.0pt;fo=
+nt-family:&quot;Calibri&quot;,sans-serif">From:</span></b><span lang=3D"EN-=
+US" style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif"> =
+Ben Ami, Golan &lt;golan.ben.ami@intel.com&gt;
+<br>
+<b>Sent:</b> Friday, November 29, 2024 1:21 AM<br>
+<b>To:</b> Korenblit, Miriam Rachel &lt;miriam.rachel.korenblit@intel.com&g=
+t;; linux-firmware@kernel.org; Chen, Kuan-chen &lt;kuan-chen.chen@intel.com=
+&gt;; Damary, Guy &lt;guy.damary@intel.com&gt;<br>
+<b>Cc:</b> kyle@infradead.org; jwboyer@kernel.org; Hutchings, Ben &lt;ben@d=
+ecadent.org.uk&gt;; Yang, You-Sheng &lt;vicamo.yang@canonical.com&gt;; linu=
+x-firmware@kernel.org; Berg, Johannes &lt;johannes.berg@intel.com&gt;<br>
+<b>Subject:</b> Re: pull request: iwlwifi firmware updates 2024-11-28<o:p><=
+/o:p></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<div>
+<div>
+<div>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><a id=3D"OWAAM342160" href=3D"m=
+ailto:kuan-chen.chen@intel.com"><span style=3D"font-family:&quot;Aptos&quot=
+;,sans-serif;text-decoration:none">@Chen, Kuan-chen</span></a><o:p></o:p></=
+span></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><a id=3D"OWAAM538213" href=3D"m=
+ailto:guy.damary@intel.com"><span style=3D"font-family:&quot;Aptos&quot;,sa=
+ns-serif;text-decoration:none">@Damary, Guy</span></a><o:p></o:p></span></p=
+>
+</div>
 </div>
 </div>
 <div id=3D"ms-outlook-mobile-signature">
-<div><br>
+<div>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
 </div>
-<div dir=3D"ltr">
-<div dir=3D"ltr">Thanks,</div>
-<div dir=3D"ltr">Golan</div>
+<div>
+<div>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Thanks,<o:p></o:p></span></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Golan<o:p></o:p></span></p>
 </div>
 </div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Korenblit, Miriam Rac=
-hel &lt;miriam.rachel.korenblit@intel.com&gt;<br>
+</div>
+<div class=3D"MsoNormal" align=3D"center" style=3D"text-align:center"><span=
+ lang=3D"EN-US">
+<hr size=3D"2" width=3D"98%" align=3D"center">
+</span></div>
+<div id=3D"divRplyFwdMsg">
+<p class=3D"MsoNormal"><b><span lang=3D"EN-US" style=3D"font-size:11.0pt;fo=
+nt-family:&quot;Calibri&quot;,sans-serif;color:black">From:</span></b><span=
+ lang=3D"EN-US" style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,s=
+ans-serif;color:black"> Korenblit, Miriam Rachel &lt;<a href=3D"mailto:miri=
+am.rachel.korenblit@intel.com">miriam.rachel.korenblit@intel.com</a>&gt;<br=
+>
 <b>Sent:</b> Thursday, November 28, 2024 7:12:38 PM<br>
-<b>To:</b> linux-firmware@kernel.org &lt;linux-firmware@kernel.org&gt;<br>
-<b>Cc:</b> kyle@infradead.org &lt;kyle@infradead.org&gt;; jwboyer@kernel.or=
-g &lt;jwboyer@kernel.org&gt;; Hutchings, Ben &lt;ben@decadent.org.uk&gt;; B=
-en Ami, Golan &lt;golan.ben.ami@intel.com&gt;; Yang, You-Sheng &lt;vicamo.y=
-ang@canonical.com&gt;; linux-firmware@kernel.org &lt;linux-firmware@kernel.=
-org&gt;;
- Berg, Johannes &lt;johannes.berg@intel.com&gt;<br>
-<b>Subject:</b> pull request: iwlwifi firmware updates 2024-11-28</font>
-<div>&nbsp;</div>
+<b>To:</b> <a href=3D"mailto:linux-firmware@kernel.org">linux-firmware@kern=
+el.org</a> &lt;<a href=3D"mailto:linux-firmware@kernel.org">linux-firmware@=
+kernel.org</a>&gt;<br>
+<b>Cc:</b> <a href=3D"mailto:kyle@infradead.org">kyle@infradead.org</a> &lt=
+;<a href=3D"mailto:kyle@infradead.org">kyle@infradead.org</a>&gt;;
+<a href=3D"mailto:jwboyer@kernel.org">jwboyer@kernel.org</a> &lt;<a href=3D=
+"mailto:jwboyer@kernel.org">jwboyer@kernel.org</a>&gt;; Hutchings, Ben &lt;=
+<a href=3D"mailto:ben@decadent.org.uk">ben@decadent.org.uk</a>&gt;; Ben Ami=
+, Golan &lt;<a href=3D"mailto:golan.ben.ami@intel.com">golan.ben.ami@intel.=
+com</a>&gt;;
+ Yang, You-Sheng &lt;<a href=3D"mailto:vicamo.yang@canonical.com">vicamo.ya=
+ng@canonical.com</a>&gt;;
+<a href=3D"mailto:linux-firmware@kernel.org">linux-firmware@kernel.org</a> =
+&lt;<a href=3D"mailto:linux-firmware@kernel.org">linux-firmware@kernel.org<=
+/a>&gt;; Berg, Johannes &lt;<a href=3D"mailto:johannes.berg@intel.com">joha=
+nnes.berg@intel.com</a>&gt;<br>
+<b>Subject:</b> pull request: iwlwifi firmware updates 2024-11-28</span><sp=
+an lang=3D"EN-US">
+<o:p></o:p></span></p>
+<div>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;<o:p></o:p></span></p>
 </div>
-<style>
-<!--
-@font-face
-	{font-family:"Cambria Math"}
-@font-face
-	{font-family:Aptos}
-p.x_MsoNormal, li.x_MsoNormal, div.x_MsoNormal
-	{margin:0cm;
-	font-size:11.0pt;
-	font-family:"Aptos",sans-serif}
-a:link, span.x_MsoHyperlink
-	{color:#467886;
-	text-decoration:underline}
-span.x_EmailStyle17
-	{font-family:"Aptos",sans-serif;
-	color:windowtext}
-.x_MsoChpDefault
-	{font-size:11.0pt}
-@page WordSection1
-	{margin:72.0pt 72.0pt 72.0pt 72.0pt}
-div.x_WordSection1
-	{}
--->
-</style>
-<div lang=3D"en-IL" link=3D"#467886" vlink=3D"#96607D" style=3D"word-wrap:b=
-reak-word">
-<div class=3D"x_WordSection1">
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">Hi,</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">&nbsp;</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">This contains some new firmwa=
-res for Bz-gf device.</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">&nbsp;</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">Please pull or let me know if=
- there are any issues.</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">&nbsp;</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">--</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">Thanks,</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">Miri</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">&nbsp;</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">The following changes since c=
-ommit 7c3031c18ab851792c49f594a4d43200d55a7943:&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">&nbsp;&nbsp;Merge branch 'rob=
-ot/pr-0-1732634796' into 'main' (2024-11-26 16:12:19 +0000)&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">are available in the Git repo=
-sitory at:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;
-</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">&nbsp;&nbsp;<a href=3D"http:/=
-/git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.git">http:/=
-/git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.git</a> tag=
-s/iwlwifi-fw-2024-11-28</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">for you to fetch changes up t=
-o 42b01d49689c754438c7b9c32aadfa722da98429:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">&nbsp;&nbsp;iwlwifi: add Bz-g=
-f FW for core89-91 release (2024-11-28 19:08:21 +0200)&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">-----------------------------=
------------------------------------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">core89 bz-gf&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">-----------------------------=
------------------------------------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">Miri Korenblit (1):&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;iwlwifi: add Bz-gf FW for core89-91 release&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">&nbsp;WHENCE&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; 3 +++&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">&nbsp;iwlwifi-bz-b0-gf-a0-92.=
-ucode | Bin 0 -&gt; 1757392 bytes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;
-</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">&nbsp;iwlwifi-bz-b0-gf-a0.pnv=
-m&nbsp;&nbsp;&nbsp;&nbsp; | Bin 55192 -&gt; 55192 bytes&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+</div>
+<div>
+<div>
+<p class=3D"xmsonormal">Hi,<o:p></o:p></p>
+<p class=3D"xmsonormal">&nbsp;<o:p></o:p></p>
+<p class=3D"xmsonormal">This contains some new firmwares for Bz-gf device.<=
+o:p></o:p></p>
+<p class=3D"xmsonormal">&nbsp;<o:p></o:p></p>
+<p class=3D"xmsonormal">Please pull or let me know if there are any issues.=
+<o:p></o:p></p>
+<p class=3D"xmsonormal">&nbsp;<o:p></o:p></p>
+<p class=3D"xmsonormal">--<o:p></o:p></p>
+<p class=3D"xmsonormal">Thanks,<o:p></o:p></p>
+<p class=3D"xmsonormal">Miri<o:p></o:p></p>
+<p class=3D"xmsonormal">&nbsp;<o:p></o:p></p>
+<p class=3D"xmsonormal">The following changes since commit 7c3031c18ab85179=
+2c49f594a4d43200d55a7943:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
 bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
 ;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">&nbsp;3 files changed, 3 inse=
-rtions(+)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+<o:p></o:p></p>
+<p class=3D"xmsonormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
 sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
 sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></p>
-<p class=3D"x_MsoNormal"><span lang=3D"en-IL">&nbsp;create mode 100644 iwlw=
-ifi-bz-b0-gf-a0-92.ucode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<o:p></o:p></p>
+<p class=3D"xmsonormal">&nbsp;&nbsp;Merge branch 'robot/pr-0-1732634796' in=
+to 'main' (2024-11-26 16:12:19 +0000)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;
+<o:p></o:p></p>
+<p class=3D"xmsonormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
 sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
 sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<o:p></o:p></p>
+<p class=3D"xmsonormal">are available in the Git repository at:&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<o:p></o:p></p>
+<p class=3D"xmsonormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<o:p></o:p></p>
+<p class=3D"xmsonormal">&nbsp;&nbsp;<a href=3D"http://git.kernel.org/pub/sc=
+m/linux/kernel/git/iwlwifi/linux-firmware.git">http://git.kernel.org/pub/sc=
+m/linux/kernel/git/iwlwifi/linux-firmware.git</a> tags/iwlwifi-fw-2024-11-2=
+8<o:p></o:p></p>
+<p class=3D"xmsonormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<o:p></o:p></p>
+<p class=3D"xmsonormal">for you to fetch changes up to 42b01d49689c754438c7=
+b9c32aadfa722da98429:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<o:p></o:p></p>
+<p class=3D"xmsonormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<o:p></o:p></p>
+<p class=3D"xmsonormal">&nbsp;&nbsp;iwlwifi: add Bz-gf FW for core89-91 rel=
+ease (2024-11-28 19:08:21 +0200)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<o:p></o:p></p>
+<p class=3D"xmsonormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<o:p></o:p></p>
+<p class=3D"xmsonormal">---------------------------------------------------=
+-------------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;
+<o:p></o:p></p>
+<p class=3D"xmsonormal">core89 bz-gf&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<o:p></o:p></p>
+<p class=3D"xmsonormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<o:p></o:p></p>
+<p class=3D"xmsonormal">---------------------------------------------------=
+-------------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;
+<o:p></o:p></p>
+<p class=3D"xmsonormal">Miri Korenblit (1):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;
+<o:p></o:p></p>
+<p class=3D"xmsonormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iwlwifi: add Bz=
+-gf FW for core89-91 release&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<o:p></o:p></p>
+<p class=3D"xmsonormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<o:p></o:p></p>
+<p class=3D"xmsonormal">&nbsp;WHENCE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; 3 +++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<o:p></o:p></p>
+<p class=3D"xmsonormal">&nbsp;iwlwifi-bz-b0-gf-a0-92.ucode | Bin 0 -&gt; 17=
+57392 bytes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<o:p></o:p></p>
+<p class=3D"xmsonormal">&nbsp;iwlwifi-bz-b0-gf-a0.pnvm&nbsp;&nbsp;&nbsp;&nb=
+sp; | Bin 55192 -&gt; 55192 bytes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;
+<o:p></o:p></p>
+<p class=3D"xmsonormal">&nbsp;3 files changed, 3 insertions(+)&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;
+<o:p></o:p></p>
+<p class=3D"xmsonormal">&nbsp;create mode 100644 iwlwifi-bz-b0-gf-a0-92.uco=
+de&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;
+<o:p></o:p></p>
 </div>
 </div>
-<p>---------------------------------------------------------------------<br>
-A member of the Intel Corporation group of companies</p>
-
-<p>This e-mail and any attachments may contain confidential material for<br>
-the sole use of the intended recipient(s). Any review or distribution<br>
-by others is strictly prohibited. If you are not the intended<br>
-recipient, please contact the sender and delete all copies.</p></body>
+</div>
+</body>
 </html>
 
---_000_CY8PR11MB686573E13DDFBDD039779E1BA8292CY8PR11MB6865namp_--
-
+--_000_PH0PR11MB5079EC5B12BB9134D9981E87DD2A2PH0PR11MB5079namp_--
