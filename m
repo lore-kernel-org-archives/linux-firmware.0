@@ -1,126 +1,170 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=sKH9=SZ=gmail.com=viralabhibusiness@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8CC59D729FD
-	for <linux-firmware@archiver.kernel.org>; Fri, 29 Nov 2024 20:25:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4CFDD735F5
+	for <linux-firmware@archiver.kernel.org>; Sat, 30 Nov 2024 08:01:23 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 78204C4CED9; Fri, 29 Nov 2024 20:25:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D89DC4CED3
-	for <linux-firmware@kernel.org>; Fri, 29 Nov 2024 20:25:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732911902;
-	bh=SEhByLLJSVh0lL8kDYYuSS2ZzqA/rdLiRmFX2cpmZKc=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=QDKXfaJ4LMasLaEvVZwW4Sd9TcglMKW1c5GQ438+RMw9ksyq3g3xxf6Tb0QdSQ0/x
-	 3qutrDnp2meY2+lVu+mVpnGLzZ6EZ2Ur5bQmSJgiSSo4qPQPriGFWpQ8IDfl76fO4c
-	 FBgk7pd61hNtZL6DtlHqG+dFZxOrKoKM+7homG8Z+/X09letKL7SrSZAy14zhuVgKT
-	 Z5zJwmmv3S7XFUZPOGDKtBW6B8x2aeue3rDB1QTCc+Y2KAA2GTo5ukROQIklCF/OJ5
-	 983im1NoER0cbJawSjvDNXhy8LGT0U/D15ksk7OGHlVoDzyGWsxj40+mGPcZ+xA/sg
-	 1edOA0aQEj87g==
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6eeca160f14so24076117b3.2
-        for <linux-firmware@kernel.org>; Fri, 29 Nov 2024 12:25:02 -0800 (PST)
-X-Gm-Message-State: AOJu0YyCHShN+wAIpmbMzCte2NQ34tXXxjNKXmPJAc6J4CVckmgnQZZO
-	xLC4ett7caEiQvVI2R+XlL5lZMFrHJw9g32m8+jsL+JCaFX36DdJbQvFuLLPKXCQnn076zMb4w9
-	V/4N0VRXrCEQqxzYeJotIxO2XtRw=
-X-Google-Smtp-Source: AGHT+IGie085J8NR0/Hi9KMsBQveos1rzEGHeXaeKBZI4mn5UDhu+WRBkAfI0hvOfcnhKk8cdW0OlxkwknSUqRvomNA=
-X-Received: by 2002:a05:690c:5708:b0:6ef:4fba:8140 with SMTP id
- 00721157ae682-6ef4fba84a0mr71033107b3.6.1732911901568; Fri, 29 Nov 2024
- 12:25:01 -0800 (PST)
+	id 9F020C4CED3; Sat, 30 Nov 2024 08:01:23 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id A6713C4CECC
+	for <linux-firmware@kernel.org>; Sat, 30 Nov 2024 08:01:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A6713C4CECC
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-434a736518eso29316575e9.1
+        for <linux-firmware@kernel.org>; Sat, 30 Nov 2024 00:01:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732953681; x=1733558481; darn=kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Jq4Kg51eewlYfgjDtcuCuZbOHVxfvL1nZmif1BSNoKM=;
+        b=TX24x2t8DCoXAWuRLpk2gGtbMtNR0jdr9I96iH4JUt6layvKviV+O4xn3q0XyQRNN6
+         1O10UutaAxHkGCBseUP1hpGdvlhwimj9ypRUTaheYub1M8GTmJ2Dj2rQngb/y/mTtmW3
+         XQDWf/scTdG0A1aktmAfdmYAXMpXCOcVwoLkyopq5jsmmGtxouwgcM8flplm9i475Uf5
+         pGtTuSl/aXsbo5DEe7j4H3+e4VBUPz9gfGy/LhdlIyMDfFbHP+YKGruCb2a0Wcyo2QP3
+         0ldjYUjkCvN1QnTnrX9S+TlDVo7PQSv0tOR1Li7CBUwZ3ZIO97qVcUrqnRZZL0V8A2By
+         GIPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732953681; x=1733558481;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Jq4Kg51eewlYfgjDtcuCuZbOHVxfvL1nZmif1BSNoKM=;
+        b=NHdDH64AVDx65c3WAWjE7WVoy3Q1/UoUvO9qj9uUUTPzOVcd3tYSl0nhxdJ3+pR3WQ
+         FDZ7acb/bv/qDtFCRMdYE2d6r9MrqjO42UTIIQ/QaenyRayePn7DdR0Z/pTubkpVXMjD
+         ug9L8hn9rhRT9MsSHspRInAIfxHz0m5J5GrS+kNFOjBKl51EzhHaNYoQ6Gl3z+hP8AM5
+         Rnmt1RdEfVCKZOMATjIHiONXgNfC8pX0NW37WII7Jtfc6O5fp4Ungm1Znf9TsIv3uFa4
+         tdMowtPKQosknzBj9X9PyWQkJU1HF+3HKDZGd4xQ7r2ekIgCZZ+0ApzJOnjlhnElgbNZ
+         yKGA==
+X-Forwarded-Encrypted: i=1; AJvYcCVFTLwbjS19CmRsEaI02BQ/fIT7BnLRhsT9TCPQLREo18YgDM+EUPM5L9uAnnFuYmptsvJMq2vv5y73p87xkw==@kernel.org
+X-Gm-Message-State: AOJu0YyBeiH/5A3qqPXj3Hl3js1ZkhfUTUkKcmOr1k0cG8/mIEkCGdS5
+	HM9HmJel/bdTlR7/BIsBghX3YiVlFeIbozLT0SddBGQ+cPf55/oEhIXzGmZmWv8nLVCQ6hx9PWk
+	Et4LYznAMCCoPyREqcd19peWB/ec=
+X-Gm-Gg: ASbGncvMbyuKG4OM+F6ei5SeaX0uaEybn4NyZKd8asRK5Mmh9dQ6gAwfET9CuwHer4M
+	96BzyZf5cSGTPtCJLkVWHDspdzh5Rll1O7/hY4Q1r9Uw=
+X-Google-Smtp-Source: AGHT+IFMTGx44QwWqHWiREMVp8erOEuKyy/LitqAOpQzpeBHDQG2DTqN/oukat2KCIoRWK53yWLTQ9cJR35y+Lbm8j4=
+X-Received: by 2002:a05:6000:1a8f:b0:385:e3c2:a47d with SMTP id
+ ffacd0b85a97d-385e3c2a4ebmr1194730f8f.23.1732953680852; Sat, 30 Nov 2024
+ 00:01:20 -0800 (PST)
+Received: from 1008170693301 named unknown by gmailapi.google.com with
+ HTTPREST; Sat, 30 Nov 2024 00:01:20 -0800
 MIME-Version: 1.0
-References: <MW5PR11MB5810EC530D4AEAABD72BEF6FA3292@MW5PR11MB5810.namprd11.prod.outlook.com>
-In-Reply-To: <MW5PR11MB5810EC530D4AEAABD72BEF6FA3292@MW5PR11MB5810.namprd11.prod.outlook.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Fri, 29 Nov 2024 15:24:50 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA6Y5z7LPdZ4C4oFhuGEn8gO=cYZTEMVzJc55RrXPer_XA@mail.gmail.com>
-Message-ID: <CA+5PVA6Y5z7LPdZ4C4oFhuGEn8gO=cYZTEMVzJc55RrXPer_XA@mail.gmail.com>
-Subject: Re: pull request: iwlwifi firmware updates 2024-11-28
-To: "Korenblit, Miriam Rachel" <miriam.rachel.korenblit@intel.com>
+From: Abhishek Raghuwanshi <viralabhibusiness@gmail.com>
+Date: Sat, 30 Nov 2024 00:01:20 -0800
+Message-ID: <CAAaVsR8RvOn=UFggiSRWuuseKYeGjsvxYCbu1hos8+ftJjambQ@mail.gmail.com>
+Subject: Video Editing services
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, "kyle@infradead.org" <kyle@infradead.org>, 
-	"Hutchings, Ben" <ben@decadent.org.uk>, "Ben Ami, Golan" <golan.ben.ami@intel.com>, 
-	"Yang, You-Sheng" <vicamo.yang@canonical.com>, "Berg, Johannes" <johannes.berg@intel.com>
+To: garekarsmd@gmail.com, jstory76@naver.com, eureka_skin@naver.com, 
+	emily@urbanedgebeauty.co.nz, kiran.k@intel.com, linux-firmware@kernel.org, 
+	ravishankar.srivatsa@intel.com
+Content-Type: multipart/alternative; boundary="0000000000008f428d06281cb8aa"
+
+--0000000000008f428d06281cb8aa
 Content-Type: text/plain; charset="UTF-8"
+
+Dear,
+
+I hope this email finds you well.
+
+My name is Abhishek and I'm a skilled video editor with over 4 years of
+experience in crafting captivating visual stories. I specialize in story
+tell and video editing, motion graphics, color grading, sound design, etc.
+
+I'm confident in my ability to transform your raw footage into polished,
+professional videos that will leave a lasting impression on your audience.
+Here's what I can offer:
+
+*Expert Editing*, *Creative Storytelling, High-Quality Visuals,
+Professional Sound Design, Quick Turnaround Times*
+
+I'm eager to discuss your specific video needs and provide a tailored
+solution. Please feel free to reach out to me at *viralabhibusiness@gmail.com
+<viralabhibusiness@gmail.com>* or *+91 7489817338*  to schedule a
+consultation.
+
+If you then I can also provide  my portfolio showcasing some of my recent
+work.
+
+Thank you for your time and consideration.
+
+Best regards,
+
+Abhishek
+
+Company- Editing Babaji
+
+--0000000000008f428d06281cb8aa
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Merged and pushed out.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/380
+<p>Dear,</p>
 
-josh
+<p class=3D"MsoNormal" style=3D"line-height:normal"><span style=3D"font-siz=
+e:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">I hope =
+this email finds you well.</span></p>
 
-On Thu, Nov 28, 2024 at 12:12=E2=80=AFPM Korenblit, Miriam Rachel
-<miriam.rachel.korenblit@intel.com> wrote:
+<p class=3D"MsoNormal" style=3D"line-height:normal"><span style=3D"font-siz=
+e:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">My name=
+ is Abhishek and I&#39;m a
+skilled video editor with over 4 years of experience in crafting captivatin=
+g
+visual stories. I specialize in story tell and video editing, motion graphi=
+cs,
+color grading, sound design, etc.</span></p>
+
+<p class=3D"MsoNormal" style=3D"line-height:normal"><span style=3D"font-siz=
+e:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">I&#39;m=
+ confident in my ability to
+transform your raw footage into polished, professional videos that will lea=
+ve a
+lasting impression on your audience. Here&#39;s what I can offer:</span></p=
 >
-> Hi,
->
->
->
-> This contains some new firmwares for Bz-gf device.
->
->
->
-> Please pull or let me know if there are any issues.
->
->
->
-> --
->
-> Thanks,
->
-> Miri
->
->
->
-> The following changes since commit 7c3031c18ab851792c49f594a4d43200d55a79=
-43:
->
->
->
->   Merge branch 'robot/pr-0-1732634796' into 'main' (2024-11-26 16:12:19 +=
-0000)
->
->
->
-> are available in the Git repository at:
->
->
->
->   http://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.g=
-it tags/iwlwifi-fw-2024-11-28
->
->
->
-> for you to fetch changes up to 42b01d49689c754438c7b9c32aadfa722da98429:
->
->
->
->   iwlwifi: add Bz-gf FW for core89-91 release (2024-11-28 19:08:21 +0200)
->
->
->
-> ----------------------------------------------------------------
->
-> core89 bz-gf
->
->
->
-> ----------------------------------------------------------------
->
-> Miri Korenblit (1):
->
->       iwlwifi: add Bz-gf FW for core89-91 release
->
->
->
->  WHENCE                       |   3 +++
->
->  iwlwifi-bz-b0-gf-a0-92.ucode | Bin 0 -> 1757392 bytes
->
->  iwlwifi-bz-b0-gf-a0.pnvm     | Bin 55192 -> 55192 bytes
->
->  3 files changed, 3 insertions(+)
->
->  create mode 100644 iwlwifi-bz-b0-gf-a0-92.ucode
+
+<p class=3D"MsoNormal" style=3D"line-height:normal"><b><span style=3D"font-=
+size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">Expe=
+rt Editing</span></b><span style=3D"font-size:12.0pt;font-family:&quot;Time=
+s New Roman&quot;,&quot;serif&quot;">, <b>Creative Storytelling, High-Quali=
+ty Visuals,
+Professional Sound Design, Quick Turnaround Times</b></span></p>
+
+<p class=3D"MsoNormal" style=3D"line-height:normal"><span style=3D"font-siz=
+e:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">I&#39;m=
+ eager to discuss your specific
+video needs and provide a tailored solution. Please feel free to reach out =
+to
+me at <b><u><a href=3D"mailto:viralabhibusiness@gmail.com">viralabhibusines=
+s@gmail.com</a></u></b> or <b>+91<u> 7489817338</u></b>
+<span style=3D"mso-spacerun:yes">=C2=A0</span>to schedule a consultation.</=
+span></p>
+
+<p class=3D"MsoNormal" style=3D"line-height:normal"><span style=3D"font-siz=
+e:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">If you =
+then I can also provide <span style=3D"mso-spacerun:yes">=C2=A0</span>my po=
+rtfolio showcasing some of my recent
+work.</span></p>
+
+<p class=3D"MsoNormal" style=3D"line-height:normal"><span style=3D"font-siz=
+e:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">Thank y=
+ou for your time and
+consideration.</span></p>
+
+<p class=3D"MsoNormal" style=3D"line-height:normal"><span style=3D"font-siz=
+e:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">Best re=
+gards,</span></p>
+
+<p class=3D"MsoNormal" style=3D"line-height:normal"><span style=3D"font-siz=
+e:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">Abhishe=
+k </span></p>
+
+<p class=3D"MsoNormal" style=3D"line-height:normal"><span style=3D"font-siz=
+e:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">Company=
+- Editing Babaji</span></p><br>
+
+
+--0000000000008f428d06281cb8aa--
