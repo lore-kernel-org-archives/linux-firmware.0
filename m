@@ -1,108 +1,307 @@
-Return-Path: <SRS0=XLOU=S4=linaro.org=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=n8NH=S4=amd.com=Alexander.Deucher@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82C3CE64A82
-	for <linux-firmware@archiver.kernel.org>; Tue,  3 Dec 2024 11:44:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19444E64AB6
+	for <linux-firmware@archiver.kernel.org>; Tue,  3 Dec 2024 15:25:00 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 534C9C4CED6; Tue,  3 Dec 2024 11:44:32 +0000 (UTC)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id D83E6C4CEDA; Tue,  3 Dec 2024 15:25:00 +0000 (UTC)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2052.outbound.protection.outlook.com [40.107.92.52])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id F226EC4CECF
-	for <linux-firmware@kernel.org>; Tue,  3 Dec 2024 11:44:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org F226EC4CECF
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6ef7c9e9592so32058707b3.1
-        for <linux-firmware@kernel.org>; Tue, 03 Dec 2024 03:44:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733226269; x=1733831069; darn=kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=xqqgHl+63x57bDs4SkHQb48C1LVbibpkZYhxKRVpblU=;
-        b=KL+THS7kZHZHyXD6DzUQly/FmLL8mksOrNxQu+uIINonmpxku4Td4NzBBM0JDQVb60
-         goXLzeHzzPpeoacdfn1IBTY3fegiLmmNh3HUZQVSkpSg1VgdU1/l1X8SIildaSC12yAA
-         7vd1RrWnrHyyxQCPBAP8O13OERfeXl4kQs7w3DylC4lBwmY/0GuaAmmEZtwzxaThALB8
-         IIJJN+rZVN2Z3SvxWXmrn4hMP7NO7rlyKeVrgOy7ZCURCRf6R4Rkk0GgvWhvfd2d30Uc
-         bpDN8YAUySs/ty2JoExR4eF8qJGHXe/VXsn7v1ZKjLe9bB52lZApNRIXkEcgxl1Wv+OV
-         claw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733226269; x=1733831069;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xqqgHl+63x57bDs4SkHQb48C1LVbibpkZYhxKRVpblU=;
-        b=wokmUDMfHU1+Me+mgZiUoTo680aVIRU1zpeLCqfiVJ8VEZ+VatFnu8UrUHB9GTLTfb
-         aygKURrwQLEYjJ+lTc6VW+3QhrrXOyYRCsADsE59kYpSz95YJILoIFRnMf8s+EYo6ZRT
-         ER7SaOFUNJVZCMwIPTdhsgBG//C11F1AlYx5eRmmd74hhWJMONtcs3dROCdu0VOKjqM6
-         nzEwnJwg5UQkOQXTQi2la6kHAeR4NSkwLMGG0BnJGAeJARKvYa733MXD3dg10gT4o94x
-         z7fSP6VfzNOm+WujkQkHxmn+VW/iAptuRCttyagrRHmyH1+IOKg/Whw+IFAzVrLHcT7N
-         xLVQ==
-X-Gm-Message-State: AOJu0YwDp8i1UXR1IRwK+mBmN8oVG1GvFPm+pKSeCnV5ZoFFwD1LCRfL
-	0eQG+zU8XX2LPZuOvDRrj8xuPPEE7sQcpoDZLRyx7wROZ6x2uNXNsfIFp3AxGS2DH//DMXJOL8d
-	A2+JeNNqh7OgzAXN10GypUAOtDnVXECOp9vLzTWbPQM+Vf2Jx
-X-Gm-Gg: ASbGncv/lCI5TbJ/R5kI82G/mpkCMzQupeN+nHBPhfUhXvc4DItALfTNtnXUYnPqULb
-	fsWPI8NgS2p2Iyes0qJw1XViHQpRAgA==
-X-Google-Smtp-Source: AGHT+IHCteqUdDiNNWhelGJiB9W9TOaAZt2OzWJgx83I8bZ84MK6MuES1PxGZrB9Irwbvfi2vsLjnCinSuem48MG6Mo=
-X-Received: by 2002:a05:6902:2292:b0:e38:99df:5406 with SMTP id
- 3f1490d57ef6-e39d43791c4mr1708156276.40.1733226268984; Tue, 03 Dec 2024
- 03:44:28 -0800 (PST)
-MIME-Version: 1.0
-References: <5cb9ed4a-2c4e-4f6a-9277-840c25bc24c6@quicinc.com>
- <cq2po7zw46nryv4lzdopfqv6dut632ax6c4ezcqbrf4w7qsdi3@cedllayr7nlb> <e2c2a813-1884-4fd8-873d-5445be472712@quicinc.com>
-In-Reply-To: <e2c2a813-1884-4fd8-873d-5445be472712@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 3 Dec 2024 13:44:21 +0200
-Message-ID: <CAA8EJpqOCUQEVfx8DnDRq+91+SnASxtpmxoBuRGX1MBwpW+Uaw@mail.gmail.com>
-Subject: Re: [GIT PULL] QCA: Add and update Bluetooth WCN785x firmware to 2.0.0-00515-2
-To: quic_zijuhu <quic_zijuhu@quicinc.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 5A8D4C4CED6
+	for <linux-firmware@kernel.org>; Tue,  3 Dec 2024 15:24:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 5A8D4C4CED6
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iJ1UXkRyVFU0YhSxmIQI0hjKUq4PJdpX1O8nTwWvG7yel44KRrsgVKkyyM12ntB7BTKwL5ZXo2QJGqVDdF+K4bilbSHsngntCl6B1zawfJRBXa7jdNDD/un0iIM2C8jbe+hlGLd3S3Tee8J9G42WOSnI5wowD0qZ9QA0KXKNUU/3Lr40lSX9aH/2puaagk+VonpFavpMRw1i5556NktDhGS08vXq3fxspexbQknwHW4nElvrv1QthBxavfGKm29lpVoIhydBpgge8Oq0lhxaZuDfjP+4v99qVVq2iuKJLjvKzJdZgoOhoPvSKne+E54GA0vIAviQhmpxPMIE9NhpeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q+dF6JWMB2M8L2QghU1e5orvgnbtBRnB9GHcCK0JdjM=;
+ b=Ax59qjK18yXjsUjSUFk0S1BxEUFxb5zGda12U/xkPJfMugIlYHE/IfQTU/WPQrq9fnJTPAJt4E97s8SKeLvnq9jNW84XQNZBQgzeBt0USqxlK+B44XG1CJ0Kf13SBKhxo1LzaUD8fmulbnZunIthtnPnMxQkmhaAbqbkLD8yxUnnZcmpqvmngAt3g8fsPJkuEqkOE9JfY8kS39KPsFq/ANX1D9VjPuzSkG1FgSVAk4vlCSWZqM4tAwBSK3oyKGYx73o64rEZ4K6t1VVWRzZ+n2zw8TltGERCSBm5ZFAX34fYXYMKeR839DcExvdvYvmBpSo/MwWdp4IIz00dXvZrEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q+dF6JWMB2M8L2QghU1e5orvgnbtBRnB9GHcCK0JdjM=;
+ b=g6nsYRLPAAFQlRxCIqUKLtJIIfsQlQ9GGZzLscD8n2/zr42QpoiM4Aeq50EkzxdHBaUcESPSgBRT/h/q0V2YAebW0/PtORhfjmNllHn0zasd0so0J5exWCbYDf9IEOCAGly8yA+exU4Z/rDNafG7nlY+BU7xAh2sdO+yFMWpssU=
+Received: from DM6PR01CA0024.prod.exchangelabs.com (2603:10b6:5:296::29) by
+ IA1PR12MB6307.namprd12.prod.outlook.com (2603:10b6:208:3e5::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.18; Tue, 3 Dec
+ 2024 15:24:48 +0000
+Received: from DS2PEPF00003443.namprd04.prod.outlook.com
+ (2603:10b6:5:296:cafe::e1) by DM6PR01CA0024.outlook.office365.com
+ (2603:10b6:5:296::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8207.18 via Frontend Transport; Tue,
+ 3 Dec 2024 15:24:48 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS2PEPF00003443.mail.protection.outlook.com (10.167.17.70) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8230.7 via Frontend Transport; Tue, 3 Dec 2024 15:24:47 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 3 Dec
+ 2024 09:24:46 -0600
+From: Alex Deucher <alexander.deucher@amd.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, jwboyer@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+To: <linux-firmware@kernel.org>
+CC: <Mario.Limonciello@amd.com>, Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] amdgpu amd-2024-12-03
+Date: Tue, 3 Dec 2024 10:24:30 -0500
+Message-ID: <20241203152430.2391129-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.47.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PEPF00003443:EE_|IA1PR12MB6307:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2cef3077-e3e3-47f9-a610-08dd13ae9faa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|36860700013|376014|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?lZpbz0ylQ6W7eSQHQsvKNS/Ol9NbR0afYlrOwRtzFXImBVlW+QsmtJxcm+jB?=
+ =?us-ascii?Q?5vFQgqkgtMhx1g3dpBX7TvOxt5AMpMn6oC0UtCr+Cd58R95l/ODRP1Xnre9T?=
+ =?us-ascii?Q?qbkFENhYIcXITPUW8tr9tw2DRCBidmFjkM+CFNdOnLSxka3XjvLyqhFH6QVw?=
+ =?us-ascii?Q?HjSlkMXVv9p+23LLomglS3Mtd+DinAz0rowwJilNxYwkDyHVVvEF4PIHyNJu?=
+ =?us-ascii?Q?v6hzmgYi5RKcIbhdE5M9JkuM3CRlLAnUxEH4uXsVnrwSyTmTP+oJfC6fsFoR?=
+ =?us-ascii?Q?ODsqkN6/pSjVtABsUmTnBAts5YA7PHzH5ShpgdjIMiC+Hc8/7POb2W/6vPy1?=
+ =?us-ascii?Q?uR/AvzcRammX5pux/jAFWhAo9dgAsaoB9JIH48+F2wesYfDMqm3D4raF0DVY?=
+ =?us-ascii?Q?Q6Il5/gnSzTOlGnhHsgjmxc55yDTnElPGHp+n683eVaX3vFWJUBjfx+3EaDo?=
+ =?us-ascii?Q?wRbMd5Bv6raHsBqgXSJH6AZ43XyBzKh/vZ4uuegeJZR+faw4myv55Eux8mSL?=
+ =?us-ascii?Q?mnDbdoKo2ZL/CiVH+B/7xRwqgJMVz+mpEr5IO3LbmH/lpdx/hLtK5+bOMiwp?=
+ =?us-ascii?Q?fnONPKzcnHPbK6LFg3i4yXiBwrAdxdnzvMSzjvf5FXOa9JBu4N4LqO8YQHDl?=
+ =?us-ascii?Q?SaOXYfRwZAr/PBBxASXGglm4VQwiIkD7WZin2pQD7VMYUqz0K6p1hvfJCRrT?=
+ =?us-ascii?Q?+zehXMXlivEzTje6TNQfDZ0Voa1TTzNFDBh/mku+SjCxahxB1TeOXf9hkbkk?=
+ =?us-ascii?Q?Zz7tcVgMCh+swa4iTWlAQtI5d5dFqt+AeVy5gpRJ4RAlOu2AStu8lOApbidu?=
+ =?us-ascii?Q?L46Ohn5Bo+xRb7yHIHuk1EF+Y5vprxJTGLKOpPqh1Gzjd3Mj+AaOzOQ3enr/?=
+ =?us-ascii?Q?JrxEnu+pxhC4pS9arRwQ0OWedduVTaC1PXZB33+9FE23PTtS9TjQiJezLQdM?=
+ =?us-ascii?Q?X8zomhl/RTp7ls6upfhjrd8uYYkJ+lkCGZC1LsvyzyeCiS+dw1Jp3AGveVsI?=
+ =?us-ascii?Q?JLKk9Mvjn/thdShYXpDhKp11uQBIL6IZVc8UTF/v6CPh+V1KpTJjRLhLiIGo?=
+ =?us-ascii?Q?0+eoW8JzXi5ohHFLC33VXdNYup4xZwgoHnmTTOJJjnAXyiyYPr+ZdObVAERa?=
+ =?us-ascii?Q?JCLPUxaWjoWRDlpZ3IvFK6UFedFHtBUtiN9k4Zlg/Rh/R3LGrLc3ZbQlAbe2?=
+ =?us-ascii?Q?kwBEXZxGv/brk5fGxbYkaFSni/4Rh1DVqYLOJCoLkPWsZlbKmJCIw11PQp7l?=
+ =?us-ascii?Q?n4u10DsVpd5TrFJUbzFXhrilyblACHVjy9VBFxYz8vufov3a9G3AvPkcywrz?=
+ =?us-ascii?Q?BACRO3OaRBw2IfqWurtx3wEsN1xKHsoDBhT2YUbPOlascNxjEQBZ1/2oFzAD?=
+ =?us-ascii?Q?ygCw2l1yukTgBbp+kiJXSTzNzAsoxKoNyDoCHgZ7gnXYSCqG6k/d7sM9VWD4?=
+ =?us-ascii?Q?57m/uwFgJzf96hYaE6QZXaTd/e2YIzT4?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2024 15:24:47.9382
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2cef3077-e3e3-47f9-a610-08dd13ae9faa
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DS2PEPF00003443.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6307
 
-On Tue, 3 Dec 2024 at 04:23, quic_zijuhu <quic_zijuhu@quicinc.com> wrote:
->
-> On 12/2/2024 6:17 PM, Dmitry Baryshkov wrote:
-> > On Mon, Dec 02, 2024 at 05:31:32PM +0800, quic_zijuhu wrote:
-> >> Hi linux-firmware maintainers,
-> >>
-> >> Here's a pull request for btqca bluetooth driver. Please let me know if
-> >> you have any problems.
-> >>
-> >> The following changes since commit 7c3031c18ab851792c49f594a4d43200d55a7943:
-> >>
-> >>   Merge branch 'robot/pr-0-1732634796' into 'main' (2024-11-26 16:12:19
-> >> +0000)
-> >>
-> >> are available in the git repository at:
-> >>
-> >>   https://github.com/zijun-hu/qca_btfw
-> >>
-> >> for you to fetch changes up to 7f116580d9060feaedaed55eb65c63eeba59341f:
-> >>
-> >>   QCA: Add Bluetooth nvm files for WCN785x (2024-12-02 17:05:12 +0800)
-> >>
-> >> ----------------------------------------------------------------
-> >> Zijun Hu (2):
-> >>       QCA: Update Bluetooth WCN785x firmware to 2.0.0-00515-2
-> >>       QCA: Add Bluetooth nvm files for WCN785x
-> >
-> > Are new / updated files covered by LICENSE.QualcommAtheros_ath10k or by
-> > LICENSE.qcom?
-> >
->
-> LICENSE.QualcommAtheros_ath10k as marked by WHENCE.
->
-> for firmware updates and adding NVMs for existing PATCH files, we would
-> like to follow existing licenses.
+Updated amdgpu firmware.
 
-Thank you for the confirmation!
+The following changes since commit dc44789e901d30a70b9d9ff7bcc8a38fbc201e52:
 
+  amdgpu: update smu 13.0.10 firmware (2024-11-26 10:11:36 -0500)
 
--- 
-With best wishes
-Dmitry
+are available in the Git repository at:
+
+  https://gitlab.com/kernel-firmware/drm-firmware.git tags/amd-2024-12-03
+
+for you to fetch changes up to 9c1252813011ac54d1cde67464625488476fa36e:
+
+  amdgpu: update raven firmware (2024-12-03 10:18:48 -0500)
+
+----------------------------------------------------------------
+amdgpu: update GPU firmware
+
+from internal git commit:
+1057d7713554894b50e2d00f550c4b7e9eeda84e
+
+----------------------------------------------------------------
+Alex Deucher (41):
+      amdgpu: update aldebaran firmware
+      amdgpu: update navi10 firmware
+      amdgpu: update gc 11.0.2 firmware
+      amdgpu: update vcn 4.0.4 firmware
+      amdgpu: update yellow carp firmware
+      amdgpu: update psp 13.0.6 firmware
+      amdgpu: update navi12 firmware
+      amdgpu: add gc 12.0.0 firmware
+      amdgpu: add psp 14.0.2 firmware
+      amdgpu: add sdma 7.0.0 firmware
+      amdgpu: add smu 14.0.2 firmware
+      amdgpu: update renoir firmware
+      amdgpu: update navi14 firmware
+      amdgpu: add gc 12.0.1 firmware
+      amdgpu: add psp 14.0.3 firmware
+      amdgpu: add sdma 7.0.1 firmware
+      amdgpu: add smu 14.0.3 firmware
+      amdgpu: add vcn 5.0.0 firmware
+      amdgpu: update psp 14.0.0 firmware
+      amdgpu: update vcn 4.0.5 firmware
+      amdgpu: update gc 11.5.1 firmware
+      amdgpu: update vcn 4.0.6 firmware
+      amdgpu: update sienna cichlid firmware
+      amdgpu: update gc 11.0.1 firmware
+      amdgpu: update vcn 4.0.2 firmware
+      amdgpu: update green sardine firmware
+      amdgpu: update gc 11.0.4 firmware
+      amdgpu: update navy flounder firmware
+      amdgpu: update dimgrey cavefish firmware
+      amdgpu: update vangogh firmware
+      amdgpu: update beige goby firmware
+      amdgpu: update picasso firmware
+      amdgpu: update gc 11.0.0 firmware
+      amdgpu: update vcn 4.0.0 firmware
+      amdgpu: update gc 11.5.2 firmware
+      amdgpu: update psp 14.0.4 firmware
+      amdgpu: update vpe 6.1.3 firmware
+      amdgpu: update vcn 3.1.2 firmware
+      amdgpu: update psp 13.0.14 firmware
+      amdgpu: update gc 11.0.3 firmware
+      amdgpu: update raven firmware
+
+ WHENCE                          |  27 +++++++++++++++++++++++++++
+ amdgpu/aldebaran_mec.bin        | Bin 268736 -> 268736 bytes
+ amdgpu/aldebaran_mec2.bin       | Bin 268736 -> 268736 bytes
+ amdgpu/aldebaran_sjt_mec.bin    | Bin 268736 -> 268736 bytes
+ amdgpu/aldebaran_sjt_mec2.bin   | Bin 268736 -> 268736 bytes
+ amdgpu/beige_goby_vcn.bin       | Bin 579312 -> 579184 bytes
+ amdgpu/dimgrey_cavefish_vcn.bin | Bin 579312 -> 579184 bytes
+ amdgpu/gc_11_0_0_mes1.bin       | Bin 217408 -> 217408 bytes
+ amdgpu/gc_11_0_0_mes_2.bin      | Bin 256208 -> 256528 bytes
+ amdgpu/gc_11_0_1_mes_2.bin      | Bin 254912 -> 256064 bytes
+ amdgpu/gc_11_0_1_rlc.bin        | Bin 157040 -> 157040 bytes
+ amdgpu/gc_11_0_2_mes1.bin       | Bin 217760 -> 217760 bytes
+ amdgpu/gc_11_0_2_mes_2.bin      | Bin 256208 -> 256528 bytes
+ amdgpu/gc_11_0_3_mes1.bin       | Bin 217472 -> 217472 bytes
+ amdgpu/gc_11_0_3_mes_2.bin      | Bin 256272 -> 256592 bytes
+ amdgpu/gc_11_0_4_mes_2.bin      | Bin 255744 -> 256064 bytes
+ amdgpu/gc_11_0_4_rlc.bin        | Bin 159152 -> 159152 bytes
+ amdgpu/gc_11_5_1_imu.bin        | Bin 132352 -> 132352 bytes
+ amdgpu/gc_11_5_1_mes_2.bin      | Bin 256128 -> 256416 bytes
+ amdgpu/gc_11_5_2_rlc.bin        | Bin 162096 -> 162096 bytes
+ amdgpu/gc_12_0_0_imu.bin        | Bin 0 -> 132352 bytes
+ amdgpu/gc_12_0_0_me.bin         | Bin 0 -> 403984 bytes
+ amdgpu/gc_12_0_0_mec.bin        | Bin 0 -> 447456 bytes
+ amdgpu/gc_12_0_0_mes.bin        | Bin 0 -> 636048 bytes
+ amdgpu/gc_12_0_0_mes1.bin       | Bin 0 -> 609840 bytes
+ amdgpu/gc_12_0_0_pfp.bin        | Bin 0 -> 349264 bytes
+ amdgpu/gc_12_0_0_rlc.bin        | Bin 0 -> 150704 bytes
+ amdgpu/gc_12_0_0_toc.bin        | Bin 0 -> 2048 bytes
+ amdgpu/gc_12_0_0_uni_mes.bin    | Bin 0 -> 711264 bytes
+ amdgpu/gc_12_0_1_imu.bin        | Bin 0 -> 132352 bytes
+ amdgpu/gc_12_0_1_me.bin         | Bin 0 -> 404048 bytes
+ amdgpu/gc_12_0_1_mec.bin        | Bin 0 -> 443360 bytes
+ amdgpu/gc_12_0_1_mes.bin        | Bin 0 -> 643536 bytes
+ amdgpu/gc_12_0_1_mes1.bin       | Bin 0 -> 611920 bytes
+ amdgpu/gc_12_0_1_pfp.bin        | Bin 0 -> 348672 bytes
+ amdgpu/gc_12_0_1_rlc.bin        | Bin 0 -> 150848 bytes
+ amdgpu/gc_12_0_1_toc.bin        | Bin 0 -> 2048 bytes
+ amdgpu/gc_12_0_1_uni_mes.bin    | Bin 0 -> 711264 bytes
+ amdgpu/green_sardine_ta.bin     | Bin 33536 -> 33536 bytes
+ amdgpu/green_sardine_vcn.bin    | Bin 403904 -> 403904 bytes
+ amdgpu/navi10_ce.bin            | Bin 263296 -> 263296 bytes
+ amdgpu/navi10_me.bin            | Bin 263424 -> 263424 bytes
+ amdgpu/navi10_mec.bin           | Bin 268720 -> 268592 bytes
+ amdgpu/navi10_mec2.bin          | Bin 268720 -> 268592 bytes
+ amdgpu/navi10_pfp.bin           | Bin 263424 -> 263424 bytes
+ amdgpu/navi10_vcn.bin           | Bin 403904 -> 403904 bytes
+ amdgpu/navi12_ce.bin            | Bin 263296 -> 263296 bytes
+ amdgpu/navi12_me.bin            | Bin 263424 -> 263424 bytes
+ amdgpu/navi12_mec.bin           | Bin 268720 -> 268592 bytes
+ amdgpu/navi12_mec2.bin          | Bin 268720 -> 268592 bytes
+ amdgpu/navi12_pfp.bin           | Bin 263424 -> 263424 bytes
+ amdgpu/navi12_vcn.bin           | Bin 403904 -> 403904 bytes
+ amdgpu/navi14_vcn.bin           | Bin 403904 -> 403904 bytes
+ amdgpu/navy_flounder_vcn.bin    | Bin 579312 -> 579184 bytes
+ amdgpu/picasso_asd.bin          | Bin 193024 -> 193024 bytes
+ amdgpu/picasso_ta.bin           | Bin 41984 -> 41984 bytes
+ amdgpu/psp_13_0_14_ta.bin       | Bin 67904 -> 67904 bytes
+ amdgpu/psp_13_0_6_ta.bin        | Bin 88960 -> 88960 bytes
+ amdgpu/psp_14_0_0_ta.bin        | Bin 234496 -> 234496 bytes
+ amdgpu/psp_14_0_2_sos.bin       | Bin 0 -> 417120 bytes
+ amdgpu/psp_14_0_2_ta.bin        | Bin 0 -> 253920 bytes
+ amdgpu/psp_14_0_3_sos.bin       | Bin 0 -> 417120 bytes
+ amdgpu/psp_14_0_3_ta.bin        | Bin 0 -> 253920 bytes
+ amdgpu/psp_14_0_4_ta.bin        | Bin 234496 -> 234496 bytes
+ amdgpu/psp_14_0_4_toc.bin       | Bin 2560 -> 2560 bytes
+ amdgpu/raven_asd.bin            | Bin 193024 -> 193024 bytes
+ amdgpu/raven_ta.bin             | Bin 33536 -> 33536 bytes
+ amdgpu/renoir_asd.bin           | Bin 193024 -> 193024 bytes
+ amdgpu/renoir_vcn.bin           | Bin 403904 -> 403904 bytes
+ amdgpu/sdma_7_0_0.bin           | Bin 0 -> 45824 bytes
+ amdgpu/sdma_7_0_1.bin           | Bin 0 -> 45824 bytes
+ amdgpu/sienna_cichlid_vcn.bin   | Bin 579312 -> 579184 bytes
+ amdgpu/smu_14_0_2.bin           | Bin 0 -> 333236 bytes
+ amdgpu/smu_14_0_3.bin           | Bin 0 -> 333236 bytes
+ amdgpu/vangogh_asd.bin          | Bin 193024 -> 193024 bytes
+ amdgpu/vangogh_ce.bin           | Bin 263296 -> 263296 bytes
+ amdgpu/vangogh_me.bin           | Bin 263424 -> 263424 bytes
+ amdgpu/vangogh_mec.bin          | Bin 268160 -> 268160 bytes
+ amdgpu/vangogh_mec2.bin         | Bin 268160 -> 268160 bytes
+ amdgpu/vangogh_pfp.bin          | Bin 263424 -> 263424 bytes
+ amdgpu/vcn_3_1_2.bin            | Bin 571568 -> 571440 bytes
+ amdgpu/vcn_4_0_0.bin            | Bin 393200 -> 393200 bytes
+ amdgpu/vcn_4_0_2.bin            | Bin 393200 -> 393200 bytes
+ amdgpu/vcn_4_0_4.bin            | Bin 392688 -> 393200 bytes
+ amdgpu/vcn_4_0_5.bin            | Bin 392432 -> 392432 bytes
+ amdgpu/vcn_4_0_6.bin            | Bin 392432 -> 392432 bytes
+ amdgpu/vcn_4_0_6_1.bin          | Bin 392432 -> 392432 bytes
+ amdgpu/vcn_5_0_0.bin            | Bin 0 -> 438608 bytes
+ amdgpu/vpe_6_1_3.bin            | Bin 25984 -> 25984 bytes
+ amdgpu/yellow_carp_ce.bin       | Bin 263296 -> 263296 bytes
+ amdgpu/yellow_carp_me.bin       | Bin 263424 -> 263424 bytes
+ amdgpu/yellow_carp_mec.bin      | Bin 268720 -> 268160 bytes
+ amdgpu/yellow_carp_mec2.bin     | Bin 268720 -> 268160 bytes
+ amdgpu/yellow_carp_pfp.bin      | Bin 263424 -> 263424 bytes
+ amdgpu/yellow_carp_vcn.bin      | Bin 579504 -> 571440 bytes
+ 95 files changed, 27 insertions(+)
+ create mode 100644 amdgpu/gc_12_0_0_imu.bin
+ create mode 100644 amdgpu/gc_12_0_0_me.bin
+ create mode 100644 amdgpu/gc_12_0_0_mec.bin
+ create mode 100644 amdgpu/gc_12_0_0_mes.bin
+ create mode 100644 amdgpu/gc_12_0_0_mes1.bin
+ create mode 100644 amdgpu/gc_12_0_0_pfp.bin
+ create mode 100644 amdgpu/gc_12_0_0_rlc.bin
+ create mode 100644 amdgpu/gc_12_0_0_toc.bin
+ create mode 100644 amdgpu/gc_12_0_0_uni_mes.bin
+ create mode 100644 amdgpu/gc_12_0_1_imu.bin
+ create mode 100644 amdgpu/gc_12_0_1_me.bin
+ create mode 100644 amdgpu/gc_12_0_1_mec.bin
+ create mode 100644 amdgpu/gc_12_0_1_mes.bin
+ create mode 100644 amdgpu/gc_12_0_1_mes1.bin
+ create mode 100644 amdgpu/gc_12_0_1_pfp.bin
+ create mode 100644 amdgpu/gc_12_0_1_rlc.bin
+ create mode 100644 amdgpu/gc_12_0_1_toc.bin
+ create mode 100644 amdgpu/gc_12_0_1_uni_mes.bin
+ create mode 100644 amdgpu/psp_14_0_2_sos.bin
+ create mode 100644 amdgpu/psp_14_0_2_ta.bin
+ create mode 100644 amdgpu/psp_14_0_3_sos.bin
+ create mode 100644 amdgpu/psp_14_0_3_ta.bin
+ create mode 100644 amdgpu/sdma_7_0_0.bin
+ create mode 100644 amdgpu/sdma_7_0_1.bin
+ create mode 100644 amdgpu/smu_14_0_2.bin
+ create mode 100644 amdgpu/smu_14_0_3.bin
+ create mode 100644 amdgpu/vcn_5_0_0.bin
