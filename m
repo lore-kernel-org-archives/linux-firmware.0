@@ -4,134 +4,189 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA378E7716C
-	for <linux-firmware@archiver.kernel.org>; Thu,  5 Dec 2024 11:20:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AAA5DE7716E
+	for <linux-firmware@archiver.kernel.org>; Thu,  5 Dec 2024 18:54:22 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 9E694C4CEE1; Thu,  5 Dec 2024 11:20:10 +0000 (UTC)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	id 85BA4C4CEDE; Thu,  5 Dec 2024 18:54:22 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A516AC4CED1
-	for <linux-firmware@kernel.org>; Thu,  5 Dec 2024 11:20:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A516AC4CED1
+	by smtp.kernel.org (Postfix) with ESMTPS id E5C1EC4CEDC
+	for <linux-firmware@kernel.org>; Thu,  5 Dec 2024 18:54:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org E5C1EC4CEDC
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6ef4b6719d1so3655797b3.2
-        for <linux-firmware@kernel.org>; Thu, 05 Dec 2024 03:20:08 -0800 (PST)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-53e27bad7a4so680192e87.3
+        for <linux-firmware@kernel.org>; Thu, 05 Dec 2024 10:54:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733397607; x=1734002407; darn=kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ozs3S+GTlPkN15LU9I/Pf6RBJvugw4x2IA6c6KevrVI=;
-        b=PJZ/OPpNusBa7b7VlpYr5KB8BBRvdPmTM6Uia+JO5ZM4m7r7xYW0sKSSgcsu55LQfC
-         U2ysqWrO/HBwK+W42V2KR28ZoS1N1QrOpdI5Vbcg/vgf78J0P4OUEwbd8MG+z0yKDEUx
-         wh1Uqe5XL+X1v2/T091CMInEtIRTmvCbh/dOrqnwrBImIW2tkJsq/Fj0aykf2SmHy35r
-         dCbse5/zNB1l/3GnW0GhaMAhQamNIIyzyt40nvY5imDttZgpsjipnvercYJ90dW1X23q
-         tbTH2skq9oCamGWj/0KWcJurQhLwXCMgVo7klJuR2/6Ub/OzjgZRlvP3DdbAvPWzlG+m
-         H8ow==
+        d=linaro.org; s=google; t=1733424858; x=1734029658; darn=kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=47fbT02VGMzZMhx7Sp5S8kr/f4uVejY30NijTPy/sD0=;
+        b=v0d3GSBecr3NUDLQN/au3mNGep6/cbbiuX6runHAWhQlqg1gIYczcwy5NzWAuRsrpR
+         1x9snCXxW03sAnFCTEY/df758ljZ395G2/4f0PmQEaTexZC5+Mqi16pKVfqCjktYzPB0
+         MML+IyF6zIqI88SK3SZczlwDxVgply5lKTbMCIq8CCp3CGEnbaRenRTBRPb2nMd+wY8W
+         jODkLNwyRoK91YwxAQGL6CH9SEbxftvkciDTcD0xldb5JWP93fc3wk+JP5P1QwJHEJLU
+         l1cmZkMC5h8FPRX3LwxCOnVHTZ9zCdVwT268dd3bb2N6muHH1zkDPL7SjJRq2Dz9WRUm
+         bGKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733397607; x=1734002407;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ozs3S+GTlPkN15LU9I/Pf6RBJvugw4x2IA6c6KevrVI=;
-        b=mBcHiYerQtnNye4xFGEiph63+at6uvRmsSqTu7+jVPEft7z0WiSSGQ5I51T/6enDU7
-         F/k79ytgBl6V8jddOuaG7z2RvPIiuP82QGWW0zxhO+D2kCXof/3vbuKzC1sK3SdJVjHM
-         MJUnQZACcmDWzkSnOvTTK/zZkqBOxFiVrQXOU14MYDhJPtbkxyKE3I+XebwTysyoy+x3
-         zGQ+byL0acbP66EFpfGM6lt6ihYiBgCQpOWoapuZZ7JQCdTLOxF/BETshimUp/twWhZw
-         Z1qiLVUiVxcuL4aL1ZDX5SkC//NTrPCd0y3SCIymkzM/VAM+k+Qo3ukJeSV7EHZ2cyQn
-         ld0g==
-X-Gm-Message-State: AOJu0YzJtnbVkimEui4EUjO3H6IF4TOWdlkiGdi3EcgG3svIR+6+lUoM
-	47Owam4+WbUsPcVw2kWESmyGMpz57Rwm4QyvSEkC/urq3k6ynXveuEa+PX9sZ3nmTrHDP/BuO9L
-	jcMi+Rn4/phNidE8uuSRsj+dKgHvaBsgOJpYKFQ==
-X-Gm-Gg: ASbGncviXR1RY2eZJEBlStIu1Q5jP/tEiM9d4L3a56KEPjUKYHr/f3Lw0A4f1WVXkek
-	63TOT8WLSFVaL+PEtxIzfnjArdd48SLlKdmZgNGM6JCiIGw==
-X-Google-Smtp-Source: AGHT+IHDNSa3rl56nZmWEzfgUJpCG0djX0poJRrD4aCF5yRAuqhbJdDyyhHq08gAVrlOniJVDjWlVaf0KCLx55Cs2lM=
-X-Received: by 2002:a05:690c:600e:b0:6ef:97a2:49e6 with SMTP id
- 00721157ae682-6efad2d91dfmr121699857b3.31.1733397607477; Thu, 05 Dec 2024
- 03:20:07 -0800 (PST)
-MIME-Version: 1.0
-References: <7f156ffe-9629-17c1-47c5-97e0d0f3e1e0@quicinc.com>
- <i4ihcid3ka67rhwziue5tblahs6bwaehazq74bd5y64ybs4ahv@l6ti4xqr3yq6>
- <d169bd29-b756-f027-9f33-02106b702359@quicinc.com> <a3znmntnj3jliy77qffmiukdwccz75mkg5xj72yw3zxkqmjjsb@geavo66vpbpe>
- <63fe4338-43dd-e771-45fb-57a2096a1002@quicinc.com> <cz6nu7fuf23poqahslmnqisuiqakjzkmwvk2znvohmjrnvgfhs@wb4wkugrkgfm>
- <e02e6eb7-9af5-87a2-a7f0-248d9c7543c2@quicinc.com>
-In-Reply-To: <e02e6eb7-9af5-87a2-a7f0-248d9c7543c2@quicinc.com>
+        d=1e100.net; s=20230601; t=1733424858; x=1734029658;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=47fbT02VGMzZMhx7Sp5S8kr/f4uVejY30NijTPy/sD0=;
+        b=A0xKo3c4ewmLtDINyqxfiGIfXhzUu/+3qBP1VoNm4Rgpr/khToBACzILM2vDyfB3rD
+         m6IFeCt9UhWhhMnnf40bRXPm4Mry0oS2UdzIVDoCs5SYQuViCdXvJkIaGUiF06Zsd+8w
+         MXLmQy1ZpGrqjk+XMJHU14ZjeGYAewXkzkmdfdz76sMhxUv3MT5nA/zwiore6O7DSwyR
+         jEPD31S/GmYMuPJnhNtYGem4vjc0nCkcqFE1gDJ/M+TeDrKvRxguqiqS2OGlEybBG79Q
+         npfr02Lfa/wgQE29wAxN81EoRxRSvS/afJAa1QyCw/H+Q1IecQhocuOppNzbv0aeW90a
+         eVMA==
+X-Forwarded-Encrypted: i=1; AJvYcCWSvT8i65DnMf0UkqtTHwTbSFTCKTdC3qndXj1HJTXmC4159+M0whY8LAYJzOFbExVp9qZcKK+TkLN4ntzkGw==@kernel.org
+X-Gm-Message-State: AOJu0Yy8WHvKZgff4apLOxpnQFy7kuPX8H6nL9VJRgIjx3MBHiDfx5yj
+	Yvs4kJViIcqdlrIKN7oLhEh8OBwhMyLIHbIjhSavfpIgsRPThYguNSQCVBd6Jt0=
+X-Gm-Gg: ASbGncsmZ6pqbNxGnvdjGpb7MxRd3pJEQKnn3VbnUgndNdl2zJuexHRVTqSDRiYbgc8
+	jWKGgpU00paeoFXUs63GPlK2YEbua7HbkiNMRzMpEGFJg/Gh4ZHEYIJceQ2qqL0H3MxwfbItJGS
+	kKkzf7SAWOo2WiQvIXgIWD+UDZ0IJ0CJz4FB164cpnuerj1mCD0lwesDqR3k1nSedUMryMqnJYJ
+	ibjocOIlhGNs9pvEu4x2StD2tk1prXa56+3J+8UPvmYlhwbs8Y6mfeGSANmyOkPSBj7N0wTFNxW
+	+I2tAiOXGE0C8uHv1nBTx1DzLtMRmg==
+X-Google-Smtp-Source: AGHT+IED/Vr5/Sy+A+9EN05PmoCzzlii1h9N7nxlqAl/Rk6vggOMlX90C1a0RWzMhJGMHIgKS9+WsQ==
+X-Received: by 2002:ac2:4c4d:0:b0:53e:284a:70eb with SMTP id 2adb3069b0e04-53e2c2eb6d5mr8067e87.38.1733424858012;
+        Thu, 05 Dec 2024 10:54:18 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53e229ba6f1sm307481e87.149.2024.12.05.10.54.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Dec 2024 10:54:16 -0800 (PST)
+Date: Thu, 5 Dec 2024 20:54:14 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 5 Dec 2024 13:19:56 +0200
-Message-ID: <CAA8EJpoagdAXE7L7qG9vQCkJbJ-MnB0LaYtqAoa8yLgj91O9ug@mail.gmail.com>
-Subject: Re: qcom: Add Audio firmware for X1E80100 CRD/QCPs
-To: Sibi Sankar <quic_sibis@quicinc.com>
+To: Vikash Garodia <quic_vgarodia@quicinc.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, abickett@quicinc.com
-Content-Type: text/plain; charset="UTF-8"
+Cc: Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, "Renjiang Han (QUIC)" <quic_renjiang@quicinc.com>, 
+	"linux-firmware@kernel.org" <linux-firmware@kernel.org>, "Dikshita Agarwal (QUIC)" <quic_dikshita@quicinc.com>, 
+	"Qiwei Liu (QUIC)" <quic_qiweil@quicinc.com>, "quic_zhgao@quicinc.co" <quic_zhgao@quicinc.com>, 
+	linux-arm-msm@vger.kernel.org
+Subject: Re: add venus firmware file for qcs615
+Message-ID: <kmshkjf6dqegudrnp6yjuw6hsav5fopaub46zjv256ixpgf75w@l55eswawscif>
+References: <CAA8EJpoDXKbF5cqb_vzE28zjdC6OC66Zxb5j030QXaCe+FUmfw@mail.gmail.com>
+ <egdqhgdiqqny57yiauiyekcvhxvebfttyncqoazslzjprwvakz@txvy7wn4vg7g>
+ <a259c98c-6c77-1c1e-e428-41c2550f7517@quicinc.com>
+ <pukoimsqhck5oymirmgiwad6s3l6frt7xbahp7juhvj3rt4622@wpajx6vyw5nl>
+ <rukxa3h72trvqvu6wkxmkp33entybcvxfjlpcjh7odipwds6lq@rt6ferue5nbr>
+ <5170f77f-c5d3-02f1-8deb-5d00fef7627a@quicinc.com>
+ <magmzevx4cisi5s2ytdtzsqr6klrt6wot6cex3zpxugjspdwyt@qpooycw4b2bs>
+ <41f0ebb2-02b9-a83d-6a7d-3dd03fccb687@quicinc.com>
+ <cjbdqixxxu2zrgkakcb44jnkeoktwc3vmtqauejnxjxtycqtnp@7cthmlpy5qx3>
+ <a730c66a-3969-3101-1ebe-88baf6184d2e@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a730c66a-3969-3101-1ebe-88baf6184d2e@quicinc.com>
 
-On Thu, 5 Dec 2024 at 12:07, Sibi Sankar <quic_sibis@quicinc.com> wrote:
->
->
->
-> On 11/29/24 20:07, Dmitry Baryshkov wrote:
-> > On Tue, Oct 22, 2024 at 11:49:37AM +0530, Sibi Sankar wrote:
+On Mon, Dec 02, 2024 at 08:51:15PM +0530, Vikash Garodia wrote:
+> 
+> On 12/2/2024 8:41 PM, Dmitry Baryshkov wrote:
+> > On Mon, Dec 02, 2024 at 06:20:40PM +0530, Vikash Garodia wrote:
 > >>
-> >>
-> >> On 10/18/24 21:23, Dmitry Baryshkov wrote:
-> >>> On Fri, Oct 18, 2024 at 08:58:06PM +0530, Sibi Sankar wrote:
+> >> On 12/2/2024 6:16 PM, Dmitry Baryshkov wrote:
+> >>> On Mon, Dec 02, 2024 at 05:30:55PM +0530, Vikash Garodia wrote:
+> >>>> Hi Dmitry,
 > >>>>
-> >>>>
-> >>>> On 10/18/24 16:13, Dmitry Baryshkov wrote:
-> >>>>> On Fri, Oct 18, 2024 at 12:43:14PM +0530, Sibi Sankar wrote:
-> >>>>>>
-> >>>>>> Hello,
-> >>>>>>
-> >>>>>> The following changes since commit 8dbcf94bfc68bdb1c6df3a42762b275557095558:
-> >>>>>>
-> >>>>>>      Merge branch 'robot/patch-0-1729102102' into 'main' (2024-10-17 15:40:04
-> >>>>>> +0000)
-> >>>>>>
-> >>>>>> are available in the Git repository at:
-> >>>>>>
-> >>>>>>      https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
-> >>>>>> adsp-fw-x1e80100-crd
+> >>>> On 11/29/2024 8:05 PM, Dmitry Baryshkov wrote:
+> >>>>> On Wed, Nov 20, 2024 at 01:22:50PM +0200, Dmitry Baryshkov wrote:
+> >>>>>> On Wed, Nov 20, 2024 at 04:40:51PM +0530, Vikash Garodia wrote:
+> >>>>>>>
+> >>>>>>> On 11/20/2024 4:09 PM, Dmitry Baryshkov wrote:
+> >>>>>>>> On Thu, Nov 14, 2024 at 01:31:14PM +0200, Dmitry Baryshkov wrote:
+> >>>>>>>>> On Thu, 14 Nov 2024 at 13:05, Vikash Garodia <quic_vgarodia@quicinc.com> wrote:
+> >>>>>>>>>>
+> >>>>>>>>>>
+> >>>>>>>>>> On 11/14/2024 4:16 PM, Dmitry Baryshkov wrote:
+> >>>>>>>>>>> On Thu, Nov 14, 2024 at 09:06:55AM +0530, Vikash Garodia wrote:
+> >>>>>>>>>>>>
+> >>>>>>>>>>>> On 11/13/2024 8:10 PM, Dmitry Baryshkov wrote:
+> >>>>>>>>>>>>> On Wed, Nov 13, 2024 at 10:50:44AM +0000, Renjiang Han (QUIC) wrote:
+> >>>>>>>>>>>>>> Hello
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>> The following changes since commit 6482750d396980a31f76edd5a84b03a96bbdf3fe:
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>>   Merge branch 'verb' into 'main' (2024-11-11 20:01:00 +0000)
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>> are available in the Git repository at:
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>>   git@git.codelinaro.org:clo/linux-kernel/linux-firmware.git<mailto:git@git.codelinaro.org:clo/linux-kernel/linux-firmware.git> video-firmware-qcs615
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>> for you to fetch changes up to 1e7f65883150d3b48307b4f0d6871c60151ee25b:
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>>   qcom: venus-5.4: add venus firmware file for qcs615 (2024-11-13 15:50:29 +0530)
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>> ----------------------------------------------------------------
+> >>>>>>>>>>>>>> Renjiang Han (1):
+> >>>>>>>>>>>>>>       qcom: venus-5.4: add venus firmware file for qcs615
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>> WHENCE                      |   1 +
+> >>>>>>>>>>>>>
+> >>>>>>>>>>>>> Could you please be more specific, what is the difference between the
+> >>>>>>>>>>>>> existing file and a new file? According to the soc_vers the new file
+> >>>>>>>>>>>>> supports sdm845. Should it instead replace the old firmware?
+> >>>>>>>>>>>> SDM845, SC7180, qcs615 can be enabled on same firmware ideally, but due to a
+> >>>>>>>>>>>> different signing for qcs615, it takes a separate bin (xxx_s6.mbn).
+> >>>>>>>>>>>
+> >>>>>>>>>>> Can SDM845 handle v6 signatures? It supports v5 and PSS. Or can QCS615
+> >>>>>>>>>>> use v5 signatures?
+> >>>>>>>>>> Infact we started with loading sc7180 firmware on qc615, video init failed. So
+> >>>>>>>>>> far i have seen 2 categories in signing version for video bins, either default
+> >>>>>>>>>> or v6 specific tool.
+> >>>>>>>>>
+> >>>>>>>>> Can firmware / security engineers actually advice us on using v5
+> >>>>>>>>> firmware signatures with QCS615 _and_ with older platforms?
+> >>>>>>>>> Existing venus-5.4/venus.mbn uses v3
+> >>>>>>>>
+> >>>>>>>> Vikash, any updates on this topic? Would it be possible to have a single
+> >>>>>>>> FW image with just v5 signatures?
+> >>>>>>> Not yet Dmitry. Having a followup with relevant folks this friday to understand
+> >>>>>>> the signing requirements across different SOCs, hopefully will be able to add
+> >>>>>>> something on this by then.
 > >>>>>
-> >>>>> Could you please clarify, why adspr.jsn doesn't declare tms/pdr_enabled?
-> >>>>> Windows firmware has it in adspr.jsn.
-> >>>>
-> >>>> Hey Dmitry,
-> >>>>
-> >>>> Can you please share what device and META you are comparing this
-> >>>> firmware against? This firmware was taken from the build source
-> >>>> without any modification.
+> >>>>> It's been more than a week since the last email. Are there any updates?
+> >>>>> I'd really like to get this sorted out before next linux-firmware
+> >>>>> release, otherwise we'll be stuck with these names for the foreseeable
+> >>>>> future.
+> >>>> I have been chasing both the firmware and security folks to align on this. So
+> >>>> far the updates are that one is signed MBNv5 and other with MBNV6, hence leading
 > >>>
-> >>> I have been looking at the Windows driver from WSU for the CRD,
-> >>> qsubsys_ext_adsp8380.cab. DriverVer = 08/27/2024,2.0.4114.4600.
+> >>> I think the existing firmware uses v3, not v5.
 > >>>
-> >>> For the reference, I checked several last drops, they have the following
-> >>> versions of qcadsp8380.mbn:
-> >>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00792-HAMOA-1
-> >>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00789.1-HAMOA-1
-> >>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00787.2-HAMOA-1
-> >>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00784-HAMOA-1
-> >>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00781-HAMOA-1
+> >>> 00001000  00 00 00 00 03 00 00 00  00 00 00 00 28 00 a0 0f  |............(...|
 > >>>
-> >>> All of them list tms/pdr_enabled in adspr.jsn
 > >>>
-> >>
-> >> Thanks for listing them. Already following up internally regarding
-> >> this discrepancy, will push out an update once it gets resolved.
-> >
-> > Sibi, this has been more than a month ago. Could you please update us on
-> > the pdr_enabled necessity? I'm asking since it's also a part of the
-> > kernel data nowadays.
->
-> Hey Dmitry,
->
-> Extremely sorry for the delay. I was told this is just a platform
-> specific flag that we can decide to turn on if it handles PDR.
-> Given that linux does handle PDR we can safely turn it on.
+> >>>> to different set of binaries. These MBN versions of signing is defined at SOC
+> >>>> level and depends on secure boot libraries used in that SOC.
+> >>>> At the same time, there is an experiment to check if SC7180 can be signed with
+> >>>> version used for QCS615 i.e MBNV6.
+> >>>
+> >>> Thanks! Are you trying that without updating the whole bootloader stack? I
+> >>> think some of SC7180 devices might be EOL'd, so it might be hard to get
+> >>> FW/bootloader updates.
+> >> Just the firmware part, by signing it with qcs615 way, as an experiment
+> >> suggested by security folks.
+> > 
+> > Ok, that doesn't sound like a lengthy experiment: resign the FW, boot
+> > the laptop, caboom or not caboom. If I remember correctly the file that
+> > you've pushed even lists sc7180 as allowed.
+> its used only for qcs615.
 
-So... is there any reason why it wasn't set previously? Which
-platforms should have it in the enabled state?
+Huh? venus_s6.mbn lists 0x6000, 0x6001, 0x6004, 0x6005, 0x6007, 0x9001
+and 0x600E as soc_vers values. I think that includes sc7180.
+
+> >>>> One query here - given that qcs615 only loads the venus_s6.mbn variant, and it
+> >>>> is not enabled yet (patches in review) for video, we should be good if we
+> >>>> conclude the firmware part before accepting the qcs615 enablement patches ?
+> >>>
+> >>> Good question. I think that depends on linux-firmware maintainer's
+> >>> opinion.
+> >>>
+> > 
 
 -- 
 With best wishes
