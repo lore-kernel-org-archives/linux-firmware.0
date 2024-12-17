@@ -1,147 +1,103 @@
-Return-Path: <SRS0=94/V=TJ=es.gpstracklte.com=bounce+52f7da.c46336-linux-firmware=kernel.org@kernel.org>
+Return-Path: <SRS0=E6pF=TK=quicinc.com=quic_dikshita@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37C61E7717F
-	for <linux-firmware@archiver.kernel.org>; Mon, 16 Dec 2024 15:23:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A824E7716A
+	for <linux-firmware@archiver.kernel.org>; Tue, 17 Dec 2024 06:10:05 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 0F85BC4CED0; Mon, 16 Dec 2024 15:23:21 +0000 (UTC)
-Received: from so254-55.mailgun.net (so254-55.mailgun.net [198.61.254.55])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id 36059C4CED6; Tue, 17 Dec 2024 06:10:05 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id C35A8C4CED4
-	for <linux-firmware@kernel.org>; Mon, 16 Dec 2024 15:23:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C35A8C4CED4
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=vsafetrack.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=es.gpstracklte.com
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=es.gpstracklte.com; q=dns/txt; s=mailo; t=1734362596; x=1734369796;
- h=Content-Type: Subject: Subject: Date: Reply-To: To: To: From: From: Sender: Sender: MIME-Version: Message-ID;
- bh=0mab4o6zwpe9gT/tVjgferJhDmtreBwIVvCVKkVUi0g=;
- b=O9Oe03T9p9/rQ8e7g2CeRl0DRLNWF8AzL5fXZWUh8iHjLEb/afHdgxuj5Yymyh4IjB0LOQMc6h6kBQFEiP95BF8EWlKzeJ2jGlk09okJJNJVOfPriplP/HZoyAVOTTnurBAgpVqzcUvwqevouL03hrjx15dKEJbh05mALX3ziVQ=
-X-Mailgun-Sending-Ip: 198.61.254.55
-X-Mailgun-Sending-Ip-Pool-Name: 
-X-Mailgun-Sending-Ip-Pool: 
-X-Mailgun-Sid: WyJiNjU1OSIsImxpbnV4LWZpcm13YXJlQGtlcm5lbC5vcmciLCJjNDYzMzYiXQ==
-Received: from LAPTOP-CVAJRGLF (unknown [113.91.191.31]) by 74a70b154428 with SMTP id
- 676045e383dbb2a72780809c (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 16 Dec 2024 15:23:15 GMT
-Message-ID: <20241216232313437.sales@vsafetrack.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 60C83C4CED3
+	for <linux-firmware@kernel.org>; Tue, 17 Dec 2024 06:10:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 60C83C4CED3
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BH2weKo015524;
+	Tue, 17 Dec 2024 06:10:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=w6dZuvoUCPl4DbuINLIVvp
+	4nNatqWLZ1Vo/T89hFqGA=; b=iAx2UpN8yauNdVsZGsVKKTVxaXawleNya+y6cU
+	pkeLiRLgWiCJmVIxGv+V7QQL9Tz2HgHHubYzamTRnHqAMFxkQVjAXPTuZ7Sjz82s
+	nAWhsrDIvz7z+1f2YOiZdGAbbmtH1jCubDJeGWwraES14JgeoATnPtR8ti4W1EUT
+	sOJEegJZXaedeDkfmnCno9q9k4jvfAmCwNGKorCJGeu1vYIbilkPn9VL2UbDic59
+	keS5b2mMAEiYLNCtIqptpbuP07347+mf8nmPYmINre8IlCe73UF70qwpJkgkfCMJ
+	qMInKOZqonSxTbMJPM9lo6w+p1xKn3RCFQ0Gn2URvwkpfhSQ==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43k1060c34-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Dec 2024 06:10:03 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BH6A2Rr030562
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Dec 2024 06:10:02 GMT
+Received: from [10.204.101.50] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 16 Dec
+ 2024 22:10:01 -0800
+Message-ID: <6e0ae91f-7233-ca54-953e-734a71d76e22@quicinc.com>
+Date: Tue, 17 Dec 2024 11:39:58 +0530
 MIME-Version: 1.0
-Sender: "Sabina" <sabina@es.gpstracklte.com>
-From: "Sabina" <sales@vsafetrack.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Content-Language: en-US
 List-Id: <linux-firmware.lore.kernel.org>
-To: "Linux-firmware" <linux-firmware@kernel.org>
-Reply-To: sales@vsafetrack.com
-Date: 16 Dec 2024 23:23:15 +0800
-Subject: Personal SOS GPS Tracker for Quick Assistance
-Content-Type: multipart/alternative;
- boundary=--boundary_6508_803fee82-46f2-43ec-aef3-f2ff05490328
+To: <linux-firmware@kernel.org>
+CC: "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
+        Dmitry Baryshkov
+	<dmitry.baryshkov@linaro.org>
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+Subject: update firmware binary for sc7180 and qcs615
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 176wjNAnSV6a-GTakYeeCXhGzMoOjH9Y
+X-Proofpoint-ORIG-GUID: 176wjNAnSV6a-GTakYeeCXhGzMoOjH9Y
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
+ clxscore=1015 suspectscore=0 spamscore=0 priorityscore=1501 malwarescore=0
+ phishscore=0 mlxscore=0 adultscore=0 lowpriorityscore=0 mlxlogscore=523
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2412170048
 
+Hi Josh,
 
-----boundary_6508_803fee82-46f2-43ec-aef3-f2ff05490328
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Please pull below change, and as discussed, skipped creating symlink for now.
 
-Hi=0D=0AWe trust this message finds you well. We're excited to in=
-troduce our exceptional SOS GPS tracker to you, and we believe it=
- presents a lucrative opportunity for your business. Our cutting-=
-edge technology is poised to revolutionize the personal safety ma=
-rket, and we invite you to be part of this journey.=0D=0A=0D=0AAb=
-out Our SOS GPS Tracker:=0D=0AOur SOS GPS tracker is more than a =
-product; it's a commitment to safety and security. Designed to ca=
-ter to various demographics and needs, its features include:=0D=0A=
-Big SOS button for emergency rescuedVoice monitoringFall down ala=
-rm to control center4G LTE network for GPS tracking data transmit=
-tedTwo ways voice communicationMini design for easy portable=0D=0A=
-- One-Touch SOS Alert:A single button press transmits the user's =
-location to designated contacts and emergency response teams.-Rea=
-l-time GPS Tracking:Continuous location sharing provides peace of=
- mind to families, adventurers, and businesses alike.- Geo-Fencin=
-g:Customizable virtual perimeters trigger alerts when breached, e=
-nsuring safety boundaries are upheld.-Long Battery Life: Extended=
- operational duration minimizes downtime for charging.-User-Frien=
-dly App:Intuitive interface for effortless management of settings=
-, alerts, and location history.=0D=0ABy partnering with us, you c=
-an leverage a range of benefits:=0D=0A- Competitive Pricing: Enjo=
-y wholesale pricing that ensures healthy profit margins for your =
-business.- Quality Assurance:Our trackers undergo rigorous testin=
-g to meet the highest industry standards.- Exclusive Partnership:=
-Gain exclusive access to our products in your designated market.-=
- Marketing Support:We offer marketing materials and guidance to h=
-elp you promote the SOS GPS tracker effectively.=0D=0AOur goal is=
- to create a mutually beneficial partnership that extends the rea=
-ch of our innovative technology while maximizing your business's =
-growth potential.=0D=0AThank you for consideringus as your partne=
-r for the SOS GPS tracker. We look forward to the prospect of wor=
-king together to make a lasting impact on personal safety.=0D=0AB=
-est regards,=0D=0AMike sales@vsafetrack.com
-----boundary_6508_803fee82-46f2-43ec-aef3-f2ff05490328
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit d4033141873bbbc79c954dfcea502726ee278c5e:
 
-<!DOCTYPE HTML>=0A<html><head><meta HTTP-EQUIV=3D"Content-Type" C=
-ONTENT=3D"text/html; charset=3DUTF-8"/>=0D=0A                    =
-                  <title>Personal SOS GPS Tracker for Quick Assis=
-tance</title></head><body><P><FONT style=3D"FONT-FAMILY: Trebuche=
-t MS">Hi</FONT></P>=0D=0A<P><FONT style=3D"FONT-FAMILY: Trebuchet=
- MS">We trust this message finds you well. We're excited to intro=
-duce our exceptional SOS GPS tracker to you, and we believe it pr=
-esents a lucrative opportunity for your business. Our cutting-edg=
-e technology is poised to revolutionize the personal safety marke=
-t, and we invite you to be part of this journey.<BR></FONT></P>=0D=0A=
-<P><FONT style=3D"FONT-FAMILY: Trebuchet MS"><IMG border=3D0 hspa=
-ce=3D0 alt=3D"" src=3D"https://scontent-hkg4-1.xx.fbcdn.net/v/t39=
-.30808-6/469700402_8193058820795861_1848036785947514679_n.jpg?stp=
-=3Ddst-jpg_s720x720_tt6&amp;_nc_cat=3D106&amp;ccb=3D1-7&amp;_nc_s=
-id=3D127cfc&amp;_nc_ohc=3Dwtt1epH2BDoQ7kNvgGkq8Jv&amp;_nc_zt=3D23=
-&amp;_nc_ht=3Dscontent-hkg4-1.xx&amp;_nc_gid=3DApf-382rwzvd6GknrU=
-z3dFF&amp;oh=3D00_AYDFEi0B8pT9RIzKzKvCJd0wHQ3FFerMi4isXxIVzWPyJQ&=
-amp;oe=3D676546D9" align=3Dbaseline></P></FONT><FONT style=3D"FON=
-T-FAMILY: Trebuchet MS">=0D=0A<P>About Our SOS GPS Tracker:</FONT=
-></P>=0D=0A<P><FONT style=3D"FONT-FAMILY: Trebuchet MS">Our SOS G=
-PS tracker is more than a product; it's a commitment to safety an=
-d security. Designed to cater to various demographics and needs, =
-its features include:<BR></FONT></P>=0D=0A<P><FONT style=3D"FONT-=
-FAMILY: Trebuchet MS">Big SOS button for emergency rescued<BR>Voi=
-ce monitoring<BR>Fall down alarm to control center<BR>4G LTE netw=
-ork for GPS tracking data transmitted<BR>Two ways voice communica=
-tion<BR>Mini design for easy portable</P></FONT>=0D=0A<P><FONT st=
-yle=3D"FONT-FAMILY: Trebuchet MS">- One-Touch SOS Alert:<BR></FON=
-T><FONT style=3D"FONT-FAMILY: Trebuchet MS">A single button press=
- transmits the user's location to designated contacts and emergen=
-cy response teams.<BR></FONT><FONT style=3D"FONT-FAMILY: Trebuche=
-t MS"><BR>-Real-time GPS Tracking:Continuous location sharing pro=
-vides peace of mind to families, adventurers, and businesses alik=
-e.<BR></FONT><FONT style=3D"FONT-FAMILY: Trebuchet MS"><BR>- Geo-=
-Fencing:<BR></FONT><FONT style=3D"FONT-FAMILY: Trebuchet MS">Cust=
-omizable virtual perimeters trigger alerts when breached, ensurin=
-g safety boundaries are upheld.<BR></FONT><FONT style=3D"FONT-FAM=
-ILY: Trebuchet MS"><BR>-Long Battery Life: Extended operational d=
-uration minimizes downtime for charging.<BR>-User-Friendly App:In=
-tuitive interface for effortless management of settings, alerts, =
-and location history.</FONT></P>=0D=0A<P><FONT style=3D"FONT-FAMI=
-LY: Trebuchet MS">By partnering with us, you can leverage a range=
- of benefits:</FONT></P>=0D=0A<P><FONT style=3D"FONT-FAMILY: Treb=
-uchet MS">- Competitive Pricing: Enjoy wholesale pricing that ens=
-ures healthy profit margins for your business.<BR>- Quality Assur=
-ance:Our trackers undergo rigorous testing to meet the highest in=
-dustry standards.<BR>- Exclusive Partnership:Gain exclusive acces=
-s to our products in your designated market.<BR>- Marketing Suppo=
-rt:We offer marketing materials and guidance to help you promote =
-the SOS GPS tracker effectively.</FONT></P>=0D=0A<P><FONT style=3D=
-"FONT-FAMILY: Trebuchet MS">Our goal is to create a mutually bene=
-ficial partnership that extends the reach of our innovative techn=
-ology while maximizing your business's growth potential.</FONT></=
-P>=0D=0A<P><FONT style=3D"FONT-FAMILY: Trebuchet MS">Thank you fo=
-r considering&nbsp;us as your partner for the SOS GPS tracker. We=
- look forward to the prospect of working together to make a lasti=
-ng impact on personal safety.</FONT></P>=0D=0A<P><FONT style=3D"F=
-ONT-FAMILY: Trebuchet MS">Best regards,</FONT></P>=0D=0A<P><FONT =
-style=3D"FONT-FAMILY: Trebuchet MS">Mike&nbsp; sales@vsafetrack.c=
-om<BR></FONT></P></body></html>
-----boundary_6508_803fee82-46f2-43ec-aef3-f2ff05490328--
+  Merge branch 'robot/pr-0-1734347915' into 'main' (2024-12-16 12:38:57 +0000)
 
+are available in the Git repository at:
 
+  https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
+video-fw-SC7180-QCS615
+
+for you to fetch changes up to 07479dbb62054d362a206e71c2e4cb52181c81d4:
+
+  qcom: venus-5.4: update firmware binary for sc7180 and qcs615 (2024-12-17
+11:36:00 +0530)
+
+----------------------------------------------------------------
+Dikshita Agarwal (1):
+      qcom: venus-5.4: update firmware binary for sc7180 and qcs615
+
+ WHENCE                      |   2 +-
+ qcom/venus-5.4/venus.mbn    | Bin 922240 -> 922216 bytes
+ qcom/venus-5.4/venus_s6.mbn | Bin 922240 -> 0 bytes
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ delete mode 100644 qcom/venus-5.4/venus_s6.mbn
+
+Thanks,
+Dikshita
