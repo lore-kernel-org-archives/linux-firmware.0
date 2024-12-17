@@ -1,157 +1,118 @@
-Return-Path: <SRS0=NXUJ=TK=quicinc.com=quic_sibis@kernel.org>
+Return-Path: <SRS0=2557=TK=linaro.org=dmitry.baryshkov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B104E7716A
-	for <linux-firmware@archiver.kernel.org>; Tue, 17 Dec 2024 09:43:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5F4D3E7717F
+	for <linux-firmware@archiver.kernel.org>; Tue, 17 Dec 2024 10:42:14 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C85CAC4CEDD; Tue, 17 Dec 2024 09:43:14 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id 2B6CEC4CED4; Tue, 17 Dec 2024 10:42:14 +0000 (UTC)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id BF36CC4CED3
-	for <linux-firmware@kernel.org>; Tue, 17 Dec 2024 09:43:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org BF36CC4CED3
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BH9a2o3017465;
-	Tue, 17 Dec 2024 09:43:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	xPQav+aEhNiaVB/JFlJFqhmrciu06BdW+IszkryI0nQ=; b=RvwmpkQQukoShwD5
-	0AVcmIzqmWrqRhiNXOciuMEcfK3Ld7Vm+z/mliyVQKBLJoeIPO4/turu/RGHEjsq
-	iIwsdRTTIm8q1CLBZDx4YCHJkJKQrWTuf1fMMYZLzkMOMPUbKxeZeDI8UHdDBskp
-	pzAz7kRYvzC+ralqiE4lG9dSQlWd4uhvVvJNvd5MzebmRqACnhsQPHhXe1XOhvtf
-	RkI//lCOmY+u8IbMyZnC5D66LaVpjXEgTC/Jzzm0iT6i2hJ+zPInmD4xfvgjUji5
-	ZYU0P5zGfQkrYJJ7sSPColKk4lludPM4MZcQNWGmLGmCftce5Aw/u5vBMRIBvL0d
-	5sA1VA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43jvs81fjg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Dec 2024 09:43:12 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BH9hBQX007974
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Dec 2024 09:43:11 GMT
-Received: from [10.190.163.187] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 17 Dec
- 2024 01:43:09 -0800
-Message-ID: <4fb0d093-d00c-13cd-9dba-7393dbcf897c@quicinc.com>
-Date: Tue, 17 Dec 2024 15:13:06 +0530
+	by smtp.kernel.org (Postfix) with ESMTPS id 39E2DC4CED3
+	for <linux-firmware@kernel.org>; Tue, 17 Dec 2024 10:42:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 39E2DC4CED3
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e46ebe19489so2092023276.2
+        for <linux-firmware@kernel.org>; Tue, 17 Dec 2024 02:42:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734432132; x=1735036932; darn=kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=51uJIXpUfFnVo7MBIRr3t63/q5dj04h9irCtAI8LVXo=;
+        b=xAW4MI/b3jpmSAoTKMcCZ9HJ3lfcOAOW40BtRZcvWGRFxC2X4ceGFAdD38U24FCJyb
+         ILIDXu0cNAG/sEPmNC+Nzd/1dUwUruWrt/F7T7R4oWokt5uNXhc9u9SbahZhLV0GZhTF
+         NVkDgXSxSDjTo6NgYFBCAe5BYpwpaei7IUOUed2JdDGLhbFgBpO/OZMFOT8wFPs/YR54
+         x3zrYtORGJKnFb/omgvdyE08gX4wvKMqutkW3u7xRJbw///73Gdx1Yh25hYM2DJ/5hT5
+         y7wab7AswtW2rMTCmR21OKUmvvpJ/2zI0ZAfLhNMX9ErgD6jqEv9kH1SdagrHXQI0s2Y
+         3MLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734432132; x=1735036932;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=51uJIXpUfFnVo7MBIRr3t63/q5dj04h9irCtAI8LVXo=;
+        b=Y/rXqK7V1WFSueQpgdat+Zs1+kuz7bv20rhlmJHYcMF4V5CktU3uC5uC1Pf9xsmWtn
+         HwU1XDt/QS2Xl0YXYm/MLHnFetJ/2nB1IKOmBmW2TDCMAWP+Gxkk9PqIsh0eO3to8SzY
+         tDuwYzsLDYm30d0xr12HyxDj05FD7Jp2iE5EvKqqwjUrRbxMvgvtsc5ym1dpN4gPQbDd
+         PGIyuf4bPktNFNiHs9f6CxafqIXa5J8x3AUL+h4X7DkBBm+YdYZaHh2EaQzIZlHk3ABu
+         Xzva09VCzvxMdDRnQYAUZzIEGmOlLswFgXp0UU3Pg8zxE4sODsFHwxrbK9kFNg8ZjxvM
+         1aOA==
+X-Gm-Message-State: AOJu0YwwbWBefCMLnzkQ6XutkCSWObtyD05kv/TECYoCi5iJagyVweyj
+	Z83zm+VgZYAOjQdq+k2dC8DZuIYK6DScOdb9Y8R4XivcqY5GQa2wG7D6A1JfTmWvVofcbTHn7Zn
+	2HBpMfHAb/lviHc6rhi1Bg2IBRnNWimRkk7+XzN941LDWMsJZP2Q=
+X-Gm-Gg: ASbGncuRCRNlbxx67Egjv9GjOkYNlySRbP7yNAD0dEtONhKa1dgNZL2+YLJQZkxf1AL
+	12kcIZ8fTmSQOdrMWAJMV3j3Dc/Afnqaqd+BNSTB/FKESAw0+XCa+
+X-Google-Smtp-Source: AGHT+IFBzusJWmQNhvKHvEqXYfXypxRtlG2uCAWL1BMOAFMt4jolg6zbrNzOFLjWJFuL0bCnI2F9Znc5zjzhb4eLypc=
+X-Received: by 2002:a05:6902:1542:b0:e4b:f516:38ba with SMTP id
+ 3f1490d57ef6-e4bf516431amr6539748276.17.1734432131886; Tue, 17 Dec 2024
+ 02:42:11 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: qcom: Add Audio firmware for X1E80100 CRD/QCPs
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <6e0ae91f-7233-ca54-953e-734a71d76e22@quicinc.com>
+In-Reply-To: <6e0ae91f-7233-ca54-953e-734a71d76e22@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 17 Dec 2024 12:42:01 +0200
+Message-ID: <CAA8EJppvAPmneYtixMhACf7NJdOX837UFuFdVCzbzBDMOSDR0Q@mail.gmail.com>
+Subject: Re: update firmware binary for sc7180 and qcs615
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>
 List-Id: <linux-firmware.lore.kernel.org>
-CC: <linux-firmware@kernel.org>, <abickett@quicinc.com>
-References: <7f156ffe-9629-17c1-47c5-97e0d0f3e1e0@quicinc.com>
- <i4ihcid3ka67rhwziue5tblahs6bwaehazq74bd5y64ybs4ahv@l6ti4xqr3yq6>
- <d169bd29-b756-f027-9f33-02106b702359@quicinc.com>
- <a3znmntnj3jliy77qffmiukdwccz75mkg5xj72yw3zxkqmjjsb@geavo66vpbpe>
- <63fe4338-43dd-e771-45fb-57a2096a1002@quicinc.com>
- <cz6nu7fuf23poqahslmnqisuiqakjzkmwvk2znvohmjrnvgfhs@wb4wkugrkgfm>
- <e02e6eb7-9af5-87a2-a7f0-248d9c7543c2@quicinc.com>
- <CAA8EJpoagdAXE7L7qG9vQCkJbJ-MnB0LaYtqAoa8yLgj91O9ug@mail.gmail.com>
-Content-Language: en-US
-From: Sibi Sankar <quic_sibis@quicinc.com>
-In-Reply-To: <CAA8EJpoagdAXE7L7qG9vQCkJbJ-MnB0LaYtqAoa8yLgj91O9ug@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: aMKU-nxeI_vWsaB7fIH6UeTOqFYZPn5h
-X-Proofpoint-ORIG-GUID: aMKU-nxeI_vWsaB7fIH6UeTOqFYZPn5h
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- suspectscore=0 lowpriorityscore=0 phishscore=0 bulkscore=0
- priorityscore=1501 mlxscore=0 mlxlogscore=804 adultscore=0 malwarescore=0
- clxscore=1015 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412170079
+Cc: linux-firmware@kernel.org, 
+	"Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+
+Hi Dikshita,
+
+On Tue, 17 Dec 2024 at 08:10, Dikshita Agarwal
+<quic_dikshita@quicinc.com> wrote:
+>
+> Hi Josh,
+>
+> Please pull below change, and as discussed, skipped creating symlink for now.
+
+It's sad to see that this change wasn't even verified:
+
+$ make check
+[...]
+E: qcom/venus-5.4/venus_s6.mbn listed in WHENCE does not exist
+
+Not to mention that you Josh nearly asked to add the symlink in his
+response: "...but you likely want to include a symlink for
+venus_s6.mbn ..."
+
+>
+> The following changes since commit d4033141873bbbc79c954dfcea502726ee278c5e:
+>
+>   Merge branch 'robot/pr-0-1734347915' into 'main' (2024-12-16 12:38:57 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
+> video-fw-SC7180-QCS615
+>
+> for you to fetch changes up to 07479dbb62054d362a206e71c2e4cb52181c81d4:
+>
+>   qcom: venus-5.4: update firmware binary for sc7180 and qcs615 (2024-12-17
+> 11:36:00 +0530)
+>
+> ----------------------------------------------------------------
+> Dikshita Agarwal (1):
+>       qcom: venus-5.4: update firmware binary for sc7180 and qcs615
+>
+>  WHENCE                      |   2 +-
+>  qcom/venus-5.4/venus.mbn    | Bin 922240 -> 922216 bytes
+>  qcom/venus-5.4/venus_s6.mbn | Bin 922240 -> 0 bytes
+>  3 files changed, 1 insertion(+), 1 deletion(-)
+>  delete mode 100644 qcom/venus-5.4/venus_s6.mbn
+>
+> Thanks,
+> Dikshita
 
 
 
-On 12/5/24 16:49, Dmitry Baryshkov wrote:
-> On Thu, 5 Dec 2024 at 12:07, Sibi Sankar <quic_sibis@quicinc.com> wrote:
->>
->>
->>
->> On 11/29/24 20:07, Dmitry Baryshkov wrote:
->>> On Tue, Oct 22, 2024 at 11:49:37AM +0530, Sibi Sankar wrote:
->>>>
->>>>
->>>> On 10/18/24 21:23, Dmitry Baryshkov wrote:
->>>>> On Fri, Oct 18, 2024 at 08:58:06PM +0530, Sibi Sankar wrote:
->>>>>>
->>>>>>
->>>>>> On 10/18/24 16:13, Dmitry Baryshkov wrote:
->>>>>>> On Fri, Oct 18, 2024 at 12:43:14PM +0530, Sibi Sankar wrote:
->>>>>>>>
->>>>>>>> Hello,
->>>>>>>>
->>>>>>>> The following changes since commit 8dbcf94bfc68bdb1c6df3a42762b275557095558:
->>>>>>>>
->>>>>>>>       Merge branch 'robot/patch-0-1729102102' into 'main' (2024-10-17 15:40:04
->>>>>>>> +0000)
->>>>>>>>
->>>>>>>> are available in the Git repository at:
->>>>>>>>
->>>>>>>>       https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
->>>>>>>> adsp-fw-x1e80100-crd
->>>>>>>
->>>>>>> Could you please clarify, why adspr.jsn doesn't declare tms/pdr_enabled?
->>>>>>> Windows firmware has it in adspr.jsn.
->>>>>>
->>>>>> Hey Dmitry,
->>>>>>
->>>>>> Can you please share what device and META you are comparing this
->>>>>> firmware against? This firmware was taken from the build source
->>>>>> without any modification.
->>>>>
->>>>> I have been looking at the Windows driver from WSU for the CRD,
->>>>> qsubsys_ext_adsp8380.cab. DriverVer = 08/27/2024,2.0.4114.4600.
->>>>>
->>>>> For the reference, I checked several last drops, they have the following
->>>>> versions of qcadsp8380.mbn:
->>>>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00792-HAMOA-1
->>>>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00789.1-HAMOA-1
->>>>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00787.2-HAMOA-1
->>>>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00784-HAMOA-1
->>>>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00781-HAMOA-1
->>>>>
->>>>> All of them list tms/pdr_enabled in adspr.jsn
->>>>>
->>>>
->>>> Thanks for listing them. Already following up internally regarding
->>>> this discrepancy, will push out an update once it gets resolved.
->>>
->>> Sibi, this has been more than a month ago. Could you please update us on
->>> the pdr_enabled necessity? I'm asking since it's also a part of the
->>> kernel data nowadays.
->>
->> Hey Dmitry,
->>
->> Extremely sorry for the delay. I was told this is just a platform
->> specific flag that we can decide to turn on if it handles PDR.
->> Given that linux does handle PDR we can safely turn it on.
-> 
-> So... is there any reason why it wasn't set previously? Which
-> platforms should have it in the enabled state?
-
-We had just pushed out the firmware out without modification
-but yes like you say it could have been turned on during the
-initial push itself since linux supports pdr.
-
--Sibi
-
-> 
+-- 
+With best wishes
+Dmitry
