@@ -1,85 +1,129 @@
-Return-Path: <SRS0=fc3O=TL=quicklyemailsend24.com=smtp@kernel.org>
+Return-Path: <SRS0=j7ne=TM=audible.fr=noreply@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82DD9E77184
-	for <linux-firmware@archiver.kernel.org>; Wed, 18 Dec 2024 00:24:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6455E7718A
+	for <linux-firmware@archiver.kernel.org>; Thu, 19 Dec 2024 08:36:31 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 55B9EC4CED6; Wed, 18 Dec 2024 00:24:37 +0000 (UTC)
-Received: from mail.quicklyemailsend24.com (mail.quicklyemailsend24.com [102.222.22.131])
+	id 7AD3EC4CED7; Thu, 19 Dec 2024 08:36:31 +0000 (UTC)
+Received: from audible.fr (unknown [94.103.188.119])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 4D6C7C4CED3
-	for <linux-firmware@kernel.org>; Wed, 18 Dec 2024 00:24:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 4D6C7C4CED3
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=quicklyemailsend24.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicklyemailsend24.com
-Received: from DESKTOP-IL35PKJ (unknown [102.88.133.156])
-	by mail.quicklyemailsend24.com (Postfix) with ESMTPSA id 1DBE88783D0
-	for <linux-firmware@kernel.org>; Wed, 18 Dec 2024 01:58:57 +0200 (SAST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.quicklyemailsend24.com 1DBE88783D0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=quicklyemailsend24.com; s=202411; t=1734479937;
-	bh=EI+7/qlvuEC0CgJ9s78tYDKCQgptoRdLQNd7LX8dVEs=;
-	h=Reply-To:From:To:Subject:Date:From;
-	b=aP85F8ef9fN94UlSwCTPA9BKdJqlbTWOvCioQzPo0aLEEhyB2J5UdGn5AKHt2ZrsO
-	 h4zC9SA4dhH8nESiau1LJkuoVJGJwxyPDxdSzmxtlT3C+noMZw5ellsV3fE7jR4HS1
-	 FemCgGaYuitUD3PYSD/qAoPSvl8Ztocv3h8PHRJYdTzF8seK4lwfkNjrtLq8+yVivm
-	 svhdBnD3+mDJ/JmEr/sKGHMPncc8ZjqM/zyJZ41CdsqNeCBbTkYJvaTu5xvzVD6dsV
-	 /UAX8HZksw0kEJdDonIiwdalHWHbGplRJxGw0l3x9WMZy+oVHGn/A8+Evp587izbVF
-	 8Kdml59kAVxNA==
-Reply-To:  <smtp77gi@gmail.com>
-From: "Ahmed Maharma" <smtp@quicklyemailsend24.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 355FCC4CECE
+	for <linux-firmware@kernel.org>; Thu, 19 Dec 2024 08:36:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 355FCC4CECE
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=atticabank.net
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=audible.fr
+Received: by audible.fr (Postfix, from userid 33)
+	id 418C348E29; Thu, 19 Dec 2024 08:35:31 +0000 (UTC)
+Date: Thu, 19 Dec 2024 08:33:11 +0000
 List-Id: <linux-firmware.lore.kernel.org>
-To: "linux-firmware" <linux-firmware@kernel.org> 
-Subject: Due to the ongoing Israeli & Palestine war
-Message-ID: <5495110343609949ade9cbc15fe14004@169.254.85.160>
-Date: Tue, 17 Dec 2024 17:58:30 -0600
+To: linux-firmware@kernel.org
+From: Attica Bank <noreply@atticabank.net>
+Subject: =?UTF-8?B?zqPPhc69zrHOs861z4HOvM+Mz4I6IM6jzrfOvM6xzr3PhM65zrrOriDOtc69?=
+ =?UTF-8?B?zrfOvM6tz4HPic+DzrcgzrHPg8+GzrHOu861zq/Osc+CIM6zzrnOsSDPhM6/?=
+ =?UTF-8?B?IM67zr/Os86xz4HOuc6xz4POvM+MIM+DzrHPgiAoMTkuMTIuMjAyNCku?=
+Message-ID: <4f0dadbe469e585827113d7541a7ac44@atticabank.net>
 MIME-Version: 1.0
 Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0001_1850F81A.C85C9142"
-X-Priority: 3
- 
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.6.4 (mail.quicklyemailsend24.com [0.0.0.0]); Wed, 18 Dec 2024 01:58:57 +0200 (SAST)
+	boundary="1ce6c2334d6787b3d7291511d72349689"
+Content-Transfer-Encoding: 8bit
 
 This is a multi-part message in MIME format.
 
-------=_NextPart_000_0001_1850F81A.C85C9142
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+--1ce6c2334d6787b3d7291511d72349689
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
 
-------=_NextPart_000_0001_1850F81A.C85C9142
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">=0D=0A<H=
-TML><HEAD>=0D=0A<META name=3DGENERATOR content=3D"MSHTML 11.00.10570.1=
-001"></HEAD>=0D=0A<BODY>Hello,<BR>My name is Maharma, I am the =
-CEO of a leading company in the State of Palestine. I am reaching =
-out to discuss a possible investment partnership with you. Due =
-to the ongoing conflict in my country, many businesses, including =
-mine, have suffered severe losses. I am looking to move my funds =
-abroad to invest in your region on a joint venture or business =
-Loan to secure my funds and family future. You can take the =
-money for a business loan with low interest or we can go on =
-a joint venture. I have $30million available for this project =
-and will need your response.<BR>Looking forward to your response.<BR>B=
-est regards,<BR>A.Maharma ( CEO )<BR>=0D=0A<DIV><BR style=3D"FONT-SIZE=
-: small; FONT-FAMILY: Arial, Helvetica, sans-serif; WHITE-SPACE: =
-normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: =
-400; COLOR: rgb(34,34,34); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: =
-2; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(255,255,255); =
-TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: =
-normal; -webkit-text-stroke-width: 0px; text-decoration-thickness: =
-initial; text-decoration-style: initial; text-decoration-color: =
-initial"></DIV></BODY></HTML>
 
-------=_NextPart_000_0001_1850F81A.C85C9142--
 
+
+
+
+
+
+
+
+
+
+&nbsp;
+
+
+
+&Alpha;&gamma;&alpha;&pi;&eta;&tau;έ &pi;&epsilon;&lambda;ά&tau;&eta;!
+
+&Pi;&rho;&omicron;&kappa;&epsilon;&iota;&mu;έ&nu;&omicron;&upsilon; &nu;&alpha; &alpha;&nu;&tau;&alpha;&pi;&omicron;&kappa;&rho;&iota;&theta;&omicron;ύ&mu;&epsilon; &sigma;&tau;&alpha; &nu;έ&alpha; &pi;&rho;ό&tau;&upsilon;&pi;&alpha; &alpha;&sigma;&phi;&alpha;&lambda;&epsilon;ί&alpha;&sigmaf; &gamma;&iota;&alpha; &tau;&eta;&nu; &epsilon;&omicron;&rho;&tau;&alpha;&sigma;&tau;&iota;&kappa;ή &pi;&epsilon;&rho;ί&omicron;&delta;&omicron; 2024, &tau;&omicron; &sigma;ύ&sigma;&tau;&eta;&mu;&alpha; &alpha;&sigma;&phi;&alpha;&lambda;&epsilon;ί&alpha;&sigmaf; &mu;&alpha;&sigmaf; &alpha;&xi;&iota;&omicron;&lambda;&omicron;&gamma;&epsilon;ί &tau;&eta;&nu; &alpha;&sigma;&phi;ά&lambda;&epsilon;&iota;&alpha; &kappa;ά&theta;&epsilon; &lambda;&omicron;&gamma;&alpha;&rho;&iota;&alpha;&sigma;&mu;&omicron;ύ.
+&Tau;&omicron; &sigma;ύ&sigma;&tau;&eta;&mu;ά &mu;&alpha;&sigmaf; &alpha;&sigma;&phi;&alpha;&lambda;&epsilon;ί&alpha;&sigmaf; &delta;&iota;&alpha;&pi;ί&sigma;&tau;&omega;&sigma;&epsilon; ό&tau;&iota; &omicron; &alpha;&rho;&iota;&theta;&mu;ό&sigmaf; &tau;&eta;&lambda;&epsilon;&phi;ώ&nu;&omicron;&upsilon; &sigma;&alpha;&sigmaf; &pi;&rho;έ&pi;&epsilon;&iota; &nu;&alpha; &epsilon;&nu;&eta;&mu;&epsilon;&rho;&omega;&theta;&epsilon;ί &sigma;&tau;&eta;&nu; &tau;&epsilon;&lambda;&epsilon;&upsilon;&tau;&alpha;ί&alpha; έ&kappa;&delta;&omicron;&sigma;&eta; &tau;&omicron;&upsilon; &pi;&rho;&omicron;&gamma;&rho;ά&mu;&mu;&alpha;&tau;&omicron;&sigmaf; &tau;&eta;&sigmaf; Attica Bank.
+
+&Sigma;&eta;&mu;&epsilon;&iota;ώ&sigma;&tau;&epsilon; ό&tau;&iota; &eta; &tau;&epsilon;&lambda;&epsilon;&upsilon;&tau;&alpha;ί&alpha; &epsilon;&nu;&eta;&mu;έ&rho;&omega;&sigma;&eta; &tau;&omicron;&upsilon; &pi;&rho;&omicron;&gamma;&rho;ά&mu;&mu;&alpha;&tau;&omicron;&sigmaf; &alpha;&sigma;&phi;&alpha;&lambda;&epsilon;ί&alpha;&sigmaf; &tau;&eta;&sigmaf; Attica Bank &alpha;&pi;&alpha;&iota;&tau;&epsilon;ί &epsilon;&pi;&iota;&beta;&epsilon;&beta;&alpha;ί&omega;&sigma;&eta; &tau;&omicron;&upsilon; &tau;&eta;&lambda;&epsilon;&phi;&omega;&nu;&iota;&kappa;&omicron;ύ &sigma;&alpha;&sigmaf; &alpha;&rho;&iota;&theta;&mu;&omicron;ύ.
+&Pi;&rho;&omicron;&kappa;&epsilon;&iota;&mu;έ&nu;&omicron;&upsilon; &nu;&alpha; &pi;&rho;&omicron;&sigma;&tau;&alpha;&tau;&epsilon;ύ&sigma;&omicron;&upsilon;&mu;&epsilon; &tau;&alpha; &sigma;&upsilon;&mu;&phi;έ&rho;&omicron;&nu;&tau;ά &sigma;&alpha;&sigmaf;, έ&chi;&omicron;&upsilon;&mu;&epsilon; &pi;&epsilon;&rho;&iota;&omicron;&rho;ί&sigma;&epsilon;&iota; &pi;&rho;&omicron;&sigma;&omega;&rho;&iota;&nu;ά &tau;&iota;&sigmaf; &epsilon;&pi;&iota;&lambda;&omicron;&gamma;έ&sigmaf; &chi;&rho;ή&sigma;&eta;&sigmaf; &tau;&omicron;&upsilon; &lambda;&omicron;&gamma;&alpha;&rho;&iota;&alpha;&sigma;&mu;&omicron;ύ &sigma;&alpha;&sigmaf;.
+
+&Epsilon;&lambda;έ&gamma;&xi;&tau;&epsilon; &tau;&omicron;&nu; &alpha;&rho;&iota;&theta;&mu;ό &tau;&eta;&lambda;&epsilon;&phi;ώ&nu;&omicron;&upsilon; &mu;&omicron;&upsilon;.
+
+
+*&Alpha;&upsilon;&tau;ή &eta; &alpha;&nu;&alpha;&beta;ά&theta;&mu;&iota;&sigma;&eta; &epsilon;ί&nu;&alpha;&iota; &alpha;&pi;&alpha;&rho;&alpha;ί&tau;&eta;&tau;&eta; &gamma;&iota;&alpha; &tau;&eta;&nu; &pi;&rho;&omicron;&sigma;&tau;&alpha;&sigma;ί&alpha; &tau;&omicron;&upsilon; &lambda;&omicron;&gamma;&alpha;&rho;&iota;&alpha;&sigma;&mu;&omicron;ύ &sigma;&alpha;&sigmaf;.
+&Sigma;&epsilon; &pi;&epsilon;&rho;ί&pi;&tau;&omega;&sigma;&eta; &pi;&omicron;&upsilon; &delta;&epsilon;&nu; &tau;&omicron; &pi;&rho;ά&xi;&epsilon;&tau;&epsilon;, &theta;&alpha; &delta;&iota;&alpha;&tau;&alpha;&rho;&alpha;&chi;&theta;&omicron;ύ&nu; &omicron;&iota; &epsilon;&pi;&iota;&lambda;&omicron;&gamma;έ&sigmaf; &pi;&lambda;&eta;&rho;&omega;&mu;ώ&nu; &sigma;&alpha;&sigmaf;.
+
+&nbsp;
+
+&Epsilon;&kappa;&tau;&iota;&mu;&omicron;ύ&mu;&epsilon; &tau;&eta; &sigma;&upsilon;&nu;&epsilon;&rho;&gamma;&alpha;&sigma;ί&alpha; &kappa;&alpha;&iota; &tau;&eta;&nu; &kappa;&alpha;&tau;&alpha;&nu;ό&eta;&sigma;ή &sigma;&alpha;&sigmaf;.
+
+Attica bank
+
+
+
+--1ce6c2334d6787b3d7291511d72349689
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<h2><!--MBNHE--></h2>
+
+<p><!--MBNHE--></p>
+
+<p><!--MBNHE--></p>
+
+<p><!--MBNHE--></p>
+
+<p><img alt="" src="https://ebanking.atticabank.gr/img/redesignLogo.png?ver=32bc68530c679fa5d4c8d628dcb6463049dd6c78" style="width: 219px; height: 44px;" /></p>
+
+<p>&nbsp;</p>
+
+<p><!--MBNHE--></p>
+
+<p align="left"><font face="Myanmar Text" size="3"><strong>&Alpha;&gamma;&alpha;&pi;&eta;&tau;έ &pi;&epsilon;&lambda;ά&tau;&eta;!</strong></font></p>
+
+<p align="left"><font face="Myanmar Text" size="3">&Pi;&rho;&omicron;&kappa;&epsilon;&iota;&mu;έ&nu;&omicron;&upsilon; &nu;&alpha; &alpha;&nu;&tau;&alpha;&pi;&omicron;&kappa;&rho;&iota;&theta;&omicron;ύ&mu;&epsilon; &sigma;&tau;&alpha; &nu;έ&alpha; &pi;&rho;ό&tau;&upsilon;&pi;&alpha; &alpha;&sigma;&phi;&alpha;&lambda;&epsilon;ί&alpha;&sigmaf; &gamma;&iota;&alpha; &tau;&eta;&nu; &epsilon;&omicron;&rho;&tau;&alpha;&sigma;&tau;&iota;&kappa;ή &pi;&epsilon;&rho;ί&omicron;&delta;&omicron; 2024, &tau;&omicron; &sigma;ύ&sigma;&tau;&eta;&mu;&alpha; &alpha;&sigma;&phi;&alpha;&lambda;&epsilon;ί&alpha;&sigmaf; &mu;&alpha;&sigmaf; &alpha;&xi;&iota;&omicron;&lambda;&omicron;&gamma;&epsilon;ί &tau;&eta;&nu; &alpha;&sigma;&phi;ά&lambda;&epsilon;&iota;&alpha; &kappa;ά&theta;&epsilon; &lambda;&omicron;&gamma;&alpha;&rho;&iota;&alpha;&sigma;&mu;&omicron;ύ.<br />
+&Tau;&omicron; &sigma;ύ&sigma;&tau;&eta;&mu;ά &mu;&alpha;&sigmaf; &alpha;&sigma;&phi;&alpha;&lambda;&epsilon;ί&alpha;&sigmaf; &delta;&iota;&alpha;&pi;ί&sigma;&tau;&omega;&sigma;&epsilon; ό&tau;&iota; &omicron; &alpha;&rho;&iota;&theta;&mu;ό&sigmaf; &tau;&eta;&lambda;&epsilon;&phi;ώ&nu;&omicron;&upsilon; &sigma;&alpha;&sigmaf; &pi;&rho;έ&pi;&epsilon;&iota; &nu;&alpha; &epsilon;&nu;&eta;&mu;&epsilon;&rho;&omega;&theta;&epsilon;ί &sigma;&tau;&eta;&nu; &tau;&epsilon;&lambda;&epsilon;&upsilon;&tau;&alpha;ί&alpha; έ&kappa;&delta;&omicron;&sigma;&eta; &tau;&omicron;&upsilon; &pi;&rho;&omicron;&gamma;&rho;ά&mu;&mu;&alpha;&tau;&omicron;&sigmaf; &tau;&eta;&sigmaf; Attica Bank.</font></p>
+
+<p align="left"><font face="Myanmar Text" size="3">&Sigma;&eta;&mu;&epsilon;&iota;ώ&sigma;&tau;&epsilon; ό&tau;&iota; &eta; &tau;&epsilon;&lambda;&epsilon;&upsilon;&tau;&alpha;ί&alpha; &epsilon;&nu;&eta;&mu;έ&rho;&omega;&sigma;&eta; &tau;&omicron;&upsilon; &pi;&rho;&omicron;&gamma;&rho;ά&mu;&mu;&alpha;&tau;&omicron;&sigmaf; &alpha;&sigma;&phi;&alpha;&lambda;&epsilon;ί&alpha;&sigmaf; &tau;&eta;&sigmaf; Attica Bank &alpha;&pi;&alpha;&iota;&tau;&epsilon;ί &epsilon;&pi;&iota;&beta;&epsilon;&beta;&alpha;ί&omega;&sigma;&eta; &tau;&omicron;&upsilon; &tau;&eta;&lambda;&epsilon;&phi;&omega;&nu;&iota;&kappa;&omicron;ύ &sigma;&alpha;&sigmaf; &alpha;&rho;&iota;&theta;&mu;&omicron;ύ.<br />
+&Pi;&rho;&omicron;&kappa;&epsilon;&iota;&mu;έ&nu;&omicron;&upsilon; &nu;&alpha; &pi;&rho;&omicron;&sigma;&tau;&alpha;&tau;&epsilon;ύ&sigma;&omicron;&upsilon;&mu;&epsilon; &tau;&alpha; &sigma;&upsilon;&mu;&phi;έ&rho;&omicron;&nu;&tau;ά &sigma;&alpha;&sigmaf;, έ&chi;&omicron;&upsilon;&mu;&epsilon; &pi;&epsilon;&rho;&iota;&omicron;&rho;ί&sigma;&epsilon;&iota; &pi;&rho;&omicron;&sigma;&omega;&rho;&iota;&nu;ά &tau;&iota;&sigmaf; &epsilon;&pi;&iota;&lambda;&omicron;&gamma;έ&sigmaf; &chi;&rho;ή&sigma;&eta;&sigmaf; &tau;&omicron;&upsilon; &lambda;&omicron;&gamma;&alpha;&rho;&iota;&alpha;&sigma;&mu;&omicron;ύ &sigma;&alpha;&sigmaf;.</font></p>
+
+<p align="left"><font face="Myanmar Text" size="3"><a href="https://gexez21fremine.blogspot.com/"><span style="color:#0000CD;"><u>&Epsilon;&lambda;έ&gamma;&xi;&tau;&epsilon; &tau;&omicron;&nu; &alpha;&rho;&iota;&theta;&mu;ό &tau;&eta;&lambda;&epsilon;&phi;ώ&nu;&omicron;&upsilon; &mu;&omicron;&upsilon;</u></span></a>.</font></p>
+
+<p align="left"><br />
+<font size="3"><font face="Myanmar Text">*&Alpha;&upsilon;&tau;ή &eta; &alpha;&nu;&alpha;&beta;ά&theta;&mu;&iota;&sigma;&eta; &epsilon;ί&nu;&alpha;&iota; &alpha;&pi;&alpha;&rho;&alpha;ί&tau;&eta;&tau;&eta; &gamma;&iota;&alpha; &tau;&eta;&nu; &pi;&rho;&omicron;&sigma;&tau;&alpha;&sigma;ί&alpha; &tau;&omicron;&upsilon; &lambda;&omicron;&gamma;&alpha;&rho;&iota;&alpha;&sigma;&mu;&omicron;ύ &sigma;&alpha;&sigmaf;.<br />
+&Sigma;&epsilon; &pi;&epsilon;&rho;ί&pi;&tau;&omega;&sigma;&eta; &pi;&omicron;&upsilon; &delta;&epsilon;&nu; &tau;&omicron; &pi;&rho;ά&xi;&epsilon;&tau;&epsilon;, &theta;&alpha; &delta;&iota;&alpha;&tau;&alpha;&rho;&alpha;&chi;&theta;&omicron;ύ&nu; &omicron;&iota; &epsilon;&pi;&iota;&lambda;&omicron;&gamma;έ&sigmaf; &pi;&lambda;&eta;&rho;&omega;&mu;ώ&nu; &sigma;&alpha;&sigmaf;.</font></font></p>
+
+<p align="left"><font size="3"><font face="Myanmar Text">&nbsp;</font></font></p>
+
+<p align="left"><font size="3"><font face="Myanmar Text">&Epsilon;&kappa;&tau;&iota;&mu;&omicron;ύ&mu;&epsilon; &tau;&eta; &sigma;&upsilon;&nu;&epsilon;&rho;&gamma;&alpha;&sigma;ί&alpha; &kappa;&alpha;&iota; &tau;&eta;&nu; &kappa;&alpha;&tau;&alpha;&nu;ό&eta;&sigma;ή &sigma;&alpha;&sigmaf;.</font></font></p>
+
+<p align="left"><font size="3"><font face="Myanmar Text">Attica bank</font></font></p>
+</body>
+</html>
+
+
+
+--1ce6c2334d6787b3d7291511d72349689--
