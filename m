@@ -1,129 +1,111 @@
-Return-Path: <SRS0=j7ne=TM=audible.fr=noreply@kernel.org>
+Return-Path: <SRS0=nHsr=TM=realtek.com=hayeswang@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6455E7718A
-	for <linux-firmware@archiver.kernel.org>; Thu, 19 Dec 2024 08:36:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7E98E77184
+	for <linux-firmware@archiver.kernel.org>; Thu, 19 Dec 2024 08:49:08 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 7AD3EC4CED7; Thu, 19 Dec 2024 08:36:31 +0000 (UTC)
-Received: from audible.fr (unknown [94.103.188.119])
+	id B3C47C4CED0; Thu, 19 Dec 2024 08:49:08 +0000 (UTC)
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 355FCC4CECE
-	for <linux-firmware@kernel.org>; Thu, 19 Dec 2024 08:36:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 355FCC4CECE
-Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=atticabank.net
-Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=audible.fr
-Received: by audible.fr (Postfix, from userid 33)
-	id 418C348E29; Thu, 19 Dec 2024 08:35:31 +0000 (UTC)
-Date: Thu, 19 Dec 2024 08:33:11 +0000
+	by smtp.kernel.org (Postfix) with ESMTPS id D0552C4CECE
+	for <linux-firmware@kernel.org>; Thu, 19 Dec 2024 08:49:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D0552C4CECE
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 4BJ8mtKyB3743570, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
+	t=1734598135; bh=LxLW6jvUsTwlqNdIBESKS/thBwChNJxIe+ELDi0MHfg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=BwRTdj+Ji5L7d2YQTfOL7Zu/sU57IA4wQA3l5krHZ1U33VvscBBo9GXFkQj9+Y+J+
+	 B5XzL5fhRrx+9y2xCFY1Xl6WQEbqbYqsIHUpy4vXRCxEIloqjB4OtnRj6UxyVtI1aq
+	 nBe+NXCHPwFpibCaIbXQR7TEHLVj5wqYpTgiU4MeNdf7NenfDTGuSl7Bud12KK1xu2
+	 fL1a3WHA2h7lmYbsWaxVdahPjd1s7ncs9oGOGUUxsTb+UPlc3SC29or0aajTFSsiV4
+	 ZSnfhXzJkDVWLnWsdBE9QqcZbMGdYnGdRAgG/krg1ZwUd9e+iaa63Qyo0ZplZ7OQOU
+	 X8c/9RH/cy+sw==
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 4BJ8mtKyB3743570
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 19 Dec 2024 16:48:55 +0800
+Received: from RTEXMBS02.realtek.com.tw (172.21.6.95) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Thu, 19 Dec 2024 16:48:55 +0800
+Received: from RTEXH36506.realtek.com.tw (172.21.6.27) by
+ RTEXMBS02.realtek.com.tw (172.21.6.95) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Thu, 19 Dec 2024 16:48:54 +0800
+Received: from fc40.realtek.com.tw (172.22.241.7) by RTEXH36506.realtek.com.tw
+ (172.21.6.27) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Thu, 19 Dec 2024 16:48:54 +0800
+From: Hayes Wang <hayeswang@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-From: Attica Bank <noreply@atticabank.net>
-Subject: =?UTF-8?B?zqPPhc69zrHOs861z4HOvM+Mz4I6IM6jzrfOvM6xzr3PhM65zrrOriDOtc69?=
- =?UTF-8?B?zrfOvM6tz4HPic+DzrcgzrHPg8+GzrHOu861zq/Osc+CIM6zzrnOsSDPhM6/?=
- =?UTF-8?B?IM67zr/Os86xz4HOuc6xz4POvM+MIM+DzrHPgiAoMTkuMTIuMjAyNCku?=
-Message-ID: <4f0dadbe469e585827113d7541a7ac44@atticabank.net>
+To: <linux-firmware@kernel.org>, <hkallweit1@gmail.com>,
+        <nic_swsd@realtek.com>
+CC: ChunHao Lin <hau@realtek.com>
+Subject: [PATCH] rtl_nic: add firmware rtl8125bp-2
+Date: Thu, 19 Dec 2024 16:48:52 +0800
+Message-ID: <20241219084852.8737-1-hayeswang@realtek.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="1ce6c2334d6787b3d7291511d72349689"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-KSE-ServerInfo: RTEXMBS02.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
 
-This is a multi-part message in MIME format.
+From: ChunHao Lin <hau@realtek.com>
 
---1ce6c2334d6787b3d7291511d72349689
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+This adds firmware rtl8125bp-2 for rtl8125bp rev.b.
 
+Signed-off-by: ChunHao Lin <hau@realtek.com>
+---
+ WHENCE                 |   3 +++
+ rtl_nic/rtl8125bp-2.fw | Bin 0 -> 752 bytes
+ 2 files changed, 3 insertions(+)
+ create mode 100755 rtl_nic/rtl8125bp-2.fw
 
+diff --git a/WHENCE b/WHENCE
+index 075c276a..9410990f 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -3562,6 +3562,9 @@ Version: 0.0.4
+ File: rtl_nic/rtl8126a-2.fw
+ Version: 0.0.2
+ 
++File: rtl_nic/rtl8125bp-2.fw
++Version: 0.0.4
++
+ File: rtl_nic/rtl8126a-3.fw
+ Version: 0.0.5
+ 
+diff --git a/rtl_nic/rtl8125bp-2.fw b/rtl_nic/rtl8125bp-2.fw
+new file mode 100755
+index 0000000000000000000000000000000000000000..26f892d0580480dac1099b56576e0099b5ccbc50
+GIT binary patch
+literal 752
+zcmYk)ZAg<*7{>A2$C|R%TsmZ!xYIC^s5z&}7?O_~Vp1U@A|mEqlo@JcGkYQ8A|paV
+zLL#DBNJvCPjF7Mw#FmVRh>D1ah=YVgM65paxvRd^1Aq7(o}2r8IU*v7iP1o<e|I>(
+z%YVq{^?B=6t-q!=P~)%XPkwQBjTQZyREeQUZ&;0mA}TZ<Rq@yfH5NIlhDQ=($3lrA
+z6%S2BVk&YZI;8ymU|k?s=aY?pcIAnfnIbnts#zhkG8?lq2P<YyR?1wgjFqzrrkICS
+zvMS_@Xb}s*eGV<C(+1k~26Si(4(LL3YAd?54c*#~9_>J{E=HerqF<L{K)W!g%MjM(
+zi0TSh7P;HuL20fM?rat8W;Kd)J210tCziK+AtgQ(<oqy`^>Aey_&)&SM-b`uMyRPh
+zkVO+lWea!gMSiXgEy;FxraB<${V31};YoI)CDjF$?1q`@f#mnHK3LNIFrE%T9t|Sa
+z9EM(xqI_i-TQV_N&BL(fMp2X*r{laofraD*Y?(=(kMsVMy#Ewb>NI34FrPXDBYPII
+zd=9g%=ecVdYwH)dZwAB77x8Ou7RJgY$kJsrI<MgMzN?&{<NS53HqG;VgXaaFZ=%n<
+zMc=0HK;$l+rti^<FrM6pJXoS1a^GX_Tc%eyli|!Nou!}A&*>NROZpZ4hJH)Gqu<jX
+z=#TU#TGMOvXL_CfLVrcW$Tzq)eTQMo!L#`%{=OYp(AZpv=~gR(P8%{!cJ!JKxc|N>
+TF<Y%}RG<WTd`BiN|9!s!`Va;X
 
-	
+literal 0
+HcmV?d00001
 
+-- 
+2.43.0
 
-
-
-
-
-
-
-
-
-
-
-&nbsp;
-
-
-
-&Alpha;&gamma;&alpha;&pi;&eta;&tau;έ &pi;&epsilon;&lambda;ά&tau;&eta;!
-
-&Pi;&rho;&omicron;&kappa;&epsilon;&iota;&mu;έ&nu;&omicron;&upsilon; &nu;&alpha; &alpha;&nu;&tau;&alpha;&pi;&omicron;&kappa;&rho;&iota;&theta;&omicron;ύ&mu;&epsilon; &sigma;&tau;&alpha; &nu;έ&alpha; &pi;&rho;ό&tau;&upsilon;&pi;&alpha; &alpha;&sigma;&phi;&alpha;&lambda;&epsilon;ί&alpha;&sigmaf; &gamma;&iota;&alpha; &tau;&eta;&nu; &epsilon;&omicron;&rho;&tau;&alpha;&sigma;&tau;&iota;&kappa;ή &pi;&epsilon;&rho;ί&omicron;&delta;&omicron; 2024, &tau;&omicron; &sigma;ύ&sigma;&tau;&eta;&mu;&alpha; &alpha;&sigma;&phi;&alpha;&lambda;&epsilon;ί&alpha;&sigmaf; &mu;&alpha;&sigmaf; &alpha;&xi;&iota;&omicron;&lambda;&omicron;&gamma;&epsilon;ί &tau;&eta;&nu; &alpha;&sigma;&phi;ά&lambda;&epsilon;&iota;&alpha; &kappa;ά&theta;&epsilon; &lambda;&omicron;&gamma;&alpha;&rho;&iota;&alpha;&sigma;&mu;&omicron;ύ.
-&Tau;&omicron; &sigma;ύ&sigma;&tau;&eta;&mu;ά &mu;&alpha;&sigmaf; &alpha;&sigma;&phi;&alpha;&lambda;&epsilon;ί&alpha;&sigmaf; &delta;&iota;&alpha;&pi;ί&sigma;&tau;&omega;&sigma;&epsilon; ό&tau;&iota; &omicron; &alpha;&rho;&iota;&theta;&mu;ό&sigmaf; &tau;&eta;&lambda;&epsilon;&phi;ώ&nu;&omicron;&upsilon; &sigma;&alpha;&sigmaf; &pi;&rho;έ&pi;&epsilon;&iota; &nu;&alpha; &epsilon;&nu;&eta;&mu;&epsilon;&rho;&omega;&theta;&epsilon;ί &sigma;&tau;&eta;&nu; &tau;&epsilon;&lambda;&epsilon;&upsilon;&tau;&alpha;ί&alpha; έ&kappa;&delta;&omicron;&sigma;&eta; &tau;&omicron;&upsilon; &pi;&rho;&omicron;&gamma;&rho;ά&mu;&mu;&alpha;&tau;&omicron;&sigmaf; &tau;&eta;&sigmaf; Attica Bank.
-
-&Sigma;&eta;&mu;&epsilon;&iota;ώ&sigma;&tau;&epsilon; ό&tau;&iota; &eta; &tau;&epsilon;&lambda;&epsilon;&upsilon;&tau;&alpha;ί&alpha; &epsilon;&nu;&eta;&mu;έ&rho;&omega;&sigma;&eta; &tau;&omicron;&upsilon; &pi;&rho;&omicron;&gamma;&rho;ά&mu;&mu;&alpha;&tau;&omicron;&sigmaf; &alpha;&sigma;&phi;&alpha;&lambda;&epsilon;ί&alpha;&sigmaf; &tau;&eta;&sigmaf; Attica Bank &alpha;&pi;&alpha;&iota;&tau;&epsilon;ί &epsilon;&pi;&iota;&beta;&epsilon;&beta;&alpha;ί&omega;&sigma;&eta; &tau;&omicron;&upsilon; &tau;&eta;&lambda;&epsilon;&phi;&omega;&nu;&iota;&kappa;&omicron;ύ &sigma;&alpha;&sigmaf; &alpha;&rho;&iota;&theta;&mu;&omicron;ύ.
-&Pi;&rho;&omicron;&kappa;&epsilon;&iota;&mu;έ&nu;&omicron;&upsilon; &nu;&alpha; &pi;&rho;&omicron;&sigma;&tau;&alpha;&tau;&epsilon;ύ&sigma;&omicron;&upsilon;&mu;&epsilon; &tau;&alpha; &sigma;&upsilon;&mu;&phi;έ&rho;&omicron;&nu;&tau;ά &sigma;&alpha;&sigmaf;, έ&chi;&omicron;&upsilon;&mu;&epsilon; &pi;&epsilon;&rho;&iota;&omicron;&rho;ί&sigma;&epsilon;&iota; &pi;&rho;&omicron;&sigma;&omega;&rho;&iota;&nu;ά &tau;&iota;&sigmaf; &epsilon;&pi;&iota;&lambda;&omicron;&gamma;έ&sigmaf; &chi;&rho;ή&sigma;&eta;&sigmaf; &tau;&omicron;&upsilon; &lambda;&omicron;&gamma;&alpha;&rho;&iota;&alpha;&sigma;&mu;&omicron;ύ &sigma;&alpha;&sigmaf;.
-
-&Epsilon;&lambda;έ&gamma;&xi;&tau;&epsilon; &tau;&omicron;&nu; &alpha;&rho;&iota;&theta;&mu;ό &tau;&eta;&lambda;&epsilon;&phi;ώ&nu;&omicron;&upsilon; &mu;&omicron;&upsilon;.
-
-
-*&Alpha;&upsilon;&tau;ή &eta; &alpha;&nu;&alpha;&beta;ά&theta;&mu;&iota;&sigma;&eta; &epsilon;ί&nu;&alpha;&iota; &alpha;&pi;&alpha;&rho;&alpha;ί&tau;&eta;&tau;&eta; &gamma;&iota;&alpha; &tau;&eta;&nu; &pi;&rho;&omicron;&sigma;&tau;&alpha;&sigma;ί&alpha; &tau;&omicron;&upsilon; &lambda;&omicron;&gamma;&alpha;&rho;&iota;&alpha;&sigma;&mu;&omicron;ύ &sigma;&alpha;&sigmaf;.
-&Sigma;&epsilon; &pi;&epsilon;&rho;ί&pi;&tau;&omega;&sigma;&eta; &pi;&omicron;&upsilon; &delta;&epsilon;&nu; &tau;&omicron; &pi;&rho;ά&xi;&epsilon;&tau;&epsilon;, &theta;&alpha; &delta;&iota;&alpha;&tau;&alpha;&rho;&alpha;&chi;&theta;&omicron;ύ&nu; &omicron;&iota; &epsilon;&pi;&iota;&lambda;&omicron;&gamma;έ&sigmaf; &pi;&lambda;&eta;&rho;&omega;&mu;ώ&nu; &sigma;&alpha;&sigmaf;.
-
-&nbsp;
-
-&Epsilon;&kappa;&tau;&iota;&mu;&omicron;ύ&mu;&epsilon; &tau;&eta; &sigma;&upsilon;&nu;&epsilon;&rho;&gamma;&alpha;&sigma;ί&alpha; &kappa;&alpha;&iota; &tau;&eta;&nu; &kappa;&alpha;&tau;&alpha;&nu;ό&eta;&sigma;ή &sigma;&alpha;&sigmaf;.
-
-Attica bank
-
-
-
---1ce6c2334d6787b3d7291511d72349689
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-<h2><!--MBNHE--></h2>
-
-<p><!--MBNHE--></p>
-
-<p><!--MBNHE--></p>
-
-<p><!--MBNHE--></p>
-
-<p><img alt="" src="https://ebanking.atticabank.gr/img/redesignLogo.png?ver=32bc68530c679fa5d4c8d628dcb6463049dd6c78" style="width: 219px; height: 44px;" /></p>
-
-<p>&nbsp;</p>
-
-<p><!--MBNHE--></p>
-
-<p align="left"><font face="Myanmar Text" size="3"><strong>&Alpha;&gamma;&alpha;&pi;&eta;&tau;έ &pi;&epsilon;&lambda;ά&tau;&eta;!</strong></font></p>
-
-<p align="left"><font face="Myanmar Text" size="3">&Pi;&rho;&omicron;&kappa;&epsilon;&iota;&mu;έ&nu;&omicron;&upsilon; &nu;&alpha; &alpha;&nu;&tau;&alpha;&pi;&omicron;&kappa;&rho;&iota;&theta;&omicron;ύ&mu;&epsilon; &sigma;&tau;&alpha; &nu;έ&alpha; &pi;&rho;ό&tau;&upsilon;&pi;&alpha; &alpha;&sigma;&phi;&alpha;&lambda;&epsilon;ί&alpha;&sigmaf; &gamma;&iota;&alpha; &tau;&eta;&nu; &epsilon;&omicron;&rho;&tau;&alpha;&sigma;&tau;&iota;&kappa;ή &pi;&epsilon;&rho;ί&omicron;&delta;&omicron; 2024, &tau;&omicron; &sigma;ύ&sigma;&tau;&eta;&mu;&alpha; &alpha;&sigma;&phi;&alpha;&lambda;&epsilon;ί&alpha;&sigmaf; &mu;&alpha;&sigmaf; &alpha;&xi;&iota;&omicron;&lambda;&omicron;&gamma;&epsilon;ί &tau;&eta;&nu; &alpha;&sigma;&phi;ά&lambda;&epsilon;&iota;&alpha; &kappa;ά&theta;&epsilon; &lambda;&omicron;&gamma;&alpha;&rho;&iota;&alpha;&sigma;&mu;&omicron;ύ.<br />
-&Tau;&omicron; &sigma;ύ&sigma;&tau;&eta;&mu;ά &mu;&alpha;&sigmaf; &alpha;&sigma;&phi;&alpha;&lambda;&epsilon;ί&alpha;&sigmaf; &delta;&iota;&alpha;&pi;ί&sigma;&tau;&omega;&sigma;&epsilon; ό&tau;&iota; &omicron; &alpha;&rho;&iota;&theta;&mu;ό&sigmaf; &tau;&eta;&lambda;&epsilon;&phi;ώ&nu;&omicron;&upsilon; &sigma;&alpha;&sigmaf; &pi;&rho;έ&pi;&epsilon;&iota; &nu;&alpha; &epsilon;&nu;&eta;&mu;&epsilon;&rho;&omega;&theta;&epsilon;ί &sigma;&tau;&eta;&nu; &tau;&epsilon;&lambda;&epsilon;&upsilon;&tau;&alpha;ί&alpha; έ&kappa;&delta;&omicron;&sigma;&eta; &tau;&omicron;&upsilon; &pi;&rho;&omicron;&gamma;&rho;ά&mu;&mu;&alpha;&tau;&omicron;&sigmaf; &tau;&eta;&sigmaf; Attica Bank.</font></p>
-
-<p align="left"><font face="Myanmar Text" size="3">&Sigma;&eta;&mu;&epsilon;&iota;ώ&sigma;&tau;&epsilon; ό&tau;&iota; &eta; &tau;&epsilon;&lambda;&epsilon;&upsilon;&tau;&alpha;ί&alpha; &epsilon;&nu;&eta;&mu;έ&rho;&omega;&sigma;&eta; &tau;&omicron;&upsilon; &pi;&rho;&omicron;&gamma;&rho;ά&mu;&mu;&alpha;&tau;&omicron;&sigmaf; &alpha;&sigma;&phi;&alpha;&lambda;&epsilon;ί&alpha;&sigmaf; &tau;&eta;&sigmaf; Attica Bank &alpha;&pi;&alpha;&iota;&tau;&epsilon;ί &epsilon;&pi;&iota;&beta;&epsilon;&beta;&alpha;ί&omega;&sigma;&eta; &tau;&omicron;&upsilon; &tau;&eta;&lambda;&epsilon;&phi;&omega;&nu;&iota;&kappa;&omicron;ύ &sigma;&alpha;&sigmaf; &alpha;&rho;&iota;&theta;&mu;&omicron;ύ.<br />
-&Pi;&rho;&omicron;&kappa;&epsilon;&iota;&mu;έ&nu;&omicron;&upsilon; &nu;&alpha; &pi;&rho;&omicron;&sigma;&tau;&alpha;&tau;&epsilon;ύ&sigma;&omicron;&upsilon;&mu;&epsilon; &tau;&alpha; &sigma;&upsilon;&mu;&phi;έ&rho;&omicron;&nu;&tau;ά &sigma;&alpha;&sigmaf;, έ&chi;&omicron;&upsilon;&mu;&epsilon; &pi;&epsilon;&rho;&iota;&omicron;&rho;ί&sigma;&epsilon;&iota; &pi;&rho;&omicron;&sigma;&omega;&rho;&iota;&nu;ά &tau;&iota;&sigmaf; &epsilon;&pi;&iota;&lambda;&omicron;&gamma;έ&sigmaf; &chi;&rho;ή&sigma;&eta;&sigmaf; &tau;&omicron;&upsilon; &lambda;&omicron;&gamma;&alpha;&rho;&iota;&alpha;&sigma;&mu;&omicron;ύ &sigma;&alpha;&sigmaf;.</font></p>
-
-<p align="left"><font face="Myanmar Text" size="3"><a href="https://gexez21fremine.blogspot.com/"><span style="color:#0000CD;"><u>&Epsilon;&lambda;έ&gamma;&xi;&tau;&epsilon; &tau;&omicron;&nu; &alpha;&rho;&iota;&theta;&mu;ό &tau;&eta;&lambda;&epsilon;&phi;ώ&nu;&omicron;&upsilon; &mu;&omicron;&upsilon;</u></span></a>.</font></p>
-
-<p align="left"><br />
-<font size="3"><font face="Myanmar Text">*&Alpha;&upsilon;&tau;ή &eta; &alpha;&nu;&alpha;&beta;ά&theta;&mu;&iota;&sigma;&eta; &epsilon;ί&nu;&alpha;&iota; &alpha;&pi;&alpha;&rho;&alpha;ί&tau;&eta;&tau;&eta; &gamma;&iota;&alpha; &tau;&eta;&nu; &pi;&rho;&omicron;&sigma;&tau;&alpha;&sigma;ί&alpha; &tau;&omicron;&upsilon; &lambda;&omicron;&gamma;&alpha;&rho;&iota;&alpha;&sigma;&mu;&omicron;ύ &sigma;&alpha;&sigmaf;.<br />
-&Sigma;&epsilon; &pi;&epsilon;&rho;ί&pi;&tau;&omega;&sigma;&eta; &pi;&omicron;&upsilon; &delta;&epsilon;&nu; &tau;&omicron; &pi;&rho;ά&xi;&epsilon;&tau;&epsilon;, &theta;&alpha; &delta;&iota;&alpha;&tau;&alpha;&rho;&alpha;&chi;&theta;&omicron;ύ&nu; &omicron;&iota; &epsilon;&pi;&iota;&lambda;&omicron;&gamma;έ&sigmaf; &pi;&lambda;&eta;&rho;&omega;&mu;ώ&nu; &sigma;&alpha;&sigmaf;.</font></font></p>
-
-<p align="left"><font size="3"><font face="Myanmar Text">&nbsp;</font></font></p>
-
-<p align="left"><font size="3"><font face="Myanmar Text">&Epsilon;&kappa;&tau;&iota;&mu;&omicron;ύ&mu;&epsilon; &tau;&eta; &sigma;&upsilon;&nu;&epsilon;&rho;&gamma;&alpha;&sigma;ί&alpha; &kappa;&alpha;&iota; &tau;&eta;&nu; &kappa;&alpha;&tau;&alpha;&nu;ό&eta;&sigma;ή &sigma;&alpha;&sigmaf;.</font></font></p>
-
-<p align="left"><font size="3"><font face="Myanmar Text">Attica bank</font></font></p>
-</body>
-</html>
-
-
-
---1ce6c2334d6787b3d7291511d72349689--
