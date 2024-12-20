@@ -1,105 +1,110 @@
-Return-Path: <SRS0=63PM=TM=realtek.com=hau@kernel.org>
+Return-Path: <SRS0=/z3v=TN=realtek.com=hayeswang@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6437E7718A
-	for <linux-firmware@archiver.kernel.org>; Thu, 19 Dec 2024 13:34:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EE096E77184
+	for <linux-firmware@archiver.kernel.org>; Fri, 20 Dec 2024 01:28:03 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 9C5F4C4CED0; Thu, 19 Dec 2024 13:34:50 +0000 (UTC)
+	id B2ED9C4CED0; Fri, 20 Dec 2024 01:28:03 +0000 (UTC)
 Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 67BF2C4CECE;
-	Thu, 19 Dec 2024 13:34:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 67BF2C4CECE
+	by smtp.kernel.org (Postfix) with ESMTPS id 3E4B1C4CECE
+	for <linux-firmware@kernel.org>; Fri, 20 Dec 2024 01:28:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 3E4B1C4CECE
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 4BJDYg6tA4046901, This message is accepted by code: ctloc85258
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 4BK1Rvf76685989, This message is accepted by code: ctloc85258
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
-	t=1734615282; bh=02hwGklPecSImhUkoXxOT6AR/TZ6WG72U8fx9K99ovw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=EqBmEz1+dQM8cCTDs231jbLSn4xH0QhpfA71VetKleoWEsM9gN9WC2OcAftpdIWpu
-	 5GvjNlWaypLkhwgpdGo9o/xtIPTfwdud9zQ2A7LS+zpYE2UMY8ugr4gD5VjSgLksi5
-	 KjMYlDDcZX+RNbgFpD19twG4OPWP8iHiWcrrI1uD9f1cDcZb6uUzT8pla2ks/NeC3J
-	 zBXx/j9vhEYsDUcZzVJqKwte1xUp7HR58l8Mb79xkeBRyzRYwZRhUaFnyDc3lVOXZL
-	 Aqu2aPH6qDelJPjGP3olKGB3Yl0Cuq1GKjQYa5+/2RHId578XeD1DWsem8cKWJeSeI
-	 RNprf1prUv5VQ==
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 4BJDYg6tA4046901
+	t=1734658077; bh=GT2I7BmRJ5ljhEGHQXzwnRplE+tKs3o/oaTSrSJHgRQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=sv+woFte5abboVlCq5cdRlerfgjEw0C6l33ywMVXWYrJnkpAN8bxRTN8ahU6SL3t1
+	 l/K+IXKwocRTqn4PD9vm3AB4ZBU+9DQ1rcGHqYM6Fo7JB2y5cNKhIYm/HOy5VbVxMx
+	 L55MHKOaQE/soDflbx7tu6uJpMOvMqm40UramvGigNLYDGvKe/xzW076U0Kn40l/S7
+	 UzHK5Mn48IoUJaEGx6TBh1SiFHcsmPodT8B2fyLWW6HRECDu01WIexW7XGusYPYGCR
+	 +J+YuQfhkDED44FxaJ+bd01fEjJvBuoawjaDVP7ccD2nltJSB+h0cnZtEtWW9DwukO
+	 Jb7nJrFMu23Nw==
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 4BK1Rvf76685989
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 19 Dec 2024 21:34:42 +0800
-Received: from RTEXMBS05.realtek.com.tw (172.21.6.98) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+	Fri, 20 Dec 2024 09:27:57 +0800
+Received: from RTEXDAG01.realtek.com.tw (172.21.6.100) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 19 Dec 2024 21:34:42 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
+ 15.1.2507.39; Fri, 20 Dec 2024 09:27:56 +0800
+Received: from RTEXH36505.realtek.com.tw (172.21.6.25) by
+ RTEXDAG01.realtek.com.tw (172.21.6.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 19 Dec 2024 21:34:39 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::2882:4142:db9:db1f]) by
- RTEXMBS04.realtek.com.tw ([fe80::2882:4142:db9:db1f%11]) with mapi id
- 15.01.2507.035; Thu, 19 Dec 2024 21:34:39 +0800
-From: Hau <hau@realtek.com>
-To: Josh Boyer <jwboyer@kernel.org>, Hayes Wang <hayeswang@realtek.com>
+ 15.1.2507.35; Fri, 20 Dec 2024 09:27:55 +0800
+Received: from fc40.realtek.com.tw (172.22.241.7) by RTEXH36505.realtek.com.tw
+ (172.21.6.25) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Fri, 20 Dec 2024 09:27:55 +0800
+From: Hayes Wang <hayeswang@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-CC: "linux-firmware@kernel.org" <linux-firmware@kernel.org>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        nic_swsd
-	<nic_swsd@realtek.com>
-Subject: RE: [PATCH] rtl_nic: add firmware rtl8125bp-2
-Thread-Topic: [PATCH] rtl_nic: add firmware rtl8125bp-2
-Thread-Index: AQHbUfLW4Ft5BPHxCU+Rdi76+O8Es7LtA74AgACNjLA=
-Date: Thu, 19 Dec 2024 13:34:37 +0000
-Message-ID: <fa86de1d099a480baf2106d4760da6f1@realtek.com>
-References: <20241219084852.8737-1-hayeswang@realtek.com>
- <CA+5PVA68tj1wkU6zV1G222Wf+XYq6R6+md-xDB=G9C008AGGxg@mail.gmail.com>
-In-Reply-To: <CA+5PVA68tj1wkU6zV1G222Wf+XYq6R6+md-xDB=G9C008AGGxg@mail.gmail.com>
-Accept-Language: zh-TW, en-US
-Content-Language: en-US
-x-originating-ip: [172.21.6.42]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+To: <linux-firmware@kernel.org>, <hkallweit1@gmail.com>,
+        <nic_swsd@realtek.com>
+CC: ChunHao Lin <hau@realtek.com>
+Subject: [PATCH v2] rtl_nic: add firmware rtl8125bp-2
+Date: Fri, 20 Dec 2024 09:27:48 +0800
+Message-ID: <20241220012748.10723-437-nic_swsd@realtek.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-PiBPbiBUaHUsIERlYyAxOSwgMjAyNCBhdCAzOjQ54oCvQU0gSGF5ZXMgV2FuZyA8aGF5ZXN3YW5n
-QHJlYWx0ZWsuY29tPg0KPiB3cm90ZToNCj4gPg0KPiA+IEZyb206IENodW5IYW8gTGluIDxoYXVA
-cmVhbHRlay5jb20+DQo+ID4NCj4gPiBUaGlzIGFkZHMgZmlybXdhcmUgcnRsODEyNWJwLTIgZm9y
-IHJ0bDgxMjVicCByZXYuYi4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IENodW5IYW8gTGluIDxo
-YXVAcmVhbHRlay5jb20+DQo+ID4gLS0tDQo+ID4gIFdIRU5DRSAgICAgICAgICAgICAgICAgfCAg
-IDMgKysrDQo+ID4gIHJ0bF9uaWMvcnRsODEyNWJwLTIuZncgfCBCaW4gMCAtPiA3NTIgYnl0ZXMN
-Cj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykNCj4gPiAgY3JlYXRlIG1vZGUg
-MTAwNzU1IHJ0bF9uaWMvcnRsODEyNWJwLTIuZncNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9XSEVO
-Q0UgYi9XSEVOQ0UNCj4gPiBpbmRleCAwNzVjMjc2YS4uOTQxMDk5MGYgMTAwNjQ0DQo+ID4gLS0t
-IGEvV0hFTkNFDQo+ID4gKysrIGIvV0hFTkNFDQo+ID4gQEAgLTM1NjIsNiArMzU2Miw5IEBAIFZl
-cnNpb246IDAuMC40DQo+ID4gIEZpbGU6IHJ0bF9uaWMvcnRsODEyNmEtMi5mdw0KPiA+ICBWZXJz
-aW9uOiAwLjAuMg0KPiA+DQo+ID4gK0ZpbGU6IHJ0bF9uaWMvcnRsODEyNWJwLTIuZncNCj4gPiAr
-VmVyc2lvbjogMC4wLjQNCj4gPiArDQo+ID4gIEZpbGU6IHJ0bF9uaWMvcnRsODEyNmEtMy5mdw0K
-PiA+ICBWZXJzaW9uOiAwLjAuNQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL3J0bF9uaWMvcnRsODEy
-NWJwLTIuZncgYi9ydGxfbmljL3J0bDgxMjVicC0yLmZ3IG5ldyBmaWxlDQo+ID4gbW9kZSAxMDA3
-NTUNCj4gDQo+IFRoaXMgZmFpbHMgcHJlLWNoZWNrIGJlY2F1c2UgaXQgaGFzIHRoZSBleGVjdXRh
-YmxlIGJpdCBzZXQuICBDYW4geW91IHBsZWFzZQ0KPiByZXN1Ym1pdCB3aXRoIHRoZSBmaWxlIG1v
-ZGUgYmVpbmcgNjY0Pw0KPiANCj4gam9zaA0KPiANCkkgd2lsbCByZXN1Ym1pdCB0aGUgcGF0Y2gu
-IA0KDQpUaGFua3MuDQoNCj4gPiBpbmRleA0KPiA+DQo+IDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
-MDAwMDAwMDAwMDAwMDAwMDAuLjI2Zjg5MmQwNTgwNDgwZGFjMTA5OWI1NjU3DQo+IDZlDQo+ID4g
-MDA5OWI1Y2NiYzUwDQo+ID4gR0lUIGJpbmFyeSBwYXRjaA0KPiA+IGxpdGVyYWwgNzUyDQo+ID4N
-Cj4gemNtWWspWkFnPCo3ez5BMiRDfFIlVHNtWiF4WUlDXnM1eiZ9Nz9PX35WcDFVQEF8bUVxbG9A
-SmNHa1lROA0KPiBBfHBhVg0KPiA+DQo+IHpMTCNEQk5KdkNQakY3TXcjRm1WUmg+RDFhaD1ZVmdN
-NjVwYXh2UmReMUFxNyhvfTJyOElVKnY3aVAxbzwNCj4gZXxJPigNCj4gPiB6JVlWcXteP0I9NnQt
-DQo+IHEhPVB+KSVYUGt3UUJqVFFaeVJFZVFVWiY7MG1BfVRaPFJxQHlmSDVOSWxoRFE9KCQzbHJB
-DQo+ID4NCj4gejYlUzJCVmsmWVpJOzh5bVV8az9zPWFZP3BjSUFuZm5JYm50cyN6aGtHOD9scTJQ
-PFl5Uj8xd2dqRnF6cnJrSUNTDQo+ID4NCj4genZNU19AWGJ9cyplR1Y8QygrMWt+MjZTaSg0KExM
-M1lBZD81NGMqI345Xz5Ke0U9SGVycUY8THtLKVchZyVNDQo+IGpNKA0KPiA+IHppMFRTaDdQO0h1
-TDIwZk0/cmF0OFc7S2QpSjIxMHRDemlLK0F0Z1EoPG9xeWBePkFleV8mKSZTTS0NCj4gYmB1TXlS
-UGgNCj4gPg0KPiB6a1ZPK2xXZWEhZ01TaVhnRXk7RnhyYUI8JHtWMzF9O1lvSSlDRGpGJD8xcWBA
-ZiNtbkhLM0xOSUZyRSVUOXR8U2ENCj4gPiB6OUVNKHhxSV9pLQ0KPiBUUVZfTiZCTChmTXAyWCpy
-e2xhb2ZyYUQqWT8oPShrTXNWTXkjRXdiPk5JMzRGclBYREJZUElJDQo+ID4NCj4gemQ9OWclPWVj
-VmRZd0gpZFp3QUI3N3g4T3U3UkpnWSRrSnNySTxNZ016Tj8mezxOUzUzSHFHO1ZnWGFhRg0KPiBa
-PSVuPA0KPiA+DQo+IHpNYz0wSEs7JGwrcnRpXjxGck02cEpYb1MxYV5HWF9UYyVleWxpfCFOb3Uh
-fUEmKj5OUk9acFo0aEpIKUdxdTwNCj4galgNCj4gPg0KPiB6PSNUVSNUR01PdlhMX0NmTFZyY1ck
-VHpxKWVUUU1vIUwjYCV7PU9ZcChBWnB2PX5nUihQOCV7IWNKIUpLeGMNCj4gfE4+DQo+ID4gVEY8
-WSV9Ukc8V1RkYEJpTnw5IXMhYFZhO1gNCj4gPg0KPiA+IGxpdGVyYWwgMA0KPiA+IEhjbVY/ZDAw
-MDAxDQo+ID4NCj4gPiAtLQ0KPiA+IDIuNDMuMA0KPiA+DQo=
+From: ChunHao Lin <hau@realtek.com>
+
+This adds firmware rtl8125bp-2 for rtl8125bp rev.b.
+
+Signed-off-by: ChunHao Lin <hau@realtek.com>
+---
+v2:
+- update file mode from 100755 to 100644
+---
+ WHENCE                 |   3 +++
+ rtl_nic/rtl8125bp-2.fw | Bin 0 -> 752 bytes
+ 2 files changed, 3 insertions(+)
+ create mode 100644 rtl_nic/rtl8125bp-2.fw
+
+diff --git a/WHENCE b/WHENCE
+index 075c276a..9410990f 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -3562,6 +3562,9 @@ Version: 0.0.4
+ File: rtl_nic/rtl8126a-2.fw
+ Version: 0.0.2
+ 
++File: rtl_nic/rtl8125bp-2.fw
++Version: 0.0.4
++
+ File: rtl_nic/rtl8126a-3.fw
+ Version: 0.0.5
+ 
+diff --git a/rtl_nic/rtl8125bp-2.fw b/rtl_nic/rtl8125bp-2.fw
+new file mode 100644
+index 0000000000000000000000000000000000000000..26f892d0580480dac1099b56576e0099b5ccbc50
+GIT binary patch
+literal 752
+zcmYk)ZAg<*7{>A2$C|R%TsmZ!xYIC^s5z&}7?O_~Vp1U@A|mEqlo@JcGkYQ8A|paV
+zLL#DBNJvCPjF7Mw#FmVRh>D1ah=YVgM65paxvRd^1Aq7(o}2r8IU*v7iP1o<e|I>(
+z%YVq{^?B=6t-q!=P~)%XPkwQBjTQZyREeQUZ&;0mA}TZ<Rq@yfH5NIlhDQ=($3lrA
+z6%S2BVk&YZI;8ymU|k?s=aY?pcIAnfnIbnts#zhkG8?lq2P<YyR?1wgjFqzrrkICS
+zvMS_@Xb}s*eGV<C(+1k~26Si(4(LL3YAd?54c*#~9_>J{E=HerqF<L{K)W!g%MjM(
+zi0TSh7P;HuL20fM?rat8W;Kd)J210tCziK+AtgQ(<oqy`^>Aey_&)&SM-b`uMyRPh
+zkVO+lWea!gMSiXgEy;FxraB<${V31};YoI)CDjF$?1q`@f#mnHK3LNIFrE%T9t|Sa
+z9EM(xqI_i-TQV_N&BL(fMp2X*r{laofraD*Y?(=(kMsVMy#Ewb>NI34FrPXDBYPII
+zd=9g%=ecVdYwH)dZwAB77x8Ou7RJgY$kJsrI<MgMzN?&{<NS53HqG;VgXaaFZ=%n<
+zMc=0HK;$l+rti^<FrM6pJXoS1a^GX_Tc%eyli|!Nou!}A&*>NROZpZ4hJH)Gqu<jX
+z=#TU#TGMOvXL_CfLVrcW$Tzq)eTQMo!L#`%{=OYp(AZpv=~gR(P8%{!cJ!JKxc|N>
+TF<Y%}RG<WTd`BiN|9!s!`Va;X
+
+literal 0
+HcmV?d00001
+
+-- 
+2.43.0
+
