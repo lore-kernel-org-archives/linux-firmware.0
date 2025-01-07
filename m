@@ -4,91 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6B0AE77198
-	for <linux-firmware@archiver.kernel.org>; Tue,  7 Jan 2025 12:31:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20F53E77197
+	for <linux-firmware@archiver.kernel.org>; Tue,  7 Jan 2025 17:35:21 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 8C6BFC4CEE0; Tue,  7 Jan 2025 12:31:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76551C4CEDD
-	for <linux-firmware@kernel.org>; Tue,  7 Jan 2025 12:31:20 +0000 (UTC)
+	id C1B9CC4CEE3; Tue,  7 Jan 2025 17:35:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC5B3C4CEE1
+	for <linux-firmware@kernel.org>; Tue,  7 Jan 2025 17:35:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736253080;
-	bh=2v/ZYNSPp4GL0GmzoA+jPnSPSJ9u3jDI8+Ro3MaPKd4=;
+	s=k20201202; t=1736271321;
+	bh=U6KDCqyMLDwVuh2Itjhbn+h4fczF+j9iAPvGhAnjdj8=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=tH1l+TtiDzjeFAoU9XDmqXeoztmoqdmENS1Kf5OJB4SiqZpDISX+LIVsgUjwzFEou
-	 Ukv+7fjDprR0EoMJ+U2wVgATveRGGldduQ+642meoChBB/T+vwuhvXguiflYKLjGRj
-	 E41HkwpjqksTme/05orIjAO+wUtI5DgCimENOlbpv8QzIguz+Dhpwgmy4YbRPCV4NU
-	 ZvkuVTz+QoQY2k9dXzAjSwuC9efJb6KmuXipVvB13JXtJrB/P651a4ur9MNhIEIsKb
-	 X1ZMdH/vrJBaTF/DVAQUSqFB0wvrFclRJcJ2/IQvcp+taejKxM4x1W4ebk71Y33JvE
-	 juBu2gUvHbgAg==
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e53a5ff2233so21053749276.3
-        for <linux-firmware@kernel.org>; Tue, 07 Jan 2025 04:31:20 -0800 (PST)
-X-Gm-Message-State: AOJu0YwMhNjOAqTvn2VAvNVCn4RLp7G0NSFL4ufEa02wXW5/4DIuJ6N6
-	fF810UzhHXIA7Shph7SIlFa9Xkrmn/cE2NMuYtfl10vpXDbkFqYI90lBJ9pZo6wttS9nMW1Qgg0
-	n/zID1hjgDACh5RM1OwXJOJ8iCGQ=
-X-Google-Smtp-Source: AGHT+IGcf0sgzUp0zx7plVtGVIThKpl3Ou21BhMZvnc2HFDFc40JFtc1VttDK/EI6Ykhfemo9IzL7DZpzaNyWrryL/o=
-X-Received: by 2002:a05:690c:8c04:b0:6f4:1a7a:ebeb with SMTP id
- 00721157ae682-6f41a7b0408mr260959177b3.32.1736253079623; Tue, 07 Jan 2025
- 04:31:19 -0800 (PST)
+	b=J3oUuK/A0gCAS09xGLuNhM9dzckXM0DKALOh07Rzcyt84fE9vM5dKprmz4gYXZHhX
+	 53FJSgI/QP+rLCSmgzgn//rcrdODdDTngq+sAiTI90lGRiyG43Bs86iWr3B5+yR49e
+	 j96PTM7tm39hLx6OGW819Jj4Mg7Kl2zs8J/jA/P9xqoxD5Llf+SCsDySXzIoawa/dw
+	 EK4C6kHHkTsKD9ujGkbmYxQi2Svfl0+UaBLCchUl+iVAjEiqpf1DyVB+abq5I8K6HD
+	 NVCJHHcc/jAqYv9JdH/esvpmPDNbfQed4et6Bbse+50Qp0Qu4SCrW491DHPImC3f/l
+	 m+RCS3eq1e2iQ==
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e53c9035003so19901460276.2
+        for <linux-firmware@kernel.org>; Tue, 07 Jan 2025 09:35:21 -0800 (PST)
+X-Gm-Message-State: AOJu0Yzb3cpcQiAjdQo4wZEWVfg9eLJBqUrI3vCnHOdTYTAPdaqNpUX4
+	TzQkLy61QR8K7PrrZJt6+vsDUgLIFuVIJUsRKcZxsyI+HpwFXUavPSobdzce5NjP43URPLCi86I
+	wGAETY+Y6x0T8hqbbn5y2eVkQ/tU=
+X-Google-Smtp-Source: AGHT+IFMLhfHwKpmvWfps+WJy6JUky0dWzlqm4c2BdTsj3LAdxngb8KOKuC+v7chTGkFCRVaA/ICv2QODlNp41l/fPM=
+X-Received: by 2002:a05:6902:708:b0:e3c:9fb5:838d with SMTP id
+ 3f1490d57ef6-e538c25d881mr40549886276.17.1736271320806; Tue, 07 Jan 2025
+ 09:35:20 -0800 (PST)
 MIME-Version: 1.0
-References: <20250106212549.3381550-1-alexander.deucher@amd.com>
-In-Reply-To: <20250106212549.3381550-1-alexander.deucher@amd.com>
+References: <1ba69d302cffb859053c38433e2fd47bf69eb1ba.camel@sapience.com>
+ <CA+5PVA5HoXfRjPJ4kZ0_okDkOx-pvVhbMH_6QSfoJYCTQxB_3A@mail.gmail.com>
+ <d86e6e6f50afee488d17a43979be6c8564f4e296.camel@sapience.com>
+ <CA+5PVA5eHh6uQM+7ecdK3QP2WQ=5Hd_qkn_GZ1By=mD7qiQqHA@mail.gmail.com> <9fb63a9445831ac894e061ffd2353874f546a891.camel@sapience.com>
+In-Reply-To: <9fb63a9445831ac894e061ffd2353874f546a891.camel@sapience.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Tue, 7 Jan 2025 07:31:08 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA7xqeoGVNHhjbMuwNmNcyNkrk0++Xa54xnHHf0_OLkaMg@mail.gmail.com>
-X-Gm-Features: AbW1kvZM7zdkhtjlJlVvzLt21UXBm-c8CpC3ZE5OzvDAtNlbjXlPRH5TOSwU5qA
-Message-ID: <CA+5PVA7xqeoGVNHhjbMuwNmNcyNkrk0++Xa54xnHHf0_OLkaMg@mail.gmail.com>
-Subject: Re: [pull] VCN 3.x firmware fixes
-To: Alex Deucher <alexander.deucher@amd.com>
+Date: Tue, 7 Jan 2025 12:35:09 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA4Gv5NL=64AnDzU+fE-1HSHM=_Wazhqrige9hHMV3NqdA@mail.gmail.com>
+X-Gm-Features: AbW1kvbZzcHQrVGsNH96WAT24ux7Y8cZg89CgoqOyIbkCG0jGryYw-JM7pzl2lo
+Message-ID: <CA+5PVA4Gv5NL=64AnDzU+fE-1HSHM=_Wazhqrige9hHMV3NqdA@mail.gmail.com>
+Subject: Re: copy-firmware.sh bug in has_gnu_parallel()
+To: Genes Lists <lists@sapience.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, Mario.Limonciello@amd.com
+Cc: linux-firmware@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 6, 2025 at 4:26=E2=80=AFPM Alex Deucher <alexander.deucher@amd.=
-com> wrote:
+On Mon, Jan 6, 2025 at 11:43=E2=80=AFAM Genes Lists <lists@sapience.com> wr=
+ote:
 >
-> Revert back to older VCN 3.x firmware to fix an encode regression.
+> On Mon, 2025-01-06 at 11:35 -0500, Josh Boyer wrote:
+> > > That explains why its absent in my case.
+> >
+> > OK, I suspected that might be the case.  I'll look at adjusting the
+> > grep soon.  Accounting for per distro changes to the same package is
+> > always fun.
+> >
+> > Thanks for the report.
+> >
+> > josh
 >
-> The following changes since commit 209c18b0e7cd2de304ad11c1042b085429fab1=
-b4:
+> Terrific thanks.
 >
->   amdgpu: update dmcub 0.0.246.0 firmware (2024-12-06 18:53:15 +0000)
+> One alternative could be to look instead for support of  -j, which is
+> what the script seems to want.
 >
-> are available in the Git repository at:
+> Maybe something like:
 >
->   https://gitlab.com/kernel-firmware/drm-firmware.git tags/amd-2025-01-06
+>    parallel --help | grep -Fq -- '-j n'
 
-Merged and pushed out.
+Initially went with something like that, but decided to keep it simple
+after review by just looking for 'gnu parallel' case insensitive.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/399
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/400
+
+Will be in the next release.
 
 josh
-
->
-> for you to fetch changes up to 8c576df27fbe8280c338cf23a8a03a3e74503647:
->
->   amdgpu: revert VCN 3.1.2 firmware (2025-01-06 16:06:38 -0500)
->
-> ----------------------------------------------------------------
-> amdgpu: revert VCN 3.x firmwares
->
-> Revert back to internal commit:
-> 97ae5dc916b1b174cc87c1f1502a19d2c044e6e6
->
-> The newer firmware can cause encode timeouts
-> after extended periods of time.
->
-> ----------------------------------------------------------------
-> Alex Deucher (5):
->       amdgpu: revert dimgrey cavefish VCN firmware
->       amdgpu: revert navy flounder VCN firmware
->       amdgpu: revert sienna cichlid VCN firmware
->       amdgpu: revert yellow carp VCN firmware
->       amdgpu: revert VCN 3.1.2 firmware
->
->  amdgpu/dimgrey_cavefish_vcn.bin | Bin 579184 -> 587376 bytes
->  amdgpu/navy_flounder_vcn.bin    | Bin 579184 -> 587376 bytes
->  amdgpu/sienna_cichlid_vcn.bin   | Bin 579184 -> 587376 bytes
->  amdgpu/vcn_3_1_2.bin            | Bin 571440 -> 579376 bytes
->  amdgpu/yellow_carp_vcn.bin      | Bin 571440 -> 579504 bytes
->  5 files changed, 0 insertions(+), 0 deletions(-)
