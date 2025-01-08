@@ -1,90 +1,186 @@
-Return-Path: <SRS0=9p9Y=UA=yeah.net=flexiblehose03@kernel.org>
+Return-Path: <SRS0=bTe5=UA=linaro.org=dmitry.baryshkov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6AEA0E77188
-	for <linux-firmware@archiver.kernel.org>; Wed,  8 Jan 2025 08:22:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 341D5E77199
+	for <linux-firmware@archiver.kernel.org>; Wed,  8 Jan 2025 11:56:47 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 41F59C4CEE1; Wed,  8 Jan 2025 08:22:03 +0000 (UTC)
-Received: from mail-8160.188.com (mail-8160.188.com [60.191.81.60])
-	by smtp.kernel.org (Postfix) with ESMTP id D745CC4CEE0
-	for <linux-firmware@kernel.org>; Wed,  8 Jan 2025 08:22:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D745CC4CEE0
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=yeah.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=/rPLQFow2ndkxhckwZSaZnLqa5Fj3dTMILpNk7RGLms=; b=T
-	zwjFjPlh6L1AdQgE7FRbPMpvShM2mz2gTwnEyVGmYo7kn5WL8xFBOet2sjG+MuZP
-	lX69Cpbe2Kn9pjidWsF84aLgkveij9k73cf+PxwoQAOQWl6mp+o3XIza2khYrYfN
-	noyUdeXoE34Nj4Sde5rTDk6F2lULVNRNzGLEuBVZ9k=
-Received: from flexiblehose03$yeah.net ( [114.97.216.243] ) by
- ajax-webmail-wmsvr-207-62 (Coremail) ; Wed, 8 Jan 2025 16:10:31 +0800 (CST)
-X-Originating-IP: [114.97.216.243]
-Date: Wed, 8 Jan 2025 16:10:31 +0800 (CST)
-X-CM-HeaderCharset: UTF-8
-From: "DAISY ZHAO" <flexiblehose03@yeah.net>
+	id BE3EDC4CEDD; Wed,  8 Jan 2025 11:56:46 +0000 (UTC)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id C9DD6C4CEE4
+	for <linux-firmware@kernel.org>; Wed,  8 Jan 2025 11:56:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C9DD6C4CEE4
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-54287a3ba3cso348198e87.0
+        for <linux-firmware@kernel.org>; Wed, 08 Jan 2025 03:56:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1736337401; x=1736942201; darn=kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4FLEocodkN86sdkcxixVNGpfnTNAf61dVGnmo5tr2X0=;
+        b=SPKa/I1YMb5y4RQRljsPJPxc++zP8E4Q0kfVJ7q+CLRMs7WKNQ/dDObydBTxazBwPk
+         hO1mnS3FEtxtelP7ejZdOMlY29iuWfz+yQHH19+DmlGr+Rp56dA/31PrmGjd8xFZrPU1
+         gvx8AASNljmj6Q8QqbGEEjfpeDnN/FETIHBHeZ3db7Xx7d3mfyd3yutWmZpknvQX+R/Q
+         qoW5JYFC1zWBlVS+i9eksYayKQiuZT9kpKoWe36xdDpIfHzRMwz2BU1dSuLx9LmeRN9l
+         xSQrogRAqDlYwtgfzbmrka3BMly1atlgeUJj07ZTX/nGmslagn5uqfGI5cqIIlYz0icD
+         jBNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736337401; x=1736942201;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4FLEocodkN86sdkcxixVNGpfnTNAf61dVGnmo5tr2X0=;
+        b=aIR5+B1zaVW0JSaDOHzJVQKz+gFEkrIQFnpYLH5f/N8A5i65faGnMyGTpCAjKatVMG
+         Jh0IHA7YIiZSlXzHpRcCKhgQxmt0Hq0DIYozbvi1jP6VJ5LJ4UY4F1xjx5+Vmn9vpwKx
+         d93rLHK9eC2xrw14x2PImMdBRh0AMdGR+4aeqUQ4n/R0ouwQ5Jvk7YmILv5uqxSvgeC9
+         RaqiTTbsSO28HmvDcHRl+FiiuqrHBfetnMPgkdMiFU9uPvLNax+ynGmfo75pWJCVhjY8
+         QJysLiqMKQiGrVvjmOeWaohWZDiMgBuvtROQQeYCkdLQv3XUg5bTTnWvjjpoiaxe1VJm
+         NEjQ==
+X-Gm-Message-State: AOJu0Yz10xFPG0vtBm8D6sZFpsF+BqIuosmeQvbvFkUDNDBy+jyilbMI
+	TMG5cUd32VirW9RABfyo5PwNOxrEFeSvcpwrZ0TTl4zxAnpCniltzt4UvCi+Pic=
+X-Gm-Gg: ASbGncu6SwS4VlwFRTmAJWAg1KxQeySsLu5eMGa6Paxb2ukkjanNhZ1OhXFj5zSVUFL
+	rdGjV4UaaoKkcOAHRxxnrOYMoKwHWqLwzhXPUlbm988AHBfLElarrk7x81xEevTJx1VtDJLa0T5
+	dBPKPWWbI2ubzVNNYODr0u0/TU5ncLA1ihU0ThTnd3Jjrt6bzERsb2k7SU24bdOwEP4k8ptyO+e
+	8TUe/Vc99tll72pnO5LREqW6gaif4I7HDSGseFb43Or+xF3XZY4Stc0wvquhXuEN+bw/ce1oYMt
+	gqEhRHTI8olMd+MmWl26hEtq4RzIkZxO1Iqa
+X-Google-Smtp-Source: AGHT+IEHgbDE6XSaYuzC/2xv+Wh1+0Dafs2OCkiqH4lD8iD4rVPUeR9imtfoRCbdGncVUMGIY0EaRg==
+X-Received: by 2002:a05:6512:3049:b0:541:3175:19b4 with SMTP id 2adb3069b0e04-5427e97b4d7mr2065296e87.11.1736337401542;
+        Wed, 08 Jan 2025 03:56:41 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54223821578sm5397851e87.192.2025.01.08.03.56.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jan 2025 03:56:40 -0800 (PST)
+Date: Wed, 8 Jan 2025 13:56:37 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Sibi Sankar <quic_sibis@quicinc.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Subject: Re: hoses inquiry
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn yeah
-X-NTES-SC: AL_Qu2YBP+ZvEAo5ySRbOkfmkYQg+c7W8GzuP8v3YBXPJp+jCvnywMQc0FzMV3E/OWUESSTvSinVx1N2+pIYY1hca8UgqoL9JVgzaG66lEWZr51lw==
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_14426_101520633.1736323831511"
+Cc: linux-firmware@kernel.org, abickett@quicinc.com
+Subject: Re: qcom: Add Audio firmware for X1E80100 CRD/QCPs
+Message-ID: <plfoqdkuuczjvnz2wcd4ewfgahtabztmfgehpnhvpdpbyrlkjn@esr2cieq62be>
+References: <a3znmntnj3jliy77qffmiukdwccz75mkg5xj72yw3zxkqmjjsb@geavo66vpbpe>
+ <63fe4338-43dd-e771-45fb-57a2096a1002@quicinc.com>
+ <cz6nu7fuf23poqahslmnqisuiqakjzkmwvk2znvohmjrnvgfhs@wb4wkugrkgfm>
+ <e02e6eb7-9af5-87a2-a7f0-248d9c7543c2@quicinc.com>
+ <CAA8EJpoagdAXE7L7qG9vQCkJbJ-MnB0LaYtqAoa8yLgj91O9ug@mail.gmail.com>
+ <4fb0d093-d00c-13cd-9dba-7393dbcf897c@quicinc.com>
+ <nh2uwme4p6ytatr5mindtfryvm524nhdi5hmyvyb6w3qnmeqsc@2umcnv7g6enn>
+ <b6979c75-cbc2-6f00-adee-4bb47d8b63cf@quicinc.com>
+ <nxsukcd5vulgyvmlhiej2xswetbvkh2ue6lpamp44bx3vmmccb@42xufw3xwbg4>
+ <20bf354a-aac9-514a-aa8a-f313e569a4cd@quicinc.com>
 MIME-Version: 1.0
-Message-ID: <79344af0.ea2.19444f716d8.Coremail.flexiblehose03@yeah.net>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:Ps8vCgD3Xwn3Mn5niD4KAA--.8047W
-X-CM-SenderInfo: xioh5xxeohx0lvhqjqh1hdxhhqhw/1tbiCQjO92d+GWphfQADsN
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20bf354a-aac9-514a-aa8a-f313e569a4cd@quicinc.com>
 
-------=_Part_14426_101520633.1736323831511
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+On Wed, Jan 08, 2025 at 10:19:29AM +0530, Sibi Sankar wrote:
+> 
+> 
+> On 1/7/25 04:12, Dmitry Baryshkov wrote:
+> > On Mon, Jan 06, 2025 at 05:42:55PM +0530, Sibi Sankar wrote:
+> > > 
+> > > 
+> > > On 12/17/24 16:26, Dmitry Baryshkov wrote:
+> > > > On Tue, Dec 17, 2024 at 03:13:06PM +0530, Sibi Sankar wrote:
+> > > > > 
+> > > > > 
+> > > > > On 12/5/24 16:49, Dmitry Baryshkov wrote:
+> > > > > > On Thu, 5 Dec 2024 at 12:07, Sibi Sankar <quic_sibis@quicinc.com> wrote:
+> > > > > > > 
+> > > > > > > 
+> > > > > > > 
+> > > > > > > On 11/29/24 20:07, Dmitry Baryshkov wrote:
+> > > > > > > > On Tue, Oct 22, 2024 at 11:49:37AM +0530, Sibi Sankar wrote:
+> > > > > > > > > 
+> > > > > > > > > 
+> > > > > > > > > On 10/18/24 21:23, Dmitry Baryshkov wrote:
+> > > > > > > > > > On Fri, Oct 18, 2024 at 08:58:06PM +0530, Sibi Sankar wrote:
+> > > > > > > > > > > 
+> > > > > > > > > > > 
+> > > > > > > > > > > On 10/18/24 16:13, Dmitry Baryshkov wrote:
+> > > > > > > > > > > > On Fri, Oct 18, 2024 at 12:43:14PM +0530, Sibi Sankar wrote:
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > Hello,
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > The following changes since commit 8dbcf94bfc68bdb1c6df3a42762b275557095558:
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > >         Merge branch 'robot/patch-0-1729102102' into 'main' (2024-10-17 15:40:04
+> > > > > > > > > > > > > +0000)
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > are available in the Git repository at:
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > >         https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
+> > > > > > > > > > > > > adsp-fw-x1e80100-crd
+> > > > > > > > > > > > 
+> > > > > > > > > > > > Could you please clarify, why adspr.jsn doesn't declare tms/pdr_enabled?
+> > > > > > > > > > > > Windows firmware has it in adspr.jsn.
+> > > > > > > > > > > 
+> > > > > > > > > > > Hey Dmitry,
+> > > > > > > > > > > 
+> > > > > > > > > > > Can you please share what device and META you are comparing this
+> > > > > > > > > > > firmware against? This firmware was taken from the build source
+> > > > > > > > > > > without any modification.
+> > > > > > > > > > 
+> > > > > > > > > > I have been looking at the Windows driver from WSU for the CRD,
+> > > > > > > > > > qsubsys_ext_adsp8380.cab. DriverVer = 08/27/2024,2.0.4114.4600.
+> > > > > > > > > > 
+> > > > > > > > > > For the reference, I checked several last drops, they have the following
+> > > > > > > > > > versions of qcadsp8380.mbn:
+> > > > > > > > > > QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00792-HAMOA-1
+> > > > > > > > > > QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00789.1-HAMOA-1
+> > > > > > > > > > QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00787.2-HAMOA-1
+> > > > > > > > > > QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00784-HAMOA-1
+> > > > > > > > > > QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00781-HAMOA-1
+> > > > > > > > > > 
+> > > > > > > > > > All of them list tms/pdr_enabled in adspr.jsn
+> > > > > > > > > > 
+> > > > > > > > > 
+> > > > > > > > > Thanks for listing them. Already following up internally regarding
+> > > > > > > > > this discrepancy, will push out an update once it gets resolved.
+> > > > > > > > 
+> > > > > > > > Sibi, this has been more than a month ago. Could you please update us on
+> > > > > > > > the pdr_enabled necessity? I'm asking since it's also a part of the
+> > > > > > > > kernel data nowadays.
+> > > > > > > 
+> > > > > > > Hey Dmitry,
+> > > > > > > 
+> > > > > > > Extremely sorry for the delay. I was told this is just a platform
+> > > > > > > specific flag that we can decide to turn on if it handles PDR.
+> > > > > > > Given that linux does handle PDR we can safely turn it on.
+> > > > > > 
+> > > > > > So... is there any reason why it wasn't set previously? Which
+> > > > > > platforms should have it in the enabled state?
+> > > > > 
+> > > > > We had just pushed out the firmware out without modification
+> > > > > but yes like you say it could have been turned on during the
+> > > > > initial push itself since linux supports pdr.
+> > > > 
+> > > > Pushed out where? Also could you please respond to the questions rather
+> > > > than ignoring them?
+> > > 
+> > > All SoCs that has remoterprocs booting pds can have tms/pdc enabled in
+> > > linux since it has pdr support merged. The firmware that I said was
+> > > pushed out was the firmware passed onto me for merge into linux-
+> > > firmware. Sry I thought it was already clear, didn't mean to avoid
+> > > answering any questions.
+> > 
+> > So, should we enable the pdr_enabled for all those PDs or should we
+> > ignore the flag and drop it from the configurations where it has been
+> > added? The information that you are providing doesn't help me with that
+> > question.
+> 
+> Yes, we should list tms/pdr as enabled because without that I was told
+> the entire Q6 would go down instead of just the pd i.e. without that
+> the Q6 assumes that the platform doesn't support pd restart and tears
+> down everything including the root.
 
-RGVhciBNYW5hZ2VyLAoKCldlIG1ha2UgYW5kIGV4cG9ydCBydWJiZXIgYW5kIHB2YyBob3Nlcy4K
-U3VjaCBhcyBtZXRhbCBicmFpZGVkIEdhcy9XYXRlciBob3NlLCBJU08zODIxIHdlbGRpbmcgaG9z
-ZSwgTFBHIGdhcyBob3NlLCB3YXRlci9haXIgaG9zZSwgcHZjIGxheWZsYXQgd2F0ZXIgaG9zZSwg
-VElHIGhvc2UsIGluamVjaXRvbiBob3NlLCBhbmQgb2lsIGhvc2UgZXRjLgoKCklmIHlvdSBuZWVk
-IGNhdGFsb2d1ZSBvciBmcmVlIHNhbXBsZSwgd2VsY29tZSB0byBjb250YWN0IHVzLgpUaGFua3M=
+Starting from which platform? Should it be enabled for msm8996?
 
-------=_Part_14426_101520633.1736323831511
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: base64
-
-PGRpdiBkYXRhLW50ZXM9Im50ZXNfbWFpbF9ib2R5X3Jvb3QiIHN0eWxlPSJsaW5lLWhlaWdodDox
-Ljc7Y29sb3I6IzAwMDAwMDtmb250LXNpemU6MTRweDtmb250LWZhbWlseTpBcmlhbCI+PGRpdj48
-c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9z
-X01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXpl
-OiAxMnB0OyI+RGVhciBNYW5hZ2VyLDwvc3Bhbj48L2Rpdj48ZGl2PjxzcGFuIHN0eWxlPSJmb250
-LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwg
-Q2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7Ij48YnI+PC9z
-cGFuPjwvZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjogMHB4OyBmb250LWZhbWlseTogQXB0b3MsIEFw
-dG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNh
-LCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7Ij48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46
-IDBweDsgZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9u
-dFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0
-OyI+V2UgbWFrZSBhbmQgZXhwb3J0IHJ1YmJlciBhbmQgcHZjIGhvc2VzLjwvZGl2PjxkaXYgc3R5
-bGU9Im1hcmdpbjogMHB4OyBmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwg
-QXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250
-LXNpemU6IDEycHQ7Ij5TdWNoIGFzIG1ldGFsIGJyYWlkZWQgR2FzL1dhdGVyIGhvc2UsIElTTzM4
-MjEgd2VsZGluZyBob3NlLCBMUEcgZ2FzIGhvc2UsIHdhdGVyL2FpciBob3NlLCBwdmMgbGF5Zmxh
-dCB3YXRlciBob3NlLCBUSUcgaG9zZSwgaW5qZWNpdG9uIGhvc2UsIGFuZCBvaWwgaG9zZSBldGMu
-PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwcHg7IGZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3Nf
-RW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNh
-bnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsiPjxicj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46
-IDBweDsgZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9u
-dFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0
-OyI+SWYgeW91IG5lZWQgY2F0YWxvZ3VlIG9yIGZyZWUgc2FtcGxlLCB3ZWxjb21lIHRvIGNvbnRh
-Y3QgdXMuPC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwcHg7IGZvbnQtZmFtaWx5OiBBcHRvcywg
-QXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRp
-Y2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsiPjwvZGl2PjxkaXYgc3R5bGU9Im1hcmdp
-bjogMHB4OyBmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNG
-b250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEy
-cHQ7Ij5UaGFua3M8L2Rpdj48L2Rpdj4=
-------=_Part_14426_101520633.1736323831511--
-
+-- 
+With best wishes
+Dmitry
