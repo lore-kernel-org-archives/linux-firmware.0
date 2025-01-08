@@ -1,206 +1,188 @@
-Return-Path: <SRS0=fpnX=T7=pvchose-machine.com=hose@kernel.org>
+Return-Path: <SRS0=2XHl=UA=quicinc.com=quic_sibis@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52F18E77197
-	for <linux-firmware@archiver.kernel.org>; Tue,  7 Jan 2025 23:38:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D503E77188
+	for <linux-firmware@archiver.kernel.org>; Wed,  8 Jan 2025 04:49:37 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 10A62C4CEDF; Tue,  7 Jan 2025 23:38:08 +0000 (UTC)
-Received: from mail-m83192.xmail.ntesmail.com (mail-m83192.xmail.ntesmail.com [156.224.83.192])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id 0DE65C4CEDE; Wed,  8 Jan 2025 04:49:37 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 51FEEC4CED6
-	for <linux-firmware@kernel.org>; Tue,  7 Jan 2025 23:38:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 51FEEC4CED6
-Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=pvchose-machine.com
-Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=pvchose-machine.com
-Content-Type: multipart/alternative; BOUNDARY="=_Part_627895_76083811.1736290950039"
-Message-ID: <AG*AngCGIltjJoBNws4EZKol.1.1736290950039.Wmail.hose@cn-pvchose.com>
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Reply-To: pvchose@goldsione.com
-Subject: =?UTF-8?B?Q3VzdG9taXplZCBQVkMgSG9zZSBqdXN0IGZvciB5b3Ug?=
-X-Priority: 3
-X-Originating-IP: 123.168.253.209
+	by smtp.kernel.org (Postfix) with ESMTPS id D6D30C4CED0
+	for <linux-firmware@kernel.org>; Wed,  8 Jan 2025 04:49:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D6D30C4CED0
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50802SEq008844;
+	Wed, 8 Jan 2025 04:49:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	vLqU3UDP0Ial+7mrMzAIZJGoUhtQAb251xeoJIIcqEU=; b=FOkd7uxZ+E+Odm8L
+	d0cgeQI0xkRdJW+yedRqhtmav+zCwrW51yAjY9F0WHgAPHiNUoBM7Bgvpup0DHQg
+	asa3rYHr1PVQDw5RiIXzAgU6kSS7adqqJl6oTCt6pNYBICKyI4fs1n02Zxoasea/
+	prGY6jGEBxxjKbYfn4gn8NNiMPAGCyK9pqvFzOcItUsWIoSROHArvzcOjLQ8ONHe
+	meoO0OP7wiJspZXJHyG06V8DmK2rjq/RpkL22rvjBD0CI0JW2lXIPe3X/IGDI4Zr
+	SeFn/cKrNtd/xfXY/iVlpU7R6Q5IvOXHSvXYQGMdMBdobxBpmjKvPamkBhSO3gOF
+	/ms1SQ==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 441efm0jdx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Jan 2025 04:49:34 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5084nYvT013405
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 8 Jan 2025 04:49:34 GMT
+Received: from [10.190.163.187] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 7 Jan 2025
+ 20:49:32 -0800
+Message-ID: <20bf354a-aac9-514a-aa8a-f313e569a4cd@quicinc.com>
+Date: Wed, 8 Jan 2025 10:19:29 +0530
 MIME-Version: 1.0
-Received: from hose@cn-pvchose.com( [10.139.33.13] ) by ajax-webmail ( [127.0.0.1] ) ; Wed, 8 Jan 2025 07:02:30 +0800 (GMT+08:00)
-From: PVC Hose <hose@pvchose-machine.com>
-Date: Wed, 8 Jan 2025 07:02:30 +0800 (GMT+08:00)
-X-WM-Spam-Status: e1kfGhgUHx5ZQUhXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOSEtLS0k3V1ktWUFJV1kPCRoVCBIfWUFZGU8dSlZLS05CHRkZTk5NSR1WDBZVEw
-	ETFhoSFyQUDg9ZV1kYEgtZQVlKS1VKSEJVSEhVSkhZV1kWGg8SFR0UWUFZT0tIVUpLSEtOTEtVT1
-	VKT1kG
-X-WM-Tid: 0a9443015b8f0510kunm194348bb10f
-X-WM-MType: 2
-X-WM-Sender-Digest: e1kMHhlZQQ8JDh5XWRIfHhUPWUFZRzo8UToVHDg8MhcPETEUOTUMCE8#
-	ITAUF1VKVUpMSE1JQktCTktPSUJVMxYaEhdVExQIHjsLDRgTFAgeVhYaGBMSFR5VGBQWRVlXWRIL
-	WUFZSktVSkhCVUhIVUpIWVdZCAFZQUpJS0xMN1dZFAsPEhQVCFlBTDcG
-DKIM-Signature:a=rsa-sha256;
-	b=PtSQgONppcPGRTYU9fkpQPL+BF+FPrrAzU4/FQSYUyHsk7qgCjWzDLvzs/YsxQitTylwyJgCrSAAZ2UQyaOtXUat8pYm4LZlR0C61jz4frYIZpynaJlK+lvoPj5TZvbAU1s7CFoya7I84ejeN4cAvPT6buj70190tbCcIisCtxg=; s=default; c=relaxed/relaxed; d=pvchose-machine.com; v=1;
-	bh=rPKGS2KPUcl1wrf1h6hDHas/GbLR3y8e1xCoWGN5JQY=;
-	h=date:mime-version:subject:message-id:from;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: qcom: Add Audio firmware for X1E80100 CRD/QCPs
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+List-Id: <linux-firmware.lore.kernel.org>
+CC: <linux-firmware@kernel.org>, <abickett@quicinc.com>
+References: <i4ihcid3ka67rhwziue5tblahs6bwaehazq74bd5y64ybs4ahv@l6ti4xqr3yq6>
+ <d169bd29-b756-f027-9f33-02106b702359@quicinc.com>
+ <a3znmntnj3jliy77qffmiukdwccz75mkg5xj72yw3zxkqmjjsb@geavo66vpbpe>
+ <63fe4338-43dd-e771-45fb-57a2096a1002@quicinc.com>
+ <cz6nu7fuf23poqahslmnqisuiqakjzkmwvk2znvohmjrnvgfhs@wb4wkugrkgfm>
+ <e02e6eb7-9af5-87a2-a7f0-248d9c7543c2@quicinc.com>
+ <CAA8EJpoagdAXE7L7qG9vQCkJbJ-MnB0LaYtqAoa8yLgj91O9ug@mail.gmail.com>
+ <4fb0d093-d00c-13cd-9dba-7393dbcf897c@quicinc.com>
+ <nh2uwme4p6ytatr5mindtfryvm524nhdi5hmyvyb6w3qnmeqsc@2umcnv7g6enn>
+ <b6979c75-cbc2-6f00-adee-4bb47d8b63cf@quicinc.com>
+ <nxsukcd5vulgyvmlhiej2xswetbvkh2ue6lpamp44bx3vmmccb@42xufw3xwbg4>
+From: Sibi Sankar <quic_sibis@quicinc.com>
+In-Reply-To: <nxsukcd5vulgyvmlhiej2xswetbvkh2ue6lpamp44bx3vmmccb@42xufw3xwbg4>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: FrTfackQ8dPiBpgZfa5oA9OpK652Pg5V
+X-Proofpoint-ORIG-GUID: FrTfackQ8dPiBpgZfa5oA9OpK652Pg5V
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ phishscore=0 adultscore=0 clxscore=1015 mlxlogscore=865 suspectscore=0
+ impostorscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501080036
 
---=_Part_627895_76083811.1736290950039
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
 
-CkhlbGxvIGRlYXIsCgoKV2UgYXJlIHBsZWFzZWQgdG8gaW50cm9kdWNlIG91ciBjb21wYW55LCBH
-b2xkc2lvbmUsIHNwZWNpYWxpemluZyBpbiB0aGUgcHJvZHVjdGlvbiBvZiBQVkMgaG9zZXMgd2l0
-aCBvdmVyIDIwIHllYXJzIG9mIGV4cGVyaWVuY2UuCgoKT3VyIG1haW4gcHJvZHVjdHMgaW5jbHVk
-ZSBQVkMgYWlyIGhvc2UsIFBWQyBsYXkgZmxhdCBob3NlLCBQVkMgZ2FyZGVuIGhvc2UsIFBWQyBm
-aWJlciByZWluZm9yY2VkIGhvc2UsIFBWQyBzdGVlbCB3aXJlIGhvc2UsIFBWQyBzdWN0aW9uIGhv
-c2UgYW5kIFBWQyBjbGVhciBob3NlLgoKCgoKT3VyIGhvc2VzIGFyZSBrbm93biBmb3IgdGhlaXIg
-ZHVyYWJpbGl0eSBhbmQgaGlnaC1xdWFsaXR5IG1hdGVyaWFscywgbWFraW5nIHRoZW0gaWRlYWwg
-Zm9yIHZhcmlvdXMgaW5kdXN0cmlhbCBhcHBsaWNhdGlvbnMuCgoKV2UgYXJlIGNvbmZpZGVudCB0
-aGF0IG91ciBwcm9kdWN0cyB3aWxsIG1lZXQgeW91ciBuZWVkcyBhbmQgZXhjZWVkIHlvdXIgZXhw
-ZWN0YXRpb25zLgoKClRoYW5rIHlvdSBmb3IgY29uc2lkZXJpbmcgR29sZHNpb25lIGZvciB5b3Vy
-IFBWQyBob3NlIG5lZWRzLiAgCgoKCgoKCiBJZiB5b3UgZG9uJ3Qgd2FudCB0byByZWNlaXZlIG91
-ciBlbWFpbHMsIHlvdSBjYW4gZWFzaWx5IHVuc3Vic2NyaWJlIGhlcmUuCgoKDQoNCg==
---=_Part_627895_76083811.1736290950039
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
 
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6
-MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1b3Q7LHNhbnMtc2VyaWYiPjwvc3Bhbj48
-L3A+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1z
-aXplOjEwLjBwdDtsaW5lLWhlaWdodDoxMTUlOyBmb250LWZhbWlseTomcXVvdDtBcmlhbCZxdW90
-OyxzYW5zLXNlcmlmIj5IZWxsbyBkZWFyLDwvc3Bhbj48L3A+CjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtsaW5lLWhlaWdodDox
-MTUlOyBmb250LWZhbWlseTomcXVvdDtBcmlhbCZxdW90OyxzYW5zLXNlcmlmIj48YnIgZGF0YS1t
-Y2UtYm9ndXM9IjEiPjwvc3Bhbj48L3A+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9
-IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtsaW5lLWhlaWdodDoxMTUlOyBmb250LWZh
-bWlseTomcXVvdDtBcmlhbCZxdW90OyxzYW5zLXNlcmlmIj5XZSBhcmUgcGxlYXNlZCB0byBpbnRy
-b2R1Y2Ugb3VyIGNvbXBhbnksIEdvbGRzaW9uZSwgc3BlY2lhbGl6aW5nIGluIHRoZSBwcm9kdWN0
-aW9uIG9mIFBWQyBob3NlcyB3aXRoIG92ZXIgMjAgeWVhcnMgb2YgZXhwZXJpZW5jZS4gPC9zcGFu
-PjwvcD4KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250
-LXNpemU6MTAuMHB0O2xpbmUtaGVpZ2h0OjExNSU7IGZvbnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1
-b3Q7LHNhbnMtc2VyaWYiPjxiciBkYXRhLW1jZS1ib2d1cz0iMSI+PC9zcGFuPjwvcD4KPHAgY2xh
-c3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuMHB0
-O2xpbmUtaGVpZ2h0OjExNSU7IGZvbnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1b3Q7LHNhbnMtc2Vy
-aWYiPk91ciBtYWluIHByb2R1Y3RzIGluY2x1ZGUgUFZDIGFpciBob3NlLCBQVkMgbGF5IGZsYXQg
-aG9zZSwgUFZDIGdhcmRlbiBob3NlLCBQVkMgZmliZXIgcmVpbmZvcmNlZCBob3NlLCBQVkMgc3Rl
-ZWwgd2lyZSBob3NlLCBQVkMgc3VjdGlvbiBob3NlIGFuZCBQVkMgY2xlYXIgaG9zZS48L3NwYW4+
-PC9wPgo8cD48L3A+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHls
-ZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtBcmlhbCZxdW90OyxzYW5zLXNl
-cmlmIj48L3NwYW4+PC9wPgo8ZGl2PgogPGltZyBzcmM9Imh0dHBzOi8vY293b3JrLXN0b3JhZ2Ut
-cHVibGljLWNkbi5seC5uZXRlYXNlLmNvbS9zaWduLzIwMjQvMDgvMTUvNzQ3MDJiZjlhZWY5NDQx
-YWI2MTNkMTM1YjFlYmE0OWYuSlBHIiBkYXRhLXRpbWVkYXRlPSIxNzIzNzA4NDIwNTgxIiB3aXJ0
-ZS1vcmlnaW4tc3JjPSJodHRwczovL2Nvd29yay1zdG9yYWdlLXB1YmxpYy1jZG4ubHgubmV0ZWFz
-ZS5jb20vc2lnbi8yMDI0LzA4LzE1Lzc0NzAyYmY5YWVmOTQ0MWFiNjEzZDEzNWIxZWJhNDlmLkpQ
-RyIgd2lkdGg9IjQ0MCIgaGVpZ2h0PSIyOTMiIGRhdGEtbWNlLXN0eWxlPSJtYXgtd2lkdGg6IDEw
-MCU7IiBzdHlsZT0ibWF4LXdpZHRoOiAxMDAlOyI+PGJyPgo8L2Rpdj4KPGRpdj4KIDxwIGNsYXNz
-PSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOiAxMC4wcHQ7
-IGxpbmUtaGVpZ2h0OiAxMTUlOyBmb250LWZhbWlseTogJ0FyaWFsJyxzYW5zLXNlcmlmOyI+T3Vy
-IGhvc2VzIGFyZSBrbm93biBmb3IgdGhlaXIgZHVyYWJpbGl0eSBhbmQgaGlnaC1xdWFsaXR5IG1h
-dGVyaWFscywgbWFraW5nIHRoZW0gaWRlYWwgZm9yIHZhcmlvdXMgaW5kdXN0cmlhbCBhcHBsaWNh
-dGlvbnMuPC9zcGFuPjwvcD4KIDxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVT
-IiBzdHlsZT0iZm9udC1zaXplOiAxMC4wcHQ7IGxpbmUtaGVpZ2h0OiAxMTUlOyBmb250LWZhbWls
-eTogJ0FyaWFsJyxzYW5zLXNlcmlmOyI+PGJyIGRhdGEtbWNlLWJvZ3VzPSIxIj48L3NwYW4+PC9w
-PgogPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNp
-emU6IDEwLjBwdDsgbGluZS1oZWlnaHQ6IDExNSU7IGZvbnQtZmFtaWx5OiAnQXJpYWwnLHNhbnMt
-c2VyaWY7Ij4gV2UgYXJlIGNvbmZpZGVudCB0aGF0IG91ciBwcm9kdWN0cyB3aWxsIG1lZXQgeW91
-ciBuZWVkcyBhbmQgZXhjZWVkIHlvdXIgZXhwZWN0YXRpb25zLjwvc3Bhbj48L3A+CiA8cCBjbGFz
-cz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZTogMTAuMHB0
-OyBsaW5lLWhlaWdodDogMTE1JTsgZm9udC1mYW1pbHk6ICdBcmlhbCcsc2Fucy1zZXJpZjsiPjxi
-ciBkYXRhLW1jZS1ib2d1cz0iMSI+PC9zcGFuPjwvcD4KIDxkaXY+CiAgPHNwYW4gbGFuZz0iRU4t
-VVMiIHN0eWxlPSJmb250LXNpemU6IDEwLjBwdDsgbGluZS1oZWlnaHQ6IDExNSU7IGZvbnQtZmFt
-aWx5OiAnQXJpYWwnLHNhbnMtc2VyaWY7IG1zby1mYXJlYXN0LWZvbnQtZmFtaWx5OiDnrYnnur87
-IG1zby1mYXJlYXN0LXRoZW1lLWZvbnQ6IG1pbm9yLWZhcmVhc3Q7IG1zby1hbnNpLWxhbmd1YWdl
-OiBFTi1VUzsgbXNvLWZhcmVhc3QtbGFuZ3VhZ2U6IFpILUNOOyBtc28tYmlkaS1sYW5ndWFnZTog
-QVItU0E7Ij5UaGFuayB5b3UgZm9yIGNvbnNpZGVyaW5nIEdvbGRzaW9uZSBmb3IgeW91ciBQVkMg
-aG9zZSBuZWVkcy48c3BhbiBzdHlsZT0ibXNvLXNwYWNlcnVuOiB5ZXM7Ij4gJm5ic3A7PC9zcGFu
-Pjwvc3Bhbj4KIDwvZGl2PgogPGRpdj4KICA8c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQt
-c2l6ZTogMTAuMHB0OyBsaW5lLWhlaWdodDogMTE1JTsgZm9udC1mYW1pbHk6ICdBcmlhbCcsc2Fu
-cy1zZXJpZjsgbXNvLWZhcmVhc3QtZm9udC1mYW1pbHk6IOetiee6vzsgbXNvLWZhcmVhc3QtdGhl
-bWUtZm9udDogbWlub3ItZmFyZWFzdDsgbXNvLWFuc2ktbGFuZ3VhZ2U6IEVOLVVTOyBtc28tZmFy
-ZWFzdC1sYW5ndWFnZTogWkgtQ047IG1zby1iaWRpLWxhbmd1YWdlOiBBUi1TQTsiPjxzcGFuIHN0
-eWxlPSJtc28tc3BhY2VydW46IHllczsiPjxiciBkYXRhLW1jZS1ib2d1cz0iMSI+PC9zcGFuPjwv
-c3Bhbj4KIDwvZGl2PjxzcGFuIGRhdGEtbWNlLXR5cGU9ImJvb2ttYXJrIiBpZD0ibWNlXzJfc3Rh
-cnQiIGRhdGEtbWNlLXN0eWxlPSJvdmVyZmxvdzpoaWRkZW47bGluZS1oZWlnaHQ6MHB4IiBzdHls
-ZT0ib3ZlcmZsb3c6IGhpZGRlbjsgbGluZS1oZWlnaHQ6IDBweDsiPjwvc3Bhbj4KPC9kaXY+Cjxk
-aXY+CiA8c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1p
-bHk6JnF1b3Q7QXJpYWwmcXVvdDssc2Fucy1zZXJpZiI+PC9zcGFuPgo8L2Rpdj4KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+PC9wPgo8ZGl2PgogPGltZyBzcmM9Imh0dHBzOi8vY293b3JrLXN0b3JhZ2Ut
-cHVibGljLWNkbi5seC5uZXRlYXNlLmNvbS9seGJnLzIwMjMvMDkvMTEvMTEyMWQ1MWI2YzU2NDc4
-NDliNzg0YmJhMGI0Njg3YTUucG5nIiBkYXRhLXRpbWVkYXRlPSIxNjk0NDAwMTkxMDU0IiB3aWR0
-aD0iNDc3IiBoZWlnaHQ9IjIyOCIgZGF0YS1tY2Utc3R5bGU9Im1heC13aWR0aDogMTAwJTsiIHN0
-eWxlPSJtYXgtd2lkdGg6IDEwMCU7Ij4KPC9kaXY+CjxkaXY+CiA8c3BhbiBzdHlsZT0iZm9udC1m
-YW1pbHk6IGFyaWFsOyIgZGF0YS1tY2Utc3R5bGU9ImZvbnQtZmFtaWx5OiBhcmlhbDsiPiZuYnNw
-OzxzcGFuIHN0eWxlPSJjb2xvcjogcmdiYSgzOCwgNDIsIDUxLCAwLjkpOyBmb250LXNpemU6IDE0
-cHg7IGZvbnQtc3R5bGU6IG5vcm1hbDsgZm9udC12YXJpYW50LWxpZ2F0dXJlczogbm9ybWFsOyBm
-b250LXZhcmlhbnQtY2Fwczogbm9ybWFsOyBmb250LXdlaWdodDogNDAwOyBsZXR0ZXItc3BhY2lu
-Zzogbm9ybWFsOyBvcnBoYW5zOiAyOyB0ZXh0LWFsaWduOiBzdGFydDsgdGV4dC1pbmRlbnQ6IDBw
-eDsgdGV4dC10cmFuc2Zvcm06IG5vbmU7IHdoaXRlLXNwYWNlOiBub3JtYWw7IHdpZG93czogMjsg
-d29yZC1zcGFjaW5nOiAwcHg7IC13ZWJraXQtdGV4dC1zdHJva2Utd2lkdGg6IDBweDsgdGV4dC1k
-ZWNvcmF0aW9uLXN0eWxlOiBpbml0aWFsOyB0ZXh0LWRlY29yYXRpb24tY29sb3I6IGluaXRpYWw7
-IGZsb2F0OiBub25lOyBkaXNwbGF5OiBpbmxpbmUgIWltcG9ydGFudDsiIGRhdGEtbWNlLXN0eWxl
-PSJjb2xvcjogcmdiYSgzOCwgNDIsIDUxLCAwLjkpOyBmb250LXNpemU6IDE0cHg7IGZvbnQtc3R5
-bGU6IG5vcm1hbDsgZm9udC12YXJpYW50LWxpZ2F0dXJlczogbm9ybWFsOyBmb250LXZhcmlhbnQt
-Y2Fwczogbm9ybWFsOyBmb250LXdlaWdodDogNDAwOyBsZXR0ZXItc3BhY2luZzogbm9ybWFsOyBv
-cnBoYW5zOiAyOyB0ZXh0LWFsaWduOiBzdGFydDsgdGV4dC1pbmRlbnQ6IDBweDsgdGV4dC10cmFu
-c2Zvcm06IG5vbmU7IHdoaXRlLXNwYWNlOiBub3JtYWw7IHdpZG93czogMjsgd29yZC1zcGFjaW5n
-OiAwcHg7IC13ZWJraXQtdGV4dC1zdHJva2Utd2lkdGg6IDBweDsgdGV4dC1kZWNvcmF0aW9uLXN0
-eWxlOiBpbml0aWFsOyB0ZXh0LWRlY29yYXRpb24tY29sb3I6IGluaXRpYWw7IGZsb2F0OiBub25l
-OyBkaXNwbGF5OiBpbmxpbmUgIWltcG9ydGFudDsiPklmIHlvdSBkb24ndCB3YW50IHRvIHJlY2Vp
-dmUgb3VyIGVtYWlscywgeW91IGNhbiBlYXNpbHkgPC9zcGFuPjxhIGNsYXNzPSJ4X3hfZWRtLXVu
-c3Vic2NyaWJlIiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOiBub25lOyBjdXJzb3I6IHBvaW50ZXI7
-IGNvbG9yOiAjMzg2ZWU3OyBmb250LWZhbWlseTogLWFwcGxlLXN5c3RlbSwgQmxpbmtNYWNTeXN0
-ZW1Gb250LCAnIHVuZGVmaW5lZDogU2Vnb2VVSScgdW5kZWZpbmVkOiAsUm9ib3RvLE94eWdlbixV
-YnVudHUsQ2FudGFyZWxsLCcgdW5kZWZpbmVkOiBPcGVuU2FucycgdW5kZWZpbmVkOiAsJyB1bmRl
-ZmluZWQ6IEhlbHZldGljYU5ldWUnIHVuZGVmaW5lZDogLHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTog
-MTRweDsgZm9udC1zdHlsZTogbm9ybWFsOyBmb250LXZhcmlhbnQtbGlnYXR1cmVzOiBub3JtYWw7
-IGZvbnQtdmFyaWFudC1jYXBzOiBub3JtYWw7IGZvbnQtd2VpZ2h0OiA0MDA7IGxldHRlci1zcGFj
-aW5nOiBub3JtYWw7IG9ycGhhbnM6IDI7IHRleHQtYWxpZ246IHN0YXJ0OyB0ZXh0LWluZGVudDog
-MHB4OyB0ZXh0LXRyYW5zZm9ybTogbm9uZTsgd2hpdGUtc3BhY2U6IG5vcm1hbDsgd2lkb3dzOiAy
-OyB3b3JkLXNwYWNpbmc6IDBweDsgLXdlYmtpdC10ZXh0LXN0cm9rZS13aWR0aDogMHB4OyIgaHJl
-Zj0iaHR0cHM6Ly9seC1sZW8tc3Rhci1tYWlsLnFpeWUuMTYzLmNvbS9hcGkvai9odG1sP2M9aHR0
-cHMlM0ElMkYlMkZzaXJpdXMtaXQtbWFpbC10cmFjZS5xaXllLjE2My5jb20lMkZhcGklMkZwdWIl
-MkZ1cmwlMkZ2aXNpdCUzRnNpZ24lM0RWMi5HUEdOSzJ1U01vdXRUdGZzMkFVaXRvMEdnaFRXN3dw
-Z0l4c244SGctdVF1aGwwQWh5NzBBc044UExxOW9RRlNvZlF3LVp5N3pONHg0T1NPQS1TZS1lMFdq
-bk5pb1hsZHJHWUN6Sk1CbGNUV0pBT3hIVEJ5UmdKVjVRS0oyUnpkamJ1cHVydTNXaHUzRUpuYXVs
-VlhQMXM4bjJ0d3dRcHhoZzZFVS1aT1NqQWQ2cWhhSlVKbU5CRXFGMktBNzFVQXhocXNVbFd2Z25v
-ZF9Wd2VpVV9UeGR1a1J2eUJEWHhmUFpTM2ZQVDZqS1o0b0dSUEh0NjJRWUhkeHFxQ1h1LUpOZklF
-SGpEeVdrZzhFX1hPV2o1Y0dpWjhCazRTTE53bUFuUExUM292dUtPNnhjRXdzYWlaS0VQcUtyMEM5
-WnNWMkpKSzU3Z3hBd2pxUU1MNDZMNFN4TU53VU9yQ0t6VElXOWFjVmM0bVJjNFBXaXdXaTNFMzVM
-ZkVhVEtxOUJtdldGSlpOSlNRTVhNSGhDRmhaRGdpZUU0YjlWS1JYeFU3N0IydGRPSGQ0aGdhdkFq
-UVE5SHVHUExGT1JGUFdkYVMzNmc4SEk3UTh5WGZadkRwNzY0TUszNXlITUV0UExRTmhJaWN2b0VS
-UlUtMUhfVlJhazFwcFlKTDk4VE9tYi03TlNuME8wb2I1NGNYRXRrTy1uRk1yNGpncVZnbTlFNGtv
-bTFEUXJaRDNwWVlfOGpjZnY3aFd2ZHcwcUU4N203Ym5jNURNbWtFdC10ZHViV01PQmtGWjB0WEpz
-TWxwSkxJNzF0ZEFQTjhOR2hlYVR5RnhkOWQwNW9IT0xBRnR3QjBtM3BnRF9Ya2tiRGF0WW11ZldY
-eGFacUhrMVNUSFZtZXNfSUR1VXBVVGZTelUtUFpaME9YeTNXWVREMGZVTXU3cCIgdGFyZ2V0PSJf
-YmxhbmsiIHJlbD0ibm9vcGVuZXIiIGRhdGEtbWNlLXN0eWxlPSJ0ZXh0LWRlY29yYXRpb246IG5v
-bmU7IGN1cnNvcjogcG9pbnRlcjsgY29sb3I6ICMzODZlZTc7IGZvbnQtZmFtaWx5OiAtYXBwbGUt
-c3lzdGVtLCBCbGlua01hY1N5c3RlbUZvbnQsICcgdW5kZWZpbmVkOiBTZWdvZVVJJyB1bmRlZmlu
-ZWQ6ICxSb2JvdG8sT3h5Z2VuLFVidW50dSxDYW50YXJlbGwsJyB1bmRlZmluZWQ6IE9wZW5TYW5z
-JyB1bmRlZmluZWQ6ICwnIHVuZGVmaW5lZDogSGVsdmV0aWNhTmV1ZScgdW5kZWZpbmVkOiAsc2Fu
-cy1zZXJpZjsgZm9udC1zaXplOiAxNHB4OyBmb250LXN0eWxlOiBub3JtYWw7IGZvbnQtdmFyaWFu
-dC1saWdhdHVyZXM6IG5vcm1hbDsgZm9udC12YXJpYW50LWNhcHM6IG5vcm1hbDsgZm9udC13ZWln
-aHQ6IDQwMDsgbGV0dGVyLXNwYWNpbmc6IG5vcm1hbDsgb3JwaGFuczogMjsgdGV4dC1hbGlnbjog
-c3RhcnQ7IHRleHQtaW5kZW50OiAwcHg7IHRleHQtdHJhbnNmb3JtOiBub25lOyB3aGl0ZS1zcGFj
-ZTogbm9ybWFsOyB3aWRvd3M6IDI7IHdvcmQtc3BhY2luZzogMHB4OyAtd2Via2l0LXRleHQtc3Ry
-b2tlLXdpZHRoOiAwcHg7IiBpdGVtLXItcHJvcD0ibHgtbGVvLXN0YXItbWFpbC5xaXllLjE2My5j
-b20iPnVuc3Vic2NyaWJlPC9hPjxzcGFuIHN0eWxlPSJjb2xvcjogcmdiYSgzOCwgNDIsIDUxLCAw
-LjkpOyBmb250LXNpemU6IDE0cHg7IGZvbnQtc3R5bGU6IG5vcm1hbDsgZm9udC12YXJpYW50LWxp
-Z2F0dXJlczogbm9ybWFsOyBmb250LXZhcmlhbnQtY2Fwczogbm9ybWFsOyBmb250LXdlaWdodDog
-NDAwOyBsZXR0ZXItc3BhY2luZzogbm9ybWFsOyBvcnBoYW5zOiAyOyB0ZXh0LWFsaWduOiBzdGFy
-dDsgdGV4dC1pbmRlbnQ6IDBweDsgdGV4dC10cmFuc2Zvcm06IG5vbmU7IHdoaXRlLXNwYWNlOiBu
-b3JtYWw7IHdpZG93czogMjsgd29yZC1zcGFjaW5nOiAwcHg7IC13ZWJraXQtdGV4dC1zdHJva2Ut
-d2lkdGg6IDBweDsgdGV4dC1kZWNvcmF0aW9uLXN0eWxlOiBpbml0aWFsOyB0ZXh0LWRlY29yYXRp
-b24tY29sb3I6IGluaXRpYWw7IGZsb2F0OiBub25lOyBkaXNwbGF5OiBpbmxpbmUgIWltcG9ydGFu
-dDsiIGRhdGEtbWNlLXN0eWxlPSJjb2xvcjogcmdiYSgzOCwgNDIsIDUxLCAwLjkpOyBmb250LXNp
-emU6IDE0cHg7IGZvbnQtc3R5bGU6IG5vcm1hbDsgZm9udC12YXJpYW50LWxpZ2F0dXJlczogbm9y
-bWFsOyBmb250LXZhcmlhbnQtY2Fwczogbm9ybWFsOyBmb250LXdlaWdodDogNDAwOyBsZXR0ZXIt
-c3BhY2luZzogbm9ybWFsOyBvcnBoYW5zOiAyOyB0ZXh0LWFsaWduOiBzdGFydDsgdGV4dC1pbmRl
-bnQ6IDBweDsgdGV4dC10cmFuc2Zvcm06IG5vbmU7IHdoaXRlLXNwYWNlOiBub3JtYWw7IHdpZG93
-czogMjsgd29yZC1zcGFjaW5nOiAwcHg7IC13ZWJraXQtdGV4dC1zdHJva2Utd2lkdGg6IDBweDsg
-dGV4dC1kZWNvcmF0aW9uLXN0eWxlOiBpbml0aWFsOyB0ZXh0LWRlY29yYXRpb24tY29sb3I6IGlu
-aXRpYWw7IGZsb2F0OiBub25lOyBkaXNwbGF5OiBpbmxpbmUgIWltcG9ydGFudDsiPiZuYnNwO2hl
-cmUuPC9zcGFuPjwvc3Bhbj4KPC9kaXY+CjxwPjwvcD4gPGltZyB3aWR0aD0iMSIgaGVpZ2h0PSIx
-IiBzcmM9Imh0dHBzOi8vd2FpbWFvLW5vcnRoLXN0YXItbWFpbC5xaXllLjE2My5jb20vYXBpL3B1
-Yi9lZG0vcmVhZD9zaWduPVYyLjNub05xSjE1bmpRQVlzSF9lSmpCZEE4VEZ3d0tfbDhqb213VTRk
-NW1vZGV2RnhrS04tZ0w3bGcwaTg0anYxYXVqQkFDV0NSTGJQUmR5WkxXNHZESEdjdDB3ZkJJOHQ0
-UGhXY1hrSWRYSTlVIj48YnI+
---=_Part_627895_76083811.1736290950039--
+On 1/7/25 04:12, Dmitry Baryshkov wrote:
+> On Mon, Jan 06, 2025 at 05:42:55PM +0530, Sibi Sankar wrote:
+>>
+>>
+>> On 12/17/24 16:26, Dmitry Baryshkov wrote:
+>>> On Tue, Dec 17, 2024 at 03:13:06PM +0530, Sibi Sankar wrote:
+>>>>
+>>>>
+>>>> On 12/5/24 16:49, Dmitry Baryshkov wrote:
+>>>>> On Thu, 5 Dec 2024 at 12:07, Sibi Sankar <quic_sibis@quicinc.com> wrote:
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> On 11/29/24 20:07, Dmitry Baryshkov wrote:
+>>>>>>> On Tue, Oct 22, 2024 at 11:49:37AM +0530, Sibi Sankar wrote:
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> On 10/18/24 21:23, Dmitry Baryshkov wrote:
+>>>>>>>>> On Fri, Oct 18, 2024 at 08:58:06PM +0530, Sibi Sankar wrote:
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> On 10/18/24 16:13, Dmitry Baryshkov wrote:
+>>>>>>>>>>> On Fri, Oct 18, 2024 at 12:43:14PM +0530, Sibi Sankar wrote:
+>>>>>>>>>>>>
+>>>>>>>>>>>> Hello,
+>>>>>>>>>>>>
+>>>>>>>>>>>> The following changes since commit 8dbcf94bfc68bdb1c6df3a42762b275557095558:
+>>>>>>>>>>>>
+>>>>>>>>>>>>         Merge branch 'robot/patch-0-1729102102' into 'main' (2024-10-17 15:40:04
+>>>>>>>>>>>> +0000)
+>>>>>>>>>>>>
+>>>>>>>>>>>> are available in the Git repository at:
+>>>>>>>>>>>>
+>>>>>>>>>>>>         https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
+>>>>>>>>>>>> adsp-fw-x1e80100-crd
+>>>>>>>>>>>
+>>>>>>>>>>> Could you please clarify, why adspr.jsn doesn't declare tms/pdr_enabled?
+>>>>>>>>>>> Windows firmware has it in adspr.jsn.
+>>>>>>>>>>
+>>>>>>>>>> Hey Dmitry,
+>>>>>>>>>>
+>>>>>>>>>> Can you please share what device and META you are comparing this
+>>>>>>>>>> firmware against? This firmware was taken from the build source
+>>>>>>>>>> without any modification.
+>>>>>>>>>
+>>>>>>>>> I have been looking at the Windows driver from WSU for the CRD,
+>>>>>>>>> qsubsys_ext_adsp8380.cab. DriverVer = 08/27/2024,2.0.4114.4600.
+>>>>>>>>>
+>>>>>>>>> For the reference, I checked several last drops, they have the following
+>>>>>>>>> versions of qcadsp8380.mbn:
+>>>>>>>>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00792-HAMOA-1
+>>>>>>>>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00789.1-HAMOA-1
+>>>>>>>>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00787.2-HAMOA-1
+>>>>>>>>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00784-HAMOA-1
+>>>>>>>>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00781-HAMOA-1
+>>>>>>>>>
+>>>>>>>>> All of them list tms/pdr_enabled in adspr.jsn
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>> Thanks for listing them. Already following up internally regarding
+>>>>>>>> this discrepancy, will push out an update once it gets resolved.
+>>>>>>>
+>>>>>>> Sibi, this has been more than a month ago. Could you please update us on
+>>>>>>> the pdr_enabled necessity? I'm asking since it's also a part of the
+>>>>>>> kernel data nowadays.
+>>>>>>
+>>>>>> Hey Dmitry,
+>>>>>>
+>>>>>> Extremely sorry for the delay. I was told this is just a platform
+>>>>>> specific flag that we can decide to turn on if it handles PDR.
+>>>>>> Given that linux does handle PDR we can safely turn it on.
+>>>>>
+>>>>> So... is there any reason why it wasn't set previously? Which
+>>>>> platforms should have it in the enabled state?
+>>>>
+>>>> We had just pushed out the firmware out without modification
+>>>> but yes like you say it could have been turned on during the
+>>>> initial push itself since linux supports pdr.
+>>>
+>>> Pushed out where? Also could you please respond to the questions rather
+>>> than ignoring them?
+>>
+>> All SoCs that has remoterprocs booting pds can have tms/pdc enabled in
+>> linux since it has pdr support merged. The firmware that I said was
+>> pushed out was the firmware passed onto me for merge into linux-
+>> firmware. Sry I thought it was already clear, didn't mean to avoid
+>> answering any questions.
+> 
+> So, should we enable the pdr_enabled for all those PDs or should we
+> ignore the flag and drop it from the configurations where it has been
+> added? The information that you are providing doesn't help me with that
+> question.
+
+Yes, we should list tms/pdr as enabled because without that I was told
+the entire Q6 would go down instead of just the pd i.e. without that
+the Q6 assumes that the platform doesn't support pd restart and tears
+down everything including the root.
+
+-Sibi
+
+> 
+> 
