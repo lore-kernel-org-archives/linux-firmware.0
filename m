@@ -4,98 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1F2DC02180
-	for <linux-firmware@archiver.kernel.org>; Thu, 16 Jan 2025 11:59:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 84874C02180
+	for <linux-firmware@archiver.kernel.org>; Thu, 16 Jan 2025 12:00:05 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 96382C4CEE2; Thu, 16 Jan 2025 11:59:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8049FC4CEE3
-	for <linux-firmware@kernel.org>; Thu, 16 Jan 2025 11:59:18 +0000 (UTC)
+	id 58A06C4CEE4; Thu, 16 Jan 2025 12:00:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41219C4CEE3
+	for <linux-firmware@kernel.org>; Thu, 16 Jan 2025 12:00:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737028758;
-	bh=XxMfDiJW7EnW4WvRbo3d2krzQIkID6cBIBy3wfgJq14=;
+	s=k20201202; t=1737028805;
+	bh=aIzrQq9tBTdcVGI4/Nll1Kjfe3pVlC5BM/kqbcXYrDs=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=B+Sc4o09RH02vVclWL1rRg8QL9e1y8JDdH1/B4PtZMs/1ZsUtDiqgaL0i/d0dAQ5p
-	 0gfQZzNvl0KrxVklgCuxgOr5lGcNxk5B908DEJf5x66EkZmdn5KfRnsfrYOdels4gz
-	 hhqItF9eCilPt7UxMs4HQz10mejmERAcZwC7Cqhi/zWA5KmX85X3xsmnfRDsAKdOk/
-	 Q3Dpl10vEhsehGKuTR+jjwsuy/LCvBDgmz4ip8xmRQvQPCgQ9Q8QnxSjAT0MHmXB4o
-	 fnTBF1+IVnP2egfOctPQr/RZ3Ed7xrwZrF52J8MXWm/+JbEpbnQwO0P103EBXgO4FS
-	 3IXUKXnIPSZig==
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5d4e2aa7ea9so1671857a12.2
-        for <linux-firmware@kernel.org>; Thu, 16 Jan 2025 03:59:18 -0800 (PST)
-X-Gm-Message-State: AOJu0Yw+lXguz/BZ0zFR8esLj22oqOmZnRp2DaunNYEA+owLxnnmjfc6
-	qBSs5KwH2KnLtJHL+V0ytpiuaBgvWnpqC7/fH9UQWopYUc1a0JvOj8Ar/de3GXS3ck4yyPHIR21
-	F3S6FlwlnpEo54mWUtwAH5HrbkPs=
-X-Google-Smtp-Source: AGHT+IGDyT4bZb4xIo2DjV3d7+rg3m9XzVpUJ3QYWXuhQ94hQJdd+NEdfASEiD1yBXpJLXe4SnCqlkEA78zwafjdJmo=
-X-Received: by 2002:a05:6402:26d3:b0:5d9:a59:854a with SMTP id
- 4fb4d7f45d1cf-5d972e07f98mr31517607a12.13.1737028757096; Thu, 16 Jan 2025
- 03:59:17 -0800 (PST)
+	b=EBQuTfftzFpQ1VMwNKHQXOhazjdIzUClt8c1HnZ7Z1atbFJ8cftmrc7rUO6C7uNHU
+	 PRcHU5FgkXGtuoaZbZySDZj3XOdlPIqgFjGrE7TRtQQuj2QQJNo9gXRrvjWstbY4ol
+	 ji4eVwCLVOlNbH+NFPHzGBrPjv3wi4dN/LzShx1r8HnAYfuK1rCGg1KsQUMDtw1WoR
+	 yBKJatMiuZkPMeOIyvYNV8CImBtSGjF11N4cxySz3Zffm3CkZJ2hz/U2i56ijYcejA
+	 RF6qilHpQ20giR4DzlWgE0vQoX8NtnXtgVmqx/XD46PfTGO1P3c7M96Tzhu6QTYjEw
+	 BSzoyeAzwTejg==
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-aaec61d0f65so187916066b.1
+        for <linux-firmware@kernel.org>; Thu, 16 Jan 2025 04:00:05 -0800 (PST)
+X-Gm-Message-State: AOJu0YzXhP7aKxjt9PQ1fUV76Zrbv0BGWtHlUrzxb1CKic9l79az25UG
+	UmcwDMOaHOK4KY4ykzdJQfX8WWYehJzNdl6HjAeaC4+kz30zRsw+nFKT/1pcaNZzXls+q+UK/Eo
+	vm8s86V6p1RMNOxVepjHmlsrkcQo=
+X-Google-Smtp-Source: AGHT+IEknswj0r6+jEMspheA8T+7pscfhXggdRbCTT49JUROv5lFYLojtUGe4XA8Xiy0BTeI1TZYz0HEqlySvLWz7/M=
+X-Received: by 2002:a17:907:6d0e:b0:aaf:5c9:19f9 with SMTP id
+ a640c23a62f3a-ab2ab6f3455mr3054182766b.27.1737028803814; Thu, 16 Jan 2025
+ 04:00:03 -0800 (PST)
 MIME-Version: 1.0
-References: <82c98b21-326f-4694-86cb-5d6af04a9166@RTEXMBS04.realtek.com.tw>
-In-Reply-To: <82c98b21-326f-4694-86cb-5d6af04a9166@RTEXMBS04.realtek.com.tw>
+References: <MW5PR11MB5810AB20FCCD2A0B4AFDC901A3192@MW5PR11MB5810.namprd11.prod.outlook.com>
+In-Reply-To: <MW5PR11MB5810AB20FCCD2A0B4AFDC901A3192@MW5PR11MB5810.namprd11.prod.outlook.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Thu, 16 Jan 2025 06:58:59 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA7+vovudJLEip6P6gcZwDzzFvL2CQfd9ij32aXUvgtp=A@mail.gmail.com>
-X-Gm-Features: AbW1kvZzBZmKaqFTbcNZuMdBTb3k0xA_zkyQhpZ_zReGMvVIm39tO4lbEcKAEno
-Message-ID: <CA+5PVA7+vovudJLEip6P6gcZwDzzFvL2CQfd9ij32aXUvgtp=A@mail.gmail.com>
-Subject: Re: pull-request: update rtw89 firmware by rtw-fw-2025-01-12
-To: Ping-Ke Shih <pkshih@realtek.com>
+Date: Thu, 16 Jan 2025 06:59:50 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA5E8R0XNAJX3ymphG4PL66YxJ6RbNZG+1fCvo3cq9hR3g@mail.gmail.com>
+X-Gm-Features: AbW1kvbjSZ1EgFzukx00E4xmUcszM-BRtX3HfFmSR70PW7EVuFFU-mXGPiF2Msw
+Message-ID: <CA+5PVA5E8R0XNAJX3ymphG4PL66YxJ6RbNZG+1fCvo3cq9hR3g@mail.gmail.com>
+Subject: Re: pull request: iwlwifi firmware updates 2024-01-15
+To: "Korenblit, Miriam Rachel" <miriam.rachel.korenblit@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, linux-wireless@vger.kernel.org, 
-	damon.chen@realtek.com, phhuang@realtek.com
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, "kyle@infradead.org" <kyle@infradead.org>, 
+	"Hutchings, Ben" <ben@decadent.org.uk>, "Yang, You-Sheng" <vicamo.yang@canonical.com>, 
+	"Dreyfuss, Haim" <haim.dreyfuss@intel.com>, Wireless <linux-wireless@vger.kernel.org>, 
+	"Damary, Guy" <guy.damary@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jan 11, 2025 at 8:42=E2=80=AFPM Ping-Ke Shih <pkshih@realtek.com> w=
-rote:
+On Wed, Jan 15, 2025 at 2:46=E2=80=AFAM Korenblit, Miriam Rachel
+<miriam.rachel.korenblit@intel.com> wrote:
 >
 > Hi,
 >
-> Update rtw89 firmware including RTL8852B, RTL8852BT, RTL8852C and RTL8922=
-A.
 >
-> Thank you
-> Ping-Ke
 >
-> ---
+> This contains a new firmware for Bz device.
 >
-> The following changes since commit 7673dffd5e3324a726caf8bfc0f1a005862f5f=
-16:
 >
->   Merge branch 'robot/pr-0-1736442209' into 'main' (2025-01-09 17:11:19 +=
+>
+> Please pull or let me know if there are any issues.
+>
+>
+>
+> --
+>
+> Thanks,
+>
+> Miri
+>
+>
+>
+> The following changes since commit a28a9226ccb8bf393b8e7dd8970a4d967c1a1d=
+92:
+>
+>
+>
+>   Merge branch 'robot/pr-0-1736646402' into 'main' (2025-01-13 14:30:09 +=
 0000)
+>
+>
 >
 > are available in the Git repository at:
 >
->   https://github.com/pkshih/linux-firmware.git tags/rtw-fw-2025-01-12
+>
+>
+>   http://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.g=
+it tags/iwlwifi-fw-2025-01-15
 
 Merged and pushed out.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/406
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/407
 
 josh
 
 >
-> for you to fetch changes up to f495ed8a143a4e1844cd18f875c82f2823843d02:
 >
->   rtw89: 8852b: update fw to v0.29.29.8 (2025-01-12 09:33:44 +0800)
+>
+> for you to fetch changes up to 04e6d3f371ab3ad6970603be194023bd4c700126:
+>
+>
+>
+>   iwlwifi: add Bz FW for core90-93 release (2025-01-15 09:38:48 +0200)
+>
+>
 >
 > ----------------------------------------------------------------
-> Kuan-Chung Chen (1):
->       rtw89: 8922a: update fw to v0.35.52.1 and stuffs
 >
-> Ping-Ke Shih (3):
->       rtw89: 8922a: update fw to v0.35.54.0
->       rtw89: 8852c: update fw to v0.27.122.0
->       rtw89: 8852b: update fw to v0.29.29.8
+> released core90 of BZ+FM
 >
-> Po-Hao Huang (2):
->       rtw89: 8852b: update fw to v0.29.29.7
->       rtw89: 8852bt: update fw to v0.29.110.0
 >
->  WHENCE                  |   1 +
->  rtw89/rtw8852b_fw-1.bin | Bin 1242808 -> 1244784 bytes
->  rtw89/rtw8852bt_fw.bin  | Bin 897512 -> 913992 bytes
->  rtw89/rtw8852c_fw-1.bin | Bin 2180616 -> 2375560 bytes
->  rtw89/rtw8922a_fw-3.bin | Bin 0 -> 1725278 bytes
->  5 files changed, 1 insertion(+)
->  create mode 100644 rtw89/rtw8922a_fw-3.bin
+>
+> ----------------------------------------------------------------
+>
+> Miri Korenblit (1):
+>
+>       iwlwifi: add Bz FW for core90-93 release
+>
+>
+>
+>  WHENCE                       |   3 +++
+>
+>  iwlwifi-bz-b0-fm-c0-93.ucode | Bin 0 -> 1931432 bytes
+>
+>  2 files changed, 3 insertions(+)
+>
+>  create mode 100644 iwlwifi-bz-b0-fm-c0-93.ucode
