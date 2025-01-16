@@ -1,207 +1,101 @@
-Return-Path: <SRS0=qucW=UI=microchip.com=Ajay.Kathat@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7DC7FE77188
-	for <linux-firmware@archiver.kernel.org>; Thu, 16 Jan 2025 06:49:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1F2DC02180
+	for <linux-firmware@archiver.kernel.org>; Thu, 16 Jan 2025 11:59:18 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 42E69C4CEE7; Thu, 16 Jan 2025 06:49:41 +0000 (UTC)
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2063.outbound.protection.outlook.com [40.107.94.63])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 1815DC4CEDF;
-	Thu, 16 Jan 2025 06:49:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 1815DC4CEDF
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=microchip.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=k/A5X26L9zuJXwjj4JhZQkL6qjD8/m5G1rXG0cYY5mJkOufPpSepdlP3pDp5plcXORbJb6xNkan2C3ZE8drdi3f1kgdz3soarZZiKjQhOxDI2htRjC3izsFQN61dnyTIqUWSCwyY2ct3YiJOFDcEn2fRzPMhiEJEJ0ZklbCF7NPQeaKxkBMlJ7A6pCb0yK905NMh84mIk0oXe+HfgWv8GmsqK3ulzTN0weK5gETKTHZ0W323o0wekwlLW2Ne35ntxT/TrRDC3uwXCjPc5wPwG4B3Grpz3GhpR/Edxtbe5eJP8mXpzE8DkeA9azLKnBHY4GHDENCv+5Xl7xdHVjrt3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pa/4j1L1o5IE78+bxD33hVGp96rP0YX2O9hUjatBdp8=;
- b=h+Osl7kmP29cDijsnwSnivlWorkUmCmIC0KlZ1xXQZReTfNBBOPBDPZyGtujqK37/6SAI+DrNgKpkkuYLliJ/OPmXz2C1SrhF5zEHVIS5NbbbMDAiaBh3ck7c7erSFDoxCiLlvgwBugmErUMrmKZc9ix2l0YCxMJ8As3ae7z/DeyH0p+RnWkL12nIjoYU6fyXU2fREg69tr4MLmGamLxwnv7HPy93lEe3+51xMpEbDqocjIecZSm14OMlrc/3rxexpQD0X3ozVMg/H7TP4H5YXzLfdAkdDxhY7fooo2TWv2jK5FO3oUIpHg98n/N61Vqk9Tab1QdcSay4IiquP6uSg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pa/4j1L1o5IE78+bxD33hVGp96rP0YX2O9hUjatBdp8=;
- b=CKtElCZbmubnDFOVPSPMQmv+kCtJRDGi7AZVd9Gwwo3Lp1UlyQT84CuA6ZnxljOmj9cA4pnvRhid4I5wc8TZB2NbO9Quf6uLibmXbs363EmSNWw7lAZtgyjomyz8VWNytw0saVK4J5xHEtzND6YpNw/aLag4nGzEHw7+YK4bx75LBXYanX3jhu5VCSDxmNwhD7dNR7/qWhW1m6PJgVx/PHxJ8V1JT+J7akkAGADU0FqiFJyaPO/Yj+mm7mSE1ubSJUbS0pB/WcZn2d5WxyE8Wz1vQ89o+aZIoFuP2tw1E0t7u6MHfd45y93jCFBW0cCOYDnEXBtz83Uczh3K/ydvIg==
-Received: from PH0PR11MB5176.namprd11.prod.outlook.com (2603:10b6:510:3f::5)
- by SA2PR11MB5131.namprd11.prod.outlook.com (2603:10b6:806:116::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.13; Thu, 16 Jan
- 2025 06:49:36 +0000
-Received: from PH0PR11MB5176.namprd11.prod.outlook.com
- ([fe80::7625:e894:f3df:9ac9]) by PH0PR11MB5176.namprd11.prod.outlook.com
- ([fe80::7625:e894:f3df:9ac9%5]) with mapi id 15.20.8356.010; Thu, 16 Jan 2025
- 06:49:36 +0000
-From: <Ajay.Kathat@microchip.com>
-To: <dmitry.baryshkov@linaro.org>
-List-Id: <linux-firmware.lore.kernel.org>
-CC: <marex@denx.de>, <linux-firmware@kernel.org>,
-	<linux-wireless@vger.kernel.org>, <kvalo@kernel.org>,
-	<alexis.lothore@bootlin.com>, <Sripad.Balwadgi@microchip.com>
-Subject: Re: [PATCH] linux-firmware: wilc3000: add firmware for WILC3000 WiFi
- device
-Thread-Topic: [PATCH] linux-firmware: wilc3000: add firmware for WILC3000 WiFi
- device
-Thread-Index: AQHbZ3GKYuBJrtYZzkyipv/0jszdjrMYMScAgAAmWgCAAEXMgIAAWWuA
-Date: Thu, 16 Jan 2025 06:49:36 +0000
-Message-ID: <ff2bb565-fecf-49b1-9060-53e36132f7e5@microchip.com>
-References: <20250115171751.7308-1-ajay.kathat@microchip.com>
- <b558af8a-a72b-4568-8ed7-5be22105a5c6@denx.de>
- <798971cb-0c4c-4e5c-9e90-2488edca49a7@microchip.com>
- <snk2vtgflkb5bu2pbuke7hoxpmjy23hspn2pktzplmr3ipnhgg@pz6n4eabguct>
-In-Reply-To: <snk2vtgflkb5bu2pbuke7hoxpmjy23hspn2pktzplmr3ipnhgg@pz6n4eabguct>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR11MB5176:EE_|SA2PR11MB5131:EE_
-x-ms-office365-filtering-correlation-id: aa3f43f1-efaf-4c55-84fe-08dd35f9f0fa
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5176.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?ejFjaU9vRi9CVmZDTTJReElhRkQxZWVGMkV1aEdodzhlKzFTVEZHMlRDeDNn?=
- =?utf-8?B?bCtJTDc4TWlTOXMrNWJoMDhxeFF3OFlGeVlUdkZNd2dpNWI2ODRCalpMUHlF?=
- =?utf-8?B?Y0N4SCtiTTVxNTRTZzJORVFJRlVmb2V5cXB3Tk1kdjhiNlFSTFJVa1VvSldN?=
- =?utf-8?B?QWhFNFJqTjdKcjEweHh4VHhYNTZhMnY1Zjc2Qk4wcnBUVDhPOWx5aTRnVUVm?=
- =?utf-8?B?bjdvL3o5VDhmMXJCa1phdzZmVkdaVnpwcTNqR0JLeE9WaWd6NkowQWt2Vm5r?=
- =?utf-8?B?ZVQrMlNzdjl5VmQ3ZnZiTzRlQkl1RXhwSDZvVU9VSHFmWHhJdUJEWFBaN2tX?=
- =?utf-8?B?eWc2eHJtVGs5WlBzejF6OVZaQmE3T2F1dFVnaDI0MnpoUFF3Z2Z6cTJwdS95?=
- =?utf-8?B?eXJIVytkUTcvUFAybm1od1VKU0FabTg3cVNmcGpFVnBBRjdhTTZGQzU3UXF3?=
- =?utf-8?B?dTJOMVZteTgxV0M4dlpZd2hYRnZOZGo5Q0tQTUhhMFZ4WUJ3OXh0dFR6VFF3?=
- =?utf-8?B?VjU4SU50Q3NIWlVFWWs2dmpDckpmUHZ6VGt2a0ZtZUJIaFJjbjRUeHd4Tzc1?=
- =?utf-8?B?Sjd3MmZGd0dQN2lPVWY4QWNMN1Y5RzhXWDB0alZyYVZwRG1YS1kzNXA2bXRQ?=
- =?utf-8?B?TmxUaWhhRjRSQXhGWVg2aGVlMTFTb2U0MEY3ME1leDVxVTR0Y3BXYSt2ZUdO?=
- =?utf-8?B?R09KRG1uRmROL1B0ZnpOQzFuTTVFU1lCdEtTR0IzTEhCME9VbCtjc1N1UWJG?=
- =?utf-8?B?Vzc5d0NMMnRUZU9WYXRIR0I3Mmt3UDhDeENGVjgwOUExeHI1dlNCbHpvMXlo?=
- =?utf-8?B?eVFpamJDWk5RUFF5d1NQRjdpQkR4R0hXS2ZyT0tiMDN0d25NMHk3U0JpVVNn?=
- =?utf-8?B?Sk10U2E0djFPMXFNYXl4Nk95b1U2eUxiT1pvMkVwd0hLbkVvR0JnWkc3MWNN?=
- =?utf-8?B?Y29OOHQwUmdrL1V5WEZwNS9SOERDdWlQV3JidW5OeThIUTBYblBRaWwyR1VZ?=
- =?utf-8?B?V2E5R0JKZGVNOEpSMHRIOCtBSGd2Y2tvUWhqdURMdEdIZGUrY2ZKUFBrbVJq?=
- =?utf-8?B?VFRmd1hSVnUvUDl5MGkyOTFFeW9odUhqalIybTJpUDMyYWticTV6WDd2NEpp?=
- =?utf-8?B?MUJoakhsbnRtK1JZK3JkZStWend3elliNjJ2Tzhteld6Z1JURUJqdFFXb2g3?=
- =?utf-8?B?ZnBuR2p1M29iQWgxWk9pU3YvQWUyaUZyQ0ZrMWxrL1B1WlMwWWNoSENaRlJ2?=
- =?utf-8?B?cnBHL3NHZWRpK2RaMWZyNXIrajgzbDNzOXVUQ3djT2xqbUN6dlVEM1duYXNp?=
- =?utf-8?B?bkdDdy9tQzl3VHpYYUxKRkZqYzg0RklRU09WU28xSjlvL1Jvc3hpNGZ1eVNJ?=
- =?utf-8?B?cEs3QnZBQ1FtSWg2WjVpNDQyekpna3lzdkNaVkpyTGZNdTFHR2h5Y3VHdWJp?=
- =?utf-8?B?VGlwZzN2YjNsbnd6L3Bmcm45Ym1ITmdXQWlzb3RtMVQ0Q3VDZDdqS3RoQWpm?=
- =?utf-8?B?VnMzSGRVdHZmbEFDZDdmNUVDaExxZ0pYSkNjNUUwT3BoSWxIejlTaVJURnd6?=
- =?utf-8?B?ZE1McXQ1WVFZOGp0V0xwN1B4Mjlqa002T2tDNTVtbFFnb1U1ajVhaDR5Vm55?=
- =?utf-8?B?ZVpQTVF0NS9yTHFCSFd6REIzdnpvVzZ4bGVET0dydElVWTlVZ2VNekpQdTlh?=
- =?utf-8?B?ZkdjR2JZaGNzdEM5Q1BpbkUxQS9Jb0hCSlVHUm5HNm5RVWxLaWFhc0wrRmdN?=
- =?utf-8?B?eFhUMTA2V0d2QVJtaGhubWIvMUZIZjRsa0NjRDU4VzZ4MlprMDRaS3FwZjZM?=
- =?utf-8?B?eXQrSTZPakpkUDcvNnFhMnovMVo2bWxML3dqRXFLaUxWcUpBdC84U1VhNzZH?=
- =?utf-8?B?RG1SYnVsNDBjQmJLM3VocS9QbnhDUU1yNzB1SWFLc2V1RlE9PQ==?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?elpDMXdubjY3ODdNcGdwTTA2NktxeHZjeHVkdnBRYXM2RVlXWmRqRlR3Q21Z?=
- =?utf-8?B?UEt2K1h1RWpXQkJJcU42NTZNRmlsNWJkQXRGVjVKSkNnS2lDTTFDN3VuSWJN?=
- =?utf-8?B?Slg2NVZVdEtwVUlIbTFqOXhZbjBNNFluT21WeGJEbnhiMnRLUTBxdkNlam5Q?=
- =?utf-8?B?aUZ2b0ZiaE9FWDNqakF1dFNNL3JWNzh5VnArcVdEM2JiME5jdm1OOUJ3TFZV?=
- =?utf-8?B?bWVOZGZEOUY1dHVEaEFtb2s4MUYvK21hY0ZDUzhtWHVWNHJPb1dRM3JVNmlU?=
- =?utf-8?B?S2JsNWNIa2RWWW01WG1KNmM2bFNzQzJuVlczUEJsRVNsakFzMTNLYTJBcGhW?=
- =?utf-8?B?SjZGQzZGNmQ3bFcrMDJsZWNaNGRCeXo1VEhXNnNzMCtDT2kyRmhrcG9lZGgx?=
- =?utf-8?B?SWpQK3FTQnUzK1pCVjdRL0hOSUNhaldTd0Q4c2VIYnQ2cjFTMmlBN01MTkRx?=
- =?utf-8?B?bzNtZk02a09rVFlFdEVkOTd6c2NSY3RTRVgvYjJOUnJRQjFEa2JpSHRaMnU1?=
- =?utf-8?B?OWx2LzV1MERKMjBFUUduQ1UxanY5dUZ1UGFnS2NnZm5FekorZ1VnSko3ZnJx?=
- =?utf-8?B?MzZOWG5HVEErdDZhZStKaW1RRWFGblFSWFdKZ3EwQkhFSXlmQ0I1NDRoSWgv?=
- =?utf-8?B?Wm83enBiL3R1cDdjYlRwNVF6SU95bWp1d0FWT1h1K29PTEZVa25lWUVLMmdX?=
- =?utf-8?B?bFdsb0pSZjlKTW40Qll3djZaaTJ3S2NlelNzanJiUmNaUjVwMStHYVhLcUgr?=
- =?utf-8?B?RUZhS0ErdHIwNjJ4U0JRRlFlczFuVXZueTVPcVF6RkkxcWk2dHZLTDk2Q0dY?=
- =?utf-8?B?UFhEdllMTjZaOEthVUVhQ2pXME85Ym8wQjVPMkF6WnV6UzFMR1k1cDlHZExH?=
- =?utf-8?B?OUZsaTJ3V3FKbWx0OW1DU3Z6L1ZaaEVKNWtveExtbWo0OEYvRVYyRDl2YlpM?=
- =?utf-8?B?M1ZOcUQyTFhxSU0vdG9Rem9oV3ZYWVZtc1doeFVxdWJXL20rSTRJd3NtSzhX?=
- =?utf-8?B?dUdTdlZHTDN4TXkxbm5uK3pYa1ZvTHdFbG9XTUpNd0JETzAwaHJIaG1QUVNN?=
- =?utf-8?B?RGlXM1BQazNFV1FxWmF6dTh1dXRTL2xISjNhNy9jdzlRRjhhUTRURTVXaGVU?=
- =?utf-8?B?MTlmcEoyWVFnbUEwOFdGZ1Jhd0xURS8xZW9rSWxqR1F5UG9McXUzY3pPcWVE?=
- =?utf-8?B?SnY3ejlCa00yYUgwcmxHNW9NVCt3Nk5iVThBc3NWWjF5dndqdHNpV2xOMHc5?=
- =?utf-8?B?UFIvUHp5ZitYbzI0Ym5GKzIrS2l6U3VPQXhJRmo0RGN3MWd1N01xcEZNVDZO?=
- =?utf-8?B?SGxOdTF3di9JWEtpVmUvNXYzMnZhTXRReWsyRllwdG92TUZsMVZpY2Z6a2VK?=
- =?utf-8?B?N0hFRkFONHpUWjQ2UkFBdmRWMlJEZ3pveHgvREdqQnJjQTFrK2hNd2JaQlk5?=
- =?utf-8?B?RjBBVk1PcnFyVW1oczh2RFllNDlxamNXYmNFN3BVeG4zbFp0Y2k2RUZlRkJ0?=
- =?utf-8?B?S3BPRmNmMnFYS2NMZFdUazB4Wkt3UGpveEZJZG5TUUx5aVhxaDFFWE9TY2JZ?=
- =?utf-8?B?eXAyRkZHek9SS051REp4bUxlVDREeGQ4Z2I0Zld6NCtpRk12RnNuT25ManVL?=
- =?utf-8?B?UWp6ZDNCNC9MYVNxTldyTW55UE90SVd0aHBnc3AzQWU1aVRHMzlhL1lrQUVj?=
- =?utf-8?B?di9MSGd5eUlmUWpDT3RkK1IxSVVIam0yRFpqc1Nnd2dKdW5TL3Y3dkx6L0hi?=
- =?utf-8?B?SVM4aXo5dm56MnFtMW1jUUwzS1loK3hseHd6T1R1dE5ObGJBUlBTc0RmeG5s?=
- =?utf-8?B?R3cyc2R6ZVQ3bjhEUlU4ajJmYkdrd0o4cHAvVUZraGljM1JHbUVhcG9PZ05Z?=
- =?utf-8?B?eHdaSXlkekJWaytpakh5aGdPRFJSMGp1VjFjSmtDTnFxenJSQmgrQlhxYmli?=
- =?utf-8?B?WHBQV0xBWmFGMk8vYzZZK3ZnUHpDMTRnK241ek1HWEN2UnhkVHFIUGcvWDly?=
- =?utf-8?B?T2tHNzlkbVB6d0YvUVg3azIxZDVkNjJDNXUwaDdvaDZsc3I3RmVuOXRxVWR4?=
- =?utf-8?B?dEw4K3VoNUpmbGpsWERvdXhyS0NjcUNUNDNaby9oMFRuSGxLUkRBWmJmYzk5?=
- =?utf-8?Q?Q99Bm+H1wSj2/aRNzcEMZY5+6?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <15F018F94BA93149AD612A0DFF42359C@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	id 96382C4CEE2; Thu, 16 Jan 2025 11:59:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8049FC4CEE3
+	for <linux-firmware@kernel.org>; Thu, 16 Jan 2025 11:59:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737028758;
+	bh=XxMfDiJW7EnW4WvRbo3d2krzQIkID6cBIBy3wfgJq14=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=B+Sc4o09RH02vVclWL1rRg8QL9e1y8JDdH1/B4PtZMs/1ZsUtDiqgaL0i/d0dAQ5p
+	 0gfQZzNvl0KrxVklgCuxgOr5lGcNxk5B908DEJf5x66EkZmdn5KfRnsfrYOdels4gz
+	 hhqItF9eCilPt7UxMs4HQz10mejmERAcZwC7Cqhi/zWA5KmX85X3xsmnfRDsAKdOk/
+	 Q3Dpl10vEhsehGKuTR+jjwsuy/LCvBDgmz4ip8xmRQvQPCgQ9Q8QnxSjAT0MHmXB4o
+	 fnTBF1+IVnP2egfOctPQr/RZ3Ed7xrwZrF52J8MXWm/+JbEpbnQwO0P103EBXgO4FS
+	 3IXUKXnIPSZig==
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5d4e2aa7ea9so1671857a12.2
+        for <linux-firmware@kernel.org>; Thu, 16 Jan 2025 03:59:18 -0800 (PST)
+X-Gm-Message-State: AOJu0Yw+lXguz/BZ0zFR8esLj22oqOmZnRp2DaunNYEA+owLxnnmjfc6
+	qBSs5KwH2KnLtJHL+V0ytpiuaBgvWnpqC7/fH9UQWopYUc1a0JvOj8Ar/de3GXS3ck4yyPHIR21
+	F3S6FlwlnpEo54mWUtwAH5HrbkPs=
+X-Google-Smtp-Source: AGHT+IGDyT4bZb4xIo2DjV3d7+rg3m9XzVpUJ3QYWXuhQ94hQJdd+NEdfASEiD1yBXpJLXe4SnCqlkEA78zwafjdJmo=
+X-Received: by 2002:a05:6402:26d3:b0:5d9:a59:854a with SMTP id
+ 4fb4d7f45d1cf-5d972e07f98mr31517607a12.13.1737028757096; Thu, 16 Jan 2025
+ 03:59:17 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: microchip.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5176.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa3f43f1-efaf-4c55-84fe-08dd35f9f0fa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jan 2025 06:49:36.2306
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rhBfNrwyILK7bAY32MWaPV8mvQjUsju+ju1YWoYFVZHhbmSC06yufobr/YcCVBzaFirGwaeh4HHAZFlyXdsty2AcrX/SMB44qSY2czLFydk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5131
+References: <82c98b21-326f-4694-86cb-5d6af04a9166@RTEXMBS04.realtek.com.tw>
+In-Reply-To: <82c98b21-326f-4694-86cb-5d6af04a9166@RTEXMBS04.realtek.com.tw>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Thu, 16 Jan 2025 06:58:59 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA7+vovudJLEip6P6gcZwDzzFvL2CQfd9ij32aXUvgtp=A@mail.gmail.com>
+X-Gm-Features: AbW1kvZzBZmKaqFTbcNZuMdBTb3k0xA_zkyQhpZ_zReGMvVIm39tO4lbEcKAEno
+Message-ID: <CA+5PVA7+vovudJLEip6P6gcZwDzzFvL2CQfd9ij32aXUvgtp=A@mail.gmail.com>
+Subject: Re: pull-request: update rtw89 firmware by rtw-fw-2025-01-12
+To: Ping-Ke Shih <pkshih@realtek.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: linux-firmware@kernel.org, linux-wireless@vger.kernel.org, 
+	damon.chen@realtek.com, phhuang@realtek.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-T24gMS8xNS8yNSAxODoyOSwgRG1pdHJ5IEJhcnlzaGtvdiB3cm90ZToNCj4gRVhURVJOQUwgRU1B
-SUw6IERvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVubGVzcyB5b3Uga25v
-dyB0aGUgY29udGVudCBpcyBzYWZlDQo+IA0KPiBPbiBXZWQsIEphbiAxNSwgMjAyNSBhdCAwOTox
-OTo0NVBNICswMDAwLCBBamF5LkthdGhhdEBtaWNyb2NoaXAuY29tIHdyb3RlOg0KPj4gT24gMS8x
-NS8yNSAxMjowMiwgTWFyZWsgVmFzdXQgd3JvdGU6DQo+Pj4gRVhURVJOQUwgRU1BSUw6IERvIG5v
-dCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVubGVzcyB5b3Uga25vdw0KPj4+IHRo
-ZSBjb250ZW50IGlzIHNhZmUNCj4+Pg0KPj4+IE9uIDEvMTUvMjUgNjoxOCBQTSwgQWpheS5LYXRo
-YXRAbWljcm9jaGlwLmNvbSB3cm90ZToNCj4+Pj4gVGhpcyBjb21taXQgYWRkcyBXTEFOIGZpcm13
-YXJlIGZvciB3aWxjMzAwMCB3aGljaCBpcyBzdXBwb3J0ZWQgaW4NCj4+Pj4gbWFpbmxpbmUNCj4+
-Pj4gTGludXggd2l0aCBjb21taXQgWzFdLg0KPj4+Pg0KPj4+PiBGVyB2ZXJzaW9uOiAxNi4xLjIN
-Cj4+PiBodHRwczovL2dpdGh1Yi5jb20vbGludXg0d2lsYy9maXJtd2FyZS5naXQNCj4+Pg0KPj4+
-IGNvbnRhaW5lcnMgZmlybXdhcmUgdjE2LjMgLCB3aHkgYWRkIHRoaXMgb2xkIGZpcm13YXJlIHYx
-Ni4xIGhlcmUgPw0KPj4NCj4+IHdpbGMxMDAwIGFuZCB3aWxjMzAwMCBmb2xsb3cgdGhlIHNhbWUg
-dmVyc2lvbiBudW1iZXJpbmcuIFNpbmNlLCB3aWxjMzAwMA0KPj4gZmlybXdhcmUgaXMgZ2V0dGlu
-ZyBhZGRlZCBmb3IgdGhlIGZpcnN0IHRpbWUsIEkgdGhvdWdodCB0byBpbmNsdWRlIHRoZQ0KPj4g
-Y29ycmVzcG9uZGluZyB3aWxjMzAwMCBmaXJtd2FyZSB2ZXJzaW9uLHdoaWNoIGlzIHYxNi4xLjIs
-IGluIHRoaXMgY29tbWl0Lg0KPiANCj4gUGxlYXNlIHVzZSBzZXBhcmF0ZSBWZXJzaW9uOiBmaWVs
-ZHMgZm9yIGFsbCB0aGUgZmlybXdhcmUgcmF0aGVyIHRoYW4NCj4gaGF2aWduIG1pc2xlYWRpbmcg
-YW5kIGluY29ycmVjdCBzcGVjaWZpY2F0aW9uLg0KPiANCj4gV2hpbGUgd2UgYXJlIGF0IGl0LCBk
-byB0aGUgb2xkIGFwL3AycC9ub3JtYWwgZmlybXdhcmUgYWxzbyBoYXZlIDE2LjANCj4gdmVyc2lv
-bj8gSWYgbm90LCB0aGUgVmVyc2lvbiBjbGF1c2UgaXMgaW5jb3JyZWN0IGFueXdheSAodGhlcmUg
-c2hvdWxkIGJlDQo+IGFuIGVtcHR5IGxpbmUgYmVmb3JlIHRoZSB1bmlmaWVkIGZpcm13YXJlIGVu
-dHJ5KS4NCj4gR3JhbnRlZCB0aGF0IHN1cHBvcnQgZm9yIG5vbi11bmlmaWVkIGZpcm13YXJlIGhh
-cyBiZWVuIGRyb3BwZWQgaW4gMjAxNiwNCj4gbWF5YmUgaXQncyB0aW1lIHRvIGRyb3AgdGhlc2Ug
-ZmlsZXMgZnJvbSBsaW51eC1maXJtd2FyZSB0b28/DQoNClllcywgdGhlIG5vbi11bmlmaWVkIGZp
-cm13YXJlIHdhcyBxdWl0ZSBvbGQgYXBwcm9hY2ggYW5kIGl0IGdvdCByZXBsYWNlZA0Kd2l0aCB1
-bmlmaWVkIGZpcm13YXJlLiBUaGUgZGlmZmVyZW50IG1vZGUgc3BlY2lmaWMgZmlybXdhcmUoYXAv
-cDJwL3N0YSkNCmZpbGVzIGNhbiBiZSBkcm9wcGVkIG5vdy4gSSB3aWxsIHNlbmQgYSBzZXBhcmF0
-ZSBwYXRjaCB0byByZW1vdmUgdGhlbS4NCg0KPiANCj4+IEdvaW5nIGZvcndhcmQsIGJvdGggdGhl
-c2UgZmlybXdhcmUgd2lsbCBiZSB1cGdyYWRlZCB3aXRoIGEgc2luZ2xlIHBhdGNoLg0KPj4gT25j
-ZSB0aGlzIHBhdGNoIGlzIGFwcGxpZWQsIEkgd2lsbCBzdWJtaXQgYSBwYXRjaCB0byB1cGdyYWRl
-IGJvdGgNCj4+IHdpbGMxMDAwIGFuZCB3aWxjMzAwMCBmaXJtd2FyZSB0byB2MTYuMy4NCj4gDQo+
-IEp1c3QgbXkgMmMsIGJ1dCBJIGRvbid0IHRoaW5rIHRoYXQgdGhpcyBwYXRjaCBzaG91bGQgYmUg
-YXBwbGllZCBpbiBpdHMNCj4gY3VycmVudCBmb3JtLg0KPiANCg0KSSBub3RpY2VkIHRoYXQgdGhl
-IHBhdGNoIGlzIGFscmVhZHkgYXBwbGllZCBzbyBJIHdpbGwgc2VuZCBhIG5ldyBwYXRjaA0KYnkg
-aW5jbHVkaW5nIGluZGl2aWR1YWwgdmVyc2lvbiBmb3IgZWFjaCBmaXJtd2FyZSBhbmQgZ3JvdXAg
-ZmlybXdhcmUNCmZpbGVzIHRoYXQgY29tZSB1bmRlciBzYW1lIHZlcnNpb24uDQoNCkZvciBXSUxD
-IDE2LjMgZmlybXdhcmUgdXBncmFkZSwgSSdtIHBsYW5uaW5nIHRvIHN0cnVjdHVyZSB0aGUgZmly
-bXdhcmUNCmluZm9ybWF0aW9uIGxpa2UgYmVsb3cuIEFueSBzdWdnZXN0aW9uPw0KDQotLS0tLS0t
-DQoNCg0KRHJpdmVyOiB3aWxjMTAwMCAtIEF0bWVsIDgwMi4xMW4gV0xBTiBkcml2ZXIgZm9yIFdJ
-TEMxMDAwICYgV0lMQzMwMDANCg0KDQoNCkZpbGU6IGF0bWVsL3dpbGMxMDAwX3dpZmlfZmlybXdh
-cmUuYmluDQoNClZlcnNpb246IDE0LjA0DQoNCg0KDQpGaWxlOiBhdG1lbC93aWxjMTAwMF93aWZp
-X2Zpcm13YXJlLTEuYmluDQoNCkZpbGU6IGF0bWVsL3dpbGMzMDAwX3dpZmlfZmlybXdhcmUtMS5i
-aW4NCg0KVmVyc2lvbjogMTYuMw0KDQotLS0tLS0tDQoNCg0KUmVnYXJkcywNCkFqYXkNCg==
+On Sat, Jan 11, 2025 at 8:42=E2=80=AFPM Ping-Ke Shih <pkshih@realtek.com> w=
+rote:
+>
+> Hi,
+>
+> Update rtw89 firmware including RTL8852B, RTL8852BT, RTL8852C and RTL8922=
+A.
+>
+> Thank you
+> Ping-Ke
+>
+> ---
+>
+> The following changes since commit 7673dffd5e3324a726caf8bfc0f1a005862f5f=
+16:
+>
+>   Merge branch 'robot/pr-0-1736442209' into 'main' (2025-01-09 17:11:19 +=
+0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/pkshih/linux-firmware.git tags/rtw-fw-2025-01-12
+
+Merged and pushed out.
+
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/406
+
+josh
+
+>
+> for you to fetch changes up to f495ed8a143a4e1844cd18f875c82f2823843d02:
+>
+>   rtw89: 8852b: update fw to v0.29.29.8 (2025-01-12 09:33:44 +0800)
+>
+> ----------------------------------------------------------------
+> Kuan-Chung Chen (1):
+>       rtw89: 8922a: update fw to v0.35.52.1 and stuffs
+>
+> Ping-Ke Shih (3):
+>       rtw89: 8922a: update fw to v0.35.54.0
+>       rtw89: 8852c: update fw to v0.27.122.0
+>       rtw89: 8852b: update fw to v0.29.29.8
+>
+> Po-Hao Huang (2):
+>       rtw89: 8852b: update fw to v0.29.29.7
+>       rtw89: 8852bt: update fw to v0.29.110.0
+>
+>  WHENCE                  |   1 +
+>  rtw89/rtw8852b_fw-1.bin | Bin 1242808 -> 1244784 bytes
+>  rtw89/rtw8852bt_fw.bin  | Bin 897512 -> 913992 bytes
+>  rtw89/rtw8852c_fw-1.bin | Bin 2180616 -> 2375560 bytes
+>  rtw89/rtw8922a_fw-3.bin | Bin 0 -> 1725278 bytes
+>  5 files changed, 1 insertion(+)
+>  create mode 100644 rtw89/rtw8922a_fw-3.bin
