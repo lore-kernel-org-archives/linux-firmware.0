@@ -1,176 +1,116 @@
-Return-Path: <SRS0=Z34l=UH=microchip.com=Ajay.Kathat@kernel.org>
+Return-Path: <SRS0=dv1W=UI=linaro.org=dmitry.baryshkov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3148C02180
-	for <linux-firmware@archiver.kernel.org>; Wed, 15 Jan 2025 21:19:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57862C02185
+	for <linux-firmware@archiver.kernel.org>; Thu, 16 Jan 2025 01:29:40 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 7C30CC4CEE2; Wed, 15 Jan 2025 21:19:50 +0000 (UTC)
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2075.outbound.protection.outlook.com [40.107.237.75])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id 2BC33C4CEE4; Thu, 16 Jan 2025 01:29:40 +0000 (UTC)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 49193C4CED1;
-	Wed, 15 Jan 2025 21:19:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 49193C4CED1
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=microchip.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ok+RAhbLpKQQysnUl8Agg/Y7cDP0j0kL239fcf9vVIjp1PpNdTmUx8W0kX/i6zfcN6Vx+itimjYVXe4zz2icqlGht+qFrXo8SOnkrbtifQljYux4zichAwjpuRK95pic0uSspXWwQ4fFSjb4VjENLZoEjFU2YPcQ0UZyutmO5BjUuVi6BkqjqSLPhAy8hs0Z2tX9i+VfK0RGxuPv78uU/bJLiSO/roDK2xX+KYY2eZEbGfA6CoyXqUIfXwPrYgXWtQ09KruLFkQsXYRSqmlOClS22LJQ+ifwWbf4lxoWh4ImbiVvZ8XFM9y6u+/FjDVn9Ik1BfVZZ75oSCOynN6jng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nXy/5hQ/Ujq3SwRRXZkXKNexDr/0iqi3SRXjhkYWoqg=;
- b=kwbljSrD+Qs9Vyc4lxg/ggBourRlmrrEjtkCkq1dPjbrSXzSuAuqJB6/vaKH53rVmZId4yaSAEdu9m85blg3TJ4mG14olqnD5up1D/RRPW6ro3AiKK9BWwNxSSwFjtu2zad1cK14osij7GLASOGy+KcMOiSBODTFobPJAxwCwqjqLsGetU0ESO4fVWQtCeb/C6QrYwnYGF9XNThaXVFFA90ivNze5DFsDXHX1Hlh9et2tLiOVp3H9Ah23wysf0aeIn3ive/dihxdUXjk9U93LtO+nZfYoO8lMDIAaxH0zUXPfxz+Xcy4iibH/Jhrf9IuIBzq0lF2ffla8HftLB4COg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nXy/5hQ/Ujq3SwRRXZkXKNexDr/0iqi3SRXjhkYWoqg=;
- b=vPPSwcWyn7ERoUCt2hUhwJSVvTdqcsnlhCQsTgkUVMpAPbHBFlqlpB2z8nXJJ8qricncFAPEOzDewVQPe8tI47tY9PLkH2L1D+LnJjxiqG37JvXmmc3kJCqg9s94V1GXRVoipObMAMFKclvDQ22W2Y16w8zZ5EsAj9+mPrEpS3sxVs0P0Zt6IKQ1Y1fEp3qy6zaYLY4ln8LcnxSBb8TW6B6OLSc5FuWoDx+uJS6ch4wpzBv4xvsxASPKuEwoM08FpNkAf1b3Dd27T8ClryURCjjcbMyUaMM/h21zKYnIwuPhQaphYatfWPJOTdS78JtkIL4WL+kFrvpTqQFiTcG5Hg==
-Received: from PH0PR11MB5176.namprd11.prod.outlook.com (2603:10b6:510:3f::5)
- by SA2PR11MB4873.namprd11.prod.outlook.com (2603:10b6:806:113::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.18; Wed, 15 Jan
- 2025 21:19:45 +0000
-Received: from PH0PR11MB5176.namprd11.prod.outlook.com
- ([fe80::7625:e894:f3df:9ac9]) by PH0PR11MB5176.namprd11.prod.outlook.com
- ([fe80::7625:e894:f3df:9ac9%5]) with mapi id 15.20.8356.010; Wed, 15 Jan 2025
- 21:19:45 +0000
-From: <Ajay.Kathat@microchip.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 0A104C4CED1
+	for <linux-firmware@kernel.org>; Thu, 16 Jan 2025 01:29:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 0A104C4CED1
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-54025432becso521855e87.1
+        for <linux-firmware@kernel.org>; Wed, 15 Jan 2025 17:29:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1736990977; x=1737595777; darn=kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=K9T7mV2vVb98CXuz1Onh9zlMAsvGv9rLwOLXA+rehiw=;
+        b=RR6eANZZ/WCFoGifBgBfuBNaj6UPYbw9ahuui3WTOBjZtlJ5LAl5oBPXvMxFHVqmYk
+         HEBqLlYPehV/+d97Q2W/m2HFmylAmuJFob3Yw0okpSFxe/EAm7DOq+C+AH9uNqHAfp5+
+         aeNLkr/MfhgQ+Y8OTTQ7lHV649BlxYNqKXJEH49ql1+VCyfkWaRsnsudla5faOxI5zaD
+         v+wW7yDLAjaqrxWpxTwlA6PfaO8mvbFoqYV6WY7Veq+6BbGX/xJ97FBJuf4YNRRMf7Zt
+         elQAXzqMzmDn4/LH1iYgoh5w3lCjKiLFlScw8yee2pzpN1ogyX3JAjdO1UwcjIe6dbKv
+         /y7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736990977; x=1737595777;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K9T7mV2vVb98CXuz1Onh9zlMAsvGv9rLwOLXA+rehiw=;
+        b=pLzEun8Ufyzk+85p9pKHv41YKn5iBL66uTHlh6Ckue7pSLsP0HGgSEkYJvyS+ujytK
+         94VfBOkr3GrJIc7e/x3J2cIYgvafAwZqOS4trkGW8Dm00E0PZqs3elGGSFyzfZXVHvEJ
+         zGOnJpHqUvYKJU1LhYe1QxiSSjrOuDrtD7VrelVlAShpNkcvZIp8f9YtIwqgmCkqq1CV
+         hUPu71friYwgM3w66IS8Mx/2UEpWkN/KMVscYLv2v/3GAqVx2baItsBZqxH7N6u2mOP6
+         +FuE6G/esZzWNB5RrdD15IY3eF+aFgdznwyjpkkNpESpC3vNnzCqceWgNaiCgaf412LZ
+         nLGg==
+X-Forwarded-Encrypted: i=1; AJvYcCXuKHQ6qtNRjEMcYKj2K28M+a1rSpIqwSCSRcFEBXjQII1t0l9pUXitoDH847I1SN4O521IOizWzUUpFqNMJA==@kernel.org
+X-Gm-Message-State: AOJu0YwbsaR4WsIvtEcxEaYcN+sbmW5EAmQZbXJfvZIxx6sPrWYuhYkh
+	sikqBqvipz9FNrkam+SHxdanlEW+gRRM1eH52u320pPeyfMotsKh9E01HT8dYBT5lF5lCTRJxlS
+	q
+X-Gm-Gg: ASbGncsXfM6kffOsmV4oyUzUtfbmNA5pkFvBLgNOFx9PJXLEcX8EbGm4WsyCC+VorxD
+	KLEvZdW/wr6/ZKzBx2DcrkdOsaRHm/aXnVQLge/wFgBonoiqjB4wiSXatQ38+43Nvmba/qih8tB
+	kZ3uIm6BKgSN5pdAL1W/XnlSBoyWckz/Cf129Wp1Vk+0D3fE3Bp2oFhJAwd+ReK2JI0VAj90jpU
+	t4+WUrVkaB6nS/KuY35XobkS9W/tj15rFkUkXmhbBJhJpC7PDaD7okHS0IyBe6WpmJo8e3+vVui
+	n4p39grJBHVvqZAekuDYJumOpzku+V0isNup
+X-Google-Smtp-Source: AGHT+IGsmCxUgdgnESZu8E5KV1JTbrVec2d1tbzdcd1alvinIyQzFkmE7CReevwd/sdV8PB3Tna87w==
+X-Received: by 2002:a05:6512:1282:b0:540:1fec:f321 with SMTP id 2adb3069b0e04-542845b0a50mr10430769e87.41.1736990977304;
+        Wed, 15 Jan 2025 17:29:37 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5428bec06fcsm2194284e87.195.2025.01.15.17.29.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jan 2025 17:29:36 -0800 (PST)
+Date: Thu, 16 Jan 2025 03:29:33 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Ajay.Kathat@microchip.com
 List-Id: <linux-firmware.lore.kernel.org>
-To: <marex@denx.de>, <linux-firmware@kernel.org>
-CC: <linux-wireless@vger.kernel.org>, <kvalo@kernel.org>,
-	<alexis.lothore@bootlin.com>, <Sripad.Balwadgi@microchip.com>
+Cc: marex@denx.de, linux-firmware@kernel.org, 
+	linux-wireless@vger.kernel.org, kvalo@kernel.org, alexis.lothore@bootlin.com, 
+	Sripad.Balwadgi@microchip.com
 Subject: Re: [PATCH] linux-firmware: wilc3000: add firmware for WILC3000 WiFi
  device
-Thread-Topic: [PATCH] linux-firmware: wilc3000: add firmware for WILC3000 WiFi
- device
-Thread-Index: AQHbZ3GKYuBJrtYZzkyipv/0jszdjrMYMScAgAAmWgA=
-Date: Wed, 15 Jan 2025 21:19:45 +0000
-Message-ID: <798971cb-0c4c-4e5c-9e90-2488edca49a7@microchip.com>
+Message-ID: <snk2vtgflkb5bu2pbuke7hoxpmjy23hspn2pktzplmr3ipnhgg@pz6n4eabguct>
 References: <20250115171751.7308-1-ajay.kathat@microchip.com>
  <b558af8a-a72b-4568-8ed7-5be22105a5c6@denx.de>
-In-Reply-To: <b558af8a-a72b-4568-8ed7-5be22105a5c6@denx.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR11MB5176:EE_|SA2PR11MB4873:EE_
-x-ms-office365-filtering-correlation-id: 0d96b6d1-37f9-44e1-91f4-08dd35aa55c4
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5176.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?cndxOGs0ejVqbDNsK1pTcmVOTWh0d0p2bnpQbE5SVzRaOW8zWUJ1eCtQY2VR?=
- =?utf-8?B?WGxXRE5jZE1UUlNiMWFZZUs2ZE9jYWR5VXpvY0poVDJJZFVXaFk1VzlVcFRG?=
- =?utf-8?B?QVhxemNOMHdCOVhZd2dpcXZBc1J3Q3JEbjNRQmdBaTVYRlc0R2ZocCt3UGNy?=
- =?utf-8?B?S1ZJblBTZUxObmd2bTJubkpiVC9VYXFicGFBazlWYWZjZTZLNzAyNmMrN3dN?=
- =?utf-8?B?dENIT29oRUlYVUI2aUx0WGlMTmR6MmRDVGoxVFRoelAyZThjWVNDM1huMVpP?=
- =?utf-8?B?WTUrWm0wdEZmYzBUM0JzQSt1V2xxSDc5K1BGTWQxSzdVZjh1dk5uUE1WdHJs?=
- =?utf-8?B?RlBwUzBlK3J3eXVlZG4xVTJyL29SWkpQazRmTGhxWVUyTzQ2YVdNdUdPbnRm?=
- =?utf-8?B?VjltTVVaVmt4aENUSS9wQXd1NFR0M0pFWmpVSjRHQzlPdHU0TmQxblBwSkV3?=
- =?utf-8?B?QnRBSi9pSExWYkFEa3JnanlHbllyV0ZzOGw2UDJ3YW8ra2VpM0ZCWGRpYXR4?=
- =?utf-8?B?K1E4WG5kWVpRNTQ2UkdvUS9md280dnBuTTBSRmxxNm5PTXVGbGM0SEdTV1Fr?=
- =?utf-8?B?aGc3bldxOStQWXFKMVB0ZTdvcFlUcStTWG8zeTkvOTg0Vy94cVZIbjUxbjdt?=
- =?utf-8?B?aHl1Q2JBS0dUWWJKSUcwMitMOVc2a1prZzJha2F0UldvSExnYzg1QTRDc2sy?=
- =?utf-8?B?NGhSK25JVWtHbXRoTjFmcFc2RUVwQi9GcHFwVjZSRlVaVmxNODFWbytCWDhE?=
- =?utf-8?B?MndGL1dkWUc5MzlqMnpRQXcxaVU0TkdySWY0OXlJNEhJeGozN3B2Qml2S0FF?=
- =?utf-8?B?alV4ZXVwb0lNemV5eWQ2Vjg3ZWRvNml0Z0IrNFphK2g4Szd1YTAySnNMN3dB?=
- =?utf-8?B?cXZJL1Z3VU5lZkFCd0hYVnN1UmVUNWZ0NDdQZXUrVDI5MEVlTVp0cGpmQk5S?=
- =?utf-8?B?L2NtSC9sZTNpTHpBK25DbExNRHYzU28vS0V2V3VsNWZYcGd1SkU5OWZiYVFn?=
- =?utf-8?B?N1NLeG9qRXhvQ05XWGo4SGtkZzVkMkNWajMwUHVWZWpGZktxdVFYbWFWdVhO?=
- =?utf-8?B?eC9sZDQwQTN0R0ovRzBnV3d5K3dSU2tkTjU3aElnYmlwelpxTjJzalh5ZTlX?=
- =?utf-8?B?dlgzZ3lkTWVtaUVwOU9NOTRlMHlHaWFQZEtKWmZ6NS9oUDRlRnRSZE9VUVVl?=
- =?utf-8?B?YUtXaUpnc1J0YzVmTmRNNzFZMjNLMlZxYTZRNEFDS2xMWWlWTEREdHN5cEJj?=
- =?utf-8?B?dmpLdnozVUZ4cy9zMUdkelBwbjFTbk1Fd0dlMm1uZVhzNjJRRm1xQTJLems2?=
- =?utf-8?B?c2ZaTWQ4VUxqekF1WWhHS0E5OHJJRFpWdmRWZFRueHpwRGxwNjM5RkdkYzdO?=
- =?utf-8?B?aEQrWjBNWFd2OFNYMVFGYmxYYjl3UkRFcUYzUVNFSU14N05Ka1VOZ3hLanNr?=
- =?utf-8?B?QWxVb215dG9UZ3pjNWRGeXlyUnJVWHBGOW1pcTV1ZmpiMlVlbDRVSFRqVDNp?=
- =?utf-8?B?Ui9HNVBtMnFWTnlTd3htazNiMEU3QkFXUklOS1VpSEJDUWVBTlp0L3l3NW4w?=
- =?utf-8?B?SG9GRlpRYnlTa0krajIyZ01CcDdZUDlLajQ2Qm1mT1JvaEN5dElHZzZIK2pJ?=
- =?utf-8?B?WC9VWkxSYXo5WkF2SzNpNHlLWUtGWkZuT1lNdlZCa3ZVVXh4K1ZvTDM2UVhW?=
- =?utf-8?B?VGp2TSs1ZU1YanplRDRiaUVIdm9sdXNXWWt6MDc1dS9LcW01TEFFNURmbTRN?=
- =?utf-8?B?ZUNZeERVM1cwekNpLzdaa0hiZ2J5RG9WV3VmTG85RmpaQUdaSkNCYkI4ckxM?=
- =?utf-8?B?REJIL3dvR2dPOTlic2Q1eTZhdXFkc0xPWm5hR2tpZllJdjJwWGpnZGtYbWdv?=
- =?utf-8?B?Qk1wdXBodjdqdEw0blZTbkhzNDZRRnBQVlNXQUVIa0pvbHc9PQ==?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?Z3UyYUY2M2t2S3BKNUdGWElPZkhHUFB5L0ZrRFdVWFZMV2pnMjQyODN5TXR1?=
- =?utf-8?B?TE9RSHBlK2VOaHV2bTZDem5wNFNTNnFtZGhvYjM1UUhXc0p5UnVyamVuWG5s?=
- =?utf-8?B?L25JWVBSZlZmVGlBZSt4YzJQVlB4QU1EMTVkTi9EclIrK1Z2cWFMRXQrNGxt?=
- =?utf-8?B?c2ZoT3dCN3JZL2trcmRBSmpmTDdibnJ4NlNrT2J5OExrOFN3ODJNVU1TRDF0?=
- =?utf-8?B?N1BPVWRPb1ZPb0lVaHZiQVppclR0dllTakg2WlRxNjE2ZmtXbDU3bmQ3Tlk0?=
- =?utf-8?B?Z2ExaWoyN2xNYWVQVHBNV1lYUnNWazRHaFNpSVpnTlQ1NFhUVGFWODVYcTNE?=
- =?utf-8?B?M3hoWHB3QzFJOEVhWlRmYnVkSkFMam5oSjZ6Qm1aTHlSOU5EdTR0d1RmYWx1?=
- =?utf-8?B?VDRPNHl6ZWMwNkVGam45VTVTTk5iWjM0T0d4S1BFcy92Q0NNVjdqUkcza0RY?=
- =?utf-8?B?ankzblJhSzlFTmd0L3ZMVTZ0YmlZZWcvQkppVUcwY1MwNVJvVVJiN1VkRGg3?=
- =?utf-8?B?bzhnb2tFa01obkxvajlZYzE0MGZ3M0lGSTBSOHo2U2xXYXBDL0VldkwvZzJj?=
- =?utf-8?B?aFMzek9KTUdoSDN2TVFkT0Y4WlVaUGdJME9QMmY1WnlQaVlqN2M1TTM2eW5q?=
- =?utf-8?B?MGd6bUQyKzRnUERra0lHTzRkZ25tYUpNN3VCZ0tVZ3k2OXVrcmNua1F3eWNN?=
- =?utf-8?B?R0JMMjQ0QVBtOTUyRnpnVjBCWkhDOXZEMkZZcmlQeU43WUZMWlcwczE0ZlIv?=
- =?utf-8?B?N0xPcEhWQ0lkelpVQlB3c0Z3WnBQekNIek54UTFra0dkc2M2RGtZb1MwZmU0?=
- =?utf-8?B?THpWaWJ6Qk4rMkhaRWlYT0lSRDM3aUpwSHJEeFFBakZLUlNXa3NEVjdBb21C?=
- =?utf-8?B?S1NyM3l5aXNMSzczR25tcWRTMlNVbnJCbEFmYVRIZ2FPQ3cvU2lheVVGMFFG?=
- =?utf-8?B?QUZDYjBVUFFCSHhyMnRmQzVrQ1VRKzhJa1ZyOUxIbDU3RDBQck9jaE1EUDRG?=
- =?utf-8?B?dFFJbEhFYkVsZUpYeXVNeU1zZUVCbXBOSWsxSkhVV2YwZkNZeGxHemkzQmI5?=
- =?utf-8?B?T2xSTzRiTitBb3I0OWxYak9CMTl5OVJUMWFkV05rQ21wMDB6QjJxUmw2NUdN?=
- =?utf-8?B?Q3EwcmpYUUI3eWhrQnJpV2NOQmNNUGp1bEd2YTBtdUtWeENmK3ZzYklTK3la?=
- =?utf-8?B?MUh1ZzlPRnNwNzVoWGZ1c052UTZVcnNESXdNRVdkbjM1S0xKanh5VStUVnRo?=
- =?utf-8?B?TjZNdkdDRk9mU2VSRjVtbG9KWUdGWDhKYWJURVhlNzQvZ2V3Q1pJNmVLUDhi?=
- =?utf-8?B?UmRHeWZ5N1ZiNERiRUpuajJ0clNxbFRNOGZzWTZOa3BjdFZ5MDBKcEFFTHlS?=
- =?utf-8?B?cExERGxOK0pXTDgxdytWWVhxWHREazNUV2FsblUwR0U0Rkt1ZWZCVk0ybEts?=
- =?utf-8?B?WXo1dVV3bU5FSDVsb0YrM3lkRC9sNS9naURucW9iOUlLZjdDTjZGRG9QQktv?=
- =?utf-8?B?WGVONzVDajUxOG9mSGx2bTRWQjg4aXNzWm5LY1p2OU9Qd1h5UjhMWkx2bWNp?=
- =?utf-8?B?ai93YnNzRlhBd2N0eUdOVmlkTGZGbkFEWjVCczhsWExvVjdBZVF0MUFUcGNY?=
- =?utf-8?B?LytlYVZWVWtSaXhVUTQvYlhxaXdaUURqZ1l1c2ZRNGZRNm5ySi80Ui9NS2Jo?=
- =?utf-8?B?alg3WXZOK0M3VzhsNEZCUVRKTjY2alBQaUNJWnpiZVVWSjRrT1pnV2pWSDla?=
- =?utf-8?B?VFpaWXNBRm4weFVkWDRNWkhwM3JEWjFBMTBSc3Q2bUc4VDJaSk9vMVluRkJj?=
- =?utf-8?B?eFdEYStwVHJrUUJlWnJDc1BtUkc0a3cwZmhtSUd5NVNZMFhiZkRrUHB5UjFZ?=
- =?utf-8?B?SC9NU1B0ZEdiMWpvQXhOTnBRV0NCUnNwbWF0eWM4VG00OWtQRUdiOVRvWC8v?=
- =?utf-8?B?dllRb1ltQXhTUHh4aW12MnlQQUtqaU9VdE1MQmVZMWY3enRydE5Td1NGQVU3?=
- =?utf-8?B?VkRoQjVIUGVuV0VSMlpaYW9JZW1rVHdQaVZYaXVSWW11TTNNWEtodDRtdWJq?=
- =?utf-8?B?cVJBc3FTd3F3RGZmdjc1YkJwbVpOcjkxd2xzeTFGWXJzcGN2aXVncjBjOG4r?=
- =?utf-8?Q?C26RBk82gRW3IXy5591Z3epYO?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <EB727CE1430D5747B77283AEABBC734C@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ <798971cb-0c4c-4e5c-9e90-2488edca49a7@microchip.com>
 MIME-Version: 1.0
-X-OriginatorOrg: microchip.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5176.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d96b6d1-37f9-44e1-91f4-08dd35aa55c4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2025 21:19:45.5797
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ygR6K5WfSDn1XfSHlaLy2wqvhQ3B4uZeZdx2YRe73vEwUkG10soFrtiMZ7ktPpAPNXgBSLPVoAtbibUIQhbipzuzhtkvnGF7TfnYdmep/qg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4873
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <798971cb-0c4c-4e5c-9e90-2488edca49a7@microchip.com>
 
-T24gMS8xNS8yNSAxMjowMiwgTWFyZWsgVmFzdXQgd3JvdGU6DQo+IEVYVEVSTkFMIEVNQUlMOiBE
-byBub3QgY2xpY2sgbGlua3Mgb3Igb3BlbiBhdHRhY2htZW50cyB1bmxlc3MgeW91IGtub3cNCj4g
-dGhlIGNvbnRlbnQgaXMgc2FmZQ0KPiANCj4gT24gMS8xNS8yNSA2OjE4IFBNLCBBamF5LkthdGhh
-dEBtaWNyb2NoaXAuY29tIHdyb3RlOg0KPj4gVGhpcyBjb21taXQgYWRkcyBXTEFOIGZpcm13YXJl
-IGZvciB3aWxjMzAwMCB3aGljaCBpcyBzdXBwb3J0ZWQgaW4NCj4+IG1haW5saW5lDQo+PiBMaW51
-eCB3aXRoIGNvbW1pdCBbMV0uDQo+Pg0KPj4gRlcgdmVyc2lvbjogMTYuMS4yDQo+IGh0dHBzOi8v
-Z2l0aHViLmNvbS9saW51eDR3aWxjL2Zpcm13YXJlLmdpdA0KPiANCj4gY29udGFpbmVycyBmaXJt
-d2FyZSB2MTYuMyAsIHdoeSBhZGQgdGhpcyBvbGQgZmlybXdhcmUgdjE2LjEgaGVyZSA/DQoNCndp
-bGMxMDAwIGFuZCB3aWxjMzAwMCBmb2xsb3cgdGhlIHNhbWUgdmVyc2lvbiBudW1iZXJpbmcuIFNp
-bmNlLCB3aWxjMzAwMA0KZmlybXdhcmUgaXMgZ2V0dGluZyBhZGRlZCBmb3IgdGhlIGZpcnN0IHRp
-bWUsIEkgdGhvdWdodCB0byBpbmNsdWRlIHRoZQ0KY29ycmVzcG9uZGluZyB3aWxjMzAwMCBmaXJt
-d2FyZSB2ZXJzaW9uLHdoaWNoIGlzIHYxNi4xLjIsIGluIHRoaXMgY29tbWl0Lg0KR29pbmcgZm9y
-d2FyZCwgYm90aCB0aGVzZSBmaXJtd2FyZSB3aWxsIGJlIHVwZ3JhZGVkIHdpdGggYSBzaW5nbGUg
-cGF0Y2guDQpPbmNlIHRoaXMgcGF0Y2ggaXMgYXBwbGllZCwgSSB3aWxsIHN1Ym1pdCBhIHBhdGNo
-IHRvIHVwZ3JhZGUgYm90aA0Kd2lsYzEwMDAgYW5kIHdpbGMzMDAwIGZpcm13YXJlIHRvIHYxNi4z
-Lg0KDQpSZWdhcmRzLA0KQWpheQ0K
+On Wed, Jan 15, 2025 at 09:19:45PM +0000, Ajay.Kathat@microchip.com wrote:
+> On 1/15/25 12:02, Marek Vasut wrote:
+> > EXTERNAL EMAIL: Do not click links or open attachments unless you know
+> > the content is safe
+> > 
+> > On 1/15/25 6:18 PM, Ajay.Kathat@microchip.com wrote:
+> >> This commit adds WLAN firmware for wilc3000 which is supported in
+> >> mainline
+> >> Linux with commit [1].
+> >>
+> >> FW version: 16.1.2
+> > https://github.com/linux4wilc/firmware.git
+> > 
+> > containers firmware v16.3 , why add this old firmware v16.1 here ?
+> 
+> wilc1000 and wilc3000 follow the same version numbering. Since, wilc3000
+> firmware is getting added for the first time, I thought to include the
+> corresponding wilc3000 firmware version,which is v16.1.2, in this commit.
+
+Please use separate Version: fields for all the firmware rather than
+havign misleading and incorrect specification.
+
+While we are at it, do the old ap/p2p/normal firmware also have 16.0
+version? If not, the Version clause is incorrect anyway (there should be
+an empty line before the unified firmware entry).
+Granted that support for non-unified firmware has been dropped in 2016,
+maybe it's time to drop these files from linux-firmware too?
+
+> Going forward, both these firmware will be upgraded with a single patch.
+> Once this patch is applied, I will submit a patch to upgrade both
+> wilc1000 and wilc3000 firmware to v16.3.
+
+Just my 2c, but I don't think that this patch should be applied in its
+current form.
+
+-- 
+With best wishes
+Dmitry
