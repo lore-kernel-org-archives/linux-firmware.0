@@ -1,113 +1,122 @@
-Return-Path: <SRS0=kPBI=UJ=quicinc.com=quic_vivesahu@kernel.org>
+Return-Path: <SRS0=GkO8=UJ=linaro.org=dmitry.baryshkov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8FD77C02183
-	for <linux-firmware@archiver.kernel.org>; Fri, 17 Jan 2025 08:57:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B2E9C02183
+	for <linux-firmware@archiver.kernel.org>; Fri, 17 Jan 2025 10:15:39 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 64CE2C4CEDF; Fri, 17 Jan 2025 08:57:40 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id 4A7D9C4CEE2; Fri, 17 Jan 2025 10:15:39 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 62219C4CEDD
-	for <linux-firmware@kernel.org>; Fri, 17 Jan 2025 08:57:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 62219C4CEDD
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50H37dVE026615
-	for <linux-firmware@kernel.org>; Fri, 17 Jan 2025 08:57:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	p4GU/5b75q5a1x2bn59fA9MCramjrV+wIueal/lzo8w=; b=Y7q2npR1K6q8WQ02
-	lBwaF/EwHuqEWPpQJQzxtff7qGuCsirRElqBaqipGQ0Y/wKnQb0Vel6k7FWNc5Zn
-	mlGtzLtHkdwoKxFL5pm31Ht3yUtl6Vaqzlj3niGerd9K4gSWintrzK69Rx0ecc9f
-	rRStr5cOUPyWT3Vqfo+viE6Os/mV9mozjstA80mhMj5VBkxZVPa6F1u4738zfswy
-	my0mYmYQMD+sIBWOlMkUMwqOp6NbdE8oO/UKS3ROFKJKgBOIE/4yw76wvoPU3sOq
-	JHRjHAum+YCw2ss4WI6t6o/wGQTuSw4O6CBor0n4VWeeI0rzuDlrYbr6GnuoMmIf
-	UUbbpw==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 447f1egr6t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-firmware@kernel.org>; Fri, 17 Jan 2025 08:57:37 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50H8vb2S015379
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-firmware@kernel.org>; Fri, 17 Jan 2025 08:57:37 GMT
-Received: from [10.218.12.94] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 17 Jan
- 2025 00:57:35 -0800
-Message-ID: <bf08e319-07ae-4f96-92f2-aac8f1a7e136@quicinc.com>
-Date: Fri, 17 Jan 2025 14:27:32 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: QCA: Update firmware files for BT chip WCN6856
-From: Vivek Sahu <quic_vivesahu@quicinc.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 471A8C4CEDF
+	for <linux-firmware@kernel.org>; Fri, 17 Jan 2025 10:15:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 471A8C4CEDF
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5439b0dd4bfso782857e87.0
+        for <linux-firmware@kernel.org>; Fri, 17 Jan 2025 02:15:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1737108936; x=1737713736; darn=kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ZLJ3mm+9gzwxh9OTGLRmzrRO6LI6R7AiTXBLfrqo5KQ=;
+        b=GTROq7PtVzvozwOaMRHGJz9UgfwcIqHaFwLIuz675epdNnj509p2/nmsay67xP3J5i
+         LvcuSaBzj45lkORaWNIaAYfJpeUcqfesu3I9lCq5wcf50bGuFziGs7loYCiEMKu9Xy2J
+         JLEloNyXiEW9p1806Byq8wD0i9N/DK8/lu/SMIuVeZPWveAMF/pnjrnagrnt8KKaekwN
+         B5iWSr9EoOu7rd2lYT+LtJJgPT9B6rdN6zpQEXn6Tyg2ZbEkegsgJM6npHzZ8QgdjtaO
+         aG0YlNnO1Lw9YW9fnn6tCsxtr0j7/u7trUlfiJI7KYfXUcjGQcFVsriaSrnR+SFuabUZ
+         QY1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737108936; x=1737713736;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZLJ3mm+9gzwxh9OTGLRmzrRO6LI6R7AiTXBLfrqo5KQ=;
+        b=r8uYeTSOmfXIIIpW/6rnwFJ9MRKEdEIg/HbwBVc/NJeIQjq60c0AGXiDT/jYNHpK6a
+         cpFSZjokMMbHKXs9ckLQ/g+FjdaL0qM/f99xwT8IMkK7cSQTbL4aIQ8IJ+Z+pUR51U6M
+         PePCoe87x47YMdmk6wENjQbqlGcaqWyTj0fH58FNbUqlHGNueN5bJCNwqwVQ7m33OG8T
+         IqdF7xbo8dXfXI8u4tJ2k1veK1S6tQ4zYayHbMtOomg/eD9CLjNMjldTAvSadWMM5AOu
+         kpuWW5cMitFne1LcGot+vc4Vdl7yOuw0psQ/OEYo6JdIe0U0NRFX/5bMe4b+3FN++JC9
+         St+g==
+X-Gm-Message-State: AOJu0YynXtTe3wabLLnMYJFaWPr296zJ8+OM3eKHh1SsolGXxwl/ejzl
+	Y5PeMpTLcQAmXoKqyghWDcIZ47+q43A3dnaJenaB1H0u5VdsJf+8lDJWUkWL85o=
+X-Gm-Gg: ASbGnct9ECZU+bYv/cZs73j9X47M7+5Yelur7A050ObuWVjA68Zj6uTPB5X9kuxjAvR
+	/fW8X9TrkJs+sHAGZCAoGzhebgENoaQUZurtRtco+yBwrqeKLbp5ti07DVu9W6iLpRQOx8zeQ8+
+	ok3YuhgttL8O5tFGijIi9l+yh9FR+mqbKJMIl/hmsDLdLS5pKgv6zbR3TlQEbAHBzyT3RPy2VBk
+	852gec5uvVlWcDHgPPr9ChW+mHoN4Zb6yRvMkfgtHdwSJz9oDv25P3O7bAW2Lhp9OzIuf4UkDiD
+	uFIyiTnbUpo4e5Nm7F3gr9QfiipAXK7WlTHO
+X-Google-Smtp-Source: AGHT+IEmasPR/9T0YGTK7xbyOhYbJVixWow3YuEC0Gcc0mKk6l8RsTl5wz9UKi145+QEodBzeW7DSg==
+X-Received: by 2002:ac2:5541:0:b0:542:1137:611a with SMTP id 2adb3069b0e04-5439c2461bamr544000e87.17.1737108936359;
+        Fri, 17 Jan 2025 02:15:36 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5439af7364esm299141e87.162.2025.01.17.02.15.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jan 2025 02:15:35 -0800 (PST)
+Date: Fri, 17 Jan 2025 12:15:34 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Vivek Sahu <quic_vivesahu@quicinc.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-CC: <quic_janathot@quicinc.com>, <quic_vivesahu@quicinc.com>
+Cc: linux-firmware@kernel.org, quic_janathot@quicinc.com
+Subject: Re: QCA: Update firmware files for BT chip WCN6856
+Message-ID: <2cqzso5hkp4t3m3xqrsprt52mhafm6kasjm2hol5b4te23aos2@2uwy7tkaowyv>
 References: <57fe5525-8383-4737-ba60-6c9c0c6997f0@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <57fe5525-8383-4737-ba60-6c9c0c6997f0@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+ <bf08e319-07ae-4f96-92f2-aac8f1a7e136@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: YQqu8tPIPySF26FcPiY2zg1Gp0V0ZYLK
-X-Proofpoint-GUID: YQqu8tPIPySF26FcPiY2zg1Gp0V0ZYLK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-17_03,2025-01-16_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- impostorscore=0 suspectscore=0 spamscore=0 bulkscore=0 phishscore=0
- malwarescore=0 mlxlogscore=921 clxscore=1015 mlxscore=0 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501170070
+In-Reply-To: <bf08e319-07ae-4f96-92f2-aac8f1a7e136@quicinc.com>
 
-Hi Team,
-
-Any update on this ?
-
-thanks,
-
-Vivek K Sahu
-
-On 1/13/2025 6:19 PM, Vivek Sahu wrote:
+On Fri, Jan 17, 2025 at 02:27:32PM +0530, Vivek Sahu wrote:
 > Hi Team,
->
-> Please include firmware bins for WCN6856.
->
-> Major contributions : Bug Fixes/Stability.
->
-> Snapshot of pull request is as below, let me know if anything is missing.
->
-> --------------------------------------------------------------------
-> The following changes since commit 
-> ff68bad967033e2973d3a82e5b160813b1d43488:
->
-> Â  qca: Update Bluetooth WCN6856 2.1.0-00642 firmware to 2.1.0-00650 
-> (2025-01-10 16:33:04 +0530)
->
-> are available in the Git repository at:
->
-> https://github.com/vivesahu-qcom/bt_hsp_fw.git for/master
->
-> for you to fetch changes up to ff68bad967033e2973d3a82e5b160813b1d43488:
->
-> Â  qca: Update Bluetooth WCN6856 2.1.0-00642 firmware to 2.1.0-00650 
-> (2025-01-10 16:33:04 +0530)
->
-> ----------------------------------------------------------------
->
->
-> Thanks and regards,
->
+> 
+> Any update on this ?
+
+I don't see this branch on GitHub. Did you push it in some strange way?
+
+> 
+> thanks,
+> 
 > Vivek K Sahu
->
+> 
+> On 1/13/2025 6:19 PM, Vivek Sahu wrote:
+> > Hi Team,
+> > 
+> > Please include firmware bins for WCN6856.
+> > 
+> > Major contributions : Bug Fixes/Stability.
+> > 
+> > Snapshot of pull request is as below, let me know if anything is missing.
+> > 
+> > --------------------------------------------------------------------
+> > The following changes since commit
+> > ff68bad967033e2973d3a82e5b160813b1d43488:
+> > 
+> >   qca: Update Bluetooth WCN6856 2.1.0-00642 firmware to 2.1.0-00650
+> > (2025-01-10 16:33:04 +0530)
+> > 
+> > are available in the Git repository at:
+> > 
+> > https://github.com/vivesahu-qcom/bt_hsp_fw.git for/master
+> > 
+> > for you to fetch changes up to ff68bad967033e2973d3a82e5b160813b1d43488:
+> > 
+> >   qca: Update Bluetooth WCN6856 2.1.0-00642 firmware to 2.1.0-00650
+> > (2025-01-10 16:33:04 +0530)
+> > 
+> > ----------------------------------------------------------------
+> > 
+> > 
+> > Thanks and regards,
+> > 
+> > Vivek K Sahu
+> > 
+
+-- 
+With best wishes
+Dmitry
