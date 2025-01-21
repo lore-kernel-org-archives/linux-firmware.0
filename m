@@ -1,118 +1,125 @@
-Return-Path: <SRS0=ibhU=UM=linaro.org=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=GnVO=UN=quicinc.com=quic_chejiang@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81890C02188
-	for <linux-firmware@archiver.kernel.org>; Mon, 20 Jan 2025 09:34:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A86DC02181
+	for <linux-firmware@archiver.kernel.org>; Tue, 21 Jan 2025 02:39:34 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 46F23C4CEE4; Mon, 20 Jan 2025 09:34:58 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id 2AE61C4CEDD; Tue, 21 Jan 2025 02:39:34 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 2189EC4CEDD
-	for <linux-firmware@kernel.org>; Mon, 20 Jan 2025 09:34:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 2189EC4CEDD
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5439e331cceso2520345e87.1
-        for <linux-firmware@kernel.org>; Mon, 20 Jan 2025 01:34:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737365695; x=1737970495; darn=kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3F9ojX3wZs30sHU2vgMm6TVct26BYAS2TcpCprmpcNk=;
-        b=QX5xRmHmCESBthqQ3wIog/cbQ2A3IadUT+hzkF28OJMEcZL7+BTtbzTcOGWh/JdXsJ
-         KZ5JGhKudjIPtYcPtyg54aI+Wcy7MV9ygL7InbeU+u4lWdnZhQhtW/61o7SffDyHlR2D
-         rABmLPYO2QhQXa+G7p5dv6cKQ81dymBxt03/V8UyLIHXMIPx9HLjGN6vcBB9vgoG8HR7
-         o3gRq2UqGBL1nL7umIMLM4o7F6pJ9Soibmvo0RqYc7G8JcmIW/2bTK9KxWnG1HMLdFIV
-         yUy9XB/U/Uz0MYfltySkHfUttsQRRSNA7psGD/IP97I7JGu2KHbYpXy8988qhOWdxVJX
-         +Yiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737365695; x=1737970495;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3F9ojX3wZs30sHU2vgMm6TVct26BYAS2TcpCprmpcNk=;
-        b=lFFiUAuPDacqqkqpnwiKetzmakJM6ZgE0FGZGBBQhJDC/PftjQCJd7HmGzr/OdVEIW
-         Yt2flZwf1hlqwLsQNISrBx2yg4wwuwze0ORYkXWoedhU3S8LQOIAQT2anm0dvzfWH4cm
-         zhxV+LHWn+e6JB6/WOamL44NbxKpEr9rm4jLckxxVkCEbFGAKZm9O0MuYnWql8RCotbD
-         3R41mfpXFzrr0SUssubPntpWrjc7YgPKBTNA5xjZ/5Ym7GG9KyvCyXEain7Ceu+dApxw
-         RCDYjLvK+OLlJnRCm/6yW4UUT5MFVd57mj+H8n2emNiC8XqSFXTsmAj3wg1zjxozdB21
-         whvw==
-X-Gm-Message-State: AOJu0YyQolbETOuG+4mgjGPNJetdLUKiUT3uXHmxMREQ8wJRtHDicKZg
-	o6N+81B4Ax84AtXto1et/BymkqWoSC37USMvn1AwN5Qa5VQ5GylPeDJ+uWS7uzhWbXGx4bKWkpD
-	pxxo=
-X-Gm-Gg: ASbGncuSaNTZer4YgUrK/OBXy3ONnYsafXdOWBuTUmBIf0pqjK0C6OfCa723hKy4MTd
-	zaSIt/bYWYBBC1teZgdQu+vUXlrPlSz/09Emj2EfM0a5ZRNFZM8yMeJT/qpLXqi4dvAz8Yu9HKd
-	MZ9A/OxxxOLYUnY75wxOpWeZh2/s41ZotSpdPaNVNc612sTXZvhmlHGq2aEjjrQ0WxpieoM/YmT
-	tKV8a+Tedib34W0dNTe+AK9OToTByiP8yM6yY8VO+CO6+TmwNLW2tphvY8uMPgqkLSVOMZVFO6w
-	soqOhYCMWjxstinkUquAtGPXewJ8ZJ1BQqwcSTytlrFY8HTl5A==
-X-Google-Smtp-Source: AGHT+IFGLBlGJZECBa8Vuz6gmVs4vbOKxOvULwtvu1POP6XqbXEO98enFeQ3JrnrrnxOzUP3D0OWAQ==
-X-Received: by 2002:a05:6512:32c6:b0:540:2022:e3c6 with SMTP id 2adb3069b0e04-5439c267577mr3754626e87.35.1737365695060;
-        Mon, 20 Jan 2025 01:34:55 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5439af60965sm1265424e87.138.2025.01.20.01.34.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2025 01:34:53 -0800 (PST)
-Date: Mon, 20 Jan 2025 11:34:51 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: "Cheng Jiang (IOE)" <quic_chejiang@quicinc.com>
-List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, jwboyer@kernel.org
-Subject: Re: QCA: Add Bluetooth firmware for QCA6698 request-pull
-Message-ID: <4zg574wtssuevuhqgaul4jsseyfycbvjyeau4h23uv5x66s7xc@2axqtbzvphub>
-References: <f8324c4c-985b-4283-922d-1f0de766fde3@quicinc.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id C7CFEC4CEE3;
+	Tue, 21 Jan 2025 02:39:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C7CFEC4CEE3
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50L1tLaM006011;
+	Tue, 21 Jan 2025 02:39:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	nXO1/80mZ1H9SaCi5NqeVOZAF68SPdWdZ6QOJNU7418=; b=EKvQZK6fn7xn6fsO
+	lNaNDeV3tggawWxupC/bTsBzJExZx2P7fIOk7liBN959u5l37nAI5RwQb+R/lUF4
+	qf+d0NvRz3pZim8VEYArh4pp35qL1mKuQqrb4qqckmEhyJ1aIGjvald1S+M8Yn4R
+	Kbep1nURZcKusmOC3Izw5OBqK+RPxhJ3n8JVj2kHv9+169Ey7U514DZoBawYVdum
+	sWojX5CNS1BYvZA6ImbaVGVmGrUHlSI55lAUbUd1v/ee3/WTdfuNjU1JKbTjHfau
+	C9wBCq7V7qlvbkCnBoZ/QHvsSBVtqD0fHP+MnF/ImJ+ep0tUD23yhkiDVB2svz2D
+	vfDHiw==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44a2b802mb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 21 Jan 2025 02:39:31 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50L2dVFh002904
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 21 Jan 2025 02:39:31 GMT
+Received: from [10.253.78.203] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 20 Jan
+ 2025 18:39:29 -0800
+Message-ID: <d954eb99-cdb7-4308-a677-aaf5a14feed4@quicinc.com>
+Date: Tue, 21 Jan 2025 10:39:29 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f8324c4c-985b-4283-922d-1f0de766fde3@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: QCA: Add Bluetooth firmware for QCA6698 request-pull
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+List-Id: <linux-firmware.lore.kernel.org>
+CC: <linux-firmware@kernel.org>, <jwboyer@kernel.org>
+References: <f8324c4c-985b-4283-922d-1f0de766fde3@quicinc.com>
+ <4zg574wtssuevuhqgaul4jsseyfycbvjyeau4h23uv5x66s7xc@2axqtbzvphub>
+Content-Language: en-US
+From: Cheng Jiang <quic_chejiang@quicinc.com>
+In-Reply-To: <4zg574wtssuevuhqgaul4jsseyfycbvjyeau4h23uv5x66s7xc@2axqtbzvphub>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 81RcdME38EievfVrcg1SxCIeIZcCq3Up
+X-Proofpoint-ORIG-GUID: 81RcdME38EievfVrcg1SxCIeIZcCq3Up
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-21_01,2025-01-20_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
+ suspectscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0
+ priorityscore=1501 lowpriorityscore=0 adultscore=0 phishscore=0
+ clxscore=1015 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501210019
 
-On Mon, Jan 20, 2025 at 05:13:17PM +0800, Cheng Jiang (IOE) wrote:
-> Hi linux-firmware maintainers,
->  
-> Here's a pull request for btqca bluetooth firmware. Please let me know if you have any problems.
->  
-> The following changes since commit a28a9226ccb8bf393b8e7dd8970a4d967c1a1d92:
->  
->   Merge branch 'robot/pr-0-1736646402' into 'main' (Mon Jan 13 14:30:09 2025 +0000)
->  
-> are available in the git repository at:
->  
->   https://github.com/che-jiang/qca_btfw
->  
-> for you to fetch changes up to c07a64c0f9348b1da997c944467857d73a6fa8cb:
->  
->   QCA: Add Bluetooth firmware for QCA6698 (Mon Jan 20 16:58:47 2025 +0800)
->  
-> ----------------------------------------------------------------
->  Cheng Jiang (1):
+Hi Dmitry,
+
+On 1/20/2025 5:34 PM, Dmitry Baryshkov wrote:
+> On Mon, Jan 20, 2025 at 05:13:17PM +0800, Cheng Jiang (IOE) wrote:
+>> Hi linux-firmware maintainers,
+>>  
+>> Here's a pull request for btqca bluetooth firmware. Please let me know if you have any problems.
+>>  
+>> The following changes since commit a28a9226ccb8bf393b8e7dd8970a4d967c1a1d92:
+>>  
+>>   Merge branch 'robot/pr-0-1736646402' into 'main' (Mon Jan 13 14:30:09 2025 +0000)
+>>  
+>> are available in the git repository at:
+>>  
+>>   https://github.com/che-jiang/qca_btfw
+>>  
+>> for you to fetch changes up to c07a64c0f9348b1da997c944467857d73a6fa8cb:
+>>  
+>>   QCA: Add Bluetooth firmware for QCA6698 (Mon Jan 20 16:58:47 2025 +0800)
+>>  
+>> ----------------------------------------------------------------
+>>  Cheng Jiang (1):
+>>
+>>     QCA: Add Bluetooth firmware for QCA6698
+>>
+>>     This commit will add required Bluetooth firmware files for QCA6698
+>>     The image version is 2.1.2-00035.
 > 
->     QCA: Add Bluetooth firmware for QCA6698
+> Please confirm whether these files should be using LICENSE.qcom or
+> LICENSE.QualcommAtheros_ath10k?
+Thank you for review this, it should be LICENSE.qcom. 
 > 
->     This commit will add required Bluetooth firmware files for QCA6698
->     The image version is 2.1.2-00035.
-
-Please confirm whether these files should be using LICENSE.qcom or
-LICENSE.QualcommAtheros_ath10k?
-
-Also please include into the commit message an explanation that was
-shared together with the kernel patches so that nobody is surprised by
-the subdir and the firmware names.
-
-
+> Also please include into the commit message an explanation that was
+> shared together with the kernel patches so that nobody is surprised by
+> the subdir and the firmware names.
+Ack.
 > 
->     hpbtfw21.tlv : RAM FW dump
->     hpnv21.b206  : NVM dump
->     hpnv21.b207  : NVM dump
-
-Which platforms are these two files for?
-
->     hpnv21.bin   : NVM dump
+> 
+>>
+>>     hpbtfw21.tlv : RAM FW dump
+>>     hpnv21.b206  : NVM dump
+>>     hpnv21.b207  : NVM dump
+> 
+> Which platforms are these two files for?
+Currently there are two connectivity boards using QCA6698, the board id
+are 206 and 207 respectively. So add two board specific nvm files here. 
+> 
+>>     hpnv21.bin   : NVM dump
+>>
 > 
 
--- 
-With best wishes
-Dmitry
