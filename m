@@ -1,87 +1,104 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=sU6d=UX=linaro.org=dmitry.baryshkov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E643BC02190
-	for <linux-firmware@archiver.kernel.org>; Fri, 31 Jan 2025 16:35:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7FCD3C0218F
+	for <linux-firmware@archiver.kernel.org>; Fri, 31 Jan 2025 18:36:49 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 994E1C4CEE4; Fri, 31 Jan 2025 16:35:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8148DC4CEDF
-	for <linux-firmware@kernel.org>; Fri, 31 Jan 2025 16:35:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738341346;
-	bh=DDCT+y8xfHkJj+d88x1B0ECUWsdAD116jJjS7+Ja2uM=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=Lw5X+xerOvKmzYeQRyHvp/LN+O/wcuiHpeu64PjzSkUtap53kkrT6xRI1UDfVr3n7
-	 cuC61Lj/booBZstQVPDrg+P2257ZKjr5CFD9UGQ8g4rLhCkT/Bi1rUJSxQH84SuJO6
-	 WYoX8M7Q3zIgwYqUf6WBTkJX+DULsObKWnCsyO6wbswyjphj+m/muDyWcIvxOor2VN
-	 XWQnQKrb3Rr4yzm57GX+/gqr2jdiqj0EzwSuEJgepjzphHJnZ9yxhHtP1STFDC0lmT
-	 zmSbg9vBTn0AzXtBcgRvVvlrahs0wBbJfhn7EIvMdjplpSVCeWp+DMGKkw67AxlaZj
-	 mpVT0XoOZSHRg==
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e58a90c6059so4103769276.1
-        for <linux-firmware@kernel.org>; Fri, 31 Jan 2025 08:35:46 -0800 (PST)
-X-Gm-Message-State: AOJu0Yz4AiQLow3Cz64+TOd26J7oJI2SHXeSL2gvy7f4UJ1uWbOArN4y
-	pGeJsY41yn5/QCsbKMKWDwKi55c5GhwaZ7rKLDUA2KDqj3+zrwtdqCw7gUcl8Cr+ZI4U0lD73T/
-	I/sCytDDJ2sQLvn73fHvgAzYxL6c=
-X-Google-Smtp-Source: AGHT+IE5xIhHk8h9n9ZUY5uQTRL8HsX5Yn2MkN157o4C1v6gROKWTgcNVRdH3m84cjp3Uy+E59Ul0e/kw9xBJ6HxL1g=
-X-Received: by 2002:a25:dcd1:0:b0:e58:16b0:3798 with SMTP id
- 3f1490d57ef6-e5ac89567ccmr5118315276.24.1738341345672; Fri, 31 Jan 2025
- 08:35:45 -0800 (PST)
-MIME-Version: 1.0
-References: <19b2224b-ff94-419e-9af6-a9f16cf2803f@quicinc.com>
-In-Reply-To: <19b2224b-ff94-419e-9af6-a9f16cf2803f@quicinc.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Fri, 31 Jan 2025 11:35:34 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA59hdw=G++RGdsc3f_oG+RoQ7N+4BMw2cz0jM2YP+tNKg@mail.gmail.com>
-X-Gm-Features: AWEUYZk0p9H0EXP6qYBlwZXkYHt_9cAAPuSVVbzrz5qXf1Pm3lMO-SxGjnP1Yfs
-Message-ID: <CA+5PVA59hdw=G++RGdsc3f_oG+RoQ7N+4BMw2cz0jM2YP+tNKg@mail.gmail.com>
-Subject: Re: qca: Update Bluetooth WCN6750 1.1.0-00476 firmware to 1.1.3-00069
-To: Janaki Ramaiah Thota <quic_janathot@quicinc.com>
+	id 441F0C4CEDF; Fri, 31 Jan 2025 18:36:49 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 461DEC4CED1
+	for <linux-firmware@kernel.org>; Fri, 31 Jan 2025 18:36:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 461DEC4CED1
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-54020b0dcd2so3601641e87.1
+        for <linux-firmware@kernel.org>; Fri, 31 Jan 2025 10:36:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1738348606; x=1738953406; darn=kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=A8plRFAHh7mI6kkL3UD0gwGrqijV3KEVlzmBJhXxQQc=;
+        b=Qx/E/1ZKIlyZoyKt1tsttY8F7nIFYSYbzwC+LsE+7uwKbOBYgT9vrE4igmFr/xQej1
+         YJWZcD6NYjvoKsHZagn7oeGOfH7b+wB4kwiEnIDGwX8yQz2y5v0pNiVZUU3i36SSTEY4
+         vcsQSfuYEZfuF7GipJhO0XWmzL9Wj37joY00la27LaafwnVtvg9IZOVWNdfENjHRyYY1
+         dM+FRk684fSP4JzKStThoGhHazChrKlAkznwKVN3Bmiy5tck6kNC5VQWZNCPh2snmpFU
+         b1KfmcVHahegLl8ggN+Hd4mnpRK7XUmXYiuuAgjhsqCBXZKTTXezfzLiuyt0BDngmZYD
+         WAlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738348606; x=1738953406;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=A8plRFAHh7mI6kkL3UD0gwGrqijV3KEVlzmBJhXxQQc=;
+        b=MdMNhy03CVCxUCjlJmFRlxtBjdGVnsCfxIlWbZvGx+5ZqdWrBBujOsKrWoVxAnyHpP
+         jEWHHHbxQcDE5XL00Vk9NWXq5s/AcvZqnhW1fcW+6G8nehHzi5aROrpxHLeL6csJ/p32
+         LlHmtDM1INHrZ7A75P0pAcRGIBTYrBxDQ4t+Ighci1UDcKbMkh7miy3hYLfy29faQ6aJ
+         WXMG8frg8tlJp1Ix660ZUwrROESQCJTaQiNlpgYawEV4Qmv3RuLAkSMAhTsBU7GcJym+
+         QvsnShaCDscMUWBd83wmTvzGNZWV/t/ZMHoEUt+bKNyCP5JeKUpKXbEPd6kjMnU0PonC
+         CUDg==
+X-Gm-Message-State: AOJu0YzLnNKe8mXQf49/tTWKoVpAzRtHwT41dgKHL1wNaSH26OajGlcD
+	MwlReK+2eabVfVvRLzbmnbtUjH1ypX5XTWN0ZNcsmBWp1Nuc492uEXpjoMyO8V4l/1GetoeKXEz
+	NfhvBTA==
+X-Gm-Gg: ASbGncsxuHtAOeJzoRtAuh/P5YFUgawAoJGOB4B7JKYT+SjdkRti8cFpjo8FRtJM80M
+	xzUMVIrmiXCnI0Da3LGqrVl+aUECcT5tXeNuwAEJbFK+CRKT3kr/Dl9HG0RAjp+LX9l2seXGflE
+	Hymu58S78ISSVJCYB6b8u2iDQvRFgDGhX6VPhe4qfPOKN8TQ4tcSLlmoKSeeU9LDVXyTKR01ye4
+	9g417MH8r+JCPSbnJ0qIHpqk29rPMbrXmNloAUwZm75AW061eo7Z7j89+mSOnmjZvwn+ZkJ/oFa
+	cdDVbpSJp22W7fcYpJkNGrcL7dl/dwrXDtWZgGBQvkoV6aGJ/zhJsJs5ci8=
+X-Google-Smtp-Source: AGHT+IE5f/pDCGBChoCaqLBlp61ZUNEyMU8aX2tXtks3+gKPAth9hOR17Qabm2Q4hFZXfEo6owwb2w==
+X-Received: by 2002:ac2:52b0:0:b0:542:1bdb:9a61 with SMTP id 2adb3069b0e04-543ea3d697bmr2500859e87.19.1738348605996;
+        Fri, 31 Jan 2025 10:36:45 -0800 (PST)
+Received: from eriador.lan (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543ebebeccesm555864e87.243.2025.01.31.10.36.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Jan 2025 10:36:44 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, quic_mohamull@quicinc.com, 
-	quic_hbandi@quicinc.com, Vivek Sahu <quic_vivesahu@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: linux-firmware@kernel.org
+Cc: Zijun Hu <quic_zijuhu@quicinc.com>,
+	linux-msm@vger.kernel.org
+Subject: qca: add bluetooth firmware for the WCN3950 BT/WiFi chips
+Date: Fri, 31 Jan 2025 20:36:39 +0200
+Message-ID: <20250131183643.3321810-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.45.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 31, 2025 at 6:06=E2=80=AFAM Janaki Ramaiah Thota
-<quic_janathot@quicinc.com> wrote:
->
-> Hi linux-firmware maintainers,
->
-> Here's a pull request for bluetooth firmware. Please let me know if you
-> have any problems.
->
-> The following changes since commit 97cf368b19e641f25f35d0603869305cf17497=
-dd:
->
->    qca: Update Bluetooth WCN6750 1.1.0-00476 firmware to 1.1.3-00069
-> (2025-01-31 16:14:42 +0530)
->
->    Merge branch 'parallel' into 'main'
->
-> are available in the Git repository at:
->
->    https://github.com/quicjathot/bt_msl_fw_1.1.3_00069.git HEAD
+Add BT firmware for the WCN3950 chip, found on e.g. Qualcomm Robotics RB1
+platform.
 
-Merged and pushed out.
+----------------------------------------------------------------
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/431
+The following changes since commit 50ce0eea27cc73566f5c7d0060409d796ef40a16:
 
-josh
+  Merge branch 'main' into 'main' (2025-01-31 15:56:49 +0000)
 
->
-> for you to fetch changes up to 7db7f79e5fe92e3fbb6ca29e9dc02fc3ddc61efc:
->
->    qca: Update Bluetooth WCN6750 1.1.0-00476 firmware to 1.1.3-00069
-> (2025-01-31 16:14:42 +0530)
->
-> ----------------------------------------------------------------
->
-> Janaki Ramaiah Thota (1):
->
-> qca: Update Bluetooth WCN6750 1.1.0-00476 firmware to 1.1.3-00069
->
-> Thanks,
-> Janakiram
+are available in the Git repository at:
+
+  https://gitlab.com/lumag/linux-firmware.git cmbt
+
+for you to fetch changes up to 8e74b76b7b63860210cbae5bd55f98e2e94cf627:
+
+  qca: add firmware for WCN3950 chips (2025-01-31 20:13:42 +0200)
+
+----------------------------------------------------------------
+Dmitry Baryshkov (3):
+      qca: restore licence information for WCN399x firmware
+      qca: move QCA6390 firmware to separate section
+      qca: add firmware for WCN3950 chips
+
+ WHENCE           |  31 ++++++++++++++++++++++++++++---
+ qca/cmbtfw12.tlv | Bin 0 -> 47307 bytes
+ qca/cmbtfw13.tlv | Bin 0 -> 21555 bytes
+ qca/cmnv12.bin   | Bin 0 -> 2690 bytes
+ qca/cmnv13.bin   | Bin 0 -> 1641 bytes
+ 5 files changed, 28 insertions(+), 3 deletions(-)
+ create mode 100644 qca/cmbtfw12.tlv
+ create mode 100644 qca/cmbtfw13.tlv
+ create mode 100644 qca/cmnv12.bin
+ create mode 100644 qca/cmnv13.bin
