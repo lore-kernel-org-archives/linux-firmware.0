@@ -4,70 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F80FC0218A
-	for <linux-firmware@archiver.kernel.org>; Sat,  1 Feb 2025 09:26:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40DDDC0218A
+	for <linux-firmware@archiver.kernel.org>; Sat,  1 Feb 2025 16:21:01 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 315F0C4CEE2; Sat,  1 Feb 2025 09:26:43 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	id 02195C4CED3; Sat,  1 Feb 2025 16:21:01 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 3B96AC4CED3
-	for <linux-firmware@kernel.org>; Sat,  1 Feb 2025 09:26:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 3B96AC4CED3
+	by smtp.kernel.org (Postfix) with ESMTPS id 88444C4CEE0
+	for <linux-firmware@kernel.org>; Sat,  1 Feb 2025 16:20:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 88444C4CEE0
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5439b0dd4bfso2488117e87.0
-        for <linux-firmware@kernel.org>; Sat, 01 Feb 2025 01:26:41 -0800 (PST)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-53e3a37ae07so3306139e87.3
+        for <linux-firmware@kernel.org>; Sat, 01 Feb 2025 08:20:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738402000; x=1739006800; darn=kernel.org;
+        d=linaro.org; s=google; t=1738426857; x=1739031657; darn=kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5lkAVFlncd8O2uBJpUclmd+7qagg8/sQsjazd3KGvCQ=;
-        b=hTvxabDaqX3bmPAufXI7XsF/bLxpU/I89HwTA0bZuWrPf97vP7x0Zh9aHObLXbDlG2
-         PUioxhQ+eyFzd38nkTll7kigBbj4/LQevST2xhD0t8KwDVvzNI95fc0In5J9QGcemL3L
-         7ZjeFrM6aCdZ2HfcGSF2DGBc86XacpIrQXT5Lvm8DTGhNSYRTMkfvzCAaZf1QPyXiwjI
-         BumLy3DmfCcBpPFtebQAkezHfBNZgKa1qWLffpuuqIuT5ynqYtpDVjPS7JLbsqX9jlBH
-         Pyyz6lh+Euh66sio42l2niOt/rZ7DLP9RZDyLSf/B4qwfHRpRfRZ9D7pyR5nh6/yc52b
-         vU7A==
+        bh=KVrpqivVclrkNJ3DXwl8qw6V7kQmEH15SzRImukJaRc=;
+        b=LCA3OUdxYYBbs2+v6Cc1fNwu1rXQaCMyBs7BZOhNUnHpcI/Dy8/NXhd9Y3Rg9fqSSE
+         VRb5hwbZprNFP0BF92uBwYFgbAK98ThWGskV2FAI2JEmQARuBrIUok6JY73PqHqSc60f
+         IJE0sWsKa0pvdMbiRiBulSCD3rrOZt3UrcDhRbGUzFUBRdGAGpROjSgeMYr5d2Jqrv6v
+         q+Q2YzT+LnDJMJ8ZflxupRAEmfxqu3DcqNdZyP5PXRjmz2huDH3E42L9UQJ7KZQjtlvw
+         OYKbnxnwNp0MTQ9ldcclOxu2xukIkESNU1cdkVF3EBXq0Rr56EBjS6e9/YvJ2cGQY0aW
+         Xzfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738402000; x=1739006800;
+        d=1e100.net; s=20230601; t=1738426857; x=1739031657;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5lkAVFlncd8O2uBJpUclmd+7qagg8/sQsjazd3KGvCQ=;
-        b=pKGZvQxNemI4s62Jn+po+V/5lmxCdMqFoSatsTeORH8LxTS0Q4d3+VQJT54oYYBxhG
-         Htgl5XCFsNpCo3gw6ob9K6bRhK23qbib+PhxwYt2I+ZafL4Fds5DqNYs2Ryli4KGv1Z4
-         m9AeYUpo90FvlsJXEye+CRAlT8V86UbHFmczPY5XnxXbEU7/0If+G17qJhtuBkWExP/G
-         6PtBAnouJ9xKEKDnqk2zqZblvj7rWGZkeGv5pbXa4ncQsF5NLfG3FBjt9wCHtyom11Za
-         hp1T/FJ3j4fiQ15BMxO+ddx3bsMq9mLU4v31qyNFI3jOBYiIxVr9bcLyO5xXltMS/SYE
-         8gaA==
-X-Gm-Message-State: AOJu0YyUTamVYBZr5TH9oD3qPVraq8BvjPGL7XAjHi9MZQIY2yJ7npXi
-	Xl3RdShYwUdcS5RfLQ9AOY5a+6RjaeJf0OkW51OL070OzyQT/c6eQaByeKuFGwLJ4AxwoseiYRM
-	p5eVosKXn
-X-Gm-Gg: ASbGncvDGtQsiLLr1kslgRfOQ8NNbB4A1F/djiD3PJji1Gspne9aiW31WaOQD1QvyOw
-	VSQ9jHlrjOlEl4fpbpdjt2K5vtp9mI/97C9ERtj/MBSuxa3/OR3LYHqPUlv3QASB6m5qy5eH13n
-	u0n8pn2iyXoUBXhXuZ3tt9gc2bW1AN1I/FzCgnc7GVxNAJYyWbj/G+YBrV8B/qCQaLky1yxZKxc
-	nRjqkzwep5Jm0cBw6glUM5oAYBLgTIXxKMdcItyFayKT/Kn+ToH+U8PwZEGdvzqotE7/alsAr3M
-	rWIS/TigqT1fWi55JTDa+7H4Q8MOeA+LiIPhP+dshxTjJXs0/+gjw9q830Y=
-X-Google-Smtp-Source: AGHT+IFdlFZ5dNARUrIwPFFMM4Ulc12c+BIW8bOzG2mjdWELNckVu3AI5qPtqL6aAYTJ8Y2CqZ6yDg==
-X-Received: by 2002:a05:6512:68f:b0:543:e469:2ff5 with SMTP id 2adb3069b0e04-543e4c02ebemr4783802e87.28.1738401999802;
-        Sat, 01 Feb 2025 01:26:39 -0800 (PST)
-Received: from eriador.lan (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543ebebe6a3sm695898e87.219.2025.02.01.01.26.37
+        bh=KVrpqivVclrkNJ3DXwl8qw6V7kQmEH15SzRImukJaRc=;
+        b=urVqS6v2Suo/JUMpplN0gD36B0gfvRsAWQod3FvzN9mVPJSF+OdCtFnRzWtQ5fy/LI
+         3edfzcvToGeBfjvKF8ASdbXfZ9DV0NjSkkPhMSAO2DV/biFbJ7T/aG1JXofpw05aeXqe
+         zWY7iosSkGH6qUs2XVR83eEvhZVsxr5x1iSmfCF8vrTQU8heTivPBdlItYypcwJOhLeU
+         DVVlKNedG4+p8fQJvNSzw8hG+l98O0k1PIJVr1l4crUa1OcKjqbaezxZgynVEPoy2Xtt
+         JVdzbvKsooL2PE8lG3r27dmeqUz3tO03YSLHrFN1Q89lJlrdeWNrmV99/6WKNKUczumR
+         gjGg==
+X-Gm-Message-State: AOJu0YwpYZ3Lsu0WvV7IwQMLjXIwKkH2sOxEgX7W8DlfK071E4Y4EouG
+	msDY72MooF7IBBnatcpem8XKzlExeABr8Ft5rt+2jkqwuYh0iHfGggmuQLOcBdxBlOTjBh30uaW
+	wse4UkRU3
+X-Gm-Gg: ASbGncsUhV+uy8FZIH+RBHdb07Su16xN4p+wO+slj/iQZ6R9J+i2Hi8ud+C+9TyC6kt
+	eRiRUqH1vqegJcVZDXIAj5h++aKTb5ecajHJJc+wvflmVhDmy6/WerEVuCcMskbZqb5t8/PLc48
+	zgvuTgc+WHC+boyjuXXokouxqAmUyCEd79v3hKgkUNS1yBb/uHwzfghUm9dqZ64jhoGIsL2Vbaz
+	cYvVzYYmlwUVifI7urnhhBcxTqbF4ZApLqC5xFg0ii8MLjGQyof7yVyIDLqz6r1819iDh/xpoCe
+	+PCqDK+yNG8qjbrY38cMct/ESVF69d8=
+X-Google-Smtp-Source: AGHT+IGzLjvNy5md5KJMNowDOz5fBZmGTDNe2Ls3qAbLpqBRkp4azUKYm8Ap4tW15m6c0DiiSs6j3g==
+X-Received: by 2002:ac2:4d05:0:b0:540:1e17:10eb with SMTP id 2adb3069b0e04-543e4c3a0d9mr4750727e87.48.1738426855892;
+        Sat, 01 Feb 2025 08:20:55 -0800 (PST)
+Received: from umbar.unikie.fi ([192.130.178.90])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543ebdf0fb8sm775308e87.7.2025.02.01.08.20.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Feb 2025 01:26:38 -0800 (PST)
+        Sat, 01 Feb 2025 08:20:54 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: Zijun Hu <quic_zijuhu@quicinc.com>,
-	linux-msm@vger.kernel.org
-Subject: qca: add two more NVM files for WCN3950
-Date: Sat,  1 Feb 2025 11:26:32 +0200
-Message-ID: <20250201092637.3358518-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.45.2
+To: linux-firmware@kernel.org,
+	ath11k@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org
+Cc: Kalle Valo <kvalo@kernel.org>,
+	Jeff Johnson <jjohnson@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: ath11k: add device-specific firmware for QCM6490 boards
+Date: Sat,  1 Feb 2025 18:20:52 +0200
+Message-Id: <20250201162052.3858294-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+
+Josh, please give a couple of days to let ath11k and MSM maintainers to ACK or
+NAK this.
+
+Compatibility links are added to follow the names in the existing DTs for the
+QCM6490-IDP and Qualcomm RB3 Gen2. If platform maintainers think that breaking
+those is fine, I can drop those link.
 
 The following changes since commit 722d0d1271dce547df152e5d6db84c139b9f83a7:
 
@@ -75,19 +86,17 @@ The following changes since commit 722d0d1271dce547df152e5d6db84c139b9f83a7:
 
 are available in the Git repository at:
 
-  https://gitlab.com/lumag/linux-firmware.git cmbt
+  https://gitlab.com/lumag/linux-firmware rb3gen2-wpss
 
-for you to fetch changes up to 6b12b9649a91d08163d7f62d52afbf6237953182:
+for you to fetch changes up to f0e750f347227cb1e0008715a27b2020399b5efc:
 
-  qca: add more WCN3950 1.3 NVM files (2025-02-01 11:23:54 +0200)
+  ath11k: add device-specific firmware for QCM6490 boards (2025-02-01 18:10:11 +0200)
 
 ----------------------------------------------------------------
 Dmitry Baryshkov (1):
-      qca: add more WCN3950 1.3 NVM files
+      ath11k: add device-specific firmware for QCM6490 boards
 
- WHENCE          |   2 ++
- qca/cmnv13s.bin | Bin 0 -> 1641 bytes
- qca/cmnv13t.bin | Bin 0 -> 1641 bytes
- 3 files changed, 2 insertions(+)
- create mode 100644 qca/cmnv13s.bin
- create mode 100644 qca/cmnv13t.bin
+ WHENCE                                |   7 +++++++
+ ath11k/WCN6750/hw1.0/qcm6490/wpss.mbn | Bin 0 -> 7734064 bytes
+ 2 files changed, 7 insertions(+)
+ create mode 100644 ath11k/WCN6750/hw1.0/qcm6490/wpss.mbn
