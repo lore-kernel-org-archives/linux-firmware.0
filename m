@@ -1,119 +1,131 @@
-Return-Path: <SRS0=qMqL=U3=guillain.net=jean-christophe@kernel.org>
+Return-Path: <SRS0=Ii29=U3=oss.qualcomm.com=bjorn.andersson@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB993C02197
-	for <linux-firmware@archiver.kernel.org>; Tue,  4 Feb 2025 11:03:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B666FC02194
+	for <linux-firmware@archiver.kernel.org>; Tue,  4 Feb 2025 16:59:10 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 8B81DC4CEE2; Tue,  4 Feb 2025 11:03:39 +0000 (UTC)
-Received: from smtpout3.mo534.mail-out.ovh.net (smtpout3.mo534.mail-out.ovh.net [51.210.94.142])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id 74962C4CEE8; Tue,  4 Feb 2025 16:59:10 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 0EA5FC4CEDF
-	for <linux-firmware@kernel.org>; Tue,  4 Feb 2025 11:03:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 0EA5FC4CEDF
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=guillain.net
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=guillain.net
-Received: from director1.derp.mail-out.ovh.net (director1.derp.mail-out.ovh.net [51.68.80.175])
-	by mo534.mail-out.ovh.net (Postfix) with ESMTPS id 4YnL7x1Wctz1Zc9;
-	Tue,  4 Feb 2025 11:03:25 +0000 (UTC)
-Received: from director1.derp.mail-out.ovh.net (director1.derp.mail-out.ovh.net. [127.0.0.1])
-        by director1.derp.mail-out.ovh.net (inspect_sender_mail_agent) with SMTP
-        for <maxim.cournoyer@gmail.com>; Tue,  4 Feb 2025 11:03:24 +0000 (UTC)
-Received: from mta3.priv.ovhmail-u1.ea.mail.ovh.net (unknown [10.109.140.114])
-	by director1.derp.mail-out.ovh.net (Postfix) with ESMTPS id 4YnL7w6XLbzHqBt;
-	Tue,  4 Feb 2025 11:03:24 +0000 (UTC)
-Received: from guillain.net (unknown [10.1.6.3])
-	by mta3.priv.ovhmail-u1.ea.mail.ovh.net (Postfix) with ESMTPSA id 0EE7F3A3616;
-	Tue,  4 Feb 2025 11:03:23 +0000 (UTC)
-Authentication-Results:garm.ovh; auth=pass (GARM-102R004d51e7628-b3ef-4a75-9ccb-ef251f6eb4ba,
-                    70124334DE1DD460E9A14375A0C5930E27FF0D3F) smtp.auth=jean-christophe@guillain.net
-X-OVh-ClientIp:78.243.13.89
-Message-ID: <cfb4f859659eda370d3bc3f7af3ce9cb17fdfc39.camel@guillain.net>
-Subject: Re: [linux-firmware][bug] "make deb" generates an error on Debian :
- "./copy-firmware.sh: 116: cannot create : Directory nonexistent"
-From: Jean-Christophe Guillain <jean-christophe@guillain.net>
-To: Maxim Cournoyer <maxim.cournoyer@gmail.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 3D4C3C4CEE6
+	for <linux-firmware@kernel.org>; Tue,  4 Feb 2025 16:59:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 3D4C3C4CEE6
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 514EWgoJ016972
+	for <linux-firmware@kernel.org>; Tue, 4 Feb 2025 16:59:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=m5xRbtahHf67+tT1W5aG/S00
+	eDCUMSTm6m7RtxHaP/c=; b=eS3FzSmK+eLeu76zF+IOpimhJmTgjGvNuLUYqwEF
+	ev8h8O+CipW5T4gdNkOCfNY5DPTo+t+6GTCZueOyoDZ2zmCUPhs5fKqBN9u0+g4n
+	yOyt3ygKYB1qCZgG7wCgjTYxDF/nyOHCQZMAWpP/z++kPd5NilJIZ1D0dK0+RFNK
+	0X5FWoJMPM7Aiq5WgVW1FoBuhJ9kCfFTQhNY95sDCgciCSKNH0QO5G6/zNFfVTFG
+	kWlM8c/XaIU9QHIlcU8SQgo+4+7qVcNOC1Pcz1+SDBz23sa+sS672k8nAZQvbg5j
+	5w8Ix/y+oKTGK8JnRMy5nDcxRwOuEGPf2DMY6B3vhmIa8g==
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44kmre0bvg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-firmware@kernel.org>; Tue, 04 Feb 2025 16:59:08 +0000 (GMT)
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-2f9c34c0048so2675865a91.3
+        for <linux-firmware@kernel.org>; Tue, 04 Feb 2025 08:59:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738688347; x=1739293147;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=m5xRbtahHf67+tT1W5aG/S00eDCUMSTm6m7RtxHaP/c=;
+        b=SwwNWyiULa/jftVUN2Z2peTcwcUJObPDaD8lQ+hvTgBYtGhKJ3fuoBuFw5QAW61OZs
+         Ty9RmP89XgNAOhKosJmn7eCx/9vgB3CtviIoaHN9C8+xYe9prz1c7YD9wP6UC7IocXuJ
+         ZbmCI/NkH/fYKaPOAVRWcUToXII0gdISXe30h9s+MCWPLaZhHthQmtaNDqjmlGNIaUPT
+         nDKATFWnAliwSz7mOGAUXPomIEBWvVL891sjLdDy9HuVHvWSFGVsE6v0vH+PygMHHiuc
+         5wS7HQ4ntftSjqjwwxkIYvgEa9OUGD4qohfCImBWWJjyy3AFoCzOWo661qX1exDL+MyW
+         L3uA==
+X-Gm-Message-State: AOJu0YzniujH3492YCeVPUZVV4mHHZOkgFLjoiCH1WrH/2exFtF4cPeV
+	6K+b4bb+MDbdXHP6UfSqXJcDdZIu8hr4jRusCY8y2rBfpWGBmZQdPOmLncJM7fRTOu8BPf+k/yp
+	WZz0QAlaaTAI7L0SZHeMiRufOCf4UgX/LfQTyYzy69yIJYXbaVSOuOhzm1HPR3kcI7uM=
+X-Gm-Gg: ASbGncuo/mSUcgq2n6SFtUkGvB0nS2GoPlCXsxOqgk8QmPcyv0uQO7W+SWqvyAb7E3V
+	skxIv9BBajR09hkOtAZDu205VcUU02/4GB0Ajss/DFk41sf2KVakyH/QhvHcttt9tL6fhoptJrj
+	teTP3QGCEtZdulHaIldsGCcFVQH42MTOrAvjraHvIhleWsahnJ35N7NKFrtX+ioT08vJKaBQBXt
+	HXRKCN2uody3qR2cQZ4NcQc/51NkPlU6SQQGflLGKRUbQvjT2tJmblta820ceSMeDMOcGVnFFJA
+	rE868i/HKJAteNiOvpWZ5Hn5/uBBGw8GiJyUp3aPbHF6uLWbZvlNKbA2ffgFqHXt
+X-Received: by 2002:a17:90b:51c2:b0:2ea:bf1c:1e3a with SMTP id 98e67ed59e1d1-2f83abdefc1mr46999336a91.12.1738688347089;
+        Tue, 04 Feb 2025 08:59:07 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFTcH4wyAt7q7aTLpPh5THV7kuWDRCPr1YuScJ23G9Z+DsK08914h9Qwkm3YHDVTWmSOOVVgw==
+X-Received: by 2002:a17:90b:51c2:b0:2ea:bf1c:1e3a with SMTP id 98e67ed59e1d1-2f83abdefc1mr46999303a91.12.1738688346786;
+        Tue, 04 Feb 2025 08:59:06 -0800 (PST)
+Received: from hu-bjorande-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21de31f7927sm98992365ad.99.2025.02.04.08.59.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Feb 2025 08:59:06 -0800 (PST)
+Date: Tue, 4 Feb 2025 08:59:04 -0800
+From: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org
-Date: Tue, 04 Feb 2025 12:03:22 +0100
-In-Reply-To: <87v7tqbjup.fsf@gmail.com>
-References: <9efd447b0866dc765a5b1e90318d25a4e3ddddbd.camel@guillain.net>
-	 <bbd0b116ab4fc8d564ac7e44305f9546f7bebbe2.camel@guillain.net>
-	 <87v7tqbjup.fsf@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+Cc: linux-firmware@kernel.org, ath11k@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, Kalle Valo <kvalo@kernel.org>,
+        Jeff Johnson <jjohnson@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: ath11k: add device-specific firmware for QCM6490 boards
+Message-ID: <Z6JHWMJFPB8mJfdw@hu-bjorande-lv.qualcomm.com>
+References: <20250201162052.3858294-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-X-Ovh-Tracer-Id: 17580927048092913496
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdefgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkuffhvfevffgjfhgtgfgfggesthhqredttderjeenucfhrhhomheplfgvrghnqdevhhhrihhsthhophhhvgcuifhuihhllhgrihhnuceojhgvrghnqdgthhhrihhsthhophhhvgesghhuihhllhgrihhnrdhnvghtqeenucggtffrrghtthgvrhhnpeehledtueeileeuueeuhffgudefjeetieevueduhfffvdetleeludfftdeuhfffheenucffohhmrghinhepghhithhlrggsrdgtohhmnecukfhppeduvdejrddtrddtrddupdejkedrvdegfedrudefrdekleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepjhgvrghnqdgthhhrihhsthhophhhvgesghhuihhllhgrihhnrdhnvghtpdhnsggprhgtphhtthhopedvpdhrtghpthhtohepmhgrgihimhdrtghouhhrnhhohigvrhesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdhfihhrmhifrghrvgeskhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehfeegmgdpmhhouggvpehsmhhtphhouhht
-DKIM-Signature: a=rsa-sha256; bh=kj4Rjgcz+N/gxHLnA722Flki9hoVyOR5QGxyT9t/WdU=;
- c=relaxed/relaxed; d=guillain.net; h=From; s=ovhmo31693-selector1;
- t=1738667005; v=1;
- b=gn14L5Es42yvoPdbYwUzCF3sDzwKsg66mPFY+7tFNKDfqOopogLzRKUdHb3aEE32/5y3YtfX
- On8vqbBtxECPysk6XL7RlmIdiwypX06r03MybbOsFZ1f1kOYU5Mbw0rG/6wFtziV2rsHB/LiSaM
- lHv0u4SXNWZQtUnwPikKPGB0Qkb5nww1Mjc+DMv2i+7/rfZe8ZTgqVePeTDtkeBqLTRjqWkblso
- b8rTddLdweEV0IWAQVdKkLB6DOFOQBcVCfiSN643pPLG+olwMU7jfQ/oOUhEP5xvS+2DMLbKu/S
- KvMz6xH9zJ6Ozw4UTVav8UavUxXwUE7j4bSEp8bqtcJCA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250201162052.3858294-1-dmitry.baryshkov@linaro.org>
+X-Proofpoint-ORIG-GUID: NJa5r9yxcbcRIskOPc54ylXrpgu7_2Ql
+X-Proofpoint-GUID: NJa5r9yxcbcRIskOPc54ylXrpgu7_2Ql
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-04_08,2025-02-04_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ suspectscore=0 adultscore=0 impostorscore=0 malwarescore=0 phishscore=0
+ spamscore=0 mlxlogscore=767 bulkscore=0 priorityscore=1501 mlxscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502040130
 
-Hi Maxim,
+On Sat, Feb 01, 2025 at 06:20:52PM +0200, Dmitry Baryshkov wrote:
+> Josh, please give a couple of days to let ath11k and MSM maintainers to ACK or
+> NAK this.
+> 
 
-I just tested your patch. It fixes the error message for me.
+Acked-by: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
 
-Thank you very much,
-Jean-Christophe Guillain
+> Compatibility links are added to follow the names in the existing DTs for the
+> QCM6490-IDP and Qualcomm RB3 Gen2. If platform maintainers think that breaking
+> those is fine, I can drop those link.
+> 
 
+I'd prefer to keep those, as these paths are referenced from the kernel
+packages in Debian, Ubuntu etc.
 
-On Tue, 2025-02-04 at 10:05 +0900, Maxim Cournoyer wrote:
-> Hi Jean-Christophe,
->=20
-> Jean-Christophe Guillain <jean-christophe@guillain.net> writes:
->=20
-> > On Thu, 2025-01-09 at 16:04 +0100, Jean-Christophe Guillain wrote:
-> > > Hello,
-> > >=20
-> > > I encounter this error when trying to build a deb package of the
-> > > linux-
-> > > firmware repo :
-> > >=20
-> > > jc@dingdong:~/kernel/linux-firmware$ make deb
-> > > ./build_packages.py --deb
-> > > ./copy-firmware.sh: 116: cannot create : Directory nonexistent
-> > > =C2=A0dpkg-source --before-build .
-> > > =C2=A0debian/rules clean
-> > > =C2=A0debian/rules binary
-> > > =C2=A0dpkg-genbuildinfo --build=3Dbinary -O../linux-firmware-
-> > > upstream_20241210-34-gc0f414a6_amd64.buildinfo
-> > > =C2=A0dpkg-genchanges --build=3Dbinary -O../linux-firmware-
-> > > upstream_20241210-
-> > > 34-gc0f414a6_amd64.changes
-> > > =C2=A0dpkg-source --after-build .
-> > > Built package: dist/linux-firmware-upstream_20241210-34-
-> > > gc0f414a6_all.deb
-> > >=20
-> >=20
-> > I think that $parallel_args_file on line 116 is just never defined
-> > in
-> > my case...
-> >=20
-> > > I bisected it to the commit :
-> > > [2b781910a7d0a7fd67e3d4f40fd8178004c588bc] Add support to install
-> > > files/symlinks in parallel.
->=20
-> Indeed, I could reproduce with the 'deb' target.=C2=A0 I had missed that
-> issue with the other targets as they invoke the copy-firmware. script
-> always with the -j argument (-j1 when not using parallel
-> compression),
-> which was hiding this issue.
->=20
-> I've now sent a MR to fix that [0]; thank you for reporting it!
->=20
-> [0]=C2=A0
-> https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/436
->=20
+Regards,
+Bjorn
 
+> The following changes since commit 722d0d1271dce547df152e5d6db84c139b9f83a7:
+> 
+>   Merge branch 'robot/pr-0-1738348854' into 'main' (2025-01-31 20:18:00 +0000)
+> 
+> are available in the Git repository at:
+> 
+>   https://gitlab.com/lumag/linux-firmware rb3gen2-wpss
+> 
+> for you to fetch changes up to f0e750f347227cb1e0008715a27b2020399b5efc:
+> 
+>   ath11k: add device-specific firmware for QCM6490 boards (2025-02-01 18:10:11 +0200)
+> 
+> ----------------------------------------------------------------
+> Dmitry Baryshkov (1):
+>       ath11k: add device-specific firmware for QCM6490 boards
+> 
+>  WHENCE                                |   7 +++++++
+>  ath11k/WCN6750/hw1.0/qcm6490/wpss.mbn | Bin 0 -> 7734064 bytes
+>  2 files changed, 7 insertions(+)
+>  create mode 100644 ath11k/WCN6750/hw1.0/qcm6490/wpss.mbn
+> 
