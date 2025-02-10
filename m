@@ -1,190 +1,145 @@
-Return-Path: <SRS0=RO/i=VA=linaro.org=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=31b6=VB=ti.com=baojun.xu@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33988C02199
-	for <linux-firmware@archiver.kernel.org>; Sun,  9 Feb 2025 13:47:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6B44C02198
+	for <linux-firmware@archiver.kernel.org>; Mon, 10 Feb 2025 07:52:49 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id E7CB9C4CEE2; Sun,  9 Feb 2025 13:47:41 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id B007AC4CEE4; Mon, 10 Feb 2025 07:52:49 +0000 (UTC)
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 8E02AC4CEDD
-	for <linux-firmware@kernel.org>; Sun,  9 Feb 2025 13:47:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 8E02AC4CEDD
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-543d8badc30so3952635e87.0
-        for <linux-firmware@kernel.org>; Sun, 09 Feb 2025 05:47:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739108859; x=1739713659; darn=kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ny0MVAcvghpYY3uH7Pcx+7lHaV00NJpLGgrB84BuTjk=;
-        b=dDusj8u7crvTExGSwL9zoOCy3eGnhYA9gQs/rSK0sEhmiRQ2DUcDFgXrVCsIxMfjIo
-         PcYUJbDibWNDN/1/jyKwn6w32ENayr/RwVc+v6QB7DLSjwu5nQf2m2OyFjjzLEqkOsWX
-         EGUcg5WQ18d1t+O913cDnCMq5137ICpYOmMpwa1Uc6eVGPFJsOqVVGMqmIyCFMoAwqI8
-         eXKfzNUKzIhPNOqZXZB3VWgU62N77P4iA42B17VsukmLIasgR1mvHiT/AWC0bZx5Ev19
-         H/3onLttIk8Epx2eSmTMyf74TSNWZK/Bxt3poFMYZJUt4Ntfyunnkp0EtD7xOYIdjaJ1
-         GVeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739108859; x=1739713659;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ny0MVAcvghpYY3uH7Pcx+7lHaV00NJpLGgrB84BuTjk=;
-        b=gnMU3Nq5qoCj6p+bSIekKyFY2PLcfU9NIbu8XVxDfjy/0IY/GSRhpqFEYVa5VX/a98
-         uv2lK6OMzF9zW6fLtSNhFOnvhvB7Pr3OF1hvzXjio+N9o4ej8my3Msm5WwMiGNYbV2ly
-         DYI5CN/sApSkNF93vogm1lCreI0m5/bi+aWK75jsJsiR1twtsj1JC5b/4XHCNcmYpB/I
-         xZWMW0nwi/x0IWHmtz9Mv/Dpe2QJItFRB+040VP6mYH86hhE/iecgwYUubSdAdb1AcEA
-         4OfMrYwXF6XsN9dU+lgBHcj3I8j+OG05lDcomNWQJR4h1vWWXWJ55ueHfdVNiwyu0dp8
-         +/bg==
-X-Gm-Message-State: AOJu0Yw3hf1q3Yv71jDu/Qo/ZChsBTLD23BI5Ep3Y2oBAH3aFLY16RnW
-	ZfSBn0rWgRKBTUUqHYW7+iopBEczIxc3DEKYXJAka9gaBLCs+pr5Fzdcl6OE11U=
-X-Gm-Gg: ASbGncsiYGGO7xxPCcyfnapNviQAG6wOBv0C0VYQwrIGpFNzvBiiTjklohJQPJit8pH
-	T2vBYNuUsqg6GxNosIDVCZz+X9/LHcT+GUfwxAKdT/TynIi425Skl5pDnUI5fFuVbk+DpqHzbA0
-	x3FtIBQIHWh56XfCYalMojSEL73uJTPhTi9zBTUTm6XY2V4zwMQHzLTXCZ58H2z4a+jJKw3c+jP
-	oKX+cpCaqL2jyNahxBBsHenx/uUO+EJSy+6qdHD83ztOnl7d76IFv6Yx29EARWZMiEtpLDfHKwI
-	lQm4vtEK515aSMTVOFSLD+/tefkI26pB9NfwT6ZFLtajJlnwrzhCxkXJq5B41MWR87Cii1A=
-X-Google-Smtp-Source: AGHT+IHg0EykMC7na9ArJVkyvbBBXp6wabegqbL+4rNfzMIIHNDsCkDCwufyUc4k0hOHheBnoNybVQ==
-X-Received: by 2002:a05:6512:3dac:b0:542:28b4:2732 with SMTP id 2adb3069b0e04-54414ab5119mr3493482e87.19.1739108858535;
-        Sun, 09 Feb 2025 05:47:38 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-545066d6939sm369502e87.155.2025.02.09.05.47.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Feb 2025 05:47:37 -0800 (PST)
-Date: Sun, 9 Feb 2025 15:47:34 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Sibi Sankar <quic_sibis@quicinc.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id B3FA8C4CED1;
+	Mon, 10 Feb 2025 07:52:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org B3FA8C4CED1
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 51A7qegJ002056
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 10 Feb 2025 01:52:40 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1739173960;
+	bh=TIoUXv4bvfSaNynsaGquNVj1t+EosXITFmTzVsUQThE=;
+	h=From:To:CC:Subject:Date;
+	b=vWlhTkWl5lxtoELWTi9isUpA8xKgh0gf3gaj7NvrsfH/PTclYYkAL2vVCNtSApABX
+	 D3O+L6EN22FlXzOS4HotIpq3Srnx/8QwG9r+ywscCIX8XUFIiJezWy9uqbcmbwkDBP
+	 81UUPOH5bZBBvJZFkzdSN1zL7T7wGflglz+DhfA4=
+Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 51A7qemJ126469
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 10 Feb 2025 01:52:40 -0600
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 10
+ Feb 2025 01:52:40 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 10 Feb 2025 01:52:40 -0600
+Received: from lelvsmtp5.itg.ti.com ([10.250.165.138])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 51A7qaDr063518;
+	Mon, 10 Feb 2025 01:52:37 -0600
+From: Baojun Xu <baojun.xu@ti.com>
+To: <jwboyer@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, abickett@quicinc.com
-Subject: Re: qcom: Add Audio firmware for X1E80100 CRD/QCPs
-Message-ID: <dtu6f4nnutcufgu4n2rbbwvyywsl4sqarfstqrbl6i25kjlnvl@w33shxkpqtze>
-References: <63fe4338-43dd-e771-45fb-57a2096a1002@quicinc.com>
- <cz6nu7fuf23poqahslmnqisuiqakjzkmwvk2znvohmjrnvgfhs@wb4wkugrkgfm>
- <e02e6eb7-9af5-87a2-a7f0-248d9c7543c2@quicinc.com>
- <CAA8EJpoagdAXE7L7qG9vQCkJbJ-MnB0LaYtqAoa8yLgj91O9ug@mail.gmail.com>
- <4fb0d093-d00c-13cd-9dba-7393dbcf897c@quicinc.com>
- <nh2uwme4p6ytatr5mindtfryvm524nhdi5hmyvyb6w3qnmeqsc@2umcnv7g6enn>
- <b6979c75-cbc2-6f00-adee-4bb47d8b63cf@quicinc.com>
- <nxsukcd5vulgyvmlhiej2xswetbvkh2ue6lpamp44bx3vmmccb@42xufw3xwbg4>
- <20bf354a-aac9-514a-aa8a-f313e569a4cd@quicinc.com>
- <plfoqdkuuczjvnz2wcd4ewfgahtabztmfgehpnhvpdpbyrlkjn@esr2cieq62be>
+CC: <shenghao-ding@ti.com>, <linux-firmware@kernel.org>, <13916275206@139.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <alexander@burningdaylight.io>, Baojun Xu
+	<baojun.xu@ti.com>
+Subject: [PATCH v1] ASoC: tas2781: Add regbin firmware by index for single device
+Date: Mon, 10 Feb 2025 15:52:11 +0800
+Message-ID: <20250210075211.5343-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <plfoqdkuuczjvnz2wcd4ewfgahtabztmfgehpnhvpdpbyrlkjn@esr2cieq62be>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On Wed, Jan 08, 2025 at 01:56:37PM +0200, Dmitry Baryshkov wrote:
-> On Wed, Jan 08, 2025 at 10:19:29AM +0530, Sibi Sankar wrote:
-> > 
-> > 
-> > On 1/7/25 04:12, Dmitry Baryshkov wrote:
-> > > On Mon, Jan 06, 2025 at 05:42:55PM +0530, Sibi Sankar wrote:
-> > > > 
-> > > > 
-> > > > On 12/17/24 16:26, Dmitry Baryshkov wrote:
-> > > > > On Tue, Dec 17, 2024 at 03:13:06PM +0530, Sibi Sankar wrote:
-> > > > > > 
-> > > > > > 
-> > > > > > On 12/5/24 16:49, Dmitry Baryshkov wrote:
-> > > > > > > On Thu, 5 Dec 2024 at 12:07, Sibi Sankar <quic_sibis@quicinc.com> wrote:
-> > > > > > > > 
-> > > > > > > > 
-> > > > > > > > 
-> > > > > > > > On 11/29/24 20:07, Dmitry Baryshkov wrote:
-> > > > > > > > > On Tue, Oct 22, 2024 at 11:49:37AM +0530, Sibi Sankar wrote:
-> > > > > > > > > > 
-> > > > > > > > > > 
-> > > > > > > > > > On 10/18/24 21:23, Dmitry Baryshkov wrote:
-> > > > > > > > > > > On Fri, Oct 18, 2024 at 08:58:06PM +0530, Sibi Sankar wrote:
-> > > > > > > > > > > > 
-> > > > > > > > > > > > 
-> > > > > > > > > > > > On 10/18/24 16:13, Dmitry Baryshkov wrote:
-> > > > > > > > > > > > > On Fri, Oct 18, 2024 at 12:43:14PM +0530, Sibi Sankar wrote:
-> > > > > > > > > > > > > > 
-> > > > > > > > > > > > > > Hello,
-> > > > > > > > > > > > > > 
-> > > > > > > > > > > > > > The following changes since commit 8dbcf94bfc68bdb1c6df3a42762b275557095558:
-> > > > > > > > > > > > > > 
-> > > > > > > > > > > > > >         Merge branch 'robot/patch-0-1729102102' into 'main' (2024-10-17 15:40:04
-> > > > > > > > > > > > > > +0000)
-> > > > > > > > > > > > > > 
-> > > > > > > > > > > > > > are available in the Git repository at:
-> > > > > > > > > > > > > > 
-> > > > > > > > > > > > > >         https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
-> > > > > > > > > > > > > > adsp-fw-x1e80100-crd
-> > > > > > > > > > > > > 
-> > > > > > > > > > > > > Could you please clarify, why adspr.jsn doesn't declare tms/pdr_enabled?
-> > > > > > > > > > > > > Windows firmware has it in adspr.jsn.
-> > > > > > > > > > > > 
-> > > > > > > > > > > > Hey Dmitry,
-> > > > > > > > > > > > 
-> > > > > > > > > > > > Can you please share what device and META you are comparing this
-> > > > > > > > > > > > firmware against? This firmware was taken from the build source
-> > > > > > > > > > > > without any modification.
-> > > > > > > > > > > 
-> > > > > > > > > > > I have been looking at the Windows driver from WSU for the CRD,
-> > > > > > > > > > > qsubsys_ext_adsp8380.cab. DriverVer = 08/27/2024,2.0.4114.4600.
-> > > > > > > > > > > 
-> > > > > > > > > > > For the reference, I checked several last drops, they have the following
-> > > > > > > > > > > versions of qcadsp8380.mbn:
-> > > > > > > > > > > QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00792-HAMOA-1
-> > > > > > > > > > > QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00789.1-HAMOA-1
-> > > > > > > > > > > QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00787.2-HAMOA-1
-> > > > > > > > > > > QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00784-HAMOA-1
-> > > > > > > > > > > QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00781-HAMOA-1
-> > > > > > > > > > > 
-> > > > > > > > > > > All of them list tms/pdr_enabled in adspr.jsn
-> > > > > > > > > > > 
-> > > > > > > > > > 
-> > > > > > > > > > Thanks for listing them. Already following up internally regarding
-> > > > > > > > > > this discrepancy, will push out an update once it gets resolved.
-> > > > > > > > > 
-> > > > > > > > > Sibi, this has been more than a month ago. Could you please update us on
-> > > > > > > > > the pdr_enabled necessity? I'm asking since it's also a part of the
-> > > > > > > > > kernel data nowadays.
-> > > > > > > > 
-> > > > > > > > Hey Dmitry,
-> > > > > > > > 
-> > > > > > > > Extremely sorry for the delay. I was told this is just a platform
-> > > > > > > > specific flag that we can decide to turn on if it handles PDR.
-> > > > > > > > Given that linux does handle PDR we can safely turn it on.
-> > > > > > > 
-> > > > > > > So... is there any reason why it wasn't set previously? Which
-> > > > > > > platforms should have it in the enabled state?
-> > > > > > 
-> > > > > > We had just pushed out the firmware out without modification
-> > > > > > but yes like you say it could have been turned on during the
-> > > > > > initial push itself since linux supports pdr.
-> > > > > 
-> > > > > Pushed out where? Also could you please respond to the questions rather
-> > > > > than ignoring them?
-> > > > 
-> > > > All SoCs that has remoterprocs booting pds can have tms/pdc enabled in
-> > > > linux since it has pdr support merged. The firmware that I said was
-> > > > pushed out was the firmware passed onto me for merge into linux-
-> > > > firmware. Sry I thought it was already clear, didn't mean to avoid
-> > > > answering any questions.
-> > > 
-> > > So, should we enable the pdr_enabled for all those PDs or should we
-> > > ignore the flag and drop it from the configurations where it has been
-> > > added? The information that you are providing doesn't help me with that
-> > > question.
-> > 
-> > Yes, we should list tms/pdr as enabled because without that I was told
-> > the entire Q6 would go down instead of just the pd i.e. without that
-> > the Q6 assumes that the platform doesn't support pd restart and tears
-> > down everything including the root.
-> 
-> Starting from which platform? Should it be enabled for msm8996?
+Add regbin firmware by index for single device.
+Add more symbolic link for Gemtree project.
 
-Sibi, we haven't heard from you for a month. Should pdr_enabled be set
-for all platforms and all domains?
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+---
+ WHENCE                      |  14 ++++++++++++++
+ ti/tas2781/TXNW2781RCA0.bin | Bin 0 -> 868 bytes
+ ti/tas2781/TXNW2781RCA1.bin | Bin 0 -> 868 bytes
+ 3 files changed, 14 insertions(+)
+ create mode 100644 ti/tas2781/TXNW2781RCA0.bin
+ create mode 100644 ti/tas2781/TXNW2781RCA1.bin
+
+diff --git a/WHENCE b/WHENCE
+index d2ccfbb2..39b6de58 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -8010,12 +8010,18 @@ File: ti/tas2781/TAS2XXX3F300.bin
+ File: ti/tas2781/TAS2XXX3F301.bin
+ File: ti/tas2781/TAS2XXX8DE8.bin
+ File: ti/tas2781/TAS2XXX8DE9.bin
++File: ti/tas2781/TXNW2781RCA0.bin
++File: ti/tas2781/TXNW2781RCA1.bin
+ File: ti/tas2781/TIAS2781RCA2.bin
+ File: ti/tas2781/TIAS2781RCA4.bin
+ Link: TAS2XXX0C94.bin -> ti/tas2781/TAS2XXX0C94.bin
+ Link: TAS2XXX0C95.bin -> ti/tas2781/TAS2XXX0C95.bin
+ Link: TAS2XXX0C96.bin -> ti/tas2781/TAS2XXX0C96.bin
+ Link: TAS2XXX0C97.bin -> ti/tas2781/TAS2XXX0C97.bin
++Link: TAS2XXX103C8DE80.bin -> ti/tas2781/TAS2XXX8DE8.bin
++Link: TAS2XXX103C8DE81.bin -> ti/tas2781/TAS2XXX8DE8.bin
++Link: TAS2XXX103C8DE90.bin -> ti/tas2781/TAS2XXX8DE9.bin
++Link: TAS2XXX103C8DE91.bin -> ti/tas2781/TAS2XXX8DE9.bin
+ Link: TAS2XXX10A40.bin -> ti/tas2781/TAS2XXX10A40.bin
+ Link: TAS2XXX10A41.bin -> ti/tas2781/TAS2XXX10A41.bin
+ Link: TAS2XXX11540.bin -> ti/tas2781/TAS2XXX11540.bin
+@@ -8074,8 +8080,16 @@ Link: TAS2XXX3F300.bin -> ti/tas2781/TAS2XXX3F300.bin
+ Link: TAS2XXX3F301.bin -> ti/tas2781/TAS2XXX3F301.bin
+ Link: TAS2XXX8DE8.bin -> ti/tas2781/TAS2XXX8DE8.bin
+ Link: TAS2XXX8DE9.bin -> ti/tas2781/TAS2XXX8DE9.bin
++Link: TAS2XXX8DE80.bin -> ti/tas2781/TAS2XXX8DE8.bin
++Link: TAS2XXX8DE81.bin -> ti/tas2781/TAS2XXX8DE8.bin
++Link: TAS2XXX8DE90.bin -> ti/tas2781/TAS2XXX8DE9.bin
++Link: TAS2XXX8DE91.bin -> ti/tas2781/TAS2XXX8DE9.bin
+ Link: TIAS2781RCA2.bin -> ti/tas2781/TIAS2781RCA2.bin
+ Link: TIAS2781RCA4.bin -> ti/tas2781/TIAS2781RCA4.bin
++Link: TXNW2781RCA0.bin -> ti/tas2781/TXNW2781RCA0.bin
++Link: TXNW2781RCA1.bin -> ti/tas2781/TXNW2781RCA1.bin
++Link: TXNW2781RCA2.bin -> ti/tas2781/TIAS2781RCA2.bin
++Link: TXNW2781RCA4.bin -> ti/tas2781/TIAS2781RCA4.bin
+ 
+ Licence: Redistributable. See LICENCE.ti-tspa for details. Marked:
+ 	 Copyright (C) 2023 - 2024 Texas Instruments
+diff --git a/ti/tas2781/TXNW2781RCA0.bin b/ti/tas2781/TXNW2781RCA0.bin
+new file mode 100644
+index 0000000000000000000000000000000000000000..9718640b529e324bc5975d7d66bcfbdef8d4ad6e
+GIT binary patch
+literal 868
+zcmZQzU`{#U%krFofsqx68Pj~{%w_~J7~p^z$m#*&J3xE`E;@o3Da8f4hGt2bCA!5q
+z`6UMA_?(H6g>eB;qXrN&GcW=nL(EJD76y9;1}-Te4;c2mKrt}~1_nN$5`G|NVqj!u
+z1aUZk7^DLz&&1?u6byAsYH~(?QEFOhQEFatDk&}lxn&8^%nBgp0-6epU%n$iI~~y6
+z!~$`X0FVZ{i&6Xp&`B%|EMWgLg4rArKqG(v<Tef&kds*$I5Zd>Kw=;^mj{RiWk*27
+zA^yPXx1`E~#NuLz7BWeot&EjGy(K`*33eAKDKmrp2@FTLKW{QHBnSY#uLlozeEuWB
+JUkq5{3;=u;DgFQe
+
+literal 0
+HcmV?d00001
+
+diff --git a/ti/tas2781/TXNW2781RCA1.bin b/ti/tas2781/TXNW2781RCA1.bin
+new file mode 100644
+index 0000000000000000000000000000000000000000..f92631f8477b78cd8714e9941fa57d8346323df8
+GIT binary patch
+literal 868
+zcmZQzU`}~`QE(3f10yRCGp6~@`OgSqFu(ybkaY)$dw}=`Tyz96JdJ{N4b74=OLS9{
+zGxCd4(^894^O93_i*xcz42TN{CI%M9B|xPWK+MI!$N&sez9S3_{0<BZF*6xh80>+<
+zT0n6Y1_oYW&<g-*F$V@l@e>R{oeV5sTNuG?4he{jj6l^KG7Jzg4F;e=5H^<wL>{D%
+zD*_@8QVUebz|6=8l;i+nkO)YODW$jo>NgU61F-={g8T+@pau{#L(B#H2`C2k6EIzY
+z`~>t51IT)QAja;Nq{@QC;$omQ`2ge=Pym$xF(<?=z@*F!4s)Qtk;0rIK>+AJE4bV6
+Mg*7NFImi!V0F@^x`v3p{
+
+literal 0
+HcmV?d00001
 
 -- 
-With best wishes
-Dmitry
+2.34.1
+
