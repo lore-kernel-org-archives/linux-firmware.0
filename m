@@ -1,207 +1,207 @@
-Return-Path: <SRS0=fsSG=VL=quicinc.com=quic_sibis@kernel.org>
+Return-Path: <SRS0=mrzO=VL=linaro.org=dmitry.baryshkov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6296C021B1
-	for <linux-firmware@archiver.kernel.org>; Thu, 20 Feb 2025 10:18:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C532CC021B1
+	for <linux-firmware@archiver.kernel.org>; Thu, 20 Feb 2025 10:20:51 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 6D616C4CEE3; Thu, 20 Feb 2025 10:18:32 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id AE2F2C4CEDD; Thu, 20 Feb 2025 10:20:51 +0000 (UTC)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 397ECC4CED1
-	for <linux-firmware@kernel.org>; Thu, 20 Feb 2025 10:18:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 397ECC4CED1
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51K5pW8X010157;
-	Thu, 20 Feb 2025 10:18:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	2jZeOzQBYd/ve1V8pz367PqmVV63GH4+BltUpu1ah0U=; b=RDWMIY3ZHx76Cr9/
-	unpZnGPugy8jgDj1vb9ZMFJjlyxW1PAVeyxey0tTqPpMI/BRuQKnCb+A+957qb6/
-	IpV6smt6jP9lOgs6JMsSWI5Bzjxh5XvwNQ6U99ImMT8uIPd8bHKVKwvd3iRmw4t6
-	UxES7eeZ8srEtmN0nU9500zNWeQlZrdEP+KkfEGVGBqGvs4w3r76pV0dl3ktdn69
-	YIW0hyADKNWd9TCZeGTIsB2Fi7gZVU+wK627N9no3JsqJJwU51QOeCy/0tqxBFkD
-	JUyoF+QzlGMebtcFZ4IAnMTsQE/accG/dKxXlwLl/n9NrlmWMT86Yqh/XTlLT/0F
-	xV8nwA==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44vyy1wtr1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 20 Feb 2025 10:18:29 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51KAISAo006554
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 20 Feb 2025 10:18:28 GMT
-Received: from [10.190.161.212] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 20 Feb
- 2025 02:18:27 -0800
-Message-ID: <67e51c53-c55a-0c19-d8d4-2447472c6815@quicinc.com>
-Date: Thu, 20 Feb 2025 15:48:23 +0530
+	by smtp.kernel.org (Postfix) with ESMTPS id 6AC06C4CED1
+	for <linux-firmware@kernel.org>; Thu, 20 Feb 2025 10:20:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 6AC06C4CED1
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6f4b266d333so5035087b3.2
+        for <linux-firmware@kernel.org>; Thu, 20 Feb 2025 02:20:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1740046849; x=1740651649; darn=kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=NSoLtKV0w4z5faZ2bHEhB1GN+c3XqPTU7GGlwFoL8hA=;
+        b=BcWlt+1HiVTxlT98Z2lBiPCyCgRlWf/qA2jsdGtLydAYxChxZ0KHsQAZpu2bGVJDTa
+         MhFyQoGPlmcriDdAUqMNFX0Taeioe8HCJ0qmZThTMyKX6E8TCa4vHNS/DCG0qS69Dror
+         zk+Dfat91RvtZg6uTB63C7g2C5jgPFL1uQGdXaM4Ruygt2pWjpIvO/54zr0f+x7kgHo7
+         nXtSIUEMylg4mp2Hl77nVsG2I2WLao059NpqRlO/yClzd2+0nx8lqpCIWrHp1Lo9BKMH
+         bTj/wVU3ejckMllpCQfdLrjLSk725Hah7mufXHRt9O20qpOJkGXkE8vh+lQYMT+cDgQ1
+         J7hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740046849; x=1740651649;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NSoLtKV0w4z5faZ2bHEhB1GN+c3XqPTU7GGlwFoL8hA=;
+        b=D5Ear03q5t6cA7kmJBArdaO1ekno2FVLgYDxxo5muI77t17jTVOlCpfVY2n6fWmm4T
+         Ur3Kp7rDJf3cIaGj0135JFGxFUZ8sRLDfY7th0dF3NfT6imIx7LUm1igZESFLYXhoDR9
+         tMcF+TlE+DJTLa3xJRIDIOPApcR7iqSk/TCBbLqSZ6qemXoMKeBwfIhN9Ct2+CJDskU5
+         TABgDohc3SWVHS+7+LG8SOTEGqFmYb80qMUM0NvYTVp7aH3KVWZxwgEiOALyupgLIgW1
+         TY7Q26y9Ng2l1GLY4M7ZWqmDlSxQAuXmPPZ9Jxhqp4wncqXopTYObF4JlXxfazQb4hPZ
+         l3Qw==
+X-Gm-Message-State: AOJu0Yz+pKx+oZ6DVIhWFpmYk6CGYHAxs0ghwazI8EwFN3eUHCjAbJV+
+	TE0EVYnk01TUqEElRm6IiHeS4/jXticpzid4iL907/4Y4aDGuL4xK8rTXlsVbufMDDPGVEIAvn8
+	EluuUdzDuVmy3ZeMrWQw7UWj+lQIE+utlV6yzOA==
+X-Gm-Gg: ASbGncusv0//KKAvngJSRaxRYtUTaxjt0Q6IdzjNYyM52A4JW0R02Z9IbMMoevga644
+	GWFVdWDuRcRKhqmQvdqJ2+lz2Bk8zQrpCphtUGV6uQ0FdK8Qv5KM1kbsiPNAuJxQk8+O0xdJsKJ
+	5UQ5AIzVftrJA=
+X-Google-Smtp-Source: AGHT+IH8BQ2YGvXDRYVgb96eeRGifMhBcyW+mk2jr6XLuDKRTwIoZd/hpYFyzCaUjcPg5SN/5+CXeovJyLYTCL5M3bM=
+X-Received: by 2002:a05:690c:6e11:b0:6f9:8916:3b66 with SMTP id
+ 00721157ae682-6fb5829ba0emr188868967b3.12.1740046849202; Thu, 20 Feb 2025
+ 02:20:49 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: qcom: Add Audio firmware for X1E80100 CRD/QCPs
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-List-Id: <linux-firmware.lore.kernel.org>
-CC: <linux-firmware@kernel.org>, <abickett@quicinc.com>
 References: <63fe4338-43dd-e771-45fb-57a2096a1002@quicinc.com>
  <cz6nu7fuf23poqahslmnqisuiqakjzkmwvk2znvohmjrnvgfhs@wb4wkugrkgfm>
- <e02e6eb7-9af5-87a2-a7f0-248d9c7543c2@quicinc.com>
- <CAA8EJpoagdAXE7L7qG9vQCkJbJ-MnB0LaYtqAoa8yLgj91O9ug@mail.gmail.com>
- <4fb0d093-d00c-13cd-9dba-7393dbcf897c@quicinc.com>
- <nh2uwme4p6ytatr5mindtfryvm524nhdi5hmyvyb6w3qnmeqsc@2umcnv7g6enn>
- <b6979c75-cbc2-6f00-adee-4bb47d8b63cf@quicinc.com>
- <nxsukcd5vulgyvmlhiej2xswetbvkh2ue6lpamp44bx3vmmccb@42xufw3xwbg4>
- <20bf354a-aac9-514a-aa8a-f313e569a4cd@quicinc.com>
- <plfoqdkuuczjvnz2wcd4ewfgahtabztmfgehpnhvpdpbyrlkjn@esr2cieq62be>
- <dtu6f4nnutcufgu4n2rbbwvyywsl4sqarfstqrbl6i25kjlnvl@w33shxkpqtze>
-From: Sibi Sankar <quic_sibis@quicinc.com>
-In-Reply-To: <dtu6f4nnutcufgu4n2rbbwvyywsl4sqarfstqrbl6i25kjlnvl@w33shxkpqtze>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 7i0Sh9gDBGnHIdNNgrcmeecXKpjWaicn
-X-Proofpoint-ORIG-GUID: 7i0Sh9gDBGnHIdNNgrcmeecXKpjWaicn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-20_04,2025-02-20_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 adultscore=0
- bulkscore=0 phishscore=0 suspectscore=0 malwarescore=0 spamscore=0
- priorityscore=1501 impostorscore=0 lowpriorityscore=0 mlxscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502100000 definitions=main-2502200076
+ <e02e6eb7-9af5-87a2-a7f0-248d9c7543c2@quicinc.com> <CAA8EJpoagdAXE7L7qG9vQCkJbJ-MnB0LaYtqAoa8yLgj91O9ug@mail.gmail.com>
+ <4fb0d093-d00c-13cd-9dba-7393dbcf897c@quicinc.com> <nh2uwme4p6ytatr5mindtfryvm524nhdi5hmyvyb6w3qnmeqsc@2umcnv7g6enn>
+ <b6979c75-cbc2-6f00-adee-4bb47d8b63cf@quicinc.com> <nxsukcd5vulgyvmlhiej2xswetbvkh2ue6lpamp44bx3vmmccb@42xufw3xwbg4>
+ <20bf354a-aac9-514a-aa8a-f313e569a4cd@quicinc.com> <plfoqdkuuczjvnz2wcd4ewfgahtabztmfgehpnhvpdpbyrlkjn@esr2cieq62be>
+ <dtu6f4nnutcufgu4n2rbbwvyywsl4sqarfstqrbl6i25kjlnvl@w33shxkpqtze> <67e51c53-c55a-0c19-d8d4-2447472c6815@quicinc.com>
+In-Reply-To: <67e51c53-c55a-0c19-d8d4-2447472c6815@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 20 Feb 2025 12:20:38 +0200
+X-Gm-Features: AWEUYZnsOgqMZVGNxHb8mDViblalkBd5gHq59-wdO0nGS8Y2OeY64KJmx-D9NYA
+Message-ID: <CAA8EJpo8pzwBb4tRiy041su3Y9XfOnMCBpQfTyy+ONCRUdGwcA@mail.gmail.com>
+Subject: Re: qcom: Add Audio firmware for X1E80100 CRD/QCPs
+To: Sibi Sankar <quic_sibis@quicinc.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: linux-firmware@kernel.org, abickett@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
+
+On Thu, 20 Feb 2025 at 12:18, Sibi Sankar <quic_sibis@quicinc.com> wrote:
+>
+>
+>
+> On 2/9/25 19:17, Dmitry Baryshkov wrote:
+> > On Wed, Jan 08, 2025 at 01:56:37PM +0200, Dmitry Baryshkov wrote:
+> >> On Wed, Jan 08, 2025 at 10:19:29AM +0530, Sibi Sankar wrote:
+> >>>
+> >>>
+> >>> On 1/7/25 04:12, Dmitry Baryshkov wrote:
+> >>>> On Mon, Jan 06, 2025 at 05:42:55PM +0530, Sibi Sankar wrote:
+> >>>>>
+> >>>>>
+> >>>>> On 12/17/24 16:26, Dmitry Baryshkov wrote:
+> >>>>>> On Tue, Dec 17, 2024 at 03:13:06PM +0530, Sibi Sankar wrote:
+> >>>>>>>
+> >>>>>>>
+> >>>>>>> On 12/5/24 16:49, Dmitry Baryshkov wrote:
+> >>>>>>>> On Thu, 5 Dec 2024 at 12:07, Sibi Sankar <quic_sibis@quicinc.com> wrote:
+> >>>>>>>>>
+> >>>>>>>>>
+> >>>>>>>>>
+> >>>>>>>>> On 11/29/24 20:07, Dmitry Baryshkov wrote:
+> >>>>>>>>>> On Tue, Oct 22, 2024 at 11:49:37AM +0530, Sibi Sankar wrote:
+> >>>>>>>>>>>
+> >>>>>>>>>>>
+> >>>>>>>>>>> On 10/18/24 21:23, Dmitry Baryshkov wrote:
+> >>>>>>>>>>>> On Fri, Oct 18, 2024 at 08:58:06PM +0530, Sibi Sankar wrote:
+> >>>>>>>>>>>>>
+> >>>>>>>>>>>>>
+> >>>>>>>>>>>>> On 10/18/24 16:13, Dmitry Baryshkov wrote:
+> >>>>>>>>>>>>>> On Fri, Oct 18, 2024 at 12:43:14PM +0530, Sibi Sankar wrote:
+> >>>>>>>>>>>>>>>
+> >>>>>>>>>>>>>>> Hello,
+> >>>>>>>>>>>>>>>
+> >>>>>>>>>>>>>>> The following changes since commit 8dbcf94bfc68bdb1c6df3a42762b275557095558:
+> >>>>>>>>>>>>>>>
+> >>>>>>>>>>>>>>>          Merge branch 'robot/patch-0-1729102102' into 'main' (2024-10-17 15:40:04
+> >>>>>>>>>>>>>>> +0000)
+> >>>>>>>>>>>>>>>
+> >>>>>>>>>>>>>>> are available in the Git repository at:
+> >>>>>>>>>>>>>>>
+> >>>>>>>>>>>>>>>          https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
+> >>>>>>>>>>>>>>> adsp-fw-x1e80100-crd
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>> Could you please clarify, why adspr.jsn doesn't declare tms/pdr_enabled?
+> >>>>>>>>>>>>>> Windows firmware has it in adspr.jsn.
+> >>>>>>>>>>>>>
+> >>>>>>>>>>>>> Hey Dmitry,
+> >>>>>>>>>>>>>
+> >>>>>>>>>>>>> Can you please share what device and META you are comparing this
+> >>>>>>>>>>>>> firmware against? This firmware was taken from the build source
+> >>>>>>>>>>>>> without any modification.
+> >>>>>>>>>>>>
+> >>>>>>>>>>>> I have been looking at the Windows driver from WSU for the CRD,
+> >>>>>>>>>>>> qsubsys_ext_adsp8380.cab. DriverVer = 08/27/2024,2.0.4114.4600.
+> >>>>>>>>>>>>
+> >>>>>>>>>>>> For the reference, I checked several last drops, they have the following
+> >>>>>>>>>>>> versions of qcadsp8380.mbn:
+> >>>>>>>>>>>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00792-HAMOA-1
+> >>>>>>>>>>>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00789.1-HAMOA-1
+> >>>>>>>>>>>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00787.2-HAMOA-1
+> >>>>>>>>>>>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00784-HAMOA-1
+> >>>>>>>>>>>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00781-HAMOA-1
+> >>>>>>>>>>>>
+> >>>>>>>>>>>> All of them list tms/pdr_enabled in adspr.jsn
+> >>>>>>>>>>>>
+> >>>>>>>>>>>
+> >>>>>>>>>>> Thanks for listing them. Already following up internally regarding
+> >>>>>>>>>>> this discrepancy, will push out an update once it gets resolved.
+> >>>>>>>>>>
+> >>>>>>>>>> Sibi, this has been more than a month ago. Could you please update us on
+> >>>>>>>>>> the pdr_enabled necessity? I'm asking since it's also a part of the
+> >>>>>>>>>> kernel data nowadays.
+> >>>>>>>>>
+> >>>>>>>>> Hey Dmitry,
+> >>>>>>>>>
+> >>>>>>>>> Extremely sorry for the delay. I was told this is just a platform
+> >>>>>>>>> specific flag that we can decide to turn on if it handles PDR.
+> >>>>>>>>> Given that linux does handle PDR we can safely turn it on.
+> >>>>>>>>
+> >>>>>>>> So... is there any reason why it wasn't set previously? Which
+> >>>>>>>> platforms should have it in the enabled state?
+> >>>>>>>
+> >>>>>>> We had just pushed out the firmware out without modification
+> >>>>>>> but yes like you say it could have been turned on during the
+> >>>>>>> initial push itself since linux supports pdr.
+> >>>>>>
+> >>>>>> Pushed out where? Also could you please respond to the questions rather
+> >>>>>> than ignoring them?
+> >>>>>
+> >>>>> All SoCs that has remoterprocs booting pds can have tms/pdc enabled in
+> >>>>> linux since it has pdr support merged. The firmware that I said was
+> >>>>> pushed out was the firmware passed onto me for merge into linux-
+> >>>>> firmware. Sry I thought it was already clear, didn't mean to avoid
+> >>>>> answering any questions.
+> >>>>
+> >>>> So, should we enable the pdr_enabled for all those PDs or should we
+> >>>> ignore the flag and drop it from the configurations where it has been
+> >>>> added? The information that you are providing doesn't help me with that
+> >>>> question.
+> >>>
+> >>> Yes, we should list tms/pdr as enabled because without that I was told
+> >>> the entire Q6 would go down instead of just the pd i.e. without that
+> >>> the Q6 assumes that the platform doesn't support pd restart and tears
+> >>> down everything including the root.
+> >>
+> >> Starting from which platform? Should it be enabled for msm8996?
+> >
+> > Sibi, we haven't heard from you for a month. Should pdr_enabled be set
+> > for all platforms and all domains?
+>
+> I tried tracking this down but all we would end getting is a verbal
+> ack from people who weren't even working in qc when those SoCs were
+> out. Instead we can rely on testing it out with/without the flag
+> enabled i.e. with the flag enabled you should just see pd restart
+> without the remote processor going down as well. AFAIK the first
+> time pd was introduced was with modem and wlan on MSM8998. As for
+
+MSM8996 / APQ8096 had PDs for ADSP and modem.
+
+> the test procedure you can use the send_data command to trigger
+> a pdr instead of a SSR i.e. send_data 75 37 03 144 00 to trigger
+> a pdr as described in the original cover letter of pdr_interface.
+>
+> -Sibi
+>
+> >
 
 
 
-On 2/9/25 19:17, Dmitry Baryshkov wrote:
-> On Wed, Jan 08, 2025 at 01:56:37PM +0200, Dmitry Baryshkov wrote:
->> On Wed, Jan 08, 2025 at 10:19:29AM +0530, Sibi Sankar wrote:
->>>
->>>
->>> On 1/7/25 04:12, Dmitry Baryshkov wrote:
->>>> On Mon, Jan 06, 2025 at 05:42:55PM +0530, Sibi Sankar wrote:
->>>>>
->>>>>
->>>>> On 12/17/24 16:26, Dmitry Baryshkov wrote:
->>>>>> On Tue, Dec 17, 2024 at 03:13:06PM +0530, Sibi Sankar wrote:
->>>>>>>
->>>>>>>
->>>>>>> On 12/5/24 16:49, Dmitry Baryshkov wrote:
->>>>>>>> On Thu, 5 Dec 2024 at 12:07, Sibi Sankar <quic_sibis@quicinc.com> wrote:
->>>>>>>>>
->>>>>>>>>
->>>>>>>>>
->>>>>>>>> On 11/29/24 20:07, Dmitry Baryshkov wrote:
->>>>>>>>>> On Tue, Oct 22, 2024 at 11:49:37AM +0530, Sibi Sankar wrote:
->>>>>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>> On 10/18/24 21:23, Dmitry Baryshkov wrote:
->>>>>>>>>>>> On Fri, Oct 18, 2024 at 08:58:06PM +0530, Sibi Sankar wrote:
->>>>>>>>>>>>>
->>>>>>>>>>>>>
->>>>>>>>>>>>> On 10/18/24 16:13, Dmitry Baryshkov wrote:
->>>>>>>>>>>>>> On Fri, Oct 18, 2024 at 12:43:14PM +0530, Sibi Sankar wrote:
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> Hello,
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> The following changes since commit 8dbcf94bfc68bdb1c6df3a42762b275557095558:
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>          Merge branch 'robot/patch-0-1729102102' into 'main' (2024-10-17 15:40:04
->>>>>>>>>>>>>>> +0000)
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> are available in the Git repository at:
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>          https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
->>>>>>>>>>>>>>> adsp-fw-x1e80100-crd
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> Could you please clarify, why adspr.jsn doesn't declare tms/pdr_enabled?
->>>>>>>>>>>>>> Windows firmware has it in adspr.jsn.
->>>>>>>>>>>>>
->>>>>>>>>>>>> Hey Dmitry,
->>>>>>>>>>>>>
->>>>>>>>>>>>> Can you please share what device and META you are comparing this
->>>>>>>>>>>>> firmware against? This firmware was taken from the build source
->>>>>>>>>>>>> without any modification.
->>>>>>>>>>>>
->>>>>>>>>>>> I have been looking at the Windows driver from WSU for the CRD,
->>>>>>>>>>>> qsubsys_ext_adsp8380.cab. DriverVer = 08/27/2024,2.0.4114.4600.
->>>>>>>>>>>>
->>>>>>>>>>>> For the reference, I checked several last drops, they have the following
->>>>>>>>>>>> versions of qcadsp8380.mbn:
->>>>>>>>>>>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00792-HAMOA-1
->>>>>>>>>>>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00789.1-HAMOA-1
->>>>>>>>>>>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00787.2-HAMOA-1
->>>>>>>>>>>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00784-HAMOA-1
->>>>>>>>>>>> QC_IMAGE_VERSION_STRING=ADSP.HT.5.9-00781-HAMOA-1
->>>>>>>>>>>>
->>>>>>>>>>>> All of them list tms/pdr_enabled in adspr.jsn
->>>>>>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>> Thanks for listing them. Already following up internally regarding
->>>>>>>>>>> this discrepancy, will push out an update once it gets resolved.
->>>>>>>>>>
->>>>>>>>>> Sibi, this has been more than a month ago. Could you please update us on
->>>>>>>>>> the pdr_enabled necessity? I'm asking since it's also a part of the
->>>>>>>>>> kernel data nowadays.
->>>>>>>>>
->>>>>>>>> Hey Dmitry,
->>>>>>>>>
->>>>>>>>> Extremely sorry for the delay. I was told this is just a platform
->>>>>>>>> specific flag that we can decide to turn on if it handles PDR.
->>>>>>>>> Given that linux does handle PDR we can safely turn it on.
->>>>>>>>
->>>>>>>> So... is there any reason why it wasn't set previously? Which
->>>>>>>> platforms should have it in the enabled state?
->>>>>>>
->>>>>>> We had just pushed out the firmware out without modification
->>>>>>> but yes like you say it could have been turned on during the
->>>>>>> initial push itself since linux supports pdr.
->>>>>>
->>>>>> Pushed out where? Also could you please respond to the questions rather
->>>>>> than ignoring them?
->>>>>
->>>>> All SoCs that has remoterprocs booting pds can have tms/pdc enabled in
->>>>> linux since it has pdr support merged. The firmware that I said was
->>>>> pushed out was the firmware passed onto me for merge into linux-
->>>>> firmware. Sry I thought it was already clear, didn't mean to avoid
->>>>> answering any questions.
->>>>
->>>> So, should we enable the pdr_enabled for all those PDs or should we
->>>> ignore the flag and drop it from the configurations where it has been
->>>> added? The information that you are providing doesn't help me with that
->>>> question.
->>>
->>> Yes, we should list tms/pdr as enabled because without that I was told
->>> the entire Q6 would go down instead of just the pd i.e. without that
->>> the Q6 assumes that the platform doesn't support pd restart and tears
->>> down everything including the root.
->>
->> Starting from which platform? Should it be enabled for msm8996?
-> 
-> Sibi, we haven't heard from you for a month. Should pdr_enabled be set
-> for all platforms and all domains?
-
-I tried tracking this down but all we would end getting is a verbal
-ack from people who weren't even working in qc when those SoCs were
-out. Instead we can rely on testing it out with/without the flag
-enabled i.e. with the flag enabled you should just see pd restart
-without the remote processor going down as well. AFAIK the first
-time pd was introduced was with modem and wlan on MSM8998. As for
-the test procedure you can use the send_data command to trigger
-a pdr instead of a SSR i.e. send_data 75 37 03 144 00 to trigger
-a pdr as described in the original cover letter of pdr_interface.
-
--Sibi
-
-> 
+-- 
+With best wishes
+Dmitry
