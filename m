@@ -1,51 +1,51 @@
-Return-Path: <SRS0=v7UG=VN=southpolebusiness.shop=bounce@kernel.org>
+Return-Path: <SRS0=PYYC=VO=managementconsultants.co=bounce@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A8C0C021B2
-	for <linux-firmware@archiver.kernel.org>; Sat, 22 Feb 2025 22:49:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0D7BC021B2
+	for <linux-firmware@archiver.kernel.org>; Sun, 23 Feb 2025 00:25:53 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 4E051C4CEE0; Sat, 22 Feb 2025 22:49:14 +0000 (UTC)
-Received: from vmi2085789.contaboserver.net (technomarketbusinessconsultants.us [213.199.51.26])
+	id A6B81C4CEE0; Sun, 23 Feb 2025 00:25:53 +0000 (UTC)
+Received: from managementconsultants.co (managementconsultants.co [176.97.114.129])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id BD4ECC4CED1
-	for <linux-firmware@kernel.org>; Sat, 22 Feb 2025 22:49:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org BD4ECC4CED1
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=southpolebusiness.shop
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=southpolebusiness.shop
+	by smtp.kernel.org (Postfix) with ESMTPS id 58D55C4CED1
+	for <linux-firmware@kernel.org>; Sun, 23 Feb 2025 00:25:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 58D55C4CED1
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=managementconsultants.co
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=managementconsultants.co
 Received: from [127.0.0.1] (vmi2447972.contaboserver.net [5.189.174.129])
-	by vmi2085789.contaboserver.net (Postfix) with ESMTPSA id BA63C3E3A74
-	for <linux-firmware@kernel.org>; Sat, 22 Feb 2025 23:49:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=southpolebusiness.shop;
-	s=default; t=1740264550; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	by managementconsultants.co (Postfix) with ESMTPSA id E7F55E7A7
+	for <linux-firmware@kernel.org>; Sun, 23 Feb 2025 00:25:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=managementconsultants.co;
+	s=default; t=1740270344; h=from:from:reply-to:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:mime-version:mime-version:
 	 content-type:content-type:list-id:list-unsubscribe:  list-unsubscribe-post;
-	bh=MbLQR6Prexcd2ALP1IWNa/gJCjPOLdtIOFIKBjpCuQA=;
-	b=Up/e1po4HZd+aAAcHEjA5Qxjv/XhZ8aEiheVlVFd/RqRhFqymiN3HuD7t1Vsan322r7Jww
-	0vs+Cf7E5kc0My09Lmid0zgQB04k69EUQhI8jl+3Imd/fSMJt9M0iGGJVkj5HbZ8S85k18
-	8oKV0dzP/6L+I0CVRE+oiAorOAoyC0g=
+	bh=gVTNgHc3UU7XRUR8VVOYf1XUtzhT75DQLaAmCqhh+0o=;
+	b=J3Egf8yelxDzacX8HwJyPCuMQgYbMbKCbpKEYypERggidRVDO6jPbe7IetSk82BHL6Mu7f
+	s7p/a/CTw6ucbPZHRUutO/SKJkvC9H36vZEVvDa5GTq+2t4j2xzwE/fA+UTM7CajG3wFsS
+	MMvRJOlfn93Vsdc+Z4m190c/yGQIZAM=
 Subject: overcome international customs tariff by opening a local branch
-From: John Johnson <info@southpolebusiness.shop>
+From: John Johnson <liz@managementconsultants.co>
 List-Id: <linux-firmware.lore.kernel.org>
 To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
 Reply-To: John Johnson <london@internationalbusinesssetup.com>
-List-Unsubscribe: <https://brightdestinationbusiness.com/newsletter/index.php/lists/zz792cefyn0e3/unsubscribe/kg275nqbom39b/gw0242j1pk4a6?source=email-client-unsubscribe-button>,
- <mailto:london@internationalbusinesssetup.com?subject=Campaign-Uid%3Agw0242j1pk4a6%20%2F%20Subscriber-Uid%3Akg275nqbom39b%20-%20Unsubscribe%20request&body=Please%20unsubscribe%20me%21>
+List-Unsubscribe: <https://brightdestinationbusiness.com/newsletter/index.php/lists/zz792cefyn0e3/unsubscribe/so9849cs8refb/gw0242j1pk4a6?source=email-client-unsubscribe-button>,
+ <mailto:london@internationalbusinesssetup.com?subject=Campaign-Uid%3Agw0242j1pk4a6%20%2F%20Subscriber-Uid%3Aso9849cs8refb%20-%20Unsubscribe%20request&body=Please%20unsubscribe%20me%21>
 List-Unsubscribe-Post: List-Unsubscribe=One-Click
 List-Id: zz792cefyn0e3 <turkey>
-X-Report-Abuse: https://brightdestinationbusiness.com/newsletter/index.php/campaigns/gw0242j1pk4a6/report-abuse/zz792cefyn0e3/kg275nqbom39b
+X-Report-Abuse: https://brightdestinationbusiness.com/newsletter/index.php/campaigns/gw0242j1pk4a6/report-abuse/zz792cefyn0e3/so9849cs8refb
 X-EBS: https://brightdestinationbusiness.com/newsletter/index.php/lists/block-address
-Feedback-ID: gw0242j1pk4a6:kg275nqbom39b:zz792cefyn0e3:sp549p2jdg750
-Message-ID: <932b051698c5c17c13ac2f8b235e6d5796f69b4d@southpolebusiness.shop>
+Feedback-ID: gw0242j1pk4a6:so9849cs8refb:zz792cefyn0e3:sp549p2jdg750
+Message-ID: <af7a781735ddb4b07ceb3a2267188a4e1872fc59@managementconsultants.co>
 MIME-Version: 1.0
-Date: Sat, 22 Feb 2025 22:49:10 +0000
-Content-Type: multipart/alternative; boundary=kmDCInjw
+Date: Sun, 23 Feb 2025 00:25:44 +0000
+Content-Type: multipart/alternative; boundary=8-UpI-Ua
 
---kmDCInjw
+--8-UpI-Ua
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -81,10 +81,10 @@ s of setting up a company in Europe.
 Conta=
 ct Us
 [https://brightdestinationbusiness.com/newsletter/index.php/campaig=
-ns/gw0242j1pk4a6/track-url/kg275nqbom39b/d5aa186ac07e7f7067f9dbb4aef95173f7=
+ns/gw0242j1pk4a6/track-url/so9849cs8refb/d5aa186ac07e7f7067f9dbb4aef95173f7=
 6a7e11]
 [/beconsiburlington.eu]
---kmDCInjw
+--8-UpI-Ua
 Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -329,7 +329,7 @@ arent;color:#ffffff;display:inline-block;font-family:Arial, Helvetica, sans=
 -serif;font-size:24px;font-weight:400;mso-border-alt:none;padding-bottom:5p=
 x;padding-top:5px;text-align:center;text-decoration:none;width:auto;word-br=
 eak:keep-all;"><a href=3D"https://brightdestinationbusiness.com/newsletter/=
-index.php/campaigns/gw0242j1pk4a6/track-url/kg275nqbom39b/d5aa186ac07e7f706=
+index.php/campaigns/gw0242j1pk4a6/track-url/so9849cs8refb/d5aa186ac07e7f706=
 7f9dbb4aef95173f76a7e11" style=3D"color:#ffffff;" target=3D"_blank"><span s=
 tyle=3D"word-break: break-word; padding-left: 20px; padding-right: 20px; fo=
 nt-size: 24px; display: inline-block; letter-spacing: normal;"><span style=
@@ -355,9 +355,9 @@ nt-size: 24px; display: inline-block; letter-spacing: normal;"><span style=
 =09</tbody>
 </table>
 <!-- End --><img width=3D"1" height=3D"1" src=3D"https://brightdestinationb=
-usiness.com/newsletter/index.php/campaigns/gw0242j1pk4a6/track-opening/kg27=
-5nqbom39b" alt=3D"" />
+usiness.com/newsletter/index.php/campaigns/gw0242j1pk4a6/track-opening/so98=
+49cs8refb" alt=3D"" />
 </body>
 </html>
---kmDCInjw--
+--8-UpI-Ua--
 
