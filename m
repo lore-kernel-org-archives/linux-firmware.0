@@ -1,228 +1,81 @@
-Return-Path: <SRS0=GS+4=VP=tteles.dev=mail@kernel.org>
+Return-Path: <SRS0=xll8=VP=realtek.com=pkshih@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA28AC021B2
-	for <linux-firmware@archiver.kernel.org>; Mon, 24 Feb 2025 02:56:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA5ECC021B2
+	for <linux-firmware@archiver.kernel.org>; Mon, 24 Feb 2025 03:11:14 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 9C7DCC4CEE7; Mon, 24 Feb 2025 02:56:58 +0000 (UTC)
-Received: from mail.w14.tutanota.de (mail.w14.tutanota.de [185.205.69.214])
+	id 7E09CC4CEE7; Mon, 24 Feb 2025 03:11:14 +0000 (UTC)
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 442A3C4CEDD
-	for <linux-firmware@kernel.org>; Mon, 24 Feb 2025 02:56:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 442A3C4CEDD
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tteles.dev
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=tteles.dev
-Received: from tutadb.w10.tutanota.de (w10.api.tuta.com [IPv6:fd:ac::d:10])
-	by mail.w14.tutanota.de (Postfix) with ESMTP id 3A18463FF342;
-	Mon, 24 Feb 2025 03:56:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740365814;
-	s=s1; d=tteles.dev;
-	h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Cc:Cc:Date:Date:In-Reply-To:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:References:Sender;
-	bh=wzUKVUkOHIzDyVJlm1rH9UeIF+LuRtjapviN0QSZFyQ=;
-	b=KWhUHEwM44VEvhrE6vB+ZBqV8Hp4DmWyDnc0qz0SVgYD5QktLpqIgE46C5T8dEvz
-	c+EDs/necnTdztpB08PC9q64v1HvLDPW+ht+ykZVKozNLzqjxY80uQGKIhuupAijNjM
-	Xo9ertfiW46x+M7gGU0sGLGs16pSrBt2R9ynbZaeJs2i/LB1OgdyLvcxsrU3SxmPxDv
-	voPsnZ1YobRaPSKsa5J6u4eHxt+Hr6RasaylG1aXJwrdU6HpDhjUT493FR7RwdM4ZG/
-	nzO7d8UjZWzF7DcMuq/vQ6JSFzWZfEm+Wy4BG9b14ldWFlAEJXsMXdUjTWagvBITZwX
-	zraggt+WSw==
-Date: Mon, 24 Feb 2025 03:56:54 +0100 (CET)
-From: mail@tteles.dev
-To: Mario Limonciello <mario.limonciello@amd.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 7A0F5C4CEDD
+	for <linux-firmware@kernel.org>; Mon, 24 Feb 2025 03:11:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 7A0F5C4CEDD
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 51O3B23Q02952550, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
+	t=1740366662; bh=N0TcQ8qghapDCkrwBdAHgINsWtIsEhYirVz5F9Pv3AQ=;
+	h=From:To:CC:Subject:MIME-Version:Content-Type:Message-ID:Date;
+	b=WYr17gWnCQKbL3aAFV+dJ5GVI0fhsYjtod/nPdAibn3CF1oW2j2/EQcSNWnzuVlzn
+	 H2cC0YVMgkwe3CreOSzWZU0imuEVLNCGiaWGH9iXPsUufnhakrSNmMx6e0I+V9A92O
+	 UZzt4CofzUd2B8wsbw6UyadTAB3m7UTPpRT3ABG9i21QMU/Zv3+GcyuF/LekT8HeW/
+	 IF8bbdxby6UYjWuZoIqjIpmX6JbMN62QRkZQO/yAjCV5F5o018056I/rmQ/iC6+G//
+	 KAUPgyJdcjdh8BHNG6+u/rgvfPWBmaPLlrhU/JeqpXKNmUJG9YjKCNfFtMdH56pT/e
+	 COFwK99rWah9w==
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 51O3B23Q02952550
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 24 Feb 2025 11:11:02 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 24 Feb 2025 11:11:02 +0800
+Received: from [127.0.1.1] (172.21.69.94) by RTEXMBS04.realtek.com.tw
+ (172.21.6.97) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Mon, 24 Feb
+ 2025 11:11:00 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "Li, Sun peng (Leo)" <Sunpeng.Li@amd.com>,
-	Alexander Deucher <alexander.deucher@amd.com>,
-	Christian Koenig <christian.koenig@amd.com>,
-	Xinhui Pan <xinhui.pan@amd.com>, Airlied <airlied@gmail.com>,
-	Simona <simona@ffwll.ch>, Lijo Lazar <lijo.lazar@amd.com>,
-	Tzimmermann <tzimmermann@suse.de>,
-	Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>,
-	Ahmad Rehman <ahmad.rehman@amd.com>,
-	Shaoyun Liu <shaoyun.liu@amd.com>,
-	Ramesh Errabolu <ramesh.errabolu@amd.com>, Jun Ma2 <jun.ma2@amd.com>,
-	Daniel <daniel@makrotopia.org>,
-	Linux Firmware <linux-firmware@kernel.org>,
-	Dri Devel <dri-devel@lists.freedesktop.org>,
-	Amd Gfx <amd-gfx@lists.freedesktop.org>,
-	Stable <stable@vger.kernel.org>
-Message-ID: <OJpqNWx--F-9@tteles.dev>
-In-Reply-To: <eabde17b-b5e5-456f-a499-cff132f1bf8a@amd.com>
-References: <OJnZDtd----9@tteles.dev> <eabde17b-b5e5-456f-a499-cff132f1bf8a@amd.com>
-Subject: Re: REGRESSION amdgpu 20241108 firmware breaks screen updating
+To: <linux-firmware@kernel.org>
+CC: <linux-wireless@vger.kernel.org>, <timlee@realtek.com>
+Subject: pull-request: rtw89: 8852bt: update fw to v0.29.122.0 and BB parameter to 07
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+Message-ID: <81e6a3ea-70a9-41ff-ba13-6121aa66d487@RTEXMBS04.realtek.com.tw>
+Date: Mon, 24 Feb 2025 11:11:00 +0800
+X-Originating-IP: [172.21.69.94]
+X-ClientProxiedBy: RTEXMBS02.realtek.com.tw (172.21.6.95) To
+ RTEXMBS04.realtek.com.tw (172.21.6.97)
 
+Hi,
 
-I can confirm=C2=A0amdgpu.dcdebugmask=3D0x200 fixes it, no more stutters.
+Update firmware of RTL8852BT to v0.29.122.0 including BB parameters 07.
 
-It would be very beneficial to include the patch making this behavior defau=
-lt (https://lore.kernel.org/amd-gfx/20250221160145.1730752-3-zaeem.mohamed@=
-amd.com/T/#u)=C2=A0in the relevant linux-stable trees, as this is a major i=
-ssue for affected systems.=C2=A0
+Thank you
+Ping-Ke
 
-I CC'd=C2=A0stable@vger.kernel.org=C2=A0and ask for the patch to be include=
-d in linux-stable, even though it does not have a "Fixes:" tag, if the main=
-tainers are okay with it.
+---
 
-Thank you for the quick response!
-Tiago
+The following changes since commit 6cf959daab2a38d074b059f73c24aab9d4dbcbc3:
 
-Feb 23, 2025, 17:26 by mario.limonciello@amd.com:
+  Merge branch 'amd-sev-fw' into 'main' (2025-02-20 18:38:39 +0000)
 
-> Hello,
->
-> This sounds like to me a problem with PSR-SU.  There have been a variety =
-of these being reported the past few months.  Enough so that the policy to =
-enable it by default is being rolled back for now.
->
-> https://lore.kernel.org/amd-gfx/20250221160145.1730752-3-zaeem.mohamed@am=
-d.com/T/#u
->
-> To confirm that's the root cause you can disable it with amdgpu.dcdebugma=
-sk=3D0x200.
->
-> Thanks,
->
-> On 2/23/2025 10:08, mail@tteles.dev wrote:
->
->> Greetings,
->>
->> I wish to report a regression in amdgpu firmware introduced in commit c9=
-9eeb4d0e13f5831ae77f7ec521162594385d5f, the problem persists until git HEAD=
-, and reverting to the previous commit fixes the issues with no further cha=
-nges to the environment.
->>
->> The issue appears on a Lenovo IdeaPad Pro 5, with a Ryzen 8845HS process=
-or, using the 780M iGPU (1002:1900 I believe). The screen on this laptop is=
- 120Hz 2800x1800, supporting HDR.
->> This was tested on Archlinux 6.13.3.arch1-1, with amdgpu drivers, on bot=
-h Wayland (Gnome and Hyprland) and Xorg (i3wm). I'm using amd-pstate-epp sc=
-aling driver, tested with both performance and powersave governers, to the =
-same effect.
->>
->> I will list the symptoms and attempt to guess at what the issue may be.
->>
->> - The screen stops updating if no mouse input is given while watching lo=
-w resolution video (wherever it is, Brave and mpv, regardless of software o=
-r hw decoding).
->> =C2=A0 Low resolution matters here, I can play 4k video fine, 1080p with=
- mild stutters, but lower becomes very bad.
->> =C2=A0 Here is an example using mpv with 360p sample video, recorded on =
-my phone as to not disturb the environment its running in. (https://youtu.b=
-e/kYHqBjPxM2s You can tell it is very choppy, the original video https://ww=
-w.youtube.com/watch?v=3D1HrXwe6s4W8 is not choppy)
->> =C2=A0 mpv did not report any dropped frames despite there obviously bei=
-ng a huge amount.
->>
->> - In some programs, text does not get displayed instantly from when typi=
-ng it, having to type 5 or 6 characters for the previous to finally show.
->> =C2=A0 All these new characters show up at the same time. This was extre=
-mely noticeable with gnome's default "Console", it also happened in Brave B=
-rowser's search bar, and Signal, it does not seem to happen with Ghostty.
->>
->> Constantly waving my cursor fixes all these issues. Connecting a seconda=
-ry display seems to fix the issue on all displays.
->>
->> From my limited knowledge this seems like a bug in damage detection for =
-eDP + power management, where low enough power levels don't trigger redraws=
-.
->>
->> I am confident the issue was introduced in that commit since I bisected =
-linux-firmware commits affecting amdgpu until the issue was no longer found=
-.
->>
->>
->> Extra info:
->> # dmesg | grep amd
->> [=C2=A0=C2=A0=C2=A0 0.414396] perf/amd_iommu: Detected AMD IOMMU #0 (2 b=
-anks, 4 counters/bank).
->> [=C2=A0=C2=A0=C2=A0 1.875492] [drm] amdgpu kernel modesetting enabled.
->> [=C2=A0=C2=A0=C2=A0 1.878563] amdgpu: Virtual CRAT table created for CPU
->> [=C2=A0=C2=A0=C2=A0 1.878573] amdgpu: Topology: Add CPU node
->> [=C2=A0=C2=A0=C2=A0 1.882607] amdgpu 0000:63:00.0: amdgpu: Fetched VBIOS=
- from VFCT
->> [=C2=A0=C2=A0=C2=A0 1.882610] amdgpu: ATOM BIOS: 113-PHXGENERIC-001
->> [=C2=A0=C2=A0=C2=A0 1.909536] amdgpu 0000:63:00.0: vgaarb: deactivate vg=
-a console
->> [=C2=A0=C2=A0=C2=A0 1.909542] amdgpu 0000:63:00.0: amdgpu: Trusted Memor=
-y Zone (TMZ) feature enabled
->> [=C2=A0=C2=A0=C2=A0 1.909612] amdgpu 0000:63:00.0: amdgpu: VRAM: 4096M 0=
-x0000008000000000 - 0x00000080FFFFFFFF (4096M used)
->> [=C2=A0=C2=A0=C2=A0 1.909614] amdgpu 0000:63:00.0: amdgpu: GART: 512M 0x=
-00007FFF00000000 - 0x00007FFF1FFFFFFF
->> [=C2=A0=C2=A0=C2=A0 1.909829] [drm] amdgpu: 4096M of VRAM memory ready
->> [=C2=A0=C2=A0=C2=A0 1.909832] [drm] amdgpu: 13932M of GTT memory ready.
->> [=C2=A0=C2=A0=C2=A0 1.935030] amdgpu 0000:63:00.0: amdgpu: reserve 0x400=
-0000 from 0x80f8000000 for PSP TMR
->> [=C2=A0=C2=A0=C2=A0 2.482626] amdgpu 0000:63:00.0: amdgpu: RAS: optional=
- ras ta ucode is not available
->> [=C2=A0=C2=A0=C2=A0 2.491068] amdgpu 0000:63:00.0: amdgpu: RAP: optional=
- rap ta ucode is not available
->> [=C2=A0=C2=A0=C2=A0 2.491071] amdgpu 0000:63:00.0: amdgpu: SECUREDISPLAY=
-: securedisplay ta ucode is not available
->> [=C2=A0=C2=A0=C2=A0 2.521960] amdgpu 0000:63:00.0: amdgpu: SMU is initia=
-lized successfully!
->> [=C2=A0=C2=A0=C2=A0 2.601611] kfd kfd: amdgpu: Allocated 3969056 bytes o=
-n gart
->> [=C2=A0=C2=A0=C2=A0 2.601628] kfd kfd: amdgpu: Total number of KFD nodes=
- to be created: 1
->> [=C2=A0=C2=A0=C2=A0 2.602048] amdgpu: Virtual CRAT table created for GPU
->> [=C2=A0=C2=A0=C2=A0 2.602191] amdgpu: Topology: Add dGPU node [0x1900:0x=
-1002]
->> [=C2=A0=C2=A0=C2=A0 2.602193] kfd kfd: amdgpu: added device 1002:1900
->> [=C2=A0=C2=A0=C2=A0 2.602206] amdgpu 0000:63:00.0: amdgpu: SE 1, SH per =
-SE 2, CU per SH 6, active_cu_number 12
->> [=C2=A0=C2=A0=C2=A0 2.602212] amdgpu 0000:63:00.0: amdgpu: ring gfx_0.0.=
-0 uses VM inv eng 0 on hub 0
->> [=C2=A0=C2=A0=C2=A0 2.602215] amdgpu 0000:63:00.0: amdgpu: ring comp_1.0=
-.0 uses VM inv eng 1 on hub 0
->> [=C2=A0=C2=A0=C2=A0 2.602216] amdgpu 0000:63:00.0: amdgpu: ring comp_1.1=
-.0 uses VM inv eng 4 on hub 0
->> [=C2=A0=C2=A0=C2=A0 2.602217] amdgpu 0000:63:00.0: amdgpu: ring comp_1.2=
-.0 uses VM inv eng 6 on hub 0
->> [=C2=A0=C2=A0=C2=A0 2.602219] amdgpu 0000:63:00.0: amdgpu: ring comp_1.3=
-.0 uses VM inv eng 7 on hub 0
->> [=C2=A0=C2=A0=C2=A0 2.602220] amdgpu 0000:63:00.0: amdgpu: ring comp_1.0=
-.1 uses VM inv eng 8 on hub 0
->> [=C2=A0=C2=A0=C2=A0 2.602221] amdgpu 0000:63:00.0: amdgpu: ring comp_1.1=
-.1 uses VM inv eng 9 on hub 0
->> [=C2=A0=C2=A0=C2=A0 2.602222] amdgpu 0000:63:00.0: amdgpu: ring comp_1.2=
-.1 uses VM inv eng 10 on hub 0
->> [=C2=A0=C2=A0=C2=A0 2.602223] amdgpu 0000:63:00.0: amdgpu: ring comp_1.3=
-.1 uses VM inv eng 11 on hub 0
->> [=C2=A0=C2=A0=C2=A0 2.602224] amdgpu 0000:63:00.0: amdgpu: ring sdma0 us=
-es VM inv eng 12 on hub 0
->> [=C2=A0=C2=A0=C2=A0 2.602225] amdgpu 0000:63:00.0: amdgpu: ring vcn_unif=
-ied_0 uses VM inv eng 0 on hub 8
->> [=C2=A0=C2=A0=C2=A0 2.602226] amdgpu 0000:63:00.0: amdgpu: ring jpeg_dec=
- uses VM inv eng 1 on hub 8
->> [=C2=A0=C2=A0=C2=A0 2.602227] amdgpu 0000:63:00.0: amdgpu: ring mes_kiq_=
-3.1.0 uses VM inv eng 13 on hub 0
->> [=C2=A0=C2=A0=C2=A0 2.609481] amdgpu 0000:63:00.0: amdgpu: Runtime PM no=
-t available
->> [=C2=A0=C2=A0=C2=A0 2.610787] [drm] Initialized amdgpu 3.60.0 for 0000:6=
-3:00.0 on minor 1
->> [=C2=A0=C2=A0=C2=A0 2.617618] fbcon: amdgpudrmfb (fb0) is primary device
->> [=C2=A0=C2=A0=C2=A0 3.788332] amdgpu 0000:63:00.0: [drm] fb0: amdgpudrmf=
-b frame buffer device
->> [=C2=A0=C2=A0=C2=A0 5.120419] kvm_amd: TSC scaling supported
->> [=C2=A0=C2=A0=C2=A0 5.120426] kvm_amd: Nested Virtualization enabled
->> [=C2=A0=C2=A0=C2=A0 5.120428] kvm_amd: Nested Paging enabled
->> [=C2=A0=C2=A0=C2=A0 5.120430] kvm_amd: LBR virtualization supported
->> [=C2=A0=C2=A0=C2=A0 5.120443] kvm_amd: Virtual GIF supported
->> [=C2=A0=C2=A0=C2=A0 5.120444] kvm_amd: Virtual NMI enabled
->> [=C2=A0=C2=A0=C2=A0 5.170720] snd_hda_intel 0000:63:00.1: bound 0000:63:=
-00.0 (ops amdgpu_dm_audio_component_bind_ops [amdgpu])
->> [=C2=A0=C2=A0=C2=A0 5.191443] amd_atl: AMD Address Translation Library i=
-nitialized
->>
->>
->> Thank you for your time,
->> Tiago Teles
->>
+are available in the Git repository at:
 
+  https://github.com/pkshih/linux-firmware.git tags/rtw-fw-2025-02-24
+
+for you to fetch changes up to 0a69dcd33a4b2d9ec7286146c99cf6c37714d09e:
+
+  rtw89: 8852bt: update fw to v0.29.122.0 and BB parameter to 07 (2025-02-24 10:54:49 +0800)
+
+----------------------------------------------------------------
+Chin-Yen Lee (1):
+      rtw89: 8852bt: update fw to v0.29.122.0 and BB parameter to 07
+
+ rtw89/rtw8852bt_fw.bin | Bin 913992 -> 918376 bytes
+ 1 file changed, 0 insertions(+), 0 deletions(-)
