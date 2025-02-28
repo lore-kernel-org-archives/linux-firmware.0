@@ -1,102 +1,92 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=F03m=VT=opensource.cirrus.com=prvs=215418e695=sbinding@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6111C282C6
-	for <linux-firmware@archiver.kernel.org>; Fri, 28 Feb 2025 14:23:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 406A7C19776
+	for <linux-firmware@archiver.kernel.org>; Fri, 28 Feb 2025 14:53:43 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B85F9C4CEEA; Fri, 28 Feb 2025 14:23:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2CC4C4CEE5
-	for <linux-firmware@kernel.org>; Fri, 28 Feb 2025 14:23:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740752607;
-	bh=Ixp7yCQwmxH5iAj5X6uih/HSFfgLk+61gfC1s2n2Sog=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=hYYfQyes+87D1zRTYv39OBFRpEnSGd8l37xdtNglQGpGcmjCbLirYjyodDymq5eaX
-	 q0TBGVZQXBmE90qnX26v+rxcSUjgbQZzlOWFU9KvtMyWX5eyrA9VvsnE/0kJ5FJiZD
-	 LdvSw2d6Qpqj18QDfIqnw157OME0fa/gE3b7OAlL0gpfi5yHnSMKXHiDGfI5ORT2m8
-	 WuUtBA0rvx9kMTDUlV03HWoCQGoRHFFgVklx42upT3XcNW3kBUTg1dZjCLOtMIYTob
-	 YQhNyjWDwoX1Ee3xPA3oLwpfC0DeEWH78SpISqu+3d0UfYa4AoBs2Y4al4r2gVR9xT
-	 5eLJzeHBSPtIg==
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6fb6c36ba25so19546457b3.1
-        for <linux-firmware@kernel.org>; Fri, 28 Feb 2025 06:23:27 -0800 (PST)
-X-Gm-Message-State: AOJu0YxzYLU5sy733GfXQQxB0yhg14nreVTj/38A/I4NqUXY2Wb8RGKJ
-	TP3Z7LWlmR0FC/DQOzWZF3RlFhQO9Nr1du1fBxPmTE5JTWG3UrtsMWlfhOXoLuQz3KNI12uUrIq
-	TtpPr/tCML5IhahFEtZ02PnwmxQk=
-X-Google-Smtp-Source: AGHT+IFBw+C8TJ7OTqiW9TAJfZMrrLscr0uAEq4wfLF+1ArhUSuCv2PPuHPrhhoFsg/POsSt1JR6zA+fHf12wo1fI14=
-X-Received: by 2002:a05:690c:4988:b0:6fb:5d74:959d with SMTP id
- 00721157ae682-6fd39471851mr104119537b3.1.1740752606896; Fri, 28 Feb 2025
- 06:23:26 -0800 (PST)
+	id 062D1C4CEE2; Fri, 28 Feb 2025 14:53:43 +0000 (UTC)
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id C0BAEC4CED6
+	for <linux-firmware@kernel.org>; Fri, 28 Feb 2025 14:53:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C0BAEC4CED6
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51SBbdop005331;
+	Fri, 28 Feb 2025 08:53:25 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=YVuAtX1AJWMOmq41
+	ei65DOBvpMrhvUZW+vZBQUrFHeo=; b=CB9e1KLSlHQ0o1H3lWJpLb3iCNqE7Mdd
+	KYKoGtVeqQGwUHl+uEN4WGaTQAXr43gUYHO6rN9O/J6O0j46W9zO9+MQaDmiKyM2
+	TUJ2xbMLZW+lvuvg6QyUMkTGo0HOwgv8ruuyTfl51a7kiOD8tCh0YUjfIdZ3u86w
+	hTjm0ikO6UfZiGusTBk6wC1EJlofaYN6rDnFnvnDCnsj/vaDD1uvqzVxw4boiDYs
+	P+d8wFSxeZ4EgDkbECDCwYoPGuf5J6EjpCvzlVF6j18eMh0IO8EOnEUXknjcpYws
+	rm6h0Yh7tHfyZgUJjTNuoMY4/Tayu357vXbHOQKCUvwuY5ElzEa7AQ==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 451pspy3x4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 28 Feb 2025 08:53:25 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Fri, 28 Feb
+ 2025 14:53:23 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.14 via Frontend Transport; Fri, 28 Feb 2025 14:53:23 +0000
+Received: from [198.90.188.46] (unknown [198.90.188.46])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 610FF82025A;
+	Fri, 28 Feb 2025 14:53:23 +0000 (UTC)
+Message-ID: <13a0e18f-323f-4f7d-98de-3ee8fc0fda6d@opensource.cirrus.com>
+Date: Fri, 28 Feb 2025 14:53:23 +0000
 MIME-Version: 1.0
-References: <74b29af1-4024-4636-af8f-a95fa0f3601e@oss.qualcomm.com>
-In-Reply-To: <74b29af1-4024-4636-af8f-a95fa0f3601e@oss.qualcomm.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Fri, 28 Feb 2025 09:23:14 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA76tdjDE+4+JrpkrQ0+mw2aB-MPtXx6vjaQc77d8AQ6gw@mail.gmail.com>
-X-Gm-Features: AQ5f1Jq49M1aKHoQ4B7ctdYd0pAV_MseN3BJzOya8m5bDxVjlI7OkYAe0iQqH7o
-Message-ID: <CA+5PVA76tdjDE+4+JrpkrQ0+mw2aB-MPtXx6vjaQc77d8AQ6gw@mail.gmail.com>
-Subject: Re: [PULL linux-firmware] ath10k, ath11k and ath12k firmware 20250226
-To: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, linux-wireless@vger.kernel.org, 
-	ath10k@lists.infradead.org, ath11k@lists.infradead.org, 
-	ath12k@lists.infradead.org
+To: <linux-firmware@kernel.org>
+CC: <patches@opensource.cirrus.com>, <andrealmeid@igalia.com>
+From: Stefan Binding <sbinding@opensource.cirrus.com>
+Subject: [PULL v1 linux-firmware] Add firmware for Cirrus Smart Amp CS35L41
+ for Stream Deck
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: vcCrQdD2CKe50A_yHnAkWGsOja6UBFhx
+X-Proofpoint-ORIG-GUID: vcCrQdD2CKe50A_yHnAkWGsOja6UBFhx
+X-Authority-Analysis: v=2.4 cv=U8ZoDfru c=1 sm=1 tr=0 ts=67c1cde5 cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=IkcTkHD0fZMA:10 a=T2h4t0Lz3GQA:10 a=NEAV23lmAAAA:8 a=Hw2n6SHsUfdtRzWQ0f8A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Reason: safe
 
-On Wed, Feb 26, 2025 at 6:08=E2=80=AFPM Jeff Johnson
-<jeff.johnson@oss.qualcomm.com> wrote:
->
-> Hi,
-> Here's a new pull request for ath10k, ath11k and ath12k.
->
-> This request only touches ath11k, and adds new firmware and board file fo=
-r
-> QCA6698AQ hw2.1 and new microcode for QCA6698AQ.
->
-> Please let me know if there are any problems.
->
-> /jeff
->
->
-> The following changes since commit 1a1470d90de2a25e5befadb2f1fa30758af682=
-ca:
->
->   Merge branch 'robot/pr-0-1740366711' into 'main' (2025-02-24 05:26:03 +=
-0000)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/ath/linux-firmware.git at=
-h-20250226
+We would like to add firmware files to support Cirrus Logic Smart Amp CS35L41 for Steam Deck.
 
-Merged and pushed out.
+Thanks,
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/461
+Stefan Binding
 
-josh
 
->
-> for you to fetch changes up to 811bb52b1d293c3a9641c8747c8963ade18b7e81:
->
->   ath11k: QCN9074 hw1.0: update to WLAN.HK.2.9.0.1-02175-QCAHKSWPL_SILICO=
-NZ-2 (2025-02-26 14:53:32 -0800)
->
-> ----------------------------------------------------------------
-> Jeff Johnson (3):
->       ath11k: QCA6698AQ hw2.1: update board-2.bin
->       ath11k: QCA6698AQ hw2.1: update to WLAN.HSP.1.1-04604-QCAHSPSWPL_V1=
-_V2_SILICONZ_IOE-1
->       ath11k: QCN9074 hw1.0: update to WLAN.HK.2.9.0.1-02175-QCAHKSWPL_SI=
-LICONZ-2
->
->  WHENCE                             |   5 +++--
->  ath11k/QCA6698AQ/hw2.1/amss.bin    | Bin 5132288 -> 5140480 bytes
->  ath11k/QCA6698AQ/hw2.1/board-2.bin | Bin 866120 -> 986384 bytes
->  ath11k/QCA6698AQ/hw2.1/m3.bin      | Bin 266684 -> 266684 bytes
->  ath11k/QCN9074/hw1.0/.notice       |   4 ++++
->  ath11k/QCN9074/hw1.0/m3.bin        | Bin 340108 -> 340108 bytes
->  6 files changed, 7 insertions(+), 2 deletions(-)
->  create mode 100644 ath11k/QCN9074/hw1.0/.notice
+The following changes since commit 30f36b8b90531c5a88ea02fac3f94a1a32145a77:
+
+  Merge branch 'robot/pr-0-1740611615' into 'main' (2025-02-27 21:05:07 +0000)
+
+are available in the Git repository at:
+
+  https://github.com/CirrusLogic/linux-firmware/ cs35l41-20250228
+
+for you to fetch changes up to 90e90cd14622776421294246ed55b1a26b4e9166:
+
+  cirrus: cs35l41: Add firmware and tunings for CS35L41 driver for Steam Deck (2025-02-28 14:31:47 +0000)
+
+----------------------------------------------------------------
+Stefan Binding (1):
+      cirrus: cs35l41: Add firmware and tunings for CS35L41 driver for Steam Deck
+
+ WHENCE                                                  |   5 ++++-
+ cirrus/cs35l41-dsp1-spk-prot-vlv1776.bin                | Bin 0 -> 5104 bytes
+ cirrus/cs35l41/v6.51.0/halo_cspl_RAM_revB2_29.53.0.wmfw | Bin 0 -> 34236 bytes
+ 3 files changed, 4 insertions(+), 1 deletion(-)
+ create mode 100644 cirrus/cs35l41-dsp1-spk-prot-vlv1776.bin
+ create mode 100644 cirrus/cs35l41/v6.51.0/halo_cspl_RAM_revB2_29.53.0.wmfw
+
