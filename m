@@ -1,122 +1,108 @@
-Return-Path: <superm1@kernel.org>
+Return-Path: <SRS0=dSwK=VY=linaro.org=dmitry.baryshkov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F032C19F32
-	for <linux-firmware@archiver.kernel.org>; Wed,  5 Mar 2025 19:14:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E548C19F32
+	for <linux-firmware@archiver.kernel.org>; Wed,  5 Mar 2025 20:35:21 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 32E63C4CEE0; Wed,  5 Mar 2025 19:14:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8505FC4CEE8;
-	Wed,  5 Mar 2025 19:14:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741202054;
-	bh=wwAIRWc/K39pEuu0mxli/AzszmX11DXv+hBPEYpLGGM=;
-	h=Date:Subject:List-Id:To:Cc:References:From:In-Reply-To:From;
-	b=HziO/vbUEBpT9OHOQRZ8z2qbGnL8BlIS8OZHA9HdIkUGDRQp4VWjIC+wbVDOzV0A1
-	 TFIB4zICgeRUN24TU7rMEZ0EPGMSWTby7rXal/3kR/Ks8lTS0jR3cQdqbSP9QhyW4G
-	 xIbTir3GdA79WwCUMI0Ylvu/d4L3wSyqBNX4lfbC1Cn1v+B3q2nfoBtrKfR01kqTLG
-	 bXddQVJU3vwS4FZXDlM/jMxIGqQCvmo6FMLZWHPHNNyhXK5nvG4BwGPK+ncyM4UzAz
-	 hUk6sJ7PATyAir8jKOZLMc54VdsTQCCsu0hJsE9w/vh6V0E5ndS0NDVMWj3GOevh6O
-	 N7PksTELKygMA==
-Message-ID: <ada426b6-2c81-46ae-946c-d7b457e8522b@kernel.org>
-Date: Wed, 5 Mar 2025 13:14:12 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PULL v1 linux-firmware] Add firmware for Cirrus Smart Amp
- CS35L41 for various ASUS laptops
+	id 45124C4CEE8; Wed,  5 Mar 2025 20:35:21 +0000 (UTC)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id C620DC4CEE0
+	for <linux-firmware@kernel.org>; Wed,  5 Mar 2025 20:35:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C620DC4CEE0
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-307325f2436so71268741fa.0
+        for <linux-firmware@kernel.org>; Wed, 05 Mar 2025 12:35:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741206918; x=1741811718; darn=kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zqJWlhWE10y5qXTKbqCwhszEMAOBhhVdU/VwCXwFr2M=;
+        b=pHSLNuggpnmzT+3coKTdGK4tZw8RvOWk3cFuFrXlc0v5702x/ZLFIxZuvIfID4gSly
+         dOskEqgcA/VbK6F6E6o+E/5za4xTqGkwz6d6x6RDBVjFWyDNHyokyfa6kf7xNwblIZab
+         lBaUUjsFYGRkp2HCGwPPeNiN5SVo59VFRrx5WxL5a1mdOT0mYwISIsTS/qFy11+H1XRe
+         8U5lrnwEzQsRhPqPSJ9p7VhgJFjBst2XWBJFFCIXOoloWm3R4B6ALPP3J0ZKDQmL1sd4
+         RbAS5oq58lXchfnO6kKS5cdkytEHuRZMyM74UXeL8Q04GDS13daphra+6B9GcPKGD0/9
+         yXrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741206918; x=1741811718;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zqJWlhWE10y5qXTKbqCwhszEMAOBhhVdU/VwCXwFr2M=;
+        b=qUqxssOCJbaVrI8N5BE1cfU/zsTn2cQ8b6qDxzZ6K9Vpy27zRQWkd06rzVy9UpLqfD
+         xedZOs/y0gbkVd8fEORk6SxBZR7xhbkeelvKbgvpu1j4xp9R3tRAamS4D4wx1/Iuu9ZF
+         BhtewYXEIcfcn13u3j2iqVsyBrpLId7cjDPfr1BC8Tpk4E6LVkP1VRsAKCyF9h0EW3fC
+         0nBr5BMoMDjoteD/yE/QMk9bg+MHSWmqujUH9WRkFnEkDyxe6E2XFLPPLW3TL5bzMwsm
+         Sxme/LGxP2//xMCBh9LPvbL94JRIbRCe5FwQWHBLCQqGT2dWdhbNB7XObPZCwXdZMQwb
+         EN+w==
+X-Gm-Message-State: AOJu0Yy+mq4HOQjlcts7TjXffCYxVSuBwNL3N/yNAPEKhCxtSkF4GyPd
+	8vV8+zBM103FWHlxbDTPyb2DerUkEy5Lu5moyJRrudlcIuP83DggPiKpB/zt3y4L+c4BHyEJQRe
+	UxBk=
+X-Gm-Gg: ASbGncsF8iG3DGuqiPolsoKEwh8g0qAljGd65sdUjs3e570tK7+qTReIjAy5vW854WH
+	lrm4kgx1HLngxexA1eJDPyh7wtcY6YOdFeSUO5jKJHyo8Oi32Ze/cEc/y1RimOs0JdnrWtF0Xew
+	Mkam8EjwbsXxFCRa1yzgEFEofL/dr+3a7GPok+qLHzuf2ln5e5zLcG3cpM6A2ZEB0IF0TrkdUlv
+	8oIzBugBYhLNzGMvUZO2433U+nf4/yWwTLL011t4xEIiTQLI7+jEASTdo9Ctp6yzl79P0BrDRYq
+	SOibezOeRkmGXKbtBh8KjHA051aaMqcL1Z+Z/IJluitdBdrVteyaa7tpyIf7Has1HC2n9k7uEyL
+	xyjTLXdVyMj0l5nboqwnqdozB
+X-Google-Smtp-Source: AGHT+IF3wqXtvuKNuoFHqDsQVnnJxUNcGr+U5wI2kfTpyvtwQOo/LA2xzDq/NdDRl5MEX8rFgzhLZg==
+X-Received: by 2002:a05:651c:19a4:b0:30b:c2ea:46fc with SMTP id 38308e7fff4ca-30bd7a4a29cmr18242041fa.10.1741206917650;
+        Wed, 05 Mar 2025 12:35:17 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30bb05a5757sm13144841fa.88.2025.03.05.12.35.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Mar 2025 12:35:16 -0800 (PST)
+Date: Wed, 5 Mar 2025 22:35:15 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Zijun Hu <quic_zijuhu@quicinc.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: Stefan Binding <sbinding@opensource.cirrus.com>, linux-firmware@kernel.org
-Cc: patches@opensource.cirrus.com
-References: <1a7faf63-f11a-478b-96da-c6acba5f3f1b@opensource.cirrus.com>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <1a7faf63-f11a-478b-96da-c6acba5f3f1b@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Cc: linux-firmware@kernel.org, jwboyer@kernel.org
+Subject: Re: [GIT PULL] QCA: Add and update Bluetooth firmwares for WCN685x
+ and QCA2066
+Message-ID: <atz6kvfby5w6hpd74ik7bjkwrt53uzga666qdzzjdnum7nzk5t@yajr6l6y2zpt>
+References: <01571886-3cfe-4aa7-baf7-d474ba093b6c@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <01571886-3cfe-4aa7-baf7-d474ba093b6c@quicinc.com>
 
-On 3/5/2025 11:13, Stefan Binding wrote:
-> We would like to add firmware files to support Cirrus Logic Smart Amp CS35L41 for various ASUS laptops.
+Hi Zijun,
+
+On Wed, Mar 05, 2025 at 07:02:38PM +0800, Zijun Hu wrote:
+> Hi linux-firmware maintainers
 > 
-> Thanks,
+> Here's a pull request for btqca bluetooth driver. Please let me know if
+> you have any problems.
 > 
-> Stefan Binding
+> The following changes since commit 41a528251649772edbcb705a40e617fd14858e53:
 > 
-> The following changes since commit a3e1417a176de3f1cda1c504d6d060ff990c914b:
+>   Merge branch 'intel/guc_70402' into 'main' (2025-03-04 19:09:49 +0000)
 > 
->    Merge branch 'robot/patch-0-1741163658' into 'main' (2025-03-05 12:42:06 +0000)
+> are available in the git repository at:
 > 
-> are available in the Git repository at:
+>   https://github.com/zijun-hu/qca_btfw qca_btfw_0305
 > 
->    https://github.com/CirrusLogic/linux-firmware/ cs35l41-20250305
+> for you to fetch changes up to 16906ee494a2c7c26477c29deaf1349b4c1751ed:
 > 
-> for you to fetch changes up to 8fa4a471d210c5a5e3cc020d3f7477b6893b8dbd:
-> 
->    cirrus: cs35l41: Add firmware and tuning for ASUS Consumer laptops (2025-03-05 17:11:29 +0000)
+>   QCA: Add Bluetooth firmwares for QCA2066 with USB transport
+> (2025-03-05 18:16:33 +0800)
 > 
 > ----------------------------------------------------------------
-> Stefan Binding (2):
->        cirrus: cs35l41: Add Firmware for various ASUS Commercial laptops
->        cirrus: cs35l41: Add firmware and tuning for ASUS Consumer laptops
-> 
->   WHENCE                                              | 111 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->   cirrus/cs35l41-dsp1-spk-prot-10431074-spkid0-l0.bin | Bin 0 -> 4908 bytes
->   cirrus/cs35l41-dsp1-spk-prot-10431074-spkid0-r0.bin | Bin 0 -> 4908 bytes
->   cirrus/cs35l41-dsp1-spk-prot-10431074-spkid1-l0.bin | Bin 0 -> 4908 bytes
->   cirrus/cs35l41-dsp1-spk-prot-10431074-spkid1-r0.bin | Bin 0 -> 4912 bytes
->   cirrus/cs35l41-dsp1-spk-prot-10431194-spkid0-l0.bin | Bin 0 -> 4936 bytes
->   cirrus/cs35l41-dsp1-spk-prot-10431194-spkid0-r0.bin | Bin 0 -> 4936 bytes
->   cirrus/cs35l41-dsp1-spk-prot-10431194-spkid1-l0.bin | Bin 0 -> 4936 bytes
->   cirrus/cs35l41-dsp1-spk-prot-10431194-spkid1-r0.bin | Bin 0 -> 4936 bytes
->   cirrus/cs35l41-dsp1-spk-prot-10431f63-l0.bin        | Bin 0 -> 3936 bytes
->   cirrus/cs35l41-dsp1-spk-prot-10431f63-r0.bin        | Bin 0 -> 3928 bytes
->   cirrus/cs35l41-dsp1-spk-prot-10431fb3-spkid0-l0.bin | Bin 0 -> 4432 bytes
->   cirrus/cs35l41-dsp1-spk-prot-10431fb3-spkid0-r0.bin | Bin 0 -> 4432 bytes
->   cirrus/cs35l41-dsp1-spk-prot-10431fb3-spkid1-l0.bin | Bin 0 -> 4432 bytes
->   cirrus/cs35l41-dsp1-spk-prot-10431fb3-spkid1-r0.bin | Bin 0 -> 4432 bytes
->   cirrus/cs35l41-dsp1-spk-prot-10433061-spkid0-l0.bin | Bin 0 -> 5220 bytes
->   cirrus/cs35l41-dsp1-spk-prot-10433061-spkid0-r0.bin | Bin 0 -> 5204 bytes
->   cirrus/cs35l41-dsp1-spk-prot-10433071-spkid0-l0.bin | Bin 0 -> 4904 bytes
->   cirrus/cs35l41-dsp1-spk-prot-10433071-spkid0-r0.bin | Bin 0 -> 4908 bytes
->   cirrus/cs35l41-dsp1-spk-prot-104330c1-spkid0-l0.bin | Bin 0 -> 4892 bytes
->   cirrus/cs35l41-dsp1-spk-prot-104330c1-spkid0-r0.bin | Bin 0 -> 4892 bytes
->   cirrus/cs35l41-dsp1-spk-prot-10433e20-spkid0-l0.bin | Bin 0 -> 4908 bytes
->   cirrus/cs35l41-dsp1-spk-prot-10433e20-spkid0-r0.bin | Bin 0 -> 4908 bytes
->   cirrus/cs35l41-dsp1-spk-prot-10433e20-spkid1-l0.bin | Bin 0 -> 4908 bytes
->   cirrus/cs35l41-dsp1-spk-prot-10433e20-spkid1-r0.bin | Bin 0 -> 4908 bytes
->   25 files changed, 111 insertions(+)
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431074-spkid0-l0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431074-spkid0-r0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431074-spkid1-l0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431074-spkid1-r0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431194-spkid0-l0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431194-spkid0-r0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431194-spkid1-l0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431194-spkid1-r0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431f63-l0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431f63-r0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431fb3-spkid0-l0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431fb3-spkid0-r0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431fb3-spkid1-l0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431fb3-spkid1-r0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433061-spkid0-l0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433061-spkid0-r0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433071-spkid0-l0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433071-spkid0-r0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-104330c1-spkid0-l0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-104330c1-spkid0-r0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433e20-spkid0-l0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433e20-spkid0-r0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433e20-spkid1-l0.bin
->   create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433e20-spkid1-r0.bin
-> 
-> 
+> Zijun Hu (4):
+>       QCA: Update Bluetooth WCN685x 2.1 firmware to 2.1.0-00653
+>       QCA: Update Bluetooth QCA2066 firmware to 2.1.0-00653
+>       QCA: Add two bluetooth firmware nvm files for QCA2066
+>       QCA: Add Bluetooth firmwares for QCA2066 with USB transport
 
-Hello,
+It looks like you've largely missed updating the Version tags in the
+WHENCE file. Could you please fix that?
 
-This has failed CI testing.  Please see here for details:
-
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/466
-
-Thanks,
+-- 
+With best wishes
+Dmitry
