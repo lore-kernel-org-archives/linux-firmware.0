@@ -4,171 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21A9EC19F32
-	for <linux-firmware@archiver.kernel.org>; Fri,  7 Mar 2025 09:49:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1925C282DE
+	for <linux-firmware@archiver.kernel.org>; Mon, 10 Mar 2025 11:59:12 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id E737AC4CEE8; Fri,  7 Mar 2025 09:49:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1333C4CED1
-	for <linux-firmware@kernel.org>; Fri,  7 Mar 2025 09:49:34 +0000 (UTC)
+	id 6DC7CC4CEEA; Mon, 10 Mar 2025 11:59:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58451C4CEED
+	for <linux-firmware@kernel.org>; Mon, 10 Mar 2025 11:59:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741340974;
-	bh=0O+bPR9fMmHKHW4eSSz26VsBQ0YIW5tL/RB7FdYoGnU=;
+	s=k20201202; t=1741607952;
+	bh=l4AIyS1D2Qedab4ysVuSXom3qFj8fGZxl9ioEbaYOd4=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=aVG2oeuujYwsxs0vNTE3Gw7AJBOZXlKaP65/D/ra46YrPlrWWgmevb2F96M7nsaS/
-	 ALGur26m9095nxVHumi3pe00UPpnbpFi7l7KwTMdtq1zmEIme5Mx7HFIGeByNxr1qO
-	 al5FLx+c1P0MHL4sYRYKRAUlHcefXVegh0MChr3dIUxcMhA94xgwLAnlRFuVYiEZwF
-	 obe7eRHyN/xJiMA2zKlD0AQ2KfNyA/5v4smQDT8dSLgbpj1hJF+i6fqSERf69FSV0c
-	 ejg2MtrDJbKWHDURYf8opkGUXvDIAwJdGTAjAfFD8WNSjjYg6Ds/35OERfpwn0cn0r
-	 T5FTawPSHbi+w==
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-e549be93d5eso1479993276.1
-        for <linux-firmware@kernel.org>; Fri, 07 Mar 2025 01:49:34 -0800 (PST)
-X-Gm-Message-State: AOJu0YxAMSNVBdr9uk2EShZ/HARIrqjfBIVUbFmDXBpcrNHqB7ENoHCx
-	jWxLj8Xsn/rx8lnORYXR82AFXb4lhdjWWzmtvfyzdGmzAC+H81oTblXs1zM5HrAGd3MlgP2NquU
-	GpTU2HGJS5CK9hEAyWiGY/v0JveU=
-X-Google-Smtp-Source: AGHT+IENuiV9g/Ybu5hFJmkd1GNWqsqAlDOAfrfv4B/rGM0eQY3nalFxjKbkiwARyjmh5y/jcu5DZ4g6FvEdZGgxdpE=
-X-Received: by 2002:a05:6902:701:b0:e5a:ca6b:4531 with SMTP id
- 3f1490d57ef6-e635c13860fmr3389553276.12.1741340974031; Fri, 07 Mar 2025
- 01:49:34 -0800 (PST)
+	b=LGXuNTwUvmD/nwAUDnWWpC/2zhOjWsxr93C9GMHmU9kpDJchP1UebKdiBwfZ8u+6S
+	 FrYQAhno9vsJkyfEgglxh8yE0MKfQ8/FfhSIXFcZy059PT9YKg9Zzt/F9Xv3vOsIc2
+	 9QgEAMzYx0FlJaNSD77cQx0xKaqj3hSHbQRIPkPeJuLRxI0qPHZXOIl/qMsZuniDyg
+	 S4YSG9MnDx8ITfPWsJZj6gIkS1x5mblh9/qGUKtC0+T7CXQGXGXPyDOEzMS5puRWEO
+	 PR6Wh7yQXJMoKOeEGidHJ43Kl+zb5oSrbOEL9gmLbn2mBzb4GIDAD6vKzZ62vK7W/N
+	 MiI4K6WuhL9SA==
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e5dcc411189so3675727276.0
+        for <linux-firmware@kernel.org>; Mon, 10 Mar 2025 04:59:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXJmdbn7XU1FqR9S3qXKll9yIhAx/aD3DkfDGexFd/RdBBD71rbTFg9wEHPtDB8fKPg/4N9qJOSvVjo2AsWaA==@kernel.org
+X-Gm-Message-State: AOJu0YwBW4W84mVOPSekwaSjw8CVCtdnZKUWzQyNQgHKNyLMBmNr1kpJ
+	OxP3E6FR3hTrgxzjVkhzi2t2McttAtctAufqMrLXMDCXYoa87yddMHPZqYIaBuvdmPtjuvUl0+m
+	kbJ4XxVeDp1VOf5IUoJD3CRm/PoM=
+X-Google-Smtp-Source: AGHT+IFRxfdBAO64MgeQvuq+L1PO2gQg85sdJSv8QxQNa+vkxYt1JIxjOAK66FffLsSTdT68R8xMWpfl2S5ffsAYZWw=
+X-Received: by 2002:a05:6902:1693:b0:e60:87a0:6216 with SMTP id
+ 3f1490d57ef6-e635c101147mr18373190276.5.1741607951511; Mon, 10 Mar 2025
+ 04:59:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <9acb4fa7-47a8-4261-a086-e443fd6de568@opensource.cirrus.com>
-In-Reply-To: <9acb4fa7-47a8-4261-a086-e443fd6de568@opensource.cirrus.com>
+References: <628a50fa-d0c1-49f6-8df1-9a7e9abacb58@quicinc.com> <fblss3wgrwhytnedaafxc5vrz7mvo6fnckqjzmflrelrvyqlbd@xqvdtuoioqih>
+In-Reply-To: <fblss3wgrwhytnedaafxc5vrz7mvo6fnckqjzmflrelrvyqlbd@xqvdtuoioqih>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Fri, 7 Mar 2025 09:49:23 +0000
-X-Gmail-Original-Message-ID: <CA+5PVA7m9ibvaO196t0+-xqjksDi3P+JPz_KjPzqOvKOq6casA@mail.gmail.com>
-X-Gm-Features: AQ5f1JoR7LI5ZBYhyrTdFbHd274P0ZsnJjsIqck0qibGMSFgcT138aVJul4nZd4
-Message-ID: <CA+5PVA7m9ibvaO196t0+-xqjksDi3P+JPz_KjPzqOvKOq6casA@mail.gmail.com>
-Subject: Re: [PULL v2 linux-firmware] Add firmware for Cirrus Smart Amp
- CS35L41 for various ASUS laptops
-To: Stefan Binding <sbinding@opensource.cirrus.com>
+Date: Mon, 10 Mar 2025 07:59:00 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA5dDZJdY2f-CZYqCBWkUP7HzqgTTYJrPyz1=R+fV+hgqg@mail.gmail.com>
+X-Gm-Features: AQ5f1JrQqWnBWzisP9m_gMrEqXWSgBY-Tfb4g9S_xlWPR6cydG4A5mapYm-vQtE
+Message-ID: <CA+5PVA5dDZJdY2f-CZYqCBWkUP7HzqgTTYJrPyz1=R+fV+hgqg@mail.gmail.com>
+Subject: Re: [GIT PULL v3] QCA: Add and update Bluetooth firmwares for WCN685x
+ and QCA2066
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, patches@opensource.cirrus.com
+Cc: Zijun Hu <quic_zijuhu@quicinc.com>, linux-firmware@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Merged and pushed out.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/467
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/474
 
 josh
 
-On Thu, Mar 6, 2025 at 11:09=E2=80=AFAM Stefan Binding
-<sbinding@opensource.cirrus.com> wrote:
+On Thu, Mar 6, 2025 at 3:16=E2=80=AFAM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
 >
-> We would like to add firmware files to support Cirrus Logic Smart Amp CS3=
-5L41 for various ASUS laptops.
-> Changes from v1: Fixed missing firmware files in patch.
+> On Thu, Mar 06, 2025 at 03:57:06PM +0800, Zijun Hu wrote:
+> > Hi linux-firmware maintainers
+> >
+> > Here's a pull request for btqca bluetooth driver. Please let me know if
+> > you have any problems.
+> >
+> > The following changes since commit 41a528251649772edbcb705a40e617fd1485=
+8e53:
+> >
+> >   Merge branch 'intel/guc_70402' into 'main' (2025-03-04 19:09:49 +0000=
+)
+> >
+> > are available in the git repository at:
+> >
+> >   https://github.com/zijun-hu/qca_btfw qca_btfw_0305-2
+> >
+> > for you to fetch changes up to f573fa75ee6cdc6d176cadd0e63059f6c082928b=
+:
+> >
+> >   QCA: Add Bluetooth firmwares for QCA2066 with USB transport
+> > (2025-03-06 15:43:38 +0800)
+> >
+> > ----------------------------------------------------------------
+> > Zijun Hu (4):
+> >       QCA: Update Bluetooth WCN685x 2.1 firmware to 2.1.0-00653
+> >       QCA: Update Bluetooth QCA2066 firmware to 2.1.0-00653
+> >       QCA: Add two bluetooth firmware nvm files for QCA2066
+> >       QCA: Add Bluetooth firmwares for QCA2066 with USB transport
 >
-> Thanks,
->
-> Stefan Binding
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 >
 >
-> The following changes since commit a3e1417a176de3f1cda1c504d6d060ff990c91=
-4b:
+> Thank you!
 >
->   Merge branch 'robot/patch-0-1741163658' into 'main' (2025-03-05 12:42:0=
-6 +0000)
 >
-> are available in the Git repository at:
->
->   https://github.com/CirrusLogic/linux-firmware/ cs35l41-20250305
->
-> for you to fetch changes up to 675b89218fe1630f5aabfe08285157deb4a06120:
->
->   cirrus: cs35l41: Add firmware and tuning for ASUS Consumer laptops (202=
-5-03-06 01:01:24 +0000)
->
-> ----------------------------------------------------------------
-> Stefan Binding (2):
->       cirrus: cs35l41: Add Firmware for various ASUS Commercial laptops
->       cirrus: cs35l41: Add firmware and tuning for ASUS Consumer laptops
->
->  WHENCE                                              | 111 ++++++++++++++=
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
-++++++++++++++++++++++
->  cirrus/cs35l41-dsp1-spk-prot-10431074-spkid0-l0.bin | Bin 0 -> 4908 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10431074-spkid0-r0.bin | Bin 0 -> 4908 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10431074-spkid1-l0.bin | Bin 0 -> 4908 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10431074-spkid1-r0.bin | Bin 0 -> 4912 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10431194-spkid0-l0.bin | Bin 0 -> 4936 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10431194-spkid0-r0.bin | Bin 0 -> 4936 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10431194-spkid1-l0.bin | Bin 0 -> 4936 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10431194-spkid1-r0.bin | Bin 0 -> 4936 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10431f63-l0.bin        | Bin 0 -> 3936 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10431f63-r0.bin        | Bin 0 -> 3928 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10431fb3-spkid0-l0.bin | Bin 0 -> 4432 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10431fb3-spkid0-r0.bin | Bin 0 -> 4432 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10431fb3-spkid1-l0.bin | Bin 0 -> 4432 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10431fb3-spkid1-r0.bin | Bin 0 -> 4432 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10433061-spkid0-l0.bin | Bin 0 -> 5220 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10433061-spkid0-r0.bin | Bin 0 -> 5204 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10433071-spkid0-l0.bin | Bin 0 -> 4904 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10433071-spkid0-r0.bin | Bin 0 -> 4908 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-104330c1-spkid0-l0.bin | Bin 0 -> 4892 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-104330c1-spkid0-r0.bin | Bin 0 -> 4892 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10433d78-spkid0-l0.bin | Bin 0 -> 4912 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10433d78-spkid0-r0.bin | Bin 0 -> 2096 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10433d78-spkid1-l0.bin | Bin 0 -> 4916 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10433d78-spkid1-r0.bin | Bin 0 -> 2100 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10433e20-spkid0-l0.bin | Bin 0 -> 4908 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10433e20-spkid0-r0.bin | Bin 0 -> 4908 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10433e20-spkid1-l0.bin | Bin 0 -> 4908 byte=
-s
->  cirrus/cs35l41-dsp1-spk-prot-10433e20-spkid1-r0.bin | Bin 0 -> 4908 byte=
-s
->  29 files changed, 111 insertions(+)
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431074-spkid0-l0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431074-spkid0-r0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431074-spkid1-l0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431074-spkid1-r0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431194-spkid0-l0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431194-spkid0-r0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431194-spkid1-l0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431194-spkid1-r0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431f63-l0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431f63-r0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431fb3-spkid0-l0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431fb3-spkid0-r0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431fb3-spkid1-l0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431fb3-spkid1-r0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433061-spkid0-l0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433061-spkid0-r0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433071-spkid0-l0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433071-spkid0-r0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-104330c1-spkid0-l0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-104330c1-spkid0-r0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433d78-spkid0-l0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433d78-spkid0-r0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433d78-spkid1-l0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433d78-spkid1-r0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433e20-spkid0-l0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433e20-spkid0-r0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433e20-spkid1-l0.bin
->  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10433e20-spkid1-r0.bin
->
+> --
+> With best wishes
+> Dmitry
