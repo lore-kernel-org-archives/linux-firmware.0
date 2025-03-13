@@ -1,80 +1,91 @@
-Return-Path: <SRS0=jw21=WA=realtek.com=pkshih@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9BAA5C282DE
-	for <linux-firmware@archiver.kernel.org>; Thu, 13 Mar 2025 07:25:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DCF65C282DE
+	for <linux-firmware@archiver.kernel.org>; Thu, 13 Mar 2025 11:14:25 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 6812FC4CEE9; Thu, 13 Mar 2025 07:25:23 +0000 (UTC)
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 0D3E1C4CEDD
-	for <linux-firmware@kernel.org>; Thu, 13 Mar 2025 07:25:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 0D3E1C4CEDD
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 52D7PFtM4749306, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
-	t=1741850715; bh=ehdEyZ7t2NqjkWQJiH9DLFhJ2Wh+aNXA1q2mvFdlbuQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=KA1Kcb3uM7hyDM14Gu5/NdxgVLliT04J9sJlkpXsfJnsD7WgrGg+x6A5Fa/l8MJAT
-	 ygUZqvjBvoE6pBF1yknm/ciMtDOAJlEjOin5g6uLa3a/2bubKXbn9TEZbjyJaHmXMt
-	 4+Kc8uv4Wbo4UbskDARQ8ikJ8tuZsCZFFaQh7mVp0tDiCsDiM04Rk0MfPwdJaEjH6S
-	 Sp0nhtINrP3irXboRuMavivPwBOuWXZ8OEtpPKqWAGaDxV/SAE1D5Ijhz7padNCrZH
-	 LH3LRUHzHBy1hVpb18ll/s5ygPySOBobtVG6UbRK/7xLn5zyDPNkyIpxASDLhj4RH1
-	 pQdvj/IRkWZlw==
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 52D7PFtM4749306
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 13 Mar 2025 15:25:15 +0800
-Received: from RTEXMBS06.realtek.com.tw (172.21.6.99) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 13 Mar 2025 15:25:15 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS06.realtek.com.tw (172.21.6.99) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 13 Mar 2025 15:25:15 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::4c19:b586:6e71:3622]) by
- RTEXMBS04.realtek.com.tw ([fe80::4c19:b586:6e71:3622%5]) with mapi id
- 15.01.2507.035; Thu, 13 Mar 2025 15:25:14 +0800
-From: Ping-Ke Shih <pkshih@realtek.com>
-List-Id: <linux-firmware.lore.kernel.org>
-To: Zenm Chen <zenmchen@gmail.com>,
-        "linux-firmware@kernel.org"
-	<linux-firmware@kernel.org>
-CC: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "rtl8821cerfe2@gmail.com" <rtl8821cerfe2@gmail.com>,
-        "usbwifi2024@gmail.com"
-	<usbwifi2024@gmail.com>
-Subject: RE: [PATCH] rtw88: Add firmware v33.6.0 for RTL8814AE/RTL8814AU
-Thread-Topic: [PATCH] rtw88: Add firmware v33.6.0 for RTL8814AE/RTL8814AU
-Thread-Index: AQHbk9bmGrCyI8cApEKNr4dejN/4S7NwqjFA
-Date: Thu, 13 Mar 2025 07:25:14 +0000
-Message-ID: <09b00f3c6d554ef0ab76065284eaf0ec@realtek.com>
-References: <20250313051501.2519-1-zenmchen@gmail.com>
-In-Reply-To: <20250313051501.2519-1-zenmchen@gmail.com>
-Accept-Language: en-US, zh-TW
-Content-Language: zh-TW
-x-originating-ip: [172.21.6.42]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	id A4ADAC4CEEF; Thu, 13 Mar 2025 11:14:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D55BC4CEEE
+	for <linux-firmware@kernel.org>; Thu, 13 Mar 2025 11:14:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741864465;
+	bh=MMAN5UukwszNC6OHq5Y2iwjj+lOyMoN19ukxMCfVP20=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=ZjTjOW0o4jBmqa8YelechOpEsyQFBfG07GUHchS8ZQ0vIjCwJbJFA7uu7vXNwVxVq
+	 x9JxLA9iYqmXVeFHaajzzjT1J7VKCOKilS+AXD4RTU2a+MUFvwLkjFRekcoD/5kaoY
+	 gG6zBV7byOYwkepI0XODUTgy2TM7PN36pM2/wJX3DeMnraAEX1x5wdTYmHBI03UPPN
+	 xcUyqpmJDQBKDkJkrWgO4HEY99Ru9kM/Q2h0Ln9z0gwRRaFzrySOwZt3flehaTej1s
+	 truKZsu1YucasPV3acJ5XF1yRtrFdAhwqT8wjkvH+UPfGrbTijSY9P8RLJEjl5My+E
+	 f+bCngs4B8zjQ==
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e589c258663so768093276.1
+        for <linux-firmware@kernel.org>; Thu, 13 Mar 2025 04:14:25 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxyFQDOzy4aF4mLEKrReDaSjBuuJ3Ot+Kgq+6bam33zlLNp7VGh
+	DblrHV7baOmlX4ODJf4cfmpZbz6tbJRAr1JPdwkskkvRd2m3T+mKLD0IqVcrvcVzeVTTU5YBlKO
+	z+2DjSYM0qOsR5OxUmRmJE7/5iGM=
+X-Google-Smtp-Source: AGHT+IGYyQDgPTkeMu+sJH0m+8ZEXNvRWPeepNz6z2cwJgnL2Z8cyAqPL2Zgw+v9DKFEmtJOu3mVqdcrnZgdtvfj5cc=
+X-Received: by 2002:a05:6902:cc7:b0:e60:a903:3f41 with SMTP id
+ 3f1490d57ef6-e635c18bde4mr33147333276.24.1741864464646; Thu, 13 Mar 2025
+ 04:14:24 -0700 (PDT)
 MIME-Version: 1.0
+References: <6784cbe4-7afe-48ca-8d74-e30339c72ca9@RTEXMBS04.realtek.com.tw>
+In-Reply-To: <6784cbe4-7afe-48ca-8d74-e30339c72ca9@RTEXMBS04.realtek.com.tw>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Thu, 13 Mar 2025 07:14:13 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA49wRjKvSFk_7qSVWuS-tzL7qk+LRMwERY_D8WUcgBx0w@mail.gmail.com>
+X-Gm-Features: AQ5f1JoooDTrFwiUd69dOJJzUXuFu2s3b4CitFccyfiU2W4Q1ttGcWc5LD5Uuu8
+Message-ID: <CA+5PVA49wRjKvSFk_7qSVWuS-tzL7qk+LRMwERY_D8WUcgBx0w@mail.gmail.com>
+Subject: Re: pull-request: update rtw89 fw for RTL8852C and RTL8922A
+To: Ping-Ke Shih <pkshih@realtek.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: linux-firmware@kernel.org, linux-wireless@vger.kernel.org, 
+	damon.chen@realtek.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Zenm Chen <zenmchen@gmail.com> wrote:
-> This file contains the firmware v33.6.0 for RTL8814AE/RTL8814AU and
-> was extracted from the vendor driver v5.8.5.1_35583.20191029 from
-> https://github.com/morrownr/8814au
->=20
-> Signed-off-by: Zenm Chen <zenmchen@gmail.com>
+Merged and pushed out.
 
-I have confirmed the content is identical to official release, so
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/480
 
-Acked-by: Ping-Ke Shih <pkshih@realtek.com>
+josh
 
-
+On Wed, Mar 12, 2025 at 11:02=E2=80=AFPM Ping-Ke Shih <pkshih@realtek.com> =
+wrote:
+>
+> Hi,
+>
+> Update firmware of rtw89 divers including RTL8852C and RTL8922A with
+> support of secure boot.
+>
+> Thank you
+> Ping-Ke
+>
+> ---
+>
+> The following changes since commit 89ba9b7ce05c8dac3b659b6a0ebc87a601fc35=
+b1:
+>
+>   Merge branch 'robot/pr-0-1741722400' into 'main' (2025-03-12 13:09:10 +=
+0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/pkshih/linux-firmware.git tags/rtw-fw-2025-03-13
+>
+> for you to fetch changes up to da086994b2ad7ca25167baa78cd0a5385092c584:
+>
+>   rtw89: 8922a: update fw to v0.35.64.0 (2025-03-13 10:58:03 +0800)
+>
+> ----------------------------------------------------------------
+> Kuan-Chung Chen (1):
+>       rtw89: 8922a: update fw to v0.35.64.0
+>
+> Ping-Ke Shih (2):
+>       rtw89: 8852c: update fw to v0.27.125.0
+>       rtw89: 8922a: update fw to v0.35.63.0
+>
+>  rtw89/rtw8852c_fw-1.bin | Bin 2375560 -> 2399272 bytes
+>  rtw89/rtw8922a_fw-3.bin | Bin 1725278 -> 1188926 bytes
+>  2 files changed, 0 insertions(+), 0 deletions(-)
