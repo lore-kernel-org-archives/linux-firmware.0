@@ -1,208 +1,195 @@
-Return-Path: <SRS0=QZDS=WC=tamam.email=admin@kernel.org>
+Return-Path: <SRS0=8ycF=WE=nvidia.com=ttabi@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 377B3C28B28
-	for <linux-firmware@archiver.kernel.org>; Sat, 15 Mar 2025 07:48:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA823C282EC
+	for <linux-firmware@archiver.kernel.org>; Mon, 17 Mar 2025 19:16:39 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id ED86BC4CEE9; Sat, 15 Mar 2025 07:48:14 +0000 (UTC)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id A3587C4CEED; Mon, 17 Mar 2025 19:16:39 +0000 (UTC)
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2042.outbound.protection.outlook.com [40.107.95.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 90C68C4CEE5
-	for <linux-firmware@kernel.org>; Sat, 15 Mar 2025 07:48:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 90C68C4CEE5
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=tamam.email
-Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=tamam.email
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ac2dfdf3c38so527716266b.3
-        for <linux-firmware@kernel.org>; Sat, 15 Mar 2025 00:48:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tamam-email.20230601.gappssmtp.com; s=20230601; t=1742024891; x=1742629691; darn=kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=OpyFXimkV0xaviM7Zwnbfr9IBs0hmqj37uaqf2TX8sw=;
-        b=xr77BFdVqnXjyXYgVgi+NHlkdIZ8KDCZWovsAEMsLSL36v5pabO6dzf6K9p87xjL0G
-         pqYvHZDTcZj8B4xKxm1R1XiQLggcdtlSbJC4QBfD7btv3m41OivSoyXMN3j271WEEVEi
-         IRetWEnuPAwS0MXOXgS08mDtVNA41Nt1REa07etaD6f2otUXTMIo+smmHAYYg+/p0PU7
-         BVzoBBqjbCgNffLqBIRXxVb3l3KwMRYp5ZpL8eqKTHoADoAaEvYUu7ry4rPKyRwJSKG5
-         iRcw0IFDghI1TMM7j0RpGEBJUTM7OH9enNMfvIgjJmBNYP8M36/d52OqtfSJt8JgsH++
-         kNNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742024891; x=1742629691;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OpyFXimkV0xaviM7Zwnbfr9IBs0hmqj37uaqf2TX8sw=;
-        b=hdMaYRKH3i3i6plaPKeI/O2v/z5Atmf9kuQ2RWUEYVQ2Vk49qTeg2Rxf0j7tZUokr9
-         dLXveKJ0oma03QcNtaYjco+N2D69kT9p6YYEWaO/XnV9TWTyKj7sqD975teboz9qPMfX
-         GDQwatYtrsObEJy+8f+98AmVhf4Nd7vcBqJglHsY+DE5y2iMrXp3A+2pphP0eICjiBJV
-         ePhvPdWwpnTH11o0ehff5TDj8h0Bxhrp0IhALFFNeGxg4hT2Kbv37IQBGSqbIinks2/y
-         uum9O8J5/fsBS9bftY/Z4fKLMD2o3QxfhacnSc8V7uWx7TgSYxQ3E15EF3LJHrc2L6l6
-         eivg==
-X-Gm-Message-State: AOJu0Yw+02/Aei3Aha2/Ah9TekzDdqs8fhEv1Rz0IRy95HQJIVSTOGSy
-	MXUILSQcpgPlmIsMfECPZhqk5gch3KAK5Orh4TZUA2U1fmJitWmEiNHRX0fmoykTe5OaD0b+gT6
-	nPP6E5YquXv+knANb/0kti4IgB1O4SGWvjH+PZZwHvS4G/pUr
-X-Gm-Gg: ASbGncuUxRuZwj9mPkZjoBkPRIYUQGUqvbSZdSjH09i1heUUr0Rnevfjn6DKlzA1y7L
-	YrjU1HSxSYlBzcdWOmZj/poK9pKVKYosK26ANNpxi8YlOAzZL1+SSt6km+UvrqvpCRZa+u3ch9v
-	7tM9it21zGBR/3SC5hFz0rK6PCY/NKnvJ+P2Vc
-X-Google-Smtp-Source: AGHT+IHZRo4/5mJKtoAwztlyOuWCl57gkqsSX504WTQPZOuQg93Q1K+oPz5mcUccA8u797kt/NyfVFSk/4YQHhCbQgk=
-X-Received: by 2002:a17:907:7296:b0:ac2:b1e2:4b85 with SMTP id
- a640c23a62f3a-ac33011c868mr671984166b.3.1742024890675; Sat, 15 Mar 2025
- 00:48:10 -0700 (PDT)
-Received: from 776393159873 named unknown by gmailapi.google.com with
- HTTPREST; Sat, 15 Mar 2025 02:48:10 -0500
-MIME-Version: 1.0
-From: Tamam Team <admin@tamam.email>
-Date: Sat, 15 Mar 2025 02:48:10 -0500
-X-Gm-Features: AQ5f1Jp1HGws1DC9DyD20O7wWNQK17HDWpwTIDDC81k-Ac3bvTteCC5oXXs5iyc
-Message-ID: <CANZaDmykuNBuDfGEbBoRxQfL3VoL6HMEUg1rqMSL2bXbCA2pXw@mail.gmail.com>
-Subject: =?UTF-8?Q?Join_Tamam_=E2=80=93_A_New_Service=2DBooking_Platform_=28Free_?=
-	=?UTF-8?Q?Registration=29?=
+	by smtp.kernel.org (Postfix) with ESMTPS id 9140EC4CEE3;
+	Mon, 17 Mar 2025 19:16:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 9140EC4CEE3
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=f+8dRTTWC09xo/9sz3ksCOJKqd3kyp03aXFDHKtIvLWewWFTEiSLM/bGQFdzlwmcg5C6d9zCOVtvxpMZD90Vr1vNasGgcpyTIrMO6Pe5KUAyM9S6R69w8hQ2/Do/nzZpuGAZHOAjbHFEP12A5y6rHS8llFyPXoCwWUu51jZpLv/K/hXN+OcDe+/CZEsTWCyQ/CIZveiH+OeEe6A8HSSd7ln0qPAudoGVonUU+/croH2nNtVp4DPS/tpCg+mEnLyq+OKX6DWzt2SolG82eAVnFF4pUbFWY84fqbUwqdtfCs4OB8nwo7TPcnzo6cM9IUIWpTqVHmnueKH17RRRKiRjPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IzTNJrmMmP/vx66wcGOAnVhxFJsuKuiqV9YNO1WwaLk=;
+ b=yWt/brJJRNAAbnaPpP3W1u2j0D4UICJ/LNcasS6j2CyuBhBwiD+e4PRItIw4Op3SdKvMc7l76LdpYUUAJHqrue6AeKs84OF7ooNYUlwrjosEnurihN/jQ5khu1ynTQKBmCAnLgEhYbHbEDgIW7454QSxi/4XOULXo8j9Turqu3a8c35qRUf0UTH+rAW+wccTi2RRKflWSULbpqXvkzcDnnB6bQcqtSWL/vw/SNJ5cKIxPV27CHPmGBVLQ0wqkAche7D2I6eKuwfd6OvcbE9tXKHz3zeidIfzijk+HYrKqBjFcvq5VMfS1UfHbLsqeuLRPEjJWSBnRDwJHkFYBKZw5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IzTNJrmMmP/vx66wcGOAnVhxFJsuKuiqV9YNO1WwaLk=;
+ b=PfNXCm0YU5TS0W4IWjwMZeZJjhENN8CIWIFw0mFOvG2otUqwFTkm76O+NpL52DkFkEMJpntMNII3gfOVxyd3qYEoYA84btS+ooRdPOfMONtLluSzYxbjLp/DfLjEDad+turbAZ0PWDSa46M4DhKGy05awcHOJjS1fHF971oO2oVbonnShbiRjy5bT+tQfB2lVZa8xN3a/pVZLYEdBByGvQBfucw6N+msngZa+5aDyAc0pVl+pwutmBEeC5XQHT3XyntBN0Fp20XLUknHjuU8hTAxxKQzqi9JSC7HdD8yTDJ45iMBNlu8GVyctR5FLwcloovabgkbhUqpDDa4XU0ZIQ==
+Received: from PH7PR17CA0070.namprd17.prod.outlook.com (2603:10b6:510:325::10)
+ by IA1PR12MB6283.namprd12.prod.outlook.com (2603:10b6:208:3e5::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Mon, 17 Mar
+ 2025 19:16:31 +0000
+Received: from CY4PEPF0000EDD3.namprd03.prod.outlook.com
+ (2603:10b6:510:325:cafe::fa) by PH7PR17CA0070.outlook.office365.com
+ (2603:10b6:510:325::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.30 via Frontend Transport; Mon,
+ 17 Mar 2025 19:16:31 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ CY4PEPF0000EDD3.mail.protection.outlook.com (10.167.241.199) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8534.20 via Frontend Transport; Mon, 17 Mar 2025 19:16:31 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 17 Mar
+ 2025 12:16:17 -0700
+Received: from ttabi.nvidia.com (10.126.231.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 17 Mar
+ 2025 12:16:16 -0700
+From: Timur Tabi <ttabi@nvidia.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Content-Type: multipart/alternative; boundary="000000000000cc944206305cc669"
+To: <jwboyer@kernel.org>, <superm1@gmail.com>, <maxim.cournoyer@gmail.com>,
+	<linux-firmware@kernel.org>
+Subject: [PATCH 1/2] copy-firmware: make script smarter about parameters
+Date: Mon, 17 Mar 2025 14:16:05 -0500
+Message-ID: <20250317191606.64181-1-ttabi@nvidia.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+X-NVConfidentiality: public
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.231.35]
+X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD3:EE_|IA1PR12MB6283:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0339ce65-c79d-4a85-15d5-08dd658839c2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|376014|36860700013|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?UigApMLfrZB3IIynAYLLMMpF60C7p0eKSawLAsgT57ky3imDB3icbLUhOHrX?=
+ =?us-ascii?Q?aefOD0EC/2ey3/pFypiKDIqHb3sdY/N2xqI+soQNymB90rtQVCcvGKjAyvgg?=
+ =?us-ascii?Q?oGEGdcr0Llvs88Nnt3efXOIdeJuIDvsTHloxaBOX/n5uolM1qCV/fmTNeYY6?=
+ =?us-ascii?Q?JOHoTl9HTQs4qp+M6ClXhZNwFEvAI/8NOQSb4CBconiGpNE9h12kmg5++/qV?=
+ =?us-ascii?Q?5YwRjKMbolyXpOEQLJXa+RmDnTeUMDQbyh6+0TPDBT5ssn53C+qpx+EeSLX7?=
+ =?us-ascii?Q?Z46RFzw8mJA5RRzf4uFpI+g88n5W3ThgKl9i+07wgkwPfGGzS21OVFdq8B/o?=
+ =?us-ascii?Q?b/WO32Xets+n1jskOR85snnJmUNoq5/cSu3ZlERd/hglqNUlTeA80y0zsS09?=
+ =?us-ascii?Q?aa48kqPLLcBFxCgGdeHZ7OJUU8UFofLoIDmV/U/Eij5gepAEktr8UO2UT+qD?=
+ =?us-ascii?Q?DNCBzkkhGxaH3mTJ3GWgsppuJp2Q3OuEg+LNJHAMXRywg2TF5GUwpaemwBBk?=
+ =?us-ascii?Q?5p0A1c/ubk9e3sMYqqjIyJ+uBzCva2lQg2eDpv2SgsLA2rZvRGEEc8fY5OaF?=
+ =?us-ascii?Q?HZftiklbGlwLehFLBrTM+mjNFJAAXb6zcBiqjFHsRn6KxLfHsjQkX5uVip3U?=
+ =?us-ascii?Q?cYdyp+kZpcZrr8tLeKGrvXX4wpCNOV2hge3Dr4MK3pefeTboHa2EZ9X2kdpJ?=
+ =?us-ascii?Q?iSf8xjPEtnY/38DoBDUqE6kn8g4sNAkqq3HujzRmqx61C6ez65gcDVlHKu7Q?=
+ =?us-ascii?Q?QWejwv0E0kIy+rYEGQ/4kmxdDt9MwM19aP2plwbjqvut+lMfl117TIjKEzh3?=
+ =?us-ascii?Q?6JoQ4iJpXY1aVUd9GeGp2jhig1XUUV1tGBJtQvp+Y2zlTDX7pljXVcvXQNiL?=
+ =?us-ascii?Q?PunA4ozm2zBTIZ49uZ2/nhclMTA4jlJKr2/lfM/GOuuyCsxZFM9KFxPjxpE7?=
+ =?us-ascii?Q?NfpQdkQ+tZ08dXrPH19YVJyrTEdKyykzMfBxcZA91Y6XK8R6yJ5nmNS4kXXk?=
+ =?us-ascii?Q?550tqatGCxKsnjk+jdelYjnMc6y3QRBsqVduzt6ntvALk4XEaIvt3YOuAqJK?=
+ =?us-ascii?Q?Q3pP66m64FqmoFJKzeKbvbdUQysvLEhPwkE1mfqp/bUhvY4zhyy568eG5cgX?=
+ =?us-ascii?Q?z8TU0z0bxZUkutpwaD1f0o+RoUceE9IoPCJs+TsvnXDn8hBKTlTdugQ4hE/r?=
+ =?us-ascii?Q?upVMJUl90PxBoswyw+U4f/Jh9rRw2lGv31sif+9FcQWTsHq3FnS1PEre6lVM?=
+ =?us-ascii?Q?ZkVK6ik0518eEnlXGT5luVgnhVc4ooa4QqCJ131mOxSGy7naeSaSPfsw/+bL?=
+ =?us-ascii?Q?doudJJpKFeUuR83t5voLvv6oAr1XqE4UL/AnaS9Nwfy2vNZsz0uOdqQZr0Xh?=
+ =?us-ascii?Q?t3RjzKYbJhlDUTH7HRCH80/t1AP7qBFxg6VBsLk/jr5iUzo6kEFdcM6kuT2p?=
+ =?us-ascii?Q?b/6v8pkdZBZ1AL6Pr2Ge8dFpW+G+7Wwk1RKxoW4MDV1p6NJ02XYEYv3X7Oxu?=
+ =?us-ascii?Q?MvoCnMH1cyE0HJY=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700013)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2025 19:16:31.4050
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0339ce65-c79d-4a85-15d5-08dd658839c2
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000EDD3.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6283
 
---000000000000cc944206305cc669
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Several improvements to copy-firmware.sh that make it more friendly
+when passed unknown or not exactly correct command-line parameters.
 
-RGVhciwNCg0KSSBob3BlIHlvdeKAmXJlIGRvaW5nIHdlbGwuDQoNCldlIGFyZSBleGNpdGVkIHRv
-IGludHJvZHVjZSAqVGFtYW0qLCBhIG5ldyBzZXJ2aWNlLWJvb2tpbmcgcGxhdGZvcm0NCmRlc2ln
-bmVkIHRvIHNlYW1sZXNzbHkgY29ubmVjdCBidXNpbmVzc2VzIHdpdGggY3VzdG9tZXJzIGFjcm9z
-cyB2YXJpb3VzDQppbmR1c3RyaWVzLCBpbmNsdWRpbmcgKmhvbWUgc2VydmljZXMsIGNhciBzZXJ2
-aWNlcywgaGVhbHRoLCBhbmQgd2VsbG5lc3MqLg0KT3VyIGdvYWwgaXMgdG8gc2ltcGxpZnkgc2Vy
-dmljZSBhY2Nlc3NpYmlsaXR5IHdoaWxlIGhlbHBpbmcgYnVzaW5lc3NlcyBsaWtlDQp5b3VycyAq
-ZXhwYW5kIHRoZWlyIHJlYWNoIGFuZCBncm93IGVmZm9ydGxlc3NseS4qDQoqSm9pbmluZyBpcyBD
-b21wbGV0ZWx5IEZyZWUhKg0KDQpUaGVyZSBhcmUgKm5vIHVwZnJvbnQgY29zdHMqIHRvIGxpc3Qg
-eW91ciBzZXJ2aWNlcyBvbiBUYW1hbS4gWW91IGNhbg0KcmVnaXN0ZXIgeW91ciBidXNpbmVzcyBh
-dCBubyBjb3N0IGFuZCBvbmx5IHBheSBhIHNtYWxsIGNvbW1pc3Npb24gb24NCmNvbXBsZXRlZCBi
-b29raW5ncy4gVGhpcyBhbGxvd3MgeW91IHRvICpnYWluIG1vcmUgY3VzdG9tZXJzIHdpdGggemVy
-bw0KZmluYW5jaWFsIHJpc2suKg0KDQpUYW1hbSBpcyBzZXQgdG8gbGF1bmNoIGluICptaWQtQXBy
-aWwqLCBhbmQgd2Ugd291bGQgbG92ZSB0aGUgb3Bwb3J0dW5pdHkgdG8NCmRpc2N1c3MgaG93IHlv
-dXIgY29tcGFueSBjYW4gYmVuZWZpdCBmcm9tIGpvaW5pbmcgb3VyIHBsYXRmb3JtLiBXZeKAmWQg
-YmUNCmhhcHB5IHRvIHNjaGVkdWxlIGEgKnZpcnR1YWwgbWVldGluZyogYXQgeW91ciBjb252ZW5p
-ZW5jZSB0byB3YWxrIHlvdQ0KdGhyb3VnaCBhICpsaXZlIGRlbW8qIG9mIHRoZSBhcHAgYW5kIGFu
-c3dlciBhbnkgcXVlc3Rpb25zIHlvdSBtYXkgaGF2ZS4NCg0KRm9yIG1vcmUgZGV0YWlscyBhYm91
-dCBUYW1hbSBhbmQgaG93IHdlIG9wZXJhdGUsIHBsZWFzZSByZWZlciB0byB0aGUNCmF0dGFjaGVk
-ICpQUFQgcHJlc2VudGF0aW9uKi4NCg0KSWYgeW91IGhhdmUgYW55IHF1ZXN0aW9ucywgZmVlbCBm
-cmVlIHRvIHJlcGx5IHRvIHRoaXMgZW1haWwgb3IgY29udGFjdCB1cw0KZGlyZWN0bHkgdmlhICpX
-aGF0c0FwcCBhdCArOTcxNTA2MDExOTM4Ki4gV2UgbG9vayBmb3J3YXJkIHRvIGhlYXJpbmcgZnJv
-bQ0KeW91IGFuZCBleHBsb3JpbmcgcG90ZW50aWFsIGNvbGxhYm9yYXRpb24gb3Bwb3J0dW5pdGll
-cy4NCg0KKkJlc3QgcmVnYXJkcywqDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCti5
-2LLZitiy2YrYjA0KDQrZhtij2YXZhCDYo9mGINiq2YPZiNmGINio2K7ZitixLg0KDQrZitiz2LnY
-r9mG2Kcg2KPZhiDZhtmC2K/ZhSDZhNmDICrYqtmF2KfZhSrYjCDZiNmH2Yog2YXZhti12Kkg2KzY
-r9mK2K/YqSDZhNit2KzYsiDYp9mE2K7Yr9mF2KfYqiDZhdi12YXZhdipINmE2KrYs9mH2YrZhCAq
-2KfZhNmI2LXZiNmEDQrYpdmE2Ykg2KfZhNi52YXZhNin2KEqINmB2Yog2YXYrNin2YTYp9iqINmF
-2KrYudiv2K/YqdiMINio2YXYpyDZgdmKINiw2YTZgyAq2KfZhNiu2K/Zhdin2Kog2KfZhNmF2YbY
-stmE2YrYqdiMINmI2K7Yr9mF2KfYqg0K2KfZhNiz2YrYp9ix2KfYqtiMINmI2KfZhNi12K3YqdiM
-INmI2KfZhNi52KfZgdmK2KkqLiDZh9iv2YHZhtinINmH2YggKtiq2KjYs9mK2Lcg2LnZhdmE2YrY
-qSDYrdis2LIg2KfZhNiu2K/Zhdin2KoqINmI2YXYs9in2LnYr9ipDQrYp9mE2LTYsdmD2KfYqiDZ
-hdir2YQg2LTYsdmD2KrZg9mFINi52YTZiSAq2KfZhNiq2YjYs9i5INmI2KfZhNmG2YXZiCDYqNiz
-2YfZiNmE2KkqLg0KKtin2YTYqtiz2KzZitmEINmF2KzYp9mG2Yog2KrZhdin2YXZi9inISoNCg0K
-2YTYpyDYqtmI2KzYryDYo9mKICrYqtmD2KfZhNmK2YEg2YXZgtiv2YXYqSog2YTYpdiv2LHYp9is
-INiu2K/Zhdin2KrZg9mFINi52YTZiSDYqtmF2KfZhS4g2YrZhdmD2YbZgyDYqtiz2KzZitmEINi0
-2LHZg9iq2YMg2YXYrNin2YbZi9inDQrZiNiv2YjZhiDYo9mKINix2LPZiNmF2Iwg2YjYs9iq2K/Z
-gdi5INmB2YLYtyAq2LnZhdmI2YTYqSDYtdi62YrYsdipINi52YTZiSDYp9mE2K3YrNmI2LLYp9iq
-INin2YTZhdmD2KrZhdmE2KkqLiDZh9iw2Kcg2YrZhdmG2K3Zg9mFDQrZgdix2LXYqSAq2YTZhNmI
-2LXZiNmEINil2YTZiSDYp9mE2YXYstmK2K8g2YXZhiDYp9mE2LnZhdmE2KfYoSDYr9mI2YYg2KPZ
-iiDZhdiu2KfYt9ixINmF2KfZhNmK2KkqLg0KDQrZhtit2YYg2YbYs9iq2LnYryDZhNil2LfZhNin
-2YIg2KrZhdin2YUg2YHZiiAq2YXZhtiq2LXZgSDYo9io2LHZitmEKtiMINmI2YbYqti32YTYuSDY
-pdmE2Ykg2YHYsdi12Kkg2YXZhtin2YLYtNipINmD2YrZgSDZitmF2YPZhg0K2YTYtNix2YPYqtmD
-2YUg2KfZhNin2LPYqtmB2KfYr9ipINmF2YYg2YXZhti12KrZhtinLiDZitiz2LnYr9mG2Kcg2KrY
-rdiv2YrYryAq2KfYrNiq2YXYp9i5INin2YHYqtix2KfYttmKKiDZgdmKINin2YTZiNmC2Kog2KfZ
-hNmF2YbYp9iz2KgNCtmE2YPZhdiMINit2YrYqyDYs9mG2YLYr9mFICrYudix2LbZi9inINmF2KjY
-p9i02LHZi9inKiDZhNmE2YXZhti12Kkg2YjZhtis2YrYqCDYudmE2Ykg2KPZiiDYp9iz2KrZgdiz
-2KfYsdin2Kog2YTYr9mK2YPZhS4NCg0K2YTZhNmF2LLZitivINmF2YYg2KfZhNiq2YHYp9i12YrZ
-hCDYrdmI2YQg2KrZhdin2YUg2YjZg9mK2YHZitipINi52YXZhNmG2KfYjCDZitmP2LHYrNmJINin
-2YTYp9i32YTYp9i5INi52YTZiSAq2KfZhNi52LHYtiDYp9mE2KrZgtiv2YrZhdmKDQrYp9mE2YXY
-sdmB2YIqLg0KDQrYpdiw2Kcg2YPYp9mGINmE2K/ZitmD2YUg2KPZiiDYp9iz2KrZgdiz2KfYsdin
-2KrYjCDZitmF2YPZhtmD2YUg2KfZhNix2K8g2LnZhNmJINmH2LDYpyDYp9mE2KjYsdmK2K8g2KfZ
-hNil2YTZg9iq2LHZiNmG2Yog2KPZiA0K2KfZhNiq2YjYp9i12YQg2YXYudmG2Kcg2YXYqNin2LTY
-sdipINi52KjYsSAq2YjYp9iq2LPYp9ioINi52YTZiSDYp9mE2LHZgtmFICs5NzE1MDYwMTE5Mzgq
-LiDZhtiq2LfZhNi5INil2YTZiSDYp9mE2KrZiNin2LXZhA0K2YXYudmD2YUg2YjYp9iz2KrZg9i0
-2KfZgSDZgdix2LUg2KfZhNiq2LnYp9mI2YYg2KfZhNmF2K3YqtmF2YTYqS4NCg0KKtiq2K3Zitin
-2KrZhtin2IwqDQoqaWYgeW91IGhhdmUgYWxyZWFkeSBvbmJvYXJkZWQgd2l0aCB1cyBwbGVhc2Ug
-aWdub3JlIHRoaXMgZW1haWwqDQo=
---000000000000cc944206305cc669
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
+1) Add a usage() function to show the command-line options.
+2) Print that usage on all errors.
+3) Don't fail with a weird error if there's a space between -j and
+   the number.
+4) Add support for the -h or --help options.
+5) Ignore any command-line unsupported parameters that start with
+   a dash.  This is necessary because otherwise the script will
+   assume the option is actually a destination directory, and then
+   the "test" command will get confused.  Drawback is that we don't
+   support any more destination directories that start with a dash,
+   but no one does that.
 
-PGRpdiBkaXI9Imx0ciI+PGRpdj48cD5EZWFyLDwvcD4NCjxwPkkgaG9wZSB5b3XigJlyZSBkb2lu
-ZyB3ZWxsLjwvcD4NCjxwPldlIGFyZSBleGNpdGVkIHRvIGludHJvZHVjZSA8c3Ryb25nPlRhbWFt
-PC9zdHJvbmc+LCBhIG5ldyBzZXJ2aWNlLWJvb2tpbmcgcGxhdGZvcm0gZGVzaWduZWQgdG8gc2Vh
-bWxlc3NseSBjb25uZWN0IGJ1c2luZXNzZXMgd2l0aCBjdXN0b21lcnMgYWNyb3NzIHZhcmlvdXMg
-aW5kdXN0cmllcywgaW5jbHVkaW5nIDxzdHJvbmc+aG9tZSBzZXJ2aWNlcywgY2FyIHNlcnZpY2Vz
-LCBoZWFsdGgsIGFuZCB3ZWxsbmVzczwvc3Ryb25nPi4gT3VyIGdvYWwgaXMgdG8gc2ltcGxpZnkg
-c2VydmljZSBhY2Nlc3NpYmlsaXR5IHdoaWxlIGhlbHBpbmcgYnVzaW5lc3NlcyBsaWtlIHlvdXJz
-IDxzdHJvbmc+ZXhwYW5kIHRoZWlyIHJlYWNoIGFuZCBncm93IGVmZm9ydGxlc3NseS48L3N0cm9u
-Zz48L3A+DQo8aDM+PHN0cm9uZz5Kb2luaW5nIGlzIENvbXBsZXRlbHkgRnJlZSE8L3N0cm9uZz48
-L2gzPg0KPHA+VGhlcmUgYXJlIDxzdHJvbmc+bm8gdXBmcm9udCBjb3N0czwvc3Ryb25nPiB0byBs
-aXN0IHlvdXIgc2VydmljZXMgb24gVGFtYW0uIFlvdSBjYW4gcmVnaXN0ZXIgeW91ciBidXNpbmVz
-cyBhdCBubyBjb3N0IGFuZCBvbmx5IHBheSBhIHNtYWxsIGNvbW1pc3Npb24gb24gY29tcGxldGVk
-IGJvb2tpbmdzLiBUaGlzIGFsbG93cyB5b3UgdG8gPHN0cm9uZz5nYWluIG1vcmUgY3VzdG9tZXJz
-IHdpdGggemVybyBmaW5hbmNpYWwgcmlzay48L3N0cm9uZz48L3A+DQo8cD5UYW1hbSBpcyBzZXQg
-dG8gbGF1bmNoIGluIDxzdHJvbmc+bWlkLUFwcmlsPC9zdHJvbmc+LCBhbmQgd2Ugd291bGQgbG92
-ZSB0aGUgb3Bwb3J0dW5pdHkgdG8gZGlzY3VzcyBob3cgeW91ciBjb21wYW55IGNhbiBiZW5lZml0
-IGZyb20gam9pbmluZyBvdXIgcGxhdGZvcm0uIFdl4oCZZCBiZSBoYXBweSB0byBzY2hlZHVsZSBh
-IDxzdHJvbmc+dmlydHVhbCBtZWV0aW5nPC9zdHJvbmc+IGF0IHlvdXIgY29udmVuaWVuY2UgdG8g
-d2FsayB5b3UgdGhyb3VnaCBhIDxzdHJvbmc+bGl2ZSBkZW1vPC9zdHJvbmc+IG9mIHRoZSBhcHAg
-YW5kIGFuc3dlciBhbnkgcXVlc3Rpb25zIHlvdSBtYXkgaGF2ZS48L3A+DQo8cD5Gb3IgbW9yZSBk
-ZXRhaWxzIGFib3V0IFRhbWFtIGFuZCBob3cgd2Ugb3BlcmF0ZSwgcGxlYXNlIHJlZmVyIHRvIHRo
-ZSBhdHRhY2hlZCA8c3Ryb25nPlBQVCBwcmVzZW50YXRpb248L3N0cm9uZz4uPC9wPg0KPHA+SWYg
-eW91IGhhdmUgYW55IHF1ZXN0aW9ucywgZmVlbCBmcmVlIHRvIHJlcGx5IHRvIHRoaXMgZW1haWwg
-b3IgY29udGFjdCB1cyBkaXJlY3RseSB2aWEgPHN0cm9uZz5XaGF0c0FwcCBhdCArOTcxNTA2MDEx
-OTM4PC9zdHJvbmc+LiBXZSBsb29rIGZvcndhcmQgdG8gaGVhcmluZyBmcm9tIHlvdSBhbmQgZXhw
-bG9yaW5nIHBvdGVudGlhbCBjb2xsYWJvcmF0aW9uIG9wcG9ydHVuaXRpZXMuPC9wPg0KPHA+PHN0
-cm9uZz5CZXN0IHJlZ2FyZHMsPC9zdHJvbmc+PGJyPjwvcD4NCjxocj4NCjxoMz48c3BhbiBzdHls
-ZT0iZm9udC1zaXplOnNtYWxsO2ZvbnQtd2VpZ2h0Om5vcm1hbCI+2LnYstmK2LLZitiMPC9zcGFu
-PjwvaDM+DQo8cD7Zhtij2YXZhCDYo9mGINiq2YPZiNmGINio2K7ZitixLjwvcD4NCjxwPtmK2LPY
-udiv2YbYpyDYo9mGINmG2YLYr9mFINmE2YMgPHN0cm9uZz7YqtmF2KfZhTwvc3Ryb25nPtiMINmI
-2YfZiiDZhdmG2LXYqSDYrNiv2YrYr9ipINmE2K3YrNiyINin2YTYrtiv2YXYp9iqINmF2LXZhdmF
-2Kkg2YTYqtiz2YfZitmEIDxzdHJvbmc+2KfZhNmI2LXZiNmEINil2YTZiSDYp9mE2LnZhdmE2KfY
-oTwvc3Ryb25nPiDZgdmKINmF2KzYp9mE2KfYqiDZhdiq2LnYr9iv2KnYjCDYqNmF2Kcg2YHZiiDY
-sNmE2YMgPHN0cm9uZz7Yp9mE2K7Yr9mF2KfYqiDYp9mE2YXZhtiy2YTZitip2Iwg2YjYrtiv2YXY
-p9iqINin2YTYs9mK2KfYsdin2KrYjCDZiNin2YTYtdit2KnYjCDZiNin2YTYudin2YHZitipPC9z
-dHJvbmc+LiDZh9iv2YHZhtinINmH2YggPHN0cm9uZz7Yqtio2LPZiti3INi52YXZhNmK2Kkg2K3Y
-rNiyINin2YTYrtiv2YXYp9iqPC9zdHJvbmc+INmI2YXYs9in2LnYr9ipINin2YTYtNix2YPYp9iq
-INmF2KvZhCDYtNix2YPYqtmD2YUg2LnZhNmJIDxzdHJvbmc+2KfZhNiq2YjYs9i5INmI2KfZhNmG
-2YXZiCDYqNiz2YfZiNmE2Kk8L3N0cm9uZz4uPC9wPg0KPGgzPjxzdHJvbmc+2KfZhNiq2LPYrNmK
-2YQg2YXYrNin2YbZiiDYqtmF2KfZhdmL2KchPC9zdHJvbmc+PC9oMz4NCjxwPtmE2Kcg2KrZiNis
-2K8g2KPZiiA8c3Ryb25nPtiq2YPYp9mE2YrZgSDZhdmC2K/ZhdipPC9zdHJvbmc+INmE2KXYr9ix
-2KfYrCDYrtiv2YXYp9iq2YPZhSDYudmE2Ykg2KrZhdin2YUuINmK2YXZg9mG2YMg2KrYs9is2YrZ
-hCDYtNix2YPYqtmDINmF2KzYp9mG2YvYpyDZiNiv2YjZhiDYo9mKINix2LPZiNmF2Iwg2YjYs9iq
-2K/Zgdi5INmB2YLYtyA8c3Ryb25nPti52YXZiNmE2Kkg2LXYutmK2LHYqSDYudmE2Ykg2KfZhNit
-2KzZiNiy2KfYqiDYp9mE2YXZg9iq2YXZhNipPC9zdHJvbmc+LiDZh9iw2Kcg2YrZhdmG2K3Zg9mF
-INmB2LHYtdipIDxzdHJvbmc+2YTZhNmI2LXZiNmEINil2YTZiSDYp9mE2YXYstmK2K8g2YXZhiDY
-p9mE2LnZhdmE2KfYoSDYr9mI2YYg2KPZiiDZhdiu2KfYt9ixINmF2KfZhNmK2Kk8L3N0cm9uZz4u
-PC9wPg0KPHA+2YbYrdmGINmG2LPYqti52K8g2YTYpdi32YTYp9mCINiq2YXYp9mFINmB2YogPHN0
-cm9uZz7ZhdmG2KrYtdmBINij2KjYsdmK2YQ8L3N0cm9uZz7YjCDZiNmG2KrYt9mE2Lkg2KXZhNmJ
-INmB2LHYtdipINmF2YbYp9mC2LTYqSDZg9mK2YEg2YrZhdmD2YYg2YTYtNix2YPYqtmD2YUg2KfZ
-hNin2LPYqtmB2KfYr9ipINmF2YYg2YXZhti12KrZhtinLiDZitiz2LnYr9mG2Kcg2KrYrdiv2YrY
-ryA8c3Ryb25nPtin2KzYqtmF2KfYuSDYp9mB2KrYsdin2LbZijwvc3Ryb25nPiDZgdmKINin2YTZ
-iNmC2Kog2KfZhNmF2YbYp9iz2Kgg2YTZg9mF2Iwg2K3ZitirINiz2YbZgtiv2YUgPHN0cm9uZz7Y
-udix2LbZi9inINmF2KjYp9i02LHZi9inPC9zdHJvbmc+INmE2YTZhdmG2LXYqSDZiNmG2KzZitio
-INi52YTZiSDYo9mKINin2LPYqtmB2LPYp9ix2KfYqiDZhNiv2YrZg9mFLjwvcD4NCjxwPtmE2YTZ
-hdiy2YrYryDZhdmGINin2YTYqtmB2KfYtdmK2YQg2K3ZiNmEINiq2YXYp9mFINmI2YPZitmB2YrY
-qSDYudmF2YTZhtin2Iwg2YrZj9ix2KzZiSDYp9mE2KfYt9mE2KfYuSDYudmE2YkgPHN0cm9uZz7Y
-p9mE2LnYsdi2INin2YTYqtmC2K/ZitmF2Yog2KfZhNmF2LHZgdmCPC9zdHJvbmc+LjwvcD4NCjxw
-Ptil2LDYpyDZg9in2YYg2YTYr9mK2YPZhSDYo9mKINin2LPYqtmB2LPYp9ix2KfYqtiMINmK2YXZ
-g9mG2YPZhSDYp9mE2LHYryDYudmE2Ykg2YfYsNinINin2YTYqNix2YrYryDYp9mE2KXZhNmD2KrY
-sdmI2YbZiiDYo9mIINin2YTYqtmI2KfYtdmEINmF2LnZhtinINmF2KjYp9i02LHYqSDYudio2LEg
-PHN0cm9uZz7ZiNin2KrYs9in2Kgg2LnZhNmJINin2YTYsdmC2YUgKzk3MTUwNjAxMTkzODwvc3Ry
-b25nPi4g2YbYqti32YTYuSDYpdmE2Ykg2KfZhNiq2YjYp9i12YQg2YXYudmD2YUg2YjYp9iz2KrZ
-g9i02KfZgSDZgdix2LUg2KfZhNiq2LnYp9mI2YYg2KfZhNmF2K3YqtmF2YTYqS48L3A+DQo8cD48
-c3Ryb25nPtiq2K3Zitin2KrZhtin2Iw8L3N0cm9uZz48YnI+KmlmIHlvdSBoYXZlIGFscmVhZHkg
-b25ib2FyZGVkIHdpdGggdXMgcGxlYXNlIGlnbm9yZSB0aGlzIGVtYWlsKjwvcD48L2Rpdj48ZGl2
-PjxkaXYgZGlyPSJsdHIiIGNsYXNzPSJnbWFpbF9zaWduYXR1cmUiIGRhdGEtc21hcnRtYWlsPSJn
-bWFpbF9zaWduYXR1cmUiPjxkaXYgZGlyPSJsdHIiPjxpbWcgd2lkdGg9IjQyMCIgaGVpZ2h0PSIx
-MjEiIHNyYz0iaHR0cHM6Ly9jaTMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL21haWwtc2lnL0FJb3JL
-NHhTSURPYlB6R1NMSlBPR1ZYMm16aVNYSnpEQXBkbmNGY0JpZF8zeTExLW9KWUpJWEZ0SVdWdVEt
-S0l6dzM1ZUx3OEVFb3RQUDR0SkhzVCI+PGJyPjwvZGl2PjwvZGl2PjwvZGl2PjwvZGl2Pg0KPGlt
-ZyBzcmM9Imh0dHBzOi8vdGFtYW0tZW1haWwuZW1haWxyb3V0ZS5uZXQvejBUaDZPQUpvb082a1VX
-bVAzV3pZS0p1bEhzcmdoX0wyblJ1bkpFWE9hZFNXYlRDQUh1Y0Jrdm1LS0ZPTTdIZzMwSWxUVHY3
-UFFzNDhCZDFxbHNlVjd6dDNhRGV1ZE1PMGFRVG5pQ2J0dWtIeVdxYzZhNVRSbnBKWWNVenpubnhw
-bE9RRWlubEVYN2pET00tcFdPR2JOUEc3bGR2TUdUQjJfbmF3clNHalBzYWpnbU9DaWszIiBhbHQ9
-IiI+DQo=
---000000000000cc944206305cc669--
+Signed-off-by: Timur Tabi <ttabi@nvidia.com>
+---
+ copy-firmware.sh | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/copy-firmware.sh b/copy-firmware.sh
+index dd4b9b6f..cd5a6893 100755
+--- a/copy-firmware.sh
++++ b/copy-firmware.sh
+@@ -11,8 +11,13 @@ compext=
+ destdir=
+ num_jobs=1
+ 
++usage() {
++    echo "Usage: $0 [-v] [-jN] [--xz|--zstd] <destination directory>"
++}
++
+ err() {
+     printf "ERROR: %s\n" "$*"
++    usage
+     exit 1
+ }
+ 
+@@ -39,6 +44,7 @@ while test $# -gt 0; do
+ 
+         -j*)
+             num_jobs=$(echo "$1" | sed 's/-j//')
++            num_jobs=${num_jobs:-1}
+             if [ "$num_jobs" -gt 1 ] && ! has_gnu_parallel; then
+                     err "the GNU parallel command is required to use -j"
+             fi
+@@ -66,6 +72,18 @@ while test $# -gt 0; do
+             shift
+             ;;
+ 
++        -h|--help)
++            usage
++            exit 1
++            ;;
++
++        -*)
++            # Ignore anything else that begins with - because that confuses
++            # the "test" command below
++            warn "ignoring option $1"
++            shift
++            ;;
++
+         *)
+             if test -n "$destdir"; then
+                 err "unknown command-line options: $*"
+-- 
+2.43.0
+
