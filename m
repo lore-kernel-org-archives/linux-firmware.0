@@ -1,109 +1,115 @@
-Return-Path: <SRS0=+zm6=WG=quicinc.com=quic_ekangupt@kernel.org>
+Return-Path: <SRS0=i92K=WG=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9562C35FFC
-	for <linux-firmware@archiver.kernel.org>; Wed, 19 Mar 2025 15:40:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B23FC35FFA
+	for <linux-firmware@archiver.kernel.org>; Wed, 19 Mar 2025 15:42:29 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B41D4C4CEE8; Wed, 19 Mar 2025 15:40:42 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	id 607DEC4CEE4; Wed, 19 Mar 2025 15:42:29 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 3C003C4CEE4
-	for <linux-firmware@kernel.org>; Wed, 19 Mar 2025 15:40:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 3C003C4CEE4
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52JE7mJb026896;
-	Wed, 19 Mar 2025 15:40:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=uzV3xvJYRKZyYwwS3nYtn4
-	fUG/DpQEWBb+bqmfRsLe0=; b=HWoawr2zNsxHRIOpnfgRYLreqx0i8fUzWc1auT
-	DZp2SyQ8L4Mdyp15h+iyfw/3DABmAXcAwj3U+75C0waCZT4qRXs+oqwZqI8zhf/l
-	MRnkdQXFsYh79UcOjzSKBSj3vjYUfMftOcO7d+Y32npxee58qu5qLZTOhe6/r4oa
-	ujwyK7i+MGycCl9e/qyl+rV985eCW3Fq+pWVcVuIVB3ZgpUKd1gb72MAE+O+V/x1
-	DiJShB+w/qfQKxd9YPF41aCE0CEXU6JcF9FsH9MdY0WKN/CKmUJxMoP9MQGM2xek
-	5R0IJBH/+17Nj1QiE6ihcE7bgLUjFOELthQSU41QNOH9WrCw==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45f91t423h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Mar 2025 15:40:40 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52JFedvV011392
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Mar 2025 15:40:39 GMT
-Received: from [10.216.33.155] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 19 Mar
- 2025 08:40:37 -0700
-Message-ID: <01872bb9-682e-4069-919d-3812c7bf3226@quicinc.com>
-Date: Wed, 19 Mar 2025 21:10:34 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
+	by smtp.kernel.org (Postfix) with ESMTPS id 29B35C4CEE8
+	for <linux-firmware@kernel.org>; Wed, 19 Mar 2025 15:42:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 29B35C4CEE8
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52JE4lrT019760
+	for <linux-firmware@kernel.org>; Wed, 19 Mar 2025 15:42:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=DRQCF5hhj8L1K8JhJOy6kfQr
+	Ulls9qX3o3nRiZIcjr4=; b=KciS2BVM/Qd4DrnZx+oxsClYCfHDzvkDDEar1IfX
+	Om++4zsRjeQkqcDwAvYZp7CAq3nTYzmP/f9EE3jc5VDKpsGUZVGpcnKnRbjyUDCz
+	L5fIr/oU0TYYZJHYw9refRprBPu4EooJsWzzQK+rVovAwbL2vbVi0O6CR3Pk84DA
+	cXSEAjUydphUU031YDTym5ncM8Q4LJP1T67rpRD/RP+Cv5KPWxZm59YWLN8sz3cr
+	MnQFIJTx15Y6FxxaYNB07sMq2Hmu9NX3fqDFN+G2omc1ZicaKZ2Kfqj8eHdsyURt
+	9T0rGeI4QvlV50596nNB7qOOPau4CO/oC6TCo9ETREQmdQ==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45d1uu46f5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-firmware@kernel.org>; Wed, 19 Mar 2025 15:42:26 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7c0a89afcaaso131246985a.0
+        for <linux-firmware@kernel.org>; Wed, 19 Mar 2025 08:42:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742398946; x=1743003746;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DRQCF5hhj8L1K8JhJOy6kfQrUlls9qX3o3nRiZIcjr4=;
+        b=UKJ79Vpd5WBV6iR4EfqSkF06c65yfpbEA3UBO0NvYKL3beIw0eU0p0YEz/fsd5zn0P
+         kwCZtwPzV/L2c6oEUQ0v+Lk1gkUkJZ2u4PMpX72VcA1yKie8T9Kt5tASAW4KcKyPxF/j
+         8Yhz5bfDjS9BU9r11AgtgtvNgejy/BbO+7YTzv7cEGpdOeVgcbPNYcCqNaRDWd7tNdfw
+         DA8pm55/bqciCUFCjHbAW65uWnv9RpFT8nm4ZuGWw+jwgEo5pVDrJ9nI8fkPObmphbJD
+         l6qyfBtUlPM6EZ7+CCivC6Dg61sLK0sUN1WaebjoTuz3gUQ1HYPL/FdhOjnNxHQyMZOg
+         NUKg==
+X-Gm-Message-State: AOJu0YwjVbgO1NpHikW/nmjJl0AKUZyKU8nMUR54ja4LuBf3P0bTKmsN
+	qoA/spT75jTmc10Vz6e37jlFFXjAa58RCXcQOsly1ouLn3s0pHEXjkdB12LzugiV/T0gRsrMwBG
+	6mTCIQQUiyDBs8TrPIvUMS48qRjn2/v6iJwHXLRFOq3kFwFdspERwMrMIOrA=
+X-Gm-Gg: ASbGncvCtlSl7A51e/6PChHYBpA7k9muWvDeiYZ6zUYkKRlct7/ia29jJJ3XK8+4oEV
+	fLowNzYKuJ5pfrYTthySrZ6Pe+9KquQcu9j8XxedHuoZjZhZWfgjpDhfKnhmSXtDLSunBKP2bHx
+	4WH7y/UF2V36BsjaRoImhakrzkV4088TSvRnfITK9RywPjdFb1k+L9sZpBW64MMkHb5u1qmGhRt
+	IGaxDfM5BBn+oIlSgKlfKstSpcHKmSZ12KzQw/xKrBC47SYdNwk28+tWwNuxixdg3CP11ufaVKU
+	/M7aqexiFBWgjUtYIgu3SVFlSBm9rTgGPQwzUCo0uaHD8HCTTedJadvGb2XTkVdKs215BxRFpe+
+	bb5E=
+X-Received: by 2002:a05:620a:3907:b0:7c5:93ad:d2d4 with SMTP id af79cd13be357-7c59b5e7a76mr1207431885a.9.1742398945756;
+        Wed, 19 Mar 2025 08:42:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHzr+pCG36S2tpTWbn6oEA6s+NryxcuyqGx7+Si1rCRL7ZACVOni0kUwTcPwDOtCjsM5t/jhA==
+X-Received: by 2002:a05:620a:3907:b0:7c5:93ad:d2d4 with SMTP id af79cd13be357-7c59b5e7a76mr1207428885a.9.1742398945389;
+        Wed, 19 Mar 2025 08:42:25 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549ba88508asm1982032e87.186.2025.03.19.08.42.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Mar 2025 08:42:23 -0700 (PDT)
+Date: Wed, 19 Mar 2025 17:42:21 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Ekansh Gupta <quic_ekangupt@quicinc.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-CC: "Bharath Kumar (QUIC)" <quic_bkumar@quicinc.com>,
-        "Chenna Kesava Raju
- (QUIC)" <quic_chennak@quicinc.com>,
-        Srinivas Kandagatla
-	<srinivas.kandagatla@linaro.org>,
-        <dmitry.baryshkov@oss.qualcomm.com>
-From: Ekansh Gupta <quic_ekangupt@quicinc.com>
-Subject: qcom: Add DSP firmware for QCS8300 platform
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Rxh0_DlBhWPKKMaQTVE2FWcHe8Gb_aS-
-X-Authority-Analysis: v=2.4 cv=Xrz6OUF9 c=1 sm=1 tr=0 ts=67dae578 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=qC_FGOx9AAAA:8 a=_vmhtuJHJGQ_viuv8wUA:9 a=QEXdDO2ut3YA:10
- a=fsdK_YakeE02zTmptMdW:22
-X-Proofpoint-ORIG-GUID: Rxh0_DlBhWPKKMaQTVE2FWcHe8Gb_aS-
+Cc: linux-firmware@kernel.org,
+        "Bharath Kumar (QUIC)" <quic_bkumar@quicinc.com>,
+        "Chenna Kesava Raju (QUIC)" <quic_chennak@quicinc.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Subject: Re: qcom: Add DSP firmware for QCS8300 platform
+Message-ID: <qecbhpoxqw3k6ua25ua3o7ygwiu3x2klr4vnln4sedenmmpeeb@nvdczbvesh7b>
+References: <01872bb9-682e-4069-919d-3812c7bf3226@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <01872bb9-682e-4069-919d-3812c7bf3226@quicinc.com>
+X-Authority-Analysis: v=2.4 cv=H8Pbw/Yi c=1 sm=1 tr=0 ts=67dae5e2 cx=c_pps a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=Vs1iUdzkB0EA:10 a=qC_FGOx9AAAA:8 a=EUspDBNiAAAA:8 a=V2X6L0mAzZrKCOlxlAkA:9 a=CjuIK1q_8ugA:10
+ a=IoWCM6iH3mJn3m4BftBB:22 a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-GUID: mQR1LMbxeHmKQ8GR127OWjQ1X_dn7lyr
+X-Proofpoint-ORIG-GUID: mQR1LMbxeHmKQ8GR127OWjQ1X_dn7lyr
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-19_06,2025-03-19_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- bulkscore=0 impostorscore=0 mlxlogscore=481 clxscore=1015 mlxscore=0
- priorityscore=1501 phishscore=0 suspectscore=0 adultscore=0 spamscore=0
- malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=682
+ lowpriorityscore=0 bulkscore=0 adultscore=0 spamscore=0 priorityscore=1501
+ mlxscore=0 suspectscore=0 malwarescore=0 clxscore=1015 impostorscore=0
+ phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
  definitions=main-2503190106
 
-The following changes since commit 430633ec9398a44575ed86f92e36541d5feebdd6:
+On Wed, Mar 19, 2025 at 09:10:34PM +0530, Ekansh Gupta wrote:
+> The following changes since commit 430633ec9398a44575ed86f92e36541d5feebdd6:
+> 
+>   Merge branch 'robot/patch-1-1742367326' into 'main' (2025-03-19 11:10:14 +0000)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git dsp-fw-qcs8300
+> 
+> for you to fetch changes up to bd50c4979e4edd2f23b40c9dace8f9c05c807bb0:
+> 
+>   qcom: Add DSP firmware for QCS8300 platform (2025-03-19 21:03:57 +0530)
 
-  Merge branch 'robot/patch-1-1742367326' into 'main' (2025-03-19 11:10:14 +0000)
+Thank you!
 
-are available in the Git repository at:
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-  https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git dsp-fw-qcs8300
-
-for you to fetch changes up to bd50c4979e4edd2f23b40c9dace8f9c05c807bb0:
-
-  qcom: Add DSP firmware for QCS8300 platform (2025-03-19 21:03:57 +0530)
-
-----------------------------------------------------------------
-Ekansh Gupta (1):
-      qcom: Add DSP firmware for QCS8300 platform
-
- WHENCE                  |   9 +++++++++
- qcom/qcs8300/adsp.mbn   | Bin 0 -> 6643712 bytes
- qcom/qcs8300/adspr.jsn  |  22 ++++++++++++++++++++++
- qcom/qcs8300/adspua.jsn |  29 +++++++++++++++++++++++++++++
- qcom/qcs8300/cdsp0.mbn  | Bin 0 -> 3084288 bytes
- qcom/qcs8300/cdspr.jsn  |  22 ++++++++++++++++++++++
- qcom/qcs8300/gpdsp0.mbn | Bin 0 -> 5832704 bytes
- 7 files changed, 82 insertions(+)
- create mode 100644 qcom/qcs8300/adsp.mbn
- create mode 100644 qcom/qcs8300/adspr.jsn
- create mode 100644 qcom/qcs8300/adspua.jsn
- create mode 100644 qcom/qcs8300/cdsp0.mbn
- create mode 100644 qcom/qcs8300/cdspr.jsn
- create mode 100644 qcom/qcs8300/gpdsp0.mbn
-
+-- 
+With best wishes
+Dmitry
