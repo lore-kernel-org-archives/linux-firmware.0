@@ -1,113 +1,217 @@
-Return-Path: <SRS0=i92K=WG=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=5Dxy=WG=collabora.com=nfraprado@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CA5C8C35FFA
-	for <linux-firmware@archiver.kernel.org>; Wed, 19 Mar 2025 11:53:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD550C35FFA
+	for <linux-firmware@archiver.kernel.org>; Wed, 19 Mar 2025 13:59:58 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id A94C8C4CEEA; Wed, 19 Mar 2025 11:53:04 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id 7E94BC4CEE8; Wed, 19 Mar 2025 13:59:58 +0000 (UTC)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id B27B8C4CEE9
-	for <linux-firmware@kernel.org>; Wed, 19 Mar 2025 11:53:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org B27B8C4CEE9
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52J4lgbB013146
-	for <linux-firmware@kernel.org>; Wed, 19 Mar 2025 11:53:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=VfjEq71Epm8bmS+iCe1o62dp
-	OmzikYWzE0KYJ2m2eho=; b=eSNjO1D4cI/nCR0Zk9kINF+ipYPpektZWrLtneON
-	8oZl9YKShhlOOYB/zkhtXK+sLZuJUs6sV0lb948ExotFGgcOH6ECbRlVHHbGjtgn
-	h9N5SYtI1WHiNZCGyCDsshaXY/frQ8C03BjTJyfaYuVWP/AjWUr7uPH1YHW9/+lX
-	oyQdP+4bqP4jWA5LOJpYUoiM4DUxHbn4fjZuDyOj2Ym5UarRbkDcZCRLLEwE+BeF
-	EuhEe7zsgoVIsUYFqTXVd+Ql59b1RdALhHklEPlOBXuSXWhwZjA8Xyp5m6sgKE5S
-	GiKFV1oZehY9UfEstjJJ0Xt7dFBQplQ20Bu+6tmGih9tEQ==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45exwtnaej-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Wed, 19 Mar 2025 11:53:02 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4766c80d57eso121735841cf.2
-        for <linux-firmware@kernel.org>; Wed, 19 Mar 2025 04:53:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742385181; x=1742989981;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VfjEq71Epm8bmS+iCe1o62dpOmzikYWzE0KYJ2m2eho=;
-        b=k4lW/kczYBNclSo9Hq/Vdksc5dXJ/Q54sfS+0cov+KXnyjZpsPzi/wqcKsl3Pu6MpW
-         erS4QScBzmAlkcL0n4s0ly0JqnDm0i6bmwfRKCDfp82vuJHCYBxturCZ+Na9WtloJZMK
-         RfZkqE7JvCRWJoKJQi6IG87iAl6MlXI3Vl2EFXl6NTmQLgiGGDUHl99ZPUZ/fhz9RWV+
-         MhJc52lgpieRvwVdefDkDIoj59gr9euum7XEMVPlQ7w1CWUkd0Dd0x/DOJFkjlemGMvP
-         ezts9tACV7/LlInJsVpYNAkFFQfIeLIgCEd1kG3xjIXJFlje/yp/g0Cq0uCqmNnCqXu6
-         OZow==
-X-Gm-Message-State: AOJu0YxqpkC1oTMrGT64kbAL3zpibI7YSyHfEuZmMmaSJMhQGlPvjGjT
-	2QZtU1OY2jFGhxBE9Y7lFLtzDRfXb5ZRySDAzFO1mQCnp+BA1HXadFG1HluR6HdTWFO1DGVZyul
-	LiDxa8jykRjrx18wMZxyVZIc5v3xsV6lFEwJM4rii5s3ykHMT0vyPO2h2UzA=
-X-Gm-Gg: ASbGnctSLPKm/RDCep3RLxjyzCcAaYYKR1YlbK2XwcFjmdrHTd0tMAV/JzwsFpUYZtD
-	LwCH3BTrYGyDmH9I8gbpAKRNADfDYws8tEyHDYkOG5mXMayMT3CrpW8qgl0t4PfyQco8w7gu2+w
-	JF/rQ0SICCrU0aD0e0pQd8tgIabHbwlaxyHwUbSOPWvcULsWW0Y5ObafdYk2tYWOgWofTdREpdJ
-	hMojTB48cYyUPkc5Vwu/i2AxjG9GSyeMernXFYJSnsV/pDJbXouPtieffNm94ksuCt0yhjGxGkI
-	Cvaf39lp98psO2S4Px5KKS8+KjY8p4wve/05vLMRLmF3LuCA4LpTJNqOVlDXttkMmVSbD+OcEgo
-	h4es=
-X-Received: by 2002:a05:622a:1c14:b0:476:9193:ce5f with SMTP id d75a77b69052e-4770836aa7bmr46550171cf.38.1742385181607;
-        Wed, 19 Mar 2025 04:53:01 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGvkPVxOpIoOJOi4VLwaUKNR6KbM0L3uUsHdwPxpwz1ei5xZT75scqXc223zbF1YQaABWnInw==
-X-Received: by 2002:a05:622a:1c14:b0:476:9193:ce5f with SMTP id d75a77b69052e-4770836aa7bmr46549921cf.38.1742385181259;
-        Wed, 19 Mar 2025 04:53:01 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30c3f1daa4fsm21901611fa.101.2025.03.19.04.53.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 04:53:00 -0700 (PDT)
-Date: Wed, 19 Mar 2025 13:52:58 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Ekansh Gupta <ekangupt@qualcomm.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id CF367C4CEE4
+	for <linux-firmware@kernel.org>; Wed, 19 Mar 2025 13:59:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org CF367C4CEE4
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1742392793;
+	bh=APDZVFnLzsCbVAurBzbu6VmJnhYacC7o2vLBpdbSa40=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=o5tbF23tF06gFDPAa6RJMu+tK4yfW37huCK6y9VBM4UPbJ7U2PAJ+eHhY64lpOVQq
+	 C9g4+ut1oPEzsupuhxJjJdz1Up/jCUH+LovaoS7VHvsYmnsGbOaA3dLneUguoL2xZY
+	 d3bf6ln/jjo5nYpvsvVfqLeuY8uh/pqy5yPunVagLPJcrJ44AdMGIHS604OxTV+sTh
+	 FV9JKZHMXnZTqQTeqP9SxYhCL/MXaq4JUmugQ6PtlZPUIYC00VZs/Qu6REjEsB49L8
+	 aljlKFpvuU1bBr7Zaftdzpn872UiLRmUuOn68fJmonbvcx8BJeYA4ucKssUbsa98a4
+	 7h/lqvvowwxUA==
+Received: from notapiano (unknown [70.107.117.78])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7665A17E0F9F;
+	Wed, 19 Mar 2025 14:59:52 +0100 (CET)
+Date: Wed, 19 Mar 2025 10:59:49 -0300
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: Moudy Ho <moudy.ho@mediatek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org
-Subject: Re: qcom: Add DSP firmware for Qualcomm QCS8300 platform
-Message-ID: <qf52acj3rhmztyhtmvxejzzz263bznwvvbs7dqm4yytw3mduif@yl4ocbykomb6>
-References: <20250319114242.7192EAE2@hu-devc-hyd-u22-c.qualcomm.com>
+Cc: linux-firmware@kernel.org, linux-mediatek@lists.infradead.org,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Jason Chen <Jason-ch.Chen@mediatek.com>
+Subject: Re: [PATCH] mediatek: Add MT8188 SCP firmware
+Message-ID: <8049a2ec-b5fe-440d-9704-c3b0e2d610c7@notapiano>
+References: <20250319065243.3775352-1-moudy.ho@mediatek.com>
+ <20250319065243.3775352-2-moudy.ho@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250319114242.7192EAE2@hu-devc-hyd-u22-c.qualcomm.com>
-X-Proofpoint-GUID: ExWkSuPD_1hjAN2Dzov4b-ITcYOhKkMr
-X-Proofpoint-ORIG-GUID: ExWkSuPD_1hjAN2Dzov4b-ITcYOhKkMr
-X-Authority-Analysis: v=2.4 cv=UoJjN/wB c=1 sm=1 tr=0 ts=67dab01e cx=c_pps a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=Vs1iUdzkB0EA:10 a=VwQbUJbxAAAA:8 a=nZ1NwC8qVhZlSVHIok0A:9 a=CjuIK1q_8ugA:10 a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-19_04,2025-03-19_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
- impostorscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=900
- phishscore=0 adultscore=0 clxscore=1015 spamscore=0 suspectscore=0
- lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503190082
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250319065243.3775352-2-moudy.ho@mediatek.com>
 
-On Wed, Mar 19, 2025 at 05:12:42PM +0530, Ekansh Gupta wrote:
-> The following changes since commit 0c5a986c6bd6b8cf382379c4f9c844867251bafa:
+On Wed, Mar 19, 2025 at 02:51:56PM +0800, Moudy Ho wrote:
+> System Control Processor is an RISC-V processor in MediaTek MT8188 SoC.
+> It supports vedio encode/decode, MDP and CrOS EC host command.
 > 
->   qcom: Add DSP firmware for QCS8300 platform (2025-03-19 15:48:48 +0530)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git 
-> 
-> for you to fetch changes up to 0c5a986c6bd6b8cf382379c4f9c844867251bafa:
+> Internal version: geralt_scp_v2.0.27748+eb0d73d0d
+> Release version: v2.0.27748
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
 
-No, they are not. Please review your messages before sending or open a
-merge request at gitlab.
+Thanks Moudy.
 
-> 
->   qcom: Add DSP firmware for QCS8300 platform (2025-03-19 15:48:48 +0530)
-> 
-> ----------------------------------------------------------------
+Indeed I've verified this firmware has working MDP for format conversion and
+stateless video decoding, and that it works with the dual core SCP description.
+I've tested the series in [1] and [2]. I'll attach results below for
+completeness' sake.
 
--- 
-With best wishes
-Dmitry
+There's some color differences with some of the formats on the MDP (particularly
+RGB->YUV), and H.264 decoding doesn't work at all, but otherwise results look
+good. Glad to see this firmware going upstream.
+
+Thanks,
+Nícolas
+
+[1] https://lore.kernel.org/all/20250318-scp-dual-core-mt8390-v1-0-8733e192cc73@collabora.com
+[2] https://lore.kernel.org/all/20241218105320.38980-1-angelogioacchino.delregno@collabora.com/
+
+SCP boot snippet:
+
+  [    2.811141] remoteproc remoteproc0: Booting fw image mediatek/mt8188/scp.img, size 636548
+  [    2.812230] platform 10500000.scp: IPI buf addr 0x000cfb40
+  [    2.866395] platform 10500000.scp: SCP is ready. FW version geralt_scp_v2.0.27748+eb0d73d0d
+  [    2.866395] platform 10500000.scp: creating channel cros-ec-rpmsg addr 0xd
+  [    2.867483] remoteproc remoteproc0: remote processor scp is now up
+
+Stateless video decoding:
+
+  fluster run -d GStreamer-VP8-V4L2SL-Gst1.0 -ts VP8-TEST-VECTORS
+  Ran 57/61 tests successfully               in 1.856 secs
+  fluster run -d GStreamer-VP9-V4L2SL-Gst1.0 -ts VP9-TEST-VECTORS
+  Ran 254/305 tests successfully               in 46.863 secs
+  fluster run -d GStreamer-VP9-V4L2SL-Gst1.0 -ts VP9-TEST-VECTORS-HIGH
+  Ran 0/6 tests successfully               in 2.158 secs
+  fluster run -d GStreamer-H.264-V4L2SL-Gst1.0 -ts JVT-FR-EXT
+  Ran 0/69 tests successfully               in 115.867 secs
+  fluster run -d GStreamer-H.264-V4L2SL-Gst1.0 -ts JVT-AVC_V1
+  Ran 0/135 tests successfully               in 286.906 secs
+  fluster run -d GStreamer-H.265-V4L2SL-Gst1.0 -ts JCT-VC-RExt
+  Ran 0/49 tests successfully               in 21.856 secs
+  fluster run -d GStreamer-H.265-V4L2SL-Gst1.0 -ts JCT-VC-MV-HEVC
+  Ran 6/9 tests successfully               in 3.129 secs
+  fluster run -d GStreamer-H.265-V4L2SL-Gst1.0 -ts JCT-VC-HEVC_V1
+  Ran 142/147 tests successfully               in 35.726 secs
+  fluster run -d GStreamer-H.265-V4L2SL-Gst1.0 -ts JCT-VC-SCC
+  Ran 0/15 tests successfully               in 28.171 secs
+  fluster run -d GStreamer-AV1-V4L2SL-Gst1.0 -ts CHROMIUM-8bit-AV1-TEST-VECTORS
+  Ran 11/13 tests successfully               in 1.542 secs
+  fluster run -d GStreamer-AV1-V4L2SL-Gst1.0 -ts CHROMIUM-10bit-AV1-TEST-VECTORS
+  Ran 22/23 tests successfully               in 0.899 secs
+  fluster run -d GStreamer-AV1-V4L2SL-Gst1.0 -ts AV1-TEST-VECTORS
+  Ran 237/239 tests successfully               in 6.598 secs
+
+Stateless video decoding with single job:
+
+  fluster run -j 1 -d GStreamer-VP8-V4L2SL-Gst1.0 -ts VP8-TEST-VECTORS
+  Ran 61/61 tests successfully               in 8.476 secs
+  fluster run -j 1 -d GStreamer-VP9-V4L2SL-Gst1.0 -ts VP9-TEST-VECTORS
+  Ran 265/305 tests successfully               in 169.501 secs
+  fluster run -j 1 -d GStreamer-VP9-V4L2SL-Gst1.0 -ts VP9-TEST-VECTORS-HIGH
+  Ran 1/6 tests successfully               in 2.813 secs
+  fluster run -j 1 -d GStreamer-H.264-V4L2SL-Gst1.0 -ts JVT-FR-EXT
+  Ran 0/69 tests successfully               in 143.806 secs
+  fluster run -j 1 -d GStreamer-H.264-V4L2SL-Gst1.0 -ts JVT-AVC_V1
+  Ran 0/135 tests successfully               in 244.404 secs
+  fluster run -j 1 -d GStreamer-H.265-V4L2SL-Gst1.0 -ts JCT-VC-RExt
+  Ran 2/49 tests successfully               in 60.082 secs
+  fluster run -j 1 -d GStreamer-H.265-V4L2SL-Gst1.0 -ts JCT-VC-MV-HEVC
+  Ran 6/9 tests successfully               in 11.999 secs
+  fluster run -j 1 -d GStreamer-H.265-V4L2SL-Gst1.0 -ts JCT-VC-HEVC_V1
+  Ran 142/147 tests successfully               in 119.169 secs
+  fluster run -j 1 -d GStreamer-H.265-V4L2SL-Gst1.0 -ts JCT-VC-SCC
+  Ran 0/15 tests successfully               in 48.755 secs
+  fluster run -j 1 -d GStreamer-AV1-V4L2SL-Gst1.0 -ts CHROMIUM-8bit-AV1-TEST-VECTORS
+  Ran 11/13 tests successfully               in 6.151 secs
+  fluster run -j 1 -d GStreamer-AV1-V4L2SL-Gst1.0 -ts CHROMIUM-10bit-AV1-TEST-VECTORS
+  Ran 22/23 tests successfully               in 4.718 secs
+  fluster run -j 1 -d GStreamer-AV1-V4L2SL-Gst1.0 -ts AV1-TEST-VECTORS
+  Ran 237/239 tests successfully               in 45.509 secs
+
+MDP format conversion and comparison to reference using avvideocompare:
+
+  Command used:
+
+    gst-launch-1.0 videotestsrc num-buffers=1 ! video/x-raw,framerate=30/1,width=1920,height=1080,format=ARGB ! videoconvert ! tee name=t \
+      t. ! queue ! videoconvert ! video/x-raw,framerate=30/1,width="$W_IN",height="$H_IN",format="$FORMAT_IN" ! v4l2convert ! video/x-raw,framerate=30/1,width="$W_OUT",height="$H_OUT",format="$FORMAT_OUT" ! videoconvert ! video/x-raw,framerate=30/1,width=1920,height=1080,format=ARGB ! cmp. \
+      t. ! queue ! cmp. \
+      avvideocompare name=cmp stats-file=mdp-stats.txt ! videoconvert ! pngenc ! filesink location=mdp-output-$FORMAT_IN-${W_IN}x$H_IN-$FORMAT_OUT-${W_OUT}x$H_OUT.png >/dev/null
+
+  Results:
+
+    mdp-output-RGB-1920x1080-RGB-1920x1080.png
+    n:1 R:1.000000 G:1.000000 B:1.000000 All:1.000000 (inf)
+    mdp-output-RGB-1920x1080-BGR-1920x1080.png
+    n:1 R:0.711601 G:0.999968 B:0.665514 All:0.792361 (6.826908)
+    mdp-output-RGB-1920x1080-GRAY8-1920x1080.png
+    n:1 R:0.523243 G:0.623202 B:0.537468 All:0.561304 (3.578367)
+    mdp-output-RGB-1920x1080-RGB16-1920x1080.png
+    n:1 R:0.999621 G:0.999665 B:0.999600 All:0.999629 (34.303583)
+    mdp-output-RGB-1920x1080-BGRA-1920x1080.png
+    n:1 R:0.711601 G:0.999968 B:0.665514 All:0.792361 (6.826908)
+    mdp-output-RGB-1920x1080-ARGB-1920x1080.png
+    n:1 R:0.711601 G:0.999968 B:0.665514 All:0.792361 (6.826908)
+    mdp-output-RGB-1920x1080-UYVY-1920x1080.png
+    n:1 R:0.976468 G:0.775003 B:0.976679 All:0.909383 (10.427914)
+    mdp-output-RGB-1920x1080-YUY2-1920x1080.png
+    n:1 R:0.976468 G:0.775003 B:0.976679 All:0.909383 (10.427914)
+    mdp-output-RGB-1920x1080-YVYU-1920x1080.png
+    n:1 R:0.976468 G:0.775003 B:0.976679 All:0.909383 (10.427914)
+    mdp-output-RGB-1920x1080-Y42B-1920x1080.png
+    n:1 R:0.976468 G:0.775003 B:0.976679 All:0.909383 (10.427914)
+    mdp-output-RGB-1920x1080-I420-1920x1080.png
+    n:1 R:0.978219 G:0.775121 B:0.977282 All:0.910207 (10.467595)
+    mdp-output-RGB-1920x1080-YV12-1920x1080.png
+    n:1 R:0.978219 G:0.775121 B:0.977282 All:0.910207 (10.467595)
+    mdp-output-RGB-1920x1080-NV12-1920x1080.png
+    n:1 R:0.971726 G:0.773995 B:0.972451 All:0.906057 (10.271370)
+    mdp-output-RGB-1920x1080-NV21-1920x1080.png
+    n:1 R:0.971726 G:0.773995 B:0.972451 All:0.906057 (10.271370)
+    mdp-output-RGB-1920x1080-NV16-1920x1080.png
+    n:1 R:0.976468 G:0.775003 B:0.976679 All:0.909383 (10.427914)
+    mdp-output-RGB-1920x1080-NV61-1920x1080.png
+    n:1 R:0.976468 G:0.775003 B:0.976679 All:0.909383 (10.427914)
+    mdp-output-YVYU-1920x1080-YVYU-1920x1080.png
+    n:1 R:0.987354 G:0.989508 B:0.988062 All:0.988308 (19.321067)
+    mdp-output-YVYU-1920x1080-RGB-1920x1080.png
+    n:1 R:0.928199 G:0.993958 B:0.844533 All:0.922230 (11.091892)
+    mdp-output-YVYU-1920x1080-GRAY8-1920x1080.png
+    n:1 R:0.448041 G:0.540839 B:0.474512 All:0.487797 (2.905581)
+    mdp-output-YVYU-1920x1080-RGB16-1920x1080.png
+    n:1 R:0.997089 G:0.993692 B:0.996848 All:0.995876 (23.847107)
+    mdp-output-YVYU-1920x1080-BGR-1920x1080.png
+    n:1 R:0.928199 G:0.993958 B:0.844533 All:0.922230 (11.091892)
+    mdp-output-YVYU-1920x1080-BGRA-1920x1080.png
+    n:1 R:0.928199 G:0.993958 B:0.844533 All:0.922230 (11.091892)
+    mdp-output-YVYU-1920x1080-ARGB-1920x1080.png
+    n:1 R:0.928199 G:0.993958 B:0.844533 All:0.922230 (11.091892)
+    mdp-output-YVYU-1920x1080-UYVY-1920x1080.png
+    n:1 R:0.991598 G:0.642711 B:0.991576 All:0.875295 (9.041151)
+    mdp-output-YVYU-1920x1080-YUY2-1920x1080.png
+    n:1 R:0.991598 G:0.642711 B:0.991576 All:0.875295 (9.041151)
+    mdp-output-YVYU-1920x1080-YVYU-1920x1080.png
+    n:1 R:0.987354 G:0.989508 B:0.988062 All:0.988308 (19.321067)
+    mdp-output-YVYU-1920x1080-Y42B-1920x1080.png
+    n:1 R:0.991598 G:0.642711 B:0.991576 All:0.875295 (9.041151)
+    mdp-output-YVYU-1920x1080-I420-1920x1080.png
+    n:1 R:0.997424 G:0.644937 B:0.996892 All:0.879751 (9.199194)
+    mdp-output-YVYU-1920x1080-YV12-1920x1080.png
+    n:1 R:0.997424 G:0.644937 B:0.996892 All:0.879751 (9.199194)
+    mdp-output-YVYU-1920x1080-NV12-1920x1080.png
+    n:1 R:0.984776 G:0.641210 B:0.985780 All:0.870588 (8.880271)
+    mdp-output-YVYU-1920x1080-NV21-1920x1080.png
+    n:1 R:0.984776 G:0.641210 B:0.985780 All:0.870588 (8.880271)
+    mdp-output-YVYU-1920x1080-NV16-1920x1080.png
+    n:1 R:0.991598 G:0.642711 B:0.991576 All:0.875295 (9.041151)
+    mdp-output-YVYU-1920x1080-NV61-1920x1080.png
+    n:1 R:0.991598 G:0.642711 B:0.991576 All:0.875295 (9.041151)
