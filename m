@@ -1,217 +1,199 @@
-Return-Path: <SRS0=5Dxy=WG=collabora.com=nfraprado@kernel.org>
+Return-Path: <SRS0=+zm6=WG=quicinc.com=quic_ekangupt@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD550C35FFA
-	for <linux-firmware@archiver.kernel.org>; Wed, 19 Mar 2025 13:59:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD763C35FFA
+	for <linux-firmware@archiver.kernel.org>; Wed, 19 Mar 2025 14:54:44 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 7E94BC4CEE8; Wed, 19 Mar 2025 13:59:58 +0000 (UTC)
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	id 84742C4CEE8; Wed, 19 Mar 2025 14:54:44 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id CF367C4CEE4
-	for <linux-firmware@kernel.org>; Wed, 19 Mar 2025 13:59:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org CF367C4CEE4
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1742392793;
-	bh=APDZVFnLzsCbVAurBzbu6VmJnhYacC7o2vLBpdbSa40=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=o5tbF23tF06gFDPAa6RJMu+tK4yfW37huCK6y9VBM4UPbJ7U2PAJ+eHhY64lpOVQq
-	 C9g4+ut1oPEzsupuhxJjJdz1Up/jCUH+LovaoS7VHvsYmnsGbOaA3dLneUguoL2xZY
-	 d3bf6ln/jjo5nYpvsvVfqLeuY8uh/pqy5yPunVagLPJcrJ44AdMGIHS604OxTV+sTh
-	 FV9JKZHMXnZTqQTeqP9SxYhCL/MXaq4JUmugQ6PtlZPUIYC00VZs/Qu6REjEsB49L8
-	 aljlKFpvuU1bBr7Zaftdzpn872UiLRmUuOn68fJmonbvcx8BJeYA4ucKssUbsa98a4
-	 7h/lqvvowwxUA==
-Received: from notapiano (unknown [70.107.117.78])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7665A17E0F9F;
-	Wed, 19 Mar 2025 14:59:52 +0100 (CET)
-Date: Wed, 19 Mar 2025 10:59:49 -0300
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: Moudy Ho <moudy.ho@mediatek.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 2C9C8C4CEE4
+	for <linux-firmware@kernel.org>; Wed, 19 Mar 2025 14:54:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 2C9C8C4CEE4
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52JDUR79021121
+	for <linux-firmware@kernel.org>; Wed, 19 Mar 2025 14:54:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	3x3/tAGOAHHvzSbasSdsmuZroTA30t4FcB+Su/tt5S0=; b=SggUvsO7/9NsG8Jn
+	VgJjs3JZisDeA9MOrFlYyVSPe8RtTvvg1EzqAUV5uZnYiJTKjlxZP7xCSpKXO4wH
+	RjGOVOwbMSyI8tpkYpNFgMCE14Ljwj3fZl9h/+fOS+lpcm/9H8ozYtrGHJDb6yft
+	4h+bRw9z6EpEz8pGAR0ygB6N5guqmzc0neiZl7MiDg656leN3HM97vI4OSZsUYEM
+	8EG7vXPG7OcuFneERWwGgdRio/fmDi/AfErQrK+3yGEBiucLWNIi2ZuEaxD3bELn
+	D0xpxbssDH4s34DT7XDvsfe2cAf2YL5pYTGWfB3bT4jvru9AQlipcj+vxIv/q1/x
+	7E3+cg==
+Received: from sj2pr03cu002.outbound.protection.outlook.com (mail-westusazlp17013078.outbound.protection.outlook.com [40.93.1.78])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45exxbnpeu-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <linux-firmware@kernel.org>; Wed, 19 Mar 2025 14:54:41 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KTeYxS6IfE9JWCwphDBamtDvYNXTPZpOqhZUWF4xwssJIR/i2tCxgWaBahhx3v19ildg5WTDDuIxPNByDaAkvnORvchTJfHnEmS7t6yGU/SV8IJrFh9Ixb5WwEBSBIoZ6r9vR32z/LyfiQ/pffIfwRhaOla8kcv1XA6QS6MdNnnjyipUyYuqWiCo2aNCaY6tFS7LCeva/MVaNFU/mcn37DTuzr8UdI4LiPDzg34+ctW/JQn8uxL8JtzlgN+5gu98hOg6f1Wo/maHC1joFhItja4mIb0FnkM8YprOWDa9MpODhrEWnfEeGiVwtRvn423C4OScQTLegpez7vR2wtuymw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3x3/tAGOAHHvzSbasSdsmuZroTA30t4FcB+Su/tt5S0=;
+ b=IlfG56E0fxQtazIKhUMuGuxNWSusZPmzMJEXipe1wY5GJdkx2MgnkNTjV9qSNnqbTya8ziZheQ73ex4jxkuk77ZF4UuC9C1a5yBIV4ROuEswyABsbr5aOKyZLc4BYzSU23LjTIp5udeAL/E46scTLt2D29Rq2nKoTw/Cunu/WyEIjF0Cpq0IsWbqTpc/OKl/8JFj/IrLk+JeYyQ5eDXkSGKjWsLdPaCi3WzQqS0PziBCDg/eDeSok0XUGBbBBiZ4p3GM/T8fS9yLeUw60FB7suYg+H9RQ68rVXDguPG6D78MKAWcgeuUHP5/FybWjmsrNPa9+FZzGCy6TiXkBTFNLg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+Received: from DM8PR02MB8295.namprd02.prod.outlook.com (2603:10b6:5:314::7) by
+ IA1PR02MB9136.namprd02.prod.outlook.com (2603:10b6:208:42c::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Wed, 19 Mar
+ 2025 14:54:36 +0000
+Received: from DM8PR02MB8295.namprd02.prod.outlook.com
+ ([fe80::4f71:f1:2945:f8a4]) by DM8PR02MB8295.namprd02.prod.outlook.com
+ ([fe80::4f71:f1:2945:f8a4%6]) with mapi id 15.20.8534.034; Wed, 19 Mar 2025
+ 14:54:36 +0000
+From: "Ekansh Gupta (QUIC)" <quic_ekangupt@quicinc.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, linux-mediatek@lists.infradead.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Jason Chen <Jason-ch.Chen@mediatek.com>
-Subject: Re: [PATCH] mediatek: Add MT8188 SCP firmware
-Message-ID: <8049a2ec-b5fe-440d-9704-c3b0e2d610c7@notapiano>
-References: <20250319065243.3775352-1-moudy.ho@mediatek.com>
- <20250319065243.3775352-2-moudy.ho@mediatek.com>
+CC: "linux-firmware@kernel.org" <linux-firmware@kernel.org>,
+        "Ekansh Gupta
+ (QUIC)" <quic_ekangupt@quicinc.com>
+Subject: RE: qcom: Add DSP firmware for Qualcomm QCS8300 platform
+Thread-Topic: qcom: Add DSP firmware for Qualcomm QCS8300 platform
+Thread-Index: AQHbmMV+xarjxR6nHUmd4u0hGIaF5rN6i88g
+Date: Wed, 19 Mar 2025 14:54:36 +0000
+Message-ID:
+ <DM8PR02MB829581B2846F4FC48F23F4AAE5D92@DM8PR02MB8295.namprd02.prod.outlook.com>
+References: <20250319114242.7192EAE2@hu-devc-hyd-u22-c.qualcomm.com>
+ <qf52acj3rhmztyhtmvxejzzz263bznwvvbs7dqm4yytw3mduif@yl4ocbykomb6>
+In-Reply-To: <qf52acj3rhmztyhtmvxejzzz263bznwvvbs7dqm4yytw3mduif@yl4ocbykomb6>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR02MB8295:EE_|IA1PR02MB9136:EE_
+x-ms-office365-filtering-correlation-id: c4817106-14d2-46d6-b3fa-08dd66f5f792
+x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?kDhcOTd2eY7TtFnjXSmKIISYC6lA10R64GmjiUdru1wNSORE36PLe4DoZJsp?=
+ =?us-ascii?Q?+N8zjckBFDTQ2ElEHd+7Xc9pu4zKUN2PynNwGzidJUVKcc8LgDTxkrC5KkMS?=
+ =?us-ascii?Q?HVpmMuZ7lHktMJMI2q4DG6jWSHlZvBe54mdcw5/mJB/QO5BEtca7tmAOUJDp?=
+ =?us-ascii?Q?JGc3Rj79eLti4GYGNcTC9h8mkZKzln2O611YtZ2mPXZpIi/vk29a6e4FOPyz?=
+ =?us-ascii?Q?oS8xLxYH1TF/scKCaTMeInfNgH3YaztkS4mYPn9uL+nvQgkVaEft9iUotflu?=
+ =?us-ascii?Q?RJ9/BrC4LFfCdWAU99/MTBcRum/WODZXQCzXR7rq8FLyqZBnVuzw3Px3dadL?=
+ =?us-ascii?Q?y89vB3YAGdo93R5KYQIksQDRR9+69I50FrAivymDbUvvrZgXBRDIQlQK1unt?=
+ =?us-ascii?Q?4xZ9b35D11uS5SML9fK4KyQE1OupjURXW0Utkdzckc6TL0ZVysleqdLu3lgM?=
+ =?us-ascii?Q?iVp5Ctm2p4E+SpCfh5f/3cvvUfRMXoAUnxmpYHBTyLYgfuQRpPxn0bQTMmO8?=
+ =?us-ascii?Q?JZzGcrAc1hqqoi3pqPFJI3wyeBZOp8emFeXXQyY3VnLNqfQCG50ZyOxiq7Ae?=
+ =?us-ascii?Q?AQN3aUsHOYEMlrR4jBj9rBgGMPHjQTVJZwpLXTw2Y1BqIrE2ECjLQykAv6WK?=
+ =?us-ascii?Q?/MIE06GrpAjN2XqsL9NUvdI1Q73etdHhU4Qj7h716nYw1KGdOYn1ns8JPmUb?=
+ =?us-ascii?Q?nBcwx+PR6qzGSsCn/GmzvtGxrd+eknY+RmIh2wDiUZhqmlYyD3VQ9Drq4k7P?=
+ =?us-ascii?Q?7XIxsCWdMvuSm41+KgCMKQ7LzGock3g/AbAz7+mmnjs0XLy3zv7DtVG+4DfS?=
+ =?us-ascii?Q?Sxrm8zZkzG9W4Gq0xOj2glMIzCoD2IHVG9QrpUvX049VB4+8/5toBDMwyHvi?=
+ =?us-ascii?Q?Gy+GYUSykk9zrfXzi4UmBYh3kiybjSlgvUdGjRu98MvTS4phN484Yn6Xsw8K?=
+ =?us-ascii?Q?cb2iBZK1R4VrsUqOCwFUgfStyZ8fiSMwXI5sA5cJX1pSKLYXyzGXidh8kanD?=
+ =?us-ascii?Q?ca+y4zvRQnrkjEHHdUUdx+Ze3PqV+PAxX+59WC6bnYmXyb0s9PnGGk0HPqZW?=
+ =?us-ascii?Q?cI4fFhg8c3xbz0DmmOcoLQ9B4qgGTmsFyvhPtQYXCAwLfbMlHPHngIU2OhTx?=
+ =?us-ascii?Q?EwJRGLPSbrnGGk3nmgEq/puMrGZZm15Bdxd0KVFptrZqxUHvBaN3UqK9GwRd?=
+ =?us-ascii?Q?9PPHz+EgTR5Wz9sDn8Ka45Fb4Y8MpPaiPEdE1Pb71OenpPzciR4oKPMsI75W?=
+ =?us-ascii?Q?4/y3GMxWJwGGFlFrlsdUmJne/cDv05TVGaF4aJ/4GMJlyEmcZlpH/v3aftIB?=
+ =?us-ascii?Q?4TrmI15/PvEGl+OjLSx/la4HcQDuR1jVghNwe1Su+6A28RyXsqSGFb0gQwrk?=
+ =?us-ascii?Q?SA31xOEvsYOyc1wAfsf0LADgHOiQPeqbMABk5P6DsC0en65t2g=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR02MB8295.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?ZgA3M8HnkPlfh2/SyZSEKBe6f8kB0npI67jaG3IfaXxC9uhqnCbllNs6PoMg?=
+ =?us-ascii?Q?QdYmKqSD+s7kKnbY+9yo3VJDMAzwbADOWiZV1cwyz5d69b6wsqsPWV8PL1AG?=
+ =?us-ascii?Q?fa6MxkLE5z5tQR5aI9NN2w2PBuUpK9TentVHUFflCmMVDtSF0jHarOEjd9PZ?=
+ =?us-ascii?Q?Coi8VITTVFKfLRpYW+HMn02TlKg8Expj+hc6KWvzYh0q5L4diGkR0Pjrc9nG?=
+ =?us-ascii?Q?wea9QcUn9E/ftJvESCfPLPRU9r8r3kSp/ZGuuZRzEfM85DDcVBII7K+EAlyO?=
+ =?us-ascii?Q?f1NaYUIYgJJINEejq6ZYSpe+Nuf67pF5IOETbhRzKDamTBm9MOGT2bnIMBKT?=
+ =?us-ascii?Q?si8gKSVELKtpnaA17UJSs64oOxkHBqBT6rAKYk2cunGxCOlZZny7wSF/Ge0s?=
+ =?us-ascii?Q?sjqnVWPraNZY4mE36pgvPRZ5PBLtyZfEhHVRo5rHVKkZ+dkeOtdlQ1qpedBW?=
+ =?us-ascii?Q?VOz1+xvga0kAe9ah86AiJizRyE3V146IAb/3NjVblyHsg2pPY20vN0WxNlF1?=
+ =?us-ascii?Q?Pw3sM4zxvzYUpNyKva1UDn1X257uDeTCmSTH+0TEYUV3rRFoQha7rNLVQSpY?=
+ =?us-ascii?Q?8ivVjyyNzo8gv+EgLIcuEjHPi/CbueB4hZ06i7qIVhSD8pWkuYycWOE43+mp?=
+ =?us-ascii?Q?QLfbCvnt+GtTv6Jz3ZsZJVep8a7qtiTJMcHBG+Bh1v685FgDJkHvveM3vJ3S?=
+ =?us-ascii?Q?mfJ/yJxPgeO8gyyjA371px9C9ICEOJci9JdWT6xdLjivFnarBERdQ5PVJTxm?=
+ =?us-ascii?Q?IVyEUY81JDHwKDUJnkFdo2vpn55q1Q/+7ylfNXUJUlU6Iglby/ZhVI5oGr1S?=
+ =?us-ascii?Q?omBdXv9xGr76mEe4IqOBbERBRVv+HpaVwjYp/IbDh7StTvUK/H007QLXdtDb?=
+ =?us-ascii?Q?rESfjgUgnS45hEcChVxCombd7ngssQCzeT67zjlw8tqmoZNOYXZN/88K2XeM?=
+ =?us-ascii?Q?RJrKCH+e7In7kA1uVHoK1uld3Qot7y790F1f7ga1je4Cxc/KB6FZjvZMm7sz?=
+ =?us-ascii?Q?gbr0Zs8fE8jq46VLFM4hkDmKuVmqBiU1kbob5X2WxMg1jrERIzP+obkGCPUL?=
+ =?us-ascii?Q?AaO+ptiy8JgyFDb6cGHl07zeefJpsK3hvJqEI4e9U28R4GTWSv2LIfI5mgaz?=
+ =?us-ascii?Q?YECWMPfzxxcthlUb0lL6VtFAwLUXL308ua13l8pCZ01zXQvjDlRJBTj3nARs?=
+ =?us-ascii?Q?36UW7s6mk1QxdscQ1WR7Sxhpxf48BJw0j7FkD4ZY0NSg9J9ezGJpyrgKetA7?=
+ =?us-ascii?Q?JaxNaG+vKvDQgZCqjek+uTJ4ldRQxBJLl6Ggi/N+mJtLfyRVWWa5UX0FkzaD?=
+ =?us-ascii?Q?H253klCLFZ1xNW5dTtppcuIA2a7bwfaV0GrhKr4shdtiTK2AwjM5NRVpQJL5?=
+ =?us-ascii?Q?HGWNzlVAsjXMOhJ/PxLJLceGd/Fq3p8jvKOVt6cwTl5RnNsgy4nN5rX3VBXd?=
+ =?us-ascii?Q?sSlOUDNrqxcp5MpN1ZqNF/jYTzjw6hsqbYJHfCCiZ0RwFzlsqqEo4W9MM3CG?=
+ =?us-ascii?Q?a5t43UPPbyPAnqm29zIuwSNxFRQWoFHk+bIbs3DsXiokF1BbTiQReoxNiA2q?=
+ =?us-ascii?Q?G/ZdtE9VPqlyRgPLJEgw9eM3FeL47XcYAedBHS+q?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250319065243.3775352-2-moudy.ho@mediatek.com>
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	SW+gNz7YoFaCFzLYtyHx6qeevYXd23YGEqGfVl8hudpFHPAMcTeSZSc2cjvaFRM4rOieAl7uci1BPAwAFqCD5lgKzptDoXRBYr5ghAgCN05KagsaFhmVVpH7HDlTV5haNnWvr+9m5tfAWSOzXHV8BdOYIgMH2ybhGaLXRaegE2s6vySVRdVFavfvgetuuvmIgQ5jVWB1zVPRa68Ec9L4hLP4vQuD6JDaDMqBhp8IDEHO16xTTEqwiN6PSWk16NzMhdH4gE8fqydTdGAAyKjq4NTrhB+pZPCcEdMw1mh7o+5rt2hIl47xB9qzBwQRbc/SokJCZcYsWnZK2MtNVV6B7SsqF89G5CUHaddCDzwx5eg8ypGG0QYp1ZZnCxh/7fI2TA44BXw4hS4akudVnOzPNLoEwqbH2OGp68D2zvT/y3n7SRym8QHNj3XEWhJWUHn6KMZdfaKUCVV74DY3Er1FZcKYNSSQqUjliQBUFzll+0ev5isRJDgWFn4dolI3/H1tGSZEBHRJgHldg1QkEd3dJMAm4JrjWMtq7Kh2cpYLyrGqMKDtEE+V4lkbZC2dyv76eXpPfung26FjuhgdVcprclcUv4D07sQln6ydpxu2Ko/9Q8iyzba+XdeSlwWftols
+X-OriginatorOrg: quicinc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR02MB8295.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4817106-14d2-46d6-b3fa-08dd66f5f792
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Mar 2025 14:54:36.2808
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7+SxdtIF9cb+5ovdN9J2bbY5L0cXQohExxHVZ8g1Q2ZHr189cEs2mtNW6tMt7ft5YSZL9H8bMreUu8mCx33qYI5t8tPyYZr7oR+xe5EwJvw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR02MB9136
+X-Authority-Analysis: v=2.4 cv=QN1oRhLL c=1 sm=1 tr=0 ts=67dadab2 cx=c_pps a=l9cCpZ6fIogKje1+qubiRw==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Vs1iUdzkB0EA:10 a=H5OGdu5hBBwA:10 a=VwQbUJbxAAAA:8 a=qC_FGOx9AAAA:8 a=sVfnBozzeAjatfXXt_4A:9 a=CjuIK1q_8ugA:10 a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-ORIG-GUID: Xdl-OtMjgoxehJR__AuV9clWmxWumimB
+X-Proofpoint-GUID: Xdl-OtMjgoxehJR__AuV9clWmxWumimB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-19_05,2025-03-19_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 clxscore=1011
+ phishscore=0 spamscore=0 impostorscore=0 suspectscore=0 mlxlogscore=836
+ priorityscore=1501 lowpriorityscore=0 malwarescore=0 adultscore=0
+ bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503190101
 
-On Wed, Mar 19, 2025 at 02:51:56PM +0800, Moudy Ho wrote:
-> System Control Processor is an RISC-V processor in MediaTek MT8188 SoC.
-> It supports vedio encode/decode, MDP and CrOS EC host command.
-> 
-> Internal version: geralt_scp_v2.0.27748+eb0d73d0d
-> Release version: v2.0.27748
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+On 3/19/2025 8:17 PM, Ekansh Gupta wrote:
+>> The following changes since commit 0c5a986c6bd6b8cf382379c4f9c844867251b=
+afa:
+>>
+>>   qcom: Add DSP firmware for QCS8300 platform (2025-03-19 15:48:48
+>> +0530)
+>>
+>> are available in the Git repository at:
+>>
+>>
+>> https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmwar
+>> e.git
+>>
+>> for you to fetch changes up to 0c5a986c6bd6b8cf382379c4f9c844867251bafa:
+> No, they are not. Please review your messages before sending or open a me=
+rge request at gitlab.
+I didn't mean to send this out. I was planning to upload firmware here: htt=
+ps://git.codelinaro.org/clo/linux-kernel/linux-firmware
 
-Thanks Moudy.
+and send a PR to linux-firmware.
 
-Indeed I've verified this firmware has working MDP for format conversion and
-stateless video decoding, and that it works with the dual core SCP description.
-I've tested the series in [1] and [2]. I'll attach results below for
-completeness' sake.
+Please ignore this. Apologies for the confusion.
 
-There's some color differences with some of the formats on the MDP (particularly
-RGB->YUV), and H.264 decoding doesn't work at all, but otherwise results look
-good. Glad to see this firmware going upstream.
-
-Thanks,
-Nícolas
-
-[1] https://lore.kernel.org/all/20250318-scp-dual-core-mt8390-v1-0-8733e192cc73@collabora.com
-[2] https://lore.kernel.org/all/20241218105320.38980-1-angelogioacchino.delregno@collabora.com/
-
-SCP boot snippet:
-
-  [    2.811141] remoteproc remoteproc0: Booting fw image mediatek/mt8188/scp.img, size 636548
-  [    2.812230] platform 10500000.scp: IPI buf addr 0x000cfb40
-  [    2.866395] platform 10500000.scp: SCP is ready. FW version geralt_scp_v2.0.27748+eb0d73d0d
-  [    2.866395] platform 10500000.scp: creating channel cros-ec-rpmsg addr 0xd
-  [    2.867483] remoteproc remoteproc0: remote processor scp is now up
-
-Stateless video decoding:
-
-  fluster run -d GStreamer-VP8-V4L2SL-Gst1.0 -ts VP8-TEST-VECTORS
-  Ran 57/61 tests successfully               in 1.856 secs
-  fluster run -d GStreamer-VP9-V4L2SL-Gst1.0 -ts VP9-TEST-VECTORS
-  Ran 254/305 tests successfully               in 46.863 secs
-  fluster run -d GStreamer-VP9-V4L2SL-Gst1.0 -ts VP9-TEST-VECTORS-HIGH
-  Ran 0/6 tests successfully               in 2.158 secs
-  fluster run -d GStreamer-H.264-V4L2SL-Gst1.0 -ts JVT-FR-EXT
-  Ran 0/69 tests successfully               in 115.867 secs
-  fluster run -d GStreamer-H.264-V4L2SL-Gst1.0 -ts JVT-AVC_V1
-  Ran 0/135 tests successfully               in 286.906 secs
-  fluster run -d GStreamer-H.265-V4L2SL-Gst1.0 -ts JCT-VC-RExt
-  Ran 0/49 tests successfully               in 21.856 secs
-  fluster run -d GStreamer-H.265-V4L2SL-Gst1.0 -ts JCT-VC-MV-HEVC
-  Ran 6/9 tests successfully               in 3.129 secs
-  fluster run -d GStreamer-H.265-V4L2SL-Gst1.0 -ts JCT-VC-HEVC_V1
-  Ran 142/147 tests successfully               in 35.726 secs
-  fluster run -d GStreamer-H.265-V4L2SL-Gst1.0 -ts JCT-VC-SCC
-  Ran 0/15 tests successfully               in 28.171 secs
-  fluster run -d GStreamer-AV1-V4L2SL-Gst1.0 -ts CHROMIUM-8bit-AV1-TEST-VECTORS
-  Ran 11/13 tests successfully               in 1.542 secs
-  fluster run -d GStreamer-AV1-V4L2SL-Gst1.0 -ts CHROMIUM-10bit-AV1-TEST-VECTORS
-  Ran 22/23 tests successfully               in 0.899 secs
-  fluster run -d GStreamer-AV1-V4L2SL-Gst1.0 -ts AV1-TEST-VECTORS
-  Ran 237/239 tests successfully               in 6.598 secs
-
-Stateless video decoding with single job:
-
-  fluster run -j 1 -d GStreamer-VP8-V4L2SL-Gst1.0 -ts VP8-TEST-VECTORS
-  Ran 61/61 tests successfully               in 8.476 secs
-  fluster run -j 1 -d GStreamer-VP9-V4L2SL-Gst1.0 -ts VP9-TEST-VECTORS
-  Ran 265/305 tests successfully               in 169.501 secs
-  fluster run -j 1 -d GStreamer-VP9-V4L2SL-Gst1.0 -ts VP9-TEST-VECTORS-HIGH
-  Ran 1/6 tests successfully               in 2.813 secs
-  fluster run -j 1 -d GStreamer-H.264-V4L2SL-Gst1.0 -ts JVT-FR-EXT
-  Ran 0/69 tests successfully               in 143.806 secs
-  fluster run -j 1 -d GStreamer-H.264-V4L2SL-Gst1.0 -ts JVT-AVC_V1
-  Ran 0/135 tests successfully               in 244.404 secs
-  fluster run -j 1 -d GStreamer-H.265-V4L2SL-Gst1.0 -ts JCT-VC-RExt
-  Ran 2/49 tests successfully               in 60.082 secs
-  fluster run -j 1 -d GStreamer-H.265-V4L2SL-Gst1.0 -ts JCT-VC-MV-HEVC
-  Ran 6/9 tests successfully               in 11.999 secs
-  fluster run -j 1 -d GStreamer-H.265-V4L2SL-Gst1.0 -ts JCT-VC-HEVC_V1
-  Ran 142/147 tests successfully               in 119.169 secs
-  fluster run -j 1 -d GStreamer-H.265-V4L2SL-Gst1.0 -ts JCT-VC-SCC
-  Ran 0/15 tests successfully               in 48.755 secs
-  fluster run -j 1 -d GStreamer-AV1-V4L2SL-Gst1.0 -ts CHROMIUM-8bit-AV1-TEST-VECTORS
-  Ran 11/13 tests successfully               in 6.151 secs
-  fluster run -j 1 -d GStreamer-AV1-V4L2SL-Gst1.0 -ts CHROMIUM-10bit-AV1-TEST-VECTORS
-  Ran 22/23 tests successfully               in 4.718 secs
-  fluster run -j 1 -d GStreamer-AV1-V4L2SL-Gst1.0 -ts AV1-TEST-VECTORS
-  Ran 237/239 tests successfully               in 45.509 secs
-
-MDP format conversion and comparison to reference using avvideocompare:
-
-  Command used:
-
-    gst-launch-1.0 videotestsrc num-buffers=1 ! video/x-raw,framerate=30/1,width=1920,height=1080,format=ARGB ! videoconvert ! tee name=t \
-      t. ! queue ! videoconvert ! video/x-raw,framerate=30/1,width="$W_IN",height="$H_IN",format="$FORMAT_IN" ! v4l2convert ! video/x-raw,framerate=30/1,width="$W_OUT",height="$H_OUT",format="$FORMAT_OUT" ! videoconvert ! video/x-raw,framerate=30/1,width=1920,height=1080,format=ARGB ! cmp. \
-      t. ! queue ! cmp. \
-      avvideocompare name=cmp stats-file=mdp-stats.txt ! videoconvert ! pngenc ! filesink location=mdp-output-$FORMAT_IN-${W_IN}x$H_IN-$FORMAT_OUT-${W_OUT}x$H_OUT.png >/dev/null
-
-  Results:
-
-    mdp-output-RGB-1920x1080-RGB-1920x1080.png
-    n:1 R:1.000000 G:1.000000 B:1.000000 All:1.000000 (inf)
-    mdp-output-RGB-1920x1080-BGR-1920x1080.png
-    n:1 R:0.711601 G:0.999968 B:0.665514 All:0.792361 (6.826908)
-    mdp-output-RGB-1920x1080-GRAY8-1920x1080.png
-    n:1 R:0.523243 G:0.623202 B:0.537468 All:0.561304 (3.578367)
-    mdp-output-RGB-1920x1080-RGB16-1920x1080.png
-    n:1 R:0.999621 G:0.999665 B:0.999600 All:0.999629 (34.303583)
-    mdp-output-RGB-1920x1080-BGRA-1920x1080.png
-    n:1 R:0.711601 G:0.999968 B:0.665514 All:0.792361 (6.826908)
-    mdp-output-RGB-1920x1080-ARGB-1920x1080.png
-    n:1 R:0.711601 G:0.999968 B:0.665514 All:0.792361 (6.826908)
-    mdp-output-RGB-1920x1080-UYVY-1920x1080.png
-    n:1 R:0.976468 G:0.775003 B:0.976679 All:0.909383 (10.427914)
-    mdp-output-RGB-1920x1080-YUY2-1920x1080.png
-    n:1 R:0.976468 G:0.775003 B:0.976679 All:0.909383 (10.427914)
-    mdp-output-RGB-1920x1080-YVYU-1920x1080.png
-    n:1 R:0.976468 G:0.775003 B:0.976679 All:0.909383 (10.427914)
-    mdp-output-RGB-1920x1080-Y42B-1920x1080.png
-    n:1 R:0.976468 G:0.775003 B:0.976679 All:0.909383 (10.427914)
-    mdp-output-RGB-1920x1080-I420-1920x1080.png
-    n:1 R:0.978219 G:0.775121 B:0.977282 All:0.910207 (10.467595)
-    mdp-output-RGB-1920x1080-YV12-1920x1080.png
-    n:1 R:0.978219 G:0.775121 B:0.977282 All:0.910207 (10.467595)
-    mdp-output-RGB-1920x1080-NV12-1920x1080.png
-    n:1 R:0.971726 G:0.773995 B:0.972451 All:0.906057 (10.271370)
-    mdp-output-RGB-1920x1080-NV21-1920x1080.png
-    n:1 R:0.971726 G:0.773995 B:0.972451 All:0.906057 (10.271370)
-    mdp-output-RGB-1920x1080-NV16-1920x1080.png
-    n:1 R:0.976468 G:0.775003 B:0.976679 All:0.909383 (10.427914)
-    mdp-output-RGB-1920x1080-NV61-1920x1080.png
-    n:1 R:0.976468 G:0.775003 B:0.976679 All:0.909383 (10.427914)
-    mdp-output-YVYU-1920x1080-YVYU-1920x1080.png
-    n:1 R:0.987354 G:0.989508 B:0.988062 All:0.988308 (19.321067)
-    mdp-output-YVYU-1920x1080-RGB-1920x1080.png
-    n:1 R:0.928199 G:0.993958 B:0.844533 All:0.922230 (11.091892)
-    mdp-output-YVYU-1920x1080-GRAY8-1920x1080.png
-    n:1 R:0.448041 G:0.540839 B:0.474512 All:0.487797 (2.905581)
-    mdp-output-YVYU-1920x1080-RGB16-1920x1080.png
-    n:1 R:0.997089 G:0.993692 B:0.996848 All:0.995876 (23.847107)
-    mdp-output-YVYU-1920x1080-BGR-1920x1080.png
-    n:1 R:0.928199 G:0.993958 B:0.844533 All:0.922230 (11.091892)
-    mdp-output-YVYU-1920x1080-BGRA-1920x1080.png
-    n:1 R:0.928199 G:0.993958 B:0.844533 All:0.922230 (11.091892)
-    mdp-output-YVYU-1920x1080-ARGB-1920x1080.png
-    n:1 R:0.928199 G:0.993958 B:0.844533 All:0.922230 (11.091892)
-    mdp-output-YVYU-1920x1080-UYVY-1920x1080.png
-    n:1 R:0.991598 G:0.642711 B:0.991576 All:0.875295 (9.041151)
-    mdp-output-YVYU-1920x1080-YUY2-1920x1080.png
-    n:1 R:0.991598 G:0.642711 B:0.991576 All:0.875295 (9.041151)
-    mdp-output-YVYU-1920x1080-YVYU-1920x1080.png
-    n:1 R:0.987354 G:0.989508 B:0.988062 All:0.988308 (19.321067)
-    mdp-output-YVYU-1920x1080-Y42B-1920x1080.png
-    n:1 R:0.991598 G:0.642711 B:0.991576 All:0.875295 (9.041151)
-    mdp-output-YVYU-1920x1080-I420-1920x1080.png
-    n:1 R:0.997424 G:0.644937 B:0.996892 All:0.879751 (9.199194)
-    mdp-output-YVYU-1920x1080-YV12-1920x1080.png
-    n:1 R:0.997424 G:0.644937 B:0.996892 All:0.879751 (9.199194)
-    mdp-output-YVYU-1920x1080-NV12-1920x1080.png
-    n:1 R:0.984776 G:0.641210 B:0.985780 All:0.870588 (8.880271)
-    mdp-output-YVYU-1920x1080-NV21-1920x1080.png
-    n:1 R:0.984776 G:0.641210 B:0.985780 All:0.870588 (8.880271)
-    mdp-output-YVYU-1920x1080-NV16-1920x1080.png
-    n:1 R:0.991598 G:0.642711 B:0.991576 All:0.875295 (9.041151)
-    mdp-output-YVYU-1920x1080-NV61-1920x1080.png
-    n:1 R:0.991598 G:0.642711 B:0.991576 All:0.875295 (9.041151)
+>
+>>   qcom: Add DSP firmware for QCS8300 platform (2025-03-19 15:48:48
+>> +0530)
+>>
+>> ----------------------------------------------------------------
+> --
+> With best wishes
+> Dmitry
