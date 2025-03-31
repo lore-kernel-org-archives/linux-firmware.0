@@ -1,89 +1,104 @@
-Return-Path: <SRS0=8fr7=WS=pm.me=jakob.ahman@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F00AAC3600C
-	for <linux-firmware@archiver.kernel.org>; Mon, 31 Mar 2025 10:49:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6CA47C3600B
+	for <linux-firmware@archiver.kernel.org>; Mon, 31 Mar 2025 11:45:59 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B77AFC4CEE5; Mon, 31 Mar 2025 10:49:18 +0000 (UTC)
-Received: from mail-10629.protonmail.ch (mail-10629.protonmail.ch [79.135.106.29])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 81915C4CEEB
-	for <linux-firmware@kernel.org>; Mon, 31 Mar 2025 10:49:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 81915C4CEEB
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=pm.me
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1743418149; x=1743677349;
-	bh=s/li3KrSVFy5sMewuU04NI4URRy2mmTmv7RMy9mZUyE=;
-	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector:
-	 List-Unsubscribe:List-Unsubscribe-Post;
-	b=Y+2WS0uXPr1JJsCBlKuekOk/Isp6nOCFBlKyupktnHoNPtvBWEGUZKDCvyaI7yUTS
-	 4TmmTgg8jKCYVqdMYxF8b5+QbE1C8C0yZDLRQF2lVYMsdXN1Goujs+ylV+lJ0R8eSW
-	 7cZ4FvSq6hrgN6EmlrRi212WoFMBGviqCBseBczcDTr6A5IQUAGME5gcOPBd4hp9YK
-	 RAngxev6yGYNzDjesrZtFDr1IXWtg01nS2QuLCi+SlgXtm8whqKEFvZ5jkjefJ2sYs
-	 B9MLqihMqV2eJlSnWeSJ5bpdCmnGdqYRYXguHY5JvXJvo9aQmbQNF76LXZ4BKXKcnQ
-	 jpqEuzxo7i0VA==
-Date: Mon, 31 Mar 2025 10:49:06 +0000
-List-Id: <linux-firmware.lore.kernel.org>
-To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-From: =?utf-8?Q?Jakob_=C3=85?= <jakob.ahman@pm.me>
-Subject: Downloads not working for file linux-firmware.git
-Message-ID: <kumGDjV7ju0cy6k0MkxvgQnOt8ak4IeW6jiFFVxlPcEqBLYv48PBBRsr6ketr42UHBC9rJtwzfl8_lbpGGBYLPw4vPoXBPtKYFDqdKs-Nr4=@pm.me>
-Feedback-ID: 135421824:user:proton
-X-Pm-Message-ID: e60bad47fe9e1722f25e0d9d537ecfbd35b3e02e
+	id 32A55C4CEEB; Mon, 31 Mar 2025 11:45:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D18EC4CEE5
+	for <linux-firmware@kernel.org>; Mon, 31 Mar 2025 11:45:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743421559;
+	bh=nvGh0AyiAYh24uWP+fYQF0W0xMJ0iklAFzP5cRZLDHM=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=UMFHX0HeK11NkbYJYrjsjypGNKS7tXhc3lN6SmvLNj/EJbry2A9scfiE95SYMbG/0
+	 IudQQRsNTwNUI99YMVqZ8uEpf7294yoZNyXcZ4Ty84OGnp+y4D0WswtTHMc5Zl+k+K
+	 a4CIBnuti9WRMBUakXIHXRKIiqR9OZT8HoBzT5SF2yofGibuDsXgRYTnVuyqZTxeVG
+	 4F7PAqtXOm4yyB430qFE8wUtj4rIpt4WZx3SkZ1js65nxSsN8eIDgfJc8fuLb3tcNQ
+	 VKvegunRTpZOnyf6z8+MlTxXG9ystfUo9etNLqnkMMuFzqUs+d37R3AAHEhmS1Du0r
+	 ep7vqLOHx0EhA==
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e69483d136eso2812963276.3
+        for <linux-firmware@kernel.org>; Mon, 31 Mar 2025 04:45:59 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwAeXcC7XV03mUfvlzNHR51Oh2trpHBKsSxJaCWcQW8mmBuPFX0
+	3f2ILBY3K4RTQEebSeFaJTLEWwq++Blz0/O2SHFM95G3eFwdnXh5nFFSjFz1godGtYzRF4HG/4n
+	Mq/cZYxFbNqVt23H1YzaEDCN/+dM=
+X-Google-Smtp-Source: AGHT+IHl8mYdAr5cLcuq8Qo81F6ydhZBzdd0qZSaqq3RUnveR+qdj1OQyrFOAUf+ofMqbyQULNWTuaYsBnaCMwX2xdk=
+X-Received: by 2002:a05:6902:2588:b0:e61:1c18:3f2f with SMTP id
+ 3f1490d57ef6-e6b8390f612mr8961539276.18.1743421558330; Mon, 31 Mar 2025
+ 04:45:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="b1=_iNrFvhHjS0knvvvKzGQBCMIhue9PnQHxiC1VHczlz8"
+References: <a5902c2e-5d5b-4c8b-b84f-d1594956bf80@opensource.cirrus.com>
+In-Reply-To: <a5902c2e-5d5b-4c8b-b84f-d1594956bf80@opensource.cirrus.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Mon, 31 Mar 2025 07:45:46 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA6-Xkfh6VWiZ1WyBJVszO0qgaUVOCEX+_W=Ezr6NBMA-g@mail.gmail.com>
+X-Gm-Features: AQ5f1JrAGJhANwWRisl50Gu7IOrT4LJnfCPgcSle4KsGSVUZD6DsRaW4-8fdikw
+Message-ID: <CA+5PVA6-Xkfh6VWiZ1WyBJVszO0qgaUVOCEX+_W=Ezr6NBMA-g@mail.gmail.com>
+Subject: Re: [PULL v1 linux-firmware] Add firmware for Cirrus Smart Amp
+ CS35L41 for HP Laptops
+To: Stefan Binding <sbinding@opensource.cirrus.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: linux-firmware@kernel.org, patches@opensource.cirrus.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---b1=_iNrFvhHjS0knvvvKzGQBCMIhue9PnQHxiC1VHczlz8
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
+On Fri, Mar 21, 2025 at 1:56=E2=80=AFPM Stefan Binding
+<sbinding@opensource.cirrus.com> wrote:
+>
+> We would like to add firmware files to support Cirrus Logic Smart Amp CS3=
+5L41 for 2025 HP Laptops.
+>
+> Thanks,
+>
+> Stefan Binding
+>
+> The following changes since commit a60087f7c9254065efb9e641b66af67e4c57b2=
+9f:
+>
+>   Merge branch 'robot/patch-0-1742462166' into 'main' (2025-03-20 14:10:0=
+5 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/CirrusLogic/linux-firmware/ cs35l41-20250321
 
-SGksIHRoaXMgKGFuZCBvdGhlcikgbGluayBnaXZlcyBhIDUwMyB3aGVuIHRyeWluZyB0byBkb3du
-bG9hZDoKaHR0cHM6Ly93ZWIuZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0
-L2Zpcm13YXJlL2xpbnV4LWZpcm13YXJlLmdpdC9zbmFwc2hvdC9saW51eC1maXJtd2FyZS0yMDI1
-MDMxMS50YXIuZ3oKCkZyb20gdGhpcyBwYWdlOgpodHRwczovL3dlYi5naXQua2VybmVsLm9yZy9w
-dWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvZmlybXdhcmUvbGludXgtZmlybXdhcmUuZ2l0LwoKS2lu
-ZCByZWdhcmRzLApKYWtvYg==
+Pulled and pushed out.
 
---b1=_iNrFvhHjS0knvvvKzGQBCMIhue9PnQHxiC1VHczlz8
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: base64
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/496
 
-PGRpdiBzdHlsZT0iZm9udC1mYW1pbHk6IEFyaWFsLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDE0
-cHg7Ij48c3Bhbj5IaSwgdGhpcyAoYW5kIG90aGVyKSBsaW5rIGdpdmVzIGEgNTAzIHdoZW4gdHJ5
-aW5nIHRvIGRvd25sb2FkOjxicj48YSB0YXJnZXQ9Il9ibGFuayIgcmVsPSJub3JlZmVycmVyIG5v
-Zm9sbG93IG5vb3BlbmVyIiBocmVmPSJodHRwczovL3dlYi5naXQua2VybmVsLm9yZy9wdWIvc2Nt
-L2xpbnV4L2tlcm5lbC9naXQvZmlybXdhcmUvbGludXgtZmlybXdhcmUuZ2l0L3NuYXBzaG90L2xp
-bnV4LWZpcm13YXJlLTIwMjUwMzExLnRhci5neiI+aHR0cHM6Ly93ZWIuZ2l0Lmtlcm5lbC5vcmcv
-cHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2Zpcm13YXJlL2xpbnV4LWZpcm13YXJlLmdpdC9zbmFw
-c2hvdC9saW51eC1maXJtd2FyZS0yMDI1MDMxMS50YXIuZ3o8L2E+PC9zcGFuPjwvZGl2PjxkaXYg
-c3R5bGU9ImZvbnQtZmFtaWx5OiBBcmlhbCwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxNHB4OyI+
-PGJyPjwvZGl2PjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcmlhbCwgc2Fucy1zZXJpZjsgZm9u
-dC1zaXplOiAxNHB4OyI+RnJvbSB0aGlzIHBhZ2U6PGJyPjxzcGFuPjxhIHRhcmdldD0iX2JsYW5r
-IiByZWw9Im5vcmVmZXJyZXIgbm9mb2xsb3cgbm9vcGVuZXIiIGhyZWY9Imh0dHBzOi8vd2ViLmdp
-dC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9maXJtd2FyZS9saW51eC1maXJt
-d2FyZS5naXQvIj5odHRwczovL3dlYi5naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5l
-bC9naXQvZmlybXdhcmUvbGludXgtZmlybXdhcmUuZ2l0LzwvYT48L3NwYW4+PGJyPjxicj48L2Rp
-dj48ZGl2IHN0eWxlPSJmb250LWZhbWlseTogQXJpYWwsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTog
-MTRweDsgY29sb3I6IHJnYigwLCAwLCAwKTsgYmFja2dyb3VuZC1jb2xvcjogcmdiKDI1NSwgMjU1
-LCAyNTUpOyI+S2luZCByZWdhcmRzLDwvZGl2PjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcmlh
-bCwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxNHB4OyBjb2xvcjogcmdiKDAsIDAsIDApOyBiYWNr
-Z3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7Ij5KYWtvYjwvZGl2PjxkaXYgY2xhc3M9
-InByb3Rvbm1haWxfc2lnbmF0dXJlX2Jsb2NrIHByb3Rvbm1haWxfc2lnbmF0dXJlX2Jsb2NrLWVt
-cHR5IiBzdHlsZT0iZm9udC1mYW1pbHk6IEFyaWFsLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDE0
-cHg7Ij4NCiAgICA8ZGl2IGNsYXNzPSJwcm90b25tYWlsX3NpZ25hdHVyZV9ibG9jay11c2VyIHBy
-b3Rvbm1haWxfc2lnbmF0dXJlX2Jsb2NrLWVtcHR5Ij4NCiAgICAgICAgDQogICAgICAgICAgICA8
-L2Rpdj4NCiAgICANCiAgICAgICAgICAgIDxkaXYgY2xhc3M9InByb3Rvbm1haWxfc2lnbmF0dXJl
-X2Jsb2NrLXByb3RvbiBwcm90b25tYWlsX3NpZ25hdHVyZV9ibG9jay1lbXB0eSI+DQogICAgICAg
-IA0KICAgICAgICAgICAgPC9kaXY+DQo8L2Rpdj4NCg==
+josh
 
-
---b1=_iNrFvhHjS0knvvvKzGQBCMIhue9PnQHxiC1VHczlz8--
-
+>
+> for you to fetch changes up to 139c1b5faeddcaffb6466348f4f731533edaa008:
+>
+>   cirrus: cs35l41: Add Firmware for various HP Laptops using CS35L41 HDA =
+(2025-03-21 17:52:52 +0000)
+>
+> ----------------------------------------------------------------
+> Stefan Binding (1):
+>       cirrus: cs35l41: Add Firmware for various HP Laptops using CS35L41 =
+HDA
+>
+>  WHENCE                                           |  51 +++++++++++++++++=
+++++++++++++++++++++++++++++++++++
+>  cirrus/cs35l41-dsp1-spk-prot-103c8d9b-spkid0.bin | Bin 0 -> 4704 bytes
+>  cirrus/cs35l41-dsp1-spk-prot-103c8d9b-spkid1.bin | Bin 0 -> 4700 bytes
+>  cirrus/cs35l41-dsp1-spk-prot-103c8d9f-spkid0.bin | Bin 0 -> 4708 bytes
+>  cirrus/cs35l41-dsp1-spk-prot-103c8d9f-spkid1.bin | Bin 0 -> 4712 bytes
+>  cirrus/cs35l41-dsp1-spk-prot-103c8da0-spkid0.bin | Bin 0 -> 4716 bytes
+>  cirrus/cs35l41-dsp1-spk-prot-103c8da0-spkid1.bin | Bin 0 -> 4712 bytes
+>  cirrus/cs35l41-dsp1-spk-prot-103c8e11-spkid0.bin | Bin 0 -> 4804 bytes
+>  cirrus/cs35l41-dsp1-spk-prot-103c8e11-spkid1.bin | Bin 0 -> 4796 bytes
+>  9 files changed, 51 insertions(+)
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8d9b-spkid0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8d9b-spkid1.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8d9f-spkid0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8d9f-spkid1.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8da0-spkid0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8da0-spkid1.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8e11-spkid0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-103c8e11-spkid1.bin
+>
