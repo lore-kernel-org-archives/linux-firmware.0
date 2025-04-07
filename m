@@ -1,124 +1,101 @@
-Return-Path: <SRS0=d37l=WV=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=jX54=WZ=gmail.com=ledger.mypackagingpro@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96B06C3600C
-	for <linux-firmware@archiver.kernel.org>; Thu,  3 Apr 2025 10:25:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AC1EC369A1
+	for <linux-firmware@archiver.kernel.org>; Mon,  7 Apr 2025 19:16:00 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 533EFC4CEE7; Thu,  3 Apr 2025 10:25:00 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id F0D5AC4CEE9; Mon,  7 Apr 2025 19:15:59 +0000 (UTC)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id CADE1C4CEE3
-	for <linux-firmware@kernel.org>; Thu,  3 Apr 2025 10:24:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org CADE1C4CEE3
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5339ruRI008163
-	for <linux-firmware@kernel.org>; Thu, 3 Apr 2025 10:24:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=ZepjgxSoxbn09odKVuuon5LU
-	JQHXjto8k2o8wHv8P9c=; b=CCmjrwXhmF/i2PxGNIn714uIUHZXSN+/+vFA/15Q
-	6N3xIAMBrBQPGUWY0Nt24FBBN6v6yw8R/ZCqYNt11mZm4HSl8ogaZhDyVhnLwQDE
-	5Yfa0rIHHYguCJR5khQXYysE4wnYdEyeJYlgabzNcfNw9eC+fokosBFBRGYGEjbm
-	KSIZcfrXOqeekBjYr56HyMar0LdxJzq0YAXTbE4cr4tSiW/9Z7YJEvZF3CMovzpk
-	EECl3oHggQhQNwv+tnIStzOHW98f/c7QumqS/S2xH+WtQJPEoQqhYroQig/ovXPU
-	JmqQLRuWKud0OwpfYf1ZToMtxb/FFv/jprN+E57liSViJw==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45rxbf49f1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Thu, 03 Apr 2025 10:24:57 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7c5cd0f8961so167839385a.1
-        for <linux-firmware@kernel.org>; Thu, 03 Apr 2025 03:24:57 -0700 (PDT)
+	by smtp.kernel.org (Postfix) with ESMTPS id 244C4C4CEDD
+	for <linux-firmware@kernel.org>; Mon,  7 Apr 2025 19:15:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 244C4C4CEDD
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ac2aeada833so924625766b.0
+        for <linux-firmware@kernel.org>; Mon, 07 Apr 2025 12:15:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744053356; x=1744658156; darn=kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=hAteXgn1FRXQquVhdxVrhB2cprsP03usvpXPN5ySqZM=;
+        b=I2Orf4E+nMVPtjD4mfcYBEFVXJNhcziNgtkMww0sXMuLw6FTGJCMx+kJxu411W/IOy
+         UlufY9nE6QPsBMJw8AaPsAjkV0XVwF9gXPlKPbyAOvauwiDt76zVeQDXQLOXITGzI/g/
+         gVvdqND+XxvF+LP2okFhBUmmjGgDMP1JMHNOibhwproYI6kNGZLLR0UvDi1chEBQtEAL
+         sib5Fmf45GJyiZnteK/A58Zqi6t4Ld6fAOTlFGuvmGSv+n3mlQ7qIgpPj9hn1FZ5yMSl
+         tt0Ewq73wa7VuR8OM4ap4xFqUE6IRG6IUIAk1OFjEEveCEldYUBN2mqQgUILfDDJ3roS
+         s+Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743675896; x=1744280696;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZepjgxSoxbn09odKVuuon5LUJQHXjto8k2o8wHv8P9c=;
-        b=kYMrXfX1T+kFJjXt9xWqQSTpQiuJN+o6slvQwz/novbV7QsEZ6YHlA/JvrRE0wDkRM
-         USjvCS0SUapllmbmUiZfaAgTGsDHhTi5HDbfqJHwqyZl2ghawMDAji05ffiplgdNuFUt
-         N3xxXiuCSFEa7tNJs62jhtMgPqCuuiRu/4zJqzZ6dXHcNgLPAQXzAFOAWV3i7ESeFDiH
-         K4Q4956NezKLqu4wVUs5BSskZMgLqwns8HMW4XHsVcoWfw8BuyC9Z76+rRpFhzsL6KEl
-         JbFQL372LDV/AsDd187TYed/skoCS7uWm8jClolDA6kfRv9NDhebvl3KUy1AgSsvzOco
-         TaxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXuq8m1UvJ+lY74NVGUOo1vA1m6NzO+kvfCbs7qeiCaUv74QuQG+PHqG9bRP013zc/7uJgi1Z4dh1JeaiPAKA==@kernel.org
-X-Gm-Message-State: AOJu0Yy0Y/V7x8BDthvnXDfifs4i98uF7phfzASC5i81kdaxkOsf/CC4
-	jom+wz/o1DDdJ2a+X1sh/E0zm1OhkERom2Hl0mxNE6OQqsh3k09DS2JFV9uLllidCYLKCyGv1dm
-	RVpxlKt5zK60rlYuo2mQUNKnvQXWDIO8EDzlZ7KDeSsiE7X+KA6WyIUDCO04=
-X-Gm-Gg: ASbGncvu6zqnjMDNVonESFViac8mlgG+3zygd7ICJ5Jfq0O3nSgTZ2aVadRyjdlxLp0
-	iCCVNVTOMNXhGMjs+Vv8AwJDmJdQQQHOlqFhzWXHGzb+trDPO0sdkEg1jDOXGLW+OqIzky+dE3K
-	RXyM3Svbz3nLUE/Z7UBjrCea4AFVcig8+b9nqc9WoqshDJsldiNeJ0jOuwtYcx5p0Ednltw7si3
-	QfxccC/IGhnANLCPxnN2DuoC60qCY3o8X+W0iF1XA7Y4Fk9mVtIi7vf+Mp/lH+9oeJ6PylYhrKx
-	kDsyxoT2UaPRzaEZN3uv/KSrrPa4EdPtZHH1wYn2ZjeNILrhZJFrzsiLuRA4XkS07r/azuOvKdS
-	5yvg=
-X-Received: by 2002:a05:620a:830a:b0:7c7:5afb:5878 with SMTP id af79cd13be357-7c75afb58e8mr1351523585a.25.1743675896628;
-        Thu, 03 Apr 2025 03:24:56 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHdsHNy2w7/XpcdCyeK85QhRqYpm6h77+QKaxZzstVEp3AR12CvqtIapsMMQI4vwhDRRPKZxQ==
-X-Received: by 2002:a05:620a:830a:b0:7c7:5afb:5878 with SMTP id af79cd13be357-7c75afb58e8mr1351521885a.25.1743675896350;
-        Thu, 03 Apr 2025 03:24:56 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54c1e5c208esm110625e87.79.2025.04.03.03.24.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Apr 2025 03:24:54 -0700 (PDT)
-Date: Thu, 3 Apr 2025 13:24:52 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Zijun Hu <quic_zijuhu@quicinc.com>
-List-Id: <linux-firmware.lore.kernel.org>
-Cc: jwboyer@kernel.org, linux-firmware@kernel.org, agurenko@protonmail.com
-Subject: Re: [GIT PULL] QCA: Add and update Bluetooth firmwares for WCN785x
- with USB interface
-Message-ID: <c3fngv3pzjovoheki5owovdprxauallycpsqmlbaqtpvroppi3@yfxbndxntyvb>
-References: <882c9f31-96a2-4057-aab1-5d39df3f20b7@quicinc.com>
+        d=1e100.net; s=20230601; t=1744053356; x=1744658156;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hAteXgn1FRXQquVhdxVrhB2cprsP03usvpXPN5ySqZM=;
+        b=CW6pE2Qzdbh64JUaxeArpjsGNKY2JMnTeNxWN63Bhp9tXnkLzCQGEDx+Wf1En1M7UT
+         u0qXdt2kuRK0MRF8QFfP6QyLqbv3ebqBBytCmychZfVLXNEZ813cuNDR4rDt4YA0+lct
+         uacNcP5aQsLwV9mP9bMmCUpX7JmYXxwoqgfxY/1dwbR69G0V3HV3vXIGCCh4dQ4u0GTA
+         XRq7khjkXcIL10TXBGteCSEpNqfeph4RPOK6Cjtsd452nViMouOs6d9b6w9RCPXzAY05
+         DTWa/QY4CSHJxUodH1BQ2ZJpjEjvzxnZvfU+5df3wJqY2QF80AM4rSCHAYrWQO9Kmciv
+         zLuQ==
+X-Gm-Message-State: AOJu0Yz69oFaXcmn59qcJdtemCjwN5JjZfeQ0sVWCzszgLWl2eJxWgjX
+	0cXOHFZcu+zyHO03mfkWYpXmyrPaEWReXfD70Zk9HDJ0EeKK4uMmfhVQOPGmg06gPxcCLVjrxtO
+	aElpRSFiEfxTrlqch3afXQM9U/Jh9iA==
+X-Gm-Gg: ASbGncuX40QmOMZjpoaFOa7parD7DLsSQWw6WChXRxjUkjbd5yie3HFS1//q47gombO
+	1Zw5SJN8h13Oxbql8CYr1Fx7LE7vchRO9fVL5eLiXf9/Dz2xgcXQ6ykmmXYt8FZ7/D1tgvRHt60
+	7DhN3KcuD26MdgsTWIeGjbu0D/
+X-Google-Smtp-Source: AGHT+IE3NhA8zBpqM5OXGAX2I9b6hUs5ftMFBqj3h6qjqnhfz++Hd1r5Dw87bJqaRnUKa+rwPUnsBXDbb7VcC3hoNuM=
+X-Received: by 2002:a17:907:7f92:b0:ac7:b1eb:8283 with SMTP id
+ a640c23a62f3a-ac81a68be82mr56363966b.17.1744053355981; Mon, 07 Apr 2025
+ 12:15:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <882c9f31-96a2-4057-aab1-5d39df3f20b7@quicinc.com>
-X-Proofpoint-GUID: wnQu2pIsbfOAJ1BCMjR1rf7XUgo_sGH-
-X-Proofpoint-ORIG-GUID: wnQu2pIsbfOAJ1BCMjR1rf7XUgo_sGH-
-X-Authority-Analysis: v=2.4 cv=F/5XdrhN c=1 sm=1 tr=0 ts=67ee61f9 cx=c_pps a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=XR8D0OoHHMoA:10 a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8 a=qnCiB9-Q6lRKnzBEusUA:9 a=CjuIK1q_8ugA:10
- a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-03_04,2025-04-02_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
- lowpriorityscore=0 mlxlogscore=922 phishscore=0 priorityscore=1501
- mlxscore=0 spamscore=0 bulkscore=0 clxscore=1015 adultscore=0
- impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504030037
+From: Ledger Lindin <ledger.mypackagingpro@gmail.com>
+Date: Mon, 7 Apr 2025 12:15:44 -0700
+X-Gm-Features: ATxdqUEC2jnTme4v3TSpm_u390OgFf1PT7kd7_0pFClpYTLNlSjRWRIOFR9S0AM
+Message-ID: <CAF0DnMUaKspHrCW30w45KwL+4hyW7Kc-4+yOjSGC=DVz7Uka+Q@mail.gmail.com>
+Subject: Packaging Made Easy
+List-Id: <linux-firmware.lore.kernel.org>
+To: linux-firmware@kernel.org
+Content-Type: multipart/alternative; boundary="000000000000c0b6710632351009"
 
-On Thu, Apr 03, 2025 at 05:41:11PM +0800, Zijun Hu wrote:
-> Hi linux-firmware maintainers
-> 
-> Here's a pull request for btqca bluetooth driver. Please let me know if
-> you have any problems.
-> 
-> The following changes since commit 41a528251649772edbcb705a40e617fd14858e53:
-> 
->   Merge branch 'intel/guc_70402' into 'main' (2025-03-04 19:09:49 +0000)
-> 
-> are available in the git repository at:
-> 
->   https://github.com/zijun-hu/qca_btfw hmt_usb_x86_0403
-> 
-> for you to fetch changes up to b12240420adec3089fa0bb5a09eaa0cefbd8ce76:
-> 
->   QCA: Add 8 bluetooth nvm files for WCN785x btusb (2025-04-03 17:18:24
-> +0800)
-> 
-> ----------------------------------------------------------------
-> Zijun Hu (2):
->       QCA: Update WCN785x btusb firmware to 2.0.0-00790-3
->       QCA: Add 8 bluetooth nvm files for WCN785x btusb
-> 
+--000000000000c0b6710632351009
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Hi,
 
--- 
-With best wishes
-Dmitry
+We make personalized packaging=E2=80=94tuck boxes, CBD boxes, mailer boxes,=
+ rigid
+boxes, bakery boxes, retail boxes, shopping bags, label stickers and more.
+
+Simply provide us with the dimensions (L x W x H), quantity, and preferred
+box style, and we'll provide you with a competitive quote. Plus, for a
+limited time, we=E2=80=99re also providing complimentary design services an=
+d
+shipping on all orders.
+
+Thanks, and looking forward to potentially working together.
+
+Best regards,
+Ledger Lindin
+Marketing Executive
+My Packaging Pro
+
+--000000000000c0b6710632351009
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi,<br><br>We make personalized packaging=
+=E2=80=94tuck boxes, CBD boxes, mailer boxes, rigid boxes, bakery boxes, re=
+tail boxes, shopping bags, label stickers and more.<br><br>Simply provide u=
+s with the dimensions (L x W x H), quantity, and preferred box style, and w=
+e&#39;ll provide you with a competitive quote. Plus, for a limited time, we=
+=E2=80=99re also providing complimentary design services and shipping on al=
+l orders.<br><br>Thanks, and looking forward to potentially working togethe=
+r.<br><br><div>Best regards,</div><div>Ledger Lindin</div><div>Marketing Ex=
+ecutive</div><div>My Packaging Pro</div></div></div>
+
+--000000000000c0b6710632351009--
