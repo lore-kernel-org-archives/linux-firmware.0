@@ -1,101 +1,123 @@
-Return-Path: <SRS0=jX54=WZ=gmail.com=ledger.mypackagingpro@kernel.org>
+Return-Path: <SRS0=b6AL=W2=mediatek.com=zoran.zhan@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AC1EC369A1
-	for <linux-firmware@archiver.kernel.org>; Mon,  7 Apr 2025 19:16:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E950FC3600C
+	for <linux-firmware@archiver.kernel.org>; Tue,  8 Apr 2025 08:14:22 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id F0D5AC4CEE9; Mon,  7 Apr 2025 19:15:59 +0000 (UTC)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	id B305DC4CEE5; Tue,  8 Apr 2025 08:14:22 +0000 (UTC)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 244C4C4CEDD
-	for <linux-firmware@kernel.org>; Mon,  7 Apr 2025 19:15:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 244C4C4CEDD
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ac2aeada833so924625766b.0
-        for <linux-firmware@kernel.org>; Mon, 07 Apr 2025 12:15:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744053356; x=1744658156; darn=kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=hAteXgn1FRXQquVhdxVrhB2cprsP03usvpXPN5ySqZM=;
-        b=I2Orf4E+nMVPtjD4mfcYBEFVXJNhcziNgtkMww0sXMuLw6FTGJCMx+kJxu411W/IOy
-         UlufY9nE6QPsBMJw8AaPsAjkV0XVwF9gXPlKPbyAOvauwiDt76zVeQDXQLOXITGzI/g/
-         gVvdqND+XxvF+LP2okFhBUmmjGgDMP1JMHNOibhwproYI6kNGZLLR0UvDi1chEBQtEAL
-         sib5Fmf45GJyiZnteK/A58Zqi6t4Ld6fAOTlFGuvmGSv+n3mlQ7qIgpPj9hn1FZ5yMSl
-         tt0Ewq73wa7VuR8OM4ap4xFqUE6IRG6IUIAk1OFjEEveCEldYUBN2mqQgUILfDDJ3roS
-         s+Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744053356; x=1744658156;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hAteXgn1FRXQquVhdxVrhB2cprsP03usvpXPN5ySqZM=;
-        b=CW6pE2Qzdbh64JUaxeArpjsGNKY2JMnTeNxWN63Bhp9tXnkLzCQGEDx+Wf1En1M7UT
-         u0qXdt2kuRK0MRF8QFfP6QyLqbv3ebqBBytCmychZfVLXNEZ813cuNDR4rDt4YA0+lct
-         uacNcP5aQsLwV9mP9bMmCUpX7JmYXxwoqgfxY/1dwbR69G0V3HV3vXIGCCh4dQ4u0GTA
-         XRq7khjkXcIL10TXBGteCSEpNqfeph4RPOK6Cjtsd452nViMouOs6d9b6w9RCPXzAY05
-         DTWa/QY4CSHJxUodH1BQ2ZJpjEjvzxnZvfU+5df3wJqY2QF80AM4rSCHAYrWQO9Kmciv
-         zLuQ==
-X-Gm-Message-State: AOJu0Yz69oFaXcmn59qcJdtemCjwN5JjZfeQ0sVWCzszgLWl2eJxWgjX
-	0cXOHFZcu+zyHO03mfkWYpXmyrPaEWReXfD70Zk9HDJ0EeKK4uMmfhVQOPGmg06gPxcCLVjrxtO
-	aElpRSFiEfxTrlqch3afXQM9U/Jh9iA==
-X-Gm-Gg: ASbGncuX40QmOMZjpoaFOa7parD7DLsSQWw6WChXRxjUkjbd5yie3HFS1//q47gombO
-	1Zw5SJN8h13Oxbql8CYr1Fx7LE7vchRO9fVL5eLiXf9/Dz2xgcXQ6ykmmXYt8FZ7/D1tgvRHt60
-	7DhN3KcuD26MdgsTWIeGjbu0D/
-X-Google-Smtp-Source: AGHT+IE3NhA8zBpqM5OXGAX2I9b6hUs5ftMFBqj3h6qjqnhfz++Hd1r5Dw87bJqaRnUKa+rwPUnsBXDbb7VcC3hoNuM=
-X-Received: by 2002:a17:907:7f92:b0:ac7:b1eb:8283 with SMTP id
- a640c23a62f3a-ac81a68be82mr56363966b.17.1744053355981; Mon, 07 Apr 2025
- 12:15:55 -0700 (PDT)
-MIME-Version: 1.0
-From: Ledger Lindin <ledger.mypackagingpro@gmail.com>
-Date: Mon, 7 Apr 2025 12:15:44 -0700
-X-Gm-Features: ATxdqUEC2jnTme4v3TSpm_u390OgFf1PT7kd7_0pFClpYTLNlSjRWRIOFR9S0AM
-Message-ID: <CAF0DnMUaKspHrCW30w45KwL+4hyW7Kc-4+yOjSGC=DVz7Uka+Q@mail.gmail.com>
-Subject: Packaging Made Easy
+	by smtp.kernel.org (Postfix) with ESMTPS id 16F43C4CEEA
+	for <linux-firmware@kernel.org>; Tue,  8 Apr 2025 08:14:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 16F43C4CEEA
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 74b07d92145111f0aae1fd9735fae912-20250408
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=rO5hSAePVg69z8S7foOr3AdeQ+/5TGffHYa56Fdgwe0=;
+	b=MKHlG4esbJFlYGn/NEDinK/5Fkv0HsYjbrhwjh9TIc1A5fSctJnv+VLWEyfb3XAkdyyKuGHwgqzxZeENhwynq0b27GFtqU0qSO1YMi6MDlzA4izsa5rxVjZFI2mRmezJLaxCc+zB4WmgeTI2BdvhCtaOqK4PMf5H2BGi+jNdCgo=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.2.1,REQID:722469b1-b3aa-4f03-989d-cc86f6d08060,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:0ef645f,CLOUDID:13fed0a5-c619-47e3-a41b-90eedbf5b947,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0|50,EDM:-3
+	,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
+	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 74b07d92145111f0aae1fd9735fae912-20250408
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+	(envelope-from <zoran.zhan@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 985956300; Tue, 08 Apr 2025 16:14:13 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Tue, 8 Apr 2025 16:14:11 +0800
+Received: from mtksitap99.mediatek.inc (10.233.130.16) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Tue, 8 Apr 2025 16:14:11 +0800
+From: Zoran Zhan <zoran.zhan@mediatek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Content-Type: multipart/alternative; boundary="000000000000c0b6710632351009"
+To: linux-firmware <linux-firmware@kernel.org>
+CC: linux-mediatek <linux-mediatek@lists.infradead.org>, <shawnku@google.com>,
+	Macpaul Lin <macpaul.lin@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
+	Zoran Zhan <zoran.zhan@mediatek.com>
+Subject: [PATCH 2/2] mediatek: Add new mt8195 SOF firmware
+Date: Tue, 8 Apr 2025 16:12:36 +0800
+Message-ID: <20250408081404.302196-3-zoran.zhan@mediatek.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20250408081404.302196-1-zoran.zhan@mediatek.com>
+References: <20250408081404.302196-1-zoran.zhan@mediatek.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
---000000000000c0b6710632351009
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+SOF version: mt8195/v2.8-505268c
+Release version: v2.8
+The firmware name has been changed from "sof-mt8195-mt6359-rt1019-
+rt5682.tplg" to "sof-mt8195.tplg" to be applicable to the MediaTek
+Genio-1200 EVK.
 
-Hi,
+Signed-off-by: Zoran Zhan <zoran.zhan@mediatek.com>
+---
+ WHENCE                            |   3 +++
+ mediatek/sof-tplg/sof-mt8195.tplg | Bin 0 -> 16191 bytes
+ 2 files changed, 3 insertions(+)
+ create mode 100644 mediatek/sof-tplg/sof-mt8195.tplg
 
-We make personalized packaging=E2=80=94tuck boxes, CBD boxes, mailer boxes,=
- rigid
-boxes, bakery boxes, retail boxes, shopping bags, label stickers and more.
+diff --git a/WHENCE b/WHENCE
+index 2cc72d38..54ee5522 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -8126,6 +8126,9 @@ File: mediatek/sof/sof-mt8188.ldc
+ File: mediatek/sof-tplg/sof-mt8188.tplg
+ Version: v2.8
+ 
++File: mediatek/sof-tplg/sof-mt8195.tplg
++Version: v2.8
++
+ Licence: Redistributable. See LICENCE.mediatek for details.
+ 
+ --------------------------------------------------------------------------
+diff --git a/mediatek/sof-tplg/sof-mt8195.tplg b/mediatek/sof-tplg/sof-mt8195.tplg
+new file mode 100644
+index 0000000000000000000000000000000000000000..d1c6aed47c0d73240041f8aead317403553a7ae2
+GIT binary patch
+literal 16191
+zcmeHO&1(}u6pz+w(N^lmNh<6i;6Vu8q@UoSY0^S5wt<?PP@)zKt+X^Pw6`8A2p+7W
+zAby-g@aSC+A_#udqem}7|BL$jxwCPS?(WQ{N!qRR;O(32zS(*6oB8Esb~Bmz$#iSX
+zkv5pPD3^pi1iK*0ov`#dB2=8Nt7*aATF%EZQdkVn4eJT6GbDzv4m|<QXRg?Nc@#7x
+zUo4fDW)|m{Z_QZwx#H^e;*D9$?(?j<4e`7nPG(^(QD#h!acJ*+ac|}J{q)AmUt6u4
+zcP=t+#>#GO;QC?M2Xux!5|;fSw8Mo_JJHQ6^%Ye=y3ibzaWcM}&^5$14O@gVz7A-5
+zbfh~mQMihtQs6r^IWanw%_Wt-s`!554wkqJAtTNgI^KMEx1CSFIv2mT`tkQ=IsRwD
+z_qnifSoX~w1D@s>u&?eITtb=mrapxtejN2guKN%-DA|2;#7;+u?I~z}EI*PP8y`v7
+z2_?)*2dQBdwxkW?Cq74^pP*X+>N70mt7Br{g#8XnjDCpEXJJ{F=e|Jio{0r=mzdL^
+z{dT$Azbo$c<4!w8)$c5-SfUzZuLF0J`<%OWc<!bILjFdDb1mHEctn!BNpd$BW~GA!
+zwF=v2bC=(rE_d5eX5JmhNC5{F<-D6IE-WoCPFwbXcLi0yYvC?is{YRBcTgu3c{jCR
+zxXUCZ=iQTt4|67&7#l}PE%5!DcMG{5rLzj>TDZ&acXF2;jzc+LIB)!Z`^dR-PxEey
+z+zp0V>41K^qQcgTyPL-vmv=c1)OD!K-ND^(chK!=rB(Gi3wKLY(apPb58!UkKId*K
+zJa>BqLjFdDb1mE@Pb10Q9&$GrW~GA!wF=uta~EF&<@N3m699zV-M|3puBli@`1&nx
+z=~5QvK`J?E#2`>F1ZHp}`M00ynG5H+D{F6KF)DvkxXL;Do(@AiaJKH<jQz()^*V{s
+zI($r7w)c{iE@j~}0qWlMt{jRf93TYz`RF|<qsT{{wGW4se1xy>I#eF^)A&H87*0Ak
+zm}7JhsOG)u8B9HR@8-usPQ9KXk`5nxE!$^pDWi?Y%rPp(@X^7+9HWDPFCTs8em(do
+zzf(O9sNw>ywJxW?Hdgo&2!i#p_WL`hhB+DpnuEYfbDA-&7z7Lg4M3p!_u6Z;!4$;&
+z!{<Ch$U%JWlZNGI`5n<P&V~7Zg<Lo6`z86m4eozRcIHRDXFuqM5raTe5HR_%DKMKx
+z3<3>7AgcM1aaZR@-Dj~40n*&mAmD+3$&VhOm{SIUh#(Nv{K&QJ&ittNZX_Z@W5PTD
+z2$=kM00z-?;lD*7s`-)sKbGH7@_DfPj<OA%V!xO}8?{d|%sx`QAJyIqiIBA=Oy7dA
+zB2EIUhU`ltR=WH4fK~9OC~b5q9f6g0--58>ydzd&_A^yR68tI5{-Q9x!L3$a#TW!{
+nZjs!BuyWtg5G&pNBhsyvMf6{LKSvl}Wy6vKunOKxAo>0Qxe3`H
 
-Simply provide us with the dimensions (L x W x H), quantity, and preferred
-box style, and we'll provide you with a competitive quote. Plus, for a
-limited time, we=E2=80=99re also providing complimentary design services an=
-d
-shipping on all orders.
+literal 0
+HcmV?d00001
 
-Thanks, and looking forward to potentially working together.
+-- 
+2.45.2
 
-Best regards,
-Ledger Lindin
-Marketing Executive
-My Packaging Pro
-
---000000000000c0b6710632351009
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi,<br><br>We make personalized packaging=
-=E2=80=94tuck boxes, CBD boxes, mailer boxes, rigid boxes, bakery boxes, re=
-tail boxes, shopping bags, label stickers and more.<br><br>Simply provide u=
-s with the dimensions (L x W x H), quantity, and preferred box style, and w=
-e&#39;ll provide you with a competitive quote. Plus, for a limited time, we=
-=E2=80=99re also providing complimentary design services and shipping on al=
-l orders.<br><br>Thanks, and looking forward to potentially working togethe=
-r.<br><br><div>Best regards,</div><div>Ledger Lindin</div><div>Marketing Ex=
-ecutive</div><div>My Packaging Pro</div></div></div>
-
---000000000000c0b6710632351009--
