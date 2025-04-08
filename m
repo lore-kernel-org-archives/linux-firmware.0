@@ -1,129 +1,84 @@
-Return-Path: <SRS0=KWl1=W2=gmail.com=samk.threatsecure@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9E0AC36010
-	for <linux-firmware@archiver.kernel.org>; Tue,  8 Apr 2025 11:56:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22E53C369A2
+	for <linux-firmware@archiver.kernel.org>; Tue,  8 Apr 2025 11:59:52 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 6F731C4CEE5; Tue,  8 Apr 2025 11:56:40 +0000 (UTC)
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 78143C4CEE7
-	for <linux-firmware@kernel.org>; Tue,  8 Apr 2025 11:56:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 78143C4CEE7
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4775ccf3e56so67592611cf.0
-        for <linux-firmware@kernel.org>; Tue, 08 Apr 2025 04:56:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744113398; x=1744718198; darn=kernel.org;
-        h=mime-version:date:content-transfer-encoding:subject:to:from
-         :references:in-reply-to:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4zbTJdRP/ph2YmaY/glI3bES4ZN0RFEKeoysgXXS7JA=;
-        b=LoPWLIn1PSzXhpB03P2sC5da2xhAE0FrrgYrTo0mVIfxVfVa3Gvv1l/2pdFVWwwu+y
-         Dl4IC+WY+sOnFbXRmAmOA9vwfKinc9pDTBUGTieFpowAF/1cQ3cHCd5BmdjqWDe/qb4c
-         EkYkiO0sYNAClRMqpjd52AUXuhVWWRT32crV+Ueiey9qtkJHq7bI3pOWK7+LC+aZPwVU
-         wNcxOP2CvM66KNWrBNdtzSVHMRuTNVIntuvFHmvOIYyuM3bjELy7EsTgxzQuNv6PLTWj
-         B5DIFB5CIYjqMl2uPO1J978bnTmXT2S1X9PIcw5rMMgrJW0iF7u8gfnx0hX7Dum9u56F
-         S3tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744113398; x=1744718198;
-        h=mime-version:date:content-transfer-encoding:subject:to:from
-         :references:in-reply-to:message-id:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4zbTJdRP/ph2YmaY/glI3bES4ZN0RFEKeoysgXXS7JA=;
-        b=qjV9xmxv7tTnN3m2Qyxzzq5sQuHab9c3KS8DUSFCl3lt/jOWISvAqe8DA2zISbPyK4
-         V0liCZxZQk/ojr5p9j+ANdu5Z1JjpBRMCndgTRTkRREJgkulRv66Vrj+Yp47pMX1ztKy
-         O3EP9hBK/yTT7kRpkXs17ZYchN1/FQbKy4OrM7Sa7yj7lj6wyq+fDjBVn8/YtEYyK7eR
-         EVrSyryoI/mlmVMyR+QDtfZNpJ/RxbRxUFpb0bBYe5Yfu6FK5+0D4FPsRzmQsCwVgQ12
-         OGBCSEBVS4d9MAU501Kb40NGt1CLcNx8nSErIsNFBz5zAkGlqbBouOz2pAq3YAJ69WqE
-         rWjQ==
-X-Gm-Message-State: AOJu0YyKpJ51zXiJpPNJSk9vt1kUaey3LoHP1OdCUUsAgUbl+QEQiWWP
-	iPT/7jXu1gSqLGd1yy67FXqMMi5W2E+tCmLpSsUs8y2PDsaOqMo7zWAdsw==
-X-Gm-Gg: ASbGncsmSI1zWxMV+GX/YFwb671++jRGizaSvzy4Dzub/pkeCl/xwMcXYbIl6PtgtKD
-	iagjHN+Vo/1LuwTt1T2XOQlCqzNOInOOjijKhS9xNBTmXSrodYyWwiVodSMYGk9+CrrkuqBR8K9
-	d5ZDTS7rIC1JkVcor3Q2Rp3hNUXq8XzYivVJHCyWX9wxVcuQM0oFSHXRTLpPJLvHebyXkPAJD82
-	BQSnletTIv+BK1/FMdTp/xgZhpGWfqaOD+yUNE71KtHfhsqIT6o9S85CKDGM/nyleO6khLOo2zS
-	3Ubj5CMmxqrYUhahg1OQw9+L54y8wYIRDCA7otP7/woaChjZR3N+/mBOQfrPJur4KS+xWmmCs4a
-	L+MHjL1/icrE33da8cxqQoihrPLRuOh8mgi+tKYdncftgT+GS8Iu0kxxNEBue5orEvH+LBEhYPT
-	TgA5o=
-X-Google-Smtp-Source: AGHT+IE4eDXqdvA/euFPH43WxDFAQoayBoNv1TeQD4pnvn9LxhPRkTIrf+NKaADjbAaVwuQeIxwATQ==
-X-Received: by 2002:a05:622a:11:b0:472:145:3e02 with SMTP id d75a77b69052e-47953ea8416mr52340871cf.8.1744113397491;
-        Tue, 08 Apr 2025 04:56:37 -0700 (PDT)
-Received: from 7685bdd0-74cc-4dcd-9f24-a0f9c023ba41.local (ec2-3-86-58-242.compute-1.amazonaws.com. [3.86.58.242])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4791b05855dsm75337951cf.4.2025.04.08.04.56.36
-        for <linux-firmware@kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 04:56:36 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
-Message-ID: <7685bdd0-74cc-4dcd-9f24-a0f9c023ba41@gmail.com>
-In-Reply-To: <399e176e-b666-4bea-9c4e-c51426853478@gmail.com>
-References: <399e176e-b666-4bea-9c4e-c51426853478@gmail.com>
-From: Sam K <samk.threatsecure@gmail.com>
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Subject: Re: kernel.org
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 08 Apr 2025 11:56:36 +0000
+	id D3782C4CEE7; Tue,  8 Apr 2025 11:59:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B78AAC4AF09
+	for <linux-firmware@kernel.org>; Tue,  8 Apr 2025 11:59:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744113592;
+	bh=H0vOKOnvIMK8uHZEdYUjnnvl9zVyfDRLRpKvB9VcWUc=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=PF7uDluoHngpXf09XaFC1A1MjnZv+1N/4U5Qcdspb75zWcbDJcbMg7yRcQLq+ijJ5
+	 1ht210bUWVimuZzhi65HHE9vH1w5sGI2B1Tc1b1UYhCdJB3d0Dpdp8AndlqgRcOJWt
+	 HFWFDi6mOP+s/Dzodp6HDSSlpV7VTV2c8b34pNncrGfLhkKeCf07RX8tMdFII5c+Aq
+	 U5QxYILJgYbcfwicg8KYZa1bD99oE3dMcPR2VfRbmqNJOgUWUjE1nceJeBSxlIVKJY
+	 1z6sjydsiFzVdVnOLmVZTLr7GrGkc4jbBNpZZsEyMY6BEenIxUZANN/iRMrdqdSIsO
+	 pzoThiMeZWkPw==
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-e6e1cd3f451so3612496276.2
+        for <linux-firmware@kernel.org>; Tue, 08 Apr 2025 04:59:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXRmPTo+ecCH3pir94xsQFK7fuxnNT2cVtQlC3cMK/8dd50V5s1lHnmegV1TcoRsA5TrlIhIeNXAfEsuF4ggg==@kernel.org
+X-Gm-Message-State: AOJu0Yxvdln9wm/YIm3GLhbwr6WXJaddAKjqo6MBKulp6kl+C4zwdyBg
+	3rZeoH2Uexbqt/qKIemhTGXWD7tzJ2nSKbdkuWOcTWdN+mv5baj9ApWpVovK6nxpbD1e+DEHC+r
+	VENXRRn56F0IUhXd9mdMVdX3GfCg=
+X-Google-Smtp-Source: AGHT+IG7qwUWvEA+GdvFO6T+df0Sxk02zDtlVMFQGX0ZnBGblxQfQPbhk9t44hob9xwjDstuWENM8i+DyMg+oWmLSUo=
+X-Received: by 2002:a05:6902:13ce:b0:e6d:fe4e:2fea with SMTP id
+ 3f1490d57ef6-e6e1f9c3caemr24488976276.22.1744113591854; Tue, 08 Apr 2025
+ 04:59:51 -0700 (PDT)
 MIME-Version: 1.0
+References: <882c9f31-96a2-4057-aab1-5d39df3f20b7@quicinc.com> <r5wix6wmi5mw43cyzwb3j36az66nih2bwurkikgwgw33kltg3p@b7hyrp3kqyg4>
+In-Reply-To: <r5wix6wmi5mw43cyzwb3j36az66nih2bwurkikgwgw33kltg3p@b7hyrp3kqyg4>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Tue, 8 Apr 2025 07:59:40 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA7=qvpoY1VsxbReiLjKYhFd3xysmC51VvVujWQ2MkZtiQ@mail.gmail.com>
+X-Gm-Features: ATxdqUEAedVHMhTKHmJqqozEv80RrFJIPdCJ6gvuK7c8jZWI6lxxzZc_vePP2h0
+Message-ID: <CA+5PVA7=qvpoY1VsxbReiLjKYhFd3xysmC51VvVujWQ2MkZtiQ@mail.gmail.com>
+Subject: Re: [GIT PULL] QCA: Add and update Bluetooth firmwares for WCN785x
+ with USB interface
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: Zijun Hu <quic_zijuhu@quicinc.com>, linux-firmware@kernel.org, 
+	agurenko@protonmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello Guys,
+On Tue, Apr 8, 2025 at 7:43=E2=80=AFAM Dmitry Baryshkov
+<dmitry.baryshkov@oss.qualcomm.com> wrote:
+>
+> On Thu, Apr 03, 2025 at 05:41:11PM +0800, Zijun Hu wrote:
+> > Hi linux-firmware maintainers
+> >
+> > Here's a pull request for btqca bluetooth driver. Please let me know if
+> > you have any problems.
+> >
+> > The following changes since commit 41a528251649772edbcb705a40e617fd1485=
+8e53:
+> >
+> >   Merge branch 'intel/guc_70402' into 'main' (2025-03-04 19:09:49 +0000=
+)
+> >
+> > are available in the git repository at:
+> >
+> >   https://github.com/zijun-hu/qca_btfw hmt_usb_x86_0403
+> >
+> > for you to fetch changes up to b12240420adec3089fa0bb5a09eaa0cefbd8ce76=
+:
+> >
+> >   QCA: Add 8 bluetooth nvm files for WCN785x btusb (2025-04-03 17:18:24
+> > +0800)
+>
+>
+> Josh, it seems this pull request got ingored / skipped by the robot.
+> Could you please take a look?
 
-One last follow up here. Is this the right email to reach out =
-to about security in kernel.org?
+Thank you for the heads up.  There was a merge conflict in WHENCE that
+I manually fixed up.  New MR here:
 
-Let me know if there's someone else I =
-should reach out to.
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/510
 
-Appreciate it,
-Sam
-
-Sent from my iPhone
-
-On Tue, April 1, 2025 12:03 PM, Sam K <samk.threatsecure@gmail.com>
-[samk.threatsecure@gmail.com]> wrote:
-
-> Hi Team,
->=20
-> Were you able to get my last email?
->=20
-> I can understand that you =
-might be busy, which is why I'm reaching out again.
->=20
-> Appreciate it,
-> Sam
-> On Fri, March 28, 2025 12:44 PM, Sam K <samk.threatsecure@gmail.=
-com>
-> [samk.threatsecure@gmail.com]> wrote:
->=20
-> > Hi Team,
-> >=20
-> > Just bumping this to the top of your inbox!
-> >=20
-> > Looking forward to hearing from you.
-> >=20
-> > Thanks,
-> > Sam
-> > On Wed, March 26, 2025 11:39 AM, Sam K <samk.threatsecure@gmail.com>
-> > [samk.threatsecure@gmail.com]> wrote:
-> >=20
-> > > Hi Team,
-> > >=20
-> > > I was checking out kernel.org and spotted a few things that could =
-make your site a target for cyber attacks.
-> > >=20
-> > > Do you have any kind of formal/informal bug bounty or reward program =
-for researchers to find and report security issues? If so, please let me =
-know, and I'd love to check out the specifics see how I can help.
-> > >=20
-> > > If not, please let me know if you=E2=80=99re open to rewarding =
-researchers for valid vulnerability reports at your discretion.
-> > >=20
-> > > Cheers,
-> > > Sam
-> > >
+josh
