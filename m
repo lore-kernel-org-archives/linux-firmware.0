@@ -1,101 +1,87 @@
-Return-Path: <SRS0=wELy=W2=quicinc.com=quic_dikshita@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7ABB0C3600C
-	for <linux-firmware@archiver.kernel.org>; Tue,  8 Apr 2025 08:58:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B8D75C3600C
+	for <linux-firmware@archiver.kernel.org>; Tue,  8 Apr 2025 10:32:51 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 2BBCAC4CEE8; Tue,  8 Apr 2025 08:58:58 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id DFBC3C4CEE5
-	for <linux-firmware@kernel.org>; Tue,  8 Apr 2025 08:58:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org DFBC3C4CEE5
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5382JdgR014252
-	for <linux-firmware@kernel.org>; Tue, 8 Apr 2025 08:58:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=aDfv3L2q2UB0NE+Ceo45bG
-	vCmPjuOkziFtj4ej46tpM=; b=Y7b9g4XlzcRyN5sKYL8VKqGFkOQCqZhNo164CR
-	fhPua22dzFwp+iQXA55Wk1aCrLgpB814hONUvvmXoWrKDbjXQgHWJf2qnYU5Xuh1
-	EoB/1wuqjzPac7g8z6n9XJTx5yzQugsfqgwDoFhoMz1TSRv1zlmV/tymd/v5os4k
-	7Y3/XssaNE8eJ3AKJLz3YFU/r3WNgoWfZzNIrmmuGpljtn9h8rV+GAo3bGMbdx29
-	KYviuMsawqPKAyYFXCsGpfBqrZH1kvQFYe3JCYnv3fr2dO8LGT3rpn0Do3lA4eM4
-	87ChLn6dTSnI3XI152kd57jiVysviWV/SnvKougsFdhHEHRQ==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twpm74ny-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-firmware@kernel.org>; Tue, 08 Apr 2025 08:58:55 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5388wsWQ031416
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-firmware@kernel.org>; Tue, 8 Apr 2025 08:58:54 GMT
-Received: from [10.50.45.73] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 8 Apr 2025
- 01:58:53 -0700
-Message-ID: <1a511921-446d-cdc4-0203-084c88a5dc1e@quicinc.com>
-Date: Tue, 8 Apr 2025 14:28:40 +0530
+	id 82757C4CEED; Tue,  8 Apr 2025 10:32:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C0EEC4CEEC
+	for <linux-firmware@kernel.org>; Tue,  8 Apr 2025 10:32:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744108371;
+	bh=i3aXzChtlKV3AcEvsA7bJSGrARzwSKe2Qg07dvWZRPA=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=EVjFnhkIsSJ6QWXIeaLCTJTeTNib4EpeHQxqCD0h7mnG3NbWwTyFvUp4KE5fyWdSI
+	 35qJeH8xf4onMDPuAPD6de0Ea73qA1OVe0j8OCuQlelC92GSfdjGQ1xHJvD1YNGhXB
+	 WiIUeskZ2bZDVgv7vSiEm+mNd+EmdaXigUxORo2S6jYgthLhRrboLTNzwvkI8XYCD3
+	 ZzFcIlBQhIHZnM/neSwSGCJAGN74wcHBag5iWxXqm7IZzG0wM3UJsZbsjYX2h2lPN5
+	 hvUCaKCt45Xj4CaBn84aTjPufTnlN98xvjCWVedL34xg1NWfvacur5o0F0uU6Yju/F
+	 eucAjA1SuiG3A==
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e6a8aa771e8so4560334276.3
+        for <linux-firmware@kernel.org>; Tue, 08 Apr 2025 03:32:51 -0700 (PDT)
+X-Gm-Message-State: AOJu0YyKPRoZwcSgD8OGgN5vnLdlOnq/uB36uleElqzQ3Wxa0UkLUJ0E
+	knVGn0s7fOFEbvkg4q5Qds6ypyROdYqDV54pqnifcmv4WUTeIjQOO8qnGyY6WAC6wfBOqr+QhVH
+	IDECf6z9g5m5owuc33vdO45qpzsM=
+X-Google-Smtp-Source: AGHT+IHzh9/+LcLDg4bQ+2neylxfbf1jz5c8w9h6ACyB21Pg4dIdfxBhIc+32C00IVXyABrjxsW7af3CcdIoplZLVHU=
+X-Received: by 2002:a05:6902:220c:b0:e6b:7fca:c82e with SMTP id
+ 3f1490d57ef6-e6e1c29a310mr26950336276.16.1744108370619; Tue, 08 Apr 2025
+ 03:32:50 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Content-Language: en-US
+References: <20250408081404.302196-1-zoran.zhan@mediatek.com>
+In-Reply-To: <20250408081404.302196-1-zoran.zhan@mediatek.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Tue, 8 Apr 2025 06:32:39 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA7nKR4Dc6BgA417FmctBvO0BUsFADgRdU73xNpOXVJMhg@mail.gmail.com>
+X-Gm-Features: ATxdqUF-GMNKQfWIYZJMuVzPtYmtiSiOcwysQGSpVRC75RvdHjBLqQU35YeBxtE
+Message-ID: <CA+5PVA7nKR4Dc6BgA417FmctBvO0BUsFADgRdU73xNpOXVJMhg@mail.gmail.com>
+Subject: Re: pull request: linux-firmware: Add MediaTek MT8188 and MT8195 SOF firmware
+To: Zoran Zhan <zoran.zhan@mediatek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-CC: "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Subject: update firmware binary for SM8250
+Cc: linux-firmware <linux-firmware@kernel.org>, 
+	linux-mediatek <linux-mediatek@lists.infradead.org>, shawnku@google.com, 
+	Macpaul Lin <macpaul.lin@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: -Ko7ha8pOyIsVMdnUJm_K9UIssD7gylT
-X-Proofpoint-ORIG-GUID: -Ko7ha8pOyIsVMdnUJm_K9UIssD7gylT
-X-Authority-Analysis: v=2.4 cv=MpRS63ae c=1 sm=1 tr=0 ts=67f4e54f cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=qC_FGOx9AAAA:8 a=96fHC12-hSFKV8Dk4UkA:9 a=QEXdDO2ut3YA:10
- a=fsdK_YakeE02zTmptMdW:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-08_03,2025-04-07_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- mlxlogscore=585 clxscore=1011 priorityscore=1501 impostorscore=0
- spamscore=0 bulkscore=0 suspectscore=0 malwarescore=0 adultscore=0
- phishscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504080064
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Tue, Apr 8, 2025 at 4:14=E2=80=AFAM Zoran Zhan <zoran.zhan@mediatek.com>=
+ wrote:
+>
+> The following changes since commit d864697fd38a94092b636c8030843343f265fe=
+69:
+>
+>   Merge branch 'rtl-bt' into 'main' (2025-04-01 11:24:40 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/zoran055/linux_fw_sof zoran/soffw_0327
 
-Please pull below firmware.
+Merged and pushed out.
 
-The following changes since commit d864697fd38a94092b636c8030843343f265fe69:
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/507
 
-  Merge branch 'rtl-bt' into 'main' (2025-04-01 11:24:40 +0000)
+josh
 
-are available in the Git repository at:
-
-  https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
-video-fw-fix-sm8250
-
-for you to fetch changes up to e62b280a2126a30d78f9c8de482e61ddd6a37dbe:
-
-  qcom: update firmware binary for SM8250 (2025-04-08 13:11:21 +0530)
-
-----------------------------------------------------------------
-Dikshita Agarwal (1):
-      qcom: update firmware binary for SM8250
-
- WHENCE                |   2 +-
- qcom/vpu/vpu20_p4.mbn | Bin 1974884 -> 1985348 bytes
- 2 files changed, 1 insertion(+), 1 deletion(-)
-
-Thanks,
-Dikshita
+>
+> for you to fetch changes up to a7b3d211e8ef628ab84d955d1b13d2070388fd02:
+>
+>   mediatek: Add new mt8195 SOF firmware (2025-04-07 16:04:56 +0800)
+>
+> ----------------------------------------------------------------
+> Zoran Zhan (2):
+>       mediatek: Add new mt8188 SOF firmware
+>       mediatek: Add new mt8195 SOF firmware
+>
+>  WHENCE                            |   8 ++++++++
+>  mediatek/sof-tplg/sof-mt8188.tplg | Bin 0 -> 16191 bytes
+>  mediatek/sof-tplg/sof-mt8195.tplg | Bin 0 -> 16191 bytes
+>  mediatek/sof/sof-mt8188.ldc       | Bin 0 -> 53900 bytes
+>  mediatek/sof/sof-mt8188.ri        | Bin 0 -> 112488 bytes
+>  5 files changed, 8 insertions(+)
+>  create mode 100644 mediatek/sof-tplg/sof-mt8188.tplg
+>  create mode 100644 mediatek/sof-tplg/sof-mt8195.tplg
+>  create mode 100644 mediatek/sof/sof-mt8188.ldc
+>  create mode 100644 mediatek/sof/sof-mt8188.ri
+>
