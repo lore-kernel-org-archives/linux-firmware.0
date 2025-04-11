@@ -1,68 +1,82 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=1y+6=W5=ti.com=baojun.xu@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 693BDC3601E
-	for <linux-firmware@archiver.kernel.org>; Thu, 10 Apr 2025 11:06:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48D55C369A2
+	for <linux-firmware@archiver.kernel.org>; Fri, 11 Apr 2025 03:29:54 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 2ED46C4CEE9; Thu, 10 Apr 2025 11:06:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 189DDC4CEEA
-	for <linux-firmware@kernel.org>; Thu, 10 Apr 2025 11:06:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744283217;
-	bh=ZcUs4KUSDwSJEvIpBSWkGxb3u7plR1i1SQ0un1smHWs=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=DX0FRAvv7wKSy35NrknUKA/ETel+LOIKbS0DddaQaKiD5r0m7L0X1LpmILJz4OxDw
-	 GeZaiMU6RCJ2dpR5dnAciFG8mowXH+u8aq7jnJwgVyMJyaKj9wynseJi/lg8ECX9zQ
-	 RlG4sbR9cyLC2KTTzhEsuBrWPJP6zcZNfXZt+UXn+fUVKwz9dPP1lBIw9swZifCpGU
-	 CbGAQElpaJdyaQZV3dCa3pdVEtlbChuBSN7Eq8DgXjaZMUaweeU2dXKdhpvLeQv8SI
-	 qFNGT9v0rpDptshf/hthHi8YE2QckSTlNbi20Esyn6W0FOmWneAHGQdYtLrrK3TuWb
-	 yWebfdtiMBiSA==
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6fece18b3c8so6695057b3.3
-        for <linux-firmware@kernel.org>; Thu, 10 Apr 2025 04:06:57 -0700 (PDT)
-X-Gm-Message-State: AOJu0YwGB88KLwTJMEta5/M9+1o3lNNF2dhchkR3jkLjf/y3ynDsm7On
-	sm1tABiazIkcdWsfFN1tLv+xbgPplevekD22cZI/n3w7Ft7p1xeIHdnXFMIlVt8311dasG330qR
-	YFnGCGzk8oGGQ3f5GGaR0G81S1JE=
-X-Google-Smtp-Source: AGHT+IF3oxVXVWz44DiQO92AYmdB6jJzsYFcSSMTpvjRPaWi1t1jhGNMkPofuei1U7PKmE+ETbKdoqplg1J6zOJBABM=
-X-Received: by 2002:a05:6902:108f:b0:e5a:e8e8:b1b6 with SMTP id
- 3f1490d57ef6-e703fb49ba3mr3220909276.8.1744283216267; Thu, 10 Apr 2025
- 04:06:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <f7dLV-LegWvOvapaQgOMjBRu-9hCbLw6MXBvchvBUGJT68OuhCjrefUrbkQcY6ap898RWHfOvDH44pckHADOT_feRKfsd3xulQmsQp6DVZk=@proton.me>
-In-Reply-To: <f7dLV-LegWvOvapaQgOMjBRu-9hCbLw6MXBvchvBUGJT68OuhCjrefUrbkQcY6ap898RWHfOvDH44pckHADOT_feRKfsd3xulQmsQp6DVZk=@proton.me>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Thu, 10 Apr 2025 07:06:44 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA5t7cT7JwxHKRBaGvgOH40p85EBgfJmso59pNpjQ4w5Uw@mail.gmail.com>
-X-Gm-Features: ATxdqUEjgo6RbZcSITphzDZ9lqs3gWrhuCBkvNKm1KM9V-uTgXdzYYRGulFnI-s
-Message-ID: <CA+5PVA5t7cT7JwxHKRBaGvgOH40p85EBgfJmso59pNpjQ4w5Uw@mail.gmail.com>
-Subject: Re: iwlwifi: missing ma-a0-gf-ao-* series since 2020
-To: Tj <tj.iam.tj@proton.me>, 
-	"Korenblit, Miriam Rachel" <miriam.rachel.korenblit@intel.com>
+	id 01263C4CEEB; Fri, 11 Apr 2025 03:29:54 +0000 (UTC)
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id F3000C4CEE2;
+	Fri, 11 Apr 2025 03:29:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org F3000C4CEE2
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 53B3Tko41957778
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 10 Apr 2025 22:29:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1744342186;
+	bh=cnH9sNRRqDYsJGbaVdR1OckLSTLwwD1L+xoqIwIinS4=;
+	h=From:To:CC:Subject:Date;
+	b=HA6gSiUa8riQ/P+7YmxAmGIK6BIbWnXN/RLmaAoMbp2GqmIJEkk3AZyg3yD88CJLP
+	 oJFS96apCJTonSPvPStyhZnh974BrNxhrQDl+Aasq2QPWlobS707tb4Q199kAJj5cW
+	 zQbM+DBIrmTriUs6PCnGncHsK6LeFHhB/FhtnxGA=
+Received: from DLEE101.ent.ti.com (dlee101.ent.ti.com [157.170.170.31])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 53B3TkKH043200
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 10 Apr 2025 22:29:46 -0500
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 10
+ Apr 2025 22:29:46 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 10 Apr 2025 22:29:46 -0500
+Received: from lelvsmtp5.itg.ti.com ([10.250.165.138])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 53B3Tge8027417;
+	Thu, 10 Apr 2025 22:29:43 -0500
+From: Baojun Xu <baojun.xu@ti.com>
+To: <jwboyer@kernel.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+CC: <shenghao-ding@ti.com>, <linux-firmware@kernel.org>, <13916275206@139.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Baojun Xu <baojun.xu@ti.com>
+Subject: [PATCH v1] ASoC: tas2781: Swap channel for SPI projects.
+Date: Fri, 11 Apr 2025 11:29:18 +0800
+Message-ID: <20250411032918.1739-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On Thu, Apr 10, 2025 at 4:13=E2=80=AFAM Tj <tj.iam.tj@proton.me> wrote:
->
-> The "iwlwifi-ma-a0-gf-ao-*" story is weird; Support for those MA devices =
-was added to Linux in September 2020 in commit bc9296f4a828bd8 but the firm=
-wares were never added to linux-firmware repository. The commit shows the d=
-evice name set to "Intel(R) Wi-Fi 6 AX211 160MHz"
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+---
+ WHENCE | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-We'd need Intel to submit them.  There isn't much we can do as an upstream =
-here.
+diff --git a/WHENCE b/WHENCE
+index d987f2b7..0e90a8ae 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -8412,8 +8412,8 @@ Link: TAS2XXX8DE90.bin -> ti/tas2781/TAS2XXX8DE9.bin
+ Link: TAS2XXX8DE91.bin -> ti/tas2781/TAS2XXX8DE9.bin
+ Link: TIAS2781RCA2.bin -> ti/tas2781/TIAS2781RCA2.bin
+ Link: TIAS2781RCA4.bin -> ti/tas2781/TIAS2781RCA4.bin
+-Link: TXNW2781RCA0.bin -> ti/tas2781/TXNW2781RCA0.bin
+-Link: TXNW2781RCA1.bin -> ti/tas2781/TXNW2781RCA1.bin
++Link: TXNW2781RCA1.bin -> ti/tas2781/TXNW2781RCA0.bin
++Link: TXNW2781RCA0.bin -> ti/tas2781/TXNW2781RCA1.bin
+ Link: TXNW2781RCA2.bin -> ti/tas2781/TIAS2781RCA2.bin
+ Link: TXNW2781RCA4.bin -> ti/tas2781/TIAS2781RCA4.bin
+ 
+-- 
+2.34.1
 
-josh
-
->
-> linux-firmware only has the iwlwifi-ma-bo-* series.
->
-> There are distro and kernel bug reports [0] and asks for this firmware in=
- various distro forums including the Intel community [1]
->
-> [0] https://bugzilla.kernel.org/show_bug.cgi?id=3D218748
-> [1]  https://community.intel.com/t5/Wireless/Linux-Firmware-for-AX211/m-p=
-/1599943
