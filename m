@@ -1,82 +1,95 @@
-Return-Path: <SRS0=1y+6=W5=ti.com=baojun.xu@kernel.org>
+Return-Path: <SRS0=yDqv=W7=decadent.org.uk=ben@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48D55C369A2
-	for <linux-firmware@archiver.kernel.org>; Fri, 11 Apr 2025 03:29:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A44FC3601E
+	for <linux-firmware@archiver.kernel.org>; Sun, 13 Apr 2025 16:00:57 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 01263C4CEEB; Fri, 11 Apr 2025 03:29:54 +0000 (UTC)
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id 49A82C4CEE5; Sun, 13 Apr 2025 16:00:57 +0000 (UTC)
+Received: from maynard.decadent.org.uk (maynard.decadent.org.uk [65.21.191.19])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id F3000C4CEE2;
-	Fri, 11 Apr 2025 03:29:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org F3000C4CEE2
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 53B3Tko41957778
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 10 Apr 2025 22:29:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1744342186;
-	bh=cnH9sNRRqDYsJGbaVdR1OckLSTLwwD1L+xoqIwIinS4=;
-	h=From:To:CC:Subject:Date;
-	b=HA6gSiUa8riQ/P+7YmxAmGIK6BIbWnXN/RLmaAoMbp2GqmIJEkk3AZyg3yD88CJLP
-	 oJFS96apCJTonSPvPStyhZnh974BrNxhrQDl+Aasq2QPWlobS707tb4Q199kAJj5cW
-	 zQbM+DBIrmTriUs6PCnGncHsK6LeFHhB/FhtnxGA=
-Received: from DLEE101.ent.ti.com (dlee101.ent.ti.com [157.170.170.31])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 53B3TkKH043200
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 10 Apr 2025 22:29:46 -0500
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 10
- Apr 2025 22:29:46 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 10 Apr 2025 22:29:46 -0500
-Received: from lelvsmtp5.itg.ti.com ([10.250.165.138])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 53B3Tge8027417;
-	Thu, 10 Apr 2025 22:29:43 -0500
-From: Baojun Xu <baojun.xu@ti.com>
-To: <jwboyer@kernel.org>
+	by smtp.kernel.org (Postfix) with ESMTPS id 81F04C4CEDD
+	for <linux-firmware@kernel.org>; Sun, 13 Apr 2025 16:00:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 81F04C4CEDD
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=decadent.org.uk
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=decadent.org.uk
+Received: from [2a02:578:851f:1502:391e:c5f5:10e2:b9a3] (helo=deadeye)
+	by maynard with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ben@decadent.org.uk>)
+	id 1u3zlG-001i5m-2V;
+	Sun, 13 Apr 2025 16:00:45 +0000
+Received: from ben by deadeye with local (Exim 4.98.1)
+	(envelope-from <ben@decadent.org.uk>)
+	id 1u3zlE-00000001gEc-0fKj;
+	Sun, 13 Apr 2025 18:00:44 +0200
+Message-ID: <91d589d2c91c4c32406d27ad280a5187ca773a8c.camel@decadent.org.uk>
+Subject: ish firmware is undistributable
+From: Ben Hutchings <ben@decadent.org.uk>
 List-Id: <linux-firmware.lore.kernel.org>
-CC: <shenghao-ding@ti.com>, <linux-firmware@kernel.org>, <13916275206@139.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Baojun Xu <baojun.xu@ti.com>
-Subject: [PATCH v1] ASoC: tas2781: Swap channel for SPI projects.
-Date: Fri, 11 Apr 2025 11:29:18 +0800
-Message-ID: <20250411032918.1739-1-baojun.xu@ti.com>
-X-Mailer: git-send-email 2.43.0.windows.1
+To: hang Lixu <lixu.zhang@intel.com>, linux-firmware@kernel.org
+Date: Sun, 13 Apr 2025 18:00:29 +0200
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-TPR3vW8ZB7ZJZnIwkn8S"
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-SA-Exim-Connect-IP: 2a02:578:851f:1502:391e:c5f5:10e2:b9a3
+X-SA-Exim-Mail-From: ben@decadent.org.uk
+X-SA-Exim-Scanned: No (on maynard); SAEximRunCond expanded to false
 
-Signed-off-by: Baojun Xu <baojun.xu@ti.com>
----
- WHENCE | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/WHENCE b/WHENCE
-index d987f2b7..0e90a8ae 100644
---- a/WHENCE
-+++ b/WHENCE
-@@ -8412,8 +8412,8 @@ Link: TAS2XXX8DE90.bin -> ti/tas2781/TAS2XXX8DE9.bin
- Link: TAS2XXX8DE91.bin -> ti/tas2781/TAS2XXX8DE9.bin
- Link: TIAS2781RCA2.bin -> ti/tas2781/TIAS2781RCA2.bin
- Link: TIAS2781RCA4.bin -> ti/tas2781/TIAS2781RCA4.bin
--Link: TXNW2781RCA0.bin -> ti/tas2781/TXNW2781RCA0.bin
--Link: TXNW2781RCA1.bin -> ti/tas2781/TXNW2781RCA1.bin
-+Link: TXNW2781RCA1.bin -> ti/tas2781/TXNW2781RCA0.bin
-+Link: TXNW2781RCA0.bin -> ti/tas2781/TXNW2781RCA1.bin
- Link: TXNW2781RCA2.bin -> ti/tas2781/TIAS2781RCA2.bin
- Link: TXNW2781RCA4.bin -> ti/tas2781/TIAS2781RCA4.bin
- 
--- 
-2.34.1
+--=-TPR3vW8ZB7ZJZnIwkn8S
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi all,
+
+It seems like no-one actually read LICENCE.ish, because it says:
+
+> 3 CONFIDENTIALITY. The terms of this Agreement and the=20
+> Material are Intel confidential information and subject to your=20
+> valid corporate non-disclosure agreement with Intel (CNDA).=20
+> Except as authorized in Section 2.1, you must not disclose this=20
+> information to anyone, including the U.S. government. This=20
+> Agreement will not become effective, or will automatically=20
+> terminate, in the absence of a CNDA. This Agreement will take=20
+> precedence in the event of a conflict with the CNDA.
+
+So not only should the firmware not have been sent to linux-firmware
+under this licence, but the licence text itself should not have been
+sent either.=20
+
+Please either fix the licence terms or remove this firmware.
+
+Ben.
+
+--=20
+Ben Hutchings
+Once a job is fouled up, anything done to improve it makes it worse.
+
+--=-TPR3vW8ZB7ZJZnIwkn8S
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEErCspvTSmr92z9o8157/I7JWGEQkFAmf7350ACgkQ57/I7JWG
+EQkUxRAAm1yADDeMvc6SLt8Tmwh63mmCfFQ9OlC0Os59BICG1AWeV4Y4VswMLpxF
+4hEKZ5m/KMMnfuNZcXRJB5lSGEIcKtCgOfBshoUDeX6t9E8hWAx2Uy24qYfMwk1d
+O0jCXxKAVFB+Rftbu7s8UtGZJa99iic7LRuJ9EYUCBcRMrxiWPXLcofnyEZsMNNi
+o88j/fvA0/XA0YD4TKnynh5hco7ZOBH7K0w0EmnP6vP+/wt1N1jw6Da5LSHO+ory
+2zL1QzuzRM/ywOnXv2v0HdXIrFCDmXC+e8fweiFLa0nKnXfBm8UZw3DCOM9zepW8
+v9rawz0lQf3ucdvJrK3EtsllUrevNSnr5dVbKnAydq0GI7+GHkKMI/Xz3VBDK471
+Lud9gpwHDjzyggJwh8Nh9+P5fXB0fkRck6fCIcJ46aWtnxxQ0l5cGZzF/SEygQdG
+Xfj5cIRcA38THKYDhSc8eG8CAWnPJmM9CkcnJh8EbmreJzr+9MfZjxeyo/YJXICK
+WHS5XIu+M/Ufdm699CPMcC6TQSK6BaS6yislDTod1ZoeZWwAGiwLdBf7Rvi4MsU/
+tDysFpMw4hcaRh/+HnABAj8KvY+WRwkS9hZIOS/4MJ2p7fByR3lFgS5Vx0/4GEFD
+4Eu86oL8/gvqkIXT/52eMY5xwWBr6PvpVgbM2XQI0A6AqS14SKI=
+=DQzB
+-----END PGP SIGNATURE-----
+
+--=-TPR3vW8ZB7ZJZnIwkn8S--
