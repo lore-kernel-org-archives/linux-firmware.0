@@ -1,109 +1,84 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=yyOD=XQ=realtek.com=pkshih@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B848DC369C2
-	for <linux-firmware@archiver.kernel.org>; Fri, 25 Apr 2025 12:35:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93A90C369D9
+	for <linux-firmware@archiver.kernel.org>; Wed, 30 Apr 2025 06:09:38 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id A1586C4CEEF; Fri, 25 Apr 2025 12:35:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BD0FC4CEED
-	for <linux-firmware@kernel.org>; Fri, 25 Apr 2025 12:35:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745584548;
-	bh=NBbf9gNE6rO2PKHGflXky6hJbsXpf3UmgCARwrP7qoM=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=eVCQ2y/XOwPqYzsX8T1RtjqS959rQ/0CmG8oGelz/MVfkfPCnDhF99VHQZf8ZHCvH
-	 uKP1lo6kgDz2AV/j8b2dgcC9UyRA3AfN8CT/yPfnpdU7ZgCLwy4gOZSAPM9hd4ehmr
-	 VjoXsD9YZowYehiPapJHqGnrCR7/5KbwVPdSRJ3Euwjo3zSEgQqpXv003GX+1pQro2
-	 +0nuE5Ph8rQGsWWRE08ddkiShYNbnViBxUlUnEMbn6gBlRfllMQPfej+Uwco/CPSX0
-	 zBRJerf//fxCVuJa+wM1M3cYqgUVi0OzV7omcs9tlzuQT6qtg17JkBM9qmN4oby2Jx
-	 NXI2TZah6L+7A==
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6fece18b3c8so20108447b3.3
-        for <linux-firmware@kernel.org>; Fri, 25 Apr 2025 05:35:48 -0700 (PDT)
-X-Gm-Message-State: AOJu0YxAQDDCOQ9774isZJF33w3mn0I5/CZFouOh/5WKAFfGDyrCTIfW
-	Xtd9NyT+hYiy/LMkob76Fs5UCCH5viTetIWCb1kvJNCZtWgqVB4XKaUOzv6utCsRpULmU8WvUcW
-	S5kN3TpINb5Q+4ZIly6XARmYUu5o=
-X-Google-Smtp-Source: AGHT+IGDt9aoxGrxaGdyTTeDSrfXroJCvAtD1fdjtKXhnHKlHwfs/SCMm5fDkS5hkf5DjxqYAC/oNkBXKbPa4IJM9tY=
-X-Received: by 2002:a05:690c:6d05:b0:702:d54:5794 with SMTP id
- 00721157ae682-708541e9ffcmr27742027b3.31.1745584547796; Fri, 25 Apr 2025
- 05:35:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <96b43d18-72e1-44a8-bf06-6a22fd012b07@oss.qualcomm.com>
-In-Reply-To: <96b43d18-72e1-44a8-bf06-6a22fd012b07@oss.qualcomm.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Fri, 25 Apr 2025 08:35:36 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA71-_a9nG-vULohgzbSfyFyWOB9RE1x4D4vdUbw4HAegg@mail.gmail.com>
-X-Gm-Features: ATxdqUG-Y0F2Gdu0J4NLMD6PZcYoVIbFgR97YO-susRSEJJ3-yKT3qLEMaTQGWY
-Message-ID: <CA+5PVA71-_a9nG-vULohgzbSfyFyWOB9RE1x4D4vdUbw4HAegg@mail.gmail.com>
-Subject: Re: [PULL linux-firmware] ath11k and ath12k firmware 20250424
-To: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+	id 5250FC4CEEA; Wed, 30 Apr 2025 06:09:38 +0000 (UTC)
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 7B62AC4CEE9
+	for <linux-firmware@kernel.org>; Wed, 30 Apr 2025 06:09:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 7B62AC4CEE9
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 53U69XF602529431, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
+	t=1745993373; bh=nysZutRqDRdmf9N/VPWFSQ+OAhGUZMFDZ8JWw8/9GOg=;
+	h=From:To:CC:Subject:MIME-Version:Content-Type:Message-ID:Date;
+	b=tQVvyRf94wFu5SEeSN/gQvJYHkm6uJuTRXPdQfg1pWpKjCDZPQwMmr6Lbxj5GbJ+p
+	 mMzazDYsy60Ic0TwncjdaTunM1+Tts5J0jgZ3L4ey36XMSAlbzmXFNroud/Y1oWP7R
+	 BjP2LoFqjxHELnRFrWrlglgsrkSXTVyT7aPVhKQwgFx6+IHo7nM8wfa8uwXamEFRQB
+	 8XGtTnc4KKOMhUTRVxN+maEIhzjNc2FoYMyuXw7KNZ3Iv+Xo02Nt8SzZCTil3j5LkL
+	 luw95NUdm/uV3ij8gcqvUse/kdmB/2oLy6jkoZ3Kg/FrsP0E9gj/F7Ma9/FtaVW7TY
+	 7ejS987pMyH9g==
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 53U69XF602529431
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 30 Apr 2025 14:09:33 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 30 Apr 2025 14:09:33 +0800
+Received: from [127.0.1.1] (172.21.69.94) by RTEXMBS04.realtek.com.tw
+ (172.21.6.97) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Wed, 30 Apr
+ 2025 14:09:33 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, linux-wireless@vger.kernel.org, 
-	ath11k@lists.infradead.org, ath12k@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: <linux-firmware@kernel.org>
+CC: <linux-wireless@vger.kernel.org>, <damon.chen@realtek.com>
+Subject: pull-request: update firmware for rtw89 driver along with tag rtw-fw-2025-04-30
+MIME-Version: 1.0
+Content-Type: text/plain
+Message-ID: <35d55e0b-8cc9-41f4-b48b-08d7e9f39f97@RTEXMBS04.realtek.com.tw>
+Date: Wed, 30 Apr 2025 14:09:33 +0800
+X-Originating-IP: [172.21.69.94]
+X-ClientProxiedBy: RTEXMBS02.realtek.com.tw (172.21.6.95) To
+ RTEXMBS04.realtek.com.tw (172.21.6.97)
 
-On Thu, Apr 24, 2025 at 4:38=E2=80=AFPM Jeff Johnson
-<jeff.johnson@oss.qualcomm.com> wrote:
->
-> Hi,
-> Here's a new pull request for ath11k and ath12k.
->
-> For ath11k, update the firmware for IPQ5018 and update the board file
-> for WCN6855. For ath12k, update the firmware for WCN7850 and update
-> the board file for QCN9274.
->
-> Please let me know if there are any problems.
->
-> /jeff
->
-> The following changes since commit 490c0af1d6b9ffca0523edcfad27ba483b9d6d=
-a3:
->
->   Merge branch 'robot/pr-0-1745490027' into 'main' (2025-04-24 13:46:05 +=
-0000)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/ath/linux-firmware.git at=
-h-20250424
+Hi,
 
-Merged and pushed out.
+Update firmware to fix problem of disconnection from AP, and add table
+for DAG mechanism.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/528
+Thank you
+Ping-Ke
 
-josh
+---
 
->
-> for you to fetch changes up to ce13d29c3933f77674cf45855668485c48d3eba0:
->
->   ath11k: WCN6855 hw2.0: update board-2.bin (2025-04-24 13:04:20 -0700)
->
-> ----------------------------------------------------------------
-> Jeff Johnson (4):
->       ath12k: QCN9274 hw2.0: update board-2.bin
->       ath12k: WCN7850 hw2.0: update to WLAN.HMT.1.1.c5-00284-QCAHMTSWPL_V=
-1.0_V2.0_SILICONZ-3
->       ath11k: IPQ5018 hw1.0: update to WLAN.HK.2.6.0.1-01300-QCAHKSWPL_SI=
-LICONZ-1
->       ath11k: WCN6855 hw2.0: update board-2.bin
->
->  WHENCE                           |    4 +-
->  ath11k/IPQ5018/hw1.0/Notice.txt  | 3918 +++-----------------------------=
-------
->  ath11k/IPQ5018/hw1.0/q6_fw.b00   |  Bin 532 -> 532 bytes
->  ath11k/IPQ5018/hw1.0/q6_fw.b01   |  Bin 520 -> 520 bytes
->  ath11k/IPQ5018/hw1.0/q6_fw.b04   |  Bin 86788 -> 86788 bytes
->  ath11k/IPQ5018/hw1.0/q6_fw.b08   |  Bin 4096 -> 4096 bytes
->  ath11k/IPQ5018/hw1.0/q6_fw.b09   |  Bin 2334720 -> 2334720 bytes
->  ath11k/IPQ5018/hw1.0/q6_fw.b10   |  Bin 269220 -> 269252 bytes
->  ath11k/IPQ5018/hw1.0/q6_fw.b11   |  Bin 99456 -> 99456 bytes
->  ath11k/IPQ5018/hw1.0/q6_fw.b13   |  Bin 7072 -> 7080 bytes
->  ath11k/IPQ5018/hw1.0/q6_fw.mdt   |  Bin 1052 -> 1052 bytes
->  ath11k/WCN6855/hw2.0/board-2.bin |  Bin 6429240 -> 6429240 bytes
->  ath12k/QCN9274/hw2.0/board-2.bin |  Bin 1308544 -> 2626240 bytes
->  ath12k/WCN7850/hw2.0/amss.bin    |  Bin 6000704 -> 6082624 bytes
->  ath12k/WCN7850/hw2.0/m3.bin      |  Bin 299660 -> 299660 bytes
->  15 files changed, 315 insertions(+), 3607 deletions(-)
+The following changes since commit 0d104598cd5bfff9e1f1a3d0eb86568710cfb4a7:
+
+  Merge branch 'rock-pi-x' into 'main' (2025-04-28 13:14:38 +0000)
+
+are available in the Git repository at:
+
+  https://github.com/pkshih/linux-firmware.git tags/rtw-fw-2025-04-30
+
+for you to fetch changes up to f56a4436ffe343c5e605050dd174a988950f0699:
+
+  rtw89: 8852c: add tables for dynamic antenna TXPWR (2025-04-30 14:00:05 +0800)
+
+----------------------------------------------------------------
+Kuan-Chung Chen (2):
+      rtw89: 8922a: update fw to v0.35.71.0
+      rtw89: 8852c: add tables for dynamic antenna TXPWR
+
+ rtw89/rtw8852c_fw-2.bin | Bin 2411688 -> 2444568 bytes
+ rtw89/rtw8922a_fw-3.bin | Bin 1224798 -> 1238542 bytes
+ 2 files changed, 0 insertions(+), 0 deletions(-)
