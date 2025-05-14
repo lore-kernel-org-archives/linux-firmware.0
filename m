@@ -1,139 +1,98 @@
-Return-Path: <SRS0=T+Xs=X5=suse.de=tiwai@kernel.org>
+Return-Path: <superm1@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2755DC3ABC3
-	for <linux-firmware@archiver.kernel.org>; Tue, 13 May 2025 08:57:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 026B4C3ABCC
+	for <linux-firmware@archiver.kernel.org>; Wed, 14 May 2025 14:33:41 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id EFF99C4CEF0; Tue, 13 May 2025 08:57:29 +0000 (UTC)
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 079E6C4CEE4
-	for <linux-firmware@kernel.org>; Tue, 13 May 2025 08:57:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 079E6C4CEE4
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 009D31F6E6;
-	Tue, 13 May 2025 08:57:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747126647; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HVK8hLEr13fUOiBh1hCGhy3Bc+FczqR8AK6WBs0ISXg=;
-	b=ozKkCdBtZwBpLOf+IFpZ8cGEUdeQOIOjfKutJIo9Q0DVi26gyr7PYdFEZyOqK8qb6+shjZ
-	c+gZ96sScWOpmtzW4zE+4mZVht3Avw+8Df/FcQxvYgh/AfpQugU57AqvzF1l3NnO8WcbOS
-	vvLSZiLIpRyXuM7O0h5ZSqUjOus8zs4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747126647;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HVK8hLEr13fUOiBh1hCGhy3Bc+FczqR8AK6WBs0ISXg=;
-	b=3ZjflG03zO9GU7WQmaHgaQBrEV3VklsY+p/I0IFKLc3kgLhnyzlk3GeOFRpbHWrGgyyo5h
-	SrWJcI6U1p6j/wBA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747126647; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HVK8hLEr13fUOiBh1hCGhy3Bc+FczqR8AK6WBs0ISXg=;
-	b=ozKkCdBtZwBpLOf+IFpZ8cGEUdeQOIOjfKutJIo9Q0DVi26gyr7PYdFEZyOqK8qb6+shjZ
-	c+gZ96sScWOpmtzW4zE+4mZVht3Avw+8Df/FcQxvYgh/AfpQugU57AqvzF1l3NnO8WcbOS
-	vvLSZiLIpRyXuM7O0h5ZSqUjOus8zs4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747126647;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HVK8hLEr13fUOiBh1hCGhy3Bc+FczqR8AK6WBs0ISXg=;
-	b=3ZjflG03zO9GU7WQmaHgaQBrEV3VklsY+p/I0IFKLc3kgLhnyzlk3GeOFRpbHWrGgyyo5h
-	SrWJcI6U1p6j/wBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DAD5F137E8;
-	Tue, 13 May 2025 08:57:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id U41QNHYJI2hzfAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 13 May 2025 08:57:26 +0000
-Date: Tue, 13 May 2025 10:57:18 +0200
-Message-ID: <877c2kubv5.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
- <amadeuszx.slawinski@linux.intel.com>
+	id B9840C4CEE9; Wed, 14 May 2025 14:33:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26498C4CEE3;
+	Wed, 14 May 2025 14:33:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747233221;
+	bh=0QNOi5L2b6Wa2pW0QAao2Q8QYjITnD2KoyJF4sxWD54=;
+	h=Date:Subject:List-Id:To:Cc:References:From:In-Reply-To:From;
+	b=ZVDp1fmwFAgjLPYgfBK8JEyim2lvuwSWNxpMRv48dTBxRZgf98A7Bp1FBHiYBS6x0
+	 gPuGvNpbrqZOC/hIkT2C2cDqMJAuiilSjo3ys/JLZnv4DZhhRobbn+2gXjLlw0G0R0
+	 9Quc1N74yM6vpTTimXFGEqiWfilwMteaqOa5hZxnLPEvlpem2LTYjZsBi5R8i9YBxH
+	 jOR+4rWA5kYn2SjPCx8Pks+0k1wIsOP9XPtyqDCo9lIpjqzys8TrE46A7F20c+0O4c
+	 ErDb7zAW/KPvX3T2KLSBtsHjjZmEz8e9jQaB4knFfIJyzp/0RamvRbzxSA3aNv3KC6
+	 dIhz3sM2dcQZA==
+Message-ID: <62cba955-0f4a-4b25-8ec9-065ccfa9e26e@kernel.org>
+Date: Wed, 14 May 2025 09:33:40 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PULL linux-firmware] ath11k and ath12k firmware 20250424
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.de>
-Subject: Re: intel: avs: Update DMIC topology file
-In-Reply-To: <f8876a08-c0e4-4ced-bc63-7939df61f6a3@linux.intel.com>
-References: <f8876a08-c0e4-4ced-bc63-7939df61f6a3@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-2
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.97%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+To: Jeff Johnson <jeff.johnson@oss.qualcomm.com>, linux-firmware@kernel.org
+Cc: linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
+ ath12k@lists.infradead.org,
+ "Pananchikkal, Renjith" <Renjith.Pananchikkal@amd.com>,
+ Christian Heusel <christian@heusel.eu>
+References: <96b43d18-72e1-44a8-bf06-6a22fd012b07@oss.qualcomm.com>
+Content-Language: en-US
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <96b43d18-72e1-44a8-bf06-6a22fd012b07@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 12 May 2025 15:13:06 +0200,
-Amadeusz S³awiñski wrote:
+On 4/24/2025 3:38 PM, Jeff Johnson wrote:
+> Hi,
+> Here's a new pull request for ath11k and ath12k.
 > 
-> The following changes since commit a1d732703915a35a4c726a82e18fe436e26b74a7:
+> For ath11k, update the firmware for IPQ5018 and update the board file
+> for WCN6855. For ath12k, update the firmware for WCN7850 and update
+> the board file for QCN9274.
 > 
->   Merge branch 'amd-staging' into 'main' (2025-05-09 14:49:08 +0000)
+> Please let me know if there are any problems.
+> 
+> /jeff
+> 
+> The following changes since commit 490c0af1d6b9ffca0523edcfad27ba483b9d6da3:
+> 
+>    Merge branch 'robot/pr-0-1745490027' into 'main' (2025-04-24 13:46:05 +0000)
 > 
 > are available in the Git repository at:
 > 
->   https://github.com/amadeuszslawinski-intel/linux-firmware.git
-> 2025.05.12_topology_update
+>    git://git.kernel.org/pub/scm/linux/kernel/git/ath/linux-firmware.git ath-20250424
 > 
-> for you to fetch changes up to a32d5cc1a182b83f26a63adfae78853db2e0d151:
+> for you to fetch changes up to ce13d29c3933f77674cf45855668485c48d3eba0:
 > 
->   intel: avs: Update topology file for Digital Microphone Array
-> (2025-05-12 15:12:13 +0200)
+>    ath11k: WCN6855 hw2.0: update board-2.bin (2025-04-24 13:04:20 -0700)
 > 
 > ----------------------------------------------------------------
-> Amadeusz S³awiñski (1):
->       intel: avs: Update topology file for Digital Microphone Array
+> Jeff Johnson (4):
+>        ath12k: QCN9274 hw2.0: update board-2.bin
+>        ath12k: WCN7850 hw2.0: update to WLAN.HMT.1.1.c5-00284-QCAHMTSWPL_V1.0_V2.0_SILICONZ-3
+>        ath11k: IPQ5018 hw1.0: update to WLAN.HK.2.6.0.1-01300-QCAHKSWPL_SILICONZ-1
+>        ath11k: WCN6855 hw2.0: update board-2.bin
 > 
->  intel/avs/dmic-tplg.bin | Bin 9064 -> 9064 bytes
->  1 file changed, 0 insertions(+), 0 deletions(-)
+>   WHENCE                           |    4 +-
+>   ath11k/IPQ5018/hw1.0/Notice.txt  | 3918 +++-----------------------------------
+>   ath11k/IPQ5018/hw1.0/q6_fw.b00   |  Bin 532 -> 532 bytes
+>   ath11k/IPQ5018/hw1.0/q6_fw.b01   |  Bin 520 -> 520 bytes
+>   ath11k/IPQ5018/hw1.0/q6_fw.b04   |  Bin 86788 -> 86788 bytes
+>   ath11k/IPQ5018/hw1.0/q6_fw.b08   |  Bin 4096 -> 4096 bytes
+>   ath11k/IPQ5018/hw1.0/q6_fw.b09   |  Bin 2334720 -> 2334720 bytes
+>   ath11k/IPQ5018/hw1.0/q6_fw.b10   |  Bin 269220 -> 269252 bytes
+>   ath11k/IPQ5018/hw1.0/q6_fw.b11   |  Bin 99456 -> 99456 bytes
+>   ath11k/IPQ5018/hw1.0/q6_fw.b13   |  Bin 7072 -> 7080 bytes
+>   ath11k/IPQ5018/hw1.0/q6_fw.mdt   |  Bin 1052 -> 1052 bytes
+>   ath11k/WCN6855/hw2.0/board-2.bin |  Bin 6429240 -> 6429240 bytes
+>   ath12k/QCN9274/hw2.0/board-2.bin |  Bin 1308544 -> 2626240 bytes
+>   ath12k/WCN7850/hw2.0/amss.bin    |  Bin 6000704 -> 6082624 bytes
+>   ath12k/WCN7850/hw2.0/m3.bin      |  Bin 299660 -> 299660 bytes
+>   15 files changed, 315 insertions(+), 3607 deletions(-)
+> 
 
-JFYI, the bug reporter verified that this update fixes the problem.
-Thank you for a quick resolution!
+FWIW - this appears to have broken Wifi for a bunch of people.
+
+https://discuss.cachyos.org/t/wifi-interface-fails-to-initialize-after-linux-firmware-upgrade-qualcomm-wcn7850-ath12k/8765
+
+https://bugzilla.opensuse.org/show_bug.cgi?id=1241986
+
+https://www.reddit.com/r/archlinux/comments/1kja6f9/ath12k_regression_on_latest_linuxfirmware_upgrade/
 
 
-Takashi
