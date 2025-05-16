@@ -1,188 +1,221 @@
-Return-Path: <SRS0=U55h=YA=opensource.cirrus.com=prvs=42319b5bbb=sbinding@kernel.org>
+Return-Path: <SRS0=tvna=YA=nvidia.com=ttabi@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B8DACC3ABC9
-	for <linux-firmware@archiver.kernel.org>; Fri, 16 May 2025 12:11:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9856CC3ABC9
+	for <linux-firmware@archiver.kernel.org>; Fri, 16 May 2025 19:49:23 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 7F30CC4CEEB; Fri, 16 May 2025 12:11:32 +0000 (UTC)
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id 59EADC4CEEB; Fri, 16 May 2025 19:49:23 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2071.outbound.protection.outlook.com [40.107.220.71])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 41381C4CEE4
-	for <linux-firmware@kernel.org>; Fri, 16 May 2025 12:11:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 41381C4CEE4
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54G4M7ii025992
-	for <linux-firmware@kernel.org>; Fri, 16 May 2025 07:11:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=ct6thWZeAN6nKq0i
-	9/mufTWzLNQ0ADShTog8LQacHmY=; b=p2se3YfQtRfAkrRo73n4I3JFJ4TNsLVD
-	SYVpZLifzcviafNv+zIgVWPH6eIOLtvkdpUbhfIRNQ0yE8hDQlRgC5JbqLQYlkKK
-	OJxYB8ma9nOhKqu77MW5XOtgTgSgX+CmkYmW9HZAQbegd9ZNAMsJlVfl0+SjvObi
-	wbSzSE5SPU/xcSf6A56tDoiI+UogEFdg/2wu6TeEQ3HsRRg3ori40Wdw7ludvC4i
-	mYmQVdCx4s54JdSfZbYmjeRL2jA4cj/aKKRCG24etY/sPBmsW0kiiHvIXKcqfgU5
-	Fxd5oNAGb+1iEMoQnOJSl/ThVHQXwfVNmI4xp9O/+h5wHXEGuV18Wg==
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2046.outbound.protection.outlook.com [104.47.58.46])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 46mbdrcmjf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-firmware@kernel.org>; Fri, 16 May 2025 07:11:29 -0500 (CDT)
+	by smtp.kernel.org (Postfix) with ESMTPS id 35C69C4CEE4
+	for <linux-firmware@kernel.org>; Fri, 16 May 2025 19:49:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 35C69C4CEE4
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TXuq0nwVgVCC52aPVcwMcdtFkamemP9dZECBxzjmMUEFLPzMiuXlfeVRh/4r0MN6kaSntjCGOu+03Hc3BDGgqmDunmLT9U0Rk0O8n7Vb5pouzatLgAudNCXCJ0FTru128nI660Co+JDefA/LvM7nq6EqT83INeNhZD7U36+UHGPJS18oOgGEghJ2AuHdzj9hie8XOGMYzUbbwfaPai9QFjzYx+Npi0/XEzwvhj6SBC9H2mKlo53X8NFQeKPvPQZPgNDWT8qV+bMCfj7KszrbyFiYkVGRXNLHfrImAh131uOfLXeQHBxgvzNfGuXWmI+D/8k9H4dkWAAJJLaAzGZhQw==
+ b=UbfLWcppwRwBfcTrrHEIlcDUM1icutWqXmA7r+P6efJ1twT6CBEsc0eE8ySGPLqe8Yvvyhmc7Ma2QNGCkRFD80hjzuSiDi0tF4YmkMZhEuvbD7GfjDxGVb1hUoc2MFFTfvMtoJhfdH+Qy/EMHaLD4lPt0CpzqcGAVmNuiigSyDNbPdFU8grRhJO/5O81QvOp4jE+vKiCrVkXvNduX5S++OVl7MWDV67RtcmxmmJLpvyqq4Fkde9JslVwyg15ndFP8L7PH2HcgIBsGrrSFRcho+F4QaruLZWHl/u8bNF4nbOYyUwZpxNsi7iLOCsg6aQPUH1kTxYgkvr9dRb/Ti6ctg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ct6thWZeAN6nKq0i9/mufTWzLNQ0ADShTog8LQacHmY=;
- b=yXh4NQkNwaqmb6Lmw0yviT9c8dwrkG288RiOAUaYD3bHfflYCptQIm6Bomid9LWlgWzk8SjDX+IyBMfAgyK3hbs8IFchiQFtNU+ZxCgO4WYFa8Nt/vf5rL10dF7IC4asXIgEdkBkSPCFK/SEENrYtFh/GhXWihV428NMS7V5mw3C0+37phte4Ms1YvOJv0I/WCYQ+4LV6kc3LhJ6rKfxFGAhyNpvcrnnJvDvnt+BOGF2Xd/VFcswD3zfSTeQ11FzwtM7HkaMLLuVtlYt6bHUgFCuHq2E+qvU6Uv/4IQhLeuNxeRv1L6/6l7s0O4NBysFg2ME1JeFruRxZF+LC7EPQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ bh=tF8h5U7m/UAM6qFgsmOPlFklP+F6Yw/XuTeBiaUEh4A=;
+ b=xZuGZbV/gDc++sM6X14mWXWjoOS5Bgzc6Ee9+x+SP3bEIDmG4yKcn2eKnPzb/Rr/omBFhR4uZjHfEa8Ba8PDxMuB/n56Bb8A3h8Ms8iXP4r+VKQh0spSteGzv3XxzWpgpvjUwLjqvTzZTr3lhIHy9+DOzZNf3tIoVP0i68gYf6C+Jq3kVcZr8FHYBOe5FDu/nSL2swjdElt7UW4kHzb5WGUPlUxPbXqCvl46+90gEjRmOJv2uVc0VKT5FmbryyRHuNpCdNDTyUFrmwD29Hb5CmbWvi9R2q3S4A4iHo1C0jTzpDU2unjSUGHrPyL89KeHfW+EWCCw1CICuZ232hpT0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ct6thWZeAN6nKq0i9/mufTWzLNQ0ADShTog8LQacHmY=;
- b=lWaeT9RduC/CpjSBN8LgArpbEt+YyUY65H/1a7nArxAI62HoWPu9LipHBwRkP/7mGRHxe+TtwV9EluY1L15+abAN/Hj5HHBEE9pghx4jc83JdaOYEe2X2PyhruTX0XcX28MnD8YZ0H3KQqQC+KyUp02v7hB/FluJqrZ9ZxX2c2Y=
-Received: from DS7PR03CA0084.namprd03.prod.outlook.com (2603:10b6:5:3bb::29)
- by CH2PR19MB3973.namprd19.prod.outlook.com (2603:10b6:610:95::16) with
+ bh=tF8h5U7m/UAM6qFgsmOPlFklP+F6Yw/XuTeBiaUEh4A=;
+ b=sIK4zIxlWzx9tUPTbvFKteCa0vJFvd5rCSRHdwrrl8PP6fEKZxYR37I3GsfgKfE/ejHcyR/bW3cTJlKcEvCEAssHcUZzWOV7lIOAVOqJvuKuxR2GbXeAyBn97wDfqQclnvNaMEPyac3eal7269pXMP4OtJsKzBO5oG3GsqX3qMwz06RA27N/Hzpb87QJbwKcG/ZE+VZTAVop1pjYn3mBooykDaoU6Y4vvfA6XNmKOUwd0iNuYf1zAjzleS/U/64gDkB9gRD8uQEngy2rHb8E6e5hIJ3bOpff7HUM841l6uRTt8l0VuQMh2e2hTyayuMYrwaicI9XpUzeOFcpQ5tr8Q==
+Received: from CY5PR12MB6526.namprd12.prod.outlook.com (2603:10b6:930:31::20)
+ by DM4PR12MB6136.namprd12.prod.outlook.com (2603:10b6:8:a9::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.30; Fri, 16 May
- 2025 12:11:24 +0000
-Received: from DS2PEPF0000343F.namprd02.prod.outlook.com
- (2603:10b6:5:3bb:cafe::2b) by DS7PR03CA0084.outlook.office365.com
- (2603:10b6:5:3bb::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8746.18 via Frontend Transport; Fri,
- 16 May 2025 12:11:23 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
- does not designate 84.19.233.75 as permitted sender)
- receiver=protection.outlook.com; client-ip=84.19.233.75;
- helo=edirelay1.ad.cirrus.com;
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- DS2PEPF0000343F.mail.protection.outlook.com (10.167.18.42) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8722.18
- via Frontend Transport; Fri, 16 May 2025 12:11:22 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 2DE01406545;
-	Fri, 16 May 2025 12:11:21 +0000 (UTC)
-Received: from [198.90.188.46] (LONNCK4V044.ad.cirrus.com [198.90.188.46])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 0E55B822563;
-	Fri, 16 May 2025 12:11:21 +0000 (UTC)
-Message-ID: <31fd25aa-587e-4adf-a33b-109335b46ba9@opensource.cirrus.com>
-Date: Fri, 16 May 2025 13:11:20 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.29; Fri, 16 May
+ 2025 19:49:18 +0000
+Received: from CY5PR12MB6526.namprd12.prod.outlook.com
+ ([fe80::e420:4e37:166:9c56]) by CY5PR12MB6526.namprd12.prod.outlook.com
+ ([fe80::e420:4e37:166:9c56%5]) with mapi id 15.20.8722.031; Fri, 16 May 2025
+ 19:49:18 +0000
+From: Timur Tabi <ttabi@nvidia.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: patches@opensource.cirrus.com
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-Subject: [PULL v1 linux-firmware] Add Firmware for Acer Helios Laptops
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF0000343F:EE_|CH2PR19MB3973:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8a804c66-2dd9-4a51-c203-08dd9472c627
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|36860700013|61400799027|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ZC9rQko1ZnI0VlVPNERCVFRORHlUUytOY3NSN09qQkhEV21uR3JzR3BBT1Rh?=
- =?utf-8?B?N1JnSnlhL1dSRlRZRUZtbUlIVlNwOUNTNW5DQU55QU13dXB4VUI0RU5NUjJk?=
- =?utf-8?B?aUJodFdzZDlOdDc3a2lOMkFKV3RuWmlKSXZYRHJFUE01R2V5V3BOdUVONlc4?=
- =?utf-8?B?b1JrWm1NcW5iVDRaOGZUSENNcElCT21qUk5vc2k1SVBxR2ZkVW44UlNtWmlF?=
- =?utf-8?B?Zk94U0kxVWtwSy9PcVNQSG1ibkFxemFXUDRBSEpGMno5bXNqdlplNnpXRVVz?=
- =?utf-8?B?Ni83blMxamhXaHk5THB1TFhYOGY2bTFJQjFldThTTWNsL3Y2bVVTSG9hSnFk?=
- =?utf-8?B?bXQ2d3U2OWVaSjlkZzVLUi90SEJTVTVvelYyYStZTUZCUy9qNENRMzlHRzlK?=
- =?utf-8?B?b0dJZUN1am1CUVFHYUpOYVhZSVpwWFREUWRQcjdWMGp0b0IxbFY4b3NDM0Jw?=
- =?utf-8?B?dVdwdW1GRVU0KzUxS3lpc1dMb21hWC9oZitiWTdmcjZlQkE4eXRqWHF2QVZu?=
- =?utf-8?B?dlhldzdpSWJ2cW5iODk4SDJYbU84elZ4ZWw0ekVrdEE4dW1uQVlpazJQT3Nl?=
- =?utf-8?B?U29DL01mNWswbjlScitDZHplT2hudmY5SFhHREVQbVh4UTBFQmVqcVg4UFpR?=
- =?utf-8?B?cFpoa3g5aFlDamxrZGpXUDlURVU5R3hGaFcwY0ZCUS9tSGErYmlMVnJzU280?=
- =?utf-8?B?NFJRelY4azZaRG1aZlJ3NEVCUXZwOWdQNzFlV29SVGtSa0VhZFpmOTU4eTk0?=
- =?utf-8?B?QSt3OWZhTko1bERXOUhyeDdpd01hUU9DYUJjT20xNzB4RHZJSGlTUUt3Nk9Z?=
- =?utf-8?B?QzZ0SDZZKzI1QytlQTcrVzJaRlI1Ni9LbkQ1aWFqVG83TnVpL1grN3FEVmxp?=
- =?utf-8?B?V3pIVHo0MmowMFozcStkMmJoaWJhSzMreGJhQXNGQ08vOHdscEhXWGpjS0lt?=
- =?utf-8?B?OG5CK1REMmwveFhvNmd3dksrTzJ6cXUwQUFrTC9ZZlJqL3lOQ0dGd001YjdS?=
- =?utf-8?B?MlZQMGNiTXZOM3BGZ2duOG13dzh6aVpzSTg3TGllK0xMc09jYmQxd1ZnM2lr?=
- =?utf-8?B?YlpIMlFPbHl3eXJJQnlOUDVUTU5UQStsSk1xdSs2cUlic2FiKzlGRE5pc1Mr?=
- =?utf-8?B?WUQxRFpaSG9pRG1sdUUzbmNPd3dqdVY4TlY3b2hjTXlPS25XVU45enYzNmxL?=
- =?utf-8?B?UXhaVkN4SS93dFpuQWdpakJJRkMwZXRhSXllV0dnd0t5bDVTYWpRcDNSdlVq?=
- =?utf-8?B?dFFHRzZOUHhvL1drNGZXQUw2UEhJSWJwMjhBVFZ3ekdiZHZ0SW9abW1UTGZI?=
- =?utf-8?B?OWJLVDdzVTQ2V2d1d0FtYklwRTRSTGk5SVRJVnZ6bG5mR1RpZ2VqTGQ2TXp6?=
- =?utf-8?B?Z0xpOEJoZ043MEtJeXVteGpGK2lNRWFVa0F1a1d6Q3VpMitlVmttd21zemVa?=
- =?utf-8?B?NHgzR2Q1aFcxNG56amlud0lHampGKzZOT3ZTZjdlWTZFRTRiZnNTTEhDUzgv?=
- =?utf-8?B?alN6YnBCblc1cld2UmQ0UWJZZk5McHRxYUY1M0pxb0ZBV09xVUxuaFZaWm1t?=
- =?utf-8?B?Zm9TZmRxczdFdkRWMGxhWkhSU0tueGcvUkozWmp5T2xEa3BPTUlQWHRMbkpR?=
- =?utf-8?B?L0hOaGplT0pGN0pKVUVLVjBGZFJvYTVvclBGN0lUc1JHbW4xYnBDdWsxaFNX?=
- =?utf-8?B?c0VOYnY4WEY4aWNIYXBGUnVvQlQzVklRVVF6eVQramJxR2NqRFRhNis3Snhu?=
- =?utf-8?B?Q21OY0tzVG51VW1TcUowN2FEbVdxbE5aYkJCeEZ4QzFyUjhiMWFodzdaYXBU?=
- =?utf-8?B?NWJZMzZTNFVrY0RTOFJiOEpRMExsWnZ4dDZjQTc3SVBvSEU1b3czZFBzampK?=
- =?utf-8?B?Smk4Y1RFUEJYcnNkRFczTTd4Y3ZBU1FDVXRQMVpUbG5Cck0vbUh6MG9DYlJh?=
- =?utf-8?B?TFhhVWlBZklWQnBicXAvVWFsNTI4WFdNeklTbUxIMUZXSnM0ZXY3VkVieGRr?=
- =?utf-8?B?QzJvOVIySitBPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700013)(61400799027)(13003099007);DIR:OUT;SFP:1102;
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2025 12:11:22.5377
+To: "mario.limonciello@amd.com" <mario.limonciello@amd.com>,
+	"linux-firmware@kernel.org" <linux-firmware@kernel.org>
+CC: Ben Skeggs <bskeggs@nvidia.com>
+Subject: Pull request: nvidia: add GSP-RM version 570.144 firmware images
+Thread-Topic: Pull request: nvidia: add GSP-RM version 570.144 firmware images
+Thread-Index: AQHbxpucCv+14Jd/nEOBqo58wPcwMw==
+Date: Fri, 16 May 2025 19:49:18 +0000
+Message-ID: <2413e7b12752e707de572ed85750032cc685d1e5.camel@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Evolution 3.52.3-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY5PR12MB6526:EE_|DM4PR12MB6136:EE_
+x-ms-office365-filtering-correlation-id: c8aa171b-3b0a-48e4-dc5b-08dd94b2beee
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?dS85Q0FzeDRzYTRCN05FQXpTT0h5R245SG56czY2WnJZUG0yeDV5Wm5NbUhU?=
+ =?utf-8?B?TGk3UFg3Tk0zKzVCbUlLQmttR09RVzFxa05naHNsVTVQOHp5NjlPenpiOS9k?=
+ =?utf-8?B?T09WT3FWZHlsclgvUjNZbmJxbkp2UzBna2VmYjl0NjFQZS85SWpUN3RNZll1?=
+ =?utf-8?B?cWczc0NvMFE0SUxUclA2c21RN205dStocEluTHFvQ0dCRUhhaDRMblBBcGtq?=
+ =?utf-8?B?WkwvcUtRb296ajNKL2x5UVM3aFJMOVBTVy8vWkp0bC8vVXJreStEc0FNTWpV?=
+ =?utf-8?B?ZmZwMWpHSFV3Tkx1UHZHUytmTWg4cFREYmFZQUIzTGY4anJGa0gzM0ZSUisv?=
+ =?utf-8?B?OUpLQURZVnozdXRZajEvczRhU0RTMVNxR0V1eWRvMkxaOTlzNDIxcWVwb2Ro?=
+ =?utf-8?B?Q0cvNUxjakM5a2hJa2VyRTVYeDgzaE8ycDgvVmVmbHZrRlNDN1ZKQWs3a0Zh?=
+ =?utf-8?B?djN6K25Mc1V2TnRLcVVnOXRSMjZJQmN1dXZzZmo5bVlaNnJJUjdueEhnTTNC?=
+ =?utf-8?B?bThEL1graDdQNHJ1NlhwSk4vZ1o2Y3dRUUJtR2I5QlV2N3BDWURWTGtpbzcx?=
+ =?utf-8?B?dUVPbzBXdC9ZRkpzTDcwRk9HaTh1VHRsd1JmajA1Rk1uTWRpekVQYk50Tjl3?=
+ =?utf-8?B?UFN3R2g2eGhBbTJKTU9kZmZId0VndmF5aGsyVTBtd2hvQ0d2OVFEQUt2cTU2?=
+ =?utf-8?B?ell5cUYrYnBqdHl2a2YxZE12VGNZeTU1OFNlSjZ1WkN5U3lFQnJxU2hJVTFS?=
+ =?utf-8?B?bW5teExHYzQ1QkY3OWY1bG83blRvOHNZTTlWTHRER08yVk1meVpnNlhxbDZw?=
+ =?utf-8?B?NUorSVRrZmV0R3RlTWpaMGVUaG9TUWttWmN3TzFDZDkxYXlaSlVvYk03MWNN?=
+ =?utf-8?B?ZFFISnROOUFlMTBwaUxWdGZIblQ2OGpIT0NIKythRElraDk5T1M5eXg4UlRh?=
+ =?utf-8?B?ZXhKdDNrbVVza1VrNGlBUi9BVEFlV0o4Mk04Y1BHZWt6ODdsQk02aHZCdUds?=
+ =?utf-8?B?by85M2hVbjN0L1g4Y2RsWitaYmFyU3l1ZlIwZXczbHFUREk1anlWSC94am1F?=
+ =?utf-8?B?Y3hFY29uNkl0RWpGQ011Nk9XOE1qVW9KZFYycTAvMTdpSzJsdUJaYkdIRE5i?=
+ =?utf-8?B?R2RlMGpEWkNrYUxabFBYc2pNVjVXWUlSUStwUVhIZ1dQZmFrUHFOV1p5YzhQ?=
+ =?utf-8?B?OVlBY2FJY3FUSVpRSU1STnhjVDRFWGpXcnZRZlFhcEJ2bjIxamZzQXFoQnI4?=
+ =?utf-8?B?Zk9IUW5iV214UjlqOEMxa2xVN2lEUldWNnpzSGhKZk5RSmNJaUx0dmFWWElE?=
+ =?utf-8?B?dTg4cDMvaUxPeTF3QUI2b3VNZkFndzJVTVNSSkFOTndiRUpldDFxSTZ0VWJJ?=
+ =?utf-8?B?dGpQMlZ4NDBVeW1KaHJEbSsyZGdLM3JpamtQRVJpcCs5ZGNhdzRLYnZtVFl0?=
+ =?utf-8?B?RVprUWxlZXE1RDlMY284Mk0yTEpFS3NBMHE1eEphQ2g1ZmJCSnkya1FTZEtZ?=
+ =?utf-8?B?V29VUzlYNjVYQlRWQ0ZpZVV4YjV1ckEzVWxJZVc5N2hDVVowQzR5Y3hHY0po?=
+ =?utf-8?B?ZUZQMk1EdnBlZmlJeWMraTZHWWxBQXVzS3NVYklwaHpFbHZkK3k1ZE5OSTV4?=
+ =?utf-8?B?ejl3ZTVSeFN0UWp2b2p1eTF5Y2kxam5yU0N5OVA4NkNoKzEwcDAwYlE5bFE5?=
+ =?utf-8?B?dnFqdS9ZTG9udkZIaVVXSWE2bTVsM3BqVjZoMFNSeXVicmNOM3l0Q0QyTWlr?=
+ =?utf-8?B?U3M4cnp2bUNNOVh2Z0pxdFpDaHVnbVdaazB4NjVYVjgwWXM3NGZGQU00Qmgy?=
+ =?utf-8?B?a0RpdEtzSzlJZFJXVTRWSlh3SllWaGhXZGVrcXZpa2NhNFA2czM2VXF4TFVH?=
+ =?utf-8?B?SHNFdi9LRjdFSk1zTDY0cytSZFVMKzNsWVpLOHdWZ3M5V0FCKzUyTHVtRVFF?=
+ =?utf-8?Q?osUMQHemyhw=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6526.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?V3FNZHZHdVVVU2tJQnZLdy9xeU1kS0pBZFNoUVM4SVU5dzhCMDdwcGdNMlJC?=
+ =?utf-8?B?dlVwVzNyVWUrT200dmRjMzkvLzMxNUZIdFpCdUl4Rm9sUFRXVkkzR08xSEtu?=
+ =?utf-8?B?KzRvVkFiWjh1ZzF2bWppcFhhWHFza3FYdjQ0RnJFL0prOHZqaXFCTTBuT0Fk?=
+ =?utf-8?B?Ukwralc3c296dCtsQWVwbjJSMktMd2VMR1JudzNoU2hqdWFMRlBSY3lLNXRO?=
+ =?utf-8?B?SnR5NXpsMUNjb2xwdEZrVG11ZWlmb05qL053a3NtSnhJQkRhQmxnejdGRlFJ?=
+ =?utf-8?B?V0R6U0tkY3RwOHZBVjRaZnNsanpxWHhuMHAvZVR2Yjh1djF2ZVEzTm0ybkRt?=
+ =?utf-8?B?QllMOHEvT3g1TnpjTmIrYVUyTmVrWFZuZ0N4WTNxaTNIbGhiVnZ3MkhmcVNN?=
+ =?utf-8?B?S0c1eFB0dnFldUd6MW9teGZDS1F0Q3VqZC9seERRZlgzV2kycjFheFlkZy94?=
+ =?utf-8?B?a3dxWHFid21tbTlNVzNGWEM1VkJ4R3BBYWp6Uk04aHZSSmp1eEZnNWxzamJY?=
+ =?utf-8?B?Y2pQK2JnUTBQNDgvR1gyeE91bDA0MHZqbE1wUzZoMmFNbFdseGt0VHhCU0tS?=
+ =?utf-8?B?TWpWZzJvUG5VZWk1QWd6NGtKU1ZkM21LVUY4azlOSjJFVXlGekdiUm9tMVZB?=
+ =?utf-8?B?RU5IQ0tSckNlczI5NnNwUWx3T09WM2JXKzdpOHRqdzl4aUVHaTRWNm0wdmZY?=
+ =?utf-8?B?cTV4NXl2QmsxaXVQYTlFT29FRFpjeFpya1ArRWJub21xYVVZdU9uaGJscmwx?=
+ =?utf-8?B?OU5ZZWZFWnNVVTNXcjEzb3RPdU5taFpIdHBOVVNTNTlORnJlU1lCVDliY3NR?=
+ =?utf-8?B?YzlMSTBwTmtGMzUzc3BSSjd1eTZ0ODluTkx5T2JPcXpUSzNmSmtpelRBSU56?=
+ =?utf-8?B?NzlDOXRlYjF0Ujl6aTdBQ1IyRTNCcXFtNHU1RTFaL292M2xRazZERDFiSE9X?=
+ =?utf-8?B?MXFHbnRoN0Z0ODZQczUyUlVGcklpdjNVZGZtdnZaZHh0aU5uUDZpeWF0VWtx?=
+ =?utf-8?B?bEQ2bnM5V2VmWnRnTmR3VHJiOHlZVmZXSkpleUZsdnQ5ZDZFa0owYVdxVW81?=
+ =?utf-8?B?VWM4OWZtK2RoNmp6bGVhb0dVVXZYR3E5c3AyUXU0bERvcTZaTXYrQ29UKzEr?=
+ =?utf-8?B?M0J3eFVjejlKTy8zTWQrWEgzTTlGcUxvUlQ4YUxabDRzeU5ReXNsU1pnOTZq?=
+ =?utf-8?B?dnV2ZVF1VlNqWnczcTNtTy9ubkE0cU5xSnZNNTVmRFRaTVpkYklicEh4akpj?=
+ =?utf-8?B?SU5tZlZpK00vdldiT3pmVUFBQ0NuYkl5TE1ORXU0ek4vRmwyNGdNeVpiWWJZ?=
+ =?utf-8?B?WEpiRzNJbVpYcmRFQi8vS2w4ME1vZ3BESjAzUnNLU1JBeUgrdjJHdzVPSWJJ?=
+ =?utf-8?B?OUJuM09VdHFoZmNQK2UwWjR3cm1ZeTM4L2pyV2RPaWFqZWtEOSt3bVhKU01o?=
+ =?utf-8?B?aUtpbVV2TkpGWE55TGwyM05vWEh0Tm04MGFVd25MUDNVeVZqZDR3d2NGTWZR?=
+ =?utf-8?B?dzlrLzA3aTJueUV1cEFSQU1DMU5EWGpnYytJRGtLRGRTdjMyYlVYUDBpVEt5?=
+ =?utf-8?B?aEVyYlRiR2VReEk5Qkd6RndpODJDSmFoTHZ2TlZDSVVKb0lCWTBXM2hYdmFy?=
+ =?utf-8?B?aFBjUWkzakVIS3QvUEZ2bTIyOGdMZGhMMTFFakw5YVJpUkNscGZETmtHS1pk?=
+ =?utf-8?B?UGVFM3RqVjZNbTRFN1ZOVkxDYTlvNDdRZDh5ekY4cWcwbFhGVW41Wm9lZjFk?=
+ =?utf-8?B?WlZyV1NmOHYyU014c0QxUjgyenF6eisyVUc3SUYvbVVJd2YyZ2YyUnhYZXc1?=
+ =?utf-8?B?MkhLV0poRmVUaG5LSUJyYXMvVks3amphTkNCMFNETDVhVW1lMWZ6eXJ4SmUv?=
+ =?utf-8?B?N0gzMUNkcDJLRlRlbzd1M1RCMEpiZnNKTm15WTV3MFdXUkdFY0czK3MvMkpK?=
+ =?utf-8?B?NWFoa0dCUm5wYytMaVpiejViVjBkV0RMZVdLemVPUmZ3WUp0UVg3TFo4N21o?=
+ =?utf-8?B?a1dXU0dQdzc0UVhHTzJSdmJrYXEwaDlHMTQ4UmxWR0RwU0N2NFlRY1dBbG9T?=
+ =?utf-8?B?TTUxZEZyTG5hNEFlSVBmdTM4bkVRUVhIREtoeU1Cd3dwVHdsNnpFaWRLVk4v?=
+ =?utf-8?Q?oo+IaVbliWwLQxVnV9+f9PynH?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <5E4E2538503B93429D1827B5A4E5B810@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6526.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8aa171b-3b0a-48e4-dc5b-08dd94b2beee
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 May 2025 19:49:18.4532
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a804c66-2dd9-4a51-c203-08dd9472c627
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS2PEPF0000343F.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR19MB3973
-X-Proofpoint-ORIG-GUID: YMev8j_6pE4Uif582Jme5Rco49RKm7rR
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE2MDExNiBTYWx0ZWRfXxo2HFWMxj82Q 0qq9BwguOPhPW7SaAWhXaabyl0nSgfaEPPTQ711jQl/u1xyfM9cH00YXzJXgSH93px3O0ZptNhJ J1Dbe6aw4jabZrtYlx8IMHdtZM5jxAVGlk0LRDxcgNe4qUH2om9I6xCUWDj67BgGSvwkyRnpsY9
- TJ0Lug3mZXf28+U/L3JqdTddnHQu/UC4OSZ/HY7pCY3MX798SB3iB8+fL6hZQGqf6nCWuAgW85w VDFfFKVyBzUET2eTcxZ6RczMRwokWlaRmsWCunOhLt0ZS+3qVvWpx1Oh8bi9qN+lkQ2dp3dwO47 eMqiJx2j/VX1qfBXMSYPgywnrNa6mgYwvq3CmCJ6fNZdq2hdErihKGd+ys89Ex6pZv7clHiCbkA
- biDU5rsPKpnllkfRd3secdyjgiaSiaW0it0kw2/+FjlmoNdme5AzNkKMScWXFeqoWbrmOOPi
-X-Proofpoint-GUID: YMev8j_6pE4Uif582Jme5Rco49RKm7rR
-X-Authority-Analysis: v=2.4 cv=abNhnQot c=1 sm=1 tr=0 ts=68272b71 cx=c_pps a=ur2hu7Zt/Tb0cWAHmjvzJg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10
- a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10 a=NEAV23lmAAAA:8 a=gFa2sauJy_5YTNvdVD8A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Reason: safe
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: o6653gwCMVPleziB7K9+XLoV7wG/I27wgtJ0BWVzZ2rOwISmNHMLEiCdUTG1WPegPCa9jm7Jnt1yXnfpDMSx4g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6136
 
-We would like to update firmware files for Cirrus Logic Smart Amp CS35L41 for Acer Helios laptops.
-
-Thanks,
-
-Stefan Binding
-
-The following changes since commit 64899f3955a043f1506e7720881d8f850381c900:
-
-  Merge branch 'robot/patch-0-1747309101' into 'main' (2025-05-15 12:22:28 +0000)
-
-are available in the Git repository at:
-
-  https://github.com/CirrusLogic/linux-firmware/ cs35l41-20250516
-
-for you to fetch changes up to 034b673fc6bc06e2b5c9f4eb1ffd6c725e3b0eea:
-
-  cirrus: cs35l41: Add Firmware for various ACER Laptops using CS35L41 HDA (2025-05-16 11:46:23 +0100)
-
-----------------------------------------------------------------
-Stefan Binding (1):
-      cirrus: cs35l41: Add Firmware for various ACER Laptops using CS35L41 HDA
-
- WHENCE                                       |   9 +++++++++
- cirrus/cs35l41-dsp1-spk-prot-1025182c-l0.bin | Bin 0 -> 5500 bytes
- cirrus/cs35l41-dsp1-spk-prot-1025182c-r0.bin | Bin 0 -> 5500 bytes
- cirrus/cs35l41-dsp1-spk-prot-10251844-l0.bin | Bin 0 -> 5196 bytes
- cirrus/cs35l41-dsp1-spk-prot-10251844-r0.bin | Bin 0 -> 5196 bytes
- 5 files changed, 9 insertions(+)
- create mode 100644 cirrus/cs35l41-dsp1-spk-prot-1025182c-l0.bin
- create mode 100644 cirrus/cs35l41-dsp1-spk-prot-1025182c-r0.bin
- create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10251844-l0.bin
- create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10251844-r0.bin
-
+VGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCAzNTZmMDZiZmYxZmQ4M2Q3N2Q0OTY5
+ZmVkN2Q3Y2ViOTZiN2U5NzhhOg0KDQogIE1lcmdlIGJyYW5jaCAnYW1kLXN0YWdpbmcnIGludG8g
+J21haW4nICgyMDI1LTA1LTE2IDE4OjU3OjM3ICswMDAwKQ0KDQphcmUgYXZhaWxhYmxlIGluIHRo
+ZSBHaXQgcmVwb3NpdG9yeSBhdDoNCg0KICBodHRwczovL2dpdGh1Yi5jb20vTlZJRElBL2xpbnV4
+LWZpcm13YXJlLmdpdCBudmlkaWEtc3RhZ2luZw0KDQpmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMg
+dXAgdG8gMDUwZjBhMWUzYTc2ZDY3MWMwNzNiNTljODEzYTQxMTliNjEwYjcyNToNCg0KICBudmlk
+aWE6IGFkZCBHU1AtUk0gdmVyc2lvbiA1NzAuMTQ0IGZpcm13YXJlIGltYWdlcyAoMjAyNS0wNS0x
+NiAxNDoxNTo0NCAtMDUwMCkNCg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KVGltdXIgVGFiaSAoMSk6DQogICAgICBudmlk
+aWE6IGFkZCBHU1AtUk0gdmVyc2lvbiA1NzAuMTQ0IGZpcm13YXJlIGltYWdlcw0KDQogV0hFTkNF
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDU3ICsrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystDQotLS0tLS0tDQogbnZpZGlhL2Fk
+MTAyL2dzcC9ib290ZXJfbG9hZC01NzAuMTQ0LmJpbiAgIHwgQmluIDAgLT4gNTc3MjAgYnl0ZXMN
+CiBudmlkaWEvYWQxMDIvZ3NwL2Jvb3Rlcl91bmxvYWQtNTcwLjE0NC5iaW4gfCBCaW4gMCAtPiA0
+MTU5MiBieXRlcw0KIG52aWRpYS9hZDEwMi9nc3AvYm9vdGxvYWRlci01NzAuMTQ0LmJpbiAgICB8
+IEJpbiAwIC0+IDM2OTcyIGJ5dGVzDQogbnZpZGlhL2FkMTAyL2dzcC9zY3J1YmJlci01NzAuMTQ0
+LmJpbiAgICAgIHwgQmluIDAgLT4gODMxMiBieXRlcw0KIG52aWRpYS9nYTEwMC9nc3AvYm9vdGVy
+X2xvYWQtNTcwLjE0NC5iaW4gICB8IEJpbiAwIC0+IDYwNjY0IGJ5dGVzDQogbnZpZGlhL2dhMTAw
+L2dzcC9ib290ZXJfdW5sb2FkLTU3MC4xNDQuYmluIHwgQmluIDAgLT4gNDA0NDAgYnl0ZXMNCiBu
+dmlkaWEvZ2ExMDAvZ3NwL2Jvb3Rsb2FkZXItNTcwLjE0NC5iaW4gICAgfCBCaW4gMCAtPiA0MTk2
+IGJ5dGVzDQogbnZpZGlhL2dhMTAyL2dzcC9ib290ZXJfbG9hZC01NzAuMTQ0LmJpbiAgIHwgQmlu
+IDAgLT4gNjEzMDQgYnl0ZXMNCiBudmlkaWEvZ2ExMDIvZ3NwL2Jvb3Rlcl91bmxvYWQtNTcwLjE0
+NC5iaW4gfCBCaW4gMCAtPiA0MTA4MCBieXRlcw0KIG52aWRpYS9nYTEwMi9nc3AvYm9vdGxvYWRl
+ci01NzAuMTQ0LmJpbiAgICB8IEJpbiAwIC0+IDI0Njg0IGJ5dGVzDQogbnZpZGlhL2dhMTAyL2dz
+cC9nc3AtNTcwLjE0NC5iaW4gICAgICAgICAgIHwgQmluIDAgLT4gNjM1NzE2OTYgYnl0ZXMNCiBu
+dmlkaWEvZ2IxMDAvZ3NwL2Jvb3Rsb2FkZXItNTcwLjE0NC5iaW4gICAgfCBCaW4gMCAtPiAyMDA4
+MTIgYnl0ZXMNCiBudmlkaWEvZ2IxMDAvZ3NwL2ZtYy01NzAuMTQ0LmJpbiAgICAgICAgICAgfCBC
+aW4gMCAtPiAxOTgwMjggYnl0ZXMNCiBudmlkaWEvZ2IyMDIvZ3NwL2Jvb3Rsb2FkZXItNTcwLjE0
+NC5iaW4gICAgfCBCaW4gMCAtPiAyMDA4MTIgYnl0ZXMNCiBudmlkaWEvZ2IyMDIvZ3NwL2ZtYy01
+NzAuMTQ0LmJpbiAgICAgICAgICAgfCBCaW4gMCAtPiAxOTk4MjAgYnl0ZXMNCiBudmlkaWEvZ2gx
+MDAvZ3NwL2Jvb3Rsb2FkZXItNTcwLjE0NC5iaW4gICAgfCBCaW4gMCAtPiAxNjgwNDQgYnl0ZXMN
+CiBudmlkaWEvZ2gxMDAvZ3NwL2ZtYy01NzAuMTQ0LmJpbiAgICAgICAgICAgfCBCaW4gMCAtPiAx
+NjY2MDAgYnl0ZXMNCiBudmlkaWEvdHUxMDIvZ3NwL2Jvb3Rlcl9sb2FkLTU3MC4xNDQuYmluICAg
+fCBCaW4gMCAtPiA1OTI3MiBieXRlcw0KIG52aWRpYS90dTEwMi9nc3AvYm9vdGVyX3VubG9hZC01
+NzAuMTQ0LmJpbiB8IEJpbiAwIC0+IDM5MzA0IGJ5dGVzDQogbnZpZGlhL3R1MTAyL2dzcC9ib290
+bG9hZGVyLTU3MC4xNDQuYmluICAgIHwgQmluIDAgLT4gNDE5NiBieXRlcw0KIG52aWRpYS90dTEw
+Mi9nc3AvZ3NwLTU3MC4xNDQuYmluICAgICAgICAgICB8IEJpbiAwIC0+IDI4NTQyMDQwIGJ5dGVz
+DQogbnZpZGlhL3R1MTE2L2dzcC9ib290ZXJfbG9hZC01NzAuMTQ0LmJpbiAgIHwgQmluIDAgLT4g
+NTkwMTYgYnl0ZXMNCiBudmlkaWEvdHUxMTYvZ3NwL2Jvb3Rlcl91bmxvYWQtNTcwLjE0NC5iaW4g
+fCBCaW4gMCAtPiAzOTA0OCBieXRlcw0KIDI0IGZpbGVzIGNoYW5nZWQsIDQ5IGluc2VydGlvbnMo
+KyksIDggZGVsZXRpb25zKC0pDQogY3JlYXRlIG1vZGUgMTAwNjQ0IG52aWRpYS9hZDEwMi9nc3Av
+Ym9vdGVyX2xvYWQtNTcwLjE0NC5iaW4NCiBjcmVhdGUgbW9kZSAxMDA2NDQgbnZpZGlhL2FkMTAy
+L2dzcC9ib290ZXJfdW5sb2FkLTU3MC4xNDQuYmluDQogY3JlYXRlIG1vZGUgMTAwNjQ0IG52aWRp
+YS9hZDEwMi9nc3AvYm9vdGxvYWRlci01NzAuMTQ0LmJpbg0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBu
+dmlkaWEvYWQxMDIvZ3NwL3NjcnViYmVyLTU3MC4xNDQuYmluDQogY3JlYXRlIG1vZGUgMTAwNjQ0
+IG52aWRpYS9nYTEwMC9nc3AvYm9vdGVyX2xvYWQtNTcwLjE0NC5iaW4NCiBjcmVhdGUgbW9kZSAx
+MDA2NDQgbnZpZGlhL2dhMTAwL2dzcC9ib290ZXJfdW5sb2FkLTU3MC4xNDQuYmluDQogY3JlYXRl
+IG1vZGUgMTAwNjQ0IG52aWRpYS9nYTEwMC9nc3AvYm9vdGxvYWRlci01NzAuMTQ0LmJpbg0KIGNy
+ZWF0ZSBtb2RlIDEwMDY0NCBudmlkaWEvZ2ExMDIvZ3NwL2Jvb3Rlcl9sb2FkLTU3MC4xNDQuYmlu
+DQogY3JlYXRlIG1vZGUgMTAwNjQ0IG52aWRpYS9nYTEwMi9nc3AvYm9vdGVyX3VubG9hZC01NzAu
+MTQ0LmJpbg0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBudmlkaWEvZ2ExMDIvZ3NwL2Jvb3Rsb2FkZXIt
+NTcwLjE0NC5iaW4NCiBjcmVhdGUgbW9kZSAxMDA2NDQgbnZpZGlhL2dhMTAyL2dzcC9nc3AtNTcw
+LjE0NC5iaW4NCiBjcmVhdGUgbW9kZSAxMDA2NDQgbnZpZGlhL2diMTAwL2dzcC9ib290bG9hZGVy
+LTU3MC4xNDQuYmluDQogY3JlYXRlIG1vZGUgMTAwNjQ0IG52aWRpYS9nYjEwMC9nc3AvZm1jLTU3
+MC4xNDQuYmluDQogY3JlYXRlIG1vZGUgMTAwNjQ0IG52aWRpYS9nYjIwMi9nc3AvYm9vdGxvYWRl
+ci01NzAuMTQ0LmJpbg0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBudmlkaWEvZ2IyMDIvZ3NwL2ZtYy01
+NzAuMTQ0LmJpbg0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBudmlkaWEvZ2gxMDAvZ3NwL2Jvb3Rsb2Fk
+ZXItNTcwLjE0NC5iaW4NCiBjcmVhdGUgbW9kZSAxMDA2NDQgbnZpZGlhL2doMTAwL2dzcC9mbWMt
+NTcwLjE0NC5iaW4NCiBjcmVhdGUgbW9kZSAxMDA2NDQgbnZpZGlhL3R1MTAyL2dzcC9ib290ZXJf
+bG9hZC01NzAuMTQ0LmJpbg0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBudmlkaWEvdHUxMDIvZ3NwL2Jv
+b3Rlcl91bmxvYWQtNTcwLjE0NC5iaW4NCiBjcmVhdGUgbW9kZSAxMDA2NDQgbnZpZGlhL3R1MTAy
+L2dzcC9ib290bG9hZGVyLTU3MC4xNDQuYmluDQogY3JlYXRlIG1vZGUgMTAwNjQ0IG52aWRpYS90
+dTEwMi9nc3AvZ3NwLTU3MC4xNDQuYmluDQogY3JlYXRlIG1vZGUgMTAwNjQ0IG52aWRpYS90dTEx
+Ni9nc3AvYm9vdGVyX2xvYWQtNTcwLjE0NC5iaW4NCiBjcmVhdGUgbW9kZSAxMDA2NDQgbnZpZGlh
+L3R1MTE2L2dzcC9ib290ZXJfdW5sb2FkLTU3MC4xNDQuYmluDQoNCg==
