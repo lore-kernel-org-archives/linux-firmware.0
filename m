@@ -1,141 +1,128 @@
-Return-Path: <SRS0=18vT=YE=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=H+fp=YE=gmail.com=jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62610C3ABDD
-	for <linux-firmware@archiver.kernel.org>; Tue, 20 May 2025 12:44:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2672DC3DA6D
+	for <linux-firmware@archiver.kernel.org>; Tue, 20 May 2025 12:45:38 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 2A8BCC4CEEA; Tue, 20 May 2025 12:44:08 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id E3E38C4CEEA; Tue, 20 May 2025 12:45:38 +0000 (UTC)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 21B49C4CEE9
-	for <linux-firmware@kernel.org>; Tue, 20 May 2025 12:44:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 21B49C4CEE9
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54K8Rpvr013665
-	for <linux-firmware@kernel.org>; Tue, 20 May 2025 12:44:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	QmTcft2iDspeUNUnYLzAhTloIP8QCNg1JRKIHnPU/6Q=; b=luKO8fsRs7vqTywA
-	nH+a8w6GvVvTcI15tKVdyQTLftYACvREqPfqFVj/MwzXwfNpWF4KDpxdtbR20JcQ
-	vorRbMVPYDvVmy/f1W5/hGbze165xljFXNqmcFSGqrXa9MCzD4CxH4w73eXIp9fG
-	bNmH4v8fl4EMx274QD96rJOCgMlHkPPdHwkM1hLDHpzmCL/lXKsjgpLPB6lI5+CV
-	kZ8aymLskvhTRjDUHE0nDeHH77C+RIcLr9xEifPlXg7YTIfGLUCDrVdLe0uKXjeW
-	tJuMkuwUnDs3nhLgsMg+IH7mSaSX8szGRqA1t2/kQUktXNVoNvjYl2Q0aHTOEyfi
-	hEySmA==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46pjkyqtxf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Tue, 20 May 2025 12:44:05 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2321215e4c1so24212995ad.1
-        for <linux-firmware@kernel.org>; Tue, 20 May 2025 05:44:05 -0700 (PDT)
+	by smtp.kernel.org (Postfix) with ESMTPS id 06692C4CEE9
+	for <linux-firmware@kernel.org>; Tue, 20 May 2025 12:45:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 06692C4CEE9
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-7082ad1355bso48283807b3.1
+        for <linux-firmware@kernel.org>; Tue, 20 May 2025 05:45:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747745137; x=1748349937; darn=kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wx3ZB5Q+eKZwUv3Wg8k+o43YgEhHtEg0wFo4k8doHWQ=;
+        b=Vi3FEO95TZgxWXEr62PLwxHj3nx75hx7/7UU77DtgEQOB/D3haCtIJgXwYyd1sU7qy
+         kreGAP93WvpMRlbVD+D+XS4PcFcJkrhUflUyeKwcdRb0ylt9N4Wz7Dfkv00y20Tzock4
+         zBe/cIXEf2AX4iRKLzYm2HfL20vbY/aRc5wMiZAl72NMi2U0zG3brttlK/sPp6ax4/Yc
+         5fVdXAJejjEO/VrDRNjunYySIKKexck9EEJ4NAE6XWr+/v2SYx485ivKo3WxOdSpaKKe
+         CD4CQXZMmaxwiFrn2B4deFZS65gLjJ0h9KwqQexLiOv//uxKlc6fjxyLn5TXd5bCxymZ
+         oQRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747745045; x=1748349845;
+        d=1e100.net; s=20230601; t=1747745137; x=1748349937;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QmTcft2iDspeUNUnYLzAhTloIP8QCNg1JRKIHnPU/6Q=;
-        b=YDNLmOEOsMuLfzK9NtpMU4ifnHgMnB+X/3w0y8Frh3gXgIOwsSLWUapizkv+DXuRRs
-         roIYXBO+QBdGENYWizWdtyn+1zTfxWtdfsGTe34dRB5YI9ZNcQDDjCAqTY3QBX3l5vuV
-         2kz9bAUn+Tsf4JhHnc1EfiLQ8lhR/6jr0ERxyrTYRjyzQEROiuhy3xyVLwXkLJxKFZPg
-         LycMvM+oP3/tCegvikS4r8Deg3Z8lzXXPHCI2Zr1biUGrze61s5XeEVZNcmSCmwgsxW1
-         Ve24/TrJLzLOI/7nnWr8VS55cwM9K/E9k3Xj1z/wrcCDB6JS8nVwczCAr/+wzVvK0eX8
-         DOgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWhj36QX2YgWKhwAbNpwdOHb4MmqcnwjDxZ0iIta/J8pn8wVt0KO5McDpJffFT3KD8FP6naouITVxJh2STs5w==@kernel.org
-X-Gm-Message-State: AOJu0YyH8gkc1D58tUf22KLbNdmFU8BReqx4Nkgg2B29TluR9Mlu3kVr
-	atxRIl1rA6wWi9o8eqt9kKVf6DHhz3XajSH9YIzrExDGT/0kQU886bbcitEEM5b83Kuyfg/SRfd
-	5O/CjjzO7qOVlB5BKM/1NHnfbZk9zTYK66oVxYKLe1+zae4edRLjiTO4dgS0nd1v2O6/6Sg71K4
-	qf1GBuI76ets/HdcPAHoYvbS3WQG0M10+L0Nv/Jw==
-X-Gm-Gg: ASbGncvOOc4BIr1qkoQkexpsATxkm2HJEA7f9sIOU226OLBwOMTolSJsP59+8YuHDgW
-	C9XTOqPWjjMHdqUF9VMzKzWEnh9MXHFeEp7blQxytgMg7XLXtf3Dm0JeytFOzvbROu8eIOA==
-X-Received: by 2002:a17:902:d50a:b0:215:b1e3:c051 with SMTP id d9443c01a7336-231d4d15881mr206877145ad.11.1747745044927;
-        Tue, 20 May 2025 05:44:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGunB+iwilqEsAWShRL5MCUIjOHJk9oFgEFanaI1dfncr4gCNzPLRgmBNUYgN4VooEwcDHX7TPriubeVxf92XE=
-X-Received: by 2002:a17:902:d50a:b0:215:b1e3:c051 with SMTP id
- d9443c01a7336-231d4d15881mr206876895ad.11.1747745044542; Tue, 20 May 2025
- 05:44:04 -0700 (PDT)
+        bh=wx3ZB5Q+eKZwUv3Wg8k+o43YgEhHtEg0wFo4k8doHWQ=;
+        b=ejV6inkXJKpHoYyBai3WHD1CXzdMzZ/oFNbs3Q7Z2seXA/velKCqaF6rKsLVHy9d9N
+         N9Z/OhcOsIz7PhjYyExKmaShJwQSYbf4Yx8O9zmfyM9GXf9bmXFOyvXfddsBt9OkUzzT
+         2xN5RCOxxsR6xeAEJ2N0XBO7PKK7StxkXL+LNgeXhccUcuvIwkd9pyMu1w4ZgWTN5909
+         jF4HyhwIpRLXKDhqwAZFl2dMr4aiV0ShJrnFwnji9hlpO2bNPv8NWnMYciEpSKhF4X45
+         oI8LZ1DvS4OGQEzlL4LwPXhekWR441ZJ2c3F2NNkMW4U953N5PccFTrBHxZQfWLmor/h
+         8G6w==
+X-Forwarded-Encrypted: i=1; AJvYcCU+U+QMtjSdzXDTqayqau8gZVanABn9aNV4w1vFyNduDnHcLzxCGUNq2NTCpLDVABZC5u3APLocCeS9HMCQFQ==@kernel.org
+X-Gm-Message-State: AOJu0YzG745U3SZWfu7i1OgIc0LeiQ5+gTbHg/jr93PXA0MyvNQjyLzo
+	lvG1y35hwCTsuGL+dmwN3+PjR6LA/Kb1jTPxhgGHtk5gUNVuidmDG7rrozs99pySrXJbB3WveRm
+	/cva6fAHG919Dn3tUS28eGgHsiNdhQaagzOlU
+X-Gm-Gg: ASbGnctPZ+QtPji1o4t/j8w6p4Py4UCPbEunrYvofCDsfBGtlazde8H8i+D/Sy3Mkg0
+	LC5CejK6JfHs/494DZUSwAph/cTLBI8b4WbUAOHM1zeiGQGyELVDCzXVu2wlorz/P3JQMbsYiJb
+	UDh8oGAzRAcqdX5wW34HOFIuOo+sYe4JlcdR3UikXOhg==
+X-Google-Smtp-Source: AGHT+IFIkc4OB9ifmuA5PbekOzgNTfccWlHOTUKuSbdKmtO9rM/4AYPvGXov3JgI/yrlxmpnn1tVQ3/E7LnJmdOfYS0=
+X-Received: by 2002:a05:690c:7093:b0:703:b30d:3e2b with SMTP id
+ 00721157ae682-70ca79f0c80mr264999947b3.20.1747745136800; Tue, 20 May 2025
+ 05:45:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <7b30419d-e801-44a3-86a4-b18da83ad066@oss.qualcomm.com>
- <netxlhikdd2jlievf7mevbbfpffaz4ttkjw6eykwvpklccoxbw@qtzh5hiqwcpv> <CA+5PVA5ndCY3gzjmUAD3_=yb4Xa_NUoAFxddvWJLgvZoy7cObQ@mail.gmail.com>
-In-Reply-To: <CA+5PVA5ndCY3gzjmUAD3_=yb4Xa_NUoAFxddvWJLgvZoy7cObQ@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Tue, 20 May 2025 15:43:53 +0300
-X-Gm-Features: AX0GCFs2MxXLsY4VdzW3x0eir5sXU8OqxtfAFzR6dtizHDcbhTHAb28-hW0YEys
-Message-ID: <CAO9ioeV2FAmv6_K5BfE4=syg2XbAm8A3X0W7jU8M-jhN15547w@mail.gmail.com>
-Subject: Re: qcom: add QUPv3 firmware for QCM6490 platform
-To: Josh Boyer <jwboyer@kernel.org>
+References: <20250519081835.25562-1-nas.chung@chipsnmedia.com>
+ <4fs3jqwf6hk6cqaiipbuwwe2u5dcdijig23hlqeiqjh27kmyug@ptxv6u4jqjfq>
+ <SL2P216MB1246D2BCF13E83FA41282141FB9FA@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
+ <6xhadxewl3l6ryqs3noeoo3rh3gugxuwt5fsrlxcd3c67rypzn@tvrpe3u7k6gh>
+In-Reply-To: <6xhadxewl3l6ryqs3noeoo3rh3gugxuwt5fsrlxcd3c67rypzn@tvrpe3u7k6gh>
+From: Josh Boyer <jwboyer@gmail.com>
+Date: Tue, 20 May 2025 08:45:24 -0400
+X-Gm-Features: AX0GCFuhMljWE5WFDD5f-o1pVR6a622QWf6W0Y2Q4E0qSEHV0brImWu4zXHU4qY
+Message-ID: <CA+5PVA72xPebzoyGW15Dt5TShk0ovTar7Ji6c9PPoD76cy36ow@mail.gmail.com>
+Subject: Re: [PATCH] cnm: Add Chips&Media wave633c firmware for NXP i.MX9
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>,
-        linux-firmware@kernel.org, mukesh.savaliya@oss.qualcomm.com,
-        quic_anupkulk@quicinc.com
+Cc: Nas Chung <nas.chung@chipsnmedia.com>, 
+	"linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
+	"nicolas.dufresne@collabora.com" <nicolas.dufresne@collabora.com>, 
+	"jackson.lee" <jackson.lee@chipsnmedia.com>, "lafley.kim" <lafley.kim@chipsnmedia.com>, 
+	"ming.qian@oss.nxp.com" <ming.qian@oss.nxp.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-GUID: Wvrt81U6uImQDZK0DnKBEnzi3smXGqaK
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIwMDEwMiBTYWx0ZWRfX0oPyuDIDtfab
- RtDOuN7l4c9yyzqDOqyEbMMJqseYvN56E1+VyZAB9MDw8uxkW0z5VVpKh4MFnHm5PGO4wRCNCpj
- XWyXWJ+dF3antTZr40hSDR2zFf4pOpU5AEQBWy3EkT7nlgrJCZU7rxBXF3VGBz6Mu/jwh1TYtdx
- 2plCTYWmCcPAX0tzqxxZ6XryA0S1HNya2d+5+nsS6FZ+WZzxBIqPV4vVUcrAd3YV8Vl5rVZah7a
- +uSZl4JsND9ddTkUSxxyIxU3jCC5YQMFJonwbKs2tn1PY5a+fZ+ISQ1iC9PwbWhpuZeH1XB0gZs
- R75dHYbeHy1jq9POGehHg9Zi41/Os2WWRvpjgy4466kOXA9AwN+Q0dlsVg/bU65rAhqSj0jG7gx
- 13J9L+PM7Zl+6K1N03yyZU7NL8FKbAMJzIdrbD4Py7aWHf9z1qxVeqG1r66dORgEDkgY/9wQ
-X-Authority-Analysis: v=2.4 cv=H8Pbw/Yi c=1 sm=1 tr=0 ts=682c7915 cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10
- a=qC_FGOx9AAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=oQeUk3lh8Reb6gpKbNYA:9
- a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22 a=fsdK_YakeE02zTmptMdW:22
-X-Proofpoint-ORIG-GUID: Wvrt81U6uImQDZK0DnKBEnzi3smXGqaK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-20_05,2025-05-16_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 bulkscore=0 clxscore=1015 mlxlogscore=837 adultscore=0
- phishscore=0 mlxscore=0 priorityscore=1501 suspectscore=0 malwarescore=0
- impostorscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505070000
- definitions=main-2505200102
 
-On Tue, 20 May 2025 at 15:43, Josh Boyer <jwboyer@kernel.org> wrote:
+Merged and pushed out.
+
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/555
+
+josh
+
+On Tue, May 20, 2025 at 6:49=E2=80=AFAM Dmitry Baryshkov
+<dmitry.baryshkov@oss.qualcomm.com> wrote:
 >
-> On Tue, May 20, 2025 at 6:48=E2=80=AFAM Dmitry Baryshkov
-> <dmitry.baryshkov@oss.qualcomm.com> wrote:
+> On Tue, May 20, 2025 at 01:07:45AM +0000, Nas Chung wrote:
+> > Hi, Dmitry.
 > >
-> > On Tue, May 20, 2025 at 12:51:47PM +0530, Viken Dadhaniya wrote:
-> > > The following changes since commit 759c4acafb4a80d76885e4a1542229a27d=
-677322:
+> > >-----Original Message-----
+> > >From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > >Sent: Monday, May 19, 2025 7:28 PM
+> > >To: Nas Chung <nas.chung@chipsnmedia.com>
+> > >Cc: linux-firmware@kernel.org; nicolas.dufresne@collabora.com; jackson=
+.lee
+> > ><jackson.lee@chipsnmedia.com>; lafley.kim <lafley.kim@chipsnmedia.com>=
+;
+> > >ming.qian@oss.nxp.com
+> > >Subject: Re: [PATCH] cnm: Add Chips&Media wave633c firmware for NXP i.=
+MX9
 > > >
-> > >   Merge branch 'robot/pr-0-1747425243' into 'main' (2025-05-16 19:59:=
-07
-> > > +0000)
+> > >On Mon, May 19, 2025 at 05:18:35PM +0900, Nas Chung wrote:
+> > >> Add the firmware for the Chips&Media wave633c codec IP,
+> > >> which integrates both decoder and encoder functionality.
+> > >> This firmware is intended for use on NXP SoCs based on
+> > >> the i.MX9 architecture.
+> > >>
+> > >> The LICENSE.cnm file has been updated to restrict redistribution
+> > >> of this firmware to NXP silicon products only.
 > > >
-> > > are available in the Git repository at:
-> > >
-> > >   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
-> > > qupv3-fw-qcm6490
-> > >
-> > > for you to fetch changes up to be949ef4113e8dfabafae6313f6bbe88520f48=
-3e:
-> > >
-> > >   qcom: add QUPv3 firmware for QCM6490 platform (2025-05-20 12:07:53 =
-+0530)
-> > >
-> > > ----------------------------------------------------------------
-> > > Viken Dadhaniya (1):
-> > >       qcom: add QUPv3 firmware for QCM6490 platform
+> > >Is there any chance to change this? This make a life of Linux
+> > >distributions much harder. They can not include your firmware at all,
+> > >having to strip it from the _source_ packages too. A better idea might
+> > >be to allow redistribution (so that distros can include it into source
+> > >archive or into the CD / packages), but limit usage (as hopefully was
+> > >intended).
 > >
-> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > My intention was also to allow redistribution while restricting usage,
+> > but I ended up doing both unintentionally.
+> > Your suggestion exactly aligns with what I had in mind.
+> >
+> > Thanks a lot for your feedback !
 >
-> Mario merged the original PR already.  Is the only update the change
-> of the driver name in the WHENCE file?  If so, I'll just change that
-> in a separate commit.
-
-Yes, it is the only change.
-
-
---=20
-With best wishes
-Dmitry
+> THanks a lot for the prompt response!
+>
+> --
+> With best wishes
+> Dmitry
