@@ -1,215 +1,126 @@
-Return-Path: <SRS0=pvei=YF=a3103560.bnc3.mailjet.com=f3a14159.AXAAAG8wbvwAAc4zZyYAA-uM0ZcAAYKJiaMAoMqHAC9bSABoLgSf@kernel.org>
+Return-Path: <SRS0=gmQ4=YH=oss.qualcomm.com=jeff.johnson@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA66CC2D0CD
-	for <linux-firmware@archiver.kernel.org>; Wed, 21 May 2025 16:51:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8C26C54ED0
+	for <linux-firmware@archiver.kernel.org>; Fri, 23 May 2025 17:08:08 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id A5D81C4CEE7; Wed, 21 May 2025 16:51:48 +0000 (UTC)
-Received: from o32.p25.mailjet.com (o32.p25.mailjet.com [185.189.236.32])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id AA122C4CEE9; Fri, 23 May 2025 17:08:08 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 6AED4C4CEE4
-	for <linux-firmware@kernel.org>; Wed, 21 May 2025 16:51:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 6AED4C4CEE4
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=rdnx.pl
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=a3103560.bnc3.mailjet.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; q=dns/txt;
-  d=rdnx.pl; i=denis@rdnx.pl; s=mailjet; x=1747853503;
-  h=message-id:mime-version:from:from:to:to:subject:subject:date:date:list-id:list-unsubscribe-post:
-  list-unsubscribe:feedback-id:precedence:x-campaignid:x-csa-complaints:
-  x-mj-mid:x-mj-smtpguid:x-report-abuse-to:content-type;
-  bh=P0nccPv4Z0NZe82M4L+3v0YXWjIk2Ps01D1SOvSPhUE=;
-  b=e/IHtf7nHbZAQYmZIqqf5sY9lCCFFX9Odm3GObwqnEMMdCmcw0rzAnoZv
- q0W9r4xLlmX3ZkiR/6xRE6JOLRu0kAiGEPGaY9wax1e61iD5RfGCBfGaJfv3
- ZXDuqG8nUW3t0VCozcbkgvOdtO/HY/VcbnOTaWZoQeKoCOXCyZeEmeq5TPZT
- 139HJC4FZ9URMuNhL7valp87Oir0RbXKwb+YKpvKxt3o80gmAxtI0HJxvctr
- CtA4aiTwudh53T6CmxdAxdu5QXP7Tr/3jg2yzXWP97J83TvAXWATu9+C2OEJ
- 4dGT1DXi2T1uCNXgVBmXhZ0J6LFLyZ4lQNEi/XzO9XkdQ==
-Message-Id: <f3a14159.AXAAAG8wbvwAAc4zZyYAA-uM0ZcAAYKJiaMAoMqHAC9bSABoLgSf@mailjet.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id C69B1C4CEEF
+	for <linux-firmware@kernel.org>; Fri, 23 May 2025 17:08:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C69B1C4CEEF
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54NE8IKc027636
+	for <linux-firmware@kernel.org>; Fri, 23 May 2025 17:08:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=tZUadBFHdEtu6nVasWJSp0
+	TAppzK35LzVtrVbC8Wug8=; b=VIsc9/hahModkP8X3PA1B8iC7GVr0M99R3IrGE
+	aXOMtHoA+grJu4k3WXH+JuWtnc7F9fefFanwa6ufBzaL+31aP6GpUT4eTozFo5DS
+	+uP/sPxDGnjFpdOhZajBfhanvUa1jy6YDpHtixdCXg0YASFpmfyLd9GhoWHqS4Ps
+	9dIAJmh+pAOitJfq6Ga0yKPJHbo6QjdRxaVjLt6yKvymZXiolw382/psU+TPAEbD
+	7ObJeHHx24IO0UAmz7b6jQDX+AL18ucjLChTa5ja+5XwGW+SkFCmVcaktjKh/ouo
+	ggtOOWkfZxkyf2HAI2he2QxssLXXfZbxf2xizW+CGaf2hA4A==
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwf9jj2y-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-firmware@kernel.org>; Fri, 23 May 2025 17:08:05 +0000 (GMT)
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-742aa6581caso99598b3a.3
+        for <linux-firmware@kernel.org>; Fri, 23 May 2025 10:08:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748020084; x=1748624884;
+        h=content-transfer-encoding:from:content-language:subject:cc:to
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=tZUadBFHdEtu6nVasWJSp0TAppzK35LzVtrVbC8Wug8=;
+        b=iv9acN577H4l1xXlL1We6r5/SKTW5iFsqG1cfyh3BCeW21PngNBe4MXBSE8mWENGLe
+         AF+xg4NJLoJ1BbTjjMAeJ2S6I2LdTYvPvJG7n3OoJMYhUi4QfVYegKDJGtwwJ9lLawXL
+         FI+MaIw7g0cM1aamOg+m4MQbI16QWu6++MmQUDqVYvoIGHbGUSmgj2qWHla+lVeouu7d
+         jp5T1E2zjYJefWFD91JWZOOspNN27hB1zYyFJkyU6NkTeh/H72xol8sJ8oTmxZchpLjZ
+         MBS5jU1rVQnslkMEyw+bwZZp0FRA+e/+dDdXascsSfiRmNpMq/dwS/zgKVHhAGS5bOyk
+         7YEw==
+X-Gm-Message-State: AOJu0YwPTfPy5YBi4GzWROOm0nonVmLr+wCBUofTaDzANFjRKG3Fnu+z
+	ipQI8IEMYz1hrFt038NV13DFFsC3MmhsYI4MFpOLDybfGxyGdJ8qGy4xMfHsg1Tr5ZKLS74icKg
+	Pg39Hl+KAtbtT/rlhBeWnIqpZD4jHmqvo2rTD7Svg2MXWekWXVe2ZepqO64yCzNgyD3xvx3M=
+X-Gm-Gg: ASbGncu6VdXHtvYIhb8KFKkebTPKMloZeFiTEou72tDmhEqzlAjs+1ncYlBxjo1iUs7
+	bx5H+r7xS6Nh0at1HoPrEPjT1NmA2taK1G+yFqpsFJbwUa6WtdZZ+t0TCSk8YqKhci9Ee2YGBxJ
+	S/654CNfMcRSJva61x5pBRhgqEwfRhc4/84bl+nq9WN6bXegIax63IypvLKrBqI/0i9KLSCm8kT
+	PeybGOcweKE3mucTSyytMS6DI/H4lZuZ21nXd3sGERR65gSqX7m3ZTziRWZF0NiEbJ+8y1tQPWQ
+	0Y7tbVhfSXm4vNkPZbe6SN2GJQ4U22McesdGBTmybjCVoPdi
+X-Received: by 2002:a05:6a00:10d2:b0:72d:3b2e:fef9 with SMTP id d2e1a72fcca58-745fe03c2damr380010b3a.20.1748020083890;
+        Fri, 23 May 2025 10:08:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE5x+zjlejQD7iUhgZen4iAhbFV5wkG6YLj4vbg91n7MooaF52e912rywgPZgF74Hdf6hPSIA==
+X-Received: by 2002:a05:6a00:10d2:b0:72d:3b2e:fef9 with SMTP id d2e1a72fcca58-745fe03c2damr379983b3a.20.1748020083500;
+        Fri, 23 May 2025 10:08:03 -0700 (PDT)
+Received: from [10.81.24.74] (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a9829c37sm13084080b3a.117.2025.05.23.10.08.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 May 2025 10:08:03 -0700 (PDT)
+Message-ID: <fcfa4e63-e421-42d1-b6da-11d2d7d2dd95@oss.qualcomm.com>
+Date: Fri, 23 May 2025 10:07:15 -0700
 MIME-Version: 1.0
-From: Denis Radac <denis@rdnx.pl>
+User-Agent: Mozilla Thunderbird
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Subject: Pytanie
-Date: Wed, 21 May 2025 16:51:43 +0000 (UTC)
-List-Id: <denis.rdnx.pl.sqy5w-uwpug.mj>
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-List-Unsubscribe:
-	<mailto:unsub-f3a14159.sqy5w.lr5vt9ikl5q1@bnc3.mailjet.com>,
-	<https://sqy5w.mjt.lu/unsub2?m=AXAAAG8wbvwAAc4zZyYAA-uM0ZcAAYKJiaMAoMqHAC9bSABoLgSfo58SDlpOSXWAJdlLmd3UxwAraQ0&b=f3a14159&e=bd0119a8&x=Yuvri_XL5EoNNxWfJRBbka1OQQ6f3JMdrQHmWOa9hLc>
-Feedback-Id: 42.3103560.2844941:MJ
-Precedence: bulk
-X-CampaignID: 7754442534
-X-CSA-Complaints: csa-complaints@eco.de
-X-MJ-Mid:
-	AXAAAG8wbvwAAc4zZyYAA-uM0ZcAAYKJiaMAoMqHAC9bSABoLgSfo58SDlpOSXWAJdlLmd3UxwAraQ0
-X-MJ-SMTPGUID: a39f120e-5a4e-4975-8025-d94b99ddd4c7
-X-REPORT-ABUSE-TO: Message sent by Mailjet please report to
-	abuse@mailjet.com with a copy of the message
-Content-Type: multipart/alternative; boundary="=-NxpyBwfkDn4ALjXkCpKS"
+Cc: linux-wireless@vger.kernel.org, ath10k@lists.infradead.org,
+        ath11k@lists.infradead.org, ath12k@lists.infradead.org,
+        jjohnson@kernel.org
+Subject: [PULL linux-firmware] ath10k, ath11k and ath12k firmware ath-20250523
+Content-Language: en-US
+From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: 5D7wkcNHNnvlYqT7HdMW26w3ffl4vYIw
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIzMDE1NiBTYWx0ZWRfX170sHsgYoDCN
+ 8TAJAxj9IZxRNzaxdsLQVVp4AfMhj0gMDtCxQfEKxVpJP0/ZuJfdqSLJw3S0pIdZ05KF6kUU/DM
+ szdc04kflkwtwVki67hOPs5P57YtTbRXsK1hkOWc2FdEYL7QwGNVOjCjj5W6AIoVH0+nb15kgeZ
+ BCWfjWlYtMe5PVhyhJmSinXixriagHB+gkYO4MWRQiQuaFGJnGXvKgjU8PhSgfTFx/P1obJU9a+
+ OKv9QeRLwSQH79sJp2Fguzm+E+I0Y1nzHDek//s9Ro2yKns/+2WfhvCQos8S669s5RFnNkAdD3H
+ ga3Eq1cXACLzfVFZhGz3cZ6mbRcDwKFjcq1Twv2hDwKAebVDXaMx6ojiYmN6WaOZkgHNfB+cREF
+ NK8W0WbyF4wws9sDgaeZy7S/n5qT7jE8zvUppV3I9pS4lKUNYOX1aKcQGJmawM9TdFvti+k6
+X-Authority-Analysis: v=2.4 cv=GawXnRXL c=1 sm=1 tr=0 ts=6830ab75 cx=c_pps
+ a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=w00LdxtAzVfKRbiaHPIA:9
+ a=QEXdDO2ut3YA:10 a=2VI0MkxyNR6bbpdq8BZq:22
+X-Proofpoint-GUID: 5D7wkcNHNnvlYqT7HdMW26w3ffl4vYIw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-23_05,2025-05-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 mlxlogscore=869 lowpriorityscore=0 impostorscore=0
+ priorityscore=1501 clxscore=1011 malwarescore=0 phishscore=0 bulkscore=0
+ spamscore=0 suspectscore=0 adultscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505160000 definitions=main-2505230156
 
---=-NxpyBwfkDn4ALjXkCpKS
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit 3fbaee2775a4a6d44021aa035823a7388b0874fa:
 
-Dzie=C5=84 dobry, mam pytanie,
+  Merge branch 'robot/pr-0-1747839277' into 'main' (2025-05-21 15:05:37 +0000)
 
-czy wypalacie/produkujecie Pa=C5=84stwo w=C5=82asn=C4=85 kaw=C4=99?
+are available in the Git repository at:
 
+  git://git.kernel.org/pub/scm/linux/kernel/git/ath/linux-firmware.git ath-20250523
 
-Z pozdrowieniami,=C2=A0
+for you to fetch changes up to 2e91d8c3c4bd34a27177180a38f62d3ba3c96031:
 
-Denis Radac=C2=A0
-Dyrektor ds. zaopatrzenia
-M: denis@rdnx.pl=C2=A0
-Grupa Kolektyw | Europe=C2=A0
+  ath12k: WCN7850 hw2.0: update to WLAN.HMT.1.1.c5-00284.1-QCAHMTSWPL_V1.0_V2.0_SILICONZ-3 (2025-05-23 09:50:02 -0700)
 
+----------------------------------------------------------------
 
+This is an update to the WCN7850 firmware that fixes the widely reported
+failures due to the prior version in ath-20250424.
 
+----------------------------------------------------------------
+Jeff Johnson (1):
+      ath12k: WCN7850 hw2.0: update to WLAN.HMT.1.1.c5-00284.1-QCAHMTSWPL_V1.0_V2.0_SILICONZ-3
 
-Ta wiadomo=C5=9B=C4=87 i jakiekolwiek pliki przes=C5=82ane wraz z ni=C4=85,=
- s=C4=85 poufne i przeznaczone wy=C5=82=C4=85cznie do u=C5=BCytku os=C3=B3b=
- i jednostek, do kt=C3=B3rych wiadomo=C5=9B=C4=87 zosta=C5=82a adresowana. =
-Je=C5=9Bli wiadomo=C5=9B=C4=87 zosta=C5=82a otrzymana pomy=C5=82kowo, prosi=
-my zawiadomi=C4=87 administratora systemu. Ta wiadomo=C5=9Bc zawiera inform=
-acje poufne i jest przeznaczona wy=C5=82=C4=85cznie dla wymienionej osoby. =
-Je=C5=9Bli nie jeste=C5=9B wymienionym adresatem tej wiadomo=C5=9Bci, nie p=
-owiniene=C5=9B jej rozpowszechnia=C4=87, rozsy=C5=82a=C4=87 ani kopiowa=C4=
-=87. Prosimy o natychmiastowe powiadomienie, za po=C5=9Brednictwem poczty e=
-lektronicznej, nadawcy o pomy=C5=82kowym otrzymaniu tej wiadomo=C5=9Bci i u=
-suni=C4=99cie jej z komputera. Je=C5=9Bli nie jeste=C5=9B zamierzonym odbio=
-rc=C4=85 tej wiadomo=C5=9Bci, informujemy, =C5=BCe jej ujawnianie, kopiowan=
-ie, przesy=C5=82anie lub podejmowanie jakichkolwiek dzia=C5=82a=C5=84 w zwi=
-=C4=85zku z tre=C5=9Bci=C4=85 tej wiadomo=C5=9Bci jest surowo wzbronione. =
-=C2=A0Adresatem wiadomo=C5=9Bci jest linux-firmware@kernel.org, kliknij tu =
-https://sqy5w.mjt.lu/unsub2?hl=3Dpl&m=3DAXAAAG8wbvwAAc4zZyYAA-uM0ZcAAYKJiaM=
-AoMqHAC9bSABoLgSfo58SDlpOSXWAJdlLmd3UxwAraQ0&b=3Df3a14159&e=3Dbd0119a8&x=3D=
-Yuvri_XL5EoNNxWfJRBbka1OQQ6f3JMdrQHmWOa9hLc] aby nie otrzymywa=C4=87.=C2=A0=
- [[[UNSUB_LINK_PL]]=
-
---=-NxpyBwfkDn4ALjXkCpKS
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-<!doctype html><html xmlns=3D"http://www.w3.org/1999/xhtml" xmlns:v=3D"urn:=
-schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-microsoft-com:office:offi=
-ce"><head><title>Pytanie</title><!--[if !mso]><!--><meta http-equiv=3D"X-UA=
--Compatible" content=3D"IE=3Dedge"><!--<![endif]--><meta http-equiv=3D"Cont=
-ent-Type" content=3D"text/html; charset=3DUTF-8"><meta name=3D"viewport" co=
-ntent=3D"width=3Ddevice-width,initial-scale=3D1"><style type=3D"text/css">#=
-outlook a { padding:0; }
-      body { margin:0;padding:0;-webkit-text-size-adjust:100%;-ms-text-size=
--adjust:100%; }
-      table, td { border-collapse:collapse;mso-table-lspace:0pt;mso-table-r=
-space:0pt; }
-      img { border:0;height:auto;line-height:100%; outline:none;text-decora=
-tion:none;-ms-interpolation-mode:bicubic; }
-      p { display:block;margin:13px 0; }</style><!--[if mso]>
-    <noscript>
-    <xml>
-    <o:OfficeDocumentSettings>
-      <o:AllowPNG/>
-      <o:PixelsPerInch>96</o:PixelsPerInch>
-    </o:OfficeDocumentSettings>
-    </xml>
-    </noscript>
-    <![endif]--><!--[if lte mso 11]>
-    <style type=3D"text/css">
-      .mj-outlook-group-fix { width:100% !important; }
-    </style>
-    <![endif]--><style type=3D"text/css">@media only screen and (min-width:=
-480px) {
-        .mj-column-per-100 { width:100% !important; max-width: 100%; }
-      }</style><style media=3D"screen and (min-width:480px)">.moz-text-html=
- .mj-column-per-100 { width:100% !important; max-width: 100%; }</style><sty=
-le type=3D"text/css">[owa] .mj-column-per-100 { width:100% !important; max-=
-width: 100%; }</style><style type=3D"text/css"></style><style type=3D"text/=
-css"></style></head><body style=3D"word-spacing:normal;background-color:#F4=
-F4F4;"><div style=3D"background-color:#F4F4F4;"><!--[if mso | IE]><table al=
-ign=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"" =
-role=3D"presentation" style=3D"width:600px;" width=3D"600" ><tr><td style=
-=3D"line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-=
--><div style=3D"margin:0px auto;max-width:600px;"><table align=3D"center" b=
-order=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=
-=3D"width:100%;"><tbody><tr><td style=3D"direction:ltr;font-size:0px;paddin=
-g:50px 0px 5px 0px;padding-bottom:50px;padding-left:0px;padding-right:0px;p=
-adding-top:50px;text-align:center;"><!--[if mso | IE]><table role=3D"presen=
-tation" border=3D"0" cellpadding=3D"0" cellspacing=3D"0"><tr><td class=3D""=
- style=3D"vertical-align:top;width:600px;" ><![endif]--><div class=3D"mj-co=
-lumn-per-100 mj-outlook-group-fix" style=3D"font-size:0px;text-align:left;d=
-irection:ltr;display:inline-block;vertical-align:top;width:100%;"><table bo=
-rder=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=
-=3D"vertical-align:top;" width=3D"100%"><tbody><tr><td align=3D"left" style=
-=3D"font-size:0px;padding:10px 25px;padding-top:0px;padding-bottom:0px;word=
--break:break-word;"><div style=3D"font-family:Arial, sans-serif;font-size:1=
-3px;letter-spacing:normal;line-height:1;text-align:left;color:#000000;"><p =
-class=3D"text-build-content" style=3D"margin: 10px 0; margin-top: 10px;">Dz=
-ie=C5=84 dobry, mam pytanie,</p><p class=3D"text-build-content" style=3D"ma=
-rgin: 10px 0;">czy wypalacie/produkujecie Pa=C5=84stwo w=C5=82asn=C4=85 kaw=
-=C4=99?</p><p class=3D"text-build-content" style=3D"margin: 10px 0; margin-=
-bottom: 10px;"><br><i>Z pozdrowieniami,&nbsp;</i><br><br><b>Denis Radac&nbs=
-p;</b><br><span style=3D"font-size:12px;"><b>Dyrektor ds. zaopatrzenia</b><=
-/span><br>M: denis@rdnx.pl&nbsp;<br>Grupa Kolektyw | Europe&nbsp;</p></div>=
-</td></tr></tbody></table></div><!--[if mso | IE]></td></tr></table><![endi=
-f]--></td></tr></tbody></table></div><!--[if mso | IE]></td></tr></table><t=
-able align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" clas=
-s=3D"" role=3D"presentation" style=3D"width:600px;" width=3D"600" ><tr><td =
-style=3D"line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![en=
-dif]--><div style=3D"margin:0px auto;max-width:600px;"><table align=3D"cent=
-er" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" =
-style=3D"width:100%;"><tbody><tr><td style=3D"direction:ltr;font-size:0px;p=
-adding:20px 0px 20px 0px;text-align:center;"><!--[if mso | IE]><table role=
-=3D"presentation" border=3D"0" cellpadding=3D"0" cellspacing=3D"0"><tr><td =
-class=3D"" style=3D"vertical-align:top;width:600px;" ><![endif]--><div clas=
-s=3D"mj-column-per-100 mj-outlook-group-fix" style=3D"font-size:0px;text-al=
-ign:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;"=
-><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentati=
-on" style=3D"vertical-align:top;" width=3D"100%"><tbody><tr><td align=3D"le=
-ft" style=3D"font-size:0px;padding:0px 20px 0px 20px;padding-top:0px;paddin=
-g-bottom:0px;word-break:break-word;"><div style=3D"font-family:Verdana, Hel=
-vetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;colo=
-r:#000000;"><p class=3D"text-build-content" style=3D"text-align: justify; m=
-argin: 10px 0; margin-top: 10px; margin-bottom: 10px;"><br><span style=3D"c=
-olor:#55575d;font-family:Arial;font-size:8px;line-height:22px;">Ta wiadomo=
-=C5=9B=C4=87 i jakiekolwiek pliki przes=C5=82ane wraz z ni=C4=85, s=C4=85 p=
-oufne i przeznaczone wy=C5=82=C4=85cznie do u=C5=BCytku os=C3=B3b i jednost=
-ek, do kt=C3=B3rych wiadomo=C5=9B=C4=87 zosta=C5=82a adresowana. Je=C5=9Bli=
- wiadomo=C5=9B=C4=87 zosta=C5=82a otrzymana pomy=C5=82kowo, prosimy zawiado=
-mi=C4=87 administratora systemu. Ta wiadomo=C5=9Bc zawiera informacje poufn=
-e i jest przeznaczona wy=C5=82=C4=85cznie dla wymienionej osoby. Je=C5=9Bli=
- nie jeste=C5=9B wymienionym adresatem tej wiadomo=C5=9Bci, nie powiniene=
-=C5=9B jej rozpowszechnia=C4=87, rozsy=C5=82a=C4=87 ani kopiowa=C4=87. Pros=
-imy o natychmiastowe powiadomienie, za po=C5=9Brednictwem poczty elektronic=
-znej, nadawcy o pomy=C5=82kowym otrzymaniu tej wiadomo=C5=9Bci i usuni=C4=
-=99cie jej z komputera. Je=C5=9Bli nie jeste=C5=9B zamierzonym odbiorc=C4=
-=85 tej wiadomo=C5=9Bci, informujemy, =C5=BCe jej ujawnianie, kopiowanie, p=
-rzesy=C5=82anie lub podejmowanie jakichkolwiek dzia=C5=82a=C5=84 w zwi=C4=
-=85zku z tre=C5=9Bci=C4=85 tej wiadomo=C5=9Bci jest surowo wzbronione. &nbs=
-p;Adresatem wiadomo=C5=9Bci jest linux-firmware@kernel.org, kliknij </span>=
-<a class=3D"link-build-content" style=3D"color:inherit;text-decoration:none=
-;; text-decoration: none;" target=3D"_blank" href=3D"https://sqy5w.mjt.lu/u=
-nsub2?hl=3Dpl&amp;m=3DAXAAAG8wbvwAAc4zZyYAA-uM0ZcAAYKJiaMAoMqHAC9bSABoLgSfo=
-58SDlpOSXWAJdlLmd3UxwAraQ0&amp;b=3Df3a14159&amp;e=3Dbd0119a8&amp;x=3DYuvri_=
-XL5EoNNxWfJRBbka1OQQ6f3JMdrQHmWOa9hLc"><span style=3D"color:#55575d;font-fa=
-mily:Arial;font-size:8px;line-height:22px;"><u>tu</u></span></a><span style=
-=3D"color:#55575d;font-family:Arial;font-size:8px;line-height:22px;"> aby n=
-ie otrzymywa=C4=87.</span><a class=3D"link-build-content" style=3D"color:in=
-herit;text-decoration:none;; text-decoration: none;" target=3D"_blank" href=
-=3D"https://sqy5w.mjt.lu/unsub2?hl=3Dpl&amp;m=3DAXAAAG8wbvwAAc4zZyYAA-uM0Zc=
-AAYKJiaMAoMqHAC9bSABoLgSfo58SDlpOSXWAJdlLmd3UxwAraQ0&amp;b=3Df3a14159&amp;e=
-=3Dbd0119a8&amp;x=3DYuvri_XL5EoNNxWfJRBbka1OQQ6f3JMdrQHmWOa9hLc"><span styl=
-e=3D"color:#55575d;font-family:Arial;font-size:8px;line-height:22px;">&nbsp=
-;</span></a></p></div></td></tr></tbody></table></div><!--[if mso | IE]></t=
-d></tr></table><![endif]--></td></tr></tbody></table></div><!--[if mso | IE=
-]></td></tr></table><![endif]--></div><br/>
-<img src=3D"https://sqy5w.mjt.lu/oo/AXAAAG8wbvwAAc4zZyYAA-uM0ZcAAYKJiaMAoMq=
-HAC9bSABoLgSfo58SDlpOSXWAJdlLmd3UxwAraQ0/f800ab94/e.gif" height=3D"1" width=
-=3D"1" alt=3D"" border=3D"0" style=3D"height:1px;width:1px;border:0;"/>
-</body></html>=
-
---=-NxpyBwfkDn4ALjXkCpKS--
-
+ WHENCE                        |   2 +-
+ ath12k/WCN7850/hw2.0/amss.bin | Bin 6082624 -> 6078528 bytes
+ 2 files changed, 1 insertion(+), 1 deletion(-)
