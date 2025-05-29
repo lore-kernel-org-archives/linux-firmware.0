@@ -1,130 +1,121 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=rPqq=YN=linux.intel.com=sakari.ailus@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32C30C54FB3
-	for <linux-firmware@archiver.kernel.org>; Thu, 29 May 2025 11:02:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7AF7AC54FB3
+	for <linux-firmware@archiver.kernel.org>; Thu, 29 May 2025 12:20:40 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id E939DC4CEF2; Thu, 29 May 2025 11:02:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2434C4CEED
-	for <linux-firmware@kernel.org>; Thu, 29 May 2025 11:02:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748516525;
-	bh=t8gq5btfMXpBO7/rGcx9vPnMmkAkahLXr9rtIUEcxFY=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=ER8qxb3K/Ln6BwpBDCWv5zDi46u+LkHdbuS3QtJx91VVnkM+CmEG1vXta2TkVRbjD
-	 7+y0ZaImKHNx9b334iFrGGmdX4x1XPTDdNKvc7Uim+Iex8Ru99sUSHNx5OoxHRJ2Eb
-	 B6eIr6oITjJCKjypq0MFfFhfZQolzwHU9+aIXxlZinKrsGBScUMiA3LazNcbxvzOL9
-	 kWIUaTI+cvPmPw+ZQv5ukQgRiIQVBQzWxr7lCMKJzaM95bnW58yenwHUg/sb3PTaXV
-	 chOT2kNfBlkY52w8UhkDQc12CPL82U7OUTgfxn4DQkg92Clvm3pqM0gRyRJcD670Tb
-	 2N7WU1DU/KLTQ==
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-70e3980757bso7282687b3.1
-        for <linux-firmware@kernel.org>; Thu, 29 May 2025 04:02:05 -0700 (PDT)
-X-Gm-Message-State: AOJu0YxTRUhhrfXGmSUoBHMZ7XhUXiivmx5gqlQwBVWkriQXk8ZJHwIR
-	OXJ+vxspPKIZ04QHS724tGi/Zj41WxTYidXBu1LbVNftCNojxLBfNGkom4irZPyOypfFaOi6q4G
-	Yf3Ez2IhDsVx2jslAsQJgQ9JNtF9CSVA=
-X-Google-Smtp-Source: AGHT+IHeIjPd/FEWd8vjYT/bvMS/lNZ6hH5m4mbY4pQuxcqi2+wZhL4iZQ5QR6R0F6JsEGbLMFBwz+iSbIKDvyRWz+o=
-X-Received: by 2002:a05:690c:6108:b0:70e:39e:91c2 with SMTP id
- 00721157ae682-70f877a38b2mr53591527b3.11.1748516525046; Thu, 29 May 2025
- 04:02:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <MW5PR11MB5810FBCE212AEC8D5315F20CA367A@MW5PR11MB5810.namprd11.prod.outlook.com>
-In-Reply-To: <MW5PR11MB5810FBCE212AEC8D5315F20CA367A@MW5PR11MB5810.namprd11.prod.outlook.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Thu, 29 May 2025 07:01:52 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA7i_J=zh345cNvffy_kr3OB8eEXUB3CkD=35YfeaStfgg@mail.gmail.com>
-X-Gm-Features: AX0GCFueYVx7ja8o4W9ENPcw4nLLZfWMPMuUNgzH1MgNN5uik8AuYw0DGOSVJL4
-Message-ID: <CA+5PVA7i_J=zh345cNvffy_kr3OB8eEXUB3CkD=35YfeaStfgg@mail.gmail.com>
-Subject: Re: pull request: iwlwifi firmware updates 2025-05-28
-To: "Korenblit, Miriam Rachel" <miriam.rachel.korenblit@intel.com>
+	id 48B31C4CEEB; Thu, 29 May 2025 12:20:40 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 3BDAEC4CEE7
+	for <linux-firmware@kernel.org>; Thu, 29 May 2025 12:20:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 3BDAEC4CEE7
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1748521239; x=1780057239;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Mh6RHHhMan/A7k21LyAy3QL4/63Lp1QI4U9HcaqHFpc=;
+  b=I8+nhBDKw4h7NbI08kYIkEZjtz3K4Tm7JGxzx0P3EYi+/zIupHFqTxxC
+   v7H+Y1quKVdonhypEOOkokImiCjpkfkNh8nt3nXmlHyaU1Vd/JEQsrX7y
+   W5WHDELilxryMDWoZXkxVn6fJ0s/igzMkiqdf1sZachAm6Csq00uSZNHc
+   yqD3KnQcBd8BT+Zc3xkQmsWgFAvpoaAMxD8Cd/HD3mwtl9Uu0LYgTH19V
+   G3ZW5dyhQubGZE/gqco4uHdHwRpd3MBZhouW9PM9R4Blixxn0n/K+povx
+   FWOO1rgxbf4DVqrphmfnMsO6xGNtVbFEtPjGrbANqcxJSKWZr27cLoSO5
+   A==;
+X-CSE-ConnectionGUID: pp8A+sxHR2+tTIA/lFUrbQ==
+X-CSE-MsgGUID: FKsWuWxyQmmqMDQ8RGl4GA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11448"; a="50462964"
+X-IronPort-AV: E=Sophos;i="6.16,192,1744095600"; 
+   d="scan'208";a="50462964"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 05:20:39 -0700
+X-CSE-ConnectionGUID: bYHPc6U2Saes3BUXAgAEZw==
+X-CSE-MsgGUID: O1mB1GXsSkmnzSP21SpDEg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,192,1744095600"; 
+   d="scan'208";a="148589163"
+Received: from ettammin-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.44])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 05:20:37 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 7D45511FC4D;
+	Thu, 29 May 2025 15:20:34 +0300 (EEST)
+Date: Thu, 29 May 2025 12:20:34 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: bingbu.cao@intel.com
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, "kyle@infradead.org" <kyle@infradead.org>, 
-	"Hutchings, Ben" <ben@decadent.org.uk>, "Yang, You-Sheng" <vicamo.yang@canonical.com>, 
-	"Dreyfuss, Haim" <haim.dreyfuss@intel.com>, linux-wireless <linux-wireless@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: linux-firmware@kernel.org, stanislaw.gruszka@linux.intel.com,
+	hao.yao@intel.com
+Subject: Re: [PATCH] Intel IPU7: Add firmware binary files
+Message-ID: <aDhRErmxVKpv0QKq@kekkonen.localdomain>
+References: <20250529041531.3037707-1-bingbu.cao@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250529041531.3037707-1-bingbu.cao@intel.com>
 
-Merged and pushed out.
+Hi Bingbu,
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/566
+Thanks for the patch.
 
-josh
+On Thu, May 29, 2025 at 12:15:31PM +0800, bingbu.cao@intel.com wrote:
+> From: Bingbu Cao <bingbu.cao@intel.com>
+> 
+> Add firmware binary files for Intel IPU7, they are for two different
+> variants of IPU7.
 
-On Wed, May 28, 2025 at 4:32=E2=80=AFPM Korenblit, Miriam Rachel
-<miriam.rachel.korenblit@intel.com> wrote:
->
-> Hi,
->
-> This contains some new and updated firmwares for all our currently
-> maintained FW binaries.
->
-> Please pull or let me know if there are any issues.
->
-> --
-> Thanks,
-> Miri
->
-> The following changes since commit 31afae6b274a4df9a110fcf86b94b30f63ca18=
-01:
->
->   Merge branch 'mt7925bt' into 'main' (2025-05-28 12:43:01 +0000)
->
-> are available in the Git repository at:
->
->   http://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.g=
-it tags/iwlwifi-fw-2025-05-28
->
-> for you to fetch changes up to 6e15e748c1a7024709b29f031cc6479d11522459:
->
->   iwlwifi: add Bz/gl FW for core96-76 release (2025-05-28 23:23:08 +0300)
->
-> ----------------------------------------------------------------
-> release core96 FWs
->
-> ----------------------------------------------------------------
-> Miri Korenblit (5):
->       iwlwifi: update 7265D firmware
->       iwlwifi: update firmwares for 8000 series
->       iwlwifi: update cc/Qu/QuZ firmwares for core96-76 release
->       iwlwifi: update ty/So/Ma firmwares for core96-76 release
->       iwlwifi: add Bz/gl FW for core96-76 release
->
->  WHENCE                        |  46 ++++++++++++++++++++++++++----------=
-------
->  iwlwifi-7265D-29.ucode        | Bin 1036772 -> 1036312 bytes
->  iwlwifi-8000C-36.ucode        | Bin 2428004 -> 2425084 bytes
->  iwlwifi-8265-36.ucode         | Bin 2436632 -> 2432528 bytes
->  iwlwifi-Qu-b0-hr-b0-77.ucode  | Bin 1406184 -> 1406184 bytes
->  iwlwifi-Qu-b0-jf-b0-77.ucode  | Bin 1322896 -> 1322896 bytes
->  iwlwifi-Qu-c0-hr-b0-77.ucode  | Bin 1406200 -> 1406200 bytes
->  iwlwifi-Qu-c0-jf-b0-77.ucode  | Bin 1322912 -> 1322912 bytes
->  iwlwifi-QuZ-a0-hr-b0-77.ucode | Bin 1406320 -> 1406320 bytes
->  iwlwifi-QuZ-a0-jf-b0-77.ucode | Bin 1322988 -> 1322988 bytes
->  iwlwifi-bz-b0-fm-c0-99.ucode  | Bin 0 -> 1927196 bytes
->  iwlwifi-bz-b0-fm-c0.pnvm      | Bin 295356 -> 296060 bytes
->  iwlwifi-bz-b0-gf-a0-99.ucode  | Bin 0 -> 1777464 bytes
->  iwlwifi-bz-b0-gf-a0.pnvm      | Bin 55208 -> 55208 bytes
->  iwlwifi-bz-b0-hr-b0-99.ucode  | Bin 0 -> 1578840 bytes
->  iwlwifi-bz-b0-hr-b0.pnvm      | Bin 1788 -> 1788 bytes
->  iwlwifi-cc-a0-77.ucode        | Bin 1367700 -> 1367700 bytes
->  iwlwifi-gl-c0-fm-c0-99.ucode  | Bin 0 -> 1912536 bytes
->  iwlwifi-gl-c0-fm-c0.pnvm      | Bin 295036 -> 295740 bytes
->  iwlwifi-ma-b0-gf-a0-89.ucode  | Bin 1747520 -> 1751700 bytes
->  iwlwifi-ma-b0-gf-a0.pnvm      | Bin 55128 -> 55128 bytes
->  iwlwifi-ma-b0-gf4-a0-89.ucode | Bin 1599864 -> 1599948 bytes
->  iwlwifi-ma-b0-gf4-a0.pnvm     | Bin 27836 -> 27836 bytes
->  iwlwifi-ma-b0-hr-b0-89.ucode  | Bin 1539572 -> 1539656 bytes
->  iwlwifi-so-a0-gf-a0-89.ucode  | Bin 1735944 -> 1736028 bytes
->  iwlwifi-so-a0-gf-a0.pnvm      | Bin 55208 -> 55208 bytes
->  iwlwifi-so-a0-gf4-a0-89.ucode | Bin 1590456 -> 1590540 bytes
->  iwlwifi-so-a0-gf4-a0.pnvm     | Bin 27876 -> 27876 bytes
->  iwlwifi-so-a0-hr-b0-89.ucode  | Bin 1526740 -> 1526824 bytes
->  iwlwifi-ty-a0-gf-a0-89.ucode  | Bin 1677812 -> 1677896 bytes
->  iwlwifi-ty-a0-gf-a0.pnvm      | Bin 55052 -> 55052 bytes
->  31 files changed, 29 insertions(+), 17 deletions(-)
->  create mode 100644 iwlwifi-bz-b0-fm-c0-99.ucode
->  create mode 100644 iwlwifi-bz-b0-gf-a0-99.ucode
->  create mode 100644 iwlwifi-bz-b0-hr-b0-99.ucode
->  create mode 100644 iwlwifi-gl-c0-fm-c0-99.ucode
+Please see README.md on how to submit firmware files to linux-firmware. One
+option is a pull request.
+
+> 
+> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> ---
+>  WHENCE                   |  11 +++++++++++
+>  intel/ipu/ipu7_fw.bin    | Bin 0 -> 266240 bytes
+>  intel/ipu/ipu7ptl_fw.bin | Bin 0 -> 266240 bytes
+>  ipu7ptl_fw.bin           | Bin 0 -> 266240 bytes
+
+Why is this file located here?
+
+>  4 files changed, 11 insertions(+)
+>  create mode 100644 intel/ipu/ipu7_fw.bin
+>  create mode 100644 intel/ipu/ipu7ptl_fw.bin
+>  create mode 100644 ipu7ptl_fw.bin
+> 
+> diff --git a/WHENCE b/WHENCE
+> index d17b2c41174d..d699bc6a9917 100644
+> --- a/WHENCE
+> +++ b/WHENCE
+> @@ -1287,6 +1287,17 @@ Licence: Redistributable. See LICENSE.ivsc for details
+>  
+>  --------------------------------------------------------------------------
+>  
+> +Driver: intel-ipu7-isys - Intel IPU7 (Image Processing Unit 7) driver
+> +
+> +File: intel/ipu/ipu7_fw.bin
+> +Version: master_release_
+
+I think you're missing the release number here.
+
+> +
+> +File: intel/ipu/ipu7ptl_fw.bin
+> +Version: master_release_20250515_1232
+> +
+> +Licence: Redistributable. See LICENSE.intel for details
+> +
+> +--------------------------------------------------------------------------
+>  Driver: mei-vsc-hw - Intel Visual Sensing Controller
+>  
+>  File: intel/vsc/ivsc_fw.bin
+
+-- 
+Regards,
+
+Sakari Ailus
