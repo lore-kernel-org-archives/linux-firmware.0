@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8C3FC71136
-	for <linux-firmware@archiver.kernel.org>; Tue, 17 Jun 2025 17:04:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4804DC71157
+	for <linux-firmware@archiver.kernel.org>; Tue, 17 Jun 2025 17:06:05 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 69A2FC4CEE7; Tue, 17 Jun 2025 17:04:20 +0000 (UTC)
-Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazon11021137.outbound.protection.outlook.com [40.107.57.137])
+	id 2C14EC4CEE7; Tue, 17 Jun 2025 17:06:05 +0000 (UTC)
+Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazon11020140.outbound.protection.outlook.com [52.101.227.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 6D621C4CEE3
-	for <linux-firmware@kernel.org>; Tue, 17 Jun 2025 17:04:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 6D621C4CEE3
+	by smtp.kernel.org (Postfix) with ESMTPS id 23B9AC4CEE3
+	for <linux-firmware@kernel.org>; Tue, 17 Jun 2025 17:06:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 23B9AC4CEE3
 Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=thebeautyboxx.co
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=thebeautyboxx.co
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kf2fUlI4ZkRS0AcNk3ek++erGdAsJTtl5ME//Cswind3kocsmch4Ovxab3mWUcxY+qGMX9gAFMiWDkz6TRHHZQlZHDVc3oXnSUoxf7Qxn+eKAYK5WUDfnyWuYOd+/e6LnoB8vU8A325G+q4ADClQuz3Ecny2lDhIOSL1E2D3U1h6HpEkZ4D1t7jx0eaxoiIZuyhn7X/gPZxA33gw48dgJ3xZFn/OePoVTiC8RaDKKhlS/sAQx5h/cO81dJOiNUILW+Iv1/j7bl9wJnlRpt7fmIDepoN3xTjlSQKVnzTIMqsV3atRHzzmtmaj/8BY0JnRfbz70fV8KqSDLSh2h6p3YQ==
+ b=td0WNgbdICdCafJyn2pBI0EHY6OvG2NOmav1260/g0yuATDZIh9N2LDKGxjDT1v5Y7+z8F6uRaHm/qVXc6/rZ+SK8hIbVrcoaK+K/LBWfvktUSd5UoYZSwO0Di7QT+5azKhE+wDKuhagu6PPzdXTqzo+PsUydls69kEmkt3vnKIdCV9EL7oDM0rUZYr9E0UF5TzRU7bsENWX8MWyGwG4R8f2DaT6lGsE6JWZJXv4DUK7CIgfKkIw/vERvcH08A8l+ze1K2o/Iss2NfCRu+6UPUqnvOc22APIRyQczEpmhPb7bXZtlGu+d61XVmcKZGLl25qj8Tv5Q1TXKl1j/tO0XQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aiMs9cd7rOrtqVS8ZFqNDCnjgaapEiz/sUp/0IkVWSU=;
- b=s2yEdLfGkhln85e4E8Q2bM+2SqBDXEi2gH/FMjQZuMOs9xJOEIh895JV8jKeNxrM2VJpMehheqrDtxLNemQB3TUcZD6cw82ZtDVsDWpVrwnyuAX3zbC00Ulgbd+wNerCKFEav5/WQfJdpLauW/OElzn5oeuufOiFsgGk6RPxPgE5xRUITpgenqngRp/0vhQ7FYa08wSyrLFSVqt8cj4XKGH89ZMv0J/rDX0Sw7jFS90pqZ41u3GGU9AlBe82qSm5K8OIZT5l4RWozQY2qB0BRr4W48Y9m1Dd2KkwUBnDx2iKCIieiqofvWQrQIr/us7/OC1wZb755Anhk/8go5l6pg==
+ bh=7HPxhqSOL1zQ5gQdYNT5Q84oOEGMbgWB+d05xvnmFhM=;
+ b=gHf8fNmdxyHsgql9+i0i67Z67ZauONDU3VD/UhHHaKSHDnY9fPRYCL4pqyS17Xzo9uwn6jK3cqJ6LPZNQg8jQ+0DjB7RcKcmx4QcVVU4X0NH6vHfRN+Uf6DOk0/DSXdIt53TIoiB/A/FVmTK1WumOKz+OJFyGA4oevlNOGdV/4JU07zccnr2azzT8su6rewBcMRsVHX5akbXooi+NSOgKsU8Yhp52lRq0Ke0QBDYRlQvj9Lc/OzTkOCi2RIwiFF4jkZhgPs32iglh7VsTJZxpj3VTUWEfdLsoB6Nu1ypO8KQWUZzuN3RFVBzpjaJyMBUVy7xXePvKtkScHRNeYvTSQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=thebeautyboxx.co; dmarc=pass action=none
  header.from=thebeautyboxx.co; dkim=pass header.d=thebeautyboxx.co; arc=none
@@ -31,136 +31,132 @@ Received: from PN3P287MB3142.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:227::21)
  by PN2P287MB2160.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1c5::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.30; Tue, 17 Jun
- 2025 17:04:10 +0000
+ 2025 17:05:59 +0000
 Received: from PN3P287MB3142.INDP287.PROD.OUTLOOK.COM
  ([fe80::f2df:85e2:95ed:8477]) by PN3P287MB3142.INDP287.PROD.OUTLOOK.COM
  ([fe80::f2df:85e2:95ed:8477%5]) with mapi id 15.20.8835.027; Tue, 17 Jun 2025
- 17:04:09 +0000
+ 17:05:59 +0000
 From: thebeauty boxx <info@thebeautyboxx.co>
 List-Id: <linux-firmware.lore.kernel.org>
-To: "sunitadhull7900@gmail.com" <sunitadhull7900@gmail.com>,
-	"enquiry@almassaclinic.com" <enquiry@almassaclinic.com>,
-	"contact@drbatras.com" <contact@drbatras.com>, "info@drbatras.com"
-	<info@drbatras.com>, "enquiry@nandalhospital.in" <enquiry@nandalhospital.in>,
-	"zooreach@zooreach.org" <zooreach@zooreach.org>, "vikas.nandal01@gmail.com"
-	<vikas.nandal01@gmail.com>, "vmmrohtak@rediffmail.com"
-	<vmmrohtak@rediffmail.com>, "contact@albelee.in" <contact@albelee.in>,
-	"customercare@squareyards.com" <customercare@squareyards.com>,
-	"sfbjoufgkecemtzgx@gmail.com" <sfbjoufgkecemtzgx@gmail.com>,
-	"shreeneelkanthclinic@gmail.com" <shreeneelkanthclinic@gmail.com>,
-	"swastik.glowio@gmail.com" <swastik.glowio@gmail.com>,
-	"info@skinmastersclinic.in" <info@skinmastersclinic.in>,
-	"info@themedraft.net" <info@themedraft.net>, "no@themedraft.com"
-	<no@themedraft.com>, "replay@themedraft.com" <replay@themedraft.com>,
-	"no@themedraft.net" <no@themedraft.net>, "replay@themedraft.net"
-	<replay@themedraft.net>, "info@skinmastersclinic.com"
-	<info@skinmastersclinic.com>, "contact@skinzensationcosmetologia.com"
-	<contact@skinzensationcosmetologia.com>, "moniqua@spaceyogastudio.com"
+To: "aphroditecosmeticcentre@outlook.com"
+	<aphroditecosmeticcentre@outlook.com>, "info@skinnsmiles.com"
+	<info@skinnsmiles.com>, "Drgeetika@isaac-wellness.com"
+	<Drgeetika@isaac-wellness.com>, "contact@drgeetika.info"
+	<contact@drgeetika.info>, "contact@isaacluxe.co" <contact@isaacluxe.co>,
+	"tarunrajput1978@gmail.com" <tarunrajput1978@gmail.com>,
+	"info@smilestudiogurgaon.in" <info@smilestudiogurgaon.in>,
+	"drspoint@gmail.com" <drspoint@gmail.com>, "EmailInfo@drspoint.com"
+	<EmailInfo@drspoint.com>, "Info@drspoint.com" <Info@drspoint.com>,
+	"booking@tangentinc.in" <booking@tangentinc.in>, "info@dentistgurugram.com"
+	<info@dentistgurugram.com>, "emergencies@dentistgurugram.com"
+	<emergencies@dentistgurugram.com>, "dramit@priveclinic.in"
+	<dramit@priveclinic.in>, "dramitbhasin@hotmail.com"
+	<dramitbhasin@hotmail.com>, "dramitbhasin@priveclinic.in"
+	<dramitbhasin@priveclinic.in>, "garekarsmd@gmail.com" <garekarsmd@gmail.com>,
+	"jstory76@naver.com" <jstory76@naver.com>, "eureka_skin@naver.com"
+	<eureka_skin@naver.com>, "emily@urbanedgebeauty.co.nz"
+	<emily@urbanedgebeauty.co.nz>, "kiran.k@intel.com" <kiran.k@intel.com>,
+	"linux-firmware@kernel.org" <linux-firmware@kernel.org>,
+	"ravishankar.srivatsa@intel.com" <ravishankar.srivatsa@intel.com>,
+	"inquiry@berkowits.in" <inquiry@berkowits.in>, "info@v6clinics.com"
+	<info@v6clinics.com>, "moniqua@spaceyogastudio.com"
 	<moniqua@spaceyogastudio.com>, "info@spaceyogastudio.com"
-	<info@spaceyogastudio.com>, "support@aegte.in" <support@aegte.in>,
-	"Sales@aegte.in" <Sales@aegte.in>, "nidhi28.dhruv@gmail.com"
-	<nidhi28.dhruv@gmail.com>, "indianhealthconsultants@gmail.com"
-	<indianhealthconsultants@gmail.com>, "events@suitesvn.com"
-	<events@suitesvn.com>, "studio@suitesvn.com" <studio@suitesvn.com>,
-	"office@sarojads.com" <office@sarojads.com>,
-	"dermacaretheskinclinic@gmail.com" <dermacaretheskinclinic@gmail.com>,
-	"contact@vlccwellness.com" <contact@vlccwellness.com>,
-	"feedback@vlccwellness.com" <feedback@vlccwellness.com>, "kcfmtb@gmail.com"
-	<kcfmtb@gmail.com>, "vijaynagar.centre@vlccwellness.com"
-	<vijaynagar.centre@vlccwellness.com>, "reachus@vlccwellness.com"
-	<reachus@vlccwellness.com>, "help@vlccproducts.com" <help@vlccproducts.com>,
-	"franchise.emea@vlccwellness.com" <franchise.emea@vlccwellness.com>,
-	"info@vlcc.com.au" <info@vlcc.com.au>, "ruchi@vlccproducts.com"
-	<ruchi@vlccproducts.com>, "banjarahills.centre@vlccwellness.com"
-	<banjarahills.centre@vlccwellness.com>, "info@nationalskinclinic.in"
-	<info@nationalskinclinic.in>, "skincareworld959@gmail.com"
-	<skincareworld959@gmail.com>, "compliance@medanta.org"
-	<compliance@medanta.org>, "Naresh.Trehan@Medanta.org"
-	<Naresh.Trehan@Medanta.org>, "Pankaj.Sahni@Medanta.org"
-	<Pankaj.Sahni@Medanta.org>, "thedermastudio@gmail.com"
-	<thedermastudio@gmail.com>, "eightpskorea@gmail.com"
-	<eightpskorea@gmail.com>, "care@noiant.in" <care@noiant.in>,
-	"rootsivf@jjmedicalinstitute.com" <rootsivf@jjmedicalinstitute.com>,
-	"support@clinikally.com" <support@clinikally.com>, "atsupport@clinikally.com"
-	<atsupport@clinikally.com>, "grievanceofficer@clinikally.com"
-	<grievanceofficer@clinikally.com>, "info@prodigyfinance.com"
-	<info@prodigyfinance.com>, "contact@square-root.co.in"
-	<contact@square-root.co.in>, "carmenasins.lesbarraques@gmail.com"
-	<carmenasins.lesbarraques@gmail.com>, "admin@jweducation.in"
-	<admin@jweducation.in>, "reachus@fortishealthcare.com"
-	<reachus@fortishealthcare.com>, "investor.relations@fortishealthcare.com"
-	<investor.relations@fortishealthcare.com>, "ips@fortishealthcare.com"
-	<ips@fortishealthcare.com>, "feedback@fortishealthcare.com"
-	<feedback@fortishealthcare.com>, "ajey.maharaj@fortishealthcare.com"
-	<ajey.maharaj@fortishealthcare.com>, "privacy@fortishealthcare.com"
-	<privacy@fortishealthcare.com>, "online.support@fortishealthcare.com"
-	<online.support@fortishealthcare.com>, "grievances@fortishealthcare.com"
-	<grievances@fortishealthcare.com>, "contact.fbd@fortishealthcare.com"
-	<contact.fbd@fortishealthcare.com>, "manjeetsinghtrehan@gmail.com"
-	<manjeetsinghtrehan@gmail.com>, "contactus.fmc@fortishealthcare.com"
-	<contactus.fmc@fortishealthcare.com>, "contactus@fortishealthcare.com"
-	<contactus@fortishealthcare.com>, "contact@uncover.co.in"
-	<contact@uncover.co.in>, "info@faswealthpartners.com"
-	<info@faswealthpartners.com>, "pboudignon@atelierboudignon-architecte.fr"
-	<pboudignon@atelierboudignon-architecte.fr>, "hello@consciouschemist.com"
-	<hello@consciouschemist.com>, "consciouschemistsocial@gmail.com"
-	<consciouschemistsocial@gmail.com>, "info@kayaindia.net"
-	<info@kayaindia.net>, "care@kayaindia.net" <care@kayaindia.net>,
-	"WebJohnSmith@ckbhospital.com" <WebJohnSmith@ckbhospital.com>,
-	"John_Smith@ckbhospital.com" <John_Smith@ckbhospital.com>,
-	"John@ckbhospital.com" <John@ckbhospital.com>, "reachus@ckbhospital.com"
-	<reachus@ckbhospital.com>, "posh@ckbhospital.com" <posh@ckbhospital.com>,
-	"elizeclinics@gmail.com" <elizeclinics@gmail.com>, "info@dermaspace.in"
-	<info@dermaspace.in>, "cs@beautyofjoseon.com" <cs@beautyofjoseon.com>,
-	"info@dermaspace.com" <info@dermaspace.com>, "panil@kalyanihospital.com"
-	<panil@kalyanihospital.com>, "managingkalyani@gmail.com"
-	<managingkalyani@gmail.com>, "snhclinics@gmail.com" <snhclinics@gmail.com>,
-	"clinicaks@gmail.com" <clinicaks@gmail.com>,
-	"james@jamesbendreyaccountants.co.uk" <james@jamesbendreyaccountants.co.uk>,
-	"garekarsmd@gmail.com" <garekarsmd@gmail.com>, "jstory76@naver.com"
-	<jstory76@naver.com>, "eureka_skin@naver.com" <eureka_skin@naver.com>,
-	"emily@urbanedgebeauty.co.nz" <emily@urbanedgebeauty.co.nz>,
-	"kiran.k@intel.com" <kiran.k@intel.com>, "linux-firmware@kernel.org"
-	<linux-firmware@kernel.org>, "ravishankar.srivatsa@intel.com"
-	<ravishankar.srivatsa@intel.com>, "info@integratedwellness.in"
-	<info@integratedwellness.in>, "feadback@IntegratedWellness.in"
-	<feadback@IntegratedWellness.in>, "info@weljii.com" <info@weljii.com>,
-	"vibrance.ggn@gmail.com" <vibrance.ggn@gmail.com>,
-	"carmenasins.lesbarraques@gmail.com" <carmenasins.lesbarraques@gmail.com>,
-	"site.sac@epocacosmeticos.com.br" <site.sac@epocacosmeticos.com.br>,
-	"info@kayaindia.net" <info@kayaindia.net>, "care@kayaindia.net"
-	<care@kayaindia.net>, "care@wuba.in" <care@wuba.in>, "dpo-nida@nida.ac.th"
-	<dpo-nida@nida.ac.th>, "fj@amidagroup.in" <fj@amidagroup.in>,
-	"drvipul@niceclinic.co.in" <drvipul@niceclinic.co.in>,
-	"info@avyaskinclinic.com" <info@avyaskinclinic.com>,
-	"doctormananmehta@gmail.com" <doctormananmehta@gmail.com>,
-	"carmenasins.lesbarraques@gmail.com" <carmenasins.lesbarraques@gmail.com>,
-	"contact@uncover.co.in" <contact@uncover.co.in>, "info@faswealthpartners.com"
-	<info@faswealthpartners.com>, "pboudignon@atelierboudignon-architecte.fr"
-	<pboudignon@atelierboudignon-architecte.fr>, "info@eugenix.in"
-	<info@eugenix.in>, "pradeep@eugenix.in" <pradeep@eugenix.in>,
-	"arika@eugenix.in" <arika@eugenix.in>, "contact@vlccwellness.com"
-	<contact@vlccwellness.com>, "feedback@vlccwellness.com"
-	<feedback@vlccwellness.com>, "kdj4907@kmou.ac.kr" <kdj4907@kmou.ac.kr>,
-	"vlcc.hitech@gmail.com" <vlcc.hitech@gmail.com>, "contact@vlccgroup.com"
-	<contact@vlccgroup.com>, "satyendra.pandit@vlccgroup.com"
-	<satyendra.pandit@vlccgroup.com>, "valdilea.veloso@ini.fiocruz.br"
-	<valdilea.veloso@ini.fiocruz.br>, "mauro.carneiro@ini.fiocruz.br"
-	<mauro.carneiro@ini.fiocruz.br>, "contact@uncover.co.in"
-	<contact@uncover.co.in>, "info@faswealthpartners.com"
-	<info@faswealthpartners.com>, "pboudignon@atelierboudignon-architecte.fr"
-	<pboudignon@atelierboudignon-architecte.fr>, "garekarsmd@gmail.com"
-	<garekarsmd@gmail.com>, "jstory76@naver.com" <jstory76@naver.com>,
-	"eureka_skin@naver.com" <eureka_skin@naver.com>,
-	"emily@urbanedgebeauty.co.nz" <emily@urbanedgebeauty.co.nz>,
-	"kiran.k@intel.com" <kiran.k@intel.com>, "linux-firmware@kernel.org"
-	<linux-firmware@kernel.org>, "ravishankar.srivatsa@intel.com"
-	<ravishankar.srivatsa@intel.com>, "rejuvaskinclinic@yahoo.com"
-	<rejuvaskinclinic@yahoo.com>, "contact@ekosight.com" <contact@ekosight.com>,
-	"bindalclinic@gmail.com" <bindalclinic@gmail.com>, "info@dnsc.co.in"
-	<info@dnsc.co.in>, "dr.nainsi19@gmail.com" <dr.nainsi19@gmail.com>,
-	"info@ursaskin.com" <info@ursaskin.com>, "sales@shubhmlshah.com"
-	<sales@shubhmlshah.com>
+	<info@spaceyogastudio.com>, "info@reconfacialsurgery.com"
+	<info@reconfacialsurgery.com>, "rcobo@imbanaco.com.co"
+	<rcobo@imbanaco.com.co>, "termoplasticos@alpina.com.br"
+	<termoplasticos@alpina.com.br>, "info@vr-sap.de" <info@vr-sap.de>,
+	"info@vr-boardinghouse.de" <info@vr-boardinghouse.de>,
+	"lorraine.discoverygardens@gmail.com" <lorraine.discoverygardens@gmail.com>,
+	"mooshimtkd@gmail.com" <mooshimtkd@gmail.com>, "info@clinicdermatech.com"
+	<info@clinicdermatech.com>, "moni.malviya@clinicdermatech.in"
+	<moni.malviya@clinicdermatech.in>, "cd.ggn2@clinicdermatech.in"
+	<cd.ggn2@clinicdermatech.in>, "cd.amritsar@clinicdermatech.in"
+	<cd.amritsar@clinicdermatech.in>, "gmeditec@gilmdc.com"
+	<gmeditec@gilmdc.com>, "info@dermatechclinics.com"
+	<info@dermatechclinics.com>, "info@clinicdermatech.com"
+	<info@clinicdermatech.com>, "moni.malviya@clinicdermatech.in"
+	<moni.malviya@clinicdermatech.in>, "cd.ggn2@clinicdermatech.in"
+	<cd.ggn2@clinicdermatech.in>, "cd.amritsar@clinicdermatech.in"
+	<cd.amritsar@clinicdermatech.in>, "gmeditec@gilmdc.com"
+	<gmeditec@gilmdc.com>, "digital.doctoriduniya@gmail.com"
+	<digital.doctoriduniya@gmail.com>, "info@doctoriduniya.com"
+	<info@doctoriduniya.com>, "callcenter.bangkok@mission-hospital.org"
+	<callcenter.bangkok@mission-hospital.org>, "doctoriduniya@gmail.com"
+	<doctoriduniya@gmail.com>, "clinic.arc.in@gmail.com"
+	<clinic.arc.in@gmail.com>, "appleskin.skin@gmail.com"
+	<appleskin.skin@gmail.com>, "info@medklaire.com" <info@medklaire.com>,
+	"info@lifeessentials.co.in" <info@lifeessentials.co.in>,
+	"online@lifeessentials.co.in" <online@lifeessentials.co.in>,
+	"essex.fighting.arts@hotmail.com" <essex.fighting.arts@hotmail.com>,
+	"care@bombayshavingcompany.com" <care@bombayshavingcompany.com>,
+	"charu@bombayshavingcompany.com" <charu@bombayshavingcompany.com>,
+	"razorpreneur@bombayshavingcompany.com"
+	<razorpreneur@bombayshavingcompany.com>, "Career@bombayshavingcompany.com"
+	<Career@bombayshavingcompany.com>, "Hr@bombayshavingcompany.com"
+	<Hr@bombayshavingcompany.com>, "John.Doe@bombayshavingcompany.com"
+	<John.Doe@bombayshavingcompany.com>, "Last@bombayshavingcompany.com"
+	<Last@bombayshavingcompany.com>, "Doe@bombayshavingcompany.com"
+	<Doe@bombayshavingcompany.com>, "LF@bombayshavingcompany.com"
+	<LF@bombayshavingcompany.com>, "DJ@bombayshavingcompany.com"
+	<DJ@bombayshavingcompany.com>, "First@bombayshavingcompany.com"
+	<First@bombayshavingcompany.com>, "f}{last}@bombayshavingcompany.com"
+	<f}{last}@bombayshavingcompany.com>, "jsmith@bombayshavingcompany.com"
+	<jsmith@bombayshavingcompany.com>, "abc@xyz.com" <abc@xyz.com>,
+	"contact@newlooklaserclinic.com" <contact@newlooklaserclinic.com>,
+	"ranuncleclinic@gmail.com" <ranuncleclinic@gmail.com>, "neo@neolook.com"
+	<neo@neolook.com>, "shailesh_14264@yahoo.co.in" <shailesh_14264@yahoo.co.in>,
+	"parichay@newlooklaserclinic.com" <parichay@newlooklaserclinic.com>,
+	"info@clinicdermatech.com" <info@clinicdermatech.com>,
+	"moni.malviya@clinicdermatech.in" <moni.malviya@clinicdermatech.in>,
+	"cd.ggn2@clinicdermatech.in" <cd.ggn2@clinicdermatech.in>,
+	"cd.amritsar@clinicdermatech.in" <cd.amritsar@clinicdermatech.in>,
+	"gmeditec@gilmdc.com" <gmeditec@gilmdc.com>, "drskbiswas@gmail.com"
+	<drskbiswas@gmail.com>, "vasu@gmail.com" <vasu@gmail.com>,
+	"info@vidushiagarwal.com" <info@vidushiagarwal.com>, "dr.vishal123@gmail.com"
+	<dr.vishal123@gmail.com>, "vagrawal@delveinsight.com"
+	<vagrawal@delveinsight.com>, "contact@drbatras.com" <contact@drbatras.com>,
+	"info@drbatras.com" <info@drbatras.com>, "trichosmo@gmail.com"
+	<trichosmo@gmail.com>, "Info@supremephysio.com" <Info@supremephysio.com>,
+	"info@physio.com" <info@physio.com>, "customercare@supremephysio.com"
+	<customercare@supremephysio.com>, "info@intercarehospital.com"
+	<info@intercarehospital.com>, "saxenahosp@gmail.com" <saxenahosp@gmail.com>,
+	"rajnoni@gmail.com" <rajnoni@gmail.com>, "bpratayksha@gmail.com"
+	<bpratayksha@gmail.com>, "info@shreeslimming.com" <info@shreeslimming.com>,
+	"sumitskin77@gmail.com" <sumitskin77@gmail.com>, "WEBcontact@dermawave.in"
+	<WEBcontact@dermawave.in>, "contact@dermawave.in" <contact@dermawave.in>,
+	"dermawavepanipat@gmail.com" <dermawavepanipat@gmail.com>,
+	"ryu0655@hanmail.net" <ryu0655@hanmail.net>, "enquiry@almassaclinic.com"
+	<enquiry@almassaclinic.com>, "a2zshows1@yahoo.com" <a2zshows1@yahoo.com>,
+	"smhairtransplant1995@gmail.com" <smhairtransplant1995@gmail.com>,
+	"aayatclinic2021@gmail.com" <aayatclinic2021@gmail.com>,
+	"klantenservice@pipoos.nl" <klantenservice@pipoos.nl>,
+	"info@gaurayurveda.com" <info@gaurayurveda.com>,
+	"support-modicare@modi-ent.com" <support-modicare@modi-ent.com>,
+	"support-modicare@modi.com" <support-modicare@modi.com>,
+	"grievance-modicare@modi-ent.com" <grievance-modicare@modi-ent.com>,
+	"customersupport@livemint.com" <customersupport@livemint.com>,
+	"news@medigatenews.com" <news@medigatenews.com>, "jane.doe@modicare.com"
+	<jane.doe@modicare.com>, "vxx@modicare.com" <vxx@modicare.com>,
+	"nxx@modicare.com" <nxx@modicare.com>, "modicare@modi-ent.com"
+	<modicare@modi-ent.com>, "support-modicare@modienterprise.com"
+	<support-modicare@modienterprise.com>, "support-modicare@modicare.com"
+	<support-modicare@modicare.com>, "harvestfamilydentla@gmail.com"
+	<harvestfamilydentla@gmail.com>, "harvestfamilydental@gmail.com"
+	<harvestfamilydental@gmail.com>, "hirdayanand-modicare@modi.com"
+	<hirdayanand-modicare@modi.com>, "manglikelec@rediffmail.com"
+	<manglikelec@rediffmail.com>, "jane@modicare.com" <jane@modicare.com>,
+	"janedoe@modicare.com" <janedoe@modicare.com>, "JohnSmith@modicare.com"
+	<JohnSmith@modicare.com>, "JohnSmith@timesgroup.com"
+	<JohnSmith@timesgroup.com>, "info@modicare.com" <info@modicare.com>,
+	"John_Smith@timesgroup.com" <John_Smith@timesgroup.com>,
+	"customercare@lookssalon.in" <customercare@lookssalon.in>,
+	"accaliaclinic@info.com" <accaliaclinic@info.com>, "drskgupta@gmail.com"
+	<drskgupta@gmail.com>, "info@dermaspace.in" <info@dermaspace.in>,
+	"info@ipalclinic.com" <info@ipalclinic.com>, "drsheherbano@gmail.com"
+	<drsheherbano@gmail.com>, "www.facebook.com/@ELALA.Clinic"
+	<www.facebook.com/@ELALA.Clinic>, "aphc@apollohospitals.com"
+	<aphc@apollohospitals.com>, "rpsinghskin@gmail.com" <rpsinghskin@gmail.com>,
+	"kochidermatologist@gmail.com" <kochidermatologist@gmail.com>
 Subject:
  =?utf-8?B?8J+MnyBQYXJ0bmVyIHdpdGggVGhlIEJlYXV0eSBCb3h4IOKAkyBZb3VyIE9u?=
  =?utf-8?B?ZS1TdG9wIERlc3RpbmF0aW9uIGZvciBBZHZhbmNlZCBTa2luY2FyZSwgQmVh?=
@@ -169,10 +165,10 @@ Thread-Topic:
  =?utf-8?B?8J+MnyBQYXJ0bmVyIHdpdGggVGhlIEJlYXV0eSBCb3h4IOKAkyBZb3VyIE9u?=
  =?utf-8?B?ZS1TdG9wIERlc3RpbmF0aW9uIGZvciBBZHZhbmNlZCBTa2luY2FyZSwgQmVh?=
  =?utf-8?Q?uty_&_Training_Solutions!?=
-Thread-Index: AQHb36m8St4yX4ZVAUGYEtqAqkjfgg==
-Date: Tue, 17 Jun 2025 17:04:09 +0000
+Thread-Index: AQHb36oCs2Rv8V0eBkOYr0VkvVMrnQ==
+Date: Tue, 17 Jun 2025 17:05:59 +0000
 Message-ID:
- <PN3P287MB3142CFC5FEE27D5574158521BC73A@PN3P287MB3142.INDP287.PROD.OUTLOOK.COM>
+ <PN3P287MB3142B4222A069DC5273C893FBC73A@PN3P287MB3142.INDP287.PROD.OUTLOOK.COM>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -182,103 +178,103 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=thebeautyboxx.co;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: PN3P287MB3142:EE_|PN2P287MB2160:EE_
-x-ms-office365-filtering-correlation-id: 30ca7bd6-f971-4092-7b78-08ddadc0fa21
+x-ms-office365-filtering-correlation-id: 7820cc45-3b9e-4753-d357-08ddadc13b8c
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
  BCL:0;ARA:13230040|1800799024|41320700013|366016|376014|10070799003|586017|34036016|7416014|921020|8096899003|38070700018;
 x-microsoft-antispam-message-info:
- =?utf-8?B?clNLbER0L3YvUXZHMDYrNTJmNk84NHFxVFQzV0w5d2dxbUlmY3VNL2FzK0RO?=
- =?utf-8?B?alp4dXBiV0ltTVVOQzNEcE1UdWZnVjBxNWJxT1NEZTQ4ZHovaG01OFQrRnJh?=
- =?utf-8?B?emVTVElORU5HZnU3TFMrUkJuZHVyQ2Eyakc5ZTF3cE9lSFN0MldsOUdMUzVF?=
- =?utf-8?B?bDFVRWtXUThEOVg3K2I5a0puYjI2YVJ2enFSUHFWeHBGNWxXNE5jNjNDQ0Nr?=
- =?utf-8?B?SXhvZ3hWRmhIdEo0bndiWkZEa0tpZ3ZCWHFLRk9VdERxRUhSbUhSNUMyUzBO?=
- =?utf-8?B?UVhMOVVpRmhJYUtISE43Y3l2UWYvMTVHYm1CaU5UM3Y1USs3UFoyWmNCTmhl?=
- =?utf-8?B?UnRXcXRHS3FXR3ZTQTRIbHFjajUyQzNKTThaRThaL1A5ZmVhNTRZelZEekRj?=
- =?utf-8?B?bGZSUFRETVNPU25jVnBEcnc4bVhpRVRtLzh3UERBbDFSZlh4WE1oR0Vqa1pD?=
- =?utf-8?B?ZllNZUpETTZZQzlYTFRjZGxwdk5VRlVHbUJqRzZmMU03NHNIL1J6ZVgyV3hV?=
- =?utf-8?B?NHBBUEZQcTRHZDZ3c0drU0tIbDlraEhVRzExYXg3TEJsL3FYQllITG13Y2hR?=
- =?utf-8?B?Mm1yU3ROdFpNc1llZHBnSGJHZlA2ZlZ2QTZ1ZG1LNG1CWG50alk1bGRPTU1o?=
- =?utf-8?B?SmxsMHo4RzdWUkFFUVRjNzRBRmNETE91M204WCtVSDVROTVHanlwalNnaEJX?=
- =?utf-8?B?QkNQNXY1ODhSYU9iQnZLVThqb2w3R0VwdHBRaVpHRWRMOU9zazBDMDNTZFFj?=
- =?utf-8?B?OFBDMkdHMlRKV2kxU0lvZTdPY3pQcU9OeDlMWExIZnBpclp6bHpDRmhyM25Z?=
- =?utf-8?B?Z0R1bStGMjZZL0IzWDRPK1EvN0RTSmZjM0U5NVdIZG93YmNFK21ZVHBxWnNI?=
- =?utf-8?B?N3FtaXZ1eDB4em5uWjRaQnRhYU5UNUJobm9mUDZTOFpzbjFKRlhaM3ZxdVJp?=
- =?utf-8?B?cUc5TFhiblJreEo4UFQxWmVFZjNNYUtpdGladTU5WFZoVnp1cXVjK3BQZXBZ?=
- =?utf-8?B?azdVLy96eGVmK1JSUDhxb1BxMzR0QUtZcW5KY3FxMlg3ZlBTcnZobXQrZnRn?=
- =?utf-8?B?VlJTcytFQ1pZWFJqdGNMdThqZjhuN3FPZFcxYkRKQTlOekF6WWJmWFpuWjU4?=
- =?utf-8?B?YWs2VU1PZDhTZHllQTNqSVVQcE9SeG5YWWlhVmNDRjJhc2QxZExFM1pCYkJQ?=
- =?utf-8?B?ZGxsUU5JSk1iRS9jL1JJZ2Jqc2V0M01lRG5NR2dNUnZVVk9WMTFWaFQ5clFv?=
- =?utf-8?B?ekl2UFhkK3JIOEZZUWdXYXVWeDQvVzVSaGczMWZaN21vZ29VOHcxSmxGdmhV?=
- =?utf-8?B?b3dyVm1FSUJGRnNGM1hlOUdiMU9xNmt5UGd1TFN2MnJVWldlR0hLQTJvTllC?=
- =?utf-8?B?SzUwR05PRStBbEE1VjRYdE5rQXhVMHNDNGhxNHhaZlIwNnJ0K1FPSWJHSXMx?=
- =?utf-8?B?aTFjN0J1Y3hYSjdGRURjY0gyWGR1RG45ZWgrQzVRWnZoS082OTBOeEZDWnQ1?=
- =?utf-8?B?MGFQTFdQcHdIRGZ6a2dGMW1YeTZ3MDRKQ1NuQ1VqdThnSmsveGVEcUtDRkJr?=
- =?utf-8?B?cWpEZytXQnhTNUtRQWNidXJHdEM3UHlkajl3b1RUVnorc0ZNQlNFVE05NWI5?=
- =?utf-8?B?SGIzK2pocUxlaEsyck01TzgyVGhCVzd5TmwwaG9RWG9iYjJ0RDlRdXk4Qjdm?=
- =?utf-8?B?NjMvdm1Vb3pFRml0dG5UbW9OS1ZzN2IvNDNJSUwxdGtQYms4alhROU45bHVZ?=
- =?utf-8?B?cldLanp6U3M1bmVYbzhici9BU0hyaU8wRE0ra0hUR0IwMldBeWNHekpycm5y?=
- =?utf-8?B?RGZjTUVtdWgwd253SmFxV1hORUc1Vm9YYXc3citCWStMaXBYSi8ydzhvTW1t?=
- =?utf-8?B?T3RFNmwxUGRCOFg4QlFnNTRXMmx3R2hkRlJKMVVudlBzdk5NbXBRbjNMSnZR?=
- =?utf-8?B?cEtZeDRlQmpGK1dqMlRDbGhaTEhwRkEvMjQzcm91TzFNMEFtSlEyc1pVT1VC?=
- =?utf-8?Q?+rMkDpYimM/pIN2hor+LyZlBKLP+vc=3D?=
+ =?utf-8?B?akt4WDF4aWR3M2NVMm1JVWRSK2V5dDlTdXBldG84ajZMOEpVMTZJc2N3Rm9E?=
+ =?utf-8?B?YUVNcXdTRk1QRXl4cTlHNGtxZFYzQlFjVHhVUERtSEg1U1J1VkRldllLaXF4?=
+ =?utf-8?B?bnJkWXpWbFJvdTE4QThPS1BSUWhIYTdMaDZxUmNUVTNlYzZFUkQwTTJWQ2d1?=
+ =?utf-8?B?NVN1UEV4K0lBcGYxTWUzamgrTU5WL2IwR2lCNWtlUnFwNE03cTRoY1JnRWQr?=
+ =?utf-8?B?bllXQk5KNVduVFpiZ3h2RTlzTitqTEdjcTA2aXB6dXo1WEliMWw4Rmw2VjJl?=
+ =?utf-8?B?MjJLMEpJZkpPeXdrc002NThZUC9vN2J0aXIrNHpaVEFFMHpqU210Y251NVdm?=
+ =?utf-8?B?bC9pcHMvZ2VtdStaZ3I5aXpSbmtWVE1ITDlXSStTbE9Ndk1GWERQUnV0cUt0?=
+ =?utf-8?B?dXRodWY5eTc4VmVRY3BHc0ZBa0lMOTBUa0dvaGtCV3ZUQlhyUlo2S1N0Y01C?=
+ =?utf-8?B?OE4xODIyV2xINkQxMGgxbHY3dHFJVE1rd3NFb2I1WFRWQ2xiU3AzT1RNOVNr?=
+ =?utf-8?B?RzNNblNEN3ZrcjJxdVBxYWI0N2lmdWhQYU1yRFFVR3FmZTJFUjh4Z3gyMFpB?=
+ =?utf-8?B?Y1RVQ3dJOHE4aVhnOTBZS3UvSlJlOStIS3JKZCtJQU5Sb0dWQzZVWE05bklG?=
+ =?utf-8?B?djBrMk5vQ3M3QzZpQWVsMVcyTW53VkovaDdWQ0pHTUFLY3JBUW0zN05SUldF?=
+ =?utf-8?B?bzZUMENzVFNpWm56NHVqMFBQWGpqZ0lINjlYRkI1M2Z5TGt5NFZlNlZmMFB3?=
+ =?utf-8?B?bXFLQVZHdzV2NU9IWXZuVVFIOXlYMmgrbklnV3dwK1ViSG1adE85cDRqaFp1?=
+ =?utf-8?B?TEluK2hWRUxld1QwNHlzMmw4azJ6b2pXQitGNU9yQ3dMRmlCQ0NaLy9CYXhw?=
+ =?utf-8?B?QUlTK2pCcUJKNXQrQ21FZDJzL3lSNUhhMVdSQmZEcldWaVB0VnVXc1BsNVZ5?=
+ =?utf-8?B?MDl1QjAvT05tMzFBR0liNTd0d0g1ZTRHclNQanVKM1VaTnRHVnl6MnF2eDll?=
+ =?utf-8?B?VUc4WDJsY0FkaWhzekRpN0JNdGZPTUVzOGhCYTh1Smx5UG9JTnY4U2ZEczFK?=
+ =?utf-8?B?ZFkrRWFETFJVdmxUZmllWnViemJKY2hubGlrU1drajBNc0JaU2pKdGxycG1B?=
+ =?utf-8?B?dUY4cFdKV1BwZWhHVzlrQlphSGJQTUpiODZlSy8wMnhJRVJ0RmpSQk1ldnBB?=
+ =?utf-8?B?QVd3S1pwWmlEdnRpdDJ5N3FWc0lxVGFkR2k3dXR2VThKQmlhQnA2anFxcFZq?=
+ =?utf-8?B?OThhN0ptRFdiekFvcjVkbGZPTnBjbWtNdGprTWhSQ0ptOFl2ak9MaHpyOTBj?=
+ =?utf-8?B?NklQR1ZjRUlVakJmNm1IS1NRVmtIb2EwYkNkbS9adkxHaDZyTGl2aWZ4N21C?=
+ =?utf-8?B?aXg4RStJQlhMRTZUaFd3b3VmZEZ5SFZxMXVwN3hEeVl0bnFaTDgwV2djVDJD?=
+ =?utf-8?B?cXZTMzk2WWRuWUs0WkdaeG44MExoN3YzRnVnSm9uQzA5bWxIRVUxME9wblA3?=
+ =?utf-8?B?cFVzYVhIa0o4ZmJHaGpWVVp5bHZqMnBML0d4dktzbkdLY1J6VHV5MktZWStG?=
+ =?utf-8?B?K2lNb3VJWDlpN1NXRlNDdnV3MjBnZnQ0WmRtR1ZKdmMyT3RXd2lvYUp6ZEFw?=
+ =?utf-8?B?R1UzeHY5elFzcDUwUVdNUGhLK0Y1cVRaVzJHa1ZlSHlDdG5CdFY1Uy9Mb3h3?=
+ =?utf-8?B?TUNFR28vR1QrdGtlWGJ3cklpWWRHU3I5ai9MNkQvNU5YRDFhay9IbXZaY01l?=
+ =?utf-8?B?aUh4VnNMRmI0Y0R4ZFVxcWNqc1pLWWppaTY5cVRBcDBhWTZTSFRxRDZxTDlU?=
+ =?utf-8?B?Mm1WN2NGQlRpeHplaTN1VkNnSVFveExTZjRkdHR3QnhqbjhmNmsxeHY1SVor?=
+ =?utf-8?B?WW1BOE4vWFliY3JmRW9PWG1JVWtEQlNUUXlZdVhYZ2MwVFk2cHEyYk5mbnlN?=
+ =?utf-8?B?bWZacHBKcmRaZll3eE1PdEhCcE0yTTNaYlV0Nk9Fa3BiUnBFS3dkWXg5YkhS?=
+ =?utf-8?Q?Yl1CtoCZ+e7Jzcs8noJ08WzMh1Rk+M=3D?=
 x-forefront-antispam-report:
  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB3142.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(41320700013)(366016)(376014)(10070799003)(586017)(34036016)(7416014)(921020)(8096899003)(38070700018);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?YWVrOGlyMS82OFpKTm4xVW82VUt6OE5zc1FObjdTUHF3bEhydU1SUDhtcTha?=
- =?utf-8?B?elJTdVQ5TWF3a0F0SnB4Mlg4Q2llZk8vOWR6dmNiSnl0Vy8wbURMNE5DcjV0?=
- =?utf-8?B?akYwclBMZm9BYzRqWkJZanUwUitMUGNSaW43SUFiUTZBUVFyR2ZESXFpVkxt?=
- =?utf-8?B?Mll3OHNNYTVaV2xkWktUQ1RTaEdyOVE3ZVpiWTRBZkE2TjFrRStXVWhyVUJa?=
- =?utf-8?B?RkptN0NzbFBVTmhDOFdzR2RpeGZPMmwxMFhncmliZFhZaEVWMitONDZ1VytX?=
- =?utf-8?B?TEczVnc2bkR4ZzF5b1R2RUw5UXhrUFVhRGpMdkJlVjRHck0yUnF5NFJPbzJw?=
- =?utf-8?B?VXc4R2piMnArR1dSMXlwZVlMeS8vOHZ0ZU9NeWNGc3NoSDU3dlB2d25IcEJV?=
- =?utf-8?B?RHR4TVQvcUNwUmJCZWIrUk1qUjVLaUxDT0tDcUthY1R6bWF6d0N0V2NFbUFq?=
- =?utf-8?B?d2Z6YjY0NnFGZ0FUcFM1M1YyRU1zc2NUViswQW41NVFkYVhNY093SmZzem9F?=
- =?utf-8?B?WkM5QW14UlZQNk02NHpmZ0J6QzRIa2V5Y3l6UVpNY1BjcWtaTzVETUYrcnJM?=
- =?utf-8?B?ODU0MmN5UWF6SUxqa2NaZzlvanJYbWh1OGdmeEZLa0hNU2U3cDFNRlVRZWdM?=
- =?utf-8?B?RXdpRGI1b0lwWlQ5THdjRmRaNmNEbXZxRXlMUnVWUk5RaGJXa3dGclBOekw3?=
- =?utf-8?B?QXN4cGhRV1hIVlUyVzZPMUxHRW5kb1pEODIwOWR1TDBzVW1HUzNraVB4MkN3?=
- =?utf-8?B?cVAvQmEvajVrbU8zYjFrdDNnN1V1OXFVMGhTclFtUTlqQk9lbEJmdGdKUEsx?=
- =?utf-8?B?VFJieHQwT0I5dU9zZTNUVkxOWngrKzJHWnFHOWFLVU4vczFRcGllSktUSnlI?=
- =?utf-8?B?TVF2T3pjakdYN2F0Z3pkRVpmU1FEYXh1aThkWVU3NVcvVXRySG1Dd0kxb2R3?=
- =?utf-8?B?L2l5Rk11a3h4MGkxaXRINU9iOE9mWHVodlczTXZHN3dzQzN2Z0ZPYlVIaDFI?=
- =?utf-8?B?NTMrNlZsaVc5VityY3NIRzhKbDRDOE9wdm16RElPdmFkeStLSVlqd2VwWmVs?=
- =?utf-8?B?Z2lSazJ3Njh5QzhMYjJoYWptUFFSd0JtZG5HTUM4Ynd4bmM5Z0g2TnRLSTBS?=
- =?utf-8?B?NFVPNytMUkd3c1hUR1pLWVg2N3FyODVjeWtkVEJTbUJoSlRWRDc1cmEwNXdO?=
- =?utf-8?B?dmoyN1hJRm5PeEZsem5hbXM3Z2l4WHdWWi84YTdXdGlvMFljYXFLaHBLdGwz?=
- =?utf-8?B?SllsTndFZTZQVEIwSHFWS2lNdTRERVd3TlNROXdBVUZ6b1M0ZTBrNlNxSUYw?=
- =?utf-8?B?WXFVODlOQ3ZCL0N2UVBBSWk5U0ZNTkJMdC9iZ3BNejViM3BmQmd1OTQ4K2lP?=
- =?utf-8?B?di9ueC9hNEkyNjdVQnBoQWZOMHllYzY3MWJVZ1c1bUxOcjFRZ0NDNzV4NDZ3?=
- =?utf-8?B?MUFNeERqaG9LcnJML2ZkNmJNTFBHbEp3bXcrVTk0VTd2eTAyN1FNUEphWkpz?=
- =?utf-8?B?VWhWL2J0WmlERHgrc0RhZzNtMGRTTHNNTjRaRnpHYUZvWXk3aDJ0VFhUbHI5?=
- =?utf-8?B?OWVNdVR1dDYzL0F1L1pDK05JNWtKYTNrTloxRnlUV3JLWnF1VGNNVWNIbW9k?=
- =?utf-8?B?U1ZPa2x0QTdqdGtPdDM4ZWh1Vzh0cjRBT0cwaDBKZjMvNWV5ZFU0eDJYQXEw?=
- =?utf-8?B?WGdoN1ZBdWlHRmNuSVNDbVBaeEpTQ096KzhEemROalNrWW9hVHA2U3pMQitH?=
- =?utf-8?B?alVQcTRqMzNydjFQK2tGSzREc25rVzJYMWQyamEzQzFHVGI1QzdxeC9iZ0VD?=
- =?utf-8?B?aEE4TitFUy8wNTFCZUZ6VlpTUFQ1V2hwdkRvRVdtNGNYOVVkMWc3U0IvL0kx?=
- =?utf-8?B?ZEo0SGNwbGdsdG90MDdFa3J1T3B2WndKZUJEeVl5UUZmNkh4QkNDZTEwRUJZ?=
- =?utf-8?B?UVJHNnlGWHJjZWlzRkRESG1hV3M2OXp6aXdlVmJPSXNKdEpZTktVUzhCbzFm?=
- =?utf-8?B?aUp5OFpiSzZlcHRQZkF2OFFiQnh0T3VyUXZZZ0M4U0w1d2FDbTN1citMUS9I?=
- =?utf-8?B?OHNOaktNOUtqTXNwMW9VWXdQOVo0RWxaTHFkdnpyallmR2xqV3FSTGcyajlo?=
- =?utf-8?B?TllKYk9JbTdUZjVjejhvd05jaFlSTHhjVGVmdVBjVDlDUi9vUnFrbWtJUFMr?=
- =?utf-8?Q?Y6etmbui2BT1vJzLbyZYU8zGAyZEefcrLWEyJietEIIc?=
+ =?utf-8?B?bkdzOVBVTzZ6K1FFZSthdU9KRFlHbmdwZkxFY3Q5a3JDQXErSlJsUU9EcnM1?=
+ =?utf-8?B?V2p4V3FWTHF0N2JZZXR0NDhZRTVncHUwelE4NDZBVHNKTVJHVzhoMWRnY0tD?=
+ =?utf-8?B?dGpqWG9ucVVmYkFoTjd6RDNLbXNMSk5NZGkvNW5FNXlHdkZZekJ4MG5SVG1q?=
+ =?utf-8?B?bzlsOE83NXpJYkFFQ1Q2MkdNM1FIY2hsaGtITVdMbGpkaVdFL1BjR0xXaHpE?=
+ =?utf-8?B?NytTNGI3bVhBTlUrQnlYUXlUT252b3dxRWtPS2l5SE1qUXVtNGlxT2lSR1lz?=
+ =?utf-8?B?RFRjL0wwVmFBbW41UUxYNW15ZjZ4VWd4aDhwQ2RCQitJWmtlYkNBMnVhS2Qy?=
+ =?utf-8?B?TnEvMUIxMTFjcFZLbzBtSDdISUNIMTZHREE5TGk5clJCZDRLSGhkM0grTjlQ?=
+ =?utf-8?B?VGxSTVhIeUYwSFoxOVRZUDJjWUYzY0lOTG1CTHBKSU1sVWR3eFN3TlJlalRx?=
+ =?utf-8?B?eTkwa0plQ1lLS3ZwMEM4ampib0FhRkJNK1Yxc1VhRE1aY1liMFZIdjkzcXhC?=
+ =?utf-8?B?TXY1R0hnWHV4RUl4V2xhcU5uZDNxcThEOVY3U1E1SnlKZ3RwYWwzSEhMNUFX?=
+ =?utf-8?B?UEQxdUVZNkdEL2RDYTVGL1FYRUNHa0lnSzArdldMdEk2cHViQ1lSRWVFaEtT?=
+ =?utf-8?B?WDhBMlJJTkFHazhEMVpFU3hBenoxOG1wZGxRa1h6aENhK0lFbVAyQ3V1NFpo?=
+ =?utf-8?B?RTAvTjNIRlJOODhHQloxTERPNzdqOUlPSklnYklucjlPTVZ6TU5UWWtJaTVw?=
+ =?utf-8?B?djZpU0ZrTHE4UHlpblpIUTdaelNUYU5xNlhYbG9hOHJkL0FERWtmeFNTbWhW?=
+ =?utf-8?B?ejhHK1RHeTczaE5XUnliZm84SHpYRm5jb3JUanV0WFBJK2l3NlgvQ1NVb2ox?=
+ =?utf-8?B?Y2tBeWVWQnN4V2pIZEllUmhIWTdHdVB5YnRjb0ZHUWd1Y2dXSjZCMnRqcFBJ?=
+ =?utf-8?B?R2JVZTN3a2ZkV2ZCWlJJc093ZjZndG1rdWpqSmxDZk44aTR4NnorNjg0dloy?=
+ =?utf-8?B?cmFuOVdjb2l1Nm1zSEIvcnZZTEl3bUI3MitqWGNEOW4yQ0ZsN3pZSjVVLzd0?=
+ =?utf-8?B?TTJXNzB0VTk5RzVmcERET2RpNzl5UHB2WlYwdDZoajVERkgyTmNSU3dvaVQ3?=
+ =?utf-8?B?M21zc1hvaEJiaWZDSzJrR3E5a0V2UUJ3UTQzUUlhWjVLNGllcmJTY3JUWVFS?=
+ =?utf-8?B?T2pWYk0rc2NLL1U3a2hsTVkrVmdyV1ZWcStoYzQxRkFmSVBENFVwL1RoVkJ0?=
+ =?utf-8?B?TG84TDNjUU0yN2F1UjdReVRBMm5JZ0diQU03UmVBUkJqRnp2cnZZUkxzUXhG?=
+ =?utf-8?B?NUNiZzU2aGJXU0xjVEhjV2M3eXdQNnpiS2JYTStMTkwyS0NGYnBPemthNWtO?=
+ =?utf-8?B?N2tVY0lKWUFDRHBqajdhVEJFRFh1OHd2REtaVHRaK213OEwxVm91U1dJN3hw?=
+ =?utf-8?B?bmsydldrazRkNFN5eFgwOEVLNVNkRWlDNjhqQWMvQm1NbjUyd29GcGZrQlh6?=
+ =?utf-8?B?RktSbkRVRzRyV011L3dGZW5wR1NSZTArTFFzM1pwMTNLTTFEMVhCWEN1U0hu?=
+ =?utf-8?B?dEFSR3dKbTN0NEZ1UjVDWmVqVnhuRS9hWHV2Q3lkU0Noa2dYMXFTcFk2ZG5P?=
+ =?utf-8?B?VGo4WU9RbXBoMFlVY3piakkrc05oQU8zU0FOQjd1YlVMUmdJOTI1NjBlbTRZ?=
+ =?utf-8?B?UTRQU1JqdEo4N3dDSUJ2Vm11Vm9lSEM5Y21FRUZjNzMraXJRRFhyWGM3bGdh?=
+ =?utf-8?B?M3FEQjNCaktlWVRuVUNjZndoRlNETU9wNmM5dmhjTHNZODNDL3hPeGlGOWlv?=
+ =?utf-8?B?UzNGYmdLeHhISXlBelNvZVhrWG1GVnFXRHQxTjVRdk9vbzVuc0pIUERqU1BS?=
+ =?utf-8?B?Z0wvVTU1b0F1Z01rVzRSSkk5bzFIK0g0WituWS9MbjhvSEFUUlNSN0tqQ0dr?=
+ =?utf-8?B?TjZlMCtZMFp4RVd6czVSU1B1WE9iaVd4OFFYdHBzMDdOUFdLTHNtdi9QaU1p?=
+ =?utf-8?B?SDFTZDlRcUVXK2NpbkpEQklYSGJ6ZWZnU1BNSnlaSFpaNDdrbmt1cjZTdXVp?=
+ =?utf-8?B?c0Foa2FlRHZjTWxKd092K3djUDN0SVhWWnZrNVNsRk5WQmJEMERDa3M0TVpk?=
+ =?utf-8?B?N1Q2TGIyK0dNK09KaFhGblhUcUxlT0ZoK2hmaWV4aHFDRHkyNEt2eWphOGtJ?=
+ =?utf-8?Q?gFewW7PwKfYlZBJgCtViS7Qwbe9JQ2VxCLTYou4C74EJ?=
 Content-Type: multipart/alternative;
-	boundary="_000_PN3P287MB3142CFC5FEE27D5574158521BC73APN3P287MB3142INDP_"
+	boundary="_000_PN3P287MB3142B4222A069DC5273C893FBC73APN3P287MB3142INDP_"
 MIME-Version: 1.0
 X-OriginatorOrg: thebeautyboxx.co
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB3142.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30ca7bd6-f971-4092-7b78-08ddadc0fa21
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jun 2025 17:04:09.7788
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7820cc45-3b9e-4753-d357-08ddadc13b8c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jun 2025 17:05:59.5476
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 955239e0-76d2-440d-b6b9-57d8b170ec58
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KkTR9+8wbl9UnKnMU9H4x6/tKg/mcWEmKd5HQipQRem7MAl6cVA6QAxlRwb9zapuR18d9EBkXGDmKLfWD5ms3g==
+X-MS-Exchange-CrossTenant-userprincipalname: 3cUF5+tLOp1/RJ+t+pG6VoiLJaz8EQJXygQArLV7HafsmNS69r2NIpCcxx/mfaCFGIBYu5ZXykVOkDCPcCECBw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2P287MB2160
 
---_000_PN3P287MB3142CFC5FEE27D5574158521BC73APN3P287MB3142INDP_
+--_000_PN3P287MB3142B4222A069DC5273C893FBC73APN3P287MB3142INDP_
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 
@@ -319,7 +315,7 @@ CvCfk54gKzkxLTYyMzkxMDI1NjggLDczNDczNDEwNTUNCvCfk6cgaW5mb0B0aGViZWF1dHlib3h4
 LmNvDQrwn4yQIHRoZWJlYXV0eWJveHguY28NCvCfk7IgSW5zdGFncmFtIC0gdGhlYmVhdXR5Ym94
 eDgNCnwgRmFjZWJvb2sgLSBLYWphbCBSYW5hIHwgV2hhdHNBcHAgLSA2MjM5MTAyNTY4DQoNCg==
 
---_000_PN3P287MB3142CFC5FEE27D5574158521BC73APN3P287MB3142INDP_
+--_000_PN3P287MB3142B4222A069DC5273C893FBC73APN3P287MB3142INDP_
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: base64
 
@@ -567,4 +563,4 @@ dFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0
 OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQo8YnI+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4N
 Cg==
 
---_000_PN3P287MB3142CFC5FEE27D5574158521BC73APN3P287MB3142INDP_--
+--_000_PN3P287MB3142B4222A069DC5273C893FBC73APN3P287MB3142INDP_--
