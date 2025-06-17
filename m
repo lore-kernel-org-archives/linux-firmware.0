@@ -1,566 +1,249 @@
-Return-Path: <SRS0=rpXZ=ZA=thebeautyboxx.co=info@kernel.org>
+Return-Path: <SRS0=KASK=ZA=modi-ent.com=support-modicare@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4804DC71157
-	for <linux-firmware@archiver.kernel.org>; Tue, 17 Jun 2025 17:06:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7DABC71136
+	for <linux-firmware@archiver.kernel.org>; Tue, 17 Jun 2025 17:06:24 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 2C14EC4CEE7; Tue, 17 Jun 2025 17:06:05 +0000 (UTC)
-Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazon11020140.outbound.protection.outlook.com [52.101.227.140])
+	id B2E00C4CEE7; Tue, 17 Jun 2025 17:06:24 +0000 (UTC)
+Received: from mta-out5.pod18.euc1.zdsys.com (mta-out5.pod18.euc1.zdsys.com [188.172.138.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 23B9AC4CEE3
-	for <linux-firmware@kernel.org>; Tue, 17 Jun 2025 17:06:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 23B9AC4CEE3
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=thebeautyboxx.co
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=thebeautyboxx.co
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=td0WNgbdICdCafJyn2pBI0EHY6OvG2NOmav1260/g0yuATDZIh9N2LDKGxjDT1v5Y7+z8F6uRaHm/qVXc6/rZ+SK8hIbVrcoaK+K/LBWfvktUSd5UoYZSwO0Di7QT+5azKhE+wDKuhagu6PPzdXTqzo+PsUydls69kEmkt3vnKIdCV9EL7oDM0rUZYr9E0UF5TzRU7bsENWX8MWyGwG4R8f2DaT6lGsE6JWZJXv4DUK7CIgfKkIw/vERvcH08A8l+ze1K2o/Iss2NfCRu+6UPUqnvOc22APIRyQczEpmhPb7bXZtlGu+d61XVmcKZGLl25qj8Tv5Q1TXKl1j/tO0XQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7HPxhqSOL1zQ5gQdYNT5Q84oOEGMbgWB+d05xvnmFhM=;
- b=gHf8fNmdxyHsgql9+i0i67Z67ZauONDU3VD/UhHHaKSHDnY9fPRYCL4pqyS17Xzo9uwn6jK3cqJ6LPZNQg8jQ+0DjB7RcKcmx4QcVVU4X0NH6vHfRN+Uf6DOk0/DSXdIt53TIoiB/A/FVmTK1WumOKz+OJFyGA4oevlNOGdV/4JU07zccnr2azzT8su6rewBcMRsVHX5akbXooi+NSOgKsU8Yhp52lRq0Ke0QBDYRlQvj9Lc/OzTkOCi2RIwiFF4jkZhgPs32iglh7VsTJZxpj3VTUWEfdLsoB6Nu1ypO8KQWUZzuN3RFVBzpjaJyMBUVy7xXePvKtkScHRNeYvTSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=thebeautyboxx.co; dmarc=pass action=none
- header.from=thebeautyboxx.co; dkim=pass header.d=thebeautyboxx.co; arc=none
-Received: from PN3P287MB3142.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:227::21)
- by PN2P287MB2160.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1c5::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.30; Tue, 17 Jun
- 2025 17:05:59 +0000
-Received: from PN3P287MB3142.INDP287.PROD.OUTLOOK.COM
- ([fe80::f2df:85e2:95ed:8477]) by PN3P287MB3142.INDP287.PROD.OUTLOOK.COM
- ([fe80::f2df:85e2:95ed:8477%5]) with mapi id 15.20.8835.027; Tue, 17 Jun 2025
- 17:05:59 +0000
-From: thebeauty boxx <info@thebeautyboxx.co>
+	by smtp.kernel.org (Postfix) with ESMTPS id 37B83C4CEE3
+	for <linux-firmware@kernel.org>; Tue, 17 Jun 2025 17:06:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 37B83C4CEE3
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=modi-ent.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=modi-ent.com
+Received: from zendesk.com (unknown [127.0.0.6])
+	by mta-out15.pod18.euc1.zdsys.com (Zendesk) with ESMTP
+	id ceca758c-2e6f-4cca-be13-7e6a10f58403;
+	Tue, 17 Jun 2025 17:06:21 +0000 (UTC)
+Date: Tue, 17 Jun 2025 17:06:21 +0000
+From: Modicare Support <support-modicare@modi-ent.com>
+Reply-To: Modicare Support <support-modicare@modi-ent.com>
+To: Info <info@thebeautyboxx.co>
 List-Id: <linux-firmware.lore.kernel.org>
-To: "aphroditecosmeticcentre@outlook.com"
-	<aphroditecosmeticcentre@outlook.com>, "info@skinnsmiles.com"
-	<info@skinnsmiles.com>, "Drgeetika@isaac-wellness.com"
-	<Drgeetika@isaac-wellness.com>, "contact@drgeetika.info"
-	<contact@drgeetika.info>, "contact@isaacluxe.co" <contact@isaacluxe.co>,
-	"tarunrajput1978@gmail.com" <tarunrajput1978@gmail.com>,
-	"info@smilestudiogurgaon.in" <info@smilestudiogurgaon.in>,
-	"drspoint@gmail.com" <drspoint@gmail.com>, "EmailInfo@drspoint.com"
-	<EmailInfo@drspoint.com>, "Info@drspoint.com" <Info@drspoint.com>,
-	"booking@tangentinc.in" <booking@tangentinc.in>, "info@dentistgurugram.com"
-	<info@dentistgurugram.com>, "emergencies@dentistgurugram.com"
-	<emergencies@dentistgurugram.com>, "dramit@priveclinic.in"
-	<dramit@priveclinic.in>, "dramitbhasin@hotmail.com"
-	<dramitbhasin@hotmail.com>, "dramitbhasin@priveclinic.in"
-	<dramitbhasin@priveclinic.in>, "garekarsmd@gmail.com" <garekarsmd@gmail.com>,
-	"jstory76@naver.com" <jstory76@naver.com>, "eureka_skin@naver.com"
-	<eureka_skin@naver.com>, "emily@urbanedgebeauty.co.nz"
-	<emily@urbanedgebeauty.co.nz>, "kiran.k@intel.com" <kiran.k@intel.com>,
-	"linux-firmware@kernel.org" <linux-firmware@kernel.org>,
-	"ravishankar.srivatsa@intel.com" <ravishankar.srivatsa@intel.com>,
-	"inquiry@berkowits.in" <inquiry@berkowits.in>, "info@v6clinics.com"
-	<info@v6clinics.com>, "moniqua@spaceyogastudio.com"
-	<moniqua@spaceyogastudio.com>, "info@spaceyogastudio.com"
-	<info@spaceyogastudio.com>, "info@reconfacialsurgery.com"
-	<info@reconfacialsurgery.com>, "rcobo@imbanaco.com.co"
-	<rcobo@imbanaco.com.co>, "termoplasticos@alpina.com.br"
-	<termoplasticos@alpina.com.br>, "info@vr-sap.de" <info@vr-sap.de>,
-	"info@vr-boardinghouse.de" <info@vr-boardinghouse.de>,
-	"lorraine.discoverygardens@gmail.com" <lorraine.discoverygardens@gmail.com>,
-	"mooshimtkd@gmail.com" <mooshimtkd@gmail.com>, "info@clinicdermatech.com"
-	<info@clinicdermatech.com>, "moni.malviya@clinicdermatech.in"
-	<moni.malviya@clinicdermatech.in>, "cd.ggn2@clinicdermatech.in"
-	<cd.ggn2@clinicdermatech.in>, "cd.amritsar@clinicdermatech.in"
-	<cd.amritsar@clinicdermatech.in>, "gmeditec@gilmdc.com"
-	<gmeditec@gilmdc.com>, "info@dermatechclinics.com"
-	<info@dermatechclinics.com>, "info@clinicdermatech.com"
-	<info@clinicdermatech.com>, "moni.malviya@clinicdermatech.in"
-	<moni.malviya@clinicdermatech.in>, "cd.ggn2@clinicdermatech.in"
-	<cd.ggn2@clinicdermatech.in>, "cd.amritsar@clinicdermatech.in"
-	<cd.amritsar@clinicdermatech.in>, "gmeditec@gilmdc.com"
-	<gmeditec@gilmdc.com>, "digital.doctoriduniya@gmail.com"
-	<digital.doctoriduniya@gmail.com>, "info@doctoriduniya.com"
-	<info@doctoriduniya.com>, "callcenter.bangkok@mission-hospital.org"
-	<callcenter.bangkok@mission-hospital.org>, "doctoriduniya@gmail.com"
-	<doctoriduniya@gmail.com>, "clinic.arc.in@gmail.com"
-	<clinic.arc.in@gmail.com>, "appleskin.skin@gmail.com"
-	<appleskin.skin@gmail.com>, "info@medklaire.com" <info@medklaire.com>,
-	"info@lifeessentials.co.in" <info@lifeessentials.co.in>,
-	"online@lifeessentials.co.in" <online@lifeessentials.co.in>,
-	"essex.fighting.arts@hotmail.com" <essex.fighting.arts@hotmail.com>,
-	"care@bombayshavingcompany.com" <care@bombayshavingcompany.com>,
-	"charu@bombayshavingcompany.com" <charu@bombayshavingcompany.com>,
-	"razorpreneur@bombayshavingcompany.com"
-	<razorpreneur@bombayshavingcompany.com>, "Career@bombayshavingcompany.com"
-	<Career@bombayshavingcompany.com>, "Hr@bombayshavingcompany.com"
-	<Hr@bombayshavingcompany.com>, "John.Doe@bombayshavingcompany.com"
-	<John.Doe@bombayshavingcompany.com>, "Last@bombayshavingcompany.com"
-	<Last@bombayshavingcompany.com>, "Doe@bombayshavingcompany.com"
-	<Doe@bombayshavingcompany.com>, "LF@bombayshavingcompany.com"
-	<LF@bombayshavingcompany.com>, "DJ@bombayshavingcompany.com"
-	<DJ@bombayshavingcompany.com>, "First@bombayshavingcompany.com"
-	<First@bombayshavingcompany.com>, "f}{last}@bombayshavingcompany.com"
-	<f}{last}@bombayshavingcompany.com>, "jsmith@bombayshavingcompany.com"
-	<jsmith@bombayshavingcompany.com>, "abc@xyz.com" <abc@xyz.com>,
-	"contact@newlooklaserclinic.com" <contact@newlooklaserclinic.com>,
-	"ranuncleclinic@gmail.com" <ranuncleclinic@gmail.com>, "neo@neolook.com"
-	<neo@neolook.com>, "shailesh_14264@yahoo.co.in" <shailesh_14264@yahoo.co.in>,
-	"parichay@newlooklaserclinic.com" <parichay@newlooklaserclinic.com>,
-	"info@clinicdermatech.com" <info@clinicdermatech.com>,
-	"moni.malviya@clinicdermatech.in" <moni.malviya@clinicdermatech.in>,
-	"cd.ggn2@clinicdermatech.in" <cd.ggn2@clinicdermatech.in>,
-	"cd.amritsar@clinicdermatech.in" <cd.amritsar@clinicdermatech.in>,
-	"gmeditec@gilmdc.com" <gmeditec@gilmdc.com>, "drskbiswas@gmail.com"
-	<drskbiswas@gmail.com>, "vasu@gmail.com" <vasu@gmail.com>,
-	"info@vidushiagarwal.com" <info@vidushiagarwal.com>, "dr.vishal123@gmail.com"
-	<dr.vishal123@gmail.com>, "vagrawal@delveinsight.com"
-	<vagrawal@delveinsight.com>, "contact@drbatras.com" <contact@drbatras.com>,
-	"info@drbatras.com" <info@drbatras.com>, "trichosmo@gmail.com"
-	<trichosmo@gmail.com>, "Info@supremephysio.com" <Info@supremephysio.com>,
-	"info@physio.com" <info@physio.com>, "customercare@supremephysio.com"
-	<customercare@supremephysio.com>, "info@intercarehospital.com"
-	<info@intercarehospital.com>, "saxenahosp@gmail.com" <saxenahosp@gmail.com>,
-	"rajnoni@gmail.com" <rajnoni@gmail.com>, "bpratayksha@gmail.com"
-	<bpratayksha@gmail.com>, "info@shreeslimming.com" <info@shreeslimming.com>,
-	"sumitskin77@gmail.com" <sumitskin77@gmail.com>, "WEBcontact@dermawave.in"
-	<WEBcontact@dermawave.in>, "contact@dermawave.in" <contact@dermawave.in>,
-	"dermawavepanipat@gmail.com" <dermawavepanipat@gmail.com>,
-	"ryu0655@hanmail.net" <ryu0655@hanmail.net>, "enquiry@almassaclinic.com"
-	<enquiry@almassaclinic.com>, "a2zshows1@yahoo.com" <a2zshows1@yahoo.com>,
-	"smhairtransplant1995@gmail.com" <smhairtransplant1995@gmail.com>,
-	"aayatclinic2021@gmail.com" <aayatclinic2021@gmail.com>,
-	"klantenservice@pipoos.nl" <klantenservice@pipoos.nl>,
-	"info@gaurayurveda.com" <info@gaurayurveda.com>,
-	"support-modicare@modi-ent.com" <support-modicare@modi-ent.com>,
-	"support-modicare@modi.com" <support-modicare@modi.com>,
-	"grievance-modicare@modi-ent.com" <grievance-modicare@modi-ent.com>,
-	"customersupport@livemint.com" <customersupport@livemint.com>,
-	"news@medigatenews.com" <news@medigatenews.com>, "jane.doe@modicare.com"
-	<jane.doe@modicare.com>, "vxx@modicare.com" <vxx@modicare.com>,
-	"nxx@modicare.com" <nxx@modicare.com>, "modicare@modi-ent.com"
-	<modicare@modi-ent.com>, "support-modicare@modienterprise.com"
-	<support-modicare@modienterprise.com>, "support-modicare@modicare.com"
-	<support-modicare@modicare.com>, "harvestfamilydentla@gmail.com"
-	<harvestfamilydentla@gmail.com>, "harvestfamilydental@gmail.com"
-	<harvestfamilydental@gmail.com>, "hirdayanand-modicare@modi.com"
-	<hirdayanand-modicare@modi.com>, "manglikelec@rediffmail.com"
-	<manglikelec@rediffmail.com>, "jane@modicare.com" <jane@modicare.com>,
-	"janedoe@modicare.com" <janedoe@modicare.com>, "JohnSmith@modicare.com"
-	<JohnSmith@modicare.com>, "JohnSmith@timesgroup.com"
-	<JohnSmith@timesgroup.com>, "info@modicare.com" <info@modicare.com>,
-	"John_Smith@timesgroup.com" <John_Smith@timesgroup.com>,
-	"customercare@lookssalon.in" <customercare@lookssalon.in>,
-	"accaliaclinic@info.com" <accaliaclinic@info.com>, "drskgupta@gmail.com"
-	<drskgupta@gmail.com>, "info@dermaspace.in" <info@dermaspace.in>,
-	"info@ipalclinic.com" <info@ipalclinic.com>, "drsheherbano@gmail.com"
-	<drsheherbano@gmail.com>, "www.facebook.com/@ELALA.Clinic"
-	<www.facebook.com/@ELALA.Clinic>, "aphc@apollohospitals.com"
-	<aphc@apollohospitals.com>, "rpsinghskin@gmail.com" <rpsinghskin@gmail.com>,
-	"kochidermatologist@gmail.com" <kochidermatologist@gmail.com>
-Subject:
- =?utf-8?B?8J+MnyBQYXJ0bmVyIHdpdGggVGhlIEJlYXV0eSBCb3h4IOKAkyBZb3VyIE9u?=
- =?utf-8?B?ZS1TdG9wIERlc3RpbmF0aW9uIGZvciBBZHZhbmNlZCBTa2luY2FyZSwgQmVh?=
- =?utf-8?Q?uty_&_Training_Solutions!?=
-Thread-Topic:
- =?utf-8?B?8J+MnyBQYXJ0bmVyIHdpdGggVGhlIEJlYXV0eSBCb3h4IOKAkyBZb3VyIE9u?=
- =?utf-8?B?ZS1TdG9wIERlc3RpbmF0aW9uIGZvciBBZHZhbmNlZCBTa2luY2FyZSwgQmVh?=
- =?utf-8?Q?uty_&_Training_Solutions!?=
-Thread-Index: AQHb36oCs2Rv8V0eBkOYr0VkvVMrnQ==
-Date: Tue, 17 Jun 2025 17:05:59 +0000
-Message-ID:
+Cc: Drgeetika <drgeetika@isaac-wellness.com>, 
+ Info <info@clinicdermatech.com>, 
+ "info@skinnsmiles.com" <info@skinnsmiles.com>, 
+ "contact@drgeetika.info" <contact@drgeetika.info>, 
+ "contact@isaacluxe.co" <contact@isaacluxe.co>, 
+ "tarunrajput1978@gmail.com" <tarunrajput1978@gmail.com>, 
+ "drspoint@gmail.com" <drspoint@gmail.com>, 
+ "EmailInfo@drspoint.com" <emailinfo@drspoint.com>, 
+ "booking@tangentinc.in" <booking@tangentinc.in>, 
+ "dramitbhasin@hotmail.com" <dramitbhasin@hotmail.com>, 
+ "jstory76@naver.com" <jstory76@naver.com>, 
+ "eureka_skin@naver.com" <eureka_skin@naver.com>, 
+ "kiran.k@intel.com" <kiran.k@intel.com>, 
+ "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
+ "ravishankar.srivatsa@intel.com" <ravishankar.srivatsa@intel.com>, 
+ "inquiry@berkowits.in" <inquiry@berkowits.in>, 
+ "moniqua@spaceyogastudio.com" <moniqua@spaceyogastudio.com>, 
+ "info@reconfacialsurgery.com" <info@reconfacialsurgery.com>, 
+ "rcobo@imbanaco.com.co" <rcobo@imbanaco.com.co>, 
+ "termoplasticos@alpina.com.br" <termoplasticos@alpina.com.br>, 
+ "info@vr-sap.de" <info@vr-sap.de>, 
+ "info@vr-boardinghouse.de" <info@vr-boardinghouse.de>, 
+ "cd.ggn2@clinicdermatech.in" <cd.ggn2@clinicdermatech.in>, 
+ "cd.amritsar@clinicdermatech.in" <cd.amritsar@clinicdermatech.in>, 
+ "digital.doctoriduniya@gmail.com" <digital.doctoriduniya@gmail.com>, 
+ "info@doctoriduniya.com" <info@doctoriduniya.com>, 
+ "callcenter.bangkok@mission-hospital.org" <callcenter.bangkok@mission-hospital.org>, 
+ "doctoriduniya@gmail.com" <doctoriduniya@gmail.com>, 
+ "clinic.arc.in@gmail.com" <clinic.arc.in@gmail.com>, 
+ "appleskin.skin@gmail.com" <appleskin.skin@gmail.com>, 
+ "info@medklaire.com" <info@medklaire.com>, 
+ "info@lifeessentials.co.in" <info@lifeessentials.co.in>, 
+ "aphroditecosmeticcentre@outlook.com" <aphroditecosmeticcentre@outlook.com>, 
+ "info@smilestudiogurgaon.in" <info@smilestudiogurgaon.in>, 
+ "Info@drspoint.com" <info@drspoint.com>, 
+ "info@dentistgurugram.com" <info@dentistgurugram.com>, 
+ "emergencies@dentistgurugram.com" <emergencies@dentistgurugram.com>, 
+ "dramit@priveclinic.in" <dramit@priveclinic.in>, 
+ "dramitbhasin@priveclinic.in" <dramitbhasin@priveclinic.in>, 
+ "garekarsmd@gmail.com" <garekarsmd@gmail.com>, 
+ "emily@urbanedgebeauty.co.nz" <emily@urbanedgebeauty.co.nz>, 
+ "info@v6clinics.com" <info@v6clinics.com>, 
+ "info@spaceyogastudio.com" <info@spaceyogastudio.com>, 
+ "lorraine.discoverygardens@gmail.com" <lorraine.discoverygardens@gmail.com>, 
+ "mooshimtkd@gmail.com" <mooshimtkd@gmail.com>, 
+ "moni.malviya@clinicdermatech.in" <moni.malviya@clinicdermatech.in>, 
+ "gmeditec@gilmdc.com" <gmeditec@gilmdc.com>, 
+ "info@dermatechclinics.com" <info@dermatechclinics.com>
+Message-ID: <E4RE2Z7RN12_6851a08d6c55f_4a157012255c_sprut@zendesk.com>
+In-Reply-To: <PN3P287MB3142B4222A069DC5273C893FBC73A@PN3P287MB3142.INDP287.PROD.OUTLOOK.COM>
+References: <E4RE2Z7RN12@zendesk.com>
  <PN3P287MB3142B4222A069DC5273C893FBC73A@PN3P287MB3142.INDP287.PROD.OUTLOOK.COM>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=thebeautyboxx.co;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3P287MB3142:EE_|PN2P287MB2160:EE_
-x-ms-office365-filtering-correlation-id: 7820cc45-3b9e-4753-d357-08ddadc13b8c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|41320700013|366016|376014|10070799003|586017|34036016|7416014|921020|8096899003|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?akt4WDF4aWR3M2NVMm1JVWRSK2V5dDlTdXBldG84ajZMOEpVMTZJc2N3Rm9E?=
- =?utf-8?B?YUVNcXdTRk1QRXl4cTlHNGtxZFYzQlFjVHhVUERtSEg1U1J1VkRldllLaXF4?=
- =?utf-8?B?bnJkWXpWbFJvdTE4QThPS1BSUWhIYTdMaDZxUmNUVTNlYzZFUkQwTTJWQ2d1?=
- =?utf-8?B?NVN1UEV4K0lBcGYxTWUzamgrTU5WL2IwR2lCNWtlUnFwNE03cTRoY1JnRWQr?=
- =?utf-8?B?bllXQk5KNVduVFpiZ3h2RTlzTitqTEdjcTA2aXB6dXo1WEliMWw4Rmw2VjJl?=
- =?utf-8?B?MjJLMEpJZkpPeXdrc002NThZUC9vN2J0aXIrNHpaVEFFMHpqU210Y251NVdm?=
- =?utf-8?B?bC9pcHMvZ2VtdStaZ3I5aXpSbmtWVE1ITDlXSStTbE9Ndk1GWERQUnV0cUt0?=
- =?utf-8?B?dXRodWY5eTc4VmVRY3BHc0ZBa0lMOTBUa0dvaGtCV3ZUQlhyUlo2S1N0Y01C?=
- =?utf-8?B?OE4xODIyV2xINkQxMGgxbHY3dHFJVE1rd3NFb2I1WFRWQ2xiU3AzT1RNOVNr?=
- =?utf-8?B?RzNNblNEN3ZrcjJxdVBxYWI0N2lmdWhQYU1yRFFVR3FmZTJFUjh4Z3gyMFpB?=
- =?utf-8?B?Y1RVQ3dJOHE4aVhnOTBZS3UvSlJlOStIS3JKZCtJQU5Sb0dWQzZVWE05bklG?=
- =?utf-8?B?djBrMk5vQ3M3QzZpQWVsMVcyTW53VkovaDdWQ0pHTUFLY3JBUW0zN05SUldF?=
- =?utf-8?B?bzZUMENzVFNpWm56NHVqMFBQWGpqZ0lINjlYRkI1M2Z5TGt5NFZlNlZmMFB3?=
- =?utf-8?B?bXFLQVZHdzV2NU9IWXZuVVFIOXlYMmgrbklnV3dwK1ViSG1adE85cDRqaFp1?=
- =?utf-8?B?TEluK2hWRUxld1QwNHlzMmw4azJ6b2pXQitGNU9yQ3dMRmlCQ0NaLy9CYXhw?=
- =?utf-8?B?QUlTK2pCcUJKNXQrQ21FZDJzL3lSNUhhMVdSQmZEcldWaVB0VnVXc1BsNVZ5?=
- =?utf-8?B?MDl1QjAvT05tMzFBR0liNTd0d0g1ZTRHclNQanVKM1VaTnRHVnl6MnF2eDll?=
- =?utf-8?B?VUc4WDJsY0FkaWhzekRpN0JNdGZPTUVzOGhCYTh1Smx5UG9JTnY4U2ZEczFK?=
- =?utf-8?B?ZFkrRWFETFJVdmxUZmllWnViemJKY2hubGlrU1drajBNc0JaU2pKdGxycG1B?=
- =?utf-8?B?dUY4cFdKV1BwZWhHVzlrQlphSGJQTUpiODZlSy8wMnhJRVJ0RmpSQk1ldnBB?=
- =?utf-8?B?QVd3S1pwWmlEdnRpdDJ5N3FWc0lxVGFkR2k3dXR2VThKQmlhQnA2anFxcFZq?=
- =?utf-8?B?OThhN0ptRFdiekFvcjVkbGZPTnBjbWtNdGprTWhSQ0ptOFl2ak9MaHpyOTBj?=
- =?utf-8?B?NklQR1ZjRUlVakJmNm1IS1NRVmtIb2EwYkNkbS9adkxHaDZyTGl2aWZ4N21C?=
- =?utf-8?B?aXg4RStJQlhMRTZUaFd3b3VmZEZ5SFZxMXVwN3hEeVl0bnFaTDgwV2djVDJD?=
- =?utf-8?B?cXZTMzk2WWRuWUs0WkdaeG44MExoN3YzRnVnSm9uQzA5bWxIRVUxME9wblA3?=
- =?utf-8?B?cFVzYVhIa0o4ZmJHaGpWVVp5bHZqMnBML0d4dktzbkdLY1J6VHV5MktZWStG?=
- =?utf-8?B?K2lNb3VJWDlpN1NXRlNDdnV3MjBnZnQ0WmRtR1ZKdmMyT3RXd2lvYUp6ZEFw?=
- =?utf-8?B?R1UzeHY5elFzcDUwUVdNUGhLK0Y1cVRaVzJHa1ZlSHlDdG5CdFY1Uy9Mb3h3?=
- =?utf-8?B?TUNFR28vR1QrdGtlWGJ3cklpWWRHU3I5ai9MNkQvNU5YRDFhay9IbXZaY01l?=
- =?utf-8?B?aUh4VnNMRmI0Y0R4ZFVxcWNqc1pLWWppaTY5cVRBcDBhWTZTSFRxRDZxTDlU?=
- =?utf-8?B?Mm1WN2NGQlRpeHplaTN1VkNnSVFveExTZjRkdHR3QnhqbjhmNmsxeHY1SVor?=
- =?utf-8?B?WW1BOE4vWFliY3JmRW9PWG1JVWtEQlNUUXlZdVhYZ2MwVFk2cHEyYk5mbnlN?=
- =?utf-8?B?bWZacHBKcmRaZll3eE1PdEhCcE0yTTNaYlV0Nk9Fa3BiUnBFS3dkWXg5YkhS?=
- =?utf-8?Q?Yl1CtoCZ+e7Jzcs8noJ08WzMh1Rk+M=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB3142.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(41320700013)(366016)(376014)(10070799003)(586017)(34036016)(7416014)(921020)(8096899003)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?bkdzOVBVTzZ6K1FFZSthdU9KRFlHbmdwZkxFY3Q5a3JDQXErSlJsUU9EcnM1?=
- =?utf-8?B?V2p4V3FWTHF0N2JZZXR0NDhZRTVncHUwelE4NDZBVHNKTVJHVzhoMWRnY0tD?=
- =?utf-8?B?dGpqWG9ucVVmYkFoTjd6RDNLbXNMSk5NZGkvNW5FNXlHdkZZekJ4MG5SVG1q?=
- =?utf-8?B?bzlsOE83NXpJYkFFQ1Q2MkdNM1FIY2hsaGtITVdMbGpkaVdFL1BjR0xXaHpE?=
- =?utf-8?B?NytTNGI3bVhBTlUrQnlYUXlUT252b3dxRWtPS2l5SE1qUXVtNGlxT2lSR1lz?=
- =?utf-8?B?RFRjL0wwVmFBbW41UUxYNW15ZjZ4VWd4aDhwQ2RCQitJWmtlYkNBMnVhS2Qy?=
- =?utf-8?B?TnEvMUIxMTFjcFZLbzBtSDdISUNIMTZHREE5TGk5clJCZDRLSGhkM0grTjlQ?=
- =?utf-8?B?VGxSTVhIeUYwSFoxOVRZUDJjWUYzY0lOTG1CTHBKSU1sVWR3eFN3TlJlalRx?=
- =?utf-8?B?eTkwa0plQ1lLS3ZwMEM4ampib0FhRkJNK1Yxc1VhRE1aY1liMFZIdjkzcXhC?=
- =?utf-8?B?TXY1R0hnWHV4RUl4V2xhcU5uZDNxcThEOVY3U1E1SnlKZ3RwYWwzSEhMNUFX?=
- =?utf-8?B?UEQxdUVZNkdEL2RDYTVGL1FYRUNHa0lnSzArdldMdEk2cHViQ1lSRWVFaEtT?=
- =?utf-8?B?WDhBMlJJTkFHazhEMVpFU3hBenoxOG1wZGxRa1h6aENhK0lFbVAyQ3V1NFpo?=
- =?utf-8?B?RTAvTjNIRlJOODhHQloxTERPNzdqOUlPSklnYklucjlPTVZ6TU5UWWtJaTVw?=
- =?utf-8?B?djZpU0ZrTHE4UHlpblpIUTdaelNUYU5xNlhYbG9hOHJkL0FERWtmeFNTbWhW?=
- =?utf-8?B?ejhHK1RHeTczaE5XUnliZm84SHpYRm5jb3JUanV0WFBJK2l3NlgvQ1NVb2ox?=
- =?utf-8?B?Y2tBeWVWQnN4V2pIZEllUmhIWTdHdVB5YnRjb0ZHUWd1Y2dXSjZCMnRqcFBJ?=
- =?utf-8?B?R2JVZTN3a2ZkV2ZCWlJJc093ZjZndG1rdWpqSmxDZk44aTR4NnorNjg0dloy?=
- =?utf-8?B?cmFuOVdjb2l1Nm1zSEIvcnZZTEl3bUI3MitqWGNEOW4yQ0ZsN3pZSjVVLzd0?=
- =?utf-8?B?TTJXNzB0VTk5RzVmcERET2RpNzl5UHB2WlYwdDZoajVERkgyTmNSU3dvaVQ3?=
- =?utf-8?B?M21zc1hvaEJiaWZDSzJrR3E5a0V2UUJ3UTQzUUlhWjVLNGllcmJTY3JUWVFS?=
- =?utf-8?B?T2pWYk0rc2NLL1U3a2hsTVkrVmdyV1ZWcStoYzQxRkFmSVBENFVwL1RoVkJ0?=
- =?utf-8?B?TG84TDNjUU0yN2F1UjdReVRBMm5JZ0diQU03UmVBUkJqRnp2cnZZUkxzUXhG?=
- =?utf-8?B?NUNiZzU2aGJXU0xjVEhjV2M3eXdQNnpiS2JYTStMTkwyS0NGYnBPemthNWtO?=
- =?utf-8?B?N2tVY0lKWUFDRHBqajdhVEJFRFh1OHd2REtaVHRaK213OEwxVm91U1dJN3hw?=
- =?utf-8?B?bmsydldrazRkNFN5eFgwOEVLNVNkRWlDNjhqQWMvQm1NbjUyd29GcGZrQlh6?=
- =?utf-8?B?RktSbkRVRzRyV011L3dGZW5wR1NSZTArTFFzM1pwMTNLTTFEMVhCWEN1U0hu?=
- =?utf-8?B?dEFSR3dKbTN0NEZ1UjVDWmVqVnhuRS9hWHV2Q3lkU0Noa2dYMXFTcFk2ZG5P?=
- =?utf-8?B?VGo4WU9RbXBoMFlVY3piakkrc05oQU8zU0FOQjd1YlVMUmdJOTI1NjBlbTRZ?=
- =?utf-8?B?UTRQU1JqdEo4N3dDSUJ2Vm11Vm9lSEM5Y21FRUZjNzMraXJRRFhyWGM3bGdh?=
- =?utf-8?B?M3FEQjNCaktlWVRuVUNjZndoRlNETU9wNmM5dmhjTHNZODNDL3hPeGlGOWlv?=
- =?utf-8?B?UzNGYmdLeHhISXlBelNvZVhrWG1GVnFXRHQxTjVRdk9vbzVuc0pIUERqU1BS?=
- =?utf-8?B?Z0wvVTU1b0F1Z01rVzRSSkk5bzFIK0g0WituWS9MbjhvSEFUUlNSN0tqQ0dr?=
- =?utf-8?B?TjZlMCtZMFp4RVd6czVSU1B1WE9iaVd4OFFYdHBzMDdOUFdLTHNtdi9QaU1p?=
- =?utf-8?B?SDFTZDlRcUVXK2NpbkpEQklYSGJ6ZWZnU1BNSnlaSFpaNDdrbmt1cjZTdXVp?=
- =?utf-8?B?c0Foa2FlRHZjTWxKd092K3djUDN0SVhWWnZrNVNsRk5WQmJEMERDa3M0TVpk?=
- =?utf-8?B?N1Q2TGIyK0dNK09KaFhGblhUcUxlT0ZoK2hmaWV4aHFDRHkyNEt2eWphOGtJ?=
- =?utf-8?Q?gFewW7PwKfYlZBJgCtViS7Qwbe9JQ2VxCLTYou4C74EJ?=
+Subject: =?UTF-8?Q?432297_-_New_SR_Created:_=F0=9F=8C=9F_Partner_with_The?=
+ =?UTF-8?Q?_Beauty_Boxx_=E2=80=93_Your_One-Stop_Destination_for_Advanced?=
+ =?UTF-8?Q?_Skincare,_Beauty_&_Training_Solutions!?=
+Mime-Version: 1.0
 Content-Type: multipart/alternative;
-	boundary="_000_PN3P287MB3142B4222A069DC5273C893FBC73APN3P287MB3142INDP_"
-MIME-Version: 1.0
-X-OriginatorOrg: thebeautyboxx.co
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB3142.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7820cc45-3b9e-4753-d357-08ddadc13b8c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jun 2025 17:05:59.5476
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 955239e0-76d2-440d-b6b9-57d8b170ec58
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3cUF5+tLOp1/RJ+t+pG6VoiLJaz8EQJXygQArLV7HafsmNS69r2NIpCcxx/mfaCFGIBYu5ZXykVOkDCPcCECBw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2P287MB2160
+ boundary="--==_mimepart_6851a08d78adc_4a15701225627";
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Delivery-Context: event-id-27468749259154
+Auto-Submitted: auto-generated
+X-Auto-Response-Suppress: All
+X-Mailer: Zendesk Mailer
+X-Zendesk-From-Account-Id: e533738
+X-Zendesk-Email-Id: 01JXZDP91STTBM9G1X0WQTERW9
+DKIM-Signature:  v=1; a=rsa-sha256; c=relaxed/relaxed; d=zendesk.com;
+ q=dns/txt; s=zendesk1; t=1750179981;
+ bh=Uhmu0U7FTFHs3VtblhZcsQUEuma3PghGr/beLebVHuE=;
+ h=date:from:reply-to:to:cc:message-id:in-reply-to:references:subject:mime-version:content-type:content-transfer-encoding;
+ b=MaBwbvnij91s6woosvFjlzT/uCATJ+djbsavKaeSh0zRoRoC5xquBQCLvXjg7Hqqjl6QCSBFDbPPQaeS6I8VPnLvfxzMxJ6XOOMbmLI9fPt4M+y0G0ZCBduGYCDaPBPjB0S+3kduT/Mfy6BNWlgQeuoWkhyLCWN/oBqrVJq0ofGC+M2QJ5q5vD2FGuIHZk8S7cCjLK2x4GbAGOig6fXCh1CRPr5/zYBahF72ns3Eg6OPErTqRWJ46N4gNoJrw617mmvRKBcpsVMR8CTDIJI7wK+66EcwnG/jV7CNIrE1kMTlBQ0L19IguCRQTepDhHPzoQ6rcO5bZvu2/cYiFERtmQ==
 
---_000_PN3P287MB3142B4222A069DC5273C893FBC73APN3P287MB3142INDP_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
 
-DQpIZXl5IGJlYXV0aWZ1bCBzb3Vscw0KDQpHcmVldGluZ3MgZnJvbSBUaGUgQmVhdXR5IEJveHgg
-4oCTIEluZGlh4oCZcyB0cnVzdGVkIG5hbWUgaW4gYWR2YW5jZWQgc2tpbiBjYXJlLCBiZWF1dHkg
-c2VydmljZXMsIHRyYWluaW5nLCBhbmQgcHJvZHVjdHMhDQoNCldoZXRoZXIgeW914oCZcmUgYSBk
-ZXJtYXRvbG9naXN0LCBzYWxvbiBvd25lciwgc2tpbiBzcGVjaWFsaXN0LCBvciBjb3NtZXRvbG9n
-eSBleHBlcnQg4oCTIHdl4oCZcmUgaGVyZSB0byBlbXBvd2VyIHlvdXIgYnVzaW5lc3Mgd2l0aDoN
-Cg0K4ri7DQoNCvCfjL8gT3VyIFdpZGUgUmFuZ2Ugb2YgTWVkaWNhdGVkIFNraW4gVHJlYXRtZW50
-cw0K4pyUIEh5ZHJhRmFjaWFscw0K4pyUIExhc2VyIFRyZWF0bWVudHMNCuKclCBTY2FyLCBUYW4g
-JiBQaWdtZW50YXRpb24gUmVtb3ZhbA0K4pyUIFRhdHRvbywgTW9sZSAmIFdhcnQgUmVtb3ZhbA0K
-4pyUIEFkdmFuY2VkIENoZW1pY2FsIFBlZWxzDQrinJQgRHVsbG5lc3MgJiBBbnRpLUFnaW5nIFRy
-ZWF0bWVudHMNCg0K8J+ShSBOb24tTWVkaWNhdGVkIEJlYXV0eSBTZXJ2aWNlcw0K4pyUIE1hbmlj
-dXJlICYgUGVkaWN1cmUNCuKclCBIYWlyIFNwYSwgTmFub3BsYXN0aWEsIEhhaXIgQ29sb3IgJiBT
-dHlsaW5nDQrinJQgUHJlbWl1bSBIYWlyY3V0cyAmIEdyb29taW5nDQoNCuK4uw0KDQrwn6e0IE1l
-ZGljYXRlZCBTa2luY2FyZSBQcm9kdWN0cyDigJMgVmlzaWJsZSBSZXN1bHRzDQpBbGwgb3VyIGlu
-LWhvdXNlIGZvcm11bGFzIGFyZSBkZXJtYXRvbG9naWNhbGx5IHRlc3RlZCBhbmQgdHJ1c3RlZCBi
-eSBjbGluaWNzIG5hdGlvbndpZGU6DQrinKggRmFjZSBXYXNoZXMgfCBNb2lzdHVyaXplcnMgfCBT
-dW5zY3JlZW5zDQrinKggS29qaWMgQWNpZCwgTmlhY2luYW1pZGUgJiBWaXRhbWluIEMgU2VydW1z
-DQrinKggRXZlcmxhc3RpbmcgR2xvdyAmIEZvcmV2ZXIgWW91bmcgU2VydW1zDQrinKggUHJvZmVz
-c2lvbmFsIFNoZWV0IFBlZWxzIHwgRmFjZSBUb29scw0KDQriuLsNCg0K8J+OkyBDb3NtZXRvbG9n
-eSBFZHVjYXRpb24gd2l0aCBTa2lsbCBJbmRpYSBDZXJ0aWZpY2F0aW9uDQpXZSBkb27igJl0IGp1
-c3QgdHJlYXQgc2tpbiDigJMgd2UgYnVpbGQgZnV0dXJlcyENCkJlY29tZSBjZXJ0aWZpZWQgd2l0
-aCB1cyBpbjoNCvCflLkgSHlkcmFGYWNpYWxzIHwgQ2hlbWljYWwgUGVlbHMgfCBMYXNlcg0K8J+U
-uSBJbmplY3RhYmxlcyB8IEJCIEdsb3cgfCBQUlAgfCBNaWNyb25lZWRsaW5nDQrwn5S5IEhhaXIg
-JiBCZWF1dHkgQ291cnNlcyBmb3IgQmVnaW5uZXJzIHRvIEV4cGVydHMNCg0K4ri7DQoNCvCfkqEg
-TG9va2luZyB0byBFeHBhbmQgWW91ciBTZXJ2aWNlcz8NCldlIGFsc28gb2ZmZXIgdG9wLWdyYWRl
-IGVxdWlwbWVudCBmb3IgeW91ciBjbGluaWMgb3Igc2Fsb246DQrwn5K8IEh5ZHJhRmFjaWFsIE1h
-Y2hpbmVzDQrimqEgSVBMIExhc2VyIE1hY2hpbmVzDQrwn5KhIExFRCBMaWdodCBUaGVyYXB5IERl
-dmljZXMNCg0K4ri7DQoNCkxldOKAmXMgd29yayB0b2dldGhlciB0byB1cGdyYWRlIHlvdXIgc2Vy
-dmljZXMsIGluY3JlYXNlIHJldmVudWUsIGFuZCBjcmVhdGUgdmlzaWJsZSB0cmFuc2Zvcm1hdGlv
-bnMgZm9yIHlvdXIgY2xpZW50cy4NCg0K8J+TqSBSZXBseSB0byB0aGlzIG1haWwgb3IgV2hhdHNB
-cHAgdXMgbm93IHRvIHN0YXJ0IGEgY29udmVyc2F0aW9uIG9yIHJlcXVlc3Qgb3VyIGZ1bGwgY2F0
-YWxvZ3VlLg0KDQpKb2luIGhhbmRzIHdpdGggVGhlIEJlYXV0eSBCb3h4IOKAkyB3aGVyZSBiZWF1
-dHkgbWVldHMgcmVzdWx0cyENCvCfk40gUEFOIEluZGlhIFNoaXBwaW5nIHwg8J+MjSBHbG9iYWwg
-SW5xdWlyaWVzIFdlbGNvbWUNCg0KV2FybSBSZWdhcmRzLA0KVGVhbSBUaGUgQmVhdXR5IEJveHgN
-CvCfk54gKzkxLTYyMzkxMDI1NjggLDczNDczNDEwNTUNCvCfk6cgaW5mb0B0aGViZWF1dHlib3h4
-LmNvDQrwn4yQIHRoZWJlYXV0eWJveHguY28NCvCfk7IgSW5zdGFncmFtIC0gdGhlYmVhdXR5Ym94
-eDgNCnwgRmFjZWJvb2sgLSBLYWphbCBSYW5hIHwgV2hhdHNBcHAgLSA2MjM5MTAyNTY4DQoNCg==
+----==_mimepart_6851a08d78adc_4a15701225627
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
---_000_PN3P287MB3142B4222A069DC5273C893FBC73APN3P287MB3142INDP_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Dear Consultant,=0D
+=0D
+Greetings of the day!=0D
+=0D
+We thank you for writing to us and acknowledge the receipt of your email/=
+concern for your unique Service Request number is SR 432297. =0D
+=0D
+We assure you, we will do our best efforts to resolve your concern at the=
+ earliest possible. Please note, in case we find document/information pro=
+vided in your communication is insufficient for processing your request, =
+we will revert to you with status and shall specify complete requirements=
+ in our response email or call. Please do track the same for faster closu=
+re.=0D
+=0D
+In case of anything urgent, please feel free to contact Azadi Call Center=
+ Number 0124-6912900=C2=A0 from Monday to Sunday between 10:00 am to 10:0=
+0 pm.=0D
+=0D
+Alternatively, you may also refer to the appended list of most common que=
+ries and links:=0D
+- For raising complaints online (Order Related), please log in to www.mod=
+icare.com,=0D
+Go to Dashboard->Support->Generate New SR, wherein a unique Service Reque=
+st Number will be generated and our representative will reply to your Ser=
+vice Request Query within 48 working hours.=0D
+=0D
+- Query Specific Response time is as follows:=0D
+1.Order Tracking =E2=80=93 48 to 72 working hours.=0D
+2.Short Shipment/ Damaged Products - 48 to 72 working hours.=0D
+3.Transaction Failure-48 to 72 working hours=0D
+4.TDS Certificate =E2=80=93 7 working days.=0D
+5.Pan card update =E2=80=93 7 working days=0D
+6.Information Change =E2=80=93 48 to 72 working hours=0D
+=0D
+Also, it is important to note, In case of any clarification/follow up/res=
+ponse, please write on the same email without changing the subject to avo=
+id generation of multiple Service Request numbers for same matter and for=
+ tracking complete correspondence.=0D
+=0D
+Once again thank you for giving us an opportunity to assist you.=0D
+=0D
+Yours Sincerely,=0D
+Customer Services Team=0D
+=0D
+--------------------------------=0D
+This email is a service from Modicare.=0D
+=0D
+=0D
+=0D
+=0D
+=0D
+=0D
+=0D
+=0D
+=0D
+=0D
+=0D
+[E4RE2Z-7RN12]=
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyIgc3R5bGU9
-ImRpc3BsYXk6bm9uZTsiPiBQIHttYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO30gPC9zdHls
-ZT4NCjwvaGVhZD4NCjxib2R5IGRpcj0ibHRyIj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29m
-IiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01T
-Rm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAx
-MnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQo8YnI+DQo8L2Rpdj4NCjxkaXYgY2xhc3M9ImVs
-ZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZv
-bnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsg
-Zm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQpIZXl5IGJlYXV0aWZ1bCBz
-b3VscyZuYnNwOzwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiIHN0eWxlPSJmb250
-LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwg
-Q2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiBy
-Z2IoMCwgMCwgMCk7Ij4NCjxicj4NCjwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxlbWVudFRvUHJvb2Yi
-IHN0eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNG
-b250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEy
-cHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCkdyZWV0aW5ncyBmcm9tIFRoZSBCZWF1dHkgQm94
-eCDigJMgSW5kaWHigJlzIHRydXN0ZWQgbmFtZSBpbiBhZHZhbmNlZCBza2luIGNhcmUsIGJlYXV0
-eSBzZXJ2aWNlcywgdHJhaW5pbmcsIGFuZCBwcm9kdWN0cyE8L2Rpdj4NCjxkaXYgY2xhc3M9ImVs
-ZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZv
-bnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsg
-Zm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQo8YnI+DQo8L2Rpdj4NCjxk
-aXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRv
-c19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwg
-c2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQpXaGV0
-aGVyIHlvdeKAmXJlIGEgZGVybWF0b2xvZ2lzdCwgc2Fsb24gb3duZXIsIHNraW4gc3BlY2lhbGlz
-dCwgb3IgY29zbWV0b2xvZ3kgZXhwZXJ0IOKAkyB3ZeKAmXJlIGhlcmUgdG8gZW1wb3dlciB5b3Vy
-IGJ1c2luZXNzIHdpdGg6PC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9
-ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2
-aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29s
-b3I6IHJnYigwLCAwLCAwKTsiPg0KPGJyPg0KPC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Q
-cm9vZiIgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRv
-c19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6
-ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0K4ri7PC9kaXY+DQo8ZGl2IGNsYXNzPSJl
-bGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRG
-b250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7
-IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0KPGJyPg0KPC9kaXY+DQo8
-ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0
-b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2Es
-IHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0K8J+M
-vyBPdXIgV2lkZSBSYW5nZSBvZiBNZWRpY2F0ZWQgU2tpbiBUcmVhdG1lbnRzPC9kaXY+DQo8ZGl2
-IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3Nf
-RW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNh
-bnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0K4pyUIEh5
-ZHJhRmFjaWFsczwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiIHN0eWxlPSJmb250
-LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwg
-Q2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiBy
-Z2IoMCwgMCwgMCk7Ij4NCuKclCBMYXNlciBUcmVhdG1lbnRzPC9kaXY+DQo8ZGl2IGNsYXNzPSJl
-bGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRG
-b250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7
-IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0K4pyUIFNjYXIsIFRhbiAm
-YW1wOyBQaWdtZW50YXRpb24gUmVtb3ZhbDwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxlbWVudFRvUHJv
-b2YiIHN0eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3Nf
-TVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6
-IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCuKclCBUYXR0b28sIE1vbGUgJmFtcDsgV2Fy
-dCBSZW1vdmFsPC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZvbnQt
-ZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBD
-YWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJn
-YigwLCAwLCAwKTsiPg0K4pyUIEFkdmFuY2VkIENoZW1pY2FsIFBlZWxzPC9kaXY+DQo8ZGl2IGNs
-YXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1i
-ZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMt
-c2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0K4pyUIER1bGxu
-ZXNzICZhbXA7IEFudGktQWdpbmcgVHJlYXRtZW50czwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxlbWVu
-dFRvUHJvb2YiIHN0eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwg
-QXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250
-LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCjxicj4NCjwvZGl2Pg0KPGRpdiBj
-bGFzcz0iZWxlbWVudFRvUHJvb2YiIHN0eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0Vt
-YmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5z
-LXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCvCfkoUgTm9u
-LU1lZGljYXRlZCBCZWF1dHkgU2VydmljZXM8L2Rpdj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1By
-b29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9z
-X01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXpl
-OiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQrinJQgTWFuaWN1cmUgJmFtcDsgUGVkaWN1
-cmU8L2Rpdj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6
-IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmks
-IEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAs
-IDApOyI+DQrinJQgSGFpciBTcGEsIE5hbm9wbGFzdGlhLCBIYWlyIENvbG9yICZhbXA7IFN0eWxp
-bmc8L2Rpdj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6
-IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmks
-IEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAs
-IDApOyI+DQrinJQgUHJlbWl1bSBIYWlyY3V0cyAmYW1wOyBHcm9vbWluZzwvZGl2Pg0KPGRpdiBj
-bGFzcz0iZWxlbWVudFRvUHJvb2YiIHN0eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0Vt
-YmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5z
-LXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCjxicj4NCjwv
-ZGl2Pg0KPGRpdiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiIHN0eWxlPSJmb250LWZhbWlseTogQXB0
-b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVs
-dmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7
-Ij4NCuK4uzwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiIHN0eWxlPSJmb250LWZh
-bWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2Fs
-aWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2Io
-MCwgMCwgMCk7Ij4NCjxicj4NCjwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiIHN0
-eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250
-U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7
-IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCvCfp7QgTWVkaWNhdGVkIFNraW5jYXJlIFByb2R1Y3Rz
-IOKAkyBWaXNpYmxlIFJlc3VsdHM8L2Rpdj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBz
-dHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9u
-dFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0
-OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQpBbGwgb3VyIGluLWhvdXNlIGZvcm11bGFzIGFyZSBk
-ZXJtYXRvbG9naWNhbGx5IHRlc3RlZCBhbmQgdHJ1c3RlZCBieSBjbGluaWNzIG5hdGlvbndpZGU6
-PC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZvbnQtZmFtaWx5OiBB
-cHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBI
-ZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAw
-KTsiPg0K4pyoIEZhY2UgV2FzaGVzIHwgTW9pc3R1cml6ZXJzIHwgU3Vuc2NyZWVuczwvZGl2Pg0K
-PGRpdiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiIHN0eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFw
-dG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNh
-LCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCuKc
-qCBLb2ppYyBBY2lkLCBOaWFjaW5hbWlkZSAmYW1wOyBWaXRhbWluIEMgU2VydW1zPC9kaXY+DQo8
-ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0
-b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2Es
-IHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0K4pyo
-IEV2ZXJsYXN0aW5nIEdsb3cgJmFtcDsgRm9yZXZlciBZb3VuZyBTZXJ1bXM8L2Rpdj4NCjxkaXYg
-Y2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19F
-bWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fu
-cy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQrinKggUHJv
-ZmVzc2lvbmFsIFNoZWV0IFBlZWxzIHwgRmFjZSBUb29sczwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxl
-bWVudFRvUHJvb2YiIHN0eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9u
-dCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBm
-b250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCjxicj4NCjwvZGl2Pg0KPGRp
-diBjbGFzcz0iZWxlbWVudFRvUHJvb2YiIHN0eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9z
-X0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBz
-YW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCuK4uzwv
-ZGl2Pg0KPGRpdiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiIHN0eWxlPSJmb250LWZhbWlseTogQXB0
-b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVs
-dmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7
-Ij4NCjxicj4NCjwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiIHN0eWxlPSJmb250
-LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwg
-Q2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiBy
-Z2IoMCwgMCwgMCk7Ij4NCvCfjpMgQ29zbWV0b2xvZ3kgRWR1Y2F0aW9uIHdpdGggU2tpbGwgSW5k
-aWEgQ2VydGlmaWNhdGlvbjwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiIHN0eWxl
-PSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2Vy
-dmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNv
-bG9yOiByZ2IoMCwgMCwgMCk7Ij4NCldlIGRvbuKAmXQganVzdCB0cmVhdCBza2luIOKAkyB3ZSBi
-dWlsZCBmdXR1cmVzITwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiIHN0eWxlPSJm
-b250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2Vydmlj
-ZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9y
-OiByZ2IoMCwgMCwgMCk7Ij4NCkJlY29tZSBjZXJ0aWZpZWQgd2l0aCB1cyBpbjo8L2Rpdj4NCjxk
-aXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRv
-c19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwg
-c2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQrwn5S5
-IEh5ZHJhRmFjaWFscyB8IENoZW1pY2FsIFBlZWxzIHwgTGFzZXI8L2Rpdj4NCjxkaXYgY2xhc3M9
-ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRl
-ZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJp
-ZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQrwn5S5IEluamVjdGFi
-bGVzIHwgQkIgR2xvdyB8IFBSUCB8IE1pY3JvbmVlZGxpbmc8L2Rpdj4NCjxkaXYgY2xhc3M9ImVs
-ZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZv
-bnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsg
-Zm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQrwn5S5IEhhaXIgJmFtcDsg
-QmVhdXR5IENvdXJzZXMgZm9yIEJlZ2lubmVycyB0byBFeHBlcnRzPC9kaXY+DQo8ZGl2IGNsYXNz
-PSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRk
-ZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2Vy
-aWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0KPGJyPg0KPC9kaXY+
-DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywg
-QXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRp
-Y2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0K
-4ri7PC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZvbnQtZmFtaWx5
-OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJp
-LCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAw
-LCAwKTsiPg0KPGJyPg0KPC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9
-ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2
-aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29s
-b3I6IHJnYigwLCAwLCAwKTsiPg0K8J+SoSBMb29raW5nIHRvIEV4cGFuZCBZb3VyIFNlcnZpY2Vz
-PzwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiIHN0eWxlPSJmb250LWZhbWlseTog
-QXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwg
-SGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwg
-MCk7Ij4NCldlIGFsc28gb2ZmZXIgdG9wLWdyYWRlIGVxdWlwbWVudCBmb3IgeW91ciBjbGluaWMg
-b3Igc2Fsb246PC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZvbnQt
-ZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBD
-YWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJn
-YigwLCAwLCAwKTsiPg0K8J+SvCBIeWRyYUZhY2lhbCBNYWNoaW5lczwvZGl2Pg0KPGRpdiBjbGFz
-cz0iZWxlbWVudFRvUHJvb2YiIHN0eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVk
-ZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNl
-cmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCuKaoSBJUEwgTGFz
-ZXIgTWFjaGluZXM8L2Rpdj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9u
-dC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2Us
-IENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjog
-cmdiKDAsIDAsIDApOyI+DQrwn5KhIExFRCBMaWdodCBUaGVyYXB5IERldmljZXM8L2Rpdj4NCjxk
-aXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRv
-c19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwg
-c2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQo8YnI+
-DQo8L2Rpdj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6
-IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmks
-IEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAs
-IDApOyI+DQriuLs8L2Rpdj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9u
-dC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2Us
-IENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjog
-cmdiKDAsIDAsIDApOyI+DQo8YnI+DQo8L2Rpdj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29m
-IiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01T
-Rm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAx
-MnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQpMZXTigJlzIHdvcmsgdG9nZXRoZXIgdG8gdXBn
-cmFkZSB5b3VyIHNlcnZpY2VzLCBpbmNyZWFzZSByZXZlbnVlLCBhbmQgY3JlYXRlIHZpc2libGUg
-dHJhbnNmb3JtYXRpb25zIGZvciB5b3VyIGNsaWVudHMuPC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVt
-ZW50VG9Qcm9vZiIgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250
-LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZv
-bnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0KPGJyPg0KPC9kaXY+DQo8ZGl2
-IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3Nf
-RW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNh
-bnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0K8J+TqSBS
-ZXBseSB0byB0aGlzIG1haWwgb3IgV2hhdHNBcHAgdXMgbm93IHRvIHN0YXJ0IGEgY29udmVyc2F0
-aW9uIG9yIHJlcXVlc3Qgb3VyIGZ1bGwgY2F0YWxvZ3VlLjwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxl
-bWVudFRvUHJvb2YiIHN0eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9u
-dCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBm
-b250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCjxicj4NCjwvZGl2Pg0KPGRp
-diBjbGFzcz0iZWxlbWVudFRvUHJvb2YiIHN0eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9z
-X0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBz
-YW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCkpvaW4g
-aGFuZHMgd2l0aCBUaGUgQmVhdXR5IEJveHgg4oCTIHdoZXJlIGJlYXV0eSBtZWV0cyByZXN1bHRz
-ITwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiIHN0eWxlPSJmb250LWZhbWlseTog
-QXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwg
-SGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwg
-MCk7Ij4NCvCfk40gUEFOIEluZGlhIFNoaXBwaW5nIHwg8J+MjSBHbG9iYWwgSW5xdWlyaWVzIFdl
-bGNvbWU8L2Rpdj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1p
-bHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGli
-cmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAs
-IDAsIDApOyI+DQo8YnI+DQo8L2Rpdj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHls
-ZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNl
-cnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBj
-b2xvcjogcmdiKDAsIDAsIDApOyI+DQpXYXJtIFJlZ2FyZHMsPC9kaXY+DQo8ZGl2IGNsYXNzPSJl
-bGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRG
-b250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7
-IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0KVGVhbSBUaGUgQmVhdXR5
-IEJveHg8L2Rpdj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1p
-bHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGli
-cmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAs
-IDAsIDApOyI+DQrwn5OeICs5MS02MjM5MTAyNTY4ICw3MzQ3MzQxMDU1PC9kaXY+DQo8ZGl2IGNs
-YXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1i
-ZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMt
-c2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0K8J+TpyBpbmZv
-QHRoZWJlYXV0eWJveHguY288L2Rpdj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHls
-ZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNl
-cnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBj
-b2xvcjogcmdiKDAsIDAsIDApOyI+DQrwn4yQIHRoZWJlYXV0eWJveHguY288L2Rpdj4NCjxkaXYg
-Y2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19F
-bWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fu
-cy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQrwn5OyIElu
-c3RhZ3JhbSAtIHRoZWJlYXV0eWJveHg4PC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9v
-ZiIgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19N
-U0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTog
-MTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0KfCBGYWNlYm9vayAtIEthamFsIFJhbmEgfCBX
-aGF0c0FwcCAtIDYyMzkxMDI1Njg8L2Rpdj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBz
-dHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9u
-dFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0
-OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQo8YnI+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4N
-Cg==
+----==_mimepart_6851a08d78adc_4a15701225627
+Content-Type: text/html;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
---_000_PN3P287MB3142B4222A069DC5273C893FBC73APN3P287MB3142INDP_--
+<!DOCTYPE html><html dir=3D"auto"><head>=0D
+  <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8=
+">=0D
+  <style type=3D"text/css">=0D
+    table td {=0D
+      border-collapse: collapse;=0D
+    }=0D
+    body[dir=3Drtl] .directional_text_wrapper { direction: rtl; unicode-b=
+idi: embed; }=0D
+=0D
+  </style>=0D
+=0D
+          <style type=3D"text/css">=0D
+            @media only screen and (max-width: 768px) {=0D
+              .simplified-email-footer .namecard {=0D
+                display: block;=0D
+                min-width: 100%;=0D
+                padding: 0 0 16px 0; }=0D
+=0D
+              .simplified-email-footer .content {=0D
+                padding: 16px; }=0D
+            }=0D
+          </style>=0D
+        </head>=0D
+<body lang=3D"en-in" style=3D"width: 100%!important; margin: 0; padding: =
+0;">=0D
+  <div style=3D"font-family: 'system-ui','-apple-system','BlinkMacSystemF=
+ont','Segoe UI','Roboto','Oxygen-Sans','Ubuntu','Cantarell','Helvetica Ne=
+ue','Arial','sans-serif'; font-size: 14px; line-height: 1.5; color:#44444=
+4;">=0D
+    <p dir=3D"ltr">Dear Consultant,</p><p dir=3D"ltr">Greetings of the da=
+y!</p><p dir=3D"ltr">We thank you for writing to us and acknowledge the r=
+eceipt of your email/concern for your unique Service Request number is SR=
+ 432297. </p><p dir=3D"ltr">We assure you, we will do our best efforts to=
+ resolve your concern at the earliest possible. Please note, in case we f=
+ind document/information provided in your communication is insufficient f=
+or processing your request, we will revert to you with status and shall s=
+pecify complete requirements in our response email or call. Please do tra=
+ck the same for faster closure.</p><p dir=3D"ltr">In case of anything urg=
+ent, please feel free to contact Azadi Call Center Number 0124-6912900&nb=
+sp; from Monday to Sunday between 10:00 am to 10:00 pm.</p><p dir=3D"ltr"=
+>Alternatively, you may also refer to the appended list of most common qu=
+eries and links:<br>- For raising complaints online (Order Related), plea=
+se log in to <a href=3D"http://www.modicare.com" rel=3D"noreferrer">www.m=
+odicare.com</a>,<br>Go to Dashboard-&gt;Support-&gt;Generate New SR, wher=
+ein a unique Service Request Number will be generated and our representat=
+ive will reply to your Service Request Query within 48 working hours.</p>=
+<p dir=3D"ltr">- Query Specific Response time is as follows:<br>1.Order T=
+racking =E2=80=93 48 to 72 working hours.<br>2.Short Shipment/ Damaged Pr=
+oducts - 48 to 72 working hours.<br>3.Transaction Failure-48 to 72 workin=
+g hours<br>4.TDS Certificate =E2=80=93 7 working days.<br>5.Pan card upda=
+te =E2=80=93 7 working days<br>6.Information Change =E2=80=93 48 to 72 wo=
+rking hours</p><p dir=3D"ltr">Also, it is important to note, In case of a=
+ny clarification/follow up/response, please write on the same email witho=
+ut changing the subject to avoid generation of multiple Service Request n=
+umbers for same matter and for tracking complete correspondence.</p><p di=
+r=3D"ltr">Once again thank you for giving us an opportunity to assist you=
+.</p><p dir=3D"ltr">Yours Sincerely,<br>Customer Services Team</p>=0D
+  </div><br>=0D
+  <div style=3D"font-family: 'system-ui','-apple-system','BlinkMacSystemF=
+ont','Segoe UI','Roboto','Oxygen-Sans','Ubuntu','Cantarell','Helvetica Ne=
+ue','Arial','sans-serif'; font-size: 12px; line-height: 1.5; color: #aaaa=
+aa; margin: 10px 0 14px 0; padding-top: 10px;">=0D
+    This email is a service from Modicare. Delivered by <a href=3D"https:=
+//www.zendesk.com/support/?utm_campaign=3Dtext&amp;utm_content=3DModicare=
+&amp;utm_medium=3Dpoweredbyzendesk&amp;utm_source=3Demail-notification" s=
+tyle=3D"color:black;" target=3D"_blank">Zendesk</a>=0D
+  </div><br>=0D
+  =0D
+<span style=3D"color:#FFFFFF" aria-hidden=3D"true" class=3D"zd_encoded_id=
+">[E4RE2Z-7RN12]</span>=0D
+=0D
+<div itemscope=3D"" itemtype=3D"http://schema.org/EmailMessage" style=3D"=
+display:none">  <div itemprop=3D"action" itemscope=3D"" itemtype=3D"http:=
+//schema.org/ViewAction">    <link itemprop=3D"url" href=3D"https://modic=
+are999.zendesk.com/hc/requests/432297">    <meta itemprop=3D"name" conten=
+t=3D"View ticket">  </div></div></body></html>=
+
+----==_mimepart_6851a08d78adc_4a15701225627--
