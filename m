@@ -1,118 +1,139 @@
-Return-Path: <SRS0=VZAp=ZH=quicinc.com=quic_renjiang@kernel.org>
+Return-Path: <SRS0=qWgD=ZH=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E56AEC77B7C
-	for <linux-firmware@archiver.kernel.org>; Tue, 24 Jun 2025 09:11:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2234AC77B7C
+	for <linux-firmware@archiver.kernel.org>; Tue, 24 Jun 2025 22:39:13 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C055FC4CEEF; Tue, 24 Jun 2025 09:11:44 +0000 (UTC)
+	id D3D66C4CEF3; Tue, 24 Jun 2025 22:39:13 +0000 (UTC)
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id D1774C4CEE3
-	for <linux-firmware@kernel.org>; Tue, 24 Jun 2025 09:11:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D1774C4CEE3
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55O8YwtG017607
-	for <linux-firmware@kernel.org>; Tue, 24 Jun 2025 09:11:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=qTgGcxxIekQgtB0Yo+m8Uy
-	3KcKQ3u/xw5rwy9ATNJmM=; b=E2thfZU8kfE07AvcBmo/tb7iHS8EhkBrl9nkgx
-	QD57MQQ0oedbhdnb/l3KbayJfLVb4rdx9oh+wpMdXiw8wUx0yxAN3lreBaesPwmS
-	rbcL8tHBrches/EpybNHlSNxNZEELIyYEG6Amxqh+bLkx0ECjwE6lsUXHd49/nup
-	7VvHa4Dxi4c4l5A9x45FIoPiUTKdIb/m8mcVUb9kDBoN1UzcvC6Q5psIz/wKldNb
-	At+1BBmpB+OgPvC9K/qFdRwsHlo4JLfWV1T/wezaBLLYdNMyuAGa8UTVfTjdx9MQ
-	2XmKOIBPmo0GA3k09OCXU/mdxyOZPICSKx2gKo4A1Or7AJJw==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47evc5mknk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-firmware@kernel.org>; Tue, 24 Jun 2025 09:11:42 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 55O9Bglu007114
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-firmware@kernel.org>; Tue, 24 Jun 2025 09:11:42 GMT
-Received: from [10.253.36.190] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 24 Jun
- 2025 02:11:40 -0700
-Message-ID: <8db66c86-3624-4e7b-a0de-91895d423214@quicinc.com>
-Date: Tue, 24 Jun 2025 17:11:37 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
+	by smtp.kernel.org (Postfix) with ESMTPS id 4E882C4CEF4
+	for <linux-firmware@kernel.org>; Tue, 24 Jun 2025 22:39:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 4E882C4CEF4
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55ODGYbg008956
+	for <linux-firmware@kernel.org>; Tue, 24 Jun 2025 22:39:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	3xTBwOpO2vro0DymlE0e3dlfoqiXEK7SjBhAmKxUBbU=; b=pasIRHCRkQVltGDQ
+	hH2trXRrG8LXdPxgNdy1Xn98r6iWPx89WCYOL+4OwcJCssseEN5BLXWThWTEXtca
+	wnpMtu1Ib2eM1RUqff85meSRMl6WtoWFe5NkdULVARVqLnqtPJ/tWKdLUMhrdQGv
+	MSty8csuru2aCgN4ikcf9pLo8kQ8p5nHphwcdIDCNkun6IWA79PcQknj1ScqXRe+
+	L1Wq2LxTFcl5yjC8Jk1iZP9xM37mBK/cMam3h/6PVhgTPW5+kWHbNdj4M/D/7R7S
+	0SOsZr4agRwK9X2dQUGvbaUJwaiTm8iXzqTrDxiTxE1y5kt35oUooGItJ9TBja1k
+	Rky5/A==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47emcmqep8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-firmware@kernel.org>; Tue, 24 Jun 2025 22:39:11 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7d40f335529so51506485a.0
+        for <linux-firmware@kernel.org>; Tue, 24 Jun 2025 15:39:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750804750; x=1751409550;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3xTBwOpO2vro0DymlE0e3dlfoqiXEK7SjBhAmKxUBbU=;
+        b=GKwqmMwWogy+Y6ZDEUxGQqH5JrnS5GSpH2yCtRgxB1QXfas0tD0EHKnak9iz1185OB
+         utQdoq+3Pj7vTHC7b6aHfhsx0vF2v4i1bE52E3lajSEjHQ4p654vy96SoIiqiXp93pJk
+         sXHmP9b8uRpycINjG9QlNifzc13dZ9LugrZ/F1XQsGHseQNAlIZ7MOUddn4NQqBNQqah
+         Y/0M49ytX91X+HkVbMa4ixtJ4SZbP+d4BOdxGkKlunbJEJxrQiT9NSnq/Wxc30s34A0X
+         rcRDO4w5nEif/8DrL4x2FdwUHL/J5VJnpmx3FY7StQmSqkbpF6ibKWZ2+W1pv/vBJ9lj
+         0rWg==
+X-Gm-Message-State: AOJu0YyYyZVUXYfcReQR/d6W6zbotM3smATskqEmhlYTHjAx4Sh60wg8
+	Frygm+Yohi++BVxeTYJuVsc+dCJV4OPOa+XeAy92JrtYnOR5/FdXhPD5Ug0tPHQeUQOF1E4KEs6
+	kAlgh8pUnidJwRA4DEuCNhTQ+3xTMYa+0GyUsGwAKaVMDk0SOwr0DHtmst/aFXag=
+X-Gm-Gg: ASbGnctyAvdoqtGTORQd0ZUpqM0r2KDRn/2iiTyQZiDqJXKEYilrq6oBEKNWsNUjJa0
+	5V8ISqsoJLQqVGwaB7coeaB5Xyys20iUNxAjh7FbQov117NFIZTdw/TCrx3vMBG7yQv6Wl7dAYj
+	A4CV8O8SL9v7eM9DOgsyyJL41RX6dR1xNoQ5wg+eTtBUJjl67azoj9qxv82pwoMVh5xBXr8vG1Q
+	MUVnoUcYCyCUPY1J8pXq/tQma7Wwq9ynF/okoHkKGcuTw7egs5Wa2Y2TqrDsRigBCJTXvu3OxiC
+	3sdcsT1c3Vzn63ZvlAptghVPGmT+hw8iBpoJxq4CN7WIjDPFQWQhujJ/cBJaGh6x7oyup5OjgxI
+	R9gc29N/7owHmOek2Np5R96EiAUVboZ25mPU=
+X-Received: by 2002:a05:620a:1926:b0:7d3:acfa:de46 with SMTP id af79cd13be357-7d41ec53bd0mr645803985a.21.1750804749887;
+        Tue, 24 Jun 2025 15:39:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFFEruZW5hypFzw1bN3CkD593Kv0FQu0yJlFS1k7QiLxefDvxbNsu0CEKcZ4KqgJHMOSCFqEw==
+X-Received: by 2002:a05:620a:1926:b0:7d3:acfa:de46 with SMTP id af79cd13be357-7d41ec53bd0mr645800785a.21.1750804749466;
+        Tue, 24 Jun 2025 15:39:09 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553e41c4243sm1976038e87.175.2025.06.24.15.39.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Jun 2025 15:39:08 -0700 (PDT)
+Date: Wed, 25 Jun 2025 01:39:07 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Renjiang Han <quic_renjiang@quicinc.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-CC: "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
-        "Dikshita Agarwal
- (QUIC)" <quic_dikshita@quicinc.com>,
-        "Qiwei Liu (QUIC)"
-	<quic_qiweil@quicinc.com>,
-        <quic_tingweiz@quicinc.com>, <quic_wangaow@quicinc.com>
-From: Renjiang Han <quic_renjiang@quicinc.com>
-Subject: add the firmware binary signed with Sectools v2 for qcs615
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Cc: linux-firmware@kernel.org,
+        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
+        "Dikshita Agarwal (QUIC)" <quic_dikshita@quicinc.com>,
+        "Qiwei Liu (QUIC)" <quic_qiweil@quicinc.com>,
+        quic_tingweiz@quicinc.com, quic_wangaow@quicinc.com
+Subject: Re: add the firmware binary signed with Sectools v2 for qcs615
+Message-ID: <ae4m27szjv5rp6d343l2pjxvbbcr42whxyuwq2bfvxxpq6zvjn@kmbtwbbijf7t>
+References: <8db66c86-3624-4e7b-a0de-91895d423214@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: bzxrocoFIM8Ot30Q1AhQjdS-r4Rq7By3
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI0MDA3OCBTYWx0ZWRfX8XCX8/nuEDJQ
- BBVcxxt5puWJtmEYMBmCosg3ILUW2QnDyQwelQDTlWSBi9oxpDIfvsqOZlfgZWpOV6xrwXiylUN
- eT3ZseXpm5k9X6CbB1qE+EoRK78eA3rsOacaU47ULuvMNzzzxFazQBe5i1Zf/vv8R2BNMZl4o64
- z4feMi84gUSH/enRJwUgr2x1xb0hrMDONQeQl18mRuxqNJCYLCCj4OP/LT2XnH7jzH+hEjMeaJY
- NKloDXcv3VEsq4tdIlJuuPWbBDd4S2vNEgxoPDCl5DyesWHYPSegp+OkkjWNc0zDIjV56vte0VR
- n1g18Y4v7erxtyMPfBlDQ3b8jAsRAbZY7LKa2Zb1vcQ5uif8msK+/zfbm+iB4216YN6FvV9w0mG
- jFaWy2b2TYOICjjr+0LDuVbR6H0qkeDNUAzyh3M5yKlS7Rr7DNJjLvdJF9JrDT18lG4p9lLn
-X-Authority-Analysis: v=2.4 cv=caHSrmDM c=1 sm=1 tr=0 ts=685a6bce cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=qC_FGOx9AAAA:8
- a=3OqITKfWQz-S2TCWFYUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=fsdK_YakeE02zTmptMdW:22
-X-Proofpoint-ORIG-GUID: bzxrocoFIM8Ot30Q1AhQjdS-r4Rq7By3
+In-Reply-To: <8db66c86-3624-4e7b-a0de-91895d423214@quicinc.com>
+X-Proofpoint-GUID: z0zNC5P3kaFOP5zR4Rp1ieIlMUx_uaNp
+X-Proofpoint-ORIG-GUID: z0zNC5P3kaFOP5zR4Rp1ieIlMUx_uaNp
+X-Authority-Analysis: v=2.4 cv=J+eq7BnS c=1 sm=1 tr=0 ts=685b290f cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=6IFa9wvqVegA:10 a=qC_FGOx9AAAA:8 a=lGK0cQbTcn6fYDm1jZAA:9 a=3ZKOabzyN94A:10
+ a=wPNLvfGTeEIA:10 a=NFOGd7dJGGMPyQGDc5-O:22 a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI0MDE4MCBTYWx0ZWRfXzaEFhGtOCZzi
+ XU7yALHHM25hqrLQrL09h2EG0+3DrJujCxAxecwXnix31vmdZWCP4qcg/Spk3kDH2/1eHNQnij5
+ 3KmEWRqVuhL2G8kxFjWPJL+YvBRJinVESRo451emZwJXDhnl/E5sAX1/qPQaxeoq90gQ0R+2zlS
+ ULFSqKbB6aXujGd2tcBckX/NLUZUKec5euKLMTJNkS97yUgJ4PDMIFgWqLZk1iALopgNH7TNLYK
+ uVkKAezZ6ZIYmtdXGNNrOSbBjHX/u8KNIDMtwjL/49B8ebuvZoI7Pn6Kl3fuiM5QaxwnzemnQbV
+ GK5MQFpNIQpewenuMweq/68PnlvZgFLX/R5fIkNRt250wOLcMpGkMmWzmElMH0c3wh3SpBJU28o
+ RooPzD1UuapQuJRYuCynG4SBwcnVjfymsfBmVo6I2WDO008iq0kH9H9cGJ9DIWCWOxEvA8Dt
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-06-24_03,2025-06-23_07,2025-03-28_01
+ definitions=2025-06-24_06,2025-06-23_07,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxlogscore=511 suspectscore=0 priorityscore=1501
- lowpriorityscore=0 bulkscore=0 adultscore=0 mlxscore=0 spamscore=0
- malwarescore=0 phishscore=0 clxscore=1011 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506240078
+ bulkscore=0 mlxlogscore=832 adultscore=0 impostorscore=0 clxscore=1015
+ spamscore=0 malwarescore=0 phishscore=0 priorityscore=1501 suspectscore=0
+ mlxscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506240180
 
-Hello
+On Tue, Jun 24, 2025 at 05:11:37PM +0800, Renjiang Han wrote:
+> Hello
+> 
+> The following changes since commit dbfe16e9e8acc74c018c39e541bdc3669b37f301:
+> 
+> � Revert "qcom: Add sdx61 Foxconn vendor firmware image file" (2025-06-23
+> 12:15:33 -0400)
+> 
+> are available in the Git repository at:
+> 
+> � https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
+> video-fw-qcs615
+> 
+> for you to fetch changes up to c319d6bea7a692fd9cee01d662dbbe8101e052f6:
+> 
+> � qcom: venus-5.4: add the firmware binary for qcs615 (2025-06-24 14:30:27
+> +0530)
 
-The following changes since commit dbfe16e9e8acc74c018c39e541bdc3669b37f301:
+Well... No. Existing qcom/venus-5.4/venus.mbn already supports SOC_ID
+6007, it uses the same MBN header (6) and PSS/SHA256 signature scheme.
+Please describe actual differences.
 
-   Revert "qcom: Add sdx61 Foxconn vendor firmware image file" 
-(2025-06-23 12:15:33 -0400)
+Moreover, you are trying to push a newer version of the firmware
+under the cover of providing a file with different signature. Even if
+there is a need for a different signature, original firmware should also
+be upgraded to the same version.
 
-are available in the Git repository at:
-
-   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git 
-video-fw-qcs615
-
-for you to fetch changes up to c319d6bea7a692fd9cee01d662dbbe8101e052f6:
-
-   qcom: venus-5.4: add the firmware binary for qcs615 (2025-06-24 
-14:30:27 +0530)
-
-----------------------------------------------------------------
-Renjiang Han (1):
-       qcom: venus-5.4: add the firmware binary for qcs615
-
-  WHENCE                      |   4 ++++
-  qcom/venus-5.4/venus_s2.mbn | Bin 0 -> 919008 bytes
-  2 files changed, 4 insertions(+)
-  create mode 100644 qcom/venus-5.4/venus_s2.mbn
+So... NAK.
 
 -- 
-Best Regards,
-Renjiang
-
+With best wishes
+Dmitry
