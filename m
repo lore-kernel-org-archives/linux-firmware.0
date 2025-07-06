@@ -4,166 +4,145 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5E5BEC83F03
-	for <linux-firmware@archiver.kernel.org>; Sun,  6 Jul 2025 17:13:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 236A1C83F05
+	for <linux-firmware@archiver.kernel.org>; Sun,  6 Jul 2025 17:13:40 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 2EE73C4CEED; Sun,  6 Jul 2025 17:13:39 +0000 (UTC)
+	id 150B3C4CEF2; Sun,  6 Jul 2025 17:13:40 +0000 (UTC)
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 3FA6FC4CEF2
-	for <linux-firmware@kernel.org>; Sun,  6 Jul 2025 17:13:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 3FA6FC4CEF2
+	by smtp.kernel.org (Postfix) with ESMTPS id 3FA27C4CEEF
+	for <linux-firmware@kernel.org>; Sun,  6 Jul 2025 17:13:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 3FA27C4CEEF
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5667UROA028284
-	for <linux-firmware@kernel.org>; Sun, 6 Jul 2025 17:13:37 GMT
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 566BDFPU015547
+	for <linux-firmware@kernel.org>; Sun, 6 Jul 2025 17:13:35 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=WfYJjAUzVAx
-	V26GmLn8CGIBtM4l4Dr2kT2ZsCoCJ7Rs=; b=JRsJc0nk0u8ORBakAR++uIJ2rVE
-	RfL9yINDRZP2VLRSkuceJ2Fop0WLMa8eEKlLIvktGFjQYKzhz3RTUKMjkHsjaGm8
-	ZxAI3A2oIU80s2BFpCGdxW/d3A4jS9ElfA96v8DdiLBFrxe42Q2v+8sIXvxEpitA
-	RsQDuZoWWg4QDhI8kiqlwB4XiHEK/MVHe7aDb72L9lVJu/aEqi0paSPU7u06CFEK
-	6mWIm5BbgWO4WMVIOqLEwEkYCSmZKTf4ORHNodE/8FkYIm8g//YbyYwOVU0Qh8g5
-	B6q41fsyZdwbtSrnJL5cM3v4FZXmyZQeBKrxUdKQiT++hXWdRwCQp62QQBg==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47psdqdq4x-1
+	content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=eWIHN5GOjR1
+	htDfDjc4a6+m1ZJbXYnCqUG4ESUAE0x8=; b=HnsPQVM+dq/P1xd8Dtsy26ojIju
+	wm509QTzJMubCwHMWLPR6AcwGTa0TC+XWCc7/SQ8hazdGTkxoFoyl2Z197wsuepX
+	qj/DO76ZdKRwCD2t3QOvJq7EfEVHFyVxv7aCTOn50UuuV5UqiNvqKfBKfx4N/Lc5
+	gyvCEjmLGbRS5w/o3B1YGjvN9d4b+FWAPr/Iz5mSUfrKAbue9sd2olMuUZWvnph8
+	o4uz/I+vLSlHJ4xzejopZ764OWPGmc16viNU89P7DLQS/yvLtdg+j3S3kr5kH9Uq
+	PW/ZZfAa/s2zGmIQ9DHiRtkX3qgmZVqLUWXvvoi3NdVIy/djL9Ok/BGBGSg==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47pv4xdmvq-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Sun, 06 Jul 2025 17:13:36 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7d444d21b24so402678385a.1
-        for <linux-firmware@kernel.org>; Sun, 06 Jul 2025 10:13:36 -0700 (PDT)
+	for <linux-firmware@kernel.org>; Sun, 06 Jul 2025 17:13:35 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7d446ce0548so414617085a.3
+        for <linux-firmware@kernel.org>; Sun, 06 Jul 2025 10:13:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751822016; x=1752426816;
+        d=1e100.net; s=20230601; t=1751822015; x=1752426815;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WfYJjAUzVAxV26GmLn8CGIBtM4l4Dr2kT2ZsCoCJ7Rs=;
-        b=acdYc8XsgXKe2AXmw8t0qklTVgcJOoz5e8pEwwG3Bjn0MOzSe8JiC6OYFnoUXVUdcB
-         BvN+PLiNlGYU5Xwt6WmILBEcEyfy4V6M/ejOnUYC5DDXf48IekW2PAqsTQhzXxGYE1of
-         lTL713JSoC/LlskSlqcFMUaqepF8pUi9lVxMOvCiVaL3Y2xGE3N8F2rvE/837X6FEDA0
-         bD2zgPSFBebjOxF1ujv1FD3mHB6pTQy81JqqGAFcr++YGKNDHJ5hEcg4GwnQ0GAR/9Bj
-         eWKAKQdjl+fd9RbNxnygoSynPclxFZDJ1LLab+NoXhSqcDKjGv4+mKxL2RcSg4/6Db2C
-         JrSQ==
-X-Gm-Message-State: AOJu0YyxhuDk/2w2GqOaqxmGcVWGmiQmCHwy7F9MEhGwk16PMNpIp0cU
-	m8SEqYSS362pRDhCKWEIHhse+qH+1DpXMl1e660iFFb8K8mGbbAYNVE1xiR3Sp00qqXXm0HHqX5
-	bpwLy485JnIFlas73Og5iw31Vm+6NU770xo1PNdBog/cW/HVC1d2lJT+bLyAVdFXYWbN4JQECSw
+        bh=eWIHN5GOjR1htDfDjc4a6+m1ZJbXYnCqUG4ESUAE0x8=;
+        b=OrmvACs91rn5Oo3Xn2toKkn3sAOr3wNCp3wCVabsXNRxbT6IVSL3JiHtlpm4YY11ED
+         yeQa3ORzZNSTGPH9RTQXuyLSsfM92tR/xbVxdqH3Un0OORIH3s6gfe1wvSAeCXgDSKGb
+         FeevhDpzPlzkoOnTHoOZbf/uBRScQx/5+KgGYCPEOcLBO/m5jXI+xIDow5P3vCl0m8t0
+         eCw6QHEz3Mg+J20uDwdplps52lNz6YPz6igo+QFzrpT0LdbVJ6AJ1lQPHloMNPLvUb8K
+         IuzelqgeNXMsHo43KMIf61HJ3/qOKQ+WdrhBcsqzOP+QLaS5ylFykdVNRQdUnyJEwziS
+         mrYQ==
+X-Gm-Message-State: AOJu0YzddpAtfPhEQHPlZA8z3MS1ogza8b8RJj6u2SaPyZGp4cofOmgH
+	zeLoHdFPHAAN4gprZBqUZL+A6juwxHyeyTSn16FSGjMus64WBODNq9/FfAv+iAOxzsAuQHYEuDG
+	l0uIYI/f+oKQF+ZBE+VJRX6GKOGEja24dAJjafk36FHhfchZvFsuX1tdepTbqYhaiZk2IQFa8Uw
 	==
-X-Gm-Gg: ASbGnctJVVe/5Mz0MWjqOiTl8cdfQlrMNqbxRLtMbTMlJ1h9NvtzmhVfmgTR/DnG2U8
-	UUIal27lMzzd1JrlbeVq+lH2NH1mOqVayGuiJ0x0nCLJsLsTKsCst400xCgdm0Y+WrB7g/RMjIQ
-	PDm8oqrScNe7ixwm3WNb0g0BssKcDckPDv3hoYIdPVgpcLovplaRLr4GYDf9w/7iEKR0h7g7wsS
-	iJtE0L0wkWyepoeFpgk6c82/0MKoWSsaS90lvQ3b2caYRiNfbvjFHEFC7L7lRGBNdnMDVPyx4KK
-	GHCgmoYylvSM2kQofgtMiCooHUWET0YVGXN6cFKYEMbLT11RdVPHbKXkBhc1oumGKln8YG4l
-X-Received: by 2002:a05:620a:2682:b0:7d3:c4c7:75d6 with SMTP id af79cd13be357-7d5f16ecd30mr862432785a.47.1751822015900;
-        Sun, 06 Jul 2025 10:13:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHp2TQSi0jVekug2dNXalnbUwANxZsadkC+S4/L8QoFt+TjF32+CpL8PPW2MMJsGnetybn5SA==
-X-Received: by 2002:a05:620a:2682:b0:7d3:c4c7:75d6 with SMTP id af79cd13be357-7d5f16ecd30mr862429085a.47.1751822015459;
-        Sun, 06 Jul 2025 10:13:35 -0700 (PDT)
-Received: from rohan.lan (2001-14ba-a0c3-3a00--4c9.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::4c9])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-556382ba9aesm1022051e87.0.2025.07.06.10.13.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+X-Gm-Gg: ASbGncvYPwu0roThQfJiJRErGXcSKza1rSq1UBLCPYC3BpvPkj1W7r7ebRwqaEmknK8
+	XtEV+ZXXI1EaboQnpR1t98LBb27AI1YpmvuCRxCgrUYmfoE88S8hMHmYtDsb5tE/RMJCoQGFINx
+	WJFWF7WXaYLxcCxvPqokK+JXLwg/T0usTcO1YnqYz3fSLi/iBWSoUxab3Khz7Q4TRPbFh/Uf1cR
+	2FPuXoFFQIn/6JDpXCFYGQXJzSSZvHVbkEOykQ8lENdFaane8cASxrq2huue1kr0M4XMM9LIlqd
+	0uZ222MJ20yVcjjySiG14dL79zzAQ30PzTm+zNaX3Bn8by2EzZ0sy1Q+meWN6widt7wqw9R9
+X-Received: by 2002:a05:620a:1911:b0:7d2:1199:ac89 with SMTP id af79cd13be357-7d5df152b89mr1386794785a.36.1751822014550;
         Sun, 06 Jul 2025 10:13:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFcFQ1Lcnswd8lupNoJjnUjlbeVNwylN4uin+6Fwnx89RDJesffsMfPKZr6FDHn6rkA78w8Mg==
+X-Received: by 2002:a05:620a:1911:b0:7d2:1199:ac89 with SMTP id af79cd13be357-7d5df152b89mr1386790985a.36.1751822014161;
+        Sun, 06 Jul 2025 10:13:34 -0700 (PDT)
+Received: from rohan.lan (2001-14ba-a0c3-3a00--4c9.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::4c9])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-556382ba9aesm1022051e87.0.2025.07.06.10.13.33
+        for <linux-firmware@kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Jul 2025 10:13:33 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Cc: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Subject: [PATCH 3/3] qcom/adreno: document firmware revisions
-Date: Sun,  6 Jul 2025 20:13:31 +0300
-Message-ID: <20250706171331.78877-3-dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH 2/3] qcom/adreno: move A610 and A702 ZAP files to Adreno driver section
+Date: Sun,  6 Jul 2025 20:13:30 +0300
+Message-ID: <20250706171331.78877-2-dmitry.baryshkov@oss.qualcomm.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250706171331.78877-1-dmitry.baryshkov@oss.qualcomm.com>
 References: <20250706171331.78877-1-dmitry.baryshkov@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=ffSty1QF c=1 sm=1 tr=0 ts=686aaec1 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10
- a=EUspDBNiAAAA:8 a=toZMB1Rz0LQbaM7n1_wA:9 a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-ORIG-GUID: RNPNard11B6_xwec6q-NlDgAvj8I4NBN
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA2MDExMCBTYWx0ZWRfX2Xmy9vf6ssJ1
- xIGAwFYAGhe+xJ7/psoJCUY1ucAvcwvykFYl5MXkXjnLbcPQxZoT8MCCahU1DLlPMhyo408futW
- 02yu+AfuoD6GlGyXZJe3yx2ylzj4sOOxHr3wNvxIlNGYUMUaLeB6hYxCfWgcP/ZV1crERv8gU1Z
- /EYlRIQDZBenog7UL+xc3cMVl6jDCn3rOoBnBdNvZKaWbn3kk6y++Lln2BJ5Ir+wVAWQW8x+QD3
- HTSHb7SQs3JvgHRRqKgmcD6Y34abkfjO0ZInnSZkkdoIJZRAsLqJFNhV1di2O81+zy7bW06LMyk
- CgZuRNPq6AS8ImU862u/DrkXFZW6qUv45wXJaK8d4S6F6va3WNDk9rKDg2b0183emTcFaJ71k+p
- ziUZvxKlwGkh4GABsxLJXV9OxkYZZ5CUu9ghoUHNTSbClLOBMoEjyfRta0PNZ26kHG4UsRZ/
-X-Proofpoint-GUID: RNPNard11B6_xwec6q-NlDgAvj8I4NBN
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA2MDExMCBTYWx0ZWRfX4YzbESXCRPPn
+ 2xcjrIQpLNz+y705YzJofT+LnuTQ8l3J9LKSKLFZYmBSwG1pCKMeNRCEq3Lgl3R95kAPmowj6y5
+ x8avSizv9l+chJj7XUiJ3JYcl1dBl/MZ9MhqzFve7nYPMPe813YM0UrlugZd7Va9E6sF8gAJNxA
+ VqwC3u43ENJyARjwtg36fXOjmmilI5bTIL3HEyjMgaTFZuiwc7LpJQQrIoAeWcuSXn8U0azt7Zb
+ 4DnAEE2FG0gcpTr5zAqPwJPLwPkvbqNTwDU3YXFFG7afefLmD0PpXC+ErGfyGPPLDEVZ7enyJn7
+ vM3vyjORMm/+9imiDcx2GjjdsjBhKv2wl+ftL/Uv+2Y7bM8CyH+irWkSGMhV5dNVUW/bzNrUgqj
+ EzsGdGAU0W+36554Z0XejbCdJoPT+b1mijCr+vdF26ETwEX3iJLtujlVFfjaFpIddcn1iG68
+X-Proofpoint-ORIG-GUID: BZFCa29VZvhnRknYcE-YzTAv5UTdljyO
+X-Authority-Analysis: v=2.4 cv=DNCP4zNb c=1 sm=1 tr=0 ts=686aaebf cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10
+ a=EUspDBNiAAAA:8 a=EbXEDBAxkFbNrIegu08A:9 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-GUID: BZFCa29VZvhnRknYcE-YzTAv5UTdljyO
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
  definitions=2025-07-04_07,2025-07-04_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 mlxlogscore=999 mlxscore=0 bulkscore=0 priorityscore=1501
- phishscore=0 clxscore=1015 suspectscore=0 impostorscore=0 lowpriorityscore=0
- spamscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ priorityscore=1501 adultscore=0 spamscore=0 clxscore=1015 phishscore=0
+ malwarescore=0 mlxlogscore=952 mlxscore=0 lowpriorityscore=0 bulkscore=0
+ impostorscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
  definitions=main-2507060110
 
-Document known versions for Qualcomm Adreno firmware files.
+qcom/qrb4210/a610_zap.mbn and qcom/qcm2290/a702_zap.mbn are used by the
+adreno driver (rather than PAS driver). Move them to the corresponding
+section of the WHENCE file.
 
-Cc: Akhil P Oommen <akhilpo@oss.qualcomm.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- WHENCE | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ WHENCE | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/WHENCE b/WHENCE
-index d1740c514019..f38e4af6f2a2 100644
+index 92aeaeae3015..d1740c514019 100644
 --- a/WHENCE
 +++ b/WHENCE
-@@ -6374,6 +6374,7 @@ File: qcom/a330_pm4.fw
- File: qcom/a420_pfp.fw
- File: qcom/a420_pm4.fw
- File: qcom/a530_pfp.fw
-+Version: 1.87.01
- File: qcom/a530_pm4.fw
+@@ -6378,6 +6378,7 @@ File: qcom/a530_pm4.fw
  File: qcom/a530v3_gpmu.fw2
  File: qcom/apq8096/a530_zap.mbn
-@@ -6381,29 +6382,45 @@ Link: qcom/a530_zap.mdt -> apq8096/a530_zap.mbn
- File: qcom/qrb4210/a610_zap.mbn
+ Link: qcom/a530_zap.mdt -> apq8096/a530_zap.mbn
++File: qcom/qrb4210/a610_zap.mbn
  File: qcom/qcs615/a612_zap.mbn
  File: qcom/a623_gmu.bin
-+Version: v3.06.00
  File: qcom/qcs8300/a623_zap.mbn
-+Version: v0.12
- File: qcom/a630_gmu.bin
- File: qcom/a630_sqe.fw
-+Version: v2.07
- File: qcom/sdm845/a630_zap.mbn
- File: qcom/a650_gmu.bin
- File: qcom/a650_sqe.fw
-+Version: v1.12
- File: qcom/sm8250/a650_zap.mbn
- File: qcom/a660_gmu.bin
-+Version: v3.01.0B
- File: qcom/a660_sqe.fw
-+Version: v1.12
- File: qcom/qcm6490/a660_zap.mbn
-+Version: v0.09
- Link: qcom/qcs6490/a660_zap.mbn -> ../qcm6490/a660_zap.mbn
- Link: qcom/sm8350/a660_zap.mbn -> ../qcm6490/a660_zap.mbn
- File: qcom/a663_gmu.bin
-+Version: v3.05.01
+@@ -6396,6 +6397,7 @@ File: qcom/a663_gmu.bin
  File: qcom/sa8775p/a663_zap.mbn
-+Version: v0.09
  File: qcom/sc8280xp/LENOVO/21BX/qcdxkmsuc8280.mbn
  File: qcom/a702_sqe.fw
-+Version: v0.47
- File: qcom/qcm2290/a702_zap.mbn
++File: qcom/qcm2290/a702_zap.mbn
  File: qcom/gen70500_gmu.bin
-+Version: v4.03.11
  File: qcom/gen70500_sqe.fw
-+Version: v1.62
  File: qcom/x1e80100/gen70500_zap.mbn
-+Version: v0.15
- File: qcom/gen71500_gmu.bin
-+Version: v4.06.04
- File: qcom/gen71500_sqe.fw
-+Version: v1.81
- File: qcom/x1p42100/gen71500_zap.mbn
-+Version: v0.13
- 
- Licence: Redistributable. See LICENSE.qcom and qcom/NOTICE.txt for details
- 
+@@ -6440,7 +6442,6 @@ File: qcom/apq8096/mba.mbn
+ File: qcom/apq8096/modem.mbn
+ Version: MPSS.TH.2.0.1-00481
+ RawFile: qcom/apq8096/modemr.jsn
+-File: qcom/qcm2290/a702_zap.mbn
+ File: qcom/qcm2290/adsp.mbn
+ Version: ADSP.VT.5.4.1.c4-00013-KAMORTA-1
+ RawFile: qcom/qcm2290/adspr.jsn
+@@ -6467,7 +6468,6 @@ Link: qcom/qcs6490/adspua.jsn -> ../qcm6490/adspua.jsn
+ Link: qcom/qcs6490/battmgr.jsn -> ../qcm6490/battmgr.jsn
+ Link: qcom/qcs6490/cdsp.mbn -> ../qcm6490/cdsp.mbn
+ Link: qcom/qcs6490/cdspr.jsn -> ../qcm6490/cdspr.jsn
+-File: qcom/qrb4210/a610_zap.mbn
+ File: qcom/qrb4210/adsp.mbn
+ Version: ADSP.VT.5.4.1.c4-00013-KAMORTA-1
+ RawFile: qcom/qrb4210/adspr.jsn
 -- 
 2.47.2
 
