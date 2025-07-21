@@ -4,311 +4,167 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 614D2C83F25
-	for <linux-firmware@archiver.kernel.org>; Mon, 21 Jul 2025 18:53:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78479C83F1A
+	for <linux-firmware@archiver.kernel.org>; Mon, 21 Jul 2025 19:06:48 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 1996FC4CEF1; Mon, 21 Jul 2025 18:53:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03EABC4CEF4
-	for <linux-firmware@kernel.org>; Mon, 21 Jul 2025 18:53:13 +0000 (UTC)
+	id 4D32DC4CEF7; Mon, 21 Jul 2025 19:06:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 376D5C4CEED
+	for <linux-firmware@kernel.org>; Mon, 21 Jul 2025 19:06:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753123994;
-	bh=hMesET+xlOTM6LSH1H3tNTNYmKMM1F0WMEXsdzNYCxA=;
+	s=k20201202; t=1753124808;
+	bh=nqzwCgCQq+fE0Zq58Jg9I0UQcqDyrhk67TnwjU9I/aw=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=OeQXUHXC+My8MhlxegypYYFWR2x/Vaz23uuvHCUtcvLzEiupk5gThO2By5xlhQ72J
-	 EVjOHB+5fTdvTy4t/lkbXbZOuLglYdr/Q8mIkpk25guCwX+0yPM/exmiNj8/Bo9S4v
-	 f36naOtKsB966i8+0FH/8PO5xU8VRb7RFj0RuM8aI8aQBqW/bKJPnDUR800omt150L
-	 0iQP2ovPEQAtGXx/IroN63M6r4+ysP9HRS/XrpNYWClM8k9UOyVN7PsbMas4qPYR+8
-	 YOIJSYIdYYq8oOhJvdAi72g7bYoeWAaMVYjkDMOdiqrbVUPKZqE1y9nLU5+fnCH728
-	 J3yXkVFrzc4Ng==
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-70e302191a3so43264637b3.2
-        for <linux-firmware@kernel.org>; Mon, 21 Jul 2025 11:53:13 -0700 (PDT)
-X-Gm-Message-State: AOJu0YweGDgYOFk2K40A69+d8Sgv6xXLZg7JwAYnqQOWfqg0W1sEVLPo
-	O0bjrAmFkWAkyq2Sp1w/lDocbsBhQw378KI+uIS0kKYicuRNaBBttnFrTHlejtlIVQGyQpGINiM
-	1cPsEw7BjgqLkyIDvfslxElqma8zVFUU=
-X-Google-Smtp-Source: AGHT+IHXa2qc3Zj9FpabyczQII9tcmmAoDhGm3EyyfLGNmNjBKQetwdtJGG5TxdRs4dJUdxG2rVAs8li5X7ufxBZc0I=
-X-Received: by 2002:a05:690c:4809:b0:70e:7638:a3a9 with SMTP id
- 00721157ae682-7183516c9dbmr253413987b3.18.1753123993069; Mon, 21 Jul 2025
- 11:53:13 -0700 (PDT)
+	b=QhH7NLStP/JaNYiu6A5zoMHwxerA+2rgLpLmT6bpPCwK0Du7mO3z7CFa0DaySeQXr
+	 12Pq50A6yBmQDeklJNaJmHU4BdPSdMJ++U1NXeZvJwU6yfTTaDJMXpzHS51y4ylyXE
+	 65DI87UUNatBkIDRZVaIEiqBtxRDtKMIGbUB4L8mcj2DIhAVUooHLR6uab/s4R7kAV
+	 QrE6PZHn8eN0Pz4y+TxuCuYiJVnkxSsNO5AU7Dv64wRTAcy54a6QZWvmshkbkGXYG7
+	 wNaWYDbJ7dGAhyzq3gtIw1EjT2WKTL9xhHZSZRFRG974iizWNuJjQSqyv7mCgYGbfM
+	 /eYdTB155k09A==
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e75668006b9so4585735276.3
+        for <linux-firmware@kernel.org>; Mon, 21 Jul 2025 12:06:48 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yzb8GZMGKYJvHJT6UovXpAsr1VWV3PMhw6K2DQKFZXL2Qhwytkr
+	I5IroYH1OywjwTk0A3F6mSLiBv8vXRyf+y6daCUe59pHmcFtysIuX8KFgsjDM0cFHdd2q0fKAxg
+	qLXXfEl7oxak+Py50MvPaO9FUsfebt3g=
+X-Google-Smtp-Source: AGHT+IFGqPaFwubBXeYx8JUbi9DUQyGSvTMW7mPzZ23hnOJL/3zEBJkNEs3IFVeNIzz27SezFmf6PyywcQE+tBnFfC0=
+X-Received: by 2002:a05:690c:6e0a:b0:711:af14:3981 with SMTP id
+ 00721157ae682-71837472eb1mr299713207b3.31.1753124807337; Mon, 21 Jul 2025
+ 12:06:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <000001dbf7df$3cb69d10$b623d730$@opensource.cirrus.com>
-In-Reply-To: <000001dbf7df$3cb69d10$b623d730$@opensource.cirrus.com>
+References: <7b358989-0b9c-4a53-bc72-5f1bb59d5a46@opensource.cirrus.com>
+In-Reply-To: <7b358989-0b9c-4a53-bc72-5f1bb59d5a46@opensource.cirrus.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 21 Jul 2025 14:53:01 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA4Z2ryDGY-UVwoNPj6exNVG57Oi8WiL1SDK-8d8YpAa=Q@mail.gmail.com>
-X-Gm-Features: Ac12FXzcsnaanJZsdnUP_lGLXBUHPqkd84PoDba8dgDCUlIatYLJbQHiN2C4luw
-Message-ID: <CA+5PVA4Z2ryDGY-UVwoNPj6exNVG57Oi8WiL1SDK-8d8YpAa=Q@mail.gmail.com>
-Subject: Re: [PULL v1 linux-firmware] Add firmware for Cirrus Amps for some
- Dell laptops
-To: Simon Trimmer <simont@opensource.cirrus.com>
+Date: Mon, 21 Jul 2025 15:06:36 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA5EVYYx8Ynh348eMpSspPzP3b4sVPx9rgQQbbbtavi9dw@mail.gmail.com>
+X-Gm-Features: Ac12FXzrn1WO6ntGMAMP-IgfN-J1E11She0503mhSGUTUoXfEz2ayd7nfm6hTGA
+Message-ID: <CA+5PVA5EVYYx8Ynh348eMpSspPzP3b4sVPx9rgQQbbbtavi9dw@mail.gmail.com>
+Subject: Re: [PULL v1 linux-firmware] Add and update firmware for Cirrus Smart
+ Amp CS35L41
+To: Stefan Binding <sbinding@opensource.cirrus.com>
 List-Id: <linux-firmware.lore.kernel.org>
 Cc: linux-firmware@kernel.org, patches@opensource.cirrus.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 18, 2025 at 8:27=E2=80=AFAM Simon Trimmer
-<simont@opensource.cirrus.com> wrote:
+On Mon, Jul 21, 2025 at 11:01=E2=80=AFAM Stefan Binding
+<sbinding@opensource.cirrus.com> wrote:
 >
-> Hi,
+> We would like to add firmware files to support Cirrus Logic Smart Amp CS3=
+5L41 for a couple of Asus laptops.
 >
-> We=E2=80=99d like to add the firmware for the Cirrus CS35L56 smart amplif=
-ier for some Dell Laptops.
+> In addition, we would like to update the firmware and tuning files for se=
+veral Dell Oasis laptops using CS35L41.
 >
 > Thanks,
 >
-> -Simon
+> Stefan Binding
 >
+> The following changes since commit 9c2794b0f0373c627fd1c635bc2a416ba1ecc0=
+e1:
 >
->
->
->
-> The following changes since commit 6fc20e018cca0ab954fe249afb60ac5af69f10=
-2a:
->
->
->
->   Merge branch 'license' into 'main' (2025-07-17 14:40:28 +0000)
->
->
+>   Merge branch 'qcs6490' into 'main' (2025-07-21 13:13:27 +0000)
 >
 > are available in the Git repository at:
 >
->
->
->   https://github.com/CirrusLogic/linux-firmware/ cs35l56-20250718
+>   https://github.com/CirrusLogic/linux-firmware/ cs35l41-20250721
 
 Merged and pushed out.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/622
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/623
 
 josh
 
 >
+> for you to fetch changes up to 82c2fdb0fd0f4bbbd552a3faed749dd6744a08db:
 >
->
-> for you to fetch changes up to 66cc5ebaae28bcc0428b329679b3c377734fb483:
->
->
->
->   cirrus: cs35l56: Add firmware for Cirrus CS35L56 for various Dell lapto=
-ps (2025-07-18 13:17:26 +0100)
->
->
+>   cirrus: cs35l41: Add Firmware for various ASUS commercial Laptops using=
+ CS35L41 HDA (2025-07-21 15:15:50 +0100)
 >
 > ----------------------------------------------------------------
+> Stefan Binding (2):
+>       cirrus: cs35l41: Update Firmware for Dell Oasis
+>       cirrus: cs35l41: Add Firmware for various ASUS commercial Laptops u=
+sing CS35L41 HDA
+>
+>  WHENCE                                              |  94 ++++++++++++++=
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----------------=
+-----
+>  cirrus/cs35l41-dsp1-spk-prot-10280cbd-spkid0-l0.bin | Bin 0 -> 5440 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10280cbd-spkid0-r0.bin | Bin 0 -> 5440 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10280cbd-spkid0.bin    | Bin 3980 -> 0 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10280cbd-spkid1-l0.bin | Bin 0 -> 5440 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10280cbd-spkid1-r0.bin | Bin 0 -> 5440 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10280cbd-spkid1.bin    | Bin 3980 -> 0 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10280cbf-spkid0-l0.bin | Bin 0 -> 5440 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10280cbf-spkid0-r0.bin | Bin 0 -> 5440 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10280cbf-spkid1-l0.bin | Bin 0 -> 5440 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10280cbf-spkid1-r0.bin | Bin 0 -> 5436 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10280cc1-spkid0-l0.bin | Bin 0 -> 5440 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10280cc1-spkid0-r0.bin | Bin 0 -> 5436 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10280cc1-spkid1-l0.bin | Bin 0 -> 5440 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10280cc1-spkid1-r0.bin | Bin 0 -> 5440 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10280cc3-spkid0-l0.bin | Bin 0 -> 5436 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10280cc3-spkid0-r0.bin | Bin 0 -> 5440 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10280cc3-spkid1-l0.bin | Bin 0 -> 5440 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10280cc3-spkid1-r0.bin | Bin 0 -> 5440 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10280cc4-spkid0-l0.bin | Bin 0 -> 5436 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10280cc4-spkid0-r0.bin | Bin 0 -> 5436 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10280cc4-spkid1-l0.bin | Bin 0 -> 5440 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10280cc4-spkid1-r0.bin | Bin 0 -> 5440 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10431454-spkid0-l0.bin | Bin 0 -> 5272 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10431454-spkid0-r0.bin | Bin 0 -> 5272 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10431454-spkid1-l0.bin | Bin 0 -> 5264 byte=
+s
+>  cirrus/cs35l41-dsp1-spk-prot-10431454-spkid1-r0.bin | Bin 0 -> 5320 byte=
+s
+>  27 files changed, 73 insertions(+), 21 deletions(-)
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10280cbd-spkid0-l0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10280cbd-spkid0-r0.bin
+>  delete mode 100644 cirrus/cs35l41-dsp1-spk-prot-10280cbd-spkid0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10280cbd-spkid1-l0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10280cbd-spkid1-r0.bin
+>  delete mode 100644 cirrus/cs35l41-dsp1-spk-prot-10280cbd-spkid1.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10280cbf-spkid0-l0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10280cbf-spkid0-r0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10280cbf-spkid1-l0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10280cbf-spkid1-r0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10280cc1-spkid0-l0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10280cc1-spkid0-r0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10280cc1-spkid1-l0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10280cc1-spkid1-r0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10280cc3-spkid0-l0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10280cc3-spkid0-r0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10280cc3-spkid1-l0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10280cc3-spkid1-r0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10280cc4-spkid0-l0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10280cc4-spkid0-r0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10280cc4-spkid1-l0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10280cc4-spkid1-r0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431454-spkid0-l0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431454-spkid0-r0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431454-spkid1-l0.bin
+>  create mode 100644 cirrus/cs35l41-dsp1-spk-prot-10431454-spkid1-r0.bin
 >
-> Simon Trimmer (1):
->
->       cirrus: cs35l56: Add firmware for Cirrus CS35L56 for various Dell l=
-aptops
->
->
->
-> WHENCE                                               |  51 ++++++++++++++=
-+++++++++++++++++++++++++++++++++++++
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce5-spkid0-amp1.bin | Bin 0 -> 11524 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce5-spkid0-amp2.bin | Bin 0 -> 11516 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce5-spkid0-amp3.bin | Bin 0 -> 11524 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce5-spkid0-amp4.bin | Bin 0 -> 11516 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce5-spkid1-amp1.bin | Bin 0 -> 11528 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce5-spkid1-amp2.bin | Bin 0 -> 11520 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce5-spkid1-amp3.bin | Bin 0 -> 11528 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce5-spkid1-amp4.bin | Bin 0 -> 11520 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce6-spkid0-amp1.bin | Bin 0 -> 11508 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce6-spkid0-amp2.bin | Bin 0 -> 11508 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce6-spkid0-amp3.bin | Bin 0 -> 11508 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce6-spkid0-amp4.bin | Bin 0 -> 11508 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce6-spkid1-amp1.bin | Bin 0 -> 11504 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce6-spkid1-amp2.bin | Bin 0 -> 11504 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce6-spkid1-amp3.bin | Bin 0 -> 11504 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce6-spkid1-amp4.bin | Bin 0 -> 11504 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce7-spkid0-amp1.bin | Bin 0 -> 11508 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce7-spkid0-amp2.bin | Bin 0 -> 11492 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce7-spkid0-amp3.bin | Bin 0 -> 11508 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce7-spkid0-amp4.bin | Bin 0 -> 11492 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce7-spkid1-amp1.bin | Bin 0 -> 11508 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce7-spkid1-amp2.bin | Bin 0 -> 11488 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce7-spkid1-amp3.bin | Bin 0 -> 11508 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280ce7-spkid1-amp4.bin | Bin 0 -> 11488 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280d32-spkid0-amp1.bin | Bin 0 -> 11520 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280d32-spkid0-amp2.bin | Bin 0 -> 11520 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280d32-spkid0-amp3.bin | Bin 0 -> 11520 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280d32-spkid0-amp4.bin | Bin 0 -> 11520 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280d32-spkid1-amp1.bin | Bin 0 -> 11520 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280d32-spkid1-amp2.bin | Bin 0 -> 11520 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280d32-spkid1-amp3.bin | Bin 0 -> 11520 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280d32-spkid1-amp4.bin | Bin 0 -> 11520 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280d33-spkid0-amp1.bin | Bin 0 -> 11508 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280d33-spkid0-amp2.bin | Bin 0 -> 11500 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280d33-spkid0-amp3.bin | Bin 0 -> 11508 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280d33-spkid0-amp4.bin | Bin 0 -> 11500 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280d33-spkid1-amp1.bin | Bin 0 -> 11516 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280d33-spkid1-amp2.bin | Bin 0 -> 11504 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280d33-spkid1-amp3.bin | Bin 0 -> 11516 byt=
-es
->
-> cirrus/cs35l56-b0-dsp1-misc-10280d33-spkid1-amp4.bin | Bin 0 -> 11504 byt=
-es
->
-> cirrus/cs35l56/CS35L56_Rev3.11.28B.wmfw              | Bin 0 -> 37404 byt=
-es
->
-> 42 files changed, 51 insertions(+)
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce5-spkid0-amp1.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce5-spkid0-amp2.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce5-spkid0-amp3.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce5-spkid0-amp4.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce5-spkid1-amp1.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce5-spkid1-amp2.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce5-spkid1-amp3.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce5-spkid1-amp4.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce6-spkid0-amp1.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce6-spkid0-amp2.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce6-spkid0-amp3.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce6-spkid0-amp4.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce6-spkid1-amp1.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce6-spkid1-amp2.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce6-spkid1-amp3.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce6-spkid1-amp4.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce7-spkid0-amp1.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce7-spkid0-amp2.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce7-spkid0-amp3.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce7-spkid0-amp4.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce7-spkid1-amp1.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce7-spkid1-amp2.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce7-spkid1-amp3.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280ce7-spkid1-amp4.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d32-spkid0-amp1.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d32-spkid0-amp2.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d32-spkid0-amp3.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d32-spkid0-amp4.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d32-spkid1-amp1.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d32-spkid1-amp2.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d32-spkid1-amp3.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d32-spkid1-amp4.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d33-spkid0-amp1.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d33-spkid0-amp2.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d33-spkid0-amp3.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d33-spkid0-amp4.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d33-spkid1-amp1.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d33-spkid1-amp2.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d33-spkid1-amp3.bin
->
-> create mode 100644 cirrus/cs35l56-b0-dsp1-misc-10280d33-spkid1-amp4.bin
->
-> create mode 100644 cirrus/cs35l56/CS35L56_Rev3.11.28B.wmfw
