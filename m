@@ -1,76 +1,64 @@
-Return-Path: <SRS0=JZme=2D=aulad.org=rizkiamalia@kernel.org>
+Return-Path: <SRS0=56lw=2D=zohomail.com=safinaskar@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1F25C83F1A
-	for <linux-firmware@archiver.kernel.org>; Tue, 22 Jul 2025 21:36:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1BD74C83F1A
+	for <linux-firmware@archiver.kernel.org>; Tue, 22 Jul 2025 23:06:55 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id A6F42C4CEF6; Tue, 22 Jul 2025 21:36:09 +0000 (UTC)
-Received: from skybeam2.hostnetwork.com (unknown [96.127.178.119])
+	id D6C86C4CEF5; Tue, 22 Jul 2025 23:06:55 +0000 (UTC)
+Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 6B618C4CEF5
-	for <linux-firmware@kernel.org>; Tue, 22 Jul 2025 21:36:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 6B618C4CEF5
-Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=aulad.org
-Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=aulad.org
-Received: from [208.89.63.152] (port=59746 helo=[152.63.89.208])
-	by ns-144.awsdns-18.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <rizkiamalia@aulad.org>)
-	id 1ueKeh-0000000Atn8-0Oyn
-	for linux-firmware@kernel.org;
-	Tue, 22 Jul 2025 21:36:07 +0000
-Reply-To: info@sventgicapitall.com
-From: Erick Hanns Teppo <rizkiamalia@aulad.org>
+	by smtp.kernel.org (Postfix) with ESMTPS id E3591C4CEEB;
+	Tue, 22 Jul 2025 23:06:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org E3591C4CEEB
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=zohomail.com
+ARC-Seal: i=1; a=rsa-sha256; t=1753225611; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Cu1RdkP00+7XpHY3Mjq2JUIk2z2xZvzrTSsTqGDEQxzMr8lt9R7OJYoYZJu8y6N4ggm3tLCz2mb2EHJ/BvtDGzj3XHKfSiBoWUw1A3inFHElKEuXWMyJa9zpIAGOBMgh1IE3Ieh4K4ymv6ajbXKj9F5q06vF24g/WyQbMNvDR/0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1753225611; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=yIr3a5+KfAu5PEyLhxmw8if4Mje3ixMLVstRZjSi/Io=; 
+	b=L+PqbNgASota/TlO3QTbLIR0qNxr8e8YPzsbfsjBUnq1OJFpfILq5BSStqE2l6QTdgakg4Vmnc59AXcScR0fxhpYBDBo1Up6I1t72Aszfigcl5q1saFneniWh81GHRRAyd8hGQaAXDIKTLlbDRx8VJPIaBIbIthn40XEH5Zp9A4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=zohomail.com;
+	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
+	dmarc=pass header.from=<safinaskar@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1753225611;
+	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
+	bh=yIr3a5+KfAu5PEyLhxmw8if4Mje3ixMLVstRZjSi/Io=;
+	b=CaaEJXhMt9Pmq8CHZJtoG4JdSWD16XlQPiUqomi9bKwj5jxhm40kgKtWwk0UbQG9
+	gSzEJczvaBBwEVR3RACe8w0viXL9vnr0zj4DN/5K3UBU5+cJEe5EG9gYdhoEqarHr7I
+	taU0AoUDqZ/+sudPY/6SYwk0gUEETxAX4lCavU0c=
+Received: by mx.zohomail.com with SMTPS id 1753225608045842.7295880076102;
+	Tue, 22 Jul 2025 16:06:48 -0700 (PDT)
+From: Askar Safin <safinaskar@zohomail.com>
+To: linux-input@vger.kernel.org
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Subject: Re: return
-Date: 22 Jul 2025 14:36:07 -0700
-Message-ID: <20250722143607.9AE49697268F1B83@aulad.org>
+Cc: bentiss@kernel.org,
+	kl@kl.wtf,
+	linux-i2c@vger.kernel.org,
+	linux-firmware@kernel.org,
+	Dell.Client.Kernel@dell.com
+Subject: Re: Bug: i2c_designware: touchpad doesn't work after 40 min suspend on Dell Precision 7780
+Date: Wed, 23 Jul 2025 02:06:42 +0300
+Message-ID: <20250722230642.25243-1-safinaskar@zohomail.com>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <1945bec9a47.7ee2a33b5058.7025603412967539178@zohomail.com>
+References: <1945bec9a47.7ee2a33b5058.7025603412967539178@zohomail.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - ns-144.awsdns-18.com
-X-AntiAbuse: Original Domain - kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - aulad.org
-X-Get-Message-Sender-Via: ns-144.awsdns-18.com: authenticated_id: aws.cloud.smtp000144@aws.amazon.com
-X-Authenticated-Sender: ns-144.awsdns-18.com: aws.cloud.smtp000144@aws.amazon.com
+Content-Transfer-Encoding: 8bit
+Feedback-ID: rr08011227b0408efdca9d5344e2bd0c600000817b8b7241ba8ca31cff2d9ee816fab5e2adf5c194274d45c6:zu080112272db8fbb740a89cec6a72ac400000145bd564ab960a00b929a4e9166cf8100a78e6646a40f7b239:rf0801122cf86b378d59d051b43b55dcf30000b47e712d8c352d072bf833edb503c126536d56792e3bf66fcd75760ca08f:ZohoMail
+X-ZohoMailClient: External
 
-Re:Hello,
+The bug is fixed by latest touchpad firmware. Unfortunately, it does not come as part of
+system firmware. Nor it can be updated via fwupdmgr. You have to download touchpad firmware
+update utility from Dell and run it within Windows.
 
-I wanted to follow up on the funding request you shared with us
-previously. If you haven't yet secured the necessary financing,
-we would like to invite you to revisit our offer and explore how
-we can collaborate to achieve your goals this year.
-
-At Lex Capital Group, we are seeking to expand and establish our
-business interests internationally, focusing on sectors such as
-Oil and Gas, Construction, Real Estate, Tourism and Hospitality,
-Stock Trading, Mining, Transportation, Healthcare, Communication
-Services, Agriculture, Forestry, and Fishing. We are also open to
-exploring other industries with strong potential for a solid
-return on investment (ROI).
-
-If you are seeking funding or partnership opportunities in any of
-these sectors or have a viable business idea in another high-
-potential industry, please let us know. We are eager to discuss
-how we can support your vision and help bring it to life.
-
-Let me know if you'd like MORE information to explore this
-opportunity further. Our commitment remains steadfast in
-supporting credible ventures that promise growth and mutual
-success.
-
-Looking forward to your response.
-
-Best regards,
-Erick Hanns Teppo
-Group Investment Director
-Lex Capital Group
+--
+Askar Safin
