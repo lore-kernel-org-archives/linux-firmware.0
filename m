@@ -1,620 +1,322 @@
-Return-Path: <SRS0=RbWg=2J=at.d.mailin.fr=bounces-easf1-biz=gaapparels.in@kernel.org>
+Return-Path: <SRS0=Uv2v=2L=qti.qualcomm.com=vkasinat@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A608C87FCE
-	for <linux-firmware@archiver.kernel.org>; Mon, 28 Jul 2025 06:44:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E13DAC87FC9
+	for <linux-firmware@archiver.kernel.org>; Wed, 30 Jul 2025 05:40:25 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 45A1DC4CEF4; Mon, 28 Jul 2025 06:44:35 +0000 (UTC)
-Received: from at.d.mailin.fr (at.d.mailin.fr [185.41.28.20])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id B39F5C4CEEB; Wed, 30 Jul 2025 05:40:25 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A0770C4CEE7
-	for <linux-firmware@kernel.org>; Mon, 28 Jul 2025 06:44:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A0770C4CEE7
-Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=gaapparels.in
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=at.d.mailin.fr
-DKIM-Signature: a=rsa-sha256; bh=3SwhmHA1P09WhZl3ValLz9rghTCGY/1ffJIRpzNFLlA=;
- c=relaxed/relaxed; d=sendinblue.com;
- h=to:cc:from:reply-to:subject:date:mime-version:content-type:list-id:list-unsubscribe:x-csa-complaints:list-unsubscribe-post:message-id:sender:x-sib-id:x-mailin-client:x-mailin-campaign:feedback-id;
- q=dns/txt; s=mail; t=1753685002; v=1;
- b=VOZbWdSNSWOva9mIKCdELSCHOfG3lSj8WnH7gstCYNrR0TeJ9AKsE+MwmlPpJPY39atwWvFx
- T2QO0/EgR9KEG/pQEDZQRr4s+cR7k0+eyp8Mh6/2z8GiTIX3mJ3mrREAvCDiBQQfwdIPvXG0pXk
- imaFlAS8DkqjoKSv/tjEUfZI=
+	by smtp.kernel.org (Postfix) with ESMTPS id 71228C4CEE7
+	for <linux-firmware@kernel.org>; Wed, 30 Jul 2025 05:40:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 71228C4CEE7
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=qti.qualcomm.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=qti.qualcomm.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56U5O9Ug016623
+	for <linux-firmware@kernel.org>; Wed, 30 Jul 2025 05:40:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-type:date:from:message-id:mime-version:subject:to; s=
+	qcppdkim1; bh=ynvrdrBi7y6h3ZLl5ZsjeKcTZWv/9x1DK1XGLQ1VYao=; b=eN
+	Q12S/URaTsqtdyXL2efWjLDqwNK3b6VWSjOKyt4wloQyZTkeT8oTDIdIJ7mwSYcx
+	gF7REaw6B5d3w0VHzTB5tjC+Dc0/mLsdaXGss5g3TmcdOfe1++8BOkQiSFsR6OFv
+	2wDwNgE8gMWstbcEMzjI9Cs9AWbtKrH/rPVjHbynbHcATvZdYAV2wWOuQBakYEQ8
+	V7eHygMGm9Cz2m4W0XtK5wB9o3U+XrqB2cPUv+5v5vvi7rVh8P3Z8O7d/0YXVFKf
+	yYcJiwzUlpdNJG5+YZwDpWHBZOXhi2bpdeGqcGddXAWdL18bsk3Acu2wDX0t4ul4
+	bmlfAl1dIE7y3509JI4A==
+Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazlp17013079.outbound.protection.outlook.com [40.93.6.79])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484p1ajg6y-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <linux-firmware@kernel.org>; Wed, 30 Jul 2025 05:40:22 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mmvR6PC2rRoo39LyorvDhqEoGO0lsKSpum3p5dI7L8wlVe1LqXTjo1LRRv72+zkIigq6bRurH4tT4mTFgxBRYAXjfxwiWrjoKi3T7QFlepXBWc4rOmej33FwPHOFm5TB7g7GNj6QzcNeSbzaZfUR6qhJl7OUqlgrVKUAwNxz3BWaSt+lmGbZRKB7ARMcdH+b1gQ3nvlWoSNTWGKrET8IJrYsitxvO+wOWe0JYrCWjnUEkb3HMU+uV68PTvbrclQUDGrE7zrYRcwYGkwlKtk01+pzuAlT9CkCvkNb6lVKVX96Aot7iv1WB5IQyIx07bUmrKzxIw+I4/s2VG+6VCdCdw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ynvrdrBi7y6h3ZLl5ZsjeKcTZWv/9x1DK1XGLQ1VYao=;
+ b=QWexmcL1ZzUP2B2tjce+wrcUHxWiU9gsmi/TehcNOlGLDCQs7b7OXS9Rf1fIDvVarapaAtaXZq+uM8jvPxIpzdPRUi3zwCuSHTBujBjmdVy66upT4FwwZUDLLMi/eUcLM6z8lxgdd4iIureWvTqFoXBde6lOLklWdzbDp5Na+Dcv+4ezALlvVdDsynPl6/Y8m+4iR4lNfdwPMGoqgcf3ByN22bWgW3swOY18JtjDV/mIYavEAyVAdLa5I5IMPhyo6ScAb4aaveDeV/yS3JqA9bfac1ONoBd+WktB0gbAuVIlYqCMqFxSH2YBZO5iLYM3G9Cy1bzkl3M4J7VKGOoCbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=qti.qualcomm.com; dmarc=pass action=none
+ header.from=qti.qualcomm.com; dkim=pass header.d=qti.qualcomm.com; arc=none
+Received: from IA0PR02MB9917.namprd02.prod.outlook.com (2603:10b6:208:48e::9)
+ by IA1PR02MB8972.namprd02.prod.outlook.com (2603:10b6:208:3ab::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.11; Wed, 30 Jul
+ 2025 05:40:19 +0000
+Received: from IA0PR02MB9917.namprd02.prod.outlook.com
+ ([fe80::2ac7:e03f:a815:a444]) by IA0PR02MB9917.namprd02.prod.outlook.com
+ ([fe80::2ac7:e03f:a815:a444%5]) with mapi id 15.20.8964.023; Wed, 30 Jul 2025
+ 05:40:19 +0000
+From: Venkata Kota <vkasinat@qti.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-Subject: =?utf-8?q?Personalized_Hospital_Uniforms_=E2=80=93_Order_in_Small_Batches?= =?utf-8?q?,_Stress-Free!?=
-Content-Type: multipart/alternative; boundary="-------?=_92076-2179394266762"
-Date: Mon, 28 Jul 2025 06:43:22 +0000
-Feedback-ID: 185.41.28.20:8063391_28:8063391:Sendinblue
-From: G&A Apparels <biz@gaapparels.in>
-List-Id: ODA2MzM5MS0yNDg0LTIw <ODA2MzM5MS0yNDg0LTIw.list-id.mailin.fr>
-List-Unsubscribe: <mailto:unsubscribe@at.d.mailin.fr?subject=unsub-3ufghhqj5o7j&body=3ufghhqj5o7j>,<https://easf1.r.a.d.sendibm1.com/mk/un/li/sh/SMJz09a0vkbXqtLeq9DeITZEKdAG/vKnCe5og7y37>
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+Subject: DSP FW Release for DSP.AT.1.0.1-00125.5-LEMANS-1 
+Thread-Topic: DSP FW Release for DSP.AT.1.0.1-00125.5-LEMANS-1 
+Thread-Index: Adv6GIUEYBBM71OaQieDuld08XW98A==
+Date: Wed, 30 Jul 2025 05:40:19 +0000
+Message-ID:
+ <IA0PR02MB9917271A219D863E771166B4EF24A@IA0PR02MB9917.namprd02.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA0PR02MB9917:EE_|IA1PR02MB8972:EE_
+x-ms-office365-filtering-correlation-id: b7f2af8c-fab8-4b0a-852a-08ddcf2b91e0
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|1800799024|376014|38070700018|8096899003;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?73TybD8V7NDhtnNAuxztst6KRsyGMyr+HylehKzNBDytFsbYsaPXdzVha3FJ?=
+ =?us-ascii?Q?LkC6dsJt8a8xN+t+2+fq42i36IdE8yX40QQ+LkydSto+80q3fKxAbQoJlPHG?=
+ =?us-ascii?Q?5jDKoFdPYIPCqAFqbal4WazJn43YHFuKjreXQ9QvexGtMi5ESPHEdnXAUS4g?=
+ =?us-ascii?Q?CbxXUJq0phW2Th9lkxcMnwzw02m6MAe9zD7wfmx09xWGQZ133uPik+E24lBi?=
+ =?us-ascii?Q?fQmtezwJDSa6BoYsgVfpSyGDEaT/uqtRII00HuBg4uV4+8ArFtTP+8TEs4Mf?=
+ =?us-ascii?Q?6gBa+OExCs1zhWgtH/gA/JWX/sdJIoFTj6yUrWNYFoWdfWMSNl/S7f0vfv28?=
+ =?us-ascii?Q?jPTmXlcCY8w03mSRZ7wGxHp8r5ilOst5U8yISllbCjjMVYqYVrQfjUiI6mnB?=
+ =?us-ascii?Q?TFnbsi16hj6xj4naZ59G7IDMzZuSmfFTZ3yw+PVbitXln4ORDr3K3Yc05Ppd?=
+ =?us-ascii?Q?jTlxkie+YiSJwkWY2AjdoTT5hr3yrdu8lFSfgU5qXAV4rYHd/zSVdaTAQ0rv?=
+ =?us-ascii?Q?kjypeUnkt5vgi8wW1Fpvs+Uho2C2+W2UK0pNJoqqKmILixHG+l0X5m25ddMQ?=
+ =?us-ascii?Q?iz6vLnwmW3C+wsqXHRwBxxNDR4nmPgcKm6lDOFdZh+268RShnBw0f8+qqGDR?=
+ =?us-ascii?Q?1gmFRncGkP9ZS12BBxqmGW7C7+6bGrbqDdj1+NMLh9a9drPx+aH6v39Jfa0M?=
+ =?us-ascii?Q?8UfGM6mTrP5k2jfL3QOlc/NcdwwkLmH+BvP4DCpcuhlj7MGyJ1AF0aqMEyti?=
+ =?us-ascii?Q?/HPvLl2n7PBdn1SIhM8kKsEZWhFSLon9Q+c0XM6cmvhgEAfjEpabu987Sr5G?=
+ =?us-ascii?Q?tO8G9FS4oohsXpREAM/JbrTEp3ovAJ9ZYJzY5shbiNLiOtugtC5bPWsqeKMF?=
+ =?us-ascii?Q?JT3chWA/ucGHl/5HG4I9a824FqyGwbHeMkel3mXqmWC2b9Xe6mBIa06kftoZ?=
+ =?us-ascii?Q?OvRVLLKPaYEdNWaj1rXyvYMpsndGmnJyQWd5IfB3z2fsVaXBLEDn0sq0vOIX?=
+ =?us-ascii?Q?XsYqSLVQwSm6Wz0wDsLLgzmaFHIr26k5BF9TjTCQhPD/K650yKO0MVHng10B?=
+ =?us-ascii?Q?Jea74WUuYuoAW1e/JnoP8W+15LruWTm4MhdnNixbpEafdipeiJTu89kXgoDO?=
+ =?us-ascii?Q?NRYXhKKb1i3tE1saNK1BvdyqDDdO9EKgbzUXDsj0vYsszH/kfRNJsafrPuX8?=
+ =?us-ascii?Q?2upybB3wVO5U4wBzGJ5BPgWMJ1Uivro0YAm3P1b4ujP+1eHOwmvDybq5s9ZF?=
+ =?us-ascii?Q?wEWhif3nVonEF9mIRxjFOimZdf7t7yfEOd0LJqMSQRSoAiwAuCEwvFlDmij/?=
+ =?us-ascii?Q?LGhv87SK8HFaA+bmrDg+V6a6sFBHjhy3iVmTO7UxCb8qEVNvr2yUqD7/aToR?=
+ =?us-ascii?Q?tQVRA8WrNFdBHxlBKRH/JO1w+JVs37l0wu4TWWjBxXaMj3+gOH0wAKL9asiY?=
+ =?us-ascii?Q?rjt4djZeXmc=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR02MB9917.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018)(8096899003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?zPgmgvdN6bK6fJK5CbcmGpqBr/sisTO6NaRUR12j6Ndc2dabHd+OS4NpiDZn?=
+ =?us-ascii?Q?K55ZFbLmMAwTAVSN4v5W/d2G7uW3DpNpIw7ocMaEThVRtCXy69LnN83zmGTx?=
+ =?us-ascii?Q?mqw6PhCAQ2THq61UYk8KaTP7i5wbQiG2BqUDYrw8iK4QR3D4CGLPUv4aGiw4?=
+ =?us-ascii?Q?Mhxoz6LLwpG2hm3c3bnup5Z2rSxk5HaPfRa9pB7Ucnwn2WDWrmuoVRc/y36j?=
+ =?us-ascii?Q?jJD9vDfwF51bCi14mjyxggE+f4osWVxv0kNlqriYfXr/tqXZgbARcnZSzirh?=
+ =?us-ascii?Q?I2xPfeTaP4nbfwc80RvKwEMdVZyLDpHitd0QZBsdDXURf7fZq1QKSNYZSMwM?=
+ =?us-ascii?Q?UixeQdFAisoqQfs4TWSUuQMV4h71mia+kvZ8HqdhkBdcsIOzJvorQ5IyiVgr?=
+ =?us-ascii?Q?yeC07TW3YdbSLpLh4hxN0nFNdeXynf52a+jcH3NFUtKeIWr1vFsVaTiPvJb/?=
+ =?us-ascii?Q?ptZKyKNIUZgxUyMBWOlv9Z6T/8FNi8Ro+J0cHTUBXY5ERXrCmVsycHDA9R0m?=
+ =?us-ascii?Q?Dh8YqAavrmnHV74Equbqej24w+FqZ5YqdJs3AXNABcZHTF4WDL6QVA4d1bbZ?=
+ =?us-ascii?Q?h1tP5lrC34V9+rdVWLTwQRsjDkgow4Pytqwa2sTpsRTza+XkBLODtJQ/Yspc?=
+ =?us-ascii?Q?KxGB6sy45hbipZL4U1iYuko3X9Re8XXqDHefik2OoeWVNxZHiMxve2NTK7iG?=
+ =?us-ascii?Q?JpceucXaVBm0tz1tTDSeq/lhsD1SvnS5dkDNrZkMvnEUR94askTF/kaqZcqz?=
+ =?us-ascii?Q?TR9Mk+kJVYYDnApZEx7G3BDR3pMkYeb9Tyb+IsQXQbYBxUvp05jJVGiK/bDG?=
+ =?us-ascii?Q?Kokk0E/KXAxFgD5DOHvdajs8PVd4XNYZsA61/qZglxEnarw+TdcBuEVxtP8W?=
+ =?us-ascii?Q?k62KIEA3I70YAOTtQfGqgqQBiY9+67uB0iUUNch0BcI8itlDQD3vr/3ig/mG?=
+ =?us-ascii?Q?BJEeZlrzB7sGs1HY6u9Pj9OagKgAasA9G3XuivDkfrHRJ5G4FV1k/DZMpBU1?=
+ =?us-ascii?Q?rf9zVK5u4NB88FC4+rgmka+e8b/8VSltjM0BwFUyV9vy4iPaYFbvWKZykL45?=
+ =?us-ascii?Q?d1lDcr5YDL+THnYDJyMsdJOgDH1iN003wS6wYoVJf6YkkGA7ZOHDRc4/Bhyj?=
+ =?us-ascii?Q?PNj8jj6bH4fjbtFG4LJU/6pM7AaX9dKGXLAxKjZOWkBrxOx1xqkz9rxMDt/X?=
+ =?us-ascii?Q?ut9bpq52CIDd8x7OIIk0vx96jHTZ2pPo4ZcFs0Opj1gmP7BHIWCBJwfWy8m4?=
+ =?us-ascii?Q?EHrZwyMMVVEEqOswH9zQFOTmMZRQ2odxs72pjn0/3okFkxdzZFdvfIh9i7UA?=
+ =?us-ascii?Q?rRNRVVXhVjaRLhfqAo0rYPykRtFUqj+XdWWAlE36ftPCsNzNoeeZKACMdAW9?=
+ =?us-ascii?Q?9Dw+HoGRU45J8B25xwuwhfMBsATCVVpY6y19s5I6cweX6tF9ZEgzLx2cgwTy?=
+ =?us-ascii?Q?6s9bmkXce7uRAZsJTRW121ppyyyzbD9Nw1Ti5oo9N4corrG/lU/X3jFt6VE2?=
+ =?us-ascii?Q?GEvDvKpI+I270kE9I9sbZC3OgBbpFC6ZgFt4/a/YybbN7Aao/Y0ygrl8J3MG?=
+ =?us-ascii?Q?kyYsRgqpWcbIT3WZ3P7M5uKM3JhiZORtJimF8rdn?=
+Content-Type: multipart/alternative;
+	boundary="_000_IA0PR02MB9917271A219D863E771166B4EF24AIA0PR02MB9917namp_"
 MIME-Version: 1.0
-Message-Id: <202528070643.3ufghhqj5o7j@at.d.mailin.fr>
-Reply-To: <dhruvburansh@gmail.com>
-X-Csa-Complaints: csa-complaints@eco.de
-X-Mailer: Sendinblue
-X-Mailin-Campaign: 28
-X-Mailin-Client: 8063391
-X-sib-id: IPHvpS21MBxn-T6YgEx4J9GsgnVoQQce4hI3ajHzKXdXZ99z-DmceWy38bAXLJYAf6dxUcexILsT9ahEVfi4ZCGKsSpDolknzwJOIYlRJnOfuw46NU0NQs4JVSUBVqNFoVycr-8sLKP4nUFxT2k86jUEg77RjI8uanMVAhp5g4EYcY-kNBJdMoZ0f0Qi3opr1r3CvCQLXTA1nXO-1W5-GPD97JChq1axF6RR
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	oR3eRAH3pYWPJSrppEp3p2vNqGjF3NnKvAXJfVA6jE8hl3db03FoNbk7n55FlmjKXREM1t5AO1lc5LRxP1yXV/WAiO00IuDuf3UN5aN8Ft7CYPPdR/+VJTeyk9BCn5tIL53CdIBk3FveRZUubQaZQdJyQWC+6tnGnmXC/SsvYmyn9AeE/tnObGuLegw1Ld7+9/jj9Sx+TPSbVzIpzXPwCfvMTHOgdnntlQdib2tDn3Ky/NC2cMuvsBxgeziaLa/3CV3WI/yXnfFY2BbqOIuNKsEvXZu8DryYVB7zh/jlQC808koZyQmkcI87OgiL/g6u3czfU8gOvBcPTMF3R7zioulQwnZMDFV0+vQzl+BL0WgMfDt3zMbON+X1Ga10dvKBdFe/keBzjTHeMsmeSjQ95zk4r6ZMGGlZMDpoUjz6jfCpKkdSo+SZWufAv+gzVxBZ/DfubQSlzw1pke0zYiCN/hpbPwANt9AQDswPfGs45k/IfFTVCwUeq29dVZf1iGXjs5y3laqTnQ3brybnJckMQ3DEgulib7/PGHCDb1+leNByBHG6+tsxk8WKM5kbn5cE8cGf63ESwq1wQ0k+mUW6iYo3feagZeLR8oZyB/EcwsEz6V0uiSENWWldkeTQqtfk
+X-OriginatorOrg: qti.qualcomm.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR02MB9917.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b7f2af8c-fab8-4b0a-852a-08ddcf2b91e0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jul 2025 05:40:19.3894
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wMrE1YCXEkI4k4he9BCpHaCgJSHoXNugrVmXv070PA0d8TWZyF8udpZbnhSmRYs+u1pOj785iyhtJYW7NL6LRrzeh1Dg5KT1s+Kkkii2dwM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR02MB8972
+X-Proofpoint-ORIG-GUID: niJH8K8PA8_KDRsRYW7r9wL0xy3fpm1Y
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzMwMDAzNyBTYWx0ZWRfX9GQLXh0MLFCa
+ 6qy9jqX6avpNSQehjS3lysNz9lfsC/MdDbS++UOINwfjWmXh1PUL3kRGANAPlwGD/M/h6caiAoP
+ OUqXW8u+LmdhXxjCDoiAceyywYQlhxG5lx8c9U28X0EXpL5hrR7ojRFUi3ytZfufNEP18yRew2L
+ 0bN/zofPskkovbPU3tFQSDxeoeGwL7YZTxOWzJSDSfxZz/4BUC8Mf/PFOwlYC8aoYQzcwLlUyep
+ f112wpNz6XnFu5P6fHPzr85AzU0iCPJVJJv5sJ1BZgbfZmJItPYCOL9LCHngXaH1lQNFmix3UId
+ +fUYxzCHvrrQWTsN6S7DYJ3TdrY2+Vrxs82YtxNS3sGIjkYmGIVBgrkb8KQsZeXySSltL4JF1Dp
+ hFEvxdM155wYyTUdNkkQN/ekfkuA5FB2ymb56qCZjufMAdfZoeXQSWJK/q6ycXik+//Y0zQd
+X-Proofpoint-GUID: niJH8K8PA8_KDRsRYW7r9wL0xy3fpm1Y
+X-Authority-Analysis: v=2.4 cv=KtNN2XWN c=1 sm=1 tr=0 ts=6889b046 cx=c_pps
+ a=K1+iGLXgNHoxMcL4Lb8acQ==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10
+ a=qC_FGOx9AAAA:8 a=d85GLZ2lVxKp6GIVMKUA:9 a=CjuIK1q_8ugA:10 a=yMhMjlubAAAA:8
+ a=SSmOFEACAAAA:8 a=RmiTbC_imQAJpXycXqQA:9 a=NTeOE3g-5WHmVDCQ:21
+ a=gKO2Hq4RSVkA:10 a=UiCQ7L4-1S4A:10 a=hTZeC7Yk6K0A:10 a=frz4AuCg-hUA:10
+ a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-30_02,2025-07-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 lowpriorityscore=0 suspectscore=0
+ adultscore=0 mlxlogscore=592 bulkscore=0 spamscore=0 impostorscore=0
+ mlxscore=0 malwarescore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507300037
 
----------?=_92076-2179394266762
+--_000_IA0PR02MB9917271A219D863E771166B4EF24AIA0PR02MB9917namp_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
 
-[ View in browser](https://easf1.r.a.d.sendibm1.com/mk/cl/f/sh/SMK1E8tHeGgD=
-xoC2O4EMvxPXW2nY/2oyECCERAIgseasf1.r.a.d.sendibm1.com/mk/cl/f/sh/SMK1E8tHeG=
-ZMVfN5Cu4sq86nXkDI/Bu8srf_SQrKgeasf1.r.a.d.sendibm1.com/mk/mr/sh/SMJz09SDri=
-OHUnrz4P3r9gg74vY8/QKgcxlN95250)
+The following changes since commit 04c379b552c7ff194e0840ede6a2997d7deac691=
+:
 
-Enhance Your Practice's Identity with Custom Clinic Attire
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
+  Merge branch 'robot/pr-0-1752559067' into 'main' (2025-07-15 21:06:17 +00=
+00)
 
+are available in the Git repository at:
 
-Ensure your team stands out with professionally designed, custom-made cloth=
-ing that showcases your clinic's brand. From scrubs to lab coats, enhance p=
-rofessionalism and create a lasting impression.
+  https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git dsp-fw-qcs=
+83005
 
-[ Ask Me?](https://easf1.r.a.d.sendibm1.com/mk/cl/f/sh/SMK1E8tHeGLdbNjAqZlu=
-eTVJb92m/caAyZYDsBwp0 "WhatsApp")
+for you to fetch changes up to e58faa78b6d6d88f0395bef769628d04e937dc55:
 
+  Adding RAW Files for gpdsp from DSP.AT.1.0.1-00125.5-LEMANS-1 (2025-07-16=
+ 14:00:17 +0530)
 
-Transform Your Clinic with Custom-Branded Apparel!
---------------------------------------------------
+----------------------------------------------------------------
+Ekansh Gupta (2):
+      DSP.AT.1.0.1-00125.5-LEMANS-1 DSP Firmware Release
+      Adding RAW Files for gpdsp from DSP.AT.1.0.1-00125.5-LEMANS-1
 
-
-I hope this email finds you well.
-
-I am writing to request the procurement of essential clothing items require=
-d for our dental team, with the addition of our practice's branding. Below =
-is a list of the required clothing items:
-
-
-1. **Scrub sets** (tops and pants)=20
-2. **Lab coats**=20
-3. **Disposable surgical gowns**=20
-4. **Caps and head coverings**=20
-5. **Face masks** (reusable and disposable)=20
-6. **Footwear covers**=20
-7. **Aprons** (disposable and reusable)=20
-We would like to have our practice=E2=80=99s logo and branding incorporated=
- on the scrub sets, lab coats, and caps. Please let us know the process, le=
-ad time, and any specific details you require to initiate this procurement.
-
-If you have any questions or need further clarification, feel free to reach=
- out.
-
-Thank you for your attention to this matter. We look forward to ensuring ou=
-r team is equipped with high-quality, branded clothing that reflects our pr=
-actice=E2=80=99s professional image.
-
-Warm regards,
+ WHENCE                   |   8 +++++---
+ qcom/qcs8300/adsp.mbn    | Bin 6643712 -> 6684672 bytes
+ qcom/qcs8300/cdsp0.mbn   | Bin 3084288 -> 2629632 bytes
+ qcom/qcs8300/gpdsp0.mbn  | Bin 5832704 -> 5873664 bytes
+ qcom/qcs8300/gpdspr.jsn  |  22 ++++++++++++++++++++++
+ qcom/qcs8300/gpdspua.jsn |  29 +++++++++++++++++++++++++++++
+ 6 files changed, 56 insertions(+), 3 deletions(-)
+ create mode 100644 qcom/qcs8300/gpdspr.jsn
+ create mode 100644 qcom/qcs8300/gpdspua.jsn
 
 
-[ Write to US](https://easf1.r.a.d.sendibm1.com/mk/cl/f/sh/SMK1E8tHeGSV3WY8=
-1jvOkIo3ZRd2/ci9ABDLfKaqU "Mail to")
-
-
-####**G&A Apparels**
-h4 122 mahavir enclave,
-
-110045,=C2=A0New delhi
-
-[Privacy](https://)
-
-[Imprint](https://)
-
-[Unsubscribe](https://easf1.r.a.d.sendibm1.com/mk/un/v2/sh/SMJz09a0vkbXqtLe=
-q9DeITZEKdAG/vKnCe5og7y37)
-
-
----------?=_92076-2179394266762
+--_000_IA0PR02MB9917271A219D863E771166B4EF24AIA0PR02MB9917namp_
+Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html; charset=UTF-8
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org=
-/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns=3D"http://www.w3.org/1999/xhtml" xmlns:v=3D"urn:schemas-microso=
-ft-com:vml" xmlns:o=3D"urn:schemas-microsoft-com:office:office"><head><meta=
- http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"><meta h=
-ttp-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge"><meta name=3D"format-de=
-tection" content=3D"telephone=3Dno"><meta name=3D"viewport" content=3D"widt=
-h=3Ddevice-width, initial-scale=3D1.0"><title>Personalized Hospital Uniform=
-s =E2=80=93 Order in Small Batches, Stress-Free!</title><style type=3D"text=
-/css" emogrify=3D"no">#outlook a { padding:0; } .ExternalClass { width:100%=
-; } .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass f=
-ont, .ExternalClass td, .ExternalClass div { line-height: 100%; } table td =
-{ border-collapse: collapse; mso-line-height-rule: exactly; } .editable.ima=
-ge { font-size: 0 !important; line-height: 0 !important; } .nl2go_preheader=
- { display: none !important; mso-hide:all !important; mso-line-height-rule:=
- exactly; visibility: hidden !important; line-height: 0px !important; font-=
-size: 0px !important; } body { width:100% !important; -webkit-text-size-adj=
-ust:100%; -ms-text-size-adjust:100%; margin:0; padding:0; } img { outline:n=
-one; text-decoration:none; -ms-interpolation-mode: bicubic; } a img { borde=
-r:none; } table { border-collapse:collapse; mso-table-lspace:0pt; mso-table=
--rspace:0pt; } th { font-weight: normal; text-align: left; } *[class=3D"gma=
-il-fix"] { display: none !important; } </style><style type=3D"text/css" emo=
-grify=3D"no"> @media (max-width: 600px) { .gmx-killpill { content: ' \03D1'=
-;} } </style><style type=3D"text/css" emogrify=3D"no">@media (max-width: 60=
-0px) { .gmx-killpill { content: ' \03D1';} .r0-o { border-style: solid !imp=
-ortant; margin: 0 auto 0 auto !important; width: 100% !important } .r1-i { =
-background-color: transparent !important } .r2-c { box-sizing: border-box !=
-important; text-align: center !important; valign: top !important; width: 10=
-0% !important } .r3-i { padding-bottom: 5px !important; padding-top: 5px !i=
-mportant } .r4-c { box-sizing: border-box !important; display: block !impor=
-tant; valign: top !important; width: 100% !important } .r5-o { border-style=
-: solid !important; width: 100% !important } .r6-i { padding-left: 10px !im=
-portant; padding-right: 10px !important; text-align: center !important } .r=
-7-i { background-color: #ffffff !important } .r8-c { box-sizing: border-box=
- !important; text-align: center !important; valign: middle !important; widt=
-h: 100% !important } .r9-i { padding-bottom: 0px !important; padding-left: =
-16px !important; padding-right: 16px !important; padding-top: 32px !importa=
-nt } .r10-c { box-sizing: border-box !important; valign: middle !important;=
- width: 50% !important } .r11-o { border-style: solid !important; margin: 0=
- auto 0 0 !important; width: 95px !important } .r12-i { padding-bottom: 14p=
-x !important; padding-top: 14px !important } .r13-c { box-sizing: border-bo=
-x !important; text-align: right !important; width: 100% !important } .r14-o=
- { border-style: solid !important; margin: 0 0 0 auto !important; width: 10=
-0% !important } .r15-i { font-size: 0px !important; padding-bottom: 0px !im=
-portant; padding-left: 0px !important; padding-right: 0px !important; paddi=
-ng-top: 0px !important } .r16-c { box-sizing: border-box !important; width:=
- 16px !important } .r17-o { border-style: solid !important; margin-right: 5=
-px !important; width: 16px !important } .r18-o { border-style: solid !impor=
-tant; margin-right: 0px !important; width: 16px !important } .r19-o { borde=
-r-style: solid !important; margin: 0 auto 0 auto !important; margin-bottom:=
- 0px !important; margin-top: 0px !important; width: 100% !important } .r20-=
-i { padding-bottom: 20px !important; padding-left: 0px !important; padding-=
-right: 0px !important; padding-top: 40px !important } .r21-c { box-sizing: =
-border-box !important; display: block !important; valign: middle !important=
-; width: 100% !important } .r22-i { padding-left: 0px !important; padding-r=
-ight: 0px !important } .r23-c { box-sizing: border-box !important; padding-=
-bottom: 0px !important; padding-left: 0px !important; padding-right: 0px !i=
-mportant; padding-top: 0px !important; text-align: center !important; valig=
-n: top !important; width: 100% !important } .r24-i { padding-left: 16px !im=
-portant; padding-right: 16px !important; padding-top: 24px !important } .r2=
-5-c { box-sizing: border-box !important; padding-bottom: 0px !important; pa=
-dding-top: 24px !important; text-align: left !important; valign: top !impor=
-tant; width: 100% !important } .r26-o { border-style: solid !important; mar=
-gin: 0 auto 0 auto !important; margin-bottom: 15px !important; margin-top: =
-15px !important; width: 100% !important } .r27-i { text-align: center !impo=
-rtant } .r28-r { background-color: #858588 !important; border-radius: 12px =
-!important; border-width: 0px !important; box-sizing: border-box; height: i=
-nitial !important; padding-bottom: 12px !important; padding-top: 12px !impo=
-rtant; text-align: center !important; width: 100% !important } .r29-i { pad=
-ding-bottom: 20px !important; padding-left: 16px !important; padding-right:=
- 16px !important; padding-top: 20px !important } .r30-c { box-sizing: borde=
-r-box !important; padding-bottom: 0px !important; padding-left: 0px !import=
-ant; padding-right: 0px !important; padding-top: 0px !important; text-align=
-: left !important; valign: top !important; width: 100% !important } .r31-c =
-{ box-sizing: border-box !important; padding-bottom: 0px !important; paddin=
-g-top: 16px !important; text-align: left !important; valign: top !important=
-; width: 100% !important } .r32-c { box-sizing: border-box !important; text=
--align: left !important; valign: top !important; width: 100% !important } .=
-r33-o { border-style: solid !important; margin: 0 auto 0 0 !important; widt=
-h: 100% !important } .r34-i { padding-bottom: 15px !important; padding-top:=
- 15px !important } .r35-c { box-sizing: border-box !important; text-align: =
-center !important; valign: top !important; width: 135px !important } .r36-o=
- { border-style: solid !important; margin: 0 auto 0 auto !important; margin=
--bottom: 0px !important; margin-top: 40px !important; width: 135px !importa=
-nt } .r37-r { background-color: #0e0e0e !important; border-radius: 8px !imp=
-ortant; border-width: 0px !important; padding-bottom: 12px !important; padd=
-ing-top: 12px !important; text-align: center !important; width: 135px !impo=
-rtant } .r38-i { padding-bottom: 0px !important; padding-left: 15px !import=
-ant; padding-right: 15px !important; padding-top: 0px !important } .r39-i {=
- background-color: #414141 !important; padding-bottom: 16px !important; pad=
-ding-left: 32px !important; padding-right: 32px !important; padding-top: 16=
-px !important } .r40-c { box-sizing: border-box !important; valign: middle =
-!important; width: 58.33% !important } .r41-i { padding-bottom: 0px !import=
-ant; padding-left: 0px !important; padding-right: 0px !important; padding-t=
-op: 0px !important; text-align: left !important } .r42-i { padding-bottom: =
-0px !important; padding-left: 0px !important; padding-right: 0px !important=
-; padding-top: 8px !important; text-align: left !important } .r43-c { box-s=
-izing: border-box !important; valign: middle !important; width: 41.67% !imp=
-ortant } .r44-i { padding-bottom: 0px !important; padding-left: 0px !import=
-ant; padding-right: 0px !important; padding-top: 0px !important; text-align=
-: right !important } body { -webkit-text-size-adjust: none } .nl2go-respons=
-ive-hide { display: none } .nl2go-body-table { min-width: unset !important =
-} .mobshow { height: auto !important; overflow: visible !important; max-hei=
-ght: unset !important; visibility: visible !important } .resp-table { displ=
-ay: inline-table !important } .magic-resp { display: table-cell !important =
-} } </style><style type=3D"text/css">p, h1, h2, h3, h4, ol, ul, li { margin=
-: 0; } .nl2go-default-textstyle { color: #414141; font-family: arial, helve=
-tica, sans-serif; font-size: 16px; line-height: 1.5; word-break: break-word=
- } .default-button { color: #ffffff; font-family: arial, helvetica, sans-se=
-rif; font-size: 16px; font-style: normal; font-weight: bold; line-height: 1=
-.15; text-decoration: none; word-break: break-word } a, a:link { color: #0e=
-0e0e; text-decoration: underline } .default-heading1 { color: #414141; font=
--family: Palatino, Palatino Linotype, Palatino LT STD, Book Antiqua, Georgi=
-a, serif, Arial; font-size: 32px; word-break: break-word } .default-heading=
-2 { color: #414141; font-family: Palatino, Palatino Linotype, Palatino LT S=
-TD, Book Antiqua, Georgia, serif, Arial; font-size: 24px; word-break: break=
--word } .default-heading3 { color: #1F2D3D; font-family: Palatino, Palatino=
- Linotype, Palatino LT STD, Book Antiqua, Georgia, serif, Arial; font-size:=
- 24px; word-break: break-word } .default-heading4 { color: #1F2D3D; font-fa=
-mily: Palatino, Palatino Linotype, Palatino LT STD, Book Antiqua, Georgia, =
-serif, Arial; font-size: 18px; word-break: break-word } a[x-apple-data-dete=
-ctors] { color: inherit !important; text-decoration: inherit !important; fo=
-nt-size: inherit !important; font-family: inherit !important; font-weight: =
-inherit !important; line-height: inherit !important; } .no-show-for-you { b=
-order: none; display: none; float: none; font-size: 0; height: 0; line-heig=
-ht: 0; max-height: 0; mso-hide: all; overflow: hidden; table-layout: fixed;=
- visibility: hidden; width: 0; } </style><!--[if mso]><xml> <o:OfficeDocume=
-ntSettings> <o:AllowPNG/> <o:PixelsPerInch>96</o:PixelsPerInch> </o:OfficeD=
-ocumentSettings> </xml><![endif]--><style type=3D"text/css">a:link{color: #=
-0e0e0e; text-decoration: underline;}</style></head><body bgcolor=3D"#ffffff=
-" text=3D"#414141" link=3D"#0e0e0e" yahoo=3D"fix" style=3D"background-color=
-: #ffffff;"> <table cellpadding=3D"0" border=3D"0" cellspacing=3D"0" style=
-=3D" mso-hide: all; display: none;"><tr><td>All Staff Uniforms with Hospita=
-l Logo and Name, &#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#84=
-7;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&=
-zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwn=
-j;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&=
-nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbs=
-p;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&=
-#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#84=
-7;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&=
-zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwn=
-j;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&=
-nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbs=
-p;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&=
-#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#84=
-7;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&=
-zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwn=
-j;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&=
-nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbs=
-p;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&=
-#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#84=
-7;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&=
-zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwn=
-j;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&=
-nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbs=
-p;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&=
-#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#84=
-7;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&=
-zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwn=
-j;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&=
-nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbs=
-p;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&=
-#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#84=
-7;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&=
-zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwn=
-j;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&=
-nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbs=
-p;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&=
-#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#84=
-7;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&=
-zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwn=
-j;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&=
-nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbs=
-p;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&=
-#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#84=
-7;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&=
-zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwn=
-j;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&=
-nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbs=
-p;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&=
-#847;&zwnj;&nbsp;</td></tr></table> <!--[if mso]> <img width=3D"1" height=
-=3D"1" src=3D"https://easf1.r.a.d.sendibm1.com/mk/op/sh/SMJz09hnzmooCypKbtN=
-RRGSLaKmO/wKUib6BdOWJx" /> <![endif]-->
-	<!--[if !mso]> <!----> <img style=3D"display:none" src=3D"https://easf1.r.=
-a.d.sendibm1.com/mk/op/sh/SMJz09hnzmooCypKbtNRRGSLaKmO/wKUib6BdOWJx" /> <!-=
-- <![endif]-->  <table cellspacing=3D"0" cellpadding=3D"0" border=3D"0" rol=
-e=3D"presentation" class=3D"nl2go-body-table" width=3D"100%" style=3D"backg=
-round-color: #ffffff; width: 100%;"><tr><td> <table cellspacing=3D"0" cellp=
-adding=3D"0" border=3D"0" role=3D"presentation" width=3D"100%" align=3D"cen=
-ter" class=3D"r0-o" style=3D"table-layout: fixed; width: 100%;"><tr><td val=
-ign=3D"top" class=3D"r1-i" style=3D"background-color: transparent;"> <table=
- cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presentation" wid=
-th=3D"600" align=3D"center" class=3D"r0-o" style=3D"table-layout: fixed;"><=
-tr><td class=3D"r3-i" style=3D"padding-bottom: 5px; padding-top: 5px;"> <ta=
-ble width=3D"100%" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D=
-"presentation"><tr><th width=3D"100%" valign=3D"top" class=3D"r4-c" style=
-=3D"font-weight: normal;"> <table cellspacing=3D"0" cellpadding=3D"0" borde=
-r=3D"0" role=3D"presentation" width=3D"100%" align=3D"center" class=3D"r0-o=
-" style=3D"table-layout: fixed; width: 100%;"><tr><td align=3D"center" clas=
-s=3D"r6-i nl2go-default-textstyle" style=3D"color: #414141; font-family: ar=
-ial,helvetica,sans-serif; font-size: 16px; line-height: 1.5; word-break: br=
-eak-word; padding-left: 30px; padding-right: 30px; text-align: center;"> <d=
-iv><p style=3D"margin: 0;"><a href=3D"https://easf1.r.a.d.sendibm1.com/mk/m=
-r/sh/SMJz09SDriOHUnrz4P3r9gg74vY8/QKgcxlN95250" style=3D"color: #0e0e0e; te=
-xt-decoration: underline;"> <span style=3D"color: #858588; font-size: 12px;=
- text-decoration: underline;"> View in browser</span></a></p></div> </td> <=
-/tr></table></th> </tr></table></td> </tr></table></td> </tr></table><table=
- cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presentation" wid=
-th=3D"600" align=3D"center" class=3D"r0-o" style=3D"table-layout: fixed; wi=
-dth: 600px;"><tr><td valign=3D"top" class=3D"r7-i" style=3D"background-colo=
-r: #ffffff;"> <table cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=
-=3D"presentation" width=3D"100%" align=3D"center" class=3D"r0-o" style=3D"t=
-able-layout: fixed; width: 100%;"><tr><td class=3D"r9-i" style=3D"padding-l=
-eft: 16px; padding-right: 16px; padding-top: 32px;"> <table width=3D"100%" =
-cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presentation"><tr>=
-<th width=3D"50%" valign=3D"middle" class=3D"r10-c" style=3D"font-weight: n=
-ormal;"> <table cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"pr=
-esentation" width=3D"95" align=3D"left" class=3D"r11-o" style=3D"table-layo=
-ut: fixed; width: 95px;"><tr><td class=3D"r12-i" style=3D"font-size: 0px; l=
-ine-height: 0px; padding-bottom: 14px; padding-top: 14px;"> <img src=3D"htt=
-ps://easf1.img.a.d.sendibm1.com/im/sh/UsQukrLfirAb.png?u=3D7xwQLFBtniwQn1M9=
-BfRT6R0hWYZ8kki" width=3D"95" border=3D"0" style=3D"display: block; width: =
-100%;" sib_img_id=3D"0"></td> </tr></table></th> <th width=3D"50%" valign=
-=3D"middle" class=3D"r10-c" style=3D"font-weight: normal;"> <table cellspac=
-ing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presentation" width=3D"284=
-" align=3D"right" class=3D"r14-o" style=3D"table-layout: fixed; width: 284p=
-x;"><tr><td valign=3D"top"> <table width=3D"100%" cellspacing=3D"0" cellpad=
-ding=3D"0" border=3D"0" role=3D"presentation"><tr><td class=3D"r13-c" align=
-=3D"right" style=3D"display: inline-block;"> <table cellspacing=3D"0" cellp=
-adding=3D"0" border=3D"0" role=3D"presentation" width=3D"284" align=3D"righ=
-t" class=3D"r14-o" style=3D"table-layout: fixed; width: 284px;"><tr><td cla=
-ss=3D"r15-i" style=3D"padding-left: 205px;"> <table width=3D"100%" cellspac=
-ing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presentation"><tr><th widt=
-h=3D"21" class=3D"r16-c mobshow resp-table" style=3D"font-weight: normal;">=
- <table cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presentati=
-on" width=3D"100%" class=3D"r17-o" style=3D"table-layout: fixed; width: 100=
-%;"><tr><td class=3D"r3-i" style=3D"font-size: 0px; line-height: 0px; paddi=
-ng-bottom: 5px; padding-top: 5px;"> <a href=3D"https://easf1.r.a.d.sendibm1=
-.com/mk/cl/f/sh/SMK1E8tHeFuBmoRM7v9yHAILhwhk/PHJBzXeBO5jy" target=3D"_blank=
-" style=3D"color: #0e0e0e; text-decoration: underline;" sib_link_id=3D"0" t=
-emplating=3D"n"> <img src=3D"https://easf1.img.a.d.sendibm1.com/im/sh/Dgnmx=
-XkZ1g3Y.png?u=3D7xwQLFBtniwQn8DbKUOeGaUnLrJ73Ky" width=3D"16" border=3D"0" =
-style=3D"display: block; width: 100%;" sib_img_id=3D"1"></a> </td> <td clas=
-s=3D"nl2go-responsive-hide" width=3D"5" style=3D"font-size: 0px; line-heigh=
-t: 1px;">=C2=AD </td> </tr></table></th> <th width=3D"21" class=3D"r16-c mo=
-bshow resp-table" style=3D"font-weight: normal;"> <table cellspacing=3D"0" =
-cellpadding=3D"0" border=3D"0" role=3D"presentation" width=3D"100%" class=
-=3D"r17-o" style=3D"table-layout: fixed; width: 100%;"><tr><td class=3D"r3-=
-i" style=3D"font-size: 0px; line-height: 0px; padding-bottom: 5px; padding-=
-top: 5px;"> <a href=3D"https://easf1.r.a.d.sendibm1.com/mk/cl/f/sh/SMK1E8tH=
-eG13ExGJJ5JSMzb5gFI0/brHyYYYJKVTs" target=3D"_blank" style=3D"color: #0e0e0=
-e; text-decoration: underline;" sib_link_id=3D"1" templating=3D"n"> <img sr=
-c=3D"https://easf1.img.a.d.sendibm1.com/im/sh/J7QV4CEbSgPi.png?u=3D7xwQLFBt=
-niwQnF53TJLpQjytBA35LvE" width=3D"16" border=3D"0" style=3D"display: block;=
- width: 100%;" sib_img_id=3D"2"></a> </td> <td class=3D"nl2go-responsive-hi=
-de" width=3D"5" style=3D"font-size: 0px; line-height: 1px;">=C2=AD </td> </=
-tr></table></th> <th width=3D"21" class=3D"r16-c mobshow resp-table" style=
-=3D"font-weight: normal;"> <table cellspacing=3D"0" cellpadding=3D"0" borde=
-r=3D"0" role=3D"presentation" width=3D"100%" class=3D"r17-o" style=3D"table=
--layout: fixed; width: 100%;"><tr><td class=3D"r3-i" style=3D"font-size: 0p=
-x; line-height: 0px; padding-bottom: 5px; padding-top: 5px;"> <a href=3D"ht=
-tps://easf1.r.a.d.sendibm1.com/mk/cl/f/sh/SMK1E8tHeG7uh65GUFSwSotpeXsG/qMkW=
-sOiqWQU4" target=3D"_blank" style=3D"color: #0e0e0e; text-decoration: under=
-line;" sib_link_id=3D"2" templating=3D"n"> <img src=3D"https://easf1.img.a.=
-d.sendibm1.com/im/sh/Vh-_GB_kRa-m.png?u=3D7xwQLFBtniwQnLwVc8J0atSz0Sn3eVU" =
-width=3D"16" border=3D"0" style=3D"display: block; width: 100%;" sib_img_id=
-=3D"3"></a> </td> <td class=3D"nl2go-responsive-hide" width=3D"5" style=3D"=
-font-size: 0px; line-height: 1px;">=C2=AD </td> </tr></table></th> <th widt=
-h=3D"16" class=3D"r16-c mobshow resp-table" style=3D"font-weight: normal;">=
- <table cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presentati=
-on" width=3D"100%" class=3D"r18-o" style=3D"table-layout: fixed; width: 100=
-%;"><tr><td class=3D"r3-i" style=3D"font-size: 0px; line-height: 0px; paddi=
-ng-bottom: 5px; padding-top: 5px;"> <a href=3D"https://easf1.r.a.d.sendibm1=
-.com/mk/cl/f/sh/SMK1E8tHeGEm9EuDfPcQYeCZcqSW/MQ-dXuBmXKXO" target=3D"_blank=
-" style=3D"color: #0e0e0e; text-decoration: underline;" sib_link_id=3D"3" t=
-emplating=3D"n"> <img src=3D"https://easf1.img.a.d.sendibm1.com/im/sh/A_5Zx=
-Hg2EGoT.png?u=3D7xwQLFBtniwQnSnxkxGBl2x4plX1x5k" width=3D"16" border=3D"0" =
-style=3D"display: block; width: 100%;" sib_img_id=3D"4"></a> </td> </tr></t=
-able></th> </tr></table></td> </tr></table></td> </tr></table></td> </tr></=
-table></th> </tr></table></td> </tr></table><table cellspacing=3D"0" cellpa=
-dding=3D"0" border=3D"0" role=3D"presentation" width=3D"100%" align=3D"cent=
-er" class=3D"r19-o" style=3D"table-layout: fixed; width: 100%;"><tr><td cla=
-ss=3D"r20-i" style=3D"padding-bottom: 20px; padding-top: 40px;"> <table wid=
-th=3D"100%" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presen=
-tation"><tr><th width=3D"50%" valign=3D"middle" class=3D"r21-c" style=3D"fo=
-nt-weight: normal;"> <table cellspacing=3D"0" cellpadding=3D"0" border=3D"0=
-" role=3D"presentation" width=3D"100%" class=3D"r5-o" style=3D"table-layout=
-: fixed; width: 100%;"><tr><td valign=3D"top" class=3D"r22-i" style=3D"padd=
-ing-right: 12px;"> <table width=3D"100%" cellspacing=3D"0" cellpadding=3D"0=
-" border=3D"0" role=3D"presentation"><tr><td class=3D"r23-c" align=3D"cente=
-r" style=3D"valign: top;"> <img src=3D"https://easf1.img.a.d.sendibm1.com/i=
-m/sh/FqVcSu_shlQs.jpeg?u=3D7xwQLFBtniwQnZfPtmDMvCRAf4H0Fg0" width=3D"288" a=
-lt=3D"small batch clothing manufacturer in Delhi." border=3D"0" style=3D"di=
-splay: block; width: 100%;" sib_img_id=3D"5"></td> </tr></table></td> </tr>=
-</table></th> <th width=3D"50%" valign=3D"middle" class=3D"r21-c" style=3D"=
-font-weight: normal;"> <table cellspacing=3D"0" cellpadding=3D"0" border=3D=
-"0" role=3D"presentation" width=3D"100%" class=3D"r5-o" style=3D"table-layo=
-ut: fixed; width: 100%;"><tr><td valign=3D"top" class=3D"r24-i" style=3D"pa=
-dding-left: 12px;"> <table width=3D"100%" cellspacing=3D"0" cellpadding=3D"=
-0" border=3D"0" role=3D"presentation"><tr><td class=3D"r23-c nl2go-default-=
-textstyle" align=3D"center" style=3D"color: #414141; font-family: arial,hel=
-vetica,sans-serif; font-size: 16px; word-break: break-word; line-height: 1;=
- text-align: center; valign: top;"> <div><h1 class=3D"default-heading1" sty=
-le=3D"margin: 0; color: #414141; font-family: Palatino,Palatino Linotype,Pa=
-latino LT STD,Book Antiqua,Georgia,serif,Arial; font-size: 32px; word-break=
-: break-word;">Enhance Your Practice's Identity with Custom Clinic Attire</=
-h1></div> </td> </tr><tr><td class=3D"r25-c nl2go-default-textstyle" align=
-=3D"left" style=3D"color: #414141; font-family: arial,helvetica,sans-serif;=
- font-size: 16px; line-height: 1.5; word-break: break-word; padding-top: 24=
-px; text-align: left; valign: top;"> <div><p style=3D"margin: 0;">Ensure yo=
-ur team stands out with professionally designed, custom-made clothing that =
-showcases your clinic's brand. From scrubs to lab coats, enhance profession=
-alism and create a lasting impression.</p></div> </td> </tr><tr><td class=
-=3D"r2-c" align=3D"center"> <table cellspacing=3D"0" cellpadding=3D"0" bord=
-er=3D"0" role=3D"presentation" width=3D"135" class=3D"r26-o" style=3D"table=
--layout: fixed; width: 135px;"><tr class=3D"nl2go-responsive-hide"><td heig=
-ht=3D"15" style=3D"font-size: 15px; line-height: 15px;">=C2=AD</td> </tr><t=
-r><td height=3D"18" align=3D"center" valign=3D"top" class=3D"r27-i nl2go-de=
-fault-textstyle" style=3D"color: #414141; font-family: arial,helvetica,sans=
--serif; font-size: 16px; line-height: 1.5; word-break: break-word;">  <!--[=
-if mso]> <v:roundrect xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:w=3D"=
-urn:schemas-microsoft-com:office:word" href=3D"https://easf1.r.a.d.sendibm1=
-.com/mk/cl/f/sh/SMK1E8tHeGLdbNjAqZlueTVJb92m/caAyZYDsBwp0" style=3D"v-text-=
-anchor:middle; height: 41px; width: 134px;" arcsize=3D"29%" fillcolor=3D"#8=
-58588" strokecolor=3D"#858588" strokeweight=3D"1px" data-btn=3D"1" sib_link=
-_id=3D"4" templating=3D"n"> <w:anchorlock> </w:anchorlock> <v:textbox inset=
-=3D"0,0,0,0"> <div style=3D"display:none;"> <center class=3D"default-button=
-"><span>Ask Me?</span></center> </div> </v:textbox> </v:roundrect> <![endif=
-]-->  <!--[if !mso]><!-- --> <a href=3D"https://easf1.r.a.d.sendibm1.com/mk=
-/cl/f/sh/SMK1E8tHeGLdbNjAqZlueTVJb92m/caAyZYDsBwp0" class=3D"r28-r default-=
-button" target=3D"_blank" title=3D"WhatsApp" data-btn=3D"1" style=3D"font-s=
-tyle: normal; font-weight: bold; line-height: 1.15; text-decoration: none; =
-word-break: break-word; border-style: solid; word-wrap: break-word; display=
-: block; -webkit-text-size-adjust: none; background-color: #858588; border-=
-color: #858588; border-radius: 12px; border-width: 0px; color: #ffffff; fon=
-t-family: arial, helvetica, sans-serif; font-size: 16px; height: 18px; mso-=
-hide: all; padding-bottom: 12px; padding-top: 12px; width: 135px;" sib_link=
-_id=3D"4" templating=3D"n"> <span>Ask Me?</span></a> <!--<![endif]--> </td>=
- </tr><tr class=3D"nl2go-responsive-hide"><td height=3D"15" style=3D"font-s=
-ize: 15px; line-height: 15px;">=C2=AD</td> </tr></table></td> </tr></table>=
-</td> </tr></table></th> </tr></table></td> </tr></table><table cellspacing=
-=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presentation" width=3D"100%" =
-align=3D"center" class=3D"r0-o" style=3D"table-layout: fixed; width: 100%;"=
-><tr><td class=3D"r29-i" style=3D"padding-bottom: 20px; padding-top: 20px;"=
-> <table width=3D"100%" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" ro=
-le=3D"presentation"><tr><th width=3D"100%" valign=3D"top" class=3D"r4-c" st=
-yle=3D"font-weight: normal;"> <table cellspacing=3D"0" cellpadding=3D"0" bo=
-rder=3D"0" role=3D"presentation" width=3D"100%" class=3D"r5-o" style=3D"tab=
-le-layout: fixed; width: 100%;"><tr><td valign=3D"top" class=3D"r22-i"> <ta=
-ble width=3D"100%" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D=
-"presentation"><tr><td class=3D"r30-c nl2go-default-textstyle" align=3D"lef=
-t" style=3D"color: #414141; font-family: arial,helvetica,sans-serif; font-s=
-ize: 16px; line-height: 1.5; word-break: break-word; text-align: left; vali=
-gn: top;"> <div><h2 class=3D"default-heading2" style=3D"margin: 0; color: #=
-414141; font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqu=
-a,Georgia,serif,Arial; font-size: 24px; word-break: break-word;">Transform =
-Your Clinic with Custom-Branded Apparel!</h2></div> </td> </tr><tr><td clas=
-s=3D"r31-c nl2go-default-textstyle" align=3D"left" style=3D"color: #414141;=
- font-family: arial,helvetica,sans-serif; font-size: 16px; line-height: 1.5=
-; word-break: break-word; padding-top: 16px; text-align: left; valign: top;=
-"> <div><p style=3D"margin: 0;">I hope this email finds you well.</p><p sty=
-le=3D"margin: 0;">I am writing to request the procurement of essential clot=
-hing items required for our dental team, with the addition of our practice'=
-s branding. Below is a list of the required clothing items:</p><ol style=3D=
-"margin: 0;"><li style=3D"margin: 0;"><strong>Scrub sets</strong> (tops and=
- pants)</li><li style=3D"margin: 0;"><strong>Lab coats</strong></li><li sty=
-le=3D"margin: 0;"><strong>Disposable surgical gowns</strong></li><li style=
-=3D"margin: 0;"><strong>Caps and head coverings</strong></li><li style=3D"m=
-argin: 0;"><strong>Face masks</strong> (reusable and disposable)</li><li st=
-yle=3D"margin: 0;"><strong>Footwear covers</strong></li><li style=3D"margin=
-: 0;"><strong>Aprons</strong> (disposable and reusable)</li></ol><p style=
-=3D"margin: 0;">We would like to have our practice=E2=80=99s logo and brand=
-ing incorporated on the scrub sets, lab coats, and caps. Please let us know=
- the process, lead time, and any specific details you require to initiate t=
-his procurement.</p><p style=3D"margin: 0;">If you have any questions or ne=
-ed further clarification, feel free to reach out.</p><p style=3D"margin: 0;=
-">Thank you for your attention to this matter. We look forward to ensuring =
-our team is equipped with high-quality, branded clothing that reflects our =
-practice=E2=80=99s professional image.</p><p style=3D"margin: 0;">Warm rega=
-rds,</p></div> </td> </tr><tr><td class=3D"r32-c" align=3D"left"> <table ce=
-llspacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presentation" width=
-=3D"300" class=3D"r33-o" style=3D"table-layout: fixed; width: 300px;"><tr><=
-td class=3D"r34-i" style=3D"font-size: 0px; line-height: 0px; padding-botto=
-m: 15px; padding-top: 15px;"> <img src=3D"https://easf1.img.a.d.sendibm1.co=
-m/im/sh/6awdXoZzcAqH.png?u=3D7xwQLFBtniwQngWs2bAY5LvGUN0yYGG" width=3D"300"=
- border=3D"0" style=3D"display: block; width: 100%;" sib_img_id=3D"6"></td>=
- </tr></table></td> </tr></table></td> </tr></table></th> </tr></table></td=
-> </tr></table><table cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=
-=3D"presentation" width=3D"100%" align=3D"center" class=3D"r0-o" style=3D"t=
-able-layout: fixed; width: 100%;"><tr><td class=3D"r29-i" style=3D"padding-=
-bottom: 20px; padding-top: 20px;"> <table width=3D"100%" cellspacing=3D"0" =
-cellpadding=3D"0" border=3D"0" role=3D"presentation"><tr><th width=3D"100%"=
- valign=3D"top" class=3D"r4-c" style=3D"font-weight: normal;"> <table cells=
-pacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presentation" width=3D"=
-100%" class=3D"r5-o" style=3D"table-layout: fixed; width: 100%;"><tr><td va=
-lign=3D"top" class=3D"r22-i"> <table width=3D"100%" cellspacing=3D"0" cellp=
-adding=3D"0" border=3D"0" role=3D"presentation"><tr><td class=3D"r35-c" ali=
-gn=3D"center"> <table cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=
-=3D"presentation" width=3D"135" class=3D"r36-o" style=3D"table-layout: fixe=
-d; width: 135px;"><tr class=3D"nl2go-responsive-hide"><td height=3D"40" sty=
-le=3D"font-size: 40px; line-height: 40px;">=C2=AD</td> </tr><tr><td height=
-=3D"18" align=3D"center" valign=3D"top" class=3D"r27-i nl2go-default-textst=
-yle" style=3D"color: #414141; font-family: arial,helvetica,sans-serif; font=
--size: 16px; line-height: 1.5; word-break: break-word;">  <!--[if mso]> <v:=
-roundrect xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:w=3D"urn:schemas-=
-microsoft-com:office:word" href=3D"https://easf1.r.a.d.sendibm1.com/mk/cl/f=
-/sh/SMK1E8tHeGSV3WY81jvOkIo3ZRd2/ci9ABDLfKaqU" style=3D"v-text-anchor:middl=
-e; height: 41px; width: 134px;" arcsize=3D"20%" fillcolor=3D"#0e0e0e" strok=
-ecolor=3D"#0e0e0e" strokeweight=3D"1px" data-btn=3D"2" sib_link_id=3D"5" te=
-mplating=3D"n"> <w:anchorlock> </w:anchorlock> <v:textbox inset=3D"0,0,0,0"=
-> <div style=3D"display:none;"> <center class=3D"default-button"><span>Writ=
-e to US</span></center> </div> </v:textbox> </v:roundrect> <![endif]-->  <!=
---[if !mso]><!-- --> <a href=3D"https://easf1.r.a.d.sendibm1.com/mk/cl/f/sh=
-/SMK1E8tHeGSV3WY81jvOkIo3ZRd2/ci9ABDLfKaqU" class=3D"r37-r default-button" =
-target=3D"_blank" title=3D"Mail to" data-btn=3D"2" style=3D"font-style: nor=
-mal; font-weight: bold; line-height: 1.15; text-decoration: none; word-brea=
-k: break-word; border-style: solid; word-wrap: break-word; display: block; =
--webkit-text-size-adjust: none; background-color: #0e0e0e; border-color: #0=
-e0e0e; border-radius: 8px; border-width: 0px; color: #ffffff; font-family: =
-arial, helvetica, sans-serif; font-size: 16px; height: 18px; mso-hide: all;=
- padding-bottom: 12px; padding-top: 12px; width: 135px;" sib_link_id=3D"5" =
-templating=3D"n"> <span>Write to US</span></a> <!--<![endif]--> </td> </tr>=
-</table></td> </tr></table></td> </tr></table></th> </tr></table></td> </tr=
-></table><table cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"pr=
-esentation" width=3D"100%" align=3D"center" class=3D"r0-o" style=3D"table-l=
-ayout: fixed; width: 100%;"><tr><td class=3D"r38-i"> <table width=3D"100%" =
-cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presentation"><tr>=
-<th width=3D"100%" valign=3D"top" class=3D"r4-c" style=3D"font-weight: norm=
-al;"> <table cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"prese=
-ntation" width=3D"600" align=3D"center" class=3D"r0-o" style=3D"table-layou=
-t: fixed; width: 600px;"><tr><td height=3D"20" class=3D"r1-i" style=3D"font=
--size: 20px; line-height: 20px; background-color: transparent;"> =C2=AD </t=
-d> </tr></table></th> </tr></table></td> </tr></table><table cellspacing=3D=
-"0" cellpadding=3D"0" border=3D"0" role=3D"presentation" width=3D"100%" ali=
-gn=3D"center" class=3D"r19-o" style=3D"table-layout: fixed; width: 100%;"><=
-tr><td class=3D"r39-i" style=3D"background-color: #414141; padding-bottom: =
-16px; padding-left: 32px; padding-right: 32px; padding-top: 16px;"> <table =
-width=3D"100%" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"pre=
-sentation"><tr><th width=3D"58.33%" valign=3D"middle" class=3D"r40-c" style=
-=3D"font-weight: normal;"> <table cellspacing=3D"0" cellpadding=3D"0" borde=
-r=3D"0" role=3D"presentation" width=3D"100%" align=3D"left" class=3D"r33-o"=
- style=3D"table-layout: fixed; width: 100%;"><tr><td align=3D"left" valign=
-=3D"top" class=3D"r41-i nl2go-default-textstyle" style=3D"color: #414141; f=
-ont-family: arial,helvetica,sans-serif; font-size: 16px; line-height: 1.5; =
-word-break: break-word; text-align: left;"> <div><h4 class=3D"default-headi=
-ng4" style=3D"margin: 0; color: #1f2d3d; font-family: Palatino,Palatino Lin=
-otype,Palatino LT STD,Book Antiqua,Georgia,serif,Arial; font-size: 18px; wo=
-rd-break: break-word;"><span style=3D"font-size: 12px; color: #ffffff;"><st=
-rong>G&A Apparels</strong></span></h4></div> </td> </tr></table><table cell=
-spacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presentation" width=3D=
-"100%" align=3D"left" class=3D"r33-o" style=3D"table-layout: fixed; width: =
-100%;"><tr><td align=3D"left" valign=3D"top" class=3D"r42-i nl2go-default-t=
-extstyle" style=3D"color: #414141; font-family: arial,helvetica,sans-serif;=
- font-size: 16px; word-break: break-word; line-height: 1.2; padding-top: 8p=
-x; text-align: left;"> <div><p style=3D"margin: 0;"><span style=3D"font-siz=
-e: 12px; color: #ffffff;">h4 122 mahavir enclave,</span></p><p style=3D"mar=
-gin: 0;"><span style=3D"font-size: 12px; color: #ffffff;">110045,=C2=A0New =
-delhi</span></p></div> </td> </tr></table><table cellspacing=3D"0" cellpadd=
-ing=3D"0" border=3D"0" role=3D"presentation" width=3D"100%" align=3D"left" =
-class=3D"r33-o" style=3D"table-layout: fixed; width: 100%;"><tr><td align=
-=3D"left" valign=3D"top" class=3D"r42-i nl2go-default-textstyle" style=3D"c=
-olor: #414141; font-family: arial,helvetica,sans-serif; font-size: 16px; wo=
-rd-break: break-word; line-height: 1.2; padding-top: 8px; text-align: left;=
-"> <div></div> </td> </tr></table></th> <th width=3D"41.67%" valign=3D"midd=
-le" class=3D"r43-c" style=3D"font-weight: normal;"> <table cellspacing=3D"0=
-" cellpadding=3D"0" border=3D"0" role=3D"presentation" width=3D"100%" align=
-=3D"left" class=3D"r33-o" style=3D"table-layout: fixed; width: 100%;"><tr><=
-td align=3D"right" valign=3D"top" class=3D"r44-i nl2go-default-textstyle" s=
-tyle=3D"color: #414141; font-family: arial,helvetica,sans-serif; font-size:=
- 16px; word-break: break-word; line-height: 1.1; text-align: right;"> <div>=
-<p style=3D"margin: 0;"><a href=3D"https://easf1.r.a.d.sendibm1.com/mk/cl/f=
-/sh/SMK1E8tHeGZMVfN5Cu4sq86nXkDI/Bu8srf_SQrKg" target=3D"_blank" style=3D"c=
-olor: #0e0e0e; text-decoration: underline;" sib_link_id=3D"6" templating=3D=
-"n"><span style=3D"font-size: 12px;"><u>Privacy</u></span></a></p><p style=
-=3D"margin: 0;"><a href=3D"https://easf1.r.a.d.sendibm1.com/mk/cl/f/sh/SMK1=
-E8tHeGgDxoC2O4EMvxPXW2nY/2oyECCERAIgs" target=3D"_blank" style=3D"color: #0=
-e0e0e; text-decoration: underline;" sib_link_id=3D"7" templating=3D"n"><spa=
-n style=3D"font-size: 12px;"><u>Imprint</u></span></a></p><p style=3D"margi=
-n: 0;"><a href=3D"https://easf1.r.a.d.sendibm1.com/mk/un/v2/sh/SMJz09a0vkbX=
-qtLeq9DeITZEKdAG/vKnCe5og7y37" target=3D"_blank" style=3D"color: #0e0e0e; t=
-ext-decoration: underline;"><span style=3D"font-size: 12px;"><u>Unsubscribe=
-</u></span></a></p></div> </td> </tr></table></th> </tr></table></td> </tr>=
-</table></td> </tr></table></td> </tr></table>  <div style=3D"font:normal 1=
-0px Arial; color:#ccc; text-align:center; margin:20px auto 5px; width:200px=
-;">
-	<div style=3D"margin:10px auto 0px; width:200px;">
-			<a href=3D"https://easf1.r.a.d.sendibm1.com/tracking/?utm_campaign=3D4a2=
-1aa29a1d386e0688ac9a0f24f18b0&amp;utm_medium=3Demail&amp;utm_source=3Dlogo_=
-mailin">
-					<img alt=3D"Mailin" src=3D"https://easf1.r.a.d.sendibm1.com/public/ima=
-ges/logo_nb_en.png" width=3D"129" height=3D"48" />
-			</a>
-		</div>
-	</div> </body></html>
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Aptos;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:12.0pt;
+	font-family:"Aptos",sans-serif;
+	mso-ligatures:standardcontextual;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Aptos",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#467886" vlink=3D"#96607D" style=3D"word-wrap:=
+break-word">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">The following chang=
+es since commit 04c379b552c7ff194e0840ede6a2997d7deac691:<o:p></o:p></span>=
+</p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp; Merge branch=
+ 'robot/pr-0-1752559067' into 'main' (2025-07-15 21:06:17 +0000)<o:p></o:p>=
+</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">are available in th=
+e Git repository at:<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp; https://git.=
+codelinaro.org/clo/linux-kernel/linux-firmware.git dsp-fw-qcs83005<o:p></o:=
+p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">for you to fetch ch=
+anges up to e58faa78b6d6d88f0395bef769628d04e937dc55:<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp; Adding RAW F=
+iles for gpdsp from DSP.AT.1.0.1-00125.5-LEMANS-1 (2025-07-16 14:00:17 +053=
+0)<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">-------------------=
+---------------------------------------------<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Ekansh Gupta (2):<o=
+:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp; &nbsp; &nbsp=
+; DSP.AT.1.0.1-00125.5-LEMANS-1 DSP Firmware Release<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp; &nbsp; &nbsp=
+; Adding RAW Files for gpdsp from DSP.AT.1.0.1-00125.5-LEMANS-1<o:p></o:p><=
+/span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;WHENCE &nbsp;=
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | &nbsp; 8 +++++--=
+-<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;qcom/qcs8300/=
+adsp.mbn &nbsp; &nbsp;| Bin 6643712 -&gt; 6684672 bytes<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;qcom/qcs8300/=
+cdsp0.mbn &nbsp; | Bin 3084288 -&gt; 2629632 bytes<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;qcom/qcs8300/=
+gpdsp0.mbn &nbsp;| Bin 5832704 -&gt; 5873664 bytes<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;qcom/qcs8300/=
+gpdspr.jsn &nbsp;| &nbsp;22 ++++++++++++++++++++++<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;qcom/qcs8300/=
+gpdspua.jsn | &nbsp;29 +++++++++++++++++++++++++++++<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;6 files chang=
+ed, 56 insertions(+), 3 deletions(-)<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;create mode 1=
+00644 qcom/qcs8300/gpdspr.jsn<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;create mode 1=
+00644 qcom/qcs8300/gpdspua.jsn<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+</div>
+</body>
+</html>
 
-
----------?=_92076-2179394266762--
-
+--_000_IA0PR02MB9917271A219D863E771166B4EF24AIA0PR02MB9917namp_--
