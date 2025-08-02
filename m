@@ -1,175 +1,174 @@
-Return-Path: <SRS0=nxq1=2O=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=Iq2n=2O=oss.qualcomm.com=kishore.batta@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A489C87FC9
-	for <linux-firmware@archiver.kernel.org>; Sat,  2 Aug 2025 10:45:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DB7EC87FD2
+	for <linux-firmware@archiver.kernel.org>; Sat,  2 Aug 2025 10:47:06 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id D68E7C4CEEF; Sat,  2 Aug 2025 10:45:40 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	id 3EDE4C4CEF6; Sat,  2 Aug 2025 10:47:06 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id F0EE1C4CEF6
-	for <linux-firmware@kernel.org>; Sat,  2 Aug 2025 10:45:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org F0EE1C4CEF6
+	by smtp.kernel.org (Postfix) with ESMTPS id 3797DC4CEEF
+	for <linux-firmware@kernel.org>; Sat,  2 Aug 2025 10:47:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 3797DC4CEEF
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5725exRa004350
-	for <linux-firmware@kernel.org>; Sat, 2 Aug 2025 10:45:39 GMT
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5725f1ih017475
+	for <linux-firmware@kernel.org>; Sat, 2 Aug 2025 10:47:04 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ynEOL5S0dz1I8aQQ/CHYNlR4NcILfdu4SeyGc+0Bpa0=; b=YGPL+61UEf1vypzw
-	soBE0L/AQIrErsbJNlLBXDOIpuLOqKroJ6UbPbntMqqlJNDJU/tjE34FPcMCl94E
-	a1E0FmEZhyelLnxx2uAOubFrL6oACAUvhK/IGSrW3znFI0NZngxTmrbpCBaGPSvv
-	kpq9nH/SnzUGMLieqnsZMroWkCP3O71p6DvS4z/+vfj5cT4+bnUPFFzu+/61+T4g
-	jwHaKrdYvsMnfjO3xMWfapsws4EnvcG7LfhN8UjWk+OClLApxgtBAEXd86Y2WEUX
-	IFlCwek6f04HGtMvIvmSTOB5nin0fvc93D9cHFM7WZyjFw6inJjlm65OF5RrA1aw
-	CKnfGg==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 489buqghjv-1
+	ahjTNh5GqPuH3H1tIj5tpFoepS1+8JwSX2uF3swjfdQ=; b=jCoxt5eRbNKi3+L7
+	KgrWJE04BrEYmotAVxi2eC8la9aogzIkqlaS8K1RIX68uZr3sBq/BD8VbeDcEc5w
+	gGVNtz7tL2NY30tYieNta5JaoBvKrfNft4uizz4jAgY/9GNtHhFXzajt/jGPnSKX
+	va+OVwFlbUdE+MvramzFt/jrQX3q2DrmIBZY7bkqz+9DoAZiWsBKb2IAMTDUiVOE
+	j9L750jyHJ0dhE8apKW0joCO8Orp5fUDzTTImMX0O0PjVn1J1RMZAACFqUVQ4WW2
+	mxNiedr8H9x2sKcmWvtx1OxRXWe+Q/67xwyyK3DfS2feC5xuIpi6Ud3N8tlvkuDX
+	Y/n1Ag==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4899pa8s2j-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Sat, 02 Aug 2025 10:45:38 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-70747c020daso45834076d6.0
-        for <linux-firmware@kernel.org>; Sat, 02 Aug 2025 03:45:38 -0700 (PDT)
+	for <linux-firmware@kernel.org>; Sat, 02 Aug 2025 10:47:03 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2369dd58602so21552125ad.1
+        for <linux-firmware@kernel.org>; Sat, 02 Aug 2025 03:47:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754131537; x=1754736337;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1754131611; x=1754736411;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ynEOL5S0dz1I8aQQ/CHYNlR4NcILfdu4SeyGc+0Bpa0=;
-        b=EEKCBspLgS+zPGO3gDm7TwwHMWLr91WA+EPide30b+cFr4/HRc+mfQ38dFQqjN1tSl
-         dayOQ2zq5wjVIJhJAGZaWTMpNlFsaBUqmq84b+v4VyR4CANp6aHkCxDKj6p64z+WaqKo
-         vBhDgIQ4B2xADdEQhZUdM6xG1IhyjcHYR+ctHgURoTKSsD+075zKzGa5wXO47uwWZ95b
-         dUKp3yPbVb+IV65EzREtHyk/uT4247MTqfFAlXhjSd/bOfHiYPz6J89uRtsvR7pOZ7gV
-         oD4Y4mLZmJPSyLBEdhTGbprsUKqLTFigPexr+GkBabHGIZRd/ZtDcYa5Fw7sZVtdu/50
-         0ItA==
-X-Gm-Message-State: AOJu0YwsAk6AE1nch9ECoETcL6wx/+Ak0Tv9l+eusns3mqY4YrWbKpGt
-	SJuL+GIucRIvbI+KHf+PFrI2gznyPkNg3xzGWAqp8TM7pBGRbIzMRg8r+5l1MUaEraQdId83HZL
-	lyOnPFotpLHog7PJjYAZD+Db18bc7dvCdrExM7DJay/36V/PNNCrp924lNCX2gpo=
-X-Gm-Gg: ASbGncsXk5JAPIW7x8fZ3cyLZdHzYbDA10qWuCokpqjvcmZ96DxAuQv1wEGvkc+7I+a
-	juuIjj/cdRYXw1k9NI9ksHNcVe2HY16OvsagMaf5RKK8SJPi1jbg4WE+QO4NqIzpBhHU/ofAQXz
-	++cN9QO0l4AFKedBxFlMvORdjRxvmMU8WCrvp+nSaME26UhH/86OrX+Y/wv30zk4DaIFxbI4azW
-	wxKB4pfM0EmEiRTIxN4fd+2jHznehFVlYYfQXr6kA2reQ3mnLeq3gsP0NwVd6y9fGF5ARglkJqE
-	GCqv6iQLk0a3ZDZiGrmdpoueG1uPb5x7HR6MCEh+0D5OApU7dCl8hWHy/R/r+BNgW1PNNIh0q/u
-	V8CoWgi2yqk5gREH2N9OlAJ/+Yb6BvJNV4RBsiVkCvltRwK28TYG0
-X-Received: by 2002:a05:6214:cc1:b0:706:f190:f2ec with SMTP id 6a1803df08f44-7077ced5eabmr131711146d6.19.1754131537259;
-        Sat, 02 Aug 2025 03:45:37 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGNdg44QUv/AYq7uI6w1kPo5n0d4JILnatATwS+PDJVcd7iTNqIEwMC9F+U+SS6sQihLclICQ==
-X-Received: by 2002:a05:6214:cc1:b0:706:f190:f2ec with SMTP id 6a1803df08f44-7077ced5eabmr131710876d6.19.1754131536775;
-        Sat, 02 Aug 2025 03:45:36 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55b88db3b70sm921061e87.182.2025.08.02.03.45.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Aug 2025 03:45:35 -0700 (PDT)
-Date: Sat, 2 Aug 2025 13:45:32 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Kishore Batta <kishore.batta@oss.qualcomm.com>
+        bh=ahjTNh5GqPuH3H1tIj5tpFoepS1+8JwSX2uF3swjfdQ=;
+        b=YVDoUPjyfAvV/ZzJ4AADmWxUk0sCAUUsKnQniCE6OkjhXdV+fn87+T68GoiJqzqaxv
+         PxLxAOcjs2DMjBpUd1HJR8WZjy6FXz8+msVb/t7Nzso3ql3/8HDGg090IvtTl7WVpVau
+         NdKPqaLL1JWLUuGECC+u1vrGXpLugoyEQOD/TvQEepWwGfPehS3hEqtRTn3R8s4lliw8
+         8kXOTxgVJe23Phqoz7Y/36u6VwfpoSxuOjB+SDIJsdqn3RZ2zSRP3EIP90MmulaP4pi5
+         w6czudzGP0DpwHvdah1FSgtK8nWyxOby9Q/ar5OgwJbnB7t6Z34BzX6y4HXl867VZNH7
+         29UQ==
+X-Gm-Message-State: AOJu0YyRq6FigR6eu9fibJumK/p36n5iEFaAn7wrs741+pW3FPvlCSmF
+	uQmehS+g5GOjqwKBX5mBXVUn8zYX+T0xxckjvucU7DUBDYEmCHZ7AT1YtDozR0orTHNgnXkQsGW
+	E+5FQezsPfTagFT9UjBHwj1mdulUOSx6k4Vv3b2b0USIZs5AVd+SfXpgaShnakinbPLO9BCQ=
+X-Gm-Gg: ASbGncshZCE78sz2tvddvn0HqEq7rBQ/yiKKoC1/60Eb4VvdUra1Fi1nyoN+nEFdo8q
+	K3C5Egyv/Qhpj6+pVGxndxt1nEOfW1Yc3EbT6ueC0y++7o9G1tWeLJTjwVD6r3fwxjfUTJSffbR
+	oBBzgQUZyi6VfgZSKMD1MXt4zdzsx6i2TUa+PGTP2p79M2BDYgrh3PYABa+7BJ2uv83fDLvrtwq
+	ieBsuA1pb5k83zf5WRMiyJAFkf+Na5M7QyoVYI7DYyI2ogL/p/asuB0uu5TnLND1TORZWK/Ga6I
+	2EZJfHwZWFjKoBN7ml8BrL7eMni/tpcTGuFwYRc+rpDeb1PvKC685ql5SedzpgGgBr8P8DRR3Q=
+	=
+X-Received: by 2002:a17:902:fc8e:b0:234:ba37:879e with SMTP id d9443c01a7336-242470303bamr41467375ad.38.1754131611049;
+        Sat, 02 Aug 2025 03:46:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGLwR9rioVyUrmk/rF1nliqUrzSmVHpQ7zLjekc8de488+SnZLb8YNK7ixGX6uzGj+rJA4kMg==
+X-Received: by 2002:a17:902:fc8e:b0:234:ba37:879e with SMTP id d9443c01a7336-242470303bamr41467215ad.38.1754131610563;
+        Sat, 02 Aug 2025 03:46:50 -0700 (PDT)
+Received: from [192.168.0.215] ([49.205.244.213])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e899b6a9sm64486715ad.134.2025.08.02.03.46.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 02 Aug 2025 03:46:50 -0700 (PDT)
+Message-ID: <945330e0-b5a8-46de-9825-d4663c7c2564@oss.qualcomm.com>
+Date: Sat, 2 Aug 2025 16:16:47 +0530
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PULL]: Add QDU100 firmware image files required for booting.
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
 Cc: linux-firmware@kernel.org
-Subject: Re: [PULL]: Add QDU100 firmware image files required for booting.
-Message-ID: <vqbfvneyemeofyixydra43ylmd22bbcxdsxvd5bm4mb5z24rb5@rzmmo7ipxsur>
 References: <bbb85980-08a1-4413-bc14-7154583cf258@oss.qualcomm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+ <vqbfvneyemeofyixydra43ylmd22bbcxdsxvd5bm4mb5z24rb5@rzmmo7ipxsur>
+Content-Language: en-US
+From: Kishore Batta <kishore.batta@oss.qualcomm.com>
+In-Reply-To: <vqbfvneyemeofyixydra43ylmd22bbcxdsxvd5bm4mb5z24rb5@rzmmo7ipxsur>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <bbb85980-08a1-4413-bc14-7154583cf258@oss.qualcomm.com>
-X-Proofpoint-GUID: hoaKl4SF18aJ2XTGiqMlIYWIeLa0SY7_
-X-Authority-Analysis: v=2.4 cv=VZT3PEp9 c=1 sm=1 tr=0 ts=688dec52 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
- a=2OwXVqhp2XgA:10 a=NEAV23lmAAAA:8 a=qhmWlx60cTS3QomtLi8A:9 a=3ZKOabzyN94A:10
- a=wPNLvfGTeEIA:10 a=OIgjcC2v60KrkQgK7BGD:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODAyMDA4OSBTYWx0ZWRfX1CoZdv66uph4
- jjh1FbXuYOUo+Xg3AFLfPjeQzLe5p8QkGdWqh1Tc/8GRNAUy1qKuMvclLF+AZpRoVtmmk6EdiYC
- oL+63dVPoI+gSLb+UFqMq2sZoxftnCZ65q9f4F348i6laDqvxodb/WNWsS9tQ6JBJyG7GD/nd+u
- 3KgNEGpJzOspdckB+pNQ59WBz33If7hjmIwIL4xiQelx2FB+QUrd0Eb+XYUmOcRI9b5o8zZSA/A
- RFMpZCokeZ1EF8QYU0ccrt/B+YNma5Xww2x9RO+PEPqofPuOAtFICaTd0UN8UcjLIvnxYXl7tGL
- eU6DcU0dRywtMKWHGmDcTVvWZMxYg5OQ5TEclcjsRx26zKclcp7ghjuCl6cjSXNClzPUj3YQXze
- 18g3Zt6AfkIUL/p2pv3xfIXQmgKfaPSoN4JEqAfz2ew281lOuH57e8Jc2XODV7XxQ2y3/Ksy
-X-Proofpoint-ORIG-GUID: hoaKl4SF18aJ2XTGiqMlIYWIeLa0SY7_
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODAyMDA5MSBTYWx0ZWRfX/sYyeEOA9O0C
+ RiQJwGr4f7yCx2zhFM8aoGw6mbZ0PeY0ScHSat6FUulXL5N24N5Kgw0FTyhwXrkJ2a9SQN+JsDO
+ 2YkTi4BGZgg3Apjq+e1QWMOKyPls+uKeQe2ot6rZ9abvV7l4QAkGuIfLcUTxm7pUbfDVyqIhaWV
+ 7voMrU9QYjO5GuqTeevvLN2+ImohbK6Y7Gl0vhauqqffrWLb58R1PIR1OGxqMOfKsxLpimxrRzh
+ eIQbTt+kPX4rgKxCyK0O/5FuEv7TcJ00CILnnwd6Kfj97yjw/U40EN7nDq7XaWukK/JtrdSHDnG
+ q4gHwOEdDRgc4wHBUu1vdI/qqb1GB/4f1MxN9a6CC/y1xxa317owFswAyl1oHW1uj7WzXTKmv/p
+ a0oAHCnU7Q0nCM3M/7uaQeFWPPZwOP7Xc6vQN/KGDdyVgxgXPtZbjYufXY2Ud5GqDrLasQwG
+X-Proofpoint-GUID: c8xV7Y68iq78KH99NPiwK3erbBjJUli5
+X-Authority-Analysis: v=2.4 cv=N88pF39B c=1 sm=1 tr=0 ts=688deca7 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=KtsNJ/6bKgz7QsArn2OSsQ==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=NEAV23lmAAAA:8 a=gXYLO4WO7Ryw2KCPcSMA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-ORIG-GUID: c8xV7Y68iq78KH99NPiwK3erbBjJUli5
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-01_08,2025-08-01_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxlogscore=999 malwarescore=0 bulkscore=0 phishscore=0
- spamscore=0 mlxscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
- lowpriorityscore=0 impostorscore=0 classifier=spam authscore=0 authtc=n/a
+ clxscore=1015 malwarescore=0 mlxlogscore=999 spamscore=0 phishscore=0
+ bulkscore=0 adultscore=0 suspectscore=0 impostorscore=0 mlxscore=0
+ lowpriorityscore=0 priorityscore=1501 classifier=spam authscore=0 authtc=n/a
  authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2508020089
+ engine=8.19.0-2505280000 definitions=main-2508020091
 
-On Sat, Aug 02, 2025 at 03:51:11PM +0530, Kishore Batta wrote:
-> The following changes since commit 910c190740916a9969ad5105137fb88ae4ce34c8:
-> 
->   Merge branch 'intel/dmc/xe3lpd/2.29' into 'main' (2025-07-30 00:18:22
-> +0000)
-> 
-> are available in the Git repository at:
-> 
-> https://github.com/kishorebatta-ossqcom/linux-firmware.git qdu100_firmware
-> 
-> for you to fetch changes up to dcec874b15615bdde99acb9f2d39572eb14f4c24:
-> 
->   qcom: Add QDU100 firmware image files required for booting. (2025-08-02
-> 15:39:06 +0530)
 
-Are these files required for each boot of the QDU100 device or are they
-being programmed to the target and not required for consequent boots?
-
-> 
-> ----------------------------------------------------------------
-> Kishore Batta (1):
->       qcom: Add QDU100 firmware image files required for booting.
-> 
->  WHENCE                          |  21 +++++++++++++++++++++
->  qcom/qdu100/abl_userdebug.elf   | Bin 0 -> 212792 bytes
->  qcom/qdu100/aop.mbn             | Bin 0 -> 510944 bytes
->  qcom/qdu100/aop_devcfg.mbn      | Bin 0 -> 12136 bytes
->  qcom/qdu100/cpucp.elf           | Bin 0 -> 68576 bytes
->  qcom/qdu100/efs1.bin            | Bin 0 -> 512 bytes
->  qcom/qdu100/efs2.bin            | Bin 0 -> 512 bytes
->  qcom/qdu100/efs3.bin            | Bin 0 -> 512 bytes
->  qcom/qdu100/fw_csm_gsi_3.0.elf  | Bin 0 -> 20328 bytes
->  qcom/qdu100/hypvm.mbn           | Bin 0 -> 1358672 bytes
->  qcom/qdu100/kernel_boot.elf     | Bin 0 -> 49004344 bytes
->  qcom/qdu100/mdmddr.mbn          | Bin 0 -> 81960 bytes
->  qcom/qdu100/multi_image.mbn     | Bin 0 -> 12088 bytes
->  qcom/qdu100/multi_image_qti.mbn | Bin 0 -> 12088 bytes
->  qcom/qdu100/qdsp6sw_dtbs.elf    | Bin 0 -> 7992 bytes
->  qcom/qdu100/qupv3fw.elf         | Bin 0 -> 56432 bytes
->  qcom/qdu100/shrm.elf            | Bin 0 -> 82428 bytes
->  qcom/qdu100/tz.mbn              | Bin 0 -> 3186640 bytes
->  qcom/qdu100/uefi.elf            | Bin 0 -> 2666296 bytes
->  qcom/qdu100/xbl_config.elf      | Bin 0 -> 225368 bytes
->  qcom/qdu100/xbl_ramdump.elf     | Bin 0 -> 749464 bytes
->  qcom/qdu100/xbl_s.melf          | Bin 1424292 -> 1444772 bytes
->  qcom/qdu100/zeros_1sector.bin   | Bin 0 -> 512 bytes
->  23 files changed, 21 insertions(+)
->  create mode 100644 qcom/qdu100/abl_userdebug.elf
->  create mode 100644 qcom/qdu100/aop.mbn
->  create mode 100644 qcom/qdu100/aop_devcfg.mbn
->  create mode 100644 qcom/qdu100/cpucp.elf
->  create mode 100644 qcom/qdu100/efs1.bin
->  create mode 100644 qcom/qdu100/efs2.bin
->  create mode 100644 qcom/qdu100/efs3.bin
->  create mode 100644 qcom/qdu100/fw_csm_gsi_3.0.elf
->  create mode 100644 qcom/qdu100/hypvm.mbn
->  create mode 100644 qcom/qdu100/kernel_boot.elf
->  create mode 100644 qcom/qdu100/mdmddr.mbn
->  create mode 100644 qcom/qdu100/multi_image.mbn
->  create mode 100644 qcom/qdu100/multi_image_qti.mbn
->  create mode 100644 qcom/qdu100/qdsp6sw_dtbs.elf
->  create mode 100644 qcom/qdu100/qupv3fw.elf
->  create mode 100644 qcom/qdu100/shrm.elf
->  create mode 100644 qcom/qdu100/tz.mbn
->  create mode 100644 qcom/qdu100/uefi.elf
->  create mode 100644 qcom/qdu100/xbl_config.elf
->  create mode 100644 qcom/qdu100/xbl_ramdump.elf
->  create mode 100644 qcom/qdu100/zeros_1sector.bin
-
--- 
-With best wishes
-Dmitry
+On 8/2/2025 4:15 PM, Dmitry Baryshkov wrote:
+> On Sat, Aug 02, 2025 at 03:51:11PM +0530, Kishore Batta wrote:
+>> The following changes since commit 910c190740916a9969ad5105137fb88ae4ce34c8:
+>>
+>>  Â  Merge branch 'intel/dmc/xe3lpd/2.29' into 'main' (2025-07-30 00:18:22
+>> +0000)
+>>
+>> are available in the Git repository at:
+>>
+>> https://github.com/kishorebatta-ossqcom/linux-firmware.git qdu100_firmware
+>>
+>> for you to fetch changes up to dcec874b15615bdde99acb9f2d39572eb14f4c24:
+>>
+>>  Â  qcom: Add QDU100 firmware image files required for booting. (2025-08-02
+>> 15:39:06 +0530)
+> Are these files required for each boot of the QDU100 device or are they
+> being programmed to the target and not required for consequent boots?
+These files are required for each boot of the QDU100 device.
+>
+>> ----------------------------------------------------------------
+>> Kishore Batta (1):
+>>  Â  Â  Â  qcom: Add QDU100 firmware image files required for booting.
+>>
+>>  Â WHENCEÂ  Â  Â  Â  Â  Â  Â  Â  Â  Â  Â  Â  Â  |Â  21 +++++++++++++++++++++
+>>  Â qcom/qdu100/abl_userdebug.elfÂ  Â | Bin 0 -> 212792 bytes
+>>  Â qcom/qdu100/aop.mbnÂ  Â  Â  Â  Â  Â  Â | Bin 0 -> 510944 bytes
+>>  Â qcom/qdu100/aop_devcfg.mbnÂ  Â  Â  | Bin 0 -> 12136 bytes
+>>  Â qcom/qdu100/cpucp.elfÂ  Â  Â  Â  Â  Â | Bin 0 -> 68576 bytes
+>>  Â qcom/qdu100/efs1.binÂ  Â  Â  Â  Â  Â  | Bin 0 -> 512 bytes
+>>  Â qcom/qdu100/efs2.binÂ  Â  Â  Â  Â  Â  | Bin 0 -> 512 bytes
+>>  Â qcom/qdu100/efs3.binÂ  Â  Â  Â  Â  Â  | Bin 0 -> 512 bytes
+>>  Â qcom/qdu100/fw_csm_gsi_3.0.elfÂ  | Bin 0 -> 20328 bytes
+>>  Â qcom/qdu100/hypvm.mbnÂ  Â  Â  Â  Â  Â | Bin 0 -> 1358672 bytes
+>>  Â qcom/qdu100/kernel_boot.elfÂ  Â  Â | Bin 0 -> 49004344 bytes
+>>  Â qcom/qdu100/mdmddr.mbnÂ  Â  Â  Â  Â  | Bin 0 -> 81960 bytes
+>>  Â qcom/qdu100/multi_image.mbnÂ  Â  Â | Bin 0 -> 12088 bytes
+>>  Â qcom/qdu100/multi_image_qti.mbn | Bin 0 -> 12088 bytes
+>>  Â qcom/qdu100/qdsp6sw_dtbs.elfÂ  Â  | Bin 0 -> 7992 bytes
+>>  Â qcom/qdu100/qupv3fw.elfÂ  Â  Â  Â  Â | Bin 0 -> 56432 bytes
+>>  Â qcom/qdu100/shrm.elfÂ  Â  Â  Â  Â  Â  | Bin 0 -> 82428 bytes
+>>  Â qcom/qdu100/tz.mbnÂ  Â  Â  Â  Â  Â  Â  | Bin 0 -> 3186640 bytes
+>>  Â qcom/qdu100/uefi.elfÂ  Â  Â  Â  Â  Â  | Bin 0 -> 2666296 bytes
+>>  Â qcom/qdu100/xbl_config.elfÂ  Â  Â  | Bin 0 -> 225368 bytes
+>>  Â qcom/qdu100/xbl_ramdump.elfÂ  Â  Â | Bin 0 -> 749464 bytes
+>>  Â qcom/qdu100/xbl_s.melfÂ  Â  Â  Â  Â  | Bin 1424292 -> 1444772 bytes
+>>  Â qcom/qdu100/zeros_1sector.binÂ  Â | Bin 0 -> 512 bytes
+>>  Â 23 files changed, 21 insertions(+)
+>>  Â create mode 100644 qcom/qdu100/abl_userdebug.elf
+>>  Â create mode 100644 qcom/qdu100/aop.mbn
+>>  Â create mode 100644 qcom/qdu100/aop_devcfg.mbn
+>>  Â create mode 100644 qcom/qdu100/cpucp.elf
+>>  Â create mode 100644 qcom/qdu100/efs1.bin
+>>  Â create mode 100644 qcom/qdu100/efs2.bin
+>>  Â create mode 100644 qcom/qdu100/efs3.bin
+>>  Â create mode 100644 qcom/qdu100/fw_csm_gsi_3.0.elf
+>>  Â create mode 100644 qcom/qdu100/hypvm.mbn
+>>  Â create mode 100644 qcom/qdu100/kernel_boot.elf
+>>  Â create mode 100644 qcom/qdu100/mdmddr.mbn
+>>  Â create mode 100644 qcom/qdu100/multi_image.mbn
+>>  Â create mode 100644 qcom/qdu100/multi_image_qti.mbn
+>>  Â create mode 100644 qcom/qdu100/qdsp6sw_dtbs.elf
+>>  Â create mode 100644 qcom/qdu100/qupv3fw.elf
+>>  Â create mode 100644 qcom/qdu100/shrm.elf
+>>  Â create mode 100644 qcom/qdu100/tz.mbn
+>>  Â create mode 100644 qcom/qdu100/uefi.elf
+>>  Â create mode 100644 qcom/qdu100/xbl_config.elf
+>>  Â create mode 100644 qcom/qdu100/xbl_ramdump.elf
+>>  Â create mode 100644 qcom/qdu100/zeros_1sector.bin
