@@ -4,73 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4E7BC87FD2
-	for <linux-firmware@archiver.kernel.org>; Fri,  8 Aug 2025 11:47:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AA71C87FD2
+	for <linux-firmware@archiver.kernel.org>; Fri,  8 Aug 2025 11:57:18 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 61651C4CEF4; Fri,  8 Aug 2025 11:47:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BF0FC4CEED
-	for <linux-firmware@kernel.org>; Fri,  8 Aug 2025 11:47:20 +0000 (UTC)
+	id 242F4C4CEED; Fri,  8 Aug 2025 11:57:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EDE5C4CEF6
+	for <linux-firmware@kernel.org>; Fri,  8 Aug 2025 11:57:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754653640;
-	bh=GSv7HHVlpFRjB9Pv7IpPS3KIizdNokjcfW7ZL18klHs=;
+	s=k20201202; t=1754654238;
+	bh=gDbJuhGVBMCuhRJnjZrDc88UAHeKip0grqPBvvC5FOk=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=WJA68X2sCAUNihIgvpIYf5D9M0wyqRyCwrjuFCAjWIkb2Rge9g9UQhF8aTnL9vft7
-	 KkSQK5+DZqGJIs/t2OYkURSok8vAofy3dIEGye11n2TPB4e3jXx7f9IWE2/EPeM6EO
-	 QWlYtV5wHws2zVaCDa4OC6qreIj4f8pdGzaSDkRMXvq3fPw7pzsw0VhP4j3YPeAklD
-	 8DO1VTJsdIB6vIpGH1LJYlnyN9vLAI5Vz507hUmkbwO0lssgzpoecdwu5Ujky+NFR1
-	 FuiaQqveN+j3U/DkxCHBVxUhSdj9PhVON7jqRAgyN37RN0XU5SVhdNCc6GMUKYQgVA
-	 sjIgW5jgeFvUg==
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-71bd9e38af7so19884377b3.1
-        for <linux-firmware@kernel.org>; Fri, 08 Aug 2025 04:47:20 -0700 (PDT)
-X-Gm-Message-State: AOJu0YwYpG7jEKYwI0Gt18R0REqHFP4DEXwCn0rPUQqHzOPpX5y/jJ0Q
-	NSDEqiEuXaj9ueI3wIguHvIYwBe15oummIdhUY8j+J9XIFCys1MVL913EqKXw/AIg3iZ4MkL76G
-	VFOyS32RVexUm0RJlCb0eFS/in1rTjp0=
-X-Google-Smtp-Source: AGHT+IG3Tjht9a391cwl9Rikm3O6cvo/s5EwmKjypY1/qnCMfDcIl2krQtNIioZ39TnnbS/wl0+jGH7itWBGPzaMeOI=
-X-Received: by 2002:a05:690c:6213:b0:71b:7043:21af with SMTP id
- 00721157ae682-71bf0f9a20emr31492897b3.42.1754653639573; Fri, 08 Aug 2025
- 04:47:19 -0700 (PDT)
+	b=DK1KBKAmDiuwP3nliftoHmmb5FrF/0ZA98otEq8Oa7mPzFUQa/KaApoIWFKBQz6ve
+	 t6WlF7gCqVKJGpmnz0wDLyDKXU0u3fv8EpbQhy4kjeAHc8SyvbkUjXaZABKx57CVxi
+	 KRiFmUJaer+WrOO5lYvpPU82RoonkTelXnUAnDhgkVLceBbRrgJYdm1q6t1HaqxiDm
+	 /kunYn2BNTSxtiyGge9QxG05HNPpYT+QMf2VdaXGOmtUUjPrC3cbRxSSLGfgIvsfl0
+	 jwZx1oDzI3qEQI4DljFFH41smuf0sYMbyTjk5ZDWTbdVxJjo4Qx3gQ1VysRW0ex92N
+	 P2U1fV0tNahVw==
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e8fdbd45e10so1646551276.1
+        for <linux-firmware@kernel.org>; Fri, 08 Aug 2025 04:57:17 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yy8GCjJoe91yo8NA4SviNn9IN1JzzdgmPvs+Btksv+K7n4GgWDZ
+	nn8qruQqvYxP1Bz4dbztY+Obc9q+bjXST4e8JJV4iNwqY/aNx6vd6S3Qm+ub7RUNqrEtxjAt1RC
+	L0QJnHGJXnNseY8kOr8U3TquHn5ZHPLY=
+X-Google-Smtp-Source: AGHT+IEHmSliRwGPZOfchIyukX8M729b0Vdx6IMb/fL6Y5Dg7WF7ADG4fhUnZnqH2FJlYFxf7uMA8Y3eN+DwvU+t/b0=
+X-Received: by 2002:a05:690c:6488:b0:70e:2d30:43d6 with SMTP id
+ 00721157ae682-71bf0ef4141mr31840307b3.38.1754654237242; Fri, 08 Aug 2025
+ 04:57:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <3afa5092-f650-4e97-a20f-71be81735b69@oss.qualcomm.com>
-In-Reply-To: <3afa5092-f650-4e97-a20f-71be81735b69@oss.qualcomm.com>
+References: <ee972bfa-38fc-45d7-b4f5-0dbb03b73fee@oss.qualcomm.com>
+In-Reply-To: <ee972bfa-38fc-45d7-b4f5-0dbb03b73fee@oss.qualcomm.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Fri, 8 Aug 2025 07:47:08 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA7Pc8v3DcO9JQ9URjtx_5FZPmk_wp=pu+Ke8n7HUY4JmQ@mail.gmail.com>
-X-Gm-Features: Ac12FXwdPyPqGaivrMxaxdiw514cElf1vyivjh1HPe7hnQ7c3wxsu0za0q-cdBs
-Message-ID: <CA+5PVA7Pc8v3DcO9JQ9URjtx_5FZPmk_wp=pu+Ke8n7HUY4JmQ@mail.gmail.com>
-Subject: Re: [PULL]: Update xbl_config firmware file for QDU100
+Date: Fri, 8 Aug 2025 07:57:06 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA44KW8VtpCkAPWto8tU+uMm8AJQXPhsGFMeyM78aLBz2A@mail.gmail.com>
+X-Gm-Features: Ac12FXwSty2bmQmZBNUNpXMM8wmBeH2lrg5wOWGYiB6KAYHAWsTcDkgWZ-Tqu6w
+Message-ID: <CA+5PVA44KW8VtpCkAPWto8tU+uMm8AJQXPhsGFMeyM78aLBz2A@mail.gmail.com>
+Subject: Re: [PULL]: Add QDSP firmware file for Qualcomm QDU100 device.
 To: Kishore Batta <kishore.batta@oss.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
 Cc: linux-firmware@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 7, 2025 at 7:55=E2=80=AFAM Kishore Batta
+On Fri, Aug 8, 2025 at 4:15=E2=80=AFAM Kishore Batta
 <kishore.batta@oss.qualcomm.com> wrote:
 >
-> The following changes since commit b6b0b15278c76bbc1b7aaf17e706734d4be28e=
-00:
+> The following changes since commit d30c7b425f6d9c9e9f54bcafa99b375342b3a7=
+74:
 >
->    Merge branch 'amd-staging' into 'main' (2025-08-05 13:39:15 +0000)
+>    Merge branch 'robot/pr-22-1754588181' into 'main' (2025-08-07
+> 17:52:32 +0000)
 >
 > are available in the Git repository at:
 >
->    https://github.com/kishorebatta-ossqcom/linux-firmware.git
-> update_xbl_config
+>    https://github.com/kishorebatta-ossqcom/linux-firmware.git qdsp_firmwa=
+re
 
 Merged and pushed out.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/638
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/641
 
 josh
 
 >
-> for you to fetch changes up to 9188b156478e5d4a3fa455d9e0b588b4859c4a26:
+> for you to fetch changes up to df21d427c17adf0ff372490e14841b970539d056:
 >
->    qcom: Update xbl_config firmware file. (2025-08-07 17:16:52 +0530)
+>    qcom: Add QDSP firmware file for Qualcomm QDU100 device. (2025-08-08
+> 13:27:29 +0530)
 >
 > ----------------------------------------------------------------
 > Kishore Batta (1):
->        qcom: Update xbl_config firmware file.
+>        qcom: Add QDSP firmware file for Qualcomm QDU100 device.
 >
->   qcom/qdu100/xbl_config.elf | Bin 225368 -> 225368 bytes
+>   WHENCE                     |   1 +
+>   qcom/qdu100/qdsp6sw.mbn.xz | Bin 0 -> 5589248 bytes
+>   2 files changed, 1 insertion(+)
+>   create mode 100644 qcom/qdu100/qdsp6sw.mbn.xz
 >
