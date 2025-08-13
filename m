@@ -1,80 +1,136 @@
-Return-Path: <SRS0=NUt2=2Z=mediatek.com=huayu.zong@kernel.org>
+Return-Path: <SRS0=edlp=2Z=realtek.com=shumingf@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65335CA0EDC
-	for <linux-firmware@archiver.kernel.org>; Wed, 13 Aug 2025 01:58:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AFCB6CA0EE0
+	for <linux-firmware@archiver.kernel.org>; Wed, 13 Aug 2025 08:58:07 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 279E7C4CEF8; Wed, 13 Aug 2025 01:58:21 +0000 (UTC)
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	id 85B1EC4CEF5; Wed, 13 Aug 2025 08:58:07 +0000 (UTC)
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 39414C4CEF0
-	for <linux-firmware@kernel.org>; Wed, 13 Aug 2025 01:58:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 39414C4CEF0
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: f7c1aad077e811f0b33aeb1e7f16c2b6-20250813
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=XwMXWexvt6tR9BupyFp6yXOjD8SMPvd/Ny1SKZuMldg=;
-	b=JmpjB5zYXgtAa9RvOLrRcwG/ZAZjUzVjQCQDgZ/m731UKpm/AgVc+6EMay6mFOZN0jIrHAGfD4TyaRgvd0YlDQk2gEwbHthTwllnX6+lWVHp+7I7RmZt1+yNVXu3+G894gcWqo+D/Jl7gegD7TckNOsScY7XAxBeJ7X0WeX9A3Y=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.3,REQID:bf8c3294-dd0b-4521-a594-29bf370b8451,IP:0,UR
-	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:-5
-X-CID-META: VersionHash:f1326cf,CLOUDID:98ab5da1-1800-4e4f-b665-a3d622db32cf,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:-5,Content:0|15|50,EDM:-3,IP:
-	nil,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,L
-	ES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: f7c1aad077e811f0b33aeb1e7f16c2b6-20250813
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw02.mediatek.com
-	(envelope-from <huayu.zong@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 599310592; Wed, 13 Aug 2025 09:58:12 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+	by smtp.kernel.org (Postfix) with ESMTPS id E7F71C4CEEB
+	for <linux-firmware@kernel.org>; Wed, 13 Aug 2025 08:58:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org E7F71C4CEEB
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 57D8w1xxD4040532, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1755075482; bh=tfhE8j4ClD6qHNemZCp5ynAgqaNIoAMCoTvryxY2QMk=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=Qk7peJdut0EN+pr33sMVtUOkBvNtTFGal1OCc2UBIUTDa++hG3YfznzD0uxcOARw/
+	 +HuGKqNqMawDJMPjTZRyHAbe/9NPzBYgWPGxiNS+EOy+nej2M8HELt8423hI2vzjuV
+	 pCkI75RXYTZEdfeJ+Q+o+Z5FXkGlwuiIYTIJYUolcIwV4a07GoGyYzdo8EiiIbUpel
+	 s2C8PXHoNovil0CtQxwS74zPXX73Y/dHGVyV/liamKQpqrIqwV2tgAkbmhjj9i5oWZ
+	 MW4swhz/Ev6gZQqlqUQUViCe3AiC2IWlByDJLlbASsIGWyVx7n8+BmmDx7u/+1d33G
+	 /m47aGK3z+nRQ==
+Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
+	by rtits2.realtek.com.tw (8.15.2/3.13/5.93) with ESMTPS id 57D8w1xxD4040532
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <linux-firmware@kernel.org>; Wed, 13 Aug 2025 16:58:02 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.39; Wed, 13 Aug 2025 09:58:09 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1258.39 via Frontend Transport; Wed, 13 Aug 2025 09:58:09 +0800
-From: Huayu Zong <huayu.zong@mediatek.com>
+ 15.2.1544.11; Wed, 13 Aug 2025 16:58:02 +0800
+Received: from sw-server.localdomain (172.24.54.4) by
+ RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 13 Aug 2025 16:58:01 +0800
+From: <shumingf@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
 To: <linux-firmware@kernel.org>
-CC: <linux-mediatek@lists.infradead.org>, <shawnku@google.com>
-Subject: pull request: linux-firmware: Create Mediatek MT8189 SCP firmware
-Date: Wed, 13 Aug 2025 09:53:22 +0800
-Message-ID: <20250813015808.26203-1-huayu.zong@mediatek.com>
-X-Mailer: git-send-email 2.46.0
+CC: <flove@realtek.com>, <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
+        <derek.fang@realtek.com>, Shuming Fan <shumingf@realtek.com>
+Subject: [PATCH] realtek: rt1321: Add patch firmware of MCU
+Date: Wed, 13 Aug 2025 16:58:07 +0800
+Message-ID: <20250813085807.1375181-1-shumingf@realtek.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-Originating-IP: [172.24.54.4]
+X-ClientProxiedBy: RTEXH36505.realtek.com.tw (172.21.6.25) To
+ RTKEXHMBS06.realtek.com.tw (10.21.1.56)
 
-The following changes since commit 910c190740916a9969ad5105137fb88ae4ce34c8:
+From: Shuming Fan <shumingf@realtek.com>
 
-  Merge branch 'intel/dmc/xe3lpd/2.29' into 'main' (2025-07-30 00:18:22 +0000)
+This patch added the patch firmware of rt1321 MCU.
 
-are available in the Git repository at:
+Signed-off-by: Shuming Fan <shumingf@realtek.com>
+---
+ realtek/rt1320/rt1321-patch-code-va.bin | Bin 0 -> 7232 bytes
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 realtek/rt1320/rt1321-patch-code-va.bin
 
-  https://github.com/HuayuZong/linux-firmware-mt8189-scp mt8189-fw-upstream
+diff --git a/realtek/rt1320/rt1321-patch-code-va.bin b/realtek/rt1320/rt1321-patch-code-va.bin
+new file mode 100644
+index 0000000000000000000000000000000000000000..a9b9d50e19bdcf21cdf8095d26107f3142f3a12e
+GIT binary patch
+literal 7232
+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
+IsOpRV16vyXiU0rr
 
-for you to fetch changes up to d66f2394a85934817f5597d161ce2c1cbd6a2b96:
+literal 0
+HcmV?d00001
 
-  mediatek: Add MT8189 SCP firmware (2025-08-13 09:50:34 +0800)
-
-----------------------------------------------------------------
-Huayu Zong (1):
-      mediatek: Add MT8189 SCP firmware
-
- WHENCE                  |   2 ++
- mediatek/mt8189/scp.img | Bin 0 -> 6588300 bytes
- 2 files changed, 2 insertions(+)
- create mode 100644 mediatek/mt8189/scp.img
+-- 
+2.34.1
 
