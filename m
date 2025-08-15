@@ -1,152 +1,127 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=tRPZ=23=oss.qualcomm.com=xin.liu@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F351CA0EDC
-	for <linux-firmware@archiver.kernel.org>; Thu, 14 Aug 2025 16:57:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D8F3CA0EE0
+	for <linux-firmware@archiver.kernel.org>; Fri, 15 Aug 2025 07:45:00 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id E807BC4CEF4; Thu, 14 Aug 2025 16:57:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2074C4CEEF
-	for <linux-firmware@kernel.org>; Thu, 14 Aug 2025 16:57:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755190653;
-	bh=qJinRFTVlB/C1xLCU/x/bEiG9rTo9th/cLKqB8NRxds=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=KzxzhVWfCOhyZpgZmVicbpneLP3U+E3p9x9SmZNasxixMXPlxL0q/3yfVsPgM9IVS
-	 gbjjSnF0Qs5KvEl7jq2Fl/xwT0sSL41iw7F9nOZd8fpnlhY7Ba8DMkeMC0VTj4NMV2
-	 M9z3K7wpRYM8hjjli1duYCinEANuExVXNNilsOD6ic5fCoBjXFpr8qxCe4BzAOQyJa
-	 btxpvMXZEo/dJrfUI8GQ1TwU+qmRZUPgHyRFMprc4R/tYb6ks0y8Gm8DShSs0JbLdF
-	 TqiX3YwEaRpWvQzBXTnf8GcebfbA5HiEgc6CwFfaKNFeKNXMQBPLzfTd5SHXqecHLw
-	 1v+GEXAhBE7Zw==
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-e931c84f0c1so1256860276.0
-        for <linux-firmware@kernel.org>; Thu, 14 Aug 2025 09:57:33 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yz1D7QHwBxAgi124hCAZfIKI8/U00plQskqmwgcUfXaPRBeNs/C
-	dZuS9EgP3SSaqsswy90fqB95sSzt/k01ZESqQdiNb1WNOqB/IrRhuHPMEP3JL5WkbZVLD0syYy/
-	zNvrQN9ECtglU4qQRXMLS0e0i74v0n9c=
-X-Google-Smtp-Source: AGHT+IGv57pSiHmspMg4ulgz7g2u2EYvHkGW/O2T0wmoOY/h9APNl6KcKqGT+iIZ0i07nOMUj3IKmhXqQahC73UUZrM=
-X-Received: by 2002:a05:6902:288c:b0:e90:35e0:6ab9 with SMTP id
- 3f1490d57ef6-e931e2080edmr4276104276.30.1755190652973; Thu, 14 Aug 2025
- 09:57:32 -0700 (PDT)
+	id 60648C4CEF4; Fri, 15 Aug 2025 07:45:00 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id F0510C4CEEB
+	for <linux-firmware@kernel.org>; Fri, 15 Aug 2025 07:44:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org F0510C4CEEB
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57F7SnsX031963
+	for <linux-firmware@kernel.org>; Fri, 15 Aug 2025 07:44:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=YTFN/nl+QFiStakvqK6PKJ
+	vnw6padDbx0nSJdo0k2mk=; b=ln3sLBANB98pPMDCVQvD3zSnDJq4bICIhoyQNV
+	sXWD8oOnFVme5FNFQ/HAEBqEoH53KVNHEfuc2lc1IH3XBgxQzCqe2ZOzhgNPceFD
+	kYeOljGS9yDwmdybl27a9ObnFIVDyb/9uXniR/3jWvtmMnIWJSRfaX75BrZpwd5h
+	Eiwsn8rpErMJFrmb9ZLFSx9J+t/FEDBJuC9GVpNUQsdYka819JaCAnHy/DvPjQ0m
+	EBOZm2RYogojSYKkQ05ke1SVomthpXeRNANrxBr8VqMtItEzappSE9XvZ/3ofhi+
+	2iBJs5DyVubRa89+nVMRGZM/2ieYSygDgQItZ70zs9B/qWOQ==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48fem4p91x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-firmware@kernel.org>; Fri, 15 Aug 2025 07:44:56 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-76e2eaecf8dso1360733b3a.2
+        for <linux-firmware@kernel.org>; Fri, 15 Aug 2025 00:44:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755243895; x=1755848695;
+        h=content-transfer-encoding:subject:from:to:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YTFN/nl+QFiStakvqK6PKJvnw6padDbx0nSJdo0k2mk=;
+        b=m9HoLCYrNunY4K2qEbymP9xCofeD/sAJqasFnHk20DJNXsQ6wuBU3magBEE1H/Vm3h
+         TBpAKMWlJd+4RHaCe0k4Dp8YVQnRYG4RKI46BMWNK+nqpEXUoIXLx15Riq+8Bm8d+na1
+         Ds80HJjmFMIB3GpUqjHoc0pVaBHD+ZTocYKF4YDerkI/rcHANZTDxETkhieHELIZdGj4
+         ruYZnPxDLkwb403AJwtagbH4rXFceGl9jJRABwa0izBCUcm0lA1eCKtIixLoebwMaJQl
+         myr0bgd+Gfx8pLrCPs3XROA+TCtvLN7b3ogb7RJJ4BDYArL6VVqDDB+SbF3FNa7lxiQp
+         jJVQ==
+X-Gm-Message-State: AOJu0YwYG37kkDZtrehyHVVy8p0mNqvwM299u8ECeq4ybgVFiAcRJSoN
+	lHLyr9RA/AVN/jBMF70Ak0CXnpGzmuLK7cvD/NTApX+GSEuSzH0HHzUxaKqbCnjLViLX5IeZVgn
+	b/fbhYCH36bbZt1uzAZAvdPyjaDb8vb30ShmTOqEw6f/dVljuwuyo55lpsEKOUhAJlhculEBghw
+	==
+X-Gm-Gg: ASbGncvcx35XVLFvBNmOHfERNWDvVftYHEitlFes3zMy9h+HIiHtH0j50LtF3DhVri0
+	NaEH03CATAq9zUdl2v2KNT9Jq6OzDb6Bfec34azvFhCDilLO1XTn8d6aIfH8EPKYPGOldHA+R4R
+	JSv38VUIXhoZ2VVF9Fhmv5vGhOZkKy3M+8PM2dpzHZxoVhtmdhATqOR3WCKiv3RIFM+d3nB2527
+	71skB7zQs4WgTg8fTJIdm6dS06L2H85Xu0hB+7K08XIy3q3JqsYSyTZ+JTaOJ+Yb131uGU0rQJ6
+	iz0koKVrJGxmyHN/Skl0mebj62fUgisMHqc6t1LPBA8Q5OIwij0acdtfuVQ6Xn81UuQj9yU3oi7
+	6pJGQdfe8hpKdOOyitzWluGM=
+X-Received: by 2002:a05:6a20:7343:b0:235:3eaf:8979 with SMTP id adf61e73a8af0-240d2da6ademr2200803637.15.1755243895288;
+        Fri, 15 Aug 2025 00:44:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGjB3mhBoxZRWmDEwvPxq46q3NJyaG3ffNPS7/HhhOdjVLA9mIIAUz9uSh+RKwwb1l97Y0Zmw==
+X-Received: by 2002:a05:6a20:7343:b0:235:3eaf:8979 with SMTP id adf61e73a8af0-240d2da6ademr2200773637.15.1755243894785;
+        Fri, 15 Aug 2025 00:44:54 -0700 (PDT)
+Received: from [10.133.33.26] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76e45588c05sm571738b3a.82.2025.08.15.00.44.53
+        for <linux-firmware@kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Aug 2025 00:44:54 -0700 (PDT)
+Message-ID: <c3f6d28b-c2a5-4b41-94e9-eb4e55a5e293@oss.qualcomm.com>
+Date: Fri, 15 Aug 2025 15:44:52 +0800
 MIME-Version: 1.0
-References: <20250814092105.2733490-1-shumingf@realtek.com>
-In-Reply-To: <20250814092105.2733490-1-shumingf@realtek.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Thu, 14 Aug 2025 12:56:00 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA6uLKas2pgN685SwQh0xZ6CjxgDCSZqfuK41SJiAYRgnA@mail.gmail.com>
-X-Gm-Features: Ac12FXw9K3gNd3qbakh_NzOzgTtMClGpdIrv74Pa4c62CvhH7rSz-3CJ8vBSR7Y
-Message-ID: <CA+5PVA6uLKas2pgN685SwQh0xZ6CjxgDCSZqfuK41SJiAYRgnA@mail.gmail.com>
-Subject: Re: [PATCH v2] realtek: rt1321: Add patch firmware of MCU
-To: shumingf@realtek.com
+User-Agent: Mozilla Thunderbird
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, flove@realtek.com, oder_chiou@realtek.com, 
-	jack.yu@realtek.com, derek.fang@realtek.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: linux-firmware@kernel.org
+From: Xin Liu <xin.liu@oss.qualcomm.com>
+Subject: qcom: add CDSP firmware for x1e80100 platform
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: 21_eO3eh6KDxy2jkI7lUW5fwcLiD1zAZ
+X-Proofpoint-ORIG-GUID: 21_eO3eh6KDxy2jkI7lUW5fwcLiD1zAZ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODExMDA2OCBTYWx0ZWRfX9Y/9RjLv1+RB
+ HvQBDiC4g0VY3PxrMYG0as9kB71wewtD+oN0mWFf7z9BcrO5T6unYm0ZZpRnuo2Dj3QYvhUw89a
+ jj3zDmLcV/3LfMdDSM9ajkM2xw4d76YPUxmczsCGTSs8MANoTDcgVZJ0buzDXNAx23uhNLywqoG
+ 9TVDeeSIPflILkzAmnxSZND0LtzW3HYE4vmGM47XuwXIWZnNxsIQ4eUmzq2KhAlORI6PIiweP2d
+ 55Ihibez8TlUMtDmdrKRW5A/Ro7L2MyLQ4bdtZ48/jXBgYaWXelQ0UJ3r+/31IR0MWUH06aTbSv
+ g/2TMEXxPKoc1IpAdp6XS9wveNMIuABi0Yk+hVrVTO/326c00Zz3pws1py9qb0hdu7HOext07hS
+ cj3eEN4K
+X-Authority-Analysis: v=2.4 cv=YMafyQGx c=1 sm=1 tr=0 ts=689ee578 cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=qC_FGOx9AAAA:8 a=9VM-VAtKxY_4FW0Ts9QA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=zc0IvFSfCIW2DFIPzwfm:22
+ a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-15_02,2025-08-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1011 priorityscore=1501 spamscore=0 suspectscore=0
+ adultscore=0 impostorscore=0 malwarescore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508110068
 
-Merged and pushed out.
+The following changes since commit 08ee93ff8ffa9e8caf2e048a47cdf010dd1bc12b:
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/646
+   Merge branch 'amd-staging' into 'main' (2025-08-11 13:13:29 +0000)
 
-josh
+are available in the Git repository at:
 
-On Thu, Aug 14, 2025 at 5:21=E2=80=AFAM <shumingf@realtek.com> wrote:
->
-> From: Shuming Fan <shumingf@realtek.com>
->
-> This patch added the patch firmware of rt1321 MCU.
->
-> Signed-off-by: Shuming Fan <shumingf@realtek.com>
-> ---
->  WHENCE                                  |   3 +++
->  realtek/rt1320/rt1321-patch-code-va.bin | Bin 0 -> 7232 bytes
->  2 files changed, 3 insertions(+)
->  create mode 100644 realtek/rt1320/rt1321-patch-code-va.bin
->
-> diff --git a/WHENCE b/WHENCE
-> index f46cf46f..b8225a0a 100644
-> --- a/WHENCE
-> +++ b/WHENCE
-> @@ -3463,6 +3463,9 @@ Version: 0.0.1
->  File: realtek/rt1320/rt1320-patch-code-vc.bin
->  Version: 1.0.0
->
-> +File: realtek/rt1320/rt1321-patch-code-va.bin
-> +Version: 1.3.0
-> +
->  Licence: Redistributable. See LICENSE.rt1320 for details.
->
->  ------------------------------------------------------------------------=
---
-> diff --git a/realtek/rt1320/rt1321-patch-code-va.bin b/realtek/rt1320/rt1=
-321-patch-code-va.bin
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..a9b9d50e19bdcf21cdf8095d2=
-6107f3142f3a12e
-> GIT binary patch
-> literal 7232
-> zcmXZgcf42g9|!Q$ya}alWE8h<WQ2&WnXImzoxMW#R<>JFcJ>~Zki9}S8QFVe%j()f
-> zWajsL{e1p<en01Z&+GF#qkF%Ps-|jz5mi;SViQ{vRhwd4)>^k?4cjw6P*dg|SZ_TK
-> zC$J-1I4|dNKIZ)Sne#ibKRXlIbb*QN!kpigIlq=3DUzZ)C4AjfkdqUz3kSeR3|2y@<|
-> zWxiOM_h9z#$?U&4ld}XHS;zG6#oO4M$*Jcw_F?v4k~wcFqUy_hSenUShBaK4ja-hK
-> zvmcYcJn!HNY~hMbet#x^B_@Amq8h+_ScS=3D7mB}AiY~VK5t1<bj^E$4<<gdvOxfYYZ
-> zHj_VysMcXV3}*7zW%Ac6uFu`9H(>HN<n<iF<TvtTZp7qo%;axERGTs%He>QPXY#iw
-> z4&`9$Et&kScoVl~^0(n^Zp-9v$K-EMRKu7LJ23e>GWk2Pkvnre?!x5n${V>GlfOHE
-> z=3DN=3DrvJ=3Dw&)h-!GTI_1CpTXDMMt(ke7Vq1>2ZpXfC&l=3DXSksUaN^RPWTvK8kgs`)s=
-X
-> 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
-> IsOpRV16vyXiU0rr
->
-> literal 0
-> HcmV?d00001
->
-> --
-> 2.34.1
->
+   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git 
+cdsp-fw-x1e80100
+
+for you to fetch changes up to fec7a9678d1cab182d618ab5fa3919779c0e6230:
+
+   qcom: add CDSP firmware for x1e80100 platform (2025-08-15 10:22:15 +0800)
+
+----------------------------------------------------------------
+Xin Liu (1):
+       qcom: add CDSP firmware for x1e80100 platform
+
+  WHENCE                     |   4 ++++
+  qcom/x1e80100/cdsp.mbn     | Bin 0 -> 3215784 bytes
+  qcom/x1e80100/cdsp_dtb.mbn | Bin 0 -> 40760 bytes
+  qcom/x1e80100/cdspr.jsn    |  22 ++++++++++++++++++++++
+  4 files changed, 26 insertions(+)
+  create mode 100644 qcom/x1e80100/cdsp.mbn
+  create mode 100644 qcom/x1e80100/cdsp_dtb.mbn
+  create mode 100644 qcom/x1e80100/cdspr.jsn
+
