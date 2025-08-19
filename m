@@ -1,86 +1,107 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=lz8g=27=ionos.com=jinpu.wang@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD1EECA0EEB
-	for <linux-firmware@archiver.kernel.org>; Tue, 19 Aug 2025 11:51:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39637CA0EE6
+	for <linux-firmware@archiver.kernel.org>; Tue, 19 Aug 2025 12:16:45 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id D0051C116C6; Tue, 19 Aug 2025 11:51:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B640DC113D0
-	for <linux-firmware@kernel.org>; Tue, 19 Aug 2025 11:51:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755604265;
-	bh=eXDRC+vUoNvV6aKHnn7mY/0housgXJy8XKvazPruCD0=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=bbsDsMkrtlgmznUW3VdhWMONx6Hvj0uUEyjOiCoGw3z72nyyq9oOLPgdSQOJtgLNc
-	 u811Trv5iM7BACm6L0KIIdb6CDiUKL5LdDCIlsID5WnZWrksfmAEda4b2WToOpTF/q
-	 5+9dNsslxDUaCj+Kav8GDBlS3ByTjrp7sPENNTyKs9NYYWWLRYkmQHSWYK5kNQXLQG
-	 0Cat4NPBfS8dLAADKiqRF6codJhi67bl00V49fd9niw/0NI6eCE/SaScx0+U7xuIBQ
-	 AZYawY+YkS1k1S0bQq2zNdS4KgdeNOl9A0VrC72ne1wZ0QZqk2LTesCo+1VakjODJw
-	 btcBCk2bebMsg==
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-71e816e7f09so18091617b3.1
-        for <linux-firmware@kernel.org>; Tue, 19 Aug 2025 04:51:05 -0700 (PDT)
-X-Gm-Message-State: AOJu0YyCjRJ3Y80aqDiSI8FN1DLIpXGxYHyeSFz/T8x8uZWYUjmf1bi0
-	JS9tbInBhM/CeFUfi13rC9K1n+QBk4CfeOSqpkYPYPLx0sQxJUh/SYq2a5e3+TP/i1Wt/3bAoie
-	MrF6nkeZR18vz20ON5UZtSFYZgem3s1M=
-X-Google-Smtp-Source: AGHT+IHhwbejUOjMEPjFXCcxGq5wXLsYwz2hKjPKaqpEOL2Pd19hksOQ5fkOpYUbqfcfpP6z2Q6fz9P3+I07sFeoh1k=
-X-Received: by 2002:a05:690c:7444:b0:71b:9213:a75d with SMTP id
- 00721157ae682-71f9d5840e4mr24623917b3.18.1755604264954; Tue, 19 Aug 2025
- 04:51:04 -0700 (PDT)
+	id 0E9C7C4CEF1; Tue, 19 Aug 2025 12:16:45 +0000 (UTC)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id A5AFFC113D0
+	for <linux-firmware@kernel.org>; Tue, 19 Aug 2025 12:16:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A5AFFC113D0
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=ionos.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=ionos.com
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-61a54560c1fso243200a12.0
+        for <linux-firmware@kernel.org>; Tue, 19 Aug 2025 05:16:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ionos.com; s=google; t=1755605801; x=1756210601; darn=kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LMlwZjg+BwGuKg1s6kTEEYqgJZl+nDMkdFkULY+5kpU=;
+        b=AGhAms/QRY4OvzEIU1K1Io8JfKuDo0bYx+1pEa6Nt9SfoeT8yndryYGY/lmQN/yDFi
+         PNKJc1STCMLRFOmZ8VoLLRzn1/UFV+ZRF4YVsASTpRFHD4swghHhfOB16oSaD4PPoMqa
+         OiV3kJqpjFUoI0AjMy7cSo/WQIGMaU1X4JLJOXuw2C63mwu0sXxKUB2yuxqrHccs/hxU
+         9OUEX3X18afmDZnqyNrcPeoFI/SmuXq39RnT/Bn+yDYr8OndEy8XZBN5W1jJcfvcFbNF
+         iNAF6FkJGf+HfYv8j66TBU2pbA4rcElylh9dkNA5QISg/pZ/d+NDRfymdU9XsIXjIGWW
+         qxGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755605801; x=1756210601;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LMlwZjg+BwGuKg1s6kTEEYqgJZl+nDMkdFkULY+5kpU=;
+        b=Dx13s5ajIzMjBxD+TEnZTdE3fwemDjwJD6aMljbCk3lWikCjVe0jIN5IiUighPhNnN
+         TyiJBnkvND6DjoCqIJBaKjUNAPBgn+97fr6cYLn+swrKcCIyXcUZuxcHO1+8EIuzi1CD
+         o1geohJrU2WuHNx0ftLdJN6mKXUKn8F8YFgKzQmQm6+dSuNRexpQHWksin+3/knVfQAw
+         OMfYfitPvajpOH8TMNgPH08RUdaMnsJd2DDe/cv+2mRN4QKe7hrWHtdozLTHW0NKkenK
+         Y8DzO54gP04EFZ3Tell7st4ZGkswz/Wsljo9JB9yfrTNZef2eMVGbDNqy3YHyjdZIl8s
+         zSvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX4PU+a5O3azLJ2jKBaxTrS9vlMPrSGZD+03OmsvbyEeQKlNrZ5+akgxhNTuzlx8Fhz7nMwXub8LkjX4vRAYQ==@kernel.org
+X-Gm-Message-State: AOJu0YzVyywjYZzdGArPIXsp1vfOQVfJl4X0M6X413jd0LR0iCow4qFM
+	6wBxyMlN5EXPFKvSFiWw3rLY+T/EUlN18NmzgRMLSF9z6QQM17W+x0spUPf8FidTfc/q4UuwGad
+	f59F45zmXUPFCxPDo+3wykoD6Y3RbWa/vq6GQUSneBw==
+X-Gm-Gg: ASbGnctzFQ2lOm2fjvgJMsw3LS3KjB7Yx9Su8hxhiWCwacpz7HEWEH8krLqadgaeR+K
+	mI48RtUXhUgL0Mi2b7yVyGAIN+C3XIunJEmVcqaBCLfzFjhdJkE4vB3kae9kVviYasYkV4u31aC
+	t8uYxgxugz/xsQrBVO1NrLbo0GJaYWAzFLFdasFlETM8uste89Xm1LOLZQoBn61TNPQCYDzgTli
+	bE+lIWzsG7+nTZpWg==
+X-Google-Smtp-Source: AGHT+IFVPOJnpawqYW7dgmQm05ygm+o8VCZKwSKrOr4m0ElqSL/2bgxkgUBv9mgR5/NbA+QU7vlP8i/6O4WJ8B7wxWE=
+X-Received: by 2002:a05:6402:13c7:b0:618:1835:faa4 with SMTP id
+ 4fb4d7f45d1cf-61a7e7431a0mr952736a12.3.1755605800879; Tue, 19 Aug 2025
+ 05:16:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <4364ed17-0d85-4bf5-b1f4-7cfec60d6859@oss.qualcomm.com>
-In-Reply-To: <4364ed17-0d85-4bf5-b1f4-7cfec60d6859@oss.qualcomm.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Tue, 19 Aug 2025 07:50:52 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA6_-vuvwhAAZ3p98aOYyTfdQLishE+3h56oRzrieiaJmw@mail.gmail.com>
-X-Gm-Features: Ac12FXzN1rCGznpnl-iy_5ib-vx_-ITNcQA3yh96qcS40vVlPCDAhn0VxkNMa9g
-Message-ID: <CA+5PVA6_-vuvwhAAZ3p98aOYyTfdQLishE+3h56oRzrieiaJmw@mail.gmail.com>
-Subject: Re: qcom: add CDSP firmware for qcs615 platform
-To: Xin Liu <xin.liu@oss.qualcomm.com>
+References: <CAMGffEmFm8wvgiw+s0ZpOhRxBLOz3dQiS=sQCkgJLD6qC3VwJg@mail.gmail.com>
+ <20250819105527.GCaKRYH9VnQaVdl7gQ@fat_crate.local>
+In-Reply-To: <20250819105527.GCaKRYH9VnQaVdl7gQ@fat_crate.local>
+From: Jinpu Wang <jinpu.wang@ionos.com>
+Date: Tue, 19 Aug 2025 14:16:29 +0200
+X-Gm-Features: Ac12FXyi5L7sFVX4UCj_Ji2kWikgHR5CHKMJy4pq_iRmfKf7TcnG4_KynvPZ4bc
+Message-ID: <CAMGffE=+hhf6EXCVYo+tvdUKN8B=uEtjkTpo1R9PXN3HycXG-Q@mail.gmail.com>
+Subject: Re: [BUG] amd-ucode 20250808: "No sha256 digest for patch ID:
+ 0xa0011de" on Linux 6.12.37
+To: Borislav Petkov <bp@alien8.de>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org
+Cc: x86@kernel.org, linux-firmware@kernel.org, 
+	open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 19, 2025 at 1:50=E2=80=AFAM Xin Liu <xin.liu@oss.qualcomm.com> =
-wrote:
->
-> The following changes since commit 72a326cda49109765396e08f2453c51a852e3e=
-c6:
->
->    Merge branch 'robot/pr-0-1755548398' into 'main' (2025-08-18 20:29:21
-> +0000)
->
-> are available in the Git repository at:
->
->    https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git 819-cds=
-p
->
-> for you to fetch changes up to 3611a33e984859def7308c94db9c29bc39e91a94:
->
->    qcom: add CDSP firmware for qcs615 platform (2025-08-19 13:45:33 +0800=
-)
->
-> ----------------------------------------------------------------
-> Xin Liu (1):
->        qcom: add CDSP firmware for qcs615 platform
->
->   WHENCE                |   3 +++
->   qcom/qcs615/cdsp.mbn  | Bin 0 -> 2774548 bytes
->   qcom/qcs615/cdspr.jsn |  21 +++++++++++++++++++++
+Hi Boris,
 
-Your change to WHENCE has a weird File suffix:
+Thank you for the quick help and for clarifying the situation. I
+apologize for overlooking the information in the `amd-ucode/README`
+file regarding the required minimum base microcode version.
 
-+ RawFile: qcom/qcs615/cdspr.jsnFile
+Thanks,
+Jinpu
 
-This causes check_whence to fail because the file name is wrong.
-Please fix and resubmit.
-
-josh
-
->   3 files changed, 24 insertions(+)
->   create mode 100644 qcom/qcs615/cdsp.mbn
->   create mode 100644 qcom/qcs615/cdspr.jsn
+On Tue, Aug 19, 2025 at 12:55=E2=80=AFPM Borislav Petkov <bp@alien8.de> wro=
+te:
 >
+> On Tue, Aug 19, 2025 at 08:14:50AM +0200, Jinpu Wang wrote:
+> > Upon boot, the following error is reported in dmesg:
+> > `microcode: No sha256 digest for patch ID: 0xa0011de found`
+>
+> [boris@zn: ~/kernel/firmware-linux> less amd-ucode/README
+>
+> ...
+>
+>   Family=3D0x19 Model=3D0x01 Stepping=3D0x01: Patch=3D0x0a0011de Length=
+=3D5568 bytes
+>     Minimum base ucode version for loading: 0x0a0011d9
+>
+> So you need to update your BIOS in order to be able to load 11de.
+>
+> HTH.
+>
+> --
+> Regards/Gruss,
+>     Boris.
+>
+> https://people.kernel.org/tglx/notes-about-netiquette
