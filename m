@@ -1,128 +1,124 @@
-Return-Path: <SRS0=HEMl=3H=oss.qualcomm.com=xin.liu@kernel.org>
+Return-Path: <SRS0=L8DZ=3H=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09807CA0FF0
-	for <linux-firmware@archiver.kernel.org>; Wed, 27 Aug 2025 02:57:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85F89CA0EFF
+	for <linux-firmware@archiver.kernel.org>; Wed, 27 Aug 2025 11:53:10 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C1F65C4CEF4; Wed, 27 Aug 2025 02:57:20 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	id 66415C4CEF4; Wed, 27 Aug 2025 11:53:10 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 07DD4C4CEF1
-	for <linux-firmware@kernel.org>; Wed, 27 Aug 2025 02:57:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 07DD4C4CEF1
+	by smtp.kernel.org (Postfix) with ESMTPS id 6B7D7C4CEEB
+	for <linux-firmware@kernel.org>; Wed, 27 Aug 2025 11:53:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 6B7D7C4CEEB
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57QJP4tq007563
-	for <linux-firmware@kernel.org>; Wed, 27 Aug 2025 02:57:19 GMT
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57R6kAaY031161
+	for <linux-firmware@kernel.org>; Wed, 27 Aug 2025 11:53:08 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=xjBIfS8AVaLuaB16Tck6y6
-	m+RTr5hsrISNEiMjLIRm4=; b=OjIok/8G+AwrnKwOqOjHC5nL3BYgXr9DLTfV5l
-	mhrx0MnRr4FAI5HJ5wq/0vS+n+jbpwGe3DtjHQ6D11WH422GXf3pksV+jGwK0UVq
-	zAsWYr+5hYhyOCdWTjvSn94kqcFinex6mvLpdSduIP49GaKErLGFOJzDMYyguAqZ
-	A56zSDJDs17fyQBFc0x91LQWLDh1lQq/CKITZguO5n19ApbmxIz8vrL4GyYjhEmz
-	6PqcbN+DW6Rz7fT+/9ncgUx1+no3NW/KmCfZZDG46u3y/Rm8QsEjKzi5u/cjSfXL
-	xeE5/ls5oHOMEsDy2FtetNb2gu0lQulcCj709ejNdrpVcFLQ==
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q6x8b8gg-1
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	SZMYBOoUuE3wta/9/ePg07Rc2AU4dsKotwAYaqLtKcQ=; b=AptVSchSaik2ArPP
+	RlnDBire9ELi0fhJ8z4vny5Hjg0mU31m/iea+5SgZKF3vUrTEkbbC8fPeC/RZyix
+	BhL10UySGL97h8yTAnZaYzELd1j207fjd+gy1ftmkmTRnVgcQeXPm3M2uTJJEyal
+	HUq0kLeg56CmcArlTDJkajy0mtZYlF9h6b69GJsHCXkBxo35Dm8b6j3LPkeh7PSs
+	If5jgq0rsSl+NdE+qnKjOFKg2ZO2ZRopw4NxPKLQmd7a1hmfht4XYYBfJCZXphlv
+	G5O1Za/CHahQjFh801GhX8OvU7hSs+8NZ3AcyOmYoWllKFNuuvw7cDnsiJbIHmE5
+	eA4eGw==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q615memf-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Wed, 27 Aug 2025 02:57:19 +0000 (GMT)
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-771e1451631so5594897b3a.1
-        for <linux-firmware@kernel.org>; Tue, 26 Aug 2025 19:57:19 -0700 (PDT)
+	for <linux-firmware@kernel.org>; Wed, 27 Aug 2025 11:53:08 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4b109be525eso146092521cf.2
+        for <linux-firmware@kernel.org>; Wed, 27 Aug 2025 04:53:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756263438; x=1756868238;
-        h=content-transfer-encoding:subject:from:to:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xjBIfS8AVaLuaB16Tck6y6m+RTr5hsrISNEiMjLIRm4=;
-        b=sx4NzXjm5E6J2aUfc/j7I7dkxlffriL/1tsOsEa2Kcls1AYlpBKRI/AXOcX74Skk/S
-         XKyZg2fcPar3mX0qrgQ9nI68SdjTA7igcdvGShP8EotDks8XIBg+56aObci9fHXQ9noN
-         Qho2YJvpPc3ihEgCPe/cc31jvK67YVRWt+LI/IBKMawLtK+qQ4LUu6D0h6NghxFgZmFr
-         CBsDqFSHhhnee6+rFE17uuqoyTWP7Ncdx77C3xS1jrrVAnyEuE8rOAcQyH1pNeYN88dg
-         SGuvnNTfW9MkmRkJSV8OSu/6+JMSSboj59tIgfcrFh+5bIIbD9d7mN22DAcHkQ/sSJZN
-         oK3w==
-X-Gm-Message-State: AOJu0YzlEZ9lFFeEzRUl/3E7e3XI8eqvOY8wFxKh36SdYzVBJOr6xtmK
-	6EMkKpWCEZJSwfDUzbsPCvpMRp7PzYN5jFY4XxAwY4sVWcof7Bl6FXmFnW6Y+S34wY7lGejBxMk
-	GOAOihOHa3dE/QUF+zVXRh7hhEAQoF0K0d2J4ouCntdfVYlQhblSAxaBRocUyaVLNdEOJ7Eg=
-X-Gm-Gg: ASbGncuGozaasNE3hq6eFtM40QG1Q9asttKx5iMRBkSuKRp1HDyQ8JfjQ50YoxFQ2Cp
-	YCG2IqpGijXlXHJVWCNN/VkVhgGuprNV+Vd+klQ8o33EZKMXRjBkHnfFk+xUYWwtxhqpoHxEXDS
-	8EoiHSxTfGLcF77WMICko56Tekysga5ijWexefiCqFc9yCRtO6nFO5GbQYiWaDHbC9HiHthHAIj
-	F87vp4niboV4de3XPsBHCzechK8vIbqKhMaGpOy8JU605hOZNftU3ipOnsooOruO7crQ6g/p1eY
-	a4r0CmSHa31iH4MaX3fw56Z4XGTDVEhbz917YRAh59qVIuPnL7/p8v3kNE3CCrrF2mn7CHFY4cQ
-	RaouCMjf3h7cUL/iWS0t7XJhqIeeuVQ==
-X-Received: by 2002:a05:6a21:6d86:b0:240:1c56:6495 with SMTP id adf61e73a8af0-24340b016f3mr29571912637.14.1756263438285;
-        Tue, 26 Aug 2025 19:57:18 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHSKWAm8+63G6sopUTEMqwUj5avPU6k4CysOsWqWLm3cN+cCNBPfNZNcL2AyiueKrQSi8/Ymg==
-X-Received: by 2002:a05:6a21:6d86:b0:240:1c56:6495 with SMTP id adf61e73a8af0-24340b016f3mr29571886637.14.1756263437793;
-        Tue, 26 Aug 2025 19:57:17 -0700 (PDT)
-Received: from [10.133.33.156] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b49cb8918e7sm10398598a12.6.2025.08.26.19.57.16
-        for <linux-firmware@kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Aug 2025 19:57:17 -0700 (PDT)
-Message-ID: <783737b1-05fd-41ad-9bbf-8d0e601f3b08@oss.qualcomm.com>
-Date: Wed, 27 Aug 2025 10:57:12 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+        d=1e100.net; s=20230601; t=1756295587; x=1756900387;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SZMYBOoUuE3wta/9/ePg07Rc2AU4dsKotwAYaqLtKcQ=;
+        b=PPp213etVvTlGQG7/7++uBjsDxPNsrE78yu3iwLWPJH/c7Kqqfikra/zY38hCtvfpa
+         g4jZcicF3wvATopGW9IKl8Hap68jGjVagCNrHak8pyLF27DAbl/ypeldSCM2oi3S/sCg
+         ykkWEYRGQcM+ax1vGKx1ok6XHdA654OTh33LmaeRMZpTvMFKUbEePALT/zoczYv0EeOU
+         HQifRIIEeJh5Zq8RZbMq8Go+Dfle8Pzb7+h2k00XJOrjNYDOxwMHr0ejDGKC7H80pq+E
+         SCHpyeKcogEfCfwOASDj+QeDtgZ6wwKHqwqOKVUDuVe681NcXnSKLlOwnynclk6hvblQ
+         K7GA==
+X-Gm-Message-State: AOJu0YwhqWz/Zb9BOhIkT0idavkGHn6WNtB98/bt551csMQKsVqRCsVH
+	NKxCifjePAWDeEzf3v0kOrpWXzz9ClemyZlZ2FgNbvev/PRhed9kw+NeQfEA2FEHAM7OLeUjmp6
+	X6zN5OAQLkDXwWmp8Bq0Eh6gyc/rcL5sbWcoHoyscyT7oxsJIqzYpoZ/ThpHoTE4=
+X-Gm-Gg: ASbGncskSaAuzb+avL0N/uAqgc2jfR9nkBcaiDosK8tOHsBnDQiyI22OFEw5ooS082K
+	TzXh4UccTKqJE0cfxcmMAf9AVtPKOVmzCZzqutcPUpZdMYl5bLE6XQQCgZiNiwi5gT/srr/dgkw
+	F9CplSmEQsqsPRYgavmRy8LQfWjhjLOlpmDknslTT0WBn/GJi3cRDeEVt8TCtWu4byYI4Uw38JY
+	0xCqgRepItm/3CE68O8KbA4C1HYlfVA1z9bvlJwBo/a/shTVKfyS/IIHC88ubF6EwFwOQzw52v5
+	9x5YwDOie2jj+7MaCK11m5T92S4oScVBDKmLzz8UDW2utcc52UrJgKCcX1GADUS//km6p8g93xh
+	U/bcm2Wuua/BYdYEs49yC9AGPiQHUCOZmoupJ09F5soMDTQdZeg4A
+X-Received: by 2002:a05:6214:4101:b0:70d:dd8a:3fba with SMTP id 6a1803df08f44-70ddd8a40e6mr32950846d6.9.1756295587275;
+        Wed, 27 Aug 2025 04:53:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGgqNs2W5bIhj9uL4e1sQlttSBJaOlAr2tiw+odVsy1BMeLGQvE37C9qSp+MJgofyfQGfRJ2w==
+X-Received: by 2002:a05:6214:4101:b0:70d:dd8a:3fba with SMTP id 6a1803df08f44-70ddd8a40e6mr32950386d6.9.1756295586574;
+        Wed, 27 Aug 2025 04:53:06 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55f35ca72fbsm2769859e87.147.2025.08.27.04.53.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Aug 2025 04:53:05 -0700 (PDT)
+Date: Wed, 27 Aug 2025 14:53:03 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Xin Liu <xin.liu@oss.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-From: Xin Liu <xin.liu@oss.qualcomm.com>
-Subject: qcom: add ADSP firmware for qcs615 platform
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Cc: linux-firmware@kernel.org
+Subject: Re: qcom: add ADSP firmware for qcs615 platform
+Message-ID: <cdajgj45c2nycpaprilxq55ke3lgprybsokbaf77apoivdocpw@tea6azhm7lq3>
+References: <783737b1-05fd-41ad-9bbf-8d0e601f3b08@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: HD0cIRUhabp9YDkWGocfRvuOAKgWWWe9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDA0NCBTYWx0ZWRfX7UylVYK1uY2V
- WIkm0TM8TJhDQKSs9fraPdch3tMqxOlHx0EU6XzSnbV1mcSWGeJPAjp0kaYNt7K/A4NXjgdOOrT
- UIsKSFoP4jk7U8A/tByfIRpNNx5K9k4zfu3OjqHLkBXI542XGjqBpZEQ7ZZpn5jsExZ/jjVSTQM
- avgB0dliAKYqQNbZcHKa+nyIPuMZTwCjIs0gAm/4862Y/gTIwFP+WnjCk8uyaEZpWrmh4qPJ5jO
- 4hOAzyC5CJsv2+pq3PauOXVRGLTfz7mHt+xrIsLfT1gIrujlR4uPVZJH8sG6yzpOMuZvAfnZ6CI
- J9xHvych5nvUER0fpq6yjiW9Ob8zfXzxkgJ6ZVrtY+VfGc9uPneFMjZbxQe9yhF6dEhW4lO6s/s
- Sd81zTKu
-X-Proofpoint-GUID: HD0cIRUhabp9YDkWGocfRvuOAKgWWWe9
-X-Authority-Analysis: v=2.4 cv=Ep/SrTcA c=1 sm=1 tr=0 ts=68ae740f cx=c_pps
- a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=qC_FGOx9AAAA:8 a=HESygnTG5RWgVPuGtsQA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=zc0IvFSfCIW2DFIPzwfm:22
+In-Reply-To: <783737b1-05fd-41ad-9bbf-8d0e601f3b08@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzNCBTYWx0ZWRfXxHME9Y74OsjG
+ JBzAmbwPFDAuVxqI8SxM/DiXclr9mmHjR3STjVstWIT9xpDhj6iHRI+24AMCLL1td8Pp6VMWbDC
+ kVLCCLt3NKMlRPVwQwNyh5xZ7VYk5IwGd6fCkEgjkXWV/EnP6uGDtZnEEbRuis3mrvEBtDeA6ML
+ N31xxYs+Zg7tuyAO6uAUR81IkopQmylLDBECls3YLbtXeK9/ksGamRdJWKLncM1kdumyRW22vUW
+ KQmjnFJAQvUIWUxMZXYs+DtjLjNuv3enJ/mAxc1b5geCxGLNt96eGqxjfmRuWRe8mhNODA5kvE7
+ 48R1B3o2K5Jg902Tg8KH8C5e+56Ga7Han8bNUU8ogE1mlkalSomtenCtX9gtOuGUFVFjm7/pXt+
+ 5RbPhDyD
+X-Proofpoint-GUID: NqBtwpxpZrm2X10XB1unW-dN6nZVUV3t
+X-Authority-Analysis: v=2.4 cv=K+AiHzWI c=1 sm=1 tr=0 ts=68aef1a4 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=2OwXVqhp2XgA:10 a=qC_FGOx9AAAA:8 a=EUspDBNiAAAA:8 a=kLl5U-VyUHYcVWb4_3oA:9
+ a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10 a=a_PwQJl-kcHnX1M80qC6:22
  a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-ORIG-GUID: NqBtwpxpZrm2X10XB1unW-dN6nZVUV3t
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-26_02,2025-08-26_01,2025-03-28_01
+ definitions=2025-08-27_02,2025-08-26_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 adultscore=0 bulkscore=0 suspectscore=0
- phishscore=0 priorityscore=1501 malwarescore=0 impostorscore=0
+ malwarescore=0 suspectscore=0 bulkscore=0 clxscore=1015 adultscore=0
+ impostorscore=0 priorityscore=1501 phishscore=0 spamscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230044
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230034
 
-The following changes since commit f044bc789f8e7a4427593b687801644c39e3e8b7:
+On Wed, Aug 27, 2025 at 10:57:12AM +0800, Xin Liu wrote:
+> The following changes since commit f044bc789f8e7a4427593b687801644c39e3e8b7:
+> 
+> � Merge branch 'amd-isp-staging' into 'main' (2025-08-25 18:22:13 +0000)
+> 
+> are available in the Git repository at:
+> 
+> � https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
+> qcs615-adsp-827
+> 
+> for you to fetch changes up to 542611790f77a67a6a24c08d087d22585caa5ac2:
+> 
+> � qcom: add ADSP firmware for qcs615 platform (2025-08-27 10:46:24 +0800)
+> 
 
-   Merge branch 'amd-isp-staging' into 'main' (2025-08-25 18:22:13 +0000)
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-are available in the Git repository at:
 
-   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git 
-qcs615-adsp-827
-
-for you to fetch changes up to 542611790f77a67a6a24c08d087d22585caa5ac2:
-
-   qcom: add ADSP firmware for qcs615 platform (2025-08-27 10:46:24 +0800)
-
-----------------------------------------------------------------
-Xin Liu (1):
-       qcom: add ADSP firmware for qcs615 platform
-
-  WHENCE                 |   5 +++++
-  qcom/qcs615/adsp.mbn   | Bin 0 -> 8536204 bytes
-  qcom/qcs615/adspr.jsn  |  21 +++++++++++++++++++++
-  qcom/qcs615/adsps.jsn  |  21 +++++++++++++++++++++
-  qcom/qcs615/adspua.jsn |  27 +++++++++++++++++++++++++++
-  5 files changed, 74 insertions(+)
-  create mode 100644 qcom/qcs615/adsp.mbn
-  create mode 100755 qcom/qcs615/adspr.jsn
-  create mode 100755 qcom/qcs615/adsps.jsn
-  create mode 100755 qcom/qcs615/adspua.jsn
-
+-- 
+With best wishes
+Dmitry
