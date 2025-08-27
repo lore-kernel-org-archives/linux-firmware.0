@@ -1,190 +1,128 @@
-Return-Path: <SRS0=c4eW=3G=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=HEMl=3H=oss.qualcomm.com=xin.liu@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18080CA0EFA
-	for <linux-firmware@archiver.kernel.org>; Tue, 26 Aug 2025 09:31:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09807CA0FF0
+	for <linux-firmware@archiver.kernel.org>; Wed, 27 Aug 2025 02:57:20 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id D38A7C4CEF4; Tue, 26 Aug 2025 09:31:43 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	id C1F65C4CEF4; Wed, 27 Aug 2025 02:57:20 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id CED34C4CEF1
-	for <linux-firmware@kernel.org>; Tue, 26 Aug 2025 09:31:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org CED34C4CEF1
+	by smtp.kernel.org (Postfix) with ESMTPS id 07DD4C4CEF1
+	for <linux-firmware@kernel.org>; Wed, 27 Aug 2025 02:57:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 07DD4C4CEF1
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57Q7o2Ai011572
-	for <linux-firmware@kernel.org>; Tue, 26 Aug 2025 09:31:41 GMT
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57QJP4tq007563
+	for <linux-firmware@kernel.org>; Wed, 27 Aug 2025 02:57:19 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	wT6MrMdDiZ4edw7hzTg0GmNjJuUONviJCGznzWc9Usw=; b=C87/wR+tfWu2Z6eT
-	eOmLfn4yI2Z5VmN4iRA95YM854gfNYnYoziSHwq1I+rzZSX5UVc0W410hEw32ltt
-	iBB75U4OiPdKrECpGtGr3RPhbuNNnm1ZTfIsYucA3DC1OmFdAito9YLDnVO2iBOJ
-	ea4pXJvRnwqTOn+72MWWKLrEqXnyPct+O6yLo8aBDkXO24f45ZUi4we0efX0vz9t
-	yR0MxCSDMMjU/UXtOoiiEcS36kGdKk0gZdonhLBeVMOwiLgiDEPNG32B7hmZuE1x
-	KNPF2AVY0fe/GlU/OHzerFTQDxjMP8PlFDY6j4elGqiyGB4ExaIFUcNQOe2F2CEv
-	w0jVxw==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q615g5sd-1
+	content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=xjBIfS8AVaLuaB16Tck6y6
+	m+RTr5hsrISNEiMjLIRm4=; b=OjIok/8G+AwrnKwOqOjHC5nL3BYgXr9DLTfV5l
+	mhrx0MnRr4FAI5HJ5wq/0vS+n+jbpwGe3DtjHQ6D11WH422GXf3pksV+jGwK0UVq
+	zAsWYr+5hYhyOCdWTjvSn94kqcFinex6mvLpdSduIP49GaKErLGFOJzDMYyguAqZ
+	A56zSDJDs17fyQBFc0x91LQWLDh1lQq/CKITZguO5n19ApbmxIz8vrL4GyYjhEmz
+	6PqcbN+DW6Rz7fT+/9ncgUx1+no3NW/KmCfZZDG46u3y/Rm8QsEjKzi5u/cjSfXL
+	xeE5/ls5oHOMEsDy2FtetNb2gu0lQulcCj709ejNdrpVcFLQ==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q6x8b8gg-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Tue, 26 Aug 2025 09:31:41 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4b109ab1e1dso215099241cf.1
-        for <linux-firmware@kernel.org>; Tue, 26 Aug 2025 02:31:41 -0700 (PDT)
+	for <linux-firmware@kernel.org>; Wed, 27 Aug 2025 02:57:19 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-771e1451631so5594897b3a.1
+        for <linux-firmware@kernel.org>; Tue, 26 Aug 2025 19:57:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756200701; x=1756805501;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wT6MrMdDiZ4edw7hzTg0GmNjJuUONviJCGznzWc9Usw=;
-        b=Og4pIT+cMyty759iczE1uvhg/xy8YXb7XkNgC5WzChabMfB628+hl+8vKH2WGqk3II
-         C0eZD4lziMNCFCURTilw5rf66SeQBvrt/FLoFKyb/nOA0sW7F0ABPEOTDPA7bXLtN+eC
-         dTc8to//GkJ8TsRrId3lpOiUmihLt84mqTuOSE2VfvrCCJV65xOTGT2TlX3z5hpRduTd
-         wmONJXD46i0sdUDRW+JK5jXyNJZ8VrmjS99QWHiDOLUm4RIMgYY4HgFFWAJ31P1E36fK
-         PGMXKNj3AKJ/5+PB5LfRDmzOHNOShq5jAoVhDJdn775KvVEM//Gl4R0JSkLxQWdYwVOF
-         1Ciw==
-X-Forwarded-Encrypted: i=1; AJvYcCWQfrnW7a4OExzsp8QbygpjFhXrNHXxROiOSD2vX7lGLu6gCxykDcxUspfHVwkZBla67nuX2BE+0L4qp4yt1A==@kernel.org
-X-Gm-Message-State: AOJu0Yyzeoie2LTr2fdq3Jyf4yuDtIYrxd7cwmKu46n+69Zp6ARHs+nY
-	RrAb4+xlgvXJ44U5gsQs0T9d+xontawRHoC5OOul3XgE58w+JwneF/BSplQRHAMVbCd5HCb2kN0
-	6ukOLwUI2c+UH5mEgKBD1zQd34hucSWX/B4IDHjPKNXbadVpWH05WTQmrOxA+TuU=
-X-Gm-Gg: ASbGncsG8kFhghlFlOUdOgo4UUc/x7MyS+a2NeJNFa9CJwH/2RbIQ9Tgpkvusj+ahwI
-	jChCw4xhSN/HpN4AzQ5li56Crc2NlkhCsQnJcRwZv69xIwcP6lkcZr4mcrQMGVQNHtgBT2Yev5J
-	SeghdhqrJhI58kObOPx+LLPS7R8OiJsJWyStPfmHQQIPtnPZig+y4HHv/TNPEIL5VXn4QIWAts6
-	Afqrcldf6fi+92O4T4XEPrjJXjuZaCIl9szdyFa+ivyksou6wo1mmJP2v6XUWS573SnNjjNPv+0
-	4r3V3yRlkt6xUP2Lkta4QEAXSs4fbNkP24B9OEP31X6R8H7oIcjvZCSzxSKLUOw5Gd9MS1DRe9x
-	4mkm8EKQlKjLsI2aVNOA4irp7PkVyXTuZL0sVFr4VVNglhOTmXWPA
-X-Received: by 2002:a05:622a:2615:b0:4b0:75ed:bbf9 with SMTP id d75a77b69052e-4b2aaacb9dfmr171854541cf.33.1756200700657;
-        Tue, 26 Aug 2025 02:31:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFJwabADXwpq1LaqFq52exOyNH/Mq9XvYLVd+SqtqIeppNTHVAKVlPNJX6R240xFif+lSeIgQ==
-X-Received: by 2002:a05:622a:2615:b0:4b0:75ed:bbf9 with SMTP id d75a77b69052e-4b2aaacb9dfmr171854351cf.33.1756200700005;
-        Tue, 26 Aug 2025 02:31:40 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55f49af0439sm742683e87.109.2025.08.26.02.31.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Aug 2025 02:31:39 -0700 (PDT)
-Date: Tue, 26 Aug 2025 12:31:37 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Xin Liu <xin.liu@oss.qualcomm.com>
-List-Id: <linux-firmware.lore.kernel.org>
-Cc: Josh Boyer <jwboyer@kernel.org>, linux-firmware@kernel.org
-Subject: Re: qcom: add CDSP firmware for qcs615 platform
-Message-ID: <ppe4a53uubd7lsl2tk7ua7epbwmbybyt4tbcfexowrdh7oh3lj@arwyv25hkcer>
-References: <4364ed17-0d85-4bf5-b1f4-7cfec60d6859@oss.qualcomm.com>
- <CA+5PVA6_-vuvwhAAZ3p98aOYyTfdQLishE+3h56oRzrieiaJmw@mail.gmail.com>
- <17db4c46-d0f0-4e79-bf17-0e4c65ddcf83@oss.qualcomm.com>
- <hx4l4h3bn36kxt2vsjm2zcrv3ho53e42qj6v6rtd5ub3ox3ekk@lyldagrlapsl>
- <ff0ee75d-a26b-4fa0-a04c-2c5ef3194241@oss.qualcomm.com>
+        d=1e100.net; s=20230601; t=1756263438; x=1756868238;
+        h=content-transfer-encoding:subject:from:to:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xjBIfS8AVaLuaB16Tck6y6m+RTr5hsrISNEiMjLIRm4=;
+        b=sx4NzXjm5E6J2aUfc/j7I7dkxlffriL/1tsOsEa2Kcls1AYlpBKRI/AXOcX74Skk/S
+         XKyZg2fcPar3mX0qrgQ9nI68SdjTA7igcdvGShP8EotDks8XIBg+56aObci9fHXQ9noN
+         Qho2YJvpPc3ihEgCPe/cc31jvK67YVRWt+LI/IBKMawLtK+qQ4LUu6D0h6NghxFgZmFr
+         CBsDqFSHhhnee6+rFE17uuqoyTWP7Ncdx77C3xS1jrrVAnyEuE8rOAcQyH1pNeYN88dg
+         SGuvnNTfW9MkmRkJSV8OSu/6+JMSSboj59tIgfcrFh+5bIIbD9d7mN22DAcHkQ/sSJZN
+         oK3w==
+X-Gm-Message-State: AOJu0YzlEZ9lFFeEzRUl/3E7e3XI8eqvOY8wFxKh36SdYzVBJOr6xtmK
+	6EMkKpWCEZJSwfDUzbsPCvpMRp7PzYN5jFY4XxAwY4sVWcof7Bl6FXmFnW6Y+S34wY7lGejBxMk
+	GOAOihOHa3dE/QUF+zVXRh7hhEAQoF0K0d2J4ouCntdfVYlQhblSAxaBRocUyaVLNdEOJ7Eg=
+X-Gm-Gg: ASbGncuGozaasNE3hq6eFtM40QG1Q9asttKx5iMRBkSuKRp1HDyQ8JfjQ50YoxFQ2Cp
+	YCG2IqpGijXlXHJVWCNN/VkVhgGuprNV+Vd+klQ8o33EZKMXRjBkHnfFk+xUYWwtxhqpoHxEXDS
+	8EoiHSxTfGLcF77WMICko56Tekysga5ijWexefiCqFc9yCRtO6nFO5GbQYiWaDHbC9HiHthHAIj
+	F87vp4niboV4de3XPsBHCzechK8vIbqKhMaGpOy8JU605hOZNftU3ipOnsooOruO7crQ6g/p1eY
+	a4r0CmSHa31iH4MaX3fw56Z4XGTDVEhbz917YRAh59qVIuPnL7/p8v3kNE3CCrrF2mn7CHFY4cQ
+	RaouCMjf3h7cUL/iWS0t7XJhqIeeuVQ==
+X-Received: by 2002:a05:6a21:6d86:b0:240:1c56:6495 with SMTP id adf61e73a8af0-24340b016f3mr29571912637.14.1756263438285;
+        Tue, 26 Aug 2025 19:57:18 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHSKWAm8+63G6sopUTEMqwUj5avPU6k4CysOsWqWLm3cN+cCNBPfNZNcL2AyiueKrQSi8/Ymg==
+X-Received: by 2002:a05:6a21:6d86:b0:240:1c56:6495 with SMTP id adf61e73a8af0-24340b016f3mr29571886637.14.1756263437793;
+        Tue, 26 Aug 2025 19:57:17 -0700 (PDT)
+Received: from [10.133.33.156] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b49cb8918e7sm10398598a12.6.2025.08.26.19.57.16
+        for <linux-firmware@kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Aug 2025 19:57:17 -0700 (PDT)
+Message-ID: <783737b1-05fd-41ad-9bbf-8d0e601f3b08@oss.qualcomm.com>
+Date: Wed, 27 Aug 2025 10:57:12 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+List-Id: <linux-firmware.lore.kernel.org>
+To: linux-firmware@kernel.org
+From: Xin Liu <xin.liu@oss.qualcomm.com>
+Subject: qcom: add ADSP firmware for qcs615 platform
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ff0ee75d-a26b-4fa0-a04c-2c5ef3194241@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzNCBTYWx0ZWRfX3xcrGfd3S1Yx
- cCTlRTdsmPq53i4RHV0jtidbPV3D9NUMTzeHZMVrYxAwQG7h7pbAVXrsWMxHOBfya4pR1/Pio0q
- uMHbTIuslIFob0tEuWjdrW0HtrBE1ICavTs6i80v3W+3zhfpYEUIs1FV/qgQ1jx/Jgme/ZTJ6xM
- DfKZmeGvmCFTn1e4/2jlQPGWNX3k4iPKd1SXRVVtEEmfJTVJjh9mbC0XCfv1tKqL+qQVpUVGyYP
- rcwpXXefKZzOlB4mbP/pQLBoPXxK9brLD1GR7Rg3bEorWjg+UrzhFiYLJLMLsNliEMIp8PUGtfS
- WWkdmSYConHew9G4OpGuCsdQgUp/bBWgQVrIpskVZ3VzDY44hVimkEJfvKVBX/wj1b9pxu1utBE
- DV0Gsdmq
-X-Proofpoint-GUID: OzYTV3RQAGtHuQydZZCznT9t0ylB5W1Y
-X-Authority-Analysis: v=2.4 cv=K+AiHzWI c=1 sm=1 tr=0 ts=68ad7efd cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=2OwXVqhp2XgA:10 a=qC_FGOx9AAAA:8 a=EUspDBNiAAAA:8 a=0L3JsRNgBvT0HALkGpoA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-ORIG-GUID: HD0cIRUhabp9YDkWGocfRvuOAKgWWWe9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDA0NCBTYWx0ZWRfX7UylVYK1uY2V
+ WIkm0TM8TJhDQKSs9fraPdch3tMqxOlHx0EU6XzSnbV1mcSWGeJPAjp0kaYNt7K/A4NXjgdOOrT
+ UIsKSFoP4jk7U8A/tByfIRpNNx5K9k4zfu3OjqHLkBXI542XGjqBpZEQ7ZZpn5jsExZ/jjVSTQM
+ avgB0dliAKYqQNbZcHKa+nyIPuMZTwCjIs0gAm/4862Y/gTIwFP+WnjCk8uyaEZpWrmh4qPJ5jO
+ 4hOAzyC5CJsv2+pq3PauOXVRGLTfz7mHt+xrIsLfT1gIrujlR4uPVZJH8sG6yzpOMuZvAfnZ6CI
+ J9xHvych5nvUER0fpq6yjiW9Ob8zfXzxkgJ6ZVrtY+VfGc9uPneFMjZbxQe9yhF6dEhW4lO6s/s
+ Sd81zTKu
+X-Proofpoint-GUID: HD0cIRUhabp9YDkWGocfRvuOAKgWWWe9
+X-Authority-Analysis: v=2.4 cv=Ep/SrTcA c=1 sm=1 tr=0 ts=68ae740f cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=qC_FGOx9AAAA:8 a=HESygnTG5RWgVPuGtsQA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=zc0IvFSfCIW2DFIPzwfm:22
  a=fsdK_YakeE02zTmptMdW:22
-X-Proofpoint-ORIG-GUID: OzYTV3RQAGtHuQydZZCznT9t0ylB5W1Y
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-26_02,2025-08-26_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 bulkscore=0 clxscore=1015 adultscore=0
- impostorscore=0 priorityscore=1501 phishscore=0 spamscore=0
+ clxscore=1015 spamscore=0 adultscore=0 bulkscore=0 suspectscore=0
+ phishscore=0 priorityscore=1501 malwarescore=0 impostorscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230034
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230044
 
-On Tue, Aug 26, 2025 at 11:21:44AM +0800, Xin Liu wrote:
-> Okay, thank you for the reminder. I will do it.
+The following changes since commit f044bc789f8e7a4427593b687801644c39e3e8b7:
 
-Please, don't top post in future.
+   Merge branch 'amd-isp-staging' into 'main' (2025-08-25 18:22:13 +0000)
 
-> 
-> The following changes since commit f044bc789f8e7a4427593b687801644c39e3e8b7:
-> 
->   Merge branch 'amd-isp-staging' into 'main' (2025-08-25 18:22:13 +0000)
-> 
-> are available in the Git repository at:
-> 
->   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
-> qcs615-cdsp-826
-> 
-> for you to fetch changes up to 49524f3ee32837eee83bcf7fd3798967e764699a:
-> 
->   qcom: add CDSP firmware for qcs615 platform (2025-08-26 10:24:34 +0800)
-> 
-> ----------------------------------------------------------------
-> Xin Liu (1):
->       qcom: add CDSP firmware for qcs615 platform
+are available in the Git repository at:
 
-LGTM and the issue reported by Josh seems fixed now.
+   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git 
+qcs615-adsp-827
 
-> 
->  WHENCE                |   3 +++
->  qcom/qcs615/cdsp.mbn  | Bin 0 -> 2774548 bytes
->  qcom/qcs615/cdspr.jsn |  21 +++++++++++++++++++++
->  3 files changed, 24 insertions(+)
->  create mode 100644 qcom/qcs615/cdsp.mbn
->  create mode 100644 qcom/qcs615/cdspr.jsn
-> 
-> On 8/25/2025 5:52 PM, Dmitry Baryshkov wrote:
-> > On Mon, Aug 25, 2025 at 05:36:24PM +0800, Xin Liu wrote:
-> > > Hi, Josh
-> > > 
-> > > I'm sorry for the issue. I have fixed it on the latest 819-cdsp branch
-> > The branch contains both old and new commits and a stray merge commit.
-> > Please push a clean branch having only one commit.
-> > 
-> > > Xin
-> > > 
-> > > On 8/19/2025 7:50 PM, Josh Boyer wrote:
-> > > > On Tue, Aug 19, 2025 at 1:50 AM Xin Liu <xin.liu@oss.qualcomm.com> wrote:
-> > > > > The following changes since commit 72a326cda49109765396e08f2453c51a852e3ec6:
-> > > > > 
-> > > > >      Merge branch 'robot/pr-0-1755548398' into 'main' (2025-08-18 20:29:21
-> > > > > +0000)
-> > > > > 
-> > > > > are available in the Git repository at:
-> > > > > 
-> > > > >      https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git 819-cdsp
-> > > > > 
-> > > > > for you to fetch changes up to 3611a33e984859def7308c94db9c29bc39e91a94:
-> > > > > 
-> > > > >      qcom: add CDSP firmware for qcs615 platform (2025-08-19 13:45:33 +0800)
-> > > > > 
-> > > > > ----------------------------------------------------------------
-> > > > > Xin Liu (1):
-> > > > >          qcom: add CDSP firmware for qcs615 platform
-> > > > > 
-> > > > >     WHENCE                |   3 +++
-> > > > >     qcom/qcs615/cdsp.mbn  | Bin 0 -> 2774548 bytes
-> > > > >     qcom/qcs615/cdspr.jsn |  21 +++++++++++++++++++++
-> > > > Your change to WHENCE has a weird File suffix:
-> > > > 
-> > > > + RawFile: qcom/qcs615/cdspr.jsnFile
-> > > > 
-> > > > This causes check_whence to fail because the file name is wrong.
-> > > > Please fix and resubmit.
-> > > > 
-> > > > josh
-> > > > 
-> > > > >     3 files changed, 24 insertions(+)
-> > > > >     create mode 100644 qcom/qcs615/cdsp.mbn
-> > > > >     create mode 100644 qcom/qcs615/cdspr.jsn
-> > > > > 
+for you to fetch changes up to 542611790f77a67a6a24c08d087d22585caa5ac2:
 
--- 
-With best wishes
-Dmitry
+   qcom: add ADSP firmware for qcs615 platform (2025-08-27 10:46:24 +0800)
+
+----------------------------------------------------------------
+Xin Liu (1):
+       qcom: add ADSP firmware for qcs615 platform
+
+  WHENCE                 |   5 +++++
+  qcom/qcs615/adsp.mbn   | Bin 0 -> 8536204 bytes
+  qcom/qcs615/adspr.jsn  |  21 +++++++++++++++++++++
+  qcom/qcs615/adsps.jsn  |  21 +++++++++++++++++++++
+  qcom/qcs615/adspua.jsn |  27 +++++++++++++++++++++++++++
+  5 files changed, 74 insertions(+)
+  create mode 100644 qcom/qcs615/adsp.mbn
+  create mode 100755 qcom/qcs615/adspr.jsn
+  create mode 100755 qcom/qcs615/adsps.jsn
+  create mode 100755 qcom/qcs615/adspua.jsn
+
