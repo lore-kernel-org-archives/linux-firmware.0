@@ -1,251 +1,209 @@
-Return-Path: <SRS0=R8Bf=3M=oss.qualcomm.com=xin.liu@kernel.org>
+Return-Path: <SRS0=bjKw=3M=intel.com=miriam.rachel.korenblit@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7EEE9CA0FFD
-	for <linux-firmware@archiver.kernel.org>; Mon,  1 Sep 2025 05:53:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CD03BCA1000
+	for <linux-firmware@archiver.kernel.org>; Mon,  1 Sep 2025 14:03:01 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 4F7D3C4CEF8; Mon,  1 Sep 2025 05:53:03 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	id A537CC4CEF4; Mon,  1 Sep 2025 14:03:01 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 2E0A3C4CEF0
-	for <linux-firmware@kernel.org>; Mon,  1 Sep 2025 05:53:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 2E0A3C4CEF0
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57VMPXdt011357
-	for <linux-firmware@kernel.org>; Mon, 1 Sep 2025 05:53:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=EtpGesV6B0Bzab+Z29QZ0yRs
-	wencUj6JsxRIPGhopC0=; b=huIUH9u6WOYHcaMsaYa7qcVxqSbRLGM9KNYJyWbg
-	ZVPtp3rpLslCtUmT7XnohWP5RZvNmHIHzQ4E6ypMYYZ/DRm2gRdP1dwl9L9U5EJG
-	RpC128CoulEJHPlqLU42auwOOJxptVqFlFShREVNF2MJAdzHA7hvQY35fkRm2ZYZ
-	OhyKV7MI9ROrZhAKQWK66mn3Hw9VESEy9AabpiJVKBmO5kxzOu6k+DZXayYANzlA
-	2DO1mgeinXH5q3ujlbfzfo5J8tfOGukoPZ8We092CsJ1Ah2kdd55m50+Mo3GiSi3
-	zpASXtEetm858S7HLMI23yKQu0DotcYM/4XgD/HuAKNzWw==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ush2ue8c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Mon, 01 Sep 2025 05:53:01 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-244570600a1so49275515ad.1
-        for <linux-firmware@kernel.org>; Sun, 31 Aug 2025 22:53:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756705980; x=1757310780;
-        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EtpGesV6B0Bzab+Z29QZ0yRswencUj6JsxRIPGhopC0=;
-        b=uqVupLmWRBPnUHLZyB0zy4doZA2alNStPE+H8Q/D6d6sLJdEpm0K4MQJwgrvkaRC2U
-         1TQQxyfLJ/iByNWMp3FmrxMC4oza29n4/SJTQrZB5IRUWsA523rhXu1TvB4G5IaggOvg
-         mnWnfBeVyXxbZM/W+amr2entLSJDlmQNq+X4ygi7mT9x/8Dr+cB7/4gfXzs/4MCGi+lp
-         3hucOmFSQtqGA4qh8UOuOWvxhOzyDlugWFAiMlPGMDVCaH3cw82QdJu7AtLDmovrHTBP
-         lvTcvRpayFtVXatI6E35w83Y1DgyqAI+VeS+nR3NjEYHcyiVRr+NPPRsTxjtVmbawgaz
-         wg/Q==
-X-Gm-Message-State: AOJu0Yy5C3If+gii9zDwGoXykOsq2xdZbIWW8N+cANLevukqAoa4WH/A
-	DYGje2oQ3soQd2mTWBKl7ePqwstVxV1D0Fu0VsZ/CxJVx520u2j5fxfbQ6VawjP2lIyAXEtQ8Hc
-	AyPT2mCgJv0eyDUT3v3VoaJnrYCT1PprlsX4JFd+z+M4ztGc6j+zo0Y289h/0clY=
-X-Gm-Gg: ASbGnctpBHN4YiFRKaTzUqokYXHLuwNA46WhanyhhS8/XerGyWxk/qUbIfzI3BrBvYT
-	cmbUeZ0ZrW7/ORvOJU9yIlJEHggv5uXSw+C+V9klTiBH8Jk9yPJU3w4Wv+SGhlLSXc1E9rjeehq
-	s0TN3tvffp713TsFSupQSO4C47tbLXLOoFh9D7UmStllx6l9B+Y5NgXnuNLkxbuaGo2MgD4BbUX
-	JdNT78bEuL1objOSLPbog9zgrE1yOKw1UNyjCGfAj4uJ3YD0jqqy/oN1XLndPJwqp9NpknFXtwb
-	wiK/5Yp6iwsBzt9IG/p0zHdCJ+uvdMiCoFIprJ4jMudspy9cV9Q2f3nSu5ubHddJB2pqk2OBqFe
-	GtQVa5ETDlU6WkgozmWLARv+E/uAdUw==
-X-Received: by 2002:a17:903:2b8f:b0:246:e235:49d7 with SMTP id d9443c01a7336-24944ac2518mr62479135ad.15.1756705980206;
-        Sun, 31 Aug 2025 22:53:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFdz5G6KTH/NUnI9hX+kw2aWDvk3Me+NsFnA71dKD60juI1qSXYW8dkBQ+6VCDt+cYbQWevNg==
-X-Received: by 2002:a17:903:2b8f:b0:246:e235:49d7 with SMTP id d9443c01a7336-24944ac2518mr62478935ad.15.1756705979634;
-        Sun, 31 Aug 2025 22:52:59 -0700 (PDT)
-Received: from [10.133.33.254] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24903705b91sm93324145ad.12.2025.08.31.22.52.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 31 Aug 2025 22:52:59 -0700 (PDT)
-Content-Type: multipart/alternative;
- boundary="------------sTZdR9mC7fflwgsS7p0m0AR7"
-Message-ID: <10ab97d7-52b3-4056-8098-309eb35b0e59@oss.qualcomm.com>
-Date: Mon, 1 Sep 2025 13:52:56 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: qcom: add ADSP firmware for qcs615 platform
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Josh Boyer <jwboyer@kernel.org>
+	by smtp.kernel.org (Postfix) with ESMTPS id 5EC9AC4CEF1;
+	Mon,  1 Sep 2025 14:03:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 5EC9AC4CEF1
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756735380; x=1788271380;
+  h=from:to:cc:subject:date:message-id:
+   content-transfer-encoding:mime-version;
+  bh=J1cofl5o3aoVbWK8GcmTDCvgZJrwWnSPBl6NVMB1fgs=;
+  b=FMrSCKUA9qPOiOwkb3aLnAN1j4hcW05o8VM97JnJTDJscPmDrsONGeg3
+   rQ7ZXfiiD90x+EY2NPtHWKfHxXbjoqC1XXqFxCfkYmKIPuzN7NYW+Sgxl
+   tSXdQ7H38r1ZdtFltDJwogJo8NTPcA9d05V5rqTtoMNyAiD+Pa/fQ/+IH
+   Ng+RfmtM6YBti+OFVfj3KIVCBpXJtf5mPcV7vLnDuGertFGX7rPXZLwyt
+   Wznzsif8XuhmrdjnMLjqcaG/BxE4baZxRCaQAuz7ornEpsoxNSMmgo+BW
+   CLHMtUgDT5X2SSkd+qY3eUquQxWQMOpQDwgqxZR+1TsUciC5gNvpN8lxj
+   A==;
+X-CSE-ConnectionGUID: JmXEeILPRuaHunzIpnJoPQ==
+X-CSE-MsgGUID: Q1SPhMToRCW55jeY2P+H1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="70099749"
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
+   d="scan'208";a="70099749"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 07:03:00 -0700
+X-CSE-ConnectionGUID: QsfFU8czTTeJzq07d7oayg==
+X-CSE-MsgGUID: rhcJtwJoQ2maXYOhjYbMtg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
+   d="scan'208";a="194678131"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 07:02:59 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Mon, 1 Sep 2025 07:02:59 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17 via Frontend Transport; Mon, 1 Sep 2025 07:02:59 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (40.107.220.55)
+ by edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Mon, 1 Sep 2025 07:02:58 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CKNV51Vr9lI9lZODlPbaRlSbydP7hG8s1YCN1vA5ocblPjh3XQgP9uTvfdR29Cfiw3W/V006jFGBg2qnWKwJ/9mmkVzM22qHyHwILy2rhLAS+10lwxVMsLcI42kC+IXu+62BIrenDt2KayM9I0mhiTqJ5UuztAZ3qMgS14n0FyQ+2gsjDxiu28cucP+iusl/jEU0nVsojNSnxlV1MyIxkGh2xTaiBKL67jEXBLzQSI28hw5/wsJ73gZki01amSWDm4OOMzQ016/AjADzavBIMt2REPc+CLcNoDmxqZIk9N20nklhb/LT9pN+m86w8ZBxwJGvzDKen/ZAz3Kovur6NQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=J1cofl5o3aoVbWK8GcmTDCvgZJrwWnSPBl6NVMB1fgs=;
+ b=xw6E/In9hN79c8jepf5zqNO/CRu1bPn5lAAFT8aQfdu/VjsZeness1cv2A7DsWX7S3n2wLWzkEjMgmKJafedEAbWM0wsenFoLYvyW5NwCW7sNPh/t9zPS1aCOG4O8IRJxJMPiO9oTegZ416Eb7+TGZLhS/vFLaC8OHuQZvdGOS2xpKo7D0ARrOsmbwRMyPaAGKQ7ZVQ4PaG5VFIdJk47KciwZ9AavDkmizmzE99hRGkuFlegqNwxK6pGnqYHBCdRji/aZs9sgobJMGVGRsy4a06P0T2Lzm13jBKbehUEkmVz2eZc0e7Yskz9NvSME3kbsagIt2Bq6ISeqo/n0/cczg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM3PPF63A6024A9.namprd11.prod.outlook.com
+ (2603:10b6:f:fc00::f27) by IA4PR11MB9057.namprd11.prod.outlook.com
+ (2603:10b6:208:55d::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Mon, 1 Sep
+ 2025 14:02:56 +0000
+Received: from DM3PPF63A6024A9.namprd11.prod.outlook.com
+ ([fe80::f55e:9ab0:c331:f987]) by DM3PPF63A6024A9.namprd11.prod.outlook.com
+ ([fe80::f55e:9ab0:c331:f987%5]) with mapi id 15.20.9073.021; Mon, 1 Sep 2025
+ 14:02:56 +0000
+From: "Korenblit, Miriam Rachel" <miriam.rachel.korenblit@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org
-References: <783737b1-05fd-41ad-9bbf-8d0e601f3b08@oss.qualcomm.com>
- <cdajgj45c2nycpaprilxq55ke3lgprybsokbaf77apoivdocpw@tea6azhm7lq3>
- <CA+5PVA6+onWZ4u02_W68iRYaSY1rdM3x9_oJXoX_Ws3R_wXXZQ@mail.gmail.com>
- <k6o5sa427tokneyu7vhl3rfhgqfxgemx4pjgxi45cf3j2z55z2@zkv743tjqjyn>
-From: Xin Liu <xin.liu@oss.qualcomm.com>
-In-Reply-To: <k6o5sa427tokneyu7vhl3rfhgqfxgemx4pjgxi45cf3j2z55z2@zkv743tjqjyn>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzMiBTYWx0ZWRfX/ar1jHNqxT8V
- d5K3BPIPUxjTRoFF8ZfDO/q09QLBGUDQCIDfVH6bbbBUTyXMnOvBfK3cRxc69Ey73YunPX7x2vn
- bikKL47WXqZsoweG/K5XKSnV2UduBjmD8knjlLagtpYM0qRrcU24vye1vn6pzvUAhq6sI2mmoyB
- 2sZS8IBr0xfwv+JkCP+HoEp5i9cBBctrKsfxPrnIZ+Slzr/2EvQCxbbMH3PszmIFZQapUPLAsLZ
- NjcenGtLo5bHEsWCtSnPalsf45aBeXGurgsKciaLotgBGhmGlN8ZltPS79dVDKVnaCz76sfL/sj
- zJNKXON+f16B4cfuhsWXUkH0MKposd5+BWmgo/aqUVqnkCA5DtU7zPVs5qzw9fxmkPt2i2A2B04
- KtEgtnci
-X-Proofpoint-ORIG-GUID: Vqw6RcpQM3wbTwcpjS-rQzRjO7Nupnyh
-X-Proofpoint-GUID: Vqw6RcpQM3wbTwcpjS-rQzRjO7Nupnyh
-X-Authority-Analysis: v=2.4 cv=M9NNKzws c=1 sm=1 tr=0 ts=68b534bd cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=yJojWOMRYYMA:10 a=r77TgQKjGQsHNAKrUKIA:9 a=qC_FGOx9AAAA:8 a=EUspDBNiAAAA:8
- a=FkUAqRH_IU6dSnIgpQsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=atjVDZijcGioAZ6mdtIA:9 a=E1l0JjTJ8kay7F9s:21 a=_W_S_7VecoQA:10
- a=lqcHg5cX4UMA:10 a=GvdueXVYPmCkWapjIL-Q:22 a=fsdK_YakeE02zTmptMdW:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-01_03,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0 spamscore=0 priorityscore=1501 malwarescore=0
- clxscore=1015 suspectscore=0 phishscore=0 bulkscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508300032
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+CC: Linux Wireless <linux-wireless@vger.kernel.org>, "Dreyfuss, Haim"
+	<haim.dreyfuss@intel.com>, "kyle@infradead.org" <kyle@infradead.org>,
+	"Hutchings, Ben" <ben@decadent.org.uk>, "Yang, You-Sheng"
+	<vicamo.yang@canonical.com>, Josh Boyer <jwboyer@kernel.org>, "Grumbach,
+ Emmanuel" <emmanuel.grumbach@intel.com>
+Subject: pull request: iwlwifi firmware updates 2025-09-01
+Thread-Topic: pull request: iwlwifi firmware updates 2025-09-01
+Thread-Index: AdwbSN4GSFdGdzzSRrOqUW053/LUfQ==
+Date: Mon, 1 Sep 2025 14:02:55 +0000
+Message-ID: <DM3PPF63A6024A9A398FEA588192B174565A307A@DM3PPF63A6024A9.namprd11.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM3PPF63A6024A9:EE_|IA4PR11MB9057:EE_
+x-ms-office365-filtering-correlation-id: 4192cb1e-45c6-428c-de05-08dde9604032
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?SEt6Tzl6TUYyV1dPTUZpZFV1L0x2bjFDTlVkMGNwZ0JOdGg0TlZOSitIMjIx?=
+ =?utf-8?B?Uk9IdU5SRk9nWXJjU3FHc203Y2tuUFFkZnVJS0FZL3ZYODIyYXZ4OXRVY20x?=
+ =?utf-8?B?TUcyaEhOMTdNdFlodWhJM01Xd0ZFWXpaeFVtVkJEMmNTcEh2UUNtc1lSNTc0?=
+ =?utf-8?B?Z3pYd0hXdkcxYzBuZUZVZ3NhVVp3c2ExaUFCSFNVZEd6T3lRMStaeFNpWTh4?=
+ =?utf-8?B?Q0NuQ1BRTVNuY2ZGVWlYM25PK3RvWS9Tc2ZOdk41RWZlU3ZGS213SGQ4eW0w?=
+ =?utf-8?B?WHVDUkxIOVlreG1aVm9oUUZDQ3ZZVDg3eW9NckRHRi9NYmxZQnZHLysxWGF6?=
+ =?utf-8?B?cnlQSEhwd2dhRUk1UUdCSEZsclJvaDFPVUtmQjNwYkhKUmpDUjlWUU1ZQVNI?=
+ =?utf-8?B?emkyR3ZzYjBFaVBhanBEaVhNL1RsRzRYdE9pRTUxRHd1Z3BkOWR4Znd5SWNS?=
+ =?utf-8?B?enZOZHN1SnFFV3VMR1pqVnBqVnN6ZnFnT21kUUJWQUZ3RU1sL3o2ZkpFUWpn?=
+ =?utf-8?B?a0UxcU9BR29UcGYvdzZRNVNxVDgxdmJaaUdIZ1ppbmRQTisrVlJZSGwwTFRH?=
+ =?utf-8?B?T3lzZW5ISTh2M1crVGVYTmp5SFBZWm5URXMxUHZVQSsrKys0V0s1T1NzeFNI?=
+ =?utf-8?B?dVU4cWFDaWFFQ0VYWGhQR2lqaVBZaXBQNWNPYUlBWEVrTjZib2FWL2xQbHdG?=
+ =?utf-8?B?STIxTnd1UUQ2eXNjWTRUTnpXT2c5eTF5bmhmcFF1RHN1SERoQnlZSHZjQlJm?=
+ =?utf-8?B?djZnUjZocHRDcTZzTVZ5eS95N0dRd1R0MHg1NUhKd0tsL2cwT3VLdm1NQm9a?=
+ =?utf-8?B?clBQNXZxMTB5bUxvRW1UVnZ0YWRkaW5BbW1VQ2kxR29LY2hjeU9BNnVDRXIx?=
+ =?utf-8?B?ZlRySWd6MDZ1eDZVVklwZHFUbkZyZCtxYnFzcmlUdDUrYzBsUTVTdytVTXcw?=
+ =?utf-8?B?QmxDQ29EdU1mckFVc1NQcVN6UVFENzZSd3FwU2tEekYrSEluY0tPVkNCTzFl?=
+ =?utf-8?B?VENoQ29vdnRzRERocm5NSWhybzBBckN1d2NQSmd5VERoaU1SWkd3S1BjZzJ4?=
+ =?utf-8?B?T2lEelBGVStNSXA2bmZqTkh5LzhHaG05MGhXb0pCVUY5MjJKTmlHbklXQ0Zz?=
+ =?utf-8?B?c0hxV2JJWUVCeTgzUnJkMHVFeGxYWHAxSjB5NWlDSFJ0R3BtdWFhbGJwV0Nk?=
+ =?utf-8?B?VG80Y3h2SVJsUlNEajRQTDVGMDFzakpkTmhaNndlb05Bd01jKzdCN29SbG9v?=
+ =?utf-8?B?MjdlNUVqYVkvVGNOdnRjYU0yc1Jla00yS3dnZWdCOVN3RTFER3JSZWFGZzhp?=
+ =?utf-8?B?TldqY250NjFjeWdpblQxbjlKT3ArNEFBQjlMK2JnODRMZ3gyR2JESXFLUU9w?=
+ =?utf-8?B?ZFFVeFptVURDcUd5ZnBLaGxhb0syN1BiZ3BLUUdlT1E2VjE0NEFYcG1yR2c1?=
+ =?utf-8?B?WWJmRGhNN3NpSFZ6RUY0WWJaa1cyNmw1ckJwL3BzL0haVmU3MUREUnFGV0dE?=
+ =?utf-8?B?YTYzVDU2RTA3UVBRb1pOdEJmZUxqRk1yOWN5ZXorRXMrUlIvbDhDSFQzd3hS?=
+ =?utf-8?B?SCtVMFBQTEdsR1hlN0R6bUhLNXpjTSt1Nno0ZU1sbDg5WlR3dDc0andzRzZa?=
+ =?utf-8?B?ZWZkQzEwck1RZ1RXM0tnMnhMQXNUbHNQNEN2OVVFSWFZU3NpNk0yU0ZSc2lY?=
+ =?utf-8?B?dzMxdGJpK1QvOFNYUW1ENmJNME9HdmhCdzkxaDlNcWxZRkJzRHZpWiszbmV5?=
+ =?utf-8?B?NFFYZnpJQk5nN3N2SkwwSmVDRmJLTE9jZEpiVGp5ZnpRWS9Zajc1dFZqbkIz?=
+ =?utf-8?B?TE9yOWpScGcvV0h2RmN6OHpXMzBjd2dFMDdyMmRlZXZIQUtWNW5ES1dwZC9i?=
+ =?utf-8?B?ci81UjFVaFhHN2ZhZWR2dU1DWWlIKzRmRi9tZjBhWEZHNkRoaS9meHVaUm5s?=
+ =?utf-8?B?RzFuclpESWl3eG1ZdGkwNjYvZXFlQy9ReGVsK0RmVTJpQjBIOFZ4K3VHeUpt?=
+ =?utf-8?Q?vjoZrCYB8UNWgZG98cw6Y23SbzqdJU=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PPF63A6024A9.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZkxHN2FyVkdtdUJSOThiSkZ1dWtZclVyRzRNbXgzQ1M0NHJQWjVvc1ZCRzY4?=
+ =?utf-8?B?WjBYa21aZmhWLzdaNDRHRW1IN1M5TG95RURvY053NUtHMmdCSGpBRTdFQ2JL?=
+ =?utf-8?B?dm94ekI5ZU1VQkZFN3FvWkFsa1l4UEtBQW4xeXFNaVorTXcrY01wV3l1YU5a?=
+ =?utf-8?B?SXpab3lxZHNKNWYwSE91MFpJNjZVeTVURlBFQ1dsbnVhSGZ2NXJicG9LTXBI?=
+ =?utf-8?B?YUFXUFNBNFk3NUVpelFXNnIrNlNQN1BaSWFpNkFSTEJadVZ3SEg5T2hGb2M4?=
+ =?utf-8?B?WW1adG55WUlyUjhDZ1ZVZk5JdmRJa1F3bldlRmF2RktSbWgyWm52SUIvOTJC?=
+ =?utf-8?B?NnhIaktlZVZMMGR0Y0dJMlZLdjZaN095WDNPRGs2T09IaEhXK2RITmhOSWZP?=
+ =?utf-8?B?ajAvV0Q0YlcyLzdsdDhiMkl1SGtsMjIwUXlwYWZxNzVtei9VVUVPeER6d1pn?=
+ =?utf-8?B?WWFBWGhmTFNaUW5oWnVPSzVFVkVaem51SUR1d0hhNThoSVJDMmFiYzJXeHZS?=
+ =?utf-8?B?YXFWNlBTbENYakxzRmZIdndTendLU1pNcG01aFdQOWl1aklVS1d0dWdhMzJv?=
+ =?utf-8?B?QWhXQnk0R3kxck85dTNrQ2lXRUFOZWZ0Tyt0UUszd0RZUVlXdnhkcHkzTjFj?=
+ =?utf-8?B?c29wK0k3RER2UTR0SGdBcXM2b2g0TG1KS2Zhcnp1VFdUMXpGQkRRV0pJc2ow?=
+ =?utf-8?B?TDVOV2FhUmlwVFZsRVY1cVhpVDhIMG9Hcllha3htM3VYYXVUZ0FsYlRZb3BQ?=
+ =?utf-8?B?eEpsVmU4cWNRekZZeTFUQlcrWDhUdEpkdXhrbjZ4Ujd0anpGWERJc2VsUlo5?=
+ =?utf-8?B?OVJEcm9BWWJobjlPRVVndG82ZGN3S05GdkVndkZyUS84NnRVeS83VzNCSlhI?=
+ =?utf-8?B?Mis5end1RDdaVDhXK1hVNWVuRnRUZXB6N0gvMlpTTUU4ZmUzcll6RGNXSnBK?=
+ =?utf-8?B?U0tKQkN6WEc5ZFhFaFpYTC9NQmk1WGZGc0c1NlhROUYzUHU2WmJyVkRKYkVQ?=
+ =?utf-8?B?elJ6ekhBZURHZm5CMVljeTJWcGRVWThMOGp6MjV1alArcDNCRG5FUjN1UFps?=
+ =?utf-8?B?Tm1RZDlGcjQ3dHFHQlY2b3RUT2x6TGpTRjA1eFRPVTBDWEoyYy9wVGJXb1dR?=
+ =?utf-8?B?ZUY3UFdVUkxZZXBtR0F5dVkveEFDZXpSd3hkMDc3TTMvTHowTjdrWjU0cWVY?=
+ =?utf-8?B?a0hVUGxWWlBqOHFuTHZYUCtvb01USkt1c0FlQVZOOTlZaHZTVGJTaTNlR3I5?=
+ =?utf-8?B?aEROT1hENm5qSzBCU3dPMXVLUGlhRXkvNjdqb3dFZHJKeVJ6a0kzSVRuTjRs?=
+ =?utf-8?B?R1ZUUWwzdzFIaHhTY052VGpSRkxONXJCSHhXejljRWxTM2h6WXlsK0pvTEpk?=
+ =?utf-8?B?UUoweXRoU0V5Q09WeGNIVE9QQWdGSFVic3p6WjErYjBseC9RWnZLTkdBZTBi?=
+ =?utf-8?B?WjQyYTFET0dpLzI1eDFaZ1lIQXpTVEppWFZTdXJzQ2lpb3hrMEthNmRrK0R3?=
+ =?utf-8?B?bURqQUtqaGJjL204Q2FaL04zdFFaZHd5UjZxRWFwNk1UTlJ1K1Y4TWF1NGxj?=
+ =?utf-8?B?ZVhoc2d6N3h3NlRDU0JuTlFPMlFidFBLSnNGWVpwbXlQY1VUWmRLQUdSQnI2?=
+ =?utf-8?B?dlIrWXA5U3VCNEQxamh0NW5NTUM5ZjNvN1BRSHBYRTNNLzVKc1VlSytsR3d2?=
+ =?utf-8?B?d1c2Y3puc0haSENRK3Jkd0ROQjZPa011RDF2K3VNYnRNajhwdHlkR2dtZHc0?=
+ =?utf-8?B?RzcrQ1d5cnJERTZsRTJGaHVyb1dCWXlvQ3JGTy82dE9meWhOQ25HMERMc0JM?=
+ =?utf-8?B?L1g2dENRYjBoOVo4cGFuSXFQcGVqaHg0OE9KRXZCaXExaEpuNWtSalZHRlRk?=
+ =?utf-8?B?VXl5Ym1xRDJnTEtSUUdReGV1VXkvUW5relQzYnhCK2lacjVwTW8rQnZwYXNI?=
+ =?utf-8?B?ZWtKTHRlS3JWbjl0OFptV3U5TmJLbXRqSnJNeklGa2NZN3d0YVVRb1I1NlY0?=
+ =?utf-8?B?Y3I2YlFWaS9nV0dRYkphSFFFNUZHT2VwT2djR1ZYWkYzc091aDFZbzlvRGxJ?=
+ =?utf-8?B?ZDNxMFhhQVlFS0VKTHJiQUhJNGpsUjVuYVhTMTVjM2JvOW9mYUdKRVljOWxC?=
+ =?utf-8?B?Q01Gck56M2ZIUHNtcGZiWnZVQ3NTMkhzeVhtYUU2WGlGS1VCLzdWQWJRbzdG?=
+ =?utf-8?B?SlE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM3PPF63A6024A9.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4192cb1e-45c6-428c-de05-08dde9604032
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Sep 2025 14:02:55.9466
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: tEUOj3tErNuu7sbBxQPmlno9ND1YGauynogX/vfj0qmIQ8iwENhtRTlE0rQnE5Gu/0N5BRE3b95C2wVK9WAY37MSgSigU0GRTg1+fyp9Wzp9JtSp8U4JKiU9T/kMYVLU
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9057
+X-OriginatorOrg: intel.com
 
-This is a multi-part message in MIME format.
---------------sTZdR9mC7fflwgsS7p0m0AR7
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-
-On 8/27/2025 10:07 PM, Dmitry Baryshkov wrote:
-> On Wed, Aug 27, 2025 at 08:52:51AM -0400, Josh Boyer wrote:
->> On Wed, Aug 27, 2025 at 7:53 AM Dmitry Baryshkov
->> <dmitry.baryshkov@oss.qualcomm.com> wrote:
->>> On Wed, Aug 27, 2025 at 10:57:12AM +0800, Xin Liu wrote:
->>>> The following changes since commit f044bc789f8e7a4427593b687801644c39e3e8b7:
->>>>
->>>>    Merge branch 'amd-isp-staging' into 'main' (2025-08-25 18:22:13 +0000)
->>>>
->>>> are available in the Git repository at:
->>>>
->>>>    https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
->>>> qcs615-adsp-827
->>>>
->>>> for you to fetch changes up to 542611790f77a67a6a24c08d087d22585caa5ac2:
->>>>
->>>>    qcom: add ADSP firmware for qcs615 platform (2025-08-27 10:46:24 +0800)
->>>>
->>> Reviewed-by: Dmitry Baryshkov<dmitry.baryshkov@oss.qualcomm.com>
->> Fails check_whence because the files have the executable bit.  Can we fix that?
-> I'm sorry, didn't catch that up in the review from the web page.
->
-> Xin Liu, why are you sending a pull request which fails the check? Did
-> you run 'make check'?
-
-Dmitry, I have fixed the issue about the executable bit. The changes 
-have been resubmitted. Kindly review them at your convenience.
-
-The following changes since commit 
-993ff19b553cd4d252fdf99f07c28825ef57b862: Merge branch 'main' into 
-'main' (2025-08-29 17:13:10 +0000) are available in the Git repository 
-at: https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git 
-qcs615-adsp-91 for you to fetch changes up to 
-7aeff2162e6bb1875cabcf26caba01264194768e: qcom: add ADSP firmware for 
-qcs615 platform (2025-09-01 11:00:40 +0800) 
----------------------------------------------------------------- Xin Liu 
-(1): qcom: add ADSP firmware for qcs615 platform WHENCE | 5 +++++ 
-qcom/qcs615/adsp.mbn | Bin 0 -> 8536204 bytes qcom/qcs615/adspr.jsn | 21 
-+++++++++++++++++++++ qcom/qcs615/adsps.jsn | 21 +++++++++++++++++++++ 
-qcom/qcs615/adspua.jsn | 27 +++++++++++++++++++++++++++ 5 files changed, 
-74 insertions(+) create mode 100644 qcom/qcs615/adsp.mbn create mode 
-100644 qcom/qcs615/adspr.jsn create mode 100644 qcom/qcs615/adsps.jsn 
-create mode 100644 qcom/qcs615/adspua.jsn
-
---------------sTZdR9mC7fflwgsS7p0m0AR7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 8/27/2025 10:07 PM, Dmitry Baryshkov
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:k6o5sa427tokneyu7vhl3rfhgqfxgemx4pjgxi45cf3j2z55z2@zkv743tjqjyn">
-      <pre wrap="" class="moz-quote-pre">On Wed, Aug 27, 2025 at 08:52:51AM -0400, Josh Boyer wrote:
-</pre>
-      <blockquote type="cite">
-        <pre wrap="" class="moz-quote-pre">On Wed, Aug 27, 2025 at 7:53 AM Dmitry Baryshkov
-<a class="moz-txt-link-rfc2396E" href="mailto:dmitry.baryshkov@oss.qualcomm.com">&lt;dmitry.baryshkov@oss.qualcomm.com&gt;</a> wrote:
-</pre>
-        <blockquote type="cite">
-          <pre wrap="" class="moz-quote-pre">
-On Wed, Aug 27, 2025 at 10:57:12AM +0800, Xin Liu wrote:
-</pre>
-          <blockquote type="cite">
-            <pre wrap="" class="moz-quote-pre">The following changes since commit f044bc789f8e7a4427593b687801644c39e3e8b7:
-
-  Merge branch 'amd-isp-staging' into 'main' (2025-08-25 18:22:13 +0000)
-
-are available in the Git repository at:
-
-  <a class="moz-txt-link-freetext" href="https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git">https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git</a>
-qcs615-adsp-827
-
-for you to fetch changes up to 542611790f77a67a6a24c08d087d22585caa5ac2:
-
-  qcom: add ADSP firmware for qcs615 platform (2025-08-27 10:46:24 +0800)
-
-</pre>
-          </blockquote>
-          <pre wrap="" class="moz-quote-pre">
-Reviewed-by: Dmitry Baryshkov <a class="moz-txt-link-rfc2396E" href="mailto:dmitry.baryshkov@oss.qualcomm.com">&lt;dmitry.baryshkov@oss.qualcomm.com&gt;</a>
-</pre>
-        </blockquote>
-        <pre wrap="" class="moz-quote-pre">
-Fails check_whence because the files have the executable bit.  Can we fix that?
-</pre>
-      </blockquote>
-      <pre wrap="" class="moz-quote-pre">
-I'm sorry, didn't catch that up in the review from the web page.
-
-Xin Liu, why are you sending a pull request which fails the check? Did
-you run 'make check'?
-</pre>
-    </blockquote>
-    <p><span style="white-space: pre-wrap">
-</span></p>
-    <p><span style="white-space: pre-wrap">Dmitry, I have fixed the issue about the executable bit. 
-
-The changes have been resubmitted. Kindly review them at your convenience. </span></p>
-    <p><span style="white-space: pre-wrap">
-The following changes since commit 993ff19b553cd4d252fdf99f07c28825ef57b862:
-
-  Merge branch 'main' into 'main' (2025-08-29 17:13:10 +0000)
-
-are available in the Git repository at:
-
-  <a class="moz-txt-link-freetext" href="https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git">https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git</a> qcs615-adsp-91
-
-for you to fetch changes up to 7aeff2162e6bb1875cabcf26caba01264194768e:
-
-  qcom: add ADSP firmware for qcs615 platform (2025-09-01 11:00:40 +0800)
-
-----------------------------------------------------------------
-Xin Liu (1):
-      qcom: add ADSP firmware for qcs615 platform
-
- WHENCE                 |   5 +++++
- qcom/qcs615/adsp.mbn   | Bin 0 -&gt; 8536204 bytes
- qcom/qcs615/adspr.jsn  |  21 +++++++++++++++++++++
- qcom/qcs615/adsps.jsn  |  21 +++++++++++++++++++++
- qcom/qcs615/adspua.jsn |  27 +++++++++++++++++++++++++++
- 5 files changed, 74 insertions(+)
- create mode 100644 qcom/qcs615/adsp.mbn
- create mode 100644 qcom/qcs615/adspr.jsn
- create mode 100644 qcom/qcs615/adsps.jsn
- create mode 100644 qcom/qcs615/adspua.jsn</span></p>
-  </body>
-</html>
-
---------------sTZdR9mC7fflwgsS7p0m0AR7--
+SGksDQoNClRoaXMgY29udGFpbnMgYSBmaXJtd2FyZSBvZiBjb3JlOTAgZm9yIEJaLUhSLiBXZSBt
+aXNzZWQgaXQgd2hlbiByZWxlYXNpbmcgdGhhdCBjb3JlLg0KDQpQbGVhc2UgcHVsbCBvciBsZXQg
+bWUga25vdyBpZiB0aGVyZSBhcmUgYW55IGlzc3Vlcy4NCg0KVGhhbmtzLA0KTWlyaQ0KLS0tDQoN
+ClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21taXQgOTkzZmYxOWI1NTNjZDRkMjUyZmRm
+OTlmMDdjMjg4MjVlZjU3Yjg2MjoNCg0KICBNZXJnZSBicmFuY2ggJ21haW4nIGludG8gJ21haW4n
+ICgyMDI1LTA4LTI5IDE3OjEzOjEwICswMDAwKQ0KDQphcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQg
+cmVwb3NpdG9yeSBhdDoNCg0KICBodHRwOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9r
+ZXJuZWwvZ2l0L2l3bHdpZmkvbGludXgtZmlybXdhcmUuZ2l0IHRhZ3MvaXdsd2lmaS1mdy0yMDI1
+LTA5LTAxDQoNCmZvciB5b3UgdG8gZmV0Y2ggY2hhbmdlcyB1cCB0byA5MWZkNWZmYTE1MTBkNmE0
+NGM0YWM3MmU4MTgyNDQ4YzEzZGJmODI1Og0KDQogIGl3bHdpZmk6IGFkZCBCei1IUiBGVyBmb3Ig
+Y29yZTkwLTkzIHJlbGVhc2UgKDIwMjUtMDktMDEgMTY6NTE6NDkgKzAzMDApDQoNCi0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0N
+ClJlbGVhc2UgY29yZTkwIGZvciBCei1IUg0KDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQpNaXJpIEtvcmVuYmxpdCAoMSk6
+DQogICAgICBpd2x3aWZpOiBhZGQgQnotSFIgRlcgZm9yIGNvcmU5MC05MyByZWxlYXNlDQoNCiBX
+SEVOQ0UgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDQgKysrKw0KIGlu
+dGVsL2l3bHdpZmkvaXdsd2lmaS1iei1iMC1oci1iMC05My51Y29kZSB8IEJpbiAwIC0+IDE1NjM5
+OTIgYnl0ZXMNCiAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQ0KIGNyZWF0ZSBtb2Rl
+IDEwMDY0NCBpbnRlbC9pd2x3aWZpL2l3bHdpZmktYnotYjAtaHItYjAtOTMudWNvZGUNCg==
