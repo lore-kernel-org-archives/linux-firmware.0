@@ -1,665 +1,251 @@
-Return-Path: <SRS0=P/4a=3J=mail3.zgpl.zcsend.net=bounce_892414326+a.114cbf4615aa106bf_v54@kernel.org>
+Return-Path: <SRS0=R8Bf=3M=oss.qualcomm.com=xin.liu@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A1F8CA0FF0
-	for <linux-firmware@archiver.kernel.org>; Fri, 29 Aug 2025 18:04:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7EEE9CA0FFD
+	for <linux-firmware@archiver.kernel.org>; Mon,  1 Sep 2025 05:53:03 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 2E377C4CEF4; Fri, 29 Aug 2025 18:04:36 +0000 (UTC)
-Received: from sendera65.zcsend.net (sendera65.zcsend.net [135.84.81.65])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id 4F7D3C4CEF8; Mon,  1 Sep 2025 05:53:03 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 16B26C4CEF0
-	for <linux-firmware@kernel.org>; Fri, 29 Aug 2025 18:04:34 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; dmarc=permerror header.from=packthc.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=mail3.zgpl.zcsend.net
-Received: from senderb63.zcsend.net by sendera65.zcsend.net
-	with SMTP id 175649067339047063; Fri, 29 Aug 2025 11:04:33 -0700
-Received: from 10.75.159.108 by senderb63.zcsend.net
-	with SMTP id 175649067249341551; Fri, 29 Aug 2025 11:04:32 -0700
-DKIM-Signature: a=rsa-sha256; b=Aa/pEj4ouEHD23LCtQvV8bZ2ArZ1JR1RE9meAeRfSoQRPSmLw22c90kuZslA+pE8Bb0y8geVDopgEVnc3fpUR2fLV3kbqf3P/7pPVUNz6IePZfICb64mP0zq7zHcHrWOiLVAipOMDIBCRRVsubyVX+3d4mVhvSHHOx322an1DSE=; c=simple/simple; s=41233; d=packthc.com; v=1; bh=c2Vwn7SevCFrvdJgMmIBc1e9OqyCB+kiVtRecPnurP0=; h=date:date:from:from:to:to:message-id:subject:subject:mime-version:content-type:list-unsubscribe:list-unsubscribe:list-unsubscribe-post:x-csa-complaints;
-DKIM-Signature: a=rsa-sha256; b=F49/596lfo5l9PuPnWPkjN2lTcwwBMefyufNZwqfGzlzeREIaDevjCV1n3IOIti02J964Id3kwx01E2qSmq5qRJ3PTSN/MILnHENPgPs6abwAKFnDd0CtJ+QfkECDsyCTwjsh8HIAdYbKHkY2IMMc/P28VxPj60FbuvyPteDQko=; c=simple/simple; s=k1; d=mailb3.zgpl.zcsend.net; v=1; bh=c2Vwn7SevCFrvdJgMmIBc1e9OqyCB+kiVtRecPnurP0=; h=date:date:from:from:to:to:message-id:subject:subject:mime-version:content-type:list-unsubscribe:list-unsubscribe:list-unsubscribe-post:x-csa-complaints;
-Date: Fri, 29 Aug 2025 11:04:32 -0700 (PDT)
-From: "PackTHC" <hello@packthc.com>
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Message-ID: <zcb.3z91ad94d82846e1495d00c1678ed2a35ca170618ca4dc6181b5179a3848675cf8.114cbf4615aa106bf.1756490672481@mail3.zgpl.zcsend.net>
-Subject: LABOR DAY SALE 10%OFF
+	by smtp.kernel.org (Postfix) with ESMTPS id 2E0A3C4CEF0
+	for <linux-firmware@kernel.org>; Mon,  1 Sep 2025 05:53:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 2E0A3C4CEF0
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57VMPXdt011357
+	for <linux-firmware@kernel.org>; Mon, 1 Sep 2025 05:53:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=EtpGesV6B0Bzab+Z29QZ0yRs
+	wencUj6JsxRIPGhopC0=; b=huIUH9u6WOYHcaMsaYa7qcVxqSbRLGM9KNYJyWbg
+	ZVPtp3rpLslCtUmT7XnohWP5RZvNmHIHzQ4E6ypMYYZ/DRm2gRdP1dwl9L9U5EJG
+	RpC128CoulEJHPlqLU42auwOOJxptVqFlFShREVNF2MJAdzHA7hvQY35fkRm2ZYZ
+	OhyKV7MI9ROrZhAKQWK66mn3Hw9VESEy9AabpiJVKBmO5kxzOu6k+DZXayYANzlA
+	2DO1mgeinXH5q3ujlbfzfo5J8tfOGukoPZ8We092CsJ1Ah2kdd55m50+Mo3GiSi3
+	zpASXtEetm858S7HLMI23yKQu0DotcYM/4XgD/HuAKNzWw==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ush2ue8c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-firmware@kernel.org>; Mon, 01 Sep 2025 05:53:01 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-244570600a1so49275515ad.1
+        for <linux-firmware@kernel.org>; Sun, 31 Aug 2025 22:53:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756705980; x=1757310780;
+        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EtpGesV6B0Bzab+Z29QZ0yRswencUj6JsxRIPGhopC0=;
+        b=uqVupLmWRBPnUHLZyB0zy4doZA2alNStPE+H8Q/D6d6sLJdEpm0K4MQJwgrvkaRC2U
+         1TQQxyfLJ/iByNWMp3FmrxMC4oza29n4/SJTQrZB5IRUWsA523rhXu1TvB4G5IaggOvg
+         mnWnfBeVyXxbZM/W+amr2entLSJDlmQNq+X4ygi7mT9x/8Dr+cB7/4gfXzs/4MCGi+lp
+         3hucOmFSQtqGA4qh8UOuOWvxhOzyDlugWFAiMlPGMDVCaH3cw82QdJu7AtLDmovrHTBP
+         lvTcvRpayFtVXatI6E35w83Y1DgyqAI+VeS+nR3NjEYHcyiVRr+NPPRsTxjtVmbawgaz
+         wg/Q==
+X-Gm-Message-State: AOJu0Yy5C3If+gii9zDwGoXykOsq2xdZbIWW8N+cANLevukqAoa4WH/A
+	DYGje2oQ3soQd2mTWBKl7ePqwstVxV1D0Fu0VsZ/CxJVx520u2j5fxfbQ6VawjP2lIyAXEtQ8Hc
+	AyPT2mCgJv0eyDUT3v3VoaJnrYCT1PprlsX4JFd+z+M4ztGc6j+zo0Y289h/0clY=
+X-Gm-Gg: ASbGnctpBHN4YiFRKaTzUqokYXHLuwNA46WhanyhhS8/XerGyWxk/qUbIfzI3BrBvYT
+	cmbUeZ0ZrW7/ORvOJU9yIlJEHggv5uXSw+C+V9klTiBH8Jk9yPJU3w4Wv+SGhlLSXc1E9rjeehq
+	s0TN3tvffp713TsFSupQSO4C47tbLXLOoFh9D7UmStllx6l9B+Y5NgXnuNLkxbuaGo2MgD4BbUX
+	JdNT78bEuL1objOSLPbog9zgrE1yOKw1UNyjCGfAj4uJ3YD0jqqy/oN1XLndPJwqp9NpknFXtwb
+	wiK/5Yp6iwsBzt9IG/p0zHdCJ+uvdMiCoFIprJ4jMudspy9cV9Q2f3nSu5ubHddJB2pqk2OBqFe
+	GtQVa5ETDlU6WkgozmWLARv+E/uAdUw==
+X-Received: by 2002:a17:903:2b8f:b0:246:e235:49d7 with SMTP id d9443c01a7336-24944ac2518mr62479135ad.15.1756705980206;
+        Sun, 31 Aug 2025 22:53:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFdz5G6KTH/NUnI9hX+kw2aWDvk3Me+NsFnA71dKD60juI1qSXYW8dkBQ+6VCDt+cYbQWevNg==
+X-Received: by 2002:a17:903:2b8f:b0:246:e235:49d7 with SMTP id d9443c01a7336-24944ac2518mr62478935ad.15.1756705979634;
+        Sun, 31 Aug 2025 22:52:59 -0700 (PDT)
+Received: from [10.133.33.254] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24903705b91sm93324145ad.12.2025.08.31.22.52.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 31 Aug 2025 22:52:59 -0700 (PDT)
+Content-Type: multipart/alternative;
+ boundary="------------sTZdR9mC7fflwgsS7p0m0AR7"
+Message-ID: <10ab97d7-52b3-4056-8098-309eb35b0e59@oss.qualcomm.com>
+Date: Mon, 1 Sep 2025 13:52:56 +0800
 MIME-Version: 1.0
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_630177_583166905.1756490672480"
-List-Unsubscribe: <https://erpsk-zgpl.maillist-manage.com/ua/optout?od=3z91ad94d82846e1495d00c1678ed2a35ca170618ca4dc6181b5179a3848675cf8&rd=114cbf4615aa106bf&sd=114cbf4615aa10541&n=11699e4c19a7672>,<mailto:leave_892414326+114cbf4615aa106bf_114cbf4615aa10541@zcsend.net>
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-X-CSA-Complaints: csa-complaints@eco.de
-Reply-To: campaign_892414326+zcreply.114cbf4615aa106bf@zcsend.net
-X-JID: 3z91ad94d82846e1495d00c1678ed2a35ca170618ca4dc6181b5179a3848675cf8.114cbf4615aa0fd5c
-X-campaignid: zohocampaigns.3z91ad94d82846e1495d00c1678ed2a35ca170618ca4dc6181b5179a3848675cf8.zcb.114cbf4615aa106bf.11699e4c19a7672
-X-Zoho-RID: zohocampaigns.3z91ad94d82846e1495d00c1678ed2a35ca170618ca4dc6181b5179a3848675cf8.zcb.114cbf4615aa106bf.11699e4c19a7672
-X-Mailer: Zoho Campaigns
-X-Report-Abuse: <Please send a copy of this message along with header to abuse+3z91ad94d82846e1495d00c1678ed2a35ca170618ca4dc6181b5179a3848675cf8_zcb_114cbf4615aa106bf@zohocampaigns.com>, <https://erpsk-zgpl.maillist-manage.com/campaigns/ReportAbuse.zc?od=3z91ad94d82846e1495d00c1678ed2a35ca170618ca4dc6181b5179a3848675cf8&rd=114cbf4615aa106bf&sd=114cbf4615aa10541&n=11699e4c19a7672>
+User-Agent: Mozilla Thunderbird
+Subject: Re: qcom: add ADSP firmware for qcs615 platform
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Josh Boyer <jwboyer@kernel.org>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: linux-firmware@kernel.org
+References: <783737b1-05fd-41ad-9bbf-8d0e601f3b08@oss.qualcomm.com>
+ <cdajgj45c2nycpaprilxq55ke3lgprybsokbaf77apoivdocpw@tea6azhm7lq3>
+ <CA+5PVA6+onWZ4u02_W68iRYaSY1rdM3x9_oJXoX_Ws3R_wXXZQ@mail.gmail.com>
+ <k6o5sa427tokneyu7vhl3rfhgqfxgemx4pjgxi45cf3j2z55z2@zkv743tjqjyn>
+From: Xin Liu <xin.liu@oss.qualcomm.com>
+In-Reply-To: <k6o5sa427tokneyu7vhl3rfhgqfxgemx4pjgxi45cf3j2z55z2@zkv743tjqjyn>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzMiBTYWx0ZWRfX/ar1jHNqxT8V
+ d5K3BPIPUxjTRoFF8ZfDO/q09QLBGUDQCIDfVH6bbbBUTyXMnOvBfK3cRxc69Ey73YunPX7x2vn
+ bikKL47WXqZsoweG/K5XKSnV2UduBjmD8knjlLagtpYM0qRrcU24vye1vn6pzvUAhq6sI2mmoyB
+ 2sZS8IBr0xfwv+JkCP+HoEp5i9cBBctrKsfxPrnIZ+Slzr/2EvQCxbbMH3PszmIFZQapUPLAsLZ
+ NjcenGtLo5bHEsWCtSnPalsf45aBeXGurgsKciaLotgBGhmGlN8ZltPS79dVDKVnaCz76sfL/sj
+ zJNKXON+f16B4cfuhsWXUkH0MKposd5+BWmgo/aqUVqnkCA5DtU7zPVs5qzw9fxmkPt2i2A2B04
+ KtEgtnci
+X-Proofpoint-ORIG-GUID: Vqw6RcpQM3wbTwcpjS-rQzRjO7Nupnyh
+X-Proofpoint-GUID: Vqw6RcpQM3wbTwcpjS-rQzRjO7Nupnyh
+X-Authority-Analysis: v=2.4 cv=M9NNKzws c=1 sm=1 tr=0 ts=68b534bd cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=yJojWOMRYYMA:10 a=r77TgQKjGQsHNAKrUKIA:9 a=qC_FGOx9AAAA:8 a=EUspDBNiAAAA:8
+ a=FkUAqRH_IU6dSnIgpQsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=atjVDZijcGioAZ6mdtIA:9 a=E1l0JjTJ8kay7F9s:21 a=_W_S_7VecoQA:10
+ a=lqcHg5cX4UMA:10 a=GvdueXVYPmCkWapjIL-Q:22 a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-01_03,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0 spamscore=0 priorityscore=1501 malwarescore=0
+ clxscore=1015 suspectscore=0 phishscore=0 bulkscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508300032
 
-------=_Part_630177_583166905.1756490672480
-Content-Type: text/plain;charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-
-
-https://packthc.com
-
-Follow Us On
-https://www.facebook.com/people/Packthc/61575210910015/?sk=3Dabout
-https://www.facebook.com/people/Packthc/61575210910015/?sk=3Dabout
-Facebook
-https://x.com/pack_thc
-https://x.com/pack_thc
-Twitter
-https://www.linkedin.com/company/packthc/posts/?feedView=3Dall
-https://www.linkedin.com/company/packthc/posts/?feedView=3Dall
-LinkedIn
-https://www.pinterest.com/packthcusa/
-https://www.pinterest.com/packthcusa/
-Pinterest
-
-You are receiving this email as you signed up for our newsletters. Want to =
-change how you receive these emails?
-You can https://erpsk-zgpl.maillist-manage.com/ua/optout?od=3D3z91ad94d8284=
-6e1495d00c1678ed2a35ca170618ca4dc6181b5179a3848675cf8&rd=3D114cbf4615aa106b=
-f&sd=3D114cbf4615aa10541&n=3D11699e4c19a7672 Unsubscribe or https://erpsk-z=
-gpl.maillist-manage.com/ua/commpref?od=3D3z91ad94d82846e1495d00c1678ed2a35c=
-a170618ca4dc6181b5179a3848675cf8&rd=3D114cbf4615aa106bf&sd=3D114cbf4615aa10=
-541&n=3D11699e4c19a7672 Update your preferences
-
-Use Coupon Code: PACKTHCxzBzeO
+This is a multi-part message in MIME format.
+--------------sTZdR9mC7fflwgsS7p0m0AR7
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-
-------=_Part_630177_583166905.1756490672480
-Content-Type: text/html;charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns=3D"http://www.w3.org/1999/xhtml" xmlns:o=3D"urn:schemas-microso=
-ft-com:office:office" xmlns:v=3D"urn:schemas-microsoft-com:vml"><head><!--[=
-if gte mso 9]><xml><o:OfficeDocumentSettings><o:AllowPNG/><o:PixelsPerInch>=
-96</o:PixelsPerInch></o:OfficeDocumentSettings></xml><![endif]--><!--[if !m=
-so]><!--><link href=3D"https://fonts.googleapis.com/css?family=3DStandard+F=
-ontsMS+SerifArialCalibriCourier+NewComic+Sans+MSGeorgiaLucida+ConsoleLucida=
-+Sans+UnicodeTahomaTimes+New+RomanTrebuchet+MS
-VerdanaNon-standard+FontsArvoLatoLoraMerriweather+SansMerriweatherNoticiaOp=
-en+sansPlayfair+DisplayRobotoSource+Sans+Pro
-Montserrat:400,400i,700,700i|Roboto:400,400i,700,700i|Helvetica:400,400i,70=
-0,700i|Source+Sans+Pro:400,400i,700,700i|Merriweather:400,400i,700,700i|Lor=
-a:400,400i,700,700i|Merriweather+Sans:400,400i,700,700i|Montserrat:400,400i=
-,700,700i|Playfair+Display:400,400i,700,700i" rel=3D"stylesheet"><!--<![end=
-if]-->
-=09<meta content=3D"width=3Ddevice-width" name=3D"viewport">
-=09<style>
-=09/* #### Mobile Phones Portrait #### */
-=09/* #### iPhone 4+ Portrait or Landscape #### */
-=09@media only screen and (max-width: 480px){
-=09=09table[class=3DcontentInner] {width:100% !important;padding:0px;margin=
-:0px;}
-=09=09img[class=3DzpImage]{width:100% !important;max-width: 360px !importan=
-t;text-align:center;margin:0px;padding:0px}=20
-=09=09body, table, td, p, li,div,span, blockquote{-webkit-text-size-adjust:=
-none !important;margin:0px auto;line-height:1.7}
-=09=09table[class=3DzpImageCaption]{text-align:left;}
-=09=09table[class=3Dcols]{width:100% !important;max-width:100% !important;t=
-ext-align:left;}
-=09=09table[class=3Dzpcolumns] {text-align:left;margin:0px;}=20
-=09=09table[class=3Dzpcolumn] {text-align:left;margin:0px;}=20
-=09=09table[class=3DzpAlignPos]{width:100%;text-align:left;margin:0px;}=20
-=09=09td[class=3Dtxtsize]{font-size:18px !important;}
-=09=09td[class=3Dpaddingcomp]{ padding-left: 15px !important; padding-right=
-: 15px !important }
-=09=09td[class=3Dbannerimgpad]{padding:0px !important;}
-=09=09span[class=3Dtxtsize]{font-size:18px !important;}
-=09=09img[size =3D "B"]{width: 100% !important;max-width:100% !important;ma=
-rgin: 0px !important;padding:0px !important;}
-=09=09img[size =3D "F"]{width: 100% !important;max-width:100% !important;ma=
-rgin: 0px !important;padding:0px !important;}
-=09=09img[size =3D "S"]{width:105px !important; height:auto; margin:0px aut=
-o !important;padding:0px !important;}
-=09=09img[size =3D "M"]{width:277.869px !important;height:auto;margin:0px a=
-uto !important;padding:0px !important;}
-=09=09.cmp-mobile-view-hide { display: none !important }=20
-=09=09.cmp-desk-view-hide { display: block !important }=20
-=09=09h1{
-=09=09=09font-size:28px !important;
-=09=09=09line-height:100% !important;
-=09=09}
-=09=09h2{
-=09=09=09font-size:24px !important;
-=09=09=09line-height:100% !important;
-=09=09}
-=09=09h3{
-=09=09=09font-size:20px !important;
-=09=09=09line-height:100% !important;
-=09=09}
-=09=09h4{
-=09=09=09font-size:18px !important;
-=09=09=09line-height:100% !important;
-=09=09}
-=09=09}=09=09
-=09=09@media only screen and (max-width: 480px){
-=09=09.zpImage{
-=09=09=09height:auto !important;
-=09=09=09width:100% !important;
-=09=09}}
-=09=09@media only screen and (max-width: 480px){
-=09=09.contentInner,.cols,.zpAlignPos{
-=09=09=09width:100% !important;
-=09=09=09max-width:100% !important;
-=09=09}}
-=09=09@media only screen and (max-width: 480px){
-=09=09.paddingcomp{
-=09=09=09padding-left: 15px !important;
-=09=09=09padding-right: 15px !important;=20
-=09=09}
-=09=09.bannerimgpad{
-=09=09=09padding:0px !important;
-=09=09}
-=09=09.buttonElem a
-=09=09{
-=09=09=09max-width: 320px !important;
-=09=09}
-=09}
-=09=09@media screen and (max-width: 480px)
-        {
-                .tmplheader,.tmplfooter{width:100% !important;max-width:400=
-px !important;margin:0px auto;text-align:center;}
-        }
-=09=09a[x-apple-data-detectors] {
-=09=09    color: inherit !important;
-=09=09    text-decoration: none !important;
-=09=09    font-size: inherit !important;
-=09=09    font-family: inherit !important;
-=09=09    font-weight: inherit !important;
-=09=09    line-height: inherit !important;
-=09=09}
-=09=09
-=09=09</style>
-<meta content=3D"text/html;charset=3DUTF-8" http-equiv=3D"Content-Type"></h=
-ead><body bgcolor=3D"#110000" style=3D"margin:0; padding:0;font-family:Aria=
-l, Helvetica, sans-serif; font-size:12px; color:#000000;"><!--[if !mso 9]><=
-!--><span style=3D'font-size:0px;max-width: 0px;max-height: 0px;mso-hide:al=
-l;display:block;'> Your Packaging Journey Starts Here =E2=80=93 Welcome to =
-PackTHC </span><!--<![endif]--><center>=20
-<div class=3D"zppage-container">                                           =
-              =20
-=09=09<table bgcolor=3D"#110000" border=3D"0" cellpadding=3D"0" cellspacing=
-=3D"0" class=3D"contentOuter" id=3D"contentOuter" style=3D"background-color=
-:#f0f0f0;background-color:#110000; mso-table-lspace:0pt; mso-table-rspace:0=
-pt;font-size:12px;text-align:center;border:0px;padding:0px;border-collapse:=
-collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;" width=3D"100%">=20
-=09=09=09<tbody><tr>=20
-=09=09=09=09<td style=3D" mso-table-lspace:0pt; font-size:12px;font-family:=
-Arial, Helvetica, sans-serif; mso-table-rspace:0pt;font-size:12px;border:0p=
-x;padding:0px;border-collapse:collapse; mso-table-lspace:0pt; mso-table-rsp=
-ace:0pt;">&nbsp;</td>
-=09=09=09=09<td align=3D"center" style=3D" mso-table-lspace:0pt; font-size:=
-12px;font-family:Arial, Helvetica, sans-serif; mso-table-rspace:0pt;font-si=
-ze:12px;border:0px;padding:0px;border-collapse:collapse; mso-table-lspace:0=
-pt; mso-table-rspace:0pt;">
-=09=09=09=09=09<table bgcolor=3D"#ffffff" border=3D"0" cellpadding=3D"0" ce=
-llspacing=3D"0" class=3D"contentInner" id=3D"contentInner" style=3D"border-=
-collapse:collapse; border:0px;font-size:12px;border-collapse:collapse; mso-=
-table-lspace:0pt; mso-table-rspace:0pt;background-color:#ffffff;background-=
-color:#ffffff;width:600px;margin:0px auto;border:0px;" width=3D"600">=20
-=09=09=09=09=09<tbody><tr>=20
-=09=09=09=09=09<td height=3D"570" style=3D"border-collapse:collapse; mso-ta=
-ble-lspace:0pt; font-size:12px;font-family:Arial, Helvetica, sans-serif; ms=
-o-table-rspace:0pt;font-size:12px;border:0px none;padding:0px;" valign=3D"t=
-op">
-=09=09=09=09=09 =09<a name=3D"Top" style=3D"text-decoration:underline;"></a=
+On 8/27/2025 10:07 PM, Dmitry Baryshkov wrote:
+> On Wed, Aug 27, 2025 at 08:52:51AM -0400, Josh Boyer wrote:
+>> On Wed, Aug 27, 2025 at 7:53 AM Dmitry Baryshkov
+>> <dmitry.baryshkov@oss.qualcomm.com> wrote:
+>>> On Wed, Aug 27, 2025 at 10:57:12AM +0800, Xin Liu wrote:
+>>>> The following changes since commit f044bc789f8e7a4427593b687801644c39e3e8b7:
+>>>>
+>>>>    Merge branch 'amd-isp-staging' into 'main' (2025-08-25 18:22:13 +0000)
+>>>>
+>>>> are available in the Git repository at:
+>>>>
+>>>>    https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
+>>>> qcs615-adsp-827
+>>>>
+>>>> for you to fetch changes up to 542611790f77a67a6a24c08d087d22585caa5ac2:
+>>>>
+>>>>    qcom: add ADSP firmware for qcs615 platform (2025-08-27 10:46:24 +0800)
+>>>>
+>>> Reviewed-by: Dmitry Baryshkov<dmitry.baryshkov@oss.qualcomm.com>
+>> Fails check_whence because the files have the executable bit.  Can we fix that?
+> I'm sorry, didn't catch that up in the review from the web page.
 >
-    <div baseposition=3D"pos_YrobDQg7SAqnBt5RUo4dhQ" class=3D"zpcontent-wra=
-pper" id=3D"page-container">
-    <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" id=3D"page-cont=
-ainer" style=3D" mso-table-lspace:0pt;font-size:12px;border:0px;padding:0px=
-;border-collapse:collapse; mso-table-lspace:0pt;mso-table-rspace:0pt;text-d=
-ecoration:none !important;" width=3D"100%">
-<tbody><tr><td class=3D"txtsize" id=3D"elm_1753975645807" style=3D" mso-tab=
-le-lspace:0pt; font-size:12px;font-family:Arial, Helvetica, sans-serif; mso=
--table-rspace:0pt;font-size:12px;border:0px;padding:0px 0px;border-collapse=
-:collapse;" valign=3D"top">
+> Xin Liu, why are you sending a pull request which fails the check? Did
+> you run 'make check'?
 
-=09    =09<table bgcolor=3D"#0a3161" border=3D"0" cellpadding=3D"0" cellspa=
-cing=3D"0" style=3D" mso-table-lspace:0pt; mso-table-rspace:0pt;font-size:1=
-2px;border:0px;padding:0px;width:100%;border-collapse:collapse; mso-table-l=
-space:0pt; mso-table-rspace:0pt;word-break:break-word;background-color:#0a3=
-161;">
-=09    <tbody><tr>
-=09=09<td class=3D"txtsize" style=3D"border-collapse:collapse; mso-table-ls=
-pace:0pt; font-size:12px;font-family:Arial, Helvetica, sans-serif; mso-tabl=
-e-rspace:0pt;font-size:12px;border:0px;padding:0px 0px;border-top:none none=
- none ;border-bottom:none none none;">
-            =09<div class=3D"zpelement-wrapper image" coupcmp id=3D"elm_175=
-3975645807" prodcmp style=3D";word-wrap:break-word;overflow:hidden;padding:=
-0px;background-color:#0a3161;">
-=09=09=09<div>
-=09=09        <table align=3D"left" border=3D"0" cellpadding=3D"0" cellspac=
-ing=3D"0" class=3D"zpAlignPos" style=3D" mso-table-lspace:0pt; mso-table-rs=
-pace:0pt;font-size:12px;text-align:left;width:100%;padding:0px;border:0px;b=
-order-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;word-br=
-eak:break-word;width:100%;text-align:left;">
-            =09=09<tbody><tr><td class=3D"paddingcomp" style=3D"border-coll=
-apse:collapse; mso-table-lspace:0pt; font-size:12px;font-family:Arial, Helv=
-etica, sans-serif; mso-table-rspace:0pt;font-size:12px;border:0px;padding:7=
-px 15px;text-align:center;padding-top:0px;padding-bottom:0px;padding-right:=
-0px;padding-left:0px;">
-=09=09=09<a href=3D"https://erpsk-zgpl.maillist-manage.com/click/114cbf4615=
-aa106bf/114cbf4615aa0fdcb" style=3D"text-decoration:underline;border:0px;" =
-target=3D"_blank" zcurl_name=3D"l_1">
-=09=09=09<img align=3D"left" alt=3D"https://stratus.campaign-image.com/imag=
-es/1498560000000327006_zc_v1_1753975923073_teal_modern_summer_sale_instagra=
-m_post_(3).png" class=3D"zpImage" height=3D"auto" hspace=3D"0" size=3D"F" s=
-rc=3D"https://stratus.campaign-image.com/images/1498560000000327006_zc_v1_1=
-756328161916_modern_email_campaign_tips_carousel_instagram_post_(2).png" st=
-yle=3D"width:600px;height:autopx;max-width:600px !important;border:0px;text=
--align:left;" vspace=3D"0" width=3D"600">
-=09=09=09</a>
-=09=09=09</td></tr>
-=09=09=09</tbody></table>
-=09=09</div>
-            </div>
-            </td></tr></tbody></table>
-</td></tr>
-<tr><td class=3D"txtsize" id=3D"elm_1700479893209" style=3D" mso-table-lspa=
-ce:0pt; font-size:12px;font-family:Arial, Helvetica, sans-serif; mso-table-=
-rspace:0pt;font-size:12px;border:0px;padding:0px 0px;border-collapse:collap=
-se;" valign=3D"top">
+Dmitry, I have fixed the issue about the executable bit. The changes 
+have been resubmitted. Kindly review them at your convenience.
 
-          <div class=3D"zpelement-wrapper" id=3D"elm_1700479893209" style=
-=3D";word-wrap:break-word;overflow:hidden;padding-right:0px;background-colo=
-r:#0a3161;">
-=09    =09<table bgcolor=3D"#0a3161" border=3D"0" cellpadding=3D"0" cellspa=
-cing=3D"0" class=3D"zpAlignPos" style=3D" mso-table-lspace:0pt; mso-table-r=
-space:0pt;font-size:12px;padding:0px;border:0px;border-collapse:collapse; m=
-so-table-lspace:0pt; mso-table-rspace:0pt;word-break:break-word;-ms-text-si=
-ze-adjust: 100%;-webkit-text-size-adjust: 100%;" width=3D"100%">
-=09  =09
-            <tbody><tr><td class=3D"paddingcomp" style=3D"border-collapse:c=
-ollapse; mso-table-lspace:0pt; mso-table-rspace:0pt;border:0px;padding:7px =
-15px;font-size:12pt;font-family:Arial,Helvetica;line-height:19pt;border-top=
-:0px none ;   border-bottom:0px none ;padding-top:0px;padding-bottom:0px;pa=
-dding-right:0px;padding-left:0px;">
-             =09    =09=09<div componentbgcolor=3D"#0a3161" componentpaddin=
-gbottom=3D"0px" componentpaddingleft=3D"0px" componentpaddingright=3D"0px" =
-componentpaddingtop=3D"0px" style=3D"background-color: rgb(10, 49, 97);"><p=
- style=3D"line-height:1.7;font-family:Arial,verdana;font-size:12px; color:#=
-000000;padding:0px;margin: 0;text-align: center; line-height: 19pt;"><font =
-color=3D"#ffffff" face=3D"Arial, Helvetica, sans-serif" style=3D"font-size:=
- 12pt;">Follow Us On</font></p></div>
-=09=09=09</td></tr>
-=09=09</tbody></table>
-       =09  </div>
-</td></tr>
-<tr><td class=3D"txtsize" id=3D"elm_1597384446078" style=3D" mso-table-lspa=
-ce:0pt; font-size:12px;font-family:Arial, Helvetica, sans-serif; mso-table-=
-rspace:0pt;font-size:12px;border:0px;padding:0px 0px;border-collapse:collap=
-se;" valign=3D"top">
+The following changes since commit 
+993ff19b553cd4d252fdf99f07c28825ef57b862: Merge branch 'main' into 
+'main' (2025-08-29 17:13:10 +0000) are available in the Git repository 
+at: https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git 
+qcs615-adsp-91 for you to fetch changes up to 
+7aeff2162e6bb1875cabcf26caba01264194768e: qcom: add ADSP firmware for 
+qcs615 platform (2025-09-01 11:00:40 +0800) 
+---------------------------------------------------------------- Xin Liu 
+(1): qcom: add ADSP firmware for qcs615 platform WHENCE | 5 +++++ 
+qcom/qcs615/adsp.mbn | Bin 0 -> 8536204 bytes qcom/qcs615/adspr.jsn | 21 
++++++++++++++++++++++ qcom/qcs615/adsps.jsn | 21 +++++++++++++++++++++ 
+qcom/qcs615/adspua.jsn | 27 +++++++++++++++++++++++++++ 5 files changed, 
+74 insertions(+) create mode 100644 qcom/qcs615/adsp.mbn create mode 
+100644 qcom/qcs615/adspr.jsn create mode 100644 qcom/qcs615/adsps.jsn 
+create mode 100644 qcom/qcs615/adspua.jsn
 
+--------------sTZdR9mC7fflwgsS7p0m0AR7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 8/27/2025 10:07 PM, Dmitry Baryshkov
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:k6o5sa427tokneyu7vhl3rfhgqfxgemx4pjgxi45cf3j2z55z2@zkv743tjqjyn">
+      <pre wrap="" class="moz-quote-pre">On Wed, Aug 27, 2025 at 08:52:51AM -0400, Josh Boyer wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">On Wed, Aug 27, 2025 at 7:53 AM Dmitry Baryshkov
+<a class="moz-txt-link-rfc2396E" href="mailto:dmitry.baryshkov@oss.qualcomm.com">&lt;dmitry.baryshkov@oss.qualcomm.com&gt;</a> wrote:
+</pre>
+        <blockquote type="cite">
+          <pre wrap="" class="moz-quote-pre">
+On Wed, Aug 27, 2025 at 10:57:12AM +0800, Xin Liu wrote:
+</pre>
+          <blockquote type="cite">
+            <pre wrap="" class="moz-quote-pre">The following changes since commit f044bc789f8e7a4427593b687801644c39e3e8b7:
 
+  Merge branch 'amd-isp-staging' into 'main' (2025-08-25 18:22:13 +0000)
 
+are available in the Git repository at:
 
+  <a class="moz-txt-link-freetext" href="https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git">https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git</a>
+qcs615-adsp-827
 
+for you to fetch changes up to 542611790f77a67a6a24c08d087d22585caa5ac2:
 
+  qcom: add ADSP firmware for qcs615 platform (2025-08-27 10:46:24 +0800)
 
+</pre>
+          </blockquote>
+          <pre wrap="" class="moz-quote-pre">
+Reviewed-by: Dmitry Baryshkov <a class="moz-txt-link-rfc2396E" href="mailto:dmitry.baryshkov@oss.qualcomm.com">&lt;dmitry.baryshkov@oss.qualcomm.com&gt;</a>
+</pre>
+        </blockquote>
+        <pre wrap="" class="moz-quote-pre">
+Fails check_whence because the files have the executable bit.  Can we fix that?
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+I'm sorry, didn't catch that up in the review from the web page.
 
+Xin Liu, why are you sending a pull request which fails the check? Did
+you run 'make check'?
+</pre>
+    </blockquote>
+    <p><span style="white-space: pre-wrap">
+</span></p>
+    <p><span style="white-space: pre-wrap">Dmitry, I have fixed the issue about the executable bit. 
 
-=09                <div class=3D"zpelement-wrapper wdgts" id=3D"elm_1597384=
-446078" style=3D"overflow:hidden;word-wrap:break-word;">
-=09=09=09=09=09=09<table bgcolor=3D"#0a3161" border=3D"0" cellpadding=3D"0"=
- cellspacing=3D"0" class=3D"zpAlignPos" style=3D" mso-table-lspace:0pt; mso=
--table-rspace:0pt;padding:0px;border:0px;border-collapse:collapse; mso-tabl=
-e-lspace:0pt;font-size:5px; mso-table-rspace:0pt;word-break:break-word;-ms-=
-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;  background-color:#0=
-a3161;" width=3D"100%">
-=09=09=09=09=09=09=09<tbody><tr><td style=3D"border-collapse:collapse; mso-=
-table-lspace:0pt;font-family:Arial, Helvetica, sans-serif; mso-table-rspace=
-:0pt;padding:7px 15px;border:0px;font-size:5px;border-top:0px none ;border-=
-bottom:0px none ;padding-top:0px;padding-bottom:0px;padding-right:0px;paddi=
-ng-left:0px;">
-=09=09=09=09=09=09=09=09<table align=3D"center" border=3D"0" cellpadding=3D=
-"0" cellspacing=3D"0" componentpaddingbottom=3D"0px" componentpaddingleft=
-=3D"0px" componentpaddingright=3D"0px" componentpaddingtop=3D"0px" style=3D=
-"border-collapse:collapse;border-collapse:collapse; mso-table-lspace:0pt; m=
-so-table-rspace:0pt;font-size:12px;min-width: 100%;border: none;" width=3D"=
-100%"><tbody><tr><td align=3D"center" style=3D"border-collapse:collapse; ms=
-o-table-lspace:0pt; font-size:12px;font-family:Arial, Helvetica, sans-serif=
-; mso-table-rspace:0pt;font-size:12px;border:0px;padding: 0px; margin: 0px;=
- border: 0px solid;" valign=3D"top"> <table align=3D"center" border=3D"0" c=
-ellpadding=3D"0" cellspacing=3D"0" componentbgcolor=3D"#0a3161" icontext=3D=
-"true" index=3D"2" name=3D"zcsclwdgts_alnmnt" style=3D" mso-table-lspace:0p=
-t; mso-table-rspace:0pt;font-size:12px;border-collapse: collapse;border: no=
-ne;margin:auto;"><tbody><tr><td align=3D"left" style=3D"border-collapse:col=
-lapse; mso-table-lspace:0pt; font-size:12px;font-family:Arial, Helvetica, s=
-ans-serif; mso-table-rspace:0pt;font-size:12px;border:0px;padding: 0px; mar=
-gin: 0px; border: 0px solid;" valign=3D"top"> <table align=3D"center" borde=
-r=3D"0" cellpadding=3D"0" cellspacing=3D"0" name=3D"zcsclwdgtscontainer" st=
-yle=3D"border-collapse:collapse;border-collapse:collapse; mso-table-lspace:=
-0pt; mso-table-rspace:0pt;font-size:12px;border: none;"><tbody><tr><td alig=
-n=3D"left" style=3D"border-collapse:collapse; mso-table-lspace:0pt; font-si=
-ze:12px;font-family:Arial, Helvetica, sans-serif; mso-table-rspace:0pt;font=
--size:12px;border:none;padding:0px;margin:0px;" valign=3D"top"><table align=
-=3D"left" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D" mso-ta=
-ble-lspace:0pt; mso-table-rspace:0pt;font-size:12px;border-collapse: collap=
-se;border: none;"><tbody><tr><td style=3D"border-collapse:collapse; mso-tab=
-le-lspace:0pt; font-size:12px;font-family:Arial, Helvetica, sans-serif; mso=
--table-rspace:0pt;font-size:12px;padding-right: 9px;padding-bottom: 9px;bor=
-der:none;padding: 0px;margin: 0px;" valign=3D"top"> <table border=3D"0" cel=
-lpadding=3D"0" cellspacing=3D"0" style=3D" mso-table-lspace:0pt; mso-table-=
-rspace:0pt;font-size:12px;border-collapse: separate;border: none;"><tbody><=
-tr><td align=3D"left" style=3D"border-collapse:collapse; mso-table-lspace:0=
-pt; font-size:12px;font-family:Arial, Helvetica, sans-serif; mso-table-rspa=
-ce:0pt;font-size:12px;padding:7px;padding-top: 0px;padding-right: 9px;paddi=
-ng-bottom: 0px;padding-left: 9px;border:none;" valign=3D"middle"> <table al=
-ign=3D"left" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D" mso=
--table-lspace:0pt; mso-table-rspace:0pt;font-size:12px;border-collapse: col=
-lapse;border: none;" width><tbody><tr><td align=3D"center" name=3D"sclwdgti=
-mges" style=3D"border-collapse:collapse; mso-table-lspace:0pt; font-size:12=
-px;font-family:Arial, Helvetica, sans-serif; mso-table-rspace:0pt;font-size=
-:12px;border: none;padding: 0px;margin: 0px;padding-bottom: 6px;" valign=3D=
-"middle"> <a href=3D"https://erpsk-zgpl.maillist-manage.com/click/114cbf461=
-5aa106bf/114cbf4615aa0fdcd" style=3D"text-decoration:underline;display: blo=
-ck;font-size: 1px;" target=3D"_blank" zcurl_name=3D"l_2"><img alt=3D"Facebo=
-ok" height=3D"35" src=3D"https://stratus.campaign-image.com/images/14985600=
-00000327006_1_1753915139508_zcsclwgtfb2.png" style=3D"border: 0px; margin: =
-0px; outline: none; text-decoration: none; width: 35px; height: 35px;" vspa=
-ce=3D"10" width=3D"35"></a> </td></tr><tr><td align=3D"center" name=3D"sclw=
-dgtcaptns" style=3D"border-collapse:collapse; mso-table-lspace:0pt; font-si=
-ze:12px;font-family:Arial, Helvetica, sans-serif; mso-table-rspace:0pt;font=
--size:12px;border:none;padding: 0px;margin: 0px;" valign=3D"middle"><a href=
-=3D"https://erpsk-zgpl.maillist-manage.com/click/114cbf4615aa106bf/114cbf46=
-15aa0fdcf" style=3D"display: block;font-size: 1px;font-weight: normal;line-=
-height: normal;text-align: center;text-decoration: none;" target=3D"_blank"=
- zcurl_name=3D"l_3"><p fntname=3D"Arial" fntsze=3D"8" style=3D"font-family:=
-Arial,verdana;font-size:12px; color:#000000;padding:0px;margin: 0;line-heig=
-ht: normal; font-size: 8pt; font-family: Arial, Helvetica, sans-serif; colo=
-r: rgb(255, 255, 255);">Facebook</p></a> </td></tr></tbody></table></td></t=
-r></tbody></table></td></tr></tbody></table></td><td align=3D"left" style=
-=3D"border-collapse:collapse; mso-table-lspace:0pt; font-size:12px;font-fam=
-ily:Arial, Helvetica, sans-serif; mso-table-rspace:0pt;font-size:12px;borde=
-r:none;padding:0px;margin:0px;" valign=3D"top"><table align=3D"left" border=
-=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D" mso-table-lspace:0pt; =
-mso-table-rspace:0pt;font-size:12px;border-collapse: collapse;border: none;=
-"><tbody><tr><td style=3D"border-collapse:collapse; mso-table-lspace:0pt; f=
-ont-size:12px;font-family:Arial, Helvetica, sans-serif; mso-table-rspace:0p=
-t;font-size:12px;padding-right: 9px;padding-bottom: 9px;border:none;padding=
-: 0px;margin: 0px;" valign=3D"top"> <table border=3D"0" cellpadding=3D"0" c=
-ellspacing=3D"0" style=3D" mso-table-lspace:0pt; mso-table-rspace:0pt;font-=
-size:12px;border-collapse: separate;border: none;"><tbody><tr><td align=3D"=
-left" style=3D"border-collapse:collapse; mso-table-lspace:0pt; font-size:12=
-px;font-family:Arial, Helvetica, sans-serif; mso-table-rspace:0pt;font-size=
-:12px;padding:7px;padding-top: 0px;padding-right: 9px;padding-bottom: 0px;p=
-adding-left: 9px;border:none;" valign=3D"middle"> <table align=3D"left" bor=
-der=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D" mso-table-lspace:0p=
-t; mso-table-rspace:0pt;font-size:12px;border-collapse: collapse;border: no=
-ne;" width><tbody><tr><td align=3D"center" name=3D"sclwdgtimges" style=3D"b=
-order-collapse:collapse; mso-table-lspace:0pt; font-size:12px;font-family:A=
-rial, Helvetica, sans-serif; mso-table-rspace:0pt;font-size:12px;border: no=
-ne;padding: 0px;margin: 0px;padding-bottom: 6px;" valign=3D"middle"> <a hre=
-f=3D"https://erpsk-zgpl.maillist-manage.com/click/114cbf4615aa106bf/114cbf4=
-615aa0fdd1" style=3D"text-decoration:underline;display: block;font-size: 1p=
-x;" target=3D"_blank" zcurl_name=3D"l_4"><img alt=3D"Twitter" height=3D"35"=
- src=3D"https://stratus.campaign-image.com/images/1498560000000327006_2_175=
-3915139543_zcsclwgttwt2.png" style=3D"border: 0px; margin: 0px; outline: no=
-ne; text-decoration: none; width: 35px; height: 35px;" vspace=3D"10" width=
-=3D"35"></a> </td></tr><tr><td align=3D"center" name=3D"sclwdgtcaptns" styl=
-e=3D"border-collapse:collapse; mso-table-lspace:0pt; font-size:12px;font-fa=
-mily:Arial, Helvetica, sans-serif; mso-table-rspace:0pt;font-size:12px;bord=
-er:none;padding: 0px;margin: 0px;" valign=3D"middle"><a href=3D"https://erp=
-sk-zgpl.maillist-manage.com/click/114cbf4615aa106bf/114cbf4615aa0fdd3" styl=
-e=3D"display: block;font-size: 1px;font-weight: normal;line-height: normal;=
-text-align: center;text-decoration: none;" target=3D"_blank" zcurl_name=3D"=
-l_5"><p fntname=3D"Arial" fntsze=3D"8" style=3D"font-family:Arial,verdana;f=
-ont-size:12px; color:#000000;padding:0px;margin: 0;line-height: normal; fon=
-t-size: 8pt; font-family: Arial, Helvetica, sans-serif; color: rgb(255, 255=
-, 255);">Twitter</p></a> </td></tr></tbody></table></td></tr></tbody></tabl=
-e></td></tr></tbody></table></td><td align=3D"left" style=3D"border-collaps=
-e:collapse; mso-table-lspace:0pt; font-size:12px;font-family:Arial, Helveti=
-ca, sans-serif; mso-table-rspace:0pt;font-size:12px;border:none;padding:0px=
-;margin:0px;" valign=3D"top"><table align=3D"left" border=3D"0" cellpadding=
-=3D"0" cellspacing=3D"0" style=3D" mso-table-lspace:0pt; mso-table-rspace:0=
-pt;font-size:12px;border-collapse: collapse;border: none;"><tbody><tr><td s=
-tyle=3D"border-collapse:collapse; mso-table-lspace:0pt; font-size:12px;font=
--family:Arial, Helvetica, sans-serif; mso-table-rspace:0pt;font-size:12px;p=
-adding-right: 9px;padding-bottom: 9px;border:none;padding: 0px;margin: 0px;=
-" valign=3D"top"> <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" s=
-tyle=3D" mso-table-lspace:0pt; mso-table-rspace:0pt;font-size:12px;border-c=
-ollapse: separate;border: none;"><tbody><tr><td align=3D"left" style=3D"bor=
-der-collapse:collapse; mso-table-lspace:0pt; font-size:12px;font-family:Ari=
-al, Helvetica, sans-serif; mso-table-rspace:0pt;font-size:12px;padding:7px;=
-padding-top: 0px;padding-right: 9px;padding-bottom: 0px;padding-left: 9px;b=
-order:none;" valign=3D"middle"> <table align=3D"left" border=3D"0" cellpadd=
-ing=3D"0" cellspacing=3D"0" style=3D" mso-table-lspace:0pt; mso-table-rspac=
-e:0pt;font-size:12px;border-collapse: collapse;border: none;" width><tbody>=
-<tr><td align=3D"center" name=3D"sclwdgtimges" style=3D"border-collapse:col=
-lapse; mso-table-lspace:0pt; font-size:12px;font-family:Arial, Helvetica, s=
-ans-serif; mso-table-rspace:0pt;font-size:12px;border: none;padding: 0px;ma=
-rgin: 0px;padding-bottom: 6px;" valign=3D"middle"> <a href=3D"https://erpsk=
--zgpl.maillist-manage.com/click/114cbf4615aa106bf/114cbf4615aa0fdd5" style=
-=3D"text-decoration:underline;display: block;font-size: 1px;" target=3D"_bl=
-ank" zcurl_name=3D"l_6"><img alt=3D"LinkedIn" height=3D"35" src=3D"https://=
-stratus.campaign-image.com/images/1498560000000327006_3_1753915139576_zcscl=
-wgtlin2.png" style=3D"border: 0px; margin: 0px; outline: none; text-decorat=
-ion: none; width: 35px; height: 35px;" vspace=3D"10" width=3D"35"></a> </td=
-></tr><tr><td align=3D"center" name=3D"sclwdgtcaptns" style=3D"border-colla=
-pse:collapse; mso-table-lspace:0pt; font-size:12px;font-family:Arial, Helve=
-tica, sans-serif; mso-table-rspace:0pt;font-size:12px;border:none;padding: =
-0px;margin: 0px;" valign=3D"middle"><a href=3D"https://erpsk-zgpl.maillist-=
-manage.com/click/114cbf4615aa106bf/114cbf4615aa0fdd7" style=3D"display: blo=
-ck;font-size: 1px;font-weight: normal;line-height: normal;text-align: cente=
-r;text-decoration: none;" target=3D"_blank" zcurl_name=3D"l_7"><p fntname=
-=3D"Arial" fntsze=3D"8" style=3D"font-family:Arial,verdana;font-size:12px; =
-color:#000000;padding:0px;margin: 0;line-height: normal; font-size: 8pt; fo=
-nt-family: Arial, Helvetica, sans-serif; color: rgb(255, 255, 255);">Linked=
-In</p></a> </td></tr></tbody></table></td></tr></tbody></table></td></tr></=
-tbody></table></td><td align=3D"left" style=3D"border-collapse:collapse; ms=
-o-table-lspace:0pt; font-size:12px;font-family:Arial, Helvetica, sans-serif=
-; mso-table-rspace:0pt;font-size:12px;border:none;padding:0px;margin:0px;" =
-valign=3D"top"><table align=3D"left" border=3D"0" cellpadding=3D"0" cellspa=
-cing=3D"0" style=3D" mso-table-lspace:0pt; mso-table-rspace:0pt;font-size:1=
-2px;border-collapse: collapse;border: none;"><tbody><tr><td style=3D"border=
--collapse:collapse; mso-table-lspace:0pt; font-size:12px;font-family:Arial,=
- Helvetica, sans-serif; mso-table-rspace:0pt;font-size:12px;padding-right: =
-9px;padding-bottom: 9px;border:none;padding: 0px;margin: 0px;" valign=3D"to=
-p"> <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D" mso-t=
-able-lspace:0pt; mso-table-rspace:0pt;font-size:12px;border-collapse: separ=
-ate;border: none;"><tbody><tr><td align=3D"left" style=3D"border-collapse:c=
-ollapse; mso-table-lspace:0pt; font-size:12px;font-family:Arial, Helvetica,=
- sans-serif; mso-table-rspace:0pt;font-size:12px;padding:7px;padding-top: 0=
-px;padding-right: 9px;padding-bottom: 0px;padding-left: 9px;border:none;" v=
-align=3D"middle"> <table align=3D"left" border=3D"0" cellpadding=3D"0" cell=
-spacing=3D"0" style=3D" mso-table-lspace:0pt; mso-table-rspace:0pt;font-siz=
-e:12px;border-collapse: collapse;border: none;" width><tbody><tr><td align=
-=3D"center" name=3D"sclwdgtimges" style=3D"border-collapse:collapse; mso-ta=
-ble-lspace:0pt; font-size:12px;font-family:Arial, Helvetica, sans-serif; ms=
-o-table-rspace:0pt;font-size:12px;border: none;padding: 0px;margin: 0px;pad=
-ding-bottom: 6px;" valign=3D"middle"> <a href=3D"https://erpsk-zgpl.maillis=
-t-manage.com/click/114cbf4615aa106bf/114cbf4615aa0fdd9" style=3D"text-decor=
-ation:underline;display: block;font-size: 1px;" target=3D"_blank" zcurl_nam=
-e=3D"l_8"><img alt=3D"Pinterest" height=3D"35" src=3D"https://stratus.campa=
-ign-image.com/images/1498560000000327006_4_1753915139604_zcsclwgtpin2.png" =
-style=3D"border: 0px; margin: 0px; outline: none; text-decoration: none; wi=
-dth: 35px; height: 35px;" vspace=3D"10" width=3D"35"></a> </td></tr><tr><td=
- align=3D"center" name=3D"sclwdgtcaptns" style=3D"border-collapse:collapse;=
- mso-table-lspace:0pt; font-size:12px;font-family:Arial, Helvetica, sans-se=
-rif; mso-table-rspace:0pt;font-size:12px;border:none;padding: 0px;margin: 0=
-px;" valign=3D"middle"><a href=3D"https://erpsk-zgpl.maillist-manage.com/cl=
-ick/114cbf4615aa106bf/114cbf4615aa0fddb" style=3D"display: block;font-size:=
- 1px;font-weight: normal;line-height: normal;text-align: center;text-decora=
-tion: none;" target=3D"_blank" zcurl_name=3D"l_9"><p fntname=3D"Arial" fnts=
-ze=3D"8" style=3D"font-family:Arial,verdana;font-size:12px; color:#000000;p=
-adding:0px;margin: 0;line-height: normal; font-size: 8pt; font-family: Aria=
-l, Helvetica, sans-serif; color: rgb(255, 255, 255);">Pinterest</p></a> </t=
-d></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table>=
-</td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></tab=
-le>=09
-=09=09=09=09=09=09=09</td></tr>
-=09=09=09            </tbody></table>=09
-=09=09            </div>
-</td></tr>
-<tr><td class=3D"txtsize" id=3D"elm_1615552463469" style=3D" mso-table-lspa=
-ce:0pt; font-size:12px;font-family:Arial, Helvetica, sans-serif; mso-table-=
-rspace:0pt;font-size:12px;border:0px;padding:0px 0px;border-collapse:collap=
-se;" valign=3D"top">
+The changes have been resubmitted. Kindly review them at your convenience. </span></p>
+    <p><span style="white-space: pre-wrap">
+The following changes since commit 993ff19b553cd4d252fdf99f07c28825ef57b862:
 
-          <div class=3D"zpelement-wrapper" id=3D"elm_1615552463469" style=
-=3D";word-wrap:break-word;overflow:hidden;padding-right:0px;background-colo=
-r:#0a3161;">
-=09    =09<table bgcolor=3D"#0a3161" border=3D"0" cellpadding=3D"0" cellspa=
-cing=3D"0" class=3D"zpAlignPos" style=3D" mso-table-lspace:0pt; mso-table-r=
-space:0pt;font-size:12px;padding:0px;border:0px;border-collapse:collapse; m=
-so-table-lspace:0pt; mso-table-rspace:0pt;word-break:break-word;-ms-text-si=
-ze-adjust: 100%;-webkit-text-size-adjust: 100%;" width=3D"100%">
-=09  =09
-            <tbody><tr><td class=3D"paddingcomp" style=3D"border-collapse:c=
-ollapse; mso-table-lspace:0pt; mso-table-rspace:0pt;border:0px;padding:7px =
-15px;font-size:12pt;font-family:Arial,Helvetica;line-height:19pt;border-top=
-:0px none ;   border-bottom:0px none ;padding-top:4px;padding-bottom:21px;p=
-adding-right:120px;padding-left:120px;">
-             =09    =09=09<div componentbgcolor=3D"#0a3161" componentpaddin=
-gbottom=3D"21px" componentpaddingleft=3D"120px" componentpaddingright=3D"12=
-0px" componentpaddingtop=3D"4px" style=3D"background-color: rgb(10, 49, 97)=
-;"><p align=3D"center" style=3D"font-family:Arial,verdana;font-size:12px; c=
-olor:#000000;padding:0px;margin: 0;line-height: 19pt; text-align: center;">=
-<font color=3D"#cbcbdd"><font face=3D"Arial, Helvetica" style=3D"font-size:=
- 10pt;">You are receiving this email as you signed up for our newsletters. =
-</font><span style=3D"font-size: 10pt; font-family: Arial, Helvetica;">Want=
- to change how you receive these emails?</span></font></p><p align=3D"cente=
-r" style=3D"font-family:Arial,verdana;font-size:12px; color:#000000;padding=
-:0px;margin: 0;line-height: 19pt; text-align: center;"><font face=3D"Arial,=
- Helvetica" style=3D"font-size: 10pt;"><font color=3D"#cbcbdd">You can </fo=
-nt><a alt=3D"Unsubscribe" href=3D"https://erpsk-zgpl.maillist-manage.com/ua=
-/optout?od=3D3z91ad94d82846e1495d00c1678ed2a35ca170618ca4dc6181b5179a384867=
-5cf8&rd=3D114cbf4615aa106bf&sd=3D114cbf4615aa10541&n=3D11699e4c19a7672" rel=
-=3D"noopener noreferrer" style=3D"text-decoration:underline;color: rgb(203,=
- 203, 221);" target=3D"_blank" title=3D"Unsubscribe" zcurl_name=3D"l_10"><f=
-ont color=3D"#cbcbdd" style=3D"color:#cbcbdd;">Unsubscribe</font></a><font =
-color=3D"#cbcbdd"> or </font><a alt=3D"Update your preferences" href=3D"htt=
-ps://erpsk-zgpl.maillist-manage.com/click/114cbf4615aa106bf/114cbf4615aa0fd=
-dd" rel=3D"noopener noreferrer" style=3D"text-decoration:underline;color: r=
-gb(196, 196, 196);" target=3D"_blank" title=3D"Update your preferences" zcu=
-rl_name=3D"l_11"><font color=3D"#c4c4c4" style=3D"color:#c4c4c4;">Update yo=
-ur preferences</font></a></font></p></div>
-=09=09=09</td></tr>
-=09=09</tbody></table>
-       =09  </div>
-</td></tr>
-<tr><td class=3D"txtsize" id=3D"elm_1668146291332" style=3D" mso-table-lspa=
-ce:0pt; font-size:12px;font-family:Arial, Helvetica, sans-serif; mso-table-=
-rspace:0pt;font-size:12px;border:0px;padding:0px 0px;border-collapse:collap=
-se;" valign=3D"top">
+  Merge branch 'main' into 'main' (2025-08-29 17:13:10 +0000)
 
+are available in the Git repository at:
 
+  <a class="moz-txt-link-freetext" href="https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git">https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git</a> qcs615-adsp-91
 
+for you to fetch changes up to 7aeff2162e6bb1875cabcf26caba01264194768e:
 
+  qcom: add ADSP firmware for qcs615 platform (2025-09-01 11:00:40 +0800)
 
+----------------------------------------------------------------
+Xin Liu (1):
+      qcom: add ADSP firmware for qcs615 platform
 
+ WHENCE                 |   5 +++++
+ qcom/qcs615/adsp.mbn   | Bin 0 -&gt; 8536204 bytes
+ qcom/qcs615/adspr.jsn  |  21 +++++++++++++++++++++
+ qcom/qcs615/adsps.jsn  |  21 +++++++++++++++++++++
+ qcom/qcs615/adspua.jsn |  27 +++++++++++++++++++++++++++
+ 5 files changed, 74 insertions(+)
+ create mode 100644 qcom/qcs615/adsp.mbn
+ create mode 100644 qcom/qcs615/adspr.jsn
+ create mode 100644 qcom/qcs615/adsps.jsn
+ create mode 100644 qcom/qcs615/adspua.jsn</span></p>
+  </body>
+</html>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=09=20
-
-=09          <div class=3D"zpelement-wrapper spacebar" id=3D"elm_1668146291=
-332" style=3D";word-wrap:break-word;overflow:hidden;background-color:#0a316=
-1;">
-=09=09=09=09=09
-=09=09=09=09=09 <table bgcolor=3D"#0a3161" border=3D"0" cellpadding=3D"0" c=
-ellspacing=3D"0" class=3D"zpAlignPos" style=3D" mso-table-lspace:0pt; mso-t=
-able-rspace:0pt;padding:0px;border:0px;border-collapse:collapse; mso-table-=
-lspace:0pt;font-size:5px; mso-table-rspace:0pt;word-break:break-word;-ms-te=
-xt-size-adjust: 100%;-webkit-text-size-adjust: 100%;height:11px;" width=3D"=
-100%">
-
-=09                        <tbody><tr><td style=3D"border-collapse:collapse=
-; mso-table-lspace:0pt;font-family:Arial, Helvetica, sans-serif; mso-table-=
-rspace:0pt;padding:0px;border:0px;font-size:5px;height:11px;border-top:none=
- none none;border-bottom:none none none;">
-
-=09                        &nbsp;&nbsp;&nbsp;
-
-=09                        </td></tr>
-
-=09                </tbody></table>
-
-=09          </div>
-
-</td></tr>
-<tr><td class=3D"txtsize" id=3D"elm_1753981255943" style=3D" mso-table-lspa=
-ce:0pt; font-size:12px;font-family:Arial, Helvetica, sans-serif; mso-table-=
-rspace:0pt;font-size:12px;border:0px;padding:0px 0px;border-collapse:collap=
-se;" valign=3D"top">
-
-          <div class=3D"zpelement-wrapper" id=3D"elm_1753981255943" style=
-=3D";word-wrap:break-word;overflow:hidden;padding-right:0px;background-colo=
-r:#0a3161;">
-=09    =09<table bgcolor=3D"#0a3161" border=3D"0" cellpadding=3D"0" cellspa=
-cing=3D"0" class=3D"zpAlignPos" style=3D" mso-table-lspace:0pt; mso-table-r=
-space:0pt;font-size:12px;padding:0px;border:0px;border-collapse:collapse; m=
-so-table-lspace:0pt; mso-table-rspace:0pt;word-break:break-word;-ms-text-si=
-ze-adjust: 100%;-webkit-text-size-adjust: 100%;" width=3D"100%">
-=09  =09
-            <tbody><tr><td class=3D"paddingcomp" style=3D"border-collapse:c=
-ollapse; mso-table-lspace:0pt; mso-table-rspace:0pt;border:0px;padding:7px =
-15px;font-size:12pt;font-family:Arial,Helvetica;line-height:19pt;border-top=
-:0px none ;   border-bottom:0px none ;padding-top:7px;padding-bottom:7px;pa=
-dding-right:15px;padding-left:15px;">
-             =09    =09=09<div componentbgcolor=3D"#0a3161" style=3D"backgr=
-ound-color: rgb(10, 49, 97);"><p style=3D"font-family:Arial,verdana;font-si=
-ze:12px; color:#000000;padding:0px;margin: 0;line-height: 19pt; text-align:=
- left;"><font color=3D"#000000" face=3D"Arial, Helvetica" style=3D"color:#0=
-00000;font-size: 12pt;"></font></p><span><font style=3D"font-size: 8pt;">Us=
-e Coupon Code: <span>PACKTHCxzBzeO</span></font>
-</span><span></span></div>
-=09=09=09</td></tr>
-=09=09</tbody></table>
-       =09  </div>
-</td></tr>
-    </tbody></table>
-</div>
-
-=09=09=09=09=09</td>=20
-=09=09=09=09=09</tr>=20
-=09=09=09=09=09</tbody></table>
-=09=09=09=09</td>=20
-=09=09=09=09<td style=3D" mso-table-lspace:0pt; font-size:12px;font-family:=
-Arial, Helvetica, sans-serif; mso-table-rspace:0pt;font-size:12px;border:0p=
-x;padding:0px;border-collapse:collapse; mso-table-lspace:0pt; mso-table-rsp=
-ace:0pt;">&nbsp;</td>
-=09=09=09</tr>=20
-=09=09</tbody></table>=20
-</div>
-</center>=20
-<img style=3D'visibility:hidden' src=3D"https://erpsk-zgpl.maillist-manage.=
-com/click/114cbf4615aa106bf/open.gif" alt=3D"" height=3D"1" width=3D"1"/><a=
- style=3D'visibility:hidden' href=3D"https://erpsk-zgpl.maillist-manage.com=
-/click/114cbf4615aa106bf/114cbf4615aa0fd5e" alt=3D"" height=3D"1" width=3D"=
-1"/></body></html>
-------=_Part_630177_583166905.1756490672480--
+--------------sTZdR9mC7fflwgsS7p0m0AR7--
