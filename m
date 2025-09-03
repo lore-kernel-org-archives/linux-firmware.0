@@ -1,183 +1,126 @@
-Return-Path: <SRS0=yW0i=3O=oss.qualcomm.com=akhilpo@kernel.org>
+Return-Path: <SRS0=5RM6=3O=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 106A5CA0FF2
-	for <linux-firmware@archiver.kernel.org>; Wed,  3 Sep 2025 10:26:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3022CCA1009
+	for <linux-firmware@archiver.kernel.org>; Wed,  3 Sep 2025 10:28:08 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id D380EC4CEF5; Wed,  3 Sep 2025 10:26:39 +0000 (UTC)
+	id 0AD69C4CEF7; Wed,  3 Sep 2025 10:28:08 +0000 (UTC)
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 2F752C4CEF1
-	for <linux-firmware@kernel.org>; Wed,  3 Sep 2025 10:26:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 2F752C4CEF1
+	by smtp.kernel.org (Postfix) with ESMTPS id 1E6F9C4CEF1
+	for <linux-firmware@kernel.org>; Wed,  3 Sep 2025 10:28:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 1E6F9C4CEF1
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5832mHjZ012509
-	for <linux-firmware@kernel.org>; Wed, 3 Sep 2025 10:26:37 GMT
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5832x992021297
+	for <linux-firmware@kernel.org>; Wed, 3 Sep 2025 10:28:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	VrzUVQmAKMcN3xpOH+43qDQTtOEMZcm6ShkXiFo/PiY=; b=enyHSIRC9afPEVBG
-	HD+77xhfuscV7zFcjj+bOFT0JHqHjWRidNOCndhXkZn6Ew8a9Rodpaz2Wfr9oQlk
-	0hwi4d0njhWvT9QRijo37kh/XK1mAUN1Oj5VbSf5La/VHxW9WqUqacB/IFvSrVby
-	filTipGCfx8t9w4eZlwUg9QYjNznVdDgnvp3nr598BQqXqmTDQTHTAnXTn2CR8Aj
-	6OFeV0B7ZXijTKBCJ9AQwnk5MEr9vQCJq2GUZsEQ+YA8pvbw8SndZCuTLKJUKisY
-	d5gfkyO+rg0TbH5Z4wEqJMMcFb7vm7njnyq77+4rctPWAs0fK/gT+uAn60Kjlzhm
-	3Pg66A==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ut2fk42b-1
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=HIchCT2i5v4dYsvhjZb0hQwv
+	F59YYo1NLQucLlLSotc=; b=NVj5YThxSWIuD+z+o8SkI7uqX19oR0TBvcB6LQ0z
+	EuQk/TjWQGbruTNNDJyZqnRO+ECc2wlwkdV1A6UZ245ELi4CUctjDdje+swa9lA1
+	Qh4YJMe8vqncf/BY/thjMogzq9HvmyOEcCuBDLMbeUqQKDfNravnFfaHPDQ/xhk9
+	2kxM2nKn2bsGR6lpRRZqLCBrl77JaU0oX7JqpAdb7g4l8kpPVIswp6VuS1m0Ce8W
+	G/l86C4gc2ZYgzRBpHJDxRKn+eGmiemnGcl8z34zgvdDiq3a12pKFT4Og9KkjbPe
+	762G/a4fGQ6F+F4pcQESlrLq128XTG2TFf5hPT7SDXks1g==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ur8s39uv-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Wed, 03 Sep 2025 10:26:37 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-329dfdc23d2so1856060a91.1
-        for <linux-firmware@kernel.org>; Wed, 03 Sep 2025 03:26:37 -0700 (PDT)
+	for <linux-firmware@kernel.org>; Wed, 03 Sep 2025 10:28:04 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-70dfd87a495so114875416d6.3
+        for <linux-firmware@kernel.org>; Wed, 03 Sep 2025 03:28:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756895196; x=1757499996;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VrzUVQmAKMcN3xpOH+43qDQTtOEMZcm6ShkXiFo/PiY=;
-        b=coDhblI+5NqWS5V5AG37tnwaFgxh6wy7Djvdvu/o9CefxY5ZW2hzfWxsiOT4fm3Dva
-         /D8dXYzSuwfYiED6KcLRqcRnqM7qpO9A617MEWSfka0lgYwlyNVG+5PNyBaeqL8r8dyL
-         Xnfx+Lg3YMkSIawMyXD6Sl9Rfd9a4zCt6qePMv+4BJSviKbwjxAsoUI0jAimQkpwTMpo
-         60zzy2gwJCxeH1uriE0SrZ63gXnURdb2OxXtkFNWFDBqP93c7KFmvvY1+DtG9vRw0t5i
-         JjDtsZXIXgtCS1nkU8ohk0hmUiKABGho2NTKM3wc3fpPHXd3Fm6nRiOhEYEC5PJMI7fD
-         5QMQ==
-X-Gm-Message-State: AOJu0YyCfB7VwXg2eRLuNvF8+e0Rj6ZqTIk6Ff8fG1ZBVvFMn5Tui00f
-	grw2BdCg6Qvh8JjJnDqLNfm9POZ4UM4pfbkLQpVDN05h2yLwJs+0Ptku7a5CFI2X9xaHMGnOSAf
-	VcnfllZbBcqmvBPWHohIjw4iv0wJCsGD5/Qb4f3FJobavmx9sG/fIkZ4Lfs3LfNY=
-X-Gm-Gg: ASbGncsJFAye1p14HhVglsoVIgSgbSmshe+uowrqJVcv3MEcqDZoZB7gD9fNaOlcp2g
-	jW4puTt7v2A2wqP3ERdM5SQ+okCmiPB25D0qSwLFYji8y8X/hzqREsvsLs+XuZQTQstP6LMVpO3
-	FbTEcnxCfZsA5oj2/w0aKB/4kRW0DMLCA8oAeVnZFGSeKXUNTfFquIWcULqTzrp2M7NRgGfJKXw
-	cXD6rITCK0ISmFOoX6hu4DUY45tVG8AXFyeL9gnmhKAUW/nrAMaF45dJWC5jATA6LIwsiUeGAjB
-	SKhfsnGLEfPXsAanzbZutDjpSh0vnYGYzdi1LKPLNMEN6iETZURgdrxhy5i+lw==
-X-Received: by 2002:a17:90b:57c4:b0:327:7c8e:8725 with SMTP id 98e67ed59e1d1-32815433ac3mr21125878a91.10.1756895196147;
-        Wed, 03 Sep 2025 03:26:36 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEeHt+FZJr/oshesAPRjFlsqyUzkPFEjQZlXAYTsM+/nRYOn0coFHBtCtJmuCBqkgBnjop2Jw==
-X-Received: by 2002:a17:90b:57c4:b0:327:7c8e:8725 with SMTP id 98e67ed59e1d1-32815433ac3mr21125792a91.10.1756895194967;
-        Wed, 03 Sep 2025 03:26:34 -0700 (PDT)
-Received: from [10.91.118.43] ([202.46.23.19])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32b747c2d66sm759489a91.28.2025.09.03.03.26.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Sep 2025 03:26:34 -0700 (PDT)
-Message-ID: <15ad368e-0d36-41c7-a9be-71d08ba1efe2@oss.qualcomm.com>
-Date: Wed, 3 Sep 2025 15:56:31 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: qcom: Update GPU firmwares of QCS615 chipset -v2
-To: Josh Boyer <jwboyer@kernel.org>
+        d=1e100.net; s=20230601; t=1756895283; x=1757500083;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HIchCT2i5v4dYsvhjZb0hQwvF59YYo1NLQucLlLSotc=;
+        b=WqG2y+uDkyzD56ftjbcNWhzE5YZEJdbMg+5BEbMjZeqp/mXYdWlSpMdiwjvAqtSgBt
+         sdBT2W9Q6V6c28El3UC8ZMdJfrf7LPZUtQE+mYFUWoVd0nm/UY/cxLQkYTH54uw6W/JZ
+         tQTE3rSODJujAIDK6JPQXBZbuxFQse0BVkVRh+xkjERVPfeZIRBHYFvFxbjvVJb9q6E8
+         RoRWCC5tLlTm/Uha0SFGUANtyAJ7RFF9efGJ1QG7QVKtdNp/0sfMFkSZDmOw59nsdCFw
+         O3oR2aDBd1RNMrNK0JPBAgW7I+MffL2G4ovGbk9/XHoPNOS72LKZ8zh9CMPwZ9r0xWAm
+         fgFQ==
+X-Gm-Message-State: AOJu0YzCvJRXN6TBcRxj74849OFwycAW/wJIqujkuciQ2RRQC6JWBMFM
+	g74HJzGGXjI3vu4dOCvF8wF39UOhYli3vQm8swuHXPKS6L5TIjfVCopfdVXfQ5b2NIG08z4x3JM
+	Dtc29axSPAPhje0VnZJ85pjX91HNOXSlyAFQI7hqAHNJG/bRvuteBTteWZr+Sa5Ztj49zx60=
+X-Gm-Gg: ASbGnctiOp9KeZNbqlKfe65A39e+ORoRn8s2Kh5yIuQQOprEw279zRNNGfiGY0M5pCi
+	neLz2DJkJ/P89U1L7SNMzEoH4nhodfkv1+Qx+eNAy8ojqgkif3qmliYr8sYEOjp6bmQlEg0hSrV
+	e44QHQBIdWB6EKjlG9GXz2pwED9YufcsQOTWbYmSTpRwt39IQZ75sYthl9InCynMvGOBRrTc8ND
+	QdoUoH8cT7pMO/7RNDTt54suVNl42toHzTk1KuUaDElXTrVgjYhqL0106QXa295lR11yQr1Tjmf
+	Yj/XoAyIfppmFY/nqAWzMYoT/FpywdrZn5DETPHDWdZZpB7dUuJk+LnQXmwY8rOCZDABa6iBhVa
+	O6pkoj+HKtBlUvkpTFTXs8Ow8PAS5d6UytS2gRsSL4H3LZknr4zrK
+X-Received: by 2002:a05:6214:cc8:b0:718:a736:e5ff with SMTP id 6a1803df08f44-718a736ea18mr113921366d6.57.1756895283029;
+        Wed, 03 Sep 2025 03:28:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF9TPzhZc6U/i8sEwC2EAluEbu1cD/cLJ2OS8y7zPXVk5Opeowd3Ge4AiV2tWViL4tN0C9HEQ==
+X-Received: by 2002:a05:6214:cc8:b0:718:a736:e5ff with SMTP id 6a1803df08f44-718a736ea18mr113921136d6.57.1756895282544;
+        Wed, 03 Sep 2025 03:28:02 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5608ace9fd1sm422627e87.83.2025.09.03.03.28.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Sep 2025 03:28:01 -0700 (PDT)
+Date: Wed, 3 Sep 2025 13:27:59 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>
 List-Id: <linux-firmware.lore.kernel.org>
 Cc: linux-firmware@kernel.org,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <d2e4501a-937f-413d-a58a-1a461c7947c2@oss.qualcomm.com>
- <cefhytvrazclwp3qicixaf3wh2p4vffhakt62of4cqua7rj7ok@r7gdz3nhgo2p>
- <27ae02e3-bb40-4bcd-a74a-eb228833add0@oss.qualcomm.com>
- <pnhpmwpdnhkexejum5zriq62wj7y46ot4elrlvcvwpmmfvk4mq@lskjszqjyedx>
- <CA+5PVA4=8c+_ocTJbzQ_vZCNUseZbjRoaqs0GZonVYt4KWPTWQ@mail.gmail.com>
-From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <CA+5PVA4=8c+_ocTJbzQ_vZCNUseZbjRoaqs0GZonVYt4KWPTWQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzOCBTYWx0ZWRfX3jcFEmHj4Prq
- huy4OTLiNPSnuBCX4/DDbecuaMGOY6+eUkvUHTV2uKAvhqSsQb1fM4T49FgEaIMwxegzQEokHuk
- VNJzJw26HTG1Ab+E+wkWwlqQgkhBIyMImmi3Xtdh1CY+PoS2dXtnCWuhEc4XkKibOqWp6Egx9dN
- yWwTckK4+FMorFElGHhgy5aaTpq5BKZE4wrbD7ooF9cEQ7g3bcdZbwqZmd5vHTCBOiXQFUAbqFS
- olF94aVem22rcTNg75r4fSDeZQJt1bpcRFq7GW+mpWAGD6a8UgsPFD+rV3Q9q0834hljPyDARFe
- 11+0Lbpo22getdCAxZvgEd0pr0MEBzthQM68JtcMDGrtMJOBLO3X92MTyWkLq0yswJDZXYd+dfR
- Zvk7pKF2
-X-Proofpoint-ORIG-GUID: MUwrAeXXQ_eKsPYv4KFXZxDViTM8-nvB
-X-Proofpoint-GUID: MUwrAeXXQ_eKsPYv4KFXZxDViTM8-nvB
-X-Authority-Analysis: v=2.4 cv=U7iSDfru c=1 sm=1 tr=0 ts=68b817dd cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=p0WdMEafAAAA:8 a=qC_FGOx9AAAA:8
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=FVBxP5Oe1qbUwXYUVckA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22 a=fsdK_YakeE02zTmptMdW:22
+        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>
+Subject: Re: update firmware binaries to fix encoder drain handling
+Message-ID: <x5e4zrb5yyuwwwhx3wfv7b3yj3qqubktbswpazzc2rpgan6i4s@ccy7ori3hada>
+References: <13e2d56d-6cca-3929-73a7-9faf83669759@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <13e2d56d-6cca-3929-73a7-9faf83669759@quicinc.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAxOSBTYWx0ZWRfX4LsVAuHjvfXw
+ a8RMtS6IzZKvj9yB+tQZghsED1z2bcA7Gx7SAeKIJUvEkm+39OOy/wZZS6wdGay5IV+wpohhoWF
+ O0FhoAjUcY0Leh5rG3p8sCazW0+n2hAAVzCRA1yhKrHTDwOkFmtfcCJPfEbIpmzsOG8Qt2HgRQX
+ 6fgfVnR10taM7b9wkNlE2uqpgYQ8DtQvFto/0bBnrM47pO7vMdTQ1fRKLXcDytjvBUXSnTX+epa
+ cbTVDVuSbRYgjLjRfLmPaQbbZA1Wx//Bk6OLdiZ39hAykgfuFZb70ri/DRkm4VJVjVR8wPMWf3a
+ NexDiMWhYildg+E8fSgo9+JK1/bSPrkY18oTxH5a9UrLxoP1WO/tk6RmdriTd8WIKQTfdWqZnU1
+ DBoAIT35
+X-Proofpoint-GUID: zLv8PVJTCJJb7gkiCR2MrpSZ0CEW5eU8
+X-Proofpoint-ORIG-GUID: zLv8PVJTCJJb7gkiCR2MrpSZ0CEW5eU8
+X-Authority-Analysis: v=2.4 cv=PNkP+eqC c=1 sm=1 tr=0 ts=68b81834 cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=qC_FGOx9AAAA:8 a=EUspDBNiAAAA:8 a=QCnRTcgquUAoPbWMzsYA:9
+ a=CjuIK1q_8ugA:10 a=iYH6xdkBrDN1Jqds4HTS:22 a=fsdK_YakeE02zTmptMdW:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-03_05,2025-08-28_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0 clxscore=1015 impostorscore=0 suspectscore=0
- malwarescore=0 priorityscore=1501 adultscore=0 bulkscore=0
+ spamscore=0 bulkscore=0 priorityscore=1501 impostorscore=0 clxscore=1015
+ suspectscore=0 adultscore=0 phishscore=0 malwarescore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300038
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300019
 
-On 7/16/2025 5:01 AM, Josh Boyer wrote:
-> Pulled and pushed out.
+On Wed, Sep 03, 2025 at 03:20:08PM +0530, Dikshita Agarwal wrote:
+> Hi,
 > 
-> https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/613
+> The following changes since commit c6aed39675756a72c9bce4d94f12d8feb9837950:
 > 
-> josh
+>   Merge branch 'superm1/revert-bd28704ab16eb880acbd38c597c54314e7745814'
+> into 'main' (2025-09-02 16:13:45 +0000)
 > 
-> On Tue, Jul 15, 2025 at 8:16 AM Dmitry Baryshkov
-> <dmitry.baryshkov@oss.qualcomm.com> wrote:
->>
->> On Tue, Jul 15, 2025 at 11:58:08AM +0530, Akhil P Oommen wrote:
->>> On 7/15/2025 3:54 AM, Dmitry Baryshkov wrote:
->>>> On Mon, Jul 14, 2025 at 10:55:03PM +0530, Akhil P Oommen wrote:
->>>>> Hi,
->>>>>
->>>>> Add/update the gpu firmwares required for Qualcomm's QCS615 chipset.
->>>>>
->>>>> -Akhil
->>>>>
->>>>> ---
->>>>> The following changes since commit 99d64b4f788c16e81b6550ef94f43c6b91cfad2d:
->>>>>
->>>>>   Merge branch 'amd-ucode' into kfw (2025-07-08 12:00:49 -0400)
->>>>>
->>>>> are available in the Git repository at:
->>>>>
->>>>>   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git gpu-fw-QCS615v3
->>>>>
->>>>> for you to fetch changes up to 6907a7a381dd13d7fadc3a480ad470151c3f3782:
->>>>>
->>>>>   qcom: Update gpu firmwares of QCS615 chipset (2025-07-14 22:47:07 +0530)
->>>>>
->>>>> ----------------------------------------------------------------
->>>>> Akhil P Oommen (1):
->>>>>       qcom: Update gpu firmwares of QCS615 chipset
->>>>>
->>>>>  WHENCE                   |   3 +++
->>>>>  qcom/a612_rgmu.bin       | Bin 0 -> 3072 bytes
->>>>>  qcom/qcs615/a612_zap.mbn | Bin 14256 -> 14256 bytes
+> are available in the Git repository at:
+> 
+>   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
+> vpu.3.1-encoder-fixes
+> 
+> for you to fetch changes up to 514c9017fcec5509bce5a575361e9b21badb54cf:
+> 
+>   qcom: vpu: update firmware binaries to fix encoder drain handling
+> (2025-09-03 13:16:03 +0530)
+> 
 
-Hi Josh,
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-The latest tip of 'main' branch doesn't show this file. File size
-is 3KB instead of the expected 14KB. Any chance you might have
-accidentally pulled in a wrong PR?
 
-FYI, there was an older PR which we decided to drop:
-https://lore.kernel.org/linux-firmware/d052562a-008a-4b80-b1ac-7340624bd596@oss.qualcomm.com/
-
--Akhil.
-
->>>>
->>>> This also sets several additional flags (OEM_ID, OEM_ID_INDEPENDENT,
->>>> etc). Could you please confirm that the new file is actually necessary
->>>> and that it will work with existing SM6150 devices?
->>>
->>> This firmware file is for the not-yet-commercialized QCS615 chipset
->>> which has a newer non-hlos which uses a new security profile. SM6150 is
->>> around 8 years old by now. And it is not supported in upstream yet, so
->>> no user afaik.
->>>
->>> In case the sm6150 gains upstream support, a zap firmware that works for
->>> it should be available at qcom/sm6150 directory. I think the current
->>> firmware with v1 profile may work, but can't be completely sure unless
->>> someone test it on sm6150. Not-a-lawyer, but in that case, I think
->>> anybody can copy it from the git history of linux-firmware to qcom/sm6150.
->>
->>
->> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->>
->>
->> --
->> With best wishes
->> Dmitry
-
+-- 
+With best wishes
+Dmitry
