@@ -1,122 +1,149 @@
-Return-Path: <SRS0=bAAg=34=gmail.com=sathitthaloneeruthai@kernel.org>
+Return-Path: <SRS0=2xwB=34=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5CC70CAC598
-	for <linux-firmware@archiver.kernel.org>; Wed, 17 Sep 2025 07:34:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23A2ACA0EE8
+	for <linux-firmware@archiver.kernel.org>; Wed, 17 Sep 2025 12:41:40 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 2986EC4CEF7; Wed, 17 Sep 2025 07:34:45 +0000 (UTC)
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	id E4CC8C4CEFA; Wed, 17 Sep 2025 12:41:40 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 5FC5CC4CEF0
-	for <linux-firmware@kernel.org>; Wed, 17 Sep 2025 07:34:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 5FC5CC4CEF0
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-75871cd9228so2839388a34.3
-        for <linux-firmware@kernel.org>; Wed, 17 Sep 2025 00:34:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758094483; x=1758699283; darn=kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=FLagCWX+r8M5du87zM42EfBMkOc8QLS0VoUKp9ogwmQ=;
-        b=Wv+JMYel8fnIUQGyOkFyNLK2AzstHvz/25fmtrYUDcQ1JvpK6TIk3f7eyAD1SMPMJn
-         j4M1Lz9Lm7Y91DZCzBsC/PYhnhf83gE9FZ7NKXHF47t8ahE51itdLyC0vroOjDj5b/We
-         VL/Oxi97hULT+l/97AULGwV3EHoLAMokf9DaNDNxge7AR4aR2ZiKcQ3w39/O9gQ0iue/
-         y2lo+v4m9J6dX+YZwZ7KAnpkMrvpsX9qjhGQOS5kkkpepBaoZNutPhbEaRHDlSXcSJPF
-         uqn0KGUkPyOVDNEjUfrLgu4/z8hYYk9V3dzUyF6vbQtOiO137AoWkBruFvIDaOPkONOx
-         YIOQ==
+	by smtp.kernel.org (Postfix) with ESMTPS id 04455C4CEF0
+	for <linux-firmware@kernel.org>; Wed, 17 Sep 2025 12:41:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 04455C4CEF0
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58HBL6p8027120
+	for <linux-firmware@kernel.org>; Wed, 17 Sep 2025 12:41:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=9PIEMm+wSeGikKYCyVbYSD/5
+	TXyJfJYzkUTpX0fQG+s=; b=K16t5MyJCsxIAl4BCVPJT1NRYuBdYcNLGCkT1wyR
+	BCMkQb5earDblBzD0GsbF8fvx28byYDeuCL9gkuDmMAMO1ZrVd0/1rDUSMo4PM8J
+	z8m3GCmvP/gOTaU2EALLAknk3Warhn09HBa9p0BysO4WkaoI8v0Bwxgw4FJMiSZ2
+	n22/o+aisOm5Tn0WatCdUcBWI5Q5DDuvsX+qavl8qmAcb27foJ6zzS18o9qQ0/7D
+	JV6k8+mUR6QEqfxfn5Z+lbazQC62DlBW0F9mLZC2+vfDpg1y30alEx6mvFLYAnTQ
+	pIwvi7Ir9ycKd20ilPvQnmMsEoVluilbk2QMAeqx59FnNQ==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 497v1j88fe-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-firmware@kernel.org>; Wed, 17 Sep 2025 12:41:38 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4b7a2999d38so66202011cf.3
+        for <linux-firmware@kernel.org>; Wed, 17 Sep 2025 05:41:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758094483; x=1758699283;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FLagCWX+r8M5du87zM42EfBMkOc8QLS0VoUKp9ogwmQ=;
-        b=Rtllop7mBlgVttnYDG5pw20QeuI3Du9RZYbUFSz2MgcFF9FSKxRGNvVzhOk/sAD2oL
-         s6Qoy+lrYVtR7i0KVyhGjOO72LC8KwuX6G4y3TeLBrVrNOUYT0aESgPGQn6fM6EU46kB
-         wedPqUJZoVfhOBqsakkAK5VI2zD6MaKNif/0iiU/g67aOcYxeExxMLn3BaClMppMX61p
-         SnRB7Jw4ZgzZYK4Zmh5qykNPLu3digFUOK8qV8WjtxxpHU5gxHGZMEITHr9NelvUr3DE
-         kRVzj+VmaK7ImV4E8n15Zg45QSUr6bHV2+fXUKFkwKRcnycKVyVp1uYPD1rajTYriyQO
-         scXA==
-X-Gm-Message-State: AOJu0YxfQMovPu1KN4t7e454xktc5qQqhEkLLcztBRo2dHXSGdeNmc/P
-	xmUD/fJyTCJ2sjsOpZzlOXnWZivKgSYkSThEHdt0IHyyjbra97+/6o/qzs3vNqlc6qexTW70qmD
-	e8Liplw20/rg65IytkAL2eqfiYtsZGRhvkr8M
-X-Gm-Gg: ASbGnct1na6c1ZRdej661uwSZj0mra2KnRMHPVJZIjKvi8VDY2rk+piVwHhdKBVzRl7
-	MEDUbOdrHx4L4m4qpDVHJmgCRiD+aQwnMtwVAZgt+aVSH5DYfJW0E9Kx9x5Kgbm7oJq9rT9ElpQ
-	rfaMlYhR4llKQ19Edmu/RqGSTOh+Lw5K3RBk8sYfqqynLgFK+2WJzd5q9TNQGcqMsl+hhfMVwde
-	zAzxGzs/h+ZrZxA0QF7T/xSFkf6ySkAv8uUW4W2tmLd6rt3birs
-X-Google-Smtp-Source: AGHT+IGqxRHjT7ccWAXrT4KYGDUwEk63Q8d6VLMukKp1lNKhZi/ldvQtnOT1u+7Ae4naVGzJ6DWq4pPumiYbDvBJEFQ=
-X-Received: by 2002:a05:6808:19a3:b0:437:ec2f:83eb with SMTP id
- 5614622812f47-43d50aa4a35mr545084b6e.3.1758094483271; Wed, 17 Sep 2025
- 00:34:43 -0700 (PDT)
-MIME-Version: 1.0
-From: sathittha loneeruthai <sathitthaloneeruthai@gmail.com>
-Date: Wed, 17 Sep 2025 14:34:33 +0700
-X-Gm-Features: AS18NWDery2lZ0aQUrm26rwbSe1LAYudrdO1I_4iFQV4FZ1_z7ZnQ13YjNiI2DE
-Message-ID: <CAD=LwFDhUQ5LOzCsku7oki7Xek+fCRJOLDXBNU3+gsYcJuJTpw@mail.gmail.com>
-Subject: =?UTF-8?B?4LiY4Li44Lij4LiB4Li04LiI4LiC4Lix4LiU4Liq4LiZIOC4guC4suC4lOC4quC4oOC4sg==?=
-	=?UTF-8?B?4Lie4LiE4Lil4LmI4Lit4LiHIOC5gOC4lOC4t+C4reC4lOC4o+C5ieC4reC4mSDguYDguKPguLLguKI=?=
-	=?UTF-8?B?4Li04LiZ4LiU4Li14Lii4Li34LmI4LiZ4Lih4Li34Lit4LiK4LmI4Lin4Lii4LiE4Li44LiT?=
+        d=1e100.net; s=20230601; t=1758112898; x=1758717698;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9PIEMm+wSeGikKYCyVbYSD/5TXyJfJYzkUTpX0fQG+s=;
+        b=mK5xnd1ZGBIlfV39rMDABQzOSvQCm362K/GmxSnv8AJ3outPx5q/NHWZayggnQqI36
+         cKu9pu/6bB3MazcPEg8Tx6mZPGIj/Gl1gPbEOblsaRwNpJ0xnPj9UtRm44PSBBUC4yqZ
+         6se0sx1KEt0VAzZi75HwgnbuznwzygOEb8goE3eQ+XfD7V2shLy5zjCiYfCGePcH8WVg
+         BpQyYKqCPJkL95bwlMvO40j2OGcqN9qag+/X54cAuAVTmm33efS04flEt0Jyzx2WT3SQ
+         lU0kKvgifQHmIn2HJUXfMs1tgNZnBl3k4EXCoythEkDF72jydaea40TLH8o6mwNU/FTN
+         7J+A==
+X-Gm-Message-State: AOJu0YyNLvfdLCFBs5O7MHG1E84IhzQTS6eqaGhR+JPG5M67uA8OjWAl
+	ehbhsQF0Hllqke/6oOpdM33MaGHf08DEEExdXU/KV6TMze/drP+LvdrE754W3JACI0OcrDZNacy
+	3TrbxjbT+K/Rebz2rmLalIHRnM1EmglPEw74nmjepiVrpN3O88sOCAAma6PAonGs=
+X-Gm-Gg: ASbGncvvCi/5BCcNHmEbUCr2jnVCtcTjoGyX6+NMoh0O9U3sCxBSCN1nBniTaDCmvfa
+	KuR+4PZ7kU1N1CHICAWmMqOBAZ1qN1UZVpbbcVv7SGb1+mYXYH6BoidlVW++mTXpwTGw9k5R/3K
+	qjfMISC9ycm4/nMK9KcIK52bh9RU+v1dCQMFO6Ak6dzVXpKgEZ3MOJNbxdTUGDVV2pdcuhgBZZX
+	fqxiYekAz+a91MNYng2vfnGrj/HXFE11zHDkmb/qvczD+Miqn+hU6iDMx/yF8SyFJsLvVIyphNL
+	leRGXokn0bA8j/EP/a5WK8UUf1xp/kytrzZQGg0ixNBlWQSrWRmjMcKWjF2RUll58fcphF0374Z
+	IYkXMInfztTesBfqk9MA8kBmQoIDQY1Ukn7nXw9aHSNtDSTOcUPgp
+X-Received: by 2002:a05:622a:2b4b:b0:4b5:ea1f:77ec with SMTP id d75a77b69052e-4ba5f71fdfcmr23157891cf.0.1758112897613;
+        Wed, 17 Sep 2025 05:41:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEC7NiSAi5mmSKNIj0m+fOgw3O2IK8PNnKy4HVAXvLMs3r81orq7jHlUXC6u8BZFjx4XFsCdw==
+X-Received: by 2002:a05:622a:2b4b:b0:4b5:ea1f:77ec with SMTP id d75a77b69052e-4ba5f71fdfcmr23157421cf.0.1758112896891;
+        Wed, 17 Sep 2025 05:41:36 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-56e5c3b6167sm5308935e87.25.2025.09.17.05.41.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Sep 2025 05:41:34 -0700 (PDT)
+Date: Wed, 17 Sep 2025 15:41:33 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Venkata Kota <venkata.kota@oss.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Content-Type: multipart/alternative; boundary="00000000000028358b063efa4567"
+Cc: linux-firmware@kernel.org, bkumar@qti.qualcomm.com,
+        ekansh.gupta@oss.qualcomm.com, kssb@qti.qualcomm.com
+Subject: Re: qcom: Update DSP firmware for qcs8300 platform
+Message-ID: <5gftkkb4i65gadzrnbzilsucrgcj76jj4ovu5yqt6fzfodiuva@eyctfaizlxy4>
+References: <3b566cd9-40ff-430e-bcae-1136cbabdf11@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3b566cd9-40ff-430e-bcae-1136cbabdf11@oss.qualcomm.com>
+X-Proofpoint-ORIG-GUID: kBTKQ0QKPTuC1YtsyjixDqs7joYTecTg
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE3MDExMCBTYWx0ZWRfX8xZaPJIeyOZ6
+ Ms+26QOc44CtxXuUoBljUVlfklxh0LOGDVsitOrFlxWzv71pL8HkckVHNd9a6b7ZcTmtZMTJt+S
+ MdUr2Khi6IvlVZ93v51afDT1gUTX9kqBj+UrUX7qoqwrhbsOrSmHslD8IeH6DsqKmcm27h6g5t6
+ tJCHzZrKVebJIGl5N8wRw0zSfjav+jhSfSxKls4DrD38o/QnBySeXCOkTBZUxVj1dxGAbdI1Zr2
+ OcI35SDjmBlROYYUkJcHWaMe1QmgbwI8ygJ6JYHJj4HP8DxJc7WDUoLQvsZBUf9QBpuCWGLskPY
+ QhrW8DSQbLUy29JS58hEvsRJMzM+oqhUrnfukuKCd6CC57TjW1jxWaOUjxT27lK6LDbDL8oBEuz
+ BFGQW+sm
+X-Authority-Analysis: v=2.4 cv=AeqxH2XG c=1 sm=1 tr=0 ts=68caac82 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=qC_FGOx9AAAA:8 a=xK0LYsFV-NDuc2FG5Q8A:9 a=CjuIK1q_8ugA:10
+ a=a_PwQJl-kcHnX1M80qC6:22 a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-GUID: kBTKQ0QKPTuC1YtsyjixDqs7joYTecTg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-17_01,2025-09-17_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0 phishscore=0 suspectscore=0 adultscore=0
+ impostorscore=0 priorityscore=1501 bulkscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509170110
 
---00000000000028358b063efa4567
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+On Wed, Sep 17, 2025 at 10:31:53AM +0530, Venkata Kota wrote:
+> The following changes since commit f0f4634972f48c3330896bde5c94557b568a3a68:
+> 
+>   Merge branch 'en8811h' into 'main' (2025-09-12 14:23:45 +0000)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
+> dsp-fw-qcs8300_1
+> 
+> for you to fetch changes up to f504dd64f1f5fde3aef24fcecfc165cf8845b22f:
+> 
+>   qcom: Update DSP firmware for QCS8300 platform (2025-09-17 10:30:17 +0530)
+> 
+> ----------------------------------------------------------------
+> Venkata Kota (1):
+>       qcom: Update DSP firmware for QCS8300 platform
 
-4LiU4LmJ4Lin4Lii4Lit4Lix4LiV4Lij4Liy4LiU4Lit4LiB4LmA4Lia4Li14LmI4Lii4LiX4Li1
-4LmI4LmB4LiV4LiB4LiV4LmI4Liy4LiHIOC5gOC4nuC4t+C5iOC4reC5g+C4q+C5ieC5gOC4guC5
-ieC4suC4luC4tuC4h+C5geC4q+C4peC5iOC4h+C5gOC4h+C4tOC4meC4l+C4uOC4mQ0K4Lia4Lij
-4Li04Lip4Lix4LiXIFRQTCBHcm91cCDguIjguLPguIHguLHguJQg4Liq4Li04LiZ4LmA4LiK4Li3
-4LmI4Lit4LmA4Lie4Li34LmI4Lit4LiE4LiZ4LmE4LiX4LiiDQrguKrguLPguKvguKPguLHguJrg
-uYDguIjguYnguLLguILguK3guIfguJjguLjguKPguIHguLTguIjguJfguLjguIHguYbguJvguKPg
-uLDguYDguKDguJcg4LiX4Li14LmI4LiV4LmJ4Lit4LiH4LiB4Liy4Lij4LiX4Li44LiZ4Lir4Lih
-4Li44LiZ4LmA4Lin4Li14Lii4LiZDQrguKfguIfguYDguIfguLTguJnguK3guJnguLjguKHguLHg
-uJXguLTguKrguLnguIfguKrguLjguJQgNTAsMDAwLTEwLDAwMCwwMDAg4Lia4Liy4LiXDQrguYPg
-uITguKPguYTguKHguYjguYDguIrguLfguYjguK0g4LmB4LiV4LmI4Liq4Li04LiZ4LmA4LiK4Li3
-4LmI4Lit4LmA4Lij4Liy4LmE4LiU4LmJ4LiI4Lij4Li04LiHDQrinJTvuI/guIjguJTguYDguJvg
-uYfguJnguKPguLnguJvguYHguJrguJrguJrguKPguLTguKnguLHguJcg4LmD4Lia4LiX4Liw4LmA
-4Lia4Li14Lii4LiZ4Lie4Liy4LiT4Li04LiK4Lii4LmMIOC5g+C4muC4m+C4o+C4sOC4geC4reC4
-muC4geC4suC4ow0K4pyU77iP4Lit4Lix4LiV4Lij4Liy4LiU4Lit4LiB4LmA4Lia4Li14LmJ4Lii
-4LmA4Lij4Li04LmI4Lih4LiV4LmJ4LiZ4LiX4Li14LmIIDEgJQ0K4pyU77iP4Lil4LiU4LiV4LmJ
-4LiZLeC4peC4lOC4lOC4reC4gQ0K4pyU77iP4LmE4Lih4LmI4LmA4LiK4LmH4LiE4LmA4LiE4Lij
-4LiU4Li04LiVIOC4muC4ueC5guC4ow0K4pyU77iP4LmE4Lih4LmI4LiV4LmJ4Lit4LiH4Lih4Li1
-4Lia4Li44LiE4LiE4Lil4LiE4LmJ4Liz4Lib4Lij4Liw4LiB4Lix4LiZDQrinJTvuI/guJzguYjg
-uLLguJnguIHguLLguKPguK3guJnguLjguKHguLHguJXguLTguKPguLHguJrguYDguIfguLTguJng
-uJfguLHguJnguJfguLUNCuKclO+4j+C5hOC4oeC5iOC4oeC4teC5guC4reC4meC4geC5iOC4reC4
-mSDguYTguKHguYjguKHguLXguKHguLHguJTguIjguLMNCuC4leC4tOC4lOC4leC5iOC4rQ0K4LmA
-4Lia4Lit4Lij4LmM4LmC4LiX4LijIDogMDk4LTg4MS0zMDYzICjguITguLjguJPguJrguLUpDQpM
-SU5FIElEOnRwbGdyb3VwMTk5OQ0K
---00000000000028358b063efa4567
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
+    GPDSP has a capability to support Audio PD use cases.
 
-PGRpdiBkaXI9Imx0ciI+4LiU4LmJ4Lin4Lii4Lit4Lix4LiV4Lij4Liy4LiU4Lit4LiB4LmA4Lia
-4Li14LmI4Lii4LiX4Li14LmI4LmB4LiV4LiB4LiV4LmI4Liy4LiHIOC5gOC4nuC4t+C5iOC4reC5
-g+C4q+C5ieC5gOC4guC5ieC4suC4luC4tuC4h+C5geC4q+C4peC5iOC4h+C5gOC4h+C4tOC4meC4
-l+C4uOC4mTxicj7guJrguKPguLTguKnguLHguJcgVFBMIEdyb3VwIOC4iOC4s+C4geC4seC4lCDg
-uKrguLTguJnguYDguIrguLfguYjguK3guYDguJ7guLfguYjguK3guITguJnguYTguJfguKI8YnI+
-4Liq4Liz4Lir4Lij4Lix4Lia4LmA4LiI4LmJ4Liy4LiC4Lit4LiH4LiY4Li44Lij4LiB4Li04LiI
-4LiX4Li44LiB4LmG4Lib4Lij4Liw4LmA4Lig4LiXIOC4l+C4teC5iOC4leC5ieC4reC4h+C4geC4
-suC4o+C4l+C4uOC4meC4q+C4oeC4uOC4meC5gOC4p+C4teC4ouC4mTxicj7guKfguIfguYDguIfg
-uLTguJnguK3guJnguLjguKHguLHguJXguLTguKrguLnguIfguKrguLjguJQgNTAsMDAwLTEwLDAw
-MCwwMDAg4Lia4Liy4LiXPGJyPuC5g+C4hOC4o+C5hOC4oeC5iOC5gOC4iuC4t+C5iOC4rSDguYHg
-uJXguYjguKrguLTguJnguYDguIrguLfguYjguK3guYDguKPguLLguYTguJTguYnguIjguKPguLTg
-uIc8YnI+4pyU77iP4LiI4LiU4LmA4Lib4LmH4LiZ4Lij4Li54Lib4LmB4Lia4Lia4Lia4Lij4Li0
-4Lip4Lix4LiXIOC5g+C4muC4l+C4sOC5gOC4muC4teC4ouC4meC4nuC4suC4k+C4tOC4iuC4ouC5
-jCDguYPguJrguJvguKPguLDguIHguK3guJrguIHguLLguKM8YnI+4pyU77iP4Lit4Lix4LiV4Lij
-4Liy4LiU4Lit4LiB4LmA4Lia4Li14LmJ4Lii4LmA4Lij4Li04LmI4Lih4LiV4LmJ4LiZ4LiX4Li1
-4LmIIDEgJTxicj7inJTvuI/guKXguJTguJXguYnguJkt4Lil4LiU4LiU4Lit4LiBPGJyPuKclO+4
-j+C5hOC4oeC5iOC5gOC4iuC5h+C4hOC5gOC4hOC4o+C4lOC4tOC4lSDguJrguLnguYLguKM8YnI+
-4pyU77iP4LmE4Lih4LmI4LiV4LmJ4Lit4LiH4Lih4Li14Lia4Li44LiE4LiE4Lil4LiE4LmJ4Liz
-4Lib4Lij4Liw4LiB4Lix4LiZPGJyPuKclO+4j+C4nOC5iOC4suC4meC4geC4suC4o+C4reC4meC4
-uOC4oeC4seC4leC4tOC4o+C4seC4muC5gOC4h+C4tOC4meC4l+C4seC4meC4l+C4tTxicj7inJTv
-uI/guYTguKHguYjguKHguLXguYLguK3guJnguIHguYjguK3guJkg4LmE4Lih4LmI4Lih4Li14Lih
-4Lix4LiU4LiI4LizPGJyPuC4leC4tOC4lOC4leC5iOC4rTxicj7guYDguJrguK3guKPguYzguYLg
-uJfguKMgOiAwOTgtODgxLTMwNjMgKOC4hOC4uOC4k+C4muC4tSk8YnI+TElORSBJRDp0cGxncm91
-cDE5OTk8L2Rpdj4NCg==
---00000000000028358b063efa4567--
+and? What does it mean and what does it have wrt. the commit contents?
+
+Please. Please. Write sensible commit messages.
+
+ File: qcom/qcs8300/gpdsp0.mbn
+-Version: DSP.AT.1.0.1-00096-LEMANS-1
++Version: DSP.AT.1.0.1-00125-LEMANS-1
++RawFile: qcom/qcs8300/gpdspua.jsn
++RawFile: qcom/qcs8300/gpdspr.jsn
++Version: DSP.AT.1.0.1-00125-LEMANS-1
+
+Do you see the Version tag under any other JSON file?  The jsn files are
+not versioned, please drop the last Version tag.
+
+> 
+>  WHENCE                   |   9 ++++++---
+>  qcom/qcs8300/adsp.mbn    | Bin 6643712 -> 6684672 bytes
+>  qcom/qcs8300/cdsp0.mbn   | Bin 3084288 -> 3080192 bytes
+>  qcom/qcs8300/gpdsp0.mbn  | Bin 5832704 -> 5873664 bytes
+>  qcom/qcs8300/gpdspr.jsn  |  22 ++++++++++++++++++++++
+>  qcom/qcs8300/gpdspua.jsn |  29 +++++++++++++++++++++++++++++
+>  6 files changed, 57 insertions(+), 3 deletions(-)
+>  create mode 100644 qcom/qcs8300/gpdspr.jsn
+>  create mode 100644 qcom/qcs8300/gpdspua.jsn
+
+-- 
+With best wishes
+Dmitry
