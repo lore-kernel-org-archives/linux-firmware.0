@@ -4,74 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32721CAC592
-	for <linux-firmware@archiver.kernel.org>; Fri, 19 Sep 2025 14:02:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DF266CAC592
+	for <linux-firmware@archiver.kernel.org>; Fri, 19 Sep 2025 14:07:51 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id EBCF9C4CEF1; Fri, 19 Sep 2025 14:02:14 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	id A8471C4CEF1; Fri, 19 Sep 2025 14:07:51 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id E3085C4CEF0
-	for <linux-firmware@kernel.org>; Fri, 19 Sep 2025 14:02:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org E3085C4CEF0
+	by smtp.kernel.org (Postfix) with ESMTPS id 8A421C4CEF0
+	for <linux-firmware@kernel.org>; Fri, 19 Sep 2025 14:07:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 8A421C4CEF0
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58JA7Mb7007486
-	for <linux-firmware@kernel.org>; Fri, 19 Sep 2025 14:02:13 GMT
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58J9Conr011181
+	for <linux-firmware@kernel.org>; Fri, 19 Sep 2025 14:07:48 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=umC2CgMI2beKpWQFtroMka03
-	YxmEZyVa1U+l5z6QWTw=; b=VveJc5GfcfIYOJgzSR2VI7Utxdt+ANDZ+scaf9yS
-	QBD8jv28pSoIPeyjUy9g3mLyLLN//d1N04wBs2burtIOK0qQZiMBBpvYRzXUJqEX
-	/XrvijuM03Bz+mCPEumZrhlHnaI4Y+zfq5UDvshoCv3hbILn3XihXEsKVxteAfO2
-	etoCO9FxGSdjk7Wwbjk2u9LaTGXx5H8Fq+VbdcqIY7x5xmUAyi58saCSynX/chYh
-	cJwCcDxDeo8j30AU1R1RP30y0bcljF/0T33X9RVUJnRq+YXvT5lYzvpTU83BgUaH
-	evAa7zgMyHY33wZjYO73yLNeaOFg5pvXlEY+ioETswrXLQ==
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com [209.85.221.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 498ebew4x4-1
+	:references:subject:to; s=qcppdkim1; bh=7EIANb89BEomf1uEkm62rAj8
+	IzdbVNBDry3TfdecrUM=; b=fGxSeqpS6zzRfyopulFiN0+AViqQKn3QQdLuREIL
+	ExHu8BU8p74k4tWb1IxOHXfHGu8T51wjbUVMgod/8PzwPf7QLzYQ/9oMQSlo4Ohf
+	sTXwdxlEzLIfIYWIc9jXNaLeJOFGOeGeGOrd2IJtnylix5IDnpqkGS9ZQZvm7CKd
+	FaOdvE7e5FrAIwFSPx8MVZqpjCORnDqH343dtAfOIG5OJaDZwJq+GE9anU3Pjg8f
+	+/XtBI2DpuMUpi4F4x8cxZgjIE4cipUg3gywAHHUpbi/rlKemaHe129WbVf0YZFa
+	WpvkvrmLSWbdVheJm1HwsSFRWWpTiWM4VXd58jcbHrMYDg==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4985wx6muh-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Fri, 19 Sep 2025 14:02:12 +0000 (GMT)
-Received: by mail-vk1-f198.google.com with SMTP id 71dfb90a1353d-54a7955dc59so584411e0c.3
-        for <linux-firmware@kernel.org>; Fri, 19 Sep 2025 07:02:12 -0700 (PDT)
+	for <linux-firmware@kernel.org>; Fri, 19 Sep 2025 14:07:48 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4b633847b94so49741961cf.3
+        for <linux-firmware@kernel.org>; Fri, 19 Sep 2025 07:07:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758290530; x=1758895330;
+        d=1e100.net; s=20230601; t=1758290867; x=1758895667;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=umC2CgMI2beKpWQFtroMka03YxmEZyVa1U+l5z6QWTw=;
-        b=ckEKaAgGrGtjX/RxqT7vR51LEa04gOBGjw3WXAhFqkUmEEjcvcPRUpr2nWhO5oSy7C
-         eY0pIEMQcXCWIylOxyk+XHv8FiYNyah+2AreDq7zlV5mZKILVs5Z0bB4c4cw7G5vkrrR
-         1M41G6qEKRv7YNQzh7rm37nthfPhOsRfbhbAMFSJHrO/cuXXyfT4Plweds6SrpJ4N7KS
-         tD305lEv43e1WBFC4iWsNZO0NZzsG7Q0GllCOfaVd2kiAP044B41usp7V+91lIRnGxqG
-         H8Ds3A8tqu7oQWcfQvIZUTzSlanx19yuVDdbTUKA7TG51+Ej1VHIMqaY7yJUjckLS48w
-         0vaQ==
-X-Gm-Message-State: AOJu0Yxq2eCwn3h1Nus2WB11LDbeBR9xtXyQJsnjoiOqIN4huLlSSwik
-	pfCrWiuO5ZQSzOsBsz0agWMJzBCWQGLhcDiSHf82HjoUvhR2jv/j0bZvEgtkWEZd0qM07k2WIa0
-	KMFCtQ94w8WHJkeTHTpuqq+8A61NOcZOuMd6f4GhkD5joT8+l1V0lidaaKvnxXsZ1qR4tZ88=
-X-Gm-Gg: ASbGnct6hIgl59Gxl+kqzWCjL/gfcsLpbQzyl9cm6Y1LzAVDjZq7MtcC2cWEVQuHZqK
-	bxCGvRn73TaUzikOVuFuylMBmPRB1pUukaWiX41khS8s+W48AUzSWaicZ/HYADEXo13tuULFBHu
-	atmzmK+3a4E5vbChWywgck54wl01kn1xmcsl/5ZsLkTmX09ZkEm7hwd/AzEmoUtEZyYglNZPfB8
-	rN8BvxhSOFiQj6TU/PGTiHmT5CBZjFqbMNUP/pS4GmfODqwVYkY9PCfmN7HjHzVUDO0/jFHJ1KA
-	Vf0aQoO4zZdzg8BHPOhbnAvB/mzRFu7CyGxlH7FhEaterTE33KWJi68V4YnmG9gCJuSaJK17tbO
-	/dNG030ngnVqk88ajqlWAaq3RpRSsa+YsZYSPkZ2SwvFju720IZ6p
-X-Received: by 2002:a05:6122:919:b0:541:fdc4:2551 with SMTP id 71dfb90a1353d-54a8374bceemr1007028e0c.3.1758290529841;
-        Fri, 19 Sep 2025 07:02:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IExRlt8ypNXJKAg5eheGQJJsri5XEdBtTYuwljC8o25EQu0nxx9tYKNI5DDCnA03YM1tKls3A==
-X-Received: by 2002:a05:6122:919:b0:541:fdc4:2551 with SMTP id 71dfb90a1353d-54a8374bceemr1006927e0c.3.1758290529179;
-        Fri, 19 Sep 2025 07:02:09 -0700 (PDT)
+        bh=7EIANb89BEomf1uEkm62rAj8IzdbVNBDry3TfdecrUM=;
+        b=Iyi8GuIUsFloPwUpTxTetfo+F1TydSQyMhn+TGu7RZ6rAKcMUf2JutFeJY/4ZfRtEU
+         AQwzL1EXqIsB2omWc+b6x9AvBkUI+1PRdVRg0Y9ehOkXwIxLLkPUW9yI2AfB+mvRtvnX
+         0sflfuvq6aMqKIKfeZdZs7HjNHuL22Je06WVYYcocrLTaVIPaE56I0Jq8Pp2KLpy/Vzv
+         PSZIszHiWhZGSLEAjlg9e8Ug5HrVlkE17LlzUyZI4LTFDfEX4drSJfJdeaBqOVy2y34k
+         lcPnV+pPrwRwltgiqTyJ7GOyZtrrZjmLI5YUfgSvRSs8m8gJHU8tAEL8rKw5YEjfmESD
+         oAsg==
+X-Gm-Message-State: AOJu0Yw6gyIsYiZjCSaB3SuhHiyXEY2RWfyvtNRVx0AEn7uaTgo/rd8k
+	hVwAr00p7X0sd5ueCjPb93QJ4/sY+xmdZIf8vffTy0hCpYkDiCeHIDeMjZqZG6fdHLuta1jYs2q
+	fzMH4bFtHKSyIUGTqcN+E7C+55P+JUT66TQmtyYE9iIWEYzKSh8Ta/K1HAaN/jE+WEqWK3OI=
+X-Gm-Gg: ASbGnctNiVvAGko4UYwHQAlqTkut0IOEToUu5PQy82Q+bAgnK8yQXaqv55kgR8LQ+BF
+	qtL8YKCotnql+BwZcRL9lQYZwlIf3xwDEi+4xribHZ08PkhnQ9RMCj2ymcPs422RUyaIBscPfrw
+	ico8oGqWDdvi0maK0uB7qEyl8bJckqASHg2G941lgdzxvgQMfCf3ze0Pg6AzMPsDz1aUZV5CcOv
+	vHQIr+UkiqDFFspAO4DI/Amrilcl48uyvwxcTAs8tU/nI+p9OmsGCWDRyrKw9qK2+jPNd+SpK0p
+	uJLhSvYlPoEwLgwPEMDr18uUCE/LoCpO9P7oBIhGt1pVv50iZ+fFwW9EF8g7xnOdqr17HkNNNK5
+	bjHKmkJ0hiWd4QVTOvzn0ZlFtFK5wyOmJLUBy1klF/WGgXOcg5sNM
+X-Received: by 2002:a05:622a:1cce:b0:4b4:9773:5863 with SMTP id d75a77b69052e-4c071428544mr30958581cf.48.1758290866839;
+        Fri, 19 Sep 2025 07:07:46 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFJBm79dzokCKz3md6LUMuAK6nuYOgnP/+aPf8gv/Il1JnuRVh7uTmi1AvDr4P46BH80v9Hgg==
+X-Received: by 2002:ad4:5c44:0:b0:796:db6:98cc with SMTP id 6a1803df08f44-79910ca57ffmr42008896d6.7.1758290431759;
+        Fri, 19 Sep 2025 07:00:31 -0700 (PDT)
 Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-363becf5350sm7387611fa.63.2025.09.19.07.02.07
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5793b1a828esm1077242e87.115.2025.09.19.07.00.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Sep 2025 07:02:08 -0700 (PDT)
-Date: Fri, 19 Sep 2025 17:02:06 +0300
+        Fri, 19 Sep 2025 07:00:30 -0700 (PDT)
+Date: Fri, 19 Sep 2025 17:00:28 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Dikshita Agarwal <quic_dikshita@quicinc.com>
 List-Id: <linux-firmware.lore.kernel.org>
 Cc: linux-firmware@kernel.org,
-        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>
+        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
 Subject: Re: qcom: vpu: fix the firmware binary name for qcm6490
-Message-ID: <yavr2v3rbpybdn72spa7562wtbktmtkzefgzvpfhhslveml6tk@3evl5t4atuhr>
+Message-ID: <zj2dreqyj7fnhiophdtevhuaohlpk3uoccrslkqt5wjt2jhiip@gqnasgvu7ipq>
 References: <f5965570-9c49-860d-5de6-bc5a3056d9ad@quicinc.com>
  <w2zhq4nedrzjb7znmjqhixbk7ncxqedjsi5mapsfwfe7pqcnrn@36aeageuuhs7>
  <dcd27cce-7558-d055-caf7-3bf56ff31fdc@quicinc.com>
@@ -79,38 +80,38 @@ References: <f5965570-9c49-860d-5de6-bc5a3056d9ad@quicinc.com>
  <5ea8f6e4-04c7-092c-2acd-24e18c0bf641@quicinc.com>
  <imo4dxtegwq6fiu6k65ztmezuc7mjlnpnpeapfqn5ogmytj6se@6z4akhw4ymp7>
  <5fdb8fff-d07b-c15a-3f40-eb088e3ff94e@quicinc.com>
- <sg2txjdr4ugybqk4bvqokt4ebrt3uf4rdeut2n4qrqjdne2ifl@hlbbk5xruspq>
- <0e449b29-9a6e-d611-706f-bee8829a2df4@quicinc.com>
+ <2llwkhpwbkzqyvyoul2nwxf33d6jhuliblqng4u2bjtmsq7hlj@je3qrtntspap>
+ <5a03b200-4e1f-082a-c83a-cb46ad4cea09@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0e449b29-9a6e-d611-706f-bee8829a2df4@quicinc.com>
-X-Proofpoint-ORIG-GUID: AXTCjEng-u0xz3wgSlNizpgdgOZpxIRA
-X-Authority-Analysis: v=2.4 cv=H6/bw/Yi c=1 sm=1 tr=0 ts=68cd6264 cx=c_pps
- a=1Os3MKEOqt8YzSjcPV0cFA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=qC_FGOx9AAAA:8 a=t_sWZMcHRULOzl9UpqcA:9 a=CjuIK1q_8ugA:10
- a=hhpmQAJR8DioWGSBphRh:22 a=fsdK_YakeE02zTmptMdW:22
-X-Proofpoint-GUID: AXTCjEng-u0xz3wgSlNizpgdgOZpxIRA
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE4MDA3NCBTYWx0ZWRfX5HTg/m+rVjMi
- 44bH5s+sxXE9Yj2TyiNx7iy/CTFq4gSe2IyrbYcjNxDvTFw5KS8CgXNNlUajBpPPQ0tCtcV43nQ
- XyAJZKbjBVvVSi4O1OFwkn6N0CUn6KG7drmb6hfo2aMHiARB0Gh8yBN/twv2D6w1Jcs29ZCAkst
- 63XRQLHChpgtVM1/MnPRIh0piSchOksuiu4d2eH7MtQ3/8/PdlpXpQL1kWxC+y8JaKO2H6GlPXB
- YrXvzisp1JGXJYykgxq36BZ6Aw4fv0pQYT5C3NLuQDmc8svttWb7ciUIZpqGSFPdWYtT8QgltWX
- ct3fIylpoQzDSEuZvvJxWXsPuX11cyETpNECnQH1qla2OYjjxg+K6QaVmq+dwWVKbS1DeqlAF2e
- r4jtoBAQ
+In-Reply-To: <5a03b200-4e1f-082a-c83a-cb46ad4cea09@quicinc.com>
+X-Proofpoint-ORIG-GUID: nA9Fqd18thxnNSxkZSXm4DnRPo2wN_oK
+X-Proofpoint-GUID: nA9Fqd18thxnNSxkZSXm4DnRPo2wN_oK
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE3MDIxOSBTYWx0ZWRfXyC7a2MWTce6u
+ MdEwLbP2smYi8fRgIiYE87im8H/FpSDMKbIMsX8S9ppQHESOJggYygVfjGmOl5Otz5+ntmcvCFh
+ rY0JyVY2nD/vOHm502fnmmgKQvp1DPGBiA0yg8GD5QfFLxBFd1NHdYpcNzmdZnoOnQM0Mhwc09A
+ niYojLeApjII2WegS6mxWNsHWqfAfJpxJssbMT2Uw7ngJj3VhCUPX9hRSOVp6OrirXfq20O1kHd
+ Axj17BJw9/xGILxCbRPZRsZFkd60jKeKB4dvmFyqoFz4DxHRdWpqnobrm3FPm8STUndHekI9Ybi
+ kL8vhAQhQkMzf86ZWch+JyATYeKGoMPdAA+vPfSeGxcPQy4CfSI5FPRsdUM9Xx7aIxOMpXHMVZU
+ qPhB0LGA
+X-Authority-Analysis: v=2.4 cv=Fq8F/3rq c=1 sm=1 tr=0 ts=68cd63b4 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=qC_FGOx9AAAA:8 a=NEAV23lmAAAA:8 a=4MwoUhHJQoa0W9kE-8QA:9
+ a=CjuIK1q_8ugA:10 a=uxP6HrT_eTzRwkO_Te1X:22 a=fsdK_YakeE02zTmptMdW:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-19_01,2025-09-19_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 adultscore=0 impostorscore=0 suspectscore=0
- malwarescore=0 priorityscore=1501 bulkscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509180074
+ clxscore=1015 malwarescore=0 impostorscore=0 phishscore=0 priorityscore=1501
+ bulkscore=0 spamscore=0 suspectscore=0 adultscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509170219
 
-On Fri, Sep 19, 2025 at 12:18:29PM +0530, Dikshita Agarwal wrote:
+On Fri, Sep 19, 2025 at 12:26:03PM +0530, Dikshita Agarwal wrote:
 > 
 > 
-> On 9/18/2025 5:54 PM, Dmitry Baryshkov wrote:
+> On 9/18/2025 5:47 PM, Dmitry Baryshkov wrote:
 > > On Thu, Sep 18, 2025 at 10:39:20AM +0530, Dikshita Agarwal wrote:
 > >>
 > >>
@@ -166,29 +167,66 @@ On Fri, Sep 19, 2025 at 12:18:29PM +0530, Dikshita Agarwal wrote:
 > >>
 > >> So either we keep the name with _v6 now or change it later when a new
 > >> firmware is uploaded which doesn't need v6.
+> >>
+> >>>
+> >>>>>>> Last, but not least, is this firmware used at all? The venus driver uses
+> >>>>>>> qcom/vpu-2.0/venus.mbn, which points to the old (non-gen2) file.
+> >>>>>>
+> >>>>>> its used here
+> >>>>>> https://github.com/qualcomm-linux/video-driver/blob/video.qclinux.0.0/platform/qcm6490/src/msm_vidc_qcm6490.c#L2423
+> >>>>>
+> >>>>> Hmm, why is it using a firmware file different from the upstream venus
+> >>>>> driver?
+> >>>>>
+> >>>>
+> >>>> qcm6490 uses gen2 based firmware while sc7280 (venus) uses gen1 based firmware.
+> >>>
+> >>> This doesn't make sense, QCM6490 and SC7280 are the same thing.
+> >>
+> >> yes, they are same hardware, while it is one of those fortunate hardware
+> >> generation which have the implementation in both gen1 and gen2 firmware
+> >> interfaces. Board qcm6490 enables video with gen2 variant, while sc7280
+> >> uses gen1.
 > > 
-> > I'd say, if there is a need to distinguish something in future, then
-> > that something-else firmware should get a suffix. Unless we want to
-> > establish a rule to have the _sN suffix all the time and rename all the
-> > firmware to follow that rule.
+> > What does it mean? There is no board-level difference nor SoC-level
+> > difference.
+> > 
+> >> Given that they are same hardware, we use the same bindings.
+> > 
+> > Now consider the OEM having the fused device and OEM-signed binary. How
+> > would it work? Will venus work if it's a gen2 firmware? No. Will your
+> > driver work if it's gen1 firmware? Also no. You can't randomly change
+> > the firmware interface in the middle of the platform lifecycle without
+> > providing a back-compatibiltiy.
 > 
-> Currently we have named the firmware as vpu30_p4.mbn (kailua)
-
-V7 headers
-
-> vpu30_p4_s6.mbn (Monaco with mbn header v6), So i was following the same
-> convention for qcm6490 firmware as well.
+> I understand your concern. To clarify, we are not removing support for the
+> existing Gen1 firmware, so backward compatibility remains intact.
 > 
-> So if/when SM7550 is added upstream which is the same architecture as
-> qcm6490, but doesn't need MBN v6 header, the corresponding firmware could
-> be added as vpu20_p1_gen2.mbn.
+> We are simply adding support for Gen2 firmware for this architecture. As a
+> result, QCM6490 will support both Gen1 firmware (with the Venus driver) and
+> Gen2 firmware (via Qualcomm's video driver [1]).
+> 
+> Additionally, as part of our plan to transition all Venus-supported targets
+> to the Iris driver, SC7280 will continue to use Gen1 HFI and Gen1 firmware
+> to maintain backward compatibility.
 
-Doesn't need v6 header or will break if we use v6 header?
+Dikshita, this is nonsense. Venus and Iris drivers are supposed to be
+interchangeable for the hardware they both support, until the venus
+driver drops support for V6 hardware. At that point it's expected that
+there will be no V6 support in Venus driver.
 
+You can not simply upgrade to Gen2 firmware as if nothing happened.
+Consider a device node on SC7280 / QCS6490 with the firmware-name
+pointing to OEM-signed firmware. Both Venus and Iris drivers would
+happily consume the device node and try to work with it. One will work,
+another one will fail. This is definitely not what we have agreed upon,
+when you started adding Iris driver.
+
+> 
+> [1]: https://github.com/qualcomm-linux/video-driver
 > 
 > Thanks,
 > Dikshita
-> 
 > > 
 
 -- 
