@@ -1,168 +1,162 @@
-Return-Path: <SRS0=QQPi=4A=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=dx1I=4A=gentoo.org=sam@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0BC6CAC59A
-	for <linux-firmware@archiver.kernel.org>; Sun, 21 Sep 2025 04:41:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 203D7CAC59A
+	for <linux-firmware@archiver.kernel.org>; Sun, 21 Sep 2025 18:08:57 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 88E80C116B1; Sun, 21 Sep 2025 04:41:30 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id DFA71C113D0; Sun, 21 Sep 2025 18:08:57 +0000 (UTC)
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 7BF8DC4CEF0
-	for <linux-firmware@kernel.org>; Sun, 21 Sep 2025 04:41:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 7BF8DC4CEF0
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58L2Lpj8014092
-	for <linux-firmware@kernel.org>; Sun, 21 Sep 2025 04:41:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	2D0EA4MCvNxGnNa/t/Vos+AxEhphVl7mRhFD39/tT50=; b=DzD58yWPhmCV6E8f
-	ixPYbi8BVC4SQdEqzcCdMaOdz6W6QSJJPMjkuHskEkBEbXzdKUQOpQvdljgOpkdP
-	0fg/zJSdKp5W2zlyrGtjfhZwY/Y4SHOgvdTuFhZieLVrQqxUY7DaPct1ft5sGt6i
-	bHIISi9Hd/CwetRy9cRcYxUaOdgr8AJKgMAxuQomvX0JyD74+AIs4ciK0SsdjzCm
-	JOa/G2XAL5F3CGTauCk2l778txgkEVFkdTDsrhsknOed51De4F9blepyTK0oxl8y
-	FdWH3YuFsVDhuuJEZypi0qcM5geYtObzCN7xz1wlfhV47pKLDldRxA896JFt5DYF
-	pUtzaQ==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499n1f9kbx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Sun, 21 Sep 2025 04:41:28 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4b5ee6cd9a3so68383311cf.2
-        for <linux-firmware@kernel.org>; Sat, 20 Sep 2025 21:41:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758429687; x=1759034487;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2D0EA4MCvNxGnNa/t/Vos+AxEhphVl7mRhFD39/tT50=;
-        b=NtbqxjnhVwYmqy+bBW11sr9S75FmtFAQvFAQswXctt2/vtjX2rcjzbKCvg9mgT1Q5H
-         +lORrMngkBXibuKxoqUigbuLKneZTGaTBYDGEY2NSgObdCqKrmO+8CMbrKrum0SPrxyO
-         sa3kzjEcQmDtrvosYk66kND/7Dc4i59fEqzPtXi2OFo5S+KBL8VExgHkdejssZ0Tt9Ns
-         ViwiS3yvF5NtPOi9DlATvc5DAIVDfWTDoznWfdV0ZKRmmB8jRK2sG5LOl394QdWqPFM4
-         SNFASI7yQO0LjtFzoA/hSUQvx7vaWLVbSttwZ/3w6Thm+tQTPPBqQNasacADtpBckEfR
-         ghgw==
-X-Forwarded-Encrypted: i=1; AJvYcCUG2fwMzevsDrI61XVTR9baZGpD+ZlaGZYr34u3ReFbOG8SpkYP7RR6BjrKgETUQjuBHPyCSsfyAefYzc/k1A==@kernel.org
-X-Gm-Message-State: AOJu0YzLtKSLFY9/JQuBZRfaRxR9gM96+Xr832IduXO6xGzZr1HVVc3Z
-	jhAttdkFid1cf0XHzcSvtvgqlinsmOJyc54xu6mjvjgLkcc4/0tT3s4F9ePj5DXy4Ylke5sBcEm
-	l+CngA4ho7KIz2cj0so5XFIMgfK4MQOZt3oT31RcPiTstkKqDVMHXtuP9pqnX0z0=
-X-Gm-Gg: ASbGncuCLvaZjnRObYiceVVqvqD3md54ptmICuIgpQ+YMqx6fiVP5+tb75eB7EQ2fyd
-	dvw9hwKi6qQsW27iCPThSQg7OwQdMqDOvEu/9xKRnS4h1siJ7JVPWWyrfZv3HXqgtxccappoC6q
-	9DycdbsRT9E0Lx6MsMO8lolQk06M2UvfdF75rPeyw1M4Vg46qVNX85xlqHQJREjSWAqBQoQfuPi
-	MibgszN0eMpYrG7Znzde+KqM0nqmWLfSCuKQaCiSTuWwgob32VzDfNYr0oU2Ao+CymIh1jv/PLZ
-	t5T74YIXo99sBPOccG4bZmzzrUH/yT4DT24WAVgELYHPZh2dfXtyaeaYtxc5hp9dw1mcwqcoDBu
-	B1QQXD+UnCTE8C21UmtYHFmDdBNZITkMmhmkws/nTDAFWWMyS9qA4
-X-Received: by 2002:a05:622a:5807:b0:4b5:e2fe:31a0 with SMTP id d75a77b69052e-4c0718f65abmr117110621cf.43.1758429687001;
-        Sat, 20 Sep 2025 21:41:27 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFxFdxuH4XSwvgft5OIh0R+hstcxY2Odh4XImV4pJn6V0JwuHJ0yZ5B6TCxALkvxyaRQ33ZhA==
-X-Received: by 2002:a05:622a:5807:b0:4b5:e2fe:31a0 with SMTP id d75a77b69052e-4c0718f65abmr117110431cf.43.1758429686536;
-        Sat, 20 Sep 2025 21:41:26 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-578a5f4472asm2342149e87.5.2025.09.20.21.41.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Sep 2025 21:41:25 -0700 (PDT)
-Date: Sun, 21 Sep 2025 07:41:22 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Josh Boyer <jwboyer@kernel.org>
+	by smtp.kernel.org (Postfix) with ESMTPS id ADA44C4CEE7
+	for <linux-firmware@kernel.org>; Sun, 21 Sep 2025 18:08:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org ADA44C4CEE7
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Received: from mop.sam.mop (2.8.3.0.0.0.0.0.0.0.0.0.0.0.0.0.a.5.c.d.c.d.9.1.0.b.8.0.1.0.0.2.ip6.arpa [IPv6:2001:8b0:19dc:dc5a::382])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sam)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 4AAE3340D1B;
+	Sun, 21 Sep 2025 18:08:55 +0000 (UTC)
+From: Sam James <sam@gentoo.org>
+To: linux-mediatek@lists.infradead.org, allan.wang@mediatek.com
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Akhil P Oommen <akhilpo@oss.qualcomm.com>, linux-firmware@kernel.org
-Subject: Re: qcom: Update GPU firmwares of QCS615 chipset -v2
-Message-ID: <7gnlc6wv5t2livvvkgob7qqyjswcr6bpo2fbg634hpr4o7d5hu@ixozfvql2mis>
-References: <d2e4501a-937f-413d-a58a-1a461c7947c2@oss.qualcomm.com>
- <cefhytvrazclwp3qicixaf3wh2p4vffhakt62of4cqua7rj7ok@r7gdz3nhgo2p>
- <27ae02e3-bb40-4bcd-a74a-eb228833add0@oss.qualcomm.com>
- <pnhpmwpdnhkexejum5zriq62wj7y46ot4elrlvcvwpmmfvk4mq@lskjszqjyedx>
- <CA+5PVA4=8c+_ocTJbzQ_vZCNUseZbjRoaqs0GZonVYt4KWPTWQ@mail.gmail.com>
- <15ad368e-0d36-41c7-a9be-71d08ba1efe2@oss.qualcomm.com>
- <CA+5PVA4o11_BisRiNYZhMoWR7Hyyrg7Qu6ZrxJLxraFoz2NThA@mail.gmail.com>
+Cc: xiangzhedev@gmail.com,  linux-firmware@kernel.org
+Subject: Re: Regression in linux-firmware-20250917 for mt7921e driver
+In-Reply-To: <87bjn6fgr6.fsf@gentoo.org>
+Organization: Gentoo
+References: <87bjn6fgr6.fsf@gentoo.org>
+User-Agent: mu4e 1.12.12; emacs 31.0.50
+Date: Sun, 21 Sep 2025 19:08:52 +0100
+Message-ID: <87a52n1xvv.fsf@gentoo.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+5PVA4o11_BisRiNYZhMoWR7Hyyrg7Qu6ZrxJLxraFoz2NThA@mail.gmail.com>
-X-Proofpoint-ORIG-GUID: gbhhtEkFZYttF0Y6819Ek0QEi6e2xAwv
-X-Proofpoint-GUID: gbhhtEkFZYttF0Y6819Ek0QEi6e2xAwv
-X-Authority-Analysis: v=2.4 cv=No/Rc9dJ c=1 sm=1 tr=0 ts=68cf81f8 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=yJojWOMRYYMA:10 a=p0WdMEafAAAA:8 a=qC_FGOx9AAAA:8 a=EUspDBNiAAAA:8
- a=uH97MjM3jjqfulM6rS0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=uxP6HrT_eTzRwkO_Te1X:22 a=fsdK_YakeE02zTmptMdW:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAzNyBTYWx0ZWRfX7B2DBIsfFDS2
- THBbAEBgosBFmUsIUiChrihhkZpVhbpESYesNt8trrmXTPlgbZw2+W7j/Rp9Ffo5JwZ3EXQp6KV
- psHTcP4kKW7Y99pSP5ZJykoePtgwK8yx0SKQRYOzdzcoA5//wazmTgFmCheonz4tqqeY6lvxrpp
- g52r1qWTsWVa/cVR1qYq7zob7xVuSFTqGwIGUaPaaB7uX1K3p9DduQ93ZBQGNWSZJse43KTEKgP
- CRGo/M5BXoS1DQpGHtimXHJSWsN5Ogr2ElFL1nc2VRDKvgwybe4rtQvezCrJ5by1xLDosQHNklK
- koGG1R48wPONeaqPQmOWDv1hb9SbrwcGgZnoMVEyjZPhJ9aC99QI6UjyiybBr2Dw43+S/yczalL
- BZSeRZzu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-21_01,2025-09-19_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 suspectscore=0 adultscore=0 malwarescore=0
- phishscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200037
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Hello Akhil,
+Sam James <sam@gentoo.org> writes:
 
-On Wed, Sep 03, 2025 at 11:25:22AM -0400, Josh Boyer wrote:
-> On Wed, Sep 3, 2025 at 6:26 AM Akhil P Oommen <akhilpo@oss.qualcomm.com> wrote:
-> >
-> > On 7/16/2025 5:01 AM, Josh Boyer wrote:
-> > > Pulled and pushed out.
-> > >
-> > > https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/613
-> > >
-> > > josh
-> > >
-> > > On Tue, Jul 15, 2025 at 8:16 AM Dmitry Baryshkov
-> > > <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> > >>
-> > >> On Tue, Jul 15, 2025 at 11:58:08AM +0530, Akhil P Oommen wrote:
-> > >>> On 7/15/2025 3:54 AM, Dmitry Baryshkov wrote:
-> > >>>> On Mon, Jul 14, 2025 at 10:55:03PM +0530, Akhil P Oommen wrote:
-> > >>>>> Hi,
-> > >>>>>
-> > >>>>> Add/update the gpu firmwares required for Qualcomm's QCS615 chipset.
-> > >>>>>
-> > >>>>> -Akhil
-> > >>>>>
-> > >>>>> ---
-> > >>>>> The following changes since commit 99d64b4f788c16e81b6550ef94f43c6b91cfad2d:
-> > >>>>>
-> > >>>>>   Merge branch 'amd-ucode' into kfw (2025-07-08 12:00:49 -0400)
-> > >>>>>
-> > >>>>> are available in the Git repository at:
-> > >>>>>
-> > >>>>>   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git gpu-fw-QCS615v3
-> > >>>>>
-> > >>>>> for you to fetch changes up to 6907a7a381dd13d7fadc3a480ad470151c3f3782:
-> > >>>>>
-> > >>>>>   qcom: Update gpu firmwares of QCS615 chipset (2025-07-14 22:47:07 +0530)
-> > >>>>>
-> > >>>>> ----------------------------------------------------------------
-> > >>>>> Akhil P Oommen (1):
-> > >>>>>       qcom: Update gpu firmwares of QCS615 chipset
-> > >>>>>
-> > >>>>>  WHENCE                   |   3 +++
-> > >>>>>  qcom/a612_rgmu.bin       | Bin 0 -> 3072 bytes
-> > >>>>>  qcom/qcs615/a612_zap.mbn | Bin 14256 -> 14256 bytes
-> >
-> > Hi Josh,
-> >
-> > The latest tip of 'main' branch doesn't show this file. File size
-> > is 3KB instead of the expected 14KB. Any chance you might have
-> > accidentally pulled in a wrong PR?
-> 
-> Perhaps.  I suggest sending a new PR with whatever fixes are required.
+> Hi,
+>
+> I'm forwarding a downstream report in Gentoo from
+> https://bugs.gentoo.org/963106 which also came up in Arch at
+> https://gitlab.archlinux.org/archlinux/packaging/packages/linux-firmware/=
+-/issues/29
+> and on the linux-firmware gitlab at
+> https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/684.
+>
+> The user describes it on the Arch bug as:
+> """
+> core/linux-firmware-mediatek@20250917-1 causes network to fail startup
+> and dramatically slows down basically every operation in the kernel.
+>
+> symptoms are a pegged kworker thread at 100% cpu util, shutdown being
+> prevented, extremely slow commands like sudo, filesystem access. I
+> suspect a interrupt storm of some sort.
+> """
+>
+> And another mentions that removing the module w/ modprobe -r mt7921e hang=
+s.
 
-Any updates regarding the ZAP shader? Would you send the PR?
+It turns out that I myself do have such a machine, and here's the splat
+I got in dmesg:
 
--- 
-With best wishes
-Dmitry
+[   29.647345] mt7921e 0000:04:00.0: Message 0004005c (seq 12) timeout
+[   29.648029] ------------[ cut here ]------------
+[   29.648033] WARNING: CPU: 8 PID: 149 at drivers/iommu/dma-iommu.c:823 __=
+iommu_dma_unmap+0x13e/0x150
+[   29.648046] Modules linked in: rfcomm snd_seq_dummy snd_hrtimer snd_seq =
+snd_seq_device des3_ede_x86_64 des_generic libdes md4 nft_fib_inet nft_fib_=
+ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft=
+_reject nft_ct nft_chain_nat ebtable_nat ebtable_broute ip6table_nat ip6tab=
+le_mangle ip6table_raw ip6table_security iptable_nat nf_nat nf_conntrack nf=
+_defrag_ipv6 nf_defrag_ipv4 iptable_mangle iptable_raw iptable_security nf_=
+tables ebtable_filter ebtables ip6table_filter ip6_tables iptable_filter ip=
+_tables bnep cuse uvcvideo uvc videobuf2_vmalloc videobuf2_memops videobuf2=
+_v4l2 btusb videobuf2_common btrtl btintel videodev btbcm btmtk bluetooth m=
+c amdgpu amd_atl intel_rapl_msr intel_rapl_common snd_soc_dmic snd_soc_ps_m=
+ach snd_ps_pdm_dma snd_sof_amd_acp70 snd_sof_amd_acp63 snd_sof_amd_vangogh =
+snd_sof_amd_rembrandt snd_sof_amd_renoir snd_sof_amd_acp snd_sof_pci snd_so=
+f_xtensa_dsp snd_sof snd_sof_utils edac_mce_amd snd_pci_ps snd_soc_acpi_amd=
+_match vfat snd_amd_sdw_acpi soundwire_amd fat
+[   29.648205]  soundwire_generic_allocation snd_hda_codec_realtek mt7921e =
+kvm_amd soundwire_bus mt7921_common snd_hda_codec_generic snd_ctl_led snd_s=
+oc_sdca snd_hda_scodec_component mt792x_lib snd_hda_codec_hdmi snd_hda_scod=
+ec_cs35l41_spi kvm mt76_connac_lib regmap_spi snd_soc_core amdxcp drm_panel=
+_backlight_quirks mt76 drm_ttm_helper snd_hda_intel ttm snd_intel_dspcfg sn=
+d_compress ac97_bus i2c_algo_bit snd_pcm_dmaengine irqbypass snd_intel_sdw_=
+acpi snd_rpl_pci_acp6x spd5118 mac80211 drm_suballoc_helper snd_hda_codec s=
+nd_acp_pci snd_hda_scodec_cs35l41_i2c rapl snd_amd_acpi_mach snd_acp_legacy=
+_common libarc4 drm_client_lib snd_hda_scodec_cs35l41 snd_hda_core drm_exec=
+ snd_soc_cs_amp_lib amdxdna drm_buddy snd_pci_acp6x snd_soc_cs35l41_lib thi=
+nkpad_acpi think_lmi snd_pci_acp5x drm_display_helper snd_hwdep cs_dsp gpu_=
+sched cfg80211 pcspkr snd_pcm cec drm_shmem_helper sparse_keymap snd_timer =
+snd_rn_pci_acp3x platform_profile snd_acp_config snd snd_soc_acpi rfkill dr=
+m_kms_helper i2c_piix4 amd_pmc soundcore
+[   29.648341]  serial_multi_instantiate firmware_attributes_class snd_pci_=
+acp3x k10temp i2c_smbus joydev wmi_bmof fuse loop nfnetlink zstd zram lz4hc=
+_compress lz4_compress dm_crypt typec_displayport ucsi_acpi typec_ucsi type=
+c nvme rtsx_pci_sdmmc nvme_core polyval_clmulni mmc_core ghash_clmulni_inte=
+l video sha512_ssse3 nvme_keyring wacom hid_multitouch thunderbolt sha1_sss=
+e3 rtsx_pci nvme_auth sp5100_tco wmi i2c_hid_acpi i2c_hid serio_raw pkcs8_k=
+ey_parser
+[   29.648415] CPU: 8 UID: 0 PID: 149 Comm: kworker/8:1 Not tainted 6.16.7-=
+gentoo-dist #1 PREEMPT(lazy)
+[   29.648421] Hardware name: LENOVO 21JXCTO1WW/21JXCTO1WW, BIOS N41ET58W (=
+1.35 ) 03/19/2025
+[   29.648426] Workqueue: events mt7921_mac_init [mt7921_common]
+[   29.648439] RIP: 0010:__iommu_dma_unmap+0x13e/0x150
+[   29.648446] Code: 00 00 00 00 48 c7 44 24 10 00 00 00 00 48 c7 44 24 28 =
+00 00 00 00 48 c7 04 24 ff ff ff ff 4c 89 74 24 18 4c 89 74 24 20 eb 87 <0f=
+> 0b e9 79 ff ff ff e8 a6 9d 5e 00 66 0f 1f 44 00 00 90 90 90 90
+[   29.648450] RSP: 0018:ffffcbc84091fc98 EFLAGS: 00010206
+[   29.648455] RAX: 0000000000008000 RBX: 00000000ffa00000 RCX: fffffffffff=
+fffff
+[   29.648459] RDX: 00000000ffa07fff RSI: 0000000000008000 RDI: ffff8940da4=
+7b040
+[   29.648462] RBP: 0000000000003000 R08: fffffffffffffff8 R09: 00000000000=
+02000
+[   29.648465] R10: 0000000000040000 R11: 206531323937746d R12: ffff8940829=
+76810
+[   29.648467] R13: ffffcbc84091fc98 R14: ffffcbc84091fcb0 R15: 00000000000=
+00000
+[   29.648471] FS:  0000000000000000(0000) GS:ffff894ff58a4000(0000) knlGS:=
+0000000000000000
+[   29.648474] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   29.648478] CR2: 00007fbcc40e4010 CR3: 0000000e3202c000 CR4: 0000000000f=
+50ef0
+[   29.648481] PKRU: 55555554
+[   29.648484] Call Trace:
+[   29.648490]  <TASK>
+[   29.648500]  iommu_dma_unmap_page+0x48/0x90
+[   29.648509]  dma_unmap_page_attrs+0x23b/0x260
+[   29.648518]  mt76_dma_queue_reset+0x304/0x4e0 [mt76]
+[   29.648533]  ? mt76_dma_queue_reset+0x1a0/0x4e0 [mt76]
+[   29.648541]  mt792x_wpdma_reset+0x85/0x2d0 [mt792x_lib]
+[   29.648551]  mt7921_mac_init+0x248/0x400 [mt7921_common]
+[   29.648558]  process_one_work+0x18a/0x340
+[   29.648566]  worker_thread+0x256/0x3a0
+[   29.648571]  ? __pfx_worker_thread+0x10/0x10
+[   29.648576]  kthread+0xf9/0x240
+[   29.648582]  ? __pfx_kthread+0x10/0x10
+[   29.648587]  ? __pfx_kthread+0x10/0x10
+[   29.648592]  ret_from_fork+0xf2/0x110
+[   29.648600]  ? __pfx_kthread+0x10/0x10
+[   29.648604]  ret_from_fork_asm+0x1a/0x30
+[   29.648616]  </TASK>
+[   29.648618] ---[ end trace 0000000000000000 ]---
+[   32.847581] mt7921e 0000:04:00.0: Message 00000010 (seq 13) timeout
+[   32.847600] mt7921e 0000:04:00.0: Failed to get patch semaphore
+[   36.047344] mt7921e 0000:04:00.0: Message 00000010 (seq 14) timeout
+[   36.047367] mt7921e 0000:04:00.0: Failed to get patch semaphore
+[   39.247415] mt7921e 0000:04:00.0: Message 00000010 (seq 15) timeout
+[   39.247433] mt7921e 0000:04:00.0: Failed to get patch semaphore
+[   42.447428] mt7921e 0000:04:00.0: Message 00000010 (seq 1) timeout
+[   42.447452] mt7921e 0000:04:00.0: Failed to get patch semaphore
+
+sam
