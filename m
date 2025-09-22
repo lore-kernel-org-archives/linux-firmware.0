@@ -4,83 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11953CAC592
-	for <linux-firmware@archiver.kernel.org>; Mon, 22 Sep 2025 09:56:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04367CAC592
+	for <linux-firmware@archiver.kernel.org>; Mon, 22 Sep 2025 10:10:00 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id DA563C116B1; Mon, 22 Sep 2025 09:56:59 +0000 (UTC)
+	id CC140C4CEF5; Mon, 22 Sep 2025 10:10:00 +0000 (UTC)
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 13179C4CEF0
-	for <linux-firmware@kernel.org>; Mon, 22 Sep 2025 09:56:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 13179C4CEF0
+	by smtp.kernel.org (Postfix) with ESMTPS id 118CDC4CEF0
+	for <linux-firmware@kernel.org>; Mon, 22 Sep 2025 10:09:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 118CDC4CEF0
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58M8vfMf031908
-	for <linux-firmware@kernel.org>; Mon, 22 Sep 2025 09:56:58 GMT
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58M8wYtC022012
+	for <linux-firmware@kernel.org>; Mon, 22 Sep 2025 10:09:59 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	vGfzdx2P4IpRh5j0HrwwsnuMGOIzDidgb3qJT3a+MDo=; b=SZnwle+cSN/SR3M3
-	x3x+vsM9dwSTRahveycdfrKiD+n44sTVCNF7rZP+9V6uLXgefcdfRuCD8Bmxw7nb
-	Un/wfAB58pz68Fsw8jgXOni5u+QSsKZXvNgpmlGJTwAf9oRds88yySW/DrMEC4hB
-	nYP6LSC1TE5UJ2Lm2X8CJTV3ovF3KfLk3P/nOFChmc0BlujkPwwJ3d32DBNhm2IG
-	4uI+HfuFSKUB07mdjozvts9DPS07s8qpJ2at1x29VVJipQpEGcJvo6yfvFUN4FdV
-	p8PhrHdfxlZNKKntd2l/84jThaeAAH3w+nuVlJSKHZ7EjTcDKaTlzwbJEKRqmhmA
-	ZQSvcQ==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499hyemjyx-1
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=QqKDPTTjCv/Xbb+WvvKjrc
+	bjDYH1NHRIRkLqvvxbDEs=; b=L7EIZqIONJ/lrRLroKV6LbjYbzaGkalXDPV4Gj
+	xl7v8pzDD5G6FC2C9Zn5HLyhSJa5iBiG9tor6zXwG6jFlcXW6oLfPXfLWieZb+jO
+	jv4ZxUQ6RmUqhUmYFewBtrdL4QVwhzw+Sx6t3eiG+Tzq0zd7VRsfZFn5vU9UWIQf
+	SS86Ct6sSjl4RFRT7iqtR8qK3m9E80QR+RizishtC9tl0UTdsie9bVjIVs7MSXA4
+	/SL8UU6aaa2f8itNnZEdcnoqB32cnyJBToDF3Z1gaEj8ZRtkXvAxpNJJKDcIq6VN
+	iJlxIOe8JpchP1TcQNL+9kqpsNBcfZQtdqY0UG7oBdwOmTkw==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499n1fc8py-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Mon, 22 Sep 2025 09:56:58 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-269af520712so44962045ad.2
-        for <linux-firmware@kernel.org>; Mon, 22 Sep 2025 02:56:58 -0700 (PDT)
+	for <linux-firmware@kernel.org>; Mon, 22 Sep 2025 10:09:59 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-77f3aa0f770so1637491b3a.2
+        for <linux-firmware@kernel.org>; Mon, 22 Sep 2025 03:09:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758535017; x=1759139817;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vGfzdx2P4IpRh5j0HrwwsnuMGOIzDidgb3qJT3a+MDo=;
-        b=ldbSz1fAYJhmKeo5LojNnNqxlQOBV3ns9QXv6Frj0I/urCwmvJWTo7Vw9j+CIGzj3F
-         dWhgvg/hBhxJWoa64MsvDAoXZ6MvTLFappqMlGzuiRHq3bnkMo2EFo0QmuwPKUGXBCEy
-         4Vuuh9c1hr+PY88Hcu27pI5o+Z+ayFv1haaojZrps3vL1/K3eFxNIwfpfm8iJXZg3C8c
-         jCaKKg+cfs74VKb2Y3q0kmQ86VcolJl5gd3DcRdvgei8nKxHS/XmFj/w9WJm3BkMw/b9
-         alb9PXW6SV0Y7Gmul94x02tBBkvWze51o1Jg/Xr0eVe0guY0rfzrgGQDEknxZLbBTyto
-         yvLA==
-X-Gm-Message-State: AOJu0YxIHh/6QSex+IS2F1OXcMbYOiLH638Gnz0/3bmxGQjh/2pFHNuN
-	h9Xd9p9J8J5KDZuWx3JatHSrqSKm56q4Pi83xJmwsGFqSWRo64cE5t0BYfbv0eLVRaHvqM5bfwA
-	FFeDuJAyzEAPnmqKQeUbnS7rlfOf8oPhPWkplzjzxRWcv4IJS/lMi4hBbw7u6o1o=
-X-Gm-Gg: ASbGnctGckTFSVmlvLAtaSfSnRIOUej/5F4ltPNmtbv1brEQgQ+CDvWVHXi3GETz5Oq
-	LSU0rkklpxV6dd4Q/7qY9UJ9+aDnK/nTT3gzn4ueuZtczXG1YYSsz1Zf1CS/bq2xkhVSLQIc2AH
-	umKag7mwAkonakSRN4jltHv3EaV05g4wt3F748Js/2G12/sdSua7Too/cCLXwJrSdb7Cl/cF2pK
-	InqT1Q9cZV8SYmrnQRxYqkQjrGz2zw6cMpxU/VA34s6vsJxIcJxf1uF8uxKiQQzYeWKEUVUPIWB
-	0jGDD0Ym1JmmXnX0OY1s6/ZEqSGD1H1Cgdbow+oSrMryHWFu3PmISfb9JlICjRZADgHb
-X-Received: by 2002:a17:903:2347:b0:270:b1f7:2e5e with SMTP id d9443c01a7336-270b1f730b2mr108266495ad.22.1758535017022;
-        Mon, 22 Sep 2025 02:56:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFsq0vJGY+F4JNuLCpjF5X+Maboj3n4wg5lPFUfUSzpwKXVoixGNftZrdCQhhLaxrXZw/Az2Q==
-X-Received: by 2002:a17:903:2347:b0:270:b1f7:2e5e with SMTP id d9443c01a7336-270b1f730b2mr108266225ad.22.1758535016595;
-        Mon, 22 Sep 2025 02:56:56 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758535798; x=1759140598;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QqKDPTTjCv/Xbb+WvvKjrcbjDYH1NHRIRkLqvvxbDEs=;
+        b=Sct20zWA6GaI9fgjeP0rlzPhf4J2T5EmRLyTXjUGH6+PcvaFtQaCojrSTlNQ3Du3/a
+         Vc1eltw3psfuJgWC+CpeCpSXmnQ58yIdOL+zPdo4h7hKKDtoZv7tYW/RVKFrqDvgJWdJ
+         2fIS8XsGMabo1Ew6kpwhN+tL6JY26xLMF1HkVlhCRuH4929zH6HTkIr69fXUSiIQHI65
+         cuy2j/uRjkmYHnN5NuwvKXBQCFfCcoJXgQdVg0/6QLVqvzp3bYVZFVmOnWqv02h6Ux/b
+         j28qc/lAos/aPyBlnGKqVZ6iR2+P/1m9WWhSqj40Z5nDlQppAPqDy8EQ5S7DTpoqBHZY
+         Mgow==
+X-Gm-Message-State: AOJu0YwuxnG03uJ7XfnALREHle635U6apM2TiWaTN2ZP/PV+I8E17qNR
+	y8ti/pLSK+n/fr3rZAtaR/H4cJTkRXgjSDMeG5zpkEpSea/2rd9XTAcgge/IEms05DUhxRg+Atw
+	GIIIXRwuE6WBEgYME+FmLKbF1RmHMdulcWJbv4dbYIdY0Oc/l4/5C65lnfL3+I/FEXSpJD1BOSQ
+	==
+X-Gm-Gg: ASbGncvfNvXpMMIy8I4RcS4yJ7c4EAWiC1qN7zbvLF2pUalWcKi1Bjb8fQYcS1qeMbd
+	vCNvpQluy5w0aODJnEWzM+0e1s8ToFyvFAwr7BC7UcJ1QzY9ReTp5EcEU/W8finf57TQiFNKTQe
+	wq95855YehqJ4Xy6FFykxQ0rzhhiPrtDQdn5cOsESzZh2Y4h5gjiRgXLlt/9NA9lWE1IL+jOaUn
+	P9IyMPvypyBH9eFvo6QmbzQhLSG+2LkfLcHSeaeUbtWsz0oAbsMMYiXpozC6nVl3J9MRmPtIat8
+	xU7DUdcip11skv+NoCnlBqTllG6gpZ3YlLF9vfKojXjEgX3XjokVTuVwELHTd2h/rYRe
+X-Received: by 2002:a05:6a00:230a:b0:77f:3e56:c1c0 with SMTP id d2e1a72fcca58-77f3e56d116mr3374199b3a.32.1758535798177;
+        Mon, 22 Sep 2025 03:09:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEI3F7I1iPPBxo2Y2qWenNGEWlp2Uv1EYpDDrIhByGqAIHq2vJc8SuJeakYNOBdW1B2P6Kh4g==
+X-Received: by 2002:a05:6a00:230a:b0:77f:3e56:c1c0 with SMTP id d2e1a72fcca58-77f3e56d116mr3374174b3a.32.1758535797802;
+        Mon, 22 Sep 2025 03:09:57 -0700 (PDT)
 Received: from [10.204.86.37] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2698016bea0sm128152415ad.40.2025.09.22.02.56.54
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77f34d093a1sm3016838b3a.103.2025.09.22.03.09.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Sep 2025 02:56:56 -0700 (PDT)
-Message-ID: <23ef6993-11a2-451f-9bed-9b0767a028cf@oss.qualcomm.com>
-Date: Mon, 22 Sep 2025 15:26:53 +0530
+        Mon, 22 Sep 2025 03:09:57 -0700 (PDT)
+Message-ID: <575b65b7-a9c8-481a-bdaf-bbab39389b62@oss.qualcomm.com>
+Date: Mon, 22 Sep 2025 15:39:54 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: qcom: Update DSP firmware for qcs8300 platform
-From: Venkata Kota <venkata.kota@oss.qualcomm.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, ekansh.gupta@oss.qualcomm.com,
-        bkumar@qti.qualcomm.com, kssb@qti.qualcomm.com
-References: <fa431a1e-75a9-4c89-b790-81368f30733b@oss.qualcomm.com>
- <zzjkhxoizdb3cukpqqlrgkrwqrk2cgmsuc3bnjrq334pn2zxzz@hwqba3vx7lu6>
- <4264588a-93b0-47d6-a8be-9ffca550142d@oss.qualcomm.com>
- <CAO9ioeVC1H5c4RHoUroytAUbO9hQVvyQ-ep_ofUP-iR7EgDg2A@mail.gmail.com>
- <ce6189cd-1355-47f0-bd03-79746577196b@oss.qualcomm.com>
 Content-Language: en-US
+List-Id: <linux-firmware.lore.kernel.org>
+To: linux-firmware@kernel.org
+Cc: bkumar@qti.qualcomm.com, ekansh.gupta@oss.qualcomm.com,
+        kssb@qti.qualcomm.com
+From: Venkata Kota <venkata.kota@oss.qualcomm.com>
+Subject: qcom: Update DSP firmware for qcs8300 platform
 Autocrypt: addr=venkata.kota@oss.qualcomm.com; keydata=
  xsDNBGi/G3sBDADFuRVyKREhDod8d+uJxADC+IXOVOXP1Qigxt4a5Cx2rOhULbviJfiJWIsQ
  Rzlc4N1GfhTLpeNoqzd7/LAbnpc/jw0cq+f3EWPaIla0lIKthTCtMCkC5af3NyeqM64xHMMI
@@ -115,86 +109,52 @@ Autocrypt: addr=venkata.kota@oss.qualcomm.com; keydata=
  qaXWztaQtxsBJdBKUeEO6/ukSPYTZiTyXZi4M309uDiX5EDXIiimX7Vfzf6qWYln3jtpca7+
  wjt8XHC+OAMMkCkL62+osvHOhazJAS2xCR71LEn81bXxEIs72zc1R7U6Gk2P9K8t3NbaLNBU
  tFo24aqEAzhhzFkq6qZ6FaB0f9M8wen4hRAu98k=
-In-Reply-To: <ce6189cd-1355-47f0-bd03-79746577196b@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 8ETOO0rjsE20I1sC3JxueuWtMg4nWYsg
-X-Authority-Analysis: v=2.4 cv=YMOfyQGx c=1 sm=1 tr=0 ts=68d11d6a cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=qC_FGOx9AAAA:8 a=EUspDBNiAAAA:8
- a=E1S4rd__wVuxVeD6ozYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=1OuFwYUASf3TG4hYMiVC:22 a=fsdK_YakeE02zTmptMdW:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAwNCBTYWx0ZWRfX4NxMnM5Vg6XA
- 2pSqi5Ys2uBuji0M4FkaxrvikEVIIXtX/eWNjCnTEN7fFGpiWIGOfojOILwTPfqfKUvKzxMYlua
- dXg68IXM4lauUpmsBP0Xz9KzCv3lPNeBRf6utmUymjsBLGoFs86Tsg90WYyEkgm+iKCCVGmUR76
- sM26FGhbZ6bt/qBRBwfvlpHWuTjJihZRxxSpZ5ds7e8DZnKseasY0POtI5ZpfkVgtLpj0Brkl9c
- c9m6gz/9BYOLZGOsCvaofpr/hoKu+UQe8bF7zYEOca71GK1WoqSKZXpI3yCkAeVm69u+blVIl3Q
- EVctRuuC3RFZQMPFDpc7wsRZRT4Qd16SRKbAxTO2fe+pkY0EIT2uhpLYlGpPq1dQGpg1Kf4xJtD
- 7qOThYG6
-X-Proofpoint-ORIG-GUID: 8ETOO0rjsE20I1sC3JxueuWtMg4nWYsg
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: gY8hP5jUG4seIvWn5j1SA-3DUK3zECXI
+X-Proofpoint-GUID: gY8hP5jUG4seIvWn5j1SA-3DUK3zECXI
+X-Authority-Analysis: v=2.4 cv=No/Rc9dJ c=1 sm=1 tr=0 ts=68d12077 cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=qC_FGOx9AAAA:8 a=wp4wXl4pNmk1L8nDeC8A:9
+ a=QEXdDO2ut3YA:10 a=zc0IvFSfCIW2DFIPzwfm:22 a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAzNyBTYWx0ZWRfXx/xPoRMu5eMk
+ +zmGVF4/fy3WjTWinQdqye/RhWaft6KMjiVxzNO72TW9dCppOK8toC/pVftVCbOOsWv6ZVLztie
+ qEqwVJsJgf7qEL6Vz0MQ///nerhcorHLfjmF8NShan9eQ3qlnC5asxs+XfQ+X5P1E0xazxBpb8M
+ UJI2mNhSuLIxCxd8AuAia4H9oSiJCDOZmvvKHXlIarsSyDtr2DxnAwM2h+qsGTICXiE5swx5F0c
+ ebZLaXAy/i8qQBSYuh/gd1z2d+de3fptYQ238f0sGH2HfR41x/A4SzeRnXrdZs9wFgpYulzw0Su
+ jcVKMICTy+J137KaBBI471nMNN89FvylzaTyX0zkPMuG5o9qHTy2Ibs4RciAPjwHvN9tL6V5ebx
+ rqfw4BCT
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-22_01,2025-09-19_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0 adultscore=0 priorityscore=1501 spamscore=0
- clxscore=1015 suspectscore=0 phishscore=0 malwarescore=0
+ clxscore=1015 spamscore=0 suspectscore=0 adultscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200004
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200037
 
+The following changes since commit 493de17dee9901605e69ad804815cd7408d84547:
 
+   Merge branch 'robot/pr-0-1758303798' into 'main' (2025-09-19 18:33:44 
++0000)
 
-On 9/18/2025 7:48 PM, Venkata Kota wrote:
-> 
-> 
-> On 9/18/2025 7:37 PM, Dmitry Baryshkov wrote:
->> On Thu, 18 Sept 2025 at 16:50, Venkata Kota
->> <venkata.kota@oss.qualcomm.com> wrote:
->>>
->>>
->>>
->>> On 9/18/2025 5:48 PM, Dmitry Baryshkov wrote:
->>>> On Thu, Sep 18, 2025 at 12:09:32PM +0530, Venkata Kota wrote:
->>>>>     Merge branch 'en8811h' into 'main' (2025-09-12 14:23:45 +0000)
->>>>>
->>>>> are available in the Git repository at:
->>>>>
->>>>>     https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
->>>>> dsp-fw-qcs8300_1
->>>>>
->>>>> for you to fetch changes up to 
->>>>> 36da01bec9809f7bd96594db4885a86c286e90a9:
->>>>>
->>>>>     qcom: Update DSP firmware for QCS8300 platform (2025-09-18 
->>>>> 11:49:22 +0530)
->>>>
->>>> NAK, you are explaining what GPDSP is, but you are not explaining what
->>>> and why is being done. Why do you add Audio PD to the GPDSP?
->>>
->>> There is no specific change made to GPDSP in this release. This is just
->>> an update on the previous label Version: DSP.AT.1.0.1-00096-LEMANS-1.
->>
->> You have added Protection Domain definitions for GPDSP. I have been
->> asking you to explain that part in the commit message.
-> ACK, I will do the needful.>
-The current Audio Reach Framework is yet to support audio use cases in 
-the gpdsp for upstream. The support for the same is work in progress for 
-upstream. I am removing gpdspr.jsn and gpdspua.jsn and push a new 
-firmware with out these files for now. These files would be added when 
-the support is available from Audio Reach Framewok.>>>>> 
+are available in the Git repository at:
+
+   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git 
+dsp-fw-qcs8300-dspmon-125
+
+for you to fetch changes up to 704b227a99683715bc8f3fb514bc6b9d18372f28:
+
+   qcom: Update DSP firmware for qcs8300 platform. (2025-09-22 15:30:25 
++0530)
+
 ----------------------------------------------------------------
->>>>> Venkata Kota (1):
->>>>>         qcom: Update DSP firmware for QCS8300 platform
->>>>>
->>>>>    WHENCE                   |   9 ++++++---
->>>>>    qcom/qcs8300/adsp.mbn    | Bin 6643712 -> 6684672 bytes
->>>>>    qcom/qcs8300/cdsp0.mbn   | Bin 3084288 -> 3080192 bytes
->>>>>    qcom/qcs8300/gpdsp0.mbn  | Bin 5832704 -> 5873664 bytes
->>>>>    qcom/qcs8300/gpdspr.jsn  |  22 ++++++++++++++++++++++
->>>>>    qcom/qcs8300/gpdspua.jsn |  29 +++++++++++++++++++++++++++++
->>>>>    6 files changed, 57 insertions(+), 3 deletions(-)
->>>>>    create mode 100644 qcom/qcs8300/gpdspr.jsn
->>>>>    create mode 100644 qcom/qcs8300/gpdspua.jsn
->>
-> 
-> 
-t
+Venkata Kota (1):
+       qcom: Update DSP firmware for qcs8300 platform.
+
+  WHENCE                  |   6 +++---
+  qcom/qcs8300/adsp.mbn   | Bin 6643712 -> 6684672 bytes
+  qcom/qcs8300/cdsp0.mbn  | Bin 3084288 -> 3080192 bytes
+  qcom/qcs8300/gpdsp0.mbn | Bin 5832704 -> 5873664 bytes
+  4 files changed, 3 insertions(+), 3 deletions(-)
+
