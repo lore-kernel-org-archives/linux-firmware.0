@@ -1,153 +1,158 @@
-Return-Path: <SRS0=gdgd=4M=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=DzPH=4M=oss.qualcomm.com=dikshita.agarwal@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D88CCAC5B0
-	for <linux-firmware@archiver.kernel.org>; Fri,  3 Oct 2025 01:04:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B9CFCCA470
+	for <linux-firmware@archiver.kernel.org>; Fri,  3 Oct 2025 06:55:09 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 66E88C4CEFB; Fri,  3 Oct 2025 01:04:19 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	id 12A96C4CEF9; Fri,  3 Oct 2025 06:55:09 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 8CC32C4CEFD
-	for <linux-firmware@kernel.org>; Fri,  3 Oct 2025 01:04:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 8CC32C4CEFD
+	by smtp.kernel.org (Postfix) with ESMTPS id E5938C4CEF5
+	for <linux-firmware@kernel.org>; Fri,  3 Oct 2025 06:55:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org E5938C4CEF5
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 592MVQhq019768
-	for <linux-firmware@kernel.org>; Fri, 3 Oct 2025 01:04:13 GMT
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 592KxHf2012858
+	for <linux-firmware@kernel.org>; Fri, 3 Oct 2025 06:55:04 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	JkSiQcLGeb7292CiHdTMSSa9kQxJ0n43LAw4Qy1c0d8=; b=Gqx+cuweIhYh7lp9
-	o3ysVDnDg4RAoLdk27uEgt/XhXkwdzjlce7R/XTDWBlhEokKhdyeoHnxiMeCo168
-	X6vtoEUQRo4gVxgDpcIjeVrD27UXdJyx6XQawzHKyJCEzL3shaqd5tmrUxOsvXHc
-	0O2gSimLhuzYO54j0VJlfSZb2wzCQoLHBwgsdIAvHjA8MfHIc23jtVhOj3YtG8Mj
-	WtO2tN57J7RyWeN7gjohxOQXbD5SWEH1TIBE/l8NlEbfIP6HGJws7tx7xWfvaBmb
-	9xPlEs8G9JFiW8sOwknoeBLS9eftuWMWuMBvb2lnRxkqa5yGTPBqHR8q8veIoXVL
-	WDvQ7A==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49gyu1dpwm-1
+	f8/PYzv+BCbanV6RVLqbGGgvIl29FFYewCCjoz2Eroc=; b=cAyG4zAUqR5zuEvV
+	O64+SsPPtiBsJYd8Ki/s/Orn6vI8GHHh+6aqWmnhiKO0LGmvdiNyptvA16yHilQG
+	gkfW8n1bzqYxVSOrtMQLyQWeYanCht+iHXfrb/rayYM3jWKr06159p2KUgC0Qbjp
+	AcJ45LjlCgwLeRBImmfYmt2SOlJuN0DS/o86TKoA6J6YVFoFmjyxojnOnxlK4hTf
+	9ND5mE7TAhb3fxfH23VFgwkQCj8a2aFOmVdLev+9Q5nMvWScDCv0vxifqQY+L33r
+	muJ9iQ7fNkqH0IzgqZQbk+Qjahx0L2o/qylY8JF0Ail0tJJzAaCQzUh6Yf4vEZyj
+	ZCc5mA==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e80u27e5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Fri, 03 Oct 2025 01:04:13 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4e5739a388bso23040311cf.2
-        for <linux-firmware@kernel.org>; Thu, 02 Oct 2025 18:04:13 -0700 (PDT)
+	for <linux-firmware@kernel.org>; Fri, 03 Oct 2025 06:55:04 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3352a336ee1so3658685a91.0
+        for <linux-firmware@kernel.org>; Thu, 02 Oct 2025 23:55:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759453452; x=1760058252;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1759474503; x=1760079303;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JkSiQcLGeb7292CiHdTMSSa9kQxJ0n43LAw4Qy1c0d8=;
-        b=gEwSyBH/nHRWznLXcgy0RSgaMW1Rfi+ufd/gpYECz/oJeOS01Lg6yt+VBIjQgSlzl0
-         1ZCTlwTQNh7TgeONsnfyu9mf7wYLRKvDxLAytnn0cVJxte4vc0yci5IWN2a6ic/168RK
-         zl+YTshYA+vpxmUkxqcUtrdU1aNBNLb94EXvsyLz7pkXl2ohJTTbYfEsS6cVmyXD4VXF
-         CpbvHCMH5Bw58WGXzEfm8NPlfRAVyBkVYjcAiDBLmQ6V3Z10WPlVDkyoYHNQzcjSGAkz
-         4+5lJLtbXIST24LmPsHeB3AkCBDdJ+bqfJMxA7f9ujymlXYWPZl+8WkxzCEyc43scut3
-         Z5jw==
-X-Forwarded-Encrypted: i=1; AJvYcCXhaz0Xuvq87NpNSGUi0RBxDJTLwTuJryaUJ0RkIOu6amWk/NaZQXAciUHiPmxr39hMENgIF9yY2ZpnKzn7xQ==@kernel.org
-X-Gm-Message-State: AOJu0Yyw2Wwog++1KDQvZG+ofNt5Y1y6nidyW6+xGt5RROq5Gfbu014f
-	/dk/s+XSl36c1aXMhRRXkavxCCSNiwlwV8Qw4CbzuRl0i6PR749HnGe39ss+bjmso8gC9Jg28mj
-	UlrPPflzaVz+5QacI9CgOehkj9xr8P6MCl9dLRpWj++jHsn9ff8G657LCHzBDYfwhV2ULRgv5Hg
-	==
-X-Gm-Gg: ASbGncuIkU2LVj6HGww8Ih41VOJhEda4vtMBhzL9AYB83QGzX0iOP+YHlwZux8Qbwsn
-	HjPsQHXvD6TImQnA3srOxjkBYS28ByXHL4hepXja/h8457ZixyJp+f4/83zkctaYy4r4xy42cC8
-	goV0s+E7GUbjxHJ3Y6akDkRIVI+d75GLIM+pvW/K7yCJHMlcQ2wHdBNvtIS1WnbqGtcLDGzpiLN
-	RDDaAxUtZX/yMHj49VLcXJdacqsyphHKhMEW/RbCNvyH+Pg/NrWgoXXYD11I2xJ6QSE/mz8sBqa
-	IterNbyec+7ZNrlc3uc3zE4H7nAyuxYwIKNKvqzARn9m40uD3tiY+xKPl/1YW4s2NCwUG/n7wj2
-	SW3VoNIqlv05Jn4x9wn8nCohUEle9K87FawL5nDEXQeeLYStzMF7Cx2CsPg==
-X-Received: by 2002:a05:622a:588b:b0:4d5:d752:74e9 with SMTP id d75a77b69052e-4e576a44966mr21873641cf.4.1759453451479;
-        Thu, 02 Oct 2025 18:04:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEmYfDZ78F5Bdhi3o0z1zbSYG/vmwUliKVpe1MOKwXBOlncpGyOznqePbRGBRPG1i0PDgtxWg==
-X-Received: by 2002:a05:622a:588b:b0:4d5:d752:74e9 with SMTP id d75a77b69052e-4e576a44966mr21873321cf.4.1759453450955;
-        Thu, 02 Oct 2025 18:04:10 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-373ba4f9349sm10421651fa.60.2025.10.02.18.04.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Oct 2025 18:04:08 -0700 (PDT)
-Date: Fri, 3 Oct 2025 04:04:05 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Mario Limonciello <superm1@kernel.org>
-List-Id: <linux-firmware.lore.kernel.org>
-Cc: Josh Boyer <jwboyer@kernel.org>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        linux-firmware@kernel.org,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+        bh=f8/PYzv+BCbanV6RVLqbGGgvIl29FFYewCCjoz2Eroc=;
+        b=C2biXMifjMIL3tJzQWJfszysXZCxJ/rZa0T/O/xnD/reNk9GJLdOl+KV7ExdOOaVq1
+         lUfDKJQWha4uFIhCQS+HamjRtr/3vDDJ+FNYdkV0PhfKYC2Fhou62zHRzYro5oDeucZQ
+         G5CVl3im817pV5Z/o3b0iGrFif4awXpl+Ea0YhmyD7enS1kR1yu8U/wRNId9uJA5TQm+
+         WyGy6H4dsWkL1fuOv196a2jN6LVU9QFUmPlQ1G8QepVDXJGVMDRjAzLwj7gIEnpK3sfp
+         Aw6QJ/P5+FYzHY1M+7cZhucBmaBqBj/3UfZBHDOM2QECaD56QGOuYfkLnPU06iwLGvmW
+         Ep0A==
+X-Gm-Message-State: AOJu0YzTrNX7L19Kp3jjbMiMG2Ts6dixH0g8V9xozsC6qS7hakTY9IHn
+	+U0KWz92CN9thOvfqZSU9jI1mcTwS4wGk3nI9fRtcXpuUN9kE4wPGkiFP9TSa4ONk17vDreY7Yh
+	bTy7Nw1HtfDtR4bAWLv1rFBPjk04JXVuJHBlAZ4ymfQcbaADc/X1DC7Pa1186hZ6m6bMm6dM=
+X-Gm-Gg: ASbGncs60VlCeRla6jPOAza4genjQHlRl3ZKnje6YE5J56JOhlNK8C+lGbbasmV1cbD
+	tucT83C4AA262gimFUi6rldIWEh+awSaUFY00IChsX7K0jL6qza6ImIABAOdgXk3d0a6DGSmlyp
+	QRqgx2epD8PXxKyKz9y4yyD+hvgQ1mYZ+fKuDRebJHFFV06eKYBK9MuDvS7Gf4pcWiLrXFWw9S9
+	ZQXOVuAgDVhX2C9RHPeQN305hCh0+KBnXdFBAOA8aDif3MaUX/10XeIVWzttnt44BAxpNN3xryB
+	KTws4jPE0C08xsT2kmY5rQScMaqNFZsbLaM08iQ4cKd04b8LvvWIXNdDtLEalNDXOk8lACM46ic
+	cKw0=
+X-Received: by 2002:a17:90b:1f89:b0:32e:d600:4fe9 with SMTP id 98e67ed59e1d1-339c2724b61mr2378453a91.4.1759474503213;
+        Thu, 02 Oct 2025 23:55:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHyglpow/jRYNh2DJyp+9wAZdHQD13zlGnMZupsetz79L5LAJ2G5oXXwMBnq0OU8gM9ehBqXA==
+X-Received: by 2002:a17:90b:1f89:b0:32e:d600:4fe9 with SMTP id 98e67ed59e1d1-339c2724b61mr2378427a91.4.1759474502733;
+        Thu, 02 Oct 2025 23:55:02 -0700 (PDT)
+Received: from [10.0.0.86] ([106.222.229.252])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-339a6e9d2d4sm7196016a91.2.2025.10.02.23.55.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Oct 2025 23:55:02 -0700 (PDT)
+Message-ID: <0c9f7619-acf1-3927-0caa-00ce9f696129@oss.qualcomm.com>
+Date: Fri, 3 Oct 2025 12:24:59 +0530
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
 Subject: Re: add video firmware for Kaanapali
-Message-ID: <63652ibwsm3v4aag7ytezbzruyz5322quuhe27at7y7ez56peo@7mpkqwmtf2jq>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: linux-firmware@kernel.org,
+        Vikash Garodia <vikash.garodia@oss.qualcomm.com>
 References: <bbd5acf0-e985-1f55-052d-8d3ecf0aa910@oss.qualcomm.com>
  <e2wyi33p42lsq5f6ihuw54k5q6czbt2en5ocijswypjgw52dbg@wz6x2fojxvoa>
- <CA+5PVA6gN4M7gchGXPoswHmv7h0NiZ_n063r1GOGGVAujdDbKQ@mail.gmail.com>
- <e7f5f6ea-ebbd-4454-9adb-2df9e3e7630d@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e7f5f6ea-ebbd-4454-9adb-2df9e3e7630d@kernel.org>
-X-Authority-Analysis: v=2.4 cv=RfGdyltv c=1 sm=1 tr=0 ts=68df210d cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=x6icFKpwvdMA:10 a=qC_FGOx9AAAA:8 a=p0WdMEafAAAA:8 a=EUspDBNiAAAA:8
- a=i-GJ8O_hKYS0QK_FnjAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=a_PwQJl-kcHnX1M80qC6:22 a=fsdK_YakeE02zTmptMdW:22 a=HhbK4dLum7pmb74im6QT:22
- a=poXaRoVlC6wW9_mwW8W4:22 a=Z5ABNNGmrOfJ6cZ5bIyy:22 a=jd6J4Gguk5HxikPWLKER:22
-X-Proofpoint-ORIG-GUID: RorVehSVgF7Jn-uHbby2BzE8UVFUZF7a
-X-Proofpoint-GUID: RorVehSVgF7Jn-uHbby2BzE8UVFUZF7a
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDAxMDA1OCBTYWx0ZWRfX08xv3Jbnfe3U
- sJyNhbSXUcCbCNq8wmlpjzoKAkpuF0F8Etq9BiOKJtd/itQHZMh8kuS4g/IFvpFhtNeY6jUowU6
- 3w9UwRdo+pJNafni5H6+Mjec8xtqPLTT4WQ8VFtfUuug2t2nOPvbtlEdMggY0mABx+0WWjAKxYs
- 0zvmzSeQjq4AaHx1T2FhT8Yq1pbO2K30qCPFdQJZ8AGvnsUC/XaAhHFfnMPN/hN2Mqpihc11RJk
- 3fOztQADWIkVmoGd+RGSEIciuLr2v42vTTKfwFXBU6S5QHTKhGK/YcEF+pmr+Rg0e70LEUOjI2V
- /E9H3puGUm50JaWjeHkvf8HkwuiB5Ig1g3g7cJPLSu6wKL6lKLYPVtaM4/rADRdE04Hm1XoZbnY
- EXiNgNAJj1mBbcWToFcjBMnfIdv3Ww==
+Content-Language: en-US
+From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+In-Reply-To: <e2wyi33p42lsq5f6ihuw54k5q6czbt2en5ocijswypjgw52dbg@wz6x2fojxvoa>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAyOSBTYWx0ZWRfX5VjohA//HEpf
+ YTesRLUtos+8obPa8SNCo8I60P+CBfzqi1dhCBl15kRvnSqZc4uLe8oWX1SGNkcbrAKoYScp+BU
+ gxVnvPiNlgDwcRLP3YaWnK+A8FCxTRwmuFa4KBNl1x54fhpZt9AkwtKfY1yA4jmqCn96JUHr5Kn
+ GMBvNC+GadbBIka9Grev+Yf8Mdy6RLaNptgK1uHN8oG+UTBiM0ifHK7ISjt7HxQmJOLlVnj12bf
+ 4MLyz0gAXXGIKzfWPVphy15ty/loMT19h3KGXLChF2rXneqc2gGA6e6P7WsJROCNRDbxi7IFl/q
+ roxptMeLYNpkuMD7WygdIlR9YCASJLmVWgnhaylgY3421UZVkalpGCAVJXJWt3Nsvas1iwkDJRS
+ ytmV/QgYa1nMSIbG6MZTL/qAq14jpg==
+X-Proofpoint-GUID: a7wVOm1Ndckloi-KQlNu_Ph7MA5mbo9n
+X-Authority-Analysis: v=2.4 cv=OMkqHCaB c=1 sm=1 tr=0 ts=68df7348 cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=L4UNg9I9cQSOxNpRiiGXlA==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=qC_FGOx9AAAA:8 a=FgcnViFJEAKiTKWZGXYA:9
+ a=QEXdDO2ut3YA:10 a=uKXjsCUrEbL0IQVhDsJ9:22 a=fsdK_YakeE02zTmptMdW:22
+ a=HhbK4dLum7pmb74im6QT:22
+X-Proofpoint-ORIG-GUID: a7wVOm1Ndckloi-KQlNu_Ph7MA5mbo9n
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-02_09,2025-10-02_03,2025-03-28_01
+ definitions=2025-10-03_01,2025-10-02_03,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 lowpriorityscore=0 malwarescore=0 adultscore=0
- priorityscore=1501 suspectscore=0 phishscore=0 bulkscore=0 clxscore=1015
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
- definitions=main-2510010058
+ impostorscore=0 malwarescore=0 bulkscore=0 phishscore=0 adultscore=0
+ priorityscore=1501 lowpriorityscore=0 clxscore=1015 spamscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
+ definitions=main-2509270029
 
-On Thu, Oct 02, 2025 at 08:29:47AM -0500, Mario Limonciello wrote:
-> On 10/2/25 7:19 AM, Josh Boyer wrote:
-> > On Wed, Oct 1, 2025 at 8:48 PM Dmitry Baryshkov
-> > <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> > > 
-> > > On Wed, Oct 01, 2025 at 06:36:11PM +0530, Dikshita Agarwal wrote:
-> > > > Hi,
-> > > > 
-> > > > The following changes since commit ed924f6db3c973f941fd6c6317c0d52664e83e5a:
-> > > > 
-> > > >    Merge branch 'robot/pr-0-1759253351' into 'main' (2025-09-30 17:36:46 +0000)
-> > > > 
-> > > > are available in the Git repository at:
-> > > > 
-> > > >    https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
-> > > > video-fw-kaanapali
-> > > > 
-> > > > for you to fetch changes up to 7c2d4d41e96fdddfa360c0740e8a8ee9b5efb572:
-> > > > 
-> > > >    qcom: vpu: add video firmware for Kaanapali (2025-10-01 18:32:02 +0530)
-> > > 
-> > > +Link: qcom/vpu/vpu40_p2.mbn -> vpu40_p2_s7.mbn
-> > > 
-> > > Can we please drop that link? FWIW the driver for that platform is not
-> > > yet merged.
-> > 
-> > This got merged yesterday.
-> > 
-> > https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/717
-> > 
-> > josh
+
+
+On 10/2/2025 6:18 AM, Dmitry Baryshkov wrote:
+> On Wed, Oct 01, 2025 at 06:36:11PM +0530, Dikshita Agarwal wrote:
+>> Hi,
+>>
+>> The following changes since commit ed924f6db3c973f941fd6c6317c0d52664e83e5a:
+>>
+>>   Merge branch 'robot/pr-0-1759253351' into 'main' (2025-09-30 17:36:46 +0000)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
+>> video-fw-kaanapali
+>>
+>> for you to fetch changes up to 7c2d4d41e96fdddfa360c0740e8a8ee9b5efb572:
+>>
+>>   qcom: vpu: add video firmware for Kaanapali (2025-10-01 18:32:02 +0530)
 > 
-> Please send up a pull request to drop the link if it's not correct.
+> +Link: qcom/vpu/vpu40_p2.mbn -> vpu40_p2_s7.mbn
+> 
+> Can we please drop that link? FWIW the driver for that platform is not
+> yet merged.
 
-I'd let Dikshita respond and I'll send a patch if she or Vikash don't
-object.
+My intention was to keep the naming consistent in driver with other
+platforms which are using _s7 firmwares but driver still won't have this
+suffix.
 
--- 
-With best wishes
-Dmitry
+eg: when I upload the patch to rename let's kailua firmware binary name
+with adding _s7 suffix, driver would still have the name without the suffix
+and soft link will take care of mapping
+
+Any concern here?
+
+Thanks,
+Dikshita
+> 
+>>
+>> ----------------------------------------------------------------
+>> Dikshita Agarwal (1):
+>>       qcom: vpu: add video firmware for Kaanapali
+>>
+>>  WHENCE                   |   5 +++++
+>>  qcom/vpu/vpu40_p2_s7.mbn | Bin 0 -> 2474696 bytes
+>>  2 files changed, 5 insertions(+)
+>>  create mode 100644 qcom/vpu/vpu40_p2_s7.mbn
+>>
+>> Thanks,
+>> Dikshita
+> 
