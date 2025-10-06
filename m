@@ -1,229 +1,122 @@
-Return-Path: <SRS0=sbI0=4O=gentoo.org=sam@kernel.org>
+Return-Path: <SRS0=VcKE=4P=gmail.com=fangnxybayyphnt@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38664CAC5B0
-	for <linux-firmware@archiver.kernel.org>; Sun,  5 Oct 2025 01:17:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37CD8CCA471
+	for <linux-firmware@archiver.kernel.org>; Mon,  6 Oct 2025 08:37:32 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id F32DFC4CEF9; Sun,  5 Oct 2025 01:17:44 +0000 (UTC)
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	id 074C6C4CEFE; Mon,  6 Oct 2025 08:37:32 +0000 (UTC)
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 7AF82C4CEF1
-	for <linux-firmware@kernel.org>; Sun,  5 Oct 2025 01:17:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 7AF82C4CEF1
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from mop.sam.mop (2.8.3.0.0.0.0.0.0.0.0.0.0.0.0.0.a.5.c.d.c.d.9.1.0.b.8.0.1.0.0.2.ip6.arpa [IPv6:2001:8b0:19dc:dc5a::382])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sam)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id A8D2D340F69;
-	Sun, 05 Oct 2025 01:17:41 +0000 (UTC)
-From: Sam James <sam@gentoo.org>
-To: Allan Wang (=?utf-8?B?546L5a625YGJ?=) <Allan.Wang@mediatek.com>
-List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-mediatek@lists.infradead.org"
- <linux-mediatek@lists.infradead.org>,  Mingyen Hsieh (=?utf-8?B?6Kyd5piO?=
- =?utf-8?B?6Ku6?=)
- <Mingyen.Hsieh@mediatek.com>,  "xiangzhedev@gmail.com"
- <xiangzhedev@gmail.com>,  "linux-firmware@kernel.org"
- <linux-firmware@kernel.org>
-Subject: Re: Regression in linux-firmware-20250917 for mt7921e driver
-In-Reply-To: <dda63a6b723d31f41e6e275ac7f38d31c6715fc8.camel@mediatek.com>
-Organization: Gentoo
-References: <87bjn6fgr6.fsf@gentoo.org> <87a52n1xvv.fsf@gentoo.org>
-	<dda63a6b723d31f41e6e275ac7f38d31c6715fc8.camel@mediatek.com>
-User-Agent: mu4e 1.12.13; emacs 31.0.50
-Date: Sun, 05 Oct 2025 02:17:39 +0100
-Message-ID: <87347ycfkc.fsf@gentoo.org>
+	by smtp.kernel.org (Postfix) with ESMTPS id 32A6AC4CEF5
+	for <linux-firmware@kernel.org>; Mon,  6 Oct 2025 08:37:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 32A6AC4CEF5
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-78e9f48da30so42924846d6.1
+        for <linux-firmware@kernel.org>; Mon, 06 Oct 2025 01:37:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759739850; x=1760344650; darn=kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=gjj/ntgQBq+57GBLZVa1O2woShUdM/oX9dQ1+10TEvA=;
+        b=ZK40buN4BT5/RjtwPMzFzMca4D64oJRDeo/YRPNTU9xj7qhHIgs7sW05ZzYMgsKA/z
+         aPO3vIm3DrzRzqE7OQlZvH3JmN3LFoJ5NqEj2yxqiP5jctxIgJB0ZFIyPd4X2dC5lmx0
+         wJp+o4TA9zxwKQ+yYAiyzJXGd6nHeBUBA3w5ZyH69SsKYJ/W6ZNctgFQoj+yyCzrJ9jp
+         entoT0IVcwYOSYMo/ilrcY5b8Vwd5HItvQVdRI8dRuO90zGKftQhEz1OWjJ3JmFzFjNQ
+         1k30dgMlbqKGI6bOCittDadrD8+vUHLXlsVfOzKk6xzZa2xQQ/VeUGbRQ8Bi1U85rfJR
+         OmKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759739850; x=1760344650;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gjj/ntgQBq+57GBLZVa1O2woShUdM/oX9dQ1+10TEvA=;
+        b=ZeR+zbMxv0OQM45D9YyNmrNKHFQv0cLGr7aGCLj35nHR6hpi7JElCkoCxsaJRpJnZW
+         fATDUi3mnD3n3gbKZRO1yLV9pQ2AZUidHFU1I7nIv6kMCDF+EdWTm9yD5aGnjxmPlxku
+         6FS8RAePxOPHcy1k+kG+6iaTYGeHr8ow1SZ83taG4EAomz4QNkZdipkKHEb1mG4/pNWv
+         AfPMi5AhEpsn47c63DOjDv3MWx6Snx7KeNsvphWa5rIBxA/uAAmqLEPxoRUCuxhn14uj
+         h6INttTTouTST5r5lMkc3hKmweXCtrAz5cTC4+3iaXPb7fCwDA0aotN+d37UJcnf62ah
+         MJbA==
+X-Gm-Message-State: AOJu0Ywcardo6GKfzVG8FV8KHXYGzAdGJnycs6d1EdFdmwgTvi3lao+A
+	Qp4IkdZIyPMxmXgFrU2MEEurU4Fn20y4OAtjiCFr4VLD0OBQCTAhmLS/q9juQNs4fBd77x7/wcq
+	EoPtNrz5HQYkseJT1lIVcgnzgbNbOKts2F8aL
+X-Gm-Gg: ASbGncs1F/jvGZoaBJA8ufahtWoK5D+04hLXMuPakKwSVYCSYNLC5thrm7+Nj4VmiGw
+	1P/GuxCjhwk3BFd8Q5VbyZyKNG5XLlzOVX5RVSC3Snyivyc1kF7k6t98m4VAKazhrQieM/hig8I
+	sYBPBL517OgrLiq4UqWONLNkne5JiZY4OxSGhmfun8oEqgVVivNPCYmsGAi2dnv2yeVYBkWOlOj
+	QplIizywBAswJAEmZhf2DuT7bVt4dYIYkcEJgo1U6LztTjN6tKhyNo2c+wpNHw=
+X-Google-Smtp-Source: AGHT+IHytIb4V36EW/cLQoKzAZY53TQtccvHaRA2DiTRCpu+4EpjnMHKdUwBjCp2L2fNguZilbPQwXfGAM/GiF0daqQ=
+X-Received: by 2002:a05:6214:2a49:b0:809:aa63:1c34 with SMTP id
+ 6a1803df08f44-879dc832b86mr130624986d6.32.1759739849775; Mon, 06 Oct 2025
+ 01:37:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+From: =?UTF-8?B?4Lia4Lix4LiN4LiN4Lie4LiZ4LiV4LmMIOC4n+C4suC4h+C4meC5ieC4reC4og==?= <fangnxybayyphnt@gmail.com>
+Date: Mon, 6 Oct 2025 15:37:31 +0700
+X-Gm-Features: AS18NWAS_dfzbzTwuM2fdyXQPdozbCu9sTNfUljtMENhqqsLFOVlxcZ7okIB7Q8
+Message-ID: <CAGi+iROG42MvJxLXJb6qL+icPOnRGsSmgNBS1E4oMhBeqM=djw@mail.gmail.com>
+Subject: =?UTF-8?B?4LiY4Li44Lij4LiB4Li04LiI4LiC4Lix4LiU4Liq4LiZIOC4guC4suC4lOC4quC4oOC4sg==?=
+	=?UTF-8?B?4Lie4LiE4Lil4LmI4Lit4LiHIOC5gOC4lOC4t+C4reC4lOC4o+C5ieC4reC4mSDguYDguKPguLLguKI=?=
+	=?UTF-8?B?4Li04LiZ4LiU4Li14Lii4Li34LmI4LiZ4Lih4Li34Lit4LiK4LmI4Lin4Lii4LiE4Li44LiT?=
+List-Id: <linux-firmware.lore.kernel.org>
+To: linux-firmware@kernel.org
+Content-Type: multipart/alternative; boundary="000000000000a49efb0640795c9f"
 
-Allan Wang (=E7=8E=8B=E5=AE=B6=E5=81=89) <Allan.Wang@mediatek.com> writes:
+--000000000000a49efb0640795c9f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-> Hi Sam,
+4LiU4LmJ4Lin4Lii4Lit4Lix4LiV4Lij4Liy4LiU4Lit4LiB4LmA4Lia4Li14LmI4Lii4LiX4Li1
+4LmI4LmB4LiV4LiB4LiV4LmI4Liy4LiHIOC5gOC4nuC4t+C5iOC4reC5g+C4q+C5ieC5gOC4guC5
+ieC4suC4luC4tuC4h+C5geC4q+C4peC5iOC4h+C5gOC4h+C4tOC4meC4l+C4uOC4mQ0K4Lia4Lij
+4Li04Lip4Lix4LiXIFRQTCBHcm91cCDguIjguLPguIHguLHguJQg4Liq4Li04LiZ4LmA4LiK4Li3
+4LmI4Lit4LmA4Lie4Li34LmI4Lit4LiE4LiZ4LmE4LiX4LiiDQrguKrguLPguKvguKPguLHguJrg
+uYDguIjguYnguLLguILguK3guIfguJjguLjguKPguIHguLTguIjguJfguLjguIHguYbguJvguKPg
+uLDguYDguKDguJcg4LiX4Li14LmI4LiV4LmJ4Lit4LiH4LiB4Liy4Lij4LiX4Li44LiZ4Lir4Lih
+4Li44LiZ4LmA4Lin4Li14Lii4LiZDQrguKfguIfguYDguIfguLTguJnguK3guJnguLjguKHguLHg
+uJXguLTguKrguLnguIfguKrguLjguJQgNTAsMDAwLTEwLDAwMCwwMDAg4Lia4Liy4LiXDQrguYPg
+uITguKPguYTguKHguYjguYDguIrguLfguYjguK0g4LmB4LiV4LmI4Liq4Li04LiZ4LmA4LiK4Li3
+4LmI4Lit4LmA4Lij4Liy4LmE4LiU4LmJ4LiI4Lij4Li04LiHDQrinJTvuI/guIjguJTguYDguJvg
+uYfguJnguKPguLnguJvguYHguJrguJrguJrguKPguLTguKnguLHguJcg4LmD4Lia4LiX4Liw4LmA
+4Lia4Li14Lii4LiZ4Lie4Liy4LiT4Li04LiK4Lii4LmMIOC5g+C4muC4m+C4o+C4sOC4geC4reC4
+muC4geC4suC4ow0K4pyU77iP4Lit4Lix4LiV4Lij4Liy4LiU4Lit4LiB4LmA4Lia4Li14LmJ4Lii
+4LmA4Lij4Li04LmI4Lih4LiV4LmJ4LiZ4LiX4Li14LmIIDEgJQ0K4pyU77iP4Lil4LiU4LiV4LmJ
+4LiZLeC4peC4lOC4lOC4reC4gQ0K4pyU77iP4LmE4Lih4LmI4LmA4LiK4LmH4LiE4LmA4LiE4Lij
+4LiU4Li04LiVIOC4muC4ueC5guC4ow0K4pyU77iP4LmE4Lih4LmI4LiV4LmJ4Lit4LiH4Lih4Li1
+4Lia4Li44LiE4LiE4Lil4LiE4LmJ4Liz4Lib4Lij4Liw4LiB4Lix4LiZDQrinJTvuI/guJzguYjg
+uLLguJnguIHguLLguKPguK3guJnguLjguKHguLHguJXguLTguKPguLHguJrguYDguIfguLTguJng
+uJfguLHguJnguJfguLUNCuKclO+4j+C5hOC4oeC5iOC4oeC4teC5guC4reC4meC4geC5iOC4reC4
+mSDguYTguKHguYjguKHguLXguKHguLHguJTguIjguLMNCuC4leC4tOC4lOC4leC5iOC4rQ0K4LmA
+4Lia4Lit4Lij4LmM4LmC4LiX4LijIDogMDk4LTg4MS0zMDYzICjguITguLjguJPguJrguLUpDQpM
+SU5FIElEOnRwbGdyb3VwMTk5OQ0K
+--000000000000a49efb0640795c9f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-Hi Allan,
-
->
-> Would you please try "insmod mt7921_common disable_clc=3D1"=20
-> to help us clarifying this issue ?
-
-Sorry for the delay -- this ended up in the wrong inbox. I just tested
-it and that *seems* to help, but the nature of the problem makes it
-tricky for me to test it on/off.
-
->
->
-> On Sun, 2025-09-21 at 19:08 +0100, Sam James wrote:
->>=20
->> External email : Please do not click links or open attachments until
->> you have verified the sender or the content.
->>=20
->>=20
->> Sam James <sam@gentoo.org> writes:
->>=20
->> > Hi,
->> >=20
->> > I'm forwarding a downstream report in Gentoo from
->> > https://urldefense.com/v3/__https://bugs.gentoo.org/963106__;!!CTRNKA9=
-wMg0ARbw!hhyPN8KRVREOUZaTnwDUr6LRxdeYtp4Gnf4XjwU7iMWkTa68kDJhqn79Hwc7wVLveu=
-sZX55jiMSgSw$
->> >   which also came up in Arch at
->> > https://urldefense.com/v3/__https://gitlab.archlinux.org/archlinux/pac=
-kaging/packages/linux-firmware/-/issues/29__;!!CTRNKA9wMg0ARbw!hhyPN8KRVREO=
-UZaTnwDUr6LRxdeYtp4Gnf4XjwU7iMWkTa68kDJhqn79Hwc7wVLveusZX55kCCRjXw$
->> > and on the linux-firmware gitlab at
->> > https://urldefense.com/v3/__https://gitlab.com/kernel-firmware/linux-f=
-irmware/-/merge_requests/684__;!!CTRNKA9wMg0ARbw!hhyPN8KRVREOUZaTnwDUr6LRxd=
-eYtp4Gnf4XjwU7iMWkTa68kDJhqn79Hwc7wVLveusZX5770ZdvXg$
->> >  .
->> >=20
->> > The user describes it on the Arch bug as:
->> > """
->> > core/linux-firmware-mediatek@20250917-1 causes network to fail
->> > startup
->> > and dramatically slows down basically every operation in the
->> > kernel.
->> >=20
->> > symptoms are a pegged kworker thread at 100% cpu util, shutdown
->> > being
->> > prevented, extremely slow commands like sudo, filesystem access. I
->> > suspect a interrupt storm of some sort.
->> > """
->> >=20
->> > And another mentions that removing the module w/ modprobe -r
->> > mt7921e hangs.
->>=20
->> It turns out that I myself do have such a machine, and here's the
->> splat
->> I got in dmesg:
->>=20
->> [   29.647345] mt7921e 0000:04:00.0: Message 0004005c (seq 12)
->> timeout
->> [   29.648029] ------------[ cut here ]------------
->> [   29.648033] WARNING: CPU: 8 PID: 149 at drivers/iommu/dma-
->> iommu.c:823 __iommu_dma_unmap+0x13e/0x150
->> [   29.648046] Modules linked in: rfcomm snd_seq_dummy snd_hrtimer
->> snd_seq snd_seq_device des3_ede_x86_64 des_generic libdes md4
->> nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet
->> nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat
->> ebtable_nat ebtable_broute ip6table_nat ip6table_mangle ip6table_raw
->> ip6table_security iptable_nat nf_nat nf_conntrack nf_defrag_ipv6
->> nf_defrag_ipv4 iptable_mangle iptable_raw iptable_security nf_tables
->> ebtable_filter ebtables ip6table_filter ip6_tables iptable_filter
->> ip_tables bnep cuse uvcvideo uvc videobuf2_vmalloc videobuf2_memops
->> videobuf2_v4l2 btusb videobuf2_common btrtl btintel videodev btbcm
->> btmtk bluetooth mc amdgpu amd_atl intel_rapl_msr intel_rapl_common
->> snd_soc_dmic snd_soc_ps_mach snd_ps_pdm_dma snd_sof_amd_acp70
->> snd_sof_amd_acp63 snd_sof_amd_vangogh snd_sof_amd_rembrandt
->> snd_sof_amd_renoir snd_sof_amd_acp snd_sof_pci snd_sof_xtensa_dsp
->> snd_sof snd_sof_utils edac_mce_amd snd_pci_ps snd_soc_acpi_amd_match
->> vfat snd_amd_sdw_acpi soundwire_amd fat
->> [   29.648205]  soundwire_generic_allocation snd_hda_codec_realtek
->> mt7921e kvm_amd soundwire_bus mt7921_common snd_hda_codec_generic
->> snd_ctl_led snd_soc_sdca snd_hda_scodec_component mt792x_lib
->> snd_hda_codec_hdmi snd_hda_scodec_cs35l41_spi kvm mt76_connac_lib
->> regmap_spi snd_soc_core amdxcp drm_panel_backlight_quirks mt76
->> drm_ttm_helper snd_hda_intel ttm snd_intel_dspcfg snd_compress
->> ac97_bus i2c_algo_bit snd_pcm_dmaengine irqbypass snd_intel_sdw_acpi
->> snd_rpl_pci_acp6x spd5118 mac80211 drm_suballoc_helper snd_hda_codec
->> snd_acp_pci snd_hda_scodec_cs35l41_i2c rapl snd_amd_acpi_mach
->> snd_acp_legacy_common libarc4 drm_client_lib snd_hda_scodec_cs35l41
->> snd_hda_core drm_exec snd_soc_cs_amp_lib amdxdna drm_buddy
->> snd_pci_acp6x snd_soc_cs35l41_lib thinkpad_acpi think_lmi
->> snd_pci_acp5x drm_display_helper snd_hwdep cs_dsp gpu_sched cfg80211
->> pcspkr snd_pcm cec drm_shmem_helper sparse_keymap snd_timer
->> snd_rn_pci_acp3x platform_profile snd_acp_config snd snd_soc_acpi
->> rfkill drm_kms_helper i2c_piix4 amd_pmc soundcore
->> [   29.648341]  serial_multi_instantiate firmware_attributes_class
->> snd_pci_acp3x k10temp i2c_smbus joydev wmi_bmof fuse loop nfnetlink
->> zstd zram lz4hc_compress lz4_compress dm_crypt typec_displayport
->> ucsi_acpi typec_ucsi typec nvme rtsx_pci_sdmmc nvme_core
->> polyval_clmulni mmc_core ghash_clmulni_intel video sha512_ssse3
->> nvme_keyring wacom hid_multitouch thunderbolt sha1_ssse3 rtsx_pci
->> nvme_auth sp5100_tco wmi i2c_hid_acpi i2c_hid serio_raw
->> pkcs8_key_parser
->> [   29.648415] CPU: 8 UID: 0 PID: 149 Comm: kworker/8:1 Not tainted
->> 6.16.7-gentoo-dist #1 PREEMPT(lazy)
->> [   29.648421] Hardware name: LENOVO 21JXCTO1WW/21JXCTO1WW, BIOS
->> N41ET58W (1.35 ) 03/19/2025
->> [   29.648426] Workqueue: events mt7921_mac_init [mt7921_common]
->> [   29.648439] RIP: 0010:__iommu_dma_unmap+0x13e/0x150
->> [   29.648446] Code: 00 00 00 00 48 c7 44 24 10 00 00 00 00 48 c7 44
->> 24 28 00 00 00 00 48 c7 04 24 ff ff ff ff 4c 89 74 24 18 4c 89 74 24
->> 20 eb 87 <0f> 0b e9 79 ff ff ff e8 a6 9d 5e 00 66 0f 1f 44 00 00 90
->> 90 90 90
->> [   29.648450] RSP: 0018:ffffcbc84091fc98 EFLAGS: 00010206
->> [   29.648455] RAX: 0000000000008000 RBX: 00000000ffa00000 RCX:
->> ffffffffffffffff
->> [   29.648459] RDX: 00000000ffa07fff RSI: 0000000000008000 RDI:
->> ffff8940da47b040
->> [   29.648462] RBP: 0000000000003000 R08: fffffffffffffff8 R09:
->> 0000000000002000
->> [   29.648465] R10: 0000000000040000 R11: 206531323937746d R12:
->> ffff894082976810
->> [   29.648467] R13: ffffcbc84091fc98 R14: ffffcbc84091fcb0 R15:
->> 0000000000000000
->> [   29.648471] FS:  0000000000000000(0000) GS:ffff894ff58a4000(0000)
->> knlGS:0000000000000000
->> [   29.648474] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->> [   29.648478] CR2: 00007fbcc40e4010 CR3: 0000000e3202c000 CR4:
->> 0000000000f50ef0
->> [   29.648481] PKRU: 55555554
->> [   29.648484] Call Trace:
->> [   29.648490]  <TASK>
->> [   29.648500]  iommu_dma_unmap_page+0x48/0x90
->> [   29.648509]  dma_unmap_page_attrs+0x23b/0x260
->> [   29.648518]  mt76_dma_queue_reset+0x304/0x4e0 [mt76]
->> [   29.648533]  ? mt76_dma_queue_reset+0x1a0/0x4e0 [mt76]
->> [   29.648541]  mt792x_wpdma_reset+0x85/0x2d0 [mt792x_lib]
->> [   29.648551]  mt7921_mac_init+0x248/0x400 [mt7921_common]
->> [   29.648558]  process_one_work+0x18a/0x340
->> [   29.648566]  worker_thread+0x256/0x3a0
->> [   29.648571]  ? __pfx_worker_thread+0x10/0x10
->> [   29.648576]  kthread+0xf9/0x240
->> [   29.648582]  ? __pfx_kthread+0x10/0x10
->> [   29.648587]  ? __pfx_kthread+0x10/0x10
->> [   29.648592]  ret_from_fork+0xf2/0x110
->> [   29.648600]  ? __pfx_kthread+0x10/0x10
->> [   29.648604]  ret_from_fork_asm+0x1a/0x30
->> [   29.648616]  </TASK>
->> [   29.648618] ---[ end trace 0000000000000000 ]---
->> [   32.847581] mt7921e 0000:04:00.0: Message 00000010 (seq 13)
->> timeout
->> [   32.847600] mt7921e 0000:04:00.0: Failed to get patch semaphore
->> [   36.047344] mt7921e 0000:04:00.0: Message 00000010 (seq 14)
->> timeout
->> [   36.047367] mt7921e 0000:04:00.0: Failed to get patch semaphore
->> [   39.247415] mt7921e 0000:04:00.0: Message 00000010 (seq 15)
->> timeout
->> [   39.247433] mt7921e 0000:04:00.0: Failed to get patch semaphore
->> [   42.447428] mt7921e 0000:04:00.0: Message 00000010 (seq 1) timeout
->> [   42.447452] mt7921e 0000:04:00.0: Failed to get patch semaphore
->>=20
->> sam
->
->
-> ************* MEDIATEK Confidentiality Notice
->  ********************
-> The information contained in this e-mail message (including any=20
-> attachments) may be confidential, proprietary, privileged, or otherwise
-> exempt from disclosure under applicable laws. It is intended to be=20
-> conveyed only to the designated recipient(s). Any use, dissemination,=20
-> distribution, printing, retaining or copying of this e-mail (including it=
-s=20
-> attachments) by unintended recipient(s) is strictly prohibited and may=20
-> be unlawful. If you are not an intended recipient of this e-mail, or beli=
-eve
->=20=20
-> that you have received this e-mail in error, please notify the sender=20
-> immediately (by replying to this e-mail), delete any and all copies of=20
-> this e-mail (including any attachments) from your system, and do not
-> disclose the content of this e-mail to any other person. Thank you!
+PGRpdiBkaXI9Imx0ciI+4LiU4LmJ4Lin4Lii4Lit4Lix4LiV4Lij4Liy4LiU4Lit4LiB4LmA4Lia
+4Li14LmI4Lii4LiX4Li14LmI4LmB4LiV4LiB4LiV4LmI4Liy4LiHIOC5gOC4nuC4t+C5iOC4reC5
+g+C4q+C5ieC5gOC4guC5ieC4suC4luC4tuC4h+C5geC4q+C4peC5iOC4h+C5gOC4h+C4tOC4meC4
+l+C4uOC4mTxicj7guJrguKPguLTguKnguLHguJcgVFBMIEdyb3VwIOC4iOC4s+C4geC4seC4lCDg
+uKrguLTguJnguYDguIrguLfguYjguK3guYDguJ7guLfguYjguK3guITguJnguYTguJfguKI8YnI+
+4Liq4Liz4Lir4Lij4Lix4Lia4LmA4LiI4LmJ4Liy4LiC4Lit4LiH4LiY4Li44Lij4LiB4Li04LiI
+4LiX4Li44LiB4LmG4Lib4Lij4Liw4LmA4Lig4LiXIOC4l+C4teC5iOC4leC5ieC4reC4h+C4geC4
+suC4o+C4l+C4uOC4meC4q+C4oeC4uOC4meC5gOC4p+C4teC4ouC4mTxicj7guKfguIfguYDguIfg
+uLTguJnguK3guJnguLjguKHguLHguJXguLTguKrguLnguIfguKrguLjguJQgNTAsMDAwLTEwLDAw
+MCwwMDAg4Lia4Liy4LiXPGJyPuC5g+C4hOC4o+C5hOC4oeC5iOC5gOC4iuC4t+C5iOC4rSDguYHg
+uJXguYjguKrguLTguJnguYDguIrguLfguYjguK3guYDguKPguLLguYTguJTguYnguIjguKPguLTg
+uIc8YnI+4pyU77iP4LiI4LiU4LmA4Lib4LmH4LiZ4Lij4Li54Lib4LmB4Lia4Lia4Lia4Lij4Li0
+4Lip4Lix4LiXIOC5g+C4muC4l+C4sOC5gOC4muC4teC4ouC4meC4nuC4suC4k+C4tOC4iuC4ouC5
+jCDguYPguJrguJvguKPguLDguIHguK3guJrguIHguLLguKM8YnI+4pyU77iP4Lit4Lix4LiV4Lij
+4Liy4LiU4Lit4LiB4LmA4Lia4Li14LmJ4Lii4LmA4Lij4Li04LmI4Lih4LiV4LmJ4LiZ4LiX4Li1
+4LmIIDEgJTxicj7inJTvuI/guKXguJTguJXguYnguJkt4Lil4LiU4LiU4Lit4LiBPGJyPuKclO+4
+j+C5hOC4oeC5iOC5gOC4iuC5h+C4hOC5gOC4hOC4o+C4lOC4tOC4lSDguJrguLnguYLguKM8YnI+
+4pyU77iP4LmE4Lih4LmI4LiV4LmJ4Lit4LiH4Lih4Li14Lia4Li44LiE4LiE4Lil4LiE4LmJ4Liz
+4Lib4Lij4Liw4LiB4Lix4LiZPGJyPuKclO+4j+C4nOC5iOC4suC4meC4geC4suC4o+C4reC4meC4
+uOC4oeC4seC4leC4tOC4o+C4seC4muC5gOC4h+C4tOC4meC4l+C4seC4meC4l+C4tTxicj7inJTv
+uI/guYTguKHguYjguKHguLXguYLguK3guJnguIHguYjguK3guJkg4LmE4Lih4LmI4Lih4Li14Lih
+4Lix4LiU4LiI4LizPGJyPuC4leC4tOC4lOC4leC5iOC4rTxicj7guYDguJrguK3guKPguYzguYLg
+uJfguKMgOiAwOTgtODgxLTMwNjMgKOC4hOC4uOC4k+C4muC4tSk8YnI+TElORSBJRDp0cGxncm91
+cDE5OTk8L2Rpdj4NCg==
+--000000000000a49efb0640795c9f--
