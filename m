@@ -4,137 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45909CCD1A5
-	for <linux-firmware@archiver.kernel.org>; Mon, 20 Oct 2025 12:15:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11CDECCD1A7
+	for <linux-firmware@archiver.kernel.org>; Mon, 20 Oct 2025 12:17:04 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 1812BC16AAE; Mon, 20 Oct 2025 12:15:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01605C116C6
-	for <linux-firmware@kernel.org>; Mon, 20 Oct 2025 12:15:58 +0000 (UTC)
+	id D7544C16AAE; Mon, 20 Oct 2025 12:17:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C186CC116C6
+	for <linux-firmware@kernel.org>; Mon, 20 Oct 2025 12:17:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760962559;
-	bh=t8iypG+izqipvOeGO3ey1OFy0KqtvLqD6/MVsMcivDQ=;
+	s=k20201202; t=1760962624;
+	bh=f18uF07cu2n+HT8STMn7t0hlJhmS++bLq0sHUrNFzZM=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=PyPxsvieXMeQYelyZJ92HG04oF5cVT3qBZvgT5zwQN9luPSayHHLQfInAKTBKqNLd
-	 5syB0MKKk9WMKSMDlOw4tSNB/b9bKqviv5E4tnriGikLNcj0GsTWPuyF4PZbkj/vmA
-	 dNDbK1s/jAdwpn4gy5uPKs1FuskM8SfegFCS4s/o5E0vxjMytsoLe9W9qUyVsjkcc7
-	 01q+DE3XaGw1kbbRThVKY4cWIPOk+9bdKuWONaXFNe1f3UUl3gVGpLs9CHH3+vKoV6
-	 +WvMUJYUKsbBq4dS/8pyd+2XVNM+WOSyibR7Y9MejRNJTdZNh/669F+1ESVngHlQYp
-	 6fqfuRFBAFB9w==
-Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-63d0692136bso4373613d50.1
-        for <linux-firmware@kernel.org>; Mon, 20 Oct 2025 05:15:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWVmzVm7oJeHh6y6WH1hyAR6686pGN2RNrbxPXN15GrSJpjoNsUa922IEyp3f7a3dvoIMMgSF1/LBJMfjE2Aw==@kernel.org
-X-Gm-Message-State: AOJu0Yy3djpHSyw60+ccAc0gGKlIPJX/z5rPgYWVKKOosP7hM2FyQNrQ
-	3Np9AspNcfBjebAkta7KnMlesvQKNbHrZEhvEQnIJZGr63xlr+tcnguEF1D68jBP6MMA9JQXQq2
-	8o8nE1Am4mcc8v6ZNMvyTxIJ8yE/KUI4=
-X-Google-Smtp-Source: AGHT+IGI7sjc8zOkZkazJrbDswcmqM2nQ070GCfTr7l+NainHz0llTZKoFf2eTV3t1Ow+R+xaRLcS2+GTNgucNNpO1M=
-X-Received: by 2002:a05:690e:14c5:b0:63e:2f0e:6721 with SMTP id
- 956f58d0204a3-63e2f0e6aaamr4353693d50.42.1760962558157; Mon, 20 Oct 2025
- 05:15:58 -0700 (PDT)
+	b=lF9rbAjESd8voKydj4p10txSxvUNs98oN3iri96YtNycp8rGwfEbrEHlmiCbyA60n
+	 orkYaZ08h+5NZ0Q67HJUVXg0aIShjeixRt/9uGnSU1VsRdTVRykgLx6QhAheMSDSo0
+	 E7xLEl2y8EbyDiMCDV2rXCyw5ItWvTlekuy2SIxxBmwnYhj4H723Hh/Z5DPNtuk48N
+	 rMVb0M6QH4Cn0aIUO8IU5anoHdTzh24lLcby2ygENCXp6WBZYgdLj+eSAWUXaqujvP
+	 wHVkbNIZ8NNcP0ZpF6n/C49MOtVyWd/CCl4JFWdNiDQkFggwk9pebVLYFei7Xw+6tm
+	 BfNedCuzUzZmA==
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-784a5f53e60so5610597b3.2
+        for <linux-firmware@kernel.org>; Mon, 20 Oct 2025 05:17:04 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yxx1CiBrh7fo6OUExpyAFyFQj7EUY6wL1+Iu1Dz7Ywn4jXOmROr
+	uIX9Clz/AG1uBrl/0qsgNNDyHz3Jj6dJEAogUI0ZN4J+0Oz0BMlCoE3KZ2CHUm/6gEPYZb6wXpZ
+	3UIilvzegb0D8FYlyp+sv5hmqNf+TTPc=
+X-Google-Smtp-Source: AGHT+IEXxUVjWj0hn6ohZVnmilbB7NekiLS+ZJSbH+pYwA7T9ogOP6/y5Nrham5w/PU3b7VAVakpwyJ2KMVaKQ0jpNg=
+X-Received: by 2002:a05:690e:168c:b0:63c:f5a7:3e7 with SMTP id
+ 956f58d0204a3-63e1620efedmr10405892d50.67.1760962623982; Mon, 20 Oct 2025
+ 05:17:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20251017185444.638795-1-ttabi@nvidia.com>
-In-Reply-To: <20251017185444.638795-1-ttabi@nvidia.com>
+References: <20251017084249.2796351-1-bingbu.cao@intel.com>
+In-Reply-To: <20251017084249.2796351-1-bingbu.cao@intel.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 20 Oct 2025 08:15:47 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA4Mvry3B0rA1SAM+1WxKguaN3DRH9JP29SS4XLdpfiJnQ@mail.gmail.com>
-X-Gm-Features: AS18NWCr-_ujVCGmCcvFiu5xMjaS4ZeMFyRW9gfBbZNx74NcJ5VWAzkrQ3qiCs0
-Message-ID: <CA+5PVA4Mvry3B0rA1SAM+1WxKguaN3DRH9JP29SS4XLdpfiJnQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] nvidia: add generic bootloader for GSP-enabled systems
-To: Timur Tabi <ttabi@nvidia.com>
+Date: Mon, 20 Oct 2025 08:16:52 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA5VZOXjYhFfir2RfsVJXsRqmxwZxzivuWE8ZP0JvLLNrA@mail.gmail.com>
+X-Gm-Features: AS18NWCRWDtFAdsQoiiROiiJYqljc3RTsmnlmteCrBfbkmlSJE_xvFqw_wW2WJM
+Message-ID: <CA+5PVA5VZOXjYhFfir2RfsVJXsRqmxwZxzivuWE8ZP0JvLLNrA@mail.gmail.com>
+Subject: Re: [PATCH] Intel IPU7: Update product signed firmware binary
+To: bingbu.cao@intel.com
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Mario.Limonciello@amd.com, linux-firmware@kernel.org
+Cc: linux-firmware@kernel.org, linux-kernel@vger.kernel.org, 
+	sakari.ailus@linux.intel.com, hao.yao@intel.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 17, 2025 at 2:56=E2=80=AFPM Timur Tabi <ttabi@nvidia.com> wrote=
-:
->
-> Add the generic bootloader to the GSP directory so that Nouveau and
-> Nova can use it, instead of borrowing the booloader from the acr/
-> directory.
->
-> On Turing and GA100 systems that boot GSP-RM, the "generic bootloader"
-> is a small firmware image used to boot FWSEC firmware.  To date, this
-> image is the same as the "ACR bootloader" in the gp102/acr/ directory.
-> Nouveau simply grabs that image when it needs to boot FWSEC, even though
-> it is technically in the wrong directory and not generated from the
-> OpenRM source files like all of the other firmware files that Nouveau
-> uses.  All GSP-related firmware images should be in the gsp/ directory.
->
-> For the Nova GPU driver, this approach has two problems.
->
-> 1. Although the generic bootloader hasn't changed since 2016, it is
-> packaged in OpenRM as a binhex array and could theoretically change
-> for any future version of GSP-RM.  The current approach that Nouveau
-> takes would not support this.
->
-> 2. Borrowing images in other directories is problematic, as the firmware
-> loading code in Nova expects all images to be in the gsp/ directory.
->
-> To remedy both issues, a new build of the generic firmware is introduced
-> for the 570.144 firmware and placed in the gsp/ directory.  This image
-> is generated by the extract-firmware-nouveau.py script used to build all
-> the other linux-firmware images.  This new image, although slightly
-> different in composition, is interchangeable with the acr/bl.bin image.
->
-> A generic bootloader for r535 is not included, because Nova does not
-> support r535 and that firmware version is also deprecated for Nouveau.
->
-> Signed-off-by: Timur Tabi <ttabi@nvidia.com>
-
 Merged and pushed out.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/745
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/744
 
 josh
 
+On Fri, Oct 17, 2025 at 4:42=E2=80=AFAM <bingbu.cao@intel.com> wrote:
+>
+> From: Bingbu Cao <bingbu.cao@intel.com>
+>
+> Update IPU7 firmware binary, it is a product signed binary
+> used in latest Intel Pather Lake SOCs. Its version is same
+> as the old one, but it's product signed binary which can
+> be used in released product.
+>
+> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
 > ---
->  WHENCE                                      |   3 +++
->  nvidia/tu102/gsp/gen_bootloader-570.144.bin | Bin 0 -> 816 bytes
->  2 files changed, 3 insertions(+)
->  create mode 100644 nvidia/tu102/gsp/gen_bootloader-570.144.bin
+>  WHENCE                   |   2 +-
+>  intel/ipu/ipu7ptl_fw.bin | Bin 266240 -> 266240 bytes
+>  2 files changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/WHENCE b/WHENCE
-> index 5da99f80..1aab9007 100644
+> index c95b791e4477..9ff1918f5f9c 100644
 > --- a/WHENCE
 > +++ b/WHENCE
-> @@ -5785,12 +5785,15 @@ File: nvidia/ga102/gsp/gsp-535.113.01.bin
->  Origin: gsp_ga10x.bin from NVIDIA-Linux-x86_64-535.113.01.run
->  Link: nvidia/ad102/gsp/gsp-535.113.01.bin -> ../../ga102/gsp/gsp-535.113=
-.01.bin
+> @@ -1398,7 +1398,7 @@ File: intel/ipu/ipu7_fw.bin
+>  Version: master_release_20240628_1854
 >
-> +File: nvidia/tu102/gsp/gen_bootloader-570.144.bin
->  File: nvidia/tu102/gsp/bootloader-570.144.bin
->  File: nvidia/tu102/gsp/booter_load-570.144.bin
->  File: nvidia/tu102/gsp/booter_unload-570.144.bin
-> +Link: nvidia/tu116/gsp/gen_bootloader-570.144.bin -> ../../tu102/gsp/gen=
-_bootloader-570.144.bin
->  File: nvidia/tu116/gsp/booter_load-570.144.bin
->  File: nvidia/tu116/gsp/booter_unload-570.144.bin
->  Link: nvidia/tu116/gsp/bootloader-570.144.bin -> ../../tu102/gsp/bootloa=
-der-570.144.bin
-> +Link: nvidia/ga100/gsp/gen_bootloader-570.144.bin -> ../../tu102/gsp/gen=
-_bootloader-570.144.bin
->  File: nvidia/ga100/gsp/bootloader-570.144.bin
->  File: nvidia/ga100/gsp/booter_load-570.144.bin
->  File: nvidia/ga100/gsp/booter_unload-570.144.bin
-> diff --git a/nvidia/tu102/gsp/gen_bootloader-570.144.bin b/nvidia/tu102/g=
-sp/gen_bootloader-570.144.bin
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..d7269c05d06638c5c85fd9f00=
-49d9e1c63895d17
+>  File: intel/ipu/ipu7ptl_fw.bin
+> -Version: master_release_20250515_1232
+> +Version: master_release_20250515_1232_ProductSigned
+>
+>  Licence: Redistributable. See LICENSE.intel for details
+>
+> diff --git a/intel/ipu/ipu7ptl_fw.bin b/intel/ipu/ipu7ptl_fw.bin
+> index 32526904344e1df4108d8184c375fe23f9fca092..491f61e64e9d779da3fdb1733=
+c03405eec074a17 100644
 > GIT binary patch
-> literal 816
-> zcmeH@F;Bu!5Xb+N7GDLSR0k3#zk%$garGPM=3D67&+XVIF}_zKcG5I+DUm7yJ(b<k0C
-> zabN<Ir)f+2^eVXN?%*Zw{+G+$z2Du~016;efd<KT9v6Wu*KboO$R8EnVHc1pqTaEQ
-> zAy!(H=3DAO>GtBJ`wX7IwCrv|^QWm4nqb$+(N?W%l7@WA94U&TIi66VNC=3D4qL)$<8uc
-> z;chv)5B-^Slp*b^LzliAK9alk1$&KG2Ed`%QBHwUi=3De4D5@}M3i!`+$+lw*YT7MEg
-> z&#arDXDk4!+|>hN1m`UDZ1OqAvi}!2gM0PhjX9G>UV8yrQ%(^HYfIvUfI?}fi8lPm
-> zY3G7X<D$-PUCbON%9})7*t3!Ps44n>E=3D*TR23M%`H<OWdAd!q{JySFd(X5N6894+L
-> O_2zZD?!Wz|3w#1w)}l55
+> delta 809
+> zcmV+^1J?Y2pb&td5U|Vve@FV_NZ;44qovZ{PgO|bxO7A6Xa%9b>&v5TL4cN{8;EHE
+> zEn@&W%B41|b;S8t7K#?kR)fT0Cwm9dB4XhRYdg~QwA|{e@5TFi^U~tz2GadLGNF4t
+> z?A9}ct~ftJx**?I?u|=3D`?y(>{AY=3Dx;N^<;(v#imW5SW(rIe2%af4GkT-xTX0i107x
+> z)pZcnVV;4H*Ek4?%_kL9yA_R8+I8LmY@~36w)gO#^2WqkG(1dX?o`^ecOSab<=3D~mC
+> z%~&-yX5(_Yy~m7l4N{I&SIQur*CrW<oJYM;0OU8AlmN1Q@35jmUrovqHPr-R;jfrx
+> zjW1V(k^DH_B~_h>f9R?_t|^;Wa`1ncnH;t@0jpA+_dQj48oj0|=3Di7IRV?i1B@srs`
+> z@q7QyiHiH99T_lT%rG;hU1m#KI2Gm3VfAOi9zfyNe;O4Clc#GAf0ycF8SQ5)CrHYb
+> zMDl__IwI&iqQjSFI`w_IQ_oy;y{kVdv=3Dt(S8ZxCLEVQxlf9EsH0RRC2eND^A4Fb4K
+> zjMn5(GR+bCfG2&ntZEf&v1kZ>6r8t;?!2P}V*8F|a&+sgEO+eWp_>L~e!ah3q9(M^
+> z;6^9F;LW*o7vE9Aootrjpfny+^A4FJ1FooqiU?C`(LDE)*odT=3Dq3o!AUnO#R7Q^X-
+> z7_gVPl`H1?f5B6a%l#nzRaYQq4|K36t-yD~CO!lp$sVUD!P^x<HFn#-i2|;CKBm`%
+> z;}v2pHVv4C_Nk_*4v-clkIZ6)=3DQDNF>9}uf%!$oR;pMNOoJm;!JeCQ+ILi^y=3D5A7C
+> zJO)8|mry-<5Q4Zjg`|{s>9=3Di@_r`CP+bPT)y-C)te|St|;&#$+a4GW;&n8vbR$<yI
+> z|3|z_*~!SI-31$?-U4X<urVxEM;KaL?yilPHVY@umd_~O!6jcBI|gA;88Z;6u4A!<
+> zxK^T;88db8wy$xG$~nG+@E<9PcK4P`?XiY+s}DtQ|Mhl82rc2G&}hyR5;X4&xNb`+
+> nBDa7h3Q`o?U${*P=3D`3J_&;*Cj1ObQ81OkW91OvCw1OzY(x;c?#
 >
-> literal 0
-> HcmV?d00001
+> delta 809
+> zcmV+^1J?Y2pb&td5U|Vvf0;z$Mq&>fEp&7g@i=3DEZKFeW}+tk6YUmtP@+)-f;EkTIW
+> zEg#*>R+-WKI*IomAz9MYgiNc>(N6v~vZQI~jgKwW*_i8P2xVii(lAc)k>$p?DzFH_
+> zw=3DDOPY$-`Sa^6i;6mEct{zM!ZmQ%CVZi>%qe+Od@c&8h^y)DRLe^RYQW*v5q0ew~J
+> ziCZ0j@L(&v;$BU8ZAFc`GE;2>AkVJ2ZtZR;tR-_$C^2!-b+k24m;oz5&Yu{mE;O6N
+> z(@DfxQ;S9>&64-^K;Kqj^@(i-i20>2flWVAF!WkGY_|+{lzL-`<#zSBw^{h5%GsCi
+> zPv$u7kJ`Of(6q7}e<6Dhv@C(k0K*7z9DT`*6yDAhcYILAWtR3n#J}42uD4$z7<W9!
+> zZ{PUwjK%=3D-VVEudAiiu$KB@v3X`moOQC$jli>6Gt*AJS1Qyz*pV-m}@dU-T6aZzuz
+> z*;PmalL}w0DgqTUO@K?DMha_vw;2JLKttS5t)x!W<b}ohf3P*q0RRC2A(&CF`N5a+
+> z6Y2Hz$;iAc{lSFj?5{+GrO;qdM@->EiX_52L0z#g&#ylgoWIi<{__V9#rRS=3DK`>$N
+> zh4BkXe1#F{-H?FqO=3DH)u7*({#Hgq`5G@6=3Dap^{F2UdEnhoJmAJ?r#qt?wnr8h!+S_
+> zuCj>o7@b=3Dke?;&>(FM8iIagWo0EGNqgq#1(d|L-tdAP{ndv`AN{pj^+AXms7lj<AX
+> zeKhsX6!`dw1VZx!%oNG|71sJ+=3D)4<{elPInVga<8?N7h0Kh!>yVmtOw*Fxu5f^8(P
+> zz@ZGInZ6x;W+z38C&&A=3DS}JT{cIhK<H3{*EW|>)jf6neGnDNsPuU7@K+2LZ}Hw8<$
+> zir(b&kW$yZ^ceC#U?5=3DPC(!L#{V?D9u%vcucbB-naviWVi9~NKU2iMPTp+8hZnIst
+> zqD*Si!AT6v3Y&y@oQ`wlk_bW`a+Cdq+h2`wGa8Ukd>BSZ_e0a!5FgswmM6XdMprRw
+> n*7d`U3OPV=3DTZ`alWbP@0&;*Cj1ObQ81OkW91OvCw1OzY(NvDlu
 >
 > --
-> 2.51.0
+> 2.34.1
 >
