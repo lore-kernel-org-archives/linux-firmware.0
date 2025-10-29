@@ -1,143 +1,110 @@
-Return-Path: <SRS0=IQ9Z=5F=oss.qualcomm.com=kishore.batta@kernel.org>
+Return-Path: <SRS0=sTQ7=5G=realtek.com=max.chou@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A01BDCCD1BF
-	for <linux-firmware@archiver.kernel.org>; Tue, 28 Oct 2025 08:55:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC548CCF9EE
+	for <linux-firmware@archiver.kernel.org>; Wed, 29 Oct 2025 09:18:55 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 699A1C4CEFF; Tue, 28 Oct 2025 08:55:36 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	id AA09EC113D0; Wed, 29 Oct 2025 09:18:55 +0000 (UTC)
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 8036EC4CEE7
-	for <linux-firmware@kernel.org>; Tue, 28 Oct 2025 08:55:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 8036EC4CEE7
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59S7dV0l1032894
-	for <linux-firmware@kernel.org>; Tue, 28 Oct 2025 08:55:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	pxYDce0MjPhrPTVa0VpLjGoAbgRoRK2B1pvOH8Rto2w=; b=dzH5Lm7RPjGbVB8Z
-	wkmpcWw6KXJ1BO2Y8yLYf1VqPGyLVOFeqX+9wAEswgVGlvZJJqYVUcsqWY2eYtFc
-	+isRWjn0laueleWXk3vWnzGVlJU1uvKbU04JNyc1HPxl6GztyPZQwfGTFVW6RoEr
-	Klg5wrQCwhCI+0a7HGpUA28wTXKSh4F5E/Tt8m1P+n+poRZ3C++Fkl8OOQja/PKQ
-	hp4WtwyNUZz+2bHjJ6jLvWrxEGuqCDhs6WsdsroJaXtmV/V+HcoVapyrSBz9COqS
-	LbZQ/pyrUTv9zLpjPZOHAdSugusc30ITBT8KY7Cj6NLId6Y6Gx+Y1kyRE+/u2f1p
-	ASPZIQ==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a2smur7jf-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Tue, 28 Oct 2025 08:55:34 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2930e2e8e7fso47065925ad.2
-        for <linux-firmware@kernel.org>; Tue, 28 Oct 2025 01:55:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761641733; x=1762246533;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pxYDce0MjPhrPTVa0VpLjGoAbgRoRK2B1pvOH8Rto2w=;
-        b=j7m835TKnRYo+1csqgZtRfMOLzyHDGAnllK57d9y62g3eevW24uSPPiWvLXC+EUeqw
-         RnnPmZBTm3QQAeETOdO2UWutGkE+C2MTLJ0VsKxeaPB/YeyH1ICsSKyppe+XUivzRYBg
-         1Gz0zzmmma+7XtE/YpOpn+GEmdEaUg0/iQme2DHRN7zEKChEx+eXhGSaSNevRp/2FMPj
-         Ecfoe9IyTLOSJitEqLDehrl5l/YCFic9GN0fMAdgrd6nHGNiaaJIFnriwql1hJzovD0F
-         cHA5gLm/vAAA1piFDGi4Kg0CmHeBcmUvTkw+Ee3D7JSxeAD14BMXOdCwEb5utg3tMHOg
-         og/Q==
-X-Gm-Message-State: AOJu0YxFswfz5E8J1QFcwxm8H7gj48sAOfh9zgu55h7MryvBbDeS4vFV
-	uefKdtNzX9u5mXEy4lmzjSET0YhRwa0YVhpcNo7xF63vgwSLZJ5tXcmkDOTC1j8a72CPmgFeuAr
-	4QF6tsWIADqt/OBPRZDrF4oZf/EcrSwBarOmi+G4t5wt8WMnWzDKMGXe7tezOwf4=
-X-Gm-Gg: ASbGnctXXY6ZNM5vFqAxY7VayWKgwB9ubs7x8ezCUjM3jYkh5oc7aU7PWOsBiejO3U8
-	uw6yijA5P+qQVz6Lf0+0y9Rxia8V1deqt2CDS1sdhTpE4fbwFoVrANcmfzCWQzAo1yT2B8CKnsf
-	VELm2BQ12JUz1kDXmkiD+Ec/juoOVOVcR5j+D4Lec7m5Gvl1Qx5ylmj8IKwjit4wQrkwiVRi3n/
-	cKL0EVBCOHC46++AeARSHFQbSb+IuK/prbYDyL6irA2dYJkv1FeXZczVLRrY6wSeQE/boD4Zj5R
-	r8Th60yJtzlmf9wYviuntHjpgRuaVaXgAviA5X3LhlhKHrysSYALe5+fUmsOXeC0SNZDThYF4Eo
-	lrdJrUNf+78D7+Y2dWvkahTusqKfVkHc=
-X-Received: by 2002:a17:903:1666:b0:276:76e1:2e84 with SMTP id d9443c01a7336-294cb37b7dfmr39967365ad.3.1761641733337;
-        Tue, 28 Oct 2025 01:55:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IErgujnOh9jTd/xdJF/0YVgIkKMQCEv5OCbJRVCjoeDYJbtSlChjZIQqDtdms2lrkxYYyRyAw==
-X-Received: by 2002:a17:903:1666:b0:276:76e1:2e84 with SMTP id d9443c01a7336-294cb37b7dfmr39967015ad.3.1761641732866;
-        Tue, 28 Oct 2025 01:55:32 -0700 (PDT)
-Received: from [10.217.219.169] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498cf4a40sm110946835ad.0.2025.10.28.01.55.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Oct 2025 01:55:32 -0700 (PDT)
-Message-ID: <e8ef97f3-8f2d-475f-a283-2e39b8effa32@oss.qualcomm.com>
-Date: Tue, 28 Oct 2025 14:25:29 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PULL]: Revert QDU100 firmware binaries
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Josh Boyer <jwboyer@kernel.org>
+	by smtp.kernel.org (Postfix) with ESMTPS id 21951C4CEF7;
+	Wed, 29 Oct 2025 09:18:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 21951C4CEF7
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 59T9IgAuA4037791, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1761729522; bh=hVp1MRMB2XAwkIYlhmqk8Ga8U8oZ0LUUqjaFV3yAq9U=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=MENmPNHzw/UWQ9Y65GFEFHoGKBfMACZsqnD/jfvaq63i62uAad+SxnBG+CT0cSgvm
+	 mi4WPffQNrz871zVaVmFxpd/E1KQHtxt1z/5gKf3fL3iTnaTf5h0ObXk7DSnDM05ur
+	 bJu0DyITRm6aGYIf/54jTS3+q/Dqp6tfm+xeiUSv7e7r8cQFHtU9hDZ1VVBCQ5k1LP
+	 slbRyHZSS37qcFEFKhmdANEKhAETLKuQczoe2aLUzOHHhAzIErQNJ2OAUi8ULjYYXr
+	 4luIVPv0iDTegmKFwklwFoMqJ4Dg/XgwPLEdgqQOt1zbheCsnGMBstxKw+WUbUngZw
+	 SHyUWa2xKFZ6A==
+Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
+	by rtits2.realtek.com.tw (8.15.2/3.13/5.93) with ESMTPS id 59T9IgAuA4037791
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 29 Oct 2025 17:18:42 +0800
+Received: from RTKEXHMBS03.realtek.com.tw (10.21.1.53) by
+ RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.27; Wed, 29 Oct 2025 17:18:42 +0800
+Received: from localhost.localhost (172.24.54.48) by
+ RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server id
+ 15.2.1544.27 via Frontend Transport; Wed, 29 Oct 2025 17:18:42 +0800
+From: Max Chou <max.chou@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org
-References: <9d96eedd-c1de-488e-ac5a-d515d8d3563b@oss.qualcomm.com>
- <76de8198-d219-443c-9283-2811ab338c17@oss.qualcomm.com>
- <CA+5PVA5sjP5a9Jr3=5E5vM=jGP3JcA5ELKLuxd4JSVzG8avKdg@mail.gmail.com>
- <b3a1d843-6e64-4573-8afd-edb10ab8e86e@oss.qualcomm.com>
-Content-Language: en-US
-From: Kishore Batta <kishore.batta@oss.qualcomm.com>
-In-Reply-To: <b3a1d843-6e64-4573-8afd-edb10ab8e86e@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Josh Boyer <jwboyer@kernel.org>, <linux-firmware@kernel.org>
+CC: Hilda Wu <hildawu@realtek.com>, alex_lu <alex_lu@realsil.com.cn>,
+        <niall_ni@realsil.com.cn>, <zhu_qing@realsil.com.cn>,
+        <brenda.li@ublnx.com>, Chih-Hsiang Wang <wangchihhs@realtek.com>,
+        Max Chou <max.chou@realtek.com>
+Subject: [PATCH] rtl_bt: Add firmware and config files for RTL8761CUV
+Date: Wed, 29 Oct 2025 17:18:59 +0800
+Message-ID: <20251029091859.569005-1-max.chou@realtek.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: omF4jZBGDgTSAs3TIzsHJHPKzxixVxPv
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI4MDA3NSBTYWx0ZWRfXzhgX8rG2M6UA
- lC0grhKulxyB2JFzP4sXxz12SEnpCzLSTPkr8uHtZswmoqCYYh2Sm9iVxOk1c/OL3uiZL1MrYsE
- BdXcvgwU1ozmEUYH09leHEetfD9cMgctqYX1uuLziwamhmE6UH/QB06fUz5rdXyZt4tXmFvlPZf
- /EO57dBE+SnJlTq99jPSzssfItU8KUpWFEb/azLEpk9nzR6LRe+13l+FwtbUqNRJ+2iFiZPIVd9
- 7uLWFZRqXsg5HbY4uQmwqK46gp3BHoCq1jutDOmFYWwrdNy4bjwNHwxBYz7mp8UvEO7lTz6g4Ga
- PSQlQsMuYE8o8b/nn3HjAyA/t58MSzXWNv7svzX1wzcK4mxTGYMiIXlTHlmFhe1UOYWpdsljnn2
- alIyIEPPhDfVea0XSM67B1WLeJseaA==
-X-Authority-Analysis: v=2.4 cv=IcCKmGqa c=1 sm=1 tr=0 ts=69008506 cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8 a=vZuFnrfr1LfqNwuzC58A:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22 a=HhbK4dLum7pmb74im6QT:22
-X-Proofpoint-GUID: omF4jZBGDgTSAs3TIzsHJHPKzxixVxPv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-28_03,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 clxscore=1015 suspectscore=0 impostorscore=0 spamscore=0
- priorityscore=1501 adultscore=0 malwarescore=0 bulkscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510020000 definitions=main-2510280075
+Content-Type: text/plain
 
+This firmware/config is submitted for RTL8761CUV
 
-On 10/25/2025 5:22 AM, Dmitry Baryshkov wrote:
-> On 24/10/2025 19:24, Josh Boyer wrote:
->> On Fri, Oct 24, 2025 at 5:49 AM Kishore Batta
->> <kishore.batta@oss.qualcomm.com> wrote:
->>>
->>> Hi,
->>>
->>> This is an updated pull request to reflect a corrected commit message.
->>>
->>> The following changes since commit 
->>> 19731a36222e7b1ca09be090a19bfd89640a837f:
->>>
->>>     Merge branch 'HP_Linux_Firmware_20251023' into 'main' (2025-10-23
->>> 13:30:10 +0000)
->>>
->>> are available in the Git repository at:
->>>
->>> https://github.com/kishorebatta-ossqcom/del_linux_firmware.git
->>> del_firmware
->>
->> We can merge this, but the firmware is already released and included
->> in a number of distributions.  Deleting it in the upstream repo isn't
->> going to remediate the license situation.
->>
->> Which platforms is this going to break and how will it show up to the 
->> user?
-> It will only break the QDU100 platform. I don't know the spread of the 
-> device, but it is a 5G RAN platform, so it'd not a widespread device.
->
-> Nevertheless, I don't think that just deleting the firmware is a 
-> proper solution for the situation.
->
-We are checking with LOST team internally. I will get back on this soon.
+Signed-off-by: Max Chou <max.chou@realtek.com>
+---
+ WHENCE                      |   2 ++
+ rtl_bt/rtl8761cu_config.bin | Bin 0 -> 11 bytes
+ rtl_bt/rtl8761cu_fw.bin     | Bin 0 -> 10296 bytes
+ 3 files changed, 2 insertions(+)
+ create mode 100644 rtl_bt/rtl8761cu_config.bin
+ create mode 100644 rtl_bt/rtl8761cu_fw.bin
+
+diff --git a/WHENCE b/WHENCE
+index db7e1300..16d9ac10 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -4267,6 +4267,8 @@ File: rtl_bt/rtl8761b_fw.bin
+ File: rtl_bt/rtl8761b_config.bin
+ File: rtl_bt/rtl8761bu_fw.bin
+ File: rtl_bt/rtl8761bu_config.bin
++File: rtl_bt/rtl8761cu_fw.bin
++File: rtl_bt/rtl8761cu_config.bin
+ File: rtl_bt/rtl8812ae_fw.bin
+ File: rtl_bt/rtl8821a_fw.bin
+ Link: rtl_bt/rtl8821a_config.bin -> rtl8821c_config.bin
+diff --git a/rtl_bt/rtl8761cu_config.bin b/rtl_bt/rtl8761cu_config.bin
+new file mode 100644
+index 0000000000000000000000000000000000000000..018dcf93b1cbad5e865dfe6f27598382c90b4973
+GIT binary patch
+literal 11
+ScmWGtt=!Ja@STB)fdK#%&jP6c
+
+literal 0
+HcmV?d00001
+
+diff --git a/rtl_bt/rtl8761cu_fw.bin b/rtl_bt/rtl8761cu_fw.bin
+new file mode 100644
+index 0000000000000000000000000000000000000000..475320d0bd5c982cc472422cb37d263f785a24f3
+GIT binary patch
+literal 10296
+zcmeIuF-rn*7{~GFPOGbys~{xQ^VGz^K(RUWipz^63fh$t9D*Ez93oDT@?|(Q1Z{$&
+z(Av;oLNt|uP$t2lWOrcLUuftp1i$CuyFBnLpWRIQ@Hn%d?KK>#orpN%$wq_U4YSMN
+zh;mhFOG?N|pM&$dwV>MmT(#U<tS^Xy?$VU*A_=-PQB(r=FL_Tk-IG!aT1k=W<<gv{
+zyUr_7mGk-|qd%_|Q9Ww+>%k(UWs>pAdS`vG3|5cTXIZR)Ii*b|gjB9pI+KZtPs6LS
+zF7RRTXr4mkV9}*ad)K~;;i*jGc!-wUgE;w<+t21oVNB%$cWuf{bk>RYao$IhZen?o
+zn;QqtRwWoR8nw4UL9CJ--<(!w&6!wHvDNuboYwNTrslk@1eZoW3<CoJ2tWV=5P$##
+zAOHafKmY;|fB*y_009U<00Izz00bZa0SG_<0uX=z1Rwwb2tWV=5crn@!zf2P_V1G)
+DSQB)6
+
+literal 0
+HcmV?d00001
+
+-- 
+2.43.0
+
