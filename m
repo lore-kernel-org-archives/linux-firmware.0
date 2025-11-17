@@ -4,279 +4,111 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E333CEACEF
-	for <linux-firmware@archiver.kernel.org>; Mon, 17 Nov 2025 17:40:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 062ECCEACEF
+	for <linux-firmware@archiver.kernel.org>; Mon, 17 Nov 2025 17:41:21 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 12DABC19423; Mon, 17 Nov 2025 17:40:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0296C2BCB4
-	for <linux-firmware@kernel.org>; Mon, 17 Nov 2025 17:40:24 +0000 (UTC)
+	id CE493C19423; Mon, 17 Nov 2025 17:41:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA816C19424
+	for <linux-firmware@kernel.org>; Mon, 17 Nov 2025 17:41:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763401224;
-	bh=LWw1W21UquRqL8e3bZjh/X9OQfgRxMvVHjzBSJh+tu8=;
+	s=k20201202; t=1763401280;
+	bh=A4F5PJLasrrm16tZ8Vvy+5mmSuMc9DptCJKcLbMf4yc=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=JDGE1mYtwk902x9ZlOVQKbJC0OJJ5umT2cGfHyx0rANdtnnhfWiWr1G685eru75Yd
-	 SIoRmbgWmmQbSjqeSByIJuAeQMMDkNRk+zlnHGmebubhcsGlDHoCJfbvp3VXD7c4t6
-	 t6lxycTEXNEr1LuGGDsAOgUfy7vc0nFbpShSmjScgoqbJXzOKPeJNa026kXciED742
-	 QRilaUELkyb+0A5HZfiMLy7Zzs69K2IyMHL27Hjx5nyvNwo5aSaxmGmeBYROC3cfNS
-	 gUHl0l1mzt3kCRb2o5F6T65MEi+QTpfavAJBYZJIWXvs0VpcRMEpFk3b3I3InITyDL
-	 oPMqZGFUfUC0Q==
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-789524e6719so18158947b3.1
-        for <linux-firmware@kernel.org>; Mon, 17 Nov 2025 09:40:24 -0800 (PST)
-X-Gm-Message-State: AOJu0YyDOJAQa0C3zGk1XTFSO1Uj/MTXlyy4cUZXO742m0emrFvHyJcZ
-	G8JjFu4E41W3EXmMxgkYWc3uw0XnlznDuyqeubAzs9ASFYJS9DcuQfp5Vz+NyQ3mpMLSg7dOH4G
-	pSd2N+94ga1PNqw0p5wm32lqQ1U2c8mI=
-X-Google-Smtp-Source: AGHT+IGwuRI3ltw6PBsA5rjpE2QZl8UQfa4hIA2PGDL7Iz4tRTwFDCoYqcXtdDLB/5+fZEP6mnd3etpe1sGcEx0YMg0=
-X-Received: by 2002:a05:690e:1906:b0:640:ce59:128b with SMTP id
- 956f58d0204a3-64213417719mr207526d50.2.1763401223104; Mon, 17 Nov 2025
- 09:40:23 -0800 (PST)
+	b=U9vd9/RVdErVE5Cawogz4Y68ZQY4SnczvX2LHNknQA9jtzoK3kShxJy2rl/RmPaQF
+	 O1i3fh45py7s1SSMle9/XWYDu/+714+Gn3ptp8XuUV4d0L+9s0XorLtscH7XXDrLoW
+	 c5xfCYgjntUifaUgfj18CBp90KerRZL4Aevo3vVfQb+z+iGdZwM9Et6cYcXNDhfUnN
+	 pnhQLricsDuT+6NVdvKUMjJp6UzsG7v+OlJJdmUtOYTf/zYdzHc4Db4rBFabGjqdcr
+	 +cjyVa26IUCLZXReM9oHO4UcKimQXRgT8H2cVdkKxUoN2q3Cy186Q3jdYcZ6P/pvAz
+	 Z3Vekj/FtVpBQ==
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-7866aca9ff4so45691887b3.3
+        for <linux-firmware@kernel.org>; Mon, 17 Nov 2025 09:41:20 -0800 (PST)
+X-Gm-Message-State: AOJu0Yzm2T/HJcG2v+5XlHQjNg6SUZvXvQ1arM/mWoAeqGqhH0oGEDvi
+	/qiHiwC2V4mJbpGYbKcQ+vQqEB7jEpie8JFK+3v3LWghiN5CWJSHMbks4etttLvLVxSbO4X5wWu
+	Df0YkCdwOoxV0+c4CLxb/jXwIyO7lxEw=
+X-Google-Smtp-Source: AGHT+IERFGmwZzvgfmQpsekA5ySepC5cWhE1RdcPAgMU6moeZ0oLlNfQdW91BxLVB/lGep7xzrsdF3YlTmu3LcwSYnc=
+X-Received: by 2002:a05:690e:23c5:b0:63d:5d72:1918 with SMTP id
+ 956f58d0204a3-641e76adb35mr8370590d50.63.1763401279225; Mon, 17 Nov 2025
+ 09:41:19 -0800 (PST)
 MIME-Version: 1.0
-References: <000801dc57ae$0d17c5a0$274750e0$@opensource.cirrus.com>
-In-Reply-To: <000801dc57ae$0d17c5a0$274750e0$@opensource.cirrus.com>
+References: <20251117144130.2214135-1-shayne.chen@mediatek.com>
+In-Reply-To: <20251117144130.2214135-1-shayne.chen@mediatek.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 17 Nov 2025 12:40:11 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA7Nzmdwyt=wOo6kyDEVJmF4kxevGZoqm_xNC_FEMWHH9Q@mail.gmail.com>
-X-Gm-Features: AWmQ_bn2fTu13Mrjb7dTjmWJ_tNASfsUnTC4fX6ifjdG-Jki9DUlFTy2zG9pjmc
-Message-ID: <CA+5PVA7Nzmdwyt=wOo6kyDEVJmF4kxevGZoqm_xNC_FEMWHH9Q@mail.gmail.com>
-Subject: Re: [PULL v1 linux-firmware] Add firmware for Cirrus Amps and Codecs
- for some Dell laptops
-To: Simon Trimmer <simont@opensource.cirrus.com>
+Date: Mon, 17 Nov 2025 12:41:07 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA7fLSKqr4r5GC85B2oZpayTiTYu6jNpvX0zUUBT9G8wkA@mail.gmail.com>
+X-Gm-Features: AWmQ_bkl7PWjM_nLGeo0QyKIbfhI2BF4jkkjBdQ6YO7jEboEjxVYNyjE4JJh-Lw
+Message-ID: <CA+5PVA7fLSKqr4r5GC85B2oZpayTiTYu6jNpvX0zUUBT9G8wkA@mail.gmail.com>
+Subject: Re: pull-request: mt76 firmware 20251117
+To: Shayne Chen <shayne.chen@mediatek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, patches@opensource.cirrus.com
+Cc: linux-firmware <linux-firmware@kernel.org>, Felix Fietkau <nbd@nbd.name>, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, Evelyn Tsai <evelyn.tsai@mediatek.com>, 
+	linux-wireless <linux-wireless@vger.kernel.org>, 
+	linux-mediatek <linux-mediatek@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 17, 2025 at 5:36=E2=80=AFAM Simon Trimmer
-<simont@opensource.cirrus.com> wrote:
+On Mon, Nov 17, 2025 at 9:41=E2=80=AFAM Shayne Chen <shayne.chen@mediatek.c=
+om> wrote:
 >
 > Hi,
 >
-> I couple of patches today - we=E2=80=99d like to add the firmware for the=
- Cirrus CS35L57 smart amplifier and CS42L45 smart codec for some Dell Lapto=
-ps.
+> This contains the WiFi firmwares for MT7996, MT7992, and MT7990 chipsets.
+>
+> Please let me know if there's any problem.
 >
 > Thanks,
->
-> -Simon
->
->
->
->
+> Shayne
+> ---
 >
 > The following changes since commit fb0dbcd3011839d85920d1e4aa956f6a84700c=
 af:
 >
->
->
 >   Merge branch 'amd-ucode' into 'main' (2025-11-13 22:26:11 +0000)
->
->
 >
 > are available in the Git repository at:
 >
->
->
->   https://github.com/CirrusLogic/linux-firmware/ 20251117-cs42l45-cs35l57
+>   https://github.com/csyuanc/linux-firmware.git mt76-20251117
 
 Merged and pushed out.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/783
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/784
 
 josh
 
 >
+> for you to fetch changes up to 05895b31008ae27cc8a8f9a44e014f09595a736c:
 >
->
-> for you to fetch changes up to 251bc9c4f9d16a2c9ada6e4768f5abf9b01d3a06:
->
->
->
->   cirrus: cs35l57: Add firmware for a few Dell products (2025-11-17 10:25=
-:56 +0000)
->
->
+>   mt76: add firmware for MT7990 (2025-11-17 22:08:46 +0800)
 >
 > ----------------------------------------------------------------
->
-> Maciej Strozek (1):
->
->       cirrus: cs42l45: Add firmware for Cirrus Logic CS42L45 SDCA codec
->
->
->
-> Simon Trimmer (1):
->
->       cirrus: cs35l57: Add firmware for a few Dell products
->
->
->
-> WHENCE                                               |  59 ++++++++++++++=
-+++++++++++++++++++++++++++++++++++++++++++++
->
-> cirrus/cs35l56/CS35L56_Rev4.5.9.wmfw                 | Bin 0 -> 31296 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid0-l2u2.bin | Bin 0 -> 10556 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid0-l2u3.bin | Bin 0 -> 10556 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid0-l3u0.bin | Bin 0 -> 10556 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid0-l3u1.bin | Bin 0 -> 10556 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid1-l2u2.bin | Bin 0 -> 10556 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid1-l2u3.bin | Bin 0 -> 10556 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid1-l3u0.bin | Bin 0 -> 10556 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid1-l3u1.bin | Bin 0 -> 10556 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid0-l2u2.bin | Bin 0 -> 10556 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid0-l2u3.bin | Bin 0 -> 10556 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid0-l3u0.bin | Bin 0 -> 10556 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid0-l3u1.bin | Bin 0 -> 10556 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid1-l2u2.bin | Bin 0 -> 10556 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid1-l2u3.bin | Bin 0 -> 10556 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid1-l3u0.bin | Bin 0 -> 10556 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid1-l3u1.bin | Bin 0 -> 10556 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid0-l2u2.bin | Bin 0 -> 12396 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid0-l2u3.bin | Bin 0 -> 12388 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid0-l3u0.bin | Bin 0 -> 12396 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid0-l3u1.bin | Bin 0 -> 12388 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid1-l2u2.bin | Bin 0 -> 12392 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid1-l2u3.bin | Bin 0 -> 12388 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid1-l3u0.bin | Bin 0 -> 12392 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid1-l3u1.bin | Bin 0 -> 12388 byt=
-es
->
-> sdca/1fa/1028/db3/1.bin                              | Bin 0 -> 16 bytes
->
-> sdca/1fa/1028/db3/2.bin                              | Bin 0 -> 16 bytes
->
-> sdca/1fa/1028/db3/3.bin                              | Bin 0 -> 16 bytes
->
-> sdca/1fa/1028/db3/4.bin                              | Bin 0 -> 16 bytes
->
-> sdca/1fa/1028/db3/42450005.bin                       | Bin 0 -> 10764 byt=
-es
->
-> sdca/1fa/1028/db9/1.bin                              | Bin 0 -> 16 bytes
->
-> sdca/1fa/1028/db9/2.bin                              | Bin 0 -> 16 bytes
->
-> sdca/1fa/1028/db9/3.bin                              | Bin 0 -> 16 bytes
->
-> sdca/1fa/1028/db9/4.bin                              | Bin 0 -> 16 bytes
->
-> sdca/1fa/1028/db9/42450005.bin                       | Bin 0 -> 10764 byt=
-es
->
-> 36 files changed, 59 insertions(+)
->
-> create mode 100644 cirrus/cs35l56/CS35L56_Rev4.5.9.wmfw
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid0-l2u2.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid0-l2u3.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid0-l3u0.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid0-l3u1.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid1-l2u2.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid1-l2u3.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid1-l3u0.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid1-l3u1.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid0-l2u2.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid0-l2u3.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid0-l3u0.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid0-l3u1.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid1-l2u2.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid1-l2u3.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid1-l3u0.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid1-l3u1.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid0-l2u2.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid0-l2u3.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid0-l3u0.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid0-l3u1.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid1-l2u2.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid1-l2u3.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid1-l3u0.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid1-l3u1.bin
->
-> create mode 100644 sdca/1fa/1028/db3/1.bin
->
-> create mode 100644 sdca/1fa/1028/db3/2.bin
->
-> create mode 100644 sdca/1fa/1028/db3/3.bin
->
-> create mode 100644 sdca/1fa/1028/db3/4.bin
->
-> create mode 100644 sdca/1fa/1028/db3/42450005.bin
->
-> create mode 100644 sdca/1fa/1028/db9/1.bin
->
-> create mode 100644 sdca/1fa/1028/db9/2.bin
->
-> create mode 100644 sdca/1fa/1028/db9/3.bin
->
-> create mode 100644 sdca/1fa/1028/db9/4.bin
->
-> create mode 100644 sdca/1fa/1028/db9/42450005.bin
+> Shayne Chen (3):
+>       mt76: update firmware for MT7996
+>       mt76: update firmware for MT7992
+>       mt76: add firmware for MT7990
+>
+>  WHENCE                                   |  41 +++++++++++++++++++------=
+------
+>  mediatek/mt7996/mt7990_eeprom.bin        | Bin 0 -> 7680 bytes
+>  mediatek/mt7996/mt7990_eeprom_2i5i.bin   | Bin 0 -> 7680 bytes
+>  mediatek/mt7996/mt7990_rom_patch.bin     | Bin 0 -> 12832 bytes
+>  mediatek/mt7996/mt7990_wm.bin            | Bin 0 -> 1336664 bytes
+>  mediatek/mt7996/mt7992_dsp.bin           | Bin 63536 -> 63572 bytes
+>  mediatek/mt7996/mt7992_dsp_23.bin        | Bin 63536 -> 63536 bytes
+>  mediatek/mt7996/mt7992_rom_patch.bin     | Bin 20640 -> 20896 bytes
+>  mediatek/mt7996/mt7992_rom_patch_23.bin  | Bin 20640 -> 20896 bytes
+>  mediatek/mt7996/mt7992_wa.bin            | Bin 536240 -> 515184 bytes
+>  mediatek/mt7996/mt7992_wa_23.bin         | Bin 536240 -> 515184 bytes
+>  mediatek/mt7996/mt7992_wm.bin            | Bin 1712336 -> 1742052 bytes
+>  mediatek/mt7996/mt7992_wm_23.bin         | Bin 1672256 -> 1701216 bytes
+>  mediatek/mt7996/mt7996_dsp.bin           | Bin 191704 -> 191728 bytes
+>  mediatek/mt7996/mt7996_rom_patch.bin     | Bin 23968 -> 37216 bytes
+>  mediatek/mt7996/mt7996_rom_patch_233.bin | Bin 23968 -> 37216 bytes
+>  mediatek/mt7996/mt7996_wa.bin            | Bin 516272 -> 509232 bytes
+>  mediatek/mt7996/mt7996_wa_233.bin        | Bin 516272 -> 509232 bytes
+>  mediatek/mt7996/mt7996_wm.bin            | Bin 2622816 -> 2655416 bytes
+>  mediatek/mt7996/mt7996_wm_233.bin        | Bin 2620960 -> 2681656 bytes
+>  20 files changed, 25 insertions(+), 16 deletions(-)
+>  create mode 100644 mediatek/mt7996/mt7990_eeprom.bin
+>  create mode 100644 mediatek/mt7996/mt7990_eeprom_2i5i.bin
+>  create mode 100644 mediatek/mt7996/mt7990_rom_patch.bin
+>  create mode 100644 mediatek/mt7996/mt7990_wm.bin
