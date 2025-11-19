@@ -2,28 +2,28 @@ Return-Path: <SRS0=sz10=53=mediatek.com=chris.lu@kernel.org>
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C688CCF3185
-	for <linux-firmware@archiver.kernel.org>; Wed, 19 Nov 2025 10:41:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBF22CF31A6
+	for <linux-firmware@archiver.kernel.org>; Wed, 19 Nov 2025 11:18:53 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C3162C2BCB0; Wed, 19 Nov 2025 10:41:15 +0000 (UTC)
+	id 8DDD2C2BCB7; Wed, 19 Nov 2025 11:18:53 +0000 (UTC)
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 58EAAC4AF0F;
-	Wed, 19 Nov 2025 10:36:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 58EAAC4AF0F
+	by smtp.kernel.org (Postfix) with ESMTPS id F372AC2BC9E;
+	Wed, 19 Nov 2025 11:13:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org F372AC2BC9E
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 4e49d774c51e11f0b33aeb1e7f16c2b6-20251119
+X-UUID: 632a05e4c53511f0b33aeb1e7f16c2b6-20251119
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=Wr3axdGONKLIXkb5k52DZGfP+rrPWB366wj0xjDWrPk=;
-	b=urpydoFNBv0EtZNK7zCkKcBNuptawZ4CJCSKW63m0wGcSEl5Z/xhF6cyUXJYxK1/8d22B6b3BX3V83kUGYhEZal16dORxkkzbA2CgxDLwxAzOkgLO1XjsrohAqBr1DLm9CKJka62A841Zi7a8Xb3HyF8cxHczIpIT7YK9q/gfm8=;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=u+OvtT+T/G1D/eoEFDldE6esVOK2u/KURjLiG8xXTX4=;
+	b=qwHQZw5jgS5xf5Joz/rQ2qyB0GO+RUdP7XulNdjaxHTZt9cgUQjkyHRVzhkiWC9i1lTyV+/Cux67QcbARXBwYcFYKi+iDeJuCx0FWzWDK9vUcpiBGq1QH7LpTIGLp5oXjacgxKxZCsILukstmIisNEv1oGCWE85MtwxNYbtnNYU=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6,REQID:0d337895-7341-4794-ac52-1af942cb44be,IP:0,UR
+X-CID-O-INFO: VERSION:1.3.6,REQID:49239bae-9327-4f23-b3c9-5f725c271682,IP:0,UR
 	L:0,TC:0,Content:0,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
 	:release,TS:-25
-X-CID-META: VersionHash:a9d874c,CLOUDID:3c451058-17e4-43d2-bf73-55337eed999a,B
+X-CID-META: VersionHash:a9d874c,CLOUDID:b702f9ba-0c02-41a0-92a3-94dc7dc7eeca,B
 	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102|836|888|898,TC:-5,Content:0|15|5
 	0,EDM:2,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:nil,COL:1,OSI:0,OSA
 	:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
@@ -31,18 +31,18 @@ X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 4e49d774c51e11f0b33aeb1e7f16c2b6-20251119
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw02.mediatek.com
+X-UUID: 632a05e4c53511f0b33aeb1e7f16c2b6-20251119
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw02.mediatek.com
 	(envelope-from <chris.lu@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1729830961; Wed, 19 Nov 2025 16:04:00 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
+	with ESMTP id 2136046414; Wed, 19 Nov 2025 18:49:13 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ MTKMBS09N1.mediatek.inc (172.21.101.35) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Wed, 19 Nov 2025 16:03:55 +0800
+ 15.2.1748.26; Wed, 19 Nov 2025 18:49:09 +0800
 Received: from mtksitap99.mediatek.inc (10.233.130.16) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1748.26 via Frontend Transport; Wed, 19 Nov 2025 16:03:55 +0800
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1748.26 via Frontend Transport; Wed, 19 Nov 2025 18:49:09 +0800
 From: Chris Lu <chris.lu@mediatek.com>
 To: Josh Boyer <jwboyer@kernel.org>, David Woodhouse <dwmw2@infradead.org>,
 	Ben Hutchings <ben@decadent.org.uk>, Marcel Holtmann <marcel@holtmann.org>,
@@ -54,9 +54,9 @@ CC: Hao Qin <hao.qin@mediatek.com>, Will Lee <will-cy.Lee@mediatek.com>, SS Wu
 	<linux-bluetooth@vger.kernel.org>, linux-kernel
 	<linux-kernel@vger.kernel.org>, linux-mediatek
 	<linux-mediatek@lists.infradead.org>, Chris Lu <chris.lu@mediatek.com>
-Subject: [PATCH v1] mediatek MT7922: update bluetooth firmware to 20251118163447
-Date: Wed, 19 Nov 2025 16:03:52 +0800
-Message-ID: <20251119080353.3935050-1-chris.lu@mediatek.com>
+Subject: [PATCH v2] mediatek MT7922: update bluetooth firmware to 20251118163447
+Date: Wed, 19 Nov 2025 18:49:06 +0800
+Message-ID: <20251119104907.4057459-1-chris.lu@mediatek.com>
 X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -69,9 +69,25 @@ Version: 20251118163447
 
 Signed-off-by: Chris Lu <chris.lu@mediatek.com>
 ---
+v1->v2: Update version in WHENCE
+---
+ WHENCE                                  |   2 +-
  mediatek/BT_RAM_CODE_MT7922_1_1_hdr.bin | Bin 515094 -> 515478 bytes
- 1 file changed, 0 insertions(+), 0 deletions(-)
+ 2 files changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/WHENCE b/WHENCE
+index 397fc14f..77160cee 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -6171,7 +6171,7 @@ Licence: Redistributable. See LICENCE.mediatek for details.
+ Driver: mt7922 - MediaTek MT7922 bluetooth chipset
+ 
+ File: mediatek/BT_RAM_CODE_MT7922_1_1_hdr.bin
+-Version: 20251020143443
++Version: 20251118163447
+ 
+ Licence: Redistributable. See LICENCE.mediatek for details.
+ 
 diff --git a/mediatek/BT_RAM_CODE_MT7922_1_1_hdr.bin b/mediatek/BT_RAM_CODE_MT7922_1_1_hdr.bin
 index a4c314f8ca9ec3a7ff0fc9a57aacbec1acb58f5d..b7b2d4e0e59b0b23879b896e36d05117dc761fd2 100644
 GIT binary patch
