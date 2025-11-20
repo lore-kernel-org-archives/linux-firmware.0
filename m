@@ -1,182 +1,231 @@
-Return-Path: <SRS0=jnMN=54=ti.com=baojun.xu@kernel.org>
+Return-Path: <SRS0=Xp7Y=54=oss.qualcomm.com=renjiang.han@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF452CF857B
-	for <linux-firmware@archiver.kernel.org>; Thu, 20 Nov 2025 10:19:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46BD4CF857E
+	for <linux-firmware@archiver.kernel.org>; Thu, 20 Nov 2025 10:28:35 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 9167BC4CEF1; Thu, 20 Nov 2025 10:19:26 +0000 (UTC)
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012046.outbound.protection.outlook.com [52.101.48.46])
+	id 30A36C116B1; Thu, 20 Nov 2025 10:28:35 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 38F2BC116B1;
-	Thu, 20 Nov 2025 10:19:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 38F2BC116B1
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=ti.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wF8IMC1OP3YAvkwaeDGUtj/Ol+To6PcoCicRqWD2SNoePLUkOkTpnHeYvqIP17fSl3Utfj+kyYlGuPhyikMZuXgjt9qpaYg+UaAroLNHz19J5CnGYM1zbO+MgyUZb86AYiXgvxPxUTaM+40/lMpWtnQL7/yMle+aB5guV8d/et429QHxWZvNQZXDY7bioU/qwS+mArtpjY43mcyG2i9+2ivNAnxj7OPveQPeQZbcW38UhFiB22OcL6LuR1h2wJQScMUhSCJsa3Mi3QWlBD6Y2rfiUATqqQFEMiTBgj7P/VOfIkI8PvzjbuO/NL6D5zJ5lELEbAJcRFJEUaoAAA/e2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=c4iTQsteOWJ4Y1Oxi7p48kS3ehR2Aq+SPAnIBGvBFyI=;
- b=yQ88pjeAhUMWvyo66/TMItx30MfzaubFA6GCjp/dzzDecZS89gECS3gfvN3jdSuAIJJVIwbYO0ECGyZLGAlta39LGX7fbqByf1XcEXOKNrhXY9aKjZ1WhxE43YZSOVbgqQsXyBd+v/6vUjiiJK7gIY1ClEuj3VWSwlYcBL0EmuGK49YecE/T2/5x4fzflPbFcLKcbg/CF3a5ExBPpyeyTBVm320+AsksFMmbTCrzpR3WOJa+LZlwVqxfE4D8Ivp5Aud8eLoHLaR1Ywcd6s7K/Htq3qKBS9Mz+sxF9Q12op3z/VkakTYJyf1XfwRkLKPm6eUanGoYSGFhg+NbWqIjfw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c4iTQsteOWJ4Y1Oxi7p48kS3ehR2Aq+SPAnIBGvBFyI=;
- b=P4aFKJCTPpsF0DWlHSBR2jEYlDux2AOVaJHxCR+j5LNYiy2b4tHUh7WhxLIp12oEPs1G3rOb67QDbEog/iO2zUiJHTnh93siykHqAUPwQXlqOPviboPmwCHGiS/Ez2eU9hYHfPPtqiWJs95wT9VzypHb4oWGuZR6I/Xt8niPSJ8=
-Received: from MN2PR12CA0035.namprd12.prod.outlook.com (2603:10b6:208:a8::48)
- by SN7PR10MB6331.namprd10.prod.outlook.com (2603:10b6:806:271::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Thu, 20 Nov
- 2025 10:19:20 +0000
-Received: from BN3PEPF0000B077.namprd04.prod.outlook.com
- (2603:10b6:208:a8:cafe::af) by MN2PR12CA0035.outlook.office365.com
- (2603:10b6:208:a8::48) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.10 via Frontend Transport; Thu,
- 20 Nov 2025 10:19:18 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
-Received: from flwvzet200.ext.ti.com (198.47.21.194) by
- BN3PEPF0000B077.mail.protection.outlook.com (10.167.243.122) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9343.9 via Frontend Transport; Thu, 20 Nov 2025 10:19:18 +0000
-Received: from DFLE208.ent.ti.com (10.64.6.66) by flwvzet200.ext.ti.com
- (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 20 Nov
- 2025 04:19:14 -0600
-Received: from DFLE210.ent.ti.com (10.64.6.68) by DFLE208.ent.ti.com
- (10.64.6.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 20 Nov
- 2025 04:19:14 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE210.ent.ti.com
- (10.64.6.68) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 20 Nov 2025 04:19:14 -0600
-Received: from lelvem-mr05.itg.ti.com ([10.250.165.138])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AKAJALE3501729;
-	Thu, 20 Nov 2025 04:19:11 -0600
-From: Baojun Xu <baojun.xu@ti.com>
-To: <jwboyer@kernel.org>
-List-Id: <linux-firmware.lore.kernel.org>
-CC: <shenghao-ding@ti.com>, <linux-firmware@kernel.org>,
-	<13916275206@139.com>, <linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Baojun Xu <baojun.xu@ti.com>
-Subject: [PATCH v1] ASoC: tas2781: Add more symbol links on SPI devices
-Date: Thu, 20 Nov 2025 18:18:46 +0800
-Message-ID: <20251120101847.41294-1-baojun.xu@ti.com>
-X-Mailer: git-send-email 2.43.0.windows.1
+	by smtp.kernel.org (Postfix) with ESMTPS id 31417C4CEF1
+	for <linux-firmware@kernel.org>; Thu, 20 Nov 2025 10:28:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 31417C4CEF1
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AK9hR8a473505
+	for <linux-firmware@kernel.org>; Thu, 20 Nov 2025 10:28:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	EzSSib42ajbjZ6KFHfh6yOnotFHHqiaEHw50Zlutr9w=; b=RzoUlZH2l8aJTxET
+	kstfUsrPa4UHdF5oP9gYENuNnlg9oHxJ0DJjl57fn1yQxdCPbPE+PsMXpti4mJdQ
+	1EFx0maO2ELrCpOgcB6eMuzAhX4HprwwWhzWoOx8RuBLqneh5uPE3goUoN2pNzHi
+	VpAxo+4+Jom1D032pwrO0K3uqf2J2r1yQfV8TVblR/zR7H2UOryPBVcWrftya+pw
+	d9b5dbyNSU2ndh3UrrYnrMjuMFZLUYOmN4enR2aGk4Ws6GiqQCA2rYaWnAhCaHwo
+	Wx7dnXMFdiQ8H+LNbl0GGjQBWopI9JU6m774MdkLzFoU5fAwSr4CVU8EIb7iAI60
+	RBp7sw==
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aj0kw04kh-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-firmware@kernel.org>; Thu, 20 Nov 2025 10:28:32 +0000 (GMT)
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-7b89ee2c1a4so1789097b3a.2
+        for <linux-firmware@kernel.org>; Thu, 20 Nov 2025 02:28:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1763634512; x=1764239312; darn=kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EzSSib42ajbjZ6KFHfh6yOnotFHHqiaEHw50Zlutr9w=;
+        b=AtpuH/vXWmY5U7xtEuDEtQVfP6+fozyhV/kZRNG01dU8ADCj33MwTYmtXn+B2cWCC3
+         TtStoW8h+E9qMpj1mTbjSVEDCtn06yGK9PBOav4DX+PyhUboAzUPi8FjFPmVgAOz0GLs
+         WRYEQNWzI5K8vD7BfjzOY3gTs5nglmkoClTxIOOQjynjGdkNSrZvhvipAbzErnYSJnUF
+         96Yi1RqREIbNCXMQhYyPEsTcJ1rSFeZIvGo3dZWYDEKKUyt7a+SVnLMm8Vql+3LWc4oS
+         A4MaUhWTD7reVSEO0Ix/Y8l6On5xN4PIKk3F3HWLNjJG1coN09Nq4fDhnC4DrhoL2cXl
+         /nuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763634512; x=1764239312;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EzSSib42ajbjZ6KFHfh6yOnotFHHqiaEHw50Zlutr9w=;
+        b=TcKEVu2vaZAsoLqCoTMhdtX20xk4Mwk48nU9nFaB6otFL273DDzlWaUhJ5RprUkQd7
+         Ye9iN1Auk+qX4yiIgHQvLY8TP/jPr9GuzsxGtDIhRP/fhwDupGtNIw8AnofA30p/haX9
+         Y2uN+KZi2zGmQ9QJtAJg9oAh6dUa5ns9mefVYfhGIELgS2qgVHqr22UlrXothtVA8V34
+         jQTkcd+f5dGqdsNT5cqpw17J/3i4BqhLtKE5hFxuGkv+UhUGupbNsZttXKBXZXjpUB1G
+         8loVGUZt5ije3KIQGIK6yGQFdYSeDZwVVfIMxoDMWm2EmWrIm7WksEqKaW1mKRjEwVaB
+         VQUg==
+X-Gm-Message-State: AOJu0YwunMLUX07GqSEs9Ii3rQl0vTXBAuSN7I0oRTZ1QVPZpz7drY7X
+	U/ojkj18hYTboL4CyC8E4GA37Eqh2Y2O6/4Vlp+fcxCG89ly1O7Dg0zUZVL9+NAkr5Dh14ZLcDy
+	DHK6xncQBYTuz+IJuLs3jBdeXhi4IjMgvF3Ww+7FStKP3KPVxjhmuv8lLoyB8oZo=
+X-Gm-Gg: ASbGncuGWj2YJ2KePa7GozfMDc+HDM8qY6lSssFduoIHnvkfXipBwjig+XeO2Mj5jK+
+	fkN+e0/sBNKUPKpAISIrrTCylAJpK+Yoi8QwUaJInoJXrXiy5jQ7zTM8K5jvGjolDx54vKfDrM+
+	Vz8Fx3A1j32hJ/Tf5WFhu4myOOlomhLeD95YQtFaQDw+8OhibUAOf3O6wDG1FmV9VU1KlSWlxsp
+	UTmwnSYbxQgDF5IqsNdwCrj9ZJcRB1THhIfcsEGS5BgOmHzp3HaIUOaZk8hNDX2bU1bb/zwQBP9
+	Fn/JB5Qi5Rnh/e8BKyXDbdjXzmGWZdcIwJtqAYVcWqRCyck6A/D9mRrRyrmfVxDgIzP6HjNz00r
+	R3uX4vmIA0t7g+L/WKWU2uEBVlxroNnz7NGb/OcIgtxsudqKeXp+BY33nVtVDvNZ2ana3TBSUrv
+	v+XwU6oA==
+X-Received: by 2002:a05:6a21:328f:b0:344:8ef7:7a03 with SMTP id adf61e73a8af0-3613b659940mr4005082637.56.1763634511883;
+        Thu, 20 Nov 2025 02:28:31 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG6WRQ7KPRoONCvOwV+VLbhleogSDqfhbXoQPVy4op1DYWeG/pmVe+eBl88RIWzU9ch0LGL9w==
+X-Received: by 2002:a05:6a21:328f:b0:344:8ef7:7a03 with SMTP id adf61e73a8af0-3613b659940mr4005055637.56.1763634511370;
+        Thu, 20 Nov 2025 02:28:31 -0800 (PST)
+Received: from [10.133.33.155] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c418e4f989sm2064183b3a.11.2025.11.20.02.28.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Nov 2025 02:28:30 -0800 (PST)
+Message-ID: <d80357e8-8790-4997-a562-b4b6f7f48aee@oss.qualcomm.com>
+Date: Thu, 20 Nov 2025 18:28:24 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: update firmware binary for v5.4
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: linux-firmware@kernel.org, "Qiwei Liu (QUIC)" <quic_qiweil@quicinc.com>,
+        Wangao Wang <wangao.wang@oss.qualcomm.com>,
+        dikshita.agarwal@oss.qualcomm.com
+References: <d3442fba-a616-4260-a2c1-bf14d0d64250@oss.qualcomm.com>
+ <jlnmauqconyiaujadjrffjeqbzkc6pa7vrcmnjyueuuamfguhg@ln43yypqrvoq>
+ <7111892d-1351-4c94-82f0-8566c34f16c1@oss.qualcomm.com>
+ <jodkivawdceoc7ebzm34w5ocipnv7zpjvasadyha6kdpayluja@255mxfp4eq5f>
+ <1a8feea5-e797-4a19-a1d8-e4d5d5bca0c9@oss.qualcomm.com>
+Content-Language: en-US
+From: Renjiang Han <renjiang.han@oss.qualcomm.com>
+In-Reply-To: <1a8feea5-e797-4a19-a1d8-e4d5d5bca0c9@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B077:EE_|SN7PR10MB6331:EE_
-X-MS-Office365-Filtering-Correlation-Id: 566435f2-b18c-45ef-47e0-08de281e43ad
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?6kPMAtRy7jBwuQwyUGBEDiP8CyY14q8EXsAgrPHs6X0IzfrSmMMaAdPYJ6vw?=
- =?us-ascii?Q?gpC7r+EDo2ZQQKmhbVO7kb0AkO+6uNvgyeavue7EH7P2OXNrb04X1BVWVtIt?=
- =?us-ascii?Q?PbO8HNsQmxO7Bb8tUPoKhWyVO9gvj+GMQbFMm6SoekOa4cGufh40z1Kg4jq0?=
- =?us-ascii?Q?5OLcLqJjBbit808ygGyivGi4TFJEoOvcwgpcJQn5uG+YjPz38dIy7q96K+pH?=
- =?us-ascii?Q?eViQmjRa1+X9QrWyy8TRlEUlN5RP90lo8jHMEj4tmaiFGJ3VUoPZdhpLNn13?=
- =?us-ascii?Q?/h8UiJIpZKfHebMWkH6E1Uiz214j7soo6HsZsONQCY4+6pk+9jodMOV87Y1D?=
- =?us-ascii?Q?EeZFE7PP+f+/qKIW05fzpAUK6j2WvU/Ld9HHwYLpmHCgPh/5p1JLRFyxOLej?=
- =?us-ascii?Q?jgLmMpJ+gQc4j+4neTs3RoJ3p2Z+fPTxNXNKyiQoviNTD+cnz7+uHCIwWM6/?=
- =?us-ascii?Q?2YQ416LXavhCs4V9Km7onhVIa5uTIdSFNpbhDlmxcTKE9M+As7QxxVWBlDfS?=
- =?us-ascii?Q?imgMvZzOKNCxpXHdUsTOjtrSo0VZj1bQOzbDjPMTDMfUmx9gkmHBoytrq6hy?=
- =?us-ascii?Q?+YS73ZHVXoWUHZCMaGCEJMIJzv5VHweTSLwVMpsUBNH56ILL+UzxF/ReqZy2?=
- =?us-ascii?Q?27W7hmlj2srwDOY7V5lpBBvysv3rThUwWMEvR+IiWyDZrdficpscVXUxU6zx?=
- =?us-ascii?Q?hSxChTIq3k/GEp35Ql+vwzjKDi8lDS42JxoT5S/4wRSy3cW584D2TC7edeY6?=
- =?us-ascii?Q?Mhq/PzMCcprnW1SVtqRcKGd7Vx3CkjdmxDqxECbOHr2vYzt0S8JnQ3h96pqO?=
- =?us-ascii?Q?S9XzfBEX9fDhMHKBHMgXgV79nuyKBvP1TXFQDR9HqZdkqJFWExRyxmjVQC/4?=
- =?us-ascii?Q?4iPJnu5kXbGTnheYBcej5+Buejih3BD2FOuIBfpluszvRcQTzA1skfJtSl7x?=
- =?us-ascii?Q?IZfit/v4jCRh3xyy3E9zIpTmAJk4eLz3kZv912RA/OVsV8J5yafK19rtLUga?=
- =?us-ascii?Q?FL9CaDN8dgi6B557twYSop1QspPJg3U769F237l0W1gXHk561saqXpbFlq7h?=
- =?us-ascii?Q?wcF9c/Z1KpoBNOQwasXxEqLrCwNHu5eptOOo9hYunFBZ3dgqBShzE2eGOOgb?=
- =?us-ascii?Q?ZAn//iuJuRYxHawO7PQkSgusJ9j7pwZtAUqpOqrlmdWLMdp19UueUiuGBRHR?=
- =?us-ascii?Q?CHutBxe0zYifKzU9glxfIxnyetslvTYlFLE53qASsBWIThMuKS5dBWgb4G1d?=
- =?us-ascii?Q?sDyGERKGATW0IRAl1rApzA0PqoUcheDf52huv/ifJmcC/QRu3Dpu+EgmRlO2?=
- =?us-ascii?Q?E6zLsGkCo9/pEABPKupYkbgzFl+LI1sRW3qc8H3ypcfvKuSYdwxQ8YmLhym+?=
- =?us-ascii?Q?Z2SKPDx+XTsxh1KGVW/3w54YRythVPzxySfqk2fz9wk2PDvpThkvjuINdZDz?=
- =?us-ascii?Q?4Cu0eQxLqo5URzDhXhqHwSnn4+nP/VKvwmBcZKFydqFFHnmf8AKdBFz/eErX?=
- =?us-ascii?Q?nlqFcPx6J0vATOAvOFRFRE54MJP8gUgBQP/Fwo3mMKLTLQl44vJGPET5/UZI?=
- =?us-ascii?Q?U0e1aiGz1dclYlqzIQI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:198.47.21.194;CTRY:US;LANG:ro;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 10:19:18.1650
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 566435f2-b18c-45ef-47e0-08de281e43ad
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN3PEPF0000B077.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR10MB6331
+X-Authority-Analysis: v=2.4 cv=WeUBqkhX c=1 sm=1 tr=0 ts=691eed50 cx=c_pps
+ a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=qC_FGOx9AAAA:8 a=xatnYXvhpa4-NhwV8hoA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=2VI0MkxyNR6bbpdq8BZq:22
+ a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-GUID: 5PaONXYYabxc8rHlyd_Os2be-V8nrkba
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIwMDA2NCBTYWx0ZWRfX4ffBUqFwd+Wb
+ 9EM8QuCxWA8CVFVRmH9eOK1EU14fFhoE0m4uKcdxcBjaed8w9KwWTFzO2onzc8IT9AJNlr0gcUO
+ YD1h8wyCgZup7zsISZow8Y2zroELfBbKHLHcYCEt6Si2uri+L1TiyTTPzotSKByAvFqiOHcr3IG
+ OQgMboDdZ3p7pfx/Hl/VPkPGYRlFexlSlZLaDbJSoJSws+oIpaZF/DCqy0AUL4GP5Mgm0XGBs2v
+ d+tBA9uYlpp6xOfeTYP+x407yjIEtm5nheY39KYDh96D7iuPC68cYe2k3f8Qflv1pB/r1obQJ8p
+ 3c9hwYs/dfE+2ErGikZShhlBMBnRhSPplV3SoW89Dpau8q19g5Y/V8187J1fwTZxTsO7G+0T3RF
+ Uiqf0DDBfQHgxw36EOhu5VYTXtlX6A==
+X-Proofpoint-ORIG-GUID: 5PaONXYYabxc8rHlyd_Os2be-V8nrkba
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-20_03,2025-11-20_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 bulkscore=0 clxscore=1015 suspectscore=0 spamscore=0
+ lowpriorityscore=0 adultscore=0 malwarescore=0 phishscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511200064
 
-Add more symbol links for compatible with the source code.
 
-Signed-off-by: Baojun Xu <baojun.xu@ti.com>
----
- WHENCE | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
-
-diff --git a/WHENCE b/WHENCE
-index 64f55dec..02e6d357 100644
---- a/WHENCE
-+++ b/WHENCE
-@@ -8825,18 +8825,34 @@ Link: TAS2XXX8DE8.bin -> ti/audio/tas2781/TAS2XXX8DE8.bin
- Link: TAS2XXX8DE9.bin -> ti/audio/tas2781/TAS2XXX8DE9.bin
- Link: TAS2XXX8DE80.bin -> ti/audio/tas2781/TAS2XXX8DE8.bin
- Link: TAS2XXX8DE81.bin -> ti/audio/tas2781/TAS2XXX8DE8.bin
-+Link: TAS2XXX8DE8-0.bin -> ti/audio/tas2781/TAS2XXX8DE8.bin
-+Link: TAS2XXX8DE8-1.bin -> ti/audio/tas2781/TAS2XXX8DE8.bin
- Link: TAS2XXX8DE90.bin -> ti/audio/tas2781/TAS2XXX8DE9.bin
- Link: TAS2XXX8DE91.bin -> ti/audio/tas2781/TAS2XXX8DE9.bin
-+Link: TAS2XXX8DE9-0.bin -> ti/audio/tas2781/TAS2XXX8DE9.bin
-+Link: TAS2XXX8DE9-1.bin -> ti/audio/tas2781/TAS2XXX8DE9.bin
- Link: TAS2XXX8E17.bin -> ti/audio/tas2781/TAS2XXX8E17.bin
- Link: TAS2XXX8E19.bin -> ti/audio/tas2781/TAS2XXX8E19.bin
- Link: TAS2XXX8E1C.bin -> ti/audio/tas2781/TAS2XXX8E1C.bin
- Link: TAS2XXX8E8A.bin -> ti/audio/tas2781/TAS2XXX8E8A.bin
- Link: TAS2XXX8ED5.bin -> ti/audio/tas2781/TAS2XXX8ED5.bin
-+Link: TAS2XXX8ED5-0.bin -> ti/audio/tas2781/TAS2XXX8ED5.bin
-+Link: TAS2XXX8ED5-1.bin -> ti/audio/tas2781/TAS2XXX8ED5.bin
- Link: TAS2XXX8ED6.bin -> ti/audio/tas2781/TAS2XXX8ED6.bin
-+Link: TAS2XXX8ED6-0.bin -> ti/audio/tas2781/TAS2XXX8ED6.bin
-+Link: TAS2XXX8ED6-1.bin -> ti/audio/tas2781/TAS2XXX8ED6.bin
- Link: TAS2XXX8ED7.bin -> ti/audio/tas2781/TAS2XXX8ED7.bin
-+Link: TAS2XXX8ED7-0.bin -> ti/audio/tas2781/TAS2XXX8ED7.bin
-+Link: TAS2XXX8ED7-1.bin -> ti/audio/tas2781/TAS2XXX8ED7.bin
- Link: TAS2XXX8ED8.bin -> ti/audio/tas2781/TAS2XXX8ED8.bin
-+Link: TAS2XXX8ED8-0.bin -> ti/audio/tas2781/TAS2XXX8ED8.bin
-+Link: TAS2XXX8ED8-1.bin -> ti/audio/tas2781/TAS2XXX8ED8.bin
- Link: TAS2XXX8ED9.bin -> ti/audio/tas2781/TAS2XXX8ED9.bin
-+Link: TAS2XXX8ED9-0.bin -> ti/audio/tas2781/TAS2XXX8ED9.bin
-+Link: TAS2XXX8ED9-1.bin -> ti/audio/tas2781/TAS2XXX8ED9.bin
- Link: TAS2XXX8EDA.bin -> ti/audio/tas2781/TAS2XXX8EDA.bin
-+Link: TAS2XXX8EDA-0.bin -> ti/audio/tas2781/TAS2XXX8EDA.bin
-+Link: TAS2XXX8EDA-1.bin -> ti/audio/tas2781/TAS2XXX8EDA.bin
- Link: TAS2XXX8F40.bin -> ti/audio/tas2781/TAS2XXX8F40.bin
- Link: TAS2XXX8F41.bin -> ti/audio/tas2781/TAS2XXX8F41.bin
- Link: TAS2XXX8F42.bin -> ti/audio/tas2781/TAS2XXX8F42.bin
--- 
-2.43.0
-
+On 11/20/2025 12:19 AM, Vikash Garodia wrote:
+>
+> On 11/19/2025 8:22 PM, Dmitry Baryshkov wrote:
+>> On Wed, Nov 19, 2025 at 07:57:30PM +0530, Vikash Garodia wrote:
+>>> Hello Dmitry,
+>>>
+>>> On 11/19/2025 4:55 PM, Dmitry Baryshkov wrote:
+>>>> On Wed, Nov 19, 2025 at 05:39:43PM +0800, Renjiang Han wrote:
+>>>>> Hi
+>>>>>
+>>>>> The following changes since commit 
+>>>>> 6fc940781a013ad837ed8fea326d2b897467bbc3:
+>>>>>
+>>>>>     Merge branch 'robot/patch-0-1762826844' into 'main' 
+>>>>> (2025-11-11 12:02:02
+>>>>> +0000)
+>>>>>
+>>>>> are available in the Git repository at:
+>>>>>
+>>>>> https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
+>>>>> update-video-fw-sm6150
+>>>>>
+>>>>> for you to fetch changes up to 
+>>>>> 0a6f987b7b07a6fec2d4fd42ac4473c0523d3af6:
+>>>>>
+>>>>>     qcom: venus-5.4: update firmware binary for v5.4 (2025-11-19 
+>>>>> 15:04:09
+>>>>> +0530)
+>>>>>
+>>>>> ----------------------------------------------------------------
+>>>>> Renjiang Han (1):
+>>>>>         qcom: venus-5.4: update firmware binary for v5.4
+>>>>>
+>>>>>    WHENCE                      |   6 +-----
+>>>>>    qcom/venus-5.4/venus.mbn    | Bin 922216 -> 922312 bytes
+>>>>
+>>>> And this firmware file is also going to work on SC7180, correct?
+>>>
+>>> Yes, we have got this validated on SC7180 as well.
+>>
+>> Thanks for the confirmation.
+>>
+>>>
+>>>>
+>>>>>    qcom/venus-5.4/venus_s2.mbn | Bin 919008 -> 0 bytes
+>>>>
+>>>> Vikash, Dikshita, could you please comment, what is going on here?
+>>>>
+>>>> We have added venus_s6.mbn, then dropped it, saying that a normal
+>>>> venus.mbn can be used on QCS615. Then Renjiang added venus_s2.mbn
+>>>> (why?). Mario merged it despite my NAK, but that's a separate topic.
+>>>> Now we are dropping it again.
+>>>>
+>>>> The firmware is the ABI between userspace and the kernel. We can't
+>>>> randomly add and remove files here.
+>>>>
+>>>> Which file names are / were in use by the upstream kernel? I tried 
+>>>> hard,
+>>>> but I couldn't find any mention of venus_s2.mbn in any of the patches
+>>>> on the linux-arm-msm mailing list.
+>>>
+>>> venus_s2.mbn is not used anywhere. It was earlier planned to be used on
+>>
+>> Ack, please split into two commits, each having a proper explanation.
+>> Please make sure that in future we don't add completely unused files.
+>>
+>
+> Ack
+Sure, I'll re-submit fw change with two commits.
+>
+>>> qcs615 while venus.mbn would continue on sc7280, but then we wanted 
+>>> to use
+>>> same bins for sc7180 and qcs615.
+>>
+>> What is the status of the current venus-5.4/venus.mbn file? Does it work
+>> AS IS on Talos EVK that is being in process of upstreaming and on QCS615
+>> ADP AIR aka RIDE boards?
+>
+> @Renjiang ?
+It is fine on ADP AIR platform. I am asking wangao to borrow EVK 
+platform to verify it.
+>
+>>
+>>> S2 variant can be produced now by re-signing this venus.mbn itself. To
+>>> achieve this part, there were some elf alignment fixes, which is 
+>>> done with
+>>> this bin to make it re-signable with any vendor specific #.
+>>
+>> I thought that this already happened for VIDEO.VE.5.4-00060-PROD-1. What
+>> is the difference between it and the new one?
+>>
+>
+> VIDEO.VE.5.4-00060-PROD-1 had ELF 4k alignment issue [1].
+>
+> 0x34 % 0x1000 is not equal to 0x0 % 0x1000. This part is fixed in #62.
+>
+> [1]RuntimeError: Program Header's Offset, 0x00000034, and Virtual 
+> Address, 0x00000000, are not congruent modulo the Alignment, 
+> 0x00001000. (Offset % Alignment) must equal (Virtual Address % 
+> Alignment).
+>
+> Regards,
+> Vikash
