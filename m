@@ -1,153 +1,198 @@
-Return-Path: <SRS0=8/BF=55=oss.qualcomm.com=renjiang.han@kernel.org>
+Return-Path: <SRS0=ytd+=55=oss.qualcomm.com=wei.deng@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2224CFA46E
-	for <linux-firmware@archiver.kernel.org>; Fri, 21 Nov 2025 04:11:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ADEF0CFA47A
+	for <linux-firmware@archiver.kernel.org>; Fri, 21 Nov 2025 06:50:19 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 8AE4EC16AAE; Fri, 21 Nov 2025 04:11:12 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	id 78275C4CEF1; Fri, 21 Nov 2025 06:50:19 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 97137C4CEFB
-	for <linux-firmware@kernel.org>; Fri, 21 Nov 2025 04:11:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 97137C4CEFB
+	by smtp.kernel.org (Postfix) with ESMTPS id 9FAE7C116D0
+	for <linux-firmware@kernel.org>; Fri, 21 Nov 2025 06:50:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 9FAE7C116D0
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AKKApZj1886198
-	for <linux-firmware@kernel.org>; Fri, 21 Nov 2025 04:11:10 GMT
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AKMKAJx1843399
+	for <linux-firmware@kernel.org>; Fri, 21 Nov 2025 06:50:17 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=TjpEL9kGKVSSVdpjErV7Yw
-	cfYr23Zpd6aDPt2NCvETg=; b=jnY/UU/Y7IbEfwsuRANTgqTc74XN3r8iKc5dDc
-	DqEneE4+rSHEwHTM6UJKUUbdFpBXRPVUsvJgSFNVvOjxI/JW8ZlKKFbXYODm7J3q
-	IXVQxenAXCW+gtWVmXQ3441uRcyz5ttMAO0aRa8cA1AFFHe26Da6o/ufPo/+V6gb
-	Ct7KlG7GQlGycPefYwKaQ2YchE9Ls7qDPGh1irVdEpoNQ9zzAOZxvYUtVIaZd60y
-	lZ04FNSuBs+teS8BbaIry7uW7asGUtpjBKYPLznbAfycHGMzCv+b2tH4lXIHbmWk
-	I5YGz1n9EXi0DKWtOMuBKZLHU3a3kyoSCsA00WHBLcbAUuZA==
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ahver3wy1-1
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	9Fh9YDZbZHVohPxdia1qxrG2y4KBzufzzZnmOHoDd/o=; b=SRt+kNm9a7294W0M
+	ddPPbSgvQc2pVIJqCbUUBRAt2KiMyDFJwr0qRuUfdI23mVGXwEWobtATfeQ1AefN
+	0ZPBXkKMX+9vAaUiOJc8X3FuDZsUhnCywvgfMkNPrrb8N9/iK7AclzE15Rc9RS6K
+	okDq6ET9H0aBwieQxIbdBUdHmsJvMMOMMUyY4Iw84xcGi4Yr1gNbEg5AUOQfsCZ+
+	bUVY6ZuUCTQpavGRiw3a9ZgfCVaUJLl2E9vgKLva6c+guYyDarcpBEf/Pb6H2H/a
+	PzvY9GCkhSQ/+IMQRtNhNI/lTYIwJtEc2YUOKnrRHgwhCnaqiAi3BaRadBpo+nxA
+	8B1XYQ==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ajbpns6sf-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Fri, 21 Nov 2025 04:11:10 +0000 (GMT)
-Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-7bad1cef9bcso4071845b3a.1
-        for <linux-firmware@kernel.org>; Thu, 20 Nov 2025 20:11:10 -0800 (PST)
+	for <linux-firmware@kernel.org>; Fri, 21 Nov 2025 06:50:16 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8b227a71fc6so47127585a.0
+        for <linux-firmware@kernel.org>; Thu, 20 Nov 2025 22:50:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1763698269; x=1764303069; darn=kernel.org;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TjpEL9kGKVSSVdpjErV7YwcfYr23Zpd6aDPt2NCvETg=;
-        b=hJaH+KGPX213+FYvb38kkNrBuE/7T3Aqtt4hI2xW9Th+0JUx6abRXo1X5XDzOyr7xu
-         XoKeAPYmiVLaOlgCj6mvidm+2IS7EkAP+zy+ghn3zLQGwxff8W8BxB6QrQnRkYd/7y81
-         e9UH+HWwwtvCO0RXk9q0tHlRhho28o3kG17GAi2gYgrgl7Gp88HiRYQW4ETz7ZYrAtxp
-         gNdG7i6E5L8nygpfpe3CAdhv+lgXgJZKx7+Ry6wJ/lAshzuU9NSpEtL7EPKfI0baitQi
-         4znM5CJGex5BIqE7a8p36BKzVUZ+xqjYXrtNggZHFJynrgqTPfO1YMK3aKvKtG7jeQCs
-         So/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763698269; x=1764303069;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+        d=oss.qualcomm.com; s=google; t=1763707815; x=1764312615; darn=kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=TjpEL9kGKVSSVdpjErV7YwcfYr23Zpd6aDPt2NCvETg=;
-        b=NlXlcMm2s9QfW6xuEqXq3+Bxpoji3NXnLzgvZX7cs06RtEzOo/1AEoNcw5Xfy6S+nJ
-         BhaXtJkIRpQKmxwUJNWn6C/JuM18BSj2XErKQB6oDmS0GhAK60nDvrx4n+Yl1rVjzZgP
-         VvYeUFu6niHyzBxsbiEoZkZ63IVTWjrgAdRfYIR7v4L/Eh9pVkbcdfn7/iIhAr9MUdQT
-         VCFLtcYAvNW5RV3t76loLdwr50qkraWW1xKFlxD0rbdS5p7tI6KmgoajHHwinQ3pIJEF
-         EUQOenXoiv+X5vYDCprGi9RAJ3x7xskjyC9X/P7L8ixR2Lta8xrDKre1vSzlk+kx4Y9i
-         skmg==
-X-Gm-Message-State: AOJu0Yz5rSDM46FUY7//hgcn4//WkKH0nSvwF8vvFa9mQvS/+Czg1WAm
-	nDPpUeFeOTwAIduUKgET3f0N/1DBxShq8BEsyS5i65xMW43R0g51dFNVHNLxry4A8FMNwwXmYR6
-	01Y1JxIAmfAXK9o5xl1zsjnC8edmXbypvoL0cFKF2yRv9f0vMF5K/Au0SGTo+Wz3iOu0HBvg=
-X-Gm-Gg: ASbGncvHUmiefXstx24N8Uk9g6gwp+V219nYX3+RkRlkYt1DxhyKJdCJbjukkrCIYH3
-	vO+RwdtH5PKDUbP5FHCMLeHeGTVewm3VDnuuyOvRYs1RjmFVZj9pCDkIFkIEe2tUGsKhFPznAJL
-	R70ZFZ82eZx7VN3j/vUug7GqLm6LwX2uaEaaMrorxGO7j101/mJq84dD9q8URmA/ge/dlUhX8d7
-	ebmi0MfWnE2MhITVcLHxLz9C2QqO8Lmmqxv/WddKYdmakbZfqpfrfwMBGl4VGG3GFFramErCG+e
-	XAjpwvLwo9jqLWFDAvluYWxafSBAufZrWE+tQDifJeTTfWkPSCg+0ILqXPXaZb2jHwxSYNWw9aO
-	fFvCqs9Wlq63doOnoaV3tweVU6AIKEn2BmOSWoilGs605b0elRZL5xfRoJbE2Na+rKthXASYpoM
-	4ZNgXvWw==
-X-Received: by 2002:a05:6a21:3392:b0:35d:8881:e6ba with SMTP id adf61e73a8af0-3614ee3889dmr1621039637.49.1763698269171;
-        Thu, 20 Nov 2025 20:11:09 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFHlq16soRwr24CNkpdE9S0KV1dvYGRY3jvhk7+5BoOyxek3WHdF8V6d5lHxKbhqeRhISpSKw==
-X-Received: by 2002:a05:6a21:3392:b0:35d:8881:e6ba with SMTP id adf61e73a8af0-3614ee3889dmr1621007637.49.1763698268680;
-        Thu, 20 Nov 2025 20:11:08 -0800 (PST)
-Received: from [10.133.33.155] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3ed47b388sm4420594b3a.27.2025.11.20.20.11.06
+        bh=9Fh9YDZbZHVohPxdia1qxrG2y4KBzufzzZnmOHoDd/o=;
+        b=eOXolutZtP9dnNYjwQvIkqj5CeOSaH3+/zFsgG8YGRlslAtDgJYjX/2vzgxDxJZHa7
+         gsUtG1smOCWSBrjKDnuYsiUQKwZNKJEqFCWUaVutCCwoQrV5hucSSLa7poVwin8/Z/Za
+         +HrxcojiehPilFolW520SXJ+bFb9d3DsBA2juP12fV16UTzhS+Ou9lgfeolTamqllhVN
+         lfPqDDXV612gnE7hK/Ts/35TttVGpQW3tD+wgBlip6GrTowMNqOGKNXdpsTBKHPFnpV/
+         IORpstUCZZhUxeCscwh3CBAK/o6g4qnFhcse9E3ZAvqEx09w14SgshhCcD2nzQ6h/zP6
+         H2RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763707815; x=1764312615;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9Fh9YDZbZHVohPxdia1qxrG2y4KBzufzzZnmOHoDd/o=;
+        b=RS6+ovbpCseGcGWnPBD0ihN9Oi/j1kHVYA9VmpyO+UG7fE32aVk7a/rBIp6VATEusa
+         1yo/jvJz/7kqz76Aerj5Jc/hvDCJHypjz46GMW7uC5UdtfDD6N/193HxLwgVLn9F8ZQy
+         qtRNb1vq7aM6/ebn0bdGNThygGsbYrF5vASXwprjr7zS2TFRpVXaUqZv2L53kmT71dz4
+         JdOjAg+kweYjLtDQR/JqO898S/PD7bfAMSe6l8fXEo2cXtRCS+Oga5q/puvQOOiThwKQ
+         IFRwLw9eAWmiC1d4lhiAOHHUPQgQwCFAAlTTRcz8CND7Dy3yb1DcUODsuCB/Gifoz4Ku
+         hytw==
+X-Gm-Message-State: AOJu0YyyeHEmi0Mk+2Wcaq3vPE8Pp8HSpfX4+7EgcsgEsDCpLyUYU1FI
+	pVAdzXgFhOx6/DdbZLe9smPfPCyZzU8zO77No76Zv2rfoU+K3voEhPP/wFN6DkLbHKYNy5m8xWN
+	NNVfj54VerfqZxrN1rBPHH8KsonRX2ecaBekT9kTjzG9TCxNi8Rvw4jwWxSomjn0LYqKZvdw=
+X-Gm-Gg: ASbGnctIyod7FNjcvbvKQrRrIFQ9Fv25NpJAWCo59gmKf0Lla6iwfkb36mXnrT0DjSD
+	05N3WC7/vFTyqgyPCtsQsOzxnF4Gf19GQQwhf5+HrKhPXXpid82kmQ5rXlCh5H+TnhYY2UPsdIP
+	p6p/4R6Pyg/+nO+nUZ4K73DymGafc7C0of1JgwvyO9/giFP837WnNxj4uVCXF6yRduocqFs8Yfh
+	RS0xPz/Ct/t5kg89xbm6675OKKLIRCC3Iv+xjE2qcVh86ScDDhXzIQPduIymEWUn411byljC8kM
+	qPJoN/rvpXSBlKbNkEK0HVGxdPs6TmJiYv7LVKD9NHya+AJAcN3VvTdITqsE8vDVY5oPtXNBL8k
+	5JvPEcxQPPwknVCV/meBkGeXiFpoL/fqK1qQw5bjsxVLkDsiBP3HKkz10imdaHi9TpeKaLQ==
+X-Received: by 2002:a05:6214:1d0a:b0:880:55fc:c984 with SMTP id 6a1803df08f44-8847c53b61cmr12372836d6.5.1763707815295;
+        Thu, 20 Nov 2025 22:50:15 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGU3J1Sk23Hidd1nvXdojQts+30WwBJxYP3FbhCsR/UKJorf1p6lO1LAOqYNO+XNfqEPVejlw==
+X-Received: by 2002:a05:6214:1d0a:b0:880:55fc:c984 with SMTP id 6a1803df08f44-8847c53b61cmr12372766d6.5.1763707814880;
+        Thu, 20 Nov 2025 22:50:14 -0800 (PST)
+Received: from [10.111.165.185] (Global_NAT1_IAD_FW.qualcomm.com. [129.46.232.65])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8846e5ba2bfsm33139766d6.57.2025.11.20.22.50.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Nov 2025 20:11:08 -0800 (PST)
-Message-ID: <12237382-ae28-45d8-9da1-af700cc22baf@oss.qualcomm.com>
-Date: Fri, 21 Nov 2025 12:11:02 +0800
+        Thu, 20 Nov 2025 22:50:14 -0800 (PST)
+Message-ID: <73738c07-eca2-4065-8e3c-3bb68e8f291a@oss.qualcomm.com>
+Date: Fri, 21 Nov 2025 14:50:10 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US
+Subject: Re: [GIT PULL] QCA: Add Bluetooth firmware for WCN685x uart interface
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: "Qiwei Liu (QUIC)" <quic_qiweil@quicinc.com>,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        dikshita.agarwal@oss.qualcomm.com,
-        Wangao Wang <wangao.wang@oss.qualcomm.com>
-From: Renjiang Han <renjiang.han@oss.qualcomm.com>
-Subject: update firmware binary for v5.4
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=ZvPg6t7G c=1 sm=1 tr=0 ts=691fe65e cx=c_pps
- a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+Cc: linux-firmware@kernel.org, jwboyer@kernel.org,
+        cheng.jiang@oss.qualcomm.com
+References: <5fd2de28-2bd8-4dea-9afe-0cd7a5d9c9a5@oss.qualcomm.com>
+ <ylctfzbgxpnbitgxk2mwpw6aptdzyedscbvwm4dzsew2sskdal@tlyyv5bulpzi>
+Content-Language: en-US
+From: Wei Deng <wei.deng@oss.qualcomm.com>
+In-Reply-To: <ylctfzbgxpnbitgxk2mwpw6aptdzyedscbvwm4dzsew2sskdal@tlyyv5bulpzi>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=I9Vohdgg c=1 sm=1 tr=0 ts=69200ba8 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
  a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=qC_FGOx9AAAA:8 a=HqihI7LvRe4Hhu8zyeYA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=IoOABgeZipijB_acs4fv:22
- a=fsdK_YakeE02zTmptMdW:22
-X-Proofpoint-ORIG-GUID: Tzk7XqDvJwcPA8TlnM72TAU9KS6yvX64
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIxMDAzMCBTYWx0ZWRfX5+DBpQcTXulf
- 3fBFJ8+xNz11jcuZp1ZD8YhfJEOtdpUYA+5AGCP/8+IdjP05JPrCrqxd1OYl7pRycBbG0lj/2LD
- WO71NR4wddAo3iPLTSo4WMIAfDESghU/gCgSHd5RzX4aJrg3go6Qw3CZJgJc6TLEAgKEvqkU3ou
- gUNQKHbUTiuJ7RU0PhbXWnwy6cahboygJKvnR3keipNMdFb5p2FMTbSPv94OKdmhYOLnVkHyCQ5
- tt/J3sfXJBgzwmGZVjXYO1m+vvInmacE3lPAkAhX7dOlMnvvFQhQqndP1lKoq9UngqBAqbLAs0f
- u3wc0/TP9OtT2zK7fnakDylTbj0jmMOE6asVut4cCJqi0B99I/HZtxJZE0yvCTP51JzBotpNH+4
- ICR83ZVS03tXnyDtbo0zyYtWDft3Ag==
-X-Proofpoint-GUID: Tzk7XqDvJwcPA8TlnM72TAU9KS6yvX64
+ a=VkNPw1HP01LnGYTKEx00:22 a=NEAV23lmAAAA:8 a=R4vYNCtyh0xaBPIV8HcA:9
+ a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-ORIG-GUID: l-MLHcnJzoIX_vrzJhTTISh3I2NU7zg6
+X-Proofpoint-GUID: l-MLHcnJzoIX_vrzJhTTISh3I2NU7zg6
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIxMDA1MCBTYWx0ZWRfX2gUocMnSg81M
+ m7leEM80M1/Q5XOip0GlQqqBy1iwwucucTBCKaqAx3fiyYgjR+LthcRqZ4adHyQIZH8qJ/rpbGK
+ huWVP/Qbi1CfZn7ObJ+VJFdpflO3NgKGZ6LHDK6BrhkgQu/9Q9rAYMwY/qlCQZrhND3e3UlKjt7
+ TxAQhbJJx2TlEDowS7pYtIj8QHFI2Qx1E88jIzudubsYNVXHzFEOf+3P0M1Ek8yGukGsRWL1pVZ
+ sKfSdlYMwSCihY0jERD7r9npK2LL+tQwA+7vT9LkTCTWavq+5NQ5vhWMCZ9KMGG8xp5aZgfi9DE
+ eeGEZ2HTGXQjEqLU5vQKrrc+6xh3Lx7JjnJ40M3HSECYxlyRRQKlLq+iNfyKsUcDplE457UJiAB
+ uiErXvvIJpWwEbStGCShb0JFE8cBfA==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-21_01,2025-11-20_01,2025-10-01_01
+ definitions=2025-11-21_02,2025-11-20_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 malwarescore=0 clxscore=1015
- priorityscore=1501 spamscore=0 bulkscore=0 adultscore=0 lowpriorityscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511210030
+ malwarescore=0 bulkscore=0 phishscore=0 spamscore=0 lowpriorityscore=0
+ suspectscore=0 impostorscore=0 clxscore=1015 priorityscore=1501 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511210050
 
-Hi
+Hi Dmitry,
 
-The following changes since commit 6fc940781a013ad837ed8fea326d2b897467bbc3:
+Thanks for your feedback.
 
-   Merge branch 'robot/patch-0-1762826844' into 'main' (2025-11-11 
-12:02:02 +0000)
+On 11/21/2025 6:29 AM, Dmitry Baryshkov wrote:
+> On Thu, Nov 20, 2025 at 12:19:21PM +0800, Wei Deng wrote:
+>> Hi linux-firmware maintainers,
+>>
+>> Here's a pull request for btqca bluetooth driver. Please let me know if
+>> you have any problems.
+>>
+>> The following changes since commit 8b9fd78478acacccd0cde109b4a3550969f33bbb:
+>>
+>>   Merge branch 'dsp-fw-kaanapali' into 'main' (2025-11-19 07:22:57 +0000)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://github.com/WeiDeng-weiden/qca_btfw.git main
+>>
+>> for you to fetch changes up to 94beae96027761e69a54603605b8a9bfd7b71b3d:
+>>
+>>   QCA: Add Bluetooth firmware for WCN685x uart interface (2025-11-20 07:24:50 +0530)
+>>
+>> ----------------------------------------------------------------
+>> Wei Deng (1):
+>>       QCA: Add Bluetooth firmware for WCN685x uart interface
+> 
+> Please don't strip parts of git request-pull output. I'll add it back
+> for you:
+> 
+>  WHENCE              |  39 +++++++++++++++++++++++++++++++++++++++
+>  qca/wcnhpbtfw21.tlv | Bin 0 -> 152784 bytes
+>  qca/wcnhpnv21.301   | Bin 0 -> 6876 bytes
+>  qca/wcnhpnv21.302   | Bin 0 -> 6876 bytes
+>  qca/wcnhpnv21.309   | Bin 0 -> 6884 bytes
+>  qca/wcnhpnv21.b10c  | Bin 0 -> 6618 bytes
+>  qca/wcnhpnv21.b111  | Bin 0 -> 6618 bytes
+>  qca/wcnhpnv21.b8c   | Bin 0 -> 6610 bytes
+>  qca/wcnhpnv21.b9f   | Bin 0 -> 6610 bytes
+>  qca/wcnhpnv21.ba0   | Bin 0 -> 6610 bytes
+>  qca/wcnhpnv21.ba1   | Bin 0 -> 6610 bytes
+>  qca/wcnhpnv21.ba2   | Bin 0 -> 6610 bytes
+>  qca/wcnhpnv21.ba3   | Bin 0 -> 6618 bytes
+>  qca/wcnhpnv21.ba4   | Bin 0 -> 6618 bytes
+>  qca/wcnhpnv21.baa   | Bin 0 -> 6618 bytes
+>  qca/wcnhpnv21.bb8   | Bin 0 -> 6610 bytes
+>  qca/wcnhpnv21.bin   | Bin 0 -> 6610 bytes
+>  qca/wcnhpnv21g.301  | Bin 0 -> 6716 bytes
+>  qca/wcnhpnv21g.302  | Bin 0 -> 6716 bytes
+>  qca/wcnhpnv21g.309  | Bin 0 -> 6716 bytes
+>  qca/wcnhpnv21g.b10c | Bin 0 -> 6458 bytes
+>  qca/wcnhpnv21g.b111 | Bin 0 -> 6458 bytes
+>  qca/wcnhpnv21g.b8c  | Bin 0 -> 6450 bytes
+>  qca/wcnhpnv21g.b9f  | Bin 0 -> 6450 bytes
+>  qca/wcnhpnv21g.ba0  | Bin 0 -> 6450 bytes
+>  qca/wcnhpnv21g.ba1  | Bin 0 -> 6450 bytes
+>  qca/wcnhpnv21g.ba2  | Bin 0 -> 6450 bytes
+>  qca/wcnhpnv21g.ba3  | Bin 0 -> 6458 bytes
+>  qca/wcnhpnv21g.ba4  | Bin 0 -> 6458 bytes
+>  qca/wcnhpnv21g.baa  | Bin 0 -> 6458 bytes
+>  qca/wcnhpnv21g.bb8  | Bin 0 -> 6450 bytes
+>  qca/wcnhpnv21g.bin  | Bin 0 -> 6450 bytes
+> 
+> And I've added it because I wanted to ask. Why are adding both files NV
+> ramdump files with .NNN and .bNN extensions? The former ones won't be
+> loaded by the kernel.
+> 
 
-are available in the Git repository at:
+Thanks for posting the complete request-pull. Uploading .NNN and .bNN 
+files is to keep them consistent with the current UART interface NVM 
+ramdump file, we update same files with hpnv.NNN and hpnv.bNN.
 
-   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git 
-update-video-fw-v5.4
-
-for you to fetch changes up to bb28dcbcf9867ebeda6a41d575656a737c24f32f:
-
-   qcom: venus-5.4: update firmware binary for v5.4 (2025-11-21 08:55:41 
-+0530)
-
-----------------------------------------------------------------
-Renjiang Han (2):
-       qcom: venus-5.4: remove unused firmware file
-       qcom: venus-5.4: update firmware binary for v5.4
-
-  WHENCE                      |   6 +-----
-  qcom/venus-5.4/venus.mbn    | Bin 922216 -> 922312 bytes
-  qcom/venus-5.4/venus_s2.mbn | Bin 919008 -> 0 bytes
-  3 files changed, 1 insertion(+), 5 deletions(-)
-  delete mode 100644 qcom/venus-5.4/venus_s2.mbn
+> 
 
 -- 
-Best regards,
-Renjiang Han
+Best Regards,
+Wei Deng
 
