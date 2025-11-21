@@ -4,174 +4,192 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98483CFC268
-	for <linux-firmware@archiver.kernel.org>; Fri, 21 Nov 2025 11:55:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4343ECFC268
+	for <linux-firmware@archiver.kernel.org>; Fri, 21 Nov 2025 11:56:31 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 68189C113D0; Fri, 21 Nov 2025 11:55:44 +0000 (UTC)
+	id 2DE89C116D0; Fri, 21 Nov 2025 11:56:31 +0000 (UTC)
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 8D94AC4CEF1
-	for <linux-firmware@kernel.org>; Fri, 21 Nov 2025 11:55:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 8D94AC4CEF1
+	by smtp.kernel.org (Postfix) with ESMTPS id 54754C4CEF1
+	for <linux-firmware@kernel.org>; Fri, 21 Nov 2025 11:56:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 54754C4CEF1
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AL7OKrH1390780
-	for <linux-firmware@kernel.org>; Fri, 21 Nov 2025 11:55:42 GMT
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AL9VwDp3048104
+	for <linux-firmware@kernel.org>; Fri, 21 Nov 2025 11:56:29 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	lx00PkKsB1XaLj++M11LqgWHW1Xb6nm8rMfaZ+H+3WY=; b=HS5J+mRW6AJ8qmPB
-	8sVmB2SoZESPWXWVRymAY4O7yiaVVCtuiqwybfi2ieWCiLD7MDv9y/VblVY3eq8S
-	ds7dKag7qZj9GvLWqUSxjgeh0OZolqayC0v1dhioEE9oP3VOaaDn3XI3Ibfls1Pu
-	/IA7TmbkOAqxkLrQurMFE1UAdg+ELlOKhPhPvOVXxi/p/U6X4o8dbVl161OTwz2r
-	tNRJmL3iNRZ5jMMnbMMAYMNDhBi0wFVbiFNHRKo7k2P+FJ3J/0HMKn9IaXWhzsqR
-	h/dNtii9h1fZh4F6zitCVcQ177gwOwnh5sSprjYHrnzE99hDTkBuUu8K8Wlp7QT6
-	xAqaFA==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ajb532c50-1
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=xFZi1vlN2uJt9akmEdMudxqy
+	ny9rXVCPsy35rrt8g2c=; b=UzQOEmieNIaSmSHMrFwgmlyem0HjgOVvz45ko6If
+	U6mIdp674RKIo2sbkYk9a32MmUl7bWsc7xCfEo2QtshpSTKYj0GLznfbcVxvk/F8
+	mz6ltceALvMti5rO6dwze9J4cmbeGIPHYOrIUPViU89zPCsVK3JfBxNLOo2x3M2K
+	j7HOpHySUV8L+aYfQ8R8/qh9zZxZHcSG4QDRAAUufvz2i/RkHe2JjeDduzS+Yu7h
+	Jvza9QRAX6Qsm8RYAz027psWjtw7q9Hu17V3gJPVg5gpFeio0VrGLbPehpcKItep
+	1PlEtns2I5zIJOglBnmdQTD6NTsskVWnXBT+bR8pdc0HYg==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ajnhjrdv7-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Fri, 21 Nov 2025 11:55:42 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4ee21a0d326so36819021cf.3
-        for <linux-firmware@kernel.org>; Fri, 21 Nov 2025 03:55:42 -0800 (PST)
+	for <linux-firmware@kernel.org>; Fri, 21 Nov 2025 11:56:29 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8b26bc4984bso816229385a.1
+        for <linux-firmware@kernel.org>; Fri, 21 Nov 2025 03:56:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1763726141; x=1764330941; darn=kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=lx00PkKsB1XaLj++M11LqgWHW1Xb6nm8rMfaZ+H+3WY=;
-        b=U+iMv+6j2AwlWpBmx4ijpjg06p1ZpmO9Bq0N0gcOBXQX63cmmpUymJR+KeF9Gz6Y9f
-         9LmKw4scljK7Wlv2aZaIvGDcfNI7Sfd9K3Ta/BSAG7gRbdfobhA6xN9Fsw7oGYDKzMBr
-         osPWFIpUj6EKucDqQKZZ5Xk0Zxk/MURFj+01XP5D1IDXm55Ul/iSuNlFOFhvzVrpsGSy
-         YHeW6m4pjsJ72Jr9X1PupRhwIPDsirnNZbBFADuZhHQLyuefU7y+7aMyYhoHseeIn45u
-         GGowuPxvNu2KNfhY+ynKAPtr/wRbV0QuXFMbvK1vytGCFnea4l+/oypN9QzImPUZ4lu3
-         fP3A==
+        d=oss.qualcomm.com; s=google; t=1763726188; x=1764330988; darn=kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xFZi1vlN2uJt9akmEdMudxqyny9rXVCPsy35rrt8g2c=;
+        b=ej1KbLq8+0jil/Vto5X0RiEY4FzRAxpFga+SEEcOdqGE/q3NPdttkl1QIRql+Dv2Mn
+         BpcIz8D91HZOJoOhUpoum04zPo/7bKBBdJmRmSOhvoYyEsu4o/NPPAsFr0odklkO0VJw
+         Zhctv5FXlB37NWpxm2CdOst6/w5eynKo2P8oginXqu/p3bO/FYL/H4Cne6DIXQ/jycfc
+         CB3KMVbiihggwcecVrSKhFCe4LBe9zVDI1JpXyRtOhgGUsKj7OQThETdgsOTwuSAV2uw
+         WUMCMx2F7RwMEVj7QRcsPxndztrc/UjmvFUmN76AeNf9a2uP4zX/7/ziOGj0438tqEky
+         T6rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763726141; x=1764330941;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lx00PkKsB1XaLj++M11LqgWHW1Xb6nm8rMfaZ+H+3WY=;
-        b=KLp5cQd6ya6VTcdHO7BVjl9fd0gxp229402p+ur+MK/x93QNPkvASO4YSYp98nlZ0M
-         XJWK9cB/OP69PNXEE4AF7jcj2I3DUpFaBYZ1W05/vp1ZrexkNXvn/+JRG3AtjtJIvskT
-         45ejLyWBc+Xct64oslFEZIPR4ExwVK/UWQcIIlDVNmXpkf7Jl1bL7OF1d6TxDmHxdTds
-         bWyHS976YSYyZcplC6iwN58B4Ht3HqWBfxX/hN91btpnQMT13NnGgK6jaSdlyHhdb4xE
-         5ydhMZgSYTy36B36W4aqCCfbTLdWaX3mVFoN/olH38pKObtDxf7CGDfUq/vS29kFgR3O
-         uo3A==
-X-Forwarded-Encrypted: i=1; AJvYcCW0fszO4C9BQ1Uqatjs0x1jyrRyqHNknQYTaDwpX6rXahVkBpcpY+rCxgvp6SjX/o/gxAroWPW8fq+CPkvERQ==@kernel.org
-X-Gm-Message-State: AOJu0Yz2L8uqCXG2n+H8hltwfYNTC/uc7Voze2nQ+LVEW7orKe6VqPXI
-	yK305Uq2r3rdRf3yEjRefZvexXGrwGI1ZRWBwB9ZMYTYrkhycSPDjvv+Pbm51OcT6/fBIbtsz4q
-	MLRFCBrdTvpJhGhYYeKhUyf7lBnLs3u8zDFpUd+THooJJLc92f734Sw2RFqdkHxI=
-X-Gm-Gg: ASbGncsJcsWnZZ5Wg0vKbR5b2Zeomf0TIFCPhQFMQI1jjCw5YiAbRCL9ILuWP9rpow2
-	xWm0/9oogPGLbGp7He0SGsEv0RY0pL6OEH91xNNbBZy2VVcZFKT21YGCg65vmoduyCQVUvMKe82
-	BSaB6PeABbTr/OyJu460MqFDrhMvvgysmCvAQQ39qvWw9o39ytWNssXjBHfoZVIIafysz7AtjST
-	CtkEE7yce2n5CH1MddCvpn8A7i22HjkLntT8i/n1w0D2FS4RP/VCSO7i2FpavTv0yw8/nuflIm8
-	N30Al/OIU+k8a0Oa36ZSAZdaxOwj38uKvZUkYSKqz6Q0GkfUGFqfGv8+XJ1nd6z8pTmXZJmg8cM
-	NRawhqDtHXf9r7hXKOuEwbYWdZ9oIorCbFIUQ5G5K9gDzY7uDe+L/e37irc8SfC0K0ObX9LClDV
-	kYy6xY9rRo3ivOOKAkR8LqsU8=
-X-Received: by 2002:a05:622a:18a8:b0:4ee:2459:3d6c with SMTP id d75a77b69052e-4ee5891752fmr21200941cf.58.1763726141428;
-        Fri, 21 Nov 2025 03:55:41 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG1ggUOQeqV9kraX7s+CqcOQnqGtkVOFYOoitispsSdqL2y1sYi56KlDe6upC5ZaQL7K0M/dA==
-X-Received: by 2002:a05:622a:18a8:b0:4ee:2459:3d6c with SMTP id d75a77b69052e-4ee5891752fmr21200711cf.58.1763726140945;
-        Fri, 21 Nov 2025 03:55:40 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763726188; x=1764330988;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xFZi1vlN2uJt9akmEdMudxqyny9rXVCPsy35rrt8g2c=;
+        b=fBlavCmY4UK7ldszTGsQDq8sqo4MDa1/kehb3y4RJqK/w536+xTTeJjUpOkzfGT4qA
+         zYv9aPQ+IB8iy9MNxcUBSg0i2VU0qWJRixTIdXXyrYUAlKzyhIsg29vQKAms77fZFbQs
+         C3QKhC+Lm9RESkB/dcQIroxU9Dr67rWyaFZAWRMVQTyfeZgQabLYtGDyN/6eJYMzOkmi
+         UnqddJI6fjrFJqTmVswVtWq6PnPoP12XyyMWsLsSshlbax51i5OHMmfeI78Dz4XvJK+f
+         YsPnvVYP8VG+lVfC/smY4oIBeujbguX2xYZIJ3Sbb+ta43w6sR7Q0P08xplBCJgkZ5r0
+         Oypw==
+X-Gm-Message-State: AOJu0Yxx+wTPSlTTWd7VzpPCI7eT7Mzp8QJEqHOxTNUyxr6ISdFtvMyp
+	rLxcA2TWtLsQEvNEhSOJkYFvOKOuiXksoU70eppoCQKl0fVd+ISzrwf6em0N39bsuwb//GdI6bc
+	9TVRbCmXagpxC2NlkoREZqCHCqhzri1eS7X0Ynw3U6gKBKorE/+zkNSAMYJAAgAo=
+X-Gm-Gg: ASbGncsRo0foV4nMQlHEsH7Z6ybCCxn6GJD+vsMSubm+aHEsoVBhXo4M0TQcRCoR3mN
+	qQctcwqNFSiUDY/wcKEiHFijlk0TVXY3Zfw7D7OZscM6TCAI1IZ58980pCmijoDoR9mfuzPpxJj
+	FxRvU66GDJkK3UxDJClESgm6g1i8IpuaeVIZuEj8MdfEpPBrEJd3vQfHewADWTwLYdw6zm9GVP2
+	iWjlmmeV4A05IB8VEURPwD9kLzCQNHMoJZd1ebwGQatu2XwiM8qaQ3FssG8oEENF7vp5bQbTIwJ
+	yX5XFSaei8MMbIvPgrRwgRshW0Eizi4MBqckdx7Q9EJVoNlskUBOjE9mxE/OydzK8Z7ZnV72P32
+	KtoVk0PMu66e4s6Y5poCFTDB1v7QDFNgF8edVSANSpjJeUw2q9fpQjtvS8/xIucWATE6nFzdyic
+	RoQ7a0K9yFjaqyT+QdoFIwDp8=
+X-Received: by 2002:a05:620a:290a:b0:8b2:d791:3d25 with SMTP id af79cd13be357-8b33d203a62mr186492685a.18.1763726188305;
+        Fri, 21 Nov 2025 03:56:28 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHMJmqa1r5XVW8PY7oiEf8ms6Ro7Y2ijbiULnymvkcXD0i8ONNds/Ci7PFhG5ZRZms70AHt7g==
+X-Received: by 2002:a05:620a:290a:b0:8b2:d791:3d25 with SMTP id af79cd13be357-8b33d203a62mr186490285a.18.1763726187826;
+        Fri, 21 Nov 2025 03:56:27 -0800 (PST)
 Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5969db75627sm1544445e87.5.2025.11.21.03.55.39
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5969dbcd225sm1581691e87.93.2025.11.21.03.56.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Nov 2025 03:55:40 -0800 (PST)
-Date: Fri, 21 Nov 2025 13:55:38 +0200
+        Fri, 21 Nov 2025 03:56:27 -0800 (PST)
+Date: Fri, 21 Nov 2025 13:56:25 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+To: Wei Deng <wei.deng@oss.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Renjiang Han <renjiang.han@oss.qualcomm.com>, linux-firmware@kernel.org,
-        "Qiwei Liu (QUIC)" <quic_qiweil@quicinc.com>,
-        Wangao Wang <wangao.wang@oss.qualcomm.com>,
-        dikshita.agarwal@oss.qualcomm.com
-Subject: Re: update firmware binary for v5.4
-Message-ID: <lllpl7faucz7b7fz5kkehllezjaefplayzrt66bvvyq3e5sym6@katcv5fgx42h>
-References: <d3442fba-a616-4260-a2c1-bf14d0d64250@oss.qualcomm.com>
- <jlnmauqconyiaujadjrffjeqbzkc6pa7vrcmnjyueuuamfguhg@ln43yypqrvoq>
- <7111892d-1351-4c94-82f0-8566c34f16c1@oss.qualcomm.com>
- <jodkivawdceoc7ebzm34w5ocipnv7zpjvasadyha6kdpayluja@255mxfp4eq5f>
- <1a8feea5-e797-4a19-a1d8-e4d5d5bca0c9@oss.qualcomm.com>
- <fa44f063-0f12-473a-98b1-cc601b4fade3@oss.qualcomm.com>
- <2b7be357-3a11-4eb7-ab6d-fb58c7909b07@oss.qualcomm.com>
+Cc: linux-firmware@kernel.org, jwboyer@kernel.org,
+        cheng.jiang@oss.qualcomm.com
+Subject: Re: [GIT PULL] QCA: Add Bluetooth firmware for WCN685x uart interface
+Message-ID: <tcwroapnfzfi4fhrb6sa63fvljo7lxyhcldoly4as4p4g4lgfw@6lfxzplkxikb>
+References: <5fd2de28-2bd8-4dea-9afe-0cd7a5d9c9a5@oss.qualcomm.com>
+ <ylctfzbgxpnbitgxk2mwpw6aptdzyedscbvwm4dzsew2sskdal@tlyyv5bulpzi>
+ <73738c07-eca2-4065-8e3c-3bb68e8f291a@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2b7be357-3a11-4eb7-ab6d-fb58c7909b07@oss.qualcomm.com>
-X-Proofpoint-GUID: p3E53aZYRSznJZimYxEnXTe_H6ijSUva
-X-Proofpoint-ORIG-GUID: p3E53aZYRSznJZimYxEnXTe_H6ijSUva
-X-Authority-Analysis: v=2.4 cv=Wugm8Nfv c=1 sm=1 tr=0 ts=6920533e cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+In-Reply-To: <73738c07-eca2-4065-8e3c-3bb68e8f291a@oss.qualcomm.com>
+X-Proofpoint-ORIG-GUID: UVjEi9hhBbXQc_y3y_UmwGcgqoLj3Fwx
+X-Authority-Analysis: v=2.4 cv=SPlPlevH c=1 sm=1 tr=0 ts=6920536d cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
  a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=qC_FGOx9AAAA:8 a=WWF3OLm5rn8f5rxomHoA:9 a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
- a=uxP6HrT_eTzRwkO_Te1X:22 a=fsdK_YakeE02zTmptMdW:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIxMDA5MCBTYWx0ZWRfX8LfENxnJG/Xm
- 9o5SlRXQ8KikQ94UDhQbZdeHj1ah79Z1IHyrSnfJCQUvSTr82V93Ud216PKkLBdWVe4lBudiHza
- E+i8xvUJAwCVRxNWqWokmRnU4wmHcja5Hk/F9h1XSqo5Vj08hk5ofRyLeqVS6M5E/4BRaP+syzW
- 55qw1BLNKC3zsvXkVIT+hl+z0ATEdDG3RFLXEPPiz5vkgbHpcQWWIWLVm1b2IxlMof6DbvTyNVG
- 25GlkHf30k3OE9HaN8bqUm6sumr84f9xPkJYDRhqU48/kXDYT3yTQZ6AYagptcXMhJXLIRP5hsD
- BvWbxk2VciCDZESX/Rygp7mAWE9Wbys8HnipJbBj759JbT8Qbgk2tUjGOkn3C1/hBcXU7Cumzzf
- owGEz8tlZxcTw8bh02SMHiJ5SMMG8g==
+ a=NEAV23lmAAAA:8 a=9RLuniW85I0tsJXTCVUA:9 a=CjuIK1q_8ugA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIxMDA5MCBTYWx0ZWRfX7Dl5bvz4F392
+ HwpMYXgB0Pp7NvN00qkHN6T3l3NUHSjAU8m3PSDu5qzGmv3sMCqwJSrKkw+IyAzPEnbjco05IM7
+ podAUuhZq/44TMihsqkDCuI83ZODTyVdCON2kGGkkd9ty43Ug+uDozlAdzENyxhOAN+7XIZth+I
+ zyyaAnL/rtCdQZ2h9o8+AFsKF7Df3RomkuBaNMmNXowmhA/KtPxLO99ozVomGr1TjOZcvMItCd+
+ CLJHw3gBS4B2lQxMNCWlCkfIBGnbnZBadRGZf9JrQhDzpJwdnnEM53Y+mj9nil8kloSzmvVFgAR
+ RGcoCIZ3IJoMWvlmZGSyAkdWbpOGtqavEbuiOkLwgJLflOwOIZkZg2m/TsvfR3p4fXEs8qphkn7
+ VHOhmj1xq6uNWLLZKkuU5g+gWYl0bg==
+X-Proofpoint-GUID: UVjEi9hhBbXQc_y3y_UmwGcgqoLj3Fwx
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-11-21_03,2025-11-20_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015 phishscore=0 bulkscore=0 adultscore=0
- suspectscore=0 impostorscore=0 priorityscore=1501 malwarescore=0
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ impostorscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
+ lowpriorityscore=0 adultscore=0 malwarescore=0 spamscore=0 bulkscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
  definitions=main-2511210090
 
-On Fri, Nov 21, 2025 at 03:17:24PM +0530, Vikash Garodia wrote:
+On Fri, Nov 21, 2025 at 02:50:10PM +0800, Wei Deng wrote:
+> Hi Dmitry,
 > 
-> On 11/21/2025 9:27 AM, Renjiang Han wrote:
-> > 
-> > Hi Dmitry & Vikash
-> > 
-> > I have re-submitted two changes, please help check. Thanks!
-> > 
-> > The following changes since commit
-> > 6fc940781a013ad837ed8fea326d2b897467bbc3:
-> > 
-> >    Merge branch 'robot/patch-0-1762826844' into 'main' (2025-11-11
-> > 12:02:02 +0000)
-> > 
-> > are available in the Git repository at:
-> > 
-> > https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git update-
-> > video-fw-v5.4
-> > 
-> > for you to fetch changes up to bb28dcbcf9867ebeda6a41d575656a737c24f32f:
-> > 
-> >    qcom: venus-5.4: update firmware binary for v5.4 (2025-11-21 08:55:41
-> > +0530)
-> > 
-> > ----------------------------------------------------------------
-> > Renjiang Han (2):
-> >        qcom: venus-5.4: remove unused firmware file
-> >        qcom: venus-5.4: update firmware binary for v5.4
-> > 
-> >   WHENCE                      |   6 +-----
-> >   qcom/venus-5.4/venus.mbn    | Bin 922216 -> 922312 bytes
-> >   qcom/venus-5.4/venus_s2.mbn | Bin 919008 -> 0 bytes
-> >   3 files changed, 1 insertion(+), 5 deletions(-)
-> >   delete mode 100644 qcom/venus-5.4/venus_s2.mbn
+> Thanks for your feedback.
 > 
-> It was made quite clear to put up the history from versions #58 all the way
-> to #62 in the commit message, still i see commit message does not capture
-> it.
+> On 11/21/2025 6:29 AM, Dmitry Baryshkov wrote:
+> > On Thu, Nov 20, 2025 at 12:19:21PM +0800, Wei Deng wrote:
+> >> Hi linux-firmware maintainers,
+> >>
+> >> Here's a pull request for btqca bluetooth driver. Please let me know if
+> >> you have any problems.
+> >>
+> >> The following changes since commit 8b9fd78478acacccd0cde109b4a3550969f33bbb:
+> >>
+> >>   Merge branch 'dsp-fw-kaanapali' into 'main' (2025-11-19 07:22:57 +0000)
+> >>
+> >> are available in the Git repository at:
+> >>
+> >>   https://github.com/WeiDeng-weiden/qca_btfw.git main
+> >>
+> >> for you to fetch changes up to 94beae96027761e69a54603605b8a9bfd7b71b3d:
+> >>
+> >>   QCA: Add Bluetooth firmware for WCN685x uart interface (2025-11-20 07:24:50 +0530)
+> >>
+> >> ----------------------------------------------------------------
+> >> Wei Deng (1):
+> >>       QCA: Add Bluetooth firmware for WCN685x uart interface
+> > 
+> > Please don't strip parts of git request-pull output. I'll add it back
+> > for you:
+> > 
+> >  WHENCE              |  39 +++++++++++++++++++++++++++++++++++++++
+> >  qca/wcnhpbtfw21.tlv | Bin 0 -> 152784 bytes
+> >  qca/wcnhpnv21.301   | Bin 0 -> 6876 bytes
+> >  qca/wcnhpnv21.302   | Bin 0 -> 6876 bytes
+> >  qca/wcnhpnv21.309   | Bin 0 -> 6884 bytes
+> >  qca/wcnhpnv21.b10c  | Bin 0 -> 6618 bytes
+> >  qca/wcnhpnv21.b111  | Bin 0 -> 6618 bytes
+> >  qca/wcnhpnv21.b8c   | Bin 0 -> 6610 bytes
+> >  qca/wcnhpnv21.b9f   | Bin 0 -> 6610 bytes
+> >  qca/wcnhpnv21.ba0   | Bin 0 -> 6610 bytes
+> >  qca/wcnhpnv21.ba1   | Bin 0 -> 6610 bytes
+> >  qca/wcnhpnv21.ba2   | Bin 0 -> 6610 bytes
+> >  qca/wcnhpnv21.ba3   | Bin 0 -> 6618 bytes
+> >  qca/wcnhpnv21.ba4   | Bin 0 -> 6618 bytes
+> >  qca/wcnhpnv21.baa   | Bin 0 -> 6618 bytes
+> >  qca/wcnhpnv21.bb8   | Bin 0 -> 6610 bytes
+> >  qca/wcnhpnv21.bin   | Bin 0 -> 6610 bytes
+> >  qca/wcnhpnv21g.301  | Bin 0 -> 6716 bytes
+> >  qca/wcnhpnv21g.302  | Bin 0 -> 6716 bytes
+> >  qca/wcnhpnv21g.309  | Bin 0 -> 6716 bytes
+> >  qca/wcnhpnv21g.b10c | Bin 0 -> 6458 bytes
+> >  qca/wcnhpnv21g.b111 | Bin 0 -> 6458 bytes
+> >  qca/wcnhpnv21g.b8c  | Bin 0 -> 6450 bytes
+> >  qca/wcnhpnv21g.b9f  | Bin 0 -> 6450 bytes
+> >  qca/wcnhpnv21g.ba0  | Bin 0 -> 6450 bytes
+> >  qca/wcnhpnv21g.ba1  | Bin 0 -> 6450 bytes
+> >  qca/wcnhpnv21g.ba2  | Bin 0 -> 6450 bytes
+> >  qca/wcnhpnv21g.ba3  | Bin 0 -> 6458 bytes
+> >  qca/wcnhpnv21g.ba4  | Bin 0 -> 6458 bytes
+> >  qca/wcnhpnv21g.baa  | Bin 0 -> 6458 bytes
+> >  qca/wcnhpnv21g.bb8  | Bin 0 -> 6450 bytes
+> >  qca/wcnhpnv21g.bin  | Bin 0 -> 6450 bytes
+> > 
+> > And I've added it because I wanted to ask. Why are adding both files NV
+> > ramdump files with .NNN and .bNN extensions? The former ones won't be
+> > loaded by the kernel.
+> > 
+> 
+> Thanks for posting the complete request-pull. Uploading .NNN and .bNN 
+> files is to keep them consistent with the current UART interface NVM 
+> ramdump file, we update same files with hpnv.NNN and hpnv.bNN.
 
-No, it's not required to capture old history. But it would be nice to
-point out the reasons for the change (conformance to ELF ABI). BTW: what
-is the actual alignment requirement for those segments? E.g. on ARM
-systems code segment must be alisnged at least to 0x4. Likewise data
-segments also should have some alignemnt (again, 0x4 at least, usually
-0x8 or ox10), otherwise loading data from those segments becomes very
-unefficient.
+Again, what is going to load or use, for example, qca/wcnhpnv21g.309 ?
 
 -- 
 With best wishes
