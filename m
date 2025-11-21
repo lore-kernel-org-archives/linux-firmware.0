@@ -1,148 +1,395 @@
-Return-Path: <SRS0=tUf/=55=oss.qualcomm.com=wangao.wang@kernel.org>
+Return-Path: <SRS0=dxKA=55=isend.wcsipl.co.in=bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 72315CFA466
-	for <linux-firmware@archiver.kernel.org>; Fri, 21 Nov 2025 02:50:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30909CF2564
+	for <linux-firmware@archiver.kernel.org>; Fri, 21 Nov 2025 03:31:19 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 55DB4C116B1; Fri, 21 Nov 2025 02:50:50 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	id E16EBC4CEFB; Fri, 21 Nov 2025 03:31:19 +0000 (UTC)
+Received: from isend.wcsipl.co.in (isend.wcsipl.co.in [5.135.92.164])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 5CEC2C4CEF1
-	for <linux-firmware@kernel.org>; Fri, 21 Nov 2025 02:50:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 5CEC2C4CEF1
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AKKAVCi1885701
-	for <linux-firmware@kernel.org>; Fri, 21 Nov 2025 02:50:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	U2+n1s+ZBxD3uQNGvfDIp2Vzs1w8fVTilYJKt5iJVXU=; b=NwHKsKhRuuEGOl/a
-	i8RsdJx25tfa64J13lHwiWsnPDUw9D4I9bSQTVdBkcv0vveWBqXlLE8oUenZPhur
-	gcIJMSZT91q6Mks0pfVmA2scE4VKZrxglz0ivW3Z/mxModLP/OZDFuaWk7kYMYvH
-	491kuiRJ2FeBu0GEZOlnXQ4lhtHVZbYXIJtoN5WERP7qbQ2yU+8EASU/74rYHMtH
-	7yUfhjcEzpr0CWKA+/bY6owhjRgz8/RmpwrddG8YGOLjhj3ZdSNFH2/ZZVqlYzEA
-	F4BgScKEFD9ijDqgRvmcJ5xjQEAcevXuvfxOup/jit5OHVGP3fbxH7nk4i83XVy4
-	Y8qlQw==
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ahver3qe2-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Fri, 21 Nov 2025 02:50:47 +0000 (GMT)
-Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-7b9208e1976so3681324b3a.1
-        for <linux-firmware@kernel.org>; Thu, 20 Nov 2025 18:50:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1763693446; x=1764298246; darn=kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:cc:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=U2+n1s+ZBxD3uQNGvfDIp2Vzs1w8fVTilYJKt5iJVXU=;
-        b=kabXkCEnafYUChrafHMqgvkL2SVqq4m+0w4lyfwSjHCpwjvUSvPmKACvQbXM2l5Gbr
-         x7Q1kih/FwQFGWgHi2N58YajuSoB/dHGnoBHRIeUaA1g/RmEYtQas7mZ0llciWuSxhGq
-         rCfhGUWZtUScV7VlNoIRQtPV9yTNazAtjK9uv3+5jEyqcVsb0kHsZzoNEhUCbXl03e0y
-         yAGVUZ11EW3DuLFIKZOdQP55KTI6qwwypnYKkYwQ6cALTgvrJNdERwXwgY3/JAiQZ6Fm
-         3KucJiXy/xs6BunN2qYyqWWpU5wqZb9N81DV4UtCdY0zAlHQSQosBwFCTsXZhr5y2Bfg
-         EXIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763693446; x=1764298246;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:cc:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=U2+n1s+ZBxD3uQNGvfDIp2Vzs1w8fVTilYJKt5iJVXU=;
-        b=BVWaq1HMww4zSt3uzunq4uKfpw9K/xwbW0zUUrz4Kqc1e2vaNoyE1EZI775ggAcNVc
-         5vNkWSHdYj9+JK+LMwUmq3DIHpNbk090+UBlPkNrxSwY0VqSxGCKX5RTwBAdv44nnp1c
-         ElgYc46pJrU+L/MTiJAP2UxHIW/NJ24QNtXxugN3LR4SSgqe40KPAbbpJkRwljgLU8Li
-         FSeGOhPLwUDdsTEeVCUhyPgQO304A+p+0bGQoQo0k8t0/LmNA3gE5ITjeCIDsuUZblTT
-         qjpWxZk+Vm9MZqlbCTGi23ZRo0gyNi66PeNpB/YiJnM5rUTSRnzzk82v08AnCYiFEaKL
-         wNFw==
-X-Forwarded-Encrypted: i=1; AJvYcCX6+GHKutafQtrexcU3/VTcIawZfT6PdMmqPs0cDIxFKG65uV6HnAxyr2miTQnRJ9ssHKYsoXY/IvT+eSwQRQ==@kernel.org
-X-Gm-Message-State: AOJu0YzAn6wFSobHoWV2fkfLPDs45urwMzP/NNNO2abNm+WqnX5bKgQ4
-	xtDGq+JtFPvpiX5sw0UGX9umMqHIiJFr4w+CdiAN+YIzGPhXGYvCALMGB3zdMWZuQRZhhhlVG3N
-	cmyh8OSgt/fFSP70taGrVWdi8an8Pd29eaiDEwmknmKgljsBqzKFEYdDKh4ddfEw=
-X-Gm-Gg: ASbGncvwElRx7j1ZCzzuNdf0JxDPLvs020JbclDAP9R/OIMv0OdgQUgSG8IFPXOrwP5
-	tKLBGLaW+to43WBq095NE99JvRkiaX0nW5H8LRtZm9lLCruE14re8alJE2z2btzImLfH3pHc7qq
-	6zYp2VecENtI8EkdKCU5z82VzSllIww2YWODluOkBKg8sQYDDhm+ojs7WvA/UgLjOcxyZBIiFLg
-	xaiEItg7ln6O3rxblBN5BVq0D1o6Fb8JDNa+lVYsf3nM/aqIoQSEMAEMOIsK/9unyN3G5lP9jiJ
-	oHBvGPX1MfpSRz19t3nbJ3XaX++pPz10Vi9wFuVU2BVF83KTHMZySYktbQwxlgt1hkBjcPoZxbZ
-	XSiudoV+O5idGIRzyBcGyaZS+hZlT3d9wu/dgSFMpTxUzqfsCsZxzqifZQeDEL8m5pfVinnB9ji
-	kMnFw=
-X-Received: by 2002:a05:6a20:7489:b0:35d:d477:a7d8 with SMTP id adf61e73a8af0-3614ed3e8bamr1078382637.36.1763693446056;
-        Thu, 20 Nov 2025 18:50:46 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGp0vKZDEX8s9tYFnH4ku8laiB6dUkWLbyh4/10HzLzP7XCdbbCWPZQ/6mPQoF1E9a2Qq3hrA==
-X-Received: by 2002:a05:6a20:7489:b0:35d:d477:a7d8 with SMTP id adf61e73a8af0-3614ed3e8bamr1078352637.36.1763693445545;
-        Thu, 20 Nov 2025 18:50:45 -0800 (PST)
-Received: from [10.249.17.18] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bd7604dedeesm3963482a12.22.2025.11.20.18.50.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Nov 2025 18:50:44 -0800 (PST)
-Message-ID: <050606ac-9753-4b12-b7b2-df85375b4d6b@oss.qualcomm.com>
-Date: Fri, 21 Nov 2025 10:50:41 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+	by smtp.kernel.org (Postfix) with ESMTPS id 6C236C4CEF1
+	for <linux-firmware@kernel.org>; Fri, 21 Nov 2025 03:31:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 6C236C4CEF1
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=wcsipl.co.in
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=isend.wcsipl.co.in
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=wcsipl.co.in; h=
+	list-id:list-unsubscribe:content-type:mime-version:to:reply-to
+	:from:subject:date:message-id; s=isend; t=1763695869; x=
+	1764559870; bh=CCC/FM+UjeMss3F/WxAb4CjJInakJ7jCqeKjoQEkWto=; b=x
+	5eoFB4hfou4aqt7TyZ+8EOen98dMs7IRwfJ5+NLlsePuhkQI85bHuNM3u0y+r9F3
+	ARGyhnfSIAgH8Vi7tlVz2mHDJ4NDXUVrRj0jfy66LsjcIBZYgPOpluwmnssxE80d
+	xe/5R4RaECEKHAzZ5j/1b+tEWWvXoVSsFxS8yuz7ro=
+Message-ID: <aabf481b6292cb8c1e78beb5cdb820be97f7e7b6@isend.wcsipl.co.in>
+Date: Fri, 21 Nov 2025 03:31:07 +0000
+Subject: HVAC & MEP Turnkey Expertise You Can Trust | WCSIPL
+From: WCSIPl <sales@wcsipl.co.in>
+Reply-To: WCSIPl <aniket@wcsipl.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: wangao.wang@oss.qualcomm.com, linux-firmware@kernel.org,
-        "Qiwei Liu (QUIC)" <quic_qiweil@quicinc.com>,
-        dikshita.agarwal@oss.qualcomm.com
-Subject: Re: update firmware binary for v5.4
-To: Renjiang Han <renjiang.han@oss.qualcomm.com>,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <d3442fba-a616-4260-a2c1-bf14d0d64250@oss.qualcomm.com>
- <jlnmauqconyiaujadjrffjeqbzkc6pa7vrcmnjyueuuamfguhg@ln43yypqrvoq>
- <7111892d-1351-4c94-82f0-8566c34f16c1@oss.qualcomm.com>
- <jodkivawdceoc7ebzm34w5ocipnv7zpjvasadyha6kdpayluja@255mxfp4eq5f>
- <1a8feea5-e797-4a19-a1d8-e4d5d5bca0c9@oss.qualcomm.com>
- <d80357e8-8790-4997-a562-b4b6f7f48aee@oss.qualcomm.com>
-Content-Language: en-US
-From: Wangao Wang <wangao.wang@oss.qualcomm.com>
-In-Reply-To: <d80357e8-8790-4997-a562-b4b6f7f48aee@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=ZvPg6t7G c=1 sm=1 tr=0 ts=691fd387 cx=c_pps
- a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=vYitfJ1YxoKrBDlhLyMA:9 a=QEXdDO2ut3YA:10
- a=zZCYzV9kfG8A:10 a=IoOABgeZipijB_acs4fv:22
-X-Proofpoint-ORIG-GUID: gfoTh6PsjOeCSiSSvxz2RNdSdkWaEFwS
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIxMDAyMCBTYWx0ZWRfXzD0DNd7sxa9K
- BwOUp9UCT9hJaVZPan+FEZw3VTdxq71KVIUKAYP53GZAkFL7X7szTbvo2xlPASG/gwhANxPjC1y
- T+rgblG+hh73GkOsUjwcvwg4DgYy64I+nROgtqXj6fKql6ZDypRsmsX7fVmNJHidA0G+PUtaD+y
- 3bTh56BIEgNt2XDQb2UN3+3zEuglWyuAXXxjsaRO5WFRPF1S8STqZf6VnFmynjtAziZZE+Dxcqx
- ktxlrA78IvR0gkudzGF4hqFrg3paau2Sarq2z3bGbV/zKDqyMK5A/bxAQMh3oaw555srBkJ5dj4
- fwRWUoLVckZby+wTu02mD304gfybsrDN2ENpfZxJKYtBkCAfeAGmb0p+M87N3YEbo7O8IYNoIVn
- RF77jwEPJnPN+5Tz63xHhQDzvpMdEg==
-X-Proofpoint-GUID: gfoTh6PsjOeCSiSSvxz2RNdSdkWaEFwS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-21_01,2025-11-20_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 malwarescore=0 clxscore=1011
- priorityscore=1501 spamscore=0 bulkscore=0 adultscore=0 lowpriorityscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511210020
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="_=_swift_1763695867_441cc4929570dc52f1ef6de08b233248_=_"
+X-Report-Abuse: https://isend.wcsipl.co.in/campaigns/we014lbzhr391/report-abuse/ay6918mp1x4b7/mj7419wcq9157
+X-EBS: https://isend.wcsipl.co.in/lists/block-address
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+List-Unsubscribe: <https://isend.wcsipl.co.in/lists/ay6918mp1x4b7/unsubscribe/mj7419wcq9157/we014lbzhr391?source=email-client-unsubscribe-button>,
+ <mailto:unsubscribe@unsub.importsend.io?subject=Campaign-Uid%3Awe014lbzhr391%20%2F%20Subscriber-Uid%3Amj7419wcq9157%20-%20Unsubscribe%20request&body=Please%20unsubscribe%20me%21>
+List-Id: ay6918mp1x4b7 <Aniket 1>
+Feedback-ID: we014lbzhr391:regular:ay6918mp1x4b7:gn323k7rlaa34
 
 
+--_=_swift_1763695867_441cc4929570dc52f1ef6de08b233248_=_
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 2025/11/20 18:28, Renjiang Han wrote:
->>> What is the status of the current venus-5.4/venus.mbn file? Does it work
->>> AS IS on Talos EVK that is being in process of upstreaming and on QCS615
->>> ADP AIR aka RIDE boards?
->>
->> @Renjiang ?
-> It is fine on ADP AIR platform. I am asking wangao to borrow EVK 
-> platform to verify it.
->>
-Hi Renjiang, Vikash,
-It is fine on EVK board.
+=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
 
--- 
-Best Regards,
-Wangao
+De=
+ar Sir / Mam,
+
+Warm greetings from WEATHER CONTROLLING SOLUTIONS INDIA =
+PVT. LTD.
+(WCSIPL).
+
+We take this opportunity to introduce ourselves =
+as a 17+ YEARS
+EXPERIENCED TURNKEY SOLUTIONS PROVIDER in HVAC, MEP, AND F=
+IRE FIGHTING
+SYSTEMS.
+With proven execution across India and overseas, =
+WCSIPL delivers
+cost-efficient, reliable, and energy-saving solutions for=
+ diverse
+sectors =E2=80=94 including PHARMA, FOOD, CHEMICAL, AUTOMOBILE, =
+IT, AND
+INFRASTRUCTURE industries.
+
+WHY PARTNER WITH WCSIPL:
+=C2=
+=A0 =C2=A0 =C2=A0=E2=80=A2 20,000+ TR and 2 Crore+ CFM successfully commiss=
+ioned
+=C2=A0 =C2=A0 =C2=A0=E2=80=A2 Expertise in Chillers, VRF, Cleanroom=
+s, Industrial
+Ventilation & Process Cooling
+=C2=A0 =C2=A0 =C2=A0=
+=E2=80=A2 PAN-India execution and post-sales service network
+=C2=A0 =
+=C2=A0 =C2=A0=E2=80=A2 Association with leading OEMs =E2=80=93 Daikin, LG, =
+Bluestar,
+Carrier, Mitsubishi & more
+=C2=A0 =C2=A0 =C2=A0=E2=80=A2 Prov=
+en track record in large-scale turnkey projects with
+on-time delivery
+=
+
+OUR CORE OFFERINGS:
+=C2=A0 =C2=A0 =C2=A0=E2=80=A2 HVAC Turnkey Systems=
+ (Chillers, VRF, DX Units, Cleanrooms)
+=C2=A0 =C2=A0 =C2=A0=E2=80=A2 MEP =
+& Fire Detection / Suppression Systems
+=C2=A0 =C2=A0 =C2=A0=E2=80=A2 Indu=
+strial Ventilation, Process Cooling, and Fresh Air
+Solutions
+
+We woul=
+d be delighted to explore how WCSIPL CAN SUPPORT YOUR ONGOING
+OR UPCOMING=
+ PROJECTS as a dependable turnkey partner.
+
+For more insights about our=
+ work and projects, please visit
+our=C2=A0YOUTUBE CHANNEL :
+
+HTTPS://=
+WWW.YOUTUBE.COM/@WEATHERCONTROLLINGSOLUTIONS/PLAYLISTS
+[https://isend.wcs=
+ipl.co.in/campaigns/we014lbzhr391/track-url/mj7419wcq9157/cc9327a30a683a06b=
+a640bee276d2955ecbf409c]
+
+=C2=A0
+
+BEST REGARDS,
+
+ANIKET SALUNKH=
+E=C2=A0
+WEATHER CONTROLLING SOLUTIONS INDIA PVT. LTD. (WCSIPL)
+=
+=F0=9F=93=9E +91 77200 32487=E2=80=83|=E2=80=83=E2=9C=89=EF=B8=8F aniket@wc=
+sipl.com=E2=80=83|=E2=80=83=F0=9F=8C=90
+www.wcsipl.com
+[https://isend.w=
+csipl.co.in/campaigns/we014lbzhr391/track-url/mj7419wcq9157/9bb3ba4d10013d9=
+152b7330af2029bfe1e18ec59]
+
+EXPERTS IN TURNKEY HVAC | MEP | FIRE SYSTEM=
+S | INDUSTRIAL VENTILATION
+| PROCESS COOLING | CLEANROOMS
+
+ =09=09=
+=E2=80=8A
+
+WCSIPL
+Plot No.32, D-2 Block, Opp, HDFC Colony, Chinchwad,=
+ Pune - 411019. MH,
+INDIA.=20
+Pune Maharashtra 411019
+India
+.
+
+If=
+ you don't want to hear from us anymore,=C2=A0Click here to unsubscribe.
+=
+[https://isend.wcsipl.co.in/campaigns/we014lbzhr391/track-url/mj7419wcq9157=
+/4e15457ce0e1040460d25cc65ed5f5c9dae1e1a9]
+
+--_=_swift_1763695867_441cc4929570dc52f1ef6de08b233248_=_
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html>
+<head><meta charset=3D"utf-8">
+    <title>HVAC=
+ & MEP Turnkey Expertise You Can Trust | WCSIPL</title>
+</head>
+<body>=
+
+<p>&nbsp; &nbsp;&nbsp;<img alt=3D"" src=3D"https://app.importsend.io/upl=
+oads/2025/11/7b6a84ab08ba984e.png" style=3D"width: 600px; height: 325px;" /=
+>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
+
+<p><span style=
+=3D"font-family: &quot;Times New Roman&quot;, serif; font-size: 12pt;">Dear=
+ Sir / Mam,</span></p>
+
+<p style=3D"margin-bottom:11px"><span style=3D"=
+font-size:11pt"><span style=3D"line-height:107%"><span style=3D"font-family=
+:Calibri,sans-serif"><span style=3D"font-size:12.0pt"><span style=3D"line-h=
+eight:107%"><span style=3D"font-family:&quot;Times New Roman&quot;,serif">W=
+arm greetings from <b>Weather Controlling Solutions India Pvt. Ltd. (WCSIPL=
+)</b>.</span></span></span></span></span></span></p>
+
+<p style=3D"margi=
+n-bottom:11px"><span style=3D"font-size:11pt"><span style=3D"line-height:10=
+7%"><span style=3D"font-family:Calibri,sans-serif"><span style=3D"font-size=
+:12.0pt"><span style=3D"line-height:107%"><span style=3D"font-family:&quot;=
+Times New Roman&quot;,serif">We take this opportunity to introduce ourselve=
+s as a <b>17+ years experienced Turnkey Solutions Provider</b> in <b>HVAC, =
+MEP, and Fire Fighting Systems</b>.</span></span></span></span></span></spa=
+n><br />
+<span style=3D"font-size:11pt"><span style=3D"line-height:107%">=
+<span style=3D"font-family:Calibri,sans-serif"><span style=3D"font-size:12.=
+0pt"><span style=3D"line-height:107%"><span style=3D"font-family:&quot;Time=
+s New Roman&quot;,serif">With proven execution across India and overseas, W=
+CSIPL delivers cost-efficient, reliable, and energy-saving solutions for di=
+verse sectors &mdash; including <b>Pharma, Food, Chemical, Automobile, IT, =
+and Infrastructure</b> industries.</span></span></span></span></span></span=
+></p>
+
+<p style=3D"margin-bottom:11px"><span style=3D"font-size:11pt"><=
+span style=3D"line-height:107%"><span style=3D"font-family:Calibri,sans-ser=
+if"><b><span style=3D"font-size:12.0pt"><span style=3D"line-height:107%"><s=
+pan style=3D"font-family:&quot;Times New Roman&quot;,serif">Why Partner wit=
+h WCSIPL:</span></span></span></b><br />
+<span style=3D"font-size:12.0pt"=
+><span style=3D"line-height:107%"><span style=3D"font-family:&quot;Times Ne=
+w Roman&quot;,serif">&nbsp; &nbsp; &nbsp;&bull; 20,000+ TR and 2 Crore+ CFM=
+ successfully commissioned<br />
+&nbsp; &nbsp; &nbsp;&bull; Expertise in =
+Chillers, VRF, Cleanrooms, Industrial Ventilation &amp; Process Cooling<br =
+/>
+&nbsp; &nbsp; &nbsp;&bull; PAN-India execution and post-sales service =
+network<br />
+&nbsp; &nbsp; &nbsp;&bull; Association with leading OEMs &n=
+dash; Daikin, LG, Bluestar, Carrier, Mitsubishi &amp; more<br />
+&nbsp; &=
+nbsp; &nbsp;&bull; Proven track record in large-scale turnkey projects with=
+ on-time delivery</span></span></span></span></span></span></p>
+
+<p sty=
+le=3D"margin-bottom:11px"><span style=3D"font-size:11pt"><span style=3D"lin=
+e-height:107%"><span style=3D"font-family:Calibri,sans-serif"><b><span styl=
+e=3D"font-size:12.0pt"><span style=3D"line-height:107%"><span style=3D"font=
+-family:&quot;Times New Roman&quot;,serif">Our Core Offerings:</span></span=
+></span></b><br />
+<span style=3D"font-size:12.0pt"><span style=3D"line-h=
+eight:107%"><span style=3D"font-family:&quot;Times New Roman&quot;,serif">&=
+nbsp; &nbsp; &nbsp;&bull; HVAC Turnkey Systems (Chillers, VRF, DX Units, Cl=
+eanrooms)<br />
+&nbsp; &nbsp; &nbsp;&bull; MEP &amp; Fire Detection / Sup=
+pression Systems<br />
+&nbsp; &nbsp; &nbsp;&bull; Industrial Ventilation,=
+ Process Cooling, and Fresh Air Solutions</span></span></span></span></span=
+></span></p>
+
+<p style=3D"margin-bottom:11px"><span style=3D"font-size:=
+11pt"><span style=3D"line-height:107%"><span style=3D"font-family:Calibri,s=
+ans-serif"><span style=3D"font-size:12.0pt"><span style=3D"line-height:107%=
+"><span style=3D"font-family:&quot;Times New Roman&quot;,serif">We would be=
+ delighted to explore how <b>WCSIPL can support your ongoing or upcoming pr=
+ojects</b> as a dependable turnkey partner.</span></span></span></span></sp=
+an></span></p>
+
+<p>For more insights about our work and projects, pleas=
+e visit our&nbsp;<strong fr-original-style=3D" border-box;scrollbar-color: =
+rgba(136, 136, 136, 0.4) rgba(0, 0, 0, 0);font-weight: 700;">YouTube Channe=
+l :</strong></p>
+
+<p><a href=3D"https://isend.wcsipl.co.in/campaigns/we=
+014lbzhr391/track-url/mj7419wcq9157/cc9327a30a683a06ba640bee276d2955ecbf409=
+c"><strong fr-original-style=3D" border-box;scrollbar-color: rgba(136, 136,=
+ 136, 0.4) rgba(0, 0, 0, 0);font-weight: 700;">https://www.youtube.com/@wea=
+thercontrollingsolutions/playlists</strong></a></p>
+
+<p>&nbsp;</p>
+=
+
+<p data-end=3D"1534" data-start=3D"1225"><span style=3D"font-family:Time=
+s New Roman,Times,serif;"><strong>Best regards</strong>,</span></p>
+
+<p=
+ data-end=3D"1534" data-start=3D"1225"><span style=3D"font-family:Times New=
+ Roman,Times,serif;"><img alt=3D"" src=3D"https://app.importsend.io/uploads=
+/2025/11/2f6eee953562587d.png" style=3D"width: 75px; height: 57px;" /><br d=
+ata-end=3D"1241" data-start=3D"1238" />
+<strong data-end=3D"1260" data-st=
+art=3D"1241">Aniket Salunkhe&nbsp;</strong><br data-end=3D"1263" data-start=
+=3D"1260" />
+<strong data-end=3D"1339" data-start=3D"1263">Weather Contro=
+lling Solutions India Pvt. Ltd. (WCSIPL)</strong><br data-end=3D"1342" data=
+-start=3D"1339" />
+&#x1f4de; +91 77200 32487&emsp;|&emsp;=E2=9C=89=
+=EF=B8=8F <a data-end=3D"1411" data-start=3D"1366" rel=3D"noopener">aniket@=
+wcsipl.com</a>&emsp;|&emsp;&#x1f310; <a data-end=3D"1456" data-start=3D"141=
+7" href=3D"https://isend.wcsipl.co.in/campaigns/we014lbzhr391/track-url/mj7=
+419wcq9157/9bb3ba4d10013d9152b7330af2029bfe1e18ec59" rel=3D"noopener" targe=
+t=3D"_new">www.wcsipl.com</a></span></p>
+
+<p data-end=3D"1534" data-sta=
+rt=3D"1225"><span style=3D"font-size:11pt"><span style=3D"line-height:107%"=
+><span style=3D"font-family:Calibri,sans-serif"><b><span style=3D"font-size=
+:12.0pt"><span style=3D"line-height:107%"><span style=3D"font-family:&quot;=
+Times New Roman&quot;,serif">Experts in Turnkey HVAC | MEP | Fire Systems |=
+ Industrial Ventilation | Process Cooling | Cleanrooms</span></span></span>=
+</b></span></span></span></p>
+<table border=3D"0" cellpadding=3D"0" cells=
+pacing=3D"0" class=3D"nl-container" role=3D"presentation" style=3D"backgrou=
+nd-color:#ffffff;" width=3D"100%">
+=09<tbody>
+=09=09<tr>
+=09=09=09<td=
+>
+=09=09=09<table align=3D"center" border=3D"0" cellpadding=3D"0" cellspa=
+cing=3D"0" class=3D"row row-1" role=3D"presentation" width=3D"100%">
+=09=
+=09=09=09<tbody>
+=09=09=09=09=09<tr>
+=09=09=09=09=09=09<td>
+=09=09=09=
+=09=09=09<table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=
+=3D"0" class=3D"row-content stack" role=3D"presentation" style=3D"color:#00=
+0000;width:600px;" width=3D"600">
+=09=09=09=09=09=09=09<tbody>
+=09=09=
+=09=09=09=09=09=09<tr>
+=09=09=09=09=09=09=09=09=09<td class=3D"column col=
+umn-1" style=3D"font-weight:400;text-align:left;padding-bottom:5px;padding-=
+top:5px;vertical-align:top;border-top:0px;border-right:0px;border-bottom:0p=
+x;border-left:0px;" width=3D"100%">
+=09=09=09=09=09=09=09=09=09<table bor=
+der=3D"0" cellpadding=3D"10" cellspacing=3D"0" class=3D"divider_block block=
+-1" role=3D"presentation" width=3D"100%">
+=09=09=09=09=09=09=09=09=09=09<=
+tbody>
+=09=09=09=09=09=09=09=09=09=09=09<tr>
+=09=09=09=09=09=09=09=09=
+=09=09=09=09<td class=3D"pad">
+=09=09=09=09=09=09=09=09=09=09=09=09<div a=
+lign=3D"center" class=3D"alignment">
+=09=09=09=09=09=09=09=09=09=09=09=09=
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentatio=
+n" width=3D"100%">
+=09=09=09=09=09=09=09=09=09=09=09=09=09<tbody>
+=09=
+=09=09=09=09=09=09=09=09=09=09=09=09=09<tr>
+=09=09=09=09=09=09=09=09=09=
+=09=09=09=09=09=09<td class=3D"divider_inner" style=3D"font-size:1px;line-h=
+eight:1px;border-top:1px solid #dddddd;"><span>=E2=80=8A</span></td>
+=09=
+=09=09=09=09=09=09=09=09=09=09=09=09=09</tr>
+=09=09=09=09=09=09=09=09=09=
+=09=09=09=09</tbody>
+=09=09=09=09=09=09=09=09=09=09=09=09</table>
+=09=
+=09=09=09=09=09=09=09=09=09=09=09</div>
+=09=09=09=09=09=09=09=09=09=09=09=
+=09</td>
+=09=09=09=09=09=09=09=09=09=09=09</tr>
+=09=09=09=09=09=09=09=
+=09=09=09</tbody>
+=09=09=09=09=09=09=09=09=09</table>
+
+=09=09=09=09=
+=09=09=09=09=09<table border=3D"0" cellpadding=3D"10" cellspacing=3D"0" cla=
+ss=3D"paragraph_block block-2" role=3D"presentation" width=3D"100%">
+=09=
+=09=09=09=09=09=09=09=09=09<tbody>
+=09=09=09=09=09=09=09=09=09=09=09<tr>=
+
+=09=09=09=09=09=09=09=09=09=09=09=09<td class=3D"pad">
+=09=09=09=09=09=
+=09=09=09=09=09=09=09<div style=3D"color:#515151;font-family:Arial, Helveti=
+ca, sans-serif;font-size:14px;font-weight:400;letter-spacing:0px;line-heigh=
+t:120%;text-align:center;">
+=09=09=09=09=09=09=09=09=09=09=09=09<p style=
+=3D"margin:0;margin-bottom:16px;">WCSIPL<br />
+Plot No.32, D-2 Block, Opp=
+, HDFC Colony, Chinchwad, Pune - 411019. MH, INDIA. <br />
+Pune Maharasht=
+ra 411019<br />
+India<br />
+.</p>
+
+=09=09=09=09=09=09=09=09=09=09=
+=09=09<p style=3D"margin:0;">If you don't want to hear from us anymore,=
+=C2=A0<a href=3D"https://isend.wcsipl.co.in/campaigns/we014lbzhr391/track-u=
+rl/mj7419wcq9157/4e15457ce0e1040460d25cc65ed5f5c9dae1e1a9">Click here to un=
+subscribe.</a></p>
+=09=09=09=09=09=09=09=09=09=09=09=09</div>
+=09=09=09=
+=09=09=09=09=09=09=09=09=09</td>
+=09=09=09=09=09=09=09=09=09=09=09</tr>=
+
+=09=09=09=09=09=09=09=09=09=09</tbody>
+=09=09=09=09=09=09=09=09=09</ta=
+ble>
+=09=09=09=09=09=09=09=09=09</td>
+=09=09=09=09=09=09=09=09</tr>
+=
+=09=09=09=09=09=09=09</tbody>
+=09=09=09=09=09=09</table>
+=09=09=09=09=
+=09=09</td>
+=09=09=09=09=09</tr>
+=09=09=09=09</tbody>
+=09=09=09</tabl=
+e>
+=09=09=09</td>
+=09=09</tr>
+=09</tbody>
+</table>
+<!-- End -->=
+
+<img width=3D"1" height=3D"1" src=3D"https://isend.wcsipl.co.in/campaign=
+s/we014lbzhr391/track-opening/mj7419wcq9157" alt=3D"" />
+</body>
+</html=
+>
+
+--_=_swift_1763695867_441cc4929570dc52f1ef6de08b233248_=_--
 
