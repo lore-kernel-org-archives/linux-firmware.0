@@ -1,210 +1,165 @@
-Return-Path: <SRS0=4C9H=57=intel.com=miriam.rachel.korenblit@kernel.org>
+Return-Path: <SRS0=tsBH=57=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1294ACFA46B
-	for <linux-firmware@archiver.kernel.org>; Sun, 23 Nov 2025 13:11:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3ACEBCFC518
+	for <linux-firmware@archiver.kernel.org>; Sun, 23 Nov 2025 14:04:21 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id D68F0C16AAE; Sun, 23 Nov 2025 13:11:51 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id 01F59C113D0; Sun, 23 Nov 2025 14:04:21 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A6606C113D0;
-	Sun, 23 Nov 2025 13:11:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A6606C113D0
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763903511; x=1795439511;
-  h=from:to:cc:subject:date:message-id:
-   content-transfer-encoding:mime-version;
-  bh=RysYhz02HwRiUpArxemOau+LaN3kcbRpw6jft2+1ws0=;
-  b=iKaJQqQkJRJ2Iio55tSWaRqXHy+bdJ0Dh0rAnrr3nxx7nkWvA8wCIITg
-   gNmJWUkpsT7coIDichbzrIW/iKmz51uuPMEMmomYaK5eiIvCsNrOUJkCv
-   wJnivSEU3fwOgk463YpNK8SJoUWpYV7Dd2D3uQItrcDPv1nsUnvutyAnr
-   AYwmHJC2oEs2gFZe9Sly3H+pqJb7xhHiZD+nq6lbIpi+cOmVnW8N3TLWT
-   l+2IDOtaqYhr4zw9xuktE5NKvUaCIdVXrf1lfd5KwTpw8NE8PmrGM8l1t
-   bJzCwGmA6k+msU2dQ4bdXd3BSLzoLsZTClVXs0zLPN2EDvDkN9YVS6JQ6
-   g==;
-X-CSE-ConnectionGUID: j4X2jJW0Tv6la1vZy99+Tw==
-X-CSE-MsgGUID: JVaDnCoNQoq0rphlioxN6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="76535176"
-X-IronPort-AV: E=Sophos;i="6.20,220,1758610800"; 
-   d="scan'208";a="76535176"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2025 05:11:50 -0800
-X-CSE-ConnectionGUID: cMJBl7/jTNqG5ueMQZXPlA==
-X-CSE-MsgGUID: Ol8rnnYJSlmOCZTiAuRhJg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,220,1758610800"; 
-   d="scan'208";a="191886655"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2025 05:11:50 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Sun, 23 Nov 2025 05:11:49 -0800
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Sun, 23 Nov 2025 05:11:49 -0800
-Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.64) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Sun, 23 Nov 2025 05:11:49 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fLfCMutHq2m4MmJAMX8ttE2tlTgrQb7mKB4FC7h2A0GKbgKVtMwtgKs5ePde9Zxv+k2PyOeXt+gPZYDMqsuSNGjrA0hwwqwnHYwEu8EBPHKBGURFBnxtJXX1N2I3a4HczLfQdjcuqzlCzrkRcSsao43JF75/5WekUjgNvNkqMhJb5yodAmdycT6RooJycEL4tOylEv6o3UlkHsHBwaiEnKKyUXJG0eF/vLg0sZxvrfhOz8p2RsAHYW3KuuLHRo+w6YwaXFFY6aFPdSIXR01tPEkgUv12ImBO0SoTanx1bEb6JC8Sv1bmIF5E0QwcfF9dFKMudiX4jx6/XyyzFJPeaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RysYhz02HwRiUpArxemOau+LaN3kcbRpw6jft2+1ws0=;
- b=EQ+b2jFgAzqhUKT1WTDoLgZ3miQQ9SboMuLNQj4fwkIiwq233DIjbn5MXKcGBX5mz74G9ffsV5u4+YC+Lumds2g7IKW7hyccjcKPloGn9214EidshHWM/qRhVA8fB/5gpbY2HNQj/nA+eI8NG4xuYCnEe7u+l/YUXi0VQwXf1PMKefgoW6bxQYe9HzvHmaWpwDZPU0qHFdQnEMlZ+uAdn5tGbjn1NzclagrcJujJ3nEc2AL/zFkzF9qk7MXPzGwHLC1GTWHT6get8UxEg7KXgCUmqkijq5v/BEONfYf7b1mxlGKRYMRNGyN21lPs8TrjTLr/cT0gvEtlmd4ZijHGPg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM3PPF63A6024A9.namprd11.prod.outlook.com
- (2603:10b6:f:fc00::f27) by DS4PPF93A1BBECD.namprd11.prod.outlook.com
- (2603:10b6:f:fc02::3c) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.15; Sun, 23 Nov
- 2025 13:11:46 +0000
-Received: from DM3PPF63A6024A9.namprd11.prod.outlook.com
- ([fe80::eed8:bee8:188e:b09c]) by DM3PPF63A6024A9.namprd11.prod.outlook.com
- ([fe80::eed8:bee8:188e:b09c%2]) with mapi id 15.20.9343.016; Sun, 23 Nov 2025
- 13:11:46 +0000
-From: "Korenblit, Miriam Rachel" <miriam.rachel.korenblit@intel.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id D0216C116D0
+	for <linux-firmware@kernel.org>; Sun, 23 Nov 2025 14:04:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D0216C116D0
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5ANCoGfh1167304
+	for <linux-firmware@kernel.org>; Sun, 23 Nov 2025 14:04:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=kIQXksD1+6SDUmTMSnfV9teK
+	jLLZHPsYxRRVvLas3lE=; b=SksbuSa5wLyIO56XEp4lfEGOpLldn30VHHchYbC5
+	58smXuRaAYxfu8AoZTnUkA5eXne1iPrdvQYk1QBU8SKQv/a8LY3ug1Fe2gu/kjpS
+	6PXq/2zfyT/odEBu+shVol/Gv3q8AJg+lrevWsYz4n68gbP14Le7c7uK3Ni0Nzb0
+	vIfAO5MSlIU+udhOYTrXK7QQ+dYajuUXAqkVt/5EWzswdx26ZAYg48jQCHO//PAl
+	UCO0TQGEi0UFMyfysqOHkbQo8xCHJI8UQr//ayNTt7MeW3vG54V7RcsC0q8ZnxxV
+	TYf+U1i4jF/I6uIxm0XKP116JMHCwze7sy8TDwehDquDGw==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ak68dtecq-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-firmware@kernel.org>; Sun, 23 Nov 2025 14:04:11 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-88041f9e686so108861676d6.1
+        for <linux-firmware@kernel.org>; Sun, 23 Nov 2025 06:04:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1763906651; x=1764511451; darn=kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kIQXksD1+6SDUmTMSnfV9teKjLLZHPsYxRRVvLas3lE=;
+        b=Yz4JYmVi77fBjoPOT0vnI3HBjubX5Jsqwwhy8dszkqdWUzUy/q3yZKOzHIQxTeSC6q
+         x4pfHhr4lXSdxbK6cTmWsSP8UdMpKnJ7WTJSB00/7z17fMFkM5LbNTwHtxOeTTZ/KCwL
+         4xFf6b3n7f2DTZjP12N3R5OlS3OZIBzDZDS0H0ulqG4doH67T0HE2woeXLyRu5tAaryD
+         mntQE3Wxv6eSvkwfkUMu6XV6ujnhJol43YWoYYUcMmgfzWDDmgyJ2dmDoaWB3LSOK8ac
+         BvsLOvdDHpe2qTxrEQlyTs9DIBQW4FrQpuGDgVX68JDXh5vuPJGKAdGpyHrinB3T+OSg
+         TtZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763906651; x=1764511451;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kIQXksD1+6SDUmTMSnfV9teKjLLZHPsYxRRVvLas3lE=;
+        b=UFE8mtAiQMbFh6iFJE4b/q+yu917C/wK/JWjBBAYAbNIaFHXeSrdixWBzWAPkrWBXs
+         NI9qJ+yHg1zbYmb6PnAUMyYX83emkk/RTlg8hxoc2LYJhErrKw6l/wxO7CiTNfsvr37q
+         dE1c7ftmIfRHtgbh2Tl8XF5D7dYDMNlSEhSIUljxKSXQJtbUCoqMD/uQP7GMNEysqeND
+         TJdzsyqNZ1GjzkHzLc7iegb2mthtzHKN4C+jPcawOqU+EK+2BW7r86LZGuLDdpl0vUG1
+         cP8OtUb1L219RZ4o0PSoiORjABUz0NRuKM+dzkCDityHULgtca0MnN+ElqEud4r74zoB
+         5LVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUo8kLTA46BLordr/U5LzEJmQVSDSpyTOFEW9gLYc/VWyfTVQ70dgOgaBlF/AEftMZLOQr0Dj3OYUOPMh/9sw==@kernel.org
+X-Gm-Message-State: AOJu0YxkbHQMqn7qMcz9UfSBBKNoH5OVMw9+J2/ADpzfhd6Ny0HTTspe
+	RfOBGJNTqHN0glhHXhNVRPdYsfxSP/bzmbKpOSb43pv9MfZt+kKq6BKv3pk9LyrntAoqcppXrBp
+	ZnWw3ECf6MEhfCLmL6rgo7MwgcrdrBS7lQk3zeCGVcbPmRn23WIT3rGiMq28eb8M=
+X-Gm-Gg: ASbGncvr7mi+XEM3DrswxR4Ttw6MH301dhinPn33Oy4AS9i3KC4lFdTHeMcI5Awluyt
+	RIObUHXBMymuZJ1LSG3MZ+IP2IRzHFGzN2L6ww0WKiq9lHj6SRgA9pCrRkn0J/izr/Clp2XNZlK
+	sqrtQfpPPB8rldBFOlkmhlNpQgYZ0fgyYnYANmnNsCF6IfVguFaOX1413I5uR1RO48NO0WwcnnF
+	4UYIUcsvWctS/jbGJfAb4Ul7JqQmhEgoUiFDWHd/1/JUD899SXezIArD3P+g/7cwi5WI1kXq43Y
+	P3Rb7P2n0XhYRzk81McgApjRUKXQ0g7FkW47TaBLbbEp7I0YX1NAqi+kZQV8pM4xw3uJz53JC5x
+	osC2qupoeyyAKLJJltcWC5Wsm2El+Lyye46rKMsy0wksfR5ceDjaK7fX/oDPBxZRIoHswWiABiZ
+	7LMIdWO31CZlH4j+UR6yZ+fvs=
+X-Received: by 2002:a05:6214:d8d:b0:880:57dd:5f15 with SMTP id 6a1803df08f44-8847c534517mr124669926d6.54.1763906650670;
+        Sun, 23 Nov 2025 06:04:10 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFfjoGcV45DPhPepM3F6l0GjH9qQDHmDe7xVerH+yz6+TmBWarn8+u8xAR0g6pKONEzmVRL5w==
+X-Received: by 2002:a05:6214:d8d:b0:880:57dd:5f15 with SMTP id 6a1803df08f44-8847c534517mr124669086d6.54.1763906650199;
+        Sun, 23 Nov 2025 06:04:10 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5969db75699sm3324296e87.18.2025.11.23.06.04.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Nov 2025 06:04:09 -0800 (PST)
+Date: Sun, 23 Nov 2025 16:04:06 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: "Korenblit, Miriam Rachel" <miriam.rachel.korenblit@intel.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: Josh Boyer <jwboyer@kernel.org>, "linux-firmware@kernel.org"
-	<linux-firmware@kernel.org>, Linux Wireless <linux-wireless@vger.kernel.org>,
-	"Yang, You-Sheng" <vicamo.yang@canonical.com>, "Hutchings, Ben"
-	<ben@decadent.org.uk>, "kyle@infradead.org" <kyle@infradead.org>
-CC: "Dreyfuss, Haim" <haim.dreyfuss@intel.com>, "Damary, Guy"
-	<guy.damary@intel.com>
-Subject: pull request: iwlwifi firmware updates 2025-11-23
-Thread-Topic: pull request: iwlwifi firmware updates 2025-11-23
-Thread-Index: AdxcepMpCamE3Z0yS+O/g41mqfPpAw==
-Date: Sun, 23 Nov 2025 13:11:46 +0000
-Message-ID: <DM3PPF63A6024A9CC529E3991D0F473DA69A3D3A@DM3PPF63A6024A9.namprd11.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM3PPF63A6024A9:EE_|DS4PPF93A1BBECD:EE_
-x-ms-office365-filtering-correlation-id: 66dbd261-1ccf-43c9-330c-08de2a91daef
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700021;
-x-microsoft-antispam-message-info: =?utf-8?B?K1daakVHOGRGQlNSQW05dlpDQTVqcEtQVzR1Mlp2Uy9kaU1NT0RSQUcyNXIx?=
- =?utf-8?B?V2N1K3RHaCtQdU85UHExNjdWR2ZidXdDMkdKY0FkaVNKaUVGN05IV01JOUV0?=
- =?utf-8?B?RlFTRlR5NmNONHRPYXBMalZONVBmWXFNKzFiUTZHeWFNSVpBUktpOHV6Mnpj?=
- =?utf-8?B?OEVoUmRjNWd0NEhHQlFYbkE4M1dBVlMydUtPTkVUaXRGdHhNTmpFaUhGbVVz?=
- =?utf-8?B?czd4d0VoWGJBZndYU0JDU1ZuZHczWGh3bUJTb0hWcWNiNnJtNmxaWlJwazIw?=
- =?utf-8?B?VDcxSlJoYVNIMzJTeGxpQjE4Z2QwL011eTJDdnR0VjJSWHJuNklFamc1NTFY?=
- =?utf-8?B?MWl4bUNicldRSCtnL3F0blIyS2tYakNjMHdhWm1Gdkd1YUsxNzVXaFd1WnlQ?=
- =?utf-8?B?ditHbWtkUTZWVmNNdy9Wd2tEZ0Rpa3NkWGVKSmo4VVNCdFRSeHE1T2w1MVJw?=
- =?utf-8?B?U2lBYzdQaXkvVjlpV043NXhPbkU0aFE0aWkvTXRWQmM5UHY3bE40OFNXK1dp?=
- =?utf-8?B?bGp1WDJLeHFDbVZhQ1VkVW5MMVNQck40Uk0xbXBSeWVxSVlUcUpOSmtORkRj?=
- =?utf-8?B?Wlk4RlVZSFFJOWdMZEdZYkM3Ly9FQjVJNmxBLzBlVVJwdU55MjVTR1Yrd2NS?=
- =?utf-8?B?MVlWSDNTWERkMXNUd011enFzc1FZd0FoZ21qUElHL2ZKUUdTTjJESGExNTQ2?=
- =?utf-8?B?NmVPU1Fua01Dbm4zanI2a0JFbzdHYjVEcmxGWFdvdGttS2NmNlJGRnhJeTEy?=
- =?utf-8?B?dWw1TkYxQ3RDaWtxWVpLYVE3RGFzOFJvNjV0SElsckhudGNKT2hwZzFNdlZo?=
- =?utf-8?B?QS9QZVplUnBIbU1QUmh2b0RqZ0pLSFBRTkIzNTVibUQyOGhlQk5MTkZrZXF5?=
- =?utf-8?B?MTRjK2JoMUUrQUpDVDNMMG0yYUlJL2pVeEFQMEhEaTBqUldoQlV5ZVlWU0I2?=
- =?utf-8?B?NUFWQ1FaTWRVTFg2dnhJTjVmYTlDa2xUanFDc0dGUUppR1UwU3pBejlJOE5V?=
- =?utf-8?B?UzJEZVlZTC9NR0wya1JJU3BrajBRRjdEQWl6U09NS1R6R3Q3UGxCOXMxMVNY?=
- =?utf-8?B?ODdQZms3VzVTbE5CcjRnOWZjZXcyQ05DMmVPUDhnSlhaeVR2dlRseTVqbkpT?=
- =?utf-8?B?bWNETk53ZHRwc3NIYXRLWHBzWmVzV0RLRHlGRUZZdVNIay9pWU9kRzFWMW51?=
- =?utf-8?B?NWZ6QTg5ZVd6Q3E2bFV3bU82UzNRQmhlWkhvTEIyZ0dDUUN6c3hSVEFIbEFh?=
- =?utf-8?B?VUhjZzlONzJFOWJjdUFaUzNiUFQ5Y0IxWUJEOXd4dld2czRhNGhaY2N5MWlZ?=
- =?utf-8?B?SFA3Wk5uYUxxbDVXejBEMEdRZm9NUGlRcGIrdUMvcHhhbFJvUVg3WThQbjZT?=
- =?utf-8?B?SVNKWFJGeVhJak9xUHZ3Z3RkZTlzOFRRU2VBb3E1bHh4dVh5eTUzY2RjL1Y2?=
- =?utf-8?B?UXE3NmttVEt2aElVYnVQSW9oL1l1MkNxQlJUbnhzeFRSZFdCOGZnWksySWVp?=
- =?utf-8?B?TmZuSFFsc3BVUmlJSFgrVnN3Q0RVY0tjbVVNSitBcDBybllzTXIwbWVmajFU?=
- =?utf-8?B?K0F3NHE0SWdoMGdRODhxSlVGVi9zcDlEOVk4M0VQRER0ekdxR0V4STJZRmhJ?=
- =?utf-8?B?TXlUaFFjZ2xWMmNxbkpmVWZnRmxTK2FmZDRkQ2NWdmtWUFAyaGFwZ0MzWjgw?=
- =?utf-8?B?WjlSY3NEd0w2MnlTdnZyUnBiT3U2RnpPY1F1dHdWWlVKcVFEa1RXUTJ0M05G?=
- =?utf-8?B?a1ROclNpK3FlUEUrOEtKT1JEeGdYcnR0d0UzNmxKbjEzU3NkLzJYaEtOU3JJ?=
- =?utf-8?B?UXRHY21IWFh1MFZCbWpqZld3V3ZLMXAzK1pkYUFJTHlVWmVpL3c0bC9BL2ZT?=
- =?utf-8?B?SG1XNlcwdlg1aG0yTVJHUysreWtsSURFdzRBalhsMkZpWEwxWU14ZEZkWENC?=
- =?utf-8?B?ZThyVUhMMTVwaURQdFNUU2xDb1c2M3FFRUt2aHhkZnhWL1hWVnMvV21KZ0Rh?=
- =?utf-8?B?YUtzNE1BaENNL1pualpRL280ZDNxVjY0dWEzV3Z0dXNsUVNWT2ZjdEQ3TzQ0?=
- =?utf-8?B?QTUrZkxMUzFVanQrYUY4eXRPRU9RSHk2M3hDUT09?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PPF63A6024A9.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?a21IK3JyTUZWcTBpeDlIL0doZ29rWjlmZFdnUWd3STNqWEtTU1pSZ3NlejVQ?=
- =?utf-8?B?TzhoMkhtdXMrdzR4TTBodHEvOEI3SWV0VkFTVkU1OGRZR1k0cXkra2FPNlBJ?=
- =?utf-8?B?QmczMjJ2RS9NZGp1UnNzU2lkRS9XN3o2TjJTRWNLTno1NWJrRjhSeGxBMkhN?=
- =?utf-8?B?bDNWMnBheGh5S2EycCsxUEp3L0phRTNRYUFBc1JpUVg4VUhMMEJmaDF4MkdQ?=
- =?utf-8?B?SGFHcHZBeWNWNnkrN3VKTGRlYlZ3VFRUOVRENHRNOVVQR2hHaW9uT3BmWFA2?=
- =?utf-8?B?OEd6aU5PaHFRejQ0eitYNkpjc1FsdG9NSkY2SUFFTkhIRjl2eXdZNU9ubHNs?=
- =?utf-8?B?dDhrN2Vwc2k4U0I1YnNQbW82V2ZMWGRvdlZ2N0JBRkYyLzRGYithU0FZV05S?=
- =?utf-8?B?bFY1cVZJODBpVDZkSlc4Vm40cG5TUUZyNU11V1lxMTIvSlo4TU1COFh6N0hn?=
- =?utf-8?B?Q2hUWWh0Nkp6VU1kWWg5T2thVDZhS25VUy9jckp3WFhoNytKVVV5OEtVbDJG?=
- =?utf-8?B?WkxoSlJzc09nSDhsTTVKdVFDU1kyTWxwdnNKLzJpN3A1QThsS3hOalZ1eWM3?=
- =?utf-8?B?bW9EMVhiYWJvT20yWStkMytTbXlFV0htSDBQODhBNktFbmVHT2h5QUFNMFV6?=
- =?utf-8?B?THB1NlQvMW50emJ2RXVyOUoySnpQNlhybGdSWDdOWnA0cUpnVFVteVl6YkF1?=
- =?utf-8?B?OWhkUGRQWGlkblNVWmdWdEhsQ05UYXR5SFV1YThGWkk5SmJrQTZWbktGV01J?=
- =?utf-8?B?SkR3a2w2NVNiUVp1cWFFK3J4V2J1akhObmNpdzh0OEhFdlFJVFBTek11RTdo?=
- =?utf-8?B?emF0RVJSS2RqdW9UUjRkclZhc0U4Y050MlFUc1Bwd0lSRXNQS3dIcXBXMkZ6?=
- =?utf-8?B?djh6VysxUXhMc21hWU5RdkwvTkhlVStwMkJpaThkK2preUNlelN3UzVoZnNm?=
- =?utf-8?B?QWdkY3h4bFAyNFZyZHFRT3FRbzNWcWQzc3E5UTFYaVVYZkdZVGh6bmllTElP?=
- =?utf-8?B?R1UwcytnOVdtZFhKYlFvenJWOUtlZUpUU3ZhamFjR05MS3prYlJlZ2Y0TVNO?=
- =?utf-8?B?RVBYbU5sRzZFVWJSZ0FQczlSdXk0dXJKSkJGdGlvNStnTExQRnpURkkyRkhs?=
- =?utf-8?B?QWpPYzZkWC9oRzh5dGdRYXMxeHZTdFRjem5ENTJwazlEYnlQR3F5RmJFUWJh?=
- =?utf-8?B?TkpEZGlSZVF0S3lEUmF5ekJxeFFENmxjSDhsOUxSTmlZbUxoZlBQcjczNGVH?=
- =?utf-8?B?aUdEMHNuZWJQdWEzc3ZnRjduUUlJUm1CaU1wb3k4RGdxTGZMTm9LSlFDY1lw?=
- =?utf-8?B?WlBIS2t1RnJDNTJsT1JCeDdkRGpoU2N5dHY5Zk5jVkV1dXBNcm4yWmkrczVU?=
- =?utf-8?B?aS8yQUlXNE5rQVNxbUx6Rm5mbmc4RThVTm51emZyWlpIY1ZyQkp6TGdMbHVm?=
- =?utf-8?B?MFFDTXA3TDJEUWNxSTc0MzVVUitFQlI2QmZTQkFlT1V4QXVZTXViMzE4WUtq?=
- =?utf-8?B?WmRRa0cxZkg5ZFdGZEx3Qm9SazA3NUxIeG9oRkhyQ0pSbGZoU1owRnZmeVJz?=
- =?utf-8?B?SEhaaktldXQ0czBkU3E4MVk4bjRMZFZ3TkNTQkpNcjc4Mml3QkEwTVExaEMw?=
- =?utf-8?B?L2xpbjhDeE5tS0ROMk42SkQvbHdma1NzcnpNYkZiR253MVlRb3B6cWxCZ1dr?=
- =?utf-8?B?SXRrZ055VU9tUDZsUjk1cVJ1anBqb25nY0kxUzkvZGt6VHFsUEFFZStqTFZ0?=
- =?utf-8?B?RDMvNmtMWmowcWthcU5nRHoxaXRmYTMyeDdJb3RwdVBsMlJFS1VzelNGOTN2?=
- =?utf-8?B?THpqQlZTbXlBeFNSWmtwT0RTdjlJbjJmcWlTV3RwR0VaNVFBYWlKMGcrMTRv?=
- =?utf-8?B?V0lkeThZNVJSVWw1Ym1VWXpYSW5ZQ1pFeGtVeGxqUXVOaGFjRHNYRWhVS1dJ?=
- =?utf-8?B?bkdLazhSNGMzZTlpc1drYjVHUjRCVGpnUkZIR0JLT3dlcFREMDlaZDRGSHJp?=
- =?utf-8?B?QzZmWU9yc2J1L1lkMlJzVE9QQ0tlaGQ3NzduSWRDVFowM3pVbkk4Nzd0ZDNN?=
- =?utf-8?B?N094RHVsNUVCZjdyKzBMaXdsZTV4cm8vcFgwSGlMR0M5cmx2cEtSVzZZTkdM?=
- =?utf-8?B?TlRXOEo0T3FwYmRhaGc0QytrZzhrcDhMQlVia0RGMG1QY2RZaURFWmN0UFNN?=
- =?utf-8?B?NVE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Josh Boyer <jwboyer@kernel.org>,
+        "linux-firmware@kernel.org" <linux-firmware@kernel.org>,
+        Linux Wireless <linux-wireless@vger.kernel.org>,
+        "Yang, You-Sheng" <vicamo.yang@canonical.com>,
+        "Hutchings, Ben" <ben@decadent.org.uk>,
+        "kyle@infradead.org" <kyle@infradead.org>,
+        "Dreyfuss, Haim" <haim.dreyfuss@intel.com>,
+        "Damary, Guy" <guy.damary@intel.com>
+Subject: Re: pull request: iwlwifi firmware updates 2025-11-23
+Message-ID: <mmrknanooabtlsdkkhl7gcwyoby47of35y3hij6lvl4hhq67ff@nlyx5skcmskj>
+References: <DM3PPF63A6024A9CC529E3991D0F473DA69A3D3A@DM3PPF63A6024A9.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM3PPF63A6024A9.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 66dbd261-1ccf-43c9-330c-08de2a91daef
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Nov 2025 13:11:46.4739
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: XfPDbUdtr29KDUC0/h/vV1VMmFProiUHIZdjlJnmvaJfJO2PK9cYofQ3Yfc/v99fs+NgmRQ7d0phEWJOJ6bXVBQb5I1r7mCQVuGneXo4G14zHLugPiolJ4H6s5IZOTME
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF93A1BBECD
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DM3PPF63A6024A9CC529E3991D0F473DA69A3D3A@DM3PPF63A6024A9.namprd11.prod.outlook.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIzMDEyNyBTYWx0ZWRfX16qigvPQvTOQ
+ UnXNGiSrK1fpKvbaidKAA6q5RHyZTJ42NUkPVIdHBCB3iLbc9gbxArpzrmqqbchkXWFXd8/Zwn+
+ i0yHq4Jbv7p2gxaCFps9APCN/0/lykeRKmhOdJ3p8kcLcmne0bjs0Ji74Oapht9F10TgO1zkHuM
+ bXRF7EEJoSxIIc/oqnBr3jEZ7G4/ky7HyBLqzMgcFDwWApimvMT10PXsGauU2o5ps60pMvpoTkc
+ RxXcrSFjkBQP5glxPU+Q0U2vNM61157aSnGRbrxRWY8I/S1XsmRyxI0ivrd3ttmMW1Px5+W9IGJ
+ FtFKhN3qLfL7A5BGF2JPZbsdt1J+dJEzQ7dMaW/kmla36w4jbdMa4geeSYuEoRCUz/a8RW3pU1x
+ tJV7AO/p1tLYLOOFGfiQ8HHn0UfjTA==
+X-Proofpoint-GUID: _BLamrOohTqmIXIsJLBi71E2_xgLDXnj
+X-Proofpoint-ORIG-GUID: _BLamrOohTqmIXIsJLBi71E2_xgLDXnj
+X-Authority-Analysis: v=2.4 cv=UsBu9uwB c=1 sm=1 tr=0 ts=6923145b cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=p0WdMEafAAAA:8 a=bxv7W_3ZIfJsmQTpWdQA:9 a=CjuIK1q_8ugA:10
+ a=OIgjcC2v60KrkQgK7BGD:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-23_05,2025-11-21_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 adultscore=0 priorityscore=1501 impostorscore=0 phishscore=0
+ suspectscore=0 lowpriorityscore=0 clxscore=1015 malwarescore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511230127
 
-SGksDQoNClRoaXMgY29udGFpbnMgYSBmaXJtd2FyZSBvZiBjb3JlOTggZm9yIFNDLVdILg0KDQpQ
-bGVhc2UgcHVsbCBvciBsZXQgbWUga25vdyBpZiB0aGVyZSBhcmUgYW55IGlzc3Vlcy4NCg0KVGhh
-bmtzLA0KTWlyaQ0KLS0tDQoNClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21taXQgZmY2
-NDE4ZDE4NTUyOGJiOWIwNDBkZTEwNjZjMzRmYTQwNWVjZDRiZDoNCg0KICBNZXJnZSBicmFuY2gg
-J2FtZC1zdGFnaW5nJyBpbnRvICdtYWluJyAoMjAyNS0xMS0yMSAyMDoxNzo1NiArMDAwMCkNCg0K
-YXJlIGF2YWlsYWJsZSBpbiB0aGUgR2l0IHJlcG9zaXRvcnkgYXQ6DQoNCiAgaHR0cDovL2dpdC5r
-ZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9pd2x3aWZpL2xpbnV4LWZpcm13YXJl
-LmdpdCB0YWdzL2l3bHdpZmktZnctMjAyNS0xMS0yMw0KDQpmb3IgeW91IHRvIGZldGNoIGNoYW5n
-ZXMgdXAgdG8gNGIyNDU0NzlhYWNhYmEwZTNiMDczYzMxMTUxYjcxMWU3YWFlMTI2ODoNCg0KICBp
-d2x3aWZpOiBhZGQgU2MvV2ggRlcgZm9yIGNvcmU5OC0xODEgcmVsZWFzZSAoMjAyNS0xMS0yMyAx
-NTowMzo0NyArMDIwMCkNCg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KaXdsd2lmaSBGVyBmb3IgU2MvV2guIENvcmU5OCwg
-YnVpbGQgMTgxDQoNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0NCk1pcmkgS29yZW5ibGl0ICgxKToNCiAgICAgIGl3bHdpZmk6
-IGFkZCBTYy9XaCBGVyBmb3IgY29yZTk4LTE4MSByZWxlYXNlDQoNCiBXSEVOQ0UgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICA0ICsrKysNCiBpbnRlbC9pd2x3aWZpL2l3
-bHdpZmktc2MtYTAtd2gtYjAtMTAxLnVjb2RlIHwgQmluIDAgLT4gMjA5NjE3MiBieXRlcw0KIDIg
-ZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspDQogY3JlYXRlIG1vZGUgMTAwNjQ0IGludGVs
-L2l3bHdpZmkvaXdsd2lmaS1zYy1hMC13aC1iMC0xMDEudWNvZGUNCg==
+On Sun, Nov 23, 2025 at 01:11:46PM +0000, Korenblit, Miriam Rachel wrote:
+> Hi,
+> 
+> This contains a firmware of core98 for SC-WH.
+> 
+> Please pull or let me know if there are any issues.
+> 
+> Thanks,
+> Miri
+> ---
+> 
+> The following changes since commit ff6418d185528bb9b040de1066c34fa405ecd4bd:
+> 
+>   Merge branch 'amd-staging' into 'main' (2025-11-21 20:17:56 +0000)
+> 
+> are available in the Git repository at:
+> 
+>   http://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.git tags/iwlwifi-fw-2025-11-23
+
+Merged and pushed out, thank you!
+
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/796
+
+> 
+> for you to fetch changes up to 4b245479aacaba0e3b073c31151b711e7aae1268:
+> 
+>   iwlwifi: add Sc/Wh FW for core98-181 release (2025-11-23 15:03:47 +0200)
+> 
+> ----------------------------------------------------------------
+> iwlwifi FW for Sc/Wh. Core98, build 181
+> 
+> ----------------------------------------------------------------
+> Miri Korenblit (1):
+>       iwlwifi: add Sc/Wh FW for core98-181 release
+> 
+>  WHENCE                                      |   4 ++++
+>  intel/iwlwifi/iwlwifi-sc-a0-wh-b0-101.ucode | Bin 0 -> 2096172 bytes
+>  2 files changed, 4 insertions(+)
+>  create mode 100644 intel/iwlwifi/iwlwifi-sc-a0-wh-b0-101.ucode
+
+-- 
+With best wishes
+Dmitry
