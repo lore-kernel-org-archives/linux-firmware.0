@@ -4,184 +4,211 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00A75D44164
-	for <linux-firmware@archiver.kernel.org>; Fri, 12 Dec 2025 10:28:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E9DED44166
+	for <linux-firmware@archiver.kernel.org>; Fri, 12 Dec 2025 10:53:14 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B5B3DC4CEF5; Fri, 12 Dec 2025 10:28:14 +0000 (UTC)
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+	id 1DD9CC4CEF5; Fri, 12 Dec 2025 10:53:14 +0000 (UTC)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id D7934C4CEF1
-	for <linux-firmware@kernel.org>; Fri, 12 Dec 2025 10:28:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D7934C4CEF1
+	by smtp.kernel.org (Postfix) with ESMTPS id 3677BC4CEF1
+	for <linux-firmware@kernel.org>; Fri, 12 Dec 2025 10:53:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 3677BC4CEF1
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-5dbcd54d2d8so863090137.2
-        for <linux-firmware@kernel.org>; Fri, 12 Dec 2025 02:28:12 -0800 (PST)
+Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-93f4f04d9f6so634953241.0
+        for <linux-firmware@kernel.org>; Fri, 12 Dec 2025 02:53:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765535292; x=1766140092; darn=kernel.org;
+        d=gmail.com; s=20230601; t=1765536792; x=1766141592; darn=kernel.org;
         h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=wQefynb0pPe/bYcfCBx/f3/7N0PJucGOik+jHyXJYxU=;
-        b=M9/4T2KbY6a1U5VOs1KoxyoryeXY40QNd+Vzy4hd+cfl+oo0zTKLEcuUVJsT8/xLo+
-         9eU0cjVNriZ9T3dYFNufXee9rq/vehV0ncqV0ihbTpKpamGclT02m9wLCMQhPxvarNpH
-         nH0oQGChW3mjwj80vsPUnqZIypFwgVKeGdI+8fjFqE1QaQrufXJKq1AkzaUnjLNd7HnA
-         oy1Z+kaN1S7Fu08EacYudYj1eaV03KEWboo3CaoDlH6r2PtIQ5XATZ6B71T9nVvHHYkz
-         aYTJMruckDWIgWZCYPr22pzloGwAkgOQj+TaMF0+59vNVH7NXVFCtI85AwgXH2KOu2Dj
-         u1Gw==
+        bh=pwGpgrRqzA/h/Evb2JWv1FBLZc6p5cRKXfnZEv854nw=;
+        b=JPcgBmd7Uqluv2S2uGWfgX2hF2W67vNEjaVNNkUMLZ/Z2ZAPHEBv2txOEvqVugcOpL
+         gQAfc2OkurXM8GgZYF8wCc7QGcPI1GhoSgsT8aS8dOwB+IkcE12fksaExE22vBCrCsIP
+         RVirUTuqxcpKvVI/hTsw8QF9HuWVZu1Pw/2zFLl/LIjs9wAUvbatJIy0/2e2bcTTAW9v
+         O9lrgZlTO+fGL2b25xKrxup/GZQfqS/Cif3AjZAYYivgud4bUC31ekEgvKzgTz9RMLsy
+         DJWC2KfnUrrTiSMCfKu2m3Ttt1ENLe/w91BmhNCtIzdGw+TqXAipJe2jVeRlGnhN+Jqr
+         gXLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765535292; x=1766140092;
+        d=1e100.net; s=20230601; t=1765536792; x=1766141592;
         h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wQefynb0pPe/bYcfCBx/f3/7N0PJucGOik+jHyXJYxU=;
-        b=JQxu6UXXXaJKb8IN6L174nr9MPgyb3nttAJstBvcWyhO0udZJ8KZ4qrhgc4Y2YM2qa
-         er1Dry0fk8Sv/GnJPZF18WcyA5q9JUjkBul1k/Ml9Ao+U98G8JCaj7DEGY0rHrRmrSdv
-         ynW3HXt3Tl/ZVq/7PGwQe6YvYyy/EVz2XZ8AfbBpxaIPRRKg2Jo35f5L0JxM/7v8H6cd
-         4G75Gzssjkujar7kaUj26KZMbdzGvz82+OAG1qdNin/9jJe51biwVn79hW2Ilm7HIuDR
-         +dX9BFzenovlyxBZ2lz1VVWDGXi5nCOoGNB3M1Q2G0uEav9j2+CkYWfwpOjN04QvKr8O
-         6lNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVdZnLpfviwS/r0FfU5oJBtWXfpQAkqm2KXvqQNdifCU9F87lv8qmXfC51RKg6xFEtwOSz99LHVmFrCZPwbJg==@kernel.org
-X-Gm-Message-State: AOJu0Yyj8DXzPCY5o7f6Dln4MSCoIcOGvqA825ZGL6PN0YGzKeLSOz5v
-	dIdTWMLjHq7HnA3GFbMimr55xasrRQ1Ky7VQV+Fd6carYVTbZkNBzmz3WPL2lITD1TBbt+1FywA
-	aGvxzVyd4rOT7VTi0yFSB/bpT7i0dROY=
-X-Gm-Gg: AY/fxX6FjG4j8nCi0VWeXSvZLc4Wgjas2T3ViUEzx5TMIygBuY9gs0te82qm+FRMT03
-	l8ngdTcGeXEg8ORgxKBcCiEt7qxGnadCHCQjVPexYAPC6SjpW8+4xi1R3/QL06EUkruNnF30oIB
-	VSlSYrTZaj/ch093aCtPTkhG+g63Hds8CqV+xzqVJCQjkuiJJCD+wWdnb6/z7F36kYg/HjlZlnr
-	KQDVmxhYhcJcxZNIAx54wGPcbklJX/DwJ6WYP/j34HePOvp53UV1yza5+vCmU2MfPcXuJ4RC9Nr
-	2INYRbTUC2AnBI2mSLqsblAKOwY=
-X-Google-Smtp-Source: AGHT+IEATZXH8ApR1EBYCsXyFQgUIARQQVnor8vASJBjzkVCbbq0cCeTMl4rQeK1vKvOhsGipb3V2skvuAG+e1F8ysY=
-X-Received: by 2002:a05:6102:f9c:b0:5db:fddb:3155 with SMTP id
- ada2fe7eead31-5e82768c12fmr378318137.17.1765535291692; Fri, 12 Dec 2025
- 02:28:11 -0800 (PST)
+        bh=pwGpgrRqzA/h/Evb2JWv1FBLZc6p5cRKXfnZEv854nw=;
+        b=jP93b8w0e4UFYs7egqxTnSTX31ij4p5a5VSuTQ4XdHMYRey9/ksPIJ3aOyOlnfFVmJ
+         N/+zkeHvTmZnox017OvscZ7MiSQVWOUiuRM4GcDT8jC5dne289VnuKlX7qx9QMys81Sv
+         Di3J5fNx5gixkQXOMCBUtqvaLNa/mmumlMagMp2skHZbqZZa2xeAQkfj6ofGU1Ie8Bbw
+         U+fat4GMdTBSku1XV6hOphfNfT/MZf0HFI5sFtfG8p67zXUukhLgk1w5G/NVQIuRgwOC
+         o4HPT0z7Y2O53PDUKzn7gDeUp1raGBA1Iv+w4b7dkYqgoNKgY9V3yjkJLQABfF3usIch
+         VpIA==
+X-Gm-Message-State: AOJu0Yw/qyCuLJJV3bcpfkSg6IdhNNs+Td2pZz+PUjdvqM+y0a93GBoF
+	MOwULcl9LdZJwKEgSYDPAO+FFZMfdV7Y68BhcuOuxpnjpqctgExBt7rMhSm+5fjkdTYmfizcFxv
+	cFjBLHNk7dWgdYOExxblpoA+qPA6ZIa4=
+X-Gm-Gg: AY/fxX5Ktj+eXKuEPvrk1Sba4gUgdQI3JCPmEQVslttfB02Jxsqh+BnykYbHGcGQZra
+	XC+XVOXI0J8WIkDYKrSkZbpZQSx7l6IEEU8rOofU7gIXgqV8ZD40YOQzt6J2ZdXRQtWR2CbA8tB
+	mteVUC3C7bQPNaGsonEpiv4nB19GM2MnPWJl0S6Mdpz0OThHqolPRMNqXSEXk7yxKV39daGA6HP
+	l1g9SggN0/AAqNMfpSmtjsWwWtSiU8iZYKxtEAi76DxUVueIVHnEjP2LY1YuKsHDaGZWHlVOC5L
+	se3MfhbtHs0OzWaWu8Iv5NE9sqE=
+X-Google-Smtp-Source: AGHT+IHiiv8Xi9ZkyNySjepV4/iJJc2CnjhjhIAnJZ30GohssKf5CrHUF8wtoxgBXISTGYQlEdojAvxxYIR5AYPgVV4=
+X-Received: by 2002:a05:6102:4194:b0:5db:e2f8:cf35 with SMTP id
+ ada2fe7eead31-5e811585140mr1957050137.3.1765536792025; Fri, 12 Dec 2025
+ 02:53:12 -0800 (PST)
 MIME-Version: 1.0
 From: Shreyash Chaurasia <shreyashcebola@gmail.com>
-Date: Fri, 12 Dec 2025 15:58:00 +0530
-X-Gm-Features: AQt7F2rTd6ovey-l7ORmn-j54bAEJokYR9bgbAhWb-1ZT34MRrhfw2QWm1wa2JI
-Message-ID: <CAP+hjTUaBeVm9GPmbDUhCMXZJ-y=f8k+whr1EjS=NF5NWZ_upg@mail.gmail.com>
-Subject: =?UTF-8?Q?Request_for_Missing_Bluetooth_Firmware_for_Realtek_D?=
-	=?UTF-8?Q?evice_=28VID_13D3_=2F_PID_3612_=E2=80=94_RTL8852CE=29?=
-To: support@realtek.com
+Date: Fri, 12 Dec 2025 16:23:00 +0530
+X-Gm-Features: AQt7F2ouFvXMJwDhPaxHShjA1DZmRf5IJDr0CWZhqEtJY-zb86ey3Kyuu-XoIfk
+Message-ID: <CAP+hjTVEJfm2O7ZHdShKCzXKGJhZaeZVWQMb24a51JR=r973Jg@mail.gmail.com>
+Subject: =?UTF-8?Q?Request_for_Updated_Bluetooth_Firmware_for_ASUS_Lapt?=
+	=?UTF-8?Q?op_=28Realtek=2FIMC_Networks_=E2=80=93_USB_ID_13d3=3A3612=29?=
+To: asusindia_cs@asus.com
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: service@imcnl.com.tw, contact_in@asus.com, support@asus.com, 
-	linux-firmware@kernel.org
-Content-Type: multipart/mixed; boundary="000000000000e687cb0645beb736"
+Cc: linux-firmware@kernel.org, support@imcnetworks.com
+Content-Type: multipart/mixed; boundary="00000000000053d1c40645bf11e0"
 
---000000000000e687cb0645beb736
-Content-Type: multipart/alternative; boundary="000000000000e687b90645beb734"
+--00000000000053d1c40645bf11e0
+Content-Type: multipart/alternative; boundary="00000000000053d1c20645bf11de"
 
---000000000000e687b90645beb734
+--00000000000053d1c20645bf11de
 Content-Type: text/plain; charset="UTF-8"
 
-Dear Realtek Support Team,
+Hello Team,
 
-I am writing to request assistance with missing Linux firmware for a
-Realtek-based Bluetooth device used in my ASUS laptop (System Model: ASUS
-TUF Gaming F16 FX608JH_FX608JH).
-The device details are:
+I am writing to request assistance regarding a Bluetooth issue on my ASUS
+laptop when running Linux.
+*Device Information*
 
    -
 
-   *Vendor ID:* 13D3
+   *Vendor:* IMC Networks
    -
 
-   *Product ID:* 3612
+   *Chipset:* Realtek (identified via lsusb)
    -
 
-   *Reported Manufacturer:* Realtek
+   *USB ID:* *13d3:3612*
    -
 
-   *Chipset Family:* RTL8852CE (WiFi + BT combo)
+   *Laptop Brand:* ASUS
+   -
 
-On Linux, the Bluetooth controller is detected by the btusb driver, but the
-firmware does not load correctly. This results in the Bluetooth stack
-failing to initialize with the following critical error:
+   *System Model:* ASUS TUF Gaming F16 FX608JH_FX608JH
+   -
+
+   *Operating System:* Linux (Kernel 6.17+, XanMod & stock kernels tested)
+
+*Issue Description*
+
+The Bluetooth adapter powers on, but Linux reports the following error:
 
 Bluetooth: hci0: Failed to read codec capabilities (-22)
 
-The official Linux firmware repository does not contain firmware files for
-this device (such as rtl8852b_fw.bin, rtl8852b_config.bin, or equivalent
-for the 13d3:3612 module).
-Because of this, Bluetooth cannot function on Linux systems.
-RequestPlease provide the correct Bluetooth firmware binaries for this
-device,
+Because of this, Bluetooth scanning and pairing do not work at all.
 
-OR submit the appropriate firmware to the official *linux-firmware*
-repository.
+It appears that the required Realtek Bluetooth firmware for this device may
+be *missing or incomplete* in the current Linux linux-firmware package.
+Several attempts to load newer firmware resulted in the same error.
+*Request*
 
-I am happy to test any firmware you provide and share detailed logs.
+Could you please help with:
+
+   1.
+
+   Providing the *correct firmware files* for the Bluetooth module
+   *13d3:3612*,
+   *or*
+   2.
+
+   Confirming whether ASUS/IMC Networks can release the necessary firmware
+   to the Linux community so it can be included in the upstream
+   linux-firmware repository.
 
 The diagnostics summary is attached below for your reference.
 
-Thank you for your assistance,
+I can also provide additional logs (e.g., btmon traces) if needed.
+
+Thank you for your time and support. I hope to help improve Linux
+compatibility for this Bluetooth module.
+
+Best regards,
 *Shreyash Chaurasia*
 
---000000000000e687b90645beb734
+--00000000000053d1c20645bf11de
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><p>Dear Realtek Support Team,</p><p>I am writing to reques=
-t assistance with missing Linux firmware for a Realtek-based Bluetooth devi=
-ce used in my ASUS laptop (System Model: ASUS TUF Gaming F16 FX608JH_FX608J=
-H).<br>
-The device details are:</p><ul>
+<div dir=3D"ltr"><p>Hello Team,</p>
+<p>I am writing to request assistance regarding a Bluetooth issue on my ASU=
+S laptop when running Linux.</p>
+<h3><strong><font size=3D"2">Device Information</font></strong></h3>
+<ul>
 <li>
-<p><strong>Vendor ID:</strong> 13D3</p>
+<p><strong>Vendor:</strong> IMC Networks</p>
 </li>
 <li>
-<p><strong>Product ID:</strong> 3612</p>
+<p><strong>Chipset:</strong> Realtek (identified via lsusb)</p>
 </li>
 <li>
-<p><strong>Reported Manufacturer:</strong> Realtek</p>
+<p><strong>USB ID:</strong> <strong>13d3:3612</strong></p>
 </li>
 <li>
-<p><strong>Chipset Family:</strong> RTL8852CE (WiFi + BT combo)</p>
+<p><strong>Laptop Brand:</strong> ASUS</p>
+</li><li><p><b>System Model:</b>=C2=A0ASUS TUF Gaming F16 FX608JH_FX608JH<b=
+r></p></li>
+<li>
+<p><strong>Operating System:</strong> Linux (Kernel 6.17+, XanMod &amp; sto=
+ck kernels tested)</p>
 </li>
-</ul><p>On Linux, the Bluetooth controller is detected by the <code>btusb</=
-code> driver, but the firmware does not load correctly. This results in the=
- Bluetooth stack failing to initialize with the following critical error:</=
-p><pre class=3D"gmail-overflow-visible! gmail-px-0!"><div class=3D"gmail-co=
-ntain-inline-size gmail-rounded-2xl gmail-corner-superellipse/1.1 gmail-rel=
-ative gmail-bg-token-sidebar-surface-primary"><div class=3D"gmail-sticky gm=
-ail-top-9"><div class=3D"gmail-absolute end-0 gmail-bottom-0 gmail-flex gma=
-il-h-9 gmail-items-center gmail-pe-2"><div class=3D"gmail-bg-token-bg-eleva=
-ted-secondary gmail-text-token-text-secondary gmail-flex gmail-items-center=
- gmail-gap-4 gmail-rounded-sm gmail-px-2 gmail-font-sans gmail-text-xs"></d=
-iv></div></div><div class=3D"gmail-overflow-y-auto gmail-p-4" dir=3D"ltr"><=
-code class=3D"gmail-whitespace-pre!"><span class=3D"gmail-hljs-symbol">Blue=
-tooth:</span> hci0: Failed <span class=3D"gmail-hljs-keyword">to</span> rea=
-d codec capabilities (-<span class=3D"gmail-hljs-number">22</span>)
-</code></div></div></pre><p>The official Linux firmware repository does not=
- contain firmware files for this device (such as <code>rtl8852b_fw.bin</cod=
-e>, <code>rtl8852b_config.bin</code>, or equivalent for the 13d3:3612 modul=
-e).<br>
-Because of this, Bluetooth cannot function on Linux systems.</p><h3><font s=
-ize=3D"2" style=3D"">Request</font></h3><h3><span style=3D"font-size:small;=
-font-weight:normal">Please provide the correct Bluetooth firmware binaries =
-for this device,</span></h3><p>
-OR submit the appropriate firmware to the official <strong>linux-firmware</=
-strong> repository.</p><p>I am happy to test any firmware you provide and s=
-hare detailed logs.</p><p>The diagnostics summary is attached below for you=
-r reference.</p><p>
-
-
-
-
-
-
-
-
-
-</p><p>Thank you for your assistance,<br>
+</ul>
+<h3><strong><font size=3D"2">Issue Description</font></strong></h3>
+<p>The Bluetooth adapter powers on, but Linux reports the following error:<=
+/p>
+<pre class=3D"gmail-overflow-visible! gmail-px-0!"><div class=3D"gmail-cont=
+ain-inline-size gmail-rounded-2xl gmail-corner-superellipse/1.1 gmail-relat=
+ive gmail-bg-token-sidebar-surface-primary"><div class=3D"gmail-sticky gmai=
+l-top-9"><div class=3D"gmail-absolute end-0 gmail-bottom-0 gmail-flex gmail=
+-h-9 gmail-items-center gmail-pe-2"><div class=3D"gmail-bg-token-bg-elevate=
+d-secondary gmail-text-token-text-secondary gmail-flex gmail-items-center g=
+mail-gap-4 gmail-rounded-sm gmail-px-2 gmail-font-sans gmail-text-xs"></div=
+></div></div><div class=3D"gmail-overflow-y-auto gmail-p-4" dir=3D"ltr"><co=
+de class=3D"gmail-whitespace-pre!"><span class=3D"gmail-hljs-symbol">Blueto=
+oth:</span> hci0: Failed <span class=3D"gmail-hljs-keyword">to</span> read =
+codec capabilities (-<span class=3D"gmail-hljs-number">22</span>)
+</code></div></div></pre>
+<p>Because of this, Bluetooth scanning and pairing do not work at all.</p>
+<p>It appears that the required Realtek Bluetooth firmware for this device =
+may be <strong>missing or incomplete</strong> in the current Linux <code>li=
+nux-firmware</code> package. Several attempts to load newer firmware result=
+ed in the same error.</p>
+<h3><strong><font size=3D"2">Request</font></strong></h3>
+<p>Could you please help with:</p>
+<ol>
+<li>
+<p>Providing the <strong>correct firmware files</strong> for the Bluetooth =
+module <strong>13d3:3612</strong>,<br>
+<strong>or</strong></p>
+</li>
+<li>
+<p>Confirming whether ASUS/IMC Networks can release the necessary firmware =
+to the Linux community so it can be included in the upstream <code>linux-fi=
+rmware</code> repository.</p>
+</li>
+</ol>
+<h3><span style=3D"font-weight:normal"><font size=3D"2">The diagnostics sum=
+mary is attached below for your reference.</font></span></h3>
+<p>I can also provide additional logs (e.g., <code>btmon</code> traces) if =
+needed.</p>
+<p>Thank you for your time and support. I hope to help improve Linux compat=
+ibility for this Bluetooth module.</p>
+<p>Best regards,<br>
 <strong>Shreyash Chaurasia</strong></p></div>
 
---000000000000e687b90645beb734--
---000000000000e687cb0645beb736
+--00000000000053d1c20645bf11de--
+--00000000000053d1c40645bf11e0
 Content-Type: text/plain; charset="UTF-8"; name="report.txt"
 Content-Disposition: attachment; filename="report.txt"
 Content-Transfer-Encoding: base64
-Content-ID: <f_mj2q3cbo0>
-X-Attachment-Id: f_mj2q3cbo0
+Content-ID: <f_mj2qnpn60>
+X-Attachment-Id: f_mj2qnpn60
 
 RGlhZ25vc3RpYyBTdW1tYXJ5Og0KDQoxLiBsc3VzYg0KQnVzIDAwMSBEZXZpY2UgMDA1OiBJRCAx
 M2QzOjM2MTIgSU1DIE5ldHdvcmtzIEJsdWV0b290aCBSYWRpbw0KaU1hbnVmYWN0dXJlcjogUmVh
@@ -196,4 +223,4 @@ ODIxLCBydGw4ODUyY3UsIHJ0bDg4NTJidSwgZXRjLikNCmJ1dCBubyBmaXJtd2FyZSBmb3IgcnRs
 ODg1MmIgLyBydGw4ODUyYmUgLyBydGw4ODUyY2UuDQoNCjUuIEJsdWV0b290aCBzdGF0ZQ0KYmx1
 ZXRvb3RoY3RsIHNjYW4gb24g4oaSIFNldERpc2NvdmVyeUZpbHRlciBmYWlsZWQ6IG9yZy5ibHVl
 ei5FcnJvci5Ob3RSZWFkeQ==
---000000000000e687cb0645beb736--
+--00000000000053d1c40645bf11e0--
