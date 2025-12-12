@@ -1,131 +1,199 @@
-Return-Path: <SRS0=+kph=6R=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=BiOw=6S=gmail.com=shreyashcebola@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 779B5D43341
-	for <linux-firmware@archiver.kernel.org>; Thu, 11 Dec 2025 18:36:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00A75D44164
+	for <linux-firmware@archiver.kernel.org>; Fri, 12 Dec 2025 10:28:14 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 3C462C19421; Thu, 11 Dec 2025 18:36:25 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	id B5B3DC4CEF5; Fri, 12 Dec 2025 10:28:14 +0000 (UTC)
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 4CAA1C4CEFB
-	for <linux-firmware@kernel.org>; Thu, 11 Dec 2025 18:36:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 4CAA1C4CEFB
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BBEPQlB2274180
-	for <linux-firmware@kernel.org>; Thu, 11 Dec 2025 18:36:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=obGU9VqtTQRm/0Y+ywoX5NAn
-	hSeTh7GhJp/EcjtpoCw=; b=DfljyhhzaQecbAqnO0vXqZEXIJdLmU1tCGZrYkrx
-	h5n4YZ+PHK4TYwL9WmaONGXLZrbHFwJa4kabgp3/xEP6NF8ZA0eypDR9A6gqtUxk
-	nxw4h9H2XaYiV4wj/JyYXDtOfH02xaKe8MeKLdPRQUfC+0HUPWEM7bwh5H/HmsXn
-	4w1WtYJulWzEelR2AOnjTPWKdUAqk8Vbuc33X75rgwvcpkGh9Gtd1vjo7ORUn5fo
-	iNx66WDtyRl6ecAea9Knz+LK+n7xleNqR53G9Fys+MIt2kIPWOvPpIlxNIuEJHvq
-	Xyc/+sZZT0a/3fPXIgvqLPfJAyLljxs6aVKR3c3OxYPxUg==
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com [209.85.221.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ayt709yyp-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Thu, 11 Dec 2025 18:36:22 +0000 (GMT)
-Received: by mail-vk1-f200.google.com with SMTP id 71dfb90a1353d-5595f2366c0so440712e0c.2
-        for <linux-firmware@kernel.org>; Thu, 11 Dec 2025 10:36:22 -0800 (PST)
+	by smtp.kernel.org (Postfix) with ESMTPS id D7934C4CEF1
+	for <linux-firmware@kernel.org>; Fri, 12 Dec 2025 10:28:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D7934C4CEF1
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-5dbcd54d2d8so863090137.2
+        for <linux-firmware@kernel.org>; Fri, 12 Dec 2025 02:28:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1765478182; x=1766082982; darn=kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=obGU9VqtTQRm/0Y+ywoX5NAnhSeTh7GhJp/EcjtpoCw=;
-        b=guWE9VbxGEn8pQdP6TvlVMfNJRjS99ln2d8xS8m5xOYRU0YADGsLp40c2gljdXipfH
-         jSH7k7cpRqQdOCpGsc3HfGNbLVYC5HsfGXXerk2ywzlpFOkXgwkhr1IiXpq9VIN6e/N8
-         +w4tCZAsM2rjtQk40KiBy66iyd1fMa//4xFbfpiugCmNb39JbEIL3x5WhtDkpjrGD4pE
-         l1Mbb0T75MZVF4Z0Q4vdSvYnARY1800rQUe4qNObdSyWvGHrceIdvdcSSsVzVMQMfUDy
-         mK/Szb8X/9n36ntgkh13+DyuxflMGb7X9+kmNuYO+yprJrRZA+EeUwxas10niBl2K4Lv
-         rrSw==
+        d=gmail.com; s=20230601; t=1765535292; x=1766140092; darn=kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=wQefynb0pPe/bYcfCBx/f3/7N0PJucGOik+jHyXJYxU=;
+        b=M9/4T2KbY6a1U5VOs1KoxyoryeXY40QNd+Vzy4hd+cfl+oo0zTKLEcuUVJsT8/xLo+
+         9eU0cjVNriZ9T3dYFNufXee9rq/vehV0ncqV0ihbTpKpamGclT02m9wLCMQhPxvarNpH
+         nH0oQGChW3mjwj80vsPUnqZIypFwgVKeGdI+8fjFqE1QaQrufXJKq1AkzaUnjLNd7HnA
+         oy1Z+kaN1S7Fu08EacYudYj1eaV03KEWboo3CaoDlH6r2PtIQ5XATZ6B71T9nVvHHYkz
+         aYTJMruckDWIgWZCYPr22pzloGwAkgOQj+TaMF0+59vNVH7NXVFCtI85AwgXH2KOu2Dj
+         u1Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765478182; x=1766082982;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=obGU9VqtTQRm/0Y+ywoX5NAnhSeTh7GhJp/EcjtpoCw=;
-        b=UH/LoQnVP6bR7TCDJUCi4Rfozkf4Y0ETeUZ5zDxemySWwaoYkofC2fm8bjk/V9PHQE
-         jLG7Azc9Dq8zlk+4SDJmLecPd1jgDDYvURRrUqnNVGaFug24TvhveJZNo2R1MRtjo0Lv
-         vZ2szuws/GOeLK6zjrcEscWMwWr4eqQ6ufwZVDI/vvBXfzA+T+9lpX3Ufu+zpSYCUci7
-         cit2N5W83oFyQniMlJ/SuqDgITnJCG/Q0nngPzcJE3JMGWkIFImk7K+3pLVkvi9EOUPU
-         4j+mfxwMX19t76CKcLtn2pN2v7UgltMv+XRNhNJ/boVdQhx1chezbmYeR9SlX772Fiit
-         wS8A==
-X-Gm-Message-State: AOJu0YyRer0OgLkxtnw76JCs7l6M4MtkIxlsJrfwp0sHgxYJW7CpnzV3
-	GF0FnInk/lMBHe6dn1Cf9eDgqdAje/IG5fzNUHONVUFMI3GGUOcftpXpqfaPzUAUr652kLe/sFa
-	j4q60YP6E9ujjgO4Em1l3ATHfoTXYGCkdX/NRXKeGdnXoxNDOG3cnOpT8ViIouCJIAuiTbfs=
-X-Gm-Gg: AY/fxX44wK8rRNeV+moZDAlO+23X9ZrsDRvoNYPezhE1duwK9RwIXO1nkGcd/HocpO7
-	7XElNYtPSIG8s0JTQSCAmk4kcoE4DZ91/vPtTIPTEdOrxfgxFvyVbH/6DNGRpm4dHD3OnnwLhu7
-	cq7eSDUsorTMSW70JBd3FE/LtaIOk/a8uRayvZZ8MhUW5OPwjCZKa6MM19n3qiBmg5CMkCOLLxJ
-	fNGkiFtm4S4BIUW6w+2TXqXh5ejqlViycXZ7MsxamvsGzChW6PIk0M4aPmAK5UDRB5DaGFywxxK
-	FVOmQ5j+409d+684S4DmuhmS9E4JXrPZyaIhVwf+EAjKPl866C61ZA5t15OJqGkiFn3meEh/GWz
-	u5x3jhUoQHnun7UEEST9Y8tdUvqgjtnSgXd33usPHTMxz+PBlIxBC0T37GuytvUDEiLYwR7RjUb
-	0vv1mLwRrXlEgXI2u3NhX7iBg=
-X-Received: by 2002:a05:6122:1307:b0:559:6960:be0d with SMTP id 71dfb90a1353d-55fcfc0039emr2655131e0c.13.1765478181917;
-        Thu, 11 Dec 2025 10:36:21 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEeFgQLLgLqTkkUDdlDYV2X7lxvmUE8bPNUtutqm6f/yK3EsnM7LPKyx1mU0SRoitaTGzaOAg==
-X-Received: by 2002:a05:6122:1307:b0:559:6960:be0d with SMTP id 71dfb90a1353d-55fcfc0039emr2655127e0c.13.1765478181491;
-        Thu, 11 Dec 2025 10:36:21 -0800 (PST)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-37fbca7acf5sm8680651fa.34.2025.12.11.10.36.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Dec 2025 10:36:20 -0800 (PST)
-Date: Thu, 11 Dec 2025 20:36:19 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Rajesh Kemisetti <rajesh.kemisetti@oss.qualcomm.com>
-List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, Rob Clark <robin.clark@oss.qualcomm.com>
-Subject: Re: [GIT PULL] qcom: GPU firmwares for
- sm8150/sm8450/sm8550/sm8650/sm8750
-Message-ID: <vjdsapmtmyijaxjhpqp5pmfpv6bcl3u24wiiebenl7cevqmadl@xy43tpj3i427>
-References: <5aea673e-c0f4-4f0d-af76-97bee75c2111@oss.qualcomm.com>
+        d=1e100.net; s=20230601; t=1765535292; x=1766140092;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wQefynb0pPe/bYcfCBx/f3/7N0PJucGOik+jHyXJYxU=;
+        b=JQxu6UXXXaJKb8IN6L174nr9MPgyb3nttAJstBvcWyhO0udZJ8KZ4qrhgc4Y2YM2qa
+         er1Dry0fk8Sv/GnJPZF18WcyA5q9JUjkBul1k/Ml9Ao+U98G8JCaj7DEGY0rHrRmrSdv
+         ynW3HXt3Tl/ZVq/7PGwQe6YvYyy/EVz2XZ8AfbBpxaIPRRKg2Jo35f5L0JxM/7v8H6cd
+         4G75Gzssjkujar7kaUj26KZMbdzGvz82+OAG1qdNin/9jJe51biwVn79hW2Ilm7HIuDR
+         +dX9BFzenovlyxBZ2lz1VVWDGXi5nCOoGNB3M1Q2G0uEav9j2+CkYWfwpOjN04QvKr8O
+         6lNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVdZnLpfviwS/r0FfU5oJBtWXfpQAkqm2KXvqQNdifCU9F87lv8qmXfC51RKg6xFEtwOSz99LHVmFrCZPwbJg==@kernel.org
+X-Gm-Message-State: AOJu0Yyj8DXzPCY5o7f6Dln4MSCoIcOGvqA825ZGL6PN0YGzKeLSOz5v
+	dIdTWMLjHq7HnA3GFbMimr55xasrRQ1Ky7VQV+Fd6carYVTbZkNBzmz3WPL2lITD1TBbt+1FywA
+	aGvxzVyd4rOT7VTi0yFSB/bpT7i0dROY=
+X-Gm-Gg: AY/fxX6FjG4j8nCi0VWeXSvZLc4Wgjas2T3ViUEzx5TMIygBuY9gs0te82qm+FRMT03
+	l8ngdTcGeXEg8ORgxKBcCiEt7qxGnadCHCQjVPexYAPC6SjpW8+4xi1R3/QL06EUkruNnF30oIB
+	VSlSYrTZaj/ch093aCtPTkhG+g63Hds8CqV+xzqVJCQjkuiJJCD+wWdnb6/z7F36kYg/HjlZlnr
+	KQDVmxhYhcJcxZNIAx54wGPcbklJX/DwJ6WYP/j34HePOvp53UV1yza5+vCmU2MfPcXuJ4RC9Nr
+	2INYRbTUC2AnBI2mSLqsblAKOwY=
+X-Google-Smtp-Source: AGHT+IEATZXH8ApR1EBYCsXyFQgUIARQQVnor8vASJBjzkVCbbq0cCeTMl4rQeK1vKvOhsGipb3V2skvuAG+e1F8ysY=
+X-Received: by 2002:a05:6102:f9c:b0:5db:fddb:3155 with SMTP id
+ ada2fe7eead31-5e82768c12fmr378318137.17.1765535291692; Fri, 12 Dec 2025
+ 02:28:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5aea673e-c0f4-4f0d-af76-97bee75c2111@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjExMDE0OCBTYWx0ZWRfX+rOE2EEaAtiY
- F86KNMRNv4+Frr2vwhO0dtmKJZ1ZiJKTKx2qKlS82NId9iYVkv3rIgLkSw3lO5I67zEotT4nvDC
- lphwDKH31nsdQ//yjuRRYfvxSk/r+ieAcISfxemrrWroESFc1AskFUm9IVkhv/US25ijTdKv4qj
- lqXFYLdede/0LLX/6MJK11Kuij6sTwzzDzmdynN4PeHxig9CUfkVW0vM3Kqyw5U0qWnxb+SB4mS
- v4BMr1ALQldUR7jbVXhLX/cjrpejkRtJdAxDKd9FJ+Sp3HDDINsldBGTBGE/uKR99mTRAwARkK7
- STFaBIml3JrHafjiTkEL8OFlJx3xXO8Dz+qx+eWsTKlmuqDKKxqudqZSgQNV7akydJ+4OWPBEcA
- sHOMe/D8h/zQJ80VQnD1Z3e46HLBgw==
-X-Authority-Analysis: v=2.4 cv=WYIBqkhX c=1 sm=1 tr=0 ts=693b0f26 cx=c_pps
- a=wuOIiItHwq1biOnFUQQHKA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=p0WdMEafAAAA:8 a=DnZRYP5fl5cDc7QaBMsA:9 a=CjuIK1q_8ugA:10
- a=XD7yVLdPMpWraOa8Un9W:22
-X-Proofpoint-GUID: Mp8W1AglYov8LlmOKDo0sDThqBX0wUcX
-X-Proofpoint-ORIG-GUID: Mp8W1AglYov8LlmOKDo0sDThqBX0wUcX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-11_02,2025-12-11_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 suspectscore=0 priorityscore=1501 adultscore=0 impostorscore=0
- spamscore=0 bulkscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512110148
+From: Shreyash Chaurasia <shreyashcebola@gmail.com>
+Date: Fri, 12 Dec 2025 15:58:00 +0530
+X-Gm-Features: AQt7F2rTd6ovey-l7ORmn-j54bAEJokYR9bgbAhWb-1ZT34MRrhfw2QWm1wa2JI
+Message-ID: <CAP+hjTUaBeVm9GPmbDUhCMXZJ-y=f8k+whr1EjS=NF5NWZ_upg@mail.gmail.com>
+Subject: =?UTF-8?Q?Request_for_Missing_Bluetooth_Firmware_for_Realtek_D?=
+	=?UTF-8?Q?evice_=28VID_13D3_=2F_PID_3612_=E2=80=94_RTL8852CE=29?=
+To: support@realtek.com
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: service@imcnl.com.tw, contact_in@asus.com, support@asus.com, 
+	linux-firmware@kernel.org
+Content-Type: multipart/mixed; boundary="000000000000e687cb0645beb736"
 
-On Thu, Dec 11, 2025 at 09:27:31PM +0530, Rajesh Kemisetti wrote:
-> Hi,
-> 
-> Please pull the gpu firmwares required for Qualcomm's sm8150/sm8450/sm8550/sm8650/sm8750 chipsets.
+--000000000000e687cb0645beb736
+Content-Type: multipart/alternative; boundary="000000000000e687b90645beb734"
 
-Merged and pushed out, https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/820
+--000000000000e687b90645beb734
+Content-Type: text/plain; charset="UTF-8"
 
-Thank you, Rajesh, you rock!
+Dear Realtek Support Team,
 
-> 
-> -Rajesh
-> 
+I am writing to request assistance with missing Linux firmware for a
+Realtek-based Bluetooth device used in my ASUS laptop (System Model: ASUS
+TUF Gaming F16 FX608JH_FX608JH).
+The device details are:
 
--- 
-With best wishes
-Dmitry
+   -
+
+   *Vendor ID:* 13D3
+   -
+
+   *Product ID:* 3612
+   -
+
+   *Reported Manufacturer:* Realtek
+   -
+
+   *Chipset Family:* RTL8852CE (WiFi + BT combo)
+
+On Linux, the Bluetooth controller is detected by the btusb driver, but the
+firmware does not load correctly. This results in the Bluetooth stack
+failing to initialize with the following critical error:
+
+Bluetooth: hci0: Failed to read codec capabilities (-22)
+
+The official Linux firmware repository does not contain firmware files for
+this device (such as rtl8852b_fw.bin, rtl8852b_config.bin, or equivalent
+for the 13d3:3612 module).
+Because of this, Bluetooth cannot function on Linux systems.
+RequestPlease provide the correct Bluetooth firmware binaries for this
+device,
+
+OR submit the appropriate firmware to the official *linux-firmware*
+repository.
+
+I am happy to test any firmware you provide and share detailed logs.
+
+The diagnostics summary is attached below for your reference.
+
+Thank you for your assistance,
+*Shreyash Chaurasia*
+
+--000000000000e687b90645beb734
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><p>Dear Realtek Support Team,</p><p>I am writing to reques=
+t assistance with missing Linux firmware for a Realtek-based Bluetooth devi=
+ce used in my ASUS laptop (System Model: ASUS TUF Gaming F16 FX608JH_FX608J=
+H).<br>
+The device details are:</p><ul>
+<li>
+<p><strong>Vendor ID:</strong> 13D3</p>
+</li>
+<li>
+<p><strong>Product ID:</strong> 3612</p>
+</li>
+<li>
+<p><strong>Reported Manufacturer:</strong> Realtek</p>
+</li>
+<li>
+<p><strong>Chipset Family:</strong> RTL8852CE (WiFi + BT combo)</p>
+</li>
+</ul><p>On Linux, the Bluetooth controller is detected by the <code>btusb</=
+code> driver, but the firmware does not load correctly. This results in the=
+ Bluetooth stack failing to initialize with the following critical error:</=
+p><pre class=3D"gmail-overflow-visible! gmail-px-0!"><div class=3D"gmail-co=
+ntain-inline-size gmail-rounded-2xl gmail-corner-superellipse/1.1 gmail-rel=
+ative gmail-bg-token-sidebar-surface-primary"><div class=3D"gmail-sticky gm=
+ail-top-9"><div class=3D"gmail-absolute end-0 gmail-bottom-0 gmail-flex gma=
+il-h-9 gmail-items-center gmail-pe-2"><div class=3D"gmail-bg-token-bg-eleva=
+ted-secondary gmail-text-token-text-secondary gmail-flex gmail-items-center=
+ gmail-gap-4 gmail-rounded-sm gmail-px-2 gmail-font-sans gmail-text-xs"></d=
+iv></div></div><div class=3D"gmail-overflow-y-auto gmail-p-4" dir=3D"ltr"><=
+code class=3D"gmail-whitespace-pre!"><span class=3D"gmail-hljs-symbol">Blue=
+tooth:</span> hci0: Failed <span class=3D"gmail-hljs-keyword">to</span> rea=
+d codec capabilities (-<span class=3D"gmail-hljs-number">22</span>)
+</code></div></div></pre><p>The official Linux firmware repository does not=
+ contain firmware files for this device (such as <code>rtl8852b_fw.bin</cod=
+e>, <code>rtl8852b_config.bin</code>, or equivalent for the 13d3:3612 modul=
+e).<br>
+Because of this, Bluetooth cannot function on Linux systems.</p><h3><font s=
+ize=3D"2" style=3D"">Request</font></h3><h3><span style=3D"font-size:small;=
+font-weight:normal">Please provide the correct Bluetooth firmware binaries =
+for this device,</span></h3><p>
+OR submit the appropriate firmware to the official <strong>linux-firmware</=
+strong> repository.</p><p>I am happy to test any firmware you provide and s=
+hare detailed logs.</p><p>The diagnostics summary is attached below for you=
+r reference.</p><p>
+
+
+
+
+
+
+
+
+
+</p><p>Thank you for your assistance,<br>
+<strong>Shreyash Chaurasia</strong></p></div>
+
+--000000000000e687b90645beb734--
+--000000000000e687cb0645beb736
+Content-Type: text/plain; charset="UTF-8"; name="report.txt"
+Content-Disposition: attachment; filename="report.txt"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mj2q3cbo0>
+X-Attachment-Id: f_mj2q3cbo0
+
+RGlhZ25vc3RpYyBTdW1tYXJ5Og0KDQoxLiBsc3VzYg0KQnVzIDAwMSBEZXZpY2UgMDA1OiBJRCAx
+M2QzOjM2MTIgSU1DIE5ldHdvcmtzIEJsdWV0b290aCBSYWRpbw0KaU1hbnVmYWN0dXJlcjogUmVh
+bHRlaw0KaVByb2R1Y3Q6IEJsdWV0b290aCBSYWRpbw0KDQoyLiBkbWVzZyBlcnJvcnMNCkJsdWV0
+b290aDogaGNpMDogRmFpbGVkIHRvIHJlYWQgY29kZWMgY2FwYWJpbGl0aWVzICgtMjIpDQp1c2Jj
+b3JlOiByZWdpc3RlcmVkIG5ldyBpbnRlcmZhY2UgZHJpdmVyIGJ0dXNiDQpIQ0kgZGV2aWNlIGRl
+dGVjdGVkIGJ1dCBmaXJtd2FyZSBmYWlscyB0byBpbml0aWFsaXplDQoNCjMuIEtlcm5lbCB2ZXJz
+aW9uDQpMaW51eCA2LjE3LjExLXg2NHYyLXhhbm1vZDEgKGFsc28gZmFpbGVkIG9uIHN0b2NrIEth
+bGkga2VybmVsIDYuMTEpDQoNCjQuIEZpcm13YXJlIGZvbGRlciBjb250ZW50cw0KDQovbGliL2Zp
+cm13YXJlL3J0bF9idC8gY29udGFpbnMgbWFueSBSZWFsdGVrIGZpbGVzIChydGw4NzIzLCBydGw4
+ODIxLCBydGw4ODUyY3UsIHJ0bDg4NTJidSwgZXRjLikNCmJ1dCBubyBmaXJtd2FyZSBmb3IgcnRs
+ODg1MmIgLyBydGw4ODUyYmUgLyBydGw4ODUyY2UuDQoNCjUuIEJsdWV0b290aCBzdGF0ZQ0KYmx1
+ZXRvb3RoY3RsIHNjYW4gb24g4oaSIFNldERpc2NvdmVyeUZpbHRlciBmYWlsZWQ6IG9yZy5ibHVl
+ei5FcnJvci5Ob3RSZWFkeQ==
+--000000000000e687cb0645beb736--
