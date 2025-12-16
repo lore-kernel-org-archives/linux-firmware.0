@@ -1,138 +1,193 @@
-Return-Path: <jwboyer@kernel.org>
+Return-Path: <SRS0=AvmD=6W=opensource.cirrus.com=prvs=144514c97e=sbinding@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33B13D5E146
-	for <linux-firmware@archiver.kernel.org>; Tue, 16 Dec 2025 12:03:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CD8FCD609D2
+	for <linux-firmware@archiver.kernel.org>; Tue, 16 Dec 2025 16:55:14 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 03A28C19425; Tue, 16 Dec 2025 12:03:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1D51C4AF09
-	for <linux-firmware@kernel.org>; Tue, 16 Dec 2025 12:03:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765886633;
-	bh=IgzttXJzlOXpAFKGJvEVU3HBSoz/pHHSYCusRnm7Cs8=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=ofbuWpXJpNOZvWhTLcxjKvXikim4VT64yWuRaCyDIB7drId4jrJH1yZyZlHfySJ/K
-	 jkbLYJkFBE5Jiolq8VnXzTdz+BaG4qGXMavxP2Tyg8eWKIqbYDuMjj9z7EQQliXjjF
-	 ChP96s+7iCCXq6jm9JfNP8ISz4IO8JreO2doWrMybnLVyfiygqcjiWsy6ule4LcozK
-	 AgJ6BQJ9GPVw4DIJMPob3nRqGGGj5vT0qZ0ERomek3lqfKEFN+MfTklzi+Pgm9/efH
-	 zZyKd+y5oLsH4DWJZ54rBI9IgUETjG2jBYDp0EYpry9ENs9NcgJLVN52TLXzKito29
-	 AJWXjzYtYdHyA==
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-6446c2bbfe3so4065041d50.1
-        for <linux-firmware@kernel.org>; Tue, 16 Dec 2025 04:03:53 -0800 (PST)
-X-Gm-Message-State: AOJu0YzU902lw5Zwnh3929/Rz6QUd3HwnOWkfpZvlDZ9HaLyb6v8fVNP
-	rhA/2SQdYyOqcccDf1guIbgFDYMzg172jluZuc7B3zkncuuNl/SJx96DlV91vQychbXOKIezDr/
-	Nj7JXFn6UTyi9eFqn41OeId6NIpVVeMk=
-X-Google-Smtp-Source: AGHT+IEw3tYsyih7jchswTDOjmyrorwZaH1rf/Mm1X5tOQWvrfNt8P/J+6/o4Y9pIpfNYhXmBU19ZfA+5lp0H1jQm9o=
-X-Received: by 2002:a05:690e:1388:b0:63f:ab4c:9603 with SMTP id
- 956f58d0204a3-6455564ef60mr10413827d50.45.1765886633152; Tue, 16 Dec 2025
- 04:03:53 -0800 (PST)
+	id 910BAC4CEFB; Tue, 16 Dec 2025 16:55:14 +0000 (UTC)
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 6E07DC4CEF1
+	for <linux-firmware@kernel.org>; Tue, 16 Dec 2025 16:55:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 6E07DC4CEF1
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BG18Htj4074181
+	for <linux-firmware@kernel.org>; Tue, 16 Dec 2025 10:55:12 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=TzgckmLHFejvIqt7
+	pGqeL89DWEnOjIGgx6wM2shVfaQ=; b=hm/GXIvrJckaei5CP1Q/aBEwSkLV/aSa
+	BTrh5jQUyOuM6Bjo0/P9VH6iMi/ZprPjfxr28kgDw4RBBaG4K2BDYfuUJq6jePQy
+	d2rp1Q0fJCLc6Dqr7vecDt1ii3zt9tXcgPDnHI63VGeDqajL4/YpglAe4KvodcXA
+	FTsLcunau0ReZcasx3rZ4zAicXJT/jpTIkAIWz5qusG1l7oxLUBowR4F+HZwTjWQ
+	UZ1Z7kc0iIsl9kgCBk/FlfyqPt7zlxfCRY0rtW4XwM/sXZg2kTiH+yY7c6Mb+8Gs
+	iH5FZcVcEMX5OPdLudnzZaG13Tlb1P4vaQkQEvgvRmcLpVAiA8rc9Q==
+Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11021093.outbound.protection.outlook.com [52.101.62.93])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4b15ejbq7s-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <linux-firmware@kernel.org>; Tue, 16 Dec 2025 10:55:12 -0600 (CST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cnWwrGjqGLDUXOa+MO7ZzS4EAjcaIUFMstttV1M9CEBY6XqibjSoearsST2yz0ySi7hT0qGIeyFMiQVTHQwT0b1P3HFn9gxNSC/QitNzUcOPdeKLfGPy5O4XiMHkW/oWPwzz/X0IqcJDusw9Yb1pTwvaKvRK0kyRtoVFmhZbHGBgz6yHLo9rsfnC00A4FObHlmHoBXaGesyo/VBJ9Ws8NqNfq0L5GmHwTLPh0alVueLcMYc8+JdGyiqLJ6AtynD9WY4In7k+2g6PUHOTHC8E6d3fysRc5DCOnejnZCk74xErjKMaH+o4cEmU97EqDeNEkLWzWn2Pe2DRZLoN5qoHYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TzgckmLHFejvIqt7pGqeL89DWEnOjIGgx6wM2shVfaQ=;
+ b=P+4AQrirKavpF9HEuoM+Iu9ZTezG4/h1Ip8vZwVTO0zQy0Lob3FIaw+h6T8ITWF0pVU7wvN+0UttldT0Z/CQXS6q9GXZK6va1HEISUZwpQ7G8eWdCGjchBjb8IjvLnQLpjFdxN5/sh7arSvUT6vSDKkDnulSjSvzKp6hHP/VviGVmUZbkl8W9acPuPaUjulgG7JW+FLO1V/sa8MChfir014kpi55AcPd1XwUtOpWqxlVyoGnI9JcjZHk2WRHjbP5tLhF/dLVk5km6oy7wrzuVTDIPnnfS4/+XNGKGiDiKFqEmZt3NT5ooJ6nk38RGpjgstYLBUpd8RNopW25QqzfKw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TzgckmLHFejvIqt7pGqeL89DWEnOjIGgx6wM2shVfaQ=;
+ b=mDhIuUgQFnlYO78ILDy+AV2OkUN5hOg9TC7D9PPMl2oB32vMzndBqrs9pITTNogwJCjeu1ynQkeZ3Ppkbj0QjvgPPlJkyXEQaX1BrSphzGsWtHaYnbDFF/GrAX4v7eGjMoV3p7Z5HJhyTVzHCZ/wwyFxdJ4n8nNYTft+Vt8E8PU=
+Received: from CH2PR03CA0017.namprd03.prod.outlook.com (2603:10b6:610:59::27)
+ by DS7PR19MB6424.namprd19.prod.outlook.com (2603:10b6:8:93::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Tue, 16 Dec
+ 2025 16:55:00 +0000
+Received: from CH1PEPF0000AD80.namprd04.prod.outlook.com
+ (2603:10b6:610:59:cafe::b5) by CH2PR03CA0017.outlook.office365.com
+ (2603:10b6:610:59::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.13 via Frontend Transport; Tue,
+ 16 Dec 2025 16:55:00 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
+ does not designate 84.19.233.75 as permitted sender)
+ receiver=protection.outlook.com; client-ip=84.19.233.75;
+ helo=edirelay1.ad.cirrus.com;
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CH1PEPF0000AD80.mail.protection.outlook.com (10.167.244.90) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.6
+ via Frontend Transport; Tue, 16 Dec 2025 16:54:59 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id CF376406540;
+	Tue, 16 Dec 2025 16:54:58 +0000 (UTC)
+Received: from [198.90.188.46] (unknown [198.90.188.46])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id AA127820247;
+	Tue, 16 Dec 2025 16:54:58 +0000 (UTC)
+Message-ID: <58130bd8-25f7-44fd-930c-d9391ec06878@opensource.cirrus.com>
+Date: Tue, 16 Dec 2025 16:54:35 +0000
 MIME-Version: 1.0
-References: <DM3PPF63A6024A9654428CE36E88D571C8AA3AAA@DM3PPF63A6024A9.namprd11.prod.outlook.com>
-In-Reply-To: <DM3PPF63A6024A9654428CE36E88D571C8AA3AAA@DM3PPF63A6024A9.namprd11.prod.outlook.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Tue, 16 Dec 2025 07:03:42 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA5xVm6E2hG5+6Zjs5KUY-gKZQAJ6-0kWWJ5ucMOEnnycw@mail.gmail.com>
-X-Gm-Features: AQt7F2pwzbYg4PQb2-4pLJHevKnlyeZtcXHaKJYvf0PxrBMCS66J4Q01NMXCLwQ
-Message-ID: <CA+5PVA5xVm6E2hG5+6Zjs5KUY-gKZQAJ6-0kWWJ5ucMOEnnycw@mail.gmail.com>
-Subject: Re: pull request: iwlwifi firmware update 2025-12-16
-To: "Korenblit, Miriam Rachel" <miriam.rachel.korenblit@intel.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, "kyle@infradead.org" <kyle@infradead.org>, 
-	"Hutchings, Ben" <ben@decadent.org.uk>, "Dreyfuss, Haim" <haim.dreyfuss@intel.com>, 
-	"Yang, You-Sheng" <vicamo.yang@canonical.com>, Linux Wireless <linux-wireless@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: linux-firmware@kernel.org
+Cc: patches@opensource.cirrus.com
+From: Stefan Binding <sbinding@opensource.cirrus.com>
+Subject: [PULL v1 linux-firmware] Add firmware for HP laptops using CS35L41
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD80:EE_|DS7PR19MB6424:EE_
+X-MS-Office365-Filtering-Correlation-Id: e5e9b8d8-dd1a-4731-e5ac-08de3cc3d9a3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|82310400026|376014|61400799027|13003099007|4076005;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Y01ocDhFcnJyS1NuaHpTWTFta2x3MmxyQVlVMHhKM01Xd1IrSDJvUVVNU2lB?=
+ =?utf-8?B?S0NpUHZzcVJzKzZ5cTZlV2hZc21sTmtuai9LQ3RocmhBNVlZWE5MSEFCWVkw?=
+ =?utf-8?B?VndIQlRHdE1pME9OSEE2dzdyV2Zaa1NDRTd6c2lsblBTNU5YZFFVYmRHUkFr?=
+ =?utf-8?B?ZUsydzJOYm5lcytTeWtidWQ3a1BtQThCd09BeitReDhiS3o3ZW1tcTc2ODNW?=
+ =?utf-8?B?LzVHWUV0MWphWWxRVkdyZU5sOTVydDFJOUJ3RnRLNlBjL05hVnltbnJiSkhl?=
+ =?utf-8?B?cmZGcVhHc1lpbFpkS1BZbEFpTjBLR1N0b0J6V3J0RnExZFovZTIrbzl3SitQ?=
+ =?utf-8?B?SFlhdXBZU1BGejhFUTVoN2VQcmdCeS9jOEFqd0kwMnd2LzhjMzJTUkZWdW9v?=
+ =?utf-8?B?SzBCeHcxeWtzV1dDRnIwZ1ZVV3dxY054dlFrV3RLcXF4TWlOSzJZRTFmamxm?=
+ =?utf-8?B?WndHMTJSTFZxRm5ybmdUNU1WMVZaMDdsY0Z6QW1jMFF2R05rVVBGQlZXRUtP?=
+ =?utf-8?B?N1JYa2xLZFMxbDdWM1J1eEwzdHUyTDd1ZGxqT1FJUGhlMENhYlZGL1ZnOGJK?=
+ =?utf-8?B?K2xKWjZLWGQ4dXpiUlJpYkY2QTcvWTlXTldJYXM4OE1UYlRmV1VBcnREeVhl?=
+ =?utf-8?B?bEhSZEI3cnFJNFBEZHgwVzFCUUo0YlhvR1hPR3Jtc2thLzJvVURTakpwYW14?=
+ =?utf-8?B?dnEzN21BK3NhVzNaSFp6MFgwWkZMK0Jsdi9sVlIxMS9JREpSTjhqUkJpaGlX?=
+ =?utf-8?B?NllCUlJaaVBad2x6Z3VJN3M5aE91WkdoSzY3OVB3OWlGWWVwS3FVZ0ZPcDM4?=
+ =?utf-8?B?NXJ2Wityc05QbWZSS2c1Z3Vjb1RneVJLY1M3Lzdha29iaHpUVWx3OGt4N2Q0?=
+ =?utf-8?B?eTRBNXVGd0J0dElGRXdVZWtCM204SjJSazVnY2o2Nlk3UVM3UzFtYzlHbjEy?=
+ =?utf-8?B?ZGcwUGs5MmJINnRrVzV3QVlTdDMrb25GM1BVZjRZQW5TczBSV0NUQ2ZvaGVC?=
+ =?utf-8?B?OEpHT0lhM1NGUW9ETmswcFJtS2U3NWF0OG52MW81VDBMazF3akM0Ymw1Nm5o?=
+ =?utf-8?B?YjRDT0FlbWtSS094cXZzM05RRXZxb2tRVEttdTBncWtLZTBJbWdRRzJCK29T?=
+ =?utf-8?B?RFMwVWtZTTk0UCtNL1hPK3ppdWZ6NTRVY2lML0pqaytGeGsrRWw1Wnc4K3dp?=
+ =?utf-8?B?a1VsRkxpSVBDK1kyZFUvT0xDZ0VrdXhENTIydXZycnhLQVN2am5LQjdsUEMw?=
+ =?utf-8?B?RDM4cXJJaEpHRXBjcUFXOHVTLzV0MjNKV1IrK3VZVVRMRHRhVTJEM1pyWDJD?=
+ =?utf-8?B?NnJhY01UZVFMaWVrYWZHODU0ZjUrK3FWNFNSMWFITnhuanNtYmJaQm1PR2Jr?=
+ =?utf-8?B?VXM1NDUxK2hNUFBXMW5vM09mcmRpaklnZWpSc05FWlFnT1FxTUhBVW1ycUM2?=
+ =?utf-8?B?MEloQVhNMTArejFRZkFxVEtYMkx2TmdkNXdnZjRoNzBBUXljdlhHQ05ROE1p?=
+ =?utf-8?B?VFdLbk1WWnhXcGNIRUtVSU5lbFpmRkttSStCaXNTWGg0d2xiajJzS2c5em5Y?=
+ =?utf-8?B?K0ZGbDVIcWltYkpPQVk1bHFwd05iSXU1WGZ5SStXbFNVZDBHUk1SQVN5Nldo?=
+ =?utf-8?B?RzFWNTloVCtUcXZZSjdkTGZNVHUxUzdFcFc1WGdmRzQ4dkx1aUJBdGRaZ0V4?=
+ =?utf-8?B?WnRROVNqT1ZqRmVOV0pndnMzM1IxNzJkSGxaTjUvQTFXV3dST3g1S1R6MGxQ?=
+ =?utf-8?B?MjBiSEd5eHZub2hiY2M0czY5M2FEL3c4UjJtdjlDbGZxODRzOTlyV1VuaHVj?=
+ =?utf-8?B?R1U0NkxpZ2g4a2xYcFpHNVZDSm8zS3BObU83N0w2QzYyL0owczhDc2luOGtL?=
+ =?utf-8?B?dFVlQTVSSDl0UFMxVTNTMHlWTWtwaFRUMEwzeERuZ29zTEQvQ05uemRTeEVV?=
+ =?utf-8?B?TFpQSW9TTStMalJHVVc4ZnFaa1VWM2tiNVdhcTdXTmQva0l1S2JpTGlOMHFN?=
+ =?utf-8?B?TmZSZjVhd21HTjF1T1B1M0RWb3Qvc2xWTDhNdHd6R0dSNW1lbEkrUlE5SkN6?=
+ =?utf-8?B?VGFrT1d3ZmUrMjFUNGpKUWRaQ2FVV3Z0dTNxdU9CWG5NR0hEcis1a1l6RDVP?=
+ =?utf-8?Q?eicRKpKWOaxenhmO8RQeUSn9u?=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(376014)(61400799027)(13003099007)(4076005);DIR:OUT;SFP:1102;
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2025 16:54:59.8449
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e5e9b8d8-dd1a-4731-e5ac-08de3cc3d9a3
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH1PEPF0000AD80.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR19MB6424
+X-Authority-Analysis: v=2.4 cv=ZZUQ98VA c=1 sm=1 tr=0 ts=69418ef0 cx=c_pps
+ a=y4zkFa5omBjxxVHSBTJAWA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=NEAV23lmAAAA:8 a=C0xalKkFgr1QH9JCWd0A:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE2MDE0NSBTYWx0ZWRfXzqLxW8WtRdv4
+ DXUrnQFRzAjAJfNkn7pEiIdNfc6+vJOKAObEP1Td5GD5/DFhzfHL74TPO2qdP3r48G8b/MfRBgU
+ s16OkPr7dm3Hk/MUU5dbkgkdNqWMmOPSrQ4TVWi5T5fBxqCWfmVETKbeTbeVbYqHNoEJAEdfyqK
+ P/IKMD2fK6iSpC2Uvt4tZLxsGiapqckWs3YmMFCHJLfKMMnqTYcYvRIPF9dZfqXza4jLC6wpPR9
+ ubGAnkEWmSx+n6T4RTmorkVHcJajCi1zTakWD1vWcvuLwPwXgP+8Xsyo+BhQ6AN2Wwh1ZQGifUA
+ 1nDDzBbzj+ny02GVhlM8UeTc4fWekY51HFV9+ZvETX615sU1QU2n1FbMVGqbtbphhcHKq0vJmoG
+ fK5DhABpGpowucPtZQzWFunYgUZCmw==
+X-Proofpoint-ORIG-GUID: XfPVbS6Es1hYnSF_MdD0JUE0Au-xP9x-
+X-Proofpoint-GUID: XfPVbS6Es1hYnSF_MdD0JUE0Au-xP9x-
+X-Proofpoint-Spam-Reason: safe
 
-Merged and pushed out.
+We would like to add and update firmware files for Cirrus Logic Smart Amp CS35L41 for HP Clipper and Trekker laptops.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/825
+Thanks,
 
-josh
+Stefan Binding
 
-On Tue, Dec 16, 2025 at 4:43=E2=80=AFAM Korenblit, Miriam Rachel
-<miriam.rachel.korenblit@intel.com> wrote:
->
-> Hi,
->
-> This contains the firmware of core101 for all our supported devices
->
-> Please pull or let me know if there are any issues.
->
-> Thanks,
-> Miri
-> ---
->
-> The following changes since commit 6c60d1128566f8cc9c3ddd7ad1db7adec824f7=
-1b:
->
->   Merge branch 'amd-staging' into 'main' (2025-12-12 14:41:29 +0000)
->
-> are available in the Git repository at:
->
->   http://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.g=
-it tags/iwlwifi-fw-2025-12-16
->
-> for you to fetch changes up to 0a041632c1564a6acf6d2b9ab7cbc64474a2c323:
->
->   iwlwifi: add Bz/Sc FW for core101-82 release (2025-12-16 11:03:08 +0200=
-)
->
-> ----------------------------------------------------------------
-> Relase core 101
->
-> ----------------------------------------------------------------
-> Miri Korenblit (4):
->       iwlwifi: update cc/Qu/QuZ firmwares for core101-82 release
->       iwlwifi: update ty/So/Ma firmwares for core101-82 release
->       iwlwifi: Add Sc/Gf firmware for core101-82 release
->       iwlwifi: add Bz/Sc FW for core101-82 release
->
->  WHENCE                                       |  48 +++++++++++++++++++--=
-------
->  intel/iwlwifi/iwlwifi-Qu-b0-hr-b0-77.ucode   | Bin 1406572 -> 1406572 by=
-tes
->  intel/iwlwifi/iwlwifi-Qu-b0-jf-b0-77.ucode   | Bin 1323292 -> 1323292 by=
-tes
->  intel/iwlwifi/iwlwifi-Qu-c0-hr-b0-77.ucode   | Bin 1406588 -> 1406588 by=
-tes
->  intel/iwlwifi/iwlwifi-Qu-c0-jf-b0-77.ucode   | Bin 1323308 -> 1323308 by=
-tes
->  intel/iwlwifi/iwlwifi-QuZ-a0-hr-b0-77.ucode  | Bin 1406716 -> 1406716 by=
-tes
->  intel/iwlwifi/iwlwifi-QuZ-a0-jf-b0-77.ucode  | Bin 1323376 -> 1323376 by=
-tes
->  intel/iwlwifi/iwlwifi-bz-b0-fm-c0-c101.ucode | Bin 0 -> 2239444 bytes
->  intel/iwlwifi/iwlwifi-cc-a0-77.ucode         | Bin 1368096 -> 1368096 by=
-tes
->  intel/iwlwifi/iwlwifi-gl-c0-fm-c0-c101.ucode | Bin 0 -> 2222248 bytes
->  intel/iwlwifi/iwlwifi-ma-b0-gf-a0-89.ucode   | Bin 1752072 -> 1752580 by=
-tes
->  intel/iwlwifi/iwlwifi-ma-b0-gf-a0.pnvm       | Bin 55128 -> 55096 bytes
->  intel/iwlwifi/iwlwifi-ma-b0-gf4-a0-89.ucode  | Bin 1604120 -> 1604620 by=
-tes
->  intel/iwlwifi/iwlwifi-ma-b0-gf4-a0.pnvm      | Bin 27836 -> 27820 bytes
->  intel/iwlwifi/iwlwifi-ma-b0-hr-b0-89.ucode   | Bin 1539788 -> 1539788 by=
-tes
->  intel/iwlwifi/iwlwifi-sc-a0-fm-c0-c101.ucode | Bin 0 -> 2305636 bytes
->  intel/iwlwifi/iwlwifi-sc-a0-gf-a0-100.ucode  | Bin 0 -> 1810548 bytes
->  intel/iwlwifi/iwlwifi-sc-a0-wh-b0-c101.ucode | Bin 0 -> 2209076 bytes
->  intel/iwlwifi/iwlwifi-so-a0-gf-a0-89.ucode   | Bin 1736108 -> 1736616 by=
-tes
->  intel/iwlwifi/iwlwifi-so-a0-gf-a0.pnvm       | Bin 55208 -> 55176 bytes
->  intel/iwlwifi/iwlwifi-so-a0-gf4-a0-89.ucode  | Bin 1590688 -> 1591588 by=
-tes
->  intel/iwlwifi/iwlwifi-so-a0-gf4-a0.pnvm      | Bin 27876 -> 27860 bytes
->  intel/iwlwifi/iwlwifi-so-a0-hr-b0-89.ucode   | Bin 1526956 -> 1526956 by=
-tes
->  intel/iwlwifi/iwlwifi-ty-a0-gf-a0-89.ucode   | Bin 1678176 -> 1678684 by=
-tes
->  intel/iwlwifi/iwlwifi-ty-a0-gf-a0.pnvm       | Bin 55052 -> 55020 bytes
->  25 files changed, 34 insertions(+), 14 deletions(-)
->  create mode 100644 intel/iwlwifi/iwlwifi-bz-b0-fm-c0-c101.ucode
->  create mode 100644 intel/iwlwifi/iwlwifi-gl-c0-fm-c0-c101.ucode
->  create mode 100644 intel/iwlwifi/iwlwifi-sc-a0-fm-c0-c101.ucode
->  create mode 100644 intel/iwlwifi/iwlwifi-sc-a0-gf-a0-100.ucode
->  create mode 100644 intel/iwlwifi/iwlwifi-sc-a0-wh-b0-c101.ucode
+The following changes since commit 03912c51ac907052f5d8f4bf6ccd987410479e80:
+
+  Merge branch 'qcom-gpu-fw' into 'main' (2025-12-16 12:14:32 +0000)
+
+are available in the Git repository at:
+
+  https://github.com/CirrusLogic/linux-firmware/ cs35l41-20251216
+
+for you to fetch changes up to fe9e5c89d5e8931e5c660713029f8ee85a6404f8:
+
+  cirrus: cs35l41: Update firmware and tuning for various HP laptops (2025-12-16 16:51:36 +0000)
+
+----------------------------------------------------------------
+Stefan Binding (2):
+      cirrus: cs35l41: Add support for new HP Clipper laptop
+      cirrus: cs35l41: Update firmware and tuning for various HP laptops
+
+ WHENCE                                           |   6 ++++++
+ cirrus/cs35l41-dsp1-spk-prot-103c8e11-spkid0.bin | Bin 4804 -> 4852 bytes
+ cirrus/cs35l41-dsp1-spk-prot-103c8e11-spkid1.bin | Bin 4796 -> 4852 bytes
+ 3 files changed, 6 insertions(+)
+
