@@ -1,180 +1,150 @@
-Return-Path: <SRS0=I+Da=7C=fours-fze.com=commercial2@kernel.org>
+Return-Path: <SRS0=4Hsh=7C=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F763D3B7E5
-	for <linux-firmware@archiver.kernel.org>; Sun, 28 Dec 2025 13:43:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37C5BD3B7E5
+	for <linux-firmware@archiver.kernel.org>; Sun, 28 Dec 2025 14:05:11 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id D94EFC4CEFB; Sun, 28 Dec 2025 13:43:55 +0000 (UTC)
-Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	id 058EDC4CEFB; Sun, 28 Dec 2025 14:05:11 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id C02BCC113D0
-	for <linux-firmware@kernel.org>; Sun, 28 Dec 2025 13:43:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C02BCC113D0
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fours-fze.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=fours-fze.com
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-64472121ad5so4996642d50.0
-        for <linux-firmware@kernel.org>; Sun, 28 Dec 2025 05:43:54 -0800 (PST)
+	by smtp.kernel.org (Postfix) with ESMTPS id 8ACD8C16AAE
+	for <linux-firmware@kernel.org>; Sun, 28 Dec 2025 14:05:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 8ACD8C16AAE
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BS6AGLc2093358
+	for <linux-firmware@kernel.org>; Sun, 28 Dec 2025 14:05:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=ugrvxXR35YW9JUlVvf1+Ke+e
+	4pbkY6woYDMu04/14GU=; b=iA5HDRmpgbJVVW9Q3T1+NODje0VRHzw15wA285i+
+	Zs0ar4xqa3cOHFpTmMermRCvWz/R7fn/JNoAJnqblOwZY4S/14nxo3NhV7vSwOZk
+	OW8TdeGjzdmDQkvxlTOYk+CXJaptOrp2FmuV8k9rzFicopMKQ7MLrCSZRgsys8V1
+	RykUrefHkkznZFIj/3GRH/TcPf5M4VRLqoJQoYLFia9ag0F2Ui3yymlSjqEDoNdG
+	vvn8tF/aAk1/VBzChl0YaT7vESKOG66VzTSMegmJuHbYoP+nGGdo8wP5nQyKc1Th
+	KTCfzoXNRnmZKEeNQMMNXuXYb+aphAOq7VFfbbl8rWQp4Q==
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com [209.85.222.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ba87bt85u-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-firmware@kernel.org>; Sun, 28 Dec 2025 14:05:08 +0000 (GMT)
+Received: by mail-ua1-f71.google.com with SMTP id a1e0cc1a2514c-94120e0acbdso9323327241.1
+        for <linux-firmware@kernel.org>; Sun, 28 Dec 2025 06:05:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fours-fze.com; s=google; t=1766929433; x=1767534233; darn=kernel.org;
-        h=to:subject:message-id:date:references:in-reply-to:reply-to:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=fWIdbz/bq65a7J62oMKXywFIudw8hcuM6O+r3FTxTag=;
-        b=U2DNkR5GJGioxDGd7bP1OodzspDpwmSSTPfdHxJH+rjKHgptmm90ZRrmGQUGgOynId
-         CQLb9j2bwt8Dl6hwRrLlRY8TdJEJFbImJyfN2UgszLp7xSKO9tj2PCsMMErnIUdsF/vr
-         GOzSjEpIuzlzyNgPkZBE8z+my73kmnVZz9jlutQZiSqod0OwyfyYiHpKqzaWcfoq36/V
-         DiUUxDpsBmdYX8N098v61gkO8j4vFkbH7Fb4DrF1vTrqoI4gKZfPBhDik2nicfH7nnw3
-         PMyT5bD0qsDUcRm6kg3F5u1lkUx/mLN/b/6AQMtjzmHHgUFcSntjLbgmeE+XwHlwvR/a
-         hbtA==
+        d=oss.qualcomm.com; s=google; t=1766930707; x=1767535507; darn=kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ugrvxXR35YW9JUlVvf1+Ke+e4pbkY6woYDMu04/14GU=;
+        b=CpfWEICdQ0fsvnmh+DN2mvB241BXx3DE9sw++0LfItFSlzWreDdSlrg8BF1IqfJwRT
+         /sMOINANcHBiggQOCTTqmkz7PsaPGrtWWNABbVmiB2hgN1JVJQJ9q12f/xTt2U5WDnk7
+         Ef1qgyylvdwc+mRdmOexrTkIlQYt4KXryl+R2U596/GngDejUa2ComYC42uPGCEzTeJ3
+         ldskGLWgHMI525Alfw//Zpilq2t9joC99A9V81cuJwqTCDe97linVY5L3bReAh2sTV/e
+         i/OdhgDXtLzth6DVZbdvM+ReAEq80dryH3RqmphaT1aKAXbRIan+/Y13LRHI07Wssk7O
+         wtIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766929433; x=1767534233;
-        h=to:subject:message-id:date:references:in-reply-to:reply-to:from
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fWIdbz/bq65a7J62oMKXywFIudw8hcuM6O+r3FTxTag=;
-        b=onjehVy71qMu+WDC0eHRjjQf9VqMTWw1J51Cd6P5y8xgvaqgU6o86xeUeGsjuQDtp7
-         +h5GAcu20JbdPIYm+Bmyqtp1lGj3tO1l6ZOn7mE6dm6UCYH/IqkvlO01sWlq/JV5Pi2m
-         Hy6jgiElMnNIbHd6iCFSH3dqNTtS+rH788zl+qBW7cUiey9aHi8cF+RqEsBuTz9O+P9W
-         zk/+aoDfH48EBeFsdYbSuhbKbR4ENuAAx92nqUve+c0geZCTb7jlbSHvEuYvWirjIveO
-         14w/dCSDnnpHXquLjex1JTq4Xxjj5mBw/R3DO58Dqq3T9dZy9UY0CxxQze7X2MsPEpKO
-         TdCg==
-X-Gm-Message-State: AOJu0YxA9fMgTWXzLqN2lewzl5D49GGVVg5jpuJ3zq0AxAybRMp9JqhL
-	qqRWzzaIVtQxCpgP/eykw5TGe1AhOAc0tyds9PUt5jGh32HeMpSb26fHsM2cXrfXX0oYB30Ea2H
-	mYmdP9ALkLAwSIgYIW49zHRQUFi2hnRfSIT45K0cC7Xg2I8kvk05o0mMrl0jQyoYrjE3OOx9FFb
-	LbJcYqqP9d2pKOq2lnAE8HGMB7nOpOjDEt3ATz+olW7w==
-X-Gm-Gg: AY/fxX6OoFgI9ScWEusyXSkECU/txD14Nl+B01HLw/Y4gMdvnO+FxaEu/1egd9PY/+J
-	rNY3fk5St4TIRQIFQ3+gFbL106eF7WFAi72h4V8BK12XLGXK023nazjXVbl2TsQuqeOzi/3eyiJ
-	u0/0YRMp8zEvLLpN5kt+dB+qaBiZWmIFq2Y6QM+MoPy8SGbbSL4hf6ScrXPkQLZFS7TfCxlEHI9
-	OtiWbqiI6kUIaFN+O4Y3LrJPg5uuISHTzMSm5+mG5i+hap1AE9tjwnSpK4tudzDZwNDog==
-X-Google-Smtp-Source: AGHT+IEl+Gxk3DiNYMVqrA83v+fZ83FZHM5MuMAJt+jwMH+Zy2j1cbre+ye/UdQuayPRYbVROcpiuK/j5qFpdNzdDHo=
-X-Received: by 2002:a05:690e:4190:b0:644:7a37:e8bf with SMTP id
- 956f58d0204a3-6466a8a5cc8mr21174677d50.55.1766929433156; Sun, 28 Dec 2025
- 05:43:53 -0800 (PST)
-Received: from 776393159873 named unknown by gmailapi.google.com with
- HTTPREST; Sun, 28 Dec 2025 08:43:51 -0500
-Received: from 776393159873 named unknown by gmailapi.google.com with
- HTTPREST; Sun, 28 Dec 2025 08:43:51 -0500
-Received: from 776393159873 named unknown by gmailapi.google.com with
- HTTPREST; Sun, 28 Dec 2025 08:34:22 -0500
-Received: from 776393159873 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 24 Dec 2025 02:42:26 -0500
-MIME-Version: 1.0
-From: Commercial - Four Seasons FZE <commercial2@fours-fze.com>
-Reply-To: commercial2@fours-fze.com
-In-Reply-To: <CALc6dXQKf74GxwG5nKWB0L9PPx-=hyr6WMfsqtFE6AA4C9ftRw@mail.gmail.com>
-References: <CALc6dXQKf74GxwG5nKWB0L9PPx-=hyr6WMfsqtFE6AA4C9ftRw@mail.gmail.com>
-Date: Sun, 28 Dec 2025 08:43:51 -0500
-X-Gm-Features: AQt7F2rf_1Zf9Ufn-ITDb745kSuuqvlUpnhk3ADXWKG9nqXAN7x0I2-PeaFIHi4
-Message-ID: <CALc6dXTKLvn80UvTOY13AOz6rn4b3=C9F5Xr-2KngvNwQxQy6g@mail.gmail.com>
-Subject: Re: Metal Scrap Needed: FOUR SEASONS FZE Inquiry
+        d=1e100.net; s=20230601; t=1766930707; x=1767535507;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ugrvxXR35YW9JUlVvf1+Ke+e4pbkY6woYDMu04/14GU=;
+        b=tyeyhTOGtTAfVuaRYnGDeAFFkePpKjvAcrF8M0BJbAzKouZuWD4kDukoMtXlfd1AU3
+         Cf/B3SSlasWBes0Qbu4yQu3wmjPcepGR+GJKJWyrOR+hKKSDPhb4/C3JGCfUIa9Iol7X
+         c+b5wd8Uo2HOze7wUFlUJK4fBpa5ZwhTK2B1AMZuYjwmsjboeDPmrQSgLZIpsfz63j85
+         lqVDSU3twPh9tA27BY4If2HcTfC/YPWzt6INLQ+WNRiJLn584rdFJkCH7vuaxuC3M6pQ
+         YccJ0z9rumLGiITNwkQd0l7K3XtGRwYfA7BgfWKZqE3FIdZ1XloYEd5Yc9EZ5QEs/q+n
+         QT0A==
+X-Forwarded-Encrypted: i=1; AJvYcCWX2Xk9Fdzfo3b91WvZWTnRsUTiu35kpjbwMaOppWFbupxSELiFWAkFXWZNR3xYph+BPQ3klT4nEWS3erd3tw==@kernel.org
+X-Gm-Message-State: AOJu0Ywuxbittif1lEHDZ0E9x+R6uh6u7J0WKLakxOFdMALqBL4o4vqx
+	wPAKeqHUNB8DCpFyNYDlNywEK4myfrxow/PobmaUqMQh8fNx6vzEDgdI28fdHAF4aJ+8Pvgg+DY
+	m0y5gG7iowiUOUocbcEs3OTtgT2G3oJ+yBlGYgbyLgRsmcyzhInQJpHDbvtpA6XE8MB/+Idc=
+X-Gm-Gg: AY/fxX4kdvJ4XsMpBv0LBwRJLLlVmiCFzPZtGGSg/9IS3GkX1saHDEeAXaQiT9aSfEa
+	LzAq57eAMjU1LqkxjnIJLoouL3hMXbygBpo/vgCdN7+t03yFhfwt8XJd90TF7cdoJ8FedVFUK/A
+	t3e8z1nHVMieXwgFN/O42jRNdwGeOomC9msrRs3YbRLpqK+v/nARLXNLfjKsAT3YtjRf579/xTY
+	+QB7IplllLtIFVacVVUjqtCC+AuWuUKTUB/6dOdSX+GSA8gartWwjD/l+YCBszjrf5lCF700ewz
+	LPpVpjtLUluu9hmE9CGrbiUQ8PPFpnYy5Ijlxt3vLDFYYOAwU7LnAS/VSvxIo4Noiijd2kQmUcb
+	E0mrB5yzMu88ozhKiGuj8EV+3rdMda/PnhylVPjCyOxVDtr6KzNfCFRxsSmpg6EvOc0GBNZLiMy
+	4A0JtMzbAUTQ+GarNSGI9C504=
+X-Received: by 2002:a05:6102:2c14:b0:5db:d60a:6b24 with SMTP id ada2fe7eead31-5eb1a7cdb04mr7039360137.22.1766930706906;
+        Sun, 28 Dec 2025 06:05:06 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFpJiqH3Qfc6zG8knsMUNSPkSkwqqlAEEkjhU9eH5LBdZBmZSRUJC7TEC/wb+ZdftiRv/VwQA==
+X-Received: by 2002:a05:6102:2c14:b0:5db:d60a:6b24 with SMTP id ada2fe7eead31-5eb1a7cdb04mr7039352137.22.1766930706447;
+        Sun, 28 Dec 2025 06:05:06 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59a185d5ef1sm8102267e87.2.2025.12.28.06.05.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Dec 2025 06:05:04 -0800 (PST)
+Date: Sun, 28 Dec 2025 16:05:02 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: "Lucien.Jheng" <lucienzx159@gmail.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Content-Type: multipart/alternative; boundary="00000000000034ec7a0647035115"
+Cc: jwboyer@kernel.org, linux-mediatek@lists.infradead.org,
+        linux-firmware@kernel.org, lucien.jheng@airoha.com,
+        joseph.lin@airoha.com, albert-al.lee@airoha.com
+Subject: Re: [PATCH_v2] linux-firmware: add firmware for an8811hb 2.5G
+ ethernet phy
+Message-ID: <carcf73gefo65hgsdvvyg5o4grh5tg4a6hxrcn6ejl3ellemii@ryv56s2lbede>
+References: <20251225163003.4797-1-lucienzx159@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251225163003.4797-1-lucienzx159@gmail.com>
+X-Proofpoint-ORIG-GUID: 9C0S1p7Yti9j3N-u4jbrR1lIdDSNaF_p
+X-Proofpoint-GUID: 9C0S1p7Yti9j3N-u4jbrR1lIdDSNaF_p
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI4MDEyOSBTYWx0ZWRfX805oNKfMcAnO
+ DurJdJN4cbguk3ZOn/d2Vk00ghVCnWnygf2Sr6gljSaTtv77XnvtMIp6Z2huyDiUhkkPVWZo6M7
+ /WcoBm/X9VMienwLk8il3D8qr10XlNJsy2sQoCefxa2ZnnbWfY/Z+pDL6tl0++jK6/D6AD3HXi+
+ Qr6ENd4hxZ41SIpJJM0GGm/z4vhlc80cv6hB2l13pp6IKIrbZA3OhcMj4UcqcSWJVN2WUdYUhIu
+ EPnmMpCVXVj34Onbbqa7QYbO5tJZHo1iTmgMt8trbkFVBJyFlx1ERfdo3xS/7+svQ/OsjFwrWF0
+ YYr12D4xyH7eI+ZsB9/9TBqhh1uTt6sg6nzkgf+uT7/QMY0Bp04ATcL027B9d6AN0oECuA12WLB
+ X52pgZsxxNx3poUFi7CTXb01raCZ8QG2hfRoyZmrPO+1aukIU/TFRtasW5wvTUNa3/OpreDzcIO
+ TZOczhg4cXkj5i6zTGQ==
+X-Authority-Analysis: v=2.4 cv=do7Wylg4 c=1 sm=1 tr=0 ts=69513914 cx=c_pps
+ a=KB4UBwrhAZV1kjiGHFQexw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=JGXwu8-eAAAA:8 a=o5e4f_8DYfgMdY4lUuEA:9 a=CjuIK1q_8ugA:10
+ a=o1xkdb1NAhiiM49bd1HK:22 a=-p01NfQuWD51nzoNXB_L:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-28_05,2025-12-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 malwarescore=0 bulkscore=0 clxscore=1015 lowpriorityscore=0
+ adultscore=0 spamscore=0 suspectscore=0 phishscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512280129
 
---00000000000034ec7a0647035115
-Content-Type: text/plain; charset="UTF-8"
+On Fri, Dec 26, 2025 at 12:30:03AM +0800, Lucien.Jheng wrote:
+> From: "Lucien.Jheng" <lucien.jheng@airoha.com>
+> 
+> Add binary firmware for an8811hb 2.5G Ethernet PHY
+> 
+> File: airoha/an8811hb/EthMD32_CRC.DM.bin
+> File: airoha/an8811hb/EthMD32_CRC.DSP.bin
+> Version: 25110702
+> 
+> Signed-off-by: Lucien.Jheng <lucien.jheng@airoha.com>
+> ---
+>  WHENCE                              |  14 ++++++++++++--
+>  airoha/an8811hb/EthMD32_CRC.DM.bin  | Bin 0 -> 32768 bytes
+>  airoha/an8811hb/EthMD32_CRC.DSP.bin | Bin 0 -> 131072 bytes
+>  3 files changed, 12 insertions(+), 2 deletions(-)
+>  create mode 100755 airoha/an8811hb/EthMD32_CRC.DM.bin
+>  create mode 100755 airoha/an8811hb/EthMD32_CRC.DSP.bin
+> 
 
-Hello,
+> 
+> diff --git a/airoha/an8811hb/EthMD32_CRC.DM.bin b/airoha/an8811hb/EthMD32_CRC.DM.bin
+> new file mode 100755
 
-I hope this message finds you well. We wanted to check in regarding our
-last email about our requirement for scrap metal.
+E: airoha/an8811hb/EthMD32_CRC.DM.bin incorrectly has execute bit
+E: airoha/an8811hb/EthMD32_CRC.DSP.bin incorrectly has execute bit
 
-If you have had a moment to look over the details or if there's another
-person we should reach out to for this topic, please let us know.
-
-We appreciate your attention to this and look forward to your response.
-
-On Thursday, December 25, 2025 at 8:26 AM, Commercial - Four Seasons FZE <
-commercial2@fours-fze.com> wrote:
-
-> Greetings,
->
-> This is Anshul Goel representing Four Seasons FZE.
->
-> We are looking to acquire the following materials:
-> 1) Drill bit scrap
-> 2) Tungsten scrap
-> 3) HPGR roll scrap
-> 4) Platinum scrap (Pt)
-> 5) Palladium scrap (Pd)
-> 6) Rhodium scrap (Rh)
->
-> Could you please inform us if you are able to provide these items, along
-> with:
-> Images.
-> Available quantity.
-> Your best FOB pricing.
->
-> [image: Metal Scrap.jpg]
->
-> click here to unsubscribe
-> <https://fours-fze-com.qmailroute.net/x/u?u=b1c1175f-e986-4234-87da-b6bba9b51985>
->
+> index 0000000000000000000000000000000000000000..0df4bb8ba5b3f6fe5ea209363625fb53367cf7f9
 
 -- 
-*Your Prompt response will be highly appreciated.*
-
-
---
-
-
-*
-*
-
---00000000000034ec7a0647035115
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hello,<br><br>I hope this message finds you well. We wanted to check in reg=
-arding our last email about our requirement for scrap metal.<br><br>If you =
-have had a moment to look over the details or if there&#39;s another person=
- we should reach out to for this topic, please let us know.<br><br>We appre=
-ciate your attention to this and look forward to your response.<div class=
-=3D"gmail_extra"><br><div class=3D"gmail_quote">On Thursday, December 25, 2=
-025 at 8:26 AM, Commercial - Four Seasons FZE &lt;<a href=3D"mailto:commerc=
-ial2@fours-fze.com">commercial2@fours-fze.com</a>&gt; wrote:<br><blockquote=
- class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
-d;padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div=
- dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D=
-"ltr"><div dir=3D"ltr"><div><div>Greetings,<br><br>This is Anshul Goel repr=
-esenting Four Seasons FZE.<br><br>We are looking to acquire the following m=
-aterials:<br>1) Drill bit scrap<br>2) Tungsten scrap<br>3) HPGR roll scrap<=
-br>4) Platinum scrap (Pt)</div><div>5) Palladium scrap (Pd)<br>6) Rhodium s=
-crap (Rh)<br><br>Could you please inform us if you are able to provide thes=
-e items, along with:<br>Images.<br>Available quantity.<br>Your best FOB pri=
-cing.<br><br></div><div><img src=3D"https://gmagimg.s3.us-west-2.amazonaws.=
-com/UI/2430920/Metal%20Scrap.jpg" alt=3D"Metal Scrap.jpg" width=3D"192" hei=
-ght=3D"192" style=3D"margin-right:0px"><br></div><div><br></div><div><a hre=
-f=3D"https://fours-fze-com.qmailroute.net/x/u?u=3Db1c1175f-e986-4234-87da-b=
-6bba9b51985" target=3D"_blank">click here to unsubscribe</a></div></div></d=
-iv>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><img src=3D"https://fours-fze-com.emailroute.net/AlH_SJcbbUQ_26C7FjIZ=
-GOGOIzSQZ9Bm6q_sqacTAmu2RWKlFZn3_J0Qj8WZe8LFsKPurjVSjyseTuU27e8wGDrF0CjXgD_=
-ZcKq6p0Zr2AFOTCVsu5jtSE7qvfwssHG54sJSpfZ4XwDIqnIWIX_Os0WpcidPV5H2fbAUBOYOcc=
-IajgmI4BAP1Awiz4LOI2wemh" alt=3D""></div></blockquote></div><br></div><img =
-src=3D"https://fours-fze-com.emailroute.net/ANahNsNPPvjniM5YYOGcgLVWtC-zziW=
-kaG2XhA40mxgYnLmdKvvjxF5fPHYyGF-fdI3hu3XKaQwTGmT5OLDXL3qO-GtcRjjYQetGfmweuN=
-mvTz9dAcjis8bqTOqnqR0mEZnkCLUK0FZtttx_noKlrewd9UhqKSDdwHaPPm0PCoEajgmJ3Bk4b=
-MiwGZFaslIFkX02Gz0iAawh8SJqtg6esSDVras_xBK" alt=3D"">
-
-<br>
-<div style=3D"font-family:Arial,Helvetica,sans-serif;font-size:small;color:=
-rgb(34,34,34)"><b>Your Prompt response will be highly appreciated.</b></div=
-><div style=3D"font-family:Arial,Helvetica,sans-serif;font-size:small;color=
-:rgb(34,34,34)"><br></div><div style=3D"font-family:Arial,Helvetica,sans-se=
-rif;font-size:small;color:rgb(34,34,34)">--</div><div style=3D"font-family:=
-Arial,Helvetica,sans-serif;font-size:small;color:rgb(34,34,34)"><img src=3D=
-"https://www.foursfze.com/img/FSFSIGN.png"><br></div><div style=3D"font-fam=
-ily:Arial,Helvetica,sans-serif;font-size:small;color:rgb(34,34,34)"><b styl=
-e=3D"font-size:x-small"><br></b></div>
---00000000000034ec7a0647035115--
+With best wishes
+Dmitry
