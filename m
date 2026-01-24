@@ -1,860 +1,433 @@
-Return-Path: <SRS0=dJZM=74=opensource.cirrus.com=prvs=24836de667=simont@kernel.org>
+Return-Path: <SRS0=dupK=75=jy.d.sender-sib.com=bounces-hd31i-contact=careersamrat.com@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DF2CBD74EEC
-	for <linux-firmware@archiver.kernel.org>; Fri, 23 Jan 2026 15:37:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 157E7D715E9
+	for <linux-firmware@archiver.kernel.org>; Sat, 24 Jan 2026 13:55:30 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B0341C19421; Fri, 23 Jan 2026 15:37:21 +0000 (UTC)
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	id D0222C16AAE; Sat, 24 Jan 2026 13:55:30 +0000 (UTC)
+Received: from jy.d.sender-sib.com (jy.d.sender-sib.com [77.32.148.103])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 386DDC4CEF1
-	for <linux-firmware@kernel.org>; Fri, 23 Jan 2026 15:37:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 386DDC4CEF1
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60MNN2G54011220
-	for <linux-firmware@kernel.org>; Fri, 23 Jan 2026 09:37:18 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:message-id:mime-version:subject:to; s=
-	PODMain02222019; bh=iW0tvp+XBg4EXuCjdQEydqxzG8tRuIpoR7WghslwMCE=; b=
-	QmwNa4gUY25k8xZ2IpyNXYp5T7w7HOBGRhDr1aHFeCO/GlR4MDRfK4GlNxkjdjlq
-	U1N9cds7X0gc5BZ0dd/3tD/OIMTZcVOnymMylGvG7ELLV2CU0qvzzFuwsyHf+Ys6
-	2TdYTI5ikdwR7qDq15lV2RLC9qaLL+1K9kfskzvyy6wD4S8FHGvGsaLaj3LCsQqA
-	MHKPOlOImO0vyuZdSBoaPkSftPuarH25WTsSFiHkVX0DYcP+3zYCUfsXKUe3AeE1
-	7ZusPf9vKjYlnJY1l7Emxyf+0gjFhuA99YFXi221QvN2u3smH1BRk+peRklrqtzA
-	3OCllwOI796ngG6jmcqu7w==
-Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11020109.outbound.protection.outlook.com [52.101.193.109])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4br7qjywdm-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <linux-firmware@kernel.org>; Fri, 23 Jan 2026 09:37:17 -0600 (CST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LtE29V+zHzMd3VV1TeClh/gzIax8tlrs3uCZR+2vH4WLXbBcyOHFQ4IxA4QguvafaElniSz/0YIHjhNPrpI/ejrp1kUmsCEDK3GyR0C8+j1RxceIS4HtFQAZbDJrT2yb9q7LVm1Ncr16/YHaKsQowRsEHou8HYjnKn/adrpa+89JIFAkKuejEEWxpIuM+FeEpbRQ49K2kS7chTjnlSNPawW60aCs8lur2+jSuW7qas1ixC5nlQzdJiXhctKqPFCZNL+KWlNEZHOZScyY5viLU8PlmoWmWbBeGlm02OITPlgi/lYWRUiakAH54pcu96206NbgD1qhK3xSlHreyZ46aQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iW0tvp+XBg4EXuCjdQEydqxzG8tRuIpoR7WghslwMCE=;
- b=R4x3gjLqo9RyjpIuAwiAx6NGM78hAymR42RXT1KQrRdAHpqcPHxdjdr4Vp42EflOreTpimxv1azuFB/JWo3ELHWPkZ8ElNs8QoeNzW224paOLr4K65N0lcgiX6nyEegHJhlrtAOisNa4FKxuf4ERCSUgjRb5MMWPjpImMOfITFo0KsAVKzPEVzCL84rNMQG2c/L0LDC9O3x2kMI8GjE7b6Ru1GpFwWn0V1tIOI1dGJ+0YGNrvY22VuLU/bcZMUwo07CuK4HLM5+v3uRbdisoRBExmFJsJv6KetKgInkP1Mzq6KZw46Sw6wFE+1qIxKbJbTLQmynYUNHMdWc/b2Ha0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iW0tvp+XBg4EXuCjdQEydqxzG8tRuIpoR7WghslwMCE=;
- b=pPuzqsmomqGMSP/mOe5iD7KriSUci72CxMNOJww5lPdMUtQOgO9PiI5h69dHqLJ0q6yNT91+0Um6cIjqB/MSb8xx2L7TGzPW0xIYntFMerJHOO/Z1Rnqz/IdTYOPKyBsYzxA+OexaXM53PAP9QEsW5F1lFtqtuqSyUMJkNKGyec=
-Received: from SJ0PR03CA0297.namprd03.prod.outlook.com (2603:10b6:a03:39e::32)
- by DS7PR19MB4599.namprd19.prod.outlook.com (2603:10b6:5:2c0::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.9; Fri, 23 Jan
- 2026 15:37:13 +0000
-Received: from MWH0EPF000A6732.namprd04.prod.outlook.com
- (2603:10b6:a03:39e:cafe::4f) by SJ0PR03CA0297.outlook.office365.com
- (2603:10b6:a03:39e::32) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.11 via Frontend Transport; Fri,
- 23 Jan 2026 15:36:55 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
- does not designate 84.19.233.75 as permitted sender)
- receiver=protection.outlook.com; client-ip=84.19.233.75;
- helo=edirelay1.ad.cirrus.com;
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- MWH0EPF000A6732.mail.protection.outlook.com (10.167.249.24) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.3
- via Frontend Transport; Fri, 23 Jan 2026 15:37:12 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id A665A406540;
-	Fri, 23 Jan 2026 15:37:10 +0000 (UTC)
-Received: from EDIN6ZZ2FY3 (EDIN6ZZ2FY3.ad.cirrus.com [198.90.188.28])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 788E7820249;
-	Fri, 23 Jan 2026 15:37:10 +0000 (UTC)
-From: "Simon Trimmer" <simont@opensource.cirrus.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id DE089C116D0
+	for <linux-firmware@kernel.org>; Sat, 24 Jan 2026 13:55:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org DE089C116D0
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=careersamrat.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=jy.d.sender-sib.com
+DKIM-Signature: a=rsa-sha256; bh=eKDdrb7TP5p8W4CS7vB3FZ78tzLpPo5NUvYY+YWJu3Y=;
+ c=relaxed/relaxed; d=careersamrat.com;
+ h=to:cc:from:reply-to:subject:date:mime-version:content-type:list-id:list-unsubscribe:x-csa-complaints:list-unsubscribe-post:message-id:sender:x-sib-id:x-mailin-client:x-mailin-campaign:feedback-id:bimi-selector;
+ q=dns/txt; s=brevo1; t=1769262859; v=1;
+ b=OnVQfBYmY4v3edtpldlpLDkwtzzlVklB5xAi5u8QB+4CH/9pYCu2mTGg8S4sB+Tm+m9HvWW1
+ BhBOQjErbGAZax5tBeaSf+akMdVt/kJ/qCJ4gpqjgiLwngiqJr1Btu5l0OQyniFIwyfDb1mG3ZT
+ Kgft693FKNUk1IbTJM2saSmie9lzGb5uxS1otmx0PQpJxjYFE2vVda4r373LjJi/LHVNMJedovS
+ EUk7yghFXAE/pwZRTkQqLl/IKRzDhlk8zmP+/jAzMWh3p3AaFnM1MNb9H9+va54YpVPBro1qQEc
+ pM6Gc0nciJmloLsJPWjr98pDxhoB3Ie21/CzW3h74VQ2A==
 List-Id: <linux-firmware.lore.kernel.org>
 To: <linux-firmware@kernel.org>
-Cc: <patches@opensource.cirrus.com>
-Subject: [PULL v1 linux-firmware] Add firmware for Cirrus Amps and Codecs for some Dell and Lenovo laptops
-Date: Fri, 23 Jan 2026 15:37:10 -0000
-Message-ID: <00ba01dc8c7e$23a13e50$6ae3baf0$@opensource.cirrus.com>
+Subject: Website Review: Design & Functionality Improvements
+Content-Type: multipart/alternative; boundary="-------?=_22975-9412846294047"
+Date: Sat, 24 Jan 2026 13:54:19 +0000
+Feedback-ID: 77.32.148.103:9925346_47:9925346:Sendinblue
+From: Satendra Kanaujia <contact@careersamrat.com>
+List-Id: OTkyNTM0Ni0xMDQ2OC00Ng== <OTkyNTM0Ni0xMDQ2OC00Ng==.list-id.mailin.fr>
+List-Unsubscribe: <mailto:unsubscribe@jy.d.sender-sib.com?subject=unsub-26fqiv16sc63j&body=26fqiv16sc63j>,<https://hd31i.r.ag.d.sendibm3.com/mk/un/li/sh/1t6AVsdYhqSR1t1tLLl35U20Mjs5Rx/JfFkO9iOo1xH>
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_00BB_01DC8C7E.23A38840"
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AdyMfg2a9iiT6yGITPeDBv/vJySMfg==
-Content-Language: en-gb
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000A6732:EE_|DS7PR19MB4599:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0c7a6a76-6523-4da3-764c-08de5a954740
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|61400799027|36860700013|13003099007|54012099003|8096899003;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?OUUx8wZUywsHT/KWNeiTVTwPG9euxEz2ou3VDpeINjom6KuZSi9aQaB+ltHj?=
- =?us-ascii?Q?vO2B2+o67tpVsje6QH2eE92+oBZ8E9I/ZVbldb2F2BbZ4Qgh4Lj6hoKpIhG0?=
- =?us-ascii?Q?mlMj/DY+vq3qrHI63EXtiodyhcIvhs5mKA/2ffTihUREcouG3yoAeCI6JxrW?=
- =?us-ascii?Q?cb0nVcNu0kxyKlM6ntBDDB1Ym2D3q9RHVYLiogkpleX+G/jPFwkOcuN71VLR?=
- =?us-ascii?Q?Q52ZCOph7vA25dTfXt1D6kMNUUmabdmOSPeO4FScVNeCXfr5VsFRAEFgQCwg?=
- =?us-ascii?Q?Uur2Y4GvPcflXlEbAMWTtA117ZJPNIUQDlX2DLgCS1XYouU2swr6kyWjYirj?=
- =?us-ascii?Q?e4Az5VY7bwacMj12aEMqN4pQBHaZKYYoWGJyFb0gn7kHegOjhI3sYZBqO2Vy?=
- =?us-ascii?Q?WK8tfWibGC9LUwRsoWuzecfuGG9hLClm9KGgU9FvTJrFiyOUH12/XDCbFgcB?=
- =?us-ascii?Q?Nfg8Tcso+EJlrJJAj9Tq0USIbpyHLwFl3rXE3y5MW9EOwBDTbclZRwT7PEr5?=
- =?us-ascii?Q?s49aFLn7lgHjc06/HZrJlXf4Bglms4mFXqw6I20OXI8ItJ5X/8aMrzf5Pj6A?=
- =?us-ascii?Q?/e7nUw0fI/alBKx8i0mKEwGcLWNjhD9gJxblys77FvOrs5xMfbjokK7HLP7V?=
- =?us-ascii?Q?uMdVubBMG8n1SbEHw5S5FqdrbmxpAH6iYkwMMk+gJqArsJJO10N8A90c2RKJ?=
- =?us-ascii?Q?eTW3KoOIff8Mws634YErv9in+kaeMcZqt4u7H7R56IvY2d1Gv6ILo2ZUWsbP?=
- =?us-ascii?Q?FbM8qJVacxKUcM58faCuqmFtcuDr2ug+aco64e714+ipb4NVFKWYDkiXxMN0?=
- =?us-ascii?Q?6EjWmsNz308L8GOo1pEt/Hm94qQTZGmqK47ibPdooEytn2bgqmXiiPMDlR0d?=
- =?us-ascii?Q?XXsfNHV7t4ADYNyQx8xNHmyGjSTESJRulROzsKU/6hy5jxtxX3xnSaQ3RGy+?=
- =?us-ascii?Q?5/eK2ZyQ6zdN0xX19sC26szz5PP1Njs8xatOKJN/zVkn0m8co/RX5SZDvh1U?=
- =?us-ascii?Q?M+h0g28A0lX0huBVXJuz2mYvqguLfgxl71U4VeNxq+SFr6R/PzvfD8PkJuNS?=
- =?us-ascii?Q?L9wOc78zfDqCq9p/uBcWttb/S46kuhKMFCkCknFAdkr/39+KA7U2KcZRjU+k?=
- =?us-ascii?Q?+4nJAevuHNZxDWPXDQ8uLkngWJL4snBBND7Zla1JOo8nzzE/K5Jfc3K9C/AS?=
- =?us-ascii?Q?8OERxEax7pQnkj5OeRQEHHFAGT2nTzkM9BxQtTeGfq+UxSmUerovcuOfVvZo?=
- =?us-ascii?Q?afiZ4AavPeCXK5DBBJFrTyLtQoqIeFkMHgrI6342MZoSIIVYWurptUzy2IwQ?=
- =?us-ascii?Q?xbLzHQygwEKpsZLQYGQHfwmpa198+Mq4cLwqalNDdDguZneZF40uHXN+HJdO?=
- =?us-ascii?Q?7lwzE98IpU/cpgHAtgbolddUzZM0L6goXHQs9Xw4Ieb8T/FiGJRNLQUqz0iW?=
- =?us-ascii?Q?NgEzGc9SrPzeWao3SuZ5L34aQC74R3NFuops0byxXFMFCvWLUFZ6sIEeQm/z?=
- =?us-ascii?Q?AemIXitV+9PzOo9205HcevUub0d517iVURpgexxlUpUvAifRu6lhNCHtfjSG?=
- =?us-ascii?Q?0PZRCp1H/hdAlMeyN9h70lOQSG9ikCisK8a4J2yV5cu9z6YwWm1r9CUaFFoF?=
- =?us-ascii?Q?pY87fuMdbQqHow+LnOEKKp/zr3j9SbQjvqmrSg5yYV1pj/p5F/qcJceFugSF?=
- =?us-ascii?Q?M7vBqA=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(61400799027)(36860700013)(13003099007)(54012099003)(8096899003);DIR:OUT;SFP:1102;
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2026 15:37:12.2066
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c7a6a76-6523-4da3-764c-08de5a954740
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MWH0EPF000A6732.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR19MB4599
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIzMDExOSBTYWx0ZWRfX9OYEDlfUJnYM
- Y7eE82lIUbEjHhOf68F1EO9XTDPq1tn0y4qNc6zqCirzYuD0RkiHU+WrRagpun5ilDoI2gnq1q5
- 7S+IMzS/Bn0p69Gy660WxJegJ1h5LQTxvT+lZQkTV+Be7oMztBXaH6E2gKcjgeyLM+1Wjj2JIK/
- MGDrPF6bn7/Y+JZeT4Ww/HjP1G/7L1clLrGLf+40qkBx+xllkO+9pt6GkwoIwHxmMK41lRiVjJu
- CTYa82uHRI6+IC6aMUFIwkO0F72gdZ6DQEr9+pIR4DllZvdTzHff5OfONBuajAHLmpyJyNT4WA7
- 6QvTTgxP5raVjgK7LqpJjLHrCSYv9erA35h5RoYy5uNG4CRlVoJkWrJj6wfPCj3pE9L3Gnb7muX
- kbVvH+ZRyBcCeZvf6iuxhr7VsZEiSG8qzA++1kj+DxIQUP2FbK6c/77af0wIu7F7XlSHg26CF0Y
- AB4jcU55k9AR5CNyHZw==
-X-Proofpoint-GUID: RMaLZNXyVlKuvb2E161vb15sb8xO--1l
-X-Authority-Analysis: v=2.4 cv=GrRPO01C c=1 sm=1 tr=0 ts=697395ad cx=c_pps
- a=cqkZ7RzDZd4RD9VGRo3S+w==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=vUbySO9Y5rIA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=DAwyPP_o2Byb1YXLmDAA:9 a=NEAV23lmAAAA:8
- a=yqr8nlKEaO3g1iXuulcA:9 a=CjuIK1q_8ugA:10 a=yMhMjlubAAAA:8 a=SSmOFEACAAAA:8
- a=TOcuxFFTASfv1i56g1QA:9 a=GaX4XTk5i4sx6gK-:21 a=gKO2Hq4RSVkA:10
- a=UiCQ7L4-1S4A:10 a=hTZeC7Yk6K0A:10 a=frz4AuCg-hUA:10
-X-Proofpoint-ORIG-GUID: RMaLZNXyVlKuvb2E161vb15sb8xO--1l
-X-Proofpoint-Spam-Reason: safe
-
-This is a multipart message in MIME format.
-
-------=_NextPart_000_00BB_01DC8C7E.23A38840
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-
-Hi,
-
-A few patches today - we'd like to add the firmware for some Dell and Lenovo
-Laptops that are using a variety of Cirrus smart amplifiers and smart
-codecs.
-
-Thanks,
-
--Simon
-
- 
-
-The following changes since commit 1b7b9f6c3461815b4f656178d31a6b6a90e045ec:
-
- 
-
-  Merge branch 'robot/patch-0-1769048722' into 'main' (2026-01-22 11:51:23
-+0000)
-
- 
-
-are available in the Git repository at:
-
- 
-
-  https://github.com/CirrusLogic/linux-firmware
-20260123-cs35l56-cs35l57-cs35l63-cs42l45
-
- 
-
-for you to fetch changes up to 53ec87319d287a837b1291a6c97ed93d759bd0bd:
-
- 
-
-  cirrus: cs42l45: Add CS42L45 SDCA codec firmware for Lenovo laptops
-(2026-01-23 15:26:21 +0000)
-
- 
-
-----------------------------------------------------------------
-
-Maciej Strozek (2):
-
-      cirrus: cs42l45: Add CS42L45 SDCA codec firmware for Dell laptops
-
-      cirrus: cs42l45: Add CS42L45 SDCA codec firmware for Lenovo laptops
-
- 
-
-Simon Trimmer (2):
-
-      cirrus: cs35l56 cs35l57: Add and update firmware for some Dell laptops
-
-      cirrus: cs35l57 cs35l63: Add firmware for Cirrus Amps for some Lenovo
-laptops
-
- 
-
-WHENCE                                               |  67
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------
-
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-00-ampl.bin     | Bin 0 -> 10788 bytes
-
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-00-ampr.bin     | Bin 0 -> 10788 bytes
-
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-01-ampl.bin     | Bin 0 -> 10788 bytes
-
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-01-ampr.bin     | Bin 0 -> 10788 bytes
-
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-02-ampl.bin     | Bin 0 -> 10764 bytes
-
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-02-ampr.bin     | Bin 0 -> 10764 bytes
-
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-03-ampl.bin     | Bin 0 -> 10764 bytes
-
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-03-ampr.bin     | Bin 0 -> 10764 bytes
-
-cirrus/cs35l56/CS35L56_Rev4.5.3.wmfw                 | Bin 0 -> 27872 bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid0-l2u2.bin | Bin 10556 -> 10532
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid0-l2u3.bin | Bin 10556 -> 10532
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid0-l3u0.bin | Bin 10556 -> 10532
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid0-l3u1.bin | Bin 10556 -> 10532
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid1-l2u2.bin | Bin 10556 -> 10532
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid1-l2u3.bin | Bin 10556 -> 10532
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid1-l3u0.bin | Bin 10556 -> 10532
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid1-l3u1.bin | Bin 10556 -> 10532
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid0-l2u2.bin | Bin 10556 -> 10556
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid0-l2u3.bin | Bin 10556 -> 10556
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid0-l3u0.bin | Bin 10556 -> 10556
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid0-l3u1.bin | Bin 10556 -> 10556
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid1-l2u2.bin | Bin 10556 -> 10556
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid1-l2u3.bin | Bin 10556 -> 10556
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid1-l3u0.bin | Bin 10556 -> 10556
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid1-l3u1.bin | Bin 10556 -> 10556
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid0-l2u2.bin | Bin 12396 -> 12384
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid0-l2u3.bin | Bin 12388 -> 12376
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid0-l3u0.bin | Bin 12396 -> 12384
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid0-l3u1.bin | Bin 12388 -> 12376
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid1-l2u2.bin | Bin 12392 -> 12388
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid1-l2u3.bin | Bin 12388 -> 12384
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid1-l3u0.bin | Bin 12392 -> 12388
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid1-l3u1.bin | Bin 12388 -> 12384
-bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l2u2.bin | Bin 0 -> 12456 bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l2u3.bin | Bin 0 -> 12460 bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l3u0.bin | Bin 0 -> 12456 bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l3u1.bin | Bin 0 -> 12460 bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l2u2.bin | Bin 0 -> 12464 bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l2u3.bin | Bin 0 -> 12464 bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l3u0.bin | Bin 0 -> 12464 bytes
-
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l3u1.bin | Bin 0 -> 12464 bytes
-
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l1u0.bin | Bin 0 -> 12572 bytes
-
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l1u1.bin | Bin 0 -> 12572 bytes
-
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l2u2.bin | Bin 0 -> 12572 bytes
-
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l2u3.bin | Bin 0 -> 12572 bytes
-
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l1u0.bin | Bin 0 -> 12572 bytes
-
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l1u1.bin | Bin 0 -> 12572 bytes
-
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l2u2.bin | Bin 0 -> 12572 bytes
-
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l2u3.bin | Bin 0 -> 12572 bytes
-
-cirrus/cs35l63-a1-dsp1-misc-17aa2352-l2u0.bin        | Bin 0 -> 13404 bytes
-
-cirrus/cs35l63-a1-dsp1-misc-17aa2352-l2u1.bin        | Bin 0 -> 13404 bytes
-
-cirrus/cs35l63-a1-dsp1-misc-17aa2353-l2u0.bin        | Bin 0 -> 13404 bytes
-
-cirrus/cs35l63-a1-dsp1-misc-17aa2353-l2u1.bin        | Bin 0 -> 13404 bytes
-
-cirrus/cs35l63/CS35L63_Rev2.5.4.wmfw                 | Bin 0 -> 25808 bytes
-
-sdca/1fa/1028/db3/42450005.bin                       | Bin 10764 -> 13796
-bytes
-
-sdca/1fa/1028/db9/42450005.bin                       | Bin 10764 -> 0 bytes
-
-sdca/1fa/{1028/db9 => 17aa/2352}/1.bin               | Bin
-
-sdca/1fa/{1028/db9 => 17aa/2352}/2.bin               | Bin
-
-sdca/1fa/{1028/db9 => 17aa/2352}/3.bin               | Bin
-
-sdca/1fa/{1028/db9 => 17aa/2352}/4.bin               | Bin
-
-sdca/1fa/17aa/2352/42450005.bin                      | Bin 0 -> 13796 bytes
-
-62 files changed, 61 insertions(+), 6 deletions(-)
-
-create mode 100644 cirrus/cs35l56-b2-dsp1-misc-10280dd6-00-ampl.bin
-
-create mode 100644 cirrus/cs35l56-b2-dsp1-misc-10280dd6-00-ampr.bin
-
-create mode 100644 cirrus/cs35l56-b2-dsp1-misc-10280dd6-01-ampl.bin
-
-create mode 100644 cirrus/cs35l56-b2-dsp1-misc-10280dd6-01-ampr.bin
-
-create mode 100644 cirrus/cs35l56-b2-dsp1-misc-10280dd6-02-ampl.bin
-
-create mode 100644 cirrus/cs35l56-b2-dsp1-misc-10280dd6-02-ampr.bin
-
-create mode 100644 cirrus/cs35l56-b2-dsp1-misc-10280dd6-03-ampl.bin
-
-create mode 100644 cirrus/cs35l56-b2-dsp1-misc-10280dd6-03-ampr.bin
-
-create mode 100644 cirrus/cs35l56/CS35L56_Rev4.5.3.wmfw
-
-create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l2u2.bin
-
-create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l2u3.bin
-
-create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l3u0.bin
-
-create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l3u1.bin
-
-create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l2u2.bin
-
-create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l2u3.bin
-
-create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l3u0.bin
-
-create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l3u1.bin
-
-create mode 100644 cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l1u0.bin
-
-create mode 100644 cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l1u1.bin
-
-create mode 100644 cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l2u2.bin
-
-create mode 100644 cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l2u3.bin
-
-create mode 100644 cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l1u0.bin
-
-create mode 100644 cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l1u1.bin
-
-create mode 100644 cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l2u2.bin
-
-create mode 100644 cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l2u3.bin
-
-create mode 100644 cirrus/cs35l63-a1-dsp1-misc-17aa2352-l2u0.bin
-
-create mode 100644 cirrus/cs35l63-a1-dsp1-misc-17aa2352-l2u1.bin
-
-create mode 100644 cirrus/cs35l63-a1-dsp1-misc-17aa2353-l2u0.bin
-
-create mode 100644 cirrus/cs35l63-a1-dsp1-misc-17aa2353-l2u1.bin
-
-create mode 100644 cirrus/cs35l63/CS35L63_Rev2.5.4.wmfw
-
-delete mode 100644 sdca/1fa/1028/db9/42450005.bin
-
-rename sdca/1fa/{1028/db9 => 17aa/2352}/1.bin (100%)
-
-rename sdca/1fa/{1028/db9 => 17aa/2352}/2.bin (100%)
-
-rename sdca/1fa/{1028/db9 => 17aa/2352}/3.bin (100%)
-
-rename sdca/1fa/{1028/db9 => 17aa/2352}/4.bin (100%)
-
-create mode 100644 sdca/1fa/17aa/2352/42450005.bin
-
-
-------=_NextPart_000_00BB_01DC8C7E.23A38840
-Content-Type: text/html;
-	charset="us-ascii"
+Message-Id: <202624011354.26fqiv16sc63j@jy.d.sender-sib.com>
+Reply-To: <contact@careersamrat.com>
+X-Csa-Complaints: csa-complaints@eco.de
+X-Mailer: Sendinblue
+X-Mailin-Campaign: 47
+X-Mailin-Client: 9925346
+X-sib-id: fVW9ZGY5nQn-vPnuW-OvWGUB1DXki5k_Aq-DC9k9-wKASL5DFuQJopZkESgkbEeAmUS67e8YUZl2coIYBfB92hWZ9rFWXCKc7ZEOMgXnmEQve7RrpLd8kc5NYw7UK1wkir3ewVuf50pedCN0otYrWMRsH6qPO-xM6HwwfXsBdYWfFCKP_6ykY3RHt2ozXEFSdw-riTJUxXwov1Soi1Z2Kw5CFfg6Sg9Pavlizg
+
+---------?=_22975-9412846294047
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><META =
-HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Aptos;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	font-size:12.0pt;
-	font-family:"Aptos",sans-serif;
-	mso-ligatures:standardcontextual;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#467886;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Aptos",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;}
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style></head><body lang=3DEN-US link=3D"#467886" vlink=3D"#96607D" =
-style=3D'word-wrap:break-word'><div class=3DWordSection1><p =
-class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'>Hi,<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'>A few =
-patches today - we&#8217;d like to add the firmware for some Dell and =
-Lenovo Laptops that are using a variety of Cirrus smart amplifiers and =
-smart codecs.<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB style=3D'font-size:11.0pt'>Thanks,<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'>-Simon<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'>The =
-following changes since commit =
-1b7b9f6c3461815b4f656178d31a6b6a90e045ec:<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'>&nbsp; =
-Merge branch 'robot/patch-0-1769048722' into 'main' (2026-01-22 11:51:23 =
-+0000)<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'>are =
-available in the Git repository at:<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'>&nbsp; =
-<a =
-href=3D"https://github.com/CirrusLogic/linux-firmware">https://github.com=
-/CirrusLogic/linux-firmware</a> =
-20260123-cs35l56-cs35l57-cs35l63-cs42l45<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'>for you =
-to fetch changes up to =
-53ec87319d287a837b1291a6c97ed93d759bd0bd:<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'>&nbsp; =
-cirrus: cs42l45: Add CS42L45 SDCA codec firmware for Lenovo laptops =
-(2026-01-23 15:26:21 +0000)<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'>----------------------------------------------=
-------------------<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB style=3D'font-size:11.0pt'>Maciej Strozek =
-(2):<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cirrus: =
-cs42l45: Add CS42L45 SDCA codec firmware for Dell =
-laptops<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cirrus: =
-cs42l45: Add CS42L45 SDCA codec firmware for Lenovo =
-laptops<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'>Simon =
-Trimmer (2):<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB style=3D'font-size:11.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
-cirrus: cs35l56 cs35l57: Add and update firmware for some Dell =
-laptops<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cirrus: =
-cs35l57 cs35l63: Add firmware for Cirrus Amps for some Lenovo =
-laptops<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-WHENCE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; =
-67 =
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------<o:p><=
-/o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-00-ampl.bin&nbsp;&nbsp;&nbsp;&nbsp; =
-| Bin 0 -&gt; 10788 bytes<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-00-ampr.bin&nbsp;&nbsp;&nbsp;&nbsp; =
-| Bin 0 -&gt; 10788 bytes<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-01-ampl.bin&nbsp;&nbsp;&nbsp;&nbsp; =
-| Bin 0 -&gt; 10788 bytes<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-01-ampr.bin&nbsp;&nbsp;&nbsp;&nbsp; =
-| Bin 0 -&gt; 10788 bytes<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-02-ampl.bin&nbsp;&nbsp;&nbsp;&nbsp; =
-| Bin 0 -&gt; 10764 bytes<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-02-ampr.bin&nbsp;&nbsp;&nbsp;&nbsp; =
-| Bin 0 -&gt; 10764 bytes<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-03-ampl.bin&nbsp;&nbsp;&nbsp;&nbsp; =
-| Bin 0 -&gt; 10764 bytes<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-03-ampr.bin&nbsp;&nbsp;&nbsp;&nbsp; =
-| Bin 0 -&gt; 10764 bytes<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-cirrus/cs35l56/CS35L56_Rev4.5.3.wmfw&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Bin 0 =
--&gt; 27872 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid0-l2u2.bin | Bin 10556 -&gt; =
-10532 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid0-l2u3.bin | Bin 10556 -&gt; =
-10532 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid0-l3u0.bin | Bin 10556 -&gt; =
-10532 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid0-l3u1.bin | Bin 10556 -&gt; =
-10532 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid1-l2u2.bin | Bin 10556 -&gt; =
-10532 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid1-l2u3.bin | Bin 10556 -&gt; =
-10532 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid1-l3u0.bin | Bin 10556 -&gt; =
-10532 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid1-l3u1.bin | Bin 10556 -&gt; =
-10532 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid0-l2u2.bin | Bin 10556 -&gt; =
-10556 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid0-l2u3.bin | Bin 10556 -&gt; =
-10556 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid0-l3u0.bin | Bin 10556 -&gt; =
-10556 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid0-l3u1.bin | Bin 10556 -&gt; =
-10556 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid1-l2u2.bin | Bin 10556 -&gt; =
-10556 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid1-l2u3.bin | Bin 10556 -&gt; =
-10556 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid1-l3u0.bin | Bin 10556 -&gt; =
-10556 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid1-l3u1.bin | Bin 10556 -&gt; =
-10556 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid0-l2u2.bin | Bin 12396 -&gt; =
-12384 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid0-l2u3.bin | Bin 12388 -&gt; =
-12376 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid0-l3u0.bin | Bin 12396 -&gt; =
-12384 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid0-l3u1.bin | Bin 12388 -&gt; =
-12376 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid1-l2u2.bin | Bin 12392 -&gt; =
-12388 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid1-l2u3.bin | Bin 12388 -&gt; =
-12384 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid1-l3u0.bin | Bin 12392 -&gt; =
-12388 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid1-l3u1.bin | Bin 12388 -&gt; =
-12384 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l2u2.bin | Bin 0 -&gt; 12456 =
-bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l2u3.bin | Bin 0 -&gt; 12460 =
-bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l3u0.bin | Bin 0 -&gt; 12456 =
-bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l3u1.bin | Bin 0 -&gt; 12460 =
-bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l2u2.bin | Bin 0 -&gt; 12464 =
-bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l2u3.bin | Bin 0 -&gt; 12464 =
-bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l3u0.bin | Bin 0 -&gt; 12464 =
-bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l3u1.bin | Bin 0 -&gt; 12464 =
-bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l1u0.bin | Bin 0 -&gt; 12572 =
-bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l1u1.bin | Bin 0 -&gt; 12572 =
-bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l2u2.bin | Bin 0 -&gt; 12572 =
-bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l2u3.bin | Bin 0 -&gt; 12572 =
-bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l1u0.bin | Bin 0 -&gt; 12572 =
-bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l1u1.bin | Bin 0 -&gt; 12572 =
-bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l2u2.bin | Bin 0 -&gt; 12572 =
-bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l2u3.bin | Bin 0 -&gt; 12572 =
-bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> =
-cirrus/cs35l63-a1-dsp1-misc-17aa2352-l2u0.bin&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp; | Bin 0 -&gt; 13404 bytes<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-cirrus/cs35l63-a1-dsp1-misc-17aa2352-l2u1.bin&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp; | Bin 0 -&gt; 13404 bytes<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-cirrus/cs35l63-a1-dsp1-misc-17aa2353-l2u0.bin&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp; | Bin 0 -&gt; 13404 bytes<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-cirrus/cs35l63-a1-dsp1-misc-17aa2353-l2u1.bin&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp; | Bin 0 -&gt; 13404 bytes<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-cirrus/cs35l63/CS35L63_Rev2.5.4.wmfw&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Bin 0 =
--&gt; 25808 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB style=3D'font-size:11.0pt'> =
-sdca/1fa/1028/db3/42450005.bin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; | Bin 10764 -&gt; 13796 bytes<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-sdca/1fa/1028/db9/42450005.bin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; | Bin 10764 -&gt; 0 bytes<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-sdca/1fa/{1028/db9 =3D&gt; =
-17aa/2352}/1.bin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp; | Bin<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-sdca/1fa/{1028/db9 =3D&gt; =
-17aa/2352}/2.bin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp; | Bin<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-sdca/1fa/{1028/db9 =3D&gt; =
-17aa/2352}/3.bin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp; | Bin<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-sdca/1fa/{1028/db9 =3D&gt; =
-17aa/2352}/4.bin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp; | Bin<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-sdca/1fa/17aa/2352/42450005.bin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp; | Bin 0 -&gt; 13796 bytes<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> 62 =
-files changed, 61 insertions(+), 6 deletions(-)<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> create =
-mode 100644 =
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-00-ampl.bin<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> create =
-mode 100644 =
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-00-ampr.bin<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> create =
-mode 100644 =
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-01-ampl.bin<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> create =
-mode 100644 =
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-01-ampr.bin<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> create =
-mode 100644 =
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-02-ampl.bin<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> create =
-mode 100644 =
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-02-ampr.bin<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> create =
-mode 100644 =
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-03-ampl.bin<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> create =
-mode 100644 =
-cirrus/cs35l56-b2-dsp1-misc-10280dd6-03-ampr.bin<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> create =
-mode 100644 cirrus/cs35l56/CS35L56_Rev4.5.3.wmfw<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> create =
-mode 100644 =
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l2u2.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-create mode 100644 =
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l2u3.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-create mode 100644 =
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l3u0.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-create mode 100644 =
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l3u1.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-create mode 100644 =
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l2u2.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-create mode 100644 =
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l2u3.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-create mode 100644 =
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l3u0.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-create mode 100644 =
-cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l3u1.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-create mode 100644 =
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l1u0.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-create mode 100644 =
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l1u1.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-create mode 100644 =
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l2u2.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-create mode 100644 =
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l2u3.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-create mode 100644 =
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l1u0.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-create mode 100644 =
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l1u1.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-create mode 100644 =
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l2u2.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-create mode 100644 =
-cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l2u3.bin<o:p></o:p></span></p=
-><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
-create mode 100644 =
-cirrus/cs35l63-a1-dsp1-misc-17aa2352-l2u0.bin<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> create =
-mode 100644 =
-cirrus/cs35l63-a1-dsp1-misc-17aa2352-l2u1.bin<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> create =
-mode 100644 =
-cirrus/cs35l63-a1-dsp1-misc-17aa2353-l2u0.bin<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> create =
-mode 100644 =
-cirrus/cs35l63-a1-dsp1-misc-17aa2353-l2u1.bin<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> create =
-mode 100644 cirrus/cs35l63/CS35L63_Rev2.5.4.wmfw<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> delete =
-mode 100644 sdca/1fa/1028/db9/42450005.bin<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> rename =
-sdca/1fa/{1028/db9 =3D&gt; 17aa/2352}/1.bin =
-(100%)<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> rename sdca/1fa/{1028/db9 =3D&gt; =
-17aa/2352}/2.bin (100%)<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-GB style=3D'font-size:11.0pt'> rename sdca/1fa/{1028/db9 =
-=3D&gt; 17aa/2352}/3.bin (100%)<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> rename =
-sdca/1fa/{1028/db9 =3D&gt; 17aa/2352}/4.bin =
-(100%)<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
-style=3D'font-size:11.0pt'> create mode 100644 =
-sdca/1fa/17aa/2352/42450005.bin<o:p></o:p></span></p></div></body></html>
-------=_NextPart_000_00BB_01DC8C7E.23A38840--
+[View in browser](https://hd31i.r.ag.d.sendibm3.com/mk/mr/sh/1t6AVsd2XFnIGL=
+pGoscSeZk8mn200v/MtIzgtqTgcfU)
+
+Hey Greetings,
+
+
+**I hope you are doing well**.
+
+**Career Samrat IT Services** is pleased to offer high-quality virtual IT r=
+esources at very affordable rates. We are reaching out purely to understand=
+ if you have any current or upcoming requirements related to website or sof=
+tware development.
+
+
+Whether you need full-time, part-time, or project-based support, we provide=
+ experienced professionals who can work remotely and deliver reliable resul=
+ts.
+
+
+**Our virtual resources can assist you with:**
+
+**Website & App Development**
+
+**Digital Marketing**
+
+**Software & IT Support**
+
+**UI/UX & Graphic Designing**
+
+**Custom Project Development**
+
+**Cloud Services**
+
+
+We ensure clear communication, quick turnaround times, and cost-effective s=
+olutions tailored to your business needs. If scaling your team without incr=
+easing overhead costs is a priority, we would be happy to support you.
+
+
+Please feel free to let us know your requirements. I=E2=80=99d be glad to s=
+hare relevant profiles and pricing details.
+
+=C2=A0
+
+If you no longer wish to receive this newsletter,
+[click here to unsubscribe.](https://hd31i.r.ag.d.sendibm3.com/mk/un/v2/sh/=
+1t6AVsdYhqSR1t1tLLl35U20Mjs5Rx/JfFkO9iOo1xH)
+
+
+***Looking forward to collaborating with you!***
+
+***Best regards,***
+
+***Satendra Kanaujia**
+**Business Development Manager**
+**[https://www.careersamrat.com](https://hd31i.r.ag.d.sendibm3.com/mk/cl/f/=
+sh/1t6Af4OiGsDg0mBcs58ztycQfC8lhp/NXA5XaeYTOfR)**
+**+91-790-517-6562***
+
+
+Your Company =C2=A9 2020 | [Contact ](https://hd31i.r.ag.d.sendibm3.com/mk/=
+cl/f/sh/1t6Af4OiGsE8LUO3GREv4EgG317VPt/5QeX5kATMJGr)| [Legal Notice ](https=
+://hd31i.r.ag.d.sendibm3.com/mk/cl/f/sh/1t6Af4OiGsEagCaTenKqEUk5Qq6F7x/nrRy=
+oz2UkNWw)| [Privacy Policy](https://hd31i.r.ag.d.sendibm3.com/mk/cl/f/sh/1t=
+6Af4OiGsF30umu39QlOknuof4yq1/Ng3Lzy1iuQQf)
+
+
+---------?=_22975-9412846294047
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org=
+/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml" xmlns:v=3D"urn:schemas-microso=
+ft-com:vml" xmlns:o=3D"urn:schemas-microsoft-com:office:office"><head><meta=
+ http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"><meta h=
+ttp-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge"><meta name=3D"format-de=
+tection" content=3D"telephone=3Dno"><meta name=3D"viewport" content=3D"widt=
+h=3Ddevice-width, initial-scale=3D1.0"><title>Website Review: Design & Func=
+tionality Improvements</title><style type=3D"text/css" emogrify=3D"no">#out=
+look a { padding:0; } .ExternalClass { width:100%; } .ExternalClass, .Exter=
+nalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .E=
+xternalClass div { line-height: 100%; } table td { border-collapse: collaps=
+e; mso-line-height-rule: exactly; } .editable.image { font-size: 0 !importa=
+nt; line-height: 0 !important; } .nl2go_preheader { display: none !importan=
+t; mso-hide:all !important; mso-line-height-rule: exactly; visibility: hidd=
+en !important; line-height: 0px !important; font-size: 0px !important; } bo=
+dy { width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-ad=
+just:100%; margin:0; padding:0; } img { outline:none; text-decoration:none;=
+ -ms-interpolation-mode: bicubic; } a img { border:none; } table { border-c=
+ollapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; } th { font-w=
+eight: normal; text-align: left; } *[class=3D"gmail-fix"] { display: none !=
+important; } </style><style type=3D"text/css" emogrify=3D"no"> @media (max-=
+width: 600px) { .gmx-killpill { content: ' \03D1';} } </style><style type=
+=3D"text/css" emogrify=3D"no">@media (max-width: 600px) { .gmx-killpill { c=
+ontent: ' \03D1';} .r0-o { border-style: solid !important; margin: 0 auto 0=
+ auto !important; width: 100% !important } .r1-i { background-color: transp=
+arent !important } .r2-c { box-sizing: border-box !important; text-align: c=
+enter !important; valign: top !important; width: 320px !important } .r3-o {=
+ border-style: solid !important; margin: 0 auto 0 auto !important; width: 3=
+20px !important } .r4-i { padding-bottom: 5px !important; padding-top: 5px =
+!important } .r5-c { box-sizing: border-box !important; display: block !imp=
+ortant; valign: top !important; width: 100% !important } .r6-o { border-sty=
+le: solid !important; width: 100% !important } .r7-i { padding-left: 0px !i=
+mportant; padding-right: 0px !important } .r8-c { box-sizing: border-box !i=
+mportant; padding-bottom: 13px !important; padding-left: 10px !important; p=
+adding-right: 10px !important; padding-top: 15px !important; text-align: ce=
+nter !important; width: 100% !important } .r9-i { background-color: #f2f2f2=
+ !important } .r10-c { box-sizing: border-box !important; text-align: cente=
+r !important; valign: top !important; width: 100% !important } .r11-i { bac=
+kground-color: #ffffff !important; padding-left: 10px !important; padding-r=
+ight: 10px !important; padding-top: 40px !important } .r12-o { border-style=
+: solid !important; margin: 0 auto 0 0 !important; width: 100% !important }=
+ .r13-i { padding-left: 20px !important; padding-right: 20px !important; pa=
+dding-top: 15px !important; text-align: center !important } .r14-i { backgr=
+ound-color: #ffffff !important; padding-bottom: 14px !important; padding-le=
+ft: 10px !important; padding-right: 10px !important; padding-top: 40px !imp=
+ortant } .r15-c { box-sizing: border-box !important; text-align: left !impo=
+rtant; valign: top !important; width: 100% !important } .r16-i { background=
+-color: #f2f2f2 !important; padding-left: 10px !important; padding-right: 1=
+0px !important; text-align: center !important } .r17-i { padding-top: 9px !=
+important; text-align: center !important } .r18-i { background-color: #4040=
+40 !important; padding-left: 10px !important; padding-right: 10px !importan=
+t } .r19-i { padding-top: 20px !important; text-align: center !important } =
+.r20-i { background-color: #404040 !important; padding-bottom: 32px !import=
+ant; padding-left: 10px !important; padding-right: 10px !important; padding=
+-top: 25px !important } .r21-i { text-align: center !important } .r22-i { p=
+adding-bottom: 7px !important; padding-left: 12px !important; padding-right=
+: 12px !important; padding-top: 7px !important; text-align: center !importa=
+nt } body { -webkit-text-size-adjust: none } .nl2go-responsive-hide { displ=
+ay: none } .nl2go-body-table { min-width: unset !important } .mobshow { hei=
+ght: auto !important; overflow: visible !important; max-height: unset !impo=
+rtant; visibility: visible !important } .resp-table { display: inline-table=
+ !important } .magic-resp { display: table-cell !important } } </style><!--=
+[if !mso]><!--><style type=3D"text/css" emogrify=3D"no">@import url("https:=
+//fonts.googleapis.com/css?family=3DRaleway:400,700"); </style><!--<![endif=
+]--><style type=3D"text/css">p, h1, h2, h3, h4, ol, ul, li { margin: 0; } .=
+nl2go-default-textstyle { color: #95989a; font-family: Raleway, Arial, Helv=
+etica, sans-serif; font-size: 12px; line-height: 1.4; word-break: break-wor=
+d } .default-button { color: #ffffff; font-family: Raleway, Arial, Helvetic=
+a, sans-serif; font-size: 15px; font-style: normal; font-weight: normal; li=
+ne-height: 1.15; text-decoration: none; word-break: break-word } a, a:link =
+{ color: #ff6378; text-decoration: none } .default-heading1 { color: #1F2D3=
+D; font-family: Raleway, Arial, Helvetica, sans-serif; font-size: 20px; wor=
+d-break: break-word } .default-heading2 { color: #1F2D3D; font-family: Rale=
+way, Arial, Helvetica, sans-serif; font-size: 32px; word-break: break-word =
+} .default-heading3 { color: #1F2D3D; font-family: Raleway, Arial, Helvetic=
+a, sans-serif; font-size: 24px; word-break: break-word } .default-heading4 =
+{ color: #1F2D3D; font-family: Raleway, Arial, Helvetica, sans-serif; font-=
+size: 18px; word-break: break-word } .nl2go_class_11_grey { color: #95989a;=
+ font-family: Raleway, Arial, Helvetica, sans-serif; font-size: 11px; word-=
+break: break-word } .nl2go_class_12_black { color: #000000; font-family: Ra=
+leway, Arial, Helvetica, sans-serif; font-size: 12px; word-break: break-wor=
+d } .nl2go_class_12_grey { color: #95989a; font-family: Raleway, Arial, Hel=
+vetica, sans-serif; font-size: 12px; word-break: break-word } .nl2go_class_=
+12_white { color: #ffffff; font-family: Raleway, Arial, Helvetica, sans-ser=
+if; font-size: 12px; word-break: break-word } .nl2go_class_14_black { color=
+: #000000; font-family: Raleway, Arial, Helvetica, sans-serif; font-size: 1=
+5px; word-break: break-word } .nl2go_class_15_white { color: #ffffff; font-=
+family: Raleway, Arial, Helvetica, sans-serif; font-size: 15px; word-break:=
+ break-word } .nl2go_class_18_grey { color: #95989a; font-family: Raleway, =
+Arial, Helvetica, sans-serif; font-size: 18px; word-break: break-word } .nl=
+2go_class_20_black { color: #000000; font-family: Raleway, Arial, Helvetica=
+, sans-serif; font-size: 20px; word-break: break-word } .nl2go_class_20_gre=
+y { color: #95989a; font-family: Raleway, Arial, Helvetica, sans-serif; fon=
+t-size: 20px; word-break: break-word } a[x-apple-data-detectors] { color: i=
+nherit !important; text-decoration: inherit !important; font-size: inherit =
+!important; font-family: inherit !important; font-weight: inherit !importan=
+t; line-height: inherit !important; } .no-show-for-you { border: none; disp=
+lay: none; float: none; font-size: 0; height: 0; line-height: 0; max-height=
+: 0; mso-hide: all; overflow: hidden; table-layout: fixed; visibility: hidd=
+en; width: 0; } </style><!--[if mso]><xml> <o:OfficeDocumentSettings> <o:Al=
+lowPNG/> <o:PixelsPerInch>96</o:PixelsPerInch> </o:OfficeDocumentSettings> =
+</xml><![endif]--><style type=3D"text/css">a:link{color: #ff6378; text-deco=
+ration: none;}</style></head><body bgcolor=3D"#f2f2f2" text=3D"#95989a" lin=
+k=3D"#ff6378" yahoo=3D"fix" style=3D"background-color: #f2f2f2;">  <!--[if =
+mso]> <img width=3D"1" height=3D"1" src=3D"https://hd31i.r.ag.d.sendibm3.co=
+m/mk/op/sh/1t6AVse4sR7ZnQEVrotdWOJrwgiAsz/Jg0nMWcugYJB" /> <![endif]-->
+	<!--[if !mso]> <!----> <img style=3D"display:none" src=3D"https://hd31i.r.=
+ag.d.sendibm3.com/mk/op/sh/1t6AVse4sR7ZnQEVrotdWOJrwgiAsz/Jg0nMWcugYJB" /> =
+<!-- <![endif]-->  <table cellspacing=3D"0" cellpadding=3D"0" border=3D"0" =
+role=3D"presentation" class=3D"nl2go-body-table" width=3D"100%" style=3D"ba=
+ckground-color: #f2f2f2; width: 100%;"><tr><td> <table cellspacing=3D"0" ce=
+llpadding=3D"0" border=3D"0" role=3D"presentation" width=3D"100%" align=3D"=
+center" class=3D"r0-o" style=3D"table-layout: fixed; width: 100%;"><tr><td =
+valign=3D"top" class=3D"r1-i" style=3D"background-color: transparent;"> <ta=
+ble cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presentation" =
+width=3D"600" align=3D"center" class=3D"r3-o" style=3D"table-layout: fixed;=
+"><tr><td class=3D"r4-i" style=3D"padding-bottom: 5px; padding-top: 5px;"> =
+<table width=3D"100%" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=
+=3D"presentation"><tr><th width=3D"100%" valign=3D"top" class=3D"r5-c" styl=
+e=3D"font-weight: normal;"> <table cellspacing=3D"0" cellpadding=3D"0" bord=
+er=3D"0" role=3D"presentation" width=3D"100%" class=3D"r6-o" style=3D"table=
+-layout: fixed; width: 100%;"><tr><td valign=3D"top" class=3D"r7-i" style=
+=3D"padding-left: 10px; padding-right: 10px;"> <table width=3D"100%" cellsp=
+acing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presentation"><tr><td cl=
+ass=3D"r8-c nl2go-default-textstyle" align=3D"center" style=3D"color: #9598=
+9a; font-family: Raleway,Arial,Helvetica,sans-serif; font-size: 12px; line-=
+height: 1.4; word-break: break-word; padding-bottom: 13px; padding-left: 30=
+px; padding-right: 30px; padding-top: 15px; text-align: center;"> <div><p s=
+tyle=3D"margin: 0;"><a href=3D"https://hd31i.r.ag.d.sendibm3.com/mk/mr/sh/1=
+t6AVsd2XFnIGLpGoscSeZk8mn200v/MtIzgtqTgcfU" style=3D"color: #ff6378; text-d=
+ecoration: none;"><span style=3D"color: #95989a;">View in browser</span></a=
+></p></div> </td> </tr></table></td> </tr></table></th> </tr></table></td> =
+</tr></table></td> </tr></table><table cellspacing=3D"0" cellpadding=3D"0" =
+border=3D"0" role=3D"presentation" width=3D"600" align=3D"center" class=3D"=
+r3-o" style=3D"table-layout: fixed; width: 600px;"><tr><td valign=3D"top" c=
+lass=3D"r9-i" style=3D"background-color: #f2f2f2;"> <table cellspacing=3D"0=
+" cellpadding=3D"0" border=3D"0" role=3D"presentation" width=3D"100%" align=
+=3D"center" class=3D"r0-o" style=3D"background-color: #ffffff; table-layout=
+: fixed; width: 100%;"><tr><th width=3D"100%" valign=3D"top" class=3D"r5-c"=
+ style=3D"font-weight: normal;"> <table cellspacing=3D"0" cellpadding=3D"0"=
+ border=3D"0" role=3D"presentation" width=3D"600" align=3D"center" class=3D=
+"r0-o" style=3D"table-layout: fixed; width: 600px;"><tr><td style=3D"font-s=
+ize: 0px; line-height: 0px;"> <img src=3D"https://hd31i.img.ag.d.sendibm3.c=
+om/im/sh/UZsfO4KuIBF0.png?u=3DWtVElij8PJZGcPbYZX28bYFzSLcepPxZ" width=3D"60=
+0" border=3D"0" style=3D"display: block; width: 100%;" sib_img_id=3D"0"></t=
+d> </tr></table></th> </tr></table><table cellspacing=3D"0" cellpadding=3D"=
+0" border=3D"0" role=3D"presentation" width=3D"100%" align=3D"center" class=
+=3D"r0-o" style=3D"table-layout: fixed; width: 100%;"><tr><td class=3D"r11-=
+i" style=3D"background-color: #ffffff; padding-left: 12px; padding-right: 1=
+2px; padding-top: 45px;"> <table width=3D"100%" cellspacing=3D"0" cellpaddi=
+ng=3D"0" border=3D"0" role=3D"presentation"><tr><th width=3D"100%" valign=
+=3D"top" class=3D"r5-c" style=3D"font-weight: normal;"> <table cellspacing=
+=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presentation" width=3D"100%" =
+align=3D"left" class=3D"r12-o" style=3D"table-layout: fixed; width: 100%;">=
+<tr><td align=3D"center" valign=3D"top" class=3D"r13-i nl2go-default-textst=
+yle" style=3D"color: #95989a; font-family: Raleway,Arial,Helvetica,sans-ser=
+if; font-size: 12px; line-height: 1.4; word-break: break-word; padding-left=
+: 108px; padding-right: 108px; padding-top: 35px; text-align: center;"> <di=
+v><p class=3D"default" id=3D"isPasted" style=3D"margin: 0; text-align: just=
+ify;">Hey Greetings,</p><p class=3D"default" style=3D"margin: 0; text-align=
+: justify;"><br></p><div dir=3D"ltr" style=3D"font-style: normal; font-weig=
+ht: 400; text-decoration-thickness: initial; text-decoration-style: initial=
+;"><div dir=3D"ltr" style=3D"text-align: justify;"><strong>I hope you are d=
+oing well</strong>.</div><p style=3D"margin: 0;"><br></p></div><div id=3D"i=
+sPasted" style=3D"font-style: normal; font-weight: 400; text-align: justify=
+;"><strong>Career Samrat IT Services</strong> is pleased to offer high-qual=
+ity virtual IT resources at very affordable rates. We are reaching out pure=
+ly to understand if you have any current or upcoming requirements related t=
+o website or software development.</div><div style=3D"font-style: normal; f=
+ont-weight: 400; text-align: justify;"><br></div><div style=3D"font-style: =
+normal; font-weight: 400; text-align: justify;">Whether you need full-time,=
+ part-time, or project-based support, we provide experienced professionals =
+who can work remotely and deliver reliable results.</div><div style=3D"font=
+-style: normal; font-weight: 400; text-align: justify;"><br></div><div styl=
+e=3D"font-style: normal; font-weight: 400; text-align: justify;"><strong>Ou=
+r virtual resources can assist you with:</strong></div><div style=3D"font-s=
+tyle: normal; font-weight: 400; text-align: justify;"><strong>Website & App=
+ Development</strong></div><div style=3D"font-style: normal; font-weight: 4=
+00; text-align: justify;"><strong>Digital Marketing</strong></div><div styl=
+e=3D"font-style: normal; font-weight: 400; text-align: justify;"><strong>So=
+ftware & IT Support</strong></div><div style=3D"font-style: normal; font-we=
+ight: 400; text-align: justify;"><strong>UI/UX & Graphic Designing</strong>=
+</div><div style=3D"font-style: normal; font-weight: 400; text-align: justi=
+fy;"><strong>Custom Project Development</strong></div><div style=3D"font-st=
+yle: normal; font-weight: 400; text-align: justify;"><strong>Cloud Services=
+</strong></div><div style=3D"font-style: normal; font-weight: 400; text-ali=
+gn: justify;"><br></div><div style=3D"font-style: normal; font-weight: 400;=
+ text-align: justify;">We ensure clear communication, quick turnaround time=
+s, and cost-effective solutions tailored to your business needs. If scaling=
+ your team without increasing overhead costs is a priority, we would be hap=
+py to support you.</div><div style=3D"font-style: normal; font-weight: 400;=
+ text-align: justify;"><br></div><div style=3D"font-style: normal; font-wei=
+ght: 400; text-align: justify;">Please feel free to let us know your requir=
+ements. I=E2=80=99d be glad to share relevant profiles and pricing details.=
+</div></div> </td> </tr></table></th> </tr></table></td> </tr></table><tabl=
+e cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presentation" wi=
+dth=3D"100%" align=3D"center" class=3D"r0-o" style=3D"table-layout: fixed; =
+width: 100%;"><tr><td class=3D"r14-i" style=3D"background-color: #ffffff; p=
+adding-bottom: 14px; padding-left: 12px; padding-right: 12px; padding-top: =
+40px;"> <table width=3D"100%" cellspacing=3D"0" cellpadding=3D"0" border=3D=
+"0" role=3D"presentation"><tr><th width=3D"100%" valign=3D"top" class=3D"r5=
+-c" style=3D"font-weight: normal;"> <table cellspacing=3D"0" cellpadding=3D=
+"0" border=3D"0" role=3D"presentation" width=3D"100%" align=3D"left" class=
+=3D"r12-o" style=3D"table-layout: fixed; width: 100%;"><tr><td valign=3D"to=
+p" class=3D"r9-i" style=3D"background-color: #f2f2f2;"> <table width=3D"100=
+%" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presentation"><=
+/table></td> </tr></table></th> </tr></table></td> </tr></table><table cell=
+spacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presentation" width=3D=
+"100%" align=3D"center" class=3D"r0-o" style=3D"table-layout: fixed; width:=
+ 100%;"><tr><td class=3D"r16-i" style=3D"background-color: #f2f2f2; text-al=
+ign: center;"> <table width=3D"100%" cellspacing=3D"0" cellpadding=3D"0" bo=
+rder=3D"0" role=3D"presentation"><tr><th width=3D"100%" valign=3D"top" clas=
+s=3D"r5-c" style=3D"font-weight: normal;"> <table cellspacing=3D"0" cellpad=
+ding=3D"0" border=3D"0" role=3D"presentation" width=3D"100%" class=3D"r6-o"=
+ style=3D"table-layout: fixed; width: 100%;"><tr><td valign=3D"top" class=
+=3D"r7-i"> <table width=3D"100%" cellspacing=3D"0" cellpadding=3D"0" border=
+=3D"0" role=3D"presentation"><tr><td class=3D"r10-c" align=3D"left"> <table=
+ cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presentation" wid=
+th=3D"100%" class=3D"r0-o" style=3D"table-layout: fixed; width: 100%;"><tr>=
+<td align=3D"center" valign=3D"top" class=3D"r17-i nl2go-default-textstyle"=
+ style=3D"color: #95989a; font-family: Raleway,Arial,Helvetica,sans-serif; =
+font-size: 12px; word-break: break-word; line-height: 1px; padding-top: 9px=
+; text-align: center;"> <div><p style=3D"margin: 0;">=C2=A0</p><p style=3D"=
+margin: 0;"></p></div> </td> </tr></table></td> </tr></table></td> </tr></t=
+able></th> </tr></table></td> </tr></table><table cellspacing=3D"0" cellpad=
+ding=3D"0" border=3D"0" role=3D"presentation" width=3D"100%" align=3D"cente=
+r" class=3D"r0-o" style=3D"table-layout: fixed; width: 100%;"><tr><td class=
+=3D"r18-i" style=3D"background-color: #404040; padding-left: 26px; padding-=
+right: 26px;"> <table width=3D"100%" cellspacing=3D"0" cellpadding=3D"0" bo=
+rder=3D"0" role=3D"presentation"><tr><th width=3D"100%" valign=3D"top" clas=
+s=3D"r5-c" style=3D"font-weight: normal;"> <table cellspacing=3D"0" cellpad=
+ding=3D"0" border=3D"0" role=3D"presentation" width=3D"100%" align=3D"left"=
+ class=3D"r12-o" style=3D"table-layout: fixed; width: 100%;"><tr><td align=
+=3D"center" valign=3D"top" class=3D"r19-i nl2go-default-textstyle" style=3D=
+"color: #95989a; font-family: Raleway,Arial,Helvetica,sans-serif; font-size=
+: 12px; line-height: 1.4; word-break: break-word; padding-top: 20px; text-a=
+lign: center;"> <div><div class=3D"nl2go_class_12_white" style=3D"color: #f=
+ff; font-family: Raleway,Arial,Helvetica,sans-serif; font-size: 12px; word-=
+break: break-word;">If you no longer wish to receive this newsletter,<br><a=
+ href=3D"https://hd31i.r.ag.d.sendibm3.com/mk/un/v2/sh/1t6AVsdYhqSR1t1tLLl3=
+5U20Mjs5Rx/JfFkO9iOo1xH" style=3D"color: #ff6378; text-decoration: none;">c=
+lick here to unsubscribe.</a></div></div> </td> </tr></table></th> </tr></t=
+able></td> </tr></table><table cellspacing=3D"0" cellpadding=3D"0" border=
+=3D"0" role=3D"presentation" width=3D"100%" align=3D"center" class=3D"r0-o"=
+ style=3D"table-layout: fixed; width: 100%;"><tr><td class=3D"r20-i" style=
+=3D"background-color: #404040; padding-bottom: 32px; padding-left: 26px; pa=
+dding-right: 26px; padding-top: 25px;"> <table width=3D"100%" cellspacing=
+=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presentation"><tr><th width=
+=3D"100%" valign=3D"top" class=3D"r5-c" style=3D"font-weight: normal;"> <ta=
+ble cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presentation" =
+width=3D"100%" align=3D"center" class=3D"r0-o" style=3D"table-layout: fixed=
+; width: 100%;"><tr><td align=3D"left" valign=3D"top" class=3D"r21-i nl2go-=
+default-textstyle" style=3D"color: #95989a; font-family: Raleway,Arial,Helv=
+etica,sans-serif; font-size: 12px; line-height: 1.4; word-break: break-word=
+; text-align: left;"> <div><p class=3D"default" id=3D"isPasted" style=3D"ma=
+rgin: 0;"><strong><em><span style=3D"color: rgb(255, 255, 255);">Looking fo=
+rward to collaborating with you!</span></em></strong></p><p class=3D"defaul=
+t" style=3D"margin: 0;"><span style=3D"color: rgb(255, 255, 255);"><strong>=
+<em>Best regards,</em></strong></span></p><p class=3D"default" style=3D"mar=
+gin: 0;"><em><span style=3D"color: rgb(255, 255, 255);"><strong>Satendra Ka=
+naujia</strong><br><strong>Business Development Manager</strong><br><strong=
+><a href=3D"https://hd31i.r.ag.d.sendibm3.com/mk/cl/f/sh/1t6Af4OiGsDg0mBcs5=
+8ztycQfC8lhp/NXA5XaeYTOfR" target=3D"_blank" style=3D"color: #ff6378; text-=
+decoration: none;" sib_link_id=3D"0" templating=3D"n">https://www.careersam=
+rat.com</a></strong><br></span><strong><span style=3D"color: rgb(255, 255, =
+255);">+91-790-517-6562</span></strong></em></p></div> </td> </tr></table><=
+/th> </tr></table></td> </tr></table><table cellspacing=3D"0" cellpadding=
+=3D"0" border=3D"0" role=3D"presentation" width=3D"100%" align=3D"center" c=
+lass=3D"r0-o" style=3D"table-layout: fixed; width: 100%;"><tr><td class=3D"=
+r16-i" style=3D"background-color: #f2f2f2; text-align: center;"> <table wid=
+th=3D"100%" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presen=
+tation"><tr><th width=3D"100%" valign=3D"top" class=3D"r5-c" style=3D"font-=
+weight: normal;"> <table cellspacing=3D"0" cellpadding=3D"0" border=3D"0" r=
+ole=3D"presentation" width=3D"100%" class=3D"r6-o" style=3D"table-layout: f=
+ixed; width: 100%;"><tr><td valign=3D"top" class=3D"r7-i"> <table width=3D"=
+100%" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" role=3D"presentation=
+"><tr><td class=3D"r10-c" align=3D"left"> <table cellspacing=3D"0" cellpadd=
+ing=3D"0" border=3D"0" role=3D"presentation" width=3D"100%" class=3D"r0-o" =
+style=3D"table-layout: fixed; width: 100%;"><tr><td align=3D"center" valign=
+=3D"top" class=3D"r22-i nl2go-default-textstyle" style=3D"color: #95989a; f=
+ont-family: Raleway,Arial,Helvetica,sans-serif; font-size: 12px; line-heigh=
+t: 1.4; word-break: break-word; padding-bottom: 7px; padding-left: 12px; pa=
+dding-right: 12px; padding-top: 7px; text-align: center;"> <div><div class=
+=3D"nl2go_class_12_black" style=3D"color: #000; font-family: Raleway,Arial,=
+Helvetica,sans-serif; font-size: 12px; word-break: break-word;">Your Compan=
+y =C2=A9 2020 | <a href=3D"https://hd31i.r.ag.d.sendibm3.com/mk/cl/f/sh/1t6=
+Af4OiGsE8LUO3GREv4EgG317VPt/5QeX5kATMJGr" style=3D"color: #ff6378; text-dec=
+oration: none;" sib_link_id=3D"1" templating=3D"n">Contact </a>| <a href=3D=
+"https://hd31i.r.ag.d.sendibm3.com/mk/cl/f/sh/1t6Af4OiGsEagCaTenKqEUk5Qq6F7=
+x/nrRyoz2UkNWw" style=3D"color: #ff6378; text-decoration: none;" sib_link_i=
+d=3D"2" templating=3D"n">Legal Notice </a>| <a href=3D"https://hd31i.r.ag.d=
+.sendibm3.com/mk/cl/f/sh/1t6Af4OiGsF30umu39QlOknuof4yq1/Ng3Lzy1iuQQf" style=
+=3D"color: #ff6378; text-decoration: none;" sib_link_id=3D"3" templating=3D=
+"n">Privacy Policy</a></div></div> </td> </tr></table></td> </tr></table></=
+td> </tr></table></th> </tr></table></td> </tr></table></td> </tr></table><=
+/td> </tr></table>  <div style=3D"font:normal 10px Arial; color:#ccc; text-=
+align:center; margin:20px auto 5px; width:200px;">
+	<div style=3D"margin:10px auto 0px; width:200px;">
+			<a href=3D"https://hd31i.r.ag.d.sendibm3.com/tracking/?utm_campaign=3D71=
+257396573bb908bc900e69378ca305&amp;utm_medium=3Demail&amp;utm_source=3Dlogo=
+_mailin">
+					<img alt=3D"Mailin" src=3D"https://hd31i.r.ag.d.sendibm3.com/public/im=
+ages/logo_nb_en.png" width=3D"129" height=3D"48" />
+			</a>
+		</div>
+	</div> </body></html>
+
+
+---------?=_22975-9412846294047--
+
