@@ -4,367 +4,109 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E8FCDE7315C
-	for <linux-firmware@archiver.kernel.org>; Mon,  2 Feb 2026 12:21:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92A30E7315D
+	for <linux-firmware@archiver.kernel.org>; Mon,  2 Feb 2026 12:22:33 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id CF575C116D0; Mon,  2 Feb 2026 12:21:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9148C2BC86
-	for <linux-firmware@kernel.org>; Mon,  2 Feb 2026 12:21:42 +0000 (UTC)
+	id 7C05EC2BC87; Mon,  2 Feb 2026 12:22:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62993C2BC86
+	for <linux-firmware@kernel.org>; Mon,  2 Feb 2026 12:22:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770034902;
-	bh=p1UHjn3+SPY+T7iK+FrYM4ZUx6F0KvUGPdq7QXpAgq8=;
+	s=k20201202; t=1770034953;
+	bh=gwqq2p0Fz7BPDzNR3l2jZgueqlWC55nQwqqMsRiUZ+c=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=MJ0vJ+mFeTjq2zX++o7K52PpMWO4I36fAzTNs1sXYC5io7psDsIgchHlsJykSKJzB
-	 xJay9TOmlX/X3m5ez83apJfOfHiJ47wj5COeyyD2G24lCAYDrZjPSOL8/QTiwzyPtq
-	 bVZTMtzUyOmdDPkx52ZlnccoJ1cWszHbhykeYnUaVJpEj5vzHyADp7gd7yTFR5Nnjq
-	 lg3RVrK7YYfHs/w7+JL43aj6KwIKbAAWLEMKwrOxMqMqiehPb3nTxLhiW7zujWa02p
-	 M5kXqA6wUw+VEegi0uLMHKAQz/+0fVoDjTM2p8bdToJnNxZbNAueu9EbYMNjyV8URZ
-	 4DwwcHJkUvPGw==
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-794719afcd4so43394997b3.1
-        for <linux-firmware@kernel.org>; Mon, 02 Feb 2026 04:21:42 -0800 (PST)
-X-Gm-Message-State: AOJu0YytWcouMEDtZDPtZNdp+UKICQnM1CJHTvMwGu5TNeV+zB4Y8kLm
-	vf2FXXnjFyc3Dm00KCVl1ZI5SQllvYJN/WE6kAhQZGFnwqpHbYc/yEwbqM3gg1yxQ9B2A9ZAN2Z
-	w3F9oDPkelBzrR/ykmF1YpjM4GASOtvI=
-X-Received: by 2002:a05:690c:10d:b0:794:d639:396 with SMTP id
- 00721157ae682-794d6393229mr23549467b3.32.1770034901829; Mon, 02 Feb 2026
- 04:21:41 -0800 (PST)
+	b=Am7YoU53fCdjitSa2zXr/OgfFomNwy5pOEjhRSduhRJaHe5yJ+QMYMWmcSJxvDFR1
+	 aNzh/cTijOjnho6vi/n/CbTnvxFsS0j+9YtIlTnhGA9ytazd/clFii8KBqrFI7MSo1
+	 I6N5M1ucqACCIpY+cTTiWA/eUgzNXpN2NXV34g0O3VsIn72oD8fkq+6kKbzo2Z7RHk
+	 2GFvdCnfnBbR65VXhBVkaL+5lYJT6D0a96aJocFHYxzTB6X4OqUwaGgPQ8B3shMVe9
+	 LQ7dJiCXZ7A56UyY6grX9yEupzVzgbRWWC4/xGlfMS1lGnEW0JmocAdNJYVY78gwYC
+	 0zOjsBs4Zr0cw==
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-79472374371so26378477b3.0
+        for <linux-firmware@kernel.org>; Mon, 02 Feb 2026 04:22:33 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXfIKCGFnvlVWMUASUheW5RvD2zz497HnkC8pHSWqQaul2PNg6RMTEDRVA8SThMMgSE8WhabYmgZDormNz8dw==@kernel.org
+X-Gm-Message-State: AOJu0YySlvfpJzTTV6uV57oPLEDbClvAw/+8MMvaSX54SCQlcQC2aVFb
+	zSES94/+4H3d6pdfYVM7MV84Pkspyanf+cJY10g1WvR+NP//PEez51iXihQNNdu5oTm7jN9qgcD
+	wTHp7fOTAM8Iv5ZWuzXPVJ1bSMOC1M3E=
+X-Received: by 2002:a05:690c:4b13:b0:794:e839:ad75 with SMTP id
+ 00721157ae682-794e839dd42mr4124397b3.42.1770034952586; Mon, 02 Feb 2026
+ 04:22:32 -0800 (PST)
 MIME-Version: 1.0
-References: <00ba01dc8c7e$23a13e50$6ae3baf0$@opensource.cirrus.com>
-In-Reply-To: <00ba01dc8c7e$23a13e50$6ae3baf0$@opensource.cirrus.com>
+References: <20260120212659.4454-1-ansuelsmth@gmail.com> <htkipxs5s3lmkm65wrgsyouk5hh7iyno4aci6cbu5sba3swnw2@pxgawgx4yzmd>
+ <CA+_ehUy-9Gd8x81btYdq1sRpKtGv8BuynbFJz6tTg655pba8Rw@mail.gmail.com> <DM3PR19MB83582370043EC80A5BE42ECF8691A@DM3PR19MB8358.namprd19.prod.outlook.com>
+In-Reply-To: <DM3PR19MB83582370043EC80A5BE42ECF8691A@DM3PR19MB8358.namprd19.prod.outlook.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 2 Feb 2026 07:21:29 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA6E51Ea-CQqupWbVSwEXSiDJaYGPciBc7aNrmFdw3DSQg@mail.gmail.com>
-X-Gm-Features: AZwV_QhQQedzpPxC6wJQPa4yZZc4XAXP2iG6kuUQ825UEPrDDkmCK2DLTiWXJY0
-Message-ID: <CA+5PVA6E51Ea-CQqupWbVSwEXSiDJaYGPciBc7aNrmFdw3DSQg@mail.gmail.com>
-Subject: Re: [PULL v1 linux-firmware] Add firmware for Cirrus Amps and Codecs
- for some Dell and Lenovo laptops
-To: Simon Trimmer <simont@opensource.cirrus.com>
+Date: Mon, 2 Feb 2026 07:22:20 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA6hcFzF1rOfsBzAYWgCsG8oxotc3LGCsrWPSB5V9hRYww@mail.gmail.com>
+X-Gm-Features: AZwV_QiyYanGogyWo6-u3hEd5Tw26Z4WhnXU5XFCuG1MB1f5Eupj0FkLRJXOmU4
+Message-ID: <CA+5PVA6hcFzF1rOfsBzAYWgCsG8oxotc3LGCsrWPSB5V9hRYww@mail.gmail.com>
+Subject: Re: [PATCH] linux-firmware: update Aeonsemi AS21x1x firmware to 1.9.1
+To: Ryan Huang <xin.huang@aeonsemi.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, patches@opensource.cirrus.com
+Cc: "dmitry.baryshkov@oss.qualcomm.com" <dmitry.baryshkov@oss.qualcomm.com>, 
+	"Christian Marangi (Ansuel)" <ansuelsmth@gmail.com>, 
+	"linux-firmware@kernel.org" <linux-firmware@kernel.org>, =?UTF-8?Q?Peter_Steinh=C3=A4user?= <ps@embedd.com>, 
+	Huajian Zhou <huajian.zhou@aeonsemi.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Merged and pushed out.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/881
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/874
 
 josh
 
-On Fri, Jan 23, 2026 at 10:37=E2=80=AFAM Simon Trimmer
-<simont@opensource.cirrus.com> wrote:
+On Tue, Jan 27, 2026 at 9:41=E2=80=AFPM Ryan Huang <xin.huang@aeonsemi.com>=
+ wrote:
 >
-> Hi,
+> Hi all,
 >
-> A few patches today - we=E2=80=99d like to add the firmware for some Dell=
- and Lenovo Laptops that are using a variety of Cirrus smart amplifiers and=
- smart codecs.
+> Yes. this patch is intentionally contributed to the linux-firmware repo a=
+nd there is an upstream driver submitted to the Linux kernel that would loa=
+d this firmware. thanks.
 >
-> Thanks,
 >
-> -Simon
+> Best Regards,
 >
+> Ryan Huang
 >
+> +86-15366006084
 >
-> The following changes since commit 1b7b9f6c3461815b4f656178d31a6b6a90e045=
-ec:
 >
 >
 >
->   Merge branch 'robot/patch-0-1769048722' into 'main' (2026-01-22 11:51:2=
-3 +0000)
 >
+> ________________________________
+> =E5=8F=91=E4=BB=B6=E4=BA=BA: Christian Marangi (Ansuel) <ansuelsmth@gmail=
+.com>
+> =E5=B7=B2=E5=8F=91=E9=80=81: 2026 =E5=B9=B4 1 =E6=9C=88 28 =E6=97=A5 =E6=
+=98=9F=E6=9C=9F=E4=B8=89 10:29
+> =E6=94=B6=E4=BB=B6=E4=BA=BA: Ryan Huang <xin.huang@aeonsemi.com>
+> =E4=B8=BB=E9=A2=98: Fwd: [PATCH] linux-firmware: update Aeonsemi AS21x1x =
+firmware to 1.9.1
 >
+> On Tue, Jan 20, 2026 at 10:26:47PM +0100, Christian Marangi wrote:
+> > Update Aeonsemi AS21x1x firmware to version 1.9.1
+> >
+> > This new version introduce new command to configure the DPC Rate
+> > Adaption to better configure the In Band support.
+> >
+> > Also introduce some fixup for some specific scenario:
+> >
+> > - 10G performance is optimized for unstandard RJ45 with WIFI filter
+> > - 100meter 10G performance is improved for setup of serial resistor on =
+MDI trace
+> > - Auto crossover in force 100M mode / parallel detection issue fixed
+> >
+> > (quoted from Aeonsemi release notice)
 >
-> are available in the Git repository at:
+> Can we please get Aeonsemi's ack on these changes?
+> I CC'd Ryan Huang.
 >
+> >
+> > Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> > ---
+> >  aeonsemi/as21x1x_fw.bin | Bin 261400 -> 290272 bytes
+> >  1 file changed, 0 insertions(+), 0 deletions(-)
 >
->
->   https://github.com/CirrusLogic/linux-firmware 20260123-cs35l56-cs35l57-=
-cs35l63-cs42l45
->
->
->
-> for you to fetch changes up to 53ec87319d287a837b1291a6c97ed93d759bd0bd:
->
->
->
->   cirrus: cs42l45: Add CS42L45 SDCA codec firmware for Lenovo laptops (20=
-26-01-23 15:26:21 +0000)
->
->
->
-> ----------------------------------------------------------------
->
-> Maciej Strozek (2):
->
->       cirrus: cs42l45: Add CS42L45 SDCA codec firmware for Dell laptops
->
->       cirrus: cs42l45: Add CS42L45 SDCA codec firmware for Lenovo laptops
->
->
->
-> Simon Trimmer (2):
->
->       cirrus: cs35l56 cs35l57: Add and update firmware for some Dell lapt=
-ops
->
->       cirrus: cs35l57 cs35l63: Add firmware for Cirrus Amps for some Leno=
-vo laptops
->
->
->
-> WHENCE                                               |  67 ++++++++++++++=
-+++++++++++++++++++++++++++++++++++++++++++++++------
->
-> cirrus/cs35l56-b2-dsp1-misc-10280dd6-00-ampl.bin     | Bin 0 -> 10788 byt=
-es
->
-> cirrus/cs35l56-b2-dsp1-misc-10280dd6-00-ampr.bin     | Bin 0 -> 10788 byt=
-es
->
-> cirrus/cs35l56-b2-dsp1-misc-10280dd6-01-ampl.bin     | Bin 0 -> 10788 byt=
-es
->
-> cirrus/cs35l56-b2-dsp1-misc-10280dd6-01-ampr.bin     | Bin 0 -> 10788 byt=
-es
->
-> cirrus/cs35l56-b2-dsp1-misc-10280dd6-02-ampl.bin     | Bin 0 -> 10764 byt=
-es
->
-> cirrus/cs35l56-b2-dsp1-misc-10280dd6-02-ampr.bin     | Bin 0 -> 10764 byt=
-es
->
-> cirrus/cs35l56-b2-dsp1-misc-10280dd6-03-ampl.bin     | Bin 0 -> 10764 byt=
-es
->
-> cirrus/cs35l56-b2-dsp1-misc-10280dd6-03-ampr.bin     | Bin 0 -> 10764 byt=
-es
->
-> cirrus/cs35l56/CS35L56_Rev4.5.3.wmfw                 | Bin 0 -> 27872 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid0-l2u2.bin | Bin 10556 -> 10532=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid0-l2u3.bin | Bin 10556 -> 10532=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid0-l3u0.bin | Bin 10556 -> 10532=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid0-l3u1.bin | Bin 10556 -> 10532=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid1-l2u2.bin | Bin 10556 -> 10532=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid1-l2u3.bin | Bin 10556 -> 10532=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid1-l3u0.bin | Bin 10556 -> 10532=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db3-spkid1-l3u1.bin | Bin 10556 -> 10532=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid0-l2u2.bin | Bin 10556 -> 10556=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid0-l2u3.bin | Bin 10556 -> 10556=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid0-l3u0.bin | Bin 10556 -> 10556=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid0-l3u1.bin | Bin 10556 -> 10556=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid1-l2u2.bin | Bin 10556 -> 10556=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid1-l2u3.bin | Bin 10556 -> 10556=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid1-l3u0.bin | Bin 10556 -> 10556=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db4-spkid1-l3u1.bin | Bin 10556 -> 10556=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid0-l2u2.bin | Bin 12396 -> 12384=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid0-l2u3.bin | Bin 12388 -> 12376=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid0-l3u0.bin | Bin 12396 -> 12384=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid0-l3u1.bin | Bin 12388 -> 12376=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid1-l2u2.bin | Bin 12392 -> 12388=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid1-l2u3.bin | Bin 12388 -> 12384=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid1-l3u0.bin | Bin 12392 -> 12388=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280db9-spkid1-l3u1.bin | Bin 12388 -> 12384=
- bytes
->
-> cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l2u2.bin | Bin 0 -> 12456 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l2u3.bin | Bin 0 -> 12460 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l3u0.bin | Bin 0 -> 12456 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l3u1.bin | Bin 0 -> 12460 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l2u2.bin | Bin 0 -> 12464 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l2u3.bin | Bin 0 -> 12464 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l3u0.bin | Bin 0 -> 12464 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l3u1.bin | Bin 0 -> 12464 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l1u0.bin | Bin 0 -> 12572 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l1u1.bin | Bin 0 -> 12572 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l2u2.bin | Bin 0 -> 12572 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l2u3.bin | Bin 0 -> 12572 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l1u0.bin | Bin 0 -> 12572 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l1u1.bin | Bin 0 -> 12572 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l2u2.bin | Bin 0 -> 12572 byt=
-es
->
-> cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l2u3.bin | Bin 0 -> 12572 byt=
-es
->
-> cirrus/cs35l63-a1-dsp1-misc-17aa2352-l2u0.bin        | Bin 0 -> 13404 byt=
-es
->
-> cirrus/cs35l63-a1-dsp1-misc-17aa2352-l2u1.bin        | Bin 0 -> 13404 byt=
-es
->
-> cirrus/cs35l63-a1-dsp1-misc-17aa2353-l2u0.bin        | Bin 0 -> 13404 byt=
-es
->
-> cirrus/cs35l63-a1-dsp1-misc-17aa2353-l2u1.bin        | Bin 0 -> 13404 byt=
-es
->
-> cirrus/cs35l63/CS35L63_Rev2.5.4.wmfw                 | Bin 0 -> 25808 byt=
-es
->
-> sdca/1fa/1028/db3/42450005.bin                       | Bin 10764 -> 13796=
- bytes
->
-> sdca/1fa/1028/db9/42450005.bin                       | Bin 10764 -> 0 byt=
-es
->
-> sdca/1fa/{1028/db9 =3D> 17aa/2352}/1.bin               | Bin
->
-> sdca/1fa/{1028/db9 =3D> 17aa/2352}/2.bin               | Bin
->
-> sdca/1fa/{1028/db9 =3D> 17aa/2352}/3.bin               | Bin
->
-> sdca/1fa/{1028/db9 =3D> 17aa/2352}/4.bin               | Bin
->
-> sdca/1fa/17aa/2352/42450005.bin                      | Bin 0 -> 13796 byt=
-es
->
-> 62 files changed, 61 insertions(+), 6 deletions(-)
->
-> create mode 100644 cirrus/cs35l56-b2-dsp1-misc-10280dd6-00-ampl.bin
->
-> create mode 100644 cirrus/cs35l56-b2-dsp1-misc-10280dd6-00-ampr.bin
->
-> create mode 100644 cirrus/cs35l56-b2-dsp1-misc-10280dd6-01-ampl.bin
->
-> create mode 100644 cirrus/cs35l56-b2-dsp1-misc-10280dd6-01-ampr.bin
->
-> create mode 100644 cirrus/cs35l56-b2-dsp1-misc-10280dd6-02-ampl.bin
->
-> create mode 100644 cirrus/cs35l56-b2-dsp1-misc-10280dd6-02-ampr.bin
->
-> create mode 100644 cirrus/cs35l56-b2-dsp1-misc-10280dd6-03-ampl.bin
->
-> create mode 100644 cirrus/cs35l56-b2-dsp1-misc-10280dd6-03-ampr.bin
->
-> create mode 100644 cirrus/cs35l56/CS35L56_Rev4.5.3.wmfw
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l2u2.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l2u3.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l3u0.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid0-l3u1.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l2u2.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l2u3.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l3u0.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280dba-spkid1-l3u1.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l1u0.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l1u1.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l2u2.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid0-l2u3.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l1u0.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l1u1.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l2u2.bin
->
-> create mode 100644 cirrus/cs35l57-b2-dsp1-misc-17aa2355-spkid1-l2u3.bin
->
-> create mode 100644 cirrus/cs35l63-a1-dsp1-misc-17aa2352-l2u0.bin
->
-> create mode 100644 cirrus/cs35l63-a1-dsp1-misc-17aa2352-l2u1.bin
->
-> create mode 100644 cirrus/cs35l63-a1-dsp1-misc-17aa2353-l2u0.bin
->
-> create mode 100644 cirrus/cs35l63-a1-dsp1-misc-17aa2353-l2u1.bin
->
-> create mode 100644 cirrus/cs35l63/CS35L63_Rev2.5.4.wmfw
->
-> delete mode 100644 sdca/1fa/1028/db9/42450005.bin
->
-> rename sdca/1fa/{1028/db9 =3D> 17aa/2352}/1.bin (100%)
->
-> rename sdca/1fa/{1028/db9 =3D> 17aa/2352}/2.bin (100%)
->
-> rename sdca/1fa/{1028/db9 =3D> 17aa/2352}/3.bin (100%)
->
-> rename sdca/1fa/{1028/db9 =3D> 17aa/2352}/4.bin (100%)
->
-> create mode 100644 sdca/1fa/17aa/2352/42450005.bin
+> --
+> With best wishes
+> Dmitry
