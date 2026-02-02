@@ -4,84 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73A9AE7315B
-	for <linux-firmware@archiver.kernel.org>; Mon,  2 Feb 2026 12:17:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65A0BE7315B
+	for <linux-firmware@archiver.kernel.org>; Mon,  2 Feb 2026 12:18:05 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 5D545C19421; Mon,  2 Feb 2026 12:17:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43298C2BC86
-	for <linux-firmware@kernel.org>; Mon,  2 Feb 2026 12:17:32 +0000 (UTC)
+	id 4E8A6C2BC9E; Mon,  2 Feb 2026 12:18:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39410C2BC86
+	for <linux-firmware@kernel.org>; Mon,  2 Feb 2026 12:18:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770034652;
-	bh=qBipM3Hq19/UWs+y4mRcESFL52/vnWkHlZ3VsNhCEcA=;
+	s=k20201202; t=1770034685;
+	bh=Q9S143qc4geSEoa38dOvihqhHcyZjaqCDcdK6FY5rbs=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=SgYni76ACD8uVnMFn2VJMvokuAkPPZvWAeTbnGT5Z4OE0HqNHwxwvETyTybC5RdSo
-	 qoDE3HgqtoBmaWSAVrsk36jmvjXyuNg4PUBh8VQwvNbZG1JFTUc4qmjsp16BMWu54v
-	 1QiWQ01laVAa1501CxRwFo5Sl90m81CkK+GyMs9mm9kss/vwSo0orn8lETWX+3qE9h
-	 HNJ0o3JK1/uPbVqGaLvSpf76/gN/lPAwQbuQMOPyEZWnD60V9TVhJzd9ug1laKBNGD
-	 kDQz8uhtDfVejzKbsiwEfJ+Rwt2HDByv1AekHXxTgxYvr36BIMZn4DzyolNwZHMOHT
-	 7NHsbzTPpddKQ==
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-79496f0ea57so38087187b3.0
-        for <linux-firmware@kernel.org>; Mon, 02 Feb 2026 04:17:32 -0800 (PST)
-X-Gm-Message-State: AOJu0YzH3mCtNqp6bQxFszhWsx4RyoGZbSxJNljKD9eaPfk/p7EoEjc8
-	rT/kgdAnG5gekRGu4MobVY5HBhJHVCyOaX67BrjxS/GNv9sMjSpvZsjKx+mL2ubqcxcwrO255nE
-	6KP3az8ntJXweBxVBpgsgTBgNvoqKh18=
-X-Received: by 2002:a05:690c:c507:b0:794:cf93:556 with SMTP id
- 00721157ae682-794cf930ab0mr27118567b3.30.1770034651457; Mon, 02 Feb 2026
- 04:17:31 -0800 (PST)
+	b=CgT3ufDyOkGVVu9tzejwmAGYdLxVwniqXkpimzsff7pYZCqh5zDYHIsgQsuc2oNwk
+	 moMtTmFsc3wxvbjME0ARwATW0MxaoPMeSyCXesi4WGA+1GEzxGhWCOwBAqc2L9EAn7
+	 eQOa8Rpuxq8uFZZzyHyk0+our4ZJNGRDY0u3tUd2ZT82nfuSIDCRpdniyJ+bKxCmiL
+	 NOBgKYcv/nYkNGNVgOyLS+MR1THp9Pc5flZgVC4BDVlJUBuOivK/iKbCxh4zPk4JbX
+	 ZSPhiSTaBX807chtvX8DJ7W29QJ4wTQSOtaE4/dbk+myUezMlzUUcof5pzNXUyUZQR
+	 0n7+RT2zzCzuA==
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-794e95357cfso1154587b3.0
+        for <linux-firmware@kernel.org>; Mon, 02 Feb 2026 04:18:05 -0800 (PST)
+X-Gm-Message-State: AOJu0Yxe1gWXQfTvLUu9Ors6HDpjyzVGOaigCxY6/B4K5WLUNda1af/T
+	MiuZewuA/oLv8n+hevzrbXlvaMH7nyl/IUh+40Ius/hk+K1LfVsVENJCDwAnFCM4d5FtRf71WzF
+	pG3GLwHLDFszASpFLReywuRz19IauSVU=
+X-Received: by 2002:a05:690c:63c8:b0:794:84ee:9aa5 with SMTP id
+ 00721157ae682-7949dfd9c21mr86717237b3.47.1770034684436; Mon, 02 Feb 2026
+ 04:18:04 -0800 (PST)
 MIME-Version: 1.0
-References: <20260129171430.21343-1-anthony.l.nguyen@intel.com>
-In-Reply-To: <20260129171430.21343-1-anthony.l.nguyen@intel.com>
+References: <000001dc9142$64f4dbf0$2ede93d0$@opensource.cirrus.com>
+In-Reply-To: <000001dc9142$64f4dbf0$2ede93d0$@opensource.cirrus.com>
 From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 2 Feb 2026 07:17:19 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA6h0z2zq=DFO-t3pC721uzntevMJZVxf+NegMKVoQAOow@mail.gmail.com>
-X-Gm-Features: AZwV_QgeF8g4UliW9rAQMJfuPPoEEIY2aCdjZQMBRqvgMpeQ5lxk0Y0luTJVoXM
-Message-ID: <CA+5PVA6h0z2zq=DFO-t3pC721uzntevMJZVxf+NegMKVoQAOow@mail.gmail.com>
-Subject: Re: [linux-firmware][pull request] Intel Wired LAN Firmware Updates 2026-01-29
-To: Tony Nguyen <anthony.l.nguyen@intel.com>
+Date: Mon, 2 Feb 2026 07:17:52 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA4shWEX-9NtyV+SEw5XWszyfsn7p5wD=vQb9=4h-oAUxw@mail.gmail.com>
+X-Gm-Features: AZwV_Qi64ONZVr3tFV4XhsxCLwDIUE1pfmveRUldlKkv1_mAVp8fgucPrh0mZ6M
+Message-ID: <CA+5PVA4shWEX-9NtyV+SEw5XWszyfsn7p5wD=vQb9=4h-oAUxw@mail.gmail.com>
+Subject: Re: [PULL v1] cirrus: cs35l56: Add WHENCE links for 17aa233c spkid0 firmware
+To: Simon Trimmer <simont@opensource.cirrus.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, marcin.szycik@linux.intel.com
+Cc: linux-firmware@kernel.org, patches@opensource.cirrus.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Merged and pushed out.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/894
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/893
 
 josh
 
-On Thu, Jan 29, 2026 at 12:14=E2=80=AFPM Tony Nguyen <anthony.l.nguyen@inte=
-l.com> wrote:
+On Thu, Jan 29, 2026 at 12:12=E2=80=AFPM Simon Trimmer
+<simont@opensource.cirrus.com> wrote:
 >
-> Update the ice DDP LAG package to include support for E830 devices.
+> Hi,
 >
-> This uses a dual-segment package with one segment for E810 and one for
-> E830, which increases package size.
+> One little patch today =E2=80=93 we=E2=80=99d like to add some Links: to =
+address an issue discovered on a Lenovo laptop running Kernel v6.18
+>
+> Thanks,
+>
+> -Simon
+>
+>
+>
+>
 >
 > The following changes since commit 2e5a8b0550ba3255bccc2bac57c520259968f5=
 e9:
 >
+>
+>
 >   Merge branch 'main' into 'main' (2026-01-28 02:12:22 +0000)
+>
+>
 >
 > are available in the Git repository at:
 >
->   git://git.kernel.org/pub/scm/linux/kernel/git/tnguy/firmware.git dev-qu=
-eue
 >
-> for you to fetch changes up to 524647ff511fd1c5ed5086e8bbf16acb96df2ce9:
 >
->   ice: update DDP LAG package to 1.3.2.0 (2026-01-29 08:37:49 -0800)
+>   https://github.com/CirrusLogic/linux-firmware 20260129-cs35l56
+>
+>
+>
+> for you to fetch changes up to db024df1e153c8fd5d3c7f79ce5ad08f09c10f64:
+>
+>
+>
+>   cirrus: cs35l56: Add WHENCE links for 17aa233c spkid0 firmware (2026-01=
+-29 17:05:41 +0000)
+>
+>
 >
 > ----------------------------------------------------------------
-> Marcin Szycik (1):
->   ice: update DDP LAG package to 1.3.2.0
 >
->  WHENCE                                |   2 +-
->  intel/ice/ddp-lag/ice_lag-1.3.1.0.pkg | Bin 692776 -> 0 bytes
->  intel/ice/ddp-lag/ice_lag-1.3.2.0.pkg | Bin 0 -> 1360772 bytes
->  3 files changed, 1 insertion(+), 1 deletion(-)
->  delete mode 100644 intel/ice/ddp-lag/ice_lag-1.3.1.0.pkg
->  create mode 100644 intel/ice/ddp-lag/ice_lag-1.3.2.0.pkg
+> Simon Trimmer (1):
 >
-> --
-> 2.47.1
+>       cirrus: cs35l56: Add WHENCE links for 17aa233c spkid0 firmware
 >
+>
+>
+> WHENCE | 3 +++
+>
+> 1 file changed, 3 insertions(+)
