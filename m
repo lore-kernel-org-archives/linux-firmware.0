@@ -1,172 +1,182 @@
-Return-Path: <SRS0=YJdV=AH=oss.qualcomm.com=saddam.patan@kernel.org>
+Return-Path: <SRS0=aam9=AH=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49281E83054
-	for <linux-firmware@archiver.kernel.org>; Tue,  3 Feb 2026 05:41:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5AB7CE87822
+	for <linux-firmware@archiver.kernel.org>; Tue,  3 Feb 2026 12:40:49 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 10B4DC16AAE; Tue,  3 Feb 2026 05:41:15 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	id 2DAF8C19425; Tue,  3 Feb 2026 12:40:49 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id D9923C116D0
-	for <linux-firmware@kernel.org>; Tue,  3 Feb 2026 05:41:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D9923C116D0
+	by smtp.kernel.org (Postfix) with ESMTPS id 5E966C116D0
+	for <linux-firmware@kernel.org>; Tue,  3 Feb 2026 12:40:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 5E966C116D0
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 612JIqQU3459143
-	for <linux-firmware@kernel.org>; Tue, 3 Feb 2026 05:41:12 GMT
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61382IGY255028
+	for <linux-firmware@kernel.org>; Tue, 3 Feb 2026 12:40:46 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	5lC4sHElh6rbWdKkTmNfk93hFiMG9uZDk1VpYuSoOTw=; b=Nk9qYvu3RMuRlYRm
-	Bo7AelGM/08r5AQvcJhmoWSsFeh96Zy3vzDuQTyUJ59815hW+JsR6xY4qJnurSV9
-	NJh+Asv9/DjMia9Hf8tfJL0810Yg0ajEgiPoc5t2Jq3IdaJOs/HLhTER9wqP48eo
-	o4Svp9N4b/e060bMaEGd2SvolAnVb98ohcTPjA24Qx+SAv5f/wIEfzZ9pM80qTcU
-	Z6984r9IWZi6ijh0GiQMQQJDqJCcUMSHyRVKHRDyF0xtUYBBE7m75v/CIA4uR1BA
-	2H8iMdiY4fVWy8SD75UFxp0IXFIQQ0MGCD7DpqwGRBh+0gr5gQm6ZFGt1V2DPjLg
-	EMvngg==
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c2trbk0je-1
+	fxiG0BQObezT2/K8iaJhIFL3yTV96Snz2zic5iGEM3o=; b=pLvlyGwlFIlVAfwk
+	dZJhoMZu+k+COCwrxAkWKJ07WNlA+mmxusId+lDCmR6PRKWkq9s56vhD4sXv8wNz
+	xlycJ6j8dbI+76BXAlPU7SINbmosr/z6UlBNMqjbq+khpnpYnTwvoRNCIaqcHImI
+	/Xc3bpaPxkhYM/rlTJGVXFUPwdNRFufey7ubQDkOg7y8zhsbXUXrypQ2FZ0R0OsE
+	PHb+g3rCylCRMCOwa9qRIywGg8Y9DlOuq67GPB5qIUcc24xLIReh7q7lEl9eSkmi
+	2J9q/yxberkOljiP9Gup2Qt1pjQHlDMla0Qbg5MMwQ96fcwtJ++JNdiUXqFuARXg
+	8ORaCA==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c2v0km2p8-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Tue, 03 Feb 2026 05:41:12 +0000 (GMT)
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-c5539b9adbcso10812927a12.3
-        for <linux-firmware@kernel.org>; Mon, 02 Feb 2026 21:41:12 -0800 (PST)
+	for <linux-firmware@kernel.org>; Tue, 03 Feb 2026 12:40:46 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8c5296c7e57so1209998185a.1
+        for <linux-firmware@kernel.org>; Tue, 03 Feb 2026 04:40:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1770097271; x=1770702071; darn=kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+        d=oss.qualcomm.com; s=google; t=1770122445; x=1770727245; darn=kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=5lC4sHElh6rbWdKkTmNfk93hFiMG9uZDk1VpYuSoOTw=;
-        b=GnuEpovDyDmtYpfJoFZPeBG/H4BHDfhRtqUny3F7hToqIh1nZdRv+dGP5mkah0c6nh
-         odiAtFmpsl0jSNRQmtSQqafooT54vlkVUShrgNhpQIf1ZL0HwGGygCTDYf3VPD54cDjK
-         3Y4WhagoC6KfsfJ1n+O+qtP/9fsg2LlAtMQqkbqkLiilf09DIYQRqR/9VaZtUv7LfSG6
-         pJERdxxZcwaRMyOZ/JODea0dHXtTWkCpZmz6H5jkj8LOxV1MT/2jFojFTQTadZpEFF3H
-         2rFHQRv1tS1051xHkFUHlOb6r9tKk+JGGNawrAMzYwypZM+CotNTM7KzBpzgC+tdvbSG
-         nl2g==
+        bh=fxiG0BQObezT2/K8iaJhIFL3yTV96Snz2zic5iGEM3o=;
+        b=RpJYkH21ZB2mT2Yw8Rbg7b3JT/wOGfLF3ZSWUcBguD62QloHEzY8DPh5G7w0IieiVk
+         mq63uI7/cBUOYi+1u6z5oo5wVsjpUYs9MquPo34UfFevdke2Z0SDIl4Myd2oAtAEnsL4
+         bVqUG4jKUZHP8N5kLZSow9zcawS3RZoK6ibiO9LNc3nl5+7tWftcSKHbv4MbcedEAXV3
+         c3ofi3sFcpNhohaF5pnE/I1+BOQ79X9JegloUFQ/vvnb3uI/z141kz6GM1N/lmhoJ0MT
+         Us6z8KIy9Z42uwtstufQTbKWxJ1uQAxHmkXYeF1GL3tnFmAbmOc7/QnnoQqhsw2i81vn
+         cCtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770097271; x=1770702071;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
+        d=1e100.net; s=20230601; t=1770122445; x=1770727245;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5lC4sHElh6rbWdKkTmNfk93hFiMG9uZDk1VpYuSoOTw=;
-        b=ijwReEanHBYSDsd255EY6ZsX3UL/DshU49v29W/S5ylCDgxTZcg0CM5Q4PxOnhdQFu
-         nf2p40bB5TeEXg/jRTzT7aCm53pfkYQil37SCqg85HJDAKjQqIILUbGzmljqsMGnO5lc
-         gFJg6syzxcXUwJk/v/T7NZuE216uK01WU9CZrHOWT0wJNVd3Cu2cv1PKIb65/1Tj/g1C
-         hb/WcyWX4HYgIgZF3SlMxq2uD6XNUy154Bd2yjkjXUOHBvt43asDysNs0A2s3Gdr1M9B
-         py1YoW20xzkE2cZpCHJ15i2SMZphkaK2wdROdWYfAzHeRQRm4ty7lbXYjEGtkHwsQRql
-         4GBw==
-X-Gm-Message-State: AOJu0YwGisj4AfI0Hy6/TRgDGDQZA8iRpcSSoaxfK4+vgro4RWHoeAxC
-	iuDLBsC5ymJGIh10CO+BPflww7aA5sIkSkaBwWXnb8nk5U8eKz3qv4epGq+inQvoySzDDrb/g39
-	j44RmEK27CHCSGfgvWifvY/9zK/gsW8uM65XlfOJ8H0Lcl2CxcJJcb3gTJVnUMupPCZdzyqo=
-X-Gm-Gg: AZuq6aLKJrdg1KQEgRV4rjlR8/0u+MiOrOn2fVqArwxxz1nyQeB4i7FefLDJhWBBx9n
-	8uxIK6iwDaFjAaxE56IqDbe4lb6l3/irktNR8fyv1wYUewd1kQ202neUpCk2MoFpH9C6IALu9I+
-	mgh9ooLGlIpVtmY6TBp9d9K8Q9pHO+BACyruVfcvLlljXtqHyarOBL0VW3okHQD145I212IUQlO
-	2QAu9V87y2/X4QHPMh2TcsUuhafjHQI0x7/8Mj2EYYNCcLkEIuJ4lCex/cyAd5d17AcQaNu48q+
-	bJdz0DrZhpIFy+wExm8Ajte5ZRCOfIFFpFfyNRaKZr7WctNuuiuS8Ej0Gs9z+Yvke0s9fcYgBNX
-	ebcL+PrHv8PjfAGLQJyjjyrZ+8QFy/U+sLo9moZTX
-X-Received: by 2002:a05:6a21:9993:b0:389:8f3f:50d0 with SMTP id adf61e73a8af0-392e016ca4cmr11419118637.60.1770097271212;
-        Mon, 02 Feb 2026 21:41:11 -0800 (PST)
-X-Received: by 2002:a05:6a21:9993:b0:389:8f3f:50d0 with SMTP id adf61e73a8af0-392e016ca4cmr11419097637.60.1770097270655;
-        Mon, 02 Feb 2026 21:41:10 -0800 (PST)
-Received: from [10.206.100.140] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3547b1304a9sm606404a91.14.2026.02.02.21.41.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Feb 2026 21:41:09 -0800 (PST)
-Message-ID: <c097dd43-f1ac-4e7e-b4ab-1a6f74193758@oss.qualcomm.com>
-Date: Tue, 3 Feb 2026 11:11:07 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: qcom: Add ADSP firmware for glymur platform
-From: Saddam Patan <saddam.patan@oss.qualcomm.com>
+        bh=fxiG0BQObezT2/K8iaJhIFL3yTV96Snz2zic5iGEM3o=;
+        b=VsUhUsE+qN//B4aZZyZWHhzwcjc+BVYEnciHfA3vsVDyUpDpsDskKBymZIjPqj+q14
+         l+0H7Dn5ajF3kftnV+6CBjCnwYb4TEYkq8WKMEBKDSBl3RQXgimOps+uxV+MssYhJQs4
+         Iv38B95TrgTA9PygSMFRca4s+I0GlcZxu9NX9uM+Zu/EipxcQ3B/oJxazi4LB/AuF6h/
+         1S4s4RAKvXx4Xa23/krSDRA7fSMHVjA5dJuzGTx1stieT50bhmmWFOcmi6S1L4nwnwM5
+         lZl3/NOtF+P5SuSAgqOlceTUhYwiLwiv8atNXU2AD2A6vy8tlBrRCMLTtkyx25f28trE
+         187w==
+X-Gm-Message-State: AOJu0YxY1c1ZPo82jRf7O8OQXI1hT5mSfXw4wgGpBi4ZbW11N840jwFI
+	dJs44us01bP5lOIO1OZu/sli2wa5622t+f9Ysy+EBwOG8J9yg6WaEGKnFpTrMJNoJFuOYBZlZYC
+	Qzl9rM0Wx9paMJnZZREz8xo2FIP2XSjIs4Jg5LEn/s9onuJicK7OoIAiPFt3Hej4=
+X-Gm-Gg: AZuq6aL62JFDpqdy21A+ecJQc4lEgR4SZ5QQmtNbmt7AzVEAe0GYraYu49OYtU3MHgr
+	FolsNZb2fp1Td6eHvyrwrkE4JJSWO9kGIKGPZgTeCPXGqIYcBGwAUzr9gCwQ+6lrC7Xixvb6kj2
+	nsK5XuDUiBI+E8JZPrn2aKET9C9V1GWQxtObwbxAH9Tngw92c2oIoGNy/Ev+rHZpjnBIjpFBmBf
+	jnYGINHCMAf9cgBZnYC3pDH0TVA5/3J6uFHwu9YXrMNMSf4iIQr7cVt7C0kXLr+ek68itKSq1h6
+	O9i0IJ2ZG4NNaAqXi0CeHPObYsAfWPrcnJ4zMg50AM7YvOK2+nzy/PEbyePx3XhzBnUSrXWYHnf
+	RRwzXFbh7Ut9425xuPXiDIS94R6DbYa8rIdZgX019Ca93XGZ3ehFuZrT9+h25gfZl2ykakrrrtJ
+	sTa7sbHt1RxT2n1+w5eD03ZhA=
+X-Received: by 2002:a05:620a:254e:b0:8c6:a034:9226 with SMTP id af79cd13be357-8c9eb34e749mr1857705585a.82.1770122445568;
+        Tue, 03 Feb 2026 04:40:45 -0800 (PST)
+X-Received: by 2002:a05:620a:254e:b0:8c6:a034:9226 with SMTP id af79cd13be357-8c9eb34e749mr1857702885a.82.1770122445161;
+        Tue, 03 Feb 2026 04:40:45 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59e07481b72sm4240852e87.11.2026.02.03.04.40.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Feb 2026 04:40:44 -0800 (PST)
+Date: Tue, 3 Feb 2026 14:40:42 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Saddam Patan <saddam.patan@oss.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org, dmitry.baryshkov@oss.qualcomm.com
-Cc: venkata.kota@oss.qualcomm.com, kssb@qti.qualcomm.com
+Cc: linux-firmware@kernel.org, venkata.kota@oss.qualcomm.com,
+        kssb@qti.qualcomm.com
+Subject: Re: qcom: Add ADSP firmware for glymur platform
+Message-ID: <qfsg6ibhsuivlbhjk32vbafj6eablll4p7kf53khka6hldj6eb@aosmofo5vt3s>
 References: <01d9e305-f4a0-42b7-ba22-5a9907577b8a@oss.qualcomm.com>
  <5b58bccf-ffa1-488b-bf6b-28e19b5fd5d4@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <5b58bccf-ffa1-488b-bf6b-28e19b5fd5d4@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <c097dd43-f1ac-4e7e-b4ab-1a6f74193758@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: fccgzztZluJazn2cFRgjcGxnG4R742AK
-X-Authority-Analysis: v=2.4 cv=dcmNHHXe c=1 sm=1 tr=0 ts=69818a78 cx=c_pps
- a=rz3CxIlbcmazkYymdCej/Q==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=qC_FGOx9AAAA:8 a=y0hHNGMWGZkkuLJjcr4A:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=bFCP_H2QrGi7Okbo017w:22
- a=fsdK_YakeE02zTmptMdW:22
-X-Proofpoint-GUID: fccgzztZluJazn2cFRgjcGxnG4R742AK
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjAzMDA0MyBTYWx0ZWRfX3gynzuWOKODz
- 6oFgluPqqDv9TqJKgcnTahOCZW8v8uekZBWehz+9y9VxyNw4/+MIM1jNZ3pvNNVl+bKYR07sArc
- VAjhJsaQfKlgXRaXTekfapbs/k+pLIe1NNHl04iSj6MyASa3geXJ1bK/ODDUsOrYHsZZRKQ5p0M
- gYQiqF0LfaS5zrXcL7s54ay/DXFyXdHzVhApQ+6j3FfwY4l9UCd563QcclQrVI0IEGn6Xe5V8fd
- TjywKov434d/x32XQ2h+184CY4FmMPFY1YIjjirDUQct8Cd+PQQfPMfVFgZXV/YMXDGeLKA8cpg
- KDhpujzNdWbV6Jnr/hOVV3GM+j5/GbuA53PGFJTYgNnsTNj5zQ/yNwHk0liI7TrOdEqrG57Ye3c
- 9r3xPmAC2NM/AEoF9l0lCaFipUJGXQSO9W4+DkH84d2nHAmmXVWAZzzjnxAJKXPOWc3/mvY0LpI
- RaME/wy+y3w+0dtxnlg==
+In-Reply-To: <c097dd43-f1ac-4e7e-b4ab-1a6f74193758@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=Reqdyltv c=1 sm=1 tr=0 ts=6981ecce cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=qC_FGOx9AAAA:8 a=ojpkO4GREUI8_LLAH3wA:9 a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
+ a=PEH46H7Ffwr30OY-TuGO:22 a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjAzMDEwMCBTYWx0ZWRfXwYKopWTvipXK
+ n3PdHn0NmOW1jknj+vJ2Kz2hA193dC8rKErp7KEvO1qtCquT1QRi+8mXyHKWCWxwcDu+hnQkoxM
+ DUZXOPGcWFub24g3J9DI9vDbGTXWo1YSW7Z5tEKv5qtFNZgtTEruhjVtbA74NgeGB6a4qMZAxX/
+ 4qKjmWvem+2LkdOGBgCaYi0wmFar1fA2PkrcomT95Zc3c0RPfZBI8bfepfigTsfwAp473W0zkYC
+ BYPfGoRQ+GgU35IBa6h1QXgDm4gaIMkHDFlz7Hoks6+RvRXHuTfBthw1MnQ7pCOTlTLJUnG/oAv
+ 1uMsfbNwMXoiazTTyYeeK7730OkiYjC8i/mnlqr6Ajm+o35Gw53ipcaafDXHl0FnGlqOO5l1Sib
+ 8iTZTNveuAfq6YD7ezkINQqysnByiXnWlq2lAWsRYKk+3doHHlocXXjjvJxfGZT7B+Ow0PZziUt
+ m7qaTBCGm7P1HkpmkPA==
+X-Proofpoint-GUID: 0HW_aqOq12qgT52_fgdjRKYKKP-49Zn1
+X-Proofpoint-ORIG-GUID: 0HW_aqOq12qgT52_fgdjRKYKKP-49Zn1
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-03_01,2026-02-02_01,2025-10-01_01
+ definitions=2026-02-03_04,2026-02-02_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 malwarescore=0 impostorscore=0 lowpriorityscore=0 phishscore=0
- bulkscore=0 suspectscore=0 clxscore=1015 priorityscore=1501 spamscore=0
+ priorityscore=1501 spamscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0
+ clxscore=1015 phishscore=0 impostorscore=0 malwarescore=0 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602030043
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602030100
 
-Hi,
-
-Internal testing for below patch is completed. Please help review below 
-patch.
-
-Thanks,
-Saddam.
-
-On 1/29/2026 3:49 PM, Saddam Patan wrote:
-> HI ,
+On Tue, Feb 03, 2026 at 11:11:07AM +0530, Saddam Patan wrote:
+> Hi,
 > 
-> Please ignore this patch as internal testing is still pending and we 
-> will update a new patch post validation.
-> 
+> Internal testing for below patch is completed. Please help review below
+> patch.
+
+Let's keep the entries at least a bit sorted. Please put Glymur firmware
+before Kaanapali.
+
 > 
 > Thanks,
 > Saddam.
 > 
-> On 1/29/2026 12:23 PM, Saddam Patan wrote:
->> The following changes since commit 
->> 0882248d05045565bfefe1f07cbfc22276c9f058:
->>
->> Â Â  Merge branch 'lenovo-ish-uspstream-clean' into 'main' (2026-01-23 
->> 19:26:31 +0000)
->>
->> are available in the Git repository at:
->>
->> Â Â  https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git dsp- 
->> fw-glymur2
->>
->> for you to fetch changes up to 6b573904745830699030541b01003e6fd1ca294b:
->>
->> Â Â  qcom: add ADSP firmware for glymur platform (2026-01-29 12:15:54 
->> +0530)
->>
->> ----------------------------------------------------------------
->> Saddam Patan (1):
->> Â Â Â Â Â Â  qcom: add ADSP firmware for glymur platform
->>
->> Â Â WHENCEÂ Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  |Â Â  6 ++++++
->> Â Â qcom/glymur/adsp.mbnÂ Â Â Â  | Bin 0 -> 18622472 bytes
->> Â Â qcom/glymur/adsp_dtb.mbn | Bin 0 -> 7253 bytes
->> Â Â qcom/glymur/adspr.jsnÂ Â Â  |Â  22 ++++++++++++++++++++++
->> Â Â qcom/glymur/adsps.jsnÂ Â Â  |Â  22 ++++++++++++++++++++++
->> Â Â qcom/glymur/adspua.jsnÂ Â  |Â  29 +++++++++++++++++++++++++++++
->> Â Â 6 files changed, 79 insertions(+)
->> Â Â create mode 100644 qcom/glymur/adsp.mbn
->> Â Â create mode 100644 qcom/glymur/adsp_dtb.mbn
->> Â Â create mode 100644 qcom/glymur/adspr.jsn
->> Â Â create mode 100644 qcom/glymur/adsps.jsn
->> Â Â create mode 100644 qcom/glymur/adspua.jsn
+> On 1/29/2026 3:49 PM, Saddam Patan wrote:
+> > HI ,
+> > 
+> > Please ignore this patch as internal testing is still pending and we
+> > will update a new patch post validation.
+> > 
+> > 
+> > Thanks,
+> > Saddam.
+> > 
+> > On 1/29/2026 12:23 PM, Saddam Patan wrote:
+> > > The following changes since commit
+> > > 0882248d05045565bfefe1f07cbfc22276c9f058:
+> > > 
+> > >    Merge branch 'lenovo-ish-uspstream-clean' into 'main' (2026-01-23
+> > > 19:26:31 +0000)
+> > > 
+> > > are available in the Git repository at:
+> > > 
+> > >    https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
+> > > dsp- fw-glymur2
+> > > 
+> > > for you to fetch changes up to 6b573904745830699030541b01003e6fd1ca294b:
+> > > 
+> > >    qcom: add ADSP firmware for glymur platform (2026-01-29 12:15:54
+> > > +0530)
+> > > 
+> > > ----------------------------------------------------------------
+> > > Saddam Patan (1):
+> > >        qcom: add ADSP firmware for glymur platform
+> > > 
+> > >   WHENCE                   |   6 ++++++
+> > >   qcom/glymur/adsp.mbn     | Bin 0 -> 18622472 bytes
+> > >   qcom/glymur/adsp_dtb.mbn | Bin 0 -> 7253 bytes
+> > >   qcom/glymur/adspr.jsn    |  22 ++++++++++++++++++++++
+> > >   qcom/glymur/adsps.jsn    |  22 ++++++++++++++++++++++
+> > >   qcom/glymur/adspua.jsn   |  29 +++++++++++++++++++++++++++++
+> > >   6 files changed, 79 insertions(+)
+> > >   create mode 100644 qcom/glymur/adsp.mbn
+> > >   create mode 100644 qcom/glymur/adsp_dtb.mbn
+> > >   create mode 100644 qcom/glymur/adspr.jsn
+> > >   create mode 100644 qcom/glymur/adsps.jsn
+> > >   create mode 100644 qcom/glymur/adspua.jsn
+> > 
 > 
 
+-- 
+With best wishes
+Dmitry
