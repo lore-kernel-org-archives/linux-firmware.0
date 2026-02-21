@@ -1,144 +1,154 @@
-Return-Path: <SRS0=Zcrd=AY=oss.qualcomm.com=dikshita.agarwal@kernel.org>
+Return-Path: <SRS0=m+mA=AZ=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 843C4C54FCC
-	for <linux-firmware@archiver.kernel.org>; Fri, 20 Feb 2026 07:44:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 02BA8C5DF6B
+	for <linux-firmware@archiver.kernel.org>; Sat, 21 Feb 2026 02:38:29 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 58E73C19424; Fri, 20 Feb 2026 07:44:24 +0000 (UTC)
+	id B7917C19423; Sat, 21 Feb 2026 02:38:29 +0000 (UTC)
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 5ECDFC116C6
-	for <linux-firmware@kernel.org>; Fri, 20 Feb 2026 07:44:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 5ECDFC116C6
+	by smtp.kernel.org (Postfix) with ESMTPS id 99E24C116C6
+	for <linux-firmware@kernel.org>; Sat, 21 Feb 2026 02:38:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 99E24C116C6
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61K5S6Hn3698940
-	for <linux-firmware@kernel.org>; Fri, 20 Feb 2026 07:44:21 GMT
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61L2XoIG1220943
+	for <linux-firmware@kernel.org>; Sat, 21 Feb 2026 02:38:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=rcc9zpb9LfUYAJNFOfSbLh
-	lU3K1yb7jThlhQm4BlIBg=; b=Jlu3CtzXtH5j84aeo/MR9WUZvcghfMKlmVUduJ
-	lv31VMwe4G26Gx7NP6IGF5mDuQVazBnqoVM29UeFhb+f2E+YiWw2NnFe9BVD5gIX
-	xirz3VLZQArRrdboWRDR8BUfyZoEAtwAb3zKNqLsFTBdsGEmvd/ln8ePZVhdPp/r
-	BN1M17LvDORrOJbzAUGoYw6oZvDXGrbHm83bQv9bthoC8G6mT1sM32mFbyNreWSx
-	TF9VEJFyLYUA8nehkssoQDxZdPzf1MdDhmdqGUgKZA1IbKXjTt12+Z7iywPq0TJo
-	feym367cj1lnGsfRwTx1Fs3Bpstf9arYMbWGL091+fAjUXrg==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ceh5jgb8c-1
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=ID5PRIuXIG4cMqGiUsEN5pM9
+	hr3uTTAgkhzEdjSK98M=; b=Vk4Bpbi95SBwXZfO11EhPTxqZ2ygsnmaeTOJ1kRs
+	BuE6WC+GyulQfiyIVHDKtKokM9OcsAAL+1M6gBrgjtXdU+qRc2F7YKNoj4nTuGia
+	XIQIzuaVVuFGzLSnhCbp0fo70A3rGCv07E3APX9hf9jWp66zPGvMTuhMGUYWimiP
+	8EQUyzZwwVw0kvRYtbEEOYftx4SAR9xmobrce5xnivvpVLY9pYPoS9sSgLECkeo8
+	QsNg63fVMTUqsvhD4n7JeJK6zA+sR823lL9/R87Ukd1pkYp4jd2EJcZrw5TUpABL
+	JpzhFYucFi0RzJEG0wh/2YNQEE5gOZ7QePHhCs+aaPRbEA==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cf41fr07k-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Fri, 20 Feb 2026 07:44:21 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-35658758045so1364839a91.3
-        for <linux-firmware@kernel.org>; Thu, 19 Feb 2026 23:44:20 -0800 (PST)
+	for <linux-firmware@kernel.org>; Sat, 21 Feb 2026 02:38:27 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8c71655aa11so3036911785a.3
+        for <linux-firmware@kernel.org>; Fri, 20 Feb 2026 18:38:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1771573460; x=1772178260; darn=kernel.org;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rcc9zpb9LfUYAJNFOfSbLhlU3K1yb7jThlhQm4BlIBg=;
-        b=Lop8rFVExtsHNQBSpMOKPyQR8RF8xeJmqhsx4Sg3u606dtZusP0BfbIakASWnERXc2
-         buzMhgkqaNNQSkWFVgYvb26WcTPbMUT5O2sEs8XWs5VYEzuQA11n1VjhARsrVom9vKFx
-         PFdt0EdG8vQY0xF8bVzXefQ6LqW+ueE6cBh5gckNbge166xvx4CrwLTgNAmy5bOWwzMw
-         Xjgnuwd4GHFZNhpcSxIRSwB4b4pyBGlHJz125eyoALWHFYBqQDGBOWTrWpEupuC67frj
-         qB/ZQcvSB+rO0FD3gFoTBzmI5cv2/hurP6Y9zL76dEV3HIC+1WpFGPbWFiaN25eZeIAZ
-         Wszw==
+        d=oss.qualcomm.com; s=google; t=1771641506; x=1772246306; darn=kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ID5PRIuXIG4cMqGiUsEN5pM9hr3uTTAgkhzEdjSK98M=;
+        b=K9UYxH3JPp/UcOCywEmSYBdL+q4ZGh/4X+3UpVTnuCHlfy/VFdfqYRdYu2knaW/nDY
+         Y7xwIQBe7bQehVTH83yAMG6qiugMVFoAdTcJCl+I0YBiWT6pRVQO7VCMzaSoDt5L/dHU
+         oOFYr9RG1MVXLbiPXJ4MJWOmpmO0DOPYrBdR3e4cIzThLxA5MCRCF/OmQAr4k13QoMc2
+         AHQ30NmsYAMqlwAs8QqYFpeSxhGLwhLop3q4pFfwr8SNHIvMyiDF7T04kpiGqGq5ec8/
+         7RfUI39+gElBCFyzO7uDepZqqe7hQS3b/etnYnWZSB+J6Zc/N58VXR/OgQo4hLi4y2q4
+         SQzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771573460; x=1772178260;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rcc9zpb9LfUYAJNFOfSbLhlU3K1yb7jThlhQm4BlIBg=;
-        b=hA+OX1CNhuYNHEzE1UkkEFu5UAj/jK1bn9VWCjZupy8qy7DSHxuwbmxHt5eThIjgPB
-         GderAeYL+1Khfc58NCq+eD4gqLu60b3jMlXV1DQ59ETFxO19nI3OUHSjCYE6q2WzlY2+
-         1P0VJEiNU0CP4zo0YP2fEgE5TFme0sQkug2VR/TcU8KCY0rPSMR8Tbkk8AMGMVoTpUna
-         1orovXcI7rUErQ3++QF/sxi8iCA+vNW944Iw526C0OLkVm53sl2jnFHs1PFB8mJRKRgx
-         vO4wNPmBsQZz/BkeXd81K4+50DudjBD9mbiT/qeNYr8Fkp0WN94eLoP3eXbmUDwNF+q8
-         jOpg==
-X-Gm-Message-State: AOJu0YymxeiWIJLRGI7LKncCMKfxiuJUDHpriL1xcI6U1eR2Fjs9X/1a
-	6BujwhP//6Jct3jP0cmxLIErgRCFPxOwJ4Zu1Ss01fOIkF7DLjTtPt7bkTPAFH/0WJuqGYHUPrf
-	xMQ3DM3FvQGivpmzTGtRHD0e9EBf6SwdBISBxHoYmdur+HQr6hzkk2+huGwxfGPNgjLRogg0=
-X-Gm-Gg: AZuq6aIF811huuOs14SRgeFOxXgYESUiCbSl53hMhgRWmiJuXLzoayU83/tJP+T/PGd
-	RnGWk+e04CvA8JG3yJzMNGSXMQRnQ64ljzrXTONRYfhDInsm6ERqFmnCMn3kvcDtUuAILV8g92W
-	OdH2TwgfsQhs5wbaRfCYkS0+CQzddwomwVtDWcbMx2b9ws0HN0j/MhEPHn335OG9Og5vnR0i/1z
-	JmIgS63H3sAJnuUO4uQlVjlNdTuzKxBqL0hmdozXyiLvArAs0dSyz1jfHojXKbyyyMeDkVdr+8/
-	+PQvhHcnFBb+haowLm48PdW/YDtxOKl6usWhyTaEbH8kmOB5qglWlOrkLK9CCS3SgmSN6wBotAi
-	nHrQ5T6zstZ4oCBRrISMjqs35hfjikfAhBVunIndjNkZOKREHGsI=
-X-Received: by 2002:a17:90b:568c:b0:34f:63b7:a1f5 with SMTP id 98e67ed59e1d1-35844f85bd7mr16937610a91.21.1771573459970;
-        Thu, 19 Feb 2026 23:44:19 -0800 (PST)
-X-Received: by 2002:a17:90b:568c:b0:34f:63b7:a1f5 with SMTP id 98e67ed59e1d1-35844f85bd7mr16937593a91.21.1771573459490;
-        Thu, 19 Feb 2026 23:44:19 -0800 (PST)
-Received: from [10.0.0.3] ([106.222.231.4])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3589d83096dsm2225006a91.9.2026.02.19.23.44.18
-        for <linux-firmware@kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Feb 2026 23:44:19 -0800 (PST)
-Message-ID: <3d546c6f-f3eb-c012-db2e-89b4ff1f9f89@oss.qualcomm.com>
-Date: Fri, 20 Feb 2026 13:14:16 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Content-Language: en-US
+        d=1e100.net; s=20230601; t=1771641506; x=1772246306;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ID5PRIuXIG4cMqGiUsEN5pM9hr3uTTAgkhzEdjSK98M=;
+        b=CT+OV0HmT5IMsWzviFfKpX0wo+XD7DV1i6dr69vL5sj/sL7BGAmSNIgELbDRRTMpVn
+         eRWvF/R/M5VWMdGXKAG2XaChr2K0X3mZp4tqjqZ1+GGKdvjytM9HxmuVGx7IzLDIK6z2
+         Oy7sIgGcK1Sn60GJz6zxq4Vow7VlaSJudjPOZdlU3S8CEoTg1IrfPXrF3oTtcUTLQ1i2
+         UxYcBEXSypPFX0SvK1MarRgL6zB3cAeLWpXxEj7QAD2Absl7d9Z+j5+iqCHyvgJtQcIU
+         UpLEkKtiaszk8fgY/XSa0O0t3U8wtSqkxWp8thAY4HJACD3/WS+0T5o6dadMzE4eqdtw
+         jIzQ==
+X-Gm-Message-State: AOJu0YzLnNQccNJcgOVYh53e5wzxyEtgcqVqrZxYeMG3RSx9CJvL0EzP
+	2gK1IEHp7Rgr58m86j/ei+bYYIaKxBDfB3zdkQdQbRsFzp/skekxiBFjPmdKhktOHJImtmw+4+6
+	23wj8DO13Ag3Vt1MAepBATMve4vyUdqtg1rxUE2HcqvQcFoCbIiaHsgvYMUnZ7qW5uehVhUk=
+X-Gm-Gg: AZuq6aIJ2jiG4XKEtURTD4ru4xRzJ/Z04NkEb9vad3CskfE+sg1fG0F70LGH1q1Klhx
+	IXtTabG6O5oJGdUfmDkuoaniwUcT7Yfu3y+ypDC9WSxvWmBAGyzx2PXKCA8JnxS70FMyTXfg4aH
+	SBfzkq8lW0QFgjeyJzBmJQoybi0UbTgoOW9hnX8L6rAxG3nL5u9nxPTYuU7ZN28rzwLENra6cDF
+	M4TtDV0q3NlBZGvXbOzO5fVNJfGX2OmFgzKZirEfhJ3iFHJ4yAK3qtfRCYjd3Gk/X4aqAtezCST
+	OnnFjWnRH+A2m0RPIavQ7DmvxT4DBtA0i1quY3b0+iL7/+9nB6aHDXmJaVBwcGRcZWd+tck4z0g
+	YLQzAsmtBxKa6MpVCYqapZUYuOJmhokES8FPoLKQWnHDmlzxxA+jtDGYZQqFQ81lkVHSM6V9lMl
+	XB9IZR9zKbXX6FeDytJmeWjm+HvhhX43o4N9k=
+X-Received: by 2002:a05:620a:25c7:b0:8c6:d949:1d8a with SMTP id af79cd13be357-8cb8c9e6703mr231780385a.6.1771641506189;
+        Fri, 20 Feb 2026 18:38:26 -0800 (PST)
+X-Received: by 2002:a05:620a:25c7:b0:8c6:d949:1d8a with SMTP id af79cd13be357-8cb8c9e6703mr231778585a.6.1771641505648;
+        Fri, 20 Feb 2026 18:38:25 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a0eeb4cbddsm167913e87.92.2026.02.20.18.38.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Feb 2026 18:38:24 -0800 (PST)
+Date: Sat, 21 Feb 2026 04:38:23 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-Subject: qcom: vpu: fix SC7280 VPU Gen2 firmware and add compatibility symlink
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=Raedyltv c=1 sm=1 tr=0 ts=699810d5 cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=vgTJ3uqYKia970mDUHNZug==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
- a=qC_FGOx9AAAA:8 a=ksynCZEgj2STKheMguAA:9 a=QEXdDO2ut3YA:10
- a=uKXjsCUrEbL0IQVhDsJ9:22 a=fsdK_YakeE02zTmptMdW:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIwMDA2NiBTYWx0ZWRfXwZItMNNkOZNV
- UI+RBo0wtkHWuHKUl9rZup5YqgPhS4yu8PC3eiyRB+d2YYPel59gHf+MdzAZKENxjAxzPJbqO1F
- CMkW1NhkIFFxqA1bdY3BQT92go1/GDLqUN/23BB2c3UYDVWaB4n+joAiitOzBO7aOsaeFjDUkBo
- 8OsrAPmQczqGEps3xqW5ALaEF9jLf3MDGZCEa+EGidypum/6J0mhIULnn0eSo7Fdq7qiH6uKz/0
- goL5KdwMrUSme74DRPpOjd7pTlj4TyMbuItAPYjY6e4VkaTe4fnDKnJfHxy80KbZARvWEp8ctuc
- JAa+8zdjUDo9THmI0rGZ5QH2f0PUgG3nxdzB0W8zVj+3PXHB3phU5XW6B/beYI7V0LQv2KjbXjW
- KWqgLSFkBoaVPlBjLU/gb/8rN9IiBZORgN6NlM4kuoMF3ckDMXjU3s6/+ZzOhuu2PtkCPL0u+2B
- Bk4+4glRxeKs0EAKIhQ==
-X-Proofpoint-GUID: MoToEP5PAwzdLtLU67rTOKhcY9DuZFp8
-X-Proofpoint-ORIG-GUID: MoToEP5PAwzdLtLU67rTOKhcY9DuZFp8
+Cc: linux-firmware@kernel.org
+Subject: Re: qcom: vpu: fix SC7280 VPU Gen2 firmware and add compatibility
+ symlink
+Message-ID: <jsbws736w6thvyxueqeguz2lwtgfbs5j72fajvfgtjos5gvhmj@4zqli3nlfsaz>
+References: <3d546c6f-f3eb-c012-db2e-89b4ff1f9f89@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3d546c6f-f3eb-c012-db2e-89b4ff1f9f89@oss.qualcomm.com>
+X-Proofpoint-ORIG-GUID: 89aDjE6nnA36cP8f2FKAmSV-nWUMtNh2
+X-Proofpoint-GUID: 89aDjE6nnA36cP8f2FKAmSV-nWUMtNh2
+X-Authority-Analysis: v=2.4 cv=GOAF0+NK c=1 sm=1 tr=0 ts=69991aa3 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=qC_FGOx9AAAA:8
+ a=p0WdMEafAAAA:8 a=IwsA_6f1Nedn2AVYRhUA:9 a=CjuIK1q_8ugA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIxMDAyNiBTYWx0ZWRfX8FBWO6TBXJmU
+ UVdU0s07Jw5v0sfL3HarhvW0xAhvwFXEFDCm7SJL1epaKOj72WjhOEUkdy3VdBjpyu9Mq2VRnri
+ pVuCOlvwli/xmhObwwA5E7jndlx4MApBReoQuvvFdbFncKIaglPavH0COwWQe/WW2qQajHTqwIM
+ b6RqFeNwBp3UtLK2YjF3vTi4vSn/MQ0oMOUhst+zgDgn52kyhDx1D8wZpkbCXvM4qOLs56dIhQp
+ 5dJ0de7x6PdzjYYS5UYFGWawPJEgEpz9HhMu9D+dQTSkCc+o2mqLtdQqpvSfMsAnMBKMM/x4NM8
+ bsiIriGPZtZp7vHf8xr0DGHADOK+21DAHgsERfBAnUwn8CFpxH7KeT07mSJG7hhPC9k0sIKlxGj
+ VXV8lO+aNQgXupymN3JIKk9JEH5uuMTa4Kv5hnQGyUM4PXHg7LYFUn645bZctZcdNt6LcpjMDM+
+ ffDp33m34nNhlKTdbvw==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-19_06,2026-02-20_02,2025-10-01_01
+ definitions=2026-02-21_01,2026-02-20_04,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 spamscore=0 phishscore=0 bulkscore=0
- clxscore=1015 suspectscore=0 impostorscore=0 malwarescore=0 adultscore=0
+ suspectscore=0 malwarescore=0 adultscore=0 phishscore=0 clxscore=1015
+ priorityscore=1501 spamscore=0 bulkscore=0 lowpriorityscore=0 impostorscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602200066
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602210026
 
-Hi,
+On Fri, Feb 20, 2026 at 01:14:16PM +0530, Dikshita Agarwal wrote:
+> Hi,
+> 
+> The following changes since commit f2dbd7a7a74be0d309d8058a55308dcea33a41d6:
+> 
+>   Merge branch 'robot/pr-0-1770355730' into 'main' (2026-02-06 07:17:03 +0000)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
+> video-fw-kodiak-gen2
 
-The following changes since commit f2dbd7a7a74be0d309d8058a55308dcea33a41d6:
+Thanks! Merged and pushed out,
 
-  Merge branch 'robot/pr-0-1770355730' into 'main' (2026-02-06 07:17:03 +0000)
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/926
 
-are available in the Git repository at:
+> 
+> for you to fetch changes up to e1e281a6f3b7ac959eb13012020d19084b60ff7a:
+> 
+>   qcom: vpu: fix SC7280 VPU Gen2 firmware and add compatibility symlink
+> (2026-02-20 12:24:33 +0530)
+> 
+> ----------------------------------------------------------------
+> Dikshita Agarwal (1):
+>       qcom: vpu: fix SC7280 VPU Gen2 firmware and add compatibility symlink
+> 
+>  WHENCE                                               |   5 +++--
+>  qcom/vpu/{vpu20_p1_gen2.mbn => vpu20_p1_gen2_s6.mbn} | Bin 2036328 ->
+> 2030620 bytes
+>  2 files changed, 3 insertions(+), 2 deletions(-)
+>  rename qcom/vpu/{vpu20_p1_gen2.mbn => vpu20_p1_gen2_s6.mbn} (61%)
+> 
+> Thanks,
+> Dikshita
 
-  https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
-video-fw-kodiak-gen2
-
-for you to fetch changes up to e1e281a6f3b7ac959eb13012020d19084b60ff7a:
-
-  qcom: vpu: fix SC7280 VPU Gen2 firmware and add compatibility symlink
-(2026-02-20 12:24:33 +0530)
-
-----------------------------------------------------------------
-Dikshita Agarwal (1):
-      qcom: vpu: fix SC7280 VPU Gen2 firmware and add compatibility symlink
-
- WHENCE                                               |   5 +++--
- qcom/vpu/{vpu20_p1_gen2.mbn => vpu20_p1_gen2_s6.mbn} | Bin 2036328 ->
-2030620 bytes
- 2 files changed, 3 insertions(+), 2 deletions(-)
- rename qcom/vpu/{vpu20_p1_gen2.mbn => vpu20_p1_gen2_s6.mbn} (61%)
-
-Thanks,
-Dikshita
+-- 
+With best wishes
+Dmitry
