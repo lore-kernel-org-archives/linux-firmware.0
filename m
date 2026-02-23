@@ -1,154 +1,123 @@
-Return-Path: <SRS0=m+mA=AZ=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=SwCx=A3=gmail.com=roman.packagingservices@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 02BA8C5DF6B
-	for <linux-firmware@archiver.kernel.org>; Sat, 21 Feb 2026 02:38:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B228AEC111B
+	for <linux-firmware@archiver.kernel.org>; Mon, 23 Feb 2026 18:07:23 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B7917C19423; Sat, 21 Feb 2026 02:38:29 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	id 7E70AC116D0; Mon, 23 Feb 2026 18:07:23 +0000 (UTC)
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 99E24C116C6
-	for <linux-firmware@kernel.org>; Sat, 21 Feb 2026 02:38:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 99E24C116C6
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61L2XoIG1220943
-	for <linux-firmware@kernel.org>; Sat, 21 Feb 2026 02:38:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=ID5PRIuXIG4cMqGiUsEN5pM9
-	hr3uTTAgkhzEdjSK98M=; b=Vk4Bpbi95SBwXZfO11EhPTxqZ2ygsnmaeTOJ1kRs
-	BuE6WC+GyulQfiyIVHDKtKokM9OcsAAL+1M6gBrgjtXdU+qRc2F7YKNoj4nTuGia
-	XIQIzuaVVuFGzLSnhCbp0fo70A3rGCv07E3APX9hf9jWp66zPGvMTuhMGUYWimiP
-	8EQUyzZwwVw0kvRYtbEEOYftx4SAR9xmobrce5xnivvpVLY9pYPoS9sSgLECkeo8
-	QsNg63fVMTUqsvhD4n7JeJK6zA+sR823lL9/R87Ukd1pkYp4jd2EJcZrw5TUpABL
-	JpzhFYucFi0RzJEG0wh/2YNQEE5gOZ7QePHhCs+aaPRbEA==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cf41fr07k-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Sat, 21 Feb 2026 02:38:27 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8c71655aa11so3036911785a.3
-        for <linux-firmware@kernel.org>; Fri, 20 Feb 2026 18:38:27 -0800 (PST)
+	by smtp.kernel.org (Postfix) with ESMTPS id C008EC116C6
+	for <linux-firmware@kernel.org>; Mon, 23 Feb 2026 18:07:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C008EC116C6
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-46394090d2fso1370182b6e.3
+        for <linux-firmware@kernel.org>; Mon, 23 Feb 2026 10:07:21 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771870040; cv=none;
+        d=google.com; s=arc-20240605;
+        b=d794gG72zreAJtII57BnIWXnz8yCKHwrltLn4te+oHDHPn8QumJPburR+VBgqbSH2l
+         IX1mHZF0aFKLejnlH8MN44JxGfqinpn4QQJh1azeLEYN7yIP+Zl0LE9aaV/RA5ToJ2Rs
+         kLf4ZC1PqD2kB0hTq4rhn4yx/KF7DZFjkv3AgKo1+wrdiVnfu0vANmA1ip8PMVyuPs12
+         EW3rz3DPJx2jmXKLND5svn6ViERR1KVjVUkfBIKcwuBrebd0N0UC9clGiJretYvQaeH4
+         CS5HI1NSbeLL8DOVz3y5gvdMstreKv4QNU4ZazNtbk/hb1t1D1hBHVFQ63ek4lVtX8QL
+         3KrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=/a5AKgaiviJq2JQ/y9pATyMFLcG36VnBxjMA1v9ZOb4=;
+        fh=thzlYDAT27MWbzz3if4rQyeooyybPz7D/zeQezHlJZA=;
+        b=ep1P29DQMTXMOKa71ZQf7kxfzKp1CV3aBj+9LwNGPEwh7wwiaNWUdjhw3eN07ecKx0
+         MW/KB+kzvr6NteoXTb3nhzVR0Zo2lY8XoPuO6K6DkcwkXd5PyPYDjn9KXI6noqifzLHL
+         t4nMXWhwleI5o/PVb1BxU/Fp9TNk8aOIOjPKGTcMCBRO0zu/cQilIcvECNMEwuc5UP+F
+         TVqew2FztMXPCoz+mfMCxRVF9ay4rBEPKN4Tvg6LSClvXkAulZeuhd6F4wTRDIlfCPs4
+         FmSi7d+o3f+qSo+wftUJj+MVLvLZZKfB5WxJYgIJohfLjTvHYh4EIbgo6xT92DWrSCBH
+         WUeA==;
+        darn=kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1771641506; x=1772246306; darn=kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ID5PRIuXIG4cMqGiUsEN5pM9hr3uTTAgkhzEdjSK98M=;
-        b=K9UYxH3JPp/UcOCywEmSYBdL+q4ZGh/4X+3UpVTnuCHlfy/VFdfqYRdYu2knaW/nDY
-         Y7xwIQBe7bQehVTH83yAMG6qiugMVFoAdTcJCl+I0YBiWT6pRVQO7VCMzaSoDt5L/dHU
-         oOFYr9RG1MVXLbiPXJ4MJWOmpmO0DOPYrBdR3e4cIzThLxA5MCRCF/OmQAr4k13QoMc2
-         AHQ30NmsYAMqlwAs8QqYFpeSxhGLwhLop3q4pFfwr8SNHIvMyiDF7T04kpiGqGq5ec8/
-         7RfUI39+gElBCFyzO7uDepZqqe7hQS3b/etnYnWZSB+J6Zc/N58VXR/OgQo4hLi4y2q4
-         SQzg==
+        d=gmail.com; s=20230601; t=1771870040; x=1772474840; darn=kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=/a5AKgaiviJq2JQ/y9pATyMFLcG36VnBxjMA1v9ZOb4=;
+        b=dOTgIM1DKgFw4oidUHy9VpRkesoL5KdKJrDXYotwC9Bn+KXDhuOq81/7M9vau9pwcW
+         bclrHXcxXR8BzGQyldADnjt4SFptVdYQlH61EToS+VH5gKrMgspmgiU9t87cwjU3KCA8
+         +uga6cMS57r6Kl9eZTXJn2f8EacsiJuGkBYJFSIXxjDvB4iBhAvVTv5KoSNAjP9vLVJQ
+         Utmvv5nTru+HrXUlYj9v3xgfcfX82ikc2ubAmOZRgAHt8vPUOjNUMazjUjwksqSrbD5a
+         Alhd2dDs2Ej8kd1AlRUY9rD7bm809xi1x0N4YMNrjgvKBeyAO/FyHPhnugaIpywUAVAb
+         lVFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771641506; x=1772246306;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ID5PRIuXIG4cMqGiUsEN5pM9hr3uTTAgkhzEdjSK98M=;
-        b=CT+OV0HmT5IMsWzviFfKpX0wo+XD7DV1i6dr69vL5sj/sL7BGAmSNIgELbDRRTMpVn
-         eRWvF/R/M5VWMdGXKAG2XaChr2K0X3mZp4tqjqZ1+GGKdvjytM9HxmuVGx7IzLDIK6z2
-         Oy7sIgGcK1Sn60GJz6zxq4Vow7VlaSJudjPOZdlU3S8CEoTg1IrfPXrF3oTtcUTLQ1i2
-         UxYcBEXSypPFX0SvK1MarRgL6zB3cAeLWpXxEj7QAD2Absl7d9Z+j5+iqCHyvgJtQcIU
-         UpLEkKtiaszk8fgY/XSa0O0t3U8wtSqkxWp8thAY4HJACD3/WS+0T5o6dadMzE4eqdtw
-         jIzQ==
-X-Gm-Message-State: AOJu0YzLnNQccNJcgOVYh53e5wzxyEtgcqVqrZxYeMG3RSx9CJvL0EzP
-	2gK1IEHp7Rgr58m86j/ei+bYYIaKxBDfB3zdkQdQbRsFzp/skekxiBFjPmdKhktOHJImtmw+4+6
-	23wj8DO13Ag3Vt1MAepBATMve4vyUdqtg1rxUE2HcqvQcFoCbIiaHsgvYMUnZ7qW5uehVhUk=
-X-Gm-Gg: AZuq6aIJ2jiG4XKEtURTD4ru4xRzJ/Z04NkEb9vad3CskfE+sg1fG0F70LGH1q1Klhx
-	IXtTabG6O5oJGdUfmDkuoaniwUcT7Yfu3y+ypDC9WSxvWmBAGyzx2PXKCA8JnxS70FMyTXfg4aH
-	SBfzkq8lW0QFgjeyJzBmJQoybi0UbTgoOW9hnX8L6rAxG3nL5u9nxPTYuU7ZN28rzwLENra6cDF
-	M4TtDV0q3NlBZGvXbOzO5fVNJfGX2OmFgzKZirEfhJ3iFHJ4yAK3qtfRCYjd3Gk/X4aqAtezCST
-	OnnFjWnRH+A2m0RPIavQ7DmvxT4DBtA0i1quY3b0+iL7/+9nB6aHDXmJaVBwcGRcZWd+tck4z0g
-	YLQzAsmtBxKa6MpVCYqapZUYuOJmhokES8FPoLKQWnHDmlzxxA+jtDGYZQqFQ81lkVHSM6V9lMl
-	XB9IZR9zKbXX6FeDytJmeWjm+HvhhX43o4N9k=
-X-Received: by 2002:a05:620a:25c7:b0:8c6:d949:1d8a with SMTP id af79cd13be357-8cb8c9e6703mr231780385a.6.1771641506189;
-        Fri, 20 Feb 2026 18:38:26 -0800 (PST)
-X-Received: by 2002:a05:620a:25c7:b0:8c6:d949:1d8a with SMTP id af79cd13be357-8cb8c9e6703mr231778585a.6.1771641505648;
-        Fri, 20 Feb 2026 18:38:25 -0800 (PST)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a0eeb4cbddsm167913e87.92.2026.02.20.18.38.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Feb 2026 18:38:24 -0800 (PST)
-Date: Sat, 21 Feb 2026 04:38:23 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org
-Subject: Re: qcom: vpu: fix SC7280 VPU Gen2 firmware and add compatibility
- symlink
-Message-ID: <jsbws736w6thvyxueqeguz2lwtgfbs5j72fajvfgtjos5gvhmj@4zqli3nlfsaz>
-References: <3d546c6f-f3eb-c012-db2e-89b4ff1f9f89@oss.qualcomm.com>
+        d=1e100.net; s=20230601; t=1771870040; x=1772474840;
+        h=to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/a5AKgaiviJq2JQ/y9pATyMFLcG36VnBxjMA1v9ZOb4=;
+        b=uQG+BjGGi6r3kEkT90IKzr05wJjS55F42jeLILfaSqSF/Gr47bVBBQH0cJ38/O/AVP
+         v0h/xxD2Fmkt/rXpHhn1abT26zH+kIFIWMNVcgIUfWa7NDoL9sLmomL9dUivvqKpwytr
+         CJfJktpBPb978XA24XkEfUipyFXTtiPdzehIwwixOYtBeDBMYySkpt8TUaVy09tnq2vW
+         VDm3c4FQ7jkl+0EeaF7gSY3sax+zMyuonWgpGsv/kP4fsSkfbmleaKslmM03E6oQx59/
+         +oGlevll8rcQDJIm1/g5o1KOC+8oYYseBOJMMHAuNRnIemsxPb2Y33tBWZUXqsMK4U6n
+         aKvA==
+X-Gm-Message-State: AOJu0Yy/qja/UqzjIDFHPQX2cUh/BMdorD9urvXbuA0xewJ5nZH7vuDF
+	50xUnsFMcpYCUikgtunzOYmPXvilvJ8mqAuaAjJl9TCZWO7aygbc1bxxqynZZgnjUCm5JY+mxvU
+	cGMrwvf8Mm5LrH8xU2K1cltQooXcZrt0Z5A==
+X-Gm-Gg: AZuq6aLtQeR7YZwMhoev/D3NblaGO5GlsG6EoycmUofAxfGcRG0GhRLKXKyT7EVirU7
+	zzLP4wqr5FFSfnAvNf+IuhlKxBMLTiRewx1kHnMWWgVN6QJauqY3OvICZoDPKFo+puCvJ2qoDc6
+	cpa45IbjIWkPsoTneybSjk95W+ur7vmXvoRG31+43VFiORGapLUnvrYnZDtvr8SGuqckTte3DmP
+	nUxUwli+qKiNxyj0W+8M1e82nafHoL5NpDF+JePD5mAFnqE+uS9AHsLdhcMrhg+/pz4L/yMBa2C
+	hEXmDg+a8c1G2lyHfQOa0wpG4PhENXRyIu1GgidfiH0MuWT424vCQUhdFr7TIHZ+ldir+FyoOh6
+	gQnNTWOaUJJhK
+X-Received: by 2002:a05:6808:1808:b0:450:760b:cc9e with SMTP id
+ 5614622812f47-464461bf122mr4654238b6e.27.1771870040432; Mon, 23 Feb 2026
+ 10:07:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3d546c6f-f3eb-c012-db2e-89b4ff1f9f89@oss.qualcomm.com>
-X-Proofpoint-ORIG-GUID: 89aDjE6nnA36cP8f2FKAmSV-nWUMtNh2
-X-Proofpoint-GUID: 89aDjE6nnA36cP8f2FKAmSV-nWUMtNh2
-X-Authority-Analysis: v=2.4 cv=GOAF0+NK c=1 sm=1 tr=0 ts=69991aa3 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=qC_FGOx9AAAA:8
- a=p0WdMEafAAAA:8 a=IwsA_6f1Nedn2AVYRhUA:9 a=CjuIK1q_8ugA:10
- a=NFOGd7dJGGMPyQGDc5-O:22 a=fsdK_YakeE02zTmptMdW:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIxMDAyNiBTYWx0ZWRfX8FBWO6TBXJmU
- UVdU0s07Jw5v0sfL3HarhvW0xAhvwFXEFDCm7SJL1epaKOj72WjhOEUkdy3VdBjpyu9Mq2VRnri
- pVuCOlvwli/xmhObwwA5E7jndlx4MApBReoQuvvFdbFncKIaglPavH0COwWQe/WW2qQajHTqwIM
- b6RqFeNwBp3UtLK2YjF3vTi4vSn/MQ0oMOUhst+zgDgn52kyhDx1D8wZpkbCXvM4qOLs56dIhQp
- 5dJ0de7x6PdzjYYS5UYFGWawPJEgEpz9HhMu9D+dQTSkCc+o2mqLtdQqpvSfMsAnMBKMM/x4NM8
- bsiIriGPZtZp7vHf8xr0DGHADOK+21DAHgsERfBAnUwn8CFpxH7KeT07mSJG7hhPC9k0sIKlxGj
- VXV8lO+aNQgXupymN3JIKk9JEH5uuMTa4Kv5hnQGyUM4PXHg7LYFUn645bZctZcdNt6LcpjMDM+
- ffDp33m34nNhlKTdbvw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-21_01,2026-02-20_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 malwarescore=0 adultscore=0 phishscore=0 clxscore=1015
- priorityscore=1501 spamscore=0 bulkscore=0 lowpriorityscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602210026
+From: Roman Carter <roman.packagingservices@gmail.com>
+Date: Mon, 23 Feb 2026 23:07:09 +0500
+X-Gm-Features: AaiRm53g9lmH2gDCe7rhe87tKdsp1p1h8KEN2lv6ydhZcpRuwHToJN8qAzWFCuo
+Message-ID: <CAOvXnNvE-pMOxU5Z1UF7nSPSJm4X=qV5E+d0fcC7wKHzNO_POA@mail.gmail.com>
+Subject: Packaging Made Easy
+List-Id: <linux-firmware.lore.kernel.org>
+To: linux-firmware@kernel.org
+Content-Type: multipart/alternative; boundary="0000000000005924d5064b81a4a1"
 
-On Fri, Feb 20, 2026 at 01:14:16PM +0530, Dikshita Agarwal wrote:
-> Hi,
-> 
-> The following changes since commit f2dbd7a7a74be0d309d8058a55308dcea33a41d6:
-> 
->   Merge branch 'robot/pr-0-1770355730' into 'main' (2026-02-06 07:17:03 +0000)
-> 
-> are available in the Git repository at:
-> 
->   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
-> video-fw-kodiak-gen2
+--0000000000005924d5064b81a4a1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks! Merged and pushed out,
+Hi,
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/926
+I hope you are well.
 
-> 
-> for you to fetch changes up to e1e281a6f3b7ac959eb13012020d19084b60ff7a:
-> 
->   qcom: vpu: fix SC7280 VPU Gen2 firmware and add compatibility symlink
-> (2026-02-20 12:24:33 +0530)
-> 
-> ----------------------------------------------------------------
-> Dikshita Agarwal (1):
->       qcom: vpu: fix SC7280 VPU Gen2 firmware and add compatibility symlink
-> 
->  WHENCE                                               |   5 +++--
->  qcom/vpu/{vpu20_p1_gen2.mbn => vpu20_p1_gen2_s6.mbn} | Bin 2036328 ->
-> 2030620 bytes
->  2 files changed, 3 insertions(+), 2 deletions(-)
->  rename qcom/vpu/{vpu20_p1_gen2.mbn => vpu20_p1_gen2_s6.mbn} (61%)
-> 
-> Thanks,
-> Dikshita
+We are a packaging company. We provide custom packaging boxes/labels in
+every size, stocks and styles such as tuck boxes, rigid boxes, mailer
+boxes, retail boxes, shopping bags or any other box as well.
 
--- 
-With best wishes
-Dmitry
+Send your packaging details (Size: L W H), quantity and box style so we can
+assist you, we=E2=80=99re also providing complimentary design services and =
+shipping
+on orders.
+
+Let me know if you have any questions or any job you would like to try us
+on. Thanks.
+
+Roman Carter
+My Packaging Services
+
+--0000000000005924d5064b81a4a1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr">Hi,<br><br>I hope you ar=
+e well.<br><br>We are a packaging company. We provide custom packaging boxe=
+s/labels in every size, stocks and styles such as tuck boxes, rigid boxes, =
+mailer boxes, retail boxes, shopping bags or any other box as well.<br><br>=
+Send your packaging details (Size: L W H), quantity and box style so we can=
+ assist you, we=E2=80=99re also providing complimentary design services and=
+ shipping on orders.<br><br>Let me know if you have any questions or any jo=
+b you would like to try us on. Thanks.<br><br>Roman Carter</div><div dir=3D=
+"ltr">My Packaging Services</div></div></div>
+
+--0000000000005924d5064b81a4a1--
