@@ -1,144 +1,122 @@
-Return-Path: <SRS0=ljtV=A4=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=CgE7=A5=lontium.corp-partner.google.com=xmzhu@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47457F4BB73
-	for <linux-firmware@archiver.kernel.org>; Tue, 24 Feb 2026 18:51:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3EBCF55425
+	for <linux-firmware@archiver.kernel.org>; Wed, 25 Feb 2026 01:13:13 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 0CFDAC19423; Tue, 24 Feb 2026 18:51:54 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	id 7777AC19423; Wed, 25 Feb 2026 01:13:13 +0000 (UTC)
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 31542C19422
-	for <linux-firmware@kernel.org>; Tue, 24 Feb 2026 18:51:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 31542C19422
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61OIGCFg3333590
-	for <linux-firmware@kernel.org>; Tue, 24 Feb 2026 18:51:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	R5WIenIqKGqO/mZpTvh85ef7eFz747ti06YF//ctCMA=; b=BaD3rMdKTeZsK2jd
-	tISZEg6ZbtBJQ+ONdAHcniBaMm5vHs0YzjauhRgE8K6u8QKJsnwin4WuyB7m0h1h
-	FIGcNgcDfavga3xtSSWl2Y2oG1oPauqLmFrzOi8ONu5iuB1w7dSEPfkR+BJhxIJz
-	Mq83PwwLGnVe/Bc9qT/Rs/KhBIdcdQfhq4S5lAcJncRSuY8MNWTTqfjzU43EnYS2
-	SXgph2XIvaj3YmY9JsIexjg5Rzfxn4Yf+Yr5jcbJEfOlct0R12YTAzFjRE3H9sxO
-	Ws/c+C8lZuycxo78wB85tuqYPzEvvGkon38Hn/WsgqnXpBAOxL1lvHfqVZ6p93kN
-	pVkxPg==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4chh4703ww-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Tue, 24 Feb 2026 18:51:52 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8cb4a241582so4674401685a.0
-        for <linux-firmware@kernel.org>; Tue, 24 Feb 2026 10:51:52 -0800 (PST)
+	by smtp.kernel.org (Postfix) with ESMTPS id A0AADC116D0
+	for <linux-firmware@kernel.org>; Wed, 25 Feb 2026 01:13:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A0AADC116D0
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=lontium.corp-partner.google.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=lontium.corp-partner.google.com
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-662f5c5507cso4803937eaf.3
+        for <linux-firmware@kernel.org>; Tue, 24 Feb 2026 17:13:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771981991; cv=none;
+        d=google.com; s=arc-20240605;
+        b=gcqdAdq4rjXfjuL2fwaNgbRToWe8dt0+mZ9hhe2m7BjqYnepF8cltIaaJg3rDULIdZ
+         XCRoHb8z8uhvVdHiESlSaduxJEgSGFu/Y6ja37OcuVnIIIL6djok/LGJW/v3FJAnF3kx
+         KDEeT/K6VlwJXk+ipGglcvGptc06b2aGQMlcNIrsRKw1MxE9jVrwxR+JC135tr7pBIub
+         MBc22U175nCWvepN5W0qaj7NwRGX2sIZcI6o2C98QyWfF1tbFsw+AJrTL45RhdFdo2S/
+         ZnAg25ICrYJDZd+gRtKciET6fc5XEZn3BDfYMXU/Eisz0HGaSWdgSgRr48RdR4mpUVsK
+         /Kag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=/joxWyyunu2bl0Kj1nyAq2w2/A21FFZeRtrgrp5Mjuc=;
+        fh=mfCCRD0Rj0wS9qiw6i9f/CxdCHcDT3xSiI/eDVvPAP4=;
+        b=QBvxq2VvOs2hwOR+AUl9oCSG9RblMxiwAeIiR2MFAsTDsI+KEgnhqHt11baBk37qb5
+         2HY56TK/ZDRVs5If3WWGQxGpPMgg/ZwAzWjZK74NCvcLTAu8GmJLwAMANv0BHAT+N614
+         hLQTokYFsLd7+fgn2wGFakgwOIC8YjBWbwbXUNpZSuULAyCQ8O5L7OAA6PNq/9uDzLzW
+         jrdrHYjOtz9YupcOb7XP8dAf84DciM+XIJXRGCvz6rbrJwBNXgpsBXqqmz/bmNVjymJX
+         bIw7MnPc6LOlVnuPQr4yM/n8gvXmQwyMQ8aDt7W4Y7O8k0ea2I3tAJA54vyDkrrD8tDG
+         K+YA==;
+        darn=kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1771959111; x=1772563911; darn=kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=R5WIenIqKGqO/mZpTvh85ef7eFz747ti06YF//ctCMA=;
-        b=Avg9FvyDUjGfGzWe4GcdKKHHhOkIYzD2ha/WFTUGxmZnUf+2glv1BsgUW+dZODVfl8
-         weoZZNXcGzbd+GrkfLnUMbA11ig/BJvesmwcmp34VfFSui1WDQut1su95UU1TRnqd7Gl
-         LJvNlJlY4NYsCoC7cnE3YAqrTHdAtSYrQ1QpFZb3fr7I/jJrg+P5QsT+EysNaNRSm+AH
-         4azpZzbCxm2+q4MbIxe+TgDq83gmJdrApnxdRYQ+h1O26mUzQbu5i1YaQiY89z6bYlvi
-         SJZk9fnlzYh0LYAi4G59tH0RvFYJhytJAXX5J2EKgoV2zXFp2rGOlrb+cys9nCMam4r1
-         ppMw==
+        d=google.com; s=20230601; t=1771981991; x=1772586791; darn=kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/joxWyyunu2bl0Kj1nyAq2w2/A21FFZeRtrgrp5Mjuc=;
+        b=yv8i4PonrYGYtxVWF3iwkQeG4zX60flRaPdOJjt5KZlshUHTyovf7NozVU05cx1AbU
+         KK1wuw0B1xI/vAVwX9rmRM8OuschWlYySw6S69sHZOo5tA38/eaFywyqI835URfYEl0b
+         tD/iMezlIoVgc+8m8xlxG2C4/hj4taUVYFOt6tnotJRNonRfGHtaXiLyowC9PeLM/Z6i
+         cy3bc3qIoQ7z4Jl4e7E8VdKIJ0K1FUqsMjmsmFbEf2HGuu/wl3rkSN7o1H42z5K03S5X
+         JUb7H0coMW1cFo7cMo1TYzoJnwlZMx+KvJcFuSxHKBbJjaItujzAtcYeVVGZLsFa8YGp
+         OWVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771959111; x=1772563911;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=R5WIenIqKGqO/mZpTvh85ef7eFz747ti06YF//ctCMA=;
-        b=GhttmF3DGLB++7LndF4t83+RK74EkSupedboBxWkEpEo7AQFvKx8hR+fSwVniYoD/W
-         s5OpLsh+YRWwnD0kTqFYDdlCVfFQzAZbD4zHdMj2gbScu6k4WE+Idbc4n8AiPwhmq+Ui
-         zbX4SdlQYjnhtklp5v1RIlSl52Nn7HfGEIdBGNazkO6uylivoFzxFwIGB0dBmL4zl+EE
-         TnDjYn6ZFU6j+xDraiCKl/ipvLKALK61Bzqcl53SPiCQv1RwmJ2ruVZwo/GoaP5NQxfj
-         ZhmKPG7osMzJnwtmnzjMnDvxGCL30lukqqeF/xJnoPGh/8+bUUkT48AcsfhAkpj16XKc
-         N+2Q==
-X-Gm-Message-State: AOJu0YyUzIpyTKZjOjMpQhvq9WHPyPW+E1NtNXNJObUS9F8bzvJq5QMT
-	LdS1XAMWODDndVq8EHbHJqCjJtJQuja08m2xHTm/iKEtQ0ViZIVggW62nEbAWbbuM9rXEuzuSCh
-	BWFvFfyPHhar6gjuFcLXroK9sJJeqCoApNfQR9F8GibZ0lwn95inpaPLvX4afJLc=
-X-Gm-Gg: AZuq6aL2ljWU88fFop9StQJvjhsGSfAhaeRi7RwP/PJOcZS9vwemiWh3u3PD0uLGagF
-	l/WeP+u7CuSFMNic6h0z2hscy1Whu9oOF3nCuOPRcjpBpilp1KdhCAYBHKx6p+XVRlI3ZYVta8u
-	EN2SPbEDm1wqp2KNelt8EYynBkUprARdQFKt73VjFT6xbwivGJtE+0AQfQdWY6rz4fmz83QdWCK
-	IYADncC2mDLldT4p4uTmO3l6UHPgOZ3PMM9hxkG8RTiMDCSAHbkGy0A1lNZthSrZqEqj+PvsfBF
-	YMHMY92WZIovGZosqzS0FJb74wgoxOS6qabdPgnArTw4Vn5LK3y55MaRvaguwUDj+ljQEl7jB0h
-	VvfBxqiOGh9NUdrH+xnKfnNpzXTJt5WSGLSADcPqZWtVnjmYNKf55jCuRn0oIUtCElKLG5zVLsw
-	X5uSvtdA/bqnaQkE8BH07r8M5GJId/dNJWwKI=
-X-Received: by 2002:a05:620a:269a:b0:8c9:fb65:7f08 with SMTP id af79cd13be357-8cb8ca63f57mr1676356085a.46.1771959111283;
-        Tue, 24 Feb 2026 10:51:51 -0800 (PST)
-X-Received: by 2002:a05:620a:269a:b0:8c9:fb65:7f08 with SMTP id af79cd13be357-8cb8ca63f57mr1676352885a.46.1771959110832;
-        Tue, 24 Feb 2026 10:51:50 -0800 (PST)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a0eeb0b930sm2423263e87.5.2026.02.24.10.51.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 10:51:50 -0800 (PST)
-Date: Tue, 24 Feb 2026 20:51:47 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Vishnu Saini <vishnu.saini@oss.qualcomm.com>
-List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, Tony <syyang@lontium.com>,
-        =?utf-8?B?5pyx5pmT5piO?= <xmzhu@lontium.corp-partner.google.com>,
-        prahlad.valluru@oss.qualcomm.com
-Subject: Re: [PATCH v2] linux-firmware: add firmware for Lontium LT8713SX DP
- hub
-Message-ID: <hxfpevfauiif5zinrihoq4qleuk4shvxvkqlfmrdjmblgpjncl@6yq44r6daeat>
-References: <20260224-lt8713sx_firmware-v2-1-8aa80156b88b@oss.qualcomm.com>
- <vfhlpudqtpwaccavyjgqhqb4grl7vxdkzdyp4xwzafvujak72d@mfeczqa5h4iy>
+        d=1e100.net; s=20230601; t=1771981991; x=1772586791;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=/joxWyyunu2bl0Kj1nyAq2w2/A21FFZeRtrgrp5Mjuc=;
+        b=hKbIHPcHtT6l5Ti2iluI+BC8VbO3y2r6RZ60CylnPMir+cGnIOUDdEGh09IvTK0AZZ
+         Vq/+uCFQAllyzn7+9sSa5lV9iuOlGZlA4BN+rHLxFJokFbELUp68Uwbfq1fYHdhSsaZx
+         1NWEBUpDyQf5e10Dm5O7xhxS7po+jhTyJLKWtWqtBzKNHi58kmW59PpMGPpb14lyvldX
+         NojkSzbMY/5Q5DI06QMS7M0kTVmoU32EQxMOBTY63/lMDdI5GEGgI8WbQ6CQkOhVgRkS
+         z87gQaNIm1cQGpPP3oF2/6pSaK9k7qY4BWjMfaoj10JBZ8TfKA28b9RA1WEvOo732Yaq
+         YxkA==
+X-Forwarded-Encrypted: i=1; AJvYcCVlTCq2ZoWpAw1YpxRciGiARTnIIsVzOntDMak+zlS0TY7JzXkCywJ3reFDFvesDRVz5yZgWZgTWLtws8xIMg==@kernel.org
+X-Gm-Message-State: AOJu0Yw6wwdWiUjJ155+bpAO++mdiB7qpzRRhkLVH614sVbw5ZbmMhNu
+	Bbqpi8ztPj9xvcmNa+uh9rckGGlMKQDedCoL61Mhi9g03yVHPfHvOsexd0JYLXbhqv+qi/Q7zxG
+	zpVSlhsGh6wk2XKAJclFghsraMTN17pa1i6I//KxV+z4=
+X-Gm-Gg: AZuq6aJKr7kVVWBwQ4x22mmqz5QLwwge8iIIum6Lmj3L2TINI9P9dF/BlAnKV4BLxDZ
+	EXWobnvrg0z36L48sMne6JHFPMVdLPfU8Kfq/pa2fM3cleo4tvVlw3c44HM+9+kqtMAFZ0Pi5my
+	RTBSpAOHYVvqfhsddPeFTfzNoVbSrUyzWzrjfw1foPrvZ8CDzCYjTq/6sF8QQ+9oOazUkQWPSqp
+	QJLH1ehx8zDtPbHnZfpN8GPeu5ueRaQeB47mjDq7ReAyV/bB6PP8jjSJw4hhtqenrVaAaLRMiHS
+	c4Qffg==
+X-Received: by 2002:a05:6820:1899:b0:65f:1012:69c5 with SMTP id
+ 006d021491bc7-679c46222d3mr8009519eaf.76.1771981991361; Tue, 24 Feb 2026
+ 17:13:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20260224-lt8713sx_firmware-v2-1-8aa80156b88b@oss.qualcomm.com> <vfhlpudqtpwaccavyjgqhqb4grl7vxdkzdyp4xwzafvujak72d@mfeczqa5h4iy>
 In-Reply-To: <vfhlpudqtpwaccavyjgqhqb4grl7vxdkzdyp4xwzafvujak72d@mfeczqa5h4iy>
-X-Proofpoint-ORIG-GUID: x_JISx3oB1A3DGt7A470y2jamV_Ix8We
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI0MDE2MSBTYWx0ZWRfXxFt4jcnkIzjw
- 7mIfF906BdvIeRa7FSDFUwbWVV60fd4X6PdcLMNUQv65aS0t6Os1fSiPsHPSMzM06d8nb4GzNhC
- MI7v54c+uB15Yqyz/MWieK+cSV8w/sU4ChI4np4efnQ2SxlIDaPujs7+2JJ1lqi0CRLp1CxTUNR
- UhryDP6DhnzGnz7dP9NlQHpu+2eW8VQtEtR32G7IKE2svoC2zTqja0qDxn6s8wyZTmVGaH6OUYG
- +6l2gnK4R/vtdxT85TCL7uBQZe4XPLUsKwObRw1hdjPJlJYZYqpqfLT7r/iAsDzlUXoIQ7oYM5v
- LOavCtYc5ZNj4QxwVE3wBKwHGioGjyCOGYGpCt+c7rSlxgDcGtI8TjMBj23BLIS3VRMdcwhmBkP
- b5YsI3lPoH1D1wtmcfA7pqccrmB/cnm3KXVSgHrTyoq84iwZK+2/MiOTDUmxTAwmTs8VWi0uw98
- HUMLCu6PJ1uinoo1KWg==
-X-Authority-Analysis: v=2.4 cv=fvDRpV4f c=1 sm=1 tr=0 ts=699df348 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=EUspDBNiAAAA:8
- a=1XWaLZrsAAAA:8 a=u9u88KQiysVh9alcePMA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=zZCYzV9kfG8A:10 a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-GUID: x_JISx3oB1A3DGt7A470y2jamV_Ix8We
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-24_02,2026-02-23_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501
- impostorscore=0 adultscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
- definitions=main-2602240161
+From: Simon Zhu <xmzhu@lontium.corp-partner.google.com>
+Date: Wed, 25 Feb 2026 09:12:59 +0800
+X-Gm-Features: AaiRm51jzOMgoHjVWQVlRx6DKCjt1S5kjScfgRMiIepTs7UGx0-kP6JNfsE0VGo
+Message-ID: <CAC7NNnoYY1=NbdomzEH=ajiBO7XikeNmR3D3LCSVZsAPxEkr_Q@mail.gmail.com>
+Subject: Re: [PATCH v2] linux-firmware: add firmware for Lontium LT8713SX DP hub
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: Vishnu Saini <vishnu.saini@oss.qualcomm.com>, linux-firmware@kernel.org, 
+	Tony <syyang@lontium.com>, prahlad.valluru@oss.qualcomm.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 24, 2026 at 08:33:25PM +0200, Dmitry Baryshkov wrote:
+On Wed, Feb 25, 2026 at 2:33=E2=80=AFAM Dmitry Baryshkov
+<dmitry.baryshkov@oss.qualcomm.com> wrote:
+>
 > On Tue, Feb 24, 2026 at 11:42:49PM +0530, Vishnu Saini wrote:
 > > Add firmware V667 provided by Lontium themselves.
-> > 
+> >
 > > Signed-off-by: Vishnu Saini <vishnu.saini@oss.qualcomm.com>
-> > Cc: 朱晓明 <xmzhu@lontium.corp-partner.google.com>
+> > Cc: =E6=9C=B1=E6=99=93=E6=98=8E <xmzhu@lontium.corp-partner.google.com>
 > > ---
 > > This patch adds LT8713SX firmware provided by Lontium.
 > > ---
 > > Changes in v2:
 > > - Added Lontium in Cc to confirm License and binary version
-> 
+>
 > It doesn't confirm anything. An email from Lontium will confirm it.
+>
 
-And I'm sorry if I wasn't clear: it can be a reply to this email (or to
-a previous patch version FWIW).
+This firmware was provided by Lontium for our partners to use.
 
-
--- 
-With best wishes
-Dmitry
+> > - Link to v1: https://lore.kernel.org/r/20260217-lt8713sx_firmware-v1-1=
+-f78b85fceb63@oss.qualcomm.com
+> > ---
+> >  WHENCE          |   8 ++++++++
+> >  lt8713sx_fw.bin | Bin 0 -> 145976 bytes
+> >  2 files changed, 8 insertions(+)
+>
+> --
+> With best wishes
+> Dmitry
