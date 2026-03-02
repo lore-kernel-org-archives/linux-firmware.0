@@ -1,129 +1,135 @@
-Return-Path: <SRS0=iYdG=BC=oss.qualcomm.com=saddam.patan@kernel.org>
+Return-Path: <SRS0=F0kQ=BC=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 671BED58E7D
-	for <linux-firmware@archiver.kernel.org>; Mon,  2 Mar 2026 08:32:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C50DCE9B35E
+	for <linux-firmware@archiver.kernel.org>; Mon,  2 Mar 2026 11:03:07 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 2DEE5C19423; Mon,  2 Mar 2026 08:32:16 +0000 (UTC)
+	id 90B67C2BCAF; Mon,  2 Mar 2026 11:03:07 +0000 (UTC)
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 457F9C2BC87
-	for <linux-firmware@kernel.org>; Mon,  2 Mar 2026 08:32:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 457F9C2BC87
+	by smtp.kernel.org (Postfix) with ESMTPS id CDD01C2BC87
+	for <linux-firmware@kernel.org>; Mon,  2 Mar 2026 11:03:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org CDD01C2BC87
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6228Gm473227146
-	for <linux-firmware@kernel.org>; Mon, 2 Mar 2026 08:32:13 GMT
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62288QcJ3223966
+	for <linux-firmware@kernel.org>; Mon, 2 Mar 2026 11:03:06 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	obDT2L9yI/xgnNJZbpV1IdmTOmyamaPnG4gAjF58JPg=; b=B08a+jAzMagQzoIJ
-	+TNvef2ZUfSH+0eTIiqpJf7SF/9No1Q6qo7LVKkPf0OrNMAfzp0+u4TInN71Rz6M
-	GAnQAWs/wb44a2Op2iARpwayc8JJTilfSYloAvstifsvKltmmfHzV43+KNf9PR3Q
-	/B5nsq7PilZI/Jyz8vwbvlhurjaQ5npBysekDGy9AzIxQfec+d5WFligysXFGF5s
-	NrzV1eL6T0qCfRE5XuRGhdJNiq/qY6IMXHau3hCmwsOktuI7oPKVhEUFoVzpcw10
-	Juy6StdUbql6RnhXpyNoxk8paSbddtaRBJ26ad+7Rn0Pe8yZuU8iHL2ZOZGOD1/7
-	NdLhyQ==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cn0b1h9ym-1
+	S4tpWM4TF22pajXkL5lbNZmi3ld+elMpO0i78j2Dt64=; b=oCGjNftudVErY+Fx
+	fycoK+5GUOodK3Gq3jPLGu2qOTzJ3yxkZQoHguh39Sl1Zsese6CC9jBva/nBtmrj
+	puEy5I/qrBfdFV31AI6Nl5Ofwspvqj3hcre5ZhjXiJ1QIwZWdoUpM9oU92GR+vFm
+	UuiWrHSGSUWEcHgys1CSmeywGS6sNpUcWxBnEONCAq+EN+7tb+crUBkNpkPZJnf/
+	60PZKUalKK2RJw82HEF83dWheXpPk7JLWaz9VbGNzkzFLBKDzNHj/29OVmoC+mRh
+	AGFOrG5nwmkWPng1XxEy8RjamAn4gDe05pI98MFsApHxLZGO98hWvRyzVoWm8JtO
+	H/MwNA==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cn0b1hv41-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Mon, 02 Mar 2026 08:32:13 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2ae4e20a414so40240925ad.3
-        for <linux-firmware@kernel.org>; Mon, 02 Mar 2026 00:32:13 -0800 (PST)
+	for <linux-firmware@kernel.org>; Mon, 02 Mar 2026 11:03:05 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8cb4a241582so2949565085a.0
+        for <linux-firmware@kernel.org>; Mon, 02 Mar 2026 03:03:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772440333; x=1773045133; darn=kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=obDT2L9yI/xgnNJZbpV1IdmTOmyamaPnG4gAjF58JPg=;
-        b=bItYdKO+VtRLAKtrI6z0XOiHuNhj57gV0XftwMaevxbq4QwDS3fgGe+G/BucCM/0bw
-         bpm5gjuJMmtck5/Ki2YO0zu+TMTBoopYAXA8cs37MAyXMUacSvdA6TvKTBGSQ3T5OcXK
-         mSe5dMLvuuX29QP3wpFiyAPciIMVstWp7AygEEhVHcxFXAZ95R7RL1tc2nE6IHK7AhBE
-         A3KLlUit8w4kaDt+9UlDsqWHYn4WTONHstpNjXDRRHwa0IVdl5uGweoGtLl4Ve/wCvbJ
-         As5XNZ5qS1+ggTZvG0zEMXC4xVACOYz1/gzPlF3Eda6lcKoJTdGvABlTV5Pew0TGuSYo
-         mb6g==
+        d=oss.qualcomm.com; s=google; t=1772449385; x=1773054185; darn=kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=S4tpWM4TF22pajXkL5lbNZmi3ld+elMpO0i78j2Dt64=;
+        b=WYRsPRimVMlUxPgfM2lSXT/9tVCuicyybfJs9hgkFpGgriIQ0ze/k/kD/8FR+K21Jv
+         nneQ5VRl3kvULPFaJtqzM5+3inb1TskdH0ezw6GHbSFqobnoB01yC0zfRllEtdIjVecd
+         mokK4yAsrJLyiQgJa4K899JuIL15PCWTP48AwPgHxUYrVVjsKtYqd1bdQ9lQtV4eRK/I
+         j+8KXB+WYpynKSyovJOdsY/Dz8Hf57CgjDwdCqt9VH1K6FtfC+3tBsUi+4D6NWtYz+8z
+         zxK8bjTQ8v2cbNosHKJRpUR8LFVDbMqbEFn/rocaW17QOrflRggM6KBRjHPN33V1SQTP
+         RS1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772440333; x=1773045133;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=obDT2L9yI/xgnNJZbpV1IdmTOmyamaPnG4gAjF58JPg=;
-        b=YBIlH7wnwt5mZKLdELCErIgys3jOmcVEYUHZlSWMqUTp+BkglG42mdBwoq6oWoILQ0
-         FaH0TFK11qDotsv9Vi4Zp4hqMU/okGuHFF2hKlR2HbHNXvzZfXxMJZ07Bv0JW8BSI1SQ
-         IJSR4/dmWFYX/ugsLaXset7zffDhP+NxpiMSb/olhGrCSu9c8hgBzj1kwrMDyU0VNWV/
-         eMWSpxNe4sg5QlDbabyEirbcm8wPyhu5toC+MJAouYxrq+FJgdvXuJunNr+fxFl00qQ6
-         xPfNlHm9TXFXGXEOrFhEUCvMuXgcL35eieiqnzJ6RMLdYaDm90Z4L0igddRKzfNSuehI
-         Y/yg==
-X-Gm-Message-State: AOJu0YxJL1orr20cqMwFQ32VKTboJyumc35jJ7luU5ksCa/OXXB4OK/E
-	2Nv/DEqz2jZxrc4xbY8526QAdS80l2pKY6dtPOVfoCoRX2aun/XSEGMGOvlw93zuVL0G/WvYzNt
-	VePXMZz9j4vmbJVgPr6aplTmxoXiWDdYuLgZ2IYXMr02AqF92m7vjFz4L/1nzTPw=
-X-Gm-Gg: ATEYQzyYHR7jCeEpa/ErtW3j7wKzQq32aLZgAuOQR9IPtLD+FJfVeStZHyRNseQt+Yv
-	rELIbtb08+RsEfdVL/DIeefqPQmD2EaNdU8HYmMLQxS2UTAM2StH6+fg+7+Q9+r2IZHL8UPWbll
-	LxHqCCZ6fLJMT2osVLNNdYNF4xEOZesznjPvN/FaikpD2EbU4jJkT1mCZitIh4k3tGzb/W/1gBj
-	v8ojBnJXq0FXUcZCYB9fH3q9OPzVRPpxR2Yg3TRKyOZUpOVkqXOtfgP01IzHtQ6WHBsoXCgO1d2
-	AasloRjCsq6hexybZ5jd76PSqOnGZ+RNDU2XHSdV5wxKrqZs4JqAocv2sxy+xLLcxQu6qgOfdqc
-	zgb1Or74dSkI+7G4JpxbZH3SrZN7Y+YitiOiHTrjbKV3lrZvjM4I=
-X-Received: by 2002:a17:903:1a6f:b0:2ae:59d3:27f8 with SMTP id d9443c01a7336-2ae59d32aa6mr4938015ad.19.1772440332888;
-        Mon, 02 Mar 2026 00:32:12 -0800 (PST)
-X-Received: by 2002:a17:903:1a6f:b0:2ae:59d3:27f8 with SMTP id d9443c01a7336-2ae59d32aa6mr4937705ad.19.1772440332375;
-        Mon, 02 Mar 2026 00:32:12 -0800 (PST)
-Received: from [10.204.86.153] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c70fa801954sm11098576a12.22.2026.03.02.00.32.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Mar 2026 00:32:11 -0800 (PST)
-Message-ID: <4c6945ef-e5c2-4d35-9be6-a304c66f7043@oss.qualcomm.com>
-Date: Mon, 2 Mar 2026 14:02:08 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: qcom: update ADSP firmware for glymur platform
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+        d=1e100.net; s=20230601; t=1772449385; x=1773054185;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=S4tpWM4TF22pajXkL5lbNZmi3ld+elMpO0i78j2Dt64=;
+        b=s4DSazO0SO8wo2IGtI4QM5VGatVbqykC63BSmSewIAxHDQKiD68oV2ALK2wlVSJbQV
+         0NVicJHthgUDDEMj27mM60Wig8Y9rDIIbCHEXLtHGWJZ44falbQGlEXvw1N1RUS3aUxH
+         NOZWZrXRW/FovLz5Gnc7Ftc3/WJcftjJHXvBOwBSGMJU/VVE6uilQQxd1vWKgdO2a8O0
+         F+/X+1N/+xXeB7s4VT0/r2xszUZ0qJ+mvBVDNbz6ZkFf7Is+CRN8HfxTUGMO6wmP6s92
+         4XsQyPpOZf50CLX9lqDipyCeXV1Elbb52wMJAitzqrBCX24oJcU1uophA2rHCUmVjsKR
+         phow==
+X-Gm-Message-State: AOJu0YwOD2nyxdInH+uzeJ5PnsprDYUQchZkaAmtJvHRkx/RzH+qaiWk
+	o7x1qN0C1KpYQgrMtH9JVXxut1Tv9SkBspT+7FNfY2E1IG/eGFXi+X0qzZmDRn5nXWUl7aNUgg4
+	/Qh4PcSshGz6+EF2lxjBB2KXU3kXhkpyxJFOnoVc9m9k/qrgOxS+l6k5TSfGH4d0=
+X-Gm-Gg: ATEYQzw97KIg1KjXKWe5DlHjgZ40+TEQleO7p8Op7lrVegbzKBzQmGATjTp0p+ixmWd
+	MehRB1EfMrU3PNIHMKL+jIpLPeo+b7jHiyE0YFPlOhr609vvg8rsGcEbut4ZGkItj6u/aYOSycE
+	02R1hKuuYgCwuvrNE+Yb037qJWuHE+TuKdhZJflsk8sbAjRYmJ9OhDY0EuiRQqPjQdpRK7JzaZg
+	ld4xea83UzrLt6POBrfpD8+CPuGv3TgYYWO90TQtJGw9fVw6piWNWhE5WSA22BdyWuUEyCorquF
+	bysY4Q4huzzn78bg2OwK1N0nCOAxW/VfHb5JjxjjKQWAXaMq4aLpwuI0ROvuyPeTrNY2AmwLRmr
+	6VzOAZe57/lxEZUeyzhDseGb/DEF19gjCUo4LBbkyXsiAxvlAoLRoRn858skirKB8atB082evzV
+	VVOnoleu67wMKSpiCablmJcVaDfjLWGO5BV4o=
+X-Received: by 2002:a05:620a:4495:b0:8cb:5c90:dd7a with SMTP id af79cd13be357-8cbc8dab0cemr1270286985a.36.1772449384986;
+        Mon, 02 Mar 2026 03:03:04 -0800 (PST)
+X-Received: by 2002:a05:620a:4495:b0:8cb:5c90:dd7a with SMTP id af79cd13be357-8cbc8dab0cemr1270283385a.36.1772449384543;
+        Mon, 02 Mar 2026 03:03:04 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a115bce0d9sm1575745e87.21.2026.03.02.03.03.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Mar 2026 03:03:03 -0800 (PST)
+Date: Mon, 2 Mar 2026 13:03:02 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Saddam Patan <saddam.patan@oss.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
 Cc: linux-firmware@kernel.org, venkata.kota@oss.qualcomm.com,
         kssb@qti.qualcomm.com
+Subject: Re: qcom: update ADSP firmware for glymur platform
+Message-ID: <7mbt2k3gqhxs45l527miwjz4b7zrqegjmlhyi64i62uombffab@4nua6tiy7usu>
 References: <3b89cf7c-2e22-4951-8811-ea646c00be53@oss.qualcomm.com>
  <kewyupqb3z6sh3jnuqzecigjx3is4mt26uc5wil5cybd7dzrtj@yaopwhgqdaoy>
-Content-Language: en-US
-From: Saddam Patan <saddam.patan@oss.qualcomm.com>
-In-Reply-To: <kewyupqb3z6sh3jnuqzecigjx3is4mt26uc5wil5cybd7dzrtj@yaopwhgqdaoy>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <4c6945ef-e5c2-4d35-9be6-a304c66f7043@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: i9mEr4fi7DTNdadObSqDwf8RX-PBq4Kb
-X-Authority-Analysis: v=2.4 cv=Hol72kTS c=1 sm=1 tr=0 ts=69a54b0d cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
- a=cGXIDumqAuS2zh2lOrsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=GvdueXVYPmCkWapjIL-Q:22
-X-Proofpoint-ORIG-GUID: i9mEr4fi7DTNdadObSqDwf8RX-PBq4Kb
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAyMDA3NCBTYWx0ZWRfX03runrU7+5+4
- 3NJH9F4mFpqMM1nrvdmPR/FHIM2/I4JSPnGOZHmWZry7pxEMcK36L/AygaUJbu7imBXuq8pmcIK
- FKRWhsRo7Uv25XSvSKDYkxI1pybQkk2W887DHG4Pb0N/fUuVW20IT1ItlRUaM+Qi/t7ZykYjRl1
- vVKuoOZMeNeyHQQvY6sPP8qhwEB7Ld9+cDcLZjcIhmxcK6YMC9MS0wJ0T7od43jZUF829gnxyox
- RN9IDK4PakWowdWNY4uIOcAmyWrJGYVPN/exZRwGrU6FX50O6+WvnMrMxksOjr7xhAmY5vwu32i
- Ni4j8AylTgJwniS/w2xEOLDdzKuC+v/jzNPRWBnGYoH66ZUJaOFHYT3wMPu+MiRt545NtJKepWA
- zfxgoYBza3jhP2OmOqsVI7qgr8VezGNxNE3MjIpnqP2Effa0mzXpZeb3spvKqvGGDXpgx9vJ2X3
- KxnRk+YoHuRVzyS99ZA==
+In-Reply-To: <4c6945ef-e5c2-4d35-9be6-a304c66f7043@oss.qualcomm.com>
+X-Proofpoint-GUID: PrUyfyGV8uDZ5bLdQNskyaI3hncCFVgd
+X-Authority-Analysis: v=2.4 cv=Hol72kTS c=1 sm=1 tr=0 ts=69a56e6a cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=duPnH3d3SeAO5TQUbVkA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-ORIG-GUID: PrUyfyGV8uDZ5bLdQNskyaI3hncCFVgd
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAyMDA5MSBTYWx0ZWRfX1PT2+mC4xldg
+ /A9LZOmvJjgSQpI9Y84PXByISRNaKwtDrow5xvTmMJ7FTLtRT25swk9iA/RLgjXrXqDSyQS42X3
+ S/diIyMweRVetrjNy1M9BFLPeG0YdBKqZFFbijAz36FIK4ploK3mv3H+kPoCQbLjKZPHY7UU7UR
+ SUivz/+bKQko0tf0CMCzgp+ctaRqn8xpLnjiUYs245J+YsnHQchImvrKpKtlH2cjYWUROsv36sA
+ YMWI1dOVD+ectsFZTM10hXe8hVNUyommSQ2S0ddJiwu8Idd305SVIzktFHUzhtTj/A/1GS7HE2A
+ 3xAk2QEo0wwJslTKA+ct/1DCl4At7qC8c03H2HqyHMGc6Zscpbg4g0YTb3YQPGEGGosd0i9/EwL
+ reF2sdAPYszMHDZTrABsnwk+/4y2y/okpj5ZeCxcQf7jhUO9CMurzl4kQR6ixUeHVDB9B6X44vD
+ vySwVTG8lTTnZgK+ixg==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-02_02,2026-02-27_03,2025-10-01_01
+ definitions=2026-03-02_03,2026-02-27_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  clxscore=1015 impostorscore=0 malwarescore=0 adultscore=0 suspectscore=0
  lowpriorityscore=0 phishscore=0 priorityscore=1501 bulkscore=0 spamscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603020074
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603020091
 
-We observed a bootup failure in Glymur caused by a corrupted 
-adsp_dtb.mbn file. The corruption occurred during the ELF → MBN rename 
-process while upstreaming. This PR includes the corrected adsp_dtb.mbn 
-to resolve the issue
-On 3/2/2026 12:38 PM, Dmitry Baryshkov wrote:
-> Missing commit message. Please explain, what is going on, why you are
-> updating only the dtb.mbn file.
+On Mon, Mar 02, 2026 at 02:02:08PM +0530, Saddam Patan wrote:
+> We observed a bootup failure in Glymur caused by a corrupted adsp_dtb.mbn
+> file. The corruption occurred during the ELF → MBN rename process while
+> upstreaming. This PR includes the corrected adsp_dtb.mbn to resolve the
+> issue
+> On 3/2/2026 12:38 PM, Dmitry Baryshkov wrote:
+> > Missing commit message. Please explain, what is going on, why you are
+> > updating only the dtb.mbn file.
+> 
 
+Let me reiterate my first phrase: "Missing commit message".
+
+-- 
+With best wishes
+Dmitry
