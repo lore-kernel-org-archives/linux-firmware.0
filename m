@@ -1,316 +1,881 @@
-Return-Path: <SRS0=CfUi=BJ=sendgrid.net=bounces+57143404-5cf7-linux-firmware=kernel.org@kernel.org>
+Return-Path: <SRS0=DdFK=BJ=opensource.cirrus.com=prvs=45285bb13e=simont@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D62E2EFCD7C
-	for <linux-firmware@archiver.kernel.org>; Mon,  9 Mar 2026 10:13:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6FE40F417F3
+	for <linux-firmware@archiver.kernel.org>; Mon,  9 Mar 2026 15:15:53 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id A65FCC19423; Mon,  9 Mar 2026 10:13:25 +0000 (UTC)
-Received: from wfbtwnqf.outbound-mail.sendgrid.net (wfbtwnqf.outbound-mail.sendgrid.net [159.183.146.79])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	id 342F9C2BCB0; Mon,  9 Mar 2026 15:15:53 +0000 (UTC)
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A025EC4CEF7
-	for <linux-firmware@kernel.org>; Mon,  9 Mar 2026 10:13:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A025EC4CEF7
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=jabil-procurement.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=sendgrid.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sendgrid.net;
-	h=content-type:date:from:mime-version:subject:reply-to:to:
-	list-unsubscribe:list-unsubscribe-post:cc:content-type:date:from:subject:to;
-	s=smtpapi; bh=xDTsaLkj9zKPbl26ULlEtsD1xaCYEfnbku54VdTAVBw=;
-	b=aUXb0iZF7zuItA7vd2NuWRI9NzlFgq5HRnZo726IWfhLZVEHTfIGMUuSknD4X4nLdjqf
-	cuw9i1uGwFdlLaIHYpuhZ4I5WyHuEhUsNfPg/lqNsJ+TqyWiCe/3YsFFvJy2v0vv11d6op
-	V3Vj+yXWJU/0GsGQsLyESNeZLwKQ6XbKU=
-Received: by recvd-78b965c8d8-rz9gp with SMTP id recvd-78b965c8d8-rz9gp-1-69AE9BBF-53
-	2026-03-09 10:06:55.531786584 +0000 UTC m=+7040085.612773152
-Received: from NTcxNDM0MDQ (unknown)
-	by geopod-ismtpd-43 (SG) with HTTP
-	id 6NYa_jhvQuyE7-97TGl4gQ
-	Mon, 09 Mar 2026 10:06:55.517 +0000 (UTC)
-Content-Type: multipart/alternative; boundary=c3a8ef1e36880f9dd687cdd7ff2b192eed8d90cafc41c437c75a0df5f4dd
-Date: Mon, 09 Mar 2026 10:06:56 +0000 (UTC)
-From: Darrin Cremin <darrin.cremin@jabil-procurement.com>
-Mime-Version: 1.0
-Message-ID: <6NYa_jhvQuyE7-97TGl4gQ@geopod-ismtpd-43>
-Subject: Request for Product Information and Collaboration Opportunity
-Reply-To: darrin.cremin@jabil-procurement.com
-X-SG-EID: 
- =?us-ascii?Q?u001=2ElbZlH1COuX2qm9ZEGVVOR+x1=2FXznCqXGxXVJAN5BFwDWvidODSl+HNk7n?=
- =?us-ascii?Q?qWSj4vb4zPAzt0BYdiqyWXOKSYngCHrN2TTQJaz?=
- =?us-ascii?Q?z4up6DTRxivI8F0MLmehybRX=2FQlproCTCsZd04P?=
- =?us-ascii?Q?6aWh6qF9jhDSvpJN32ctYpBl=2Fi+AZlkCeGLA2S1?=
- =?us-ascii?Q?zZlrK81eZ7GQ5JG1fZ4pFrN9tEinj++F3iink3=2F?=
- =?us-ascii?Q?Eu8KoILil5xfTDJ2hZhkjDy8AVUVsxVyfovENVw?=
- =?us-ascii?Q?7o5uTmxOYkO0ea3SToHGBErztQ=3D=3D?=
-X-SG-ID: 
- =?us-ascii?Q?u001=2EXwhBPNhCejkv4+fVosb2QVfR16Qxp9CrA7PjDe5zzeI=2F0IZCBsPXtgHbA?=
- =?us-ascii?Q?oGIj+RskLxA4N2rJjSWrHfgX07tLOm0v5BUQcd6?=
- =?us-ascii?Q?w3knjorGi7Hwu0WCOA5AFSvy0=2FwlG32=2FFkTBe4Z?=
- =?us-ascii?Q?Xz4YW7KH6NSLWvsNDz5VEas7tvY3=2FMFepPl3PcV?=
- =?us-ascii?Q?0G3dbRFMrDWhV5ouatFSDvKQXmPLDYe3ENAIj2f?=
- =?us-ascii?Q?8EsJzWzUv9hqrh4mCo7GPeil8KNyot+DsTQ340E?=
- =?us-ascii?Q?0uL11V3eHdWYyw0wwW5SPzpVjxhyqNaf7lxB+OY?=
- =?us-ascii?Q?BMdKbrtfe5Egq6dqNGIdVhMycyQ1QuKZbVEih83?=
- =?us-ascii?Q?d3yC6TpAoGhwYTnRLm7QqwYfr0t8zFFfPV06zvo?=
- =?us-ascii?Q?XuoRO3zwWWwF4E14Ut7jesX2NNvCTHlfHCPgTw+?=
- =?us-ascii?Q?qn5vgKftt5v=2Fvoq30IXU7kyQVB3g=2FCmjR43m+tM?=
- =?us-ascii?Q?BVU2gtZe5P=2FOS6OORSO5zZEpu1UAbC4WH5Fjy29?=
- =?us-ascii?Q?6ViDvEBRsvyuvySyrGWdrEvB4X2LrBdMLTHkGQt?=
- =?us-ascii?Q?2D1d6wotpVm=2Fq6Ox7J1Lv8tVzP=2F5numV2R0y9k5?=
- =?us-ascii?Q?hHeZTPebUeCbMt5TeNUGTt29yrQCE58PoJY5WwL?=
- =?us-ascii?Q?RscTIEJWc7GisTPkxw6o1obirbK2ctyNLQHJXyt?=
- =?us-ascii?Q?QRmJ+XLrWEVAHK2I4koSeHYfhWSxE4LlUK1520l?=
- =?us-ascii?Q?O3DO4lJeVTH9BcjElHb0H3S1kQEyCc25fpCtyRJ?=
- =?us-ascii?Q?hjX6NQ=3D=3D?=
+	by smtp.kernel.org (Postfix) with ESMTPS id E6191C4CEF7
+	for <linux-firmware@kernel.org>; Mon,  9 Mar 2026 15:15:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org E6191C4CEF7
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6297UJtf984806
+	for <linux-firmware@kernel.org>; Mon, 9 Mar 2026 10:15:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:message-id:mime-version:subject:to; s=
+	PODMain02222019; bh=3uCRxRBHV8YxhR8Uk+Wtsd6j+MChR74ArtPb6YsfjK0=; b=
+	K4C8gidIVb+egJcvUlsE1O+JaAiBh/sTuoI7GpE2AN6aGPx75nmJUYboH6OSqe5/
+	qHeYoi/GZBpk8zcw8qMMGmOWs+0uh77OavQP2lWtGWBEltQpc2QIrAaLDhedCYGx
+	G6f91sjhaqHvCxhNX+8bufTqEnRHWVYBSD7lSLrJlv1YfWQp8AkSHX4ejDieE6qp
+	1fnck3WXgOkwXqhALSsOF6uv6Iad1h48AplgbTSRTaSo/aV0ift55skCft92h+GW
+	KFtdzgRLhFMexGWxdFKHcaPaGpdvMDYrnq4G5fItUQ8+RKy4W0NQN/oji6c9mJtp
+	KbkfA0Esbw82Gcl/vJuJ7g==
+Received: from sa9pr02cu001.outbound.protection.outlook.com (mail-southcentralusazon11023119.outbound.protection.outlook.com [40.93.196.119])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4crja49ycs-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <linux-firmware@kernel.org>; Mon, 09 Mar 2026 10:15:48 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SU9+NcGu94aPLM0VQoOndbTcipDLlI0LiTs1hbXAAht4uToOFOzKQz1ESk7D8JsYu0KUoQTPcfTfK9kbwI3UrqC3AwWEh2XKqv4KHepjCDIaV1FM13gTneef97H0LZc8CGNHiUnDZ6Mg/4YHvWH/sPAiK4hbVbYRiesdRF+0R0k5hTlnjZ8XKO0wh+6jfURKVg+oBxHnwG6gAzj63uE3awnP8ujn1edBMO9pX8DLRKQO+sxSDFwVtEPyryqp4EiEetZo+5aNLf7GHj8cFP5nSw0aEw2eG6i5LTjtZOe9oAoPShI760XK4/D77ygStg3jnVPrNAHwnF8t9C0ONDkGDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3uCRxRBHV8YxhR8Uk+Wtsd6j+MChR74ArtPb6YsfjK0=;
+ b=VTO5ZTPq8Ma2FopVmpR72uzJlzBOYL+GLU8XWfr6k/fRo0WYcJ4JfFFKmkPpinDWvsPVFwiqqgP26JIfdByBnVTrE3dmPwfMDKl4zJ4F+2QP+i3/F+dl4krRK9Dlfr2pA/V3UFV+Sd4DZWpgYo7QzluAr7Iv6bNB3cpZ4mN0nl70hTxJUHHVQFUUJxJxvSVvNtzfnCRYZLA3VIgMradV7ftQSK20hogJ9gwgpH7n0uEKlQOFQTUoXN1kS7tti/Zki8J368spcdSso+xYbPuleJMsdmza8cu3jLWsXaOjv0seXx7JghLgzjjU7nAruEOIGHfDCNT7VBuGUeW7CIecwA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3uCRxRBHV8YxhR8Uk+Wtsd6j+MChR74ArtPb6YsfjK0=;
+ b=Uc3/MNnDgr/+WTDmW3CTf1D1AsLetbitZviiCALkQRU8p2W9mjNAgeYdAKMTnaq/8BMVKd9Q0JknjeVTnn0QiKLourYX2ur/yM3QQSrano+lmIrSDSi7udpaOHxI88sw501AMwt/DW79sp6s//unVulq+v5ylnot3K3Cgxb3U5U=
+Received: from BN0PR07CA0011.namprd07.prod.outlook.com (2603:10b6:408:141::32)
+ by DS0PR19MB8490.namprd19.prod.outlook.com (2603:10b6:8:192::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.25; Mon, 9 Mar
+ 2026 15:15:43 +0000
+Received: from BN3PEPF0000B075.namprd04.prod.outlook.com
+ (2603:10b6:408:141:cafe::f8) by BN0PR07CA0011.outlook.office365.com
+ (2603:10b6:408:141::32) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.24 via Frontend Transport; Mon,
+ 9 Mar 2026 15:15:38 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ BN3PEPF0000B075.mail.protection.outlook.com (10.167.243.120) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.18
+ via Frontend Transport; Mon, 9 Mar 2026 15:15:42 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id E3867406540;
+	Mon,  9 Mar 2026 15:15:40 +0000 (UTC)
+Received: from EDIN6ZZ2FY3 (EDIN6ZZ2FY3.ad.cirrus.com [198.90.200.77])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id C526E82024B;
+	Mon,  9 Mar 2026 15:15:40 +0000 (UTC)
+From: "Simon Trimmer" <simont@opensource.cirrus.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-X-Entity-ID: u001.eY34wPqF4vnQZL/C6JiWQg==
-List-Unsubscribe: 
- =?us-ascii?Q?=3Chttps=3A=2F=2Fu57143404=2Ect=2Esendgrid=2Enet=2Flu=2Funsubscribe=3Foc=3Du001=2EFp4=5F?=
- =?us-ascii?Q?564HQl6izpEjSw4q64knjkbRMot4w4LI1jEUaMl?=
- =?us-ascii?Q?OE84Ur9K4USLn9Sfn2s7KF2eSwkiboJdQLemXsi?=
- =?us-ascii?Q?FZjICYKea26tVXehaXAlKWdSh8HUGPHGhoZMxNy?=
- =?us-ascii?Q?9JsDZRxeh=5F-22DlBnnOGCiwlpSoQ0ukTbTN4iAU?=
- =?us-ascii?Q?vBgpzYsE=5FXHdlyuLGsy46Wprm-ckVB5WcHsHWRT?=
- =?us-ascii?Q?a3bdSK-xkevjue56VWBTUcxY9B9rC7Fw=5FAwDFqJ?=
- =?us-ascii?Q?kMSxo6M1fPK2HqNKYZyzquEnY4V26G9mPZmMlzO?=
- =?us-ascii?Q?0iPxNbqM7aap7p=5F8K8l3QvnKA26JYf4o-FHdBg4?=
- =?us-ascii?Q?s=5FXpFdEcXQxCnmkQLrEbmPz3SaAUgc3QF-qzX18?=
- =?us-ascii?Q?q5yrSzxi1FudwuWvOz655stSKKEOdwvwic6xO80?=
- =?us-ascii?Q?uGMkf0Ob37RhBkwnDXnbe7g=5FcRCNEE6iPsMaCFZ?=
- =?us-ascii?Q?HQBX6n=5FLsEVTKDjOj82CjYfxSFSLsFzCitg=5Fi=5FX?=
- =?us-ascii?Q?6qmSDvdEW1riojMV2VJEqt1PODtr=5FlGd-xLDxp9?=
- =?us-ascii?Q?Nf5xw2ClT4kr4nnsNlsb4yuslLmVy8AYB8Z1tbq?=
- =?us-ascii?Q?5se2XRP4PZk52dk2szvcDza1isDfdkNaFgshRD0?=
- =?us-ascii?Q?R1gQCq4UflE-TEhwtjiCpm9s3XvI9t3VSghA5Mu?=
- =?us-ascii?Q?AUY0yQ96-mTwt8pm=5FjhLHB=5FIgRbrnLyZCkWofKu?=
- =?us-ascii?Q?1hYkL3JsXguYC-UkvAp4w1TdiVfXm7EDogwDPED?=
- =?us-ascii?Q?-m8Qrfz5UUEvOAeepkAvQbP-=5FbxgTDzgJJHoVl6?=
- =?us-ascii?Q?V8utFC1DXjMDDOG60ZlY6IxwOokDHAbn6ALl5pk?=
- =?us-ascii?Q?WTtFM6YEcjqqmZygFo9PaD5votZla4PT57asIUJ?=
- =?us-ascii?Q?uXIFywnTzC670oJpTnvrXBn2JwVXbQHsIy1ZHcq?=
- =?us-ascii?Q?8SBhTFU=5Fm-hxFA4aKrtwRXyMxJbse82pxINLkR7?=
- =?us-ascii?Q?dkro74c9AEXxMy658NQrimkdxxrCC2BSBoG6OYW?=
- =?us-ascii?Q?DCCm5hHYviJhvYtFzm6s-4JJjTJUT3jX1PTgfgP?=
- =?us-ascii?Q?ZXIDnFGbUDgHSNy-OpEKcKwsnYJjGX-SoohSvzu?=
- =?us-ascii?Q?cGl5dw1omjCSVoJKvSxXW0S-=5FE8XMor3VNJhNdd?=
- =?us-ascii?Q?QBLoN14REKvpJmML-Krm0ux78CF0YjniM102zdk?=
- =?us-ascii?Q?FABXsELPaSYBb2MyvYFJXL0XRoK2LipknTJiMWU?=
- =?us-ascii?Q?op5mbXzT4qQta17dpwU6Q8ubElf=5FaA=5FjDjzqsNe?=
- =?us-ascii?Q?=5FLwfVrFj83qobGw0VmyiYT8ZFZcbuD8e1JTRBDs?=
- =?us-ascii?Q?buv3uobQagTht9EB82qnW5rNFSAd=5FqlwN5b00KI?=
- =?us-ascii?Q?iP9XCScLIrk9J-Y24UKgpEi-OIxejup9tXFRTzH?=
- =?us-ascii?Q?cWr1XiWZ9tBeGrv89YVCxMdG8YxI4MWEXb-VTCv?=
- =?us-ascii?Q?=5FQe4cWWR-fvTWZntg5fi8GkFC1SuS0Ao2dRxZfE?=
- =?us-ascii?Q?XlVkZmTHV1h2OhsGSDodDumwyMWnKvUfnHmSEAU?=
- =?us-ascii?Q?pjTsREjOQECSr=5F92F0wh6HyvdrUtci5NHNaNCo2?=
- =?us-ascii?Q?faNBIYIs7=5FdgmU5nePumloGr0OHZPseahV4Hkv2?=
- =?us-ascii?Q?It2kOFTF1dFBv=5FWmdsak3KxNTKkJfAMgp7I3lmD?=
- =?us-ascii?Q?3-j2BwKfd9RfT21Vb79qiWM1S3TIbmVRGP6rKva?=
- =?us-ascii?Q?5DXJmkWvIsf5ZrjDAP9KOhvEZuXyW1UopnLad=5FH?=
- =?us-ascii?Q?Vsv3uGlQrN5H0mgPJK24iSfAIqgrYcRH9EurXkr?=
- =?us-ascii?Q?pm0jR83WMK=5FvFROuuo64oe=3E=2C=3Cmailto=3Aunsubsc?=
- =?us-ascii?Q?ribe=40sendgrid=2Enet=3Fsubject=3D57143404=2EBKdH?=
- =?us-ascii?Q?GWdnw8IPtYAlFKaVCnvNVV8owA2hPIZgsihwAMl?=
- =?us-ascii?Q?oMDAwdTAwMEv6Leh-5uPqrgGiuQmjETbPeHDwch?=
- =?us-ascii?Q?1D15NY0v39XqM2RnEW-DbOcNp6cJ86kEkuV-=5Fhe?=
- =?us-ascii?Q?zt4IVDVzaSU2gqsMO9iT=5FarVr=5FOehrD9fj=5Frz1Z?=
- =?us-ascii?Q?tPiTDf7uW7pbTzVBjG2g2w=3D=3D=2E1GIGwYfYUmYDiO?=
- =?us-ascii?Q?aJafYYHUPbvwVSYtQcNO5rD=5FenOApoMDAwdTAwM?=
- =?us-ascii?Q?MtstjTAYDd7kznioK-N0ziDPykNTqKm87zjcr4i?=
- =?us-ascii?Q?wvZe-DEX8BOyU-JUXwRzaEyBUbv2ASQ1uVbVa5H?=
- =?us-ascii?Q?HsqXEGZkDn2HGBNsasS5UTC2AOSwqVxUgH9DRnX?=
- =?us-ascii?Q?VIi69XTp-3ianbliIn3X67LLGyFebGU6GGLKuZX?=
- =?us-ascii?Q?lqrVBjc5WjEfwTzsJ9iTH4lLtjHxC2NbFdYlzFT?=
- =?us-ascii?Q?DKKLxdtFZZpdLjHZjOZ92iolp-MbNRv8BqsDv5y?=
- =?us-ascii?Q?NXrV2BXiqX1Maw4co3YNkz1N9yd2BZv9Gk4KVga?=
- =?us-ascii?Q?44vPyeiWsZjnHRr6KXhD=5FZV3EnIQBd3jSeYOXVK?=
- =?us-ascii?Q?A3zC6v914-AijLPK19fUebZXL4lAh5Ow8EUbnCR?=
- =?us-ascii?Q?7w2nmBPAiJbxuXjqXFlPpj5Tt2nh36BOcBhpbfd?=
- =?us-ascii?Q?bEuRWXYOd3igP3tSFXh0S1CJBYfIxGJmPoehEym?=
- =?us-ascii?Q?Dq8Qii18CYRe4WUWNdOIvBCxsahV4lTizm2yer4?=
- =?us-ascii?Q?q441=5FwrunQKiN6ODUsen0haqvdUYhEBXzK0XdkM?=
- =?us-ascii?Q?k4wU9xrjslNdgFlu1oYUGeRswT7TnbwKM46rGoY?=
- =?us-ascii?Q?J2DFrH=5Fgt=5FSuDyliWLlYCaDdSuNEqMjyYjsGtsl?=
- =?us-ascii?Q?uxKY7XvbsltRIg0Gq5MRdvcEB5IQ1ht=5FosRxjiA?=
- =?us-ascii?Q?HGKdmQQYK2flRzaZvOu3ifn6uAyGTB1u9lQAzDP?=
- =?us-ascii?Q?Dn7a733UDsWjvdUZJ7256yMW77weX7bU53vRGDk?=
- =?us-ascii?Q?q1PbVa3IILQl3LtQ8OUPYmn490wnhwEWwQZEjsj?=
- =?us-ascii?Q?gGbEM0MENmD6uzpxs5lI4KbukiLVQ47Pz0lchTf?=
- =?us-ascii?Q?WNcIrOGvdAiFpM9ppFKN-pOoudE8ceHmUJZ-013?=
- =?us-ascii?Q?F6knARKnHbQBMW52kBflnaxOs9f5-BqkSJwawYX?=
- =?us-ascii?Q?HgDITTsPdENtqid1QoHOWrJLpVmImaeLEXCt798?=
- =?us-ascii?Q?xg3LRMQ5PKPrn0eVUI7oY=3D=3E?=
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
+To: <linux-firmware@kernel.org>
+Cc: <patches@opensource.cirrus.com>
+Subject: [PULL v1 linux-firmware] Add firmware for Cirrus Amps and Codecs for some Dell laptops
+Date: Mon, 9 Mar 2026 15:15:40 -0000
+Message-ID: <000401dcafd7$977ccc00$c6766400$@opensource.cirrus.com>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0005_01DCAFD7.977E0480"
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-gb
+Thread-Index: Adyv12AQxZXSXxqdTa2qqYAeYwNbpg==
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B075:EE_|DS0PR19MB8490:EE_
+X-MS-Office365-Filtering-Correlation-Id: 926de8f0-fa23-4b26-d187-08de7deebb08
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|61400799027|36860700016|376014|13003099007|54012099003|8096899003;
+X-Microsoft-Antispam-Message-Info:
+	hkvkHtl7KEwfPNLGqcM0fQ2fxn7Ud8EhdriJJX0u0nAMzMiyHt0dlwsezfLnJEAQHwgJbLhDHBlyk7wSEaDk+TH0mDsgkyvnBwLmES9Fnp1a173YylQjt6gJk81+rSUEwEQzYmAK+i50DdCRmM4cRUdI/1ZXdX+YF5CybU89CmYkMj6dFYLfbMBqvDP6v1nEUhomFcZivYm9qLCRGgTZohYPsx3WNjcrr37NzGCSE5zcE0rTLNXyoV5P0XUgZ4m9aztDLgPUVFSO0IHKi7EOQKFY3ISFBB+1YzZgEoxhKBJRTfxuIPFHMntA3ViOvSzC4FznqEjqkIcWku3e5zl0ikzhmgwapztjjCyxAkQYS9GGY7/zZzvewEuIPAmxI4MiHAo84V7LOPMF1i4YwAWWuwvyqIpnOhdpRdLYFqAsL1Q39Sv2YZZGvYJs+mzQvcAZqp5Av6MRtmTekkil+WcAytj9Q6HvHCxvF+uE6Q9HZ+Y/B5TFXnLSHpocGQAAkxA/Ul60FiT7ruJBUuuglr7Me4kGetCrKKxeEzYLkeOa18cnxbjrem1cTgJ1R+2s+XVOkUP2xn249xCEI5NYmIJJPFcFL1vwo7VNlvf0n8G2PmKwbR2yrtB23fH650vsouCyIzqkFOYkBF+nm9tIofHfaw2Iz1QTtL/TBIwIYL06wr5QOCZ5KEpDx/e63IRGeiRqmuCkzs7q38z8xYGn3ZXPwKldf1iQckqM6vgcCdncQVg=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(61400799027)(36860700016)(376014)(13003099007)(54012099003)(8096899003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	t/g3NpJ8W62q6xO10KaNwfzlykPI8usaKM1qqk4cLTj0pdgowtKBvjdfdqTv00F4s6kudesdjqRnNZBKJzmhX8T6ULgWWyxsyjYI3lLuGIZHEHABsXA1mZxUCTCJykPgR0dZD2bD9Wr7SD1kmUkPNf5XnB7beFQXfPz/4/5/j8q7vU1uG/yRD971iafZMCSqhiEazXNTlIlFrUITsiof8xV9In8Pfn/eR5+qiozroa7BnxzL/kfhEhtSoq1LaxtTSEx/tSuovE/p3Cmzan2Uw6E3GOMdKts606F/RB3TNoJkVTdfV0/Y29SmST8YP/I7wZZ44zRiEOeRSv0xeMgrFMOKaYrrFGyx6O4wPy4eQz54De3DlmwALwj12Xu7yn60xKE8fCSWOcGxJna/xkxplgbenHqoIkz67l3Eh9DsIv2+ReiUmwtTiaMtqvy8zcKc
+X-Exchange-RoutingPolicyChecked:
+	lGdoHYfxI9UK96yRB9P7mUxRbNkSIcQrN03JxXUe2D7IWEa2uC8ryOKnBIzON1FqVjrIdN+2cI+lKxH5WkelroFvpPjKv11qNJkH43wjLrIpW+x6QrPHtI+pblQUVefQ4ktCJ7rCkqmDdCmOClJqoAHed4PxNaI+RUwE+SSVCa3v7vtBD5053zaOLd2GcJLVm6CJ7bJzPjJ0GW/KtcOvplkPSdjqNAjOb/wUdweJGI2A5r4yMA5mNnTwIGzE/sSnKRMppBtBAyOmP2sKcDAP6efMhkt18gQ4HVkQJwZOtJwGz1SyG+9E9Z8nNAuZXRs/OHk0oUDFwXUUuPwfS0q03g==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 15:15:42.4664
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 926de8f0-fa23-4b26-d187-08de7deebb08
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN3PEPF0000B075.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR19MB8490
+X-Proofpoint-ORIG-GUID: zo-qGaA3tuMwJsML7xgBFR2iJ_KlItnd
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA5MDEzNyBTYWx0ZWRfX9e7Qj2n4ufwB
+ z8NEvCD8EaL+qUe/KlvytwtjjLBF/nHQCN/QXTngLiJMpQqNlfKZMshtx/UwBdLF9GArEUYx++I
+ 8rbBAo1aUl4uBIx/kGcQZMyJv0brebeIuZ+5erf+pA+9WHu/8P5trvUgSFP1k1/iMcqoedUiEiw
+ t4E9jhl4bTdGh3HEZ6suGcGfimIBpydNZDZscpwdyH86Tot8sVjdxxFQm4O/aGrEWFZTXGUZqjR
+ UN+ncJMa32OVGInZMdYRGgVZzXvec09OFDexQAKYDeHzYvZFjTzQUxnQsejsLRhfnigO6WnC5/V
+ JR26hh0+aIUd84JF/oDF7yoiriU7JMX8X16C75FHYoElqklXYjj5L5l0ymRPpr3xU6vA1nUF1Bh
+ 25nKQ95l5SlvI6d9Ene85Jn7ZfPoaXx6RTHfp1rnXpmOIZ0G72YTNU2sdQbcJLqSgE2UcnpCXcF
+ cSC0+bBKfaCppWHOtmA==
+X-Proofpoint-GUID: zo-qGaA3tuMwJsML7xgBFR2iJ_KlItnd
+X-Authority-Analysis: v=2.4 cv=WNVyn3sR c=1 sm=1 tr=0 ts=69aee424 cx=c_pps
+ a=SNRzDqNuYCMO/bT9QdJRMw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=Yq5XynenixoA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=DAwyPP_o2Byb1YXLmDAA:9 a=NEAV23lmAAAA:8 a=d-lohF2T1sOpDvwn4ugA:9
+ a=CjuIK1q_8ugA:10 a=yMhMjlubAAAA:8 a=SSmOFEACAAAA:8 a=QHh5SagpRDpqhWqmMsAA:9
+ a=pYhyuy5AFfOhGktf:21 a=gKO2Hq4RSVkA:10 a=UiCQ7L4-1S4A:10 a=hTZeC7Yk6K0A:10
+ a=frz4AuCg-hUA:10
+X-Proofpoint-Spam-Reason: safe
 
---c3a8ef1e36880f9dd687cdd7ff2b192eed8d90cafc41c437c75a0df5f4dd
+This is a multipart message in MIME format.
+
+------=_NextPart_000_0005_01DCAFD7.977E0480
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+
+Hi,
+
+I couple of patches today - we'd like to add the firmware for the Cirrus
+CS35L63 smart amplifier and CS42L45 smart codec for some Dell Laptops.
+
+Thanks,
+
+-Simon
+
+ 
+
+The following changes since commit b3929cfcd543c4f388c4930175f442be94bbcf3b:
+
+ 
+
+  Merge branch 'lenovo-fw-rename' into 'main' (2026-03-09 14:21:13 +0000)
+
+ 
+
+are available in the Git repository at:
+
+ 
+
+  https://github.com/CirrusLogic/linux-firmware/ 20260309-cs35l63-cs42l45
+
+ 
+
+for you to fetch changes up to 21d670224ad1f8ab2956243c0b381eed40338b45:
+
+ 
+
+  cirrus: cs42l45: Add CS42L45 SDCA codec firmware for Dell laptops
+(2026-03-09 15:08:59 +0000)
+
+ 
+
+----------------------------------------------------------------
+
+Maciej Strozek (1):
+
+      cirrus: cs42l45: Add CS42L45 SDCA codec firmware for Dell laptops
+
+ 
+
+Simon Trimmer (1):
+
+      cirrus: cs35l63: Add firmware for Cirrus CS35L63 for various Dell
+laptops
+
+ 
+
+WHENCE                                                  | 361
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid0-02-l3u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid0-02-l3u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid2-01-l3u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid2-01-l3u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid3-01-l3u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid3-01-l3u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid3-02-l3u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid3-02-l3u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid0-04-l3u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid0-04-l3u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid2-03-l3u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid2-03-l3u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid3-03-l3u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid3-03-l3u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid3-04-l3u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid3-04-l3u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid0-01-l3u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid0-01-l3u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid1-01-l3u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid1-01-l3u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid2-01-l3u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid2-01-l3u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid3-01-l3u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid3-01-l3u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid0-05-l3u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid0-05-l3u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid0-06-l3u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid0-06-l3u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid2-05-l3u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid2-05-l3u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid2-06-l3u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid2-06-l3u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid3-06-l3u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid3-06-l3u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid0-06-l3u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid0-06-l3u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid1-06-l3u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid1-06-l3u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid2-06-l3u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid2-06-l3u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid3-06-l3u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid3-06-l3u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e2b-spkid0-00-l1u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e2b-spkid0-00-l1u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e2b-spkid1-00-l1u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e2b-spkid1-00-l1u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e2c-spkid0-00-l1u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e2c-spkid0-00-l1u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e2c-spkid1-00-l1u1.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63-a1-dsp1-misc-10280e2c-spkid1-00-l1u3.bin | Bin 0 -> 11440
+bytes
+
+cirrus/cs35l63/CS35L63_Rev2.5.7.wmfw                    | Bin 0 -> 28676
+bytes
+
+52 files changed, 361 insertions(+)
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid0-02-l3u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid0-02-l3u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid2-01-l3u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid2-01-l3u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid3-01-l3u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid3-01-l3u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid3-02-l3u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid3-02-l3u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid0-04-l3u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid0-04-l3u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid2-03-l3u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid2-03-l3u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid3-03-l3u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid3-03-l3u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid3-04-l3u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid3-04-l3u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid0-01-l3u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid0-01-l3u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid1-01-l3u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid1-01-l3u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid2-01-l3u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid2-01-l3u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid3-01-l3u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid3-01-l3u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid0-05-l3u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid0-05-l3u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid0-06-l3u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid0-06-l3u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid2-05-l3u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid2-05-l3u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid2-06-l3u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid2-06-l3u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid3-06-l3u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid3-06-l3u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid0-06-l3u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid0-06-l3u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid1-06-l3u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid1-06-l3u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid2-06-l3u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid2-06-l3u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid3-06-l3u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid3-06-l3u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e2b-spkid0-00-l1u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e2b-spkid0-00-l1u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e2b-spkid1-00-l1u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e2b-spkid1-00-l1u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e2c-spkid0-00-l1u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e2c-spkid0-00-l1u3.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e2c-spkid1-00-l1u1.bin
+
+create mode 100644 cirrus/cs35l63-a1-dsp1-misc-10280e2c-spkid1-00-l1u3.bin
+
+create mode 100644 cirrus/cs35l63/CS35L63_Rev2.5.7.wmfw
+
+
+------=_NextPart_000_0005_01DCAFD7.977E0480
+Content-Type: text/html;
+	charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=us-ascii
-Mime-Version: 1.0
 
-Good day,
-
-My name is Maria, and I am reaching out on behalf of the Procurement Depart=
-ment at Jabil, a trading company based in Brazil.
-
-We contacted you previously but have not yet received a response, and we wa=
-nt to ensure our message is reaching the right person. Could you please con=
-firm that this is the correct email for procurement correspondence?
-
-Once confirmed, we would be pleased to share our product requirements, dest=
-ination port details, and proposed payment terms, as we are currently evalu=
-ating a potential order.
-
-Your prompt reply would be greatly appreciated.
-
-Thank you in advance for your attention.
-
-Warm regards,
-
-Lucas Bernando
-
-Export Manager
-
-+1 (120) 362-78213
-
-Unsubscribe ( https://u57143404.ct.sendgrid.net/asm/unsubscribe/?user_id=3D=
-57143404&data=3Dik1PNbFPa3gb70xXWNo_ZVyYOZccv-mMBYVNRtXNjXdoMDAwdTAwMAO8fcu=
-nmtHXkZCqtB_6zYxJLg2DT_ycJjLCkapHVBsRE8PVq2l5D760WzmjeNlY2mP73ACiIjPxPRKEKS=
-ves9h8CRJ6PnSrDz6d7CJGo4ZG37cpFLYd5o4WbU6hp9HCm_LdX97x56Sswg6vtALNfI5HyU4R5=
-midPEFHSV_8OYzNIH2yT2QZ4JmCARYsRDXwN4w0uGDPYQuwaB9xX5legyuUSlj8826jJitm-qeF=
-ft-tr9KvJR60HXely2r6HMYwa6syEz7Kqu4ac_30CUp9qpVIH2-6hmRxl8au6KWzVoE58AagKrD=
-GXsSczb1SMVF6b-FMYZayWOLqONcSdFJupbySdmnoFmJ7A5zI-ZLRsoySqgM4pFcD09uZUiYoDR=
-DHbPfOrqOTX527MqhDzIoIp60UveZl0QPn4dctmONLR2XW7qEM36HEvh2xvWnH04S6G8TPZ7XSt=
-b-8LIpBP790UrlBgz-4pxmaVZbbPD4rKdtg6peoQEiyQIc6GrpateuLRSbcMV1DG3APr0GDfSMj=
-W9y4p4vQt1-__Bpzac24BLHwk_xZNSNqtAoyuQUrlCTl9qBvegdVyC3XPzhHSPiro22H2o5SM1w=
--AaVfBC7L2RIkI25dDd343SvtH0__Cntnfvc-s8y7teLQ18YpCciUxYjJIcz7FGsyuQsovOfCyc=
-tvVNPyM7e9DenaBYHF2O35qPyXtYlhOax1DnU_sygKjHjpX0yIaptHTz2NKA1z3LGBUFAm0nPvf=
--p1A30wz3iaGsVfYM17o5f-c6wqkVZYVy12Qfp2EDMSdwA9DaZLbO38I3-PwEUgMovfTqloE8pu=
-8c-cujNZ3ihkrKhXQYkZX_eb98hft2EpSgBkRBb4Lg7lbzeiLZePZErAQMI8k2bQo9WfpwUb0d9=
-4Vt-elnzb4TPdWJmFetwP4UqpmkJlHvE_d6LwFovY9L4uCWRbmrOWw77oXF_ynxLff_xgig02RI=
-HeoVemTISa2py9pKwByEMTPvapLW1tqRNE628b9eMaFVEWIs4Cj5fD2XptrNhAs59Ny49vH52zr=
-AwpBRPMy5IrMT7j1KJkfdRqAb5tLzrUnj_qNqcgVGbD-5WkAg0vfV8=3D ) - Unsubscribe P=
-references ( https://u57143404.ct.sendgrid.net/asm/?user_id=3D57143404&data=
-=3D6scAwt7iRfYmEFmOpWPyWb5zpM9_ITfbrNEIfstZ3FhoMDAwdTAwMKb-5jvsRZ0tswjRZzWv=
-cacyRELCjgujgsAPiz1ox4c6g2zPCT3dK8g4EIlx0G85f7C0lTymBbkaM_6rrxjoT3_i3jqGwRw=
-F7YVfN2tbmQtMmYiY_kKpR9MudNxJxagqrqJqBMMjCroHog7VBhDYLluaZiu8MgCtM69tX6f4Bn=
-3UqzD6zBbGIRyLra_zVu0CQ3sa_-248DF8HWL8EGOcK792hGl9gof5hWgfrmSTW5BCvpFYSlyOX=
-gaJf1JKb0SbNFulWYyLwcQDd5SvgrpIxagz06y8lgZZdVmPPcr1GhVdTOMvNokHz0rzx6eVi-aL=
-zEcSuoiNKe6w4CEKiGje6-_-S6iAHaigoo8M7I3rPQNN3jEozfU_1VNS0EO7NwLL6sLpHqQ_ISf=
-poKrYofFwqdbxRlye_dSCWNKOTAwcvA3JzE5SvUn1MURK2DpXPJsR4Ef-WcS12YdZt3DPpQw1GH=
-RIuQUuvyYn2v6F8xrGuop_V_A1nb0W5sgvGfSwDFrIL1JZ6uyQJEZSvQe5hIpoPFwQFUPPpGq5y=
-zsJDLUFnILhmsaWCuimfwo5VbidWkaiDYbO6Iza3JMyPjEL68FrU_EuRD1bz6iT0aGccEOetCCp=
-VUwzcc0cBY_S1Y5NoY5Jdi8kWEC3tw5djGE8uc6DZZzTzgPQZ1wxWs6lpzljGuR5J6-OA9EjWns=
-i09Wqr6XQRlhCfihYloakc7yER-uBYQ8-X3XjUsLXQcjihdo4lzOABOVm5Gf5l0l57_KUyTW8hQ=
-cFq1Rjzpu6X-ut0xles-oLZnscDB3ydm2HGMFKCbuuD4qVIdGU5vBaZlmlhDyoH-Qj6ePXsZ0FE=
-1Hb0-ADwFjRn1-jVyrgqIAenrKKY3E7gA9odBvFjehtrbXY_b0Fr_fP2TYQxrJEOQHvBZdxtBLL=
-bDbBDBxfBXvT_8aqiu7g6OHLOsXaijoeWX3h6-Li16HCLm8MxMO7_d7drFpi_NXPK024_gd8Qrl=
-DQlM7ClruWFKUwXEeY95nQFanx8iJpkMMddLNq3s0kWGF7xrQ5NcQ2gDNJDSPFqOCII9PYawaAu=
-bxV2S5g0QaN0ObV-S2CQ=3D=3D )
---c3a8ef1e36880f9dd687cdd7ff2b192eed8d90cafc41c437c75a0df5f4dd
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html; charset=us-ascii
-Mime-Version: 1.0
-
-
- <!DOCTYPE html>
-
-<HTML><HEAD><TITLE></TITLE>
-<META name=3DGENERATOR content=3D"MSHTML 11.00.10570.1001"></HEAD>
-<BODY>
-<P class=3Dp1>Good day,</P>
-<P class=3Dp2><BR></P>
-<P class=3Dp1>My name is Maria, and I am reaching out on behalf of the Proc=
-urement Department at Jabil, a trading company based in Brazil.</P>
-<P class=3Dp2><BR></P>
-<P class=3Dp1>We contacted you previously but have not yet received a respo=
-nse, and we want to ensure our message is reaching the right person. Could =
-you please confirm that this is the correct email for procurement correspon=
-dence?</P>
-<P class=3Dp2><BR></P>
-<P class=3Dp1>Once confirmed, we would be pleased to share our product requ=
-irements, destination port details, and proposed payment terms, as we are c=
-urrently evaluating a potential order.</P>
-<P class=3Dp2><BR></P>
-<P class=3Dp1>Your prompt reply would be greatly appreciated.</P>
-<P class=3Dp2><BR></P>
-<P class=3Dp1>Thank you in advance for your attention.</P>
-<P class=3Dp2><BR></P>
-<P class=3Dp1>Warm regards,</P>
-<P class=3Dp1>Lucas Bernando</P>
-<P class=3Dp1>Export Manager</P>
-<P class=3Dp1>+1 (120) 362-78213</P></BODY></HTML>
-          </p>
-        </div>
-        <p style=3D"font-size:12px; line-height:20px;">
-          <a class=3D"Unsubscribe--unsubscribeLink" href=3D"https://u571434=
-04.ct.sendgrid.net/asm/unsubscribe/?user_id=3D57143404&amp;data=3Dik1PNbFPa=
-3gb70xXWNo_ZVyYOZccv-mMBYVNRtXNjXdoMDAwdTAwMAO8fcunmtHXkZCqtB_6zYxJLg2DT_yc=
-JjLCkapHVBsRE8PVq2l5D760WzmjeNlY2mP73ACiIjPxPRKEKSves9h8CRJ6PnSrDz6d7CJGo4Z=
-G37cpFLYd5o4WbU6hp9HCm_LdX97x56Sswg6vtALNfI5HyU4R5midPEFHSV_8OYzNIH2yT2QZ4J=
-mCARYsRDXwN4w0uGDPYQuwaB9xX5legyuUSlj8826jJitm-qeFft-tr9KvJR60HXely2r6HMYwa=
-6syEz7Kqu4ac_30CUp9qpVIH2-6hmRxl8au6KWzVoE58AagKrDGXsSczb1SMVF6b-FMYZayWOLq=
-ONcSdFJupbySdmnoFmJ7A5zI-ZLRsoySqgM4pFcD09uZUiYoDRDHbPfOrqOTX527MqhDzIoIp60=
-UveZl0QPn4dctmONLR2XW7qEM36HEvh2xvWnH04S6G8TPZ7XStb-8LIpBP790UrlBgz-4pxmaVZ=
-bbPD4rKdtg6peoQEiyQIc6GrpateuLRSbcMV1DG3APr0GDfSMjW9y4p4vQt1-__Bpzac24BLHwk=
-_xZNSNqtAoyuQUrlCTl9qBvegdVyC3XPzhHSPiro22H2o5SM1w-AaVfBC7L2RIkI25dDd343Svt=
-H0__Cntnfvc-s8y7teLQ18YpCciUxYjJIcz7FGsyuQsovOfCyctvVNPyM7e9DenaBYHF2O35qPy=
-XtYlhOax1DnU_sygKjHjpX0yIaptHTz2NKA1z3LGBUFAm0nPvf-p1A30wz3iaGsVfYM17o5f-c6=
-wqkVZYVy12Qfp2EDMSdwA9DaZLbO38I3-PwEUgMovfTqloE8pu8c-cujNZ3ihkrKhXQYkZX_eb9=
-8hft2EpSgBkRBb4Lg7lbzeiLZePZErAQMI8k2bQo9WfpwUb0d94Vt-elnzb4TPdWJmFetwP4Uqp=
-mkJlHvE_d6LwFovY9L4uCWRbmrOWw77oXF_ynxLff_xgig02RIHeoVemTISa2py9pKwByEMTPva=
-pLW1tqRNE628b9eMaFVEWIs4Cj5fD2XptrNhAs59Ny49vH52zrAwpBRPMy5IrMT7j1KJkfdRqAb=
-5tLzrUnj_qNqcgVGbD-5WkAg0vfV8=3D" target=3D"_blank" style=3D"font-family:sa=
-ns-serif;text-decoration:none;">
-            Unsubscribe
-          </a>
-          -
-          <a href=3D"https://u57143404.ct.sendgrid.net/asm/?user_id=3D57143=
-404&amp;data=3D6scAwt7iRfYmEFmOpWPyWb5zpM9_ITfbrNEIfstZ3FhoMDAwdTAwMKb-5jvs=
-RZ0tswjRZzWvcacyRELCjgujgsAPiz1ox4c6g2zPCT3dK8g4EIlx0G85f7C0lTymBbkaM_6rrxj=
-oT3_i3jqGwRwF7YVfN2tbmQtMmYiY_kKpR9MudNxJxagqrqJqBMMjCroHog7VBhDYLluaZiu8Mg=
-CtM69tX6f4Bn3UqzD6zBbGIRyLra_zVu0CQ3sa_-248DF8HWL8EGOcK792hGl9gof5hWgfrmSTW=
-5BCvpFYSlyOXgaJf1JKb0SbNFulWYyLwcQDd5SvgrpIxagz06y8lgZZdVmPPcr1GhVdTOMvNokH=
-z0rzx6eVi-aLzEcSuoiNKe6w4CEKiGje6-_-S6iAHaigoo8M7I3rPQNN3jEozfU_1VNS0EO7NwL=
-L6sLpHqQ_ISfpoKrYofFwqdbxRlye_dSCWNKOTAwcvA3JzE5SvUn1MURK2DpXPJsR4Ef-WcS12Y=
-dZt3DPpQw1GHRIuQUuvyYn2v6F8xrGuop_V_A1nb0W5sgvGfSwDFrIL1JZ6uyQJEZSvQe5hIpoP=
-FwQFUPPpGq5yzsJDLUFnILhmsaWCuimfwo5VbidWkaiDYbO6Iza3JMyPjEL68FrU_EuRD1bz6iT=
-0aGccEOetCCpVUwzcc0cBY_S1Y5NoY5Jdi8kWEC3tw5djGE8uc6DZZzTzgPQZ1wxWs6lpzljGuR=
-5J6-OA9EjWnsi09Wqr6XQRlhCfihYloakc7yER-uBYQ8-X3XjUsLXQcjihdo4lzOABOVm5Gf5l0=
-l57_KUyTW8hQcFq1Rjzpu6X-ut0xles-oLZnscDB3ydm2HGMFKCbuuD4qVIdGU5vBaZlmlhDyoH=
--Qj6ePXsZ0FE1Hb0-ADwFjRn1-jVyrgqIAenrKKY3E7gA9odBvFjehtrbXY_b0Fr_fP2TYQxrJE=
-OQHvBZdxtBLLbDbBDBxfBXvT_8aqiu7g6OHLOsXaijoeWX3h6-Li16HCLm8MxMO7_d7drFpi_NX=
-PK024_gd8QrlDQlM7ClruWFKUwXEeY95nQFanx8iJpkMMddLNq3s0kWGF7xrQ5NcQ2gDNJDSPFq=
-OCII9PYawaAubxV2S5g0QaN0ObV-S2CQ=3D=3D" target=3D"_blank" class=3D"Unsubscr=
-ibe--unsubscribePreferences" style=3D"font-family:sans-serif;text-decoratio=
-n:none;">
-            Unsubscribe Preferences
-          </a>
-        </p>
-      </div>
-    <img src=3D"https://u57143404.ct.sendgrid.net/wf/open?upn=3Du001.1UC-2F=
-G1r4q2F7W-2BfmxQXtFY8PR56g3aMsFDDO4-2FL-2FOLCER0pqLVK1b6Ngi6uwa5S1jNb-2FVRE=
-Rr2RomskZ-2BadcNPfCszgKLP3Fl7U9DxTyPvHx9MmO1gucbg4g-2BPIJ0j59wmYq5N8z0ufNpK=
-kJx9FSDalRnwp46B-2Fe0KUc-2Ff0ytmTnhBNvhoo3fXUdcah5sEHILn6FErcwQmO1cGSgVc3cB=
-wGfeCT7xnBNZ63WtHNdYoUFsyVHSVXwwxGXZQ7V3Ih21a-2BvewTL2S2zdiTxjxdyaPeZfGKkI-=
-2BmTE6tZHCmm9pUBmZY8Hg-2BUmGy6RPcnKpY822MYzLiGi8vcCaihNaWK5IIXpuUoZPYbAnJ-2=
-B3N3XDwLMwnlVId-2BTxWpuORvOFqlvfwTV5ogqQubZl65Zj4HBUcjTXwgyF3BXkRGJTas63mke=
-L6ZkDGeEg7lV4KUg8Xv51spVpFGJAZxntGInw9T1Ty51xx8rzn5qIP2eiyBQaR7rZj-2BZwI62B=
-tJQCC0LptI53yx2tn8hZ2eA7SZIqBSlM3yon4eYjQZO-2F8xUsX9iPcciEjxi2s-2BcvqXu-2Bo=
--2FdSJBP-2FYwvXZ2cCq7G8-2FGuLOPZUzZxCj5Wo29T7DD9plFag2WFW9N2qZlIndX-2BmpUHE=
-hWEZoKkUKI7IDwRVE-2FQywjDFfOoRweNQKOWEfVoo89geo9ZYfFq28oLj9k5Zng0IZo-2BGjQt=
-Ubwk0qCQY-2B-2Fe88vuIy4JNysBA-2FkuEdPP2L0Ic80t2deDr94SzwLYttD2oe-2F1rlfAVwL=
--2BC6q-2B0aWgqemvRTLkKqtY2Ta9ml1gaKQfa0NRtuw3bTKu2gZL2FS2JwN019o5W-2BbmgyLI=
-LUadMvYIOl84h25dvLpT3IEss9RP9Rn43jy-2FfWTd6EB38GNI-2B7mj9bliq3EZ0QHbFbzrAH4=
-PiSXF1nN3mp-2F7Q3tHnnPQdX64xQVD1bcJPih6QpF8oVIg" alt=3D"" width=3D"1" heigh=
-t=3D"1" border=3D"0" style=3D"height:1px !important;width:1px !important;bo=
-rder-width:0 !important;margin-top:0 !important;margin-bottom:0 !important;=
-margin-right:0 !important;margin-left:0 !important;padding-top:0 !important=
-;padding-bottom:0 !important;padding-right:0 !important;padding-left:0 !imp=
-ortant;"/></body>
-  </html>
-
---c3a8ef1e36880f9dd687cdd7ff2b192eed8d90cafc41c437c75a0df5f4dd--
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><META =
+HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Aptos;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	font-size:12.0pt;
+	font-family:"Aptos",sans-serif;
+	mso-ligatures:standardcontextual;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#467886;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Aptos",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#467886" vlink=3D"#96607D" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'>Hi,<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'>I couple =
+of patches today - we&#8217;d like to add the firmware for the Cirrus =
+CS35L63 smart amplifier and CS42L45 smart codec for some Dell =
+Laptops.<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'>Thanks,<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'>-Simon<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'>The =
+following changes since commit =
+b3929cfcd543c4f388c4930175f442be94bbcf3b:<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'>&nbsp; =
+Merge branch 'lenovo-fw-rename' into 'main' (2026-03-09 14:21:13 =
++0000)<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'>are =
+available in the Git repository at:<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'>&nbsp; =
+<a =
+href=3D"https://github.com/CirrusLogic/linux-firmware/">https://github.co=
+m/CirrusLogic/linux-firmware/</a> =
+20260309-cs35l63-cs42l45<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-GB style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'>for you =
+to fetch changes up to =
+21d670224ad1f8ab2956243c0b381eed40338b45:<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'>&nbsp; =
+cirrus: cs42l45: Add CS42L45 SDCA codec firmware for Dell laptops =
+(2026-03-09 15:08:59 +0000)<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'>----------------------------------------------=
+------------------<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-GB style=3D'font-size:11.0pt'>Maciej Strozek =
+(1):<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cirrus: =
+cs42l45: Add CS42L45 SDCA codec firmware for Dell =
+laptops<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'>Simon =
+Trimmer (1):<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-GB style=3D'font-size:11.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+cirrus: cs35l63: Add firmware for Cirrus CS35L63 for various Dell =
+laptops<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+WHENCE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp; | 361 =
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
+++++++++++++++++++++++++++++++++++++++++++<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid0-02-l3u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid0-02-l3u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid2-01-l3u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid2-01-l3u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid3-01-l3u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid3-01-l3u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid3-02-l3u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid3-02-l3u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid0-04-l3u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid0-04-l3u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid2-03-l3u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid2-03-l3u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid3-03-l3u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid3-03-l3u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid3-04-l3u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid3-04-l3u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid0-01-l3u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid0-01-l3u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid1-01-l3u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid1-01-l3u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid2-01-l3u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid2-01-l3u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid3-01-l3u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid3-01-l3u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid0-05-l3u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid0-05-l3u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid0-06-l3u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid0-06-l3u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid2-05-l3u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid2-05-l3u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid2-06-l3u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid2-06-l3u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid3-06-l3u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid3-06-l3u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid0-06-l3u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid0-06-l3u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid1-06-l3u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid1-06-l3u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid2-06-l3u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid2-06-l3u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid3-06-l3u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid3-06-l3u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e2b-spkid0-00-l1u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e2b-spkid0-00-l1u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e2b-spkid1-00-l1u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e2b-spkid1-00-l1u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e2c-spkid0-00-l1u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e2c-spkid0-00-l1u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e2c-spkid1-00-l1u1.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63-a1-dsp1-misc-10280e2c-spkid1-00-l1u3.bin | Bin 0 -&gt; =
+11440 bytes<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'> =
+cirrus/cs35l63/CS35L63_Rev2.5.7.wmfw&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp; | Bin 0 -&gt; 28676 bytes<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> 52 =
+files changed, 361 insertions(+)<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> create =
+mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid0-02-l3u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid0-02-l3u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid2-01-l3u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid2-01-l3u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid3-01-l3u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid3-01-l3u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid3-02-l3u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1a-spkid3-02-l3u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid0-04-l3u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid0-04-l3u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid2-03-l3u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid2-03-l3u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid3-03-l3u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid3-03-l3u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid3-04-l3u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1b-spkid3-04-l3u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid0-01-l3u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid0-01-l3u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid1-01-l3u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid1-01-l3u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid2-01-l3u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid2-01-l3u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid3-01-l3u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1c-spkid3-01-l3u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid0-05-l3u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid0-05-l3u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid0-06-l3u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid0-06-l3u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid2-05-l3u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid2-05-l3u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid2-06-l3u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid2-06-l3u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid3-06-l3u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1d-spkid3-06-l3u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid0-06-l3u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid0-06-l3u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid1-06-l3u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid1-06-l3u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid2-06-l3u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid2-06-l3u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid3-06-l3u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e1e-spkid3-06-l3u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e2b-spkid0-00-l1u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e2b-spkid0-00-l1u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e2b-spkid1-00-l1u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e2b-spkid1-00-l1u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e2c-spkid0-00-l1u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e2c-spkid0-00-l1u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e2c-spkid1-00-l1u1.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280e2c-spkid1-00-l1u3.bin<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> =
+create mode 100644 =
+cirrus/cs35l63/CS35L63_Rev2.5.7.wmfw<o:p></o:p></span></p></div></body></=
+html>
+------=_NextPart_000_0005_01DCAFD7.977E0480--
