@@ -1,139 +1,648 @@
-Return-Path: <SRS0=L2Ig=BZ=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=npNq=B2=isend.wcsipl.co.in=bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93E03109C057
-	for <linux-firmware@archiver.kernel.org>; Wed, 25 Mar 2026 19:39:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 66AEC109E546
+	for <linux-firmware@archiver.kernel.org>; Thu, 26 Mar 2026 03:38:52 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 5ED91C19423; Wed, 25 Mar 2026 19:39:11 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	id 370FFC2BCB0; Thu, 26 Mar 2026 03:38:52 +0000 (UTC)
+Received: from isend.wcsipl.co.in (isend.wcsipl.co.in [5.135.92.164])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 99BE8C2BC9E
-	for <linux-firmware@kernel.org>; Wed, 25 Mar 2026 19:39:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 99BE8C2BC9E
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62PFHMI0433827
-	for <linux-firmware@kernel.org>; Wed, 25 Mar 2026 19:39:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=VRX2TeJnAfqK61YrX26wKqVI
-	j6I4aVlTC7JyT6LMrPE=; b=Jke5vlqLOymrsMkJIXGnGSKhUONpLkcA6PDaM0B6
-	AWwh5Z9j9fz351ENI0ktAtJl9KNzS3r0sgSMlxlTMFnKsJyfimnyzbC87+2R7g1X
-	YWqmDUOr3mQKoG9dUUGB2uXOunzALcWuQHF0wKSPtFtaXuzqkTlE96AWUVX6d12G
-	cG+fBupcCN2s3QRBJEs11/xzCKxRT5edwla9jJZkTAhJf7pBdreCsiZ8RZ48Zb+R
-	tcLx/TwMuT+WEYtIQFOoapxCo3CoV1gCpjbvBmxMnWqqyrczPcWvWxbZQI4mAx7A
-	0mqGfuwWBd4XZGC/okK2znzqDlbwaQbnGt6QyslMRxsfnA==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d41414qpf-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Wed, 25 Mar 2026 19:39:09 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-50b878a8c07so10711911cf.0
-        for <linux-firmware@kernel.org>; Wed, 25 Mar 2026 12:39:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1774467548; x=1775072348; darn=kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VRX2TeJnAfqK61YrX26wKqVIj6I4aVlTC7JyT6LMrPE=;
-        b=Rw1qPPGyIjo5yLD1uO8XlDzxWXrMYxcAJrEJ04pRo3db3Xw167E6KVrEhfBecm+QSX
-         sj1AwMwF9ynw3B7wmhS1ABYiQKmMT9bYXjLlMKiMnWHG+xEKj7nwRo51PzM76Rv3A/Z8
-         fBIMfYD3tGs1xdf4/hwZpnov8KnxH+bBFZjaDLFBdkDvvlzk0qRtrKLhkPtLMUrZHKn6
-         yDNsnrLgRcOIGKGE1YtmtTBhWrechjlZoOzqYrKvUObwNecr47S7VcXq58Tn11w7xj/V
-         Es7/uIBrsRv41zTKu6XBwsQYuu/ZQSTAO+bixOuzEJajaic4yxPIvi198pFUqaiy2MI7
-         UyUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774467548; x=1775072348;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VRX2TeJnAfqK61YrX26wKqVIj6I4aVlTC7JyT6LMrPE=;
-        b=gTa9uHx/tVxuOsHbkOhshCZjXTpeaLp/6EbAwK1mSCU0iE7LkNwzD5XjvFFMRveXYP
-         wuDHIVIF7q3G9Kcr5kQNdoi46N8JuS10yvTvREsxbd32n7BAiBuo7ukhqnYZt1+HcWyQ
-         WwULvBT+Ajy5Q9lec7WM+qDiCGHW5ipJITbIHWbr5rlTq459n1OHWIvHHAGtbSkWAAC+
-         qG28mdBBDtqvH8/dBREYnlQG3y2YoWCyjR3mcdvQLpu5df/opO5eAMBQqELK6nsExob7
-         hqTXHunsL8se4pxI+BhBSa3rlpTfcLQzZ2zhFJwdNO6gWzrvAfotLCfvZTjeKzcnyZ23
-         3HAQ==
-X-Gm-Message-State: AOJu0YxrxLtU8LCO1wuOGyTPOt1OAZ3RgNZcyMnxNgSqOuyeEaP0RoUO
-	7BN+/C6wS1pwVxS1reYALZi/X3Mf3DrvDDaGBY4GrF6ds+x1wLbzfvkPvxsGn7L5jlVdJ+4gdXr
-	w2ZQzn3ilFA5NeRpT0LcfP6Ew1tjI13QSTUYuPPn64i9frTKbKFkeW835lWNP6Pg=
-X-Gm-Gg: ATEYQzzO0rWSFsiKGAJ9Kv2E3ms0PsIxFH1usG85xpCLzBGqMIT4YsU+Bgq16Ir33hD
-	BVJo2AXXlJlMdK9QwxPCWoYtE+/u/TslYV/WiaAksiraYpFYhz2Sqsv31aAAE/vyEBUNCgNO592
-	sBGOmb1mbPNFMeaFt/ss4Oz+Bo/dyN5HA71JfX65RMwUATJytF275ckwuSuOh66QrnWq+PIfp++
-	5ABgSYuF5tcA1HjCxDETvPoR/SC4i4cYkFp6OjILhpRScogKuUIc+6JkQlo5u8rO6wDVM2DVS44
-	cik8IurlIHXpb0jSLReaKnrgsBA/9gzswZnAhGMLuUblQ4SuX98VfvIb4FykmpEcPjp1nDTH3SS
-	JfJTEMw1w1/yg7/MJA8YewUVvYHh6HGPWipnOfq9DgCZQFuqdj2KxaWa70POgUZzIX0YMN7tNyC
-	QRKMJVQlcQJVb813+G9ePgwrj86X+IlmbQT60=
-X-Received: by 2002:a05:622a:1f9a:b0:509:120d:4311 with SMTP id d75a77b69052e-50b80e66563mr73669901cf.60.1774467548238;
-        Wed, 25 Mar 2026 12:39:08 -0700 (PDT)
-X-Received: by 2002:a05:622a:1f9a:b0:509:120d:4311 with SMTP id d75a77b69052e-50b80e66563mr73669501cf.60.1774467547795;
-        Wed, 25 Mar 2026 12:39:07 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a2a068f8c7sm91843e87.65.2026.03.25.12.39.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 12:39:06 -0700 (PDT)
-Date: Wed, 25 Mar 2026 21:39:04 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id D2BE8C4CEF7
+	for <linux-firmware@kernel.org>; Thu, 26 Mar 2026 03:38:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D2BE8C4CEF7
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=none dis=none) header.from=wcsipl.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=isend.wcsipl.co.in
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=wcsipl.org; h=
+	list-id:list-unsubscribe:content-type:mime-version:to:reply-to
+	:from:subject:date:message-id; s=isend; t=1774496328; x=
+	1775360329; bh=Uu8nddlHliLLFAN6azU51Rabr1sQb+vswo1EkhxtkrY=; b=c
+	+0L/57Rz7axFIJ9UWDlMAX6IAogaZgIeeT80K86aCn3+bwZ4lgRBi2OmWNbN26pT
+	shrs32eb0e5KK6oWeJOoQrhAcRcRf03ABpDhc/XVZ1wKlo6ihZHNl9NzkuBUPQzk
+	QOJRK3knxVQSWYg9y4U+pKCPPZH3C7TR5/F+vIYcms=
+Message-ID: <d2f087d85557fcf01b5b31eb3dfc7cd080471958@isend.wcsipl.co.in>
+Date: Thu, 26 Mar 2026 03:38:43 +0000
+Subject: Any Upcoming HVAC Requirements for Your Projects?
+From: WCSIPl <hvacsystems@wcsipl.org>
+Reply-To: WCSIPl <aniket@wcsipl.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, linux-wireless@vger.kernel.org,
-        ath10k@lists.infradead.org, ath11k@lists.infradead.org,
-        ath12k@lists.infradead.org, jjohnson@kernel.org
-Subject: Re: [PULL linux-firmware] ath10k, ath11k and ath12k firmware
- ath-20260325
-Message-ID: <4zrp3tlsqytyuxau5qk4hnlsht24f6vlgv7pyhb5y5cswgn4c3@4imh6ktclmfd>
-References: <32af006e-265f-4239-9b5f-be3d52996e10@oss.qualcomm.com>
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <32af006e-265f-4239-9b5f-be3d52996e10@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=fOk0HJae c=1 sm=1 tr=0 ts=69c439dd cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=p0WdMEafAAAA:8
- a=FOHEAjDUwq7NbCT47RAA:9 a=CjuIK1q_8ugA:10 a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-GUID: 4lEjoQtmwgfMpvUIjxO51fYMXLhuZayj
-X-Proofpoint-ORIG-GUID: 4lEjoQtmwgfMpvUIjxO51fYMXLhuZayj
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI1MDE0MyBTYWx0ZWRfXzGToeHhJk9Qu
- P8C5obAEjmnpd8fz0JK1/vhUSCZWBST0IhZqJLAoMcet++n3VHri2JRkCCuKWBok2wR7DqHfeek
- SIxF5E/f5Kq1yONXO3b+tZcftf9z51fiY6Sw4y4WjMb+mroTM2ZOGFO8pgMcGZJt7owrPb0wNJh
- fr/Qjq/CiQMe8Ep5j5iZGDvS1gP3koYWLndG1KBGzGbAggnYjcgNkzHIjmi0A1/uiO7ONBL/FM9
- dGqpJhhjQ8scRB4nSk5JwCB+MM9R4+Thys6P9SDrerzWXOQQFnfHgrpJ0ifFGfK6BuDkHNI4brc
- Q8nRLEYvap8rmXtpOoXUykM4DGv8w6260Il7eCBg9DCkTOLBvuNYTeMkBt0qNSZ+6zKkzvkfK10
- q1sNCxarNJmpWg6WaOup5pTmFXTZ1aXBqgSSsLZGpaJ9zBngBHjzW7M3v2i6xSa0rnsf7BMpwyw
- NNQ7NHN4f/F31bVIyDQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-25_05,2026-03-24_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0 priorityscore=1501 clxscore=1015 adultscore=0
- lowpriorityscore=0 phishscore=0 spamscore=0 suspectscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603250143
+Content-Type: multipart/alternative;
+ boundary="_=_swift_1774496323_e796145f7c5acaa78935364ca6bfc744_=_"
+X-Report-Abuse: https://isend.wcsipl.co.in/campaigns/dn2624ocxx0b5/report-abuse/qf7333y2q2414/er045xbh6f16d
+X-EBS: https://isend.wcsipl.co.in/lists/block-address
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+List-Unsubscribe: <https://isend.wcsipl.co.in/lists/qf7333y2q2414/unsubscribe/er045xbh6f16d/dn2624ocxx0b5?source=email-client-unsubscribe-button>,
+ <mailto:unsubscribe@unsub.importsend.io?subject=Campaign-Uid%3Adn2624ocxx0b5%20%2F%20Subscriber-Uid%3Aer045xbh6f16d%20-%20Unsubscribe%20request&body=Please%20unsubscribe%20me%21>
+List-Id: qf7333y2q2414 <Aniket 1>
+Feedback-ID: dn2624ocxx0b5:regular:qf7333y2q2414:gn323k7rlaa34
 
-On Wed, Mar 25, 2026 at 11:00:04AM -0700, Jeff Johnson wrote:
-> Hi,
-> Here's a new pull request for ath10k, ath11k and ath12k.
-> 
-> No updates for ath10k or ath12k
-> 
-> For ath11k:
-> Update QCA6698AQ and WCN6855 firmware to address a WoW page fault issue.
-> 
-> Please let me know if there are any problems.
 
-Thanks, merged and pushed out:
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/974
+--_=_swift_1774496323_e796145f7c5acaa78935364ca6bfc744_=_
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Thanks,
-> /jeff
-> 
+https://isend.wcsipl.co.in/campaigns/dn2624ocxx0b5/track-url/er045xbh6f16d/=
+8dcfd538149e65288b26aafc24b5bf66ce806bbb
 
--- 
-With best wishes
-Dmitry
+HVAC Partner for Your Industr=
+ial Projects
+
+Weather Controlling Solutions India Pvt. Ltd. supports in=
+dustrial facilities with turnkey HVAC solutions across:
+
+Pharmaceutical=
+ | Food Processing | Data Centers | Cement | Manufacturing | Automobile | P=
+lastic | Textile Industries
+
+We would be pleased to receive enquiries f=
+or your ongoing or upcoming project requirements.
+
+Explore Our HVAC Sol=
+utions (https://isend.wcsipl.co.in/campaigns/dn2624ocxx0b5/track-url/er045x=
+bh6f16d/bcb9f8ad5591752d1657a67cc2fee849bbc3abea
+
+Do you have any upcom=
+ing projects where HVAC systems will be required?
+
+Follow us for HVAC i=
+nsights
+
+LinkedIn (https://isend.wcsipl.co.in/campaigns/dn2624ocxx0b5/t=
+rack-url/er045xbh6f16d/5e4a14feb01f85d48d534bdbd7e32f2c899a191a |=20
+YouTub=
+e (https://isend.wcsipl.co.in/campaigns/dn2624ocxx0b5/track-url/er045xbh6f1=
+6d/39904652c40f8d45d84d93be20c108d8b1064f8a |=20
+Website (https://isend.wcs=
+ipl.co.in/campaigns/dn2624ocxx0b5/track-url/er045xbh6f16d/2cf661d926e275649=
+f075671147a11c0a760111b
+
+=C2=A9 2026 Weather Controlling Solutions Indi=
+a Pvt. Ltd.
+
+Pune, Maharashtra, India
+
+
+
+=09
+=09=09
+=09=09=
+=09
+=09=09=09
+=09=09=09=09
+=09=09=09=09=09
+=09=09=09=09=09=09
+=09=
+=09=09=09=09=09
+=09=09=09=09=09=09=09
+=09=09=09=09=09=09=09=09
+=09=09=
+=09=09=09=09=09=09=09
+=09=09=09=09=09=09=09=09=09
+=09=09=09=09=09=09=09=
+=09=09=09
+=09=09=09=09=09=09=09=09=09=09=09
+=09=09=09=09=09=09=09=09=09=
+=09=09=09
+=09=09=09=09=09=09=09=09=09=09=09=09
+=09=09=09=09=09=09=09=09=
+=09=09=09=09
+=09=09=09=09=09=09=09=09=09=09=09=09=09
+=09=09=09=09=09=09=
+=09=09=09=09=09=09=09=09
+=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=
+=E2=80=8A
+=09=09=09=09=09=09=09=09=09=09=09=09=09=09
+=09=09=09=09=09=09=
+=09=09=09=09=09=09=09
+=09=09=09=09=09=09=09=09=09=09=09=09
+=09=09=09=09=
+=09=09=09=09=09=09=09=09
+=09=09=09=09=09=09=09=09=09=09=09=09
+=09=09=09=
+=09=09=09=09=09=09=09=09
+=09=09=09=09=09=09=09=09=09=09
+=09=09=09=09=09=
+=09=09=09=09
+
+=09=09=09=09=09=09=09=09=09
+=09=09=09=09=09=09=09=09=09=
+=09
+=09=09=09=09=09=09=09=09=09=09=09
+=09=09=09=09=09=09=09=09=09=09=09=
+=09
+=09=09=09=09=09=09=09=09=09=09=09=09
+=09=09=09=09=09=09=09=09=09=09=
+=09=09WCSIPL
+
+Plot No.32, D-2 Block, Opp, HDFC Colony, Chinchwad, Pune =
+- 411019. MH, INDIA.=20
+
+Pune Maharashtra 411019
+
+India
+
+.
+
+=
+=09=09=09=09=09=09=09=09=09=09=09=09If you don't want to hear from us anymo=
+re,=C2=A0Click here to unsubscribe.
+
+--_=_swift_1774496323_e796145f7c5acaa78935364ca6bfc744_=_
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html>
+<head><meta charset=3D"utf-8">
+    <title>Any =
+Upcoming HVAC Requirements for Your Projects?</title>
+</head>
+<body cla=
+ss=3D"clean-body u_body" style=3D"margin: 0;padding: 0;-webkit-text-size-ad=
+just: 100%;background-color: #F7F8F9;color: #000000">
+  <!--[if IE]><div =
+class=3D"ie-container"><![endif]-->
+  <!--[if mso]><div class=3D"mso-cont=
+ainer"><![endif]-->
+  <table role=3D"presentation" id=3D"u_body" style=3D=
+"border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-=
+lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;min-width: 320px;Marg=
+in: 0 auto;background-color: #F7F8F9;width:100%" cellpadding=3D"0" cellspac=
+ing=3D"0">
+  <tbody>
+  <tr style=3D"vertical-align: top">
+    <td sty=
+le=3D"word-break: break-word;border-collapse: collapse !important;vertical-=
+align: top">
+    <!--[if (mso)|(IE)]><table role=3D"presentation" width=
+=3D"100%" cellpadding=3D"0" cellspacing=3D"0" border=3D"0"><tr><td align=3D=
+"center" style=3D"background-color: #F7F8F9;"><![endif]-->
+   =20
+ =20
+  =
+
+<div class=3D"u-row-container" style=3D"padding: 0px;background-color: t=
+ransparent">
+  <div class=3D"u-row" style=3D"margin: 0 auto;min-width: 32=
+0px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-b=
+reak: break-word;background-color: transparent;">
+    <div style=3D"borde=
+r-collapse: collapse;display: table;width: 100%;height: 100%;background-col=
+or: transparent;">
+      <!--[if (mso)|(IE)]><table role=3D"presentation"=
+ width=3D"100%" cellpadding=3D"0" cellspacing=3D"0" border=3D"0"><tr><td st=
+yle=3D"padding: 0px;background-color: transparent;" align=3D"center"><table=
+ role=3D"presentation" cellpadding=3D"0" cellspacing=3D"0" border=3D"0" sty=
+le=3D"width:500px;"><tr style=3D"background-color: transparent;"><![endif]-=
+->
+     =20
+<!--[if (mso)|(IE)]><td align=3D"center" width=3D"500" style=
+=3D"width: 500px;padding: 0px;border-top: 0px solid transparent;border-left=
+: 0px solid transparent;border-right: 0px solid transparent;border-bottom: =
+0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-b=
+order-radius: 0px;" valign=3D"top"><![endif]-->
+<div class=3D"u-col u-col=
+-100" style=3D"max-width: 320px;min-width: 500px;display: table-cell;vertic=
+al-align: top;">
+  <div style=3D"height: 100%;width: 100% !important;bord=
+er-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+  <=
+!--[if (!mso)&(!IE)]><!--><div style=3D"box-sizing: border-box; height: 100=
+%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid tr=
+ansparent;border-right: 0px solid transparent;border-bottom: 0px solid tran=
+sparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: =
+0px;"><!--<![endif]-->
+ =20
+<table style=3D"font-family:arial,helvetica,s=
+ans-serif;" role=3D"presentation" cellpadding=3D"0" cellspacing=3D"0" width=
+=3D"100%" border=3D"0">
+  <tbody>
+    <tr>
+      <td style=3D"overflo=
+w-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helv=
+etica,sans-serif;" align=3D"left">
+       =20
+  <div>
+    <!DOCTYPE htm=
+l>
+<html>
+<head>
+<meta charset=3D"UTF-8">
+<meta name=3D"viewport" c=
+ontent=3D"width=3Ddevice-width, initial-scale=3D1.0">
+
+</head>
+
+<bo=
+dy style=3D"margin:0; padding:0; background:#f4f4f4; font-family:Arial, san=
+s-serif;">
+
+<table width=3D"100%" cellpadding=3D"0" cellspacing=3D"0" b=
+gcolor=3D"#f4f4f4">
+<tr>
+<td align=3D"center">
+
+<!-- MAIN CONTAINER=
+ -->
+<table width=3D"100%" style=3D"max-width:600px; background:#ffffff;"=
+ cellpadding=3D"0" cellspacing=3D"0">
+
+
+
+
+<!-- HERO IMAGE -->
+<=
+tr>
+<td>
+<a href=3D"https://isend.wcsipl.co.in/campaigns/dn2624ocxx0b5/=
+track-url/er045xbh6f16d/8dcfd538149e65288b26aafc24b5bf66ce806bbb" target=3D=
+"_blank">
+<img src=3D"https://app.importsend.io/uploads/2026/03/e2036ba03=
+ceada15.jpeg" width=3D"600" style=3D"width:100%; height:auto; display:block=
+;" alt=3D"Food Processing HVAC">
+</a>
+</td>
+</tr>
+
+<!-- CONTENT -=
+->
+<tr>
+<td align=3D"center"  style=3D"padding:25px;">
+
+<h2 style=
+=3D"color:#0b4a8b; margin-top:0;">
+HVAC Partner for Your Industrial Proje=
+cts
+</h2>
+
+<p style=3D"font-size:15px; line-height:22px; color:#333;"=
+>
+<b>Weather Controlling Solutions India Pvt. Ltd. </b>supports industria=
+l facilities with <strong>turnkey HVAC solutions</strong> across<b>:</b>
+=
+  </p> =20
+
+<p style=3D"font-size:15px; line-height:22px; color:#333;">=
+
+Pharmaceutical | Food Processing | Data Centers | Cement | Manufacturing=
+ | Automobile | Plastic | Textile Industries
+</p>
+
+<p style=3D"font-s=
+ize:15px; line-height:22px; color:#333;">
+We would be pleased to <strong>=
+receive enquiries for your ongoing or upcoming project requirements.</stron=
+g>
+</p>
+
+</td>
+</tr>
+
+<!-- CTA BUTTON -->
+<tr>
+<td align=3D=
+"center" style=3D"padding-bottom:20px;">
+
+<a href=3D"https://isend.wcsi=
+pl.co.in/campaigns/dn2624ocxx0b5/track-url/er045xbh6f16d/59e30a57853607a0f2=
+eb314e9aabb5922c1fa753"=20
+style=3D"background:#0b4a8b; color:#ffffff; padd=
+ing:14px 28px;=20
+text-decoration:none; font-size:16px; border-radius:4px; =
+display:inline-block;">
+
+ Explore Our HVAC Solutions=20
+
+</a>
+
+</=
+td>
+</tr>
+
+
+<!-- TRIGGER LINE -->
+<tr>
+<td align=3D"center" sty=
+le=3D"padding:10px 25px; font-size:14px; color:#333;">
+<b>Do you have any=
+ upcoming projects where HVAC systems will be required?</b>
+</td>
+  </t=
+r>
+
+
+
+<!-- SOCIAL -->
+<tr>
+<td align=3D"center" style=3D"paddin=
+g:20px; border-top:1px solid #eee;">
+
+<p style=3D"font-size:16px;">Foll=
+ow us for HVAC insights</p>
+
+  <a href=3D"https://isend.wcsipl.co.in/ca=
+mpaigns/dn2624ocxx0b5/track-url/er045xbh6f16d/fa802e62adf269cfdc5767303bbf3=
+7a3c98b3750">LinkedIn</a> |=20
+<a href=3D"https://isend.wcsipl.co.in/campai=
+gns/dn2624ocxx0b5/track-url/er045xbh6f16d/a24ff6f0d472b761a47485ba9930dfee2=
+42cec65">YouTube</a> |=20
+<a href=3D"https://isend.wcsipl.co.in/campaigns/d=
+n2624ocxx0b5/track-url/er045xbh6f16d/69ff1da1ad58d56940058fad565e89631d5fd9=
+a6">Website</a>
+
+</td>
+</tr>
+
+<!-- FOOTER -->
+<tr>
+<td align=
+=3D"center" style=3D"padding:20px; font-size:12px; color:#777;">
+
+<p st=
+yle=3D"margin:5px 0;">
+=C2=A9 2026 Weather Controlling Solutions India Pv=
+t. Ltd.
+</p>
+
+<p style=3D"margin:5px 0;">
+Pune, Maharashtra, India=
+
+</p>
+
+
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+</table>=
+
+
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"nl-c=
+ontainer" role=3D"presentation" style=3D"background-color:#ffffff;" width=
+=3D"100%">
+=09<tbody>
+=09=09<tr>
+=09=09=09<td>
+=09=09=09<table alig=
+n=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"row =
+row-1" role=3D"presentation" width=3D"100%">
+=09=09=09=09<tbody>
+=09=09=
+=09=09=09<tr>
+=09=09=09=09=09=09<td>
+=09=09=09=09=09=09<table align=3D"=
+center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"row-conte=
+nt stack" role=3D"presentation" style=3D"color:#000000;width:600px;" width=
+=3D"600">
+=09=09=09=09=09=09=09<tbody>
+=09=09=09=09=09=09=09=09<tr>
+=
+=09=09=09=09=09=09=09=09=09<td class=3D"column column-1" style=3D"font-weig=
+ht:400;text-align:left;padding-bottom:5px;padding-top:5px;vertical-align:to=
+p;border-top:0px;border-right:0px;border-bottom:0px;border-left:0px;" width=
+=3D"100%">
+=09=09=09=09=09=09=09=09=09<table border=3D"0" cellpadding=3D"=
+10" cellspacing=3D"0" class=3D"divider_block block-1" role=3D"presentation"=
+ width=3D"100%">
+=09=09=09=09=09=09=09=09=09=09<tbody>
+=09=09=09=09=09=
+=09=09=09=09=09=09<tr>
+=09=09=09=09=09=09=09=09=09=09=09=09<td class=3D"p=
+ad">
+=09=09=09=09=09=09=09=09=09=09=09=09<div align=3D"center" class=3D"a=
+lignment">
+=09=09=09=09=09=09=09=09=09=09=09=09<table border=3D"0" cellpa=
+dding=3D"0" cellspacing=3D"0" role=3D"presentation" width=3D"100%">
+=09=
+=09=09=09=09=09=09=09=09=09=09=09=09<tbody>
+=09=09=09=09=09=09=09=09=09=
+=09=09=09=09=09<tr>
+=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09<td clas=
+s=3D"divider_inner" style=3D"font-size:1px;line-height:1px;border-top:1px s=
+olid #dddddd;"><span>=E2=80=8A</span></td>
+=09=09=09=09=09=09=09=09=09=09=
+=09=09=09=09</tr>
+=09=09=09=09=09=09=09=09=09=09=09=09=09</tbody>
+=09=
+=09=09=09=09=09=09=09=09=09=09=09</table>
+=09=09=09=09=09=09=09=09=09=09=
+=09=09</div>
+=09=09=09=09=09=09=09=09=09=09=09=09</td>
+=09=09=09=09=09=
+=09=09=09=09=09=09</tr>
+=09=09=09=09=09=09=09=09=09=09</tbody>
+=09=09=
+=09=09=09=09=09=09=09</table>
+
+=09=09=09=09=09=09=09=09=09<table border=
+=3D"0" cellpadding=3D"10" cellspacing=3D"0" class=3D"paragraph_block block-=
+2" role=3D"presentation" width=3D"100%">
+=09=09=09=09=09=09=09=09=09=09<t=
+body>
+=09=09=09=09=09=09=09=09=09=09=09<tr>
+=09=09=09=09=09=09=09=09=09=
+=09=09=09<td class=3D"pad">
+=09=09=09=09=09=09=09=09=09=09=09=09<div styl=
+e=3D"color:#515151;font-family:Arial, Helvetica, sans-serif;font-size:14px;=
+font-weight:400;letter-spacing:0px;line-height:120%;text-align:center;">
+=
+=09=09=09=09=09=09=09=09=09=09=09=09<p style=3D"margin:0;margin-bottom:16px=
+;">WCSIPL<br />
+Plot No.32, D-2 Block, Opp, HDFC Colony, Chinchwad, Pune =
+- 411019. MH, INDIA. <br />
+Pune Maharashtra 411019<br />
+India<br />=
+
+.</p>
+
+=09=09=09=09=09=09=09=09=09=09=09=09<p style=3D"margin:0;">If=
+ you don't want to hear from us anymore,=C2=A0<a href=3D"https://isend.wcsi=
+pl.co.in/campaigns/dn2624ocxx0b5/track-url/er045xbh6f16d/856875ec94bc62e516=
+e6b34dd3264518b38ad5c9">Click here to unsubscribe.</a></p>
+=09=09=09=09=
+=09=09=09=09=09=09=09=09</div>
+=09=09=09=09=09=09=09=09=09=09=09=09</td>=
+
+=09=09=09=09=09=09=09=09=09=09=09</tr>
+=09=09=09=09=09=09=09=09=09=09<=
+/tbody>
+=09=09=09=09=09=09=09=09=09</table>
+=09=09=09=09=09=09=09=09=09=
+</td>
+=09=09=09=09=09=09=09=09</tr>
+=09=09=09=09=09=09=09</tbody>
+=09=
+=09=09=09=09=09</table>
+=09=09=09=09=09=09</td>
+=09=09=09=09=09</tr>
+=
+=09=09=09=09</tbody>
+=09=09=09</table>
+=09=09=09</td>
+=09=09</tr>
+=
+=09</tbody>
+</table>
+<!-- End -->
+<img width=3D"1" height=3D"1" src=
+=3D"https://isend.wcsipl.co.in/campaigns/dn2624ocxx0b5/track-opening/er045x=
+bh6f16d" alt=3D"" />
+</body>
+</html>
+  </div>
+
+      </td>
+    =
+</tr>
+  </tbody>
+</table>
+
+  <!--[if (!mso)&(!IE)]><!--></div><!--<=
+![endif]-->
+  </div>
+</div>
+<!--[if (mso)|(IE)]></td><![endif]-->
+ =
+     <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
+    =
+</div>
+  </div>
+  </div>
+ =20
+
+
+    <!--[if (mso)|(IE)]></td></tr=
+></table><![endif]-->
+    </td>
+  </tr>
+  </tbody>
+  </table>
+  <=
+!--[if mso]></div><![endif]-->
+  <!--[if IE]></div><![endif]-->
+<table =
+border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"nl-container" rol=
+e=3D"presentation" style=3D"background-color:#ffffff;" width=3D"100%">
+=
+=09<tbody>
+=09=09<tr>
+=09=09=09<td>
+=09=09=09<table align=3D"center" =
+border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"row row-1" role=
+=3D"presentation" width=3D"100%">
+=09=09=09=09<tbody>
+=09=09=09=09=09<t=
+r>
+=09=09=09=09=09=09<td>
+=09=09=09=09=09=09<table align=3D"center" bor=
+der=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"row-content stack" r=
+ole=3D"presentation" style=3D"color:#000000;width:600px;" width=3D"600">
+=
+=09=09=09=09=09=09=09<tbody>
+=09=09=09=09=09=09=09=09<tr>
+=09=09=09=09=
+=09=09=09=09=09<td class=3D"column column-1" style=3D"font-weight:400;text-=
+align:left;padding-bottom:5px;padding-top:5px;vertical-align:top;border-top=
+:0px;border-right:0px;border-bottom:0px;border-left:0px;" width=3D"100%">=
+
+=09=09=09=09=09=09=09=09=09<table border=3D"0" cellpadding=3D"10" cellsp=
+acing=3D"0" class=3D"divider_block block-1" role=3D"presentation" width=3D"=
+100%">
+=09=09=09=09=09=09=09=09=09=09<tbody>
+=09=09=09=09=09=09=09=09=
+=09=09=09<tr>
+=09=09=09=09=09=09=09=09=09=09=09=09<td class=3D"pad">
+=
+=09=09=09=09=09=09=09=09=09=09=09=09<div align=3D"center" class=3D"alignmen=
+t">
+=09=09=09=09=09=09=09=09=09=09=09=09<table border=3D"0" cellpadding=
+=3D"0" cellspacing=3D"0" role=3D"presentation" width=3D"100%">
+=09=09=09=
+=09=09=09=09=09=09=09=09=09=09<tbody>
+=09=09=09=09=09=09=09=09=09=09=09=
+=09=09=09<tr>
+=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09<td class=3D"d=
+ivider_inner" style=3D"font-size:1px;line-height:1px;border-top:1px solid #=
+dddddd;"><span>=E2=80=8A</span></td>
+=09=09=09=09=09=09=09=09=09=09=09=09=
+=09=09</tr>
+=09=09=09=09=09=09=09=09=09=09=09=09=09</tbody>
+=09=09=09=
+=09=09=09=09=09=09=09=09=09</table>
+=09=09=09=09=09=09=09=09=09=09=09=09<=
+/div>
+=09=09=09=09=09=09=09=09=09=09=09=09</td>
+=09=09=09=09=09=09=09=
+=09=09=09=09</tr>
+=09=09=09=09=09=09=09=09=09=09</tbody>
+=09=09=09=09=
+=09=09=09=09=09</table>
+
+=09=09=09=09=09=09=09=09=09<table border=3D"0"=
+ cellpadding=3D"10" cellspacing=3D"0" class=3D"paragraph_block block-2" rol=
+e=3D"presentation" width=3D"100%">
+=09=09=09=09=09=09=09=09=09=09<tbody>=
+
+=09=09=09=09=09=09=09=09=09=09=09<tr>
+=09=09=09=09=09=09=09=09=09=09=
+=09=09<td class=3D"pad">
+=09=09=09=09=09=09=09=09=09=09=09=09<div style=
+=3D"color:#515151;font-family:Arial, Helvetica, sans-serif;font-size:14px;f=
+ont-weight:400;letter-spacing:0px;line-height:120%;text-align:center;">
+=
+=09=09=09=09=09=09=09=09=09=09=09=09<p style=3D"margin:0;margin-bottom:16px=
+;">WCSIPL<br />
+Plot No.32, D-2 Block, Opp, HDFC Colony, Chinchwad, Pune =
+- 411019. MH, INDIA. <br />
+Pune Maharashtra 411019<br />
+India<br />=
+
+.</p>
+
+=09=09=09=09=09=09=09=09=09=09=09=09<p style=3D"margin:0;">If=
+ you don't want to hear from us anymore,=C2=A0<a href=3D"https://isend.wcsi=
+pl.co.in/campaigns/dn2624ocxx0b5/track-url/er045xbh6f16d/856875ec94bc62e516=
+e6b34dd3264518b38ad5c9">Click here to unsubscribe.</a></p>
+=09=09=09=09=
+=09=09=09=09=09=09=09=09</div>
+=09=09=09=09=09=09=09=09=09=09=09=09</td>=
+
+=09=09=09=09=09=09=09=09=09=09=09</tr>
+=09=09=09=09=09=09=09=09=09=09<=
+/tbody>
+=09=09=09=09=09=09=09=09=09</table>
+=09=09=09=09=09=09=09=09=09=
+</td>
+=09=09=09=09=09=09=09=09</tr>
+=09=09=09=09=09=09=09</tbody>
+=09=
+=09=09=09=09=09</table>
+=09=09=09=09=09=09</td>
+=09=09=09=09=09</tr>
+=
+=09=09=09=09</tbody>
+=09=09=09</table>
+=09=09=09</td>
+=09=09</tr>
+=
+=09</tbody>
+</table>
+<!-- End -->
+<img width=3D"1" height=3D"1" src=
+=3D"https://isend.wcsipl.co.in/campaigns/dn2624ocxx0b5/track-opening/er045x=
+bh6f16d" alt=3D"" />
+</body>
+
+</html>
+
+--_=_swift_1774496323_e796145f7c5acaa78935364ca6bfc744_=_--
+
