@@ -4,88 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45CE2CC6B03
-	for <linux-firmware@archiver.kernel.org>; Thu,  2 Apr 2026 06:42:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E8B76CC6B33
+	for <linux-firmware@archiver.kernel.org>; Thu,  2 Apr 2026 09:03:12 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 03BFCC2BC9E; Thu,  2 Apr 2026 06:42:50 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	id B3C66C2BCB1; Thu,  2 Apr 2026 09:03:12 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id F0A0FC19423
-	for <linux-firmware@kernel.org>; Thu,  2 Apr 2026 06:42:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org F0A0FC19423
+	by smtp.kernel.org (Postfix) with ESMTPS id F365EC116C6
+	for <linux-firmware@kernel.org>; Thu,  2 Apr 2026 09:03:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org F365EC116C6
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 631M4Skm1425465
-	for <linux-firmware@kernel.org>; Thu, 2 Apr 2026 06:42:47 GMT
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6327HGOm3044207
+	for <linux-firmware@kernel.org>; Thu, 2 Apr 2026 09:03:10 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=1fgcVkQGLpQf+NLhTx8P4S
-	hoLVMAFxoiKFNdquvgWA0=; b=nbWwCAW7La6R7gKAZopH1JOP1o0NiWZixfP4PG
-	np/dFnojkbCZmrssKhCzH7S8/EoclYCBah5FP8MZHKXGlvuYgPBYXfuMs0EsX1no
-	BiNqdayCDmyHpBzCS38lNA/ervW52xu4zMvGdYLZZ+bAODQDlxLserYbhekwHKQy
-	VQDsRLRBOZhEHnHQhslQv9spB9gOk0lxwb3kLhjNBuL5oRfCRMqdydLUsMLGom5T
-	mVOWa8SPyzaFBsQJPXeD/WEFaRxbLp6z9emQchzIhbcwvYfx7K/f1OJMsnircD1K
-	AI5JPplFBAW8yb1SbPZyaLEpqb4iZ9YlhFf77+daHz9KTHWw==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d9511ba2r-1
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=oIrDOT8WeHiNospPtyPHyl
+	k0Tts+CpGyCyTBAtDPdKw=; b=TMq3Dqld6VAhWyuBhN2E4SnzwdCALek9nm+76Q
+	4lBr/TyhazSi9fo88aPutiUJEgYH0pT67iPpz1LxFVRcqxPu+i9R9gx6NB1ZsnUO
+	YLHQYa+YwdtVBgg/texIzEZ8Kl5MjcRFWTfHkY4nloOwWH4PcSHDtOE8cscWrbYF
+	NdJhQ59g741MeQff5FsE4hB5jaW+WOG4gaE/UeieCEs2kdCJtEySZzap+5GDq8qv
+	jFW0/BfXLeDDTMFrvtgE/pz5Cb7bRUmjQhIlMnw8uOkxyKmyYZDd2XOAvqEaALJV
+	My24PyQNQRYl0Gdpv6bAwLXP2EKfDD8ifD7C4686vZZGa9rQ==
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d9483v296-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Thu, 02 Apr 2026 06:42:47 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2b250d3699aso13490455ad.2
-        for <linux-firmware@kernel.org>; Wed, 01 Apr 2026 23:42:47 -0700 (PDT)
+	for <linux-firmware@kernel.org>; Thu, 02 Apr 2026 09:03:10 +0000 (GMT)
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-c76bfd7b9cdso316696a12.3
+        for <linux-firmware@kernel.org>; Thu, 02 Apr 2026 02:03:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1775112166; x=1775716966; darn=kernel.org;
-        h=content-transfer-encoding:autocrypt:subject:from:to
+        d=oss.qualcomm.com; s=google; t=1775120589; x=1775725389; darn=kernel.org;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
          :content-language:user-agent:mime-version:date:message-id:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1fgcVkQGLpQf+NLhTx8P4ShoLVMAFxoiKFNdquvgWA0=;
-        b=fDpt+a06BsgXEtlae32KjJtjZlqS7MOrXACW/HSh34J8vdQQpfKfoI0MtC2HWve61A
-         YF2J8TgslrENdWpjpfZXw0ZD3BM+CKGUTONgcjOq82NBgZWA1HvKbi6rmGebZcEwbpyD
-         ZP12FHISZSEJz6iT+Nc4NjZcsBaw5gSZGTgsL2Q087CsOkjS3AYSwsQOx62oHoMVDIYT
-         q5ZQnMr4IYqNrbdKfw92cwprIiiAc6wM1PxgFcb28bd3ERHxO9ujDqDHnNuiv6EjlbRa
-         NDHyJDTEYN4HgL+4opvq6IsAv4+ggQJiJOLPvcXyEz2jt+wAhFSKZf7/iXL4Jhoz2XFL
-         z4Vw==
+        bh=oIrDOT8WeHiNospPtyPHylk0Tts+CpGyCyTBAtDPdKw=;
+        b=iYh+zAlA7l6osgoNlBI4huaTRXshTyEk/n0KcGyuL6x246457ejulxQ1wr1fp56kDU
+         EpPgpPemNipj8GIxWtOfU81Wo01B1vAvT7X6BzFeXA7MFsHDT23hMjUwZvJ5U60F8hrd
+         t5FqxcgQVE1M8zrbb8rOvqZvSrRrQFhEOzXl55DDYXWgPnQRwek0Qx592nRq5+muZy62
+         punB5qfFaQ5ZFGA2swVZc9/7wOQiA/1+omyLSm8Imfk/GiFpGKAy88H79q5Pobo8mtQP
+         9oGyIlbG536k3OJjfwhJfgLHXmy3gIpw+164pGcLe5mBS4ekpHbGmZWuiWo7cIdTfQWT
+         L/gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775112166; x=1775716966;
-        h=content-transfer-encoding:autocrypt:subject:from:to
+        d=1e100.net; s=20251104; t=1775120589; x=1775725389;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
          :content-language:user-agent:mime-version:date:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1fgcVkQGLpQf+NLhTx8P4ShoLVMAFxoiKFNdquvgWA0=;
-        b=OCqjkJWzFogZp/q4gkzDdcSXh5uwUI38fTNuPxoJkTCENtU4uoE/noz8+KumEXkyER
-         1Zp+41qtxCviXYhjFJLUz6rpk1BjbV1KLEbVviF7wjlwT5uUMgxOdXDTf+5oUaw5yYpV
-         lU9m1SY/2zrF0ZWo9L1yeZCYIfjMwfklX01LU3ccYnpKkwgq6JhSRtLwCkpMvi4eg8hu
-         c3FwZ/muzHcBVG2H6KAP4FG+ZZ1RIwGIBEkCGT6U7M4CSNzHU7p6SFmqBuKFbwC0Nzrv
-         yZm7MwK7D8DCQGPPHRr0iwrKcaA6x2E08PVLOeNUb92Rjs/VVQlRFFPV6rCMh3XAfzyb
-         9S0g==
-X-Gm-Message-State: AOJu0YyPHzrYwT5bZKaupZe/P5qSKtktCM6JjSW0UVz7slGACj+Y9Igv
-	BXtZ+Z887bktb+3CwK626CRKmRjr50+AjoJ14MlMDvqKD6uWicT28DKeof9Xnz5SToACa64RySf
-	oy7O8zu/APved5dazJpPe4pgTziaZpyl0FL9j6xaKplp2XVjNOWs7yrXRT6h150qYhxkkFgY=
-X-Gm-Gg: AeBDietMEsELREpLbCe5wa5SMUvAEraidBP2YYDubjEpQlh6ZbcoIS1r4EY8AwIQKb+
-	90enLKQdQiU2+hU1yb4IRRsyN1C7r+srWKlDRnTmCKowtw29/kg2SOudaQ7jVBWV1LYFPs4L/RW
-	3P7gT1WxQlwL2E+Nl7UFqMtZFZWneM6jqwF0dKR0tQs8AEDO31oy31ZMf9Eg4+giPbePOeuNhIH
-	SbvVsL7QcknMEZPY7hmGTz3J1tPZR7+EzWJvq1/cY7tLF+PpT3p6lL/hS+kMmtnKmRFRrFLN2E9
-	jq2mlZtSt0A20nxjL9VABXla2LWynA81Urq0vr1tYpp0BmNJHcrhqfdvHjU3i1fq7N4pf8UVMuN
-	rhERFMAP3I5LMnvi/cQWroK3NZ6pQcCxzjr1VPoA3GcY/aeChYQ==
-X-Received: by 2002:a17:903:248:b0:2b0:af2f:b26a with SMTP id d9443c01a7336-2b269ce75dfmr62461495ad.48.1775112166479;
-        Wed, 01 Apr 2026 23:42:46 -0700 (PDT)
-X-Received: by 2002:a17:903:248:b0:2b0:af2f:b26a with SMTP id d9443c01a7336-2b269ce75dfmr62461325ad.48.1775112165986;
-        Wed, 01 Apr 2026 23:42:45 -0700 (PDT)
+        bh=oIrDOT8WeHiNospPtyPHylk0Tts+CpGyCyTBAtDPdKw=;
+        b=IrH70kHuYPZ2dMdhBirKHMcgUmSV1oQ7QjwIMGOPK3QQTgp310qJLf6L222qjAI1L3
+         lSiGsfOJkVHipaNqbc7CMbsPh+lx741DzlqsQrtDsdZ1ibaaof6TtZ7Tm/xOjwBWi8Ut
+         ct7nMgEEhA/jsPfXO4sLkjBUvtBF9iWJfTAfPJlRADRqvT4QuNMDiNZ6FyCJX7rYgFXg
+         pR4qO33sa/AIOzFCZyaph4LsfFs+fmRJ6yoDQqFbAsj3tNgiq0I3UkbBN4yBBytSYCXX
+         yzhR5BGBUiVSMYRbvy3Bo7OHUzw2v53ShWWmYo3bPxg0AeGY2QU3WcUQjMpylZLcQ+Ve
+         U1PA==
+X-Gm-Message-State: AOJu0Yx15h21YpDFUA0X16tvd5loRqzj46Rmp3VMRUO8KQ7Q3Ysp8M50
+	xjg/FHLwVLEqomUVgsl2ta4PoB7sdNZsxukVeujDw7DyBk70sp+FLFg4MnFx2MgEXydv1NQuRO6
+	Bk+sliun0CCDtXTku8kaW5iqQnqM6Hdc107yOzi2oNcLzzfNmz4FuvNLxY/MJ0tp4539kr/0=
+X-Gm-Gg: ATEYQzy9h9IICehpESVqbc1Zou0QlY9y3pjajSzcPhrLLPDzzzKRswMcMsX9/4ZKnWF
+	mWmO2SPK91skI6hj409OfTAOoXDEf9REZ8oRaFYzOdAIAMNvKGpODG5eo0YW+TKNHa06WTIz6nD
+	Hypm1yWPjlOSyzHdE5Ps7nFdRLhYh5L7Sj7DfEcdP3hvKlhTC00FF/X7nO+FE9p18g1X3K/LVId
+	zkC+6ap2lSq0BIMHH27Tcub3A13XK6x8m2+kKIRycn/nLDkaINSRAhQg46Hlob+uYp3MKFNv4pt
+	1UWsHsaSCpe6LrI//lHpJPdzr+8tTm23WQO/z3giLpPU2sZwQwtkupPihxe4dtP3ahgBa1DweD2
+	LMFYNuaNpYYJrLYaU8UUGYiok08qDC6+QuT0xK7sUOCe6FPsRxw==
+X-Received: by 2002:a05:6a20:4321:b0:395:3677:675a with SMTP id adf61e73a8af0-39ef76c1997mr7356918637.35.1775120589144;
+        Thu, 02 Apr 2026 02:03:09 -0700 (PDT)
+X-Received: by 2002:a05:6a20:4321:b0:395:3677:675a with SMTP id adf61e73a8af0-39ef76c1997mr7356890637.35.1775120588599;
+        Thu, 02 Apr 2026 02:03:08 -0700 (PDT)
 Received: from [10.204.86.92] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b27478945asm23708875ad.28.2026.04.01.23.42.44
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c76c65995a9sm1958175a12.27.2026.04.02.02.03.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Apr 2026 23:42:45 -0700 (PDT)
-Message-ID: <4b6c7b4f-dab4-4271-a7b5-8449b2ada199@oss.qualcomm.com>
-Date: Thu, 2 Apr 2026 12:12:42 +0530
+        Thu, 02 Apr 2026 02:03:08 -0700 (PDT)
+Message-ID: <8eee8c56-3ed7-40e5-89e4-406060a5201e@oss.qualcomm.com>
+Date: Thu, 2 Apr 2026 14:33:04 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Content-Language: en-US
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org,
         Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Saddam Patan <saddam.patan@oss.qualcomm.com>, kssb@qti.qualcomm.com
 From: Venkata Kota <venkata.kota@oss.qualcomm.com>
-Subject: qcom: update CDSP firmware for glymur platform
+Subject: qcom: update ADSP firmware for sm8750 platform
 Autocrypt: addr=venkata.kota@oss.qualcomm.com; keydata=
  xsDNBGi/G3sBDADFuRVyKREhDod8d+uJxADC+IXOVOXP1Qigxt4a5Cx2rOhULbviJfiJWIsQ
  Rzlc4N1GfhTLpeNoqzd7/LAbnpc/jw0cq+f3EWPaIla0lIKthTCtMCkC5af3NyeqM64xHMMI
@@ -122,30 +123,30 @@ Autocrypt: addr=venkata.kota@oss.qualcomm.com; keydata=
  tFo24aqEAzhhzFkq6qZ6FaB0f9M8wen4hRAu98k=
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDAyMDA1NyBTYWx0ZWRfX6ysIOfwmHRiF
- TpsIGZCBacWYQzerK73c8PKlnnguamrebAo828ml8I0VlSrk5JHsL7X5zsbvbq/qYT1xTzu7aG2
- wkjxNTC4a5zS6OzHCkpN1Ml0Z/js1+WpH4PIrpEEAjG+c493sQJTynkynoFGe/mDvzYWFovKLgK
- 9t2/bjq+o95sGT0ZuDtSq2TAsvot46MkzDIdlzHMN0p4/kS/s99nYJgLxpgdIg2zyiau/S39vcp
- 0XouHFsRh7lG6CJV3HFEaZjQT0S4k/5+U5Dg/D3Fi19RrubkHC1mhY8WcIz2BSconRW/duZXvqu
- zrpXcrN4Q/dROYo8J86EDYWscasyI//GBBxsH+i+wQHDXO6uirzTLNfKuI27krlo+fwknveIOnI
- t/3sCvDZXSzUS4wrTzjy/qXK6eB4oyMBa/qdk43kOUrEXvZmRVDJKKXZe4T2NCg3DnG62EuIKj2
- 4/lzLvnqYqVue8APijA==
-X-Proofpoint-GUID: KyHCH05KjMdJBgrotwbKy1BQz5KRQvwM
-X-Proofpoint-ORIG-GUID: KyHCH05KjMdJBgrotwbKy1BQz5KRQvwM
-X-Authority-Analysis: v=2.4 cv=F8pat6hN c=1 sm=1 tr=0 ts=69ce0fe7 cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Authority-Analysis: v=2.4 cv=RYydyltv c=1 sm=1 tr=0 ts=69ce30ce cx=c_pps
+ a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
  a=qC_FGOx9AAAA:8 a=XVsfLpG8jI4Vz9lwU4gA:9 a=QEXdDO2ut3YA:10
- a=uG9DUKGECoFWVXl0Dc02:22 a=fsdK_YakeE02zTmptMdW:22
+ a=_Vgx9l1VpLgwpw_dHYaR:22 a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDAyMDA4MCBTYWx0ZWRfX0AZp+y7091o4
+ yK5i628Y8602ZHgkinWNWQs823nd75H+xpTsJOG/q45GOWDkYbYRhENh/8/KsNxwoN4k+n7aWZv
+ n0CogZBQsMUznI+HXh4niaLDkHhybrmxhmJJVcPqsJBQ6UX2gW7eMEafYqj0587eklPm/Gkml3I
+ zkUdfr3wW15nJW7ZvOQEOjUCXJ71wzQgHVgpPRDs+BLWpminihHG7XLeiN0XuEEEnjbOMw/LkUQ
+ CtzApeBPwlCL0SNR/SuRfhGIlUJ4O/lkSuFiHxthyZIC3NXEnOk9ztfbte0pQ88N0qUCOLZQHbz
+ ResF8BOwquZLsCkJwS8W3HPfQkuvegix2OhyOZZO06EVIAq+JDq2owvAfi2jBXgRaDhlKN57h41
+ k3Hr0/Z+ZEj4YBaaeGOuI4iSr96I+tmQdDPe2TdlDNSZUea14JhI2nmifHM18yQLhGS4sawX+lT
+ bRNFS9B0WsySh60Cujg==
+X-Proofpoint-ORIG-GUID: qdm209uQ_aTIVVyYEPZuQ3d6NR1AxsFY
+X-Proofpoint-GUID: qdm209uQ_aTIVVyYEPZuQ3d6NR1AxsFY
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-02_01,2026-04-01_02,2025-10-01_01
+ definitions=2026-04-02_01,2026-04-02_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0 bulkscore=0 priorityscore=1501 adultscore=0
- clxscore=1015 suspectscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0
+ priorityscore=1501 suspectscore=0 clxscore=1015 adultscore=0 bulkscore=0
+ spamscore=0 phishscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2604020057
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2604020080
 
 The following changes since commit 441bcf2eaa2a2dd6edbab83181a66a2db537c470:
 
@@ -155,18 +156,18 @@ The following changes since commit 441bcf2eaa2a2dd6edbab83181a66a2db537c470:
 are available in the Git repository at:
 
    https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git 
-cdspfw-glymur
+adspfw-pakala
 
-for you to fetch changes up to 7590efdfb65f29bceeb0cd3da6157eafb121ff6b:
+for you to fetch changes up to 91651118052935080801f420ab0c5591c649bff7:
 
-   qcom: update CDSP firmware for glymur platform (2026-04-02 12:08:15 
+   qcom: update ADSP firmware for sm8750 platform (2026-04-02 14:29:06 
 +0530)
 
 ----------------------------------------------------------------
 Venkata Kota (1):
-       qcom: update CDSP firmware for glymur platform
+       qcom: update ADSP firmware for sm8750 platform
 
   WHENCE                   |   2 +-
-  qcom/glymur/cdsp.mbn     | Bin 3252504 -> 3252504 bytes
-  qcom/glymur/cdsp_dtb.mbn | Bin 69432 -> 69432 bytes
+  qcom/sm8750/adsp.mbn     | Bin 19413384 -> 17639864 bytes
+  qcom/sm8750/adsp_dtb.mbn | Bin 180024 -> 167736 bytes
   3 files changed, 1 insertion(+), 1 deletion(-)
