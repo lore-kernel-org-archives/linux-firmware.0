@@ -1,143 +1,131 @@
-Return-Path: <SRS0=hGCg=CD=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC83EE63FF5
-	for <linux-firmware@archiver.kernel.org>; Sat,  4 Apr 2026 19:26:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A494EF4ED8
+	for <linux-firmware@archiver.kernel.org>; Mon,  6 Apr 2026 12:34:38 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id BEA81C19423; Sat,  4 Apr 2026 19:26:10 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 9A6EAC19421
-	for <linux-firmware@kernel.org>; Sat,  4 Apr 2026 19:26:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 9A6EAC19421
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6342q3rx2198917
-	for <linux-firmware@kernel.org>; Sat, 4 Apr 2026 19:26:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=pw2151dI+6H9T31qb2UcC16Y
-	7tGoRbJwZBvTNRHmcos=; b=Qi7wj0cJPgI8kjoLhRVlzKCupxw1EORXiYLsStpa
-	rtUfo7RfttFJt7vMBelDSnsQeQuYUDSNAqtqRYIkSUnEN2ir6v3pCWevquwFIK/B
-	iMXzLePzLRAcHnbtsdFYgYz1T3EwRR+3WeU3NrMEbsYNMqBUyqxhr+5DYJ+ly9Po
-	RdasfTJHnpcqgNrvsh1Ldycy7+5DtJSOok5bo0tSH/PKkQvUzwauMbVowcSWvzwu
-	9Aj+D+IUow7mOHQU51YLw5tQBzA+yOhit8nQScQLrfb1SjNHBK9qNs4E2xkL83o7
-	5Qjj+9vR4Smh+c7So2RWz6NT0ZRHc83jjUlsYuCUUc0mIA==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dat7u9d66-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Sat, 04 Apr 2026 19:26:08 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-50d68dbb77bso5280991cf.2
-        for <linux-firmware@kernel.org>; Sat, 04 Apr 2026 12:26:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1775330767; x=1775935567; darn=kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pw2151dI+6H9T31qb2UcC16Y7tGoRbJwZBvTNRHmcos=;
-        b=gXFDGbqQEpj/WOF+Nox3ImndkcrKwaIDVg24k4Qr0J5HtLUT0GSTz1ooLWDTRXyCtZ
-         TH1Ehjiuvqofa1rMsoA9w7clXud22dKmLhwYopTsecUz9/XQEFvKuVHYFv5uFCQjLeJB
-         ZuA8FbntjRyAhQxBSqiIt7Nux/p0UFFmPOBvCPnEBG06KMNAuH1QyfBd3TvX/VL4Wl9X
-         KPrhryF9kl6HKVtr4wjvnu43MYFV8IW9k9nr7HbxOqhjD5lt75pSbnIqbNoiaARWw/MK
-         uYcA6lXt4kLT/K2SW+ukkCEc4g0zCK1QgrOemZbyOqOvFtzApZyKCBjBZm87VGW4He96
-         nw/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775330767; x=1775935567;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pw2151dI+6H9T31qb2UcC16Y7tGoRbJwZBvTNRHmcos=;
-        b=Lwckq6X/G0Xugbnov6GRAC+vcHo8NwD9+2A5aRxMxGYhkK9i045a7Polg2hxSHFPg8
-         DXGbXlTRHthuDJT6nVeGcGUuNLrmp88UiSLTIb1uS/CmfC/W8Rh0ea8JmOmhLK7dz9ap
-         dx1hOzN0zYbWMqHGPoQRPBnRRtGKWgu1SVpoYfNxs6CXham6l2Z/pydkuOBHnYOsukdP
-         PuoSzGyOjM3roscAhnabJeygsPnEtDw+kz0LmQius6HLnoKD0gEmbNy97GpElQh3DwUs
-         9Co63uoPv3uANGRg1vfna480Bwztz2Es7q4QKX1d20OvKmmSpRJFQEbKhkqdZLuulCpx
-         zoRw==
-X-Gm-Message-State: AOJu0YzPu+haTNStFQztYSKugUVjcY4icTAGkl1qAcQhKl+YWo5oqpFg
-	EcukyJRV9C+8VJmerSkIShw7sFAWUvzkw6dOPQ5a9ulPPC3sKQbj/isuoTZZzYSNZm4lAEEfou9
-	NvlQSt/tQcbQaapa7BAO9B6TwO/Z1davT892jJxAxkt5j/aG56PVxthzQT1+FNhg=
-X-Gm-Gg: AeBDietwMVYx7VTn7z5lynJ2lmaRHc4LyMNXMa80cl1VvWx7xL3pFcE2UOAB1n1QqUl
-	NYW6wjmaM0/mQBSUFnCBOvGIcScn6J/OzfB+UBd9Fx6CortkS0m6AQAjUF7kciFkWsf0e0z4zoF
-	2WRBm5xvEoFhNES2aIfh+7NSHEZh4lPqbRVlicwGMHT9K4oSLELBP9pwo2xxCVjbvzoynTGfjZF
-	xxm/RxbL/axwV68hEli1fuSsaWAnsNWF2vR5BCietjqOEtz3KlDHRWzjCucg74pQG/juav9mm23
-	ldpzgF4reD+51Fz9Z8TphdkQiPytJW3i5ps4p/ulufnWLyVlm30TiJljNAqHUqNrnDUlf65KqCU
-	LL4KcsAYqbGGD6PnYXy5iuA+dzZvkEDzROpeHtn/AJTsTw8EZwuEbDDaV9LRi8wdk3Sv5hVI6UC
-	PowlyQc6bhshseI57RlWkIzucewGgoF1yN1k0=
-X-Received: by 2002:a05:622a:1e8d:b0:509:61:b22 with SMTP id d75a77b69052e-50d62d4f965mr114467891cf.57.1775330767634;
-        Sat, 04 Apr 2026 12:26:07 -0700 (PDT)
-X-Received: by 2002:a05:622a:1e8d:b0:509:61:b22 with SMTP id d75a77b69052e-50d62d4f965mr114467491cf.57.1775330767140;
-        Sat, 04 Apr 2026 12:26:07 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a2c9f42b6fsm1840146e87.84.2026.04.04.12.26.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Apr 2026 12:26:06 -0700 (PDT)
-Date: Sat, 4 Apr 2026 22:26:04 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Timur Tabi <ttabi@nvidia.com>
-List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org
-Subject: Re: [PATCH] nvidia: add acr/bl symlink for booting GSP-RM on GA100
-Message-ID: <bxuvtr6xcokzh7jxeoaogqxcag2gbmfbrhmxqitkbzdckjglwz@iulj3c32w7lv>
-References: <20260404002248.2074815-1-ttabi@nvidia.com>
+	id E702DC2BCB6; Mon,  6 Apr 2026 12:34:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA676C2BCB1
+	for <linux-firmware@kernel.org>; Mon,  6 Apr 2026 12:34:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775478877;
+	bh=aWO8RHsZcZZssxXU7mTdmzqkHVI82Y7M1hm/1TCqoUE=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=fyO+f04CIqXQBiYOdMQ/tEkUO8uFPSH/XmOxOrwzzZ9Lr9Z2EZYNn1TLdeaIPOW9r
+	 JYx07eHDYbaM7RUm1i8ZeSM3e4RcEKHx0RMD72jYoZwtCFAat64+IxQ8TF3qPkISgz
+	 /uqPGHNvinAQ4NefQ8k6tCEt+//NuFOw6Oumbu++0Aa5HERohDtV6VVZik9eRPuNRa
+	 nSultb4TLt9034A/k9Yp/ygflxnj34rHi9WPWD0WDTHmVO52dazmpAjZnkRw1Teacc
+	 8tXg5VoxjyExW+lHR4q2s3PnXLQX1xK1BvDrQ45zuWdI/Rg9s22Ov4RpkIF3xkxAp0
+	 F0uAyN8bMkCJQ==
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-7a2b6adbfa6so35304937b3.0
+        for <linux-firmware@kernel.org>; Mon, 06 Apr 2026 05:34:37 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwgT3C/j+l5t9yFzv2CW6rJkIAnxDG4Uv58tDvrIL+Q5orqBZox
+	np24F+v+QxBtZygF0Bc82MohoRQgfC5QiKIsoZRT6BN3zXsqwckIMw30tA2lRfV9D2P7KOItmfw
+	XFN3Qe7MJr5MI+HDCaAxhAfHJweeVp3Y=
+X-Received: by 2002:a05:690c:101:b0:7a4:e4e5:3910 with SMTP id
+ 00721157ae682-7a4e4e54243mr113990937b3.50.1775478876950; Mon, 06 Apr 2026
+ 05:34:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260404002248.2074815-1-ttabi@nvidia.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA0MDE4NSBTYWx0ZWRfX7qlBTmXhDxJI
- EuxMLrDXpAoduLEvMsv/3rEiBpimWS4MXuNH4JdmgqhaLUpKknpLQJgu4gfDlB6njPAJEJjQ/CW
- pMO9ROJMZeH7+js1vOoOEz4JI69fzMCdCgmtO5wIJsP82uOhe32ncit+N+TTVPkhUpoK7j3y0Nk
- Lcd2hTh8VDViy3AiEDyJP+gB+/D9Qr6XCtMvVNYBHcZnlR5IbwhU5j3W/RKrXVqHzG2bcM2yxQg
- /1xxQR6/CmlsLTA2Njoqn/FG/XdkhSnhWtLchTje+qONHwA94wZtxXAYpO+142ULLFjmdBAcvlj
- 4txqQp58L0vHqG689UumOg6+fXcOw1meIG4ZzkNnhKEubY+l1bi4XXIMUXWjgMHeqYkzGGDijfn
- hQ4h7u6cQFM2MjNhiqGegUoh+ANBmbOi4lbB7mt39wIEQckDB2Mar4XVm9aeV2cv7dfmMtoGEQ/
- RTZeB6CeDX90/A8eqCg==
-X-Proofpoint-GUID: Fg_u6D-_ztRXp38gRbtUCATxVmNo4s6I
-X-Authority-Analysis: v=2.4 cv=RJ2+3oi+ c=1 sm=1 tr=0 ts=69d165d0 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22 a=p0WdMEafAAAA:8
- a=Ikd4Dj_1AAAA:8 a=qW282QkZvKa7Yvn4q8AA:9 a=CjuIK1q_8ugA:10
- a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-ORIG-GUID: Fg_u6D-_ztRXp38gRbtUCATxVmNo4s6I
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-04_03,2026-04-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 lowpriorityscore=0 malwarescore=0
- impostorscore=0 adultscore=0 clxscore=1015 spamscore=0 phishscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
- definitions=main-2604040185
+References: <DM3PPF63A6024A9C0E49D41DE491E608383A355A@DM3PPF63A6024A9.namprd11.prod.outlook.com>
+In-Reply-To: <DM3PPF63A6024A9C0E49D41DE491E608383A355A@DM3PPF63A6024A9.namprd11.prod.outlook.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Mon, 6 Apr 2026 08:34:25 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA4G_f=Btc1s9tMwdv=Rq1u5YeVfXUNdmU4EiaOQdZKv_A@mail.gmail.com>
+X-Gm-Features: AQROBzBqv8W_2BceT0fs_Ji4p3-kY-BRvNwKxaLbwUg1lpHkxSEaM_lTq0wFTow
+Message-ID: <CA+5PVA4G_f=Btc1s9tMwdv=Rq1u5YeVfXUNdmU4EiaOQdZKv_A@mail.gmail.com>
+Subject: Re: pull request: iwlwifi firmware update 2026-03-29
+To: "Korenblit, Miriam Rachel" <miriam.rachel.korenblit@intel.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: "linux-firmware@kernel.org" <linux-firmware@kernel.org>, 
+	"Grumbach, Emmanuel" <emmanuel.grumbach@intel.com>, "Dreyfuss, Haim" <haim.dreyfuss@intel.com>, 
+	"Damary, Guy" <guy.damary@intel.com>, "kyle@infradead.org" <kyle@infradead.org>, 
+	"Hutchings, Ben" <ben@decadent.org.uk>, "Yang, You-Sheng" <vicamo.yang@canonical.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 03, 2026 at 07:22:48PM -0500, Timur Tabi wrote:
-> The Nvidia GA100 is a compute-only (no display hardware) Ampere GPU that
-> boots like a Turing (TU10x) GPU.  Consequently, it needs the same kind of
-> firmware images that Turing does.  Since Nouveau looks for all images
-> in GPU-specific directories, all of the firmware files that GA100 needs
-> must be reachable in the nvidia/ga100/ directory.
-> 
-> The ACR bootloader (acr/bl.bin, aka Generic Bootloader), is used normally
-> by Nouveau to support Turing and Ampere GPUs, both with and without
-> GSP-RM.  However, there is still significant code missing in Nouveau to
-> support non-GSP GA100.  Consequently, the firmware files that would
-> be used by Nouveau to support non-GSP GA100 are not included.
-> 
-> Since GA100 uses the same ACR bootloader as TU102, all that is needed is
-> a symlink.
-> 
-> Signed-off-by: Timur Tabi <ttabi@nvidia.com>
+Merged and pushed out.
+
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/980
+
+josh
+
+On Sun, Mar 29, 2026 at 3:00=E2=80=AFAM Korenblit, Miriam Rachel
+<miriam.rachel.korenblit@intel.com> wrote:
+>
+> Hi,
+>
+> This contains the firmware of core103 for all supported devices.
+>
+> Please pull or let me know if there are any issues.
+>
+> Thanks,
+> Miri
 > ---
->  WHENCE | 1 +
->  1 file changed, 1 insertion(+)
-
-Merged and pushed out, thanks!
-
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/989
--- 
-With best wishes
-Dmitry
+>
+> The following changes since commit 85786b4413fdc486e3bc0f4f6cfedce7802ed0=
+41:
+>
+>   Merge branch 'amd-staging' into 'main' (2026-03-27 17:22:24 +0000)
+>
+> are available in the Git repository at:
+>
+>   http://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.g=
+it tags/iwlwifi-fw-2026-03-29
+>
+> for you to fetch changes up to f56580c068ec7ca8bc09eb0adaa703cdd64abfcf:
+>
+>   iwlwifi: add Bz/Sc FW for core103-40 release (2026-03-29 09:47:47 +0300=
+)
+>
+> ----------------------------------------------------------------
+> Release Core_manual_signed_core103/40
+>
+> 2026-03-29
+>
+> ----------------------------------------------------------------
+> Miri Korenblit (3):
+>       iwlwifi: update ty/So/Ma firmwares for core103-40 release
+>       iwlwifi: Add Hr/Gf firmware for core103-40 release
+>       iwlwifi: add Bz/Sc FW for core103-40 release
+>
+>  WHENCE                                       |  40 ++++++++++++++++++++-=
+------
+>  intel/iwlwifi/iwlwifi-bz-b0-fm-c0-c103.ucode | Bin 0 -> 2243748 bytes
+>  intel/iwlwifi/iwlwifi-bz-b0-gf-a0-100.ucode  | Bin 1837172 -> 1836712 by=
+tes
+>  intel/iwlwifi/iwlwifi-bz-b0-hr-b0-100.ucode  | Bin 1584684 -> 1584620 by=
+tes
+>  intel/iwlwifi/iwlwifi-bz-b0-wh-b0-c103.ucode | Bin 0 -> 2112100 bytes
+>  intel/iwlwifi/iwlwifi-gl-c0-fm-c0-c103.ucode | Bin 0 -> 2226528 bytes
+>  intel/iwlwifi/iwlwifi-ma-b0-gf-a0-89.ucode   | Bin 1752652 -> 1752712 by=
+tes
+>  intel/iwlwifi/iwlwifi-ma-b0-gf-a0.pnvm       | Bin 55096 -> 55096 bytes
+>  intel/iwlwifi/iwlwifi-ma-b0-gf4-a0-89.ucode  | Bin 1604692 -> 1604752 by=
+tes
+>  intel/iwlwifi/iwlwifi-ma-b0-gf4-a0.pnvm      | Bin 27820 -> 27820 bytes
+>  intel/iwlwifi/iwlwifi-ma-b0-hr-b0-89.ucode   | Bin 1539788 -> 1539788 by=
+tes
+>  intel/iwlwifi/iwlwifi-sc-a0-fm-c0-c103.ucode | Bin 0 -> 2326720 bytes
+>  intel/iwlwifi/iwlwifi-sc-a0-gf-a0-100.ucode  | Bin 1810848 -> 1810548 by=
+tes
+>  intel/iwlwifi/iwlwifi-sc-a0-wh-b0-c103.ucode | Bin 0 -> 2226060 bytes
+>  intel/iwlwifi/iwlwifi-so-a0-gf-a0-89.ucode   | Bin 1736688 -> 1736748 by=
+tes
+>  intel/iwlwifi/iwlwifi-so-a0-gf-a0.pnvm       | Bin 55176 -> 55176 bytes
+>  intel/iwlwifi/iwlwifi-so-a0-gf4-a0-89.ucode  | Bin 1591660 -> 1591720 by=
+tes
+>  intel/iwlwifi/iwlwifi-so-a0-gf4-a0.pnvm      | Bin 27860 -> 27860 bytes
+>  intel/iwlwifi/iwlwifi-so-a0-hr-b0-89.ucode   | Bin 1526956 -> 1526956 by=
+tes
+>  intel/iwlwifi/iwlwifi-ty-a0-gf-a0-89.ucode   | Bin 1678756 -> 1678816 by=
+tes
+>  intel/iwlwifi/iwlwifi-ty-a0-gf-a0.pnvm       | Bin 55020 -> 55020 bytes
+>  21 files changed, 30 insertions(+), 10 deletions(-)
+>  create mode 100644 intel/iwlwifi/iwlwifi-bz-b0-fm-c0-c103.ucode
+>  create mode 100644 intel/iwlwifi/iwlwifi-bz-b0-wh-b0-c103.ucode
+>  create mode 100644 intel/iwlwifi/iwlwifi-gl-c0-fm-c0-c103.ucode
+>  create mode 100644 intel/iwlwifi/iwlwifi-sc-a0-fm-c0-c103.ucode
+>  create mode 100644 intel/iwlwifi/iwlwifi-sc-a0-wh-b0-c103.ucode
