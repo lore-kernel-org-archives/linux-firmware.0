@@ -4,78 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2558FA1FFF
-	for <linux-firmware@archiver.kernel.org>; Wed, 22 Apr 2026 22:17:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D4AAF9B5F3
+	for <linux-firmware@archiver.kernel.org>; Wed, 22 Apr 2026 22:19:51 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id A0D57C2BCB3; Wed, 22 Apr 2026 22:17:42 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	id 487B7C2BCB4; Wed, 22 Apr 2026 22:19:51 +0000 (UTC)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id E99DDC19425
-	for <linux-firmware@kernel.org>; Wed, 22 Apr 2026 22:17:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org E99DDC19425
+	by smtp.kernel.org (Postfix) with ESMTPS id A195BC19425
+	for <linux-firmware@kernel.org>; Wed, 22 Apr 2026 22:19:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A195BC19425
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b9c01854477so8379566b.0
-        for <linux-firmware@kernel.org>; Wed, 22 Apr 2026 15:17:41 -0700 (PDT)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ba3115fe0d5so1166077966b.1
+        for <linux-firmware@kernel.org>; Wed, 22 Apr 2026 15:19:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1776896260; x=1777501060; darn=kernel.org;
+        d=chromium.org; s=google; t=1776896389; x=1777501189; darn=kernel.org;
         h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
          :date:message-id:reply-to;
         bh=9nCNK53rTjLnVysfgXoglxvrQ8+xq11LiIZcoNznmu8=;
-        b=UF9/QH1ysYfs9Vf5LAXW0uRGvvF/G/zPSLUFiduHpO8MrOU6agzLOJd4tWmopV5aAJ
-         fhKIpE+f/UE2N3MMsLCrF4tKER5H024WEvQqUGe+a51fVZRK6QjzOYD5Ewo+2z/KNr3m
-         wPvcOy4hSowKr5UuSGRIjIGj+gJU4NpzudQTI=
+        b=iLt8ED5AsQPhkrILsJrygK9H6Por2AVPwJc76aNN7sYqVWYT6C9HxSIDQAH0/dXfH/
+         PMpn2RDmKbyrBHilDH6Y+0Q2/lrI5AqmKByCdcP3avisRVXM4ZB3cD/ig/rV+NselvSF
+         Unc7y7dFu7LkrR7iD1WY745DhpPexkwSmaRdQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776896260; x=1777501060;
+        d=1e100.net; s=20251104; t=1776896389; x=1777501189;
         h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
         bh=9nCNK53rTjLnVysfgXoglxvrQ8+xq11LiIZcoNznmu8=;
-        b=L8nX5VHVXu4nFOi65ThJfxEz+hPmUwaiBE3QNdt+XxSK+dUFPswuNvIbs5RbPovyXB
-         LHG8WspYFIIm+2Mod79mfFfhoHuba3Monfr9FpBD7n0ffhJ7z3z5n9w2dEnW2rlw9WvG
-         MYzjiansZe0TLEHoPDHmvo4x/856fPEiB5CBzNhFLmWgVg09fj5FA+ceTtJPKBhdL9dS
-         pHFAg9LAuOntp7QAKkYwnSLgT43t6z5an2GgAeLeZSqeowCpSmbnurtYqpzs6HKkXRbr
-         tPPetSf17DMJ4pS8URwPtr6xUnqG11ougvvvu3z6xTXxIR1FmDQ54JkEDBvgsDqT94fV
-         ecgw==
-X-Forwarded-Encrypted: i=1; AFNElJ+vsn1V8cn1DMh/NRrqybWcTmx9OrNa6j5e5zaNcMqLtJbbGDuDDSSL1gSU4aP5TKUv2t8DT7se3ETYXhLuVA==@kernel.org
-X-Gm-Message-State: AOJu0YxSgSFyQB1FVq+rd/x1O5CzDcBZ+3gTWnHhFy8bVDC9Th1lRvlw
-	TtHDZ6W3+FmHjB7MUsxKouO8cJ3iE2rzLB0J3CoU1eEHLOEVUwExV4LU9gGXMamCk/F9X8zJB6y
-	GEjI=
-X-Gm-Gg: AeBDietzirJukFuddBRqTTgNYcQqafNHH23z7SeA/uda23F2jXNMhi9EvZjZr0IVMJZ
-	FrWPC2FTRQv5KgNRDfTBchRoTBAGRuoBgQl3mcCnZkXOZCqM7kySpUEffcPTRhnRqe0TRdWrtEh
-	E/AMP4MYBrNg+W3CpKOi34UOTqQOk8F1vw50BoVQd7rtsrIYx7pU89KNifxuUbhuobBurHKA3Do
-	+Onx6Sci7CAPluoPPSdKr1WTe43jWr1cvZv3+fBsBUaHXP9eu0o+UW/Fn5/9X2GYnG8UJTVXJ+r
-	GyfgR7MlLarJdBKxhixVF+u0pRGzgUlwLOg5r81gzMxHXrWztjior8fv+Cc4VoDF3fvDCkXd6PL
-	WvfdfBcMCkeORehmTGWQ2rsHK62UQBBiihwhknswyjEPrzMJzwCHkLBTQWWaaJkZkddR9TvqR9B
-	pHn58vuQ5b7GkLsRfycF0DO1+l944Em8cDFPoFNorS/eKqYo0keKdG8E/uvHhT2zuRLq8x
-X-Received: by 2002:a17:907:1c91:b0:b9c:6ef1:ed14 with SMTP id a640c23a62f3a-ba41e4fc65bmr1400855466b.36.1776896260058;
-        Wed, 22 Apr 2026 15:17:40 -0700 (PDT)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com. [209.85.128.52])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ba454d1bd24sm582778166b.32.2026.04.22.15.17.39
+        b=CWfFcx9t5EqwgE4GMtlmkMaQgCbO+GaICpo8omooyiZS2KWzSxgP0HLKawLNMasVJC
+         JiK3xeh5dbSRPDhTCiP0H2kLaF+1FrJoOSQrAcpsBcdlhVNJcpJ8PUc7CaJATvhHCllO
+         CNlY4OmMB7qgnVXefgZTbC6lUvn6bKSeBbe3rxprfUxEp4iaaNKPyzmtqqjacrYRxysD
+         kxx8MzpFU/g9flSH64b0JAZ5p18Sm+Be5251DgnaIX5iE49kP8RcEyrowFiMmG8VNWAm
+         f0jY3QxFh3JI1hP7enGRvoozOVKjQ/e5kW+R+Vi4Q3IuWJv6CSSRLWKr5HEQhvLKo9r1
+         4K+A==
+X-Forwarded-Encrypted: i=1; AFNElJ9T25MlhqMM+3SB0lFL2gGfdW0eayAQ3t4y4pPrRZ2RiqgvMZrU99U10VJsx08KVMOPblHFU6/JRi+7yL3hkA==@kernel.org
+X-Gm-Message-State: AOJu0Ywxl6b7T8RRfPU+hyOCJaehfVvhRZf9FL3dhrNk4XAD77XxCdzB
+	MXNOpPn0/yfQ8PwlEcsUBK3tFwV16xbQRCn+z4MNwiEfaDT01dKTFmxxYJRa0Uv3ohXfiCH66ez
+	2zuzFZJOLthM=
+X-Gm-Gg: AeBDievWEdxZx8el9MVWpGUjZFnG78mBZ9TnHw9UIyZofkCXZQXv6x4BG1SZZ9P1pSZ
+	mIusm8vfo7eWhg7eyepwJRKFROymWqPToEMVcKhEVSSOXYFxWhlL+5dyCnHOX7P2yhYIqOwkYB6
+	reDxvx8hidNstoamL2cKNWChWV2l214uVVAVXG1FKEJvADGA1YEswIPs3SZyEhRi7fKIQyPW46Q
+	O0ud7t8mtVmmBtaw1YHgjWTO7bUcwYRyE8972WHTE+Sm+/dsvvvyt1mQtwIyOvYZw5Peoa80bGH
+	UGfe1zzW0lG2QoMVdfdLSJMmCVKWcGj3NMMeCz/ZkuAYdNgjlax1oe1hf6kWJ56HE4xjW9b36nw
+	CPNIzAetJccZVemO/+VqNJp6bHA69AfVThgmdcdlbtmacPCjvtE9zVr2OvRmYvqdKBiTa5lfFIZ
+	MQgD7llntdsx0xKeNsRsE9PYBgolqC+AaRTz56NvdrOp8eqTUNNvNh1vyRFeFuZp0EZNPe/ycQ3
+	fWEY/Y=
+X-Received: by 2002:a17:907:7241:b0:ba7:79ef:8694 with SMTP id a640c23a62f3a-ba779ef8ea0mr726710266b.14.1776896388868;
+        Wed, 22 Apr 2026 15:19:48 -0700 (PDT)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com. [209.85.128.54])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ba451210e31sm608873766b.12.2026.04.22.15.19.47
         for <linux-firmware@kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Apr 2026 15:17:39 -0700 (PDT)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4893940bb5eso24248365e9.3
-        for <linux-firmware@kernel.org>; Wed, 22 Apr 2026 15:17:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+qGCFTtdqxpAzBPpcs3Mde4Iwn2y7rT5bLJttWKa6P20I7T43TCFXo4V4H45BY0d4mWPqhlrPgtAMSaUq6vA==@kernel.org
-X-Received: by 2002:a05:600c:a303:b0:48a:5576:a28a with SMTP id
- 5b1f17b1804b1-48a5576a618mr103376955e9.0.1776896258365; Wed, 22 Apr 2026
- 15:17:38 -0700 (PDT)
+        Wed, 22 Apr 2026 15:19:48 -0700 (PDT)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4890d945eb4so26472035e9.0
+        for <linux-firmware@kernel.org>; Wed, 22 Apr 2026 15:19:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8aTz8YTb5vItNgQR5qykDFnqkFyTGGzOfPPSUKlTyX8r7qGv9Bj69wtyOMQyGJASJzNwVsuZSRwqBIMtQIlQ==@kernel.org
+X-Received: by 2002:a05:600c:1988:b0:489:1e5e:2cc with SMTP id
+ 5b1f17b1804b1-4891e6d485cmr202233445e9.9.1776896386155; Wed, 22 Apr 2026
+ 15:19:46 -0700 (PDT)
 MIME-Version: 1.0
 From: David Ruth <druth@chromium.org>
-Date: Wed, 22 Apr 2026 18:17:00 -0400
-X-Gmail-Original-Message-ID: <CAKHmtrSaDR4fBxN0mvEzYPHoOwr2rrtnOJW6fsrxzsBAeHTjQg@mail.gmail.com>
-X-Gm-Features: AQROBzBzddXPT1XEE_H0hC-sWHZhTnR-Xrt8CI9iRdJBAaqlan9vsGglE4T7Hzw
-Message-ID: <CAKHmtrSaDR4fBxN0mvEzYPHoOwr2rrtnOJW6fsrxzsBAeHTjQg@mail.gmail.com>
-Subject: Re: [PATCH v1] mediatek MT7925: update bluetooth firmware to 20260414153243
-To: =?UTF-8?B?Q2hyaXMgTHUgKOmZuOeomuazkyk=?= <chris.lu@mediatek.com>
+Date: Wed, 22 Apr 2026 18:19:08 -0400
+X-Gmail-Original-Message-ID: <CAKHmtrRD35fnE_TsZHzfgQ5p7=WHE1Fz8wnV0t2SGxDcgmopjQ@mail.gmail.com>
+X-Gm-Features: AQROBzBmd__SQ8rWjwodBKJTNSgO5yk1P_pxzbFRSNYWLXnIWe4Cen5zLFr9bzs
+Message-ID: <CAKHmtrRD35fnE_TsZHzfgQ5p7=WHE1Fz8wnV0t2SGxDcgmopjQ@mail.gmail.com>
+Subject: Re: [PATCH] linux-firmware: update firmware for MT7925 WiFi device
+To: jb.tsai@mediatek.com
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: ben@decadent.org.uk, dwmw2@infradead.org, johan.hedberg@gmail.com, 
-	jwboyer@kernel.org, linux-bluetooth@vger.kernel.org, 
-	linux-firmware@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mediatek <linux-mediatek@lists.infradead.org>, marcel@holtmann.org, 
-	ss.wu@mediatek.com, steve.lee@mediatek.com, will-cy.Lee@mediatek.com
+Cc: Leon Yen <Leon.Yen@mediatek.com>, ben@decadent.org.uk, 
+	=?UTF-8?B?Q2hyaXMgTHUgKOmZuOeomuazkyk=?= <chris.lu@mediatek.com>, 
+	dwmw2@infradead.org, jwboyer@kernel.org, linux-firmware@kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	linux-mediatek <linux-mediatek@lists.infradead.org>, 
+	linux-wireless <linux-wireless@vger.kernel.org>, litien.chang@mediatek.com, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, Felix Fietkau <nbd@nbd.name>, Quan Zhou <quan.zhou@mediatek.com>, 
+	Sean Wang <sean.wang@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 
 Tested-by: David Ruth <druth@chromium.org>
