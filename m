@@ -1,164 +1,81 @@
-Return-Path: <SRS0=02d8=CV=cnjingshi.cc=michael@kernel.org>
+Return-Path: <SRS0=tCgH=CV=chromium.org=druth@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1CF23FA1FFD
-	for <linux-firmware@archiver.kernel.org>; Wed, 22 Apr 2026 21:14:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2558FA1FFF
+	for <linux-firmware@archiver.kernel.org>; Wed, 22 Apr 2026 22:17:42 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id E6276C2BCB3; Wed, 22 Apr 2026 21:14:37 +0000 (UTC)
-Received: from air-blower.cn (air-blower.cn [92.113.124.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id A0D57C2BCB3; Wed, 22 Apr 2026 22:17:42 +0000 (UTC)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 2546AC19425
-	for <linux-firmware@kernel.org>; Wed, 22 Apr 2026 21:14:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 2546AC19425
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=cnjingshi.cc
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=cnjingshi.cc
-Received: from air-blower.cn (air-blower.cn [127.0.0.1])
-	by air-blower.cn (Postfix) with ESMTP id 4g1Bmy56VgzcTdX
-	for <linux-firmware@kernel.org>; Thu, 23 Apr 2026 05:14:26 +0800 (CST)
-Authentication-Results: air-blower.cn (amavisd-new); dkim=pass (2048-bit key)
- reason="pass (just generated, assumed good)" header.d=cnjingshi.cc
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=cnjingshi.cc; h=
-	content-type:subject:date:reply-to:to:from:mime-version
-	:message-id; s=dkim; t=1776892466; x=1808428467; bh=GqDg6MhuN5Ja
-	imbFQycD/f78gDMQd0N4gFF7RW2dLag=; b=vT0kHtInre+6ho+SIGzN27TQqa4h
-	nRcN1LvJz6+ghUNTYKzZo2mUw8m37RshmNzY83tX5zJ+dgtJe+fdco9bu0MnVHDR
-	oebXjGqUyR6wljBwICMQ5XJoAHW2NpzezntsksbiD2A2rOlJeSfTpw4IeVyp8xKN
-	MQhn8q3QudAq/6di2bUQr5h1saXCPEcik0E9rLx1NBgHlPt0tKIrANN6LNzvlDNu
-	dizPgY022IY6FN6vkD5HsApY3rwq1OBHHUObPlSI41YbZflZmMI4hgoKWe4bGM3B
-	v3zLGNHFUTfirPXpVWJUYfiG+zPayQAenUH1K4xloew1v7SmRR0amRwYiA==
-Received: from air-blower.cn ([127.0.0.1])
- by air-blower.cn (air-blower.cn [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id NvDn3fhcXTb7 for <linux-firmware@kernel.org>;
- Thu, 23 Apr 2026 05:14:26 +0800 (CST)
-Received: from WIN-3SPGP3U4M4A (unknown [119.127.155.184])
-	by air-blower.cn (Postfix) with ESMTPSA id 4g1Bmy3JBXzcTdY
-	for <linux-firmware@kernel.org>; Thu, 23 Apr 2026 05:14:26 +0800 (CST)
-Message-ID: <20260423051424437.michael@cnjingshi.cc>
+	by smtp.kernel.org (Postfix) with ESMTPS id E99DDC19425
+	for <linux-firmware@kernel.org>; Wed, 22 Apr 2026 22:17:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org E99DDC19425
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b9c01854477so8379566b.0
+        for <linux-firmware@kernel.org>; Wed, 22 Apr 2026 15:17:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1776896260; x=1777501060; darn=kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=9nCNK53rTjLnVysfgXoglxvrQ8+xq11LiIZcoNznmu8=;
+        b=UF9/QH1ysYfs9Vf5LAXW0uRGvvF/G/zPSLUFiduHpO8MrOU6agzLOJd4tWmopV5aAJ
+         fhKIpE+f/UE2N3MMsLCrF4tKER5H024WEvQqUGe+a51fVZRK6QjzOYD5Ewo+2z/KNr3m
+         wPvcOy4hSowKr5UuSGRIjIGj+gJU4NpzudQTI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776896260; x=1777501060;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9nCNK53rTjLnVysfgXoglxvrQ8+xq11LiIZcoNznmu8=;
+        b=L8nX5VHVXu4nFOi65ThJfxEz+hPmUwaiBE3QNdt+XxSK+dUFPswuNvIbs5RbPovyXB
+         LHG8WspYFIIm+2Mod79mfFfhoHuba3Monfr9FpBD7n0ffhJ7z3z5n9w2dEnW2rlw9WvG
+         MYzjiansZe0TLEHoPDHmvo4x/856fPEiB5CBzNhFLmWgVg09fj5FA+ceTtJPKBhdL9dS
+         pHFAg9LAuOntp7QAKkYwnSLgT43t6z5an2GgAeLeZSqeowCpSmbnurtYqpzs6HKkXRbr
+         tPPetSf17DMJ4pS8URwPtr6xUnqG11ougvvvu3z6xTXxIR1FmDQ54JkEDBvgsDqT94fV
+         ecgw==
+X-Forwarded-Encrypted: i=1; AFNElJ+vsn1V8cn1DMh/NRrqybWcTmx9OrNa6j5e5zaNcMqLtJbbGDuDDSSL1gSU4aP5TKUv2t8DT7se3ETYXhLuVA==@kernel.org
+X-Gm-Message-State: AOJu0YxSgSFyQB1FVq+rd/x1O5CzDcBZ+3gTWnHhFy8bVDC9Th1lRvlw
+	TtHDZ6W3+FmHjB7MUsxKouO8cJ3iE2rzLB0J3CoU1eEHLOEVUwExV4LU9gGXMamCk/F9X8zJB6y
+	GEjI=
+X-Gm-Gg: AeBDietzirJukFuddBRqTTgNYcQqafNHH23z7SeA/uda23F2jXNMhi9EvZjZr0IVMJZ
+	FrWPC2FTRQv5KgNRDfTBchRoTBAGRuoBgQl3mcCnZkXOZCqM7kySpUEffcPTRhnRqe0TRdWrtEh
+	E/AMP4MYBrNg+W3CpKOi34UOTqQOk8F1vw50BoVQd7rtsrIYx7pU89KNifxuUbhuobBurHKA3Do
+	+Onx6Sci7CAPluoPPSdKr1WTe43jWr1cvZv3+fBsBUaHXP9eu0o+UW/Fn5/9X2GYnG8UJTVXJ+r
+	GyfgR7MlLarJdBKxhixVF+u0pRGzgUlwLOg5r81gzMxHXrWztjior8fv+Cc4VoDF3fvDCkXd6PL
+	WvfdfBcMCkeORehmTGWQ2rsHK62UQBBiihwhknswyjEPrzMJzwCHkLBTQWWaaJkZkddR9TvqR9B
+	pHn58vuQ5b7GkLsRfycF0DO1+l944Em8cDFPoFNorS/eKqYo0keKdG8E/uvHhT2zuRLq8x
+X-Received: by 2002:a17:907:1c91:b0:b9c:6ef1:ed14 with SMTP id a640c23a62f3a-ba41e4fc65bmr1400855466b.36.1776896260058;
+        Wed, 22 Apr 2026 15:17:40 -0700 (PDT)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com. [209.85.128.52])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ba454d1bd24sm582778166b.32.2026.04.22.15.17.39
+        for <linux-firmware@kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Apr 2026 15:17:39 -0700 (PDT)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4893940bb5eso24248365e9.3
+        for <linux-firmware@kernel.org>; Wed, 22 Apr 2026 15:17:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+qGCFTtdqxpAzBPpcs3Mde4Iwn2y7rT5bLJttWKa6P20I7T43TCFXo4V4H45BY0d4mWPqhlrPgtAMSaUq6vA==@kernel.org
+X-Received: by 2002:a05:600c:a303:b0:48a:5576:a28a with SMTP id
+ 5b1f17b1804b1-48a5576a618mr103376955e9.0.1776896258365; Wed, 22 Apr 2026
+ 15:17:38 -0700 (PDT)
 MIME-Version: 1.0
-Sender: "eva" <michael@cnjingshi.cc>
-From: "eva" <michael@cnjingshi.cc>
+From: David Ruth <druth@chromium.org>
+Date: Wed, 22 Apr 2026 18:17:00 -0400
+X-Gmail-Original-Message-ID: <CAKHmtrSaDR4fBxN0mvEzYPHoOwr2rrtnOJW6fsrxzsBAeHTjQg@mail.gmail.com>
+X-Gm-Features: AQROBzBzddXPT1XEE_H0hC-sWHZhTnR-Xrt8CI9iRdJBAaqlan9vsGglE4T7Hzw
+Message-ID: <CAKHmtrSaDR4fBxN0mvEzYPHoOwr2rrtnOJW6fsrxzsBAeHTjQg@mail.gmail.com>
+Subject: Re: [PATCH v1] mediatek MT7925: update bluetooth firmware to 20260414153243
+To: =?UTF-8?B?Q2hyaXMgTHUgKOmZuOeomuazkyk=?= <chris.lu@mediatek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: "Manager" <linux-firmware@kernel.org>
-Reply-To: michael@cnjingshi.cc
-Date: 23 Apr 2026 05:14:25 +0800
-Subject: =?utf-8?B?UmU6UXVpY2sgSW50cm8g4oCTIEV2YSAvIEJsb3dlciBNYW51?=
- =?utf-8?B?ZmFjdHVyZXI=?=
-Content-Type: multipart/alternative;
- boundary=--boundary_10290_72a9cf1f-ad6c-4eb5-a005-b0f0b8ffb9a3
+Cc: ben@decadent.org.uk, dwmw2@infradead.org, johan.hedberg@gmail.com, 
+	jwboyer@kernel.org, linux-bluetooth@vger.kernel.org, 
+	linux-firmware@kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mediatek <linux-mediatek@lists.infradead.org>, marcel@holtmann.org, 
+	ss.wu@mediatek.com, steve.lee@mediatek.com, will-cy.Lee@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
 
-
-----boundary_10290_72a9cf1f-ad6c-4eb5-a005-b0f0b8ffb9a3
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-Dear Manager,We are a blower and vacuum pump manufacturer in Chin=
-a.Email me back, or reach me on WhatsApp at +86 13688960229 for o=
-ur product pamphlet.Thanks,EvaDongguan Jingshi Technology Co., Lt=
-dEmail:eva@shengshime.comWebsite:www.shengshime.comWhatup &amp; M=
-obile:(86)13688960229,wechat:(86)13688960229add:12th,xinxing road=
- 1,zhouxi county, dongguan city,guangdongprovince,China
-----boundary_10290_72a9cf1f-ad6c-4eb5-a005-b0f0b8ffb9a3
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-<!DOCTYPE HTML>=0A<html><head><meta HTTP-EQUIV=3D"Content-Type" C=
-ONTENT=3D"text/html; charset=3DUTF-8"/>=0D=0A                    =
-                  <title>Re:Quick Intro =E2=80=93 Eva / Blower Ma=
-nufacturer</title></head><body><P>Dear Manager,<BR>We are a blowe=
-r and vacuum pump manufacturer in China.<BR>Email me back, or rea=
-ch me on WhatsApp at +86 13688960229 for our product pamphlet.<BR=
->Thanks,<BR>Eva<BR><SPAN lang=3DEN-US><FONT style=3D"FONT-FAMILY:=
- Times New Roman"><SPAN lang=3DEN-US><FONT style=3D"FONT-FAMILY: =
-Times New Roman"><SPAN lang=3DEN-US><FONT style=3D"FONT-FAMILY: T=
-imes New Roman"><SPAN style=3D"FONT-SIZE: 10.5pt; FONT-FAMILY: 'M=
-icrosoft YaHei UI', sans-serif; COLOR: black"><FONT style=3D"FONT=
--FAMILY: Times New Roman"><SPAN style=3D"FONT-SIZE: 10.5pt; FONT-=
-FAMILY: 'Microsoft YaHei UI', sans-serif; COLOR: black"><FONT sty=
-le=3D"FONT-FAMILY: Times New Roman"><SPAN style=3D"FONT-SIZE: 10.=
-5pt; FONT-FAMILY: 'Microsoft YaHei UI', sans-serif; COLOR: black"=
-><FONT style=3D"FONT-FAMILY: Times New Roman"><FONT size=3D3><SPA=
-N style=3D"FONT-SIZE: 16px; FONT-FAMILY: Aptos, sans-serif; WHITE=
--SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FLOAT: n=
-one; FONT-WEIGHT: 400; COLOR: rgb(0,0,0); FONT-STYLE: normal; ORP=
-HANS: 2; WIDOWS: 2; DISPLAY: inline !important; LETTER-SPACING: n=
-ormal; TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px; font-var=
-iant-ligatures: normal; font-variant-caps: normal; text-decoratio=
-n-style: initial; text-decoration-color: initial">Dongguan Jingsh=
-i Technology Co., Ltd</SPAN><BR style=3D"FONT-SIZE: 16px; FONT-FA=
-MILY: Aptos, sans-serif; WHITE-SPACE: normal; WORD-SPACING: 0px; =
-TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(0,0,0); FONT-S=
-TYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; TEXT=
--INDENT: 0px; -webkit-text-stroke-width: 0px; font-variant-ligatu=
-res: normal; font-variant-caps: normal; text-decoration-style: in=
-itial; text-decoration-color: initial"><SPAN style=3D"FONT-SIZE: =
-16px; FONT-FAMILY: Aptos, sans-serif; WHITE-SPACE: normal; WORD-S=
-PACING: 0px; TEXT-TRANSFORM: none; FLOAT: none; FONT-WEIGHT: 400;=
- COLOR: rgb(0,0,0); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; DI=
-SPLAY: inline !important; LETTER-SPACING: normal; TEXT-INDENT: 0p=
-x; -webkit-text-stroke-width: 0px; font-variant-ligatures: normal=
-; font-variant-caps: normal; text-decoration-style: initial; text=
--decoration-color: initial">Email:<SPAN>&nbsp;</SPAN></SPAN><A st=
-yle=3D"FONT-SIZE: 16px; TEXT-DECORATION: underline; FONT-FAMILY: =
-Aptos, sans-serif; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-T=
-RANSFORM: none; FONT-WEIGHT: 400; COLOR: blue; FONT-STYLE: normal=
-; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; TEXT-INDENT: 0px=
-; -webkit-text-stroke-width: 0px; font-variant-ligatures: normal;=
- font-variant-caps: normal">eva@shengshime.com</A><SPAN style=3D"=
-FONT-SIZE: 16px; FONT-FAMILY: Aptos, sans-serif; WHITE-SPACE: nor=
-mal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FLOAT: none; FONT-W=
-EIGHT: 400; COLOR: rgb(0,0,0); FONT-STYLE: normal; ORPHANS: 2; WI=
-DOWS: 2; DISPLAY: inline !important; LETTER-SPACING: normal; TEXT=
--INDENT: 0px; -webkit-text-stroke-width: 0px; font-variant-ligatu=
-res: normal; font-variant-caps: normal; text-decoration-style: in=
-itial; text-decoration-color: initial"></SPAN><BR style=3D"FONT-S=
-IZE: 16px; FONT-FAMILY: Aptos, sans-serif; WHITE-SPACE: normal; W=
-ORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: =
-rgb(0,0,0); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPA=
-CING: normal; TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px; f=
-ont-variant-ligatures: normal; font-variant-caps: normal; text-de=
-coration-style: initial; text-decoration-color: initial"><SPAN st=
-yle=3D"FONT-SIZE: 16px; FONT-FAMILY: Aptos, sans-serif; WHITE-SPA=
-CE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FLOAT: none;=
- FONT-WEIGHT: 400; COLOR: rgb(0,0,0); FONT-STYLE: normal; ORPHANS=
-: 2; WIDOWS: 2; DISPLAY: inline !important; LETTER-SPACING: norma=
-l; TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px; font-variant=
--ligatures: normal; font-variant-caps: normal; text-decoration-st=
-yle: initial; text-decoration-color: initial">Website:www.shengsh=
-ime.com</SPAN><BR style=3D"FONT-SIZE: 16px; FONT-FAMILY: Aptos, s=
-ans-serif; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM=
-: none; FONT-WEIGHT: 400; COLOR: rgb(0,0,0); FONT-STYLE: normal; =
-ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; TEXT-INDENT: 0px; =
--webkit-text-stroke-width: 0px; font-variant-ligatures: normal; f=
-ont-variant-caps: normal; text-decoration-style: initial; text-de=
-coration-color: initial"><SPAN style=3D"FONT-SIZE: 16px; FONT-FAM=
-ILY: Aptos, sans-serif; WHITE-SPACE: normal; WORD-SPACING: 0px; T=
-EXT-TRANSFORM: none; FLOAT: none; FONT-WEIGHT: 400; COLOR: rgb(0,=
-0,0); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; DISPLAY: inline =
-!important; LETTER-SPACING: normal; TEXT-INDENT: 0px; -webkit-tex=
-t-stroke-width: 0px; font-variant-ligatures: normal; font-variant=
--caps: normal; text-decoration-style: initial; text-decoration-co=
-lor: initial">Whatup &amp; Mobile:(86)13688960229,wechat:(86)1368=
-8960229</SPAN><BR style=3D"FONT-SIZE: 16px; FONT-FAMILY: Aptos, s=
-ans-serif; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM=
-: none; FONT-WEIGHT: 400; COLOR: rgb(0,0,0); FONT-STYLE: normal; =
-ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; TEXT-INDENT: 0px; =
--webkit-text-stroke-width: 0px; font-variant-ligatures: normal; f=
-ont-variant-caps: normal; text-decoration-style: initial; text-de=
-coration-color: initial"><SPAN style=3D"FONT-SIZE: 16px; FONT-FAM=
-ILY: Aptos, sans-serif; WHITE-SPACE: normal; WORD-SPACING: 0px; T=
-EXT-TRANSFORM: none; FLOAT: none; FONT-WEIGHT: 400; COLOR: rgb(0,=
-0,0); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; DISPLAY: inline =
-!important; LETTER-SPACING: normal; TEXT-INDENT: 0px; -webkit-tex=
-t-stroke-width: 0px; font-variant-ligatures: normal; font-variant=
--caps: normal; text-decoration-style: initial; text-decoration-co=
-lor: initial">add:12th,xinxing road 1,zhouxi county, dongguan cit=
-y,guangdongprovince,China</SPAN></FONT></FONT></SPAN></FONT></SPA=
-N></FONT></SPAN></FONT></SPAN></FONT></SPAN></FONT></SPAN></P></b=
-ody></html>
-----boundary_10290_72a9cf1f-ad6c-4eb5-a005-b0f0b8ffb9a3--
-
-
+Tested-by: David Ruth <druth@chromium.org>
