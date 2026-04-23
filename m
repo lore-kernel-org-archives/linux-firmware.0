@@ -4,58 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1B0C8FDEE32
-	for <linux-firmware@archiver.kernel.org>; Thu, 23 Apr 2026 17:34:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 026D2FDEE31
+	for <linux-firmware@archiver.kernel.org>; Thu, 23 Apr 2026 17:36:22 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C5DD4C2BCF7; Thu, 23 Apr 2026 17:34:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B07C2C2BCC9
-	for <linux-firmware@kernel.org>; Thu, 23 Apr 2026 17:34:34 +0000 (UTC)
+	id D1C34C2BCB7; Thu, 23 Apr 2026 17:36:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB31EC4AF0C
+	for <linux-firmware@kernel.org>; Thu, 23 Apr 2026 17:36:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776965674;
-	bh=tz3OwM6ZqtXTE234+rrZJXeoUNgJ9jOHjfV583YpF8Y=;
+	s=k20201202; t=1776965782;
+	bh=xwtw0OJvGLE/Lum++zazpkBN2D4nXALffdNH3wQw0YE=;
 	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=NWnkHW7CQHMqiMxwIcbqflDGH0mDDXIkp94zC2grKfec1rr9KSC+KgU5DO4Xj3I/I
-	 aWXFUdG9vMH9PDVLtufNMT7/yIBRPumliKni7QAsfwbCRQSLh01/XnhN+DQqyH1Xwi
-	 FsDqWRY3WvjB17UoRrHCLfYgx9/dpVhz89xk3c/gqiKUafuiexeaYs3BVLKtJqFZHC
-	 RpIqlRvIoXfsgzlYt6z3OGg3mIXNS9pUTP45cuezKBx50YmSbforkBCZ8F0h08Ebj4
-	 1ykYlgYz9a5HDxl+6xzMuspzjD449yIDHpdYi1fZyMgjH3sCr4a+RiRvM7xcpyJkRE
-	 yYaC0gGyHJjuw==
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-38ddeb0f5abso53080341fa.3
-        for <linux-firmware@kernel.org>; Thu, 23 Apr 2026 10:34:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8aAbqlYj7buFfzNyWs7Qs6zjj8+kFVv2zF2F6AUnLoT9zWR+PgFpmF1nY6WF3ZS40dnOmpRM0sOJqP5gzyzg==@kernel.org
-X-Gm-Message-State: AOJu0Yy2/cU7ufXrpV6XagJ0mY1cXVlb0HL9Jm7aQfjClsDLOgjTnxwB
-	qH0UJimOggf834biPEJBYSfWGLnMBTv/ukYlblaoK+0DFkyOTsqR45TSsQJSUZBQmp8kaPZ+G45
-	aQ9H5brX3thPijeYKMB9HUKbICQ9LJso=
-X-Received: by 2002:a05:6512:2308:b0:5a4:2cf:601e with SMTP id
- 2adb3069b0e04-5a4172c3f7fmr8750846e87.12.1776965672922; Thu, 23 Apr 2026
- 10:34:32 -0700 (PDT)
+	b=ohamrm1o8Z1E/xgWjSFDxDlknSNleOgeQbCp0ATK1BPeF44XQbhwrJICaj7SFv9cj
+	 3CzPKG5ainaRsFAh5IVcfIaf46kshsY0xVwwwMQJL3AX3q2UKjVSQp7uphRp9REPzJ
+	 hYaV5yRWHViuGNLdmscQsSWOjDndZu1trId3yOnVBUdLJAvPOyv1gUhy1NO0k9Jk0p
+	 KyVNYyKjDjQ/zU/uF6y6QLNHKy802D61Qgc0B41SRDkKq02t+UUNoNY0vyyxxqS1XO
+	 jzrZe7NUfWBH23BblQEuJ4TBcLm722QeX6jy4sSAEY3ijJceMVjT4Fqrtuv0qPBElf
+	 C4Smh79HoY17A==
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-38ccde812ecso68133151fa.0
+        for <linux-firmware@kernel.org>; Thu, 23 Apr 2026 10:36:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+rqyJrp/zCMPUFxFT15nw9VJ6GT3PAJyzAZAoQD/s+CZ4FsuqpEnLL1UaOVrZy1A+sGNHJVqh/TsWzEtyf2g==@kernel.org
+X-Gm-Message-State: AOJu0Yx0X0THl3hwGH4tBXMVyWCH4s5kEtwadTF77onrAoqF+Fz/o3Zi
+	8tdYic3imsDMTa8ZDqp1T4pF3cKttSj0KxiPqkaOJ2Y7Xrezys2KyoxU5I7ErAxtkNNkoD0Sd7b
+	dBb3yyt+b6eBaV1DO5Bnav6MoLcGGSx0=
+X-Received: by 2002:a2e:878c:0:b0:38e:94c6:b706 with SMTP id
+ 38308e7fff4ca-38ec8ff15fdmr59864981fa.7.1776965781090; Thu, 23 Apr 2026
+ 10:36:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAKHmtrRD35fnE_TsZHzfgQ5p7=WHE1Fz8wnV0t2SGxDcgmopjQ@mail.gmail.com>
-In-Reply-To: <CAKHmtrRD35fnE_TsZHzfgQ5p7=WHE1Fz8wnV0t2SGxDcgmopjQ@mail.gmail.com>
+References: <CAKHmtrSaDR4fBxN0mvEzYPHoOwr2rrtnOJW6fsrxzsBAeHTjQg@mail.gmail.com>
+In-Reply-To: <CAKHmtrSaDR4fBxN0mvEzYPHoOwr2rrtnOJW6fsrxzsBAeHTjQg@mail.gmail.com>
 From: Sean Wang <sean.wang@kernel.org>
-Date: Thu, 23 Apr 2026 12:34:20 -0500
-X-Gmail-Original-Message-ID: <CAGp9Lzq2HKHCpzG=rXjvQa=aORPRYvpEjsUnqsc6jDvwNMtB7g@mail.gmail.com>
-X-Gm-Features: AQROBzAlw-9F3viDRFk4zHZKcR0uIDtWqMO3nL-w00vYCJ1t3Wo4hMiO16cNv8c
-Message-ID: <CAGp9Lzq2HKHCpzG=rXjvQa=aORPRYvpEjsUnqsc6jDvwNMtB7g@mail.gmail.com>
-Subject: Re: [PATCH] linux-firmware: update firmware for MT7925 WiFi device
+Date: Thu, 23 Apr 2026 12:36:09 -0500
+X-Gmail-Original-Message-ID: <CAGp9LzpG3QXdHxy_E-9mCat9bTDDNSnz_vMHYgSNiVzwF3dkrg@mail.gmail.com>
+X-Gm-Features: AQROBzCAd4x1at669eIVKMLAV0sDSHEHFBd8wCOhg12KB7-ZuJ4KwsllBKzDQDA
+Message-ID: <CAGp9LzpG3QXdHxy_E-9mCat9bTDDNSnz_vMHYgSNiVzwF3dkrg@mail.gmail.com>
+Subject: Re: [PATCH v1] mediatek MT7925: update bluetooth firmware to 20260414153243
 To: David Ruth <druth@chromium.org>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: jb.tsai@mediatek.com, Leon Yen <Leon.Yen@mediatek.com>, ben@decadent.org.uk, 
-	=?UTF-8?B?Q2hyaXMgTHUgKOmZuOeomuazkyk=?= <chris.lu@mediatek.com>, 
-	dwmw2@infradead.org, jwboyer@kernel.org, linux-firmware@kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	linux-mediatek <linux-mediatek@lists.infradead.org>, 
-	linux-wireless <linux-wireless@vger.kernel.org>, litien.chang@mediatek.com, 
-	Lorenzo Bianconi <lorenzo@kernel.org>, Felix Fietkau <nbd@nbd.name>, Quan Zhou <quan.zhou@mediatek.com>, 
-	Sean Wang <sean.wang@mediatek.com>
+Cc: =?UTF-8?B?Q2hyaXMgTHUgKOmZuOeomuazkyk=?= <chris.lu@mediatek.com>, 
+	ben@decadent.org.uk, dwmw2@infradead.org, johan.hedberg@gmail.com, 
+	jwboyer@kernel.org, linux-bluetooth@vger.kernel.org, 
+	linux-firmware@kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mediatek <linux-mediatek@lists.infradead.org>, marcel@holtmann.org, 
+	ss.wu@mediatek.com, steve.lee@mediatek.com, will-cy.Lee@mediatek.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Merged
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/1015
-
-On Wed, Apr 22, 2026 at 5:22=E2=80=AFPM David Ruth <druth@chromium.org> wro=
+On Wed, Apr 22, 2026 at 5:19=E2=80=AFPM David Ruth <druth@chromium.org> wro=
 te:
 >
 > Tested-by: David Ruth <druth@chromium.org>
 >
+
+Merged
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/1015
