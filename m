@@ -4,134 +4,146 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1513FF8867
-	for <linux-firmware@archiver.kernel.org>; Wed, 29 Apr 2026 12:23:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69AFEFF8867
+	for <linux-firmware@archiver.kernel.org>; Wed, 29 Apr 2026 12:39:02 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 91C09C2BCC4; Wed, 29 Apr 2026 12:23:50 +0000 (UTC)
+	id 37679C2BCB8; Wed, 29 Apr 2026 12:39:02 +0000 (UTC)
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id C5486C2BCB3
-	for <linux-firmware@kernel.org>; Wed, 29 Apr 2026 12:23:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org C5486C2BCB3
+	by smtp.kernel.org (Postfix) with ESMTPS id 451ACC19425
+	for <linux-firmware@kernel.org>; Wed, 29 Apr 2026 12:39:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 451ACC19425
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63T8qEXT3066928
-	for <linux-firmware@kernel.org>; Wed, 29 Apr 2026 12:23:49 GMT
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63T8q3s32095332
+	for <linux-firmware@kernel.org>; Wed, 29 Apr 2026 12:38:54 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=Ve/smR25GMXmXpnnWNGEqYu9
-	pVoNPQsPA+VBULI2llw=; b=p81Y1ervHhMeG+xxWdXwZzTqbxbzD+TeudizFsdG
-	1LPyRLU4LdWL45ItM68XoyShbNf4rwk4+4w/gBhY3v1yWjfpNi/TzELL/PcK2DUO
-	e8e11UBZb1CGZg0dPOqELMPbrx67TVr7OR9ViHWmpnC0rN+aNCY55hyGpB+kTAlN
-	xP/v8rP0fobXNTTJbNGu8X3vXSQMGfVCSGHSxVsOBH0ECPxjmqwalkxrn3UfXSy6
-	H24BFmPFfkilRg7o2GfLvY/mFMR4PQe9nKb6tzdWxd5TjxzEf5P9uG78mjh0r7aX
-	TcOb3FSWYziP4+dzdpYl1MDnMHFyBZWuBlmtEhmS8wnx/A==
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com [209.85.221.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4du7sxafap-1
+	:references:subject:to; s=qcppdkim1; bh=3kB9mRasWBVWLLpGi8yTO/Lc
+	L8eAIYK+VM7L3Bbjaiw=; b=WncebXEC/wvWh0C3EdQ49qpWzjGoggkgMuDOKk1k
+	bkzBwGwzXLooNTkjI2bzaSt29gPfAon7H8padf45QXZuIFLfoCfxAzGdMyexQetf
+	qy52gu+LS/E+nIyYBGZjW4IjdbMdV0FToIuGZjb7BL0ibGJrIgFrD784nGeIKr1U
+	+cxsp32wd3fwjc9f0oAGl7J2r9LECycjkqmMl9cL8319Kp2PdwvQOecuwe9ihrH9
+	hBTEbSJOIjIzRk7FvAGSFzB5VD6PuERctgfz1EHRzxUgULAiiUubUWIh8UounGqi
+	q/CL2tJqhT4GeELBUnY7z+n2bHBJHQwcx/6743w/3BNXrQ==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dudh3s9yu-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Wed, 29 Apr 2026 12:23:48 +0000 (GMT)
-Received: by mail-vk1-f197.google.com with SMTP id 71dfb90a1353d-56b67e8c2f5so15211343e0c.0
-        for <linux-firmware@kernel.org>; Wed, 29 Apr 2026 05:23:48 -0700 (PDT)
+	for <linux-firmware@kernel.org>; Wed, 29 Apr 2026 12:38:53 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-50d8e8c47a3so342274311cf.0
+        for <linux-firmware@kernel.org>; Wed, 29 Apr 2026 05:38:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1777465428; x=1778070228; darn=kernel.org;
+        d=oss.qualcomm.com; s=google; t=1777466333; x=1778071133; darn=kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ve/smR25GMXmXpnnWNGEqYu9pVoNPQsPA+VBULI2llw=;
-        b=IRe0HO62NEEs0unQJyBEWMt9EthCKLxuHL67iImMf4Y6hjbmW6TaJZVvCozwAxRNGj
-         KNUVFUWbrEr8vA5PYAw3kQOcwGUtuyzm9zHk19FL1Poc+tffyUauMz5aAOUI0n48JiAa
-         wnsltzfXzpzOfveNaSlrLCysBIGU0EmcDzbLG2gVT2FtbBvgZzCAojhzmo0KPSGAAAIb
-         TTWqSnqWOwZyPN6yB8IAs/xRMIs8BDHBPjKiTAn7l2kwKaq/3pklBFQ2HVW/+BOwlCXm
-         pDSphu2BT9ax1cxpsqSPB7D77tA2Lg6ZKEB3s+HAj0Txcu+I/BnsoICdxjk5CBOjiZZQ
-         URig==
+        bh=3kB9mRasWBVWLLpGi8yTO/LcL8eAIYK+VM7L3Bbjaiw=;
+        b=ZYelgPYz89op6wOs0Xcb4Yd274f0cR4ptT1dXfVe8Qre1dT4rqpMlzhko32t8yTwgm
+         KHnjsanTumarhvINfhsR8Y/352WQqD1kOZaqUiPW+8xI0VP/1+Avpj2HBh1kIx5+4gre
+         GlgcfwtaRvETN49/UWTq8tqOxLxQ20dFp4zXsZLfSIaSBHaHCJV35a2hZU/QzJBe+Fw0
+         uo2YrSWyrNBmUn5Ydq7Q1F4w/TWmArM6lJtsFnix5pPe6mpHqnHIBXNTwFDkdd+ZoG8s
+         Wumc/EjJsKtyy1088xpn8d5AWbo44X85J8m7hK0dUFVcF8dQJ3dSdVpx5PiVJlAi5Ar6
+         nchA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777465428; x=1778070228;
+        d=1e100.net; s=20251104; t=1777466333; x=1778071133;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ve/smR25GMXmXpnnWNGEqYu9pVoNPQsPA+VBULI2llw=;
-        b=m4dLPXyymhy2S6WP7uGj11rf1rKbd0w4sMxhpQ2TH1kBIZkexHlziJJvb+uh+qvPEh
-         thKcrzG93ALDOzeCwsKc5rgDJy02rxwb0lGY2WXjdtK1U4w+q+ki+b+v1Edg5ZIeGl6K
-         rQsmJ108uUNPE13DTRJdTRsRGiMr9fD9Nml97ajIDQDjiKm1fh3Dx3wO/RlGfjbbvVSq
-         OXFiAEvFvMWnpTg54aiFYpFP56MBDvotHBLTi/gd4PZOqbZBEU3xzJ4HgtDJ8fbkJ2BH
-         nKjCxyVPKsIvZT7tZj/NzYoybpxrC9ns4e4gr+xgdYdBvffJypLupZlr5so3KCXEYRYY
-         2ehA==
-X-Gm-Message-State: AOJu0YzoCXNdcqGno0GpgA8cYkegGtL/58dVWuxzRwqGK/bgzJxl8sz/
-	764mQFeVwgC+ViXbuWN3z6zdBaON/T5LXSXhrFOt+H1Ws9stGhGYtM4+JsyJyssQPGrtODoQRnU
-	c3O/f1EXW7KqyqctzWWcCc1EiFjb+QuIQ/nFnJxr0Qau3sAHk8QGZyJinI0m51Fc=
-X-Gm-Gg: AeBDiesGjq+63Issds7N6JUdS1kL9VCiz9EH32jyxbGOi6KKMVgsFoVEqFVRB4ciQKk
-	W1J0h42C9Oo2QeX+4DmF34fP+R28ED9dDjm9NmPP9Q65j0PzRNTxyaN7FZp+GAqQmWEAZ5Z9Os1
-	0K5mMwubM9Xf1UM68jtOcrrdvweBhuOkkY/jwrajsjoAYN43tFHo6VwZabQx/g4U+crcpxGNtO9
-	lK3seSSRDC4DNlQVxZ5nrDvoQxwUO9u+Pc8MevAkNzymXwqavABvO4krQ4iB6G7IsrXBBIfX2kK
-	H/mH3WZcEYWm2rmOjR27vVpM9dMEDPG747VHj0VKQkSwq87cZO7x9z9EC0Iiu9YnxwNNTkxRd5K
-	50/wZaPtg531liW+s+t3p8ft2iXjxA/m/ze4eP9zcGW/XA0bnlkSCAyacwqyXWrHi2vZzbxQ8aV
-	dR6t0EIv95qlGXgceTyWWcy45URNsc07fc19gEEZKuzPNnkA==
-X-Received: by 2002:a05:6122:909:b0:56d:9def:20c8 with SMTP id 71dfb90a1353d-573a5593726mr3857176e0c.6.1777465428122;
-        Wed, 29 Apr 2026 05:23:48 -0700 (PDT)
-X-Received: by 2002:a05:6122:909:b0:56d:9def:20c8 with SMTP id 71dfb90a1353d-573a5593726mr3857164e0c.6.1777465427585;
-        Wed, 29 Apr 2026 05:23:47 -0700 (PDT)
+        bh=3kB9mRasWBVWLLpGi8yTO/LcL8eAIYK+VM7L3Bbjaiw=;
+        b=e9D1OoWVOQGtj4JpH0CkBmOXL3l6VAWir/kc8cCFW9pvGGPnqwgcZ0C5tIV5Wa8RCT
+         iWTzPO39S5FpxHN8JONo6Knihx3ed9iTYVfyJdNwuRuLRRxJjxOEQ5v66lRMY3uyly/t
+         7iel+wWJtGTlb+ldm2pS9TBg4d6EX4vOarUJyb7HAcLCJBow4oPESCLaFv5vyEhwax2A
+         t1eu2+4eoaPe++av1xs4yjo8jcolUYGZMgQVuqPYwTMh72BPc5vvhmC6Ov3BTTVwXzow
+         vk1+J8aKH5qNlp7L/ben9siRwKTh89eSrJdz+4wF4MFBWo/JHIPLZnfv/TcRtp5XAmvK
+         YqsA==
+X-Gm-Message-State: AOJu0Yw8wfgYeguWtK3Eynglxa7azlwpM6IWvHcDg/ThYiELOpxtw3p0
+	4Tg8b0mhtydBw2PRPbMStN+vBcc39wvchfJ06FA1sswr1NVboE8e/yf5139NXj6esnN6QYlOcrt
+	fZMxWYwrfK9lHs1hrCCIAqTGf9hLCLc7NYvYBl5dRg8uu+8zd75XBHIatqlGQb90=
+X-Gm-Gg: AeBDietTYrWXp4cSd0Lrbzb1TzUWrxqH9JQTdWf6g/141jLnvREKa1BJ43LA8Ng/lac
+	G/taVDMmAGGha5EvnpRY/SYh0Y0LidjkWOLA0HAV4HXa4tQccyvp1h5F2m47HTJp8jwnHY18S+W
+	iMwcVUmz+CDvZM+X7m7/rAuEreFqJSPVsWufVJJHmIMWSDQ4pEcUpnKfiY4B9wF7/XFgwCMy+c6
+	Brup7qiXRiZkm+ecu0bhz7IohV4tsNeoMkf3ACa4s/ecS4frpiWX1k1O6a+DJksdRDQcS9DFepV
+	Rcmjo8HWTNYRJaUJZh/hnhpSDP0XrpUZXLsrCBEgqACDMrMAuWFDfkrMrPap1gV7ka/y4znupk8
+	fTIzguHhZqvkue0Sol7m09jkpctIqcQjX4bZJeFEaBUej4j+irgFLKwqDHi+5gp9m6KMyNZRxZQ
+	2icW0KTnexBCSduT+hFDaPqh9melN0l2kpMJluCBPgqupx2A==
+X-Received: by 2002:ac8:5796:0:b0:50d:8350:9a15 with SMTP id d75a77b69052e-5101854b052mr52485211cf.0.1777466333414;
+        Wed, 29 Apr 2026 05:38:53 -0700 (PDT)
+X-Received: by 2002:ac8:5796:0:b0:50d:8350:9a15 with SMTP id d75a77b69052e-5101854b052mr52484871cf.0.1777466332945;
+        Wed, 29 Apr 2026 05:38:52 -0700 (PDT)
 Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3924f96b0fdsm4839411fa.14.2026.04.29.05.23.46
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a74a756d26sm521183e87.49.2026.04.29.05.38.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2026 05:23:46 -0700 (PDT)
-Date: Wed, 29 Apr 2026 15:23:44 +0300
+        Wed, 29 Apr 2026 05:38:51 -0700 (PDT)
+Date: Wed, 29 Apr 2026 15:38:50 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: syyang@lontium.com
+To: Saddam Patan <saddam.patan@oss.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, yangsunyun1993@gmail.com,
-        xmzhu@lontium.corp-partner.google.com, xmzhu@lontium.com,
-        rlyu@lontium.com, xbpeng@lontium.com
-Subject: Re: [PATCH] linux-firmware:Add firmware for Lontium LT7911EXC bridge
-Message-ID: <qrnl2kzbga2zzeaya7u43u5hwiwhizpygnr47fqgdmkf3vigga@ziyyzlp6dddl>
-References: <20260429033102.3403476-1-syyang@lontium.com>
+Cc: linux-firmware@kernel.org, venkata.kota@oss.qualcomm.com,
+        kssb@qti.qualcomm.com
+Subject: Re: qcom: update ADSP firmware for x1e80100 platform
+Message-ID: <2yykgu4jhorxmzlgfqlz7iqumb7hf3ghod3pkldzqoqsiymfit@yhnr4rht5mao>
+References: <8c1f05f3-12a7-4ba4-a30e-6f7de93fdf3b@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260429033102.3403476-1-syyang@lontium.com>
-X-Proofpoint-GUID: auslsg7lBv6TINmqOS2KW6MlhPbjwZAL
-X-Authority-Analysis: v=2.4 cv=eeANubEH c=1 sm=1 tr=0 ts=69f1f854 cx=c_pps
- a=JIY1xp/sjQ9K5JH4t62bdg==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+In-Reply-To: <8c1f05f3-12a7-4ba4-a30e-6f7de93fdf3b@oss.qualcomm.com>
+X-Proofpoint-GUID: lg0EvEH1ZKMChEsp01eKr-j1gwm1tpYj
+X-Authority-Analysis: v=2.4 cv=A4dc+aWG c=1 sm=1 tr=0 ts=69f1fbde cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
  a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=p0WdMEafAAAA:8
- a=Kz8-B0t5AAAA:8 a=Mfa9yQ5v488YL-DroOkA:9 a=CjuIK1q_8ugA:10
- a=tNoRWFLymzeba-QzToBc:22 a=RuZk68QooNbwfxovefhk:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI5MDEyNSBTYWx0ZWRfX66N26fH/Qrfw
- uUnorXZzRh0tSPQ6M/FFOQUDIPCiV6GtnnKq/1xOzt+s/Xfj2nXlK58qguvUxxXQWjDuxscoRu6
- SFK/1C/ZIX6OLu9teoojyUOGjscB8+GYTUqS7BFTXasOSU0/ChnzRifmAldK4XOSCY72Hf29dLD
- DiltXl6xwurGi13l9PQnHyje8fwq4Eb2xJ/JtwHlIDB59NsVu5J+8nIAohmmyFRZciVkMc1hD2x
- 4v6xgg28pRkmSvk10XH+q8FeRxarh5LKiZUmEolPJAd3XflLo2aIPb0Nx3dNBOCMTu47EVGp/30
- +nkQq3+1MU+WZSLdqWOiQb02o9FkIke/ZjvhitDRETnsABZVX8byTXSL1j/Q6CS8sRRtANMzltn
- OkHGfrlx21c9EuYwNqYUUfATgPqmWe2Rwjeb/d+LTLR1lAUHb2faEJEKlnuCMzBAgI/bUk5HNqR
- URoeVLMEj+sjKXTihKw==
-X-Proofpoint-ORIG-GUID: auslsg7lBv6TINmqOS2KW6MlhPbjwZAL
+ a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=qC_FGOx9AAAA:8
+ a=p0WdMEafAAAA:8 a=cfFg3YOhIKUW4U9Fo6YA:9 a=CjuIK1q_8ugA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22 a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-ORIG-GUID: lg0EvEH1ZKMChEsp01eKr-j1gwm1tpYj
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI5MDEyOCBTYWx0ZWRfX+gdbXafKdkOM
+ T+Uhk3og4vPTFlQNePg8ACKwpItEHeapY1vfq7/MykLLVPhXTgAnwiR+pRGKS2m7pXhtaZDzN89
+ eSRuR4WukUef7umlmLE8WaGhJkM0ocDHUQIKL2i7pV1VhBeA4oP2SU3QOieNWYoVW0pD657vqYO
+ +/+iCad4HpdfAuAfurjoxeDGk1Swj48JH58mEz58QugGmWUT0eFo4qkIQdnqahF003QEmLQeR7M
+ 25WGlTOmlvLXTybCNTdG4U0QSt1UsX2wLWbrEXtIHgIiskN33oc15QIbgsHiZLq0S4M07ABm/sM
+ 9HdceI0ibYW/VZ4caGZLSkTD40Kc1E+0W+oKGjVV8pcVI+uWA41AfhJlrsv8Qds8y+uUMUSN6vY
+ z5xS0FcCc5FvD12PUtMLZ72NBUVqls2fHslU0G8uQnW60YdTQIhR3BIKglDUGXaBnIk39DAo4me
+ oOHryTFOoRnHZJ2q9zQ==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-04-28_05,2026-04-28_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 clxscore=1015 malwarescore=0 impostorscore=0
- phishscore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 spamscore=0 suspectscore=0 malwarescore=0 lowpriorityscore=0
+ priorityscore=1501 phishscore=0 bulkscore=0 impostorscore=0 adultscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604290125
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604290128
 
-On Wed, Apr 29, 2026 at 11:31:02AM +0800, syyang@lontium.com wrote:
-> From: Sunyun Yang <syyang@lontium.com>
+On Wed, Apr 29, 2026 at 04:04:17PM +0530, Saddam Patan wrote:
+> The following changes since commit 5b50ca02f586e0e44820d1b98d6c7fabc465b2d2:
 > 
-> This is the firmware for the Lontium LT7911EXC,
-> which implements the function of converting eDP to MIPI DSI.
+>   Merge branch 'dell-notice' into 'main' (2026-04-28 17:26:03 +0000)
 > 
-> Signed-off-by: Sunyun Yang <syyang@lontium.com>
-> ---
->  Lontium/lt7911exc_fw.bin | Bin 0 -> 30735 bytes
->  WHENCE                   |   8 ++++++++
->  2 files changed, 8 insertions(+)
->  create mode 100644 Lontium/lt7911exc_fw.bin
+> are available in the Git repository at:
+> 
+>   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
+> dsp-fw-hamoaadsp
+> 
+> for you to fetch changes up to 66976b75fc8fb85382796bc6830a65df92fa2d8f:
+> 
+>   qcom: update ADSP firmware for x1e80100 platform (2026-04-29 16:00:20
+> +0530)
 
-Thanks, merged and pushed out:
+Merged and pushed out. In future please try providing at least a minimal
+changelog to let distributions and users understand the if they need to
+upgrade the firmware or not.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/1026
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/1027
 
+> 
+> ----------------------------------------------------------------
+> Saddam Patan (1):
+>       qcom: update ADSP firmware for x1e80100 platform
+> 
+>  WHENCE                     |   2 +-
+>  qcom/x1e80100/adsp.mbn     | Bin 22452664 -> 17922440 bytes
+>  qcom/x1e80100/adsp_dtb.mbn | Bin 73528 -> 73528 bytes
+>  3 files changed, 1 insertion(+), 1 deletion(-)
 
 -- 
 With best wishes
