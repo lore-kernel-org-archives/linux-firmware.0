@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1B99CD342C
-	for <linux-firmware@archiver.kernel.org>; Wed,  6 May 2026 10:02:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F72ACD342C
+	for <linux-firmware@archiver.kernel.org>; Wed,  6 May 2026 10:49:46 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 91ADDC2BCB8; Wed,  6 May 2026 10:02:58 +0000 (UTC)
-Received: from out28-194.mail.aliyun.com (out28-194.mail.aliyun.com [115.124.28.194])
+	id 3D4C5C2BCC4; Wed,  6 May 2026 10:49:46 +0000 (UTC)
+Received: from out28-121.mail.aliyun.com (out28-121.mail.aliyun.com [115.124.28.121])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id B7093C2BCF4
-	for <linux-firmware@kernel.org>; Wed,  6 May 2026 10:02:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org B7093C2BCF4
+	by smtp.kernel.org (Postfix) with ESMTPS id 485E1C2BCB8
+	for <linux-firmware@kernel.org>; Wed,  6 May 2026 10:49:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 485E1C2BCB8
 Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=lontium.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=lontium.com
 DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=lontium.com; s=default;
-	t=1778061766; h=From:To:Subject:Date:Message-Id:MIME-Version;
-	bh=4CJA40YbtOkDoeht6nkHGL2+lmzehez5rlAXKu4G47I=;
-	b=n4IGmSTSHNX16unnnzuEQtmZJgesJqRAAVQ4SsgTRL80Se8IxCWrOsPw/Ji38F0yxIy8j71S8pQmu/rV293LwaeL/p6XLAraD5g8+NXUt8s6SbSls+TfOfVpwO/cpzBQK3uApUKeuUQixQqUoyUyLL8qtfyknrr5SbQsrgq1E0MOdr0AtJ1YoFWsNEKwSOpy6MvV1Ydh27HGf1AZco4yqnp7Q7fnPbC5V2+657+lTLEmNcuLXDDnBEVH+DAMeoD4mH3BvxNB63PBP2krQMDJYuiREwuNErpSZsQrNk7PmyNIZxNgv2f8h+H+uGQDqMRi6Dls73IN0W5F14uOGRusNw==
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.9102753|0.8919124;CH=green;DM=|SPAM|false|;DS=CONTINUE|ham_system_inform|0.762009-0.0028822-0.235109;FP=15093785946922600128|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037028158;MF=syyang@lontium.com;NM=1;PH=DS;RN=8;RT=8;SR=0;TI=SMTPD_---.hQkKRov_1778061764;
-Received: from DESKTOP-V2MKAT2.localdomain(mailfrom:syyang@lontium.com fp:SMTPD_---.hQkKRov_1778061764 cluster:ay29)
+	t=1778064578; h=From:To:Subject:Date:Message-Id:MIME-Version;
+	bh=M3nS1Jqcz3he3r4CaVV82rFDydaz5j2dhLIkcQinWj4=;
+	b=SHtoaAFSV+rYx5WXLJjhglXmRBVgUlRAz/CGXeIAuizwe5kYULdTLm+ctT6VZNyBSXYdtsHm4aNCUOJ8P3TFXEMBlWLn/KA1xRf3OyuBgyJbMf5nJCoyp1eytLPmRNwOJOTBez4xQi/tE8SPuqwBMedpr6AuRcj8xzhUJvxdwfbeEfggJQTV+RdGJBixk6cV5/iSaIZMxiFe/hJvi8Kp/ttJBZCX3HDTJOf9z6YxMq4OnMLv6H6U8xwAK6DNujNhaG6Md946cQMmhqpWR8Y/M4vsZlsZzKD7O2T9aealfo/3D1xMmLcnlvtwuqkG5CQVewk/iWVf4v8mFaW38IJRBg==
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.9211859|0.8991501;CH=green;DM=|SPAM|false|;DS=CONTINUE|ham_system_inform|0.746676-0.00258792-0.250736;FP=10482029561902712514|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033045220102;MF=syyang@lontium.com;NM=1;PH=DS;RN=8;RT=8;SR=0;TI=SMTPD_---.hQkhuHK_1778064576;
+Received: from DESKTOP-V2MKAT2.localdomain(mailfrom:syyang@lontium.com fp:SMTPD_---.hQkhuHK_1778064576 cluster:ay29)
           by smtp.aliyun-inc.com;
-          Wed, 06 May 2026 18:02:45 +0800
+          Wed, 06 May 2026 18:49:37 +0800
 From: syyang@lontium.com
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
@@ -36,9 +36,9 @@ Cc: dmitry.baryshkov@oss.qualcomm.com,
 	rlyu@lontium.com,
 	xbpeng@lontium.com,
 	Sunyun Yang <syyang@lontium.com>
-Subject: [PATCH] linux-firmware: Add firmware for Lontium LT9611C
-Date: Wed,  6 May 2026 18:02:42 +0800
-Message-Id: <20260506100242.79276-1-syyang@lontium.com>
+Subject: [PATCH v2] linux-firmware: Add firmware for Lontium LT9611C
+Date: Wed,  6 May 2026 18:49:34 +0800
+Message-Id: <20260506104934.82275-1-syyang@lontium.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -50,22 +50,16 @@ which implements the function of converting MIPI DSI to HDMI.
 
 Signed-off-by: Sunyun Yang <syyang@lontium.com>
 ---
- .pre-commit-config.yaml |   2 +-
- Lontium/lt9611c_fw.bin  | Bin 0 -> 36090 bytes
- WHENCE                  |   8 ++++++++
- 3 files changed, 9 insertions(+), 1 deletion(-)
+Change in v2:
+- WHENCE
+ 1. Modify lt9611c_fw.bin to Lontium/lt9611c_fw.bin in the WHENCE file.
+- Link to v1: https://lore.kernel.org/all/20260506100242.79276-1-syyang@lontium.com/
+---
+ Lontium/lt9611c_fw.bin | Bin 0 -> 36090 bytes
+ WHENCE                 |   8 ++++++++
+ 2 files changed, 8 insertions(+)
  create mode 100644 Lontium/lt9611c_fw.bin
 
-diff --git a/.pre-commit-config.yaml b/.pre-commit-config.yaml
-index 370a297..8b0c93f 100644
---- a/.pre-commit-config.yaml
-+++ b/.pre-commit-config.yaml
-@@ -1,4 +1,4 @@
--default_stages: [commit]
-+default_stages: [pre-commit]
- repos:
-   - repo: https://github.com/pre-commit/pre-commit-hooks
-     rev: v4.0.1
 diff --git a/Lontium/lt9611c_fw.bin b/Lontium/lt9611c_fw.bin
 new file mode 100644
 index 0000000000000000000000000000000000000000..7df34afe87085fdb709635a20a5d53fa1f6e4b07
@@ -478,16 +472,16 @@ literal 0
 HcmV?d00001
 
 diff --git a/WHENCE b/WHENCE
-index b32bc6e..93c7e44 100644
+index f7fc492..91e1a55 100644
 --- a/WHENCE
 +++ b/WHENCE
-@@ -7301,6 +7301,14 @@ License: Redistributable. See LICENSE.Lontium for details.
+@@ -7302,6 +7302,14 @@ License: Redistributable. See LICENSE.Lontium for details.
  
  --------------------------------------------------------------------------
  
-+Driver: lt9611c - Lontium DSI to HDMI bridge
++Driver: lt9611c - Lontium MIPI DSI to HDMI bridge
 +
-+File: lt9611c_fw.bin
++File: Lontium/lt9611c_fw.bin
 +
 +License: Redistributable. See LICENSE.Lontium for details.
 +
