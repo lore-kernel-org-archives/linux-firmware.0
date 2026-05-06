@@ -1,155 +1,171 @@
-Return-Path: <SRS0=49rf=DC=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=B7Ho=DD=ti.com=p-bhagat@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B29B6FF885A
-	for <linux-firmware@archiver.kernel.org>; Tue,  5 May 2026 12:27:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9309ECD3424
+	for <linux-firmware@archiver.kernel.org>; Wed,  6 May 2026 05:44:56 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 6CE27C2BCB4; Tue,  5 May 2026 12:27:37 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	id 4E713C2BCC4; Wed,  6 May 2026 05:44:56 +0000 (UTC)
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013029.outbound.protection.outlook.com [40.93.201.29])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id AFA42C2BCB9
-	for <linux-firmware@kernel.org>; Tue,  5 May 2026 12:27:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org AFA42C2BCB9
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6456HH4C331125
-	for <linux-firmware@kernel.org>; Tue, 5 May 2026 12:27:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=Yr7KKDOtbodIc2v7gDyEPuKh
-	6t4/JezAxs0SNrnCyz4=; b=pF6Y/VmxDMia8gn6sm52jUo16iQT0SoTn9EEXgZA
-	IJEllZzb0DzfBw2uIxBBhbh6QkHXW3MEnlj0mQgTop/j8m+9RZECPjMwqUhIcN7N
-	mtnkyF4nNQatZ/G01gHdKOyB0C6RcDu39tUPETdgRRerl29UpqN1YT5yetPIOg3B
-	X6Bvmj/3f9p5dkiyKadOTbK6snWzzu6adxg5rb11aNFomByeqFzacRvRLzeQRMaW
-	U4sleN6o3g6OnIB+Lx+ZrTGTXRMaMIgYrT8sbKyvylrl7rUGzVkKtjGeBCoIoRWv
-	RTO9mODffRdWhS3YwmahCLrw4d8YY271MyunJ0jhuBooxA==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dxvr1cdth-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Tue, 05 May 2026 12:27:35 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-50d8e8c47a3so146334961cf.0
-        for <linux-firmware@kernel.org>; Tue, 05 May 2026 05:27:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1777984055; x=1778588855; darn=kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Yr7KKDOtbodIc2v7gDyEPuKh6t4/JezAxs0SNrnCyz4=;
-        b=Se7G1RcOcUcB6SUKsT25sdOLUVRTM6HqMEq9sXIV08mu9xLGT/AYBuDpSS2zVMFpU5
-         HziAKyaEQpFUXRTACwuu3++WhHvW9yWRVy/e7h0W231ryP4pMASQtr2ieOEkXSs5Tnqy
-         Toh8pmknYz+NiYLcp4nLzMe6XVAn5j7QHgrWSCUbeFNwK3KCWRzdtlhagfJVYLvNVnaN
-         WNMSO1fJin+YVkiiyYoTSuEM78p8hDwngcxb4gPfqLouYGRoqXnieZ2T0dDaMCM6C/J6
-         y8D+MtHj2wrLXuVvpuccf4Ceucfk6hqsF8py7nArO1prpqQUrYdrQBzTuvEcl4zx9j/M
-         +WbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777984055; x=1778588855;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Yr7KKDOtbodIc2v7gDyEPuKh6t4/JezAxs0SNrnCyz4=;
-        b=V+DVjMGVbUC10/losVfQkOBD+19+8hT+9LaigZVd+ZQjd4+fWA8TJgnJtr31oxtPzs
-         788XUd8z7FruopJzKjwmRijK7QIw7+DOkvA+4SU02NDLpeuSiAm6ndlSdHyEG05GWW0z
-         wnPgooIPzclDHtGLx+aux9MfThRJTcTqKeGqgFoVLWcLoCiB5l+BaEknpaHoFe+pMCqX
-         mnjLDHslDledqqj92ZyGqjsc7tUQ+PxTZVCyaF66OrsrgTOoyAVcqkJZcASFFGe2h7Um
-         JRDTWjOG1sAYKQzwtZfj82QllAwmEGQwoT2RONgVIfo8DRejBAGHstCxPcZ3/QFYaWmC
-         JnTg==
-X-Gm-Message-State: AOJu0Yyi9MGXJnJjj4NYhJEnlls+eP7/0ZJShkCW9Bc7GDO7CKv+S1pu
-	5NlQYD4iaVC9vD6QMUDywWvJEJaHFmAw5xyV4dR3rUGCJi9fZHgPQRkBBNxE4vrT2xux5rg1AN2
-	Pkl/vy1nqNFkl4WR3YXavhf4DWnknR+LjHPjWckRrchNBLUvZNbtmRZWmKjWKn5s=
-X-Gm-Gg: AeBDieua2kcwdETyKcTIHunHvfUGa6zPD1wQpy5Hn2I0oNZ5zXNT8xjrbb4APuOQanj
-	HtTEQ/1JKJ0vplARFN7Z2SnWekJqHFJG8Cy1BYtwneugT/DYzMhuaX2oPCePvhQNiY+Jellehiw
-	Blw7D2j1+ozeD7C2kDVjtvXb+dTK+kUBCRL2dT4bmKTJRlQQ2TUC6ByVsbPnkAY2y53qEzReXls
-	2ucQ7XZdIHDnbP8pNN5SjcfIGCfEpFrO1IBTe9uN9mVueE9BA1oyBfek+z7mfYbkV1vHqgcCv+V
-	zNc5A0cF5i2b6RxhQ+7yuVBdA7p4MzXBgfHUlmmMf4oWumqzchfcXkZ/f1HI9LhT1OsPQXSa8Bu
-	dOWfuudwtAECDd1/HwCCN+QqlaaAKzXWy3cibHIboI7fUhwX9ENMGo+IHOISCykpXO+IKAYjgke
-	DNoDdaVgsYF35RtGtpQmrqvDE8vUF4XsgJil4uvPellgmF/A==
-X-Received: by 2002:ac8:7dc3:0:b0:50d:83de:4933 with SMTP id d75a77b69052e-5104be23797mr207531091cf.20.1777984054831;
-        Tue, 05 May 2026 05:27:34 -0700 (PDT)
-X-Received: by 2002:ac8:7dc3:0:b0:50d:83de:4933 with SMTP id d75a77b69052e-5104be23797mr207530691cf.20.1777984054350;
-        Tue, 05 May 2026 05:27:34 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a86c7a1698sm2478191e87.3.2026.05.05.05.27.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 05:27:33 -0700 (PDT)
-Date: Tue, 5 May 2026 15:27:31 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Zenm Chen <zenmchen@gmail.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id A8E96C2BCB8
+	for <linux-firmware@kernel.org>; Wed,  6 May 2026 05:44:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org A8E96C2BCB8
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=ti.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EgwnlEzVgiXTshjHVi5ruM41Qjmr693EsjP/Gte2OmM1YYu714gkMQLr8stnyOU3J+BZ0D1yo11fF7urh462dpTkIipk7iFglpk1ZoeUbk5l4Ei8DeHE4xrYXZURnw3ZrjYcj3u1GozglnwM0ZVbFykqUAA2T6gihUOgt9TrGeNC7ZvtZ0McVA8K8nXHTmH3NUFp1XSlz77dND3XdadIEmhGKaULw4a4BcpqJ7q2dy7BKbOtoqlDRen09/DxORfifcrxwKlelfYdxMBzdE7l89FwfmQc9+3hCVABRmoos6b/0MpHQ3g+tvWiL78A72Q36jgOIYGtCHiQjLJv4S5OrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=50xLgPGrOI6u9rhG6wkuCWJM5D2zwsnvQ1gmXsYYkJM=;
+ b=IM4SgPkAkafAsGAaaptX5HkzANdM2g8dCmZMJd6EHzO/ebBBGnk4IGbqMW7f1xi0j43hWNOPBD7BpX2rZut9a2GvDgnCrRq7GBVGd+Ox0cbDL9Uc6YA1VFH+gKwQZyjWEF52xbB0HoKJpmtMgO+yRRp2tL27py2U+bSXELM+Wd0Hu2VRVKtwykgPbI7RIeJaH62wCl4j6+NY2mcenrf5PymRxvtRNIxYMErgsSpi44VJQcRfkHGj65h7GpTdaDBFeSiIpmgWbhpUcuxqsxil7L8JzTBSa3SsFVj/B2HDbh394nIctMmIeHN+AOXEYJhxmfWFHYACoAfdIteSAI7sDg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.194) smtp.rcpttodomain=kernel.org smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=50xLgPGrOI6u9rhG6wkuCWJM5D2zwsnvQ1gmXsYYkJM=;
+ b=RGhJMM7jEhb2sbZzYd9Eg4etnYePYLRLfKJgSaXt57cwM+UzAp4TdllKxP7RYSmoTQF3Xo/X0C1EpgHYF6F56pZbckg5nwQJBlaeD8io537buzEzMIZoDTpp51t0VIQ4ybW0VBBUFoEhgywwegDYTIff2lJNlaC0NsbEV3lbQUg=
+Received: from SJ0PR03CA0202.namprd03.prod.outlook.com (2603:10b6:a03:2ef::27)
+ by IA0PR10MB6721.namprd10.prod.outlook.com (2603:10b6:208:441::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.27; Wed, 6 May
+ 2026 05:44:52 +0000
+Received: from SJ1PEPF00001CEA.namprd03.prod.outlook.com
+ (2603:10b6:a03:2ef:cafe::3a) by SJ0PR03CA0202.outlook.office365.com
+ (2603:10b6:a03:2ef::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9891.15 via Frontend Transport; Wed,
+ 6 May 2026 05:44:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
+Received: from lewvzet200.ext.ti.com (198.47.23.194) by
+ SJ1PEPF00001CEA.mail.protection.outlook.com (10.167.242.26) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9891.9 via Frontend Transport; Wed, 6 May 2026 05:44:51 +0000
+Received: from DLEE210.ent.ti.com (157.170.170.112) by lewvzet200.ext.ti.com
+ (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 6 May
+ 2026 00:44:51 -0500
+Received: from DLEE215.ent.ti.com (157.170.170.118) by DLEE210.ent.ti.com
+ (157.170.170.112) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 6 May
+ 2026 00:44:51 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE215.ent.ti.com
+ (157.170.170.118) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Wed, 6 May 2026 00:44:51 -0500
+Received: from localhost (ula0502350.dhcp.ti.com [172.24.233.249])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 6465io1x405037;
+	Wed, 6 May 2026 00:44:50 -0500
+From: Paresh Bhagat <p-bhagat@ti.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, max.chou@realtek.com, hildawu@realtek.com,
-        pkshih@realtek.com
-Subject: Re: [PATCH] rtl_bt: Add missing rtl8761a_config.bin for RTL8761AU
-Message-ID: <rrjzmrns3gzdewpv7fk5fsvso7d4xpn5eytenuzv3d2soaaav7@cdbtbszfmoaf>
-References: <20260505071341.7688-1-zenmchen@gmail.com>
+To: <linux-firmware@kernel.org>
+CC: <v-singh1@ti.com>
+Subject: [PATCH] ti: Add PCM6240 firmware with multiple audio profiles support
+Date: Wed, 6 May 2026 11:14:34 +0530
+Message-ID: <20260506054434.1413844-1-p-bhagat@ti.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260505071341.7688-1-zenmchen@gmail.com>
-X-Proofpoint-ORIG-GUID: iUzAJUElYjTMztGA020yGYekeDIR-ZtS
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA1MDExOCBTYWx0ZWRfX79aRGTq+65b4
- g6CU3g56MNbtPFM37b1BbhqIBkF+mEQRQeF5UqDDm7vw7MQK1ZdLH7VwLoI85XylLjmg4lxjMuO
- z1OlsRh6ts1r3fr8llD4vx4N0RUj22s9PR3T7tFm6U+vuYVuqHPmrH1A4UdBaMuYLangk7WLXIP
- NGSOI754RX2Y2a8isOaxy+3dBdUU7206fGKjyixtRo7Wo4+HunZQlhbbBF0052TV+gkE9CiLsNV
- 39OPZ6ww7bUA/kqwNefg+DLocYbTO0sxbvKnF8MkzoQ3ibEStMP2Fs1royB1qlM+dxOI8AZLdk4
- P2W6O9+RsVTKLPGCVR6Hd2/TU3mIwSxG2MyvqHNL2ghLT/OFCUf6jlbp9ZGIK1lbhrGuvaavs99
- /WOkS+EJ7o+4B6M4eT0S7NV9MdgDasi0Utf5lslMHh7mEVejm+18W/cxxVPvEsmQoCaP0JmsiPt
- XJQOiOpfZpfP3CYke/Q==
-X-Proofpoint-GUID: iUzAJUElYjTMztGA020yGYekeDIR-ZtS
-X-Authority-Analysis: v=2.4 cv=RvL16imK c=1 sm=1 tr=0 ts=69f9e237 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=p0WdMEafAAAA:8
- a=pGLkceISAAAA:8 a=BH75t6FrcxBGqt610xsA:9 a=CjuIK1q_8ugA:10
- a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-05_02,2026-04-30_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0 clxscore=1015 priorityscore=1501 bulkscore=0
- impostorscore=0 malwarescore=0 lowpriorityscore=0 suspectscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605050118
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CEA:EE_|IA0PR10MB6721:EE_
+X-MS-Office365-Filtering-Correlation-Id: b7eb4076-68b3-4379-7fd0-08deab329813
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|36860700016|1800799024|376014|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	S0hVIjTnyF2paaTLZnQUK9Mjnxn4XwbFUJOlLiTl0jjjQUT8/KVzbs3GzmXeQBhmZGCsDptkGd8DB5MZEUiOOqLAoWYR+uYVEdeuBt8plYzVg0ORyC4YbEL7t8x2A3wfuvEXMvLuo/LAeVSS1pPI+s5UcOrHWe6697o2OlXLvNFeWKHWH3x+uoGCUV8NHGOB5QxakX6XWTZguGBI5PMyR2QHObLXlfYDbW0q3RD4SokrEMjR/Ap7Xc8RbrxPheJ0YaE9mi3a/ih6+WajxNHB5pi60shPDZp03FGLj44sKl74ePAMfzql3F3xRu2y+8vh+bladzxipz7QlkAqusKiWLZ9V8Ti/9SqIpiUF8asbTXHobhcNfX/4uoquJIqy7SgQuZC8kRWR/x1hEsLznAwfDDymiAzeAGKxwvvy8aZaYg24F50kM2GV4amaDTvlrSMkEer/LgzptxjW2QaUbp66F1K/eHJdljMek+yEeerldg7v6yvY2+19Rjx/65KoU6sY6G5FdhPdBQxnGDfOIbKnUVZEc2vM0bGiliLd0BIGmh8XzLaOZnWGWCunmzT1ALGcYW+DKgvE9cVRZDFRnV3ohRBK+1PZmas5b90exna/mIBXgQGubWcx8tRQ320WPfxge+FMtBw+/NKPcsE6zMCFCRo7Xcryjm2fCnZGXeJkLrh3KWalESn1foYGdctfwVUDwJrTd6lpSxNP7OKZmD43v4AKGDXchg2DrhTv6sCmgA=
+X-Forefront-Antispam-Report:
+	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(1800799024)(376014)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	dEDO7dvpbXtRLy1fo+wtBZQuViK3oaCKasq3SK4ET+ojeTC1ruxi2tJOYmkQq7nSUwDER2jCgFEkgnjDYm5hKBHFTgl9ihHcEr0OCVJoe/ZCFuUyQbiYuWOLMLBwmTQZhiz6oC3C+V/ZxmY0W2IQ5FUe4q8ghy15A3Vt28aWShJJ9dhSMq6jbcK8Mwlx1X7gi3xD4uTB3InYfJOFsycYgQ6Ed9YuQP//9TFL1KQwdtp+Yk+ukVt3HT6aYDcrf4VGqI4R1IieX+bLTDM5FvYEY+A/uPL6bxqf70BVjt444bM4wpRxeqysNMyQo2qdgKtdXO/OYeNppL4OO7q8sNxmZS0f19kORi9kHDJ1MR5IYXgfusP2z0bucoV6GnrlPclfUA26dT2U5YpGYAm6f2mvzOGocPoi1NSobxveQR3hS7LHS6DrkbvKsqOTQxol98Je
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2026 05:44:51.9980
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b7eb4076-68b3-4379-7fd0-08deab329813
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF00001CEA.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR10MB6721
 
-On Tue, May 05, 2026 at 03:13:41PM +0800, Zenm Chen wrote:
-> The RTL8761AU Bluetooth controller functions correctly but there is an error
-> like below in dmesg because the rtl8761a_config.bin config file is missing.
-> 
-> [  171.949697] bluetooth hci0: Direct firmware load for rtl_bt/rtl8761a_config.bin failed with error -2
-> 
-> To suppress this error message, add a soft link from rtl8761a_config.bin to 
-> rtl8761bu_config.bin. The latter is an empty/header-only config file
-> compatible with this device.
-> 
-> Signed-off-by: Zenm Chen <zenmchen@gmail.com>
-> ---
->  WHENCE | 1 +
->  1 file changed, 1 insertion(+)
+Add Texas Instruments PCM6240 Family Audio ADC/DAC device firmware
+with support for multiple audio configuration profiles:
 
-Thanks, merged and pushed out:
+Profile 0: 8ch Non-Interleaved
+Profile 1: 8ch Interleaved
+Profile 2: J2A Stereo
+Profile 3: J2B Stereo
+Profile 4: J1A Stereo
+Profile 5: J1B Stereo
+Profile 6: J2A,J2B 4ch Non-Interleaved
+Profile 7: J2A,J2B 4ch Interleaved
+Profile 8: J1A,J1B 4ch Non-Interleaved
+Profile 9: J1A,J1B 4ch Interleaved
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/1031
+Signed-off-by: Vishnu Singh <v-singh1@ti.com>
+Signed-off-by: Paresh Bhagat <p-bhagat@ti.com>
+---
+ WHENCE                            |  12 ++++++++++++
+ ti/pcm6240/pcm6240-i2c-1-2dev.bin | Bin 0 -> 2684 bytes
+ 2 files changed, 12 insertions(+)
+ create mode 100644 ti/pcm6240/pcm6240-i2c-1-2dev.bin
 
-> 
-> diff --git a/WHENCE b/WHENCE
-> index 48c471e2..f7fc4928 100644
-> --- a/WHENCE
-> +++ b/WHENCE
-> @@ -4395,6 +4395,7 @@ Link: rtl_bt/rtl8723bs_config-OBDA0623.bin -> rtl8723bs_config.bin
->  File: rtl_bt/rtl8723cs_xx_fw.bin
->  File: rtl_bt/rtl8723cs_xx_config.bin
->  File: rtl_bt/rtl8761a_fw.bin
-> +Link: rtl_bt/rtl8761a_config.bin -> rtl8761bu_config.bin
->  File: rtl_bt/rtl8761b_fw.bin
->  File: rtl_bt/rtl8761b_config.bin
->  File: rtl_bt/rtl8761bu_fw.bin
-> -- 
-> 2.53.0
-> 
+diff --git a/WHENCE b/WHENCE
+index 48c471e2..95d846cf 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -9984,3 +9984,15 @@ Driver: pcie-rcar-gen4 - Renesas R-Car Gen4 PCIe controller
+ File: rcar_gen4_pcie.bin
+ 
+ Licence: Redistributable. See LICENCE.r8a779g_pcie_phy for details.
++--------------------------------------------------------------------------
++
++Driver: PCM6240 - Texas Instruments PCM6240 Family Audio ADC/DAC Device
++
++File: ti/pcm6240/pcm6240-i2c-1-2dev.bin
++
++Version: 1.0
++
++Licence: Redistributable. See LICENCE.ti-tspa for details.
++
++Info:
++Firmware file generated via https://git.ti.com/cgit/lpaa-android-drivers/tasdevice-linux-driver/tree/json/tool/Non_Integrated_Bin_Tool_v1.4.1 and branch-master.
+diff --git a/ti/pcm6240/pcm6240-i2c-1-2dev.bin b/ti/pcm6240/pcm6240-i2c-1-2dev.bin
+new file mode 100644
+index 0000000000000000000000000000000000000000..089aa34884435158c9f2f57f47daecd77c4e364a
+GIT binary patch
+literal 2684
+zcmds&ze)o^5XNWkPNVTIq_MNO!dCEth@ed*C`Pb|>BT<>1|$*l2LuaW#b?k5u-8Yh
+z$OBmT2>$jikw6lXO*V}SUvj(b?#wse%&bWEDg3C^Mbr{dwddoC5^)qiy^&>oBZYji
+zHi&QLgXo|6SO2BB6I~R-X!okt3iqyW!?Q+xt5$Et4|nlpC%&12tgAfr%DyUaMTwK1
+zA<8b_O7iL4Sry3;`IQ%uHI{r&Bw(IHoBex{1NIfc5jX|SACVSlcg0Nv^Esr_`?ZO-
+zIG$SP!^AEJ{blUB*v(9`I}{tUxZoO|d+O29N4EPA4)8UHpEJj%U}zUTe6$FN&vdZ~
+z%Y`DD6YA7CCu8CU7N;LNHlJ)Sfl+y*^=1s^4Y3)FN%NgN0qw3DpC@lzv<XJpfwvxs
+zort?c>khZWIk{<@2HXO+=X%`!YG50GfK_gVupDXKv}`l!M%`J}%^9N``C+P?=B9O<
+zhnrR1EOLu_ymoqB`oyS9r@g34l2yT|I>@um7^*k=P|~L-_9CnGmujfFn)1{n7T$L)
+ka_zsqeO*mo8JBwO!g*o3TFl`=uBJQ_UE#XW_tX~GUpXDkCIA2c
+
+literal 0
+HcmV?d00001
 
 -- 
-With best wishes
-Dmitry
+2.34.1
+
