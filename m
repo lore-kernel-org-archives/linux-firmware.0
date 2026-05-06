@@ -4,85 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1AFDCCD3436
-	for <linux-firmware@archiver.kernel.org>; Wed,  6 May 2026 11:56:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57C04CD3436
+	for <linux-firmware@archiver.kernel.org>; Wed,  6 May 2026 12:02:01 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 02E33C2BCC9; Wed,  6 May 2026 11:56:03 +0000 (UTC)
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+	id 3C4E8C2BCC4; Wed,  6 May 2026 12:02:01 +0000 (UTC)
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 4EB65C2BCB8
-	for <linux-firmware@kernel.org>; Wed,  6 May 2026 11:56:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org 4EB65C2BCB8
+	by smtp.kernel.org (Postfix) with ESMTPS id D9044C2BCB8
+	for <linux-firmware@kernel.org>; Wed,  6 May 2026 12:01:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D9044C2BCB8
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-6948fb494a0so3500933eaf.2
-        for <linux-firmware@kernel.org>; Wed, 06 May 2026 04:56:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778068561; cv=none;
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-47c35be031dso3746291b6e.3
+        for <linux-firmware@kernel.org>; Wed, 06 May 2026 05:01:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778068919; cv=none;
         d=google.com; s=arc-20240605;
-        b=luMyILmtrVKOcliVVtENZDCG8m9RWdSbNuz95tDODkDzPVfJwaavDlQvyZYW45stvz
-         UxHqPMT9o1gBFBjukZwEMaggd8KdPT9cL2ujG+4RNOaKUAL4wV4CgOhFcDsrgGXC5qAZ
-         g0JmQfeHmLEkYKt45M3yiwUBLqoS5p51Ffcf5cPCQbUDnd74WJOl/QU0GLW4MF2LAoB0
-         XuAA/KshKIjMErfafZi43suUcAhfsGkN8hDG9g+p+dlAKIp5JbVjmGeR84RgGydOC7hC
-         lEYFSwPu87d4jidLxsaYtLGUs9/00cGTttHpOjZ8XLNbx8GnKBWLYUUOSwGJa//PEv7E
-         +gQg==
+        b=NJlrjYI13JbPvxhG0addf8/+aYGXdmFDbHOBhkhOBSH1G/lPhnuG49l1NxNlQ+6qqw
+         5t55xY9uyXxdUoVIyuIcyMjoBgH+h2aWEMN1B537s8EDcJliOnzGip6QuBTelTiuQGHM
+         uX+RN4Z3HW6CAOQz+V56DdUYciK3mKtqruugRLync1jG4XG1cAacWeHjOSppL9H2ZBj1
+         T75/4noDY9mO6fIY7hg8uc7f2rbvhm15TIfC0DIWixcEx2AzLjpQkEhH38rEcKi8geQ6
+         V1r1OFhTgdJ9q5XlF99X5VqD04KSYIO/HQ1qMY9QhajhnpR3pmx43CHVd4NuqheSDMML
+         alBQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=sScAUkvpT+ZfAj/Yc+LISbwiZTaTBV25HSspOu/fMkY=;
-        fh=yvkpTjQPYOXQ3CRpr+mhReNLc+hfcyGwjNqUecLQRzU=;
-        b=GwNJbVaI0sLC5jIK78z/AVP6sy3grnYAcKcTfnsIg+mOJChS687CsJ2XEf/nRao0HX
-         GzuGZRyVy8joSLaHZl3kwBvwfXBreXl0xAUfrN4YRcT+G1NVNn59ETf6WP9b/+0U2zeU
-         eoqO7zYg2wdUGSBZqOLZ3huRI8JLLJeiJdciv83FF0HL5Da8R7RGgksD7whygvAQkgIG
-         eJ6kOoYMMIVBGKZPVyXGm3R3++x4aPZ3IQKiwEodbsx3dOvAQY/q5GLwN3MSF7o0FYsp
-         /wyOd/fn6QlYik3mEwrN3O0cJcvPllUPjtmev90QwPMoPMHN5aM0e0KptLQNWJcwNRbT
-         6RVg==;
+        bh=WMrxqjDRyVCgWkXbzwweLm40E/lbjKojvdIa0Np9FyU=;
+        fh=0GLpMHTIv7rCrT5/5ny8uia7Ni6XgWplZ6mvofLpPbk=;
+        b=R34AglQG+JCZWp7II8TugDIKSaTqLyWKVH7XGvDKZj1mLR4dHXdz5wIhs4nWtgbysU
+         PlE6u7X+sv178DUhFFB8vw2LbVr5S5lp5Mhj5LWPJyoFrQVnO23dfFfnXODfZ2Hx/Vjw
+         EXdMB6sQu/8763veYp6jKZ6g1dBsHiyRPO/mHNiiGvrc8hxYBFu0cuomnt3Ekf6imivc
+         rCKzs8S+IwDsM4TyO25uXCxmUiwjvV6HQMgevjH8AD32t2xOMdXkSLqV/X+R9Ut1UGT3
+         mrmhmDcnqWcJ1My9XeMg+lsAPZD+JRucNJTqa365KcSrSuIiUpPGifjHUgbcQYbFXaoe
+         0Lew==;
         darn=kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778068561; x=1778673361; darn=kernel.org;
+        d=gmail.com; s=20251104; t=1778068919; x=1778673719; darn=kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sScAUkvpT+ZfAj/Yc+LISbwiZTaTBV25HSspOu/fMkY=;
-        b=FpXxFARXIkC9GuXAe6pxXVQKen+y43DfePHal2ogERhJiZ+x+3qmdyL3OctPxQ8Vcf
-         IjqV6eW+xMRxecJu/Nd240WJej4VosWJS4sQWYi0gLMyfcfvKl82XE7IgUxcaRTonnKw
-         Dv4pyRqVdSTwKY5q2VOmFPNUSWow9vr6jCWonzQjRoCf2tRC2PmOsPPT6lYtI+n7Do/9
-         TLj+rnv43kNIS4OfEAbLDCfZuKnANKiFvLjyScfBC0iAUB+x68qBw5VrPgqt87Lyh8Cl
-         r84DteGzpkTcN9oyWNhzMy8frIwy3/q/UIGm9nAXUp5cw8HqQuMPss5Xu8qvR23lx4Jz
-         rI7A==
+        bh=WMrxqjDRyVCgWkXbzwweLm40E/lbjKojvdIa0Np9FyU=;
+        b=cctmKVoNQBtbgimL6c4YHeDgTgqH6zOtLd2eO5YzdRKrfEhJr+nzzH81CIXWolaSaT
+         AIKBvvthLXyxienIFUu+l/KcJ1upKgXtAC6m0DQfCSuN9jlQoyUa3YEmmBRBc3ShYUbh
+         RDP/5NVCPpk/1jTNfrAPcB8UUPV1mADyl2fK6hs8ZFZQY19XB4SyNKfLn6bWNw+JIpn9
+         2VoStLdV+0N5yIzt9PESsIkvP2sgAgmTHBy74bsJoPgSCjKReDcONIgQwjHSPHquHnAD
+         3maxZTOIkLTgMq0M4+OWInZWv+e0ABzAk6198GXhhao7l2eRgiNT/O86TOhS4D4+7/X6
+         exlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778068561; x=1778673361;
+        d=1e100.net; s=20251104; t=1778068919; x=1778673719;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=sScAUkvpT+ZfAj/Yc+LISbwiZTaTBV25HSspOu/fMkY=;
-        b=UtS+uM+Cyg3f214squ7/jv4MRYILegmA6t/MG6ZtxM2HBD55k+Y4lxLjinRGUwnj53
-         /EHKGYoAv9XjpJMAGZlAK7hThYnCQOR0ubJJpjF54eLpDY6vhccjyh84osExdvulx0xl
-         W8tVVjjfWrKHkeXR6pbVbzn5fFNkVC3pxCsQeVaIdU7WX7O8p3PAJj6zTAUditD/UHfj
-         UDOIoML8ASO3fjZXyoNLdd8vKaob/G6aWyYV9q7AivbzC7L4/M5ePVWCU5QpCVMSqZou
-         TCvg9ot+aHgKVJ1lYHxETNbeBWiNhLTZaVUm1elvG5V0sKIBLIFmMw/mdVnCQM4mL/KA
-         CsUg==
-X-Forwarded-Encrypted: i=1; AFNElJ9IptL/KkiivMQYJkPqr4crifyrnMaVlpoJkne/F6zJwhcHVABoLsVp8ZMdgrAjwyEIrM7WGth92Be8qJvhmA==@kernel.org
-X-Gm-Message-State: AOJu0Yz2VB0NW2Si1sljB0XFF3zu8hIXsSFqRoNplfHbpOdr7EJxyRCs
-	dZmsMIbLqWLIdjGr6OrJm12s5xfwD9KNle8pYLEp6pIDI9vgHpF2jOs2V3uugoI1cLkR+cOYj2V
-	dm4FD5TDCHI0lg6eXr7/JiZ3dliEVSW//srqi
-X-Gm-Gg: AeBDietCl8RyQ2JWOENuuggf/V6YzYqDTmf5zWyaATSzXIcYGNJUS3I0oyOXm5F4QVq
-	MXlgYRAo2ZT6MVpQXc0VHn5JzbUu7kFrGFPVmZjK5Y+Yxrf7PzNnk5jRpVRvM3awGI/CipkTJrY
-	TykIXbjF94ZWCrPCeB7pK9SPkXZs2vlM+juDbRRb91/IiQxBAza2iWvOa7UdOW9GKAjE8qwNcPb
-	ib47ioA4ZldLKqcx1GEglhdmWuW6rVjh1lyvS7/cWe0IQ8kFcj6ElXU7nxiEEcl3vjAWNWcJm9a
-	1eUCjxnDvDCgF8bSXw==
-X-Received: by 2002:a4a:ee87:0:b0:696:72c4:5d69 with SMTP id
- 006d021491bc7-69998cca765mr1333975eaf.17.1778068561215; Wed, 06 May 2026
- 04:56:01 -0700 (PDT)
+        bh=WMrxqjDRyVCgWkXbzwweLm40E/lbjKojvdIa0Np9FyU=;
+        b=ZdT4ET6ZSg58yPWuJCYMk7jv4N2jTySugAb25i/ZLPmPOJWIqZ/rmZHrBDAdlm+fkG
+         LfnGZ7g18PrUYrZyyoXjvlefEMQJQ0+vZ9NgiPsRWUM1VHspRIvzDhYJKVwfct81/OO9
+         M7xW7PQflXzoSAA/WsLKSsqmCknmaaAT2Zs+MVeDub77UrqAKRRGKpGjVOkz/WbiSoLD
+         kSiU0dsRSSIMh8gdlTuuB9lG2YasOXZNtwCyhHZBZhjZzrVUCZcrUslpSEXDpr+Mivqh
+         w5DwasrPryT3IqJzxmy6jjnYu0EcdBKYeWlTtKlxPGxF1i8aCjOZvCKAMgs849qanuLe
+         j54g==
+X-Forwarded-Encrypted: i=1; AFNElJ8ozQKFgi5bY2icGNBPc+rwF6FobDCP3NY6eL318gHVRJJDojei6GvhEcKpZNzcDWSTfT9/3OABLhKxBWp2oQ==@kernel.org
+X-Gm-Message-State: AOJu0YwwQOK6/10WLuRDNVoBYjpbBLydFkOqKkA0EGzD0ptU0cU2XdHS
+	i6LxEAMVhBrbNCTfqqLH78/UU41onVXME3BX0lVtf23yWEqHJwqBGMUdAVxo7J3h2Akg5js2vMz
+	iEsOdIKyil7w4oiKrPxea0nmf2ZXMqHQ=
+X-Gm-Gg: AeBDievKAsdZrDU6WH4iMnfE484KeFLbzFR6Uxo2VTWlrqMT2FgYGG4qDmFgGy/Jrij
+	sgU7rsY4ZS/eADyF7mYq403jlll9wWfoeLp9uzWyHKckHv/p1L3gClgslNhjqzFc6bS9VIjakGR
+	ih28UGjQMMhBl3DVnjzM0XC01pvMYGUbOVRiWdsnzb4ITGwjNt5XrA54jZL+PrNW/IYtTfT1WsU
+	J9NQ/c3JME6TRYSYHEbBuf4yxWz89m1X2auzvm84g8Z0DJ56gXfFsbNVKnr9ZppNCCWA3w/q8uB
+	3hejsBi5Trf64IJ1FA==
+X-Received: by 2002:a05:6808:3a17:b0:479:ead7:2a5a with SMTP id
+ 5614622812f47-480420d7c0cmr1861216b6e.11.1778068918794; Wed, 06 May 2026
+ 05:01:58 -0700 (PDT)
 MIME-Version: 1.0
 References: <20260506104934.82275-1-syyang@lontium.com> <CAO9ioeVBF2O9sRT+KzMETvYuV5Jw0okj6MiM1sxVdc5j8Pdk3w@mail.gmail.com>
-In-Reply-To: <CAO9ioeVBF2O9sRT+KzMETvYuV5Jw0okj6MiM1sxVdc5j8Pdk3w@mail.gmail.com>
+ <CAFQXuNbA-wW-ZyqZKjRagA+qpPMP7AAtaX67Y4=AHOx23s2SEg@mail.gmail.com>
+In-Reply-To: <CAFQXuNbA-wW-ZyqZKjRagA+qpPMP7AAtaX67Y4=AHOx23s2SEg@mail.gmail.com>
 From: =?UTF-8?B?5p2o5a2Z6L+Q?= <yangsunyun1993@gmail.com>
-Date: Wed, 6 May 2026 19:55:49 +0800
-X-Gm-Features: AVHnY4IYbJDIh0oDFlZ9ZFH51JUF-DWZ_JPR01i2FtwMuUV_KMEmNwTNJpNLh4E
-Message-ID: <CAFQXuNbA-wW-ZyqZKjRagA+qpPMP7AAtaX67Y4=AHOx23s2SEg@mail.gmail.com>
+Date: Wed, 6 May 2026 20:01:46 +0800
+X-Gm-Features: AVHnY4J-63DL79Ju-58-idG0lhCyAkcd9PXaPajetMEkDGwyywQ4BPYdF9JVNGQ
+Message-ID: <CAFQXuNbWQQN0U+s0K2XV7hy6ow3x7RAB8Q=nxOvsWENDAE=2VQ@mail.gmail.com>
 Subject: Re: [PATCH v2] linux-firmware: Add firmware for Lontium LT9611C
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
@@ -92,39 +93,50 @@ Cc: syyang@lontium.com, linux-firmware@kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2026=E5=B9=B4=
-5=E6=9C=886=E6=97=A5=E5=91=A8=E4=B8=89 19:46=E5=86=99=E9=81=93=EF=BC=9A
+=E6=9D=A8=E5=AD=99=E8=BF=90 <yangsunyun1993@gmail.com> =E4=BA=8E2026=E5=B9=
+=B45=E6=9C=886=E6=97=A5=E5=91=A8=E4=B8=89 19:55=E5=86=99=E9=81=93=EF=BC=9A
 >
-> On Wed, 6 May 2026 at 13:49, <syyang@lontium.com> wrote:
+> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2026=E5=B9=
+=B45=E6=9C=886=E6=97=A5=E5=91=A8=E4=B8=89 19:46=E5=86=99=E9=81=93=EF=BC=9A
 > >
-> > From: Sunyun Yang <syyang@lontium.com>
+> > On Wed, 6 May 2026 at 13:49, <syyang@lontium.com> wrote:
+> > >
+> > > From: Sunyun Yang <syyang@lontium.com>
+> > >
+> > > This is the firmware for the Lontium LT9611C,
+> > > which implements the function of converting MIPI DSI to HDMI.
+> > >
+> > > Signed-off-by: Sunyun Yang <syyang@lontium.com>
+> > > ---
+> > > Change in v2:
+> > > - WHENCE
+> > >  1. Modify lt9611c_fw.bin to Lontium/lt9611c_fw.bin in the WHENCE fil=
+e.
+> > > - Link to v1: https://lore.kernel.org/all/20260506100242.79276-1-syya=
+ng@lontium.com/
 > >
-> > This is the firmware for the Lontium LT9611C,
-> > which implements the function of converting MIPI DSI to HDMI.
+> > Why? The rest of the Lontium firmware is in the root directory. The
+> > driver also (IIRC) expects the firmware in the root firmware
+> > directory.
 > >
-> > Signed-off-by: Sunyun Yang <syyang@lontium.com>
-> > ---
-> > Change in v2:
-> > - WHENCE
-> >  1. Modify lt9611c_fw.bin to Lontium/lt9611c_fw.bin in the WHENCE file.
-> > - Link to v1: https://lore.kernel.org/all/20260506100242.79276-1-syyang=
-@lontium.com/
 >
-> Why? The rest of the Lontium firmware is in the root directory. The
-> driver also (IIRC) expects the firmware in the root firmware
-> directory.
+> Our intention is to place all Lontium firmware in the Lontium/
+> directory for the following reasons:
 >
-
-Our intention is to place all Lontium firmware in the Lontium/
-directory for the following reasons:
-
-1. To distinguish them from other companies' firmware files=EF=BC=8Csuch as
-rockchip, qcom.
-
-2. To keep the root directory cleaner and more organized.
-
+> 1. To distinguish them from other companies' firmware files=EF=BC=8Csuch =
+as
+> rockchip, qcom.
 >
+> 2. To keep the root directory cleaner and more organized.
 >
-> --
-> With best wishes
-> Dmitry
+3. Clear organizational structure
+4. Avoid root directory bloat
+5. Improve readability
+
+That's what I think.
+
+> >
+> >
+> > --
+> > With best wishes
+> > Dmitry
