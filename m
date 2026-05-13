@@ -1,147 +1,157 @@
-Return-Path: <SRS0=/cET=DJ=gmail.com=gabbar.silver@kernel.org>
+Return-Path: <SRS0=Q2Qw=DK=oss.qualcomm.com=saddam.patan@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C359DCD4F24
-	for <linux-firmware@archiver.kernel.org>; Tue, 12 May 2026 18:06:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F083FCD37B6
+	for <linux-firmware@archiver.kernel.org>; Wed, 13 May 2026 06:58:45 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id A2CC9C2BCC7; Tue, 12 May 2026 18:06:31 +0000 (UTC)
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	id C7BDCC2BCC7; Wed, 13 May 2026 06:58:45 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id D2383C2BCB0
-	for <linux-firmware@kernel.org>; Tue, 12 May 2026 18:06:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D2383C2BCB0
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-42c126bc7feso674663fac.1
-        for <linux-firmware@kernel.org>; Tue, 12 May 2026 11:06:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778609190; cv=none;
-        d=google.com; s=arc-20240605;
-        b=KMBRFS8ODGWXqZ7eKFOZHfcGDrSK51ZCcnwsRk1kWatp/DK9CybQeLTkFECc4XjrPz
-         lMQ3/j0sNPRKcUc+wcvksJ/1Z2UXq4PM0XJtr+SpKB5/xHsymaQ9D/enV8Vw/o02k1Yj
-         cvRmvXKmT1f8R2gZDpo28rzO5FeiNnoxosQutR3vCfYLbhktDJeWXULFUZofyiTTN/G6
-         mxwpohZPWWTO8YFB+EIyBKcvlMrlGLHND734GdKxxljKlqEZiynXGRaro5z18zsmgfWf
-         +Vp8jdkFfK+7CGaLj+arseEBSRDx7ZYyyyl2UPLYGI8kHbee//OaQjpzVU6Z+uVQ/nt3
-         vIcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=aXcujKiA7bLxuHyJ4crvo8AxUGdkxgQxvrozwGhwnow=;
-        fh=thzlYDAT27MWbzz3if4rQyeooyybPz7D/zeQezHlJZA=;
-        b=Hvhp4FVqd8rzhNZLnRLekXDZDsqP2ooDwcIu1qnustt2btxHikm2d4Xhn9WORUVKVI
-         /laAGNgVaCKa0wev6zk9dXo9ziKFutNqt30WX8kclkjo5D9CsBxIDoFEp55GpfLVp7y9
-         dlzzWCk3iYf53QAb9BYAQ/ZxkdlqqqFF8q9QzqsNIiIP0lZsD/aIxR+q2i7dBcjdlR+A
-         wI2QF0NUL4pL1JriU8VX418VzHW+2tRfhUKwyiIOaWvnAeGFgB6Szvp94pJ/y2zDdP4f
-         eRILxrdIXn8xJiBxBuqt7ZQvprv4opMYTqenKeIfZABQ+qwdC9k+25ML+v8Jyh6KU+QS
-         6Mow==;
-        darn=kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.kernel.org (Postfix) with ESMTPS id D725CC2BCB7
+	for <linux-firmware@kernel.org>; Wed, 13 May 2026 06:58:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.kernel.org D725CC2BCB7
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64D4p8qc2932929
+	for <linux-firmware@kernel.org>; Wed, 13 May 2026 06:58:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	CL1VJMcmNZPdtP0hI1VsQu/r0CgdDDZSUZBJJT2ofcE=; b=oGUCYrZ5wEZpqrdE
+	NxVDHhchq2XEIT7HID1vvXF2PYlQXAnRXwIHJ8j6+JbQfrdP0mg3pgeEEYBVvC2p
+	4DzYB4b/pk53Kbf1ZtdELirTBL7f9nMjG8e4gau3OvDu5uOAGnDKJ0Ub2OTba4d/
+	6DOiQDrTtJS7+wjMpv2W+Iw3UmmY+tP/TNBYVvNCkFz0mWT6oJgIlWnCdpybkCq3
+	dMTp/TAUH5hDIwAEIKNo2kh2xFPAzUqRY1ylcTMI69dGn7E3PmtfKUpmdswUdiG/
+	UDnvfEvfyaPU04sdqcC2gjSZHz037rqLeY5ggVuiSz0206lhEzn5g7LxFQyRPxZK
+	lY84TQ==
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e4319v4vk-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-firmware@kernel.org>; Wed, 13 May 2026 06:58:43 +0000 (GMT)
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-c828659ecd4so1914061a12.0
+        for <linux-firmware@kernel.org>; Tue, 12 May 2026 23:58:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778609190; x=1779213990; darn=kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=aXcujKiA7bLxuHyJ4crvo8AxUGdkxgQxvrozwGhwnow=;
-        b=Ay3iWxrgOLt6zcIEwlyTIbyVcA4FuTRLnaDu7WQxZbIvJ+wBFoiaab+R5FK1fazqdK
-         AVjN8x6DLOqg+25VhfuaaprU1cgg1pPOEuCgn1jFJZpHrr3XrsL9dg2zLFLjHk0pZOYd
-         06DOe2mwT7pOeaKiwBFSW2ItK2J9jEGHDYG22Hx5aASjWR4jBCzrESaAlmVvYgzv4nbX
-         pqQBHt6Xd9DMhHxeniijIe9BHzCK0HPh/1O/N8YOlEf62Bg8w1WDM28kFzdDt5CREeqR
-         sOg8cP2Jmv3rZt4UC7RvW8Hqs1oaa6s5J9yVRJMhSguKX5E2B9U7HSMWGkgSyW2rbCLP
-         KL/Q==
+        d=oss.qualcomm.com; s=google; t=1778655522; x=1779260322; darn=kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CL1VJMcmNZPdtP0hI1VsQu/r0CgdDDZSUZBJJT2ofcE=;
+        b=aUZEZNSDKeDzqkNuv47Vpq1qAHoPTPnxzJG+7WsyINZCdkF0xTee5BeOo/FQv3Hrkz
+         LsSsqKutfVTtZPm0zrl366BDlCGZRKESATZcmkyDgmAbreKfrt8riC3YLdHr2VTaCDTb
+         egSMSO6rgJz0awAd9c8FQUyN1IDO+fAA2l12qUT4DHJoLU1lIFVIUh0LAjHFt/mgb5KO
+         QG0B+rVHDsDc7zNHYLWDY9HlFCE3CPvmQNUTEmgWZG089TDBAoWikyX/Nniw00cVy4fh
+         jkLyP/7HLvPrOdQHB39gxwESRuxoTFsKd4dWyEaztLR0IvJYz7+AkF50nbPNO1lDsL/q
+         lReg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778609190; x=1779213990;
-        h=to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aXcujKiA7bLxuHyJ4crvo8AxUGdkxgQxvrozwGhwnow=;
-        b=ZziGawKaIceBVGpw249WzUtUb8+L458aRqVmDgUToSke55gQLJng9jkDGlueqUxrpx
-         Kqir4aN2GiLk/rTmQZTHWDlQDiQLThs67ExRT+XPUkg2RNER7Ep3rD/wWnvS8HDm6rWl
-         9dlDgScX/FdBKH+B6m9G/5Lj0X+/9Rq40Yrag5c8Favtxp8/nBnbHraoMQHH593ogOov
-         goi6zil7lS3sL32OtQDKhbTCMmlLnMabCQMJpevQC7cLu01GbRsItK4EF0Yq7SLyW6Ms
-         QvAZt98EBiSuR4qfhutWpjmOGlaTHSE4kibrLtnExHzdCx8KDtG3Dha73kMIFr4s1eEn
-         iqtw==
-X-Gm-Message-State: AOJu0YwdYtoOmIWPkwWszwjHrHqYz/LEXMZYWnOXAQYRU+x6ygAHnVTG
-	ANGk3N9UZIQOySFReG2oQKNQouOtNBfRbzbC35MhBVMt1+Dfp+HjJSmCOspPlaIPoTRQNL7QNt3
-	b6yQ362dp2iM08p/cp84lAmX6UyJ9tsHVu4RJ
-X-Gm-Gg: Acq92OHytEm4oJaEMi47CdZ7MOi8DRJziDtn5iPN8oaGCF2D8jYZzyeoHEq343vqX5L
-	DCG2bmDvDdo2zG6wbI+nz+jit6Zg4ncVC8nS7MjDRav86ynYsQTo1TtED88DvkSCNe3K1Coo7y9
-	6z8TkLqiJl5xZ45/1ygp4y6nntfObcegCPSTjaC/fjozFzCTGKxL/xV9VVFsZVO5p1GU3XdxOgL
-	OCK2sZbqC6+aMrzGd9aeC+v4htu3q41juO8O+nJCLcgfDSEy3ZgbYcYQy/3kbEkU555n4EYJ5y2
-	R/WfXkWgVpoWTQMtQKrejR7pQOZR7eJwC42CUzjs/j63JAPssIqx2iL6ZQwvUaUV1Li55fqExzv
-	a264OdSYD
-X-Received: by 2002:a05:6808:1b22:b0:47c:3640:c597 with SMTP id
- 5614622812f47-482b2b7494dmr52544b6e.3.1778609189790; Tue, 12 May 2026
- 11:06:29 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778655522; x=1779260322;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CL1VJMcmNZPdtP0hI1VsQu/r0CgdDDZSUZBJJT2ofcE=;
+        b=DZDAy4z8T660rVA7DlFhuMAofUU9QEkzHAM7UTUeaW/4aMqUhoAYjsc6fgjvPr/q+q
+         f8seRdKrQPvZdWdBZfOnz/TqCovj/ocfgVaHD4C4FtMYEFJCz02Ts5gXSVNthRs4Ojgh
+         nfxXytldSjrgHzXbeL6BuY7zPfbIhKhrfNY3tH8OBh6ExM47ThZ5eeua7Pk1Ewo7lV6Z
+         4i7w/qnOtRexzPBZ8SVW0iNUglz+E5ImKuCmXk1sHicISnyCFJaRLCOrAShqmRVZ/yPN
+         egXBMkF6XC1BsgtC8EBcMY3uag/tIKmkHnS4IrjMdcE4E2Awn541ZmsGgDmvcUYU+yu7
+         CpxA==
+X-Gm-Message-State: AOJu0Yz3FM+oTqIR2uMJj+XM9DrMG3trpCutHsSk2tfcV5vpIJyCKQ6C
+	Z6sWsT+5YOoFjrVyRGjzEweS9jYR0XYuoDXA8IX1bx2T44/M6Q085WY70OmC7B457BqE8pfnU6X
+	GllFQew60O+YKrHb79J1XEOYhDCF//UmcecBJLD2QmP+0JtjKEKlUD1tqsMzUzyk=
+X-Gm-Gg: Acq92OEtE3iH7VXNVplCfp2oWVTLaqnlMYCu7zVBhndQnXQshf2mbL3xbtpDPAk6pUc
+	zwzjssNbAmQq2S2PyAvB6qcBr2OnYC1oNdXRKeknzVieBoZQv928zRmxM2u+Yg+0//CiBwpQRGb
+	xXD57hl14Lx6sKi0WDzwIfRvdjyD46kk8uhB8yv6cW6WGIZ+mJC0+lH2lXNniZGR0fGxhXPeudl
+	AAnl/YPFcrg1q0nT4uyZMNDxfcLF3DEkPMcisREQe2vPn8TkQUWZC4il/8rW7bDpVc5RV0Z4yMW
+	7alPY1yZMdWKhUNqRgac4UlKZhFzuYpr9D2Ha6Yz0rxSyR8yqbeJ1rjMgkgzBGlYQfW1gMasK4Q
+	cRkhZckTfesaOqobFtnxkLoBVqYAWOZBDyq2jEiqfv5oBxABV8P4=
+X-Received: by 2002:a05:6a20:939f:b0:3a3:2b7e:a4ab with SMTP id adf61e73a8af0-3afb00314e2mr1814723637.44.1778655522418;
+        Tue, 12 May 2026 23:58:42 -0700 (PDT)
+X-Received: by 2002:a05:6a20:939f:b0:3a3:2b7e:a4ab with SMTP id adf61e73a8af0-3afb00314e2mr1814696637.44.1778655522008;
+        Tue, 12 May 2026 23:58:42 -0700 (PDT)
+Received: from [10.204.86.121] ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-839656464fasm25694269b3a.11.2026.05.12.23.58.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 May 2026 23:58:41 -0700 (PDT)
+Message-ID: <82786487-264e-4cd5-bb2c-dcae9813de4c@oss.qualcomm.com>
+Date: Wed, 13 May 2026 12:28:38 +0530
 MIME-Version: 1.0
-From: Jack Sequeira <gabbar.silver@gmail.com>
-Date: Tue, 12 May 2026 23:36:18 +0530
-X-Gm-Features: AVHnY4LMOn8iFh928FuWoVjIEi57q4WCq-xp4w9mHWR5DSj05XHKRN5ZXzU1ieQ
-Message-ID: <CAHN-tEB5MH9iVFxpFyVg1caZUBLekr85NgcBmiqqvYr=wuTzPw@mail.gmail.com>
-Subject: MT7921 MediaTek Driver Failure
+User-Agent: Mozilla Thunderbird
+Subject: Re: qcom: Add cdsp1r.jsn for sa8775p platform
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Content-Type: multipart/alternative; boundary="000000000000f3a72c0651a2b811"
+Cc: linux-firmware@kernel.org, venkata.kota@oss.qualcomm.com,
+        kssb@qti.qualcomm.com
+References: <2d982640-1f8d-47e1-b626-2e40d69eba98@oss.qualcomm.com>
+ <xfmj6boz5a4lbu2lvgnpmrikjkfcbgbog7ue25bo5medqbe25v@zidc6g26ukza>
+Content-Language: en-US
+From: Saddam Patan <saddam.patan@oss.qualcomm.com>
+In-Reply-To: <xfmj6boz5a4lbu2lvgnpmrikjkfcbgbog7ue25bo5medqbe25v@zidc6g26ukza>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEzMDA2OSBTYWx0ZWRfX8eDPmNUOOPwH
+ LBEqjZ8fS6B/M5R4aV9FJZiDiaT8HPYQgU0XunypZ3bxHTBLGO9vRfn4onBsME/lSxRhXhcT5w6
+ Ei3QgQjrN+fEU2yz4p91EH0za9iHDHfJ9zqZsuzwojyIlkU8kBDVDs97ieS9atD3ZkI8dfFvkAJ
+ 74bgvD5jcLFS1+jkS4AB4yrcL/V66XoLrh+sdivlMNrKeu0H0ajlSx8T6TuA6g/oQMtDdCkrydC
+ wYz+7Chkjlp0Bh97SdnxKJLXq4PBQiDx5/njHp3mD3wBmIrQmhk8Cp1m62OsWmxHprSRYhbppAO
+ 7dnaLKyiBLYEPkVPL4jr2otcFZPb1DfndgGHQI9XhkE7WXiWwveTnVz8Vuhg8eD8GvfLTyJqVzP
+ ToOHuZbw8uMMqXMEoUbIWls4rTgHUh0we6m22iDOwzKIDC+HuuG86G5jMJcxXHheYMzeJILJk5+
+ DrPEiHFcEU+n6ziENug==
+X-Proofpoint-GUID: 2Fkynvj4lsYfJQ9sfL-6fMzpdcOyYqwa
+X-Authority-Analysis: v=2.4 cv=bp98wkai c=1 sm=1 tr=0 ts=6a042123 cx=c_pps
+ a=rz3CxIlbcmazkYymdCej/Q==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
+ a=qC_FGOx9AAAA:8 a=3C1IY_mSYnZJFgwLOGwA:9 a=QEXdDO2ut3YA:10
+ a=bFCP_H2QrGi7Okbo017w:22 a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-ORIG-GUID: 2Fkynvj4lsYfJQ9sfL-6fMzpdcOyYqwa
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-11_05,2026-05-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 adultscore=0 clxscore=1015 bulkscore=0 malwarescore=0
+ lowpriorityscore=0 suspectscore=0 phishscore=0 spamscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605050000 definitions=main-2605130069
 
---000000000000f3a72c0651a2b811
-Content-Type: text/plain; charset="UTF-8"
 
-I hope this email finds you well.
 
-My name is Jack Sequeira, and I have been using Linux for quite some time
-without major issues related to WiFi drivers. However, I am currently
-facing a problem with my system after it resumes from sleep or suspend mode.
+On 5/12/2026 9:05 PM, Dmitry Baryshkov wrote:
+> On Tue, May 12, 2026 at 07:30:28PM +0530, Saddam Patan wrote:
+>>
+>> The following changes since commit b965e85c15a94974d4a6390972fc1cbc1bb109cc:
+>>
+>>    Merge branch 'amd-staging' into 'main' (2026-05-08 18:54:42 +0000)
+>>
+>> are available in the Git repository at:
+>>
+>>    https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
+>> dsp-fw-lemans
+>>
+>> for you to fetch changes up to 6a81adce2fbb4e281a7508fffa76f8fbeed79996:
+>>
+>>    qcom: Add cdsp1r.jsn for sa8775p platform (2026-05-12 19:08:11 +0530)
+> 
+> diff --git a/WHENCE b/WHENCE
+> index 3a88a751..34abea5f 100644
+> --- a/WHENCE
+> +++ b/WHENCE
+> @@ -7040,6 +7040,7 @@ RawFile: qcom/sa8775p/adspr.jsn
+>   RawFile: qcom/sa8775p/adspua.jsn
+>   File: qcom/sa8775p/cdsp0.mbn
+>   Version: DSP.AT.1.0.1-00196-LEMANS-2
+> +RawFile: qcom/sa8775p/cdsp1r.jsn
+>   File: qcom/sa8775p/cdsp1.mbn
+>   Version: DSP.AT.1.0.1-00196-LEMANS-2
+>   RawFile: qcom/sa8775p/cdspr.jsn
+> 
+> This is the strange place for the file. If you were to keep the entries
+> sorted, then cdsp1r.jsn should come after cdsp1.mbn. Please correct it.
 
-After waking the system from suspend, the WiFi driver often fails to work
-properly. In some cases, the system experiences a kernel panic, but most of
-the time the WiFi stops functioning and I am unable to access the internet.
-During this state, the system also does not shut down normally, and I am
-forced to power it off using the power button.
+Added after cdsp1.mbn.
 
-System specifications:
-
-   -
-
-   Device: Asus TUF Gaming F17
-   -
-
-   Operating Systems: CachyOS (latest version) and Debian 13 with updated
-   packages
-   -
-
-   GPU: NVIDIA RTX 2050
-   -
-
-   CPU: Intel Core i5 11th Gen
-   -
-
-   WiFi Chipset/Driver: MediaTek/RealTek MT7921
-
-I would appreciate any guidance or support regarding this issue.
-
-Thank you for your time and assistance.
-
-Kind regards,
-Jack Sequeira
-
---000000000000f3a72c0651a2b811
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><p>I hope this email finds you well.</p><p>My name is Jack=
- Sequeira, and I have been using Linux for quite some time without major is=
-sues related to WiFi drivers. However, I am currently facing a problem with=
- my system after it resumes from sleep or suspend mode.</p><p>After waking =
-the system from suspend, the WiFi driver often fails to work properly. In s=
-ome cases, the system experiences a kernel panic, but most of the time the =
-WiFi stops functioning and I am unable to access the internet. During this =
-state, the system also does not shut down normally, and I am forced to powe=
-r it off using the power button.</p><p>System specifications:</p><ul><li><p=
->Device: Asus TUF Gaming F17</p></li><li><p>Operating Systems: CachyOS (lat=
-est version) and Debian 13 with updated packages</p></li><li><p>GPU: NVIDIA=
- RTX 2050</p></li><li><p>CPU: Intel Core i5 11th Gen</p></li><li><p>WiFi Ch=
-ipset/Driver: MediaTek/RealTek MT7921</p></li></ul><p>I would appreciate an=
-y guidance or support regarding this issue.</p><p>Thank you for your time a=
-nd assistance.</p><p>Kind regards,<br>Jack Sequeira</p></div>
-
---000000000000f3a72c0651a2b811--
