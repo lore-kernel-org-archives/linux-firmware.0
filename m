@@ -1,109 +1,127 @@
-Return-Path: <SRS0=XUts=EG=gmail.com=nixonjickson.mypackagingpro@kernel.org>
+Return-Path: <SRS0=Cr2W=EG=send.c127.dev=0100019eb284f2f3-52c3f99b-b3bf-41a1-87aa-50966385d0b3-000000@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BBCBCD8CB2
-	for <linux-firmware@archiver.kernel.org>; Wed, 10 Jun 2026 16:14:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 698F2CD8C90
+	for <linux-firmware@archiver.kernel.org>; Wed, 10 Jun 2026 17:12:00 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 01CBA1F00898; Wed, 10 Jun 2026 16:14:32 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=209.85.221.66
+	id 156681F00893; Wed, 10 Jun 2026 17:12:00 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=54.240.9.1
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1781108071;
-	b=EX2MLUI+T1UHZeaXHY0AsITzq3qbR7+I4cGIwL6r1MJ+M7KbbgNq0kOHSZunoLv07K1Q
-	 KqoGDohyXE3ItnxSgl2nZENCTmwNfLvWWLyT78UM8nftnXETSvx4HrBf8BgmlPdue45Z6
-	 0hjmmZ8wb99E5JRHSiqROxrw3BLWERE4r33p0FrZfZbOdjO6nVVcLcJFUH7CY/mZoVQro
-	 mSeKrOfjBg22PJQW0y7INBRhCCDi4kL1LmFc57ZsLTFwJkgWZGtQOxhujVq9ns6Y/GCEn
-	 o0HK6UWwD/qpgkwuy7LtoIVGFGOgrAL5ioEQxiWztU3kSsgGra/zh+sXSmj3zcGtamg==
+	t=1781111520;
+	b=nEQLaqq58/+qhlebr8cZEGTF2cXO2mikMaZcXaIKo7dtXJr1wpIkiezOYIASSafBpz3A
+	 FJbGWo1ZsAbsrgOrsQMkYOcWXc3IlyrxbGReCQuWNijcChYdKvxsTI7GGNh9wKBQmWPzs
+	 M/lrs2AaQ7fgUgwfmoY/miIabgise8xottZbqHE7H95Ny4IIULe69063aR3KQi18zVtf8
+	 b4ZGLVWyxC7h9+7leQxs3BNNQOzcsyrfC6PG2b76a8jkRrs8FLhzZil61OF0bIOr77ulu
+	 U8G1BEVaH+8qcQ79QtdAb0KcO4B9xKUodwiFtYobO48z4worDnsPm/RLRvHMsOnG/Jg==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1781108071;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Date:
-	 X-Google-Original-Date:MIME-Version:From:List-Id:To:Subject:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=IWCFpolspGc/RJw1Dy0p1fmr7AwDKsQ9rsQudwlhOLM=;
-	b=VSfre+jrLG0jQyWgDXHwg2uyml5YCLcttQWaPsW5c60AvE80emjLJwP2ScGvTvob5bbA
-	 dUM6C+tDROdz1S2WXSMLrHBbQyrAEwI4KyUrQ+rGiP1vptOst6eCKtZcaBJx2bHzaBhvq
-	 jN4Qb89U7ViwspNj833JitnJ6TPNjbY2LL+giyPpXB3AsFPJqks90a2ZlqCRQdxwi3/ne
-	 YOOyFzForK4s2a9YA5AP6fgMpY3/xy5YKd39lDuj4uLrQaxTgbfyLZENkYCJAXpbAyEQ0
-	 BZR01XWMtwRr7UHH/sgfslXUcROQ9dtGazmfwFmB4vOdgahg8KZgLU8vphxYBX8yGfA==
-ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=DR5IYE8j;
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.221.66
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+	c=relaxed/relaxed; t=1781111520;
+	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:From:To:List-Id:Cc:
+	 Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:
+	 Content-Type:Feedback-ID:X-SES-Outgoing;
+	bh=2Qeew6AWhGTEkgv9VJvjtkcMIRlVzgqXpyUEtgKfBi4=;
+	b=eMImumqPf2lE9dBvYuQedTRe77K9ml0pULXA8E5r6azG68a6kOAVwIiFfYVADfeYifM7
+	 8wADUVKxjdjb+s8YuRjRqgZpH2Uv68ZzFN27d9+0AfXq+eX+H68uWjasD4yFThsJr01u8
+	 dqIB7tR2jhNX+H7z6T3Jf15/wva6HA7oLSttRocQQqchzicVKRTjdabxE+gL7fpM0PF1+
+	 baIMWqmFl/ebKkn8Q5Og5x/lVDBFdxfHDF4NC7aPV/oz/3cOYzQtb/TYWTisGvW1RZyCY
+	 6AijW8j9emurNVBJYH05t0P3YUYln7S3DcAVlT0YY6NxxRHBc25C8a4UmRraLyVYF+g==
+ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=c127.dev header.i=@c127.dev header.a=rsa-sha256 header.s=resend header.b="o7eZDF/n";
+	dkim=pass header.d=amazonses.com header.i=@amazonses.com header.a=rsa-sha256 header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=ZIZp8PgV;
+	dmarc=none header.from=c127.dev;
+	spf=pass smtp.mailfrom=send.c127.dev;
+	arc=none smtp.remote-ip=54.240.9.1
+Received: from a9-1.smtp-out.amazonses.com (a9-1.smtp-out.amazonses.com [54.240.9.1])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 7351D1F00893
-	for <linux-firmware@kernel.org>; Wed, 10 Jun 2026 16:14:31 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 3F7851F00898;
+	Wed, 10 Jun 2026 17:11:58 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=DR5IYE8j
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 7351D1F00893
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-45fd461e4a5so4870943f8f.0
-        for <linux-firmware@kernel.org>; Wed, 10 Jun 2026 09:14:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781108070; x=1781712870; darn=kernel.org;
-        h=content-transfer-encoding:subject:to:from:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=IWCFpolspGc/RJw1Dy0p1fmr7AwDKsQ9rsQudwlhOLM=;
-        b=DR5IYE8jn+gywP23IqWT9fkLsOLXJrO5MuybvL3Ywctn/mJc1qfh5+H1VNmHOWQ4PI
-         gk/D53YS+udYM8dbzhE3k/2sWcu5Q+t6wbSFltsJv7+abZGD9GuIxsuJ39jyNAkFQmER
-         QN/zoq8nB1nUMt1V0XuFIxsIfy3yswpql8douDFzDAb6Wa3JGAAQREWrcFb8QUCgvSF9
-         As7Us/yQUeLe8lLCgLSFd7GPn2ZrLMJDleQhmjxOvD6/z3hUZc0rnwvJVydwuKT7TQg3
-         4UjDaj2ffXSbecmDsiruVqYyGOq6fjZGl63DysTckriJDZ72GFdnaBvu0bjvP617G2Mm
-         jiQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781108070; x=1781712870;
-        h=content-transfer-encoding:subject:to:from:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IWCFpolspGc/RJw1Dy0p1fmr7AwDKsQ9rsQudwlhOLM=;
-        b=jIOtQxA8MrfaRNB96QC238Sn9znGYlXW2oqO3gKd/J1MEP7YiPGCzYP6iFxiiMLmMn
-         Lba2X6k0u+wZbLsBlFv7TrWqxdNoCtieZRmGnQhCiGC5J7NwKoNQtVc0WMy3D9GhYMaU
-         adfurFMMrZKU6b/gKmpUUdF/MW6ixhEkTDzftYxpZLzZOb6qiYUNLO1niHyK+KUxLCdr
-         03pmpwMJy6q3rMpXg7DH8aTpxx72oMw/GonEKhKL5wIKJDHUJwWiCjU/f/CW1ZBxkyuJ
-         XkebEWGCG6wk4DlycjqcF6YnaAw+EYfbEF7AvKhgpCftloQHcLojyRK7+jktXlwgJY2Q
-         bcGw==
-X-Gm-Message-State: AOJu0Ywe7Gzawxm7QXGR4nyuQdSTG+oK5WfTWMZUiyY2PvufWguakOxT
-	zCcNnh0+f2+iKdvKNwhC9szE/J/eWWjX92b9/oFB3Lmh0GiM9i/1cEy/FQHUxiXN
-X-Gm-Gg: Acq92OE47h3BxGGTiw6E23vMmV1HcPtaktqFk6yG+DDnqOBl+OXNFzkkUsuGZUJ+re9
-	7JJ6x0HTIJymZCDxmRUJNB2cXF+aJhExRY9F42Ukwb0xBNbpQIZ21XImeycTSvGTXkaFEusoGWl
-	Z+yx0pTDnKnybAQSvVaOPV9avduajQTg1eVyCJmSvByBPOKLLUdUfxDf17Csk/2YVdDqv0AFnge
-	6OCZvFFnhd6b2byGn5f17TVOYPKG164MiOyIc1JjnRqCJolKEm+KqQxZm/wXRcxerE2B2aNRj7e
-	TFHFK+rw7TTGsKTfZWbuGha/KqOTmG9Uv187Ocit+SpIKsgYB7YbuXAxUTpfyFYtahJK3PEQiyu
-	YuqfpfgBBcKQPAHLo4RiTf6xhsEDDlmjoVPwQnrSM8j7ueC03TnVAPArcdCOYlT+vBtXFwqUk0H
-	86VvHjEHU1jFZxlG+rhhp704d7yymkLeMUmnRcf85cEycrURa02bZw5B7DV5Rg1iWgjvGWdhc=
-X-Received: by 2002:a05:6000:54f:b0:45e:b21e:f840 with SMTP id ffacd0b85a97d-460304ec0e8mr32235008f8f.8.1781108070029;
-        Wed, 10 Jun 2026 09:14:30 -0700 (PDT)
-Received: from DESKTOP-LAN43DA ([39.46.211.119])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f344762sm77645777f8f.23.2026.06.10.09.14.29
-        for <linux-firmware@kernel.org>
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Wed, 10 Jun 2026 09:14:29 -0700 (PDT)
-Message-ID: <6a298d65.a4f7d8ca.570ef.364e@mx.google.com>
-Date: Wed, 10 Jun 2026 09:14:29 -0700 (PDT)
-X-Google-Original-Date: 10 Jun 2026 12:14:28 -0400
-MIME-Version: 1.0
-From: nixonjickson.mypackagingpro@gmail.com
+	dkim=pass (1024-bit key, unprotected) header.d=c127.dev header.i=@c127.dev header.a=rsa-sha256 header.s=resend header.b=o7eZDF/n;
+	dkim=pass (1024-bit key, unprotected) header.d=amazonses.com header.i=@amazonses.com header.a=rsa-sha256 header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=ZIZp8PgV
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 3F7851F00898
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=c127.dev
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=send.c127.dev
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; s=resend;
+	d=c127.dev; t=1781111518;
+	h=From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type;
+	bh=ddvJQW/VBSYC7C5MbMmkcrXjLq/hMmJe6bydGstt7yw=;
+	b=o7eZDF/n0QL9l4yOQyE8g1vCf673PXSQmkIdd/Gx+pCSUiRF0oyfHa402lFfx/1H
+	BMU/1LIgZa82kgSeFb5j1NTGB0gHmcUPHj/PtdJyrTh4cEAz6frUCs7j0hpj/vLY5uS
+	ikuf05dEVfvXT+GWJHCGJxBQ2S93frboGw9aJEyM=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1781111518;
+	h=From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type:Feedback-ID;
+	bh=ddvJQW/VBSYC7C5MbMmkcrXjLq/hMmJe6bydGstt7yw=;
+	b=ZIZp8PgVpmBByYuUk49GiQ1kbMNbV6SfK7Vv7/XnndXVOqH7dCN6rmKTnBJYQeen
+	rRx3NTLh0MViRAtrXWSj/ZMkGxYptcpZ5PuhdoRG0ll00nFW1ri+D+5hzPswkgi3+Zq
+	eNmpAnxFM7YUBEZPmm30Gmc5IElUHGfip9DkB/TI=
+From: Johan Alvarado <contact@c127.dev>
+To: nic_swsd@realtek.com
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Subject: Customized Bags and Boxes
+Cc: linusw@kernel.org, alsi@bang-olufsen.dk, 
+	dmitry.baryshkov@oss.qualcomm.com, linux-firmware@kernel.org
+Subject: RTL8367S DW8051 SerDes firmware: license clarification for
+ linux-firmware inclusion
+Message-ID: <0100019eb284f2f3-52c3f99b-b3bf-41a1-87aa-50966385d0b3-000000@email.amazonses.com>
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 10 Jun 2026 17:11:57 +0000
+MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
+Feedback-ID: :1.us-east-1.z4rHY0qbNtjoW80ZyzVy+DEul17RQEOMT7FC66S60ffkhLWkV35D8ZWXVyxJY1/89bAuLCem4GFJq1VXsxM0u6ZfZbvT1qSjDUeuZG9/Lxk1uINIqi7CenEa93u+fNllqnJMZ0quaBrclhnmtzdFllG4KHSjZOEcaGLa1BWoSpA=:1.us-east-1.epbACCJLarUaEI78XZoGREJ9LamRjxMH5pM2kZb64rA=:AmazonSES
+X-SES-Outgoing: 2026.06.10-54.240.9.1
 
-SGksDQoNCldlIGFyZSBhIHBhY2thZ2luZyBjb21wYW55IHNwZWNpYWxpemluZyBpbiBj
-dXN0b21pemVkIGJveGVzIGFuZCBsYWJlbHMgaW4gYWxsIHNpemVzLCBtYXRlcmlhbHMs
-IGFuZCBzdHlsZXMuIFdlIG9mZmVyIHR1Y2sgYm94ZXMsIHJpZ2lkIGJveGVzLCBtYWls
-ZXIgYm94ZXMsIHJldGFpbCBib3hlcywgc2hvcHBpbmcgYmFncywgYW5kIGEgd2lkZSBy
-YW5nZSBvZiBvdGhlciBwYWNrYWdpbmcuDQoNClBsZWFzZSBzaGFyZSB5b3VyIHBhY2th
-Z2luZyBkZXRhaWxzIChib3ggc2l6ZSwgcXVhbnRpdHksIGFuZCBzdHlsZSksIGFuZCB3
-ZeKAmWxsIGJlIGhhcHB5IHRvIGFzc2lzdCB5b3UuIFdlIGFsc28gcHJvdmlkZSBkZXNp
-Z24gYXNzaXN0YW5jZS4NCg0KTGV0IG1lIGtub3cgaWYgeW91IGhhdmUgYW55IHF1ZXN0
-aW9ucyBvciBqb2IgdGhhdCB5b3Ugd291bGQgbGlrZSB0byB0cnkgdXMgb24uDQoNCkJl
-c3QgcmVnYXJkcywNCk5peG9uIEppY2tzb24NCk1hcmtldGluZyBFeGVjdXRpdmUNCk15
-IFBhY2thZ2luZyBQcm8u
+Hello,
 
+I am the author of a patch series currently under review on netdev,
+adding SGMII/HSGMII support for the RTL8367S switch to the mainline
+Linux rtl8365mb DSA driver:
+
+  https://lore.kernel.org/netdev/0100019eb0b18=
+22e-ffc5626c-1b9f-4c8a-8a1a-759a9e665f4f-000000@email.amazonses.com/
+
+Bringing up the SerDes on this chip requires loading a small firmware
+blob (1233 bytes) into the embedded DW8051 microcontroller. The driver
+requests it via the kernel firmware API as realtek/rtl8367s-sgmii.bin.
+
+The only public source of this blob is the rtl8367c vendor SDK as
+distributed in GPL source code releases by Realtek's customers (in my
+case the Mercusys MR80X v2 GPL code drop), where it is embedded as a
+byte array (Sgmii_Init[] in rtl8367c_asicdrv_port.c).
+
+I submitted the blob to linux-firmware:
+
+  https://gitlab.=
+com/kernel-firmware/linux-firmware/-/merge_requests/1092
+
+but it cannot be accepted in its current state: the surrounding SDK
+code is GPL-licensed, yet the actual source code of the 8051 microcode
+has never been published, so the effective license of the blob is
+unclear and GPL compliance cannot be met by redistributing it
+(see review by Dmitry Baryshkov in the MR above).
+
+May I ask Realtek for =
+one of the following:
+
+  1. Submit the firmware to linux-firmware directly,=
+ with an
+     appropriate redistribution license, as the Realtek NIC team
+     already does for the rtl_nic firmware files; or
+
+  2. Provide an explicit license statement permitting redistribution
+     of this firmware via linux-firmware, and ACK the merge request
+     above.
+
+If this mailbox is not the right contact for the switch =
+product line,
+I would be very grateful if you could forward this request to=
+ the
+team responsible for the RTL8367S / rtl8367c SDK, or point me to the
+right contact.
+
+Thank you for your time.
+
+Best regards,
+Johan Alvarado <contact@c127.dev>
