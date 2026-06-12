@@ -1,214 +1,359 @@
-Return-Path: <SRS0=l1EM=EH=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=J+/L=EI=realtek.com=shumingf@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7EAE2CD98C7
-	for <linux-firmware@archiver.kernel.org>; Thu, 11 Jun 2026 15:38:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16A92CD98D8
+	for <linux-firmware@archiver.kernel.org>; Fri, 12 Jun 2026 06:19:58 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 6C8761F00898; Thu, 11 Jun 2026 15:38:22 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.180.131
-ARC-Seal: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=pass;
-	t=1781192302;
-	b=lmeOJ6twvFLnjWYmAfYLLeuDkGywVtdCytPqn0j806Eib0hNcQC0UcFv5W1sLFLbcIOk
-	 t5lxQeD5gajpH4wVtrYI8xdMEaBbLhoihbRz7dGIibICP5sbktwvo4ASyipHeE2sRn5/W
-	 JC4CL7wtk1megbEkRWdMB1/g64PD7Li6WFtrn/wOuxru2fl61ggHODk7ZhwJRdQi0rM+z
-	 YImIDMjXdHxamXXJaN4LKNERBKYqczr1kwdVntFbkgONOVR+PclXw+Id24TM20wpajgcr
-	 QQ/dqT2hD6o+T8raRfG1PXPdP6tSXv2rgBSU2afSeHqZQVvz+eBIEnen9ckuQv9yD/w==
-ARC-Message-Signature: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1781192302;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
-	 X-Received:X-Received:MIME-Version:References:In-Reply-To:From:Date:
-	 X-Gm-Features:Message-ID:Subject:To:List-Id:Cc:Content-Type:
-	 X-Proofpoint-GUID:X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=T2g9ljgsArcayRG90QB8NEdqssVRYMaC/LRGDsh3uGs=;
-	b=LRJX2DMz36PWMpmc7IZVENjmDmBe5XdN1Kl3QZSpKHmnON6xIoRDfhQrk0UQwSc0fjty
-	 8ba9QObON947q2E0yweutJzeREqhBeduZytoC3JoN0vIoaXQvNh3wu7oKCKuZB5OxIVcU
-	 cmrn0Ct6Wp8P0dDou24Hs9joLZwlFGKLEC44hVaHWUuf1VDevdqv9Y67hycnMiT0Kduin
-	 yJu+yEy2/X3VC9q7fDWkCYTmMfKotvNndCbk2KcIId6Kvo0NZ54YS/7OmuajxAPu2O/kM
-	 P2o5n6cPrriuRN276bgMs1py3fR/g79pYF6VwzDDNbZ5hzGIRTgFAQLMrH1YaBrI9zw==
-ARC-Authentication-Results: i=2; smtp.kernel.org; dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=my591qbL;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=dJVJmc5M;
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	id DB3F71F000E9; Fri, 12 Jun 2026 06:19:58 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=211.75.126.72
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1781245198;
+	b=09Y/OY7spZKm4VSP0WWhRPpoJHDr6LOQzUE/LsNjqf+9OOlgo22FJggQWv6mEq+/BWMt
+	 i06gu2Knhu4do1OafEEDBOdV0x3LKik2z66IRL/sFAUPyx7somn1JSVKOrRStM3lrJ9yk
+	 KOrqDW41eKQ75VStjxiIM9y1i/Z+xC0/3Y0xoNLBkRUZRM9zqJUb0lsdDqG5yqDriF1hG
+	 uABlXB5IlzL+5bUGrbR4ZqRzcWNqp0x72Y3PzQT87VzdQnuqmAcrAjIx53Y+PBnOgoaP/
+	 fnwiyYAUPdafHSfp6OLlgW1FesYGVH8GhEdGmnrEqAZZnEcu0tHkxLh5TR29cwknlFQ==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1781245198;
+	h=DMARC-Filter:X-SpamFilter-By:DKIM-Signature:Received:Received:
+	 Received:Received:From:List-Id:To:CC:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type;
+	bh=pX9DdnxOfl1tjCdr8NnZMNYgyThbpyRNqQnegXdbUsw=;
+	b=Hw2FsqVLvhyhXKE0eTOsC6dgcBIfGJHetDotO0OvzJeElExY067C9GdH1cciMh8dm9N6
+	 0u8GRlR3eu/Qo+51SrJfJiKW3hhliiwmelo5WEJXqHZvzOyQrblNfLflQxzIEJklVXV9n
+	 uV97ZVcHGKn2J+QEntJVPnKBYrb/GF/ldS3/MO0efWFT/gsqdaBgDpXE7JkM3uB18plVl
+	 rXVCeqBUHT0FhE+Yil6nsPGaaZpdCGuybb0N/QCLXZBRo5K5i8icm0gKqxTT9c0LoNi3e
+	 aXSUjigA1eO8cbN+YuoOmCSAQEQx2knNXImeShXhm+rK7XiEc7oBbKQASKzcPJsDd4g==
+ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=ibdhfHID;
+	dmarc=pass header.from=realtek.com;
+	spf=pass smtp.mailfrom=realtek.com;
+	arc=none smtp.remote-ip=211.75.126.72
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id B33811F00893
-	for <linux-firmware@kernel.org>; Thu, 11 Jun 2026 15:38:21 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id DC5521F00A3A
+	for <linux-firmware@kernel.org>; Fri, 12 Jun 2026 06:19:56 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=my591qbL;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=dJVJmc5M
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org B33811F00893
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65BEsHH2956206
-	for <linux-firmware@kernel.org>; Thu, 11 Jun 2026 15:38:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=T2g9ljgsArcayRG90QB8NEdq
-	ssVRYMaC/LRGDsh3uGs=; b=my591qbLXFEpGzwdsgB7ZVyJfxfBvOjDAGiBva5i
-	IJr8nkaD/WTDVzmOHfcdGbZ1NDKRpaDu/b0pV4NOWs5JajqEr8O1MvV4W7hut/W9
-	wNzB2Ov0hjPv69LNhXUqmkf3iTSG2I9oGIs7eP2ba75DqMgf5I44ZDsT/SPz6MHW
-	pWVfTkoqoBiTTrrQIR2D2ioYnoYhIf6sVLnE56biqRCFHX26Y5ZPCFvzHQfdaQ5t
-	R//lNWXuWpnixfNFCtoR//n6QEhtGghLCIAm31XzIWAihZuSE335nvZhh2+43beT
-	gHWo9SaIMrogqHvBLdftkAQ9dyF568KgDOyxHoxAaZdFow==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eqe70469t-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Thu, 11 Jun 2026 15:38:20 +0000 (GMT)
-Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-c85a2bf5388so4363324a12.1
-        for <linux-firmware@kernel.org>; Thu, 11 Jun 2026 08:38:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781192300; cv=none;
-        d=google.com; s=arc-20240605;
-        b=CMlBMfl8DZwDunzKkxfcB0mKaNcmqbyesnjwT4SEme+r3Ar8OC3Zlkhv9E4/fa/B+4
-         n+J46TfseDyt0vM3oEKEzen6ct5Frmom4z/4lBhiU6BiCmaw3qAgoeL38yy9xmsJ+xQL
-         9dY9rbinGG2I7VSduMlT3pwDrb0uC8XFrOSlcdZQ9lkb8IWQlDrk8z5DRbGoFsbbGuND
-         pEghD4mo/Bt7P4pG/umE+hamhFYtBW/BExxcvkboGH8i/jCpWlS5iDr8aKyXDM5GyMCv
-         sFp+kOt4l0KzwgZddxciAvISX+ZPAhk15xkKBi2/2eeHraOW8jOc9EEFemhlcVl/3ic3
-         mLog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=T2g9ljgsArcayRG90QB8NEdqssVRYMaC/LRGDsh3uGs=;
-        fh=0hZIwwxU0IvdnU3puZRSUu8SPP/I17IT4iH7elxaJEY=;
-        b=Jomf8O2+kwNQnkyj6VwuhhlwlwEqfGfMQ+VLqhwAECt98du3zwom57HIQoHXNBJx7U
-         JdC3PY/NxMQWo2YSlNalz3dihoF0dagqULnQO7wZORznAoqalm4z/nCY6kl1rlXDyf+2
-         dD1TpgdOgbBIPnvkv6pXUrz8mQvV52t0o1BZyFM8FWGN/up17Fd6gKY8VGM0Qe9/Quys
-         j77NbW6dkl3h/iMll21mDhqexoHgI//ZdLsPFJVy8HuL+4TQd7n3skVcmK2ng3YiPGmS
-         YXCgtq1hZCVWeZ8uprOAkuFmFrBF6U1Le5d+6OrRpYFAAHGZctdtqJlciwA2yhD0jrh4
-         9Chg==;
-        darn=kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1781192300; x=1781797100; darn=kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=T2g9ljgsArcayRG90QB8NEdqssVRYMaC/LRGDsh3uGs=;
-        b=dJVJmc5MBXBrfeA/8zP1bvIA91qxeAgqeoCbi8MrJmKeJgK0NR177FCFII9RrzwESR
-         N0SOh4q5jqFPNWbnA4riF0Hx/UoxiwGgLY00wJV8Rhfm4WsAHYftgpSyyUIqpZq3rMua
-         7XE0jossf1O7k1k54zQunUTxlft+5HPN91+YqdhrzAcWIEbxNM/PSLwoy5kEWovD8Y2Q
-         i7bYjC1oa874FXYWJ9eML+OCWyMdxt9ox7fk44kkJwLHPxuhK+t2Q/0euNs0dxQzuAEZ
-         1B0fy+dyzommuk+hSwnnFHKLwBKpGyOoWHZLcMIfQDgFfRrL4Dkd7Ijb+oAAoRY55W0H
-         496g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781192300; x=1781797100;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T2g9ljgsArcayRG90QB8NEdqssVRYMaC/LRGDsh3uGs=;
-        b=VLI++KsP5+HGabdtq5MgVs6ne4FEh/pXCTegcPD166Kmv54xnRfvxxWTTr8uCFdWzI
-         SWXEOSYOPWLYWrLKySB7pBN0It4V0kzEZcPvMbB2ZYfxHqLY0Bqk4U9J671T5vLvG+8a
-         adjziDCLAU4C4RyQTBPAZPi6F73Qx3nuOZehZVKGCkXLpM1WraDBniPctXIG4VcpFMQl
-         r7E8znVT09Kdzfd0o4d7lO/zaIlinGBF7y02r6A/RFLrWQFRgr9EeMQi6GKkz6j1A70X
-         j5vCfJyGD+AGv2PTmKC4CjQy1pN2tgxnNpGFmKpzn9tAjGzL92VFkOUmBY1RyyNDhphJ
-         t5Lg==
-X-Gm-Message-State: AOJu0Yz4gpI3WZZFl6VnefxkNCv45BkW65IEMtip/UWRi4OyHmPbzVtC
-	qBcUdhh7rNNDjaAZ8SvgjfBysaDFuRPfFidrH3cNdkjDMuycuYKZMYkOpu93rKvjAYHRTRI4sek
-	VCVQvngP6Pjb6Vw1Uq3HQnFsSZxKw6CI4+UN/2hXWg8924ZzFDwdaj54neE8+g+Nlu5qB2I62g1
-	nuh+avqBI1AqXAH2+lJICDnA63hwobunjOR5B4pGg9ReR5Iw==
-X-Gm-Gg: Acq92OFy8R5Cw6uxr6v2XHTTX8LHZnblBt2QhR9LjYUUDBDbV75lseTKUs7Tp2AcWC6
-	/pn7zUUvikKBSd8HHUDYFLhg0hvT67XPMcNT94QRl9Ey6OsChL0EzBo033Qv+RvWAmin8MTtsE6
-	8TnZ2MTllP8oWDeQBB+FFHs1UfbGxw7C1I/gwy2WERdJ/Xx6aRZX5W3ibzVqrLcQTfZ1uOMnSam
-	Xujhwmf/K3axccN5c4L5ymq4XPBEsS+a0gJ3k30kg5eoTgL
-X-Received: by 2002:a05:6a00:1807:b0:842:5b63:6116 with SMTP id d2e1a72fcca58-843367999bdmr3737287b3a.7.1781192299539;
-        Thu, 11 Jun 2026 08:38:19 -0700 (PDT)
-X-Received: by 2002:a05:6a00:1807:b0:842:5b63:6116 with SMTP id
- d2e1a72fcca58-843367999bdmr3737250b3a.7.1781192299002; Thu, 11 Jun 2026
- 08:38:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <cd48d687-d403-4b40-b23c-8eb3d4f5708e@oss.qualcomm.com>
- <CAO9ioeVpdtrrp54wdFsk4AEoMzvFsPYJWgN8+nDdwFiAJaUt3Q@mail.gmail.com> <2058ea0a-1a06-4810-a564-e7ad6ab0ccde@oss.qualcomm.com>
-In-Reply-To: <2058ea0a-1a06-4810-a564-e7ad6ab0ccde@oss.qualcomm.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Thu, 11 Jun 2026 18:38:08 +0300
-X-Gm-Features: AVVi8CcTHuYgJCgKp5N5FupVRc_jxCLs8Ty14eimeuRqj2pCtf9TShrGSS36Pgw
-Message-ID: <CAO9ioeUAiGw1UGPvX96ckYxhw5K817EjvMf3P2b8Q5-tZw3Q5Q@mail.gmail.com>
-Subject: Re: qcom: Update ADSP firmware for Glymur platform
-To: Venkata Kota <venkata.kota@oss.qualcomm.com>
+	dkim=pass (2048-bit key, unprotected) header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=ibdhfHID
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org DC5521F00A3A
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 65C6JrTR22515427, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1781245193; bh=pX9DdnxOfl1tjCdr8NnZMNYgyThbpyRNqQnegXdbUsw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=ibdhfHIDXPFflRczp8lsQN6kL/PdfeYu0CUkd8p58wzAYsVAv3Nbi3MZ4gs/z/bF6
+	 K9XUT+Mw7LFVSan/cNVouToCSnRp43AxWsTjh4Y6jXl7Qsq68O+JFKAU9z8lv7gPMT
+	 q07mU6IasAYPOy1tqNq4QqBfjbVq07czOv3XvUpniUD3jQoeTgO+zkWhLaJSTspo0p
+	 31bGp3/NPqsrOFYhUE7m4BPzoerbQw1YS06TjtNNpTCtwSTSFaHX22G8vlxwAWW7xv
+	 0x1bmII5EBtGii9CufJvx/lxA4WmvEajqpelEgi5RgGN7KrmjsBNyTKymbYfJZj1s0
+	 k+zwokpyayIig==
+Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 65C6JrTR22515427
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 12 Jun 2026 14:19:53 +0800
+Received: from RTKEXHMBS01.realtek.com.tw (172.21.6.40) by
+ RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Fri, 12 Jun 2026 14:19:50 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS01.realtek.com.tw (172.21.6.40) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Fri, 12 Jun 2026 14:19:47 +0800
+Received: from sw-server.localdomain (172.24.54.4) by
+ RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server id
+ 15.2.2562.17 via Frontend Transport; Fri, 12 Jun 2026 14:19:47 +0800
+From: <shumingf@realtek.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Proofpoint-GUID: wZ1C4fmpIP0vpKTZVEES0F2wb4zopsdD
-X-Authority-Analysis: v=2.4 cv=B9eJFutM c=1 sm=1 tr=0 ts=6a2ad66c cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=_glEPmIy2e8OvE2BGh3C:22 a=qC_FGOx9AAAA:8 a=EUspDBNiAAAA:8
- a=1ERdxhDqEc8Mfja-IKQA:9 a=QEXdDO2ut3YA:10 a=3WC7DwWrALyhR5TkjVHa:22
- a=fsdK_YakeE02zTmptMdW:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjExMDE1NyBTYWx0ZWRfX8D2xohE6GYjo
- PgvuBdTzbp+lV44F0E2HfWScInO7bPtq5+Nv6sS5fzwvyvXvJews7gbE6qxQZ0ju+n1iYOy8ey7
- DlDt5Jqc/t0SmDd/4KlvkClyCqzZnOVUkCCO+PNZZSVPek7IcM6VF81PtZ23G9y5+fBVXmEJD2m
- TUTI4iHDvljEgGuxsJdoL8GHtzjjKDma35mPrdRe3qTjiZgECr2waOWZoYK7WdkEZ1ftYQvOP83
- DNEMAGhMWjFClYdtks1pE6W9WDGZ1Wy4Bo8km9u1no34kccjRKi79Y1qFsAt2E9JuQKFPrZ/lwW
- c3JHAdKSKgZupqGjjX/C1QYBC5zTx0ByWJy9ndmqkWQ01sw0kJFOLFnL6BTfv0R5292lUTycQRa
- h4CqrXNVXrqA8TbY2Zk8FDwoGtRLkVi1Jw95R1ADcVRT36v9uwDgwKpUfgLt7LL2T5XZQkJtsaw
- Ct08GeKRF2mEZUepr4Q==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjExMDE1NyBTYWx0ZWRfXzDiIpf/gd+cb
- DesVzOm1KMh94wDLDl/cc2Eru5ioGqSv53fc4Euh/Yy4DpwRdloSfJK9Su6EXVv2urP3H0brXG+
- EPLxFI9fsBkLaaDKsHyv1C436rPYpGQ=
-X-Proofpoint-ORIG-GUID: wZ1C4fmpIP0vpKTZVEES0F2wb4zopsdD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-11_03,2026-06-11_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 impostorscore=0 malwarescore=0 spamscore=0 bulkscore=0
- phishscore=0 suspectscore=0 clxscore=1015 priorityscore=1501 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606040000 definitions=main-2606110157
+To: <linux-firmware@kernel.org>
+CC: <flove@realtek.com>, <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
+	<derek.fang@realtek.com>, Shuming Fan
+	<shumingf@realtek.corp-partner.google.com>
+Subject: [PATCH] realtek: rt1321: Update the patch code to v1.10
+Date: Fri, 12 Jun 2026 14:19:44 +0800
+Message-ID: <20260612061944.358264-1-shumingf@realtek.com>
+X-Mailer: git-send-email 2.54.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Thu, 11 Jun 2026 at 15:28, Venkata Kota
-<venkata.kota@oss.qualcomm.com> wrote:
->
->
->
-> On 6/10/2026 4:20 PM, Dmitry Baryshkov wrote:
-> > On Wed, 10 Jun 2026 at 12:18, Venkata Kota
-> > <venkata.kota@oss.qualcomm.com> wrote:
-> >>
-> >> The following changes since commit b672962ed4ea6f9de52bc7bf9e04e96585eb512d:
-> >>
-> >>     Merge branch 'superm1/unknown-license' into 'main' (2026-06-09
-> >> 19:38:15 +0000)
-> >>
-> >> are available in the Git repository at:
-> >>
-> >>     https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
-> >> dspfw-qli-glymur
-> >>
-> >> for you to fetch changes up to 2cc69912d8d7eecaf0be8e19baeedf3fd163b94e:
-> >>
-> >>     qcom: Update ADSP firmware for Glymur platform (2026-06-10 14:46:03
-> >> +0530)
-> >>
-> >> ----------------------------------------------------------------
-> >> Venkata Kota (1):
-> >>         qcom: Update ADSP firmware for Glymur platform
-> >>
-> >>    WHENCE                   |   2 +-
-> >>    qcom/glymur/adsp.mbn     | Bin 17049560 -> 17053656 bytes
-> >>    qcom/glymur/adsp_dtb.mbn | Bin 225080 -> 225080 bytes
-> >>    3 files changed, 1 insertion(+), 1 deletion(-)
-> >
-> > I merged the previous version of the pull request. If there is
-> > anything to be fixed, please send the fix.
-> >
-> > BTW: Is there a chance you can start using gitlab directly instead of
-> > sending the pull requests by email?
->
-> Thank you.
-> We were not able to get this done. IT team was busy back then and now we
-> got busy. Will start another conversation with them on this.
+From: Shuming Fan <shumingf@realtek.corp-partner.google.com>
 
-It has nothing to do with IT.
+This patch code will use for rt1321 VA0 and VA1.
+
+Signed-off-by: Shuming Fan <shumingf@realtek.corp-partner.google.com>
+---
+ WHENCE                                  |   2 +-
+ realtek/rt1320/rt1321-patch-code-va.bin | Bin 7232 -> 24592 bytes
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/WHENCE b/WHENCE
+index 787b131a..7f97367e 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -3613,7 +3613,7 @@ File: realtek/rt1320/rt1320-patch-code-vc.bin
+ Version: 1.0.0
+ 
+ File: realtek/rt1320/rt1321-patch-code-va.bin
+-Version: 1.3.0
++Version: 1.10.0
+ 
+ Licence: Redistributable. See LICENSE.rt1320 for details.
+ 
+diff --git a/realtek/rt1320/rt1321-patch-code-va.bin b/realtek/rt1320/rt1321-patch-code-va.bin
+index a9b9d50e19bdcf21cdf8095d26107f3142f3a12e..db291df4081481bdfb24a9268e418e0a10513eba 100644
+GIT binary patch
+literal 24592
+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
+U{eL?@=N&|KXYsD$r2ohN19rrpZvX%Q
+
+literal 7232
+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
+IsOpRV16vyXiU0rr
 
 -- 
-With best wishes
-Dmitry
+2.54.0
+
