@@ -1,138 +1,178 @@
-Return-Path: <SRS0=9bPq=E4=lhjonline.com=harrisl@kernel.org>
+Return-Path: <SRS0=x1PU=E5=oss.qualcomm.com=wei.deng@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9544FC43458
-	for <linux-firmware@archiver.kernel.org>; Thu,  2 Jul 2026 15:36:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CBF26C43458
+	for <linux-firmware@archiver.kernel.org>; Fri,  3 Jul 2026 06:38:25 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 75D6B1F00A3D; Thu,  2 Jul 2026 15:36:28 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=174.129.240.60
+	id AF5AC1F00A3D; Fri,  3 Jul 2026 06:38:25 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1783006588;
-	b=M+MtgSaLh2G8D2XN32/NhNyzBIiiNKkfK4zs/DKoUgrTzIsmaCOw+vPF21+Dm/2iJZUU
-	 ArtFxGpWwYPdM6+CAouE2s2iUZfiUkOqi0ycv0iYuvZdkyRMfoM1ZfObRExteLsfuHH7k
-	 MRg9Zdu9fgGqD/K+OcqepZ267K1RL6djenDbSRMwa0M/ESV9wKqBLXpUaUqHM4tmLuwYc
-	 G4b6ML8A6U5xkuzilREeqh7lFLN52OUs4VAofQzPoD6/Ir42aFBl8sgdQWalfI30F+G4p
-	 VB7nWelwvm0I+FKjjQO/EBwIS7kpOR1Cb4thnabo8iXalt3TnHNJgOUJkVi0LhtN+MA==
+	t=1783060705;
+	b=Ql6Tr8naySIsB1y4fhsRDNUhN1RMCIFNBrgXZi8+hwHuROs/uJl1N7LWfTGbVjtRkNy6
+	 CYOLLahiZ8fFlqpmcsgYgFiLh3EjxujzVQrYx98LB2VH/2Cr9/nPT+bDJxt0s5Pr2PPQy
+	 xdEdg/EZnqBjmth14zJXCmhp4lyfepkN01uIH5zCflYae82Ed67z/OXRKTbkRvuBDy6Tl
+	 ahHXdolUoph7TVJVRVb9pkU4ftD54+0ntpgj8Ql8rvUAOu+QtwbEGmhgBX9/sOjow3JDP
+	 DUFf7lozq6OysS5DLdVHsvDfx6ajlzVvij+MAjiq5k5r0Y6B/C/M/LoIFeJp6x9VOLA==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1783006588;
-	h=DMARC-Filter:Received:Received:Received:DKIM-Filter:DKIM-Signature:
-	 X-Virus-Scanned:Received:Received:Content-Type:
-	 Content-Transfer-Encoding:From:Mime-Version:Subject:Date:Message-Id:
-	 References:List-Id:Cc:In-Reply-To:To:X-ZxMobile-Command:
-	 X-ZxMobile-Version:X-Originating-IP:X-Mailer:Thread-Topic:
-	 Thread-Index;
-	bh=RtjhN4hzzUcgdFyzNrzwF/kg6AW9MyBHZxzUuimsCEU=;
-	b=rE+QvPexP4YP27o/sOv066La8fQ0Zka2eaIm2syinzjBHzuAY09eLmjffvzlVzdzRrZn
-	 Ei9EnnB4expegkX1H9Lu+RyGhT5Poo3HGfFUX8BxJO698/BsMAaky4byALKkOEz1MlV32
-	 diD2dmFAIG5XCMlJHjekQ+UGQRBnpljkcv2aDKoXeszzcr1nAKdoKo+/cKIe8f+G0C89U
-	 oL88mCRfCDzhH1+5zKuDhpBatIArE+vWXNs1vtxUiayr1DCLrLzwzXOCcEuURrOxBM6ye
-	 H0xEYILkD/KXU03yCF5bT+W2DVL1TAdelqEXfnx4/aC+HKLR7zsAhUAODEBsZhxILqw==
-ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=deeplearntech.com header.i=@deeplearntech.com header.a=rsa-sha256 header.s=E11F0DAC-414D-11E7-97F0-308B22DE3479 header.b=PNG7cuOX;
-	dmarc=fail header.from=deeplearntech.com;
-	spf=pass smtp.mailfrom=lhjonline.com;
-	arc=none smtp.remote-ip=174.129.240.60
-Received: from zmailpro.com (zmailpro.com [174.129.240.60])
+	c=relaxed/relaxed; t=1783060705;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
+	 X-Received:X-Received:Received:From:List-Id:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Spam-Info:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=+RIZaYeE6SCJ5WHUkBP8CpKnQGNtToeGw4GGWD5sMHQ=;
+	b=oAQcUa33Qjudd6VsiHZzkQdkhYjmnnJd01IFbB+bDGVifD1OrXimOEov5vioze2E58wv
+	 +VzpmynfOAReRZ7fpCyT9WZ9E1Y4DBXpkNaW33YXsVqVJBCEd3Su1rC6bfnM1Osealof5
+	 u1v9lMsbmIcVzbH/Isa2KzUSMLkP9R++YnufQLd0Fqps1Xz/SF06urrpvITAzi6wxtTEZ
+	 /EK6LE8DDb4cSoqshzTe0AG6Fm6QmkzB/7a8eETxrYsfO+ZX8QRudSbQnsGwTFugbGXhH
+	 bERl68BFziYiAHknxDNlhrl+ZnrhRIiEThBH4aMNOW0gjD5EftflD9wDGw2L1JePVVg==
+ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=NIwOUlAA;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=KAJSOY7s;
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id CF2461F00A3A
-	for <linux-firmware@kernel.org>; Thu,  2 Jul 2026 15:36:27 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 156411F000E9
+	for <linux-firmware@kernel.org>; Fri,  3 Jul 2026 06:38:24 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=deeplearntech.com header.i=@deeplearntech.com header.a=rsa-sha256 header.s=E11F0DAC-414D-11E7-97F0-308B22DE3479 header.b=PNG7cuOX
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org CF2461F00A3A
-Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=deeplearntech.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=lhjonline.com
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by zmailpro.com (Postfix) with ESMTP id 812B88EDC47;
-	Thu,  2 Jul 2026 11:36:21 -0400 (EDT)
-Received: from zmailpro.com ([127.0.0.1])
- by localhost (zmailpro.com [127.0.0.1]) (amavis, port 10032) with ESMTP
- id xUs2QFPxW_UB; Thu,  2 Jul 2026 11:36:20 -0400 (EDT)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by zmailpro.com (Postfix) with ESMTP id 8E61F8EDC48;
-	Thu,  2 Jul 2026 11:36:20 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zmailpro.com 8E61F8EDC48
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=deeplearntech.com;
-	s=E11F0DAC-414D-11E7-97F0-308B22DE3479; t=1783006580;
-	bh=RtjhN4hzzUcgdFyzNrzwF/kg6AW9MyBHZxzUuimsCEU=;
-	h=From:Mime-Version:Date:Message-Id:To;
-	b=PNG7cuOXPRlpsCXQC13h4Gz/obnw4yKDQopuZ8Q7zBLJI9BwKg/+6UI03XNMVVqLB
-	 D3xzFQm0rDl976obCmpUtMPkRgDfLoil6+AWBu5TcFALCoa7Sw4zccOpkSvCmPnkO8
-	 XsCd79S+xJU5/weQpEGlaaaKM/dZ3dNZ69ctnaOSh6WZ4nra2Bh6wczTcHZD4XaAXF
-	 duiMRBq+o8peX30bTV6Y5NotLbjYfEs2yVEbppbt0+DiOVM2dOSaQq2LheyibH+Nhu
-	 LZCXWD6G1Fvm1ybO/2uSH9U3MFAesOOJ7xGYJHqPXu0M9hd01QF6dDU8rVOh4/1eHa
-	 3Fsiv0XbgSS5Q==
-X-Virus-Scanned: amavis at zmailpro.com
-Received: from zmailpro.com ([127.0.0.1])
- by localhost (zmailpro.com [127.0.0.1]) (amavis, port 10026) with ESMTP
- id Rwmb9SNgP1ch; Thu,  2 Jul 2026 11:36:20 -0400 (EDT)
-Received: from zmailpro.com (zmailpro.com [174.129.240.60])
-	by zmailpro.com (Postfix) with ESMTP id 6398F8EDC46;
-	Thu,  2 Jul 2026 11:36:20 -0400 (EDT)
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: base64
-From: Harris Landgarten <harrisl@deeplearntech.com>
-Mime-Version: 1.0
-Subject: Re: [BUG] linux-firmware-amdgpu 20260622 prevents clean poweroff on AMD RX 6800
-Date: Thu, 2 Jul 2026 11:36:19 -0400 (EDT)
-Message-Id: <1337579792.18818.1783006579737.JavaMail.zimbra@zmailpro>
-References: <64546a50-5593-4083-aaa7-6f772f8c81b5@leemhuis.info>
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=NIwOUlAA;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=KAJSOY7s
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 156411F000E9
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6635riXu3147413
+	for <linux-firmware@kernel.org>; Fri, 3 Jul 2026 06:38:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=+RIZaYeE6SCJ5WHUkBP8CpKnQGNtToeGw4G
+	GWD5sMHQ=; b=NIwOUlAA0t0r7LvGUwxmWLjlwD7dcE3u59+PLq6clDgg4FBe+bO
+	tI+6vcnbtUT3BDEMjG8BJDPFiDHFvX+HBQhlsNzCnXvxI1b1/sYYzQSVer9W6W2n
+	RnE0e3Z+YZL6IqgiFjsZF3qBST+uEnP3cWFFSSNRM6T8Qy4wKK+zWWNyA/yhW4fO
+	tmTxDaAD7PuvuFUyUZInjuzU0zmadzoaO8MerqCBjtf8FVsWrImxIEnPr7k8WLCo
+	3Af9vM33hHqAywFQyURYYPO9Tc6iTSbbYxF4UZCN3EBf8zZ4zVsEE5Zcb7yUvrn/
+	+Gohu/q+HndupPf7vf6VvcggyO0zwzj4Jag==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f5mvwvusv-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-firmware@kernel.org>; Fri, 03 Jul 2026 06:38:24 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2cac01f64aaso640595ad.3
+        for <linux-firmware@kernel.org>; Thu, 02 Jul 2026 23:38:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1783060703; x=1783665503; darn=kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+RIZaYeE6SCJ5WHUkBP8CpKnQGNtToeGw4GGWD5sMHQ=;
+        b=KAJSOY7soEtqSscQJ45UXNn2QfWBBr+L3QemHsomTfZQ0OHD1T40IZzufBNKJ3O6ZW
+         X64V7skwI4s4rKj/f64g1KztistgyyLb5YfjcnxCR+aAhUerzVjpre4Ik5dsi5VZg2u8
+         5Izo7ilHJcUMbBjUxV0/PilzQ6QT2/HuD9g/Tb8QTHlDaOYrygkzHLXrMuDShCQ3pKKl
+         jfslkHoY33/bzHXeo9vM4XT7g+CbKCYhCKoaAH0yIOIsk3DIRaNcNYMGlbv3JKcuJdNJ
+         AZX9/LYK6skDVojKsPMaro6nzn8tMe93sFnMQyV3bL8KBNGlvIGVKPenW8YHCqyR3Bd2
+         bqFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783060703; x=1783665503;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+RIZaYeE6SCJ5WHUkBP8CpKnQGNtToeGw4GGWD5sMHQ=;
+        b=fx4cTyhrSAchVHTndxZImIYznP2cwlaJqutr+OO6dtoHGsaaqe19XOtK/sM69ajba5
+         0ac30jgK+KfQ4pwsXozUzBDNKrY0MNhnBzgoadRmYpD9Dg52UHl7dOZ293XFpAfLITjt
+         D7w1Op19yr+r8Xk+FgAyQiItM0ad3l4D7+MSgBOHSY81o10SvDwYX4iY53ejjhBhBft8
+         ofl1fch+E34ZGBFdcksEVImjmr1E7tnVBq9eld/IBUDFgtTDQSFJA8zsadHd7Pp+0tfj
+         1hiYih0x1aupl9q9G0J7SGoubSst0m8vluOFCaZTi9wBsb1/6V143BKZRJJkVHannR0/
+         fkAg==
+X-Gm-Message-State: AOJu0YwkcLDSuKWikj4uS4xe2FyOpQnuxEUmuvVzYbDJXe6i/Em0sQLH
+	8M7/XgL8O7MiVB2y/Q6AR+aTtoGwdGfOuXM1UjzvcGKGgLafuXl/Gv0RXAKlcLgTGgvJtZnDVHB
+	EPIj08zEtpxGPTm14BZMvxurkwHuvtj4OYozLkyltzs0ILzKfvLPrQsY8q6oaZ78ORe8fHqs=
+X-Gm-Gg: AfdE7clFRsaB8QnqvY0kpp487bUUO9d3B6eDzYgwC2Tf9G0fndsS1z59Vp/6Jga/BVZ
+	N6UORmzldUfcEpvmOsEAkSz834UGeVPE+jRAOzOm5mwwLYplI6mdbjJNXxnalts6EJc4zzPKY1f
+	/5nAvTQEyb0DcMzEFpgZGqXQ7yDQ5Uno7WLeHY7SVVhGT5OKrz2LhrPq6cVS3ms8qD9LLXtYnfg
+	xAFg1IDlkdG3/44F6YEs8jaiZI9rlR59dFWmsrmAsqLPdga3YyqXsOXj9R/tYuZUX4XscM4qzSv
+	oDmtQvMwWJa0zJ+nJzFOwzWHmPVoY4DbGuWDgIy/UArYtj/mS4SW7GkH4mYpIE9x0g6HKDeJNHZ
+	1U8+/oUek/NDMKaM9VBhclie0mFUejm4yA4jikas9c3gSfQgVQhphJN4cDUkiPA==
+X-Received: by 2002:a17:902:d490:b0:2c4:397:dd7a with SMTP id d9443c01a7336-2ca7e8cf2e3mr60005715ad.4.1783060703299;
+        Thu, 02 Jul 2026 23:38:23 -0700 (PDT)
+X-Received: by 2002:a17:902:d490:b0:2c4:397:dd7a with SMTP id d9443c01a7336-2ca7e8cf2e3mr60005405ad.4.1783060702777;
+        Thu, 02 Jul 2026 23:38:22 -0700 (PDT)
+Received: from hu-weiden-sha.qualcomm.com (i-global052.qualcomm.com. [199.106.103.52])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b41c364d5sm11004635c88.14.2026.07.02.23.38.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jul 2026 23:38:22 -0700 (PDT)
+From: Wei Deng <wei.deng@oss.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: IT4roundtheW0rd <IT4roundtheW0rd@protonmail.com>, linux-firmware@kernel.org, 
-	Linux kernel regressions list <regressions@lists.linux.dev>, 
-	Alex Deucher <alexander.deucher@amd.com>, 
-	=?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	amd-gfx@lists.freedesktop.org
-In-Reply-To: <64546a50-5593-4083-aaa7-6f772f8c81b5@leemhuis.info>
-To: Thorsten Leemhuis <regressions@leemhuis.info>
-X-ZxMobile-Command: SmartReply
-X-ZxMobile-Version: 3.20.0
-X-Originating-IP: [72.89.182.14]
-X-Mailer: Zimbra 9.0.0_ZEXTRAS_20240927
-Thread-Topic: linux-firmware-amdgpu 20260622 prevents clean poweroff on AMD RX 6800
-Thread-Index: Pp2FXLDtWZLWhI2Pyw2GKLf8ubymbg==
+To: linux-firmware@kernel.org, jwboyer@kernel.org
+Cc: dmitry.baryshkov@oss.qualcomm.com, cheng.jiang@oss.qualcomm.com
+Subject: [GIT PULL] QCA: Add Bluetooth firmware for WCN6855 ROM 1.0
+Date: Fri,  3 Jul 2026 12:08:18 +0530
+Message-Id: <20260703063818.3129650-1-wei.deng@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: wYQ8qUHSgks42T_sFqSO3xN0XJdHN3F4
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAzMDA2MSBTYWx0ZWRfX2rdlp5zjlmc+
+ ZqnJaNEN+j8o/cJei9yUktZvYb9jij5SabdfxYbDEZKB2h0XNox7/v0rFDjvaeEoVWxuGKWtS9t
+ 6YtL4MUL5xG8q0yTxaBSXP9R5M/6TvxsMB8ZbrMYm3vDlrkGr5c+ELaEg0v/o7tMlrEn8Sd2zb7
+ uJ9aoQctmQoQajY97zRm4/MupDkv2W5W/uRjwOoEIByFhdIjCV2ZZ5FS0FDgJf9fuq7ImOTLdOz
+ oRGKIAb6kTkztAzEyLOwYQjxySezX4Igp33a6SS8IHIa7c+jEOesutdopvTYj6wbR0JYIlQ1Y+i
+ y1DJy06C5nwK2apHEYltAjyqvPZRkbUiHw0YZRjrbFm/Jgy1FjMjKhLkbFuGs2oVQb6XdhaE17A
+ lyAnhP1znOB7SU1V/Vwd8Z01Tkhkrhw7QWYYkUIU6k6IlXXKX+GN9HDFbwtBYoWE0fe9I/kPj1R
+ AvNOgE7WU5sOne9KTWQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAzMDA2MSBTYWx0ZWRfX+xWqZNG9PAXd
+ XVuIsScJINsV3FxX2fYBb6NHJlr3Rw+BltsBu9uDg8PZecOk4c7lNvg5TIsnGpOSXAOTD8PVY/F
+ b3AUUevSqyejmtQA2TnfAQfOEG90Gas=
+X-Authority-Analysis: v=2.4 cv=N+UZ0W9B c=1 sm=1 tr=0 ts=6a4758e0 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=b9+bayejhc3NMeqCNyeLQQ==:17
+ a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=NEAV23lmAAAA:8
+ a=pAtyQu15WFwe8dIAr00A:9 a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-ORIG-GUID: wYQ8qUHSgks42T_sFqSO3xN0XJdHN3F4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-07-03_02,2026-06-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 lowpriorityscore=0 clxscore=1015 bulkscore=0 spamscore=0
+ priorityscore=1501 phishscore=0 adultscore=0 malwarescore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607030061
 
-SXQgaXMgdW5saWtlbHkgdGhhdCBpdCBpcyB0aGUgZmlybXdhcmUuIEkgaGFkIHRoZSBzYW1lIGlz
-c3VlIGFuZCBpdCBzdGFydGVkIHdpdGggNy4xLXJjMi4gSSBhbSBydW5uaW5nIGdmeDExNTAuIFRo
-ZSBpc3N1ZSBhcHBlYXJzIHRvIGhhdmUgYmVlbiBmaXhlZCBieSA3LjItcmMxDQpTZW50IGZyb20g
-bXkgaVBob25lDQoNCj4gT24gSnVsIDIsIDIwMjYsIGF0IDQ6MDfigK9BTSwgVGhvcnN0ZW4gTGVl
-bWh1aXMgPHJlZ3Jlc3Npb25zQGxlZW1odWlzLmluZm8+IHdyb3RlOg0KPiANCj4g77u/W2FkZGlu
-ZyBhIGZldyBwZW9wbGUgdG8gdGhlIENDXQ0KPiANCj4gT24gNi8yNy8yNiAwMjo0MiwgSVQ0cm91
-bmR0aGVXMHJkIHdyb3RlOg0KPiA+DQo+ID4gSSdkIGxpa2UgdG8gcmVwb3J0IGEgcmVncmVzc2lv
-biBpbiBsaW51eC1maXJtd2FyZS1hbWRncHUgaW50cm9kdWNlZCB3aXRoDQo+ID4gdGhlIDIwMjYw
-NjIyIHJlbGVhc2UuDQo+ID4NCj4gPiAqU3lzdGVtOioNCj4gPiAtIERpc3RybzogQ2FjaHlPUw0K
-PiA+IC0gS2VybmVsOiA3LjEuMS0yLWNhY2h5b3MNCj4gPiAtIEdQVTogQU1EIFJYIDY4MDAtc2Vy
-aWVzDQo+ID4gLSBCb290bG9hZGVyOiBHUlVCDQo+ID4NCj4gPiAqUHJvYmxlbToqDQo+ID4gQWZ0
-ZXIgdXBkYXRpbmcgbGludXgtZmlybXdhcmUtYW1kZ3B1IGZyb20gMToyMDI2MDUxOS0xIHRvIDE6
-MjAyNjA2MjItMSwNCj4gPiB0aGUgc3lzdGVtIG5vIGxvbmdlciBzaHV0cyBkb3duIGNvbXBsZXRl
-bHkgd2hlbiBydW5uaW5nIGBwb3dlcm9mZmAuDQo+ID4gRmFucywga2V5Ym9hcmQgTEVEcywgYW5k
-IHBvd2VyIGJ1dHRvbiBMRUQgcmVtYWluIGFjdGl2ZSBhZnRlciB0aGUNCj4gPiBzaHV0ZG93biBz
-ZXF1ZW5jZS4gVGhlIHN5c3RlbSBoYW5ncyBhZnRlciAiU2VuZGluZyBTSUdURVJNIHRvIHJlbWFp
-bmluZw0KPiA+IHByb2Nlc3Nlcy4uLiIgYW5kIG5ldmVyIHJlYWNoZXMgZnVsbCBwb3dlci1vZmYg
-KEFDUEkgKlM1KS4qDQo+IA0KPiBBIGZldyBxdWVzdGlvbnM6DQo+IA0KPiAqIFdoaWNoIGZpcm13
-YXJlIGZpbGVzIGRvZXMgeW91ciBHUFUgdXNlIGV4YWN0bHkgKGEgZnVsbCBkbWVzZyBsb2cNCj4g
-c2hvdWxkIGFuc3dlciB0aGlzKQ0KPiAqIERvZXMgdGhlIHByb2JsZW0gaGFwcGVuIHdpdGggYSB2
-YW5pbGxhIGtlcm5lbCBhcyB3ZWxsIChpdCBtb3N0IGxpa2VseQ0KPiB3aWxsLCBidXQgd291bGQg
-YmUgZ29vZCB0byBjb25maXJtLCBhcyBoZWF2aWx5IHBhdGNoZWQgdmVuZG9yIGtlcm5lbHMNCj4g
-Y2FuIGxlYWQgdG8gYWxsIHNvcnQgb2YgaXNzdWVzKS4NCj4gDQo+IENpYW8sIFRob3JzdGVuDQo+
-IA0KPiA+ICpSZWxldmFudCBsb2cgZXhjZXJwdCAoam91cm5hbGN0bCAtYiAtMSk6Kg0KPiA+DQo+
-ID4gICAgIEp1biAyNyAwMjowNDoxNCBjYWNoeW9zIHN5c3RlbWQtc2h1dGRvd25bMV06IFNlbmRp
-bmcgU0lHVEVSTSB0bw0KPiA+IHJlbWFpbmluZyBwcm9jZXNzZXMuLi4NCj4gPg0KPiA+IChubyBm
-dXJ0aGVyIGVudHJpZXMg4oCUIHN5c3RlbSBoYW5ncyBoZXJlKQ0KPiA+DQo+ID4gKldvcmthcm91
-bmQ6Kg0KPiA+IERvd25ncmFkaW5nIHRvIGxpbnV4LWZpcm13YXJlLWFtZGdwdSAxOjIwMjYwNTE5
-LTEgcmVzb2x2ZXMgdGhlIGlzc3VlDQo+ID4gY29tcGxldGVseS4NCj4gPg0KPiA+ICpTdGVwcyB0
-byByZXByb2R1Y2U6Kg0KPiA+IDEuIFVwZGF0ZSBsaW51eC1maXJtd2FyZS1hbWRncHUgdG8gMToy
-MDI2MDYyMi0xDQo+ID4gMi4gUnVuIGBwb3dlcm9mZmANCj4gPiAzLiBTeXN0ZW0gaGFuZ3Mg4oCU
-IHBvd2VyIGlzIG5vdCBjdXQNCj4gPg0KPiA+ICpBZGRpdGlvbmFsIG5vdGVzOioNCj4gPiBUaGUg
-cm9vdCBjYXVzZSBhcHBlYXJzIHRvIGJlIHRoYXQgdGhlIG5ldyBmaXJtd2FyZSBibG9iIHByZXZl
-bnRzIHRoZQ0KPiA+IGFtZGdwdSBkcml2ZXIgZnJvbSBjbGVhbmx5IHJlbGVhc2luZyB0aGUgR1BV
-IGJlZm9yZSB0aGUgQUNQSSBTNSBwb3dlcg0KPiA+IHN0YXRlIHRyYW5zaXRpb24uIE5vIG90aGVy
-IHBhY2thZ2VzIHdlcmUgdXBkYXRlZCBpbiB0aGUgc2FtZSB0cmFuc2FjdGlvbg0KPiA+IHRoYXQg
-Y291bGQgZXhwbGFpbiB0aGlzIGJlaGF2aW9yLg0KPiA+DQo+ID4gVGhpcyBpc3N1ZSB3YXMgcmVz
-ZWFyY2hlZCBhbmQgdGhpcyByZXBvcnQgd2FzIGRyYWZ0ZWQgd2l0aCB0aGUNCj4gPiBhc3Npc3Rh
-bmNlIG9mIENsYXVkZSAoQW50aHJvcGljIEFJKS4NCj4gPg0KPiA+IEJlc3QgcmVnYXJkcywNCj4g
-Pg0KPiA+IEJlbmphbWluIE1hYXMgDQo+IA0K
+Hi linux-firmware maintainers,
+
+Here's a pull request for btqca bluetooth driver. Please let me know if
+you have any problems.
+
+The following changes since commit 456685425c176d8a668a9cd5d69bafac568947cc:
+
+  Merge branch 'robot/pr-0-1782995542' into 'main' (2026-07-02 12:42:10 +0000)
+
+are available in the Git repository at:
+
+  https://github.com/WeiDeng-weiden/qca_btfw.git main
+
+for you to fetch changes up to bd651de1f551cb19a8941c6e58d595071e03e2e4:
+
+  QCA: Add Bluetooth firmware for WCN6855 ROM 1.0 (2026-07-03 11:59:23 +0530)
+
+----------------------------------------------------------------
+Wei Deng (1):
+      QCA: Add Bluetooth firmware for WCN6855 ROM 1.0
+
+ WHENCE              |   4 ++++
+ qca/wcnhpbtfw10.tlv | Bin 0 -> 203932 bytes
+ qca/wcnhpnv10.b06   | Bin 0 -> 6271 bytes
+ qca/wcnhpnv10.bin   | Bin 0 -> 6247 bytes
+ 4 files changed, 4 insertions(+)
+ create mode 100644 qca/wcnhpbtfw10.tlv
+ create mode 100644 qca/wcnhpnv10.b06
+ create mode 100644 qca/wcnhpnv10.bin
+
+-- 
+Best Regards,
+Wei Deng
