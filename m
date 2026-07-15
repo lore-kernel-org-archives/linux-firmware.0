@@ -1,211 +1,283 @@
-Return-Path: <SRS0=zUkx=FJ=oss.qualcomm.com=venkata.kota@kernel.org>
+Return-Path: <jwboyer@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ED86AC4450A
-	for <linux-firmware@archiver.kernel.org>; Wed, 15 Jul 2026 04:53:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B35D6C44508
+	for <linux-firmware@archiver.kernel.org>; Wed, 15 Jul 2026 13:02:37 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C73931F00A3A; Wed, 15 Jul 2026 04:53:34 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=205.220.180.131
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1784091214;
-	b=linFHBiYOWTh6XdGwj9/FM6WUYU/E4Y85s4p5hj7Q+DBYpbPi9DofPmRrKc/6oo1nrsq
-	 5O6R4AlZBHsZ24AVVnZnN0sMpPDtxGzvBGdPFRFZ6fjsNsefpQPpMq/PElIxVCMAKkXR+
-	 kzmAm2+qDGI7grYyVuWImXPTMjhdJ0z+uVitnbVibNbO7OLolIxaeXSRVNVMzfNuUBrrX
-	 zFpcoxT4vBr/MXmmylFaCdjfD2u82WCJtuSry7Ar/VkYv1MMuXtqc1rrPZcD3r8GKPET/
-	 gQbR7wSUzCxSktDdnkwz+ho/xdL1ZHxvdqejND+uXJKHJdm1ypj9fdUMKQt2Eb1hK6g==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1784091214;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
-	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Content-Language:List-Id:To:From:Subject:Autocrypt:
-	 Content-Type:Content-Transfer-Encoding:X-Authority-Analysis:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=J9LODlYcmnSV1IwpZ5m3Dx0xva8XvvsAK9wYR1kPBlA=;
-	b=ODxO5/kYLWrd7PhRdJOi/GVoDfSJagTnBIfneZDEyvX83v2hGqGV8BgKXzBqQu9J8Qku
-	 3pUq5Oo9ou8PIZVIapa68P4s8SLhiIUF8cut5F/FYcwNluWMQNN7JlcqtYTzKOyPjTIOj
-	 ShXmoPVoGjRB5zW3q1CKmbVDcyX/7rYzjElW9tT+SbvX8p80zH4ggtYmat8k9HqgosWw1
-	 nLGLf/v/L6LEHif9Z6hDQ3i3PB6LnSu4zFBIZctjE4QPmrrZBEB+dG9NHtM5A9JMMxO/x
-	 k4/I4wmDxJznGJNbBy7xsIc9uZIRk4orbvMmepKyuEdIeOfwVMIVduQ3Zv20HFzmLpA==
-ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ROgiD3UN;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=cuGEcqAj;
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id EBE011F000E9
-	for <linux-firmware@kernel.org>; Wed, 15 Jul 2026 04:53:33 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ROgiD3UN;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=cuGEcqAj
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org EBE011F000E9
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66F3lmAr2622261
-	for <linux-firmware@kernel.org>; Wed, 15 Jul 2026 04:53:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=J9LODlYcmnSV1IwpZ5m3Dx
-	0xva8XvvsAK9wYR1kPBlA=; b=ROgiD3UNJxjoBEbJYXYx9JruPZuST1WP58yLei
-	h2ctS8xWNnKMG8CuoxZYYFZ+deIiS3libEHL8Q8OM/KChvmERW68LTiBuWu+QpCT
-	c7TwEJaLk6RjQPoZM/ZjRMA8n9fmaKep8lS5ZhB+OfE9ZOYSQ+TJkGm6EBjaZR+s
-	XZzRgBTVJwE3Ovw5d9v5XspCLCMTgoBJb8QyfBCj387KxFvEHu5+BAPLGjsunM8h
-	2Wfc1dC7LRpIXGDdZsZluxd1cIp/+BBxm0utuyASTuOWlPAxKDOzOcsY4N/G2clH
-	g+9DcUeu5oXuX84sULDwgmr9hyZ4EH6TxZISWEkXgVjn8xDQ==
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fe03vgkpp-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Wed, 15 Jul 2026 04:53:32 +0000 (GMT)
-Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-c9fe4c5eb39so3734181a12.1
-        for <linux-firmware@kernel.org>; Tue, 14 Jul 2026 21:53:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1784091212; x=1784696012; darn=kernel.org;
-        h=content-transfer-encoding:content-type:autocrypt:subject:from:to
-         :content-language:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=J9LODlYcmnSV1IwpZ5m3Dx0xva8XvvsAK9wYR1kPBlA=;
-        b=cuGEcqAjqM8RJAntjK0+kRGR1iOYa8gM0ebIeLzsDwdIQAInjJzhFRBg10kO82Mvwm
-         2T4/NRF82LuCTC1sNq15Ql7V+7f/xivbAaa0pNUFdVUACLzGze+4I4aUKRGXC2CwYAYq
-         79YLWnSAAEQhpmquvZSADdOVrIdT80UCJGgTr3OtQW/x4yPI35dSqcgv29+Fs9OQIiXs
-         PbWySJibpCWz9NY0hIPvMtM/baYqk/JkFgGvxECCuuRttWZanYNl1BRHbO9N+nHyYNeZ
-         KCFOVk+JNjYfI0iqvnViWx/PjlIRoSOV3dmMwm8IFLtZOfpi7Noqz5VaXKWZeKCt/Xlv
-         l4nA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784091212; x=1784696012;
-        h=content-transfer-encoding:content-type:autocrypt:subject:from:to
-         :content-language:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=J9LODlYcmnSV1IwpZ5m3Dx0xva8XvvsAK9wYR1kPBlA=;
-        b=MWxMHp/Dq7Fis4+dHn2nBaRpB/VWmPiWTgQd3+i5aC2McNaZI8hj1aNcotibv8ak1v
-         1br4z7ZUxE1QvwcjFcUAfCXLzz8+GER1tBAnUV/x+UuQY+ipyGz2WQYlWrtMLhYeiU1Y
-         Qsiah1li14IhNzVjn1+jceiO1gwCYmG8dJDBMyVjkwrQ3Y6EiTrnsivqbGP4RKMQQs4i
-         61iuoKLbNB1qyRIEp4VrQb+Pl6JWZlyp5YTmkGucK+oIapay15Buu9MqjBbGLJX6cqWr
-         u3HP5zm4SQ77FD6sqI8sgWgCVNr2pjQtk5KMzASjO+kabQ4cpauHEyzOXMXGMkXm/nYC
-         rS/w==
-X-Gm-Message-State: AOJu0YwCG3WvMRqS2Py+RE6tBZrmgptWxKDmP2TB4qoMdH4lis/gdKIc
-	MmVP3o8a/pXdO29lyp2TDUV2dzKAHOA9n+ocrl4fOTldmc41C/TSu4TSQ82h42qQZIzEyx0/mUy
-	BxgQ3FzKTTPVH7kTjnkYBSkDICoRi+MiOxJm2TcITirGSVHH4+U/7ErtrLcn1m8NanCjlBWM=
-X-Gm-Gg: AfdE7cl5it6LVdw3cdmBV7WXsLgaIVqge3b29h+9fsELLLMuJZofAshFwcDy0J/RepK
-	PBRsSMxxPb1JEpcdC5HqfOo+EpL4QTuPGy3anOLtsq+u2HDOXq0GQLGrhp4C8ivcleRtl745I6d
-	4HurYEIbLcZOpmueTg7qoZ1V9EcVb3s5SkwsaQs4wkPWG0ZWha5tp+kUG6VAhgOw+v7cXUSeS8Z
-	AUfshNv2AHaU9sPg6lE/6lO8S9IU6RKLxFbMmUX9i0KbaJsODWTAylqTA2zsNETezL7Ly0Csnxd
-	XtmX0esPuW5FK1zZ7vPdLBxDuHZOtXYSdoKFpwcDK3KdwNBpg1Uz8mn3sr8bREXI1mxs2gLiV4N
-	ctrx8b6OLcYu7UlH/uLpI15Ee/Dl5I46/5l+76MVY
-X-Received: by 2002:a05:6a21:d82:b0:3c0:9c19:659d with SMTP id adf61e73a8af0-3c36c42555amr1342270637.69.1784091211643;
-        Tue, 14 Jul 2026 21:53:31 -0700 (PDT)
-X-Received: by 2002:a05:6a21:d82:b0:3c0:9c19:659d with SMTP id adf61e73a8af0-3c36c42555amr1342257637.69.1784091211184;
-        Tue, 14 Jul 2026 21:53:31 -0700 (PDT)
-Received: from [10.204.86.193] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-313b4cbafa1sm85942596eec.6.2026.07.14.21.53.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jul 2026 21:53:30 -0700 (PDT)
-Message-ID: <73c49178-d2fb-4a2d-9ded-7c18c41f06bd@oss.qualcomm.com>
-Date: Wed, 15 Jul 2026 10:23:27 +0530
+	id 898601F00A3D; Wed, 15 Jul 2026 13:02:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73B801F000E9
+	for <linux-firmware@kernel.org>; Wed, 15 Jul 2026 13:02:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784120557;
+	bh=2GU5mNOJ6dY84gWEImx+k/RkgTiLhJWQYHqbIZUDsCo=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc;
+	b=EJRNuAX/TvysSyBxgLj9fTtx3Xz82aY4a2l67hNXJdikqzn5cvggBgMaxV7M8sdka
+	 wpfMzJLAECeuPrU3wagRQ8G6qbX+DNibI5QZ0nzqI/eL8Fup8eMQlcYoWtmO5UEGa6
+	 2OtNey6u+03FRi6Yw7viAhbqXLDIJZ48jJvn6iBLu8Pydtq9njHVLCAlcFx/iNzYJF
+	 al1c/8Jhzih7wiYL3SuIP5DBQqLVxiWxDxD58VXqgAZH3rRM/huHGRxSh56+pDJJYs
+	 vyU9JxR284xTxbtZ47+vCflVYcHUQnwyrAmctzhMPgS+cGaOphweeTUYdBfLpDDHWd
+	 vU+P2/XTq7rvQ==
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-81e9578097eso2095667b3.2
+        for <linux-firmware@kernel.org>; Wed, 15 Jul 2026 06:02:37 -0700 (PDT)
+X-Gm-Message-State: AOJu0Ywadd87kb22fbvbiBBtUt4Z8BzajNbluPtQ3DtgTkzn5bE1Hzl4
+	BvYEqSckwoC05wkldcOxJWDIMPVnw5CBoMvgFuZaF0KseJAn2EGuexMS/3g+61rbSNWsSNp+WbC
+	Yi+PHcvBAYIymnO5a4XeBRdxfFZp+RK8=
+X-Received: by 2002:a05:690c:e298:20b0:81e:d792:a019 with SMTP id
+ 00721157ae682-81ed792a286mr5323857b3.6.1784120556647; Wed, 15 Jul 2026
+ 06:02:36 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
+References: <20260707044618.2476204-1-lachlan.hodges@morsemicro.com>
+In-Reply-To: <20260707044618.2476204-1-lachlan.hodges@morsemicro.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Wed, 15 Jul 2026 09:02:24 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA7sOz2Uzt0NjK1HJgu0RCgHcipESYe1ksoz5T-tfaRWRQ@mail.gmail.com>
+X-Gm-Features: AUfX_mzrnba4QNsYMuyxLUbL0qxzweafuSo019AecYFN_v9Yv1FeCKtI08euFWE
+Message-ID: <CA+5PVA7sOz2Uzt0NjK1HJgu0RCgHcipESYe1ksoz5T-tfaRWRQ@mail.gmail.com>
+Subject: Re: [PATCH] morsemicro: add firmware for mm8108 support
+To: Lachlan Hodges <lachlan.hodges@morsemicro.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-From: Venkata Kota <venkata.kota@oss.qualcomm.com>
-Subject: qcom: Update DSP firmware for sa8775p platform
-Autocrypt: addr=venkata.kota@oss.qualcomm.com; keydata=
- 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
- tFo24aqEAzhhzFkq6qZ6FaB0f9M8wen4hRAu98k=
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=Ife3n2qa c=1 sm=1 tr=0 ts=6a57124c cx=c_pps
- a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=qC_FGOx9AAAA:8 a=YLFo-0mtP1gtP-Xpo-cA:9 a=QEXdDO2ut3YA:10
- a=_Vgx9l1VpLgwpw_dHYaR:22 a=fsdK_YakeE02zTmptMdW:22
-X-Proofpoint-ORIG-GUID: LevGnMKUs_bZkzByF-0lX0fmNu5Bmmhd
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE1MDA0MyBTYWx0ZWRfX+QqsYi7LE33h
- CeZv4yr0iZSjtFcM5eJTyaEcQ9BG/c9D+R+2nHGzjBHV+a2g/fyQwNULdd//ArdvSxy/QarS3g4
- 7cl2yEKFoLj3ckAjT7PvlVlPcK6oAg6iRR3wBhIQRyP2PiNLOoID8lJKlcrNXJ1nPssH4Bm1i8q
- ANT1qS1QtmqG3rTVpCJ5u//fVFmNcAoRTREMaM3lOfBLr5ZNMFFTvo12GteGeCNWRL/yDyaC7MI
- n9Cwu2zrknt5jfOhgVz/QQyqHKbTkNiRA9P1VJN431lOtFoG1ZotDvuNvhH36o7KMwFppPCSKSf
- J5eKSSoDSdXeGSdQhnbXVMhB8A8FONHyWVBwD1oOB3gPxMzTrjFS5AdTnBDzQsy/XolumZ4kx5p
- ge2GXtbryJKE/CEZCvo2HjpRRAW3ZYE2oSfdzG5QlWjsh785t2Nqq1CHBV5gc5JpKHu6jPVYYR/
- F8+peYETzM9pbgk4LQw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE1MDA0MyBTYWx0ZWRfXztQAUprI8dxo
- LvF0eP4VthZRQ4z7UNWjtX7239ld7MAJ5lLMBXuV5KglpqLUh/32et7qa5qo/o2mmA3fdED6yFn
- ZHD6SVBF+gSytF9256RAfHTF8/HAAR4=
-X-Proofpoint-GUID: LevGnMKUs_bZkzByF-0lX0fmNu5Bmmhd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-15_02,2026-07-14_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=0 bulkscore=0 clxscore=1015 adultscore=0
- impostorscore=0 malwarescore=0 priorityscore=1501 phishscore=0
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607150043
+Cc: linux-firmware@kernel.org, linux-wireless@vger.kernel.org, 
+	arien.judge@morsemicro.com, dan.callaghan@morsemicro.com, 
+	ayman.grais@morsemicro.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The following changes since commit 2c35b1ed46f661baaf14b08cebb9201ca802f939:
+On Tue, Jul 7, 2026 at 12:47=E2=80=AFAM Lachlan Hodges
+<lachlan.hodges@morsemicro.com> wrote:
+>
+> Add firmware and board files for the mm8108 chipset to be used
+> with the mm81x Wi-Fi driver.
+>
+> Signed-off-by: Lachlan Hodges <lachlan.hodges@morsemicro.com>
+> ---
+>  LICENSES/LICENCE.morsemicro                 | 125 ++++++++++++++++++++
 
-   Merge branch 'main' into 'main' (2026-07-06 18:21:15 +0000)
+This is problematic and we can't accept this firmware under this
+license.  Please see LICENSE-CRITERIA.md in the repo.  More comments
+below.
 
-are available in the Git repository at:
+josh
 
-   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git 
-dspfw-qli-lemans
+>  WHENCE                                      |  14 +++
+>  morsemicro/mm81x/v56/bcf_aw_hm677.bin       | Bin 0 -> 2124 bytes
+>  morsemicro/mm81x/v56/bcf_mm8108_mf15457.bin | Bin 0 -> 2124 bytes
+>  morsemicro/mm81x/v56/mm8108.bin             | Bin 0 -> 479624 bytes
+>  5 files changed, 139 insertions(+)
+>  create mode 100644 LICENSES/LICENCE.morsemicro
+>  create mode 100644 morsemicro/mm81x/v56/bcf_aw_hm677.bin
+>  create mode 100644 morsemicro/mm81x/v56/bcf_mm8108_mf15457.bin
+>  create mode 100644 morsemicro/mm81x/v56/mm8108.bin
+>
+> diff --git a/LICENSES/LICENCE.morsemicro b/LICENSES/LICENCE.morsemicro
+> new file mode 100644
+> index 000000000000..adf90750d1af
+> --- /dev/null
+> +++ b/LICENSES/LICENCE.morsemicro
+> @@ -0,0 +1,125 @@
+> +                                  MORSE MICRO
+> +                     BINARY DISTRIBUTION LICENSE AGREEMENT
+> +
+> +1. Parties.
+> +This Software License Agreement (SLA) is between Morse Micro Pty. Ltd. a=
+nd the
+> +user of the Software set forth (=E2=80=9Cyou=E2=80=9D, =E2=80=9Cuser=E2=
+=80=9D, =E2=80=9Ccustomer=E2=80=9D), and is effective as
+> +of the date of first access or download of the software by you. Morse Mi=
+cro is
+> +licensing this software to you free of charge upon the condition that yo=
+u
+> +accept all the terms of this SLA and only use this Software in conjuncti=
+on with
+> +Morse Micro products. ANY USE, REPRODUCTION, OR DISTRIBUTION OF THE SOFT=
+WARE
+> +CONSTITUTES YOUR ACCEPTANCE OF THIS AGREEMENT.
+> +
+> +2. Definitions.
+> +"Software" means any binary or source code that you have received from M=
+orse
+> +Micro or its authorized licensees and/or those portions of such software
 
-for you to fetch changes up to 0b1b0d6f1623e3903ef86dc15a69ede64780f838:
+A random user downloading the firmware from the linux-firmware
+repository will not have received it from Morse Micro directly, nor is
+the linux-firmware repo an authorized licensee.
 
-   qcom: Update DSP firmware for sa8775p platform (2026-07-15 10:20:30 
-+0530)
+> +produced by Program=E2=80=99s code within the Software, as well as any o=
+ther machine
+> +readable materials (including, but not limited to, libraries, source fil=
+es,
+> +header files, and data files), any updates or error corrections provided=
+ by
+> +Morse Micro, and any user manuals, programming guides and other document=
+ation
+> +provided to you by Morse Micro under this SLA.
+> +
+> +3. License and Restrictions.
+> +Morse Micro grants you a non-exclusive, non-transferable, limited licens=
+e
+> +without license fees to:
+> +
+> +    a. use the software solely with a hardware product that includes one=
+ of the
+> +    Morse Micro Wi-Fi HaLow chips, including
+> +    wireless modules or evaluation kits;
+> +
+> +    b. to reproduce and distribute the Software complete, unmodified, an=
+d as
+> +    provided by Morse Micro, solely for use with a hardware product that
+> +    includes one of the Morse Micro Wi-Fi HaLow chips, including wireles=
+s
+> +    modules or evaluation kits.
 
-----------------------------------------------------------------
-Venkata Kota (1):
-       qcom: Update DSP firmware for sa8775p platform
+The distribution restriction here prohibits normal distribution of the
+firmware for basically every Linux distributor, where they would
+normally include all firmware files on installation media regardless
+of the hardware the OS is being installed on.  It also prohibits
+normal distribution via git repos, because we have no control on who
+downloads the firmware and for what purpose.
 
-  WHENCE                  |  10 +++++-----
-  qcom/sa8775p/adsp.mbn   | Bin 6803456 -> 6803456 bytes
-  qcom/sa8775p/cdsp0.mbn  | Bin 3174400 -> 3174400 bytes
-  qcom/sa8775p/cdsp1.mbn  | Bin 3174400 -> 3170304 bytes
-  qcom/sa8775p/gpdsp0.mbn | Bin 5996544 -> 5996544 bytes
-  qcom/sa8775p/gpdsp1.mbn | Bin 5963776 -> 5963776 bytes
-  6 files changed, 5 insertions(+), 5 deletions(-)
+> +4. Reservation of Rights.
+> +You should distribute Software with a copy of this SLA. Software is
+> +copyrighted. Title to Software and all associated intellectual property =
+rights
+> +is retained by Morse Micro. Except as expressly provided herein, no lice=
+nse or
+> +right, express or implied, is hereby conveyed or granted to you by Morse=
+ Micro.
+> +You must retain all copyright notices on all Software, derivative works =
+and
+> +documentation. The intellectual property and proprietary rights of whate=
+ver
+> +nature in the Software and derivative works are and will remain the excl=
+usive
+> +property of Morse Micro or its suppliers. Nothing in this Agreement shou=
+ld be
+> +construed as transferring any aspects of such rights to you or any third=
+ party.
+> +Morse Micro and its suppliers reserve any and all rights not expressly g=
+ranted
+> +in this Agreement. You may not sell, assign, sublicense, lease, or other=
+wise
+> +transfer any part of this license. You must not:
+> +
+> +    a. use, license, sell or otherwise distribute the Software except as
+> +    provided in this SLA;
+> +
+> +    b. attempt to modify in any way, reverse engineer, decompile or disa=
+ssemble
+> +    any portion of the Software;
+> +
+> +    c. use the Software or other material in violation of any applicable=
+ law or
+> +    regulation, including but not limited to any regulatory agency.
+> +
+> +5. Ownership.
+> +The Software is licensed and not sold.  Title to and ownership of the So=
+ftware,
+> +including all intellectual property rights thereto, and any portion ther=
+eof
+> +remain with Morse Micro or its licensors. You hereby covenant that you w=
+ill not
+> +assert any claim that the Software created by or for Morse Micro infring=
+e any
+> +intellectual property right owned or controlled by you.
+> +
+> +6. Termination.
+> +This SLA will terminate immediately without notice from Morse Micro if y=
+ou fail
+> +to comply with any of its provisions, including the export laws provisio=
+ns and
+> +Section 10 that may govern the export of the Software from certain
+> +jurisdictions, including technical data.
+
+This is effectively either unenforceable after including it in the
+linux-firmware repo, or prohibitive enough that we can't include it at
+all.
+
+> +7. Disclaimer and Limitation of Liability.
+> +THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND. MORSE MIC=
+RO
+> +FURTHER DISCLAIMS ALL WARRANTIES, EXPRESS AND IMPLIED, INCLUDING WITHOUT
+> +LIMITATION, ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PAR=
+TICULAR
+> +PURPOSE OR NON-INFRINGEMENT. IN NO EVENT SHALL MORSE MICRO BE LIABLE FOR=
+ ANY
+> +INDIRECT, INCIDENTAL, SPECIAL, PUNITIVE OR CONSEQUENTIAL DAMAGES, OR DAM=
+AGES
+> +FOR LOSS OF PROFITS, REVENUE, DATA OR DATA USE, INCURRED BY YOU OR ANY T=
+HIRD
+> +PARTY, WHETHER IN AN ACTION IN CONTRACT OR TORT, EVEN IF MORSE MICRO HAS=
+ BEEN
+> +ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. THE SOFTWARE IS NOT INTENDED=
+ FOR
+> +USE IN ENVIRONMENTS OR APPLICATIONS WHERE EXTRAORDINARILY HIGH LEVELS OF
+> +QUALITY, RELIABILITY, AND FAILURE TOLERANCE ARE DEMANDED, AND/OR WHERE A
+> +MALFUNCTION OR FAILURE COULD LEAD TO SIGNIFICANT HARM TO LIFE, HEALTH,
+> +PROPERTY, OR RESULT IN SEVERE SOCIETAL REPERCUSSIONS ("CRITICAL APPLICAT=
+IONS").
+> +CRITICAL APPLICATIONS ENCOMPASS, BUT ARE NOT LIMITED TO, EQUIPMENT UTILI=
+ZED IN
+> +NUCLEAR FACILITIES, AVIATION AND SPACE EQUIPMENT, MEDICAL DEVICES, AUTOM=
+OTIVE,
+> +TRAIN, MARINE, AND OTHER TRANSPORTATION EQUIPMENT, DEVICES INVOLVED IN
+> +CONTROLLING COMBUSTION OR EXPLOSIONS, SAFETY DEVICES, ELEVATORS AND ESCA=
+LATORS,
+> +DEVICES ASSOCIATED WITH ELECTRIC POWER, AND EQUIPMENT USED IN FINANCE-RE=
+LATED
+> +FIELDS.
+> +
+> +8. Survival.
+> +Sections 4, 5, 6, 7 and 10 will survive termination or expiration of thi=
+s SLA.
+> +
+> +9. Privacy.
+> +Some features of the Software, if activated, may transmit a limited amou=
+nt of
+> +data to Morse Micro (or its service provider) about the status of the sy=
+stem
+> +before a crash event. Morse Micro does not associate the data with perso=
+nally
+> +identifiable information.
+> +
+> +10. Export Laws.
+> +YOU UNDERSTAND AND AGREE THAT THE SOFTWARE IS SUBJECT TO ALL APPLICABLE =
+EXPORT-
+> +RELATED LAWS AND REGULATIONS AND THAT YOU MAY NOT EXPORT, RE-EXPORT OR T=
+RANSFER
+> +THE SOFTWARE OR ANY DIRECT PRODUCT OF THE SOFTWARE EXCEPT AS PERMITTED U=
+NDER
+> +THOSE LAWS. WITHOUT LIMITING THE FOREGOING, EXPORT, RE-EXPORT, OR TRANSF=
+ER OF
+> +THE SOFTWARE TO CUBA, IRAN, NORTH KOREA, SUDAN, AND SYRIA IS PROHIBITED.
+> +
+> +11. Governing Law.
+> +The laws of New South Wales, Australia, govern all matters arising out o=
+f or
+> +relating to this SLA without giving effect to any conflict of law princi=
+ples.
+> +If any provision of this SLA is held to be unenforceable, this SLA will =
+remain
+> +in effect with the provision omitted, unless omission would frustrate th=
+e
+> +intent of the parties, in which case this Agreement will immediately ter=
+minate.
+> +
+> +12. Entire Agreement.
+> +This Agreement constitutes the entire agreement between the parties and
+> +supersedes all prior and contemporaneous agreements, proposals or
+> +representations, written or oral, concerning its subject matter. No
+> +modification, amendment, or waiver of any provision of this Agreement wi=
+ll be
+> +effective unless in writing and either signed or accepted electronically=
+ by the
+> +party against whom the modification, amendment or waiver is to be assert=
+ed. A
+> +waiver of any breach under this Agreement does not constitute a waiver o=
+f any
+> +other breach or future breach.
+> +
+> +
+> +MORSE MICRO
+>
