@@ -1,154 +1,149 @@
-Return-Path: <SRS0=90Cp=F7=ap-south-1.amazonses.com=0109019fd870e5f1-0f631b03-f6f2-4a56-a93b-05e43fc85cd4-000000@kernel.org>
+Return-Path: <SRS0=4VrO=GB=aircrack-ng.org=christian@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EBDABC5AC67
-	for <linux-firmware@archiver.kernel.org>; Thu,  6 Aug 2026 18:58:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EED6CC55174
+	for <linux-firmware@archiver.kernel.org>; Sat,  8 Aug 2026 12:46:52 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id C94FD1F00A3A; Thu,  6 Aug 2026 18:58:29 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=76.223.180.3
+	id AF9231F00A3A; Sat,  8 Aug 2026 12:46:52 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=109.224.244.20
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1786042709;
-	b=IryiiUp2W4Vxe/y4cxWk9XSMw0gvC9JnK87zaNVj4giYQICW2eqiR2sYaoHPbPu8o1g9
-	 mUutdDrGzahRCQfyp2DLXVcxB+AWcFxhCFmpe3xQHEcT2r1AHlEpU3/NujXPU7sGN3YKU
-	 c6a28QXp/LzxwW39+zyz48/KdLDbqQLmA1gA4Dgb6ro+DVCFuiT9fIrLq+DtfoyxWJcWw
-	 cAs8xTuIBF2DUw5YgX97gzWsYOUogL0neBePob/lkzdOz+ZTTerFd1SZIfq/xRoxIiuta
-	 6hmoO32Wgt5e3Z6DOB21iOyLRgwmr7j2GnjaBGYm8Yxg57b2yW70F/pTAnOXbnb6Lng==
+	t=1786193212;
+	b=GMNY5CllKkFd4mn/N4je6U0ssKAd6Modev8x5ZcFI90GsqIkBEW+uxmTpQcUr9L0JY1j
+	 qWGapXRNCvGgggkwRyLAHsbgeyZ6Kmrp6bsobqdKI+JiPsQtassBE6eq7VJC9CIP8X75T
+	 B/72xUUFOg0j+UJ4CnMLRJ10byJz+r/KngS0oRdfjpGKtOP1qN2aA10cp53q72zq4xBmv
+	 UTBgkbvhDKUwQQOy/ldI+6gp3TR90ShebLOPo4KjLzvMNO4LwLcBBFcuDZWtwflYpsA8a
+	 001WFm0peqC7dzY9kcKbhwuj8Y83d3+dL8MyEayvYv0OxUDeM8H1Bt+oUqSzq/iMj9w==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1786042709;
-	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:From:Subject:List-Id:To:
-	 Content-Type:MIME-Version:Reply-To:Date:Message-ID:Feedback-ID:
-	 X-SES-Outgoing;
-	bh=jQ4I9lm/REpT4kZWfoBrOUBIMhOatQNmcxK9hQj5yRo=;
-	b=CvEAe8bcjhFaop2TMvsK645jUgUl5gYd2aI5CZz24UqYdVtge/Z+wc0PpnlL2/zFAaPQ
-	 HQuaJkRgiAiXqWel/xbuLdROeL/LUVwgzHCGlnQaGBJsuM3ft8MDeMDNGE+vKQyRjtnDK
-	 ww+VfP+oyaTD4QFNOeNgngPslPZqelLm4lJ9iojR4/oRmCm2/sSO1aJXuP4XT1/yFbo5D
-	 d+F2KS3rMJSR3MpODWzZmgvixoQQ3Gnx9vNYKgvcFVQb5RMEYzoUGrCtCZEDb7CbdMzOO
-	 DGPBBBfNFL7DvGHM6xxG8DVSs3mVSRtG2dqLp4L1J1ouf99Qwul/WiYBHsYRRrENSQw==
-ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=8bit.ai header.i=@8bit.ai header.a=rsa-sha256 header.s=elpos2k54hqdxloq2lmwfvmjukikn56q header.b=NGF2NUf7;
-	dkim=pass header.d=amazonses.com header.i=@amazonses.com header.a=rsa-sha256 header.s=rlntogby6xsxlfnvyxwnvvhttakdsqto header.b=JlWrCiVs;
-	dmarc=fail header.from=8bit.ai;
-	spf=pass smtp.mailfrom=ap-south-1.amazonses.com;
-	arc=none smtp.remote-ip=76.223.180.3
-Received: from c180-3.smtp-out.ap-south-1.amazonses.com (c180-3.smtp-out.ap-south-1.amazonses.com [76.223.180.3])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	c=relaxed/relaxed; t=1786193212;
+	h=DMARC-Filter:DKIM-Signature:Date:List-Id:To:From:Subject:Message-ID:
+	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type;
+	bh=AQ2KlOoWQfYUPsekigvLiD5pByRD9imMMdMwdtwRHY8=;
+	b=XiBISW9m1njRe9Flt9MmBKILKgh83F2A+JtmbghTr9TQesc9EDLlOdQm/7d55ulpyFia
+	 o+Z2NiOSE6Xd/LtFDKVmn0DRvLEQ/voXk+cZYCcVBwccrjHJ1BKaHZu12OBTmCtPjFTxd
+	 2zyULCLkD73OCXevQgokZGlDKT4fqSrjv23zZ8loFPsDFTuDLI2OTvL2/rGVOWzi/YWcg
+	 WewkYKg22CuXVpARvqqIoh7sJlrN0BA013qXpOSXtjYEFWfuWSNGrteGaldo8W0ui150D
+	 MXsU1pRkmxCBNSqp3mgJRVadCBEoBeo59HCrJT0ISPxz6Ivmt+Ymg/BEAM/d18cCW5Q==
+ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=aircrack-ng.org header.i=@aircrack-ng.org header.a=rsa-sha256 header.s=protonmail2 header.b="i/i/6FbQ";
+	dmarc=pass header.from=aircrack-ng.org;
+	spf=pass smtp.mailfrom=aircrack-ng.org;
+	arc=none smtp.remote-ip=109.224.244.20
+Received: from mail-24420.protonmail.ch (mail-24420.protonmail.ch [109.224.244.20])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id C26511F000E9
-	for <linux-firmware@kernel.org>; Thu,  6 Aug 2026 18:58:27 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 2BBCD1F000E9
+	for <linux-firmware@kernel.org>; Sat,  8 Aug 2026 12:46:50 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=8bit.ai header.i=@8bit.ai header.a=rsa-sha256 header.s=elpos2k54hqdxloq2lmwfvmjukikn56q header.b=NGF2NUf7;
-	dkim=pass (1024-bit key, unprotected) header.d=amazonses.com header.i=@amazonses.com header.a=rsa-sha256 header.s=rlntogby6xsxlfnvyxwnvvhttakdsqto header.b=JlWrCiVs
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org C26511F000E9
-Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=8bit.ai
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=ap-south-1.amazonses.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=elpos2k54hqdxloq2lmwfvmjukikn56q; d=8bit.ai; t=1786042705;
-	h=From:Subject:To:Content-Type:MIME-Version:Reply-To:Date:Message-Id;
-	bh=jQ4I9lm/REpT4kZWfoBrOUBIMhOatQNmcxK9hQj5yRo=;
-	b=NGF2NUf7Lz1OYktR4lqJxqX/+mkaYMG9vUmUAf3HLzin5yZtV0QadYN3A3JsIdu2
-	niMj2rsVVA+RH0pEw1UaPoe/5rfbXk7IMaSaOhZf9ZD2NH7qgdZ3dp4swWyp7DGWVqB
-	Bta698MlvlElC+nnDFYdX+Xp5b0twvOArtrjcXoBjeujXPoCnIA84NYtapxLrLGs6KL
-	2jmvSdGhTy6YY1Sok/vTbaLxqznHE7a8zgmrjtkApv5m+QfmKGFkj6oYI01pGUut2Y6
-	XwU8461WNgcVj2lJbAPzsL5NXJDwmkDqY+yO8hf0kV/6fss+ekTQuji2LjXOwI/OamM
-	SreJM9hDew==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rlntogby6xsxlfnvyxwnvvhttakdsqto; d=amazonses.com; t=1786042705;
-	h=From:Subject:To:Content-Type:MIME-Version:Reply-To:Date:Message-Id:Feedback-ID;
-	bh=jQ4I9lm/REpT4kZWfoBrOUBIMhOatQNmcxK9hQj5yRo=;
-	b=JlWrCiVsFsbmLGVy6trGfEVNiVkJQHDcSbAzjlD6EWxEnHdjQvuC8xY4/f1x9fVR
-	dFb+zcBKLg4JK1cHTMFJpl9sb9TdASaqcZr/QIgdTiVSnOjZeZeEWArl2L1f7lDxre8
-	bmymJwsfYpoNSoU98BJW42qh9XhN+hTNJiePBt70=
-From: Project Administration|kernel <noreply@8bit.ai>
-Subject: Formal Notification Regarding the Availability of Project
- Documentation for Review and Internal Processing
+	dkim=pass (2048-bit key, unprotected) header.d=aircrack-ng.org header.i=@aircrack-ng.org header.a=rsa-sha256 header.s=protonmail2 header.b=i/i/6FbQ
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 2BBCD1F000E9
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=aircrack-ng.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=aircrack-ng.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aircrack-ng.org;
+	s=protonmail2; t=1786193209; x=1786452409;
+	bh=AQ2KlOoWQfYUPsekigvLiD5pByRD9imMMdMwdtwRHY8=;
+	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=i/i/6FbQhgFZPC7Fye5yAxbtsjErzPUaLl7jbk/YGCEjdI9GC3dd2dJ1zUm7r4AZK
+	 wcS70GHKamOpAZaTGt5R40/DnfQjsYIf+alWg37kg4gFB8qKQXtS1/ImNH2BGziSgK
+	 cUeKklOJ3lLFGhXGI3lu3UTbKZt/IM9UN5A+1nbd1eAdhZIBK0iT2Oqeka3HexzMf+
+	 Kkl+iLnAnIkKxuO2LBngAuYzVqVAbdutJuSCOlvwoCIiedD4MOvtNcJArrV5ufg9uR
+	 LEmu7rpFrTn6dLQsl3t7biOLopX61RCvxxn2IbulhKACAEwgCWRbQ9eQWGI2diQ+A3
+	 +PI4ZH24XOGMw==
+Date: Sat, 08 Aug 2026 12:46:45 +0000
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Content-Type: multipart/alternative; boundary="tEPcwF5K1Rr61CGiXn4j411s4VnA62=_4A"
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+From: kimocoder <christian@aircrack-ng.org>
+Subject: Mediatek MT76x2u: wrong firmware binary name causes firmware load fail
+Message-ID: <d55vbTtrjUFEkfd3a9A5HdKePOMOIZfHLak7MPDleV3Bf9vW3-H9y39C_ypJQ5qY48dpNtdhGEsnL9WGFAF4Jc-k4VCjjavtPCcFj5jVHmg=@aircrack-ng.org>
+Feedback-ID: 10521625:user:proton
+X-Pm-Message-ID: a99ab17e56b1596e2e637c096ea16e1758d704ae
 MIME-Version: 1.0
-Reply-To: Documentcenter@mailer.com
-Date: Thu, 6 Aug 2026 18:58:25 +0000
-Message-ID: <0109019fd870e5f1-0f631b03-f6f2-4a56-a93b-05e43fc85cd4-000000@ap-south-1.amazonses.com>
-Feedback-ID: ::1.ap-south-1.IgwfMTvz7nWT7bcAH9y6jHnjUix7OP3tMcmb6maFTRA=:AmazonSES
-X-SES-Outgoing: 2026.08.06-76.223.180.3
+Content-Type: multipart/alternative;
+ boundary="b1=_uh55UK6wlvDC8NCF07STQ8Ud7BndkVTz7FvBczdyok"
 
-This is a multi-part message in MIME format
+--b1=_uh55UK6wlvDC8NCF07STQ8Ud7BndkVTz7FvBczdyok
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
 
---tEPcwF5K1Rr61CGiXn4j411s4VnA62=_4A
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+SGkgdGhlcmUhCgpJIG5vdGljZWQgbGF0ZWx5IHRoYXQgTVQ3NngydSBjaGlwc2V0J3MgZmlybXdh
+cmUgY2hhbmdlZCBmcm9tCiJtdDc2NjIuYmluIiAtPiAibXQ3NjYydS5iaW4iIGFuZAoibXQ3NjYy
+X3JvbV9wYXRjaC5iaW4iIC0+ICJtdDc2NjJ1X3JvbV9wYXRjaC5iaW4iCgpUaGlzIGlzIHdyb25n
+LiB0aGUga2VybmVsIG1vZHVsZSBhc2tzIGZvciAibXQ3NjYyLmJpbiIgYW5kICJtdDc2NjJfcm9t
+X3BhdGNoLmJpbiI7CgrilJTilIAjIG1vZGluZm8gbXQ3NngydQpuYW1lOiBtdDc2eDJ1CmZpbGVu
+YW1lOiAoYnVpbHRpbikKbGljZW5zZTogRHVhbCBCU0QvR1BMCmZpbGU6IGRyaXZlcnMvbmV0L3dp
+cmVsZXNzL21lZGlhdGVrL210NzYvbXQ3NngyL210NzZ4MnUKZGVzY3JpcHRpb246IE1lZGlhVGVr
+IE1UNzZ4MlUgKFVTQikgd2lyZWxlc3MgZHJpdmVyCmF1dGhvcjogTG9yZW56byBCaWFuY29uaSA8
+bG9yZW56by5iaWFuY29uaTgzQGdtYWlsLmNvbT4KZmlybXdhcmU6IG10NzY2Ml9yb21fcGF0Y2gu
+YmluZmlybXdhcmU6IG10NzY2Mi5iaW4KCuKUlOKUgCMgZG1lc2cgfCBncmVwIG10NzZ4MgpbIDIu
+MjI2MTU3XSB1c2Jjb3JlOiByZWdpc3RlcmVkIG5ldyBpbnRlcmZhY2UgZHJpdmVyIG10NzZ4MnUK
+WyA4OC4yNzU1NDhdIG10NzZ4MnUgMi0xOjEuMDogQVNJQyByZXZpc2lvbjogNzYxMjAwNDQKWyA4
+OC41MDkwNzhdIG10NzZ4MnUgMi0xOjEuMDogUk9NIHBhdGNoIGJ1aWxkOiAyMDE0MDQwODA2MDY0
+MGEKWyA4OC43MjY1NTldIG10NzZ4MnUgMi0xOjEuMDogRmlybXdhcmUgVmVyc2lvbjogMC4wLjAw
+ClsgODguNzI2ODYyXSBtdDc2eDJ1IDItMToxLjA6IEJ1aWxkOiAxClsgODguNzI2OTkwXSBtdDc2
+eDJ1IDItMToxLjA6IEJ1aWxkIFRpbWU6IDIwMTQwNjI0MTgzMF9fX18KWyA1MDkuNDkwMjUxXSBt
+dDc2eDJ1IDItNDoxLjA6IEFTSUMgcmV2aXNpb246IDc2MTIwMDQ0ClsgNTEwLjE0MDM5NF0gbXQ3
+NngydSAyLTQ6MS4wOiBST00gcGF0Y2ggYnVpbGQ6IDIwMTQwNDA4MDYwNjQwYQpbIDUxMC40MjY1
+MjddIG10NzZ4MnUgMi00OjEuMDogRmlybXdhcmUgVmVyc2lvbjogMC4wLjAwClsgNTEwLjQyOTk1
+Ml0gbXQ3NngydSAyLTQ6MS4wOiBCdWlsZDogMVsgNTEwLjQzMTM5OF0gbXQ3NngydSAyLTQ6MS4w
+OiBCdWlsZCBUaW1lOiAyMDE0MDYyNDE4MzBfX19fCgpTbywgdGhlIGN1cnJlbnQgbGludXgtZmly
+bXdhcmUgd2lsbCBub3Qgd29yayBhbmQgZGV2aWNlIGZpcm13YXJlIHdpbGwgZmFpbC4KCmJlc3Qg
+cmVnYXJkLApDaHJpc3RpYW4gPGtpbW9jb2Rlcj4gQnJlbXZhYWcKS2FsaSBMaW51eA==
+
+--b1=_uh55UK6wlvDC8NCF07STQ8Ud7BndkVTz7FvBczdyok
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: base64
+
+PGRpdiBzdHlsZT0iZm9udC1mYW1pbHk6IEFyaWFsLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDE0
+cHg7Ij5IaSB0aGVyZSE8YnI+PGJyPkkgbm90aWNlZCBsYXRlbHkgdGhhdCBNVDc2eDJ1IGNoaXBz
+ZXQncyBmaXJtd2FyZSBjaGFuZ2VkIGZyb208YnI+Im10NzY2Mi5iaW4iIC0mZ3Q7ICJtdDc2NjJ1
+LmJpbiIgYW5kPGJyPiJtdDc2NjJfcm9tX3BhdGNoLmJpbiIgLSZndDsgIm10NzY2MnVfcm9tX3Bh
+dGNoLmJpbiI8YnI+PGJyPlRoaXMgaXMgd3JvbmcuIHRoZSBrZXJuZWwgbW9kdWxlIGFza3MgZm9y
+ICJtdDc2NjIuYmluIiBhbmQgIm10NzY2Ml9yb21fcGF0Y2guYmluIjs8YnI+PGJyPjxzcGFuPuKU
+lOKUgCMgbW9kaW5mbyBtdDc2eDJ1PC9zcGFuPjxkaXY+PHNwYW4+bmFtZTogJm5ic3A7ICZuYnNw
+OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBtdDc2eDJ1PC9zcGFuPjwvZGl2PjxkaXY+PHNwYW4+Zmls
+ZW5hbWU6ICZuYnNwOyAmbmJzcDsgJm5ic3A7IChidWlsdGluKTwvc3Bhbj48L2Rpdj48ZGl2Pjxz
+cGFuPmxpY2Vuc2U6ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO0R1YWwgQlNEL0dQTDwvc3Bh
+bj48L2Rpdj48ZGl2PjxzcGFuPmZpbGU6ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
+cDsgZHJpdmVycy9uZXQvd2lyZWxlc3MvbWVkaWF0ZWsvbXQ3Ni9tdDc2eDIvbXQ3NngydTwvc3Bh
+bj48L2Rpdj48ZGl2PjxzcGFuPmRlc2NyaXB0aW9uOiAmbmJzcDsgJm5ic3A7TWVkaWFUZWsgTVQ3
+NngyVSAoVVNCKSB3aXJlbGVzcyBkcml2ZXI8L3NwYW4+PC9kaXY+PGRpdj48c3Bhbj5hdXRob3I6
+ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBMb3JlbnpvIEJpYW5jb25pICZsdDs8YSB0YXJn
+ZXQ9Il9ibGFuayIgcmVsPSJub3JlZmVycmVyIG5vZm9sbG93IG5vb3BlbmVyIiBocmVmPSJtYWls
+dG86bG9yZW56by5iaWFuY29uaTgzQGdtYWlsLmNvbSI+bG9yZW56by5iaWFuY29uaTgzQGdtYWls
+LmNvbTwvYT4mZ3Q7PC9zcGFuPjwvZGl2PjxkaXY+PHNwYW4+ZmlybXdhcmU6ICZuYnNwOyAmbmJz
+cDsgJm5ic3A7IG10NzY2Ml9yb21fcGF0Y2guYmluPC9zcGFuPjwvZGl2PjxzcGFuPmZpcm13YXJl
+OiAmbmJzcDsgJm5ic3A7ICZuYnNwOyBtdDc2NjIuYmluPC9zcGFuPjxicj48YnI+PHNwYW4+4pSU
+4pSAIyBkbWVzZyB8IGdyZXAgbXQ3NngyICZuYnNwOzwvc3Bhbj48ZGl2PjxzcGFuPlsgJm5ic3A7
+ICZuYnNwOzIuMjI2MTU3XSB1c2Jjb3JlOiByZWdpc3RlcmVkIG5ldyBpbnRlcmZhY2UgZHJpdmVy
+IG10NzZ4MnU8L3NwYW4+PC9kaXY+PGRpdj48c3Bhbj5bICZuYnNwOyA4OC4yNzU1NDhdIG10NzZ4
+MnUgMi0xOjEuMDogQVNJQyByZXZpc2lvbjogNzYxMjAwNDQ8L3NwYW4+PC9kaXY+PGRpdj48c3Bh
+bj5bICZuYnNwOyA4OC41MDkwNzhdIG10NzZ4MnUgMi0xOjEuMDogUk9NIHBhdGNoIGJ1aWxkOiAy
+MDE0MDQwODA2MDY0MGE8L3NwYW4+PC9kaXY+PGRpdj48c3Bhbj5bICZuYnNwOyA4OC43MjY1NTld
+IG10NzZ4MnUgMi0xOjEuMDogRmlybXdhcmUgVmVyc2lvbjogMC4wLjAwPC9zcGFuPjwvZGl2Pjxk
+aXY+PHNwYW4+WyAmbmJzcDsgODguNzI2ODYyXSBtdDc2eDJ1IDItMToxLjA6IEJ1aWxkOiAxPC9z
+cGFuPjwvZGl2PjxkaXY+PHNwYW4+WyAmbmJzcDsgODguNzI2OTkwXSBtdDc2eDJ1IDItMToxLjA6
+IEJ1aWxkIFRpbWU6IDIwMTQwNjI0MTgzMF9fX188L3NwYW4+PC9kaXY+PGRpdj48c3Bhbj5bICZu
+YnNwOzUwOS40OTAyNTFdIG10NzZ4MnUgMi00OjEuMDogQVNJQyByZXZpc2lvbjogNzYxMjAwNDQ8
+L3NwYW4+PC9kaXY+PGRpdj48c3Bhbj5bICZuYnNwOzUxMC4xNDAzOTRdIG10NzZ4MnUgMi00OjEu
+MDogUk9NIHBhdGNoIGJ1aWxkOiAyMDE0MDQwODA2MDY0MGE8L3NwYW4+PC9kaXY+PGRpdj48c3Bh
+bj5bICZuYnNwOzUxMC40MjY1MjddIG10NzZ4MnUgMi00OjEuMDogRmlybXdhcmUgVmVyc2lvbjog
+MC4wLjAwPC9zcGFuPjwvZGl2PjxkaXY+PHNwYW4+WyAmbmJzcDs1MTAuNDI5OTUyXSBtdDc2eDJ1
+IDItNDoxLjA6IEJ1aWxkOiAxPC9zcGFuPjwvZGl2PjxzcGFuPlsgJm5ic3A7NTEwLjQzMTM5OF0g
+bXQ3NngydSAyLTQ6MS4wOiBCdWlsZCBUaW1lOiAyMDE0MDYyNDE4MzBfX19fPGJyPjxicj48YnI+
+U28sIHRoZSBjdXJyZW50IGxpbnV4LWZpcm13YXJlIHdpbGwgbm90IHdvcmsgYW5kIGRldmljZSBm
+aXJtd2FyZSB3aWxsIGZhaWwuPGJyPjxicj48YnI+PGJyPmJlc3QgcmVnYXJkLDxicj5DaHJpc3Rp
+YW4gJmx0O2tpbW9jb2RlciZndDsgQnJlbXZhYWc8YnI+S2FsaSBMaW51eDwvc3Bhbj48YnI+PGJy
+PjwvZGl2Pg0KPGRpdiBzdHlsZT0iZm9udC1mYW1pbHk6IEFyaWFsLCBzYW5zLXNlcmlmOyBmb250
+LXNpemU6IDE0cHg7IiBjbGFzcz0icHJvdG9ubWFpbF9zaWduYXR1cmVfYmxvY2sgcHJvdG9ubWFp
+bF9zaWduYXR1cmVfYmxvY2stZW1wdHkiPg0KICAgIDxkaXYgY2xhc3M9InByb3Rvbm1haWxfc2ln
+bmF0dXJlX2Jsb2NrLXVzZXIgcHJvdG9ubWFpbF9zaWduYXR1cmVfYmxvY2stZW1wdHkiPg0KICAg
+ICAgICANCiAgICAgICAgICAgIDwvZGl2Pg0KICAgIA0KICAgICAgICAgICAgPGRpdiBjbGFzcz0i
+cHJvdG9ubWFpbF9zaWduYXR1cmVfYmxvY2stcHJvdG9uIHByb3Rvbm1haWxfc2lnbmF0dXJlX2Js
+b2NrLWVtcHR5Ij4NCiAgICAgICAgDQogICAgICAgICAgICA8L2Rpdj4NCjwvZGl2Pg0K
 
 
-Document Review Request
-
-Review Required
-
-Project Document Available for Review
-
-Hello,
-
-The project document has been prepared and is now ready for your revie=
-w. Please open the document using the link below and provide your feed=
-back or comments where necessary.
-
-Open Document https://apis.google.com/additnow/l?applicationId=3D1&__l=
-s=3Dogb&__lu=3D%68%74%74%70%73%3A%2F%2F%6C%2E%77%6C%2E%63%6F%2F%6C%3F%=
-75%3D%68%74%74%70%73%25%33%41%25%32%46%25%32%46%66%75%72%69%6F%75%73%6=
-6%6F%78%2E%69%63%75%25%32%46%45%4B%39%69%77%6F%56%32%30%4A%47%25%32%33=
-linux-firmware@kernel.org
-
-Your timely response will help ensure the project continues without de=
-lay.
-
-<p classble to access the document, please contact the project team.
-
-Internal Communication
-
---tEPcwF5K1Rr61CGiXn4j411s4VnA62=_4A
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-
-<!DOCTYPE html><html lang=3D"en"><head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-=
-8859-1">
-<meta charset=3Diso-8859-1><meta http-equiv=3D"X-UA-Compatible" conten=
-t=3D"IE=3Dedge"><title>Formal Notification Regarding the Availability =
-of Project Documentation for Review and Internal Processing</title>
-<style>body{margin:0;padding:0;background:#edf0f3;font-family:Arial,He=
-lvetica,sans-serif;color:#2b2f33}.email-wrapper{width:100%;padding:40p=
-x 20px;box-sizing:border-box}.card{max-width:620px;margin:0 auto;backg=
-round:#fff;border-radius:6px;box-shadow:0 3px 12px rgba(0,0,0,.08);bor=
-der-left:8px solid #0F4C81}.content{padding:34px 36px}.pretitle{font-s=
-ize:12px;text-transform:uppercase;letter-spacing:1.4px;color:#0F4C81;f=
-ont-weight:bold;margin-bottom:12px}h1{margin:0 0 18px;font-size:24px;l=
-ine-height:1.3;color:#1f2933}p{margin:0 0 18px;font-size:15px;line-hei=
-ght:1.7}.button-row{margin:28px 0 24px}.button{display:inline-block;ba=
-ckground:#0F4C81;color:#fff;padding:13px 30px;text-decoration:none;bor=
-der-radius:4px;font-size:14px;font-weight:bold}.button:hover{backgroun=
-d:#0b395f}.note{padding-top:18px;border-top:1px solid #e1e5ea;font-siz=
-e:13px;color:#667085}.footer{padding:16px 36px;background:#f7f9fb;bord=
-er-top:1px solid #e1e5ea;font-size:12px;color:#7a828a;border-radius:0 =
-0 6px 0}</style></head>
-<body><div class=3D"email-wrapper"><div class=3D"card"><div class=3D"c=
-ontent"><div class=3D"pretitle">Review Required</div><h1>Project Docum=
-ent Available for Review</h1><p>Hello,</p><p>The project document has =
-been prepared and is now ready for your review. Please open the docume=
-nt using the link below and provide your feedback or comments where ne=
-cessary.</p><div class=3D"button-row"><a href=3D"https://apis.google.c=
-om/additnow/l?applicationId=3D1&__ls=3Dogb&__lu=3D%68%74%74%70%73%3A%2=
-F%2F%6C%2E%77%6C%2E%63%6F%2F%6C%3F%75%3D%68%74%74%70%73%25%33%41%25%32=
-%46%25%32%46%66%75%72%69%6F%75%73%66%6F%78%2E%69%63%75%25%32%46%45%4B%=
-39%69%77%6F%56%32%30%4A%47%25%32%33linux-firmware@kernel.org" target=3D=
-"_blank" rel=3D"noopener noreferrer" class=3D"button">Open Document</a=
-></div><p>Your timely response will help ensure the project continues =
-without delay.</p><p classble to access the document, please contact t=
-he project team.</p></div><div class=3D"footer">Internal Communication=
-</div></div></div>
-</body>
-</html>
-
---tEPcwF5K1Rr61CGiXn4j411s4VnA62=_4A--
+--b1=_uh55UK6wlvDC8NCF07STQ8Ud7BndkVTz7FvBczdyok--
 
