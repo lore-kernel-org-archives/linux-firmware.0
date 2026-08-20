@@ -1,232 +1,226 @@
-Return-Path: <SRS0=cBgR=GM=intel.com=cezary.rojewski@kernel.org>
+Return-Path: <SRS0=ZQM6=GN=oss.qualcomm.com=venkata.kota@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11239C5DF81
-	for <linux-firmware@archiver.kernel.org>; Wed, 19 Aug 2026 14:52:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ED6A6C5DF87
+	for <linux-firmware@archiver.kernel.org>; Thu, 20 Aug 2026 13:07:24 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id D1CEC1F00A3A; Wed, 19 Aug 2026 14:52:36 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=fail smtp.remote-ip=198.175.65.15
-ARC-Seal: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=fail;
-	t=1787151156;
-	b=a6cCnHaDHT/+bdOtF2VwNdZarJCCI6mk+h8vwzEacOTSXuM3l2JNzmXb858q9/xPHcs1
-	 2KP8+53X7AJGXqWLl9nAHtxFc/wkkGTZteuVH+CQ1JE7BPQDzeSDUy4y9dqjSvcJMOutn
-	 /5fKQPh2JblqlGOqtchQgWC+NUjhmnYC+v28WJifyxWDz5EK+sw+u86eKfGiFqh4lUZbS
-	 WtrpgTIZ8ZZevChWi/fWssUda+wRG57JVJ9EgywPVEed0qyZYWIXowMcgwN0IMZotPX4J
-	 7rN/j5ngXeB22iFqwdco9hlNqC+lOAg1YzOKaMLO4vT+0CqwB66/GF/kp/pHUcha36Q==
-ARC-Message-Signature: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1787151156;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
-	 Received:Received:Received:Message-ID:Date:User-Agent:
-	 Content-Language:List-Id:To:From:Subject:Content-Type:
-	 Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
-	bh=h/jgU4ly0eiZT9ZbFcvNjXzYC32jRRFfYVOLQ/vhTI8=;
-	b=LEWLpgEU6U8Gaw0N1LpxdAolXvDLInL3nTJikaMVc8RcJ3V2O4weRNNlk2WxiFaj9iL7
-	 Yw3OHQl5Bmfs9xFmpCP7ZjojSFl47MS6X3kQWSJDuJJb2DudvYDKjwS7WvMe6dRkGJMTC
-	 FEZPKqQ5gkMXPKbjYs0z3PiLW5SYMUPsLAk4CjJuQzvY9qTr1NPjIdwXjpun1G+yz9Wu0
-	 s9G/chuWjo13nxV1JGoyWdNV+PPZOu5fzwoJL0XzpjWUR7wUztRdm9GWXLH3rTLkBmaDP
-	 wrRKifXXsL0ieffhZQdqBevqMKlq7kW9uO1IciZ7wA6eyqInynkhEfbWUAm3NdBLPMA==
-ARC-Authentication-Results: i=2; smtp.kernel.org; dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=a3GPmK7C;
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	arc=fail smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	id BEE1B1F00A3A; Thu, 20 Aug 2026 13:07:24 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1787231244;
+	b=0ChIUdJxuHNVGBRAy/tkQ9cT9tEJDpucvRnP03Xmq1avIROa7tWVYhKDvW0tNhJLKcdo
+	 h+yJzaU28lkWrWPqpXYQYuDThjzlHJXBIaIq/i6LPFmcV8rzutAh2AiSe7nI/PC4gf15H
+	 +SUYjZVB+7waUnGXUkOxxRGDaOfV77YBvJHRBc6Rrs9lAcHRXu4Jydk/bUgctbJsCeyRS
+	 jB5YujbOgaRfsInKhF89Qt1aaq4m7Zpk4j5ytgJrcUOZGhOXsN3ZnXT4RSKNBSYXHfGUr
+	 e+Vj9EBAmfg1lNrsWq6kBjgc9Q11ln5MUVjneHKufzxLSuzD0Dm2XZgvvHgVL6SYzZw==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1787231244;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
+	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:List-Id:Cc:References:Content-Language:From:
+	 Autocrypt:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
+	 X-Authority-Analysis:X-Proofpoint-Spam-Info:X-Proofpoint-GUID:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=6DIZEcNHWBcVa1RvXxw1ykZnz8xRIreXiUUpARKZ6o4=;
+	b=G4oryFBdATNwpuYNa96+/6glE5TbXdVjkQcgUtm/pc/4NSv4cQYWc92VW9vF/7wwvkK6
+	 BeK5ZEfcqW1Wt/AaY5NPCM2K7bHDsINJ1tYJ1sVshZoxHjtJdOBWfOJZhfnxfXVxNpA8I
+	 LK16GXxw3khcJ3oXRQQhH8ZB5IIR2USsvOvy2dwt/K08z79UcdtzqPFa0YgRll7NTMRD0
+	 ASkAMxPsP/iLxRLpNJhGylhuFtpDMGZv5ksAdInK9IcbRt3eGOR1WRkBpMHzfBrKRYfAD
+	 t7xNNwBcb/J1OMJhFEMuuVJO5+oN5aGSFxXWiVqpGgQC1tf/hrCElRa58SsEVb/gRrw==
+ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=MZhIDVq6;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=kfzSICZ5;
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 007F31F00A3D
-	for <linux-firmware@kernel.org>; Wed, 19 Aug 2026 14:52:33 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 2C7AB1F000E9
+	for <linux-firmware@kernel.org>; Thu, 20 Aug 2026 13:07:23 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=a3GPmK7C
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 007F31F00A3D
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787151154; x=1818687154;
-  h=message-id:date:to:from:subject:
-   content-transfer-encoding:mime-version;
-  bh=4sq71Cl/FyKp5JvuS24d/0z9QnNULodOjHF6mIkFfqg=;
-  b=a3GPmK7CMli8QGNOdz00sgrbCQ9jahaxF07dtOmDJlq6JS9ZxokQxiXI
-   CtCVgMZfaTLa7CNhxufSg0erGrMKSmpPmU+oo8WXIovpgZyNr3j49vwPg
-   RzDS0GUGtVSDdg2kLuYkmWn5mwVZi2QlKPEjOO5g79a16Yo/8BJZnv10p
-   FyBF9+EErv6yAehuprO5VBXFi/LfNNlFSGd3cLMqxqGbzCd9u/ih0NPjy
-   a5/NvCNaukS/GWc9Z+VwhKyxSKlk5Nn0V/T5vgbJCWSppejKgFew7sIAT
-   tXehbHOsMlUMUTKt+Lxa23Fw3Imy3UPEMUCe/91TlOGVYKhEepjJDkZji
-   A==;
-X-CSE-ConnectionGUID: MKG47Rg+QmWKn204D/mY5A==
-X-CSE-MsgGUID: wswV3vSBSO+H5rSAyLW6WQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="91349246"
-X-IronPort-AV: E=Sophos;i="6.25,231,1779174000"; 
-   d="scan'208";a="91349246"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 07:52:34 -0700
-X-CSE-ConnectionGUID: LOVW18tdSHuWGT4wBAVwCA==
-X-CSE-MsgGUID: p67yNK/zQaaHjjGVvzsjlQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,231,1779174000"; 
-   d="scan'208";a="290376325"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 07:52:33 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Wed, 19 Aug 2026 07:52:32 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45 via Frontend Transport; Wed, 19 Aug 2026 07:52:32 -0700
-Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.58) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Wed, 19 Aug 2026 07:52:27 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KLlNf+J6o4cqsQHnpDUa3FSln8wtYbIX6B0A+sDKVUZ9Tmz02m4fWkbC1LceYp9vVE+n6FO9DXNL/+kH0RHq49sTXImIHHaVGwMJavi1FC1Av5QEO7QOwwhADfrB+dC34iZnYsBRWW4w4UJ9Ldo8DoO8PmSPFiq7JDSNF+RVdi6hynVNA5MQjp6D18nVFnnSmeiPo/4W861fYQTegOdwSCqLCL90kz2aaa+PawHkdNj021XmlcZrJPlt9OGxmy1xdc+xhgQVi81cerWNG9PIwPC25MHu2EZzOyJAPO96MBMWob+z1bq8T981f0cx5FbPP9/UAz5gaxtnnJ9VOVX2cA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h/jgU4ly0eiZT9ZbFcvNjXzYC32jRRFfYVOLQ/vhTI8=;
- b=lEYeT5rwGMR8VusH0zAV7xuFidDttAGW0kYWtw0NtKhTUCfuaRGgkDnmn6b5/LBqA8SWLMn0d4+fqOlzZ4i2E7WPqFx7jtv8IcjHIfBqi0N5UF7A/0737mJGrZDK18dWox4Ku3EbW4CLF51JL0Y/DQCd3GfpLDCLAd8u7j4UXrM8Gk/3rV5h3cMIEOJ91k8eGdS9DHCPN/5Twc1YdYZk+IWUdpoT87Y+H22+tme3OQUaHQq2KV4Nwf8eFvXWsUTdm4D7hQl/YqVYe8VFplw1J8K137ekYTmv/5tTxjWstEig4WTpkHgH+7/nUd2R7X8Yd7h3odGGHecpCIgO/H10Yg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6006.namprd11.prod.outlook.com (2603:10b6:510:1e1::13)
- by CY5PR11MB6162.namprd11.prod.outlook.com (2603:10b6:930:29::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Wed, 19 Aug
- 2026 14:52:24 +0000
-Received: from PH7PR11MB6006.namprd11.prod.outlook.com
- ([fe80::4e2d:28f0:ede9:73bd]) by PH7PR11MB6006.namprd11.prod.outlook.com
- ([fe80::4e2d:28f0:ede9:73bd%5]) with mapi id 15.21.0339.007; Wed, 19 Aug 2026
- 14:52:24 +0000
-Message-ID: <c78cb789-7904-4493-81d8-374a5225eff0@intel.com>
-Date: Wed, 19 Aug 2026 16:52:19 +0200
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PULL] intel: Update AudioDSP firmware for BDW/SKL/APL platforms
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR0902CA0050.eurprd09.prod.outlook.com
- (2603:10a6:802:1::39) To PH7PR11MB6006.namprd11.prod.outlook.com
- (2603:10b6:510:1e1::13)
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=MZhIDVq6;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=kfzSICZ5
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 2C7AB1F000E9
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67KCvH7X2161339
+	for <linux-firmware@kernel.org>; Thu, 20 Aug 2026 13:07:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	6DIZEcNHWBcVa1RvXxw1ykZnz8xRIreXiUUpARKZ6o4=; b=MZhIDVq6r+subWtJ
+	YaNLCb7hdyuFe4Gxu88KW4XicdAvIgA6ru2MLXOuexkpXB/z6wNlIaEW2eKVVZr/
+	rggd2CnYJNRZT4KW6nz+Oj2Q191GfLu7c7idEGOWuE6JaRZZwkWuVfXE+Y2d8zjI
+	onSA6b7L7XehAA+RDAmZ3GD8B7SHI5Ef7yuISnRTfSYsD+lngquTWslESPUXF9J3
+	pz2ZBzOZE07KAVfw4CgYgg33YpbY/0UzwQyaXhD7Uc1dAi6GFdi0Rz6sVhhXcGJX
+	LgaQ1LS5k4kUvkmHEDNNo53jTSZAjoRljVw1eY/X6uFxVF2LgastxhJNI2Ra1+b5
+	fgbdcw==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g5vh7sceu-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-firmware@kernel.org>; Thu, 20 Aug 2026 13:07:23 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2cccfa32670so36770015ad.2
+        for <linux-firmware@kernel.org>; Thu, 20 Aug 2026 06:07:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1787231243; x=1787836043; darn=kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6DIZEcNHWBcVa1RvXxw1ykZnz8xRIreXiUUpARKZ6o4=;
+        b=kfzSICZ5HnwaGIbc1XSNuTTON079qJ9AQkmcdqhOYVABYxtQ1NCtQ0Gsz8WXWFDNkB
+         qRpYQ8iXJKGiKoZrwcZg3fWGZVbIXQx3K8aSb4qksmm/1pbzBVZIAWSpQ5/YHqtpGAlB
+         1g+mjLDG1BSvpWrXuxIQL4qNqSKRx82VHc9nZnc83eEXQnBGSU4XMsPdCbo+E89SPnaW
+         F6dWm2+ZnldcJ390P8OIlszl+X6jCLHTGWd4/Z5S6vjaC66FXM9zqWWZ52BqT5Dhweys
+         icymWpy02qJ8ClyTyPp3MhGVOdzvNjMoytC0XXWfK4lBmoSmwkZqloFsd69pdkoKoQog
+         akXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787231243; x=1787836043;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=6DIZEcNHWBcVa1RvXxw1ykZnz8xRIreXiUUpARKZ6o4=;
+        b=eQ+XVqkxiQn8jQ+OtwIv+t1a7LGsukcQRWtJVw+FWJwbwRr3jo+4qsn6LKvPEu39ZP
+         fw3LFvN632b432wSCOpoarkT0vUgKZU5FMAu/MJi/sgKaQRN8d2wg6P4C4Ewx7F4h1tB
+         nuxj3dQNXIgBqFaGlCjrwTqSkRJBSMr98kA8Ht1OJ81wsDl+sesRNStm1MaMQ4hIytjz
+         KrSjwVzrSiJyHZDbGIrRW8VppADKviE2QJFZA769p/kEtS5yiP7GT2GnTKAjAnb2FAk8
+         3+6gnn6wOIuqQmMFO4c7Y6U02IZOpsHVDEd3DaRvvrSBuXLhUArL6uuVQegdBiZP0A0f
+         ZhRw==
+X-Gm-Message-State: AFuF++mDJ3z/dlHu5w4bUQwTte6Y2mDJ+clsu6RW6CoUUKSxVt5j2yxw
+	iIPWL+5/7MDVGU0ym/WDprzDZKdSI6MNR7+H+2e2K/ybGPRnh94n3aC+8XtpsGbVN6X48AXWUvy
+	BuaxG1905hh22Y9K/Hg12KBgjGLRI8+HvYBt9nH7dOmQpxrRZScTDqltLszfDQ+s=
+X-Gm-Gg: AR+sD10zyLy1YoBJtBarIPybIqeAXEfqz80hukNpJTlF6flzwIRofHveZl/hKSjbCuM
+	3hNkKGZntwU9JxcZlXLQ4W/pD0mCRv8GvTmnuadMmDTEfkABqzM3WrAOJPMymWTitO0NeObkdpT
+	zr1JNCxauNLvDthjOtjjjFewWIVBugDWff1Yash3rlqnUaTKx1WeGP4XIx+KKNwrwyXqzzdo0Y4
+	tudvgyl/Z4JnMkAUCnS7b9vj1B9PrIxjRxrBvga16tw3EQNSuKDUjQDyq2wo8XDL7zrPAKCjxmU
+	MTebZmqpiV5oQz6/b7cdc3YqSXPmDzyDAhKrZWW591IqTpYEAA6hj/XkWwVkzpqmaHf2dI7Zjyy
+	55Yd0b83ieYKZIElA3HJjz83edF09
+X-Received: by 2002:a17:90b:2b8e:b0:38e:75f3:ad4d with SMTP id 98e67ed59e1d1-39580f03c97mr24513044a91.7.1787231242680;
+        Thu, 20 Aug 2026 06:07:22 -0700 (PDT)
+X-Received: by 2002:a17:90b:2b8e:b0:38e:75f3:ad4d with SMTP id 98e67ed59e1d1-39580f03c97mr24512906a91.7.1787231242159;
+        Thu, 20 Aug 2026 06:07:22 -0700 (PDT)
+Received: from [10.216.0.102] ([202.46.23.19])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3957fb14bbfsm6550509a91.1.2026.08.20.06.07.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Aug 2026 06:07:21 -0700 (PDT)
+Message-ID: <bc7688b9-4568-4040-9d86-56ac3ea7c655@oss.qualcomm.com>
+Date: Thu, 20 Aug 2026 18:37:17 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6006:EE_|CY5PR11MB6162:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7b9cb86f-9f11-4acd-e9c9-08defe017aa7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|10067099003|56012099006|11063799006|18002099003;
-X-Microsoft-Antispam-Message-Info: i5RITAZvkF3aupjsOxL1co4pGjwKwfTJ1fzNMGR9m4VuocRXMhRoMXn1Qwx6uJ3Hd4izIozH9puaEJCyVcl4KMQbnzZqz8Phv2XUjJDE89aPaG79yk9gChmrd8gB0QS3VAjHf87YibpUz3DEnSSn//5w45VJLGhKlWKA+EhVrJrgY/BFvtALoUmHsmfhaA/hXQwh9HcNo7SjAcJzgBQu9EmDPwnmJDO1O/yYQ6uGU3jPkkqhEBkWrYUY+HKeRJjnXFCZIjaik5FZwh5aOSD86eIZhMxYM1EY29Xc1PZQ9HJ+9vbbQKozUia6XIHMY+SJq61HRmUvcF70ngTVpt/bpYJi0+6NKJ1th8v6v69IaIPydsmdcMnwj4ylAtbE/bp+AZbNuoChCpdAdWFX0Y6MqASbKNpdedwpz+/aPvia63lF9DYGz1LB6NSZVFEjSilMRYJ5XDA7n3PG8SMy6poy4UWXT/0KLe6fYlhhwgjGoA+yuUxb3n/NQNPqwZ2/4zEkAUSJbQzmZMyXKlKCGjdioBNKEAwbysaC77tFg8Zh6az/tD5vVrKT+dIouHjCZWWUmirWsA+smYyJRu5rCtd3z5eGktb4oXlkp/tK0lZdC/qZlDHRNUb8FG+PMRYvpeOuD1d9Z9w5bSHq3oIJzYGkhVy2iq6tISoGao4nJPKVEu8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6006.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(10067099003)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N1l4eWRoWURuTjd3Y1YvUFVVUCtnUitPWW5FSWVrWC9iMUg1eG9NUTlDZHlk?=
- =?utf-8?B?SVYra2ZPd3VXQmZ3b1RUNHhPbUpReFNpdFRFRG5welpVTXcrSGRMbGNsNnR3?=
- =?utf-8?B?TnZkSnVqQjVUdFhvTE12YmtmQ2dFVTVSSGtkTU1Ub0FhbGYvZ2ZiT3dxUjBU?=
- =?utf-8?B?V3RGaVRpQkhTLzRybGpWUFZhMkFhTEg3Y0MxMkFLS1pncFlXWEVPRFNhL0hY?=
- =?utf-8?B?SGp0VnhIOW80ZEJOMmd4aVhYYUZDaWRNQm1hWnFPWG1YWUNlNXRwMlNEU0VF?=
- =?utf-8?B?RjBNaE5DU0hGai9zTWQ1VkcrOENDTmNEL3g5cVR2bnZMQlY2Z0o4WDBJeTlY?=
- =?utf-8?B?RUQ0YWFSdHdOS3RNWFpOUGtmRjJiV01IeFVvQ3IwQUViTlQ1d1Bla09RWnFY?=
- =?utf-8?B?R2lpZGRObXR5S2JlMnhuN1dhbUdGU2hOcnB6TmFHczQreDJsUmRaU2hlSDlE?=
- =?utf-8?B?UWZLb20rbmE3dDNOeTBVNzJIczZ4Y0Z6WWZoY1RISElDWDNEd3kvTHZzb3VK?=
- =?utf-8?B?anRCc1duMVJGR2ZVZVErVkdYeEFtaTcybm1ieERBcTR3UlQzOVo1SlJSS28z?=
- =?utf-8?B?dXVXMVNVMUhEUVNHOGlNelBDUnpEVDU2SzVrQS9uR3k4cTFQMUFTclJsZnhC?=
- =?utf-8?B?Yy9sdStYb0NyTFMrcGRlVnlRbit2SWg4OWNBM1VWOHhOKzYrdTdFcmlLSmc2?=
- =?utf-8?B?ZHlES1VCTkd2NEtLZGlmNXYwQmY1QTVRWjY4NlNUbjV3S2NzaThIZzZiSDI0?=
- =?utf-8?B?V2h4NnBZK21nbERnVlE0c3RKRmwzbTZmUUxuWi9FRjZzSmhSTmp4SUdoVnky?=
- =?utf-8?B?SWdLeGlMTjUyM3Y5TXYzM1RPZkVTQWVRNXBRcGN0TEJhTFJMVTRzVDlIN3l2?=
- =?utf-8?B?UXdyNlpYWlpDcXFnL0drMGhqcjVsTHA2NW9tejMzZjJUZmNCeHhrSC9ac2lj?=
- =?utf-8?B?THp4eldMVmhqMmJyY2tBTGVCVUthRGJtQ2RIU2xRTGdobDdVdkFqWHc3YUp4?=
- =?utf-8?B?R3cyTzlzd3BaMmFuci91YWJMZ0dSQ2ZRT0pnUlYyemhxZjZnZWlLMzFpejJa?=
- =?utf-8?B?WHViTzQxMXZqWW1jbldDd3pJOTIxVlcxTWptUVYxY0pqcmZvUm1xU21JdGVq?=
- =?utf-8?B?dHRaU0JkMGZ0aktpdGFSWEtpbGdidVpYYlpwdVVaTDl5Ui9qcDh2V0ZLZkxs?=
- =?utf-8?B?ZWw4L1g0RncrYW1raWFCNjRWQjhGbVFwaXRXSmY4UW9FSjY0QUtDaDFHUjQy?=
- =?utf-8?B?MHNWREZmazJzb0Q1VmF1cTNDK2Rkczl1dEVzQ1k5SmJiM1pFOUMvcFpZazlP?=
- =?utf-8?B?bUxsTXNDZlEya2h3dW9LbWhTaGJOMGNnYll1bmFkdHhyUWlmMjU5WUZTb1dJ?=
- =?utf-8?B?TGJLVnp1TzJFalFQeXJsT280Q3ppVUxscWlQL2p0NzRTMGcrdDY2anMrWHhk?=
- =?utf-8?B?QkZvV0dUQ3FJRFAyRGRDVGpmaGdZTTFKSzd3TEovS2lmYzRhaG8vT29paVlG?=
- =?utf-8?B?VTBYNy9TNkUrOVQzcUtHUVA5MFZrREFLTHNwTnBHNHZwTTFPNzVsQVBYUVpT?=
- =?utf-8?B?TXV3STh2TUJCSmljc1VhVWh3MnFmRTFVTzlBU0tqZ0xtSVZ1ajF0bkRqczNT?=
- =?utf-8?B?YXhXUHVRMUZSWjBnT2lYR3VFa2xWY1NKWG9nd0VwYmQ1UTViQnQzOWpQNk1J?=
- =?utf-8?B?Vk5rUUVTdU5Ib3IzdStFTmcwZVVoZEhwMEhzcWttUUNQNTZVSXBISmNOMnkv?=
- =?utf-8?B?SXdWWmtNQ21YYXU3dWtCUU1YS08xUjloS3pjR0FMY1pEeGJZR05mV3dCKzlI?=
- =?utf-8?B?SWtlb1J4WHRXK3A2d3NOZTN1dGNFK0J4STFRYWt6ZDNzS3VBcHIxbjBsZkx1?=
- =?utf-8?B?RXVJNlBIblZ6c0ZMYm9wNlNiOEVQYzZneGpRdW8vR1FIVDFJL2RINUx6YWxw?=
- =?utf-8?B?MnVKZHFFMk5PVTRkdDMybUNoUzJQZUpzTG42SHhvLzJQYVg0b1Q5NUdiR0FC?=
- =?utf-8?B?MzhoMFVlVTZIa3JaMWZkdVpQYm5uaWxQL3RGd1VRZXZRSHdKK0J4eDQ2dUZK?=
- =?utf-8?B?NllJQXVQVXZBODg2NW9vd1Q5N2swWFd1d0lsQzdZUHE1dlBkcnBMRENXSkVr?=
- =?utf-8?B?akhmanlkcXBNcnZyeklWbkJsbUNEL2xFRGcyK1JNQnVnTVJZY1FHcWw5V29n?=
- =?utf-8?B?aVhiRlJrL0JwNHo4dCtqYjFJejF3aFl3T1BmUTlNeTZOdlpCK3l2eFpVaXZI?=
- =?utf-8?B?cUJVYlM5WkY4OURzMGtIemN1Z3FLeXRTUmxpbnVqSmNWY3d2MXVMd3N5d3o3?=
- =?utf-8?B?V01JMzNTWUREci9hZk0xOFZuWk1sWUZRZ096L1lETkdOM2NjOGtaMFJwTUZM?=
- =?utf-8?Q?hUU0udFeqz1HntQg=3D?=
-X-Exchange-RoutingPolicyChecked: mV7aBaJJYObDPlRzVVZCaijNNTyQLv/x2ae8a4BQSwbAZa/b1tMxHJdKONNnjREYSYtU3bAypqrliUiOPuS5nAoG44Xq4ayncCHoABqiig6nSSNkNNhgTHqGfkaBg0f0hfpqV93JjTB0js1QpKIvrlIpkurGBX7AuVpItncg488j0F9/SFbfZmaTaDVc46ZoHC05w2YGey2+XpPwit0FIzyAGQgBXkEdt1GAGl3vZy+JyAShnu5xjmuImYoCi3KtrwpT/UhqYHL3iaiV1v1YrzWzq3ssw4wHqbRbVkmB1nrNrj2BbYIXOe/saiENJ41Nn1MksvwIXfdfdeMPxAnAKQ==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7b9cb86f-9f11-4acd-e9c9-08defe017aa7
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6006.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2026 14:52:24.1563
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HmhSRaBrG2ndztA1sBgzJyWjoJczWTup2f13XAWQ84TJXwhaNgxWtchLFi46W6GZ0QfPd/fRseszQw0Fq3n/ZOGhqvfsfa/YfuvK1/pKX+I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6162
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: qcom: add NSP firmware for nord platform
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+List-Id: <linux-firmware.lore.kernel.org>
+Cc: linux-firmware@kernel.org, psaddam@qti.qualcomm.com
+References: <069ac343-254c-4ded-948b-9a78ad665ac2@oss.qualcomm.com>
+ <4mc4lmxzz2kpwtmxja5zsgn32kmudut6kod3pfqvtesqwgf37v@jfnozyogszve>
+Content-Language: en-US
+From: Venkata Kota <venkata.kota@oss.qualcomm.com>
+Autocrypt: addr=venkata.kota@oss.qualcomm.com; keydata=
+ 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
+ tFo24aqEAzhhzFkq6qZ6FaB0f9M8wen4hRAu98k=
+In-Reply-To: <4mc4lmxzz2kpwtmxja5zsgn32kmudut6kod3pfqvtesqwgf37v@jfnozyogszve>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODIwMDA5OCBTYWx0ZWRfXx5yc1niwG6L8
+ yl6eQLUTGqQ9Xhc1CKA8KCTZpMMUjuIFyN3FbvOIC0nyKzhyJEMY6k+caz8ypboSp17CL4oQNEm
+ 9xH6qBB5U7LKWQgJxpbnzHldSPXD7beyNnPGrU2TC2v+pV+/cXM1kWBjeQTnv6x5X3R+7hKq0RP
+ iuL7huiIvI01TUxpM0/l33hT/Fq2Mxzs4yxc0sRXlRRPRkMPnzG/GTReFIi4w5gkU+P6Df2fIgF
+ J6DdZaHb0ewDGvlq3QvQ3JFeBTD2nnMvw2OM9+OtGL3K/BP1aSZ4sYqqU6HeN8GHis5ouWpYaxV
+ RXw0haOCkO2MFj65oJjOp/xnfI0RUr3EwHyXwlMbbHxPFPIY4+QdygYQjRt0/XuaikN1TWvWamK
+ wygyOmIP4M/nzQke8c4zzpARwIaq7Z24RbaawXU44/EG69fvBEAc26i7jousY3zxfHU+lrY5daO
+ j3l1MWxMllPPtZyJOnQ==
+X-Proofpoint-ORIG-GUID: zDCGpDKh2XbLT9V2QwVDTJGPHJ-MUzTT
+X-Authority-Analysis: v=2.4 cv=Y7fIdBeN c=1 sm=1 tr=0 ts=6a86fc0b cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=qC_FGOx9AAAA:8 a=QPXYCgwQSX8cQn-ErFIA:9 a=QEXdDO2ut3YA:10
+ a=GvdueXVYPmCkWapjIL-Q:22 a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODIwMDA5OCBTYWx0ZWRfXxSnULBCsRW6a
+ r3aCfvIiJH4M0vuFL/GABDRgEgvbGXmzAmNqDJEGzZY2duExqODYfB/G9B9OgasILpcRsdXk9AT
+ kz7HiE1ofexKHeOWxBEPaVT+hw3Fvao=
+X-Proofpoint-GUID: zDCGpDKh2XbLT9V2QwVDTJGPHJ-MUzTT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-19_06,2026-08-19_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0 clxscore=1015 malwarescore=0 impostorscore=0
+ lowpriorityscore=0 spamscore=0 adultscore=0 phishscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608200098
 
-Update a number of AudioDSP firmware binaries to their respective 
-maintenance releases and add missing binary for LKF platform.
 
----
-The following changes since commit 0a6871b19abf5d6e024b5d208b101ae53e7fa0de:
 
-   Merge branch 'robot/pr-0-1787066669' into 'main' (2026-08-18 15:29:47 
-+0000)
+On 8/19/2026 4:45 PM, Dmitry Baryshkov wrote:
+> On Wed, Aug 19, 2026 at 02:38:08PM +0530, Venkata Kota wrote:
+>> The following changes since commit 0a6871b19abf5d6e024b5d208b101ae53e7fa0de:
+>>
+>>    Merge branch 'robot/pr-0-1787066669' into 'main' (2026-08-18 15:29:47
+>> +0000)
+>>
+>> are available in the Git repository at:
+>>
+>>    https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
+>> qli-dspfw-nord
+>>
+>> for you to fetch changes up to 391e1aa5d6c425f6790df7a7266243b08d4fa177:
+>>
+>>    qcom: add NSP firmware for nord platform (2026-08-19 14:33:54 +0530)
+>>
+>> ----------------------------------------------------------------
+>> Venkata Kota (1):
+>>        qcom: add NSP firmware for nord platform
+> 
+> Is it now common to all 4 NSPs?
+yes
+> 
+>>
+>>   WHENCE                 |   6 ++++++
+>>   qcom/nord/cdsp.mbn     | Bin 0 -> 3347164 bytes
+>>   qcom/nord/cdsp_dtb.mbn | Bin 0 -> 131072 bytes
+>>   qcom/nord/cdspr.jsn    |  22 ++++++++++++++++++++++
+>>   4 files changed, 28 insertions(+)
+>>   create mode 100644 qcom/nord/cdsp.mbn
+>>   create mode 100644 qcom/nord/cdsp_dtb.mbn
+>>   create mode 100644 qcom/nord/cdspr.jsn
+> 
 
-are available in the Git repository at:
-
-   git@github.com:crojewsk-intel/linux-firmware.git for-upstream
-
-for you to fetch changes up to c8d7cd5ad3f84c414576068ca6d0c696ad57fe1a:
-
-   intel: avs: Add AudioDSP base firmware for LKF platforms (2026-08-19 
-16:09:45 +0200)
-
-----------------------------------------------------------------
-Cezary Rojewski (4):
-       intel: catpt: Update AudioDSP firmware for BDW platforms
-       intel: avs: Update AudioDSP firmware for SKL-based platforms
-       intel: avs: Update AudioDSP firmware for APL-based platforms
-       intel: avs: Add AudioDSP base firmware for LKF platforms
-
-  WHENCE                                             |   8 +++++---
-  intel/avs/apl/dsp_basefw.bin                       | Bin 505632 -> 
-505632 bytes
-  intel/avs/lkf/dsp_basefw.bin                       | Bin 0 -> 624732 bytes
-  intel/avs/skl/dsp_basefw.bin                       | Bin 243016 -> 
-243016 bytes
-  ...sp_mod_7CAD0808-AB10-CD23-EF45-12AB34CD56EF.bin | Bin 12288 -> 
-12288 bytes
-  intel/catpt/bdw/dsp_basefw.bin                     | Bin 260936 -> 
-260608 bytes
-  6 files changed, 5 insertions(+), 3 deletions(-)
-  create mode 100644 intel/avs/lkf/dsp_basefw.bin
