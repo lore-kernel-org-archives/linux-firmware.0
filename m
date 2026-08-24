@@ -1,28 +1,28 @@
-Return-Path: <SRS0=YL8M=GP=ti.com=shenghao-ding@kernel.org>
+Return-Path: <SRS0=OlbR=GR=opensource.cirrus.com=prvs=96960177e3=stuarth@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 35CE0C5DF97
-	for <linux-firmware@archiver.kernel.org>; Sat, 22 Aug 2026 02:51:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98F1BC5DF81
+	for <linux-firmware@archiver.kernel.org>; Mon, 24 Aug 2026 14:57:12 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 0A7B91F000E9; Sat, 22 Aug 2026 02:51:30 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=148.163.150.75
+	id 692CD1F00A3A; Mon, 24 Aug 2026 14:57:12 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
 ARC-Seal: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=pass;
-	t=1787367089;
-	b=uPVzoyOUHGC8DIhVgfjBFv9EUfKuGixHROUPP3r7zR+OWHcC4G0JgFIAM82+YzYDEU4c
-	 JBkv3K0sHQK/UBhmFeoo6ekfbba28U7WVu3YOLBMkH+YcPaAv/ZA3SxWe69C0P6ZkT3Li
-	 ZmrHJpneZmRMrIHqGMql+9jU8T1aE6+yZWzpz8wmcNbb9Ph/VOGPyotM5HbynWCdx8ISI
-	 d/0KwsG0lQi2SKngJZDMODryO9ZUzVX0uFWkVq8qN4L6zTR9hZ1i6tEaJP1D+jOK9Byw0
-	 WzqT8aP4WKrOxEwo364wL5exf0g1unIiIMKN6pYtXLbRHlV19E9xBVZwxgbRgoqGBIg==
+	t=1787583432;
+	b=tPuYpu2OKKAM32+wR02d1y4GAmZctaFQ6Hsm1SHrbAvAtwsHjzsSnlhijApe6QBmRGsZ
+	 5GBD88zLMTZgVgRULD/WVn+yA3twtZAH029vW3gYVdtoSwrl1H0zzKBQWlLBsOHMprGE6
+	 Z4qmkKdSlC2rN7PJbltKeNK1lyRDfe4asFxwV3vqfHzYRyVERsHoEqI0Tduf4i8opPNRr
+	 M8kcj5QV0V8RZMQrtuJDVkwXHy4hoFTso++S8REcSs7AzMhJ6hmlYbHvrkypqovXRE1Uz
+	 DMH5511Niwg5XQ5hE50+N8+l3SP8JBEE8Nl1NkHb2C9qpdGGiIR8+C7crowBit4EHzg==
 ARC-Message-Signature: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1787367089;
+	c=relaxed/relaxed; t=1787583432;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
 	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
-	 Received:Received:Received:Received:Received:From:List-Id:To:CC:
-	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-EOPAttributedMessage:
+	 Received:Received:Received:Message-ID:Date:MIME-Version:User-Agent:
+	 Content-Language:List-Id:To:Cc:From:Subject:Content-Type:
+	 Content-Transfer-Encoding:X-EOPAttributedMessage:
 	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
 	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
 	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
@@ -33,262 +33,178 @@ ARC-Message-Signature: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256;
 	 X-MS-Exchange-CrossTenant-Network-Message-Id:
 	 X-MS-Exchange-CrossTenant-Id:
 	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
 	 X-MS-Exchange-CrossTenant-FromEntityHeader:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
-	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=x3Q23OWchotKn9qBOz17v1U5KzQCbksjspN64AQHRW4=;
-	b=13OcofV1TgAecKN8lIhiRJqNQC863vdAzsgq1+MAyY8LkLSPHjF+D+INGJRlPzCJmPa1
-	 56F7vgONtAuHku3/lFikT60E6YyO4+KPY0ibN6yHsxM5zyHOjGJkd3+wwWKlhrNvPkeig
-	 z5BkgbHH3akjBJUj7PbdFfvLXizYRnFRXOyLDhaJAOYdQaOyuDVu/RiCiKn8txfcccrzQ
-	 mMnsZ6EZ7NQTr3dBG/IZ46jvQ8k0e3AL1M2lqcit/dsnRxsEYkn93fZSJo04lwoOZsIim
-	 tLnv2eiuMcGldYVlYgK/dzOorC0dIcskwYYTCRyoMEco7VDKHQdefVk7eV6b1KuyTYQ==
-ARC-Authentication-Results: i=2; smtp.kernel.org; dkim=pass header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=proofpoint-05-2026 header.b=NI58kPfO;
-	dkim=pass header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=selector1 header.b=evS8kUr1;
-	dmarc=pass header.from=ti.com;
-	spf=pass smtp.mailfrom=ti.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=148.163.150.75
-Received: from mx0a-0002e601.pphosted.com (mx0a-0002e601.pphosted.com [148.163.150.75])
+	 X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Spam-Reason;
+	bh=1MB+W0NY8Mgl4dDE+8J+XyCX6bMEpyvdZPBmcKl5ibg=;
+	b=1rADgv9wJ+B1RxMzHTchkFOhWlKCeEZMjy/O8aatKiFBbwC+2mVkbhGPBcZU/RUcVSXg
+	 hfHIR3CGwaWeyH+ymWsZ733by2yOXPmx9dIOiRnSZtZvyT+JsaQrObCIlL62LC3XyIJ8y
+	 75chyfLYyvB+M9Vxmq/ld4rouTKPSZyQ7tBR3Jqp6yHCfD61iOc74ux9yFkepUIzbWoCZ
+	 RLH5dB9aPfWYZ4FDbEOLxeTYOujhZNVn1UZUXzA+r/1k6iOfGHoF7BQIXSDa7ZzmaYcUY
+	 JVJT5c51QIncTIDhidgo9+vl5/fFclLpRwk89g9dqbtjO7LIqqMwve7dkr591pqWM8A==
+ARC-Authentication-Results: i=2; smtp.kernel.org; dkim=pass header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=fdNYSmMd;
+	dkim=pass header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=VBWsP5vD;
+	dmarc=pass header.from=opensource.cirrus.com;
+	spf=pass smtp.mailfrom=opensource.cirrus.com;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 81F321F00A3A
-	for <linux-firmware@kernel.org>; Sat, 22 Aug 2026 02:51:28 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id B08D21F000E9
+	for <linux-firmware@kernel.org>; Mon, 24 Aug 2026 14:57:11 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=proofpoint-05-2026 header.b=NI58kPfO;
-	dkim=pass (1024-bit key, unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=selector1 header.b=evS8kUr1
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 81F321F00A3A
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from pps.filterd (m0380145.ppops.net [127.0.0.1])
-	by m0380145.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 67M15pl6843080;
-	Fri, 21 Aug 2026 21:51:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	proofpoint-05-2026; bh=x3Q23OWchotKn9qBOz17v1U5KzQCbksjspN64AQHR
-	W4=; b=NI58kPfOXDmrBXveDdn9vlmzAKc/2Q5ja3kMflW3LTneAZ3KpN9fxQ/Nt
-	8GFFy0eoBW926LTXDRQEqO8bKKbiTbaID3joDQtjFpttitYOLe0+0PKtxs3ux0cP
-	a9bvXiAujk/5IoDAK/+crSpkS002clWce/J0NpaTIoAITQ+GEf5cYlEyWU2g0H8u
-	Vw3da9kmCV3t4DCrjuTkVn0YmdR3DmHVD6sjETCIArAW2Z8UDcWHPVNtHAPbcggj
-	OZMYInXDqHlk9Wwq2P4OljG0Zidhl50hUobA7/SP1N75tBwGRrjyydqxomrE4rt9
-	Pa1jEF+iftFsTgSxQzOpEEif+K1+w==
-Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11010009.outbound.protection.outlook.com [52.101.85.9])
-	by m0380145.ppops.net (PPS) with ESMTPS id 4g6hfk58pc-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 21 Aug 2026 21:51:20 -0500 (CDT)
+	dkim=pass (2048-bit key, unprotected) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=fdNYSmMd;
+	dkim=pass (1024-bit key, unprotected) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=VBWsP5vD
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org B08D21F000E9
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67ODbXCj2671922
+	for <linux-firmware@kernel.org>; Mon, 24 Aug 2026 09:57:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=1MB+W0NY8Mgl4dDE
+	+8J+XyCX6bMEpyvdZPBmcKl5ibg=; b=fdNYSmMd2leJB0FGQVupdMf63CfPWOhA
+	xJXfmSCRh2q1aGK54E8HFoE7P6xL61eHUbLeCV+qv0tpmdDgens/uAITESmEVypQ
+	pGXI0KHOGtJtQru3OlJo9vYMdcCbnA3SGfa18Ct61x7MYEMTcRgzpaHRm4mKrH9F
+	s+Rt8sFGksODZBS72D+MsP9ec5XQdmzRd9ZndW82YShW45+6XeSAvPkN+CUTKY3M
+	xDGEGuU7xiCoOYqmWVyFSCyUHL6JbLjtVLvW1B5hnpE9n2LIG2HXXykt9KevACFA
+	KniIud/BzHW7vYIjRVrj9DFZ9llf6nMHcdCDdbvpUuOxyS6/HwnTKA==
+Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11022111.outbound.protection.outlook.com [52.101.43.111])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4g795utnk0-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <linux-firmware@kernel.org>; Mon, 24 Aug 2026 09:57:04 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FNmPMYdHYpRe5HQD3pt0+jssZ7F9Hjw9v8Xb7UTaWfiymzHLsnpuKcmsl9f+gWijuM8dvt74sfO5KIDuXi/vMcBWIIPVxAwxgz48juqX8Ywt65z3sp13VxEmwZzmWXVw+3IzoSc4caCNxRcG/9ZeAVkz0LPsLyQEmXpIRnVxuSjdaEW6kAPlnSvt+MUKky8UADLGyIwstVXcYn+h1JzMQDoA6s9MORI15REl12URzN7WZ1WHwtlf3omN+8bo8e365BvK7YonhN8H+1paciB+ykjUw8GDbDKj1f3qZfaR0ChshCmXHfld7T21gIPDDHJ/+GipW4nnhQXgjFyMX17uog==
+ b=GKdSyPFzS06GeObxcKBG9qbPpxgPbmw6gx18bzYKXWvwq4Dz6CTe3Re1ZnKF5dH2VEvlysW2hHmvhWpPVc00OzSjjso8OntAwiT3h/KcTs/vGN+avQtW9zzZUxt8m4Tdwzft8JJiFNBn8luxs5XSdacGS038n47/AUEEFilsYy6obUW3usnV7tyAohDejEM5Ns36PejUwqhalS4hEO2lK683hIGrBLVsbwMr+7QRPZlS5dqn8u51ekvseOvi8DQl4KMcf+wHwQOgPcVmpZ3/GmGClq8NKOqWg/eXSeivmN2UZKCgM0uNt9Ys1yUR7D2UA/mGp3CxY9f72sDw5JxC9g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x3Q23OWchotKn9qBOz17v1U5KzQCbksjspN64AQHRW4=;
- b=xJwVo9f2v2B1BNYnib4MgIg+JmJ6tRuzhUct5IpRefEVHdfNNdTS1fLEyL6SCn1QK8RdoaP/LCHqHcjEFaDljLrdSKplunXUyZi0BmmjQa4rCszDDPD5WGd0eRItqRKk0Q7t/kmTwfzWulvIzscaPYIZkEm9VhcOMnthLlEgo2MR81824ppoZBXZTRQEBpux78R76IbGbMIjPs+YoMse5q9Kfv/syukgB1Lha9zK++YHF/mjodJM2euttINwe24arzA/zcP27gUFlP06Kga2EOFRHUJsArkeoTCCdb5BO8CK0v/yoh6YuTriybi9K/uf1jsyklpmOP8zdsChcPPqGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=qti.qualcomm.com smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ bh=1MB+W0NY8Mgl4dDE+8J+XyCX6bMEpyvdZPBmcKl5ibg=;
+ b=Nvgi1xG/SC0lOWfl7fILcXeCHPOyfQI346jYj92FJGyHutRL8l+awRkbpAKcfYSfTdn6ERB9ttZhx+HL+FHD0Zxy6mMOijC2mpbjbmYivdJuprKtGjoOWiIbsIaBXu8qkIBxbkQm+mgOZY0jhsgQ337GZXHqXfKwh4+o44DU786UijfK3iqkBg6d5WxTQ1bCo55I5DScEPKwjczkSNnBaeKtX+isfmiRrgxTx2eRFO/ywHAts+rPZSfYWBdKWU+ICk9BI7xBkOwn1/JM3QGvOxqss7tCCfycFpqBOWl2XDz1ZnKNmiyOL9IQ//UtiqoTnNteBnpC7QxP2tSTCXBkIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x3Q23OWchotKn9qBOz17v1U5KzQCbksjspN64AQHRW4=;
- b=evS8kUr1Ivja1xUtSoVG9m39tETEA8zc+nMRqxJlWQ6qDpjJDeHXixishWQm+0UkTyTUbdGMbmMl1vXcz2R5x0dQhNkLzz2SnGDTlHDI2DckakeGct4Az8aUp/9l0Q7XxUdKNM5d4xs3sTusZYflr/QtoZ++sbsXWf5Xg5fMlpE=
-Received: from SJ0PR13CA0120.namprd13.prod.outlook.com (2603:10b6:a03:2c5::35)
- by CY8PR10MB7339.namprd10.prod.outlook.com (2603:10b6:930:7a::7) with
+ bh=1MB+W0NY8Mgl4dDE+8J+XyCX6bMEpyvdZPBmcKl5ibg=;
+ b=VBWsP5vDzvflL21LRp5j5JG0Aa5UaheIrw0bCU0piH4w3/aLkFTtZd8o6Yh3XRfB1M3H0/TT7kUVj2XsoB7NEye3xdzgDZ6DNIrxu75Umobi5cFG2qKOTLa5DSMHss85J/fO33xmTC27G5iqA3TNHpXCArF5HDyEdnRkjBCm8l4=
+Received: from SA9PR11CA0006.namprd11.prod.outlook.com (2603:10b6:806:6e::11)
+ by EAYPR19MB524090.namprd19.prod.outlook.com (2603:10b6:303:2dc::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.11; Sat, 22 Aug
- 2026 02:51:17 +0000
-Received: from SJ5PEPF000001F3.namprd05.prod.outlook.com
- (2603:10b6:a03:2c5:cafe::5) by SJ0PR13CA0120.outlook.office365.com
- (2603:10b6:a03:2c5::35) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.360.4 via Frontend Transport; Sat, 22
- Aug 2026 02:51:17 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- SJ5PEPF000001F3.mail.protection.outlook.com (10.167.242.71) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.360.3 via Frontend Transport; Sat, 22 Aug 2026 02:51:17 +0000
-Received: from DLEE211.ent.ti.com (157.170.170.113) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Fri, 21 Aug
- 2026 21:51:16 -0500
-Received: from DLEE204.ent.ti.com (157.170.170.84) by DLEE211.ent.ti.com
- (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Fri, 21 Aug
- 2026 21:51:16 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE204.ent.ti.com
- (157.170.170.84) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45 via Frontend
- Transport; Fri, 21 Aug 2026 21:51:16 -0500
-Received: from LT5CG31242FY.dhcp.ti.com ([10.250.163.224])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 67M2pATj018077;
-	Fri, 21 Aug 2026 21:51:13 -0500
-From: Shenghao Ding <shenghao-ding@ti.com>
-List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-CC: <k-lu@ti.com>, <baojun.xu@ti.com>, <13916275206@139.com>,
-        <mengw@qti.qualcomm.com>, <honglan@qti.qualcomm.com>,
-        Shenghao Ding
-	<shenghao-ding@ti.com>
-Subject: [PATCH v1 1/1] linux-firmware: Upload firmware for tas2573 stereo
-Date: Sat, 22 Aug 2026 10:51:06 +0800
-Message-ID: <20260822025106.211-2-shenghao-ding@ti.com>
-X-Mailer: git-send-email 2.33.0.windows.2
-In-Reply-To: <20260822025106.211-1-shenghao-ding@ti.com>
-References: <20260822025106.211-1-shenghao-ding@ti.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Mon, 24 Aug
+ 2026 14:57:01 +0000
+Received: from SA2PEPF00001509.namprd04.prod.outlook.com
+ (2603:10b6:806:6e:cafe::8f) by SA9PR11CA0006.outlook.office365.com
+ (2603:10b6:806:6e::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.315.17 via Frontend Transport; Mon,
+ 24 Aug 2026 14:57:01 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ SA2PEPF00001509.mail.protection.outlook.com (10.167.242.41) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.360.3
+ via Frontend Transport; Mon, 24 Aug 2026 14:57:00 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 23FAA406541;
+	Mon, 24 Aug 2026 14:56:59 +0000 (UTC)
+Received: from [198.90.251.23] (EDIN4WRCFY3.ad.cirrus.com [198.90.251.23])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 1562882254B;
+	Mon, 24 Aug 2026 14:56:59 +0000 (UTC)
+Message-ID: <b5813b12-dcdf-4418-870f-c331bc62a313@opensource.cirrus.com>
+Date: Mon, 24 Aug 2026 15:56:58 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Content-Language: en-GB
+List-Id: <linux-firmware.lore.kernel.org>
+To: linux-firmware@kernel.org
+Cc: patches@opensource.cirrus.com
+From: Stuart Henderson <stuarth@opensource.cirrus.com>
+Subject: [PULL v1 linux-firmware] cirrus: cs35l54: Add Cirrus CS35L54 firmware
+ mappings for an HP laptop (20260824)
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001F3:EE_|CY8PR10MB7339:EE_
-X-MS-Office365-Filtering-Correlation-Id: f0e8035e-1bee-404c-0724-08defff83ce3
+X-MS-TrafficTypeDiagnostic: SA2PEPF00001509:EE_|EAYPR19MB524090:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4f50d0bc-065f-4530-548a-08df01eff3cf
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|376014|82310400026|1800799024|23010399003|3023799007|56012099006|10067099003|18002099003|22082099003;
+	BCL:0;ARA:13230040|36860700016|376014|61400799027|23010399003|82310400026|13003099007|10067099003|56012099006|11063799006|18002099003|16102099003;
 X-Microsoft-Antispam-Message-Info:
-	zWKDR8W1rh2vIrJc1EhZqhsVdLG6UyLgI/4bh61snpjfuiMvvqfGGFPUQcPQcdEPeYvFylQ7eJ0T4D9c1mAm2nQQ9xkj8kTr4PvsSNSPiRCc7lEppQ8Q1ApY43JMN8TuJQsVJrcg4OsBiMljbJMiAzzFnFMpFt2P2crHDXlQT6/MvrVctymEIYKpWQaUXTTql/jg4pgAC6gLnQkCjYsHLDygtz0ygzNcfYWGJWXxKMy0ZdJu/yUzvdc4T9Bv9RWnHJvt+wgo+InSWdS1v8wiJLlS7qliaUDxZ23ZnFCBxlqVIUExgv1/K9slLYriF93CdEP6m99bOFbhmLiCQEn5PSzBUqn1W9vJsBlpolKMYhDTNOenv+H/1mZQtEer3YDQHl8qiZ8FiERNOQc14S5T1jQxIW+jNMde+O1PUBExE28LzahYTleI97nu+H0MfK1jRQo3PX+FSabUfbCaYgl5D9TZNSWoACDfzp0PWidyUJLPWpUqPCHoi1GvI6Qcyl4X/l8W4Y1OMU1/LYI5Aeke5I4+v1Gzl21qz/Jl1drL2KX3eLnU56G5fN/XRYgljPgx8kqOGY2XyEq1pMD6WUjf1p3zOQTywq35hOR+9JUsqDibphVxTDhuJebEGcUlTd9laswIrW7pgXtZUeSpAygv9m8z6+H5ueGNxFhDJ/LbCfc3nUHiaP0nzcR0bMrj9Ez1o1WnfHZGtcbbX/FWrJoVBw==
+	sLZBc5Y5SvFpRNVFD1ze1jRI9By0b7nBg4FghFG7AFcXJCgQHGRHO4RiwJC84mzerPvn5zzavpcTDqBanU0W+PlOwKGLI5TYcQjyNaGRCgGq8BX1VqgHqATSlaN1qSONS0cOtjSnms0+grJKX7PpZVyu0EP1TWmxEfLluqM6qOXdqLC6zAzbycIcj+ht3094qv2I0O3sXOdKgv2EisG91j3cHgyi0wsFLikSy7m3PqmD+CQYDf6ojTad0cSDBuV8ath+FG1z88gNGZddTNwsNsoS4AlfP+SvHXWywdRx1JkKuedqq/SZAthBdPfMLizuG73CRjYmlk8zIXtMCxwCJZr8ZvgPqPI3aHSjVigj9n/h8EaqljsXQZ2KN+HG+dkfUrZfbmJYS0vwib6/hHkGTIoOnSLVAzO7emzlr/LKVwuJMUHTVQqN3nBuNtWocM14c0m+mcj7D/iJRHNJTHqYSrqGq12OQBcgNO7w06orddwLny5sg18zbclfXRSUlX5aXWuXvBko14X+LsNoIuZzIVUUR+iHneQd2uMsvzSkbCr1EIM3Dx8EidWoroLmbcJb6wdp5fx302Q+rzsJW/1e443UP/qndoRoSoGQ/30iCDn29tuvFpiF/UfmgsPwL1l8p04WlPmvey5SY7PT1PXCJ4Xl9faN+0xsNp7hfCy+XTQ8VUDDTsxoDnTgifFmNWKN6ShNMvSDGCpDC8iREgLyKg==
 X-Forefront-Antispam-Report:
-	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(82310400026)(1800799024)(23010399003)(3023799007)(56012099006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(61400799027)(23010399003)(82310400026)(13003099007)(10067099003)(56012099006)(11063799006)(18002099003)(16102099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	7e4qvaSJSMXXVzHqTpwhdnySQOeV0UN17QRcPzDOC/unNpAKGkItrzyBfWeBl1b/+8nw+hi3OgxsX3q08Zen2JWJhPuual/5sfEZ6RopZf2C2OvhcCOjFneLVJabi5KtprQm0EPaP7746zRGBdxTcP9lyHEi+QWA9IST8CLhrHdJxrs9lx4gCmzR4PugzFr0dtBV7ORTrbxOvNMVAGBj9PJN2IEiHM+2ULHaXUdap8pMGH0r2MWqDSQg7RnXtEe+4IDQnxP09oqCskG6PoTIn9cEL/o05Uun5Zof/r7635IB9zjGVzGktpFbeq4uDDkm0BycZ/dTJhFsplXZx0AqBotCn79ZPmwrBAe5iI4hJsVtgenrqKIxGcTGk3uLx7TCgPgVvmoOWPNkzq+oNPZ1tMja3ZG2TF77H/3KgvlER1NQpJS4V0efZw/qY6T0eDtt
+	U5qVXIGZiGzcd/NedS5jOhb6F/kF/sGuyiT3gJ722SNAoTem9cVAa8SbHzfs5pxN2n4ImJBu2HxwfW7tKMz2LUOmf079Hu+nG8nmDmUYv0JIfCKE+0arwo3xJaYovbLGOavR97b5V0VAWORdqSk8E7cHiQdjvLqj1lCntEnuQ2bpW24kWsEfgATG4TQ+ogCzX0r4TSF3+VsXpEn+841PNqh1r7kv73KXAZy1ZY6+dT1kAo0pPXGeZIa2hltd01BEfLJ6+uIdbDNP720ZfzH04WihSPDDZjUUHNcLyhqBNQj9zjI5kzvAzF2rp+sh5dy/zzPQKmyycq9SwJX4g4fDhGZNoNAEaOT4Yyn8f+uPNX/achihOX7AZUPQK2K2lS9dYV1prv7NWHlsuzCM/510BpqRtBdE6yHkpDqiEQp2saCY2VdRTG3rzvOTelXZvfAS
 X-Exchange-RoutingPolicyChecked:
-	HpwMD528fpC2hIaZHZClwiMv5KCMnSLQNF16EAPIZIIXeEq0K2BOEUrg2XJEejgRm6vyVOsi7z9P7VJ5xKA8nILhNJMhibbcmjV9I/LXHpLkyU7+WGqIn/791lrY8OEMiHGimTMaSPWn9DpEUIyBNGUWs3XS/vzqOltIbzLwE8MYSN4oL7WSwkPaV0r+9KORGSg2e3OYlogn71KIeKYaau2/JLY+1ATGTA9LKW4EQWii7oesBEvtyNxpBJrn21W8W69TilOeuap5Ug4z345fi2Rb/r4dM81Y7nP/ZE/K4S5O4xfnXe+nUICWWDTSZcUr+kYNT4MefNd7nXc2ed3UhQ==
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2026 02:51:17.0396
+	Ppn/pgz6mRerhbGitLz9Lb+y7eG2JrN10pzgaeoVvAp6ar5q14nP4zVhgo4mn93Qnhw+UFRrvzKI+VCmE9QczPtkRKzayPGr0fPOwC33tjI2Mx8ruDLGErs2VEUXD3vThc2wBd1vtZNszNJmugkwu0ft2HDSsYFaObM9+pfmXzTnhQnH4UJTm2ENGbATV0tuEl84irdVY3DUcMB1GWPQM+JWQJ86if9GngNEhzznz5tugTF22Yt4UpCetQZpisdDPR70SIIMowmjhkAnGVDI0Imvt3EeY3X/H9o2wih7mK6VYltRpIm/80ElvECQHw3tR0Xfcn76W3faWsXp4gpvXg==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2026 14:57:00.6313
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f0e8035e-1bee-404c-0724-08defff83ce3
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF000001F3.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4f50d0bc-065f-4530-548a-08df01eff3cf
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SA2PEPF00001509.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR10MB7339
-X-Authority-Analysis: v=2.4 cv=O7AJeh9W c=1 sm=1 tr=0 ts=6a890ea8 cx=c_pps
- a=A+iiJIZ7q7LOtbDGyL1ITQ==:117 a=f+v6EHfkeJbVwR46tk4DMg==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=Sv0fKeRqtYgA:10 a=s63m1ICgrNkA:10
- a=V5UXEbMT0ywA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Z8NIEmU8O1QQgoT56wFK:22
- a=gO1vWkAQAl3rybz1DQOp:22 a=NEAV23lmAAAA:8 a=sozttTNsAAAA:8
- a=OMgrei5yJYCQXTibcoQA:9
-X-Proofpoint-ORIG-GUID: mFkQyldLfNuLqHIGyMUJ8hbQvN0ssrwE
-X-Proofpoint-GUID: mFkQyldLfNuLqHIGyMUJ8hbQvN0ssrwE
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODIyMDAyMSBTYWx0ZWRfXz9mB9Xv9h7he
- DmrrYM2Mg34aF4P/lc2J5wJ6mA1m75hB9A8fFTv0vDiEPg+4n0CZWJzakv6uH5YbCFs7X9wLHBq
- 4nQs150yfduDeA9GBapvleVaa4pEIdk=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODIyMDAyMSBTYWx0ZWRfXyYHUDg2ZK8rv
- vgcyb51Y3A7XdlGkoxZHkhW6TSHRXyqiZoxgn5qiuciLxJo273Z6+uWHPRumK1jJEUo+mLqadxA
- lddaWWE+01yBQ2Czr1aMSDygiY7zaIiNrpHeeZD9zg9VJ/RRUCP/Oz1YkScpy42xpIRaLUsv6Qo
- CxUmFeg1LtwXSrApSO5qwaVQuQkoV9VnpZUFKxFIIUJ8iKUX/vrVJy888Phjr9H6dDyiI7ZLfdw
- KUnstyU51zyWD/pGHN0VgUF5ImmE02q5LyWMTt9NHRedv0SQ2sjmtKnrFQS0l9Gpt1FShSdSKQV
- 0SrKoBif3QJAgkijrrlh6WTfGxquTbyjUdN/7vMDZDDrsOYOWoFO9K5eTf2ofBgrtfFUIDedlLr
- qgRO90Q/4KLuHWADQ3Yy/foHR8bO5v+WlfRmalbz/YG92f5Ka7Lsx1BBgTZVM/30i5Unzhrx0d8
- EZKiBd930rUzdJs5J/w==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-22_01,2026-08-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 bulkscore=0 phishscore=0 adultscore=0 suspectscore=0
- lowpriorityscore=0 malwarescore=0 clxscore=1011 impostorscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608220021
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: EAYPR19MB524090
+X-Authority-Analysis: v=2.4 cv=aYhRWxot c=1 sm=1 tr=0 ts=6a8c5bc0 cx=c_pps
+ a=Gg7HfhqIPUY1o8E1DfVvqA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=NEAV23lmAAAA:8 a=Wqnp5VaeO9nywbhDjq8A:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI0MDEyNiBTYWx0ZWRfX2NOi5xbfVmSF
+ s6aq5GhDGkY2PBBX9gOTIobuA3oCRU0s06XrwDbA9PKIuce4G/o9gMBZVwluvkoyEca8pq4z6ym
+ 8ata58hYsUvMdasPpcZft8Nw3ZNjaByctr87cAwZzxah4rWmylX6BoKHvpZcIsBm3fZ6GxRIqc3
+ Qi2dbqiBrz5/QXdeWH+hhALIqqVWvHMJOfhUuI9IulKW4QOmY1g5b+gohYa9NAnmGhRX5jo80i7
+ GG4UsIfZjygcwLm7deOJRkyESE+RshEGKobAYwh36B65NOsvp28cQ2aZCw137yOZBGdB0G2EBy/
+ /uMda2lKn2RQCW1Hh6MvryzO6qV/jJd3mnyt3aLkWdnaDwxeTNiggIEf9qc6MgvGZ1Ni/uS4Yl/
+ OKk7OQJmDFeO/ly2+bF695eZ87K1RuvPOjHSY7a8Qo8IkWjXaSxvrrpnOM3yyyzR0XVvrdfM+v2
+ 59ZXueyRoOn7qwRhveA==
+X-Proofpoint-ORIG-GUID: 7ROF63N6fqSFEKcMeCbCalbkw76AOrA6
+X-Proofpoint-GUID: 7ROF63N6fqSFEKcMeCbCalbkw76AOrA6
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODI0MDEyNiBTYWx0ZWRfX9ZVlNU/O8NIi
+ prG07IX/kNmW5hD397mKXVGCr6MN60c4m61CRZ4TFaXE3PRJhwu2nHdvp2CROZxRSFaZU/Y6Meu
+ +wuVFhtFD6dCyuk/bKmK2wSV/K9YiCw=
+X-Proofpoint-Spam-Reason: safe
 
-Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
----
- WHENCE                                |  29 ++++++++++++++++++++------
- ti/audio/tas257x/tas2573-2amp-reg.bin | Bin 0 -> 928 bytes
- 2 files changed, 23 insertions(+), 6 deletions(-)
- create mode 100644 ti/audio/tas257x/tas2573-2amp-reg.bin
+Hi,
+I'd like to add support for the Cirrus smart amplifiers in a new HP 
+laptop.  In this case, just a few WHENCE symlinks.
+Thanks,
+-Stu
 
-diff --git a/WHENCE b/WHENCE
-index bbd31dad..66c10e30 100644
---- a/WHENCE
-+++ b/WHENCE
-@@ -9792,12 +9792,30 @@ Licence: Redistributable. See LICENCE.linaro for details
- Originates from https://github.com/linux-msm/audioreach-topology.git
- 
- --------------------------------------------------------------------------
--Driver: ti-tas2781 - tas2781 firmware
-+
-+Driver: ti-tas257x - tas257x firmware
-+
-+File: ti/audio/tas257x/tas2573-2amp-reg.bin
- File: ti/audio/tas257x/tas2572-1-1amp-reg.bin
- File: ti/audio/tas257x/tas2572-2-1amp-reg.bin
- File: ti/audio/tas257x/tas2572-3-1amp-reg.bin
- File: ti/audio/tas257x/tas2572-3amp-reg.bin
- File: ti/audio/tas257x/tas257x-1amp-reg.bin
-+
-+Link: tas2573-2amp-reg.bin -> ti/audio/tas257x/tas2573-2amp-reg.bin
-+Link: tas2572-1-1amp-reg.bin -> ti/audio/tas257x/tas2572-1-1amp-reg.bin
-+Link: tas2572-2-1amp-reg.bin -> ti/audio/tas257x/tas2572-2-1amp-reg.bin
-+Link: tas2572-3-1amp-reg.bin -> ti/audio/tas257x/tas2572-3-1amp-reg.bin
-+Link: tas2572-3amp-reg.bin -> ti/audio/tas257x/tas2572-3amp-reg.bin
-+Link: tas257x-1amp-reg.bin -> ti/audio/tas257x/tas257x-1amp-reg.bin
-+
-+Licence: Redistributable. See LICENCE.ti-tspa for details. Marked:
-+	 Copyright (C) 2023 - 2026 Texas Instruments
-+
-+--------------------------------------------------------------------------
-+
-+Driver: ti-tas2781 - tas2781 firmware
-+
- File: ti/audio/tas2781/TAS2XXX0C94.bin
- File: ti/audio/tas2781/TAS2XXX0C95.bin
- File: ti/audio/tas2781/TAS2XXX0C96.bin
-@@ -9891,11 +9909,7 @@ File: ti/audio/tas2781/TXNW2781RCA0.bin
- File: ti/audio/tas2781/TXNW2781RCA1.bin
- File: ti/audio/tas2781/TIAS2781RCA2.bin
- File: ti/audio/tas2781/TIAS2781RCA4.bin
--Link: tas2572-1-1amp-reg.bin -> ti/audio/tas257x/tas2572-1-1amp-reg.bin
--Link: tas2572-2-1amp-reg.bin -> ti/audio/tas257x/tas2572-2-1amp-reg.bin
--Link: tas2572-3-1amp-reg.bin -> ti/audio/tas257x/tas2572-3-1amp-reg.bin
--Link: tas2572-3amp-reg.bin -> ti/audio/tas257x/tas2572-3amp-reg.bin
--Link: tas257x-1amp-reg.bin -> ti/audio/tas257x/tas257x-1amp-reg.bin
-+
- Link: TAS2XXX0C94.bin -> ti/audio/tas2781/TAS2XXX0C94.bin
- Link: TAS2XXX0C95.bin -> ti/audio/tas2781/TAS2XXX0C95.bin
- Link: TAS2XXX0C96.bin -> ti/audio/tas2781/TAS2XXX0C96.bin
-@@ -10423,14 +10437,17 @@ Link: 9028-3-0x9.bin -> ti/audio/tas2783/9028-3-0x9.bin
- Link: 9028-3-0xA.bin -> ti/audio/tas2783/9028-3-0xA.bin
- Link: 9029-2-0xC.bin -> ti/audio/tas2783/9029-2-0xC.bin
- Link: 9029-3-0x9.bin -> ti/audio/tas2783/9029-3-0x9.bin
-+
- Licence: Redistributable. LICENCE.ti-tspa for details. Marked:
- 	 Copyright (C) 2026 Texas Instruments
- 
- --------------------------------------------------------------------------
- 
- Driver: ti-tas2563 - tas2563 firmware
-+
- File: ti/audio/tas2563/TAS2XXX3870.bin
- File: ti/audio/tas2563/INT8866RCA2.bin
-+
- Link: TAS2XXX3870.bin -> ti/audio/tas2563/TAS2XXX3870.bin
- Link: INT8866RCA2.bin -> ti/audio/tas2563/INT8866RCA2.bin
- 
-diff --git a/ti/audio/tas257x/tas2573-2amp-reg.bin b/ti/audio/tas257x/tas2573-2amp-reg.bin
-new file mode 100644
-index 0000000000000000000000000000000000000000..50d5f5190d2f6f07bf71be81f6d4487d91433b8c
-GIT binary patch
-literal 928
-zcmd^-F$%&!5JmsaMp3~CF{PcoX9yxzf}jUT6*VFeB!ynW$^%$>4G&=}cmdDgA22Bv
-zY?9ImpKNw#GH*T$*z5Uye*mUIne99Z4ItK{2#<>kb)&9d@%2BEW@%n?S}~q^^B)7s
-z@M!{m1av1rkN&nhK)}6zAf7ood1K~H-MnR<9Fl!Jix<qU7M4s;mMW8wNjbReMr32p
-zk?!yo2w;uRgBGRidOd`k0l(c^&f}AHBt`8kS>^FO+ntzPG3s&-**BzgMh>GhmVB~E
-b*PEJv%BMcKJqrKihkq~Dxc)_7?@RwaXh<M#
 
-literal 0
-HcmV?d00001
+The following changes since commit 6afcbccc10ce54c84fd06ece157a4f767138f898:
 
--- 
-2.43.0
+   Merge branch 'unparalleled' into 'main' (2026-08-24 13:07:23 +0000)
 
+are available in the Git repository at:
+
+   https://github.com/CirrusLogic/linux-firmware.git 20260824-cs35l54
+
+for you to fetch changes up to ca34678b6c470626f7b9d4bd115e33f7e709c302:
+
+   cirrus: cs35l54: Add Cirrus CS35L54 firmware mappings for an HP 
+laptop (2026-08-24 14:23:37 +0000)
+
+----------------------------------------------------------------
+Simon Trimmer (1):
+       cirrus: cs35l54: Add Cirrus CS35L54 firmware mappings for an HP 
+laptop
+
+  WHENCE | 5 +++++
+  1 file changed, 5 insertions(+)
