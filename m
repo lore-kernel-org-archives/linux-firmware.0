@@ -1,207 +1,286 @@
-Return-Path: <SRS0=wrZL=GZ=opensource.cirrus.com=prvs=0704dfa9da=sbinding@kernel.org>
+Return-Path: <SRS0=ABA8=GZ=gmail.com=wjalakasi@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2F553C624D3
-	for <linux-firmware@archiver.kernel.org>; Tue,  1 Sep 2026 15:55:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7236C61DD3
+	for <linux-firmware@archiver.kernel.org>; Tue,  1 Sep 2026 22:26:58 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 028C81F000E9; Tue,  1 Sep 2026 15:55:11 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.152.168
-ARC-Seal: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=pass;
-	t=1788278110;
-	b=jEt2KFz27L0cdeIcQ5kE0j4IP7sg6HfqHtZOROLbYKFt4r+t/05EcFjlWASDbUjvIp3x
-	 Gcj+aJdxgMiGCvWlFECFaY5jXlx2+TKioGzT/Tz1qL5fbaKxaqF8+XvaFFWzmxGQpA/8F
-	 xcYrOWWW4eSwSus1MknvDiZHmKiuskChBNcQeXcZ3S+QphsoOp3jVptSiP/s29wFJkGOZ
-	 RlEd3obSIZZt6HhNd3mvyY0lm80KRDfiaktxXEJQhOLNMTF84gel8heU45U9jkJJnuvPy
-	 oXK7serJnXvrATV4NbP7zBYUYgoltEBa99PC5jUUQVcR1I7y03QKsWCnyeWUa5XZTbg==
-ARC-Message-Signature: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1788278110;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
-	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
-	 Received:Received:Received:Message-ID:Date:MIME-Version:User-Agent:
-	 Content-Language:List-Id:To:Cc:From:Subject:Content-Type:
-	 Content-Transfer-Encoding:X-EOPAttributedMessage:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
-	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Reason;
-	bh=pMTVw3gKs28zVJDVZFDs3Vy4cHvx0c0AX+FEHe9NqM4=;
-	b=EHBfbHPWCn6iLK/eq7T9/fC5sFK/mmNysvA7AMuR72gCDZM9KyYVs5s7Vs2g/r/zbozJ
-	 oO43woiU9l5EOR9hp605aVA7DSNFoHPICDRKQ8Unhl7S3yO9PKTnRE2UXBhjWBD0uH0US
-	 8Jr38AG3pxUpZ3x2SlGml7wi9aaGs+SjE/v1VRvgjQY3iGEd0vMb6AhXNm8dKiNpLonFI
-	 k+OxoAF1RFDzv1J/+qN8iSjzFwwPyfZI4uk529A3eFu/6ctlMhtjrVx/3CVH3JE2QPv8N
-	 iXw3C8haSWzpobNhsFGKPk9fbDQwCzwwr6uzryBtRgD1VVQlJFYidA6XJsCwk4vRLog==
-ARC-Authentication-Results: i=2; smtp.kernel.org; dkim=pass header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=TkCJRbUi;
-	dkim=pass header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=YTXKIKad;
-	dmarc=pass header.from=opensource.cirrus.com;
-	spf=pass smtp.mailfrom=opensource.cirrus.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.152.168
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	id B26741F00A3A; Tue,  1 Sep 2026 22:26:58 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=209.85.221.182
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1788301618;
+	b=ZhFkm3oRxi/gMSLXO9fnTAUVv+6O/Ml0UeKVi12x4sGICmrOr6F4iOcHmsYsaGJ+OS+h
+	 P0qZHEk6oTtD6ulK+CC6h3REfYOlhpo2G0SNhpPU5irf/Da4R6wujNhq2KNujAhhnGlSR
+	 PzIWgq36tKPmEtqYgvvaJU+wzPSCmiRag0nXMJ+XjX/f5zlgwzPHWrW3mJU7WLWc/jAhb
+	 8BLgj3Guc1dFiTGj7q8bGXopBsbBOLp1ASQfrUbUdqKmouTcbUPKxjB9zCLz//ZhkdcPx
+	 yQnSVv2Lf0xjI/fVM1vkuxONSlAIm3hryLa75oE4mi2o3/sgSqHxE2f1DR99WP+ay2Q==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1788301618;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Mime-Version:Date:
+	 X-Superhuman-ID:From:Message-ID:Subject:X-Superhuman-Draft-ID:
+	 X-Superhuman-Thread-ID:List-Id:To:Cc:X-Entity-Ref-ID:Content-Type;
+	bh=KBs/NE2Ow2iKAg+LJ+7n0GakcVfDxbwAiDGH+n/ocHc=;
+	b=QG+Dlh4itWGOKZYfgoxpVt2ECzKO5yZb7kDUGErOdbEsvTqsthRB/yUDtU1LC8ZRNl5Z
+	 oQcwq6Dld9MybIx4PqBnNlnw92Q4n6waSrvzU++BnvJ9rvx0mEv3czIeOUwUiOKORKaJC
+	 PprrEf7L8yhnkNmHn+83yR9dKYsrOe31sR83aQDyD8MGWVVyrsvsAmuHOyMEvWWnL7u12
+	 LvXo0PBZGKyUfjRAylaxSkY03xDGoECBsfG/mzkImwHnRq8gEtKDHI5lSJ/a8uMua3Ozl
+	 Z27+XUUnFO9EEAr0zE1JwkB2Lt6Yq9eTEIBWKGJ01fX+y7T7Bv3h4WhnpXwU9egEjRQ==
+ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=DTvOU6A3;
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.221.182
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 408741F00A3A
-	for <linux-firmware@kernel.org>; Tue,  1 Sep 2026 15:55:10 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 0FE301F000E9
+	for <linux-firmware@kernel.org>; Tue,  1 Sep 2026 22:26:57 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=TkCJRbUi;
-	dkim=pass (1024-bit key, unprotected) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=YTXKIKad
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 408741F00A3A
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 681EMbJC3139177
-	for <linux-firmware@kernel.org>; Tue, 1 Sep 2026 10:55:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=pMTVw3gKs28zVJDV
-	ZFDs3Vy4cHvx0c0AX+FEHe9NqM4=; b=TkCJRbUizeLxA0LpRzCQrX++n9bmLYHh
-	+kO13YQLWTzqTQk1XMA2rFGEtr2xXWSOjC9YxbjYewYABvYWFrMbAu6na9nynrme
-	n/hPlLxMANzNhG7ohNjUSCWglkbi2NccAdnDPvFuWPM6biwWe79ocwkvr3yOqXJW
-	0w3sGRUj80x8bkKMH+Bdmp4T2mxSbTEA5OM7K42KIH1MuVZc0dTmadG14Ip76XIX
-	T36ERUOLGZPXSMLeSzyu0pUrJDncPhpRRttMpuzvYZt1UInHQVDiJhm5vN4QhI1y
-	gpvxFcUZwwvpU167CC6IwMfaiK5d4rHwro0Eo5k2TkOjm5K6ui/gHg==
-Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11022081.outbound.protection.outlook.com [40.93.195.81])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4gduntgn23-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <linux-firmware@kernel.org>; Tue, 01 Sep 2026 10:55:09 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=i/nBxUUWg0Zy+3sQ71HVcVt0hUCbYDoahYMmpF6hQvjS3Bj+tzMiezCirwXdNgbgMQ3MLcnnkiKWFBdRFojDPbURkO69Kkxv4hZofWrYGNXKNo9GhAhyoKgpkcZwm2E6YS1wUPG0b21OnDljFqxWsmPwgS1EKjR00YjKJtagLTrsREJceL6KVUEgfnmZVMUdGT5UEBgtqz7SJJ12BcVmRV62IwRzUHOPWVWZRbLIzh9ANq+z3NSXmDz4+OvsQXk79eKI29BUqcpOA4Wu8hBIkxRWmhExUgrQx60KO5RtKefCFfr/ea9VtxC65cXo7UUeCym0PT7t+BC/5bs1exNwhg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pMTVw3gKs28zVJDVZFDs3Vy4cHvx0c0AX+FEHe9NqM4=;
- b=hnI3S/BfcUTo3iU84MELamaTfKpDGz3FWSBT3+hKsDoYwYi4nrteZlboREfmK7Sx+N2S05AfDhDMDg6a30ESOfvLM7xtGyp31OtOXSKe6NJmFrtxz/q167kXnSH9k2ZpYyiynjdPxXsOu5JcaOaQlr58t8cq44Jm4NAV5X75JPwjPOtm06pP/cpNP9MHL05zQTxQbvgbyQ4WU27LRyS8yTe3K69/8sKDz0lTezsMr5x1yx0WK7qyQ1pbGseTIcsavAgT5dwSntZoX09V9j/7oJh8kzvD4rbymhIZK365EY9n1qCqMOOYu6hJsqDPql9LJSxpTAOUTEveY05lb0+a3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=DTvOU6A3
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 0FE301F000E9
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-59b074ec7ceso221338e0c.1
+        for <linux-firmware@kernel.org>; Tue, 01 Sep 2026 15:26:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pMTVw3gKs28zVJDVZFDs3Vy4cHvx0c0AX+FEHe9NqM4=;
- b=YTXKIKadV2cmjzcJeLr14tJAm6uXOwynxOpy1Lme87KMcvr0xYs6/sE+UYiAtK0AahCaFRnSOVNoeetJlCsETXAYNPdDtsUqSJEMRmlixrCNVKJPniNgpbh4bi9WTK99m6QipiKTdG2whs8ZhdUUGAi0whB+IOfjKUNcTuhWM9o=
-Received: from CH0PR03CA0214.namprd03.prod.outlook.com (2603:10b6:610:e7::9)
- by DS1PR19MB8608.namprd19.prod.outlook.com (2603:10b6:8:1e4::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Tue, 1 Sep
- 2026 15:55:06 +0000
-Received: from CH1PEPF0000AD80.namprd04.prod.outlook.com
- (2603:10b6:610:e7:cafe::3d) by CH0PR03CA0214.outlook.office365.com
- (2603:10b6:610:e7::9) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.10 via Frontend Transport; Tue, 1
- Sep 2026 15:55:06 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- CH1PEPF0000AD80.mail.protection.outlook.com (10.167.244.90) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.8
- via Frontend Transport; Tue, 1 Sep 2026 15:55:05 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 7C399406547;
-	Tue,  1 Sep 2026 15:55:04 +0000 (UTC)
-Received: from [198.61.68.151] (LONNCK4V044.ad.cirrus.com [198.61.68.151])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 6000482024C;
-	Tue,  1 Sep 2026 15:55:04 +0000 (UTC)
-Message-ID: <8e8bb6c9-c6c2-4682-ad6f-6d4f5d41ae38@opensource.cirrus.com>
-Date: Tue, 1 Sep 2026 16:55:04 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
+        d=gmail.com; s=20251104; t=1788301617; x=1788906417; darn=kernel.org;
+        h=content-type:cc:to:subject:message-id:from:date:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=KBs/NE2Ow2iKAg+LJ+7n0GakcVfDxbwAiDGH+n/ocHc=;
+        b=DTvOU6A3gwKJWKtn5blFgrg8EcMkY1qeEoHEh35TRLO65YQyL5/h65D8cMggdK3z8Z
+         drDrDtEqMCrw6+w4ert75a8PUXH9yuI9iYzY53+mYSEhpUoAeyYV7Y5PEZFrtgSYyXpS
+         HIEG1vh0HRV7y2FcWIB8N5rlfNY8fkaaMnmpaUZ/q9inPZB4foGjlanmwWxfqLTeDreA
+         ZQhOzSbiIo4sKKSbvbRxCzcvnFV7YY2C1WdBod/0dZiOtmDxm7KBOohT2/F010Hzjbpc
+         AN64gUql+lNwmXxHmtjotjZQkBZwsXzEJDdqPejg52t2x85jNKyqcXVwVM5UUIUkXJYZ
+         YMJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788301617; x=1788906417;
+        h=content-type:cc:to:subject:message-id:from:date:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=KBs/NE2Ow2iKAg+LJ+7n0GakcVfDxbwAiDGH+n/ocHc=;
+        b=UPIEKt7uRLrtRgKWOJatONRN/AzrHFlIiviUiJhkHy+ooMOta2GSfT7PFB3xgezPMT
+         PLaKjNIzzBorwJLIzYARtnEL/1uksNt63S/yPY0OkC//nyFyX8xNQXgS0tFSpQjE/6EN
+         svbTDdF/9l9YLCcrqSdaV+oMf7nnnR2UJMa32b7T3vC3ueRfEdJxcwaHzqRPjzj02DRk
+         htouVxkfOB0w3w0Oec6LoN2dCt/93hkMoSF92BWuzWw6iIHtVlfXZ+AD+zwyykHBMLn4
+         yhbKJ9WJn+y71Qr9TYDC1KZ9VwcsDu4F5+AgDrECOGcH5780fL6TXmjtBmK8EaoYskJW
+         2lZw==
+X-Gm-Message-State: AFuF++llhlFs1EmFLDarwxjMxd79Lc9UaSz3fM+sVx8ZhLvc94vUcqsH
+	LUHPdKqPwWFQ4Af+RCAFCZjy+kMdzc+7c4hfH6u2nJtDxczbme4rkO0UvrzFXnQx
+X-Gm-Gg: AYBFou1LWB1Z9wZ5AHTX9sv47vve2YgUuSrBlKKA0aRQUP0XIkjbWJt9Rr2+Z+ItQfO
+	YQ2lpsjjrc62R9gQkpj/FNR5BcX3WnXyVL0MggFRy6mA9sab25pFZHcHG3fW5HVzBjZ/92cqUAw
+	zD5wsbwPqMc4N8IElbs1SLbatxvwz1WZ5ni2mQzcB4ooTfTCguD4gO6Liw6+tarNUPqqVcAycag
+	Dn/3GmD9gPNzGFmwUtzrAVUBRkpXr3MuOwdAY+QqOFgjSnp7Dg3M95Ip20/2u2WSCbDJPvwzYC+
+	CoaHL03FaDYkZnWontdR0RLXoPos0OCrZPI3wsIp7MxU5ldw3ReQ17qw20IUdrqiFDhHWtAeNgV
+	XnD3TOAKfXrUfN61C9B9QTmZJDeIBky67yyvrRHFoQxPp3xE+KHMDxMtZtqpXPTvqunXtLlS+iM
+	TYQgpK5bRExQK+uY11ahuPKCB466lMw3LqnS+ASxQ47GH9XuiDPVZuit1MO/qBCnbLZC88RYk1D
+	4Xb8yX+aJszW8c/XwQOcW5+XMzlVQ==
+X-Received: by 2002:a05:6122:46a4:b0:5bf:9f77:477a with SMTP id 71dfb90a1353d-5c7d2722cfbmr126387e0c.2.1788301616614;
+        Tue, 01 Sep 2026 15:26:56 -0700 (PDT)
+Received: from localhost (0.92.231.35.bc.googleusercontent.com. [35.231.92.0])
+        by smtp.gmail.com with UTF8SMTPSA id 71dfb90a1353d-5c7cd8ce9c1sm754683e0c.10.2026.09.01.15.26.55
+        for <linux-firmware@kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Sep 2026 15:26:55 -0700 (PDT)
+Mime-Version: 1.0
+Date: Tue, 01 Sep 2026 22:26:54 +0000
+X-Superhuman-ID: mtj8km9v.a22a6bcc-8a4a-41cb-8b06-25a970b4893b
+From: "Wiza Jalakasi" <wjalakasi@gmail.com>
+Message-ID: <mtj8kka3.730e0eb0-657f-4b6b-a45a-1a522c9041fa@we.are.superhuman.com>
+Subject: cirrus: missing CS35L56 spkid0 tuning for Dell XPS 13 DX13260
+ (10280e53)
+X-Superhuman-Draft-ID: draft008b7e9012adca45
+X-Superhuman-Thread-ID: draft00fdc3bcb5bd1f40
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Cc: patches@opensource.cirrus.com
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-Subject: [PULL v1 linux-firmware] Add Firmware for ASUS Zenbook UM3405GA
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD80:EE_|DS1PR19MB8608:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2c65e9c9-b5a1-4356-7828-08df0841642c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|34020700016|36860700016|23010399003|61400799027|376014|10067099003|11063799006|56012099006|16102099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	zNT2L5KGOrwGQc8ZH/6BUOaR11GCw2x2JFESAsgsTZjeKP4P0qgP9j1uMy0N8L4wT2DDwQKz+dFd/eEmzMYvWF6U4I8mJvWcVZdZ9Ajq4X8yW7t+hrRKnpBfKJTKjXwreVbkstjM0sJwajU0AOpQwMkv0pgtDfKnS7Ul6XqmKsYWCBT8Rq70ne30e2U/UYjeuUJA85lm9INYQ1Dr4ZPTtXpOPSfA290pVq5DbnEDBkNUBc/7tGRSCy3vjw0vjC2oZUhUf4uBNyKfeObL0lFczqlRnImV7LPsA63FRossNUKe+YqQGpY9L9nfwk+8GZsmZR7/q7Zfe1awSuN2Gys4ZuLTfL5rv95uHJGkiAxNodXA9wdXc/EIpwBxsITXHL4IMPMefX+iHZET9mLiXIAXEuXWr5KkDuEBRCZ4VvZpdN74TmWbGnCpDtgoIWD6+VQrJuFDCRcgIwSa4NtScOgHSF7eQc0ffmQw/Dy7XY6h/yluLoLCPoyzM/QhCzuGr4ZiAhGp97Fo6eEflovdpBto3ymlzgy8EehAEShxzKcFPV8IiRrLlJih4A/brumyec3i2tHJE1S43c+md6rHOYAJcFuMJd2zzha9n1V/HMGvEOJEP1HDk/sxla2sPwzyOFqTlIQSgxOAA/jDDSYU+KE0OA8Ef06SXFuvM8gdrOFaV/FfXtNflLssJc/VR1jEBQoUM+vwlamfMIcbvfRWDa9Ckw==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(34020700016)(36860700016)(23010399003)(61400799027)(376014)(10067099003)(11063799006)(56012099006)(16102099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	gkL8obvOIuyjb9PON6O9k71m8Drpo5PBAy2ZJgaupJbvnk8aZDyTEbxpKUluKqGvWWMuGxTt03RGmkBJJeI/8STgObJvdi0+DzarpJLK7s4SrcxFDO+Ylur/1CzYKXspv2pHa9NcwFH6aDpZraGXW/1yFO7+CFdq3JUSNzAxwSpJuJ+oxywEUW9FwzHbHlxS1OB97brWtsXG+/Fp3z2YMYPXiVypaAFzEB1ywn6x7EaLXK58sUgbCRivlg6Qpzz6rgf6PYtF4HcTiPIDWDPjVReQEH7bDmlfvQleVefDe0lRsAtPvFVS8OPsUYfqQheq9JVaslvG52DhEtfyEzpASHgz9lUjMUCbkJptaJyZKxeb0QZH2jOAqlB/k/9FItNGYwLClKLF9CB2Y2EFelEDgBtGHl1LLmin+wWcNLX1PSTG2GAqkZF9EevNQX2yypk4
-X-Exchange-RoutingPolicyChecked:
-	XhfHd/W3uvjwkl0xWMSrr9V4fPwQzUfEh7RIzH84Rt0iZipG+8LwkzUBfHpp5ex1cBDFuymAwq2qPfMhF9YJ3ak2eR0jAjdMjIT0woXCGjN5w5zVQCNWrgqGZ2+bFkAyFgo73cOV/m2vDFnfBivfT7dvSTf+CpK/tTdLz5Hztnlnf5WiJrf4H+GkKxhGtS3eoAnGpXTkhrBjyb2kgtAtuIifmAYzs+hcdXvz1ljMQznIFZhbBY0S0IzzY3gys0HYR5xWrejD0LgptUdiLmLmYSKL3AIbIpNXNbM5bO+7TWkYgzylZTXaRaJyAEVRVLAepCKXkO4KhIvDdwWPgt7V/g==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 15:55:05.4117
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c65e9c9-b5a1-4356-7828-08df0841642c
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH1PEPF0000AD80.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS1PR19MB8608
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTAxMDE0MCBTYWx0ZWRfX0bIIRKVFq37n
- vQo86/VMFgiRvaT79aP5my5VW9Fw2jqS/Fr5gATYyLNAgqwEMCd/PFqvxJRLkIMsN92Z1PuVlFu
- bcJngvKdNZUhpwx4jnWjX2EBu00jZqYlk6velvLx6Ap8Db+Lz/L05q4k+hvaMjrnPoZuLrelVsE
- A6FzmKiamzmZMwCz3Alo67ZFltWMQQXjrFDW00SOsrGryQ+P2ZhVe2okY7l92lpJbWN5v7JHc+I
- HBpWhLLqvupZ5ma8zMpKS1/zrIx2jQsGO63uU5PRBBakRqH4D2X/3y8MCRI3pmfLhcRHu0pSaUh
- SHLXeDZgx9kOf+tEslg92AGT3jQERcLS5+UcOIOgE4AfZMJs5JDdG+l+5hWtNB82qSAeos0Nj7W
- MqjDKaVKBZkUZwt95xhFjKik/RtXB8Ow2KqzMmTgaJnwPtUoLXYPa5tfKBeUiSmDjcoT95tbsd7
- sUWToI7fFDlaebDyPEg==
-X-Authority-Analysis: v=2.4 cv=X4Zi7mTe c=1 sm=1 tr=0 ts=6a96f55d cx=c_pps
- a=kzlga8Pj6Xs+ezKxcisf3A==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
- a=NEAV23lmAAAA:8 a=Hr1OGZq6mH_zsyXcZGsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTAxMDE0MCBTYWx0ZWRfXythwjVWA12oM
- PYOQiRyCPCpcyr7sTtR3a0wpsPCpLk3GzGXOPNypQGqOQ8skHXGQVJoY8qvUnJhgEQNF9E7oSBa
- 7SW8lsstQaB+g4tisg8KpORRQ1Cj4bA=
-X-Proofpoint-ORIG-GUID: ILlGjspiiGHUWpwC4kUUaJk4MYkqwcRN
-X-Proofpoint-GUID: ILlGjspiiGHUWpwC4kUUaJk4MYkqwcRN
-X-Proofpoint-Spam-Reason: safe
+Cc: patches@opensource.cirrus.com, rf@opensource.cirrus.com, simont@opensource.cirrus.com
+X-Entity-Ref-ID: mtj8km9v.a22a6bcc-8a4a-41cb-8b06-25a970b4893b
+Content-Type: multipart/alternative;
+ boundary=c386e4d56e34ae3c424f7c774cf1c3a570515f0e6d0ec40f5f4501d36dda
 
-We would like to add firmware files for Cirrus Logic Smart Amp CS35L41 for an ASUS Zenbook laptop.
+--c386e4d56e34ae3c424f7c774cf1c3a570515f0e6d0ec40f5f4501d36dda
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+
+Hello, Requesting the missing spkid0 CS35L56 tuning for the Dell XPS 13 DX1=
+3260 (audio subsystem 1028:0e53). Problem ------- linux-firmware 20260810 s=
+hips tuning for this SSID as spkid1/spkid2/spkid3 only: cirrus/cs35l56-b2-d=
+sp1-misc-10280e53-spkid{1,2,3}.wmfw cirrus/cs35l56-b2-dsp1-misc-10280e53-sp=
+kid{1,2,3}-amp{l,r}.bin My unit's amps report speaker-ID 0 (clean read; no =
+"Failed to read spk-id" or "Invalid spkid" in the log), so the driver reque=
+sts: cirrus/cs35l56-b2-dsp1-misc-10280e53-spkid0.wmfw cirrus/cs35l56-b2-dsp=
+1-misc-10280e53-spkid0-ampl.bin cirrus/cs35l56-b2-dsp1-misc-10280e53-spkid0=
+-ampr.bin These do not exist, both amps log FIRMWARE_MISSING, and the speak=
+ers are completely silent. Hardware: 2x CS35L56 Rev B2 on SPI (OTP1 fw 4.2.=
+1), CS42L43 codec on SoundWire, SOF sof-audio-pci-intel-ptl. Kernel 7.2.2-a=
+rch1-1 (Arch Linux), SOF_SDW_SIDECAR_AMPS quirk applied; amps bind and boot=
+ their DSP, only the tuning is missing. Kernel log (dyndbg on the cs35l56 m=
+odules): cs35l56 spi-cs35l56-left: Cirrus Logic CS35L56 Rev B2 OTP1 fw:4.2.=
+1 (patched=3D0) cs35l56 spi-cs35l56-left: DSP fwf name: 'b2-dsp1' system na=
+me: '10280e53-spkid0' cs35l56 spi-cs35l56-left: DSP1: Firmware: 1a00d6 vend=
+or: 0x2 v4.2.1, 42 algorithms cs35l56 spi-cs35l56-left: FIRMWARE_MISSING cs=
+35l56 spi-cs35l56-left: Can't read tuning IDs (right amp identical) Evidenc=
+e that spkid0 should alias the spkid1 tuning ------------------------------=
+--------------------- This machine dual-boots Windows 11, where the speaker=
+s work. Inspecting Dell's Windows audio package for this SSID (DriverStore =
+FileRepository, xucsmeext_0e53.inf): 1. Its tuning files b2_bridge_ss{1,2,3=
+}_0e53_{lw,rw}.bin are byte-identical (md5-verified, all six files) to linu=
+x-firmware's spkid{1,2,3} ampl/ampr bins for 10280e53, and it carries the s=
+ame 4.5.9 firmware. 2. The Windows package contains no set 0 at all, yet Wi=
+ndows audio works on this unit. Its INF resolves the tuning filename from a=
+ GPIO read (b2_bridge_ss _0e53_lw.bin), so Windows evidently maps this unit=
+'s reading to ss1. 3. As a local test I symlinked spkid0 -> spkid1 (wmfw + =
+ampl + ampr) and the speakers work correctly. This mirrors the spkid0 alias=
+ing already present for many other Dell SSIDs in cirrus/. Request ------- P=
+lease add the spkid0 alias (or files) for 10280e53 -- on the evidence above=
+ a symlink to the spkid1 tuning, but you have the authoritative mapping. Ha=
+ppy to test on this hardware. Related distro report: https://github.com/oma=
+com/omarchy/issues/9687 This report was prepared with the help of an AI ass=
+istant from diagnostics gathered on the machine. Thanks, Wiza Jalakasi
+
+Warmly,
+
+Wiza Jalakasi
+https://wiza.jalaka.si
+
+Sent via Superhuman ( https://superhuman.com/refer/9o2pqxe0?utm_medium=3Dsi=
+gnature&utm_source=3Dproduct )
+--c386e4d56e34ae3c424f7c774cf1c3a570515f0e6d0ec40f5f4501d36dda
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8
+
+<html><head></head><body>Hello,
+
+Requesting the missing spkid0 CS35L56 tuning for the Dell XPS 13 DX13260 (a=
+udio subsystem 1028:0e53).
+
+Problem
+-------
+linux-firmware 20260810 ships tuning for this SSID as spkid1/spkid2/spkid3 =
+only:
+
+  cirrus/cs35l56-b2-dsp1-misc-10280e53-spkid{1,2,3}.wmfw
+  cirrus/cs35l56-b2-dsp1-misc-10280e53-spkid{1,2,3}-amp{l,r}.bin
+
+My unit&#39;s amps report speaker-ID 0 (clean read; no &#34;Failed to read =
+spk-id&#34; or &#34;Invalid spkid&#34; in the log), so the driver requests:
+
+  cirrus/cs35l56-b2-dsp1-misc-10280e53-spkid0.wmfw
+  cirrus/cs35l56-b2-dsp1-misc-10280e53-spkid0-ampl.bin
+  cirrus/cs35l56-b2-dsp1-misc-10280e53-spkid0-ampr.bin
+
+These do not exist, both amps log FIRMWARE_MISSING, and the speakers are co=
+mpletely silent.
+
+Hardware: 2x CS35L56 Rev B2 on SPI (OTP1 fw 4.2.1), CS42L43 codec on SoundW=
+ire, SOF sof-audio-pci-intel-ptl. Kernel 7.2.2-arch1-1 (Arch Linux), SOF_SD=
+W_SIDECAR_AMPS quirk applied; amps bind and boot their DSP, only the tuning=
+ is missing.
+
+Kernel log (dyndbg on the cs35l56 modules):
+
+  cs35l56 spi-cs35l56-left:  Cirrus Logic CS35L56 Rev B2 OTP1 fw:4.2.1 (pat=
+ched=3D0)
+  cs35l56 spi-cs35l56-left:  DSP fwf name: &#39;b2-dsp1&#39; system name: &=
+#39;10280e53-spkid0&#39;
+  cs35l56 spi-cs35l56-left:  DSP1: Firmware: 1a00d6 vendor: 0x2 v4.2.1, 42 =
+algorithms
+  cs35l56 spi-cs35l56-left:  FIRMWARE_MISSING
+  cs35l56 spi-cs35l56-left:  Can&#39;t read tuning IDs
+  (right amp identical)
+
+Evidence that spkid0 should alias the spkid1 tuning
+---------------------------------------------------
+This machine dual-boots Windows 11, where the speakers work. Inspecting Del=
+l&#39;s Windows audio package for this SSID (DriverStore FileRepository, xu=
+csmeext_0e53.inf):
+
+1. Its tuning files b2_bridge_ss{1,2,3}_0e53_{lw,rw}.bin are byte-identical=
+ (md5-verified, all six files) to linux-firmware&#39;s spkid{1,2,3} ampl/am=
+pr bins for 10280e53, and it carries the same 4.5.9 firmware.
+
+2. The Windows package contains no set 0 at all, yet Windows audio works on=
+ this unit. Its INF resolves the tuning filename from a GPIO read (b2_bridg=
+e_ss<spksetid_gpio>_0e53_lw.bin), so Windows evidently maps this unit&#39;s=
+ reading to ss1.
+
+3. As a local test I symlinked spkid0 -&gt; spkid1 (wmfw + ampl + ampr) and=
+ the speakers work correctly. This mirrors the spkid0 aliasing already pres=
+ent for many other Dell SSIDs in cirrus/.
+
+Request
+-------
+Please add the spkid0 alias (or files) for 10280e53 -- on the evidence abov=
+e a symlink to the spkid1 tuning, but you have the authoritative mapping. H=
+appy to test on this hardware.
+
+Related distro report: https://github.com/omacom/omarchy/issues/9687
+
+This report was prepared with the help of an AI assistant from diagnostics =
+gathered on the machine.
 
 Thanks,
-
-Stefan Binding
-
-The following changes since commit 63fa520f8f7ee44c8ef397d9d6669a835fbe6f34:
-
-  Merge branch 'ath-20260831' into 'main' (2026-09-01 12:23:15 +0000)
-
-are available in the Git repository at:
-
-  https://github.com/CirrusLogic/linux-firmware/ cs35l41-20260901
-
-for you to fetch changes up to 0f386a489272e0aba3675ed54380b8db4b8d70b3:
-
-  cirrus: cs35l41: Add Firmware for ASUS Zenbook Laptop using CS35L41 HDA (2026-09-01 16:51:21 +0100)
-
-----------------------------------------------------------------
-Stefan Binding (1):
-      cirrus: cs35l41: Add Firmware for ASUS Zenbook Laptop using CS35L41 HDA
-
- WHENCE | 5 +++++
- 1 file changed, 5 insertions(+)
-
+Wiza Jalakasi<div><br/></div><div class=3D"gmail_signature"><div dir=3D"ltr=
+"><div dir=3D"ltr"><span><div><div dir=3D"ltr"><div dir=3D"ltr" style=3D"co=
+lor:rgb(136,136,136);font-size:12.8px"><span style=3D"color:rgb(0,0,0)">War=
+mly,</span></div><div dir=3D"ltr"><span style=3D"font-size:12.8px;color:rgb=
+(0,0,0)"><br/>Wiza Jalakasi<br/></span><div dir=3D"ltr"><a href=3D"https://=
+wiza.jalaka.si" style=3D"font-size:x-small" target=3D"_blank">https://wiza.=
+jalaka.si</a><br/></div></div></div></div>
+</span>
+</div></div><br/><div style=3D"clear:both">Sent via <a href=3D"https://supe=
+rhuman.com/refer/9o2pqxe0?utm_medium=3Dsignature&amp;utm_source=3Dproduct" =
+target=3D"_blank">Superhuman</a></div><br/></div><div style=3D"display: non=
+e; border: 0px; width: 0px; height: 0px; overflow: hidden; visibility: hidd=
+en;"><img src=3D"https://r.superhuman.com/~ytd5cYzxZ8u2R4-XASRHm0lkJmbDnnHW=
+_Pauee9tLDtqLTl8zOeVEwBafW3A3a81Gug4qCW6bSLItR99HQDuax5qxcUJvPK4yKW0.gif" a=
+lt=3D" " width=3D"1" height=3D"0" style=3D"display: none; border: 0px; widt=
+h: 0px; height: 0px; overflow: hidden; visibility: hidden;"/><!--          =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                        --></div></spksetid_gpio></body></h=
+tml>
+--c386e4d56e34ae3c424f7c774cf1c3a570515f0e6d0ec40f5f4501d36dda--
