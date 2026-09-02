@@ -1,172 +1,804 @@
-Return-Path: <SRS0=oSiP=G2=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
+Return-Path: <SRS0=UHmk=G2=jiocx.info=info@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F81EC61DD6
-	for <linux-firmware@archiver.kernel.org>; Wed,  2 Sep 2026 10:28:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3103C61DD6
+	for <linux-firmware@archiver.kernel.org>; Wed,  2 Sep 2026 10:31:45 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 1E7C01F00A3A; Wed,  2 Sep 2026 10:28:11 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+	id A25BC1F00A3A; Wed,  2 Sep 2026 10:31:45 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=116.50.98.98
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1788344891;
-	b=hI9Y/i8td1ODVYMjb7r774V8JIsAMDmfMOgTSs2WwaYaCmEkRjGyX19CNWRGGUhOg8X9
-	 aVt9uxunB6cgovOSxiIMQbKSRvPZWdB9xj/HwRdxjEZZKW3On2E6tt+QXltoO039uWGJF
-	 Ank3SHj2gEa5XXUPyYZOuR7+aSkjtvH6XPqmCT8zIQkubHWiimA4xzUbAw7emHGnLKxvQ
-	 g/A3l648FbHu+eQ4lq57/prg0bl02xEELNwmrlJdI52burSjh23YDpcFC0vXJi9jrRHsG
-	 69YrJpt+3YYJAespObl9V3wvJ5oCTpBQCKwRgdJGsJcMri87jHanI6aph6/kzmKsmiA==
+	t=1788345105;
+	b=KQL2hfL3Q+LDDDuUlPIogOr2fQCz+Wk67E1FzlB1edXpOGWKylog7sSrtC1JDX99iaXQ
+	 DFbYY6tpsutZuOjqSPD12T/fht0tKIVN15LHEoZZM4GEksDV7Ky7vjrwi27vBPxI6KCCw
+	 7FS728Wm/jbEGHvgvArD+Fz1+VqY6lES7i/zsgzL7Ox7GrTYRqIzzMJ+tCSkiNP11o6zX
+	 IhbPLodtpBWi5hrXfwkDANeT8i19gfsUh5MhWr3pkzc5w7v+219U6S/cDdfOt9IJgNzed
+	 U+mMyO3nY4AsyLufdnaT1o9vjjewW3FEYsDPK38aEBrTPyEoCJR+HTPDbczvTRJA0Tw==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1788344891;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
-	 X-Received:X-Received:Received:Date:From:To:List-Id:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=QK/5R/AQsKZLn7zLtufCkNE7eFKqA58lY9/nuEiaITE=;
-	b=D3MnrQiyDfni5HCwDtK6G1nc6PKk94D40kc1rv0gTQJKOgcf5tHgdX6Qlczup5wCp43S
-	 Lxg5ViVtt5Zu1uRuzzgv2AdrgfmueCyiATKEJ9YJm0V7kbujLYLXm8kc/Zuem12U7T0KT
-	 HW7gSmXC8GdT8WJDEgS9uuiCYCqioCCzkGHi/tGwfivuPl1bVqT43YCESrYBE2oulWQqD
-	 vFP7PUvGMTnn4M/kUSnQC83YGfjHKy6HaA428L5ul+1lnfRMs0TK9sSKuDy0jIp6ZnBoa
-	 VXKI0RP7PnQpWQw7Ba/MjHwAK2+k1kXZSnty91LLsZhDEGg4QpxX0NsOJTypps+Np9g==
-ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=dMH0Eu4x;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=WmL9+2SV;
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	c=relaxed/relaxed; t=1788345105;
+	h=DMARC-Filter:DKIM-Signature:Received:Mime-Version:Date:From:List-Id:
+	 To:Subject:List-Unsubscribe:List-Unsubscribe-Post:Reply-To:Message-ID:
+	 Content-Type;
+	bh=T2qcf5GrhrYWrKegTWZ4t+C6diZinyHBAlfpZ6B2tnc=;
+	b=CJbr1AF3KSAil9zBHqfHs8+JYr8ILarmCquCOmvOiKAE0x1ZV7LxKyiSUWg45D39oyji
+	 bgStYncK4t3ObsGGvL/Gqb04/yUoAsUxuj5V6PPwq546CxM2LRcI4N3ehMVvUd6xFZq4g
+	 2NLMMtnNCFKlIZxrMjTZRCPce51AS6JwyCkGevzFGv8Fmln+YU5VrrAGeEKD+77OrRgQE
+	 nUCA3mPg+HJN3coc0U0NfZFGiamprXp+uyVFUju6JD7ZPVfKs+2CHvNovfjhlThaO6gEz
+	 prdsuFZcCPxt2jEosjtJSyrPR4boGWcPVZwi4L7KdZrjlZ5R+4+6bgU4e/OLq9vKYrw==
+ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=jiocx.info header.i=@jiocx.info header.a=rsa-sha256 header.s=mtajiocx header.b=pSTKE+h7;
+	dmarc=pass header.from=jiocx.info;
+	spf=pass smtp.mailfrom=jiocx.info;
+	arc=none smtp.remote-ip=116.50.98.98
+Received: from cmpgn-mta98.jio.ril.com (cmpgn-mta98.jio.ril.com [116.50.98.98])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 84CA71F000E9
-	for <linux-firmware@kernel.org>; Wed,  2 Sep 2026 10:28:10 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with UTF8SMTPS id DCABF1F000E9
+	for <linux-firmware@kernel.org>; Wed,  2 Sep 2026 10:31:41 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=dMH0Eu4x;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=WmL9+2SV
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 84CA71F000E9
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6829NP5C1839253
-	for <linux-firmware@kernel.org>; Wed, 2 Sep 2026 10:28:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	QK/5R/AQsKZLn7zLtufCkNE7eFKqA58lY9/nuEiaITE=; b=dMH0Eu4xPV1MRRGz
-	dX0ourIv4AK62gY8ABx+UjkIO3EH4Ag86vn7aBjcO2YDYvUqKoZ26azViLk5xCqL
-	hiCh4qTtXVZL4ZG8+4Zys3GR6Xz65fcEd4pBuXJT0LsiriqBV1Vt3LCtqmJ9cUJS
-	48GP89aHJUf2LXFWw3/IkBRWZbdxycC4XCtJMWLyvNRC8/0pFWWzSSyHjNf5yRY4
-	zHeJRnA/+MaQxzUqdlCNpr1ZaPP++7goWUEdNs3AtzUu1PuGLuzeCffYWnST54VX
-	XHdJjC2NOCKpdzcyITe2MqcB5GGGXNcQnRqiNdSz9LlKpRgjaBsoLfMuih0+Dtrc
-	LZunwg==
-Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com [209.85.217.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gebsx1gnv-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Wed, 02 Sep 2026 10:28:09 +0000 (GMT)
-Received: by mail-vs1-f71.google.com with SMTP id ada2fe7eead31-738627c7908so220101137.2
-        for <linux-firmware@kernel.org>; Wed, 02 Sep 2026 03:28:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1788344889; x=1788949689; darn=kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=QK/5R/AQsKZLn7zLtufCkNE7eFKqA58lY9/nuEiaITE=;
-        b=WmL9+2SVKmFq40HCQJnXnF91Dk2VrSuVinYhjWjAChhRHmk6Gk8rUDOdvlxfbWWp9y
-         mu0mK+2no5NuBe2yvsgpitbyOUOGDl+b26mHSFZ2RDKUW9yBlVmOzYM3t9Dkbzf4uliR
-         VgXzEaWkiqIBwXVqUftNB/Qochm0AaGk4cdgkg3AegJ4UZxsMaJf6YlRlVfafY/tk9a7
-         wFyjBQvpCLtfxFsZU5EG6EIEGqNjplNRtncXggfiCaRik5shRtmzXjs1SDLR30ShoZno
-         Q31BFPVQ81hWb+oquCYwXihM0uJk3JmResH4nDKk1CCsfXV5impxM5YfTMR62p7wM5+e
-         a4Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788344889; x=1788949689;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=QK/5R/AQsKZLn7zLtufCkNE7eFKqA58lY9/nuEiaITE=;
-        b=iocKM6IHLQLbISEu84akcM6mjvqCprVzbrpnE7mCaXKVQIkRJ3aI/P87JHpQarE+BP
-         nwZNTD5wha9t4o6JjPbL0DoV+jlXKpTvvn2nRWgzchQ5sok7uwx3/0lxBxeDpn0RoRDy
-         79LGAOCqknE8zC1jauW6oD8Cr0RVst4rWG/rKQgsRM7PpexgnHfi3GAKV7h9ftuAbWek
-         I2xDrOwuMu+pKaTxroJYyGyaU7eR3wkh9E9IN6NhfPhRJhnu8xqIIaOJ5wwURIjH5oqU
-         UePRx56QsinDbsTreCp4+OOYZCyNpwLVbRfSdcWhUDpSZ7WywKdlSxmUSP+RMq2JHubf
-         /wXw==
-X-Gm-Message-State: AFuF++kP1d/O6u0vsJvtKkIbshF1aQ6Yq1+Wno9Fbb5vmTrDMuH2KNdg
-	h9HMlRqxLe4DW7jhRdrCjQcP1/RVndEUxH17+04cYMcNhyQknMYbsb+fAt7iq9J8e6tB6jlCfx0
-	mGDw21evbEiC41q59a67YnSRbvTGPKJni22bWW2XgjmUrxqcaW+Gezr9Osk1xcDiWPvmGmDI=
-X-Gm-Gg: AYBFou1I3xCnkBYjxlibdXx0smH+ZpVaMJ5mwxo1EIqhkdiZXWsWpfTLrJ6TRiTpFSa
-	7PLyW6GMqoSxrWk0sHE5hyVLFQ0afJgfLKYDOIsHRnceEGelQ43DyrYt8GqdYsvoLlr7xRXykht
-	9fqel8m8d/NrLA1ZwEiSQ6bVagivN+j7EOuaC2eMHq8NKd2MikQzDe/H10W4xtIRqQTZtSiPTeJ
-	J9VrHA0AKErzqAHQJTCj/XqxVpUOdOXGhOC+IsFeoiO/LX1NvjogulTrWSEQP8LWWLpzRgT87+J
-	7EM9NlN0ig4bKzf0xUZTH3nWOjhGM5tjIbUnZwFW+/7ZAQnzJxroYJfNCtTxpiDUlDoXoDG5p2I
-	sMDnU95LuXqzFfpp+JOuxqFmhOssIO540dgqRBpMClQS20xLY+t3qU45WHN0lFT5oDxBLPcRcnw
-	DrTccsXC8PP5BS
-X-Received: by 2002:a05:6102:510c:b0:784:b6e7:cee0 with SMTP id ada2fe7eead31-78a1f126196mr1089297137.3.1788344888632;
-        Wed, 02 Sep 2026 03:28:08 -0700 (PDT)
-X-Received: by 2002:a05:6102:510c:b0:784:b6e7:cee0 with SMTP id ada2fe7eead31-78a1f126196mr1089283137.3.1788344888175;
-        Wed, 02 Sep 2026 03:28:08 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3a34ad21ef8sm5056461fa.28.2026.09.02.03.28.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2026 03:28:07 -0700 (PDT)
-Date: Wed, 2 Sep 2026 13:28:05 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Shuai Zhang <shuai.zhang@oss.qualcomm.com>
+	dkim=pass (1024-bit key, unprotected) header.d=jiocx.info header.i=@jiocx.info header.a=rsa-sha256 header.s=mtajiocx header.b=pSTKE+h7
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org DCABF1F000E9
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=jiocx.info
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=jiocx.info
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jiocx.info;
+ i=@jiocx.info; q=dns/txt; s=mtajiocx; t=1788345092; h=mime-version :
+ date : from : to : subject : list-unsubscribe : reply-to : message-id
+ : content-type : from;
+ bh=T2qcf5GrhrYWrKegTWZ4t+C6diZinyHBAlfpZ6B2tnc=;
+ b=pSTKE+h7DNrOyWN9sGbqF8VsjTMzGhDA7Ep/JZ4HM1vkkGCZnVS1OVvaJpSSE1afH7ssu
+ 6APX2QGkonSnyJmrWclAfG8YV1vnl2RiC5drNXuzzHLHBIiofdBtIqJfuK5aVhxApZf1nmD
+ QWYIxSynIsMrI6YTJazbCoPF7r351iY=
+Received: from localhost (unknown [10.177.4.16])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by cmpgn-mta98.jio.ril.com (Postfix) with UTF8SMTPSA id 1F5696EA12C4
+	for <linux-firmware@kernel.org>; Wed,  2 Sep 2026 16:01:32 +0530 (IST)
+Mime-Version: 1.0
+Date: Wed, 02 Sep 2026 16:01:32 +0530
+From: "Harsh Gawade" <info@jiocx.info>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, cheng.jiang@oss.qualcomm.com,
-        wei.deng@oss.qualcomm.com, jinwang.li@oss.qualcomm.com,
-        xiuzhuo.shang@oss.qualcomm.com
-Subject: Re: QCA: Add Bluetooth firmware hmtnv20.b201/b202 for WCN7850 on
- Nord platform
-Message-ID: <jgjbm7dqzcfn6rmmrhhro224nse6jmqc734qt7tekm6ghefrav@usxvljs4lqe6>
-References: <182f576a-a9c2-4e21-b882-e04118c0c486@oss.qualcomm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <182f576a-a9c2-4e21-b882-e04118c0c486@oss.qualcomm.com>
-X-Proofpoint-ORIG-GUID: Cewo5v_ZOGRADIWoDLH3DtgiVs2gmvgk
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTAyMDA5MSBTYWx0ZWRfX603BxOnzJ0Ps
- bbL/NU6YhiBW3ShOH7rloGJgs7Ujk0Pe0dPOgjR0PNeyTby5BDsqQ7UKprxJENSzqlWng4qfr2m
- b0kNaxrPfczS7677LhrKO4ps1uU32vkDd5cQkCmQkeP/DZeqYJhIu5kx3BVL28kKKgq4t8qd9pm
- jzPt9p91TcNs10C4k/eaiAZYt2A2nkr7MaqDXtLjG9aDnSTOb8fej0CXa7ukaYoyUW7Mtwv18+4
- OrTX89tCO47aukDgH1LYko7yaV0RYM/MhdkbcyA5vs2E7wwZActn07cT6QGCg3yvyS46t2+kPlN
- tl/940lXVKEBFWAKnOwSg42VvU1NfdCyg/Qitut1NqoTjg5vJl/8A/NIZ6I4JhudnG7BwWzpws9
- Zf5sr5C1+17Q2xDLTGnCAF+N/C+3VCGPkiZktM8xvlYWp7lX2ze1mF+IgZAvp0Fn8147ukZ1W8X
- qMb8iIDpiGzySN34drA==
-X-Proofpoint-GUID: Cewo5v_ZOGRADIWoDLH3DtgiVs2gmvgk
-X-Authority-Analysis: v=2.4 cv=AufeGu9P c=1 sm=1 tr=0 ts=6a97fa39 cx=c_pps
- a=P2rfLEam3zuxRRdjJWA2cw==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
- a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=p0WdMEafAAAA:8
- a=HDlZJlEQXSmBd31KvFYA:9 a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
- a=ODZdjJIeia2B_SHc_B0f:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTAyMDA5MSBTYWx0ZWRfXy7e/9uMrT4X7
- RATFL8XA/1rwvHQtztYr6OXXzzamx//3iRiqfye6DS/QOhCW847ui+mudkHRV6mklHwuztCIT2D
- fm70e/PBbZUjOMpRrRuB0DXCUG2Ttb8=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-02_02,2026-09-01_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0 lowpriorityscore=0 impostorscore=0 phishscore=0
- spamscore=0 adultscore=0 suspectscore=0 priorityscore=1501 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609020091
+To: linux-firmware@kernel.org
+Subject: A Smarter Way to Manage Dental Appointments with JioCX
+List-Unsubscribe: <https://email.jiocx.com/unsubscribe.html?data=nPAIqBOjCIFyWDPknA0DYov_T-8MepvU-67_afHWDV-2_N1HZeSFlmHayuriKlvumduJ9JqD-3wn9wny5DRPu9ihfaQBIaEbXRGY1slUS7QENhOHjh9FL4e01A5gbbk4W2l6e7OIWc8VclJxjRAgwLCYanBnOhpNJ6BqPrPyMI2OeSfsaeT2ZPkhY-TSHhoEvnw7Ix-Go5cRdvMRdh-0z6YGAXhJe-UG64jtxkzV22A6_ML_pIbazm5vVagp&emailTo=linux-firmware%40kernel.org&list=master&reasonID=0>,
+ <mailto:unsubscribe@jiocx.info?subject=unsubscribe>
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+Reply-To: hello@jiocx.com
+Message-ID: <jiocxmarketing254/16556/570046/4d79e3d4-a6b9-11f1-b384-3a79b4b2c064/campaign/info@jiocx.info>
+Content-Type: multipart/alternative;
+ boundary=a4abd1a948408d1d9b0ae523ac7199cefb7017bb8998348459c6d72e9469
 
-On Wed, Sep 02, 2026 at 03:52:35PM +0800, Shuai Zhang wrote:
-> 
-> for you to fetch changes up to 812a572e10d45accc48e4fb9325a5f10d15266ec:
-> 
->   QCA: Add Bluetooth firmware hmtnv20.b201/b202 for WCN7850 on Nord platform
-> (2026-09-02 15:43:23 +0800)
-
-Thanks, merged and pushed out:
-
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/1212
+--a4abd1a948408d1d9b0ae523ac7199cefb7017bb8998348459c6d72e9469
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
 
--- 
-With best wishes
-Dmitry
+--a4abd1a948408d1d9b0ae523ac7199cefb7017bb8998348459c6d72e9469
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8
+
+<div style=3D"display: none; font-size: 1px; max-height: 0px; max-width: 0p=
+x; opacity: 0; overflow: hidden; color: white"><p>Your Next Appointment Sta=
+rts with WhatsApp</p></div>
+
+
+
+
+   =20
+     =20
+    <style>
+        #outlook a {
+            padding: 0;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+        table,
+        td {
+            border-collapse: collapse;
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+
+        img {
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+            -ms-interpolation-mode: bicubic;
+            display: block;
+        }
+        a {
+            text-decoration: none;
+        }
+    </style>`
+    <table width=3D"100%" style=3D"width:100%; background-color: white;">
+        <tbody>
+            <tr>
+                <td align=3D"center">
+
+                   =20
+                   =20
+                    <table width=3D"650" style=3D"width:100%;max-width:650p=
+x;background-color:#FFFFFF;font-family:Arial,Helvetica,sans-serif;font-size=
+:14px;line-height:20px;color:#1A1A1A;">
+                        <tbody>
+
+                           =20
+                            <tr>
+                                <td align=3D"center" style=3D"padding:14px =
+30px;background-color:#1B0633;">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td valign=3D"middle" style=
+=3D"padding-right:6px;">
+                                                    <img alt=3D"JioCX Pulse=
+" src=3D"https://jioimages.cdn.jio.com/media_uploads/20260807162405.png" wi=
+dth=3D"40" style=3D"display:block;width:40px;height:auto;">
+                                                </td>
+                                                <td valign=3D"middle" style=
+=3D"font-family:Arial,Helvetica,sans-serif;font-size:20px;line-height:26px;=
+font-weight:bold;color:#FFFFFF;">
+                                                    JioCX Pulse <span style=
+=3D"font-weight:normal;color:#8D8299; font-size: 18px; font-weight: 400;">
+                                                        | Dental</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+
+                           =20
+                            <tr>
+                                <td style=3D"background-color:#F5F0FF;">
+                                    <table width=3D"100%" style=3D"width:10=
+0%;">
+                                        <tbody>
+
+                                           =20
+                                            <tr>
+                                                <td align=3D"center" style=
+=3D"padding:30px 20px 0 20px;">
+                                                    <img alt=3D"Dental clin=
+ic patient chatting on WhatsApp" src=3D"https://jioimages.cdn.jio.com/media=
+_uploads/20260810125255.png" width=3D"420" style=3D"display:block;width:420=
+px;max-width:420px;height:auto;">
+                                                </td>
+                                            </tr>
+                                           =20
+                                            <tr>
+                                                <td align=3D"center" style=
+=3D"padding:28px 40px 0 40px;font-family:Arial,Helvetica,sans-serif;font-si=
+ze:28px;line-height:36px;font-weight:bold;color:#1A1A1A;text-align:center;"=
+>
+                                                    Your Next Appointment S=
+tarts with WhatsApp
+                                                </td>
+                                            </tr>
+                                           =20
+                                            <tr>
+                                                <td style=3D"height:14px;li=
+ne-height:14px;font-size:1px;">=C2=A0</td>
+                                            </tr>
+                                           =20
+                                            <tr>
+                                                <td align=3D"center" style=
+=3D"padding:0 40px;font-family:Arial,Helvetica,sans-serif;font-size:12px;fo=
+nt-weight:400; line-height:normal;color:#222222;text-align:center;">
+                                                    JioCX Pulse helps denta=
+l clinics manage appointments, answer patient
+                                                    queries, share treatmen=
+t information, and send reminders seamlessly
+                                                    on WhatsApp. Keep every=
+ patient conversation organized in one place.
+                                                </td>
+                                            </tr>
+
+                                           =20
+                                            <tr>
+                                                <td style=3D"height:24px;li=
+ne-height:24px;font-size:1px;">=C2=A0</td>
+                                            </tr>
+
+                                           =20
+                                           =20
+                                            <tr>
+                                                <td align=3D"center" style=
+=3D"padding:0 40px;">
+                                                    <table style=3D"margin:=
+0 auto;width:280px;border-collapse:separate;border-radius:24px;-webkit-bord=
+er-radius:24px;background-color:#6C1CD3;">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align=
+=3D"center" style=3D"background-color:#6C1CD3;border-radius:24px;-webkit-bo=
+rder-radius:24px;background-clip:padding-box;padding:12px 20px;font-family:=
+Arial,Helvetica,sans-serif;font-size:16px;line-height:20px;font-weight:bold=
+;color:#FFFFFF;text-align:center;width:280px;">
+                                                                    <a href=
+=3D"https://email.jiocx.com/web/v1/ctr/v2/AokdLscB34pDr-MYEQPsHK5wI8whWPEMU=
+kWi0UfsZGFehcx4HvGPVn95P4Wuok0fOp8tx3y0ExyfL1U0nu4z8Igp4wWdGd15v2xBUpK9FPrR=
+d-52sXMdAwuirYI592hv_ZyIAGUIO5-myfss4_AZ2JIXNXJ3fSdRzlyb55UXeLlQRUvRBZJqb9b=
+k4YqCPWS5zvpSjqSNhkm0mBZwyusw1tKPrs7zRL6PeGSFOOtCKpwpmm4r-FvwAm-pdls89RyLlv=
+fKVKLzeHDFh34Buey_1P9J87QAT7ZjSmi_BdFbVlNArhrzjMpFclr2SEUz6Fm--4iuaYlbVwZSa=
+yNcPI-wu2qBDi6qqoRqW9GPFMYyq8zsSylLDOPJ7Im8FbQNSSUVo_eiRIuD_VdcHT-nzT-HOAeq=
+fU1Geakdz1P8Hf-vl1XuFJTp3G_bM_GWU8hIrvD-FSTQ8cgXp280H0XokOFDrVHNf3gOx8ifoCL=
+wSoFjRjFD3034Kl78g4bHIOHNHhXtHIiUiQCwZkuqsU43b9PH5EbBBAWs3qlv_AulXchZTkBtz9=
+1jDBOlnYnj-VaEDyW13Css5_pub3DMtAefT715HnNbYNa0fZ1CNVh_fGOHe7cElLfDhmBByjIBJ=
+yKXR2XH85Edpmdsfq1kINHZZnLwiuyJdVHNH4vvOisgmiNTr69EssIPweDcdYzUYustnrPwtdp1=
+" style=3D"color:#FFFFFF;text-decoration:none;display:block;font-family:Ari=
+al,Helvetica,sans-serif;font-size:16px;font-weight:bold;line-height:20px;" =
+rel=3D"nofollow">
+                                                                        Let=
+=E2=80=99s talk on WhatsApp =C2=A0=E2=86=92
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                   =20
+                                                </td>
+                                            </tr>
+
+                                           =20
+                                            <tr>
+                                                <td style=3D"height:12px;li=
+ne-height:12px;font-size:1px;">=C2=A0</td>
+                                            </tr>
+
+                                           =20
+                                            <tr>
+                                                <td align=3D"center" style=
+=3D"padding:0 40px;">
+                                                    <table style=3D"margin:=
+0 auto;width:280px;border-collapse:separate;border-radius:24px;-webkit-bord=
+er-radius:24px;background-color:#F5F0FF;">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align=
+=3D"center" style=3D"background-color:#F5F0FF;border:1px solid #CCCCCC;bord=
+er-radius:24px;-webkit-border-radius:24px;background-clip:padding-box;paddi=
+ng:12px 20px;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-hei=
+ght:20px;font-weight:bold;color:#3B0B72;text-align:center;width:280px;">
+                                                                    <a href=
+=3D"https://email.jiocx.com/web/v1/ctr/v2/6umVDTMDq5QxlUrn0hspgCXb-wmPIthx3=
+vyfXme6OYc2AUn1zwgmZc7IWPBuyucpJCWqLB-_SWqtAZZXgJzJOBsg13RZdZ493xY_eT4EVn7I=
+Vx1JB3ulC3Kls_oATSY8DEAwwi6EeRMtCvSGSushTFa3aOhuto_zwyIxPXzSljKWSxogOwbNPKo=
+2o4b9RZwjivEz79f83Yu0hQeKxUuCpT39VofWt3i9YJcC0iZdexrrfsX5cuL1QVFlwtZ530WeFO=
+FVtxLUrgmkaekyqE-fQP6BlHkMLl8sPFtQdz6tCZwBlxdUZlBQfI39BbeyMYeuhbie4Ft208MS5=
+6Nwo5PqDVXWXJCs-JM8_bdfu4wL3mZJkWjpfQdcfK0ryBd0yW2GS_T9Fm4SOBsKlWec04VGF03R=
+jL9bLrpy59Ogk5804wASfy7ONa-bdNfvNlU1S4iwhhkwHkx9Mli5JtULW3X3mRBx0nS807iOeHZ=
+1I4h6KuRVVIf59oNw-NzAPhc0Er2HA9gUerWfssoga6KaqqF9h34nwtsFuXSLdrtXnv9Qzj0OH_=
+3M7Po978VINK-DbkItFBf5J1v68avU_4fr7kVTx7dq4zC0_JjMtQTQPXo-3uY=3D" style=3D"=
+color:#3B0B72;text-decoration:none;display:block;font-family:Arial,Helvetic=
+a,sans-serif;font-size:16px;font-weight:bold;line-height:20px;" rel=3D"nofo=
+llow">
+                                                                        Exp=
+lore JioCX Pulse
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                   =20
+                                                </td>
+                                            </tr>
+
+                                           =20
+                                            <tr>
+                                                <td style=3D"height:30px;li=
+ne-height:30px;font-size:1px;">=C2=A0</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+
+                           =20
+                            <tr>
+                                <td style=3D"background-color:#FFFFFF;">
+                                    <table width=3D"100%" style=3D"width:10=
+0%;">
+                                        <tbody>
+                                           =20
+                                            <tr>
+                                                <td style=3D"height:30px;li=
+ne-height:30px;font-size:1px;">=C2=A0</td>
+                                            </tr>
+
+                                           =20
+                                            <tr>
+                                                <td align=3D"center" style=
+=3D"padding:0 35px;font-family:Arial,Helvetica,sans-serif;font-size:24px;li=
+ne-height:normal;font-weight:700;color:#1A1A1A;text-align:center;">
+                                                    Get more from every con=
+versation
+                                                </td>
+                                            </tr>
+
+                                           =20
+                                            <tr>
+                                                <td style=3D"height:10px;li=
+ne-height:10px;font-size:1px;">=C2=A0</td>
+                                            </tr>
+                                           =20
+                                            <tr>
+                                                <td align=3D"center" style=
+=3D"padding:0 50px;font-family:Arial,Helvetica,sans-serif;font-size:12px; f=
+ont-weight: 400; line-height:normal;color:#222222;text-align:center;">
+                                                    Everything you need to =
+engage patients, reduce missed appointments,
+                                                    and strengthen everyday=
+ communication all within WhatsApp.
+                                                </td>
+                                            </tr>
+                                           =20
+                                            <tr>
+                                                <td style=3D"height:28px;li=
+ne-height:28px;font-size:1px;">=C2=A0</td>
+                                            </tr>
+
+                                           =20
+                                            <tr>
+                                                <td style=3D"padding:0;">
+                                                    <table width=3D"100%" s=
+tyle=3D"width:100%;">
+                                                        <tbody>
+                                                           =20
+                                                            <tr>
+                                                               =20
+                                                                <td width=
+=3D"50%" valign=3D"top" style=3D"width:50%;padding:28px 20px 32px 20px;vert=
+ical-align:top;background-color:#FFF8EE;">
+                                                                    <table =
+width=3D"100%" style=3D"width:100%;">
+                                                                        <tb=
+ody>
+                                                                           =
+=20
+                                                                           =
+ <tr>
+                                                                           =
+     <td align=3D"center" style=3D"padding-bottom:20px;">
+                                                                           =
+         <img alt=3D"Appointment booking on WhatsApp for dental clinic" src=
+=3D"https://jioimages.cdn.jio.com/media_uploads/20260818191706.png" width=
+=3D"170" style=3D"display:block;width:170px;max-width:170px;height:auto;bor=
+der-radius:12px;">
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                           =
+=20
+                                                                           =
+ <tr>
+                                                                           =
+     <td align=3D"center" style=3D"font-family:Arial,Helvetica,sans-serif;f=
+ont-size:20px;line-height:24px;font-weight:700;color:#000000;text-align:cen=
+ter;padding-bottom:12px;">
+                                                                           =
+         Appointment Booking
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                           =
+=20
+                                                                           =
+ <tr>
+                                                                           =
+     <td align=3D"center" style=3D"font-family:Arial,Helvetica,sans-serif;f=
+ont-size:12px; font-weight: 400; line-height:normal;color:#222222;text-alig=
+n:center;">
+                                                                           =
+         Make it easy for patients to enquire
+                                                                           =
+         about treatments, choose a preferred
+                                                                           =
+         slot, and receive appointment
+                                                                           =
+         confirmations directly on WhatsApp
+                                                                           =
+         without calling the clinic.
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+body>
+                                                                    </table=
+>
+                                                                </td>
+                                                               =20
+                                                                <td width=
+=3D"50%" valign=3D"top" style=3D"width:50%;padding:28px 20px 32px 20px;vert=
+ical-align:top;background-color:#E8F8F3;">
+                                                                    <table =
+width=3D"100%" style=3D"width:100%;">
+                                                                        <tb=
+ody>
+                                                                           =
+=20
+                                                                           =
+ <tr>
+                                                                           =
+     <td align=3D"center" style=3D"padding-bottom:20px;">
+                                                                           =
+         <img alt=3D"Automated appointment reminders on WhatsApp" src=3D"ht=
+tps://jioimages.cdn.jio.com/media_uploads/20260818180201.png" width=3D"170"=
+ style=3D"display:block;width:170px;max-width:170px;height:auto;border-radi=
+us:12px;">
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                           =
+=20
+                                                                           =
+ <tr>
+                                                                           =
+     <td align=3D"center" style=3D"font-family:Arial,Helvetica,sans-serif;f=
+ont-size:20px;line-height:24px;font-weight:700;color:#000000;text-align:cen=
+ter;padding-bottom:12px;">
+                                                                           =
+         Automated Reminders
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                           =
+=20
+                                                                           =
+ <tr>
+                                                                           =
+     <td align=3D"center" style=3D"font-family:Arial,Helvetica,sans-serif;f=
+ont-size:12px; font-weight: 400; line-height:normal;color:#222222;text-alig=
+n:center;">
+                                                                           =
+         Reduce no-shows by sending timely
+                                                                           =
+         appointment reminders with options
+                                                                           =
+         to confirm, reschedule, or
+                                                                           =
+         cancel helping patients manage
+                                                                           =
+         visits without extra follow up
+                                                                           =
+         calls.
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+body>
+                                                                    </table=
+>
+                                                                </td>
+                                                            </tr>
+                                                           =20
+                                                            <tr>
+                                                               =20
+                                                                <td width=
+=3D"50%" valign=3D"top" style=3D"width:50%;padding:28px 20px 32px 20px;vert=
+ical-align:top;background-color:#E4F3FA;">
+                                                                    <table =
+width=3D"100%" style=3D"width:100%;">
+                                                                        <tb=
+ody>
+                                                                           =
+=20
+                                                                           =
+ <tr>
+                                                                           =
+     <td align=3D"center" style=3D"padding-bottom:20px;">
+                                                                           =
+         <img alt=3D"Instant FAQ support for dental patients on WhatsApp" s=
+rc=3D"https://jioimages.cdn.jio.com/media_uploads/20260818180221.png" width=
+=3D"170" style=3D"display:block;width:170px;max-width:170px;height:auto;bor=
+der-radius:12px;">
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                           =
+=20
+                                                                           =
+ <tr>
+                                                                           =
+     <td align=3D"center" style=3D"font-family:Arial,Helvetica,sans-serif;f=
+ont-size:20px;line-height:normal;font-weight:700;color:#000000;text-align:c=
+enter;padding-bottom:12px;">
+                                                                           =
+         Instant FAQ Support
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                           =
+=20
+                                                                           =
+ <tr>
+                                                                           =
+     <td align=3D"center" style=3D"font-family:Arial,Helvetica,sans-serif;f=
+ont-size:12px; font-weight: 400; line-height:normal;color:#222222;text-alig=
+n:center;">
+                                                                           =
+         Answer common patient questions
+                                                                           =
+         instantly about clinic timings,
+                                                                           =
+         treatments, pricing, consultation
+                                                                           =
+         availability, post-care guidance,
+                                                                           =
+         and appointment-related information
+                                                                           =
+         24/7.
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+body>
+                                                                    </table=
+>
+                                                                </td>
+
+                                                               =20
+                                                                <td width=
+=3D"50%" valign=3D"top" style=3D"width:50%;padding:28px 20px 32px 20px;vert=
+ical-align:top;background-color:#FDF0F8;">
+                                                                    <table =
+width=3D"100%" style=3D"width:100%;">
+                                                                        <tb=
+ody>
+                                                                           =
+=20
+                                                                           =
+ <tr>
+                                                                           =
+     <td align=3D"center" style=3D"padding-bottom:20px;">
+                                                                           =
+         <img alt=3D"Patient follow-ups on WhatsApp for dental clinic" src=
+=3D"https://jioimages.cdn.jio.com/media_uploads/20260818180434.png" width=
+=3D"170" style=3D"display:block;width:170px;max-width:170px;height:auto;bor=
+der-radius:12px;">
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                           =
+=20
+                                                                           =
+ <tr>
+                                                                           =
+     <td align=3D"center" style=3D"font-family:Arial,Helvetica,sans-serif;f=
+ont-size:20px;line-height:normal;font-weight:700;color:#000000;text-align:c=
+enter;padding-bottom:12px;">
+                                                                           =
+         Patient Follow-Ups
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                           =
+=20
+                                                                           =
+ <tr>
+                                                                           =
+     <td align=3D"center" style=3D"font-family:Arial,Helvetica,sans-serif;f=
+ont-size:12px; font-weight: 400; line-height:normal;color:#222222;text-alig=
+n:center;">
+                                                                           =
+         Stay connected after every visit
+                                                                           =
+         with treatment follow-ups, recall
+                                                                           =
+         reminders, payment reminders, oral
+                                                                           =
+         care tips, and personalised
+                                                                           =
+         messages that bring patients back.
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+body>
+                                                                    </table=
+>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+
+                           =20
+                            <tr>
+                                <td style=3D"padding:32px 30px;background-c=
+olor:#EFEAFB;">
+                                    <table width=3D"100%" style=3D"width:10=
+0%;">
+                                        <tbody>
+                                           =20
+                                            <tr>
+                                                <td align=3D"center" style=
+=3D"font-family:Arial,Helvetica,sans-serif;font-size:24px;line-height:norma=
+l;font-weight:700;color:#1A1A1A;text-align:center;">
+                                                    Ready to transform your=
+ patient engagement?
+                                                </td>
+                                            </tr>
+
+                                           =20
+                                            <tr>
+                                                <td style=3D"height:12px;li=
+ne-height:12px;font-size:1px;">=C2=A0</td>
+                                            </tr>
+
+                                           =20
+                                            <tr>
+                                                <td align=3D"center" style=
+=3D"font-family:Arial,Helvetica,sans-serif;font-size:12px; line-height:norm=
+al;font-weight:400;color:#222222;text-align:center;">
+                                                    Connect with a JioCX sp=
+ecialist to discover how WhatsApp can engage
+                                                    patients, automate conv=
+ersations, and drive more appointments for
+                                                    your clinic.
+                                                </td>
+                                            </tr>
+
+                                           =20
+                                            <tr>
+                                                <td style=3D"height:26px;li=
+ne-height:26px;font-size:1px;">=C2=A0</td>
+                                            </tr>
+
+                                           =20
+                                            <tr>
+                                                <td align=3D"center">
+                                                   =20
+                                                   =20
+                                                    <table style=3D"margin:=
+0 auto;width:220px;border-collapse:separate;border-radius:24px;-webkit-bord=
+er-radius:24px;background-color:#6C1CD3;">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align=
+=3D"center" style=3D"background-color:#6C1CD3;border-radius:24px;-webkit-bo=
+rder-radius:24px;background-clip:padding-box;padding:12px 28px;font-family:=
+Arial,Helvetica,sans-serif;font-size:16px;line-height:20px;font-weight:bold=
+;color:#FFFFFF;text-align:center;width:220px;">
+                                                                    <a href=
+=3D"https://email.jiocx.com/web/v1/ctr/v2/zLSKJPbx1vFhjBrAwqUm0XOB8VUAbW3dY=
+QeuR69K8GUe22QMj8rg9OUeHnPMC7dPLLMu-0e04b73gIBNBbJHjAjemhWIUBGiCNRBssbF3GT9=
+NhHjdl78kTWVcMjl06TpNn5sRSfZoJ8r3c6KJWv-Zj6haNGgg77rLfNByK1Yu5BL3sDAE4HDWQn=
+4pf6wp86wHsHQJB9h9Kl2PVYvLwvbpdSB6eQmQbQkL9Cjqn0dyRvG8KYj4MRXflHcNsiLaPGhbu=
+5nl2BTLRbgmz6Xd1ch7I9LAEoQelxP-rn5lrkCIJok2m_E14TFIvdhvBGuLgvtiYgRutofKbQtE=
+QOAbjVzXv2GaZqqeQAq5Pqp0WkTPn4dQfoEO-HzxB_P4lS4__egC6ZH3xrVkz_jKiY8w7s4J75v=
+3VDdn76qWL9OE1DHxg5ve9YCBvsF_9yxF_F21c3By0ziF2TzUp5duGQpAcnfw6hFqjDnnBckTTg=
+x8NIr55eGu-axQmOEKHDyxUeOtCsSCPWnFoG0urIq7AOQqbUFFBAnyB1uf3DjmQEeBNDQ8ewknz=
+f6Sy5a1tZHdmDfCtgs1Iyw5wWSKcIFjQ=3D=3D" style=3D"color:#FFFFFF;text-decorat=
+ion:none;display:block;font-family:Arial,Helvetica,sans-serif;font-size:16p=
+x;font-weight:bold;line-height:20px;" rel=3D"nofollow">
+                                                                        Req=
+uest a Demo
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                   =20
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+
+                           =20
+                            <tr>
+                                <td style=3D"padding:28px 30px;background-c=
+olor:#1A1A1A;">
+                                    <table width=3D"100%" style=3D"width:10=
+0%;">
+                                        <tbody>
+                                           =20
+                                            <tr>
+                                                <td align=3D"center" style=
+=3D"padding-bottom:10px;">
+                                                    <img src=3D"https://jio=
+campaigns.cdn.jio.com/pdjcmp/image_uploads/6f4261c8d75246569f793dde9ab16018=
+ca0e7846d3899c73ea9106ebb41a3a36_1783681790621_ps_jiocx.png" width=3D"36" h=
+eight=3D"36" alt=3D"JioCX Logo" style=3D"display:block;width:36px;height:36=
+px;">
+                                                </td>
+                                            </tr>
+                                           =20
+                                            <tr>
+                                                <td align=3D"center" style=
+=3D"font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:20px;=
+color:#FFFFFF;text-align:center;">
+                                                    Website:
+                                                    <a href=3D"https://emai=
+l.jiocx.com/web/v1/ctr/v2/v-GkmQd9yS7_a-NC3AY-ACQAuwgrAFkNjEttHuLhg6Yr1rC8r=
+vhK5WmkFjGlHBArym8Ia-IjLKx1UcQ_fG04UjlPSMASqXnKKTwdb7JqxZ4OoET9xWsJnfo8W_js=
+bcd-HrJU371BeWS3bOFX11d4mtse3qRJyQacg1MJB8pNfXf2CZx5qVKxSiWhxKt7AtY54eh1lob=
+s9drajHDsGkZCtWynZBOLQNKt6VRZxj6xCcU4x91mploEBEMM85JVc37o6wn8Ep7MO-5Vy9YZid=
+k0iYwIJZge7qjmx_sHWDnT9f8Y8jbJ1d6GphrlLYL-95acfVi25vQPji5KxByuJUPZnbKiTWeih=
+eMilgfmK4w3x6E7xiHnkg1drq88Nak7vmaAD5kp1E4MGnIzcZZPr1xLrkolQ_NbrQVCCjIMfitM=
+WcIlY7iOfv-svGaWCObHSXbxooTc9Ge2VEsebV7geJeX0hDIKgKBqthGbzSsQe05ZQ3qGrrKH2w=
+zPp04PSWb04Mpx00mOHvccM2_vVE3NWveLHoehJBpHlv322bZ0OhXf6AUQCfU-jiK1Pj1H0lOOW=
+OTOm0FQLtx70y9yqJ5M9frGXtWS1-t-jyyKkzPxd01_UwM__hj1iuynED87K4tet4XE1fg1xL-O=
+7df1YCS3kU=3D" style=3D"color:#FFFFFF;font-size: 12px; font-weight:700;" re=
+l=3D"nofollow">www.jiocx.com</a>
+                                                    =C2=A0|=C2=A0 Contact U=
+s:
+                                                    <a style=3D"color:#FFFF=
+FF;text-decoration:none;font-size: 12px; font-weight:700;">+91-8169930507
+ </a>
+                                                    =C2=A0|=C2=A0 Email:
+                                                    <a href=3D"mailto:hello=
+@jiocx.com" style=3D"color:#FFFFFF;text-decoration:none; font-size: 12px; f=
+ont-weight: 400;" rel=3D"nofollow">hello@jiocx.com</a>
+                                                </td>
+                                            </tr>
+                                           =20
+                                            <tr>
+                                                <td style=3D"height:8px;lin=
+e-height:8px;font-size:1px;">=C2=A0</td>
+                                            </tr>
+
+                                           =20
+                                            <tr>
+                                                <td align=3D"center" style=
+=3D"font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight: 400;=
+ line-height:normal;color:#898989;text-align:center;">
+                                                    Copyright =C2=A9 2026 J=
+io Things Ltd. All rights reserved.
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                   =20
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+<table style=3D"width: 100%"> <tr> <td align=3D"center"> <p style=3D"font-s=
+ize:10px;">No longer want to receive these email? <a href=3D"https://email.=
+jiocx.com/unsubscribe.html?data=3DnPAIqBOjCIFyWDPknA0DYov_T-8MepvU-67_afHWD=
+V-2_N1HZeSFlmHayuriKlvumduJ9JqD-3wn9wny5DRPu9ihfaQBIaEbXRGY1slUS7QENhOHjh9F=
+L4e01A5gbbk4W2l6e7OIWc8VclJxjRAgwLCYanBnOhpNJ6BqPrPyMI2OeSfsaeT2ZPkhY-TSHho=
+Evnw7Ix-Go5cRdvMRdh-0z6YGAXhJe-UG64jtxkzV22A6_ML_pIbazm5vVagp&amp;emailTo=
+=3Dlinux-firmware%40kernel.org&amp;list=3Dmaster&amp;reasonID=3D0">Unsubscr=
+ibe</a> </p> </td> </tr> </table><div style=3D'display: none;'><img src=3D'=
+https://email.jiocx.com/web/v1/openTracking?ampRendered=3Dfalse&campaignId=
+=3D16556&messageId=3D%3Cjiocxmarketing254%2F16556%2F570046%2F4d79e3d4-a6b9-=
+11f1-b384-3a79b4b2c064%2Fcampaign%2Finfo%40jiocx.info%3E&sentAt=3D2026-09-0=
+2T16%3A00%3A16%2B05%3A30&toEmail=3Dlinux-firmware%40kernel.org' alt=3D''/><=
+/div>
+--a4abd1a948408d1d9b0ae523ac7199cefb7017bb8998348459c6d72e9469--
