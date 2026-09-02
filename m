@@ -1,286 +1,193 @@
-Return-Path: <SRS0=ABA8=GZ=gmail.com=wjalakasi@kernel.org>
+Return-Path: <SRS0=Y23F=G2=oss.qualcomm.com=shuai.zhang@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7236C61DD3
-	for <linux-firmware@archiver.kernel.org>; Tue,  1 Sep 2026 22:26:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A9EEC61DD6
+	for <linux-firmware@archiver.kernel.org>; Wed,  2 Sep 2026 02:04:17 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B26741F00A3A; Tue,  1 Sep 2026 22:26:58 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=209.85.221.182
+	id 0E7901F00A3A; Wed,  2 Sep 2026 02:04:17 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1788301618;
-	b=ZhFkm3oRxi/gMSLXO9fnTAUVv+6O/Ml0UeKVi12x4sGICmrOr6F4iOcHmsYsaGJ+OS+h
-	 P0qZHEk6oTtD6ulK+CC6h3REfYOlhpo2G0SNhpPU5irf/Da4R6wujNhq2KNujAhhnGlSR
-	 PzIWgq36tKPmEtqYgvvaJU+wzPSCmiRag0nXMJ+XjX/f5zlgwzPHWrW3mJU7WLWc/jAhb
-	 8BLgj3Guc1dFiTGj7q8bGXopBsbBOLp1ASQfrUbUdqKmouTcbUPKxjB9zCLz//ZhkdcPx
-	 yQnSVv2Lf0xjI/fVM1vkuxONSlAIm3hryLa75oE4mi2o3/sgSqHxE2f1DR99WP+ay2Q==
+	t=1788314657;
+	b=l4DBLiqvdddx9J3hgW4GCoGqDGYX4wevqV9UkOv3/LHr2oLPTLcqZY93Z+B431ZRCUOw
+	 fnW7KMn6ueqNcubKgfYKmKqt+QONkngK+FimbxPeyZvAcSmcUbzQC6m79Sr1f8/qQNsqO
+	 nce6WHMVpLWn70hj0/Fvt2ZilRwH/hFSYbTOqBwr6qKl0LLa9XImoQLmw1magCVjVGKtW
+	 UIVdqjmKouDmyeYuZ5YuL1Ro4qlZukMYaQ8Niw4sffORDjSY/a/uoKcPKVpUXwpKKWovJ
+	 JUpN5DjZtzzUWZgYcnqY4+vJKNDjqhlsg7skoGjFmw37F5ueyZ8mcDwCgYV+Bc0uzmg==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1788301618;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Mime-Version:Date:
-	 X-Superhuman-ID:From:Message-ID:Subject:X-Superhuman-Draft-ID:
-	 X-Superhuman-Thread-ID:List-Id:To:Cc:X-Entity-Ref-ID:Content-Type;
-	bh=KBs/NE2Ow2iKAg+LJ+7n0GakcVfDxbwAiDGH+n/ocHc=;
-	b=QG+Dlh4itWGOKZYfgoxpVt2ECzKO5yZb7kDUGErOdbEsvTqsthRB/yUDtU1LC8ZRNl5Z
-	 oQcwq6Dld9MybIx4PqBnNlnw92Q4n6waSrvzU++BnvJ9rvx0mEv3czIeOUwUiOKORKaJC
-	 PprrEf7L8yhnkNmHn+83yR9dKYsrOe31sR83aQDyD8MGWVVyrsvsAmuHOyMEvWWnL7u12
-	 LvXo0PBZGKyUfjRAylaxSkY03xDGoECBsfG/mzkImwHnRq8gEtKDHI5lSJ/a8uMua3Ozl
-	 Z27+XUUnFO9EEAr0zE1JwkB2Lt6Yq9eTEIBWKGJ01fX+y7T7Bv3h4WhnpXwU9egEjRQ==
-ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=DTvOU6A3;
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.221.182
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	c=relaxed/relaxed; t=1788314657;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
+	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:List-Id:Cc:References:Content-Language:From:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=Z6cZ+IGxsGlCd3XeLXMq2DlVJdHhxtOT2gm5fVjMTLM=;
+	b=rO9Gh29aZ1PF8y90po5kmXOdmsghhH8pHomH/iL/TtQs06AETnlurkMZkri3k6L3zMs+
+	 gVPB4L8tvOg0AEC/aAM7HodZwR7l5wyWI2Vw6m7UlyrmxOne0zCO4ML5zuVX4bxMOrfh/
+	 2ryvpZaYsm7fw8So1GiLsT0bH7bvKqq1Nftb604R3Ijkc5RS2KLCv2G4TKF2WPkvAB10z
+	 rHi4mAOcyJlqCDS3eMX9SbvBOYArdfmVzWxR6EQCM6xtfjUc4k8DOrq09TuC5k0P9zVUI
+	 ANyP7nsmpWk1e97ZWaXvvdZ0g3keT2qVKPDnjDb/WlMTtP7DD11UOB1TypVCOA9uekA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=SLiROMGT;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=eKMGpNSE;
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 0FE301F000E9
-	for <linux-firmware@kernel.org>; Tue,  1 Sep 2026 22:26:57 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 544691F000E9
+	for <linux-firmware@kernel.org>; Wed,  2 Sep 2026 02:04:16 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=DTvOU6A3
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 0FE301F000E9
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-59b074ec7ceso221338e0c.1
-        for <linux-firmware@kernel.org>; Tue, 01 Sep 2026 15:26:57 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=SLiROMGT;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=eKMGpNSE
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 544691F000E9
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 681KTdBq3849586
+	for <linux-firmware@kernel.org>; Wed, 2 Sep 2026 02:04:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Z6cZ+IGxsGlCd3XeLXMq2DlVJdHhxtOT2gm5fVjMTLM=; b=SLiROMGTR0AEStfW
+	XnTRiT/Us0ta0Ay+U6kSCQeFHqQJR9pcD1j+PnVGcwbJGNFRfWoV4QqXmvgsk9yL
+	KJw2WqgcvXl6xmgKn93gznkDjvL9V/3GsOc16EFUmesuVOnd+uqqD3JQQy/j//W4
+	Tg+hsgT8R+yOkF1FkhxRVPHhXg/EAcTzfuilszL1BpEtMsnVUiUnZmK+d2nO0/yO
+	lFZRdPZwID/nilAzDxRnICTykoY3dmTYEayvqKXs3nQ1i3WnU6vCL0wXHPC0eOnS
+	tTtoUduYlESzjsJn9pXrLPRcyK4Rp/wHHNXXgQMZ8gxV5/giYRH+JAn1IMhN62fj
+	YgTQNg==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ge3n0smh1-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-firmware@kernel.org>; Wed, 02 Sep 2026 02:04:15 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2cc73f47bdcso5804725ad.3
+        for <linux-firmware@kernel.org>; Tue, 01 Sep 2026 19:04:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788301617; x=1788906417; darn=kernel.org;
-        h=content-type:cc:to:subject:message-id:from:date:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=KBs/NE2Ow2iKAg+LJ+7n0GakcVfDxbwAiDGH+n/ocHc=;
-        b=DTvOU6A3gwKJWKtn5blFgrg8EcMkY1qeEoHEh35TRLO65YQyL5/h65D8cMggdK3z8Z
-         drDrDtEqMCrw6+w4ert75a8PUXH9yuI9iYzY53+mYSEhpUoAeyYV7Y5PEZFrtgSYyXpS
-         HIEG1vh0HRV7y2FcWIB8N5rlfNY8fkaaMnmpaUZ/q9inPZB4foGjlanmwWxfqLTeDreA
-         ZQhOzSbiIo4sKKSbvbRxCzcvnFV7YY2C1WdBod/0dZiOtmDxm7KBOohT2/F010Hzjbpc
-         AN64gUql+lNwmXxHmtjotjZQkBZwsXzEJDdqPejg52t2x85jNKyqcXVwVM5UUIUkXJYZ
-         YMJA==
+        d=oss.qualcomm.com; s=google; t=1788314654; x=1788919454; darn=kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Z6cZ+IGxsGlCd3XeLXMq2DlVJdHhxtOT2gm5fVjMTLM=;
+        b=eKMGpNSESksEDUCC0PTxY9wz9GkWpPPLGj6WZnb/33W0wIqexf/zoOmEp5R8iyXD70
+         aNVOZbAUD0es6A0PIYB32leKARpR2D02L8EE8BlR/YWxa0HStLl5SRMm9XXSR/QhNZjc
+         TCxMIGQwHSiIovt14IonC/YC+KeCGR35/Hc3l3Fu3XKgAPuullpBc6VQdy2RnxV3nX78
+         3cP8nVJi6wNXzfmDBlsbtbdxjV/0up5TvaMe66N2GiIRfVY++cTCSvUT8Xz8wmjOJ3Ub
+         U+Y/v6voKL/DY67tOdxat9zrmcd1Y3t09aZCJ8k9uXwYVS7GeF4HrHBjj726ZZIvjj50
+         3tPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788301617; x=1788906417;
-        h=content-type:cc:to:subject:message-id:from:date:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=KBs/NE2Ow2iKAg+LJ+7n0GakcVfDxbwAiDGH+n/ocHc=;
-        b=UPIEKt7uRLrtRgKWOJatONRN/AzrHFlIiviUiJhkHy+ooMOta2GSfT7PFB3xgezPMT
-         PLaKjNIzzBorwJLIzYARtnEL/1uksNt63S/yPY0OkC//nyFyX8xNQXgS0tFSpQjE/6EN
-         svbTDdF/9l9YLCcrqSdaV+oMf7nnnR2UJMa32b7T3vC3ueRfEdJxcwaHzqRPjzj02DRk
-         htouVxkfOB0w3w0Oec6LoN2dCt/93hkMoSF92BWuzWw6iIHtVlfXZ+AD+zwyykHBMLn4
-         yhbKJ9WJn+y71Qr9TYDC1KZ9VwcsDu4F5+AgDrECOGcH5780fL6TXmjtBmK8EaoYskJW
-         2lZw==
-X-Gm-Message-State: AFuF++llhlFs1EmFLDarwxjMxd79Lc9UaSz3fM+sVx8ZhLvc94vUcqsH
-	LUHPdKqPwWFQ4Af+RCAFCZjy+kMdzc+7c4hfH6u2nJtDxczbme4rkO0UvrzFXnQx
-X-Gm-Gg: AYBFou1LWB1Z9wZ5AHTX9sv47vve2YgUuSrBlKKA0aRQUP0XIkjbWJt9Rr2+Z+ItQfO
-	YQ2lpsjjrc62R9gQkpj/FNR5BcX3WnXyVL0MggFRy6mA9sab25pFZHcHG3fW5HVzBjZ/92cqUAw
-	zD5wsbwPqMc4N8IElbs1SLbatxvwz1WZ5ni2mQzcB4ooTfTCguD4gO6Liw6+tarNUPqqVcAycag
-	Dn/3GmD9gPNzGFmwUtzrAVUBRkpXr3MuOwdAY+QqOFgjSnp7Dg3M95Ip20/2u2WSCbDJPvwzYC+
-	CoaHL03FaDYkZnWontdR0RLXoPos0OCrZPI3wsIp7MxU5ldw3ReQ17qw20IUdrqiFDhHWtAeNgV
-	XnD3TOAKfXrUfN61C9B9QTmZJDeIBky67yyvrRHFoQxPp3xE+KHMDxMtZtqpXPTvqunXtLlS+iM
-	TYQgpK5bRExQK+uY11ahuPKCB466lMw3LqnS+ASxQ47GH9XuiDPVZuit1MO/qBCnbLZC88RYk1D
-	4Xb8yX+aJszW8c/XwQOcW5+XMzlVQ==
-X-Received: by 2002:a05:6122:46a4:b0:5bf:9f77:477a with SMTP id 71dfb90a1353d-5c7d2722cfbmr126387e0c.2.1788301616614;
-        Tue, 01 Sep 2026 15:26:56 -0700 (PDT)
-Received: from localhost (0.92.231.35.bc.googleusercontent.com. [35.231.92.0])
-        by smtp.gmail.com with UTF8SMTPSA id 71dfb90a1353d-5c7cd8ce9c1sm754683e0c.10.2026.09.01.15.26.55
-        for <linux-firmware@kernel.org>
+        d=1e100.net; s=20251104; t=1788314654; x=1788919454;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Z6cZ+IGxsGlCd3XeLXMq2DlVJdHhxtOT2gm5fVjMTLM=;
+        b=AO0TehdlgEa6LWGwdwcLX6sVQhB6PmK/kM3ORbHh3llwNBt+diaC+ZuiasdSsAx5Wk
+         F54Vw4CsW07iZk/hNAx04Q/7u8J0uM97Z71G4xf9OtiOhaMTiY2Aq/P0PCMJX/Aj8/hm
+         5ftY5NGmbYldyhwWeH6JvsWq30otXrhphi15YFADO6LMYGO2G3XdPtlUlkDPEdrA8d6I
+         VjBZheWl1RC+Du6PqDppBVypTBqLXkLeXqow7IUO5cgHrTs8/BZE9XB8F4mmK9qkZXs3
+         W4X+s84AeQ+l0XTXTe4nKGKMukZyHeI/54Knb5le0sav8BvW3tx3+WDecdFCYw2LElVQ
+         zmPA==
+X-Gm-Message-State: AFuF++mWETKI7dHnbRSo32yHCByhp8SW9VxGEV+K1r91dhxPpJ85nbsv
+	s49m80CsWCf+BkL1G53EKYQVXxR9QENbyK/vrw9eWFUjqwiVjevwZz/gpE2TukttIemyqsR4AaI
+	ZpXGNx2tmaBOUyzP9V/pw3g8wu1wRGCgPWfPwUmNk9lkFDe7go1kmnOXq0ujy3qk=
+X-Gm-Gg: AYBFou1Yac6tpfZS2n8nAF+JH3RRpGbS6Z0M5MnRDcAoBmY3qOx1TYe2uHCYKy9Gd11
+	prSKD7gdZfBPklaiWp21t+kQcs8Oy5YyICrBuls3WNVU7bF0Geja1r7LO7tJ8JeedLQd5ba6DYp
+	cIKM50rMrOyurk3MLHBneqDudATyscRnTgvX27CbhxWoxk7cD7ZwYw4BPMh5ZnCx/haLW5/mycm
+	2p2mI8Qrpk5OGtNfAD2g4G/xvlrj9mK4DT6FB1Un1kEsaAnMG5Kjqr+b483ggoEHdUc3TOwRgid
+	e+wERaeMa0xmNTOIqjUmBVLnwwO/Lvx9OhGHm3ERI+IUO7BUp3mngN/ez8CBYrw95IfMY0ZTMUA
+	hZq/YVgQ1ZIyw3p18GT2oNpT4WzM=
+X-Received: by 2002:a17:90b:164d:b0:398:c16e:69d3 with SMTP id 98e67ed59e1d1-39aedeb9aecmr2057415a91.1.1788314654107;
+        Tue, 01 Sep 2026 19:04:14 -0700 (PDT)
+X-Received: by 2002:a17:90b:164d:b0:398:c16e:69d3 with SMTP id 98e67ed59e1d1-39aedeb9aecmr2057311a91.1.1788314653545;
+        Tue, 01 Sep 2026 19:04:13 -0700 (PDT)
+Received: from [10.239.97.158] ([114.94.8.21])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39ae0dfe665sm2376172a91.2.2026.09.01.19.04.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Sep 2026 15:26:55 -0700 (PDT)
-Mime-Version: 1.0
-Date: Tue, 01 Sep 2026 22:26:54 +0000
-X-Superhuman-ID: mtj8km9v.a22a6bcc-8a4a-41cb-8b06-25a970b4893b
-From: "Wiza Jalakasi" <wjalakasi@gmail.com>
-Message-ID: <mtj8kka3.730e0eb0-657f-4b6b-a45a-1a522c9041fa@we.are.superhuman.com>
-Subject: cirrus: missing CS35L56 spkid0 tuning for Dell XPS 13 DX13260
- (10280e53)
-X-Superhuman-Draft-ID: draft008b7e9012adca45
-X-Superhuman-Thread-ID: draft00fdc3bcb5bd1f40
+        Tue, 01 Sep 2026 19:04:13 -0700 (PDT)
+Message-ID: <4054cd15-d1a3-4157-ac11-f4d248890865@oss.qualcomm.com>
+Date: Wed, 2 Sep 2026 10:04:09 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: QCA: Add QCC2066 Bluetooth firmware hpnv21g.30c request-pull
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: patches@opensource.cirrus.com, rf@opensource.cirrus.com, simont@opensource.cirrus.com
-X-Entity-Ref-ID: mtj8km9v.a22a6bcc-8a4a-41cb-8b06-25a970b4893b
-Content-Type: multipart/alternative;
- boundary=c386e4d56e34ae3c424f7c774cf1c3a570515f0e6d0ec40f5f4501d36dda
+Cc: linux-firmware@kernel.org, cheng.jiang@oss.qualcomm.com,
+        wei.deng@oss.qualcomm.com, jinwang.li@oss.qualcomm.com,
+        xiuzhuo.shang@oss.qualcomm.com
+References: <eac4e82b-47a4-48df-a8c0-445975a14f5f@oss.qualcomm.com>
+ <4z7ylgqvfizcdzyakkaymp4l6hr5qx2g3tddaqvzfqujecbxye@qu37vrgudb3e>
+ <0b6bcc31-1428-4652-9855-4a52ae1c77ca@oss.qualcomm.com>
+ <os2dizgipn7xbnbgycs3h6fyrcbsk4ybutndexwl5jiu5cd4ax@2xvwaxte5ys6>
+Content-Language: en-US
+From: Shuai Zhang <shuai.zhang@oss.qualcomm.com>
+In-Reply-To: <os2dizgipn7xbnbgycs3h6fyrcbsk4ybutndexwl5jiu5cd4ax@2xvwaxte5ys6>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTAyMDAxNSBTYWx0ZWRfX5bnQW4m1zjNF
+ 1q7kofpSgU0n0iDV9aRcem6poLMyLjXtI37Aqz0f771J7AvckbXvLR/whcyrUNeLGJWy8NMDzB9
+ fyZlEIRHh+6r9YlRv2LZfpR4gyATJyKONVBUS+QE1hO2yfrvRNy3U8g4lyUbpSK4P8hJ7/9UlGp
+ qdLg3FsiqzEOC31JKU95I+aVm3IbJffOnnb06Hi05z2/S9dySaOvPHKgl3IuLBzdOmoL47pas33
+ kusBeVjmGOJRlf+o9TM+VuqTGGOHWQt5/IMrWAoWRzXPyhdB/OqGiaZRFc91+/OL13NS+0Hcxli
+ ESAA+NdmKw5SGvlEdpsoBQEIxLF7VOxGhOxoBlSFIYykHKVVRUCw2QgA8nBmXZQ3q6NM90PF6LA
+ Zlbtr8lHQMtK1yfiRfwCiU5dLN6UK7kmrSkZD9lCBbHi3ukRmSk+34parZROX/7SYThKCCy/m8J
+ ACAhQyPbmZnlglZn4yw==
+X-Proofpoint-GUID: gzOHoWuvk-ZsGfpheStQXe9sDjPF8UNp
+X-Proofpoint-ORIG-GUID: gzOHoWuvk-ZsGfpheStQXe9sDjPF8UNp
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTAyMDAxNSBTYWx0ZWRfX4jZcYWkCJbIk
+ mM/bGCL7jbf1dF2yYLZe4rf0t2dcH9/s46gkXPQoFBCeMLDn3bdY7zD80ABKh//OLK/Xqj9bwiA
+ L4XR40i+WCfEhcJphGLblLyTWOUcSWM=
+X-Authority-Analysis: v=2.4 cv=R9oz39RX c=1 sm=1 tr=0 ts=6a97841f cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=Uz3yg00KUFJ2y2WijEJ4bw==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=NEAV23lmAAAA:8 a=rcCgJzkZcK6f5zmTL_8A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=324X-CrmTo6CU4MGRt3R:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-01_06,2026-09-01_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0
+ phishscore=0 adultscore=0 malwarescore=0 clxscore=1015 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609020015
 
---c386e4d56e34ae3c424f7c774cf1c3a570515f0e6d0ec40f5f4501d36dda
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+Hi Dmitry
 
-Hello, Requesting the missing spkid0 CS35L56 tuning for the Dell XPS 13 DX1=
-3260 (audio subsystem 1028:0e53). Problem ------- linux-firmware 20260810 s=
-hips tuning for this SSID as spkid1/spkid2/spkid3 only: cirrus/cs35l56-b2-d=
-sp1-misc-10280e53-spkid{1,2,3}.wmfw cirrus/cs35l56-b2-dsp1-misc-10280e53-sp=
-kid{1,2,3}-amp{l,r}.bin My unit's amps report speaker-ID 0 (clean read; no =
-"Failed to read spk-id" or "Invalid spkid" in the log), so the driver reque=
-sts: cirrus/cs35l56-b2-dsp1-misc-10280e53-spkid0.wmfw cirrus/cs35l56-b2-dsp=
-1-misc-10280e53-spkid0-ampl.bin cirrus/cs35l56-b2-dsp1-misc-10280e53-spkid0=
--ampr.bin These do not exist, both amps log FIRMWARE_MISSING, and the speak=
-ers are completely silent. Hardware: 2x CS35L56 Rev B2 on SPI (OTP1 fw 4.2.=
-1), CS42L43 codec on SoundWire, SOF sof-audio-pci-intel-ptl. Kernel 7.2.2-a=
-rch1-1 (Arch Linux), SOF_SDW_SIDECAR_AMPS quirk applied; amps bind and boot=
- their DSP, only the tuning is missing. Kernel log (dyndbg on the cs35l56 m=
-odules): cs35l56 spi-cs35l56-left: Cirrus Logic CS35L56 Rev B2 OTP1 fw:4.2.=
-1 (patched=3D0) cs35l56 spi-cs35l56-left: DSP fwf name: 'b2-dsp1' system na=
-me: '10280e53-spkid0' cs35l56 spi-cs35l56-left: DSP1: Firmware: 1a00d6 vend=
-or: 0x2 v4.2.1, 42 algorithms cs35l56 spi-cs35l56-left: FIRMWARE_MISSING cs=
-35l56 spi-cs35l56-left: Can't read tuning IDs (right amp identical) Evidenc=
-e that spkid0 should alias the spkid1 tuning ------------------------------=
---------------------- This machine dual-boots Windows 11, where the speaker=
-s work. Inspecting Dell's Windows audio package for this SSID (DriverStore =
-FileRepository, xucsmeext_0e53.inf): 1. Its tuning files b2_bridge_ss{1,2,3=
-}_0e53_{lw,rw}.bin are byte-identical (md5-verified, all six files) to linu=
-x-firmware's spkid{1,2,3} ampl/ampr bins for 10280e53, and it carries the s=
-ame 4.5.9 firmware. 2. The Windows package contains no set 0 at all, yet Wi=
-ndows audio works on this unit. Its INF resolves the tuning filename from a=
- GPIO read (b2_bridge_ss _0e53_lw.bin), so Windows evidently maps this unit=
-'s reading to ss1. 3. As a local test I symlinked spkid0 -> spkid1 (wmfw + =
-ampl + ampr) and the speakers work correctly. This mirrors the spkid0 alias=
-ing already present for many other Dell SSIDs in cirrus/. Request ------- P=
-lease add the spkid0 alias (or files) for 10280e53 -- on the evidence above=
- a symlink to the spkid1 tuning, but you have the authoritative mapping. Ha=
-ppy to test on this hardware. Related distro report: https://github.com/oma=
-com/omarchy/issues/9687 This report was prepared with the help of an AI ass=
-istant from diagnostics gathered on the machine. Thanks, Wiza Jalakasi
+On 9/1/2026 7:05 PM, Dmitry Baryshkov wrote:
+> On Tue, Sep 01, 2026 at 11:07:20AM +0800, Shuai Zhang wrote:
+>> Hi Dmitry
+>>
+>> On 8/31/2026 8:29 PM, Dmitry Baryshkov wrote:
+>>> Please test your PRs before submitting:
+>>>
+>>> E: qca/hpnv21g.30c not listed in WHENCE
+>> Thanks for the reminder. I'veupdatedthePRaccordingly.
+>>
+>>
+>> are available in the Git repository at:
+>>
+>>    https://github.com/shuaz-shuai/qca_btfw.git qcc2066_fw_v2
+>>
+>> for you to fetch changes up to 2245d3d1eb0593145573a41fa941e4e056031cab:
+>>
+>>    QCA: Add QCC2066 Bluetooth firmware hpnv21g.30c (2026-09-01 10:51:03
+>> +0800)
+> So, previously it was a link, you are replacing it with the file. Why?
 
-Warmly,
+I checked the WHENCE entry and thought the symlink was incorrect, so I 
+replaced the Link entry with a File entry.
 
-Wiza Jalakasi
-https://wiza.jalaka.si
+hpnv21g.30c is a renamed version of hpnv21g.b111, which was what I 
+originally submitted.
 
-Sent via Superhuman ( https://superhuman.com/refer/9o2pqxe0?utm_medium=3Dsi=
-gnature&utm_source=3Dproduct )
---c386e4d56e34ae3c424f7c774cf1c3a570515f0e6d0ec40f5f4501d36dda
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html; charset=UTF-8
+Please let me know if the preferred approach is to keep the symlink and 
+only add the hpnv21g.30c file.
 
-<html><head></head><body>Hello,
-
-Requesting the missing spkid0 CS35L56 tuning for the Dell XPS 13 DX13260 (a=
-udio subsystem 1028:0e53).
-
-Problem
--------
-linux-firmware 20260810 ships tuning for this SSID as spkid1/spkid2/spkid3 =
-only:
-
-  cirrus/cs35l56-b2-dsp1-misc-10280e53-spkid{1,2,3}.wmfw
-  cirrus/cs35l56-b2-dsp1-misc-10280e53-spkid{1,2,3}-amp{l,r}.bin
-
-My unit&#39;s amps report speaker-ID 0 (clean read; no &#34;Failed to read =
-spk-id&#34; or &#34;Invalid spkid&#34; in the log), so the driver requests:
-
-  cirrus/cs35l56-b2-dsp1-misc-10280e53-spkid0.wmfw
-  cirrus/cs35l56-b2-dsp1-misc-10280e53-spkid0-ampl.bin
-  cirrus/cs35l56-b2-dsp1-misc-10280e53-spkid0-ampr.bin
-
-These do not exist, both amps log FIRMWARE_MISSING, and the speakers are co=
-mpletely silent.
-
-Hardware: 2x CS35L56 Rev B2 on SPI (OTP1 fw 4.2.1), CS42L43 codec on SoundW=
-ire, SOF sof-audio-pci-intel-ptl. Kernel 7.2.2-arch1-1 (Arch Linux), SOF_SD=
-W_SIDECAR_AMPS quirk applied; amps bind and boot their DSP, only the tuning=
- is missing.
-
-Kernel log (dyndbg on the cs35l56 modules):
-
-  cs35l56 spi-cs35l56-left:  Cirrus Logic CS35L56 Rev B2 OTP1 fw:4.2.1 (pat=
-ched=3D0)
-  cs35l56 spi-cs35l56-left:  DSP fwf name: &#39;b2-dsp1&#39; system name: &=
-#39;10280e53-spkid0&#39;
-  cs35l56 spi-cs35l56-left:  DSP1: Firmware: 1a00d6 vendor: 0x2 v4.2.1, 42 =
-algorithms
-  cs35l56 spi-cs35l56-left:  FIRMWARE_MISSING
-  cs35l56 spi-cs35l56-left:  Can&#39;t read tuning IDs
-  (right amp identical)
-
-Evidence that spkid0 should alias the spkid1 tuning
----------------------------------------------------
-This machine dual-boots Windows 11, where the speakers work. Inspecting Del=
-l&#39;s Windows audio package for this SSID (DriverStore FileRepository, xu=
-csmeext_0e53.inf):
-
-1. Its tuning files b2_bridge_ss{1,2,3}_0e53_{lw,rw}.bin are byte-identical=
- (md5-verified, all six files) to linux-firmware&#39;s spkid{1,2,3} ampl/am=
-pr bins for 10280e53, and it carries the same 4.5.9 firmware.
-
-2. The Windows package contains no set 0 at all, yet Windows audio works on=
- this unit. Its INF resolves the tuning filename from a GPIO read (b2_bridg=
-e_ss<spksetid_gpio>_0e53_lw.bin), so Windows evidently maps this unit&#39;s=
- reading to ss1.
-
-3. As a local test I symlinked spkid0 -&gt; spkid1 (wmfw + ampl + ampr) and=
- the speakers work correctly. This mirrors the spkid0 aliasing already pres=
-ent for many other Dell SSIDs in cirrus/.
-
-Request
--------
-Please add the spkid0 alias (or files) for 10280e53 -- on the evidence abov=
-e a symlink to the spkid1 tuning, but you have the authoritative mapping. H=
-appy to test on this hardware.
-
-Related distro report: https://github.com/omacom/omarchy/issues/9687
-
-This report was prepared with the help of an AI assistant from diagnostics =
-gathered on the machine.
-
-Thanks,
-Wiza Jalakasi<div><br/></div><div class=3D"gmail_signature"><div dir=3D"ltr=
-"><div dir=3D"ltr"><span><div><div dir=3D"ltr"><div dir=3D"ltr" style=3D"co=
-lor:rgb(136,136,136);font-size:12.8px"><span style=3D"color:rgb(0,0,0)">War=
-mly,</span></div><div dir=3D"ltr"><span style=3D"font-size:12.8px;color:rgb=
-(0,0,0)"><br/>Wiza Jalakasi<br/></span><div dir=3D"ltr"><a href=3D"https://=
-wiza.jalaka.si" style=3D"font-size:x-small" target=3D"_blank">https://wiza.=
-jalaka.si</a><br/></div></div></div></div>
-</span>
-</div></div><br/><div style=3D"clear:both">Sent via <a href=3D"https://supe=
-rhuman.com/refer/9o2pqxe0?utm_medium=3Dsignature&amp;utm_source=3Dproduct" =
-target=3D"_blank">Superhuman</a></div><br/></div><div style=3D"display: non=
-e; border: 0px; width: 0px; height: 0px; overflow: hidden; visibility: hidd=
-en;"><img src=3D"https://r.superhuman.com/~ytd5cYzxZ8u2R4-XASRHm0lkJmbDnnHW=
-_Pauee9tLDtqLTl8zOeVEwBafW3A3a81Gug4qCW6bSLItR99HQDuax5qxcUJvPK4yKW0.gif" a=
-lt=3D" " width=3D"1" height=3D"0" style=3D"display: none; border: 0px; widt=
-h: 0px; height: 0px; overflow: hidden; visibility: hidden;"/><!--          =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                                        --></div></spksetid_gpio></body></h=
-tml>
---c386e4d56e34ae3c424f7c774cf1c3a570515f0e6d0ec40f5f4501d36dda--
+>
