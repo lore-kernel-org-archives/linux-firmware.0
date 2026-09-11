@@ -1,324 +1,280 @@
-Return-Path: <SRS0=naUe=HD=flutilliant.com=tristan.laroye@kernel.org>
+Return-Path: <SRS0=Brcw=HD=amd.com=Alexander.Deucher@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93C31C88E56
-	for <linux-firmware@archiver.kernel.org>; Fri, 11 Sep 2026 11:29:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2834C88E53
+	for <linux-firmware@archiver.kernel.org>; Fri, 11 Sep 2026 16:29:54 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 64C2E1F0089C; Fri, 11 Sep 2026 11:29:30 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=87.98.150.177
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1789126170;
-	b=sZarUI8ouUrPi5J2RULlBJ48Mg5oAp6cJqkncfx9oO7yB+7zHtcAQ2H5ZAouyEa9wvSN
-	 tZqkrZN9ed53Ncu5OmWxdolWdbV2OpKo4d4QAnYVNyfK03OfbSPrOTidxK0Se/d1gf0B8
-	 GHcwiQ9fY/Y+Lw27s9s5QaxSroNwEIH0dvchx02TDGu/O5BbiTckyw9QXEYa2xnqOVxGy
-	 dnCCqmUkOuzMwA/TY1TVtX7h6H0H2eKBW49fvH9G/LT9zR3nL7UcTuugLIPdY9gGd3Q+D
-	 tBHXilM+dxLPTsuJg3C99S48bg32+rHfWp6elVqLPcEL43UnpWFIHtTbmoTKtN89d9g==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1789126170;
-	h=DMARC-Filter:Received:Received:Received:X-OVh-ClientIp:Message-ID:
-	 Date:MIME-Version:User-Agent:Content-Language:To:List-Id:Cc:From:
-	 Subject:Content-Type:Content-Transfer-Encoding:x-ovh-tracer-id:
-	 X-VR-SPAMSTATE:X-VR-SPAMSCORE:X-VR-SPAMCAUSE:DKIM-Signature;
-	bh=cUPop6knQ5y9lPrarOfRSsV1X3oIoueZ2ncpuMLHtqg=;
-	b=sjYi2bwuSHRUiLLWObYz8D2k0XFvZn7RQ2q7fwu7B7I+Is5FHQMwFBngdVLT3RefQ/5B
-	 Fh4+cWnsfyfVkVQEsBc6lY5awoNH48NrR2+hspGWDYVCPPCsqrAVnfQOgZ5ecJLRmpYAN
-	 Mfwo9MLDLWI36r6AKDiYGrJ6XHUbqpXsdYLy0FoZHFdzUQX7DSjkh31elhSTPlZ00PdcB
-	 jBedE6uHpzp2cntRK3E1J7a+P/xGEOJn6ywvk5qDuMnrEDtVu3x370YpTCTbcbA9WBukU
-	 UFvjGvbBVQvxIKoU4BuCM3uyjUsFOfSQIV3RNc2QaaKnShGd0gWzJZ28y4XPJiDpquA==
-ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=flutilliant.com header.i=@flutilliant.com header.a=rsa-sha256 header.s=ovhmo3576131-selector1 header.b=Vq4dEE+4;
-	dmarc=pass header.from=flutilliant.com;
-	spf=pass smtp.mailfrom=flutilliant.com;
-	arc=none smtp.remote-ip=87.98.150.177
-Received: from 15.mo561.mail-out.ovh.net (15.mo561.mail-out.ovh.net [87.98.150.177])
+	id B07731F00893; Fri, 11 Sep 2026 16:29:54 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.85.59
+ARC-Seal: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=pass;
+	t=1789144194;
+	b=IIT1xEKcE4VM5ZcsImFLudm5dkGpGn/+sEF40JevpAbypbh8KpcfzdCqegBJUenBXvac
+	 c+7uaXLECfYa2zHrL/kdfJ1Dv+k9u0JeX7/W/B60ou6FKRwJuY8ZKijX2NuhuIs3qqq09
+	 wEOgRGCnEnkkMY0XG4g1UHg66A9WDufNfpqyUQAaVxtPRm8UeTJLcrFDpufrtlSXmJ+0Z
+	 B14F0DuxU10iII13O+/y7tHmIUYhyoDck6f8CZ2SrpDuVYCof8gI3wJwttt/OEttcJw/P
+	 /R6/pKrinNydBeMoNUuLVzaHn/diub7C7fOauociaxfsC4p7ZZY4/WLQrBZ6sC4Ga+A==
+ARC-Message-Signature: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1789144194;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
+	 Received:From:List-Id:To:CC:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type:
+	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=t7TTOA/PXaBuiHSClsSReNueDjTLP36/cdbk3BbCPbY=;
+	b=jmd2nAms/yonRH+/nRyz+3IU0hGb5dsItrKwrDM7PkmKNHelps77RIVDjKRYntFVRq7S
+	 C0zzdmpB+At8R/M05IeSIpCGDQFQF0ih44ZtkgQxeCNCGhrscQD5ruK9b9G1/Jsg69/4a
+	 Yx47r1RURuBw1gFVYyTtcjv9UsUgfFbXtEAwFbF4djeJwO3laoUFDiN14zFiaDMW/V4C0
+	 WrEdpI53sWcq1RN4Y3CjqBDEJ3B4HjkqZRIfOfSJm8TloB9xaTskeNMLkuoaHFpsIN2CM
+	 /ngZegaacP+LKDdpyYGAH1qeRlkJz7N2O3GNgeA0IdqpNLBfVRyckwuvsqoluJdFeYw==
+ARC-Authentication-Results: i=2; smtp.kernel.org; dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=w1KzpWZh;
+	dmarc=fail header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.85.59
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010059.outbound.protection.outlook.com [52.101.85.59])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 37AD71F000FF
-	for <linux-firmware@kernel.org>; Fri, 11 Sep 2026 11:29:26 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id D28291F000FF
+	for <linux-firmware@kernel.org>; Fri, 11 Sep 2026 16:29:53 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=flutilliant.com header.i=@flutilliant.com header.a=rsa-sha256 header.s=ovhmo3576131-selector1 header.b=Vq4dEE+4
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 37AD71F000FF
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=flutilliant.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=flutilliant.com
-Received: from director5.ghost.mail-out.ovh.net (unknown [10.109.254.243])
-	by mo561.mail-out.ovh.net (Postfix) with ESMTP id 4hhC4H1pTcz5vcW
-	for <linux-firmware@kernel.org>; Fri, 11 Sep 2026 11:29:19 +0000 (UTC)
-Received: from ghost-submission-c7b579475-qbmcj (unknown [10.111.174.124])
-	by director5.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 10275100178;
-	Fri, 11 Sep 2026 11:29:17 +0000 (UTC)
-Received: from flutilliant.com ([37.59.142.101])
-	by ghost-submission-c7b579475-qbmcj with ESMTPSA
-	id vNZxMA3mo2qbWTAA6Sud/g
-	(envelope-from <tristan.laroye@flutilliant.com>); Fri, 11 Sep 2026 11:29:17 +0000
-Authentication-Results:garm.ovh; auth=pass (GARM-101G004f4585044-ea68-4e6e-b383-77af03fac49d,
-                    208AB26B4DE4F8E8E6E63ED20A83750ACC6C0889) smtp.auth=tristan.laroye@flutilliant.com
-X-OVh-ClientIp:86.195.138.201
-Message-ID: <f166df21-09fe-4c16-bcce-07fbd9b31122@flutilliant.com>
-Date: Fri, 11 Sep 2026 13:29:16 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: linux-bluetooth@vger.kernel.org
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=w1KzpWZh
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org D28291F000FF
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tmmGZGBAOSq7qr1EisF1tXiD86984chn6kw+zqNf/QvbL8D2Hy3Yz+CuXI5S/DpkWS+GoRWlNU7U/ka4DAYG2CrK2SNeDZLfyhNakOQk66glL9GVpAo5Wxh8PlEHHF1Wr/atvylQplmLh8anDf8z47SVrW7XmQ0xOaAEwVvuiT/2Lormhc5++HykQO060j71rzAbimXpoZz+BnWJBcI3OTb/k2TbTdadELU/l0b61kndfwSYsHBzzSiqe6qUytQnGbkC6ZHWyH7w+oCv4XkE/wsM44h/gM6GAZTzU2JlZcnaHaWjn9CCjqa6ySPgy49GvfBtNMEmta/WGvWsoLWMVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=t7TTOA/PXaBuiHSClsSReNueDjTLP36/cdbk3BbCPbY=;
+ b=lHGITJm9ue6ytEDM/zrzm0T/2qOcXnfXdrvV4x4e1wKExW3MjmF6+f9wGWNJHG55ppRFw0jCnT7jsWkxSkjpAwp/QtWsg+Kqto6mqgEk7DoEG4cq0MI7lPVjERYQIUbGqQGsNguMK7hXuulFbwLMQEY+vLip8aCZJPjE3YPX+6vaqKPWq6sdryifu2/YNEAQT6J3EjyJH38xg/kmxfKL0unB9lVRVYiYUzFIlBUR2w+++q5m2bpqGo+kvr5L5vAeCPv+/M4d6JxSsuAw6OwYDf09PwQ3WeoxpYwL4qYn2/6lMMJYKDh21WKMsB9/4XkSA3NAinE+uXU2WHAyT3sTgw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t7TTOA/PXaBuiHSClsSReNueDjTLP36/cdbk3BbCPbY=;
+ b=w1KzpWZhKPuk7d4WF+JZ8ydGD1u99kg7fWin734Qj5+TWG3n9wph5cnOW3gsQAKUrSY2ATvMSRvRhGOoPDHhy/JPQwT10K3UYYMrYpqg7Zfyzq1DV+qXFl8ChA8GYH1IQVYBlCTHlTZe21vDGxLmT1A695peQo2OH7eqFPBhpWo=
+Received: from CH5PR02CA0016.namprd02.prod.outlook.com (2603:10b6:610:1ed::13)
+ by LVUPR12MB999186.namprd12.prod.outlook.com (2603:10b6:408:3a3::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.9; Fri, 11 Sep
+ 2026 16:29:50 +0000
+Received: from CH1PEPF0000A349.namprd04.prod.outlook.com
+ (2603:10b6:610:1ed:cafe::b) by CH5PR02CA0016.outlook.office365.com
+ (2603:10b6:610:1ed::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.406.10 via Frontend Transport; Fri,
+ 11 Sep 2026 16:29:50 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ CH1PEPF0000A349.mail.protection.outlook.com (10.167.244.9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.406.5 via Frontend Transport; Fri, 11 Sep 2026 16:29:50 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Fri, 11 Sep
+ 2026 11:29:50 -0500
+Received: from p8.amd.com (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.49 via Frontend
+ Transport; Fri, 11 Sep 2026 11:29:49 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: Max Chou <max.chou@realtek.com>, Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>, linux-firmware@kernel.org
-From: Tristan Laroye <tristan.laroye@flutilliant.com>
-Subject: RTL8852BU (0bda:b853) rom_version 3: btrtl -ENODATA, no ECO 4
- firmware
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: <linux-firmware@kernel.org>, <Mario.Limonciello@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] update amdgpu firmware
+Date: Fri, 11 Sep 2026 12:29:40 -0400
+Message-ID: <20260911162940.1313896-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.55.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-x-ovh-tracer-id: 16577468756354650798
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: dmFkZTGWk2aI/DTJRQa9+iEbZvzpWrHvVh9fLnwJWQrRHhQxtWYg32vSw7v1dUvUpMnQtcjyStpb9P7PZpDEUJMMCw07sr6Ot29/2nZgDRyc+5rXMYPUqxGHqU7S0+cqJl51bvm9H/K4nNXc+fOSEpWSwjXvvlFEn74CZYAUBL7dP+N0lXBgyuJ62DoEacBaOn/QyLfKtBQ7CZR0KskFLReplA+au7YxZt064j/trhrmEfd44Mu7jTdZEmjAPpT67y2dIR57ZPj9YwdtSCCJIx1tRVinmN10CPnOyzFlApOc9xQl/WPUWzwDIaHcOLAeNBkkG++b0pjrKQ9+BcJfbYEWLuRLinjSVCwuPwdJmD5Lapsf1yOaY+SQwfu0AGUm7NcsSXn/ijMxeEG/MrghozJJp/isteaRZFRdilR/5g6Af2pl9zJMNx3dspqunWCua7Gco6CRLAYBGBifSEhv7yyOPbe2qhZOLB2zvGKcHnFBfT+oDAmmhr+kHPSKsBgbBHegWj/v6R0iDVOGT0SoNeiQYlHhZCTSumM7KnPfU5h+9tIOk9sGPn+Gdvp4EDqIzkBQBq5EWxFsPoFM1lbcHoTaJbfmJ5Fou4TdbkIeh5SmFa/zICE2l7ewQkN+NS6vLFUOc6haCEMEhhmCWgu229KNqnIl9dDozDGKoN+vUd3bd6T7oA
-DKIM-Signature: a=rsa-sha256; bh=cUPop6knQ5y9lPrarOfRSsV1X3oIoueZ2ncpuMLHtqg=;
- c=relaxed/relaxed; d=flutilliant.com; h=From; s=ovhmo3576131-selector1;
- t=1789126159; v=1;
- b=Vq4dEE+4kAO9QhHS7gtMka8G6gO04OzMAWaEPWay6cJgf2stfQLA2tVFL7x6wuXCrIZ9Lrc2
- Q9FOJH0gdftHBYWKgK4hpTIOFKDF8H3dM0Hr0ipx8rQNWCizNE3SzeLmkrXNTRWjQcyvrBGPBIg
- Pcky82rCPRAQFkZgv+2QwY6V2Yh9i3FxegPOBN4UpG8myCicucRzOr8iYK2Bl26+6nNvcNLi0L7
- gfFS55IbudUAZ+pr1l+hculBG/WNqZddeyG22v7ZwXpo6TIck1RcgxRKMqeZPkjfizL9CSdC6zT
- oQGHJzXRHpAOycwJrQVC4EvhgMzp+gTyM9KB5d26uV+sA==
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000A349:EE_|LVUPR12MB999186:EE_
+X-MS-Office365-Filtering-Correlation-Id: a4015979-c8db-4d15-f63d-08df1021e717
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|82310400026|376014|36860700016|1800799024|18002099003|56012099006|11063799006|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	2rU0n5yM7mLPaMT3cfulJkO5EwRT2Ag4qCwzQxFEYtzD3qpm522nBjd2G71WdnrPB2a3gqr71oSgiPuWlofST1oUuUdMTWZtKVzCQTDelVLq92f9kOhjc8ufLa0S/FvVHrHVV/oJGfc+jCldbzZjk0/M5yPY8ptIDB61jCmUB+S9WHbjbuMCQFQo9C7ZZCkBaRodItWKbvDM5nFwetlcX5Mv2udi8clDetbocjpegKN6tyfdDWmvKIiSmm94P9YkkK9X7mSqHvkPbZ43kP248W0S6Pcvk3KF4v7BBYK/lEmbotRy9s9kiUAOlzYKJ3Vh4F1I7wEBDCgzF55ey4geiQSjSGYQW6wlDmOpIDRTy2zzSNRrLULTXwG/e2vxIT0yn0tDpXHFX2nVevQQ99aV/v9www/hvDfh7MQQIl5U39R7UXJsvEwGBaCZRPFUqTpDp7gI9MobM0ec1UuBZnspMVVHFuKtb79x24qxB9hKKF2WpW5doLF1DEvslHcc8B32FqsWwk1PAVFmnMbRwtsiYUT7Z+bkeHBcLdvFyQZZFdgzorVjVUC0rUBFirth6T4xjflZ8z10Z9NWf2umTD0RBrkf8vtIT8I88biIZJdT+XCEkXNyIv4Vpr7mDVVid53mm5+RjaDmnSgN9lUBN4j7Uf+vWSnp0QXAJNU61lcHhA4O56Zx61ScOsdo02rNS+LJYHFmY3FQpcoGRtMQCklQMg==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(82310400026)(376014)(36860700016)(1800799024)(18002099003)(56012099006)(11063799006)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	t0Alq2vGSCjKGlkXp23KoEcLLluW4TkggoT8vJc9sMqpqvIw+zD/9QGBjvLQx+ZDe0G3oOZznf5NbDMjwOFrFsvTHZyuGD+cYxK0kiAMRYcCVNzrS61EIgJwWPc6lNJ+SXG3jtrOcEzALAkhE5kOTo3Sv+h4iCp/LMiQFYqCsnU3PBFVALG19/ZIccoOiW5YSM0Jod96+XuK0mTj0ha39bMsm0OO2JcTrzkeYyVeOd0fAzXQsow0VwA43Lew0LTujECb8rL85kKlQvZNd3Ig4j9CVkDNbd6iW0xlq1efMjvMpRleGb+iwsShpK3fEhch6D9sNRv6SvJGoh4IjKMVT6wnGkbmx4fk415W+GwUKQM8AwIRN571+33BNxVgtAPYZlmd5HMVvAIbtnARi5dTAfvv+ql5Q41nNY1yg5n57Oa13HJsAQxQBuX068S+PtF8
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2026 16:29:50.6375
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a4015979-c8db-4d15-f63d-08df1021e717
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH1PEPF0000A349.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LVUPR12MB999186
 
 Hi,
 
-The built-in Realtek Bluetooth controller on a Lenovo IdeaPad Pro 5
-14IPH11 never registers with the management interface. The controller
-answers every HCI command it is sent, but HCI setup is aborted before
-any firmware is downloaded.
+Updated amdgpu firmware.  Please apply.
 
-The cause is a firmware coverage gap, not a driver bug and not a
-missing file: the controller reports rom_version 3, so btrtl looks for
-a patch subsection tagged eco == 4, and no published rtl8852bu_fw.bin
-contains one.
+The following changes since commit 6f47eb9e53f416d52a44e8cf00da2c3bd6552a68:
 
-I could not find this reported anywhere, so details are below. I am
-happy to test patches or firmware images.
+  amdgpu: DMCUB updates for various ASICs (2026-09-11 14:50:56 +0000)
 
+are available in the Git repository at:
 
-System
-------
+  https://gitlab.com/kernel-firmware/drm-firmware.git tags/amd-2026-09-11
 
-   Machine        LENOVO 83SH, IdeaPad Pro 5 14IPH11
-   Board          LNVNB161216
-   BIOS           STCN32WW, 2026-07-07
-   OS             Ubuntu 26.04.1 LTS
-   Kernel         7.0.0-31-generic
-   BlueZ          5.85
-   linux-firmware 20260319.git217ca6e4
+for you to fetch changes up to 9b407c9718c6a2b5397836cc946093a745aa9763:
 
-   Bus 003 Device 003: ID 0bda:b853 Realtek Semiconductor Corp.
-                       Bluetooth Radio
-   idVendor=0bda idProduct=b853 bcdDevice=0.00
-   Manufacturer: Realtek
-   Product: Bluetooth Radio
-   SerialNumber: 00e04c000001
+  amdgpu: update vangogh firmware (2026-09-11 12:15:55 -0400)
 
-0bda:b853 is not in the btusb.c device table; it binds through the
-generic Realtek vendor/interface match. That part works as intended.
+----------------------------------------------------------------
+Update amdgpu firmware
 
-The Wi-Fi half of the combo module (rtw89_8852be, PCIe) works
-normally.
+From internal commit:
+6d0a0c41f7d659d2607fa8b85c7143935b1c2f78
 
+----------------------------------------------------------------
+Alex Deucher (48):
+      amdgpu: update green sardine firmware
+      amdgpu: update GC 11.5.2 firmware
+      amdgpu: update PSP 14.0.4 firmware
+      amdgpu: update VPE 6.1.3 firmware
+      amdgpu: update GC 11.5.3 firmware
+      amdgpu: update PSP 14.0.5 firmware
+      amdgpu: update GC 11.7.0 firmware
+      amdgpu: update PSP 15.0.0 firmware
+      amdgpu: update VCN 5.3.0 firmware
+      amdgpu: update GC 11.7.1 firmware
+      amdgpu: update PSP 15.0.9 firmware
+      amdgpu: update navi10 firmware
+      amdgpu: update navi12 firmware
+      amdgpu: update navi14 firmware
+      amdgpu: update sienna cichlid firmware
+      amdgpu: update navy flounder firmware
+      amdgpu: update dimgrey cavefish firmware
+      amdgpu: update beige goby firmware
+      amdgpu: update GC 11.0.0 firmware
+      amdgpu: update PSP 13.0.0 firmware
+      amdgpu: update SMU 13.0.0 firmware
+      amdgpu: update GC 11.0.3 firmware
+      amdgpu: update PSP 13.0.10 firmware
+      amdgpu: update SMU 13.0.10 firmware
+      amdgpu: update GC 11.0.2 firmware
+      amdgpu: update PSP 13.0.7 firmware
+      amdgpu: update SMU 13.0.7 firmware
+      amdgpu: update GC 12.0.0 firmware
+      amdgpu: update PSP 14.0.2 firmware
+      amdgpu: update GC 12.0.1 firmware
+      amdgpu: update PSP 14.0.3 firmware
+      amdgpu: update SMU 14.0.3 firmware
+      amdgpu: update GC 11.0.1 firmware
+      amdgpu: update PSP 13.0.4 firmware
+      amdgpu: update VCN 4.0.2 firmware
+      amdgpu: update GC 11.0.4 firmware
+      amdgpu: update PSP 13.0.11 firmware
+      amdgpu: update PSP 13.0.5 firmware
+      amdgpu: update yellow carp firmware
+      amdgpu: update renoir firmware
+      amdgpu: update GC 11.5.0 firmware
+      amdgpu: update PSP 14.0.0 firmware
+      amdgpu: update VCN 4.0.5 firmware
+      amdgpu: update GC 11.5.1 firmware
+      amdgpu: update PSP 14.0.1 firmware
+      amdgpu: update VCN 4.0.6 firmware
+      amdgpu: update VPE 6.1.1 firmware
+      amdgpu: update vangogh firmware
 
-Symptoms
---------
-
-   $ bluetoothctl show
-   No default controller available
-
-   $ sudo btmgmt info
-   Index list with 0 items
-
-   $ sudo hciconfig hci0 up
-   Can't init device hci0: No data available (61)
-
-   $ sudo hciconfig -a
-   hci0:   Type: Primary  Bus: USB
-           BD Address: 00:00:00:00:00:00  ACL MTU: 0:0  SCO MTU: 0:0
-           DOWN
-           RX bytes:88 acl:0 sco:0 events:7 errors:0
-           TX bytes:34 acl:0 sco:0 commands:7 errors:0
-           Features: 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-
-/sys/class/bluetooth/hci0 exists and its rfkill entry is unblocked, so
-the HCI device is registered, but it never leaves setup state.
-
-dmesg at boot, with no error reported:
-
-   Bluetooth: hci0: RTL: examining hci_ver=0b hci_rev=000b lmp_ver=0b \
-              lmp_subver=8852
-   Bluetooth: hci0: RTL: rom_version status=0 version=3
-   Bluetooth: hci0: RTL: btrtl_initialize: key id 0
-   Bluetooth: hci0: RTL: loading rtl_bt/rtl8852bu_fw.bin
-   Bluetooth: hci0: RTL: loading rtl_bt/rtl8852bu_config.bin
-   Bluetooth: hci0: AOSP extensions version v0.96
-   Bluetooth: hci0: AOSP quality report is not supported
-
-The "loading" lines only report that the files were read from disk. No
-download is attempted, as the trace below shows.
-
-
-Analysis
---------
-
-btrtl.c has exactly one -ENODATA return, in rtlbt_parse_firmware_v2():
-
-     if (!len)
-             return -ENODATA;
-
-len accumulates the size of subsections accepted by
-btrtl_parse_section(), whose selection rule is:
-
-     if (common_subsec->eco != btrtl_dev->rom_version + 1)
-             continue;
-
-So rom_version 3 requires an eco == 4 subsection. rom_version 3 is
-confirmed twice: by the dmesg line above, and by the raw reply to
-vendor command 0x3f|0x006d (0xfc6d), which returns the data byte 03.
-
-The correct firmware file is being selected. The controller reports
-lmp_subver 0x8852, hci_rev 0x000b, hci_ver 0x0b on USB, matching
-exactly one ic_id_table entry:
-
-     /* 8852B */
-     { IC_INFO(RTL_ROM_LMP_8852A, 0xb, 0xb, HCI_USB),
-       ...
-       .fw_name  = "rtl_bt/rtl8852bu_fw",
-       .hw_info  = "rtl8852bu" },
-
-(The 8852BT/8852BE-VT entry is keyed on hci_rev 0x87 and does not
-apply.)
-
-I parsed the firmware images directly, following the on-disk layout
-used by the driver (rtl_epatch_header_v2, rtl_section, rtl_section_hdr,
-rtl_common_subsec). Installed image, 127301 bytes decompressed:
-
-   signature : RTBTCore
-   fw_version: f1013501c4330200
-   section 0: SNIPPETS, 2 subsections
-       subsec 0: eco=0x01 (1)  prio=15  len=67133
-       subsec 1: eco=0x02 (2)  prio=15  len=60101
-   section 1: opcode 0x8 (ignored by the driver)
-
-linux-firmware git master, 129733 bytes, a newer image
-(fw_version d6253501f8c30200) with the same ECO coverage:
-
-   section 0: SNIPPETS, 2 subsections
-       subsec 0: eco=0x01 (1)  prio=15  len=67133
-       subsec 1: eco=0x02 (2)  prio=15  len=62533
-
-Neither has eco 4, so nothing is collected and the parser returns
--ENODATA.
-
-Every other Realtek Bluetooth image in the same package was checked and
-none exceeds eco 2:
-
-   rtl8852bu_fw.bin  (Ubuntu 20260319)        1, 2
-   rtl8852bu_fw.bin  (linux-firmware master)  1, 2
-   rtl8852btu_fw.bin                          1
-   rtl8851bu_fw.bin                           1
-   rtl8852cu_fw_v2.bin                        1, 2
-   rtl8922au_fw.bin                           2
-
-Published firmware therefore covers rom_version 0 and 1 only.
-
-The analysis was done against current master, i.e. it already includes
-commit 83e3e515fd26 ("Bluetooth: btrtl: Don't leak return code when
-parsing firmware format v2"). That fix does not affect this case: the
-sections here are SNIPPETS, not security headers, and len stays 0
-either way.
-
-
-HCI trace
----------
-
-btmon during a "hciconfig hci0 up" attempt. The whole exchange is seven
-commands, then Close Index:
-
-   = New Index: 00:00:00:00:00:00 (Primary,USB,hci0)         [hci0]
-   = Open Index: 00:00:00:00:00:00                           [hci0]
-   = Index Info: 00:.. (Realtek Semiconductor Corporation)   [hci0]
-   < HCI Command: Vendor (0x3f|0x0061) plen 5             #1 [hci0]
-   > HCI Event: Command Complete (0x0e) plen 6            #2 [hci0]
-         Status: Success (0x00)
-   < HCI Command: Read Local Ver.. (0x04|0x0001) plen 0   #3 [hci0]
-   > HCI Event: Command Complete (0x0e) plen 12           #4 [hci0]
-         Status: Success (0x00)
-         HCI version: Bluetooth 5.2 (0x0b) - Revision 11 (0x000b)
-         LMP version: Bluetooth 5.2 (0x0b) - Subversion 34898 (0x8852)
-         Manufacturer: Realtek Semiconductor Corporation (93)
-   < HCI Command: Vendor (0x3f|0x006d) plen 0             #5 [hci0]
-   > HCI Event: Command Complete (0x0e) plen 5            #6 [hci0]
-         Status: Success (0x00)
-           03                                <-- rom_version = 3
-   < HCI Command: Vendor (0x3f|0x0061) plen 5             #7 [hci0]
-   > HCI Event: Command Complete (0x0e) plen 6            #8 [hci0]
-         Status: Success (0x00)
-   < HCI Command: Microsoft Exte.. (0x3f|0x00f0) plen 1   #9 [hci0]
-         Read Supported Features (0x00)
-   > HCI Event: Command Complete (0x0e) plen 22          #10 [hci0]
-         Status: Success (0x00)
-         Features[0/0][8]: 3f00000000000000
-   < HCI Command: Microsoft Ext.. (0x3f|0x00f0) plen 2   #11 [hci0]
-         LE Set Advertisement Filter Enable (0x05)
-   > HCI Event: Command Complete (0x0e) plen 5          #12 [hci0]
-         Status: Command Disallowed (0x0c)
-   < HCI Command: Vendor (0x3f|0x0153) plen 0           #13 [hci0]
-   > HCI Event: Command Complete (0x0e) plen 18         #14 [hci0]
-         Status: Success (0x00)
-   = Close Index: 00:00:00:00:00:00                          [hci0]
-
-Two things to note. There are no firmware download commands at all,
-consistent with the parser failing first. And no standard HCI
-initialisation ever runs: no HCI Reset, no Read BD_ADDR, no feature
-read. That accounts for the null BD address, the zero feature mask and
-the empty index list. The commands:7 counter in hciconfig matches.
-
-The Command Disallowed (0x0c) on the MSFT LE Set Advertisement Filter
-Enable, which surfaces in dmesg as "Opcode 0xfcf0 failed: -16", is not
-the cause. It only appears once the controller has been through a
-previous open attempt; after a cold power cycle it does not occur, and
-the controller still fails to register.
-
-
-Ruled out
----------
-
-   - rfkill: all entries soft- and hard-unblocked, hci0 included.
-   - bluetoothd: active, management interface 1.23 initialized, no
-     errors.
-   - Missing or corrupt firmware files: both rtl8852bu_fw.bin and
-     rtl8852bu_config.bin are present. The rtl8852bu_config.bin ->
-     rtl8761bu_config.bin symlink is normal packaging, shared with
-     8852au, 8852cu, 8851bu and 8922au.
-   - Stuck controller state: rmmod/modprobe btusb, USB deauthorize and
-     reauthorize, and a full cold power-off with AC disconnected and the
-     power button held 20 s all give identical results.
-   - Forcing an address: btmgmt public-addr returns Invalid Index, as
-     expected, since there is no index to act on.
-   - Driver version: master behaves the same; the missing artefact is
-     the firmware payload.
-
-
-Request
--------
-
-An rtl8852bu_fw.bin containing an eco == 4 patch section, so that
-controllers reporting rom_version 3 can complete setup. The adapter
-works under Windows on this machine, so the corresponding ECO 4 payload
-presumably exists in the Realtek driver package Lenovo ships.
-
-If the right fix is instead a driver-side change, for example a new
-ic_id_table entry pointing this revision at a different image, the
-trace above should carry enough identification data to decide.
-
-Happy to provide any further traces or run debug patches.
-
-Thanks,
-
-Tristan Laroye
-
+ amdgpu/beige_goby_ta.bin        | Bin 259328 -> 259328 bytes
+ amdgpu/dimgrey_cavefish_ta.bin  | Bin 259328 -> 259328 bytes
+ amdgpu/gc_11_0_0_mes_2.bin      | Bin 263664 -> 263696 bytes
+ amdgpu/gc_11_0_1_mes_2.bin      | Bin 263664 -> 263696 bytes
+ amdgpu/gc_11_0_2_mes_2.bin      | Bin 263664 -> 263696 bytes
+ amdgpu/gc_11_0_3_mes_2.bin      | Bin 263728 -> 263760 bytes
+ amdgpu/gc_11_0_4_mes_2.bin      | Bin 263664 -> 263696 bytes
+ amdgpu/gc_11_5_0_mes_2.bin      | Bin 263632 -> 263632 bytes
+ amdgpu/gc_11_5_1_mes_2.bin      | Bin 263920 -> 263920 bytes
+ amdgpu/gc_11_5_2_mes_2.bin      | Bin 263632 -> 263632 bytes
+ amdgpu/gc_11_5_3_mes_2.bin      | Bin 263632 -> 263632 bytes
+ amdgpu/gc_11_7_0_rlc.bin        | Bin 162336 -> 162336 bytes
+ amdgpu/gc_11_7_1_rlc.bin        | Bin 162080 -> 162112 bytes
+ amdgpu/gc_12_0_0_me.bin         | Bin 463392 -> 463392 bytes
+ amdgpu/gc_12_0_0_mec.bin        | Bin 455648 -> 455648 bytes
+ amdgpu/gc_12_0_0_pfp.bin        | Bin 354912 -> 354912 bytes
+ amdgpu/gc_12_0_0_uni_mes.bin    | Bin 734336 -> 734432 bytes
+ amdgpu/gc_12_0_1_me.bin         | Bin 463392 -> 463424 bytes
+ amdgpu/gc_12_0_1_mec.bin        | Bin 451552 -> 451552 bytes
+ amdgpu/gc_12_0_1_pfp.bin        | Bin 354912 -> 354912 bytes
+ amdgpu/gc_12_0_1_uni_mes.bin    | Bin 734336 -> 734432 bytes
+ amdgpu/green_sardine_asd.bin    | Bin 209408 -> 209408 bytes
+ amdgpu/green_sardine_ta.bin     | Bin 37632 -> 37632 bytes
+ amdgpu/navi10_asd.bin           | Bin 209408 -> 209408 bytes
+ amdgpu/navi10_ta.bin            | Bin 37632 -> 37632 bytes
+ amdgpu/navi12_asd.bin           | Bin 209408 -> 209408 bytes
+ amdgpu/navi12_ta.bin            | Bin 37632 -> 37632 bytes
+ amdgpu/navi14_asd.bin           | Bin 209408 -> 209408 bytes
+ amdgpu/navi14_ta.bin            | Bin 37632 -> 37632 bytes
+ amdgpu/navy_flounder_ta.bin     | Bin 259328 -> 259328 bytes
+ amdgpu/psp_13_0_0_ta.bin        | Bin 271616 -> 271616 bytes
+ amdgpu/psp_13_0_0_ta_kicker.bin | Bin 259328 -> 259328 bytes
+ amdgpu/psp_13_0_10_ta.bin       | Bin 267712 -> 267712 bytes
+ amdgpu/psp_13_0_11_ta.bin       | Bin 254976 -> 254976 bytes
+ amdgpu/psp_13_0_4_ta.bin        | Bin 254976 -> 254976 bytes
+ amdgpu/psp_13_0_5_asd.bin       | Bin 209408 -> 209408 bytes
+ amdgpu/psp_13_0_5_ta.bin        | Bin 246784 -> 246784 bytes
+ amdgpu/psp_13_0_7_ta.bin        | Bin 246784 -> 246784 bytes
+ amdgpu/psp_14_0_0_ta.bin        | Bin 254976 -> 254976 bytes
+ amdgpu/psp_14_0_1_ta.bin        | Bin 254976 -> 254976 bytes
+ amdgpu/psp_14_0_2_ta.bin        | Bin 278508 -> 274668 bytes
+ amdgpu/psp_14_0_3_ta.bin        | Bin 291116 -> 287276 bytes
+ amdgpu/psp_14_0_4_ta.bin        | Bin 254976 -> 254976 bytes
+ amdgpu/psp_14_0_5_ta.bin        | Bin 254976 -> 254976 bytes
+ amdgpu/psp_15_0_0_ta.bin        | Bin 278980 -> 278968 bytes
+ amdgpu/psp_15_0_0_toc.bin       | Bin 2816 -> 2816 bytes
+ amdgpu/psp_15_0_9_ta.bin        | Bin 278980 -> 278968 bytes
+ amdgpu/psp_15_0_9_toc.bin       | Bin 2816 -> 2816 bytes
+ amdgpu/renoir_asd.bin           | Bin 209408 -> 209408 bytes
+ amdgpu/renoir_ta.bin            | Bin 46080 -> 46080 bytes
+ amdgpu/sienna_cichlid_ta.bin    | Bin 386816 -> 386816 bytes
+ amdgpu/smu_13_0_0.bin           | Bin 292452 -> 292452 bytes
+ amdgpu/smu_13_0_0_kicker.bin    | Bin 261888 -> 261888 bytes
+ amdgpu/smu_13_0_10.bin          | Bin 271520 -> 271520 bytes
+ amdgpu/smu_13_0_7.bin           | Bin 287080 -> 287080 bytes
+ amdgpu/smu_14_0_3.bin           | Bin 333236 -> 333236 bytes
+ amdgpu/smu_14_0_3_kicker.bin    | Bin 327424 -> 327424 bytes
+ amdgpu/vangogh_asd.bin          | Bin 209408 -> 209408 bytes
+ amdgpu/vcn_4_0_2.bin            | Bin 403856 -> 403856 bytes
+ amdgpu/vcn_4_0_5.bin            | Bin 403856 -> 403856 bytes
+ amdgpu/vcn_4_0_6.bin            | Bin 403856 -> 403856 bytes
+ amdgpu/vcn_4_0_6_1.bin          | Bin 403856 -> 403856 bytes
+ amdgpu/vcn_5_3_0.bin            | Bin 448272 -> 448528 bytes
+ amdgpu/vpe_6_1_1.bin            | Bin 25984 -> 25984 bytes
+ amdgpu/vpe_6_1_3.bin            | Bin 25984 -> 25984 bytes
+ amdgpu/yellow_carp_sdma.bin     | Bin 34048 -> 34048 bytes
+ amdgpu/yellow_carp_ta.bin       | Bin 246784 -> 246784 bytes
+ 67 files changed, 0 insertions(+), 0 deletions(-)
