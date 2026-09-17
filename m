@@ -1,211 +1,355 @@
-Return-Path: <SRS0=Xjbz=HJ=oss.qualcomm.com=venkata.kota@kernel.org>
+Return-Path: <SRS0=FELQ=HJ=opensource.cirrus.com=prvs=072070c42a=simont@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3CC19C982CD
-	for <linux-firmware@archiver.kernel.org>; Thu, 17 Sep 2026 06:03:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D9DEC982D6
+	for <linux-firmware@archiver.kernel.org>; Thu, 17 Sep 2026 14:10:33 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 0E1C91F00893; Thu, 17 Sep 2026 06:03:08 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=205.220.180.131
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1789624988;
-	b=ftQOku+zjVf1Zl6SLvie70INUDOQkuwxF5Dskz8Rw7e4XlOjL9QBKjpm32O/D0pVG608
-	 9txYp+0+tFc1zWjDS+2aGfFYC8IC9xc3SCLy46/uF0N2Yq/0sAW15cvHK6o55TtUHDXhg
-	 xGeXuIQIglLDhGIJf+Le/TvzP2Jtl3avGTKlhTPN1b2pHILWwuOyJPmqQg23V8wZNocxy
-	 LMp/JsDJZMRGMOKrmPwLXC+M8wYbJlzI/3TEsPEoQ0wrrik7LJ1y7aZA9ue0/TNNY+7Jk
-	 IQsSmMkGR1/4sSpkDn/VbXCYbIIt5Ax+E0954qdR8e+vOTLGGWcsox6KFc5Srgx+5tw==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1789624988;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
-	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Content-Language:List-Id:To:From:Subject:Autocrypt:
-	 Content-Type:Content-Transfer-Encoding:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Authority-Analysis:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=UVJbmr/IjhozzKM6ugCHVnsJmnOEX+0nxMHJIN/wE6Y=;
-	b=PUCTY6UhBACNHY2Jq15Kbie9h7BxfovpZMFGpP0s0qNLk5sNj9DQRG51hekgrc0QHiOu
-	 wUBnMBd2mXBniHvBs4yXJQ6yqrpZOsgUHw0yWww33FFFjOYYS7CviduU+z4NbXmFjYbIS
-	 gAkLjVnGoCmA0WFJpIU7CotSjwpQhMm9w/kOTFjrk7FfalPCi6RXjqrfLnby6GwZlPJZl
-	 PML0O1YRrGTAH7DGtMqHuM5kOBznDVFqLCivJgYYCgwJBUYqr/MWeVLgd/ub2NWrkOUqq
-	 TOi1ncYC6p2ZzRnQavyG7prNs2+IfpUFjPyL16Ij/4byWELh+eRuTAjGqFRwAMhE0VQ==
-ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=eUzzpVGp;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=gixjXDEc;
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	id 2A8711F00893; Thu, 17 Sep 2026 14:10:33 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.152.168
+ARC-Seal: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=pass;
+	t=1789654233;
+	b=BU2jadvcUQgkyHwvm/GzyDJ9nAZDCzdl1qpLdBLwpYk8eci7gfdE9/rRFXzUoqmfynB6
+	 Ok08FSMS3XANZ9HZBmSBjRuAIQVPe64dKyXgftWJXmeOZMU2C72hmR03nuYNV4liwUJg+
+	 d3KaLR0MvwIVCjDDEW2uGlIg7VI1N7lumX/3hCArbM8GxFirTcP40PP51eKywF/CF+UYm
+	 mgOvHEnWa0wU1BUZlKdSZvw8FKh3dV9Id0rIfUIOPjoO5nM705MdM/HJJCJ/zaIjRKnSj
+	 h+W2FcMQEgysrCEK4N2c9mQltAYTwF6+zzG/EcFk1L0NPuL8+bHd7lS16sxMIIGqCXw==
+ARC-Message-Signature: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1789654233;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
+	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
+	 Received:Received:Received:From:List-Id:To:Cc:Subject:Date:Message-ID:
+	 MIME-Version:Content-Type:X-Mailer:Content-Language:Thread-Index:
+	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Reason;
+	bh=qP/dFVbLiZbmFBjRRTq0Bwf0H2UaM96nOZ2Y0yzhx5k=;
+	b=ugDpumeq1MOyK36zb0pP928LT49mfnpd2Uh1xANRhhWhqYkgTSymoc4k9IfrXKg+EMP4
+	 L9BsXSwKXfybTzNPm0QI256vhzZSbw12mZUJ3ay3DyJELNOKCMB6oUM/qGfPWWI+V3JXc
+	 ZjiKiAf1hUFTHHJqE9eWvZmbI5FlEd80XrmXuaPNie4sOP7x8Xv1yhffONNgdrHs8bydi
+	 c4v5cixpbowARtCCEzoO7+eyrveljGoEgXRi3W11O/IRY+C3yw1cqB0j0kjfmr5bp8bCz
+	 Y1qh3Y4LYu7+d2dT3omcWC2lEGgJ9G4ANIxP2uECnHmlms7gOYnws2cXdCsVo9o53Wg==
+ARC-Authentication-Results: i=2; smtp.kernel.org; dkim=pass header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=HMTTI0uz;
+	dkim=pass header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=G4Prc00W;
+	dmarc=pass header.from=opensource.cirrus.com;
+	spf=pass smtp.mailfrom=opensource.cirrus.com;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.152.168
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 545EB1F000FF
-	for <linux-firmware@kernel.org>; Thu, 17 Sep 2026 06:03:07 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 637CD1F000FF
+	for <linux-firmware@kernel.org>; Thu, 17 Sep 2026 14:10:32 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=eUzzpVGp;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=gixjXDEc
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 545EB1F000FF
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68H60sxh1375590
-	for <linux-firmware@kernel.org>; Thu, 17 Sep 2026 06:03:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=UVJbmr/IjhozzKM6ugCHVn
-	sJmnOEX+0nxMHJIN/wE6Y=; b=eUzzpVGpHz6LDxd+NYVDRDk19/bhuXFAyBqsvp
-	l2jbmMy0qsHbhimEB5wJ2O3eEw7PVqjonMjMWNI5PdLFuXiAezLLRkXlJVYrpETn
-	J7AxOScpsai6EvCBE2eopAWsAJiYnIbyGEAyTUwQawMUyhcvdTQIQPsAJM5AYPWt
-	pKIxdBSfDMzbeeRVfvak+YvFrQjyQdlULs1hMAvEeQviYDO4civJ3UAnFbVOYZnX
-	VDZ9FnoFC68JL6EAcbGsTZf0+kcImYd0jYZRNfl7GT5noVbLPvvnU504eZVWWP7g
-	WCbVKLteiT7V14gbxwBbBO6Km4sLdrkjF8Fsk7RAibEKqLHA==
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gqy6atmkf-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Thu, 17 Sep 2026 06:03:05 +0000 (GMT)
-Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4c734afb8deso917616b6e.1
-        for <linux-firmware@kernel.org>; Wed, 16 Sep 2026 23:03:05 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=HMTTI0uz;
+	dkim=pass (1024-bit key, unprotected) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=G4Prc00W
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 637CD1F000FF
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68HDLYN4110484
+	for <linux-firmware@kernel.org>; Thu, 17 Sep 2026 09:10:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:message-id:mime-version:subject:to; s=
+	PODMain02222019; bh=qP/dFVbLiZbmFBjRRTq0Bwf0H2UaM96nOZ2Y0yzhx5k=; b=
+	HMTTI0uzS4K2atqcSAHGlDClwblMptHYe8i59OufHeDMMzD9XV7Vn5DQ5VuqKJvL
+	pm6QGVDa7TcwhzhW2yxyx+PnBM12DngnPCZOsC4yj35wVniRD1swGEj/Gz0Obyi/
+	4WQMHNEYwtypu5jD9TcEDSi+H3uZIMh4XQLCww2jfntXEjIkZJhhTYrVUuBzfxYg
+	TGSMjenBx0JE9s2UzM7hnWO5xdcvoujaIWKVtphJfKLVNSXRB1w2lR6q5lMTvGgZ
+	ZDezTtkM6bOxlCJ7iCcxVpBFY1amDFZPXXmF4R2gyIEUdxbK2v5mMNHmRa0S8cNL
+	dm79Hx+TCbwM1J6uEVkkZw==
+Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11020140.outbound.protection.outlook.com [40.93.198.140])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4gn35hew30-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <linux-firmware@kernel.org>; Thu, 17 Sep 2026 09:10:30 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bAwBFSysuJ1BwgfIAhCgqWAZ/KyIxlN4c3XnpdKU7JN2XfJ6wHARsf1lIb591AZJX7PNb7hXmflmXda0tExGTFM0YtXyzR9Frt2MIwGSLsB4HuSjj9ebD8+AQpPHVGM7K3K/4uKAzRDb5xsfLbOQgOjHIin7SfI7Ng4XK54/17FiKclxxjgVk6/Ls2RCRoIMr7wfH0ePS8QozCcn5hzzORi+B4UXuhHm5Nq8kPIjp/6p6As06O1SIWmme7hrBCjxhuBSZxDrbFcs2qDtwyoq7mEAb9SM6lDRHzBUNNmD+9vTydFyXBwhHnH1n5eFZpgRJHtIUKNJvlY1VaI4Yx5jjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qP/dFVbLiZbmFBjRRTq0Bwf0H2UaM96nOZ2Y0yzhx5k=;
+ b=ERwNVtyT9Wqb5WyjzAoKl92DrSFmWiOml/u4U7uSu18Rc2t2b6GybFlG/NYbG6TmD2R9u6WyNhyySrK7goed2XSIwJwLduWjK8Na5cG9WjRV6AN1VnbEG5Oi4xEicMz79QQEWXJoZwPlsl8isGgVUWOs8XBBokzZoI9AFwBtIU1gXJv6yGLni5dZiUxYVjILDhXiECILO4EXjknzcjq0o4A+74w9QUjmEgOPk1i/PdGl40B6DbuwdpkznY2B2joRKNORzj0/RBxRbCBUAxF2PXqiv0cwlCenovsVXKvZVM2ToGrc0KYt+qwn60reQARnDhjDuyiEB19Aj8HWckkjpQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1789624985; x=1790229785; darn=kernel.org;
-        h=content-transfer-encoding:content-type:autocrypt:subject:from:to
-         :content-language:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=UVJbmr/IjhozzKM6ugCHVnsJmnOEX+0nxMHJIN/wE6Y=;
-        b=gixjXDEcyFdDrdI20PPIx9g/2t/fcoxd8jcO5W0Uz1pwohL4WnTdTKCCf6ygi0eikY
-         MnKm1fTnjz8oiTefPRctDNjMYoisEgdb5jNSt8Ol0d+nrqsgsQ0qytoCHBpI+JEQrwIy
-         1gqbaRElFqnvUtn3320yzGJbhsoWWYRBzZt2TCuAs5f4BooSGe2UAMWtT3I5zlW43LLf
-         JdZFFlqoA+aaMFIfF/pQGzd1vdbkwKBiAG3A5tA2hnX2sEYAe2iK+6DwIJTZUt+oZ+8g
-         P0DTg7rIYoxZor/7+sqAtJRBthv7x8RZY+bfnHWTV1zJ424n94mnuei/MJ48DJHbb+TD
-         X5bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789624985; x=1790229785;
-        h=content-transfer-encoding:content-type:autocrypt:subject:from:to
-         :content-language:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=UVJbmr/IjhozzKM6ugCHVnsJmnOEX+0nxMHJIN/wE6Y=;
-        b=awGk0E3Hr5KDjJ8XsqsszDyEaJmpCHQ6r3c6uI8KZSmDKXFyGdhzBI5PnysQk9P4SY
-         R8i0MBHHvmTvvinnOIH7dE2pv7fA/qvu3fh4N3F/EZvz2RSUgIj1IxlwCYbkqlcjbeHA
-         WX5HiDBE1yrKv20szCQc2lrVdGSbAbvXL7TezbSG2WqZ+g4iBgU28tAi4Jrg5ya2wFOy
-         xE8/es6DUb8xvaxbpfFZWwls4Rtuse0NRZeuEFeXc4tzwQMUNJwh2ZzkIisM+X+aTajH
-         ylWEOAlXcqbV5LzfIFpRu4yzRePtnafdJQN4yNIfZB+B/BZYgIrBtBeS3MYGwsk4pOya
-         uaBQ==
-X-Gm-Message-State: AFuF++ndqoSYAJ6dNezvNnBqkOYAWMTYxJFWnBymIjsTHRZZiffOPYKl
-	Fty10Xai87JktpkwH4FjEu2QzKBqzWyn+8K6iDxpbL1b11DHV8ASz3J0LXhw3tvhqJlHjIum0Cm
-	yA7uyWpSDKNi4jUxRu/pJLKAx4Jwkbe8jhD8pA/vHQbHi/t75RlcLA42WF8Aewgf6zvionBo=
-X-Gm-Gg: AYBFou0m5hENcHnduyioKmTzc9rJgAVZnZB6ObthUiKfleltFWRyeWLQO5OgjjFqsWy
-	AX5QTChOllez44Hv0VnD4VhCTziJBLsM7QMLNnqSnHCSNXUOZ6UWKzql8ewkn1cDCgtJ+pRJ2/n
-	YS3dBYAXA+cE2wQWsjXFdx0CKoIGTg3uTQwvi4gY1v+2JaD4gOakdkEQUATJqeFgNiOTLQ/8kv+
-	jTfC6Bbx5P0VuKFvyBkfdw8a4PBCoVOUYuUd2RHy5yzOiXl6ck9/SWzpmQd+ksTOA7/sdxLdMBU
-	oMFGf/7uhDsGnznS6UHZKPyHW3r0JxdC6wVe3ix6eN3YxWvKJajd773jSo+KYCV2TrwjXROcnEb
-	iatPuYrQwlz6Avy0lI7JH7ZRLuAWD
-X-Received: by 2002:a05:6808:10c5:b0:4c1:5e42:51d0 with SMTP id 5614622812f47-4ca497aecd1mr6386459b6e.4.1789624984849;
-        Wed, 16 Sep 2026 23:03:04 -0700 (PDT)
-X-Received: by 2002:a05:6808:10c5:b0:4c1:5e42:51d0 with SMTP id 5614622812f47-4ca497aecd1mr6386415b6e.4.1789624984152;
-        Wed, 16 Sep 2026 23:03:04 -0700 (PDT)
-Received: from [10.219.57.13] ([202.46.23.19])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33c01728a7esm10066631eec.6.2026.09.16.23.03.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Sep 2026 23:03:03 -0700 (PDT)
-Message-ID: <0a89f2b6-6216-4a60-90b7-66110f713158@oss.qualcomm.com>
-Date: Thu, 17 Sep 2026 11:33:01 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qP/dFVbLiZbmFBjRRTq0Bwf0H2UaM96nOZ2Y0yzhx5k=;
+ b=G4Prc00WvS7HTIk8bn0lFjdH4uASRr24HnlNECrs0PGvoRZcfAgioY0V55IMfAhrVNloLz2OLlziK49rDlwHyKWAXdf2Zx3Mmr2jTPvanUXR/FqcTqB2sPSkkuEmNwyn6Qgo86uxjBtyeAw9TOlOYWgptfZesZMyQ4dIfEEyg5Y=
+Received: from DS7P221CA0032.NAMP221.PROD.OUTLOOK.COM (2603:10b6:8:25e::9) by
+ SA1PR19MB8861.namprd19.prod.outlook.com (2603:10b6:806:46a::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.12; Thu, 17 Sep
+ 2026 14:10:15 +0000
+Received: from DS3PEPF0000C37F.namprd04.prod.outlook.com
+ (2603:10b6:8:25e:cafe::3e) by DS7P221CA0032.outlook.office365.com
+ (2603:10b6:8:25e::9) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.428.11 via Frontend Transport; Thu,
+ 17 Sep 2026 14:10:15 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ DS3PEPF0000C37F.mail.protection.outlook.com (10.167.23.9) with Microsoft SMTP
+ Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.451.8 via
+ Frontend Transport; Thu, 17 Sep 2026 14:10:13 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id B0EC1406541;
+	Thu, 17 Sep 2026 14:10:12 +0000 (UTC)
+Received: from EDIN6ZZ2FY3 (unknown [198.90.190.231])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 8CA4D820244;
+	Thu, 17 Sep 2026 14:10:12 +0000 (UTC)
+From: "Simon Trimmer" <simont@opensource.cirrus.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-From: Venkata Kota <venkata.kota@oss.qualcomm.com>
-Subject: qcom: add CDSP firmware for hawi platform
-Autocrypt: addr=venkata.kota@oss.qualcomm.com; keydata=
- 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
- tFo24aqEAzhhzFkq6qZ6FaB0f9M8wen4hRAu98k=
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: <linux-firmware@kernel.org>
+Cc: <patches@opensource.cirrus.com>
+Subject: cirrus: cs35l63: Add Cirrus CS35L63 firmware mappings for some Dell laptops (20260917)
+Date: Thu, 17 Sep 2026 15:10:12 +0100
+Message-ID: <002101dd46ae$416959a0$c43c0ce0$@opensource.cirrus.com>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0022_01DD46B6.A32E5DE0"
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-gb
+Thread-Index: Ad1GrjRZXHdvW4nQRcOKjmBHNwHOhA==
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS3PEPF0000C37F:EE_|SA1PR19MB8861:EE_
+X-MS-Office365-Filtering-Correlation-Id: f0a2474e-1bfa-4f3c-6abe-08df14c564b4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|23010399003|376014|36860700016|61400799027|10067099003|16102099003|18002099003|11063799006|56012099006|8096899003|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	QILs49ABWsy68rq0E5Xf/A6o94GUHAZlUeyJPSGNcz2o+ADeHeKfyIYgcAT6m8yfHrqKImqS8dUX6uAYRVuRdQmu5gp3OAvE84A8QQwCM3io1ZzT3uirWbSe66m6zSIE+5Q+466oA4guXuOpY9WlYPQC2rOuIIGhvWSbnO7TxZq7upq0MypBaxUzWEF/xI1r7bqIAsAeQgeexpkJ68gNPEpQddJbbUaWOwnRDaGGoUfYXDCaFrO11Pvqd4m4RnTRkQJRx0qOUtd+KyQrWXYrfkwaEMcweA7OHkX5f1FVF3JkWvRUVdgXOBCRvakPqfHTKgOb2D1SBVmI/XKwtHUXJY9prU5vOofq0KT6CYtK2sgCy6oZLZ4tYS10DOQ9q6zFVu5KDnr+QAPt1QuoSJqRDxDwvj7pYsT8Kp2OG/Peu4Or7oV4sUG0ZZuDN5mnHQPvTcqw4DVxFSk3dFGMnJhwG9RWYa5lU81pzygRgIAdZfsnLscD/mlCpUSxltylMKaJOk7BrBdaFxr02/O5XfxAPuGEVRKjMUYI4umM2v0NX1MdK0xW1D9L9VQm2lp/DY/t7djEP4DOYWxHxorMN1FAXDtljOj697EhZLIJTWaKfq8dmJXYcx66dqOa5JmMhrS8Z28SyNbiJ6HU+XAfdyMeIvL1N1B8fxzNfKDaXC1TtEBfSvbQmNYOcCqSfqKnHuP9cOQgqX++gNYcFrXOjse7SA==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(23010399003)(376014)(36860700016)(61400799027)(10067099003)(16102099003)(18002099003)(11063799006)(56012099006)(8096899003)(13003099007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	+rjMuzMH/RVPEslWhXQHE1xIzWCxvj7t/pGwl8itplHY0iyShYuPR3iiKlI2Cgdrwxp29o5Ibp0NQ7+dpoYeEWS8rKT9LxhXTmdyNsHMUAARZJ6fCikCcFFjN2DDuyYu+Brpvn5FgavK0yU9TmvB4t3kg5H+/+PBllk9DkYWC2k4xPo1FGnFP+OnfAHLRYJHWtrkr2hIK1m79I1n3Ht6Yi7rPCR+vw2+kGUraGFNtEYq5KWQT1145FWlirF+oaRtzaUyPrSZ7NdTOCFyF8w4Ek2mUB/IsVZsSWy199TvpMJvPmfcO/cN5dZSlFwpTt92H9xSPSIgT3ellWMf5BdV2hRclSXqEPDphEXHE0AqXVYSN9VU8ibH9NQKcv22ycH+/0zRw//rvv9rjwK+0ZZ31UwKBbR3BpG1771/6FIEzsUMNybfhA4EkKc3Nb7pgWIq
+X-Exchange-RoutingPolicyChecked:
+	MlPOVLoFU9GZn00w+hzG52ajMYfZUz51vxPiBq64wrJd0aj8ljy6u+ASAb6L+hUx6yblowD3TrPrBfuV/7fe8m+Q9+rUwIvlOeXxbOYZ+jtVFVfdP9ZTdWceeJftEtBymSFAemq2X67Yq2Zg6BLn/cEHqy4NwLL3zEbztoq/2A22fioTBKjI+OjD+oDKjxvtt6CVVr3LeMKCacTYpyKiOoQb1crgsY7FQ9s/FivbaGCRp7MkerM/Gs8PCUcgIit5ofFRxpGM4oWoUMYcPslwfD+F7gsd3DdSYf/x7WH6/hnTMmmAMbpF2qocbG3cJj4u/3SeUyjXNEZspDuezOHF0Q==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2026 14:10:13.7949
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0a2474e-1bfa-4f3c-6abe-08df14c564b4
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DS3PEPF0000C37F.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR19MB8861
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE3MDIwMCBTYWx0ZWRfX+Ds1mpToFFtd
+ Z4GpegDpFL16DC+aodRG+GGEmgrj4iTw9ljuUFXK+n+8wKD19xy//cf4l7HzE+KjLKEeimtBRJ0
+ nQzeNMydE4js5xmKzYcLEEzN4smSFa8=
+X-Proofpoint-GUID: V6PDfBj4iO1853c5W7taFCjnWwB2dSiy
+X-Proofpoint-ORIG-GUID: V6PDfBj4iO1853c5W7taFCjnWwB2dSiy
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE3MDIwMCBTYWx0ZWRfX44f3a/1AV6p8
+ MHev0eLihLa9crUrf+53rq7PH4AyzTGNEXnU9S0i9oa/0VRTnmn9M44/pvf5e1cHUzez8CjFGw8
+ 64QG9jOcRTAJiHVC5OtyhFXtNSjUZXBbrHeO2Rg2WYZ2d8zs57m0ArQisK3zheTR7dTBz6wB2CV
+ Lk+4nTzjRk8Mu4rcsyEIzgZtkRUWrVNcqzBkiUCSIHWn804Zx7JvhVguMHwcBTMMjhZvf++vHCB
+ csDokVBf7JB6xa0Iq6viJcrI1Gsjiq4LC1ltACy0zpkrQPbE6QBG4BSVe0BsPg5eSWvtxFtqCXl
+ lTU2DMtdLNxdVddRbzOXXnALj9WKE+WesDkDnTVPAfCW48zrsYUdY+ouPScieD+M/TjdGpE5jJq
+ uYdSSXlT6HQB+wIrn6GIeFYhB0cJ47qc2EN3iOrB0iOrsqJlWoLZ1hPVYX0gAbt9+Hc0uijetaK
+ shbJtMX0bXkNpJ/V43Q==
+X-Authority-Analysis: v=2.4 cv=It6L47/g c=1 sm=1 tr=0 ts=6aabf4d7 cx=c_pps
+ a=PBbaNSpV8Z2umfVkjBDg/g==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=VdqzKS8jKosA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=DAwyPP_o2Byb1YXLmDAA:9 a=NEAV23lmAAAA:8 a=MWnIZ382M4VD4EU7hhMA:9
+ a=CjuIK1q_8ugA:10 a=yMhMjlubAAAA:8 a=SSmOFEACAAAA:8 a=CjMnu39Sd_Bt_U-CiqgA:9
+ a=FUJ1RLIq4BPm6ioc:21 a=gKO2Hq4RSVkA:10 a=UiCQ7L4-1S4A:10 a=hTZeC7Yk6K0A:10
+ a=frz4AuCg-hUA:10
+X-Proofpoint-Spam-Reason: safe
+
+This is a multipart message in MIME format.
+
+------=_NextPart_000_0022_01DD46B6.A32E5DE0
+Content-Type: text/plain;
+	charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: fQ2jw_ro2AKLs06tzD8eMkACVP-19bOn
-X-Proofpoint-ORIG-GUID: fQ2jw_ro2AKLs06tzD8eMkACVP-19bOn
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE3MDA3OCBTYWx0ZWRfXyrj4ev0KQtMn
- lj3jCQflF0HLvIgWL00psPVPigVgGy1NqzrCTMUZXiYyZHlBG9ZdA1aj9/WDmu99DkTNX9yuQhm
- v7mWLZe0H4jzEGrma8L8DvwPpb9KbPhSGLVLfYCFMcCvu+B1uf9wSfIuYi3JkjIofsik3idmOPp
- 7pQWqMymLBNUWkKzL7+3IWntX5eWzslmKhNcNFzove91Q9lDTIhOHwndTEmUhkZ1SALHfmS68Ih
- HYQCIpHBt5HFvGZGs30wxCfbOhWvNttKcFP/8/9YwhM6c8tT3TmX5rf/nL6xtw3t8XCBsI+rn4f
- AJRfwDhPdewvZ1x6QC2r5cfer4xE0xAhs1Fc+NSvLCOSlwuWe779luTRyTSpNy7z0vQOe/M/a+g
- 6wmQSsEHD0NIddmOrmLQYCYV47ntqQLJnT1mTK4PfC8AWFayEhPHHRTjpZHrNwyi/VO/yZSQeUk
- EcQzRHv+yP6x6SGM/Gw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE3MDA3OCBTYWx0ZWRfX+WKDdeYTjZIT
- wCTwnTmKdsRp/veU9gYFomLvTf4IqfH3RhykH+gQqEOragowOWQerWNuWzbAXuYrTbRnSgg5q2U
- xyfF07IaPVfOfuzxiU+dF6APo7HFNLE=
-X-Authority-Analysis: v=2.4 cv=VIRIDNPX c=1 sm=1 tr=0 ts=6aab8299 cx=c_pps
- a=AKZTfHrQPB8q3CcvmcIuDA==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=qC_FGOx9AAAA:8 a=ofp4_jbnfg4eEjwp8RkA:9 a=QEXdDO2ut3YA:10
- a=pF_qn-MSjDawc0seGVz6:22 a=fsdK_YakeE02zTmptMdW:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-17_01,2026-09-16_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 adultscore=0 priorityscore=1501 bulkscore=0
- lowpriorityscore=0 suspectscore=0 clxscore=1015 phishscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609170078
+
+Hi,
+
+I'd like to add support for the Cirrus smart amplifiers for few more Dell
+laptops, this is just a set of WHENCE links.
+
+Thanks,
+
+-Simon
+
+ 
+
+ 
 
 The following changes since commit e289868675d1071935ba4dac48acb6600f278d57:
 
-   Merge branch 'qca-qcc2072-clnbtnv10' into 'main' (2026-09-16 18:24:09 
+ 
+
+  Merge branch 'qca-qcc2072-clnbtnv10' into 'main' (2026-09-16 18:24:09
 +0000)
+
+ 
 
 are available in the Git repository at:
 
-   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git 
-dspfw-qli-hawicdsp
+ 
 
-for you to fetch changes up to 5aa34a066e3d020cf3aa98805871786b1164a51e:
+  https://github.com/CirrusLogic/linux-firmware 20260917-cs35l63
 
-   qcom: add CDSP firmware for hawi platform (2026-09-17 11:20:41 +0530)
+ 
+
+for you to fetch changes up to 2ded07e3da99f522881039f13595f34d54acdc74:
+
+ 
+
+  cirrus: cs35l63: Add Cirrus CS35L63 firmware mappings for some Dell
+laptops (2026-09-17 14:07:18 +0000)
+
+ 
 
 ----------------------------------------------------------------
-Venkata Kota (1):
-       qcom: add CDSP firmware for hawi platform
 
-  WHENCE                 |   4 ++++
-  qcom/hawi/cdsp.mbn     | Bin 0 -> 5329528 bytes
-  qcom/hawi/cdsp_dtb.mbn | Bin 0 -> 73544 bytes
-  qcom/hawi/cdspr.jsn    |  29 +++++++++++++++++++++++++++++
-  4 files changed, 33 insertions(+)
-  create mode 100644 qcom/hawi/cdsp.mbn
-  create mode 100644 qcom/hawi/cdsp_dtb.mbn
-  create mode 100644 qcom/hawi/cdspr.jsn
+Simon Trimmer (1):
+
+      cirrus: cs35l63: Add Cirrus CS35L63 firmware mappings for some Dell
+laptops
+
+ 
+
+WHENCE | 88
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++
+
+1 file changed, 88 insertions(+)
+
+
+------=_NextPart_000_0022_01DD46B6.A32E5DE0
+Content-Type: text/html;
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><META =
+HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Aptos;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	font-size:12.0pt;
+	font-family:"Aptos",sans-serif;
+	mso-ligatures:standardcontextual;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#467886;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Aptos",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#467886" vlink=3D"#96607D" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'>Hi,<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'>I&#8217;d like to add support for the =
+</span><span style=3D'font-size:11.0pt'>Cirrus smart amplifiers =
+</span><span lang=3DEN-GB style=3D'font-size:11.0pt'>for few more Dell =
+laptops, this is just a set of WHENCE links.<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'>Thanks,<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'>-Simon<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'>The =
+following changes since commit =
+e289868675d1071935ba4dac48acb6600f278d57:<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'>&nbsp; =
+Merge branch 'qca-qcc2072-clnbtnv10' into 'main' (2026-09-16 18:24:09 =
++0000)<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'>are =
+available in the Git repository at:<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'>&nbsp; =
+<a =
+href=3D"https://github.com/CirrusLogic/linux-firmware">https://github.com=
+/CirrusLogic/linux-firmware</a> 20260917-cs35l63<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'>for you =
+to fetch changes up to =
+2ded07e3da99f522881039f13595f34d54acdc74:<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'>&nbsp; =
+cirrus: cs35l63: Add Cirrus CS35L63 firmware mappings for some Dell =
+laptops (2026-09-17 14:07:18 +0000)<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'>----------------------------------------------=
+------------------<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-GB style=3D'font-size:11.0pt'>Simon Trimmer =
+(1):<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cirrus: =
+cs35l63: Add Cirrus CS35L63 firmware mappings for some Dell =
+laptops<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-GB =
+style=3D'font-size:11.0pt'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-GB style=3D'font-size:11.0pt'> WHENCE =
+| 88 =
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
++++++++++++++++<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-GB style=3D'font-size:11.0pt'> 1 file changed, 88 =
+insertions(+)<o:p></o:p></span></p></div></body></html>
+------=_NextPart_000_0022_01DD46B6.A32E5DE0--
