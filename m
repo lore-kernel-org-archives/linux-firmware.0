@@ -1,187 +1,146 @@
-Return-Path: <SRS0=M2EX=HJ=gmail.com=alan.hovgaard@kernel.org>
+Return-Path: <SRS0=96i8=HJ=sapience.com=lists@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16184C982D7
-	for <linux-firmware@archiver.kernel.org>; Thu, 17 Sep 2026 16:29:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4C15C982D0
+	for <linux-firmware@archiver.kernel.org>; Thu, 17 Sep 2026 19:32:25 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id E09E41F00899; Thu, 17 Sep 2026 16:29:02 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.171
-ARC-Seal: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=pass;
-	t=1789662542;
-	b=24PFQ9Hb2WWRZ+KriPXvuFN6Z1MVrwKzWAKAw79vv9K3oT9e1TMtey7eHh8xjhwE2SQJ
-	 2I3SE91tSptvWGfGxWbbPoL2GF2+8x72C/f8t8ySJRu6ORgAnKcVt/ZGaJrVmgVgZ6Z8M
-	 MJhWiT+z6vf19+d32OH80WmHtCBWn4iZPfEJ9NT5HvnaZsR7SaJnFNuJheE6lH6gVnxsQ
-	 hQ00OY/RmfuWy4qIp2tN4TFzyhV5iFmQ4ZuzTJfv+Am3e/r5bOMXtEWCfNxhAA06hzHzp
-	 g7/VBj//NebNuQRex1hQLDmgyElvlNBm5uT/At61RXTMm5YF8Cbgrq5gPCx3SPaQ71w==
+	id 9C5461F00893; Thu, 17 Sep 2026 19:32:25 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=fail smtp.remote-ip=72.84.236.66
+ARC-Seal: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=fail;
+	t=1789673545;
+	b=X95u4Jz+Y8MMj1bVfn5DbBaj40sZglgUE5ruMtKBmq6g0QhvSO7EIE4XOmtPjnGV4RbX
+	 3R7ikxcTdGjpwVZI3m428uFhCHkelNjDATYI14xb33koma4P5OfQ/8yhVFB6ZOHyjoeIF
+	 W83we7cAeF4AuEErBKvKY+IBbV4nvxHqDzStS/aqSm7u2l4Sv05oO3piWCBq2nWh4yq7g
+	 tO5f6i9B0EcD+B2dC193/XV6ywC+9la48T1TPj6tpzOR3wnXrBtE+JhVvkaMSoQLLAXpm
+	 olzR9q/ItKMABVZ+BFe5TyuGmqA0Ex0SjurtL2oKINM8+Yzr2f/J+qF5y8N7727jJxQ==
 ARC-Message-Signature: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1789662542;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:From:
-	 MIME-Version:Date:X-Gm-Features:Message-ID:Subject:List-Id:To:
-	 Content-Type;
-	bh=oedZKDoguVwNLbYxz2lRBjmCCu67v3k6W9evv7i7wzc=;
-	b=zq/8zNJJZ9EKvnxs7xdkF0L88LweuefxNeodZ8hXkbf+aVfiWVyux6zADa4xsLdil+T0
-	 tPvBUkXOxYKp+e/ejD8lQrnzVjteqUgV2uAIg6qOZ0uCLeP9H7waxDg/4uE7WF8oEOePj
-	 72TJseOQfx5bZutCJPgGLWJjz9K6Xx+1Gwr4JDbT59A+x34XSf4iEdBMSZS04wX2YJHVl
-	 QRH9wPmL2UIpc7B2DlpLOjWIVCkCmG2mm2JutlPMRMinSCWrGEtQn9qt7747VLd1ccClq
-	 cJJ6IVkSunKexaMGTlmP4uMD/XKYxEoc/7g15jfG21IoOgRkF/K6+p2MEkP6gC5V2ow==
-ARC-Authentication-Results: i=2; smtp.kernel.org; dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=lFzlCCpK;
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.171
-Received: from mail-yx2-f43.google.com (mail-yx2-f43.google.com [74.125.224.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	c=relaxed/relaxed; t=1789673545;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:List-Id:To:References:
+	 Content-Language:From:In-Reply-To:Content-Type;
+	bh=CNkBTl9J/yxpozuvOGh/PH9PI5xvg+EDj4ndztKb4bg=;
+	b=eQU6fVEt9fSZ9AICe0KYyZEHEArcfCjGKcAOSmXTsKXVRlT3cLxdfiygRzUJ6qu0mgR/
+	 0teyEsJ3/0+ns895cyUxeBKdcDOV6Wz1uC2uEorGxfYyRq5JfNP/+3HJuOFL0w5bn3pQ0
+	 X3a5NT3FHxGpzqJz7FAwbASqz0cmaueCO5YKPfMkOLe5hbu7u1LLih2Rur3ktRbrxaxm2
+	 F4aqtpoOL2YtsWnTd0Vc/Rcc1i4RaLvtoPY4KGZwdMeIox408OJMCrln2Kfs88PdJk1Ri
+	 7t/kB/HtM23gmbPNmPfnavGB8n0TgDCRCWhAi1e3ZecwEl24XcuZb/G1VG90z3hacUA==
+ARC-Authentication-Results: i=2; smtp.kernel.org; dkim=fail reason="signature verification failed" header.d=sapience.com header.i=@sapience.com header.a=ed25519-sha256 header.s=dk-ed25519-220413 header.b=BOulEepU;
+	dkim=fail reason="signature verification failed" header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256 header.s=dk-rsa-220413 header.b=YbtcWXVQ;
+	dmarc=pass header.from=sapience.com;
+	spf=pass smtp.mailfrom=sapience.com;
+	arc=fail smtp.remote-ip=72.84.236.66
+Received: from s1.sapience.com (s1.sapience.com [72.84.236.66])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 562A41F000FF
-	for <linux-firmware@kernel.org>; Thu, 17 Sep 2026 16:29:02 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 8F32D1F000FF
+	for <linux-firmware@kernel.org>; Thu, 17 Sep 2026 19:32:24 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=lFzlCCpK
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 562A41F000FF
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yx2-f43.google.com with SMTP id 956f58d0204a3-66fabb1a601so941397d50.3
-        for <linux-firmware@kernel.org>; Thu, 17 Sep 2026 09:29:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789662541; cv=none;
-        d=google.com; s=arc-20260327;
-        b=AO1Yfw8ohJEQ4DSHpfY9DBFpaOh0dyMXIpF1wYvMvMYDI2Uyk4sfUIOylXPpZ2k9Ya
-         0yBnrQUNExCVMTPthOP0yRzyKqQ6JLHYEjdfwO7wsLRSha73rcQXoJXbeiJd+DV8bjbu
-         0ZtbRg3NjTN2J6Ugm5o6BiXXwfmYiFxDgMexJa5SOQLqIyawQf8AUIJQIXBNRLCWtYn9
-         +DSBEuPMt9WswwtqLvByN0B/VbhpfpYUKBMimKbD93UpMrLRkVhdlI6jCGYsbYF5aDeq
-         rv29QQyUIJVN5gDzNx84WiLdbayTL2oOiSfhXUi71GQ3r9GVF/SMgk62ZfNHyT8r3eKZ
-         fAEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=to:subject:message-id:date:mime-version:from:dkim-signature;
-        bh=oedZKDoguVwNLbYxz2lRBjmCCu67v3k6W9evv7i7wzc=;
-        fh=HHZsxoEqlpmElyNpq8BuFadBVODt9hm5RjHkJ0C/AQw=;
-        b=Z0Y2G761GxZ+CNM4+BumQURT67K0ifZJMce5meBx2nEL3XUOlI+LHvhTZlPxeCQsqk
-         ZcxejkoNc53j/wnRD/39KSstufeJ5y6i0OJN2d3OlyPNAi1FkbHuyBEtdqbxIp63AjLa
-         D4L7CZoEoETv14CE2Hf25t7dEyeNFNRVUo+my+rL0JzCt6rCYEJ87nLu+ogGKu3PEMNj
-         ia8AroFiiCGM8qA/IKZvKhpoNyBFtCRExYmrvV40itjHO0JgWrvau6+jtLGPA8gxZM8M
-         W8o02hZddt/MV+o08Q5Nsg2cwNVX/LN3B20pZjtnI970LZGsZb35defoEuCC0LEkXP6T
-         Ogqw==;
-        darn=kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789662541; x=1790267341; darn=kernel.org;
-        h=content-type:to:subject:message-id:date:mime-version:from:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=oedZKDoguVwNLbYxz2lRBjmCCu67v3k6W9evv7i7wzc=;
-        b=lFzlCCpKuzWoO8bQXtDq0a/5GPLH/cJx1CiUdkFgk2QGX8Zjrc0YuMtaEamR1cIQr8
-         WbzL9R+9B+fvXEt+Idc53FSYSx7KgS4HF7XLyub9bG7WH9JTqakKuZJhHAU4quXzBPSc
-         V14FhG+Xgk8EVn7AFapKN+Jcl27Lps/aiAk5gwoSAqECEC7Um53RilG+sZkWT/zUrRcg
-         1W5Sha/nSLldGwg+EZxKJAddUGMfyd/NJs0Aggg7nkjJP1YYw1Vv5BpoQYrgIFWd/fno
-         +7APMn7/lz2EHnW7GzDryHwRoBFALXkAIcAgFZJkWlwH90aSyCrSclNgEuX3BiVuAqmp
-         Cjow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789662541; x=1790267341;
-        h=content-type:to:subject:message-id:date:mime-version:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=oedZKDoguVwNLbYxz2lRBjmCCu67v3k6W9evv7i7wzc=;
-        b=LwjF3MWPUuf6f7ErpXI+l8hxT6Qt/O7+FTLy5gtdyBnpOxFgGdX1ei/yCDKVXy0eeR
-         +tJ8sevCAIIud3o/QFcz36rnNe+2kR83DSpoUylfX8bRckLfoxAgevjM/tnXKYU6W7BK
-         si9+bsoLJ6CGj9bMC8Rw7qPYwuARS8Xl+nWNIVmWnAnzyV2eAhTwmPXanU/7FVXDldBm
-         2KqEenUXG8nKkPKjPseL/B6+PH/+6XinFsgiBpkQ2EwO8iQZu/Ae2pxcRBQc5Oha297E
-         Zi9ZfC5wkzxN9JhS6x7R1rv09JHjHhP4/GvhKX1Uf3h9Unh+za+R4MRIqZ7oahwr8E2X
-         R5VA==
-X-Gm-Message-State: AFuF++n9TO29nj0xyI0aCdMOHA7yayYy34d0J7YqtxTrh5KCU7A12Rax
-	8zeuiUNB0Obdhyn85Mn6cvQLBYdSbSd3422cmKCJ8FsMU/Hj2nILIpbKyAE9D7PcWPS5ijdACYj
-	y8BTzszaTsayNXAnuQSnVDffHx1DSs7vgLg==
-X-Gm-Gg: AYBFou3TUU/6YNXKr0gfgGxwPIeZkazk1jHIBKhBDMhRXaroeCDOqFd7pUlbHlXg21G
-	rtGO6Fg/Lm9y++v4TV/SShH2K7Ss4SsEjIUvYRZQiDBUQwWWUWtAK6jLkIKWegvwcGuPFVf2y4G
-	EFfuzTpdSkJM1T5n9VMjdRpUaBplkXf1a9yJ+4nUMEIowdX+WBoS4TTw73jtpnbmkAC4m8Vn3GM
-	WYbyrh4LwEtyqUP9kAUkMSVOtw+33skuYSkaybQG6JaAzqYqCxGeCXjwNAHbYuJ/nWEgzR5QxZM
-	93Tz99isgQnywcMD7puYjHAT1/yoGTIuLBQlgEXrcGe1ruSu+A28VrHBYeNwRKJwbpU+QK6TITr
-	G+j++FBUlw0tjjkm69Q==
-X-Received: by 2002:a05:690e:428b:20b0:671:5c2e:82a8 with SMTP id
- 956f58d0204a3-671632732afmr1767388d50.52.1789662541223; Thu, 17 Sep 2026
- 09:29:01 -0700 (PDT)
-Received: from 313336824172 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 17 Sep 2026 09:29:00 -0700
-Received: from 313336824172 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 17 Sep 2026 09:29:00 -0700
-From: alan.hovgaard@gmail.com
+	dkim=fail reason="signature verification failed" header.d=sapience.com header.i=@sapience.com header.a=ed25519-sha256 header.s=dk-ed25519-220413 header.b=BOulEepU;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256 header.s=dk-rsa-220413 header.b=YbtcWXVQ
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 8F32D1F000FF
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=sapience.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=sapience.com
+Authentication-Results: dkim-srvy7; dkim=pass (Good ed25519-sha256 
+   signature) header.d=sapience.com header.i=@sapience.com 
+   header.a=ed25519-sha256; dkim=pass (Good 2048 bit rsa-sha256 signature) 
+   header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256
+Received: from smtp.sapience.com (srv8.prv.sapience.com [10.164.28.13])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature ECDSA (secp384r1) server-digest SHA384)
+	(No client certificate requested)
+	by s1.sapience.com (Postfix) with ESMTPS id 24227480AB2;
+	Thu, 17 Sep 2026 15:32:17 -0400 (EDT)
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=sapience.com;
+ i=@sapience.com; q=dns/txt; s=dk-ed25519-220413; t=1789673537;
+ h=message-id : date : mime-version : subject : to : references : from
+ : in-reply-to : content-type : from;
+ bh=cl2WIshzA6kM89fZecztqWVN9fwT7P6HQOSByUv7Buk=;
+ b=BOulEepUyjQpXrlu0jog7i/UZnIlGrPj1ICBfxq7uMneQc7muE77/TyHvycpqt7+nmsDN
+ lkZF0kUjibmQJUEAA==
+ARC-Seal: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412; t=1789673537;
+	cv=none; b=Cxc8LKzK7R5X3aLpUuZUFLYLgHbu+TM3+8m/VmVE/YgCR8Uvmstwviblz8AQhKw+jDOC4vwmUZZ8w6tVC5Mt+vVX/DppwAvidi/GVymkEDonmkp9BPq7kv4hnr3E775gRSY37IztxapRVIWnvPl8thWR2QcC/YdpfMmGuPOCH0O53q48wbHIhnPxfCyuZ8ZM8ZpMNyZodGWdd3iZ6L5qA6zd51FSqeheaJCrYWStBoSP0EcN/aP/AjDG8qT8bjQrFkKuWQGsadhghAA2vw0iply9S6lclmXAZkX453nTuuvutolI9XWbTtf6/b1LHPjLERsVEPLeNOUWTZJCYHURMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412;
+	t=1789673537; c=relaxed/simple;
+	bh=cl2WIshzA6kM89fZecztqWVN9fwT7P6HQOSByUv7Buk=;
+	h=DKIM-Signature:DKIM-Signature:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:References:Content-Language:From:In-Reply-To:
+	 Content-Type; b=UguJOTebkHyWcpdPqItU2IhleC2E9JPRPmTf0HuMEJvRsAIVGNx4BNJJ7EoKM0ohT6+Una8UuGDmtfknHW/LNSEFACChDk4Snv4UdEQuvtKoK6o9YowJbmpqdtA3vl+XAqfWapARna3DUCtDLB8Ub+TJl3v2ZUsK+oAs3Qikh3H5p2VRoExoYkOtf1hVtY8GRZwJpZYn1OQkeG0a6DO2/HK5dJZ9NxLkGmW33ORQ5sznMiPg6Npl9Vir3lWEom+Pc2rEsIWGKFYDHMVNSRFvYktKkRGpbXU8rjI0kt+grnB59rVxLEFP8OjQlF27EdHnPrD3lMrIHfucIswFQtKqaQ==
+ARC-Authentication-Results: i=1; arc-srv8.sapience.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sapience.com;
+ i=@sapience.com; q=dns/txt; s=dk-rsa-220413; t=1789673537;
+ h=message-id : date : mime-version : subject : to : references : from
+ : in-reply-to : content-type : from;
+ bh=cl2WIshzA6kM89fZecztqWVN9fwT7P6HQOSByUv7Buk=;
+ b=YbtcWXVQJQHrC9zUE4LZPkyWNofDXWYKWbqzXrqQwx8rn27+YqsJgu3gB+dSkb9O3Hk9e
+ kJ14n7yhC4uLJk/mQgdgsUVN9/cvWPvRUedrUcFRRv2nejdlhVJ5UMoAeuCWz8QaSSM0iu8
+ PZk6kCjqSCzlPO8ZY3IfBtjfxIypzw4lPih3oTwBUL91muWqso/nac3qyfRUPWo6rR1Fmok
+ BrhGlzdED0F38nGzVwQDUIgCDo3hxsuI8mYGHXlBnsL1HhnxQwBVM0zx39HVnlwAZQloofU
+ owFO10s7qmkP18qqzTO4Tw8OuJiQRn1u4Zn9HxFmMQ80wqLany8Nx4KWkZEg==
+Received: by smtp.sapience.com (Postfix) id E53BF28003B;
+	Thu, 17 Sep 2026 15:32:16 -0400 (EDT)
+Message-ID: <f94d77c3-26f3-4407-ba88-5ebe64fc4e63@sapience.com>
+Date: Thu, 17 Sep 2026 15:32:16 -0400
 MIME-Version: 1.0
-Date: Thu, 17 Sep 2026 09:29:00 -0700
-X-Gm-Features: AcwNN1V7jOBqK4FdRC1JlcHGnDHEP0gBHD6CVBE-iRa0WkhDx235spPNxiQwXKk
-Message-ID: <CAJEbJRCH_YwTt68oPEmqz_-CGAgCJ5-dGocALr7k4zjyUUnY=Q@mail.gmail.com>
-Subject: False-positive missing-firmware warnings for devices not present on
- the machine
+User-Agent: Mozilla Thunderbird
+Subject: Re: False-positive missing-firmware warnings for devices not present
+ on the machine
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+To: alan.hovgaard@gmail.com, linux-firmware@kernel.org,
+ linux-kernel@vger.kernel.org
+References: <CAJEbJRCH_YwTt68oPEmqz_-CGAgCJ5-dGocALr7k4zjyUUnY=Q@mail.gmail.com>
+Content-Language: en-US
+From: Genes Lists <lists@sapience.com>
+In-Reply-To: <CAJEbJRCH_YwTt68oPEmqz_-CGAgCJ5-dGocALr7k4zjyUUnY=Q@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------EQENSjCiolTuIZfSV6USFfIP"
 
-Hello linux-firmware maintainers and Linux kernel maintainers,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------EQENSjCiolTuIZfSV6USFfIP
+Content-Type: multipart/mixed; boundary="------------gGtpIMrqP04EBz0WYOfQR7bu";
+ protected-headers="v1"; hp="clear"
+Message-ID: <f94d77c3-26f3-4407-ba88-5ebe64fc4e63@sapience.com>
+Date: Thu, 17 Sep 2026 15:32:16 -0400
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: False-positive missing-firmware warnings for devices not present
+ on the machine
+List-Id: <linux-firmware.lore.kernel.org>
+To: alan.hovgaard@gmail.com, linux-firmware@kernel.org,
+ linux-kernel@vger.kernel.org
+References: <CAJEbJRCH_YwTt68oPEmqz_-CGAgCJ5-dGocALr7k4zjyUUnY=Q@mail.gmail.com>
+Content-Language: en-US
+From: Genes Lists <lists@sapience.com>
+In-Reply-To: <CAJEbJRCH_YwTt68oPEmqz_-CGAgCJ5-dGocALr7k4zjyUUnY=Q@mail.gmail.com>
 
-I am an Arch Linux user writing about a user-facing warning that
-appears on every kernel upgrade. It is driven by MODULE_FIRMWARE
-metadata on in-tree modules, then printed by the distro initramfs
-generator (mkinitcpio) as:
+--------------gGtpIMrqP04EBz0WYOfQR7bu
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-    WARNING: Possibly missing firmware for module: 'ast'
-    WARNING: Possibly missing firmware for module: 'xhci_pci_renesas'
-    WARNING: Possibly missing firmware for module: 'qla2xxx'
-    WARNING: Possibly missing firmware for module: 'qed'
-    WARNING: Possibly missing firmware for module: 'aic94xx'
-    WARNING: Possibly missing firmware for module: 'bfa'
-    WARNING: Possibly missing firmware for module: 'wd719x'
-    WARNING: Possibly missing firmware for module: 'qla1280'
+T24gOS8xNy8yNiAxMjoyOSBQTSwgYWxhbi5ob3ZnYWFyZEBnbWFpbC5jb20gd3JvdGU6DQo+
+IFdBUk5JTkc6IFBvc3NpYmx5IG1pc3NpbmcgZmlybXdhcmUgZm9yIG1vZHVsZToNCg0KSSdt
+IHByZXR0eSBzdXJlIHRoaXMgY29tZXMgZnJvbSBBcmNoIG1raW5pdGNwaW8gdG9vbCB3aGVu
+IGl0IGJ1aWxkcyBhbiANCmluaXRyZCwgbm90IGZyb20gdGhlIGtlcm5lbC4NCg0KSXQgZG9l
+cyBub3QgaGFwcGVuIHdoZW4gZHJhY3V0IGlzIHVzZWQgdG8gZ2VuZXJhdGUgdGhlIGluaXRy
+ZC4NCg0KLS0gDQpHZW5lDQo=
 
-None of that hardware is in this computer. I find it a strange
-antipattern to report missing firmware for devices that are not
-present. Treating that as a WARNING is, in my view, plain wrong and
-misleading. Why on earth is the default to warn about hardware that
-is not even in the machine?
+--------------gGtpIMrqP04EBz0WYOfQR7bu--
 
-Machine: Lenovo Legion Pro 5 16IRX8 (laptop)
-GPU:     Intel Raptor Lake-S UHD + NVIDIA GeForce RTX 4070 Max-Q
-USB:     Intel 700 Series xHCI
-Storage: Samsung NVMe
-Ethernet: Realtek RTL8111
-Wi-Fi:   Intel CNVi
+--------------EQENSjCiolTuIZfSV6USFfIP
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
-  Module              What it is                         On this PC
-  ------------------  ---------------------------------
-------------------------------------------
-  ast                 ASPEED BMC/IPMI server graphics    No -- Intel
-UHD + RTX 4070
-  xhci_pci_renesas    Renesas USB 3.0 xHCI firmware      No -- USB is
-Intel 700-series xHCI
-  qla2xxx             QLogic Fibre Channel HBA           No
-  qed                 QLogic FastLinQ enterprise NIC     No --
-ethernet is Realtek RTL8111
-  aic94xx             Adaptec SAS/SATA RAID              No
-  bfa                 Brocade Fibre Channel HBA          No
-  wd719x              Old Western Digital SCSI HBA       No
-  qla1280             Old QLogic SCSI HBA                No
+-----BEGIN PGP SIGNATURE-----
 
-None of those modules are loaded. lspci shows no matching devices.
+wnsEABYIACMWIQRByXNdQO2KDRJ2iXo5BdB0L6Ze2wUCaqxAQAUDAAAAAAAKCRA5BdB0L6Ze2xRs
+AQCIRocn2m+4NF0RCx9AEXcSIOhRr9yd5zMYL58IW2+4vwEAojjMAdZnzc0lgJnqS7DZMrHthKyN
+2PlJcuaTjHzj+QQ=
+=HNEM
+-----END PGP SIGNATURE-----
 
-I understand MODULE_FIRMWARE lists every blob a driver might request
-for any supported device variant, not "firmware required on this
-host." Distros then treat that list as a checklist when they pack
-generic storage/USB/GPU modules into an initramfs. The result is
-false-positive WARNINGs on ordinary laptops for QLogic Fibre Channel,
-Brocade FC, Adaptec RAID, old SCSI cards, ASPEED BMC, and Renesas USB.
-
-A warning should mean something is actually wrong with this machine.
-I am asking for this default to change.
-
-On the kernel / firmware-metadata side, that could mean:
-
-  - Distinguishing required vs optional firmware in MODULE_FIRMWARE /
-    modinfo, so initramfs generators can stop false-positive warnings
-  - Or documenting a stable way for userspace to know that a firmware
-    blob is only needed if a given PCI ID is present
-
-I am sending the same request to the Arch mkinitcpio maintainers,
-who emit the warning today. I would like the user-visible default to
-stop warning about devices that are not in the computer.
-
-Thank you,
-Alan Hovgaard
-Arch Linux user
+--------------EQENSjCiolTuIZfSV6USFfIP--
