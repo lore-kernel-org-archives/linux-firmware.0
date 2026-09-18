@@ -1,146 +1,176 @@
-Return-Path: <SRS0=96i8=HJ=sapience.com=lists@kernel.org>
+Return-Path: <SRS0=vuWs=HK=oss.qualcomm.com=dmitry.baryshkov@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4C15C982D0
-	for <linux-firmware@archiver.kernel.org>; Thu, 17 Sep 2026 19:32:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E85DC982D8
+	for <linux-firmware@archiver.kernel.org>; Fri, 18 Sep 2026 13:46:04 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 9C5461F00893; Thu, 17 Sep 2026 19:32:25 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=fail smtp.remote-ip=72.84.236.66
-ARC-Seal: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=fail;
-	t=1789673545;
-	b=X95u4Jz+Y8MMj1bVfn5DbBaj40sZglgUE5ruMtKBmq6g0QhvSO7EIE4XOmtPjnGV4RbX
-	 3R7ikxcTdGjpwVZI3m428uFhCHkelNjDATYI14xb33koma4P5OfQ/8yhVFB6ZOHyjoeIF
-	 W83we7cAeF4AuEErBKvKY+IBbV4nvxHqDzStS/aqSm7u2l4Sv05oO3piWCBq2nWh4yq7g
-	 tO5f6i9B0EcD+B2dC193/XV6ywC+9la48T1TPj6tpzOR3wnXrBtE+JhVvkaMSoQLLAXpm
-	 olzR9q/ItKMABVZ+BFe5TyuGmqA0Ex0SjurtL2oKINM8+Yzr2f/J+qF5y8N7727jJxQ==
-ARC-Message-Signature: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1789673545;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:List-Id:To:References:
-	 Content-Language:From:In-Reply-To:Content-Type;
-	bh=CNkBTl9J/yxpozuvOGh/PH9PI5xvg+EDj4ndztKb4bg=;
-	b=eQU6fVEt9fSZ9AICe0KYyZEHEArcfCjGKcAOSmXTsKXVRlT3cLxdfiygRzUJ6qu0mgR/
-	 0teyEsJ3/0+ns895cyUxeBKdcDOV6Wz1uC2uEorGxfYyRq5JfNP/+3HJuOFL0w5bn3pQ0
-	 X3a5NT3FHxGpzqJz7FAwbASqz0cmaueCO5YKPfMkOLe5hbu7u1LLih2Rur3ktRbrxaxm2
-	 F4aqtpoOL2YtsWnTd0Vc/Rcc1i4RaLvtoPY4KGZwdMeIox408OJMCrln2Kfs88PdJk1Ri
-	 7t/kB/HtM23gmbPNmPfnavGB8n0TgDCRCWhAi1e3ZecwEl24XcuZb/G1VG90z3hacUA==
-ARC-Authentication-Results: i=2; smtp.kernel.org; dkim=fail reason="signature verification failed" header.d=sapience.com header.i=@sapience.com header.a=ed25519-sha256 header.s=dk-ed25519-220413 header.b=BOulEepU;
-	dkim=fail reason="signature verification failed" header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256 header.s=dk-rsa-220413 header.b=YbtcWXVQ;
-	dmarc=pass header.from=sapience.com;
-	spf=pass smtp.mailfrom=sapience.com;
-	arc=fail smtp.remote-ip=72.84.236.66
-Received: from s1.sapience.com (s1.sapience.com [72.84.236.66])
+	id 1116E1F00898; Fri, 18 Sep 2026 13:46:04 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1789739164;
+	b=UhMxhKMxSI/IFYuRLO3KdJxpwhYcue6XLUDbWGsU5V80q80Q8WbQPRQJ8goErPR5K4Ya
+	 kQV79wuE3t7H06kg4Xx56/SKMuKOdjFYc3OpW20wmRPabi6ANOSSujHOx8Bsrb5xNq15+
+	 WVuT/vg+Gr0Z1yCNy7Cb7K798nlv8FEmW+hRlgolzTLHEVFESyk14ijyzdWQIXez4o7IP
+	 ntWOYg/nyIvdVdtOqVRs+n4kRWZgMw62WdbT2k8F0/54GWpHpFyXearLZxgukUcrXlJyz
+	 uPQUjgDuKCl3HefaJtCbY+nx08eEGydms9T1LF7BLajzhoxWQaKXTVpkNDYgJ2nyyWw==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1789739164;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
+	 X-Received:X-Received:Received:Date:From:To:List-Id:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=wM7TlgrXwkUHDs183AbaXOIX4yvXOQRPflcJIJBGv1k=;
+	b=MT34yGVRTupzl2i9f9zsi7YM/oOhyQycLacQUDWLXdQIMvcu5QMAW/BX/EdZlAf56YHG
+	 xGPwkt3ZW9BY9DXH85d077YpQTgfg4JnBnjCWPkKSLF4UZ8gp4gLVQ38A5wnlrn+yOgoV
+	 2dXWraQUsiNDuVmp5ztllOLCFsJob71c6nQiJgyqRUW/qAX+Dr3QbDsgGwJ9KgC03NUR8
+	 rNaFKakVN10hLTaFUyxXAFWkLlHtDI42a7zCLZgOUM13JpLkUUDefgKwOtnMmg1goRCtB
+	 pKE7CYuoCL51Z2dml/afQWY3x/eS0PVN/p9jK1zlm9WT1ynE+rkqlD3k1MfCvyXPrJg==
+ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=aXb0aII7;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Czdfa6mj;
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 8F32D1F000FF
-	for <linux-firmware@kernel.org>; Thu, 17 Sep 2026 19:32:24 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 6814B1F000FF
+	for <linux-firmware@kernel.org>; Fri, 18 Sep 2026 13:46:03 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=fail reason="signature verification failed" header.d=sapience.com header.i=@sapience.com header.a=ed25519-sha256 header.s=dk-ed25519-220413 header.b=BOulEepU;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256 header.s=dk-rsa-220413 header.b=YbtcWXVQ
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 8F32D1F000FF
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=sapience.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=sapience.com
-Authentication-Results: dkim-srvy7; dkim=pass (Good ed25519-sha256 
-   signature) header.d=sapience.com header.i=@sapience.com 
-   header.a=ed25519-sha256; dkim=pass (Good 2048 bit rsa-sha256 signature) 
-   header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256
-Received: from smtp.sapience.com (srv8.prv.sapience.com [10.164.28.13])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature ECDSA (secp384r1) server-digest SHA384)
-	(No client certificate requested)
-	by s1.sapience.com (Postfix) with ESMTPS id 24227480AB2;
-	Thu, 17 Sep 2026 15:32:17 -0400 (EDT)
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=sapience.com;
- i=@sapience.com; q=dns/txt; s=dk-ed25519-220413; t=1789673537;
- h=message-id : date : mime-version : subject : to : references : from
- : in-reply-to : content-type : from;
- bh=cl2WIshzA6kM89fZecztqWVN9fwT7P6HQOSByUv7Buk=;
- b=BOulEepUyjQpXrlu0jog7i/UZnIlGrPj1ICBfxq7uMneQc7muE77/TyHvycpqt7+nmsDN
- lkZF0kUjibmQJUEAA==
-ARC-Seal: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412; t=1789673537;
-	cv=none; b=Cxc8LKzK7R5X3aLpUuZUFLYLgHbu+TM3+8m/VmVE/YgCR8Uvmstwviblz8AQhKw+jDOC4vwmUZZ8w6tVC5Mt+vVX/DppwAvidi/GVymkEDonmkp9BPq7kv4hnr3E775gRSY37IztxapRVIWnvPl8thWR2QcC/YdpfMmGuPOCH0O53q48wbHIhnPxfCyuZ8ZM8ZpMNyZodGWdd3iZ6L5qA6zd51FSqeheaJCrYWStBoSP0EcN/aP/AjDG8qT8bjQrFkKuWQGsadhghAA2vw0iply9S6lclmXAZkX453nTuuvutolI9XWbTtf6/b1LHPjLERsVEPLeNOUWTZJCYHURMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412;
-	t=1789673537; c=relaxed/simple;
-	bh=cl2WIshzA6kM89fZecztqWVN9fwT7P6HQOSByUv7Buk=;
-	h=DKIM-Signature:DKIM-Signature:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:References:Content-Language:From:In-Reply-To:
-	 Content-Type; b=UguJOTebkHyWcpdPqItU2IhleC2E9JPRPmTf0HuMEJvRsAIVGNx4BNJJ7EoKM0ohT6+Una8UuGDmtfknHW/LNSEFACChDk4Snv4UdEQuvtKoK6o9YowJbmpqdtA3vl+XAqfWapARna3DUCtDLB8Ub+TJl3v2ZUsK+oAs3Qikh3H5p2VRoExoYkOtf1hVtY8GRZwJpZYn1OQkeG0a6DO2/HK5dJZ9NxLkGmW33ORQ5sznMiPg6Npl9Vir3lWEom+Pc2rEsIWGKFYDHMVNSRFvYktKkRGpbXU8rjI0kt+grnB59rVxLEFP8OjQlF27EdHnPrD3lMrIHfucIswFQtKqaQ==
-ARC-Authentication-Results: i=1; arc-srv8.sapience.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sapience.com;
- i=@sapience.com; q=dns/txt; s=dk-rsa-220413; t=1789673537;
- h=message-id : date : mime-version : subject : to : references : from
- : in-reply-to : content-type : from;
- bh=cl2WIshzA6kM89fZecztqWVN9fwT7P6HQOSByUv7Buk=;
- b=YbtcWXVQJQHrC9zUE4LZPkyWNofDXWYKWbqzXrqQwx8rn27+YqsJgu3gB+dSkb9O3Hk9e
- kJ14n7yhC4uLJk/mQgdgsUVN9/cvWPvRUedrUcFRRv2nejdlhVJ5UMoAeuCWz8QaSSM0iu8
- PZk6kCjqSCzlPO8ZY3IfBtjfxIypzw4lPih3oTwBUL91muWqso/nac3qyfRUPWo6rR1Fmok
- BrhGlzdED0F38nGzVwQDUIgCDo3hxsuI8mYGHXlBnsL1HhnxQwBVM0zx39HVnlwAZQloofU
- owFO10s7qmkP18qqzTO4Tw8OuJiQRn1u4Zn9HxFmMQ80wqLany8Nx4KWkZEg==
-Received: by smtp.sapience.com (Postfix) id E53BF28003B;
-	Thu, 17 Sep 2026 15:32:16 -0400 (EDT)
-Message-ID: <f94d77c3-26f3-4407-ba88-5ebe64fc4e63@sapience.com>
-Date: Thu, 17 Sep 2026 15:32:16 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: False-positive missing-firmware warnings for devices not present
- on the machine
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=aXb0aII7;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Czdfa6mj
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 6814B1F000FF
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68IDPFSG046866
+	for <linux-firmware@kernel.org>; Fri, 18 Sep 2026 13:46:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=wM7TlgrXwkUHDs183AbaXOIX
+	4yvXOQRPflcJIJBGv1k=; b=aXb0aII7SfgxT80oAfHl4e6IG/0nPUE2n8BptdrG
+	kgSf13ANM957qZzGbm7I/VoWj3umMtJUnQRGyofMDbRJU4OEkNUo/VW/SsKMgF6P
+	yRe01jWnEKEJR6/DZmTV4eGgpG9EN8LGz6f0iLbZDGZrxSFX3WIK5yQ1HcpaxuGT
+	nRumHGOKSLddE2yFu3k3SGwHCtSc+2a/W/dIqzpcZCO5T6PUSrzYIC/+prXJ0KN1
+	mwY3F4UagHS0063YXhiJzI2O/2NTqFu5oZCjF0BQJcWvqGR7PU8+a5yKEsy9BYZd
+	roJgjkUfRcDmdLf8SepLiInCavMY6NoWsMP2n/HuLP8MTQ==
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com [209.85.222.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4grmv5mdqv-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-firmware@kernel.org>; Fri, 18 Sep 2026 13:46:02 +0000 (GMT)
+Received: by mail-ua1-f71.google.com with SMTP id a1e0cc1a2514c-97cb2f3c6f7so30096241.2
+        for <linux-firmware@kernel.org>; Fri, 18 Sep 2026 06:46:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1789739162; x=1790343962; darn=kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=wM7TlgrXwkUHDs183AbaXOIX4yvXOQRPflcJIJBGv1k=;
+        b=Czdfa6mjs5G8gsrqQdVkDAK4Ktlg8ey4KAHbMbxT8ftTgCR8VCkGLGkHNILRO/AT4d
+         uDj3p1BEMAbvVkZ03RVceysgtQBxJ8KackMhMmFgDc62MFn+2RWMqKrFCb2QuSPl6BON
+         vT/FARQskDGiyggw5nYFcTsi3pZq4vabL0LOLJjm6nYziS/ExXRUxj2+/fZxzgsVv0G7
+         i62JfwFXRJusJ/vHj6aM0PwbvVr0tKsaXE8QT7JopLP5Cv1HOuc+V7ANZbXXaJHLBrmq
+         kBjA3TgCMKxXw4MDRjL61F9AZjZ7NB20jV2b0QchsRu4t9VlG+VN3xmYjNzB+J06LLnn
+         cb3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789739162; x=1790343962;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=wM7TlgrXwkUHDs183AbaXOIX4yvXOQRPflcJIJBGv1k=;
+        b=RfKe8PSTv9yHGB9/WXgewTpYsnf2v6zFrlN/+c7Nr4cTaelFoFtKOUTtm0h8LQRKed
+         UYyXUiTPebT8mJuswzzD8wXJTe1jm6oWmEZ99Gw0OXXOxehM/td9KcUcqJW2UEyOjTGn
+         wBKDgTLteih8L0LAYKPQSCz32maOyBZ26ChdCwPIT6vskFiONPQoZnVEyaOdldKIgIF4
+         FGcyPw3sOXi7BEC3gPx3Uu93Fx5VqzpQ3sLJlQU41bh8bKiZ8k5Mh2Ho4tWQ0i7DDwG6
+         lVVlcFq0Ks7K2Wu82h4GHAZkQ3v+bzBn+uLQQztBEGUV75Nzxn0OmBW5IBakm/G9r9Ea
+         53XA==
+X-Gm-Message-State: AFuF++mfF7wThh7PvTY68sZov5Wi1f5vtNicCozdU9wldnosbhKdCxCY
+	JtxwlrxqB5Y92jn8dJwVrCRDEB0T477R/hQfgSTI1XVQdZT0jxU9ymoDuNTmGij/GHg098thbkC
+	i08uqEIp27m1shxUFeYya3SYc56UHIhgyr7YRcvw6Sg/0yqed52l8RNO06FyCtBMaqoIoGCQ=
+X-Gm-Gg: AYBFou15jrhn2Ywc/RtLyV2CJJI/Eesp6W1iolR8ot2c4uVbKStVVTte0rEkoAMxodb
+	N/jqrhK2810LLT2v6o1zXbzH9xO2CU/pvgtyrV1AY54uRC33i9Mt7Br+HjGpReJcOo4eDU0az67
+	0hR5AjOkZeyKbXBbnD9msZLks9qR79hkcCgxBmjQLwNQllJDRPP8hdO9oD2y+4TnelnUa3fhHNV
+	oeiKxfj3xsJWfvvjZ5EktdOGTcnezMcab+uHoSNIZVlgw00MG9fSa17pWHMrCO2ecAiH/KnmZa5
+	JciH76WGbHHtpM1lRTKG0U96/guq1DZH8ZKOyRJvSFumLleudXHJdaH07vl/nqNivyaYUg79j2k
+	/X4hCESaUgB029iU1M/0zCPbWt72AER17JeXTxz8O4g5sAMhSr54rDoY5EGY+d05n9H/+PSMS9a
+	T4miDp9l/Nfi9i
+X-Received: by 2002:a05:6102:915:b0:79e:bdc9:5b36 with SMTP id ada2fe7eead31-7a55af2e4e6mr781232137.3.1789739161677;
+        Fri, 18 Sep 2026 06:46:01 -0700 (PDT)
+X-Received: by 2002:a05:6102:915:b0:79e:bdc9:5b36 with SMTP id ada2fe7eead31-7a55af2e4e6mr781203137.3.1789739161098;
+        Fri, 18 Sep 2026 06:46:01 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3a5fd7b7255sm4940711fa.12.2026.09.18.06.45.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Sep 2026 06:45:59 -0700 (PDT)
+Date: Fri, 18 Sep 2026 16:45:58 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Venkata Kota <venkata.kota@oss.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: alan.hovgaard@gmail.com, linux-firmware@kernel.org,
- linux-kernel@vger.kernel.org
-References: <CAJEbJRCH_YwTt68oPEmqz_-CGAgCJ5-dGocALr7k4zjyUUnY=Q@mail.gmail.com>
-Content-Language: en-US
-From: Genes Lists <lists@sapience.com>
-In-Reply-To: <CAJEbJRCH_YwTt68oPEmqz_-CGAgCJ5-dGocALr7k4zjyUUnY=Q@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------EQENSjCiolTuIZfSV6USFfIP"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------EQENSjCiolTuIZfSV6USFfIP
-Content-Type: multipart/mixed; boundary="------------gGtpIMrqP04EBz0WYOfQR7bu";
- protected-headers="v1"; hp="clear"
-Message-ID: <f94d77c3-26f3-4407-ba88-5ebe64fc4e63@sapience.com>
-Date: Thu, 17 Sep 2026 15:32:16 -0400
+Cc: linux-firmware@kernel.org
+Subject: Re: qcom: add CDSP firmware for hawi platform
+Message-ID: <ccblpglkjgakqs6lbe4qrzg3ogefusoe56vlupwasedaqjbr56@afdhivhkgzs2>
+References: <0a89f2b6-6216-4a60-90b7-66110f713158@oss.qualcomm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: False-positive missing-firmware warnings for devices not present
- on the machine
-List-Id: <linux-firmware.lore.kernel.org>
-To: alan.hovgaard@gmail.com, linux-firmware@kernel.org,
- linux-kernel@vger.kernel.org
-References: <CAJEbJRCH_YwTt68oPEmqz_-CGAgCJ5-dGocALr7k4zjyUUnY=Q@mail.gmail.com>
-Content-Language: en-US
-From: Genes Lists <lists@sapience.com>
-In-Reply-To: <CAJEbJRCH_YwTt68oPEmqz_-CGAgCJ5-dGocALr7k4zjyUUnY=Q@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0a89f2b6-6216-4a60-90b7-66110f713158@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE4MDE5NSBTYWx0ZWRfX4S8y2Dp8rraI
+ AKafPmN1k1ldikEW2lDMR5zGVVpopj+/BLhbHW5VOGHRVkg5Nur4X/ISlbDR5HGvjovHMmHpOB+
+ v9Cy0hW83bE364kgIFKleffS+IrIxW80NAAV8YysHxhNrUmbrpehkBPVHQvJPmRDUZyyKq2PFoR
+ GQRJkSBRDB5prmk1mDEQofHvsEGTJGvdnUZLr9H3TriCxBgri2LLKoWcjqeBdf3SZpBLRNr3Nr/
+ 5Qjm3/Uj//ga1F2vd+RAptqKdAMgpQt+mzdqIh01LrJqNRGp7cnsSwFsNLt395JGx+w2jbX3pS2
+ vqmJTd8jMKoikVRPJRj9JtQOT4B2omzWU1avwMkhlE/SYwBtvLPohtTwEfI9+X6UDKRe3qNAnUS
+ BfIYpTfxXQ/J0e36xMnTeZQE/LrgDPdzIMsiBwmNPbo4I976EKZ+80W+Xavm6Sps3WRjivdgB3+
+ h8N+8/PKwlmSb4R2PQg==
+X-Authority-Analysis: v=2.4 cv=E+5YNqdl c=1 sm=1 tr=0 ts=6aad409a cx=c_pps
+ a=KB4UBwrhAZV1kjiGHFQexw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=qC_FGOx9AAAA:8
+ a=p0WdMEafAAAA:8 a=4lIMCPornwSfzLJi96wA:9 a=CjuIK1q_8ugA:10
+ a=o1xkdb1NAhiiM49bd1HK:22 a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-ORIG-GUID: K9CQwJHzNriGWWn3EWdEF-GXlk96uMlN
+X-Proofpoint-GUID: K9CQwJHzNriGWWn3EWdEF-GXlk96uMlN
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE4MDE5NSBTYWx0ZWRfX26Nh0Z1h9CsJ
+ 3dPr23ZKUXp2jXvaFWgolrMcbuSORoQMgdaNhXqVrHUxz3okWnV/WBHZ79pOXu4jm+kptRBzjiz
+ bUcHn+CEQjB5lMA+ZDvYtZYK4kJSk5w=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-18_04,2026-09-16_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 malwarescore=0 priorityscore=1501 clxscore=1015
+ impostorscore=0 spamscore=0 phishscore=0 adultscore=0 bulkscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609180195
 
---------------gGtpIMrqP04EBz0WYOfQR7bu
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Thu, Sep 17, 2026 at 11:33:01AM +0530, Venkata Kota wrote:
+> The following changes since commit e289868675d1071935ba4dac48acb6600f278d57:
+> 
+>   Merge branch 'qca-qcc2072-clnbtnv10' into 'main' (2026-09-16 18:24:09
+> +0000)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git
+> dspfw-qli-hawicdsp
+> 
+> for you to fetch changes up to 5aa34a066e3d020cf3aa98805871786b1164a51e:
+> 
+>   qcom: add CDSP firmware for hawi platform (2026-09-17 11:20:41 +0530)
 
-T24gOS8xNy8yNiAxMjoyOSBQTSwgYWxhbi5ob3ZnYWFyZEBnbWFpbC5jb20gd3JvdGU6DQo+
-IFdBUk5JTkc6IFBvc3NpYmx5IG1pc3NpbmcgZmlybXdhcmUgZm9yIG1vZHVsZToNCg0KSSdt
-IHByZXR0eSBzdXJlIHRoaXMgY29tZXMgZnJvbSBBcmNoIG1raW5pdGNwaW8gdG9vbCB3aGVu
-IGl0IGJ1aWxkcyBhbiANCmluaXRyZCwgbm90IGZyb20gdGhlIGtlcm5lbC4NCg0KSXQgZG9l
-cyBub3QgaGFwcGVuIHdoZW4gZHJhY3V0IGlzIHVzZWQgdG8gZ2VuZXJhdGUgdGhlIGluaXRy
-ZC4NCg0KLS0gDQpHZW5lDQo=
+Thans,
 
---------------gGtpIMrqP04EBz0WYOfQR7bu--
+Merged and pushed out:
 
---------------EQENSjCiolTuIZfSV6USFfIP
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/1258
 
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQRByXNdQO2KDRJ2iXo5BdB0L6Ze2wUCaqxAQAUDAAAAAAAKCRA5BdB0L6Ze2xRs
-AQCIRocn2m+4NF0RCx9AEXcSIOhRr9yd5zMYL58IW2+4vwEAojjMAdZnzc0lgJnqS7DZMrHthKyN
-2PlJcuaTjHzj+QQ=
-=HNEM
------END PGP SIGNATURE-----
-
---------------EQENSjCiolTuIZfSV6USFfIP--
+-- 
+With best wishes
+Dmitry
