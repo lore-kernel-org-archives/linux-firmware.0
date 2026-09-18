@@ -1,212 +1,175 @@
-Return-Path: <SRS0=dmt4=HK=oss.qualcomm.com=jeff.johnson@kernel.org>
+Return-Path: <SRS0=qh0u=HK=amd.com=Alexander.Deucher@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 08967C982DA
-	for <linux-firmware@archiver.kernel.org>; Fri, 18 Sep 2026 14:19:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DAE62C982D7
+	for <linux-firmware@archiver.kernel.org>; Fri, 18 Sep 2026 22:46:24 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id D36561F0089A; Fri, 18 Sep 2026 14:19:38 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=205.220.180.131
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1789741178;
-	b=vcJojOLjnz441NfYXlkKcniIhgZvE4CiND6GBD7XDXORY5yXABxRRjBtRyCvjRelhnE/
-	 5ar1l9I/fmMVEE9dS3W7Hl4Muy1EHFZiEQlI2M7vTt0PvmVbQiQqZVWzS8YU2vtrYD17a
-	 MuDznbG2T93Mnq9NOpK/PbEEqh3+Xbdxw9nwGHCpRr98HFYof+Lnvd8rCpU5zlHpq1Lv9
-	 f1L86KJKYMLjOCEQKobYKvbLep+Zacf1uPQkOBvPONfUcK6L70JHXskhlF6FQY+vokwkC
-	 CeHnzA6AK68ptLJvjguEUGyjNlJ1+5OBs8WG8/Owwoo/H3gMwPPEHSWWtViHz3Bg3PQ==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1789741178;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
-	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:List-Id:To:Cc:Subject:Content-Language:From:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-Spam-Info:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
-	 X-Authority-Analysis:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=UVIKTbOX8P65rHjj6Gpe9jHcXhIM+KLdiyQqTjwwzPQ=;
-	b=VhGpUr6YxqpJ+alUaDFiDdoQMuIARCdg1rkPGL7+rAyaCajw9wgHauG5gzpgQX490Bjf
-	 s6IdJC/V/Ax0Yn7S7qi74481TyIiiKbvgeF+RzliZPopjj6KL0UZUkRZKzk1MveyWMj/I
-	 MUxhHB715LSPkRLdK5OvOVjDE1n89fDC1MKEMx9WEZfjRCkBjbMR1kI4HGnJFKl8F9hz6
-	 KKq1Oc2BLA9/YH+IyttNonnPAZC8YiGdG52/7uemoSDNQFeHpSe3kJT4xhZzx97XhHyIf
-	 BGnYw3hYyrQV5NlP5fkmeqb8YHTGh3b86aWYtn3xNaA5GCvBNY7Yqq0FPIQbfHAmjpQ==
-ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=DobeeqdU;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=NPDtbNDb;
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	id 9DF141F00898; Fri, 18 Sep 2026 22:46:24 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.196.24
+ARC-Seal: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=pass;
+	t=1789771584;
+	b=FPS9SmHD6+eTAONhEuqgUec8TQPa+1O7yw6qYqih96nKcLx/TWAAyOB2WKeoZrw7Tha7
+	 ReezWufrzfwCeNw8NrLi8doxJwzoxHSnop8uM3l68C6QpCFGxKE3nhH6UA6UA23phOGb4
+	 pXiTJiDRbTSvc46d911y9r7hP93aTCqcTgNagm5VbsOFfzTpY4mEuFb0sAV2cA8AIqpo7
+	 YAI13/6K7mEEcyfjyvhu5y6NBr9lQo5LECb74qjXc+dAwd/HpAZH03U8QZKGbTlrHOY4Z
+	 Aaug4hH5H9+QdDwYMicfDABUfwMdTdXiw9Mn/ZwqVjh020R/5Kr9qGiZS2GeoxGvCjw==
+ARC-Message-Signature: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1789771584;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
+	 Received:From:List-Id:To:CC:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type:
+	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=+S2ExEkgQcSmMS2F0eWUENXxiMXGB8TdET/NWs8KqLk=;
+	b=HUXyAG37Vm9RK8Uc/3tzzw07OLMl4HEk8lft5BsIqSwDv0qJEiBxBB60ORSZFA+QNzR4
+	 xQSrDqhigL6Q59puXzCso/lnwosAVBtmb/O5As66zDMYk3CibGzWxRyICdY4L7wKe+0W8
+	 mXMONbHtQYtdlf3tpn2L70QSub2emvS6zdyKw1OTxqIKjDgjRJMQp/S56sBrCg/xY2Oz2
+	 Es//wveGisAH2Shb4pRksmCVfwIeVQOVh4oP924Ku0/wHLHn1Iuf2wU8p6wViUeUDllMk
+	 StnB+7I2oM3U/YYWoW1S9qlWl20QkaVKADAguvX3dGENqYUASLHCQmJhLbLhbrpXenA==
+ARC-Authentication-Results: i=2; smtp.kernel.org; dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=04q2cPl8;
+	dmarc=fail header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.196.24
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013024.outbound.protection.outlook.com [40.93.196.24])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 19F401F000FF
-	for <linux-firmware@kernel.org>; Fri, 18 Sep 2026 14:19:38 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id E0D601F000FF
+	for <linux-firmware@kernel.org>; Fri, 18 Sep 2026 22:46:23 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=DobeeqdU;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=NPDtbNDb
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 19F401F000FF
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68IDP5Sb1202873
-	for <linux-firmware@kernel.org>; Fri, 18 Sep 2026 14:19:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=UVIKTbOX8P65rHjj6Gpe9j
-	HcXhIM+KLdiyQqTjwwzPQ=; b=DobeeqdU60kdMGy3DWDXi/byxGfySY6l20JjUM
-	iMDRkWre2xMXVhmLSxpBdCvBMDKYgGsggnLMEd/BrUiY8ed6rD+rYpjL4e9GE7Ko
-	Byt32oiN+dqu3SW/hskLiG6vob2vuFnhY6LBVchwAfVg87e4v9Pe2javI6yB7/sk
-	DMGiwZMSvka98KyaWIbT/TcFOMKTfNz/Wd6lHw7gyZH1hqkjponf/9Hzr3Du3SZ6
-	uHpkTgm/+X+vQlIzNPZdhFpWeASTkfklOqvYvFzaoGN0+MO/Ne5Kh4Z2/1uwoghd
-	wOf2d2O6PQLWwzMTqly24/pRUzaSzsP0s8t5aVR/k3kk5ETw==
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4grxp2t56a-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Fri, 18 Sep 2026 14:19:37 +0000 (GMT)
-Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-cbee6bb8408so973219a12.3
-        for <linux-firmware@kernel.org>; Fri, 18 Sep 2026 07:19:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1789741176; x=1790345976; darn=kernel.org;
-        h=content-transfer-encoding:content-type:from:content-language
-         :subject:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=UVIKTbOX8P65rHjj6Gpe9jHcXhIM+KLdiyQqTjwwzPQ=;
-        b=NPDtbNDbwQXbVTJhQGeXb9pAiIkJr9lyBnISO12NCLRednOxRDA45tqFshPlQc+gDd
-         Rdc3yO1XTnDQ+Lx1X33gGGPlEou0n2gW0CijdX9VknVf2s9AsXB2XwXTdC6FC7X6tz5y
-         m4UQjRkVU3eQA4jurT7XSyID2VVlPpCK596J9fsDspcw0WrvYtEUZTQTjiV754SEHJLQ
-         uzPgmldR+GDunCYB7VbNnY4dzPkuZlLAhyDnxDTIbFn9dIIoV+FXjl2obBZRyX2dBBVg
-         7K+ibApt6lQtoFCsQJH3uwHzOMkfaPVg+Z7hIUaLB9beCGz5uHWOOBUNWPhqRJ4Kpn4I
-         z5Jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789741176; x=1790345976;
-        h=content-transfer-encoding:content-type:from:content-language
-         :subject:cc:to:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=UVIKTbOX8P65rHjj6Gpe9jHcXhIM+KLdiyQqTjwwzPQ=;
-        b=WtaHJ6qvLop3PvX5ZgNT+dp8ObmC6RkgdgoMn1HsW73pBrxym469tlmrHvEStNSv2D
-         baDRrz3vW9DmwB1yfB7skV+Uyz+VsnrtOTb6RO2VHOGvDsISLr0yUMKY/5gDrNpZNQJ6
-         TRFDiYzyixmOYcuoFy31XL0W5syluD8wfJNbXNL6ITAohyqcKoSFVSgs4hr696wbGvUi
-         BMaSGec6fMdzYERhXe11nqZsJ24MlUVoUJUutocwSbL6Up6nIqUEqqju1AD3aciR/NJj
-         gokRMrrJEe4w3mwrJ/PX5gCmLMcVxHOXlbdH4iabBjpu3wZRI7zltoXoP3cbrhQqG016
-         ElOA==
-X-Gm-Message-State: AFuF++kKFH93hP7Ij7P38F/jy5DCadgEQf3BghlqyY0XCrPefsgOuOs2
-	GliAEbr6weN5oKWxvjSX3YrfkCGEzJhP5/I1xfYn9u+yL9UvQR6P+bF+72fvI4aJP8o89Tls7WA
-	RMht9EtUewMKUqeSM+h58IvTDz9EHDehw5e5hzvwA9slpxDYmW8nAEC6bg/oKWqLjUJNwPZo=
-X-Gm-Gg: AYBFou0DQdMvVOIOKSf3MzJDuMEvphtO/UPauxBCE7KOb02fUarLooMpuMseorNMH8M
-	6Y/rriz6O7+mG3s5KSp8iRigPxBtG0mJhajggJtMbjb7xrmW+lMxFS4TM8A3Y6Yg3Y4qjk7C8gZ
-	aj688gZdkfeqsiIxFvXUU4viQgaUCURM6E7Zer3OzxgIkYoEAT00SJL2Uk0b+QTqjTPLM8rSMOj
-	e8o8t1KxxdA4Cg0Iqa63DFQ9QB7ob+xzXs5zqwByfzWhx5xgDLQAgMEhlYn18YN1VeMFpBCfdCN
-	EEJXg0We5H4NyR62x10PMcuIJN3V7renqBnULWYnniju9Fw5fVjwx3ZlHcpnKo4muWF6oBk06lo
-	TUNdo/imbqLeY6t3pwfORVt14NOU80VMRZtZA
-X-Received: by 2002:a05:6a20:eec3:20b0:3dd:a006:ed9a with SMTP id adf61e73a8af0-3dda006ee10mr109626637.48.1789741175746;
-        Fri, 18 Sep 2026 07:19:35 -0700 (PDT)
-X-Received: by 2002:a05:6a20:eec3:20b0:3dd:a006:ed9a with SMTP id adf61e73a8af0-3dda006ee10mr109582637.48.1789741175140;
-        Fri, 18 Sep 2026 07:19:35 -0700 (PDT)
-Received: from [10.81.91.45] (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc5c50c821bsm1100001a12.22.2026.09.18.07.19.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Sep 2026 07:19:32 -0700 (PDT)
-Message-ID: <bb9ea6c5-67ee-402c-a007-46c9c7727632@oss.qualcomm.com>
-Date: Fri, 18 Sep 2026 07:19:31 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=04q2cPl8
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org E0D601F000FF
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=l03n2jJKuT3sCu581ouoU69IKAYZMoSZMgP1DfbOXNX5aKM4bxaeBHpUJLRdlLOQMq1Os3dTYL/1JQOqlcKTggLRF6erB/6gZ+JXeyMLbdl3EPfIlwZEy8wejc1PzE57UeDjUL7OJ4YwD4RxvxxMhaAnkOdGyaTezzEcuX5S2W95WTnV/KSopd5VE1pdRC7oXimIYGCRaHJZ1ZJK2Hd74PtnqPiSSTmuL+QWzwVlS1RVQ/T7y9SoeRMS3lJ5tgEyw30NMeYEpAoVn27G4ZW/iQuIBPtTnWyGE6gACU/ZXouf1HZXrjd8V4LG8JQPzfas3SNapD2/8V2a3PLfkKAqtA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+S2ExEkgQcSmMS2F0eWUENXxiMXGB8TdET/NWs8KqLk=;
+ b=y7A0IwNrHYrRNFXY8K3tqeyGO2tcwYMhntDHslg248S1JuVs1dD21SCzt2OP2hGK5m/r4VteHsJTw2ZbL9e7o94q3V3qeqjAF7Djkn3HNEm7XgZ91KM07aQvcWTn0Ns9XiIEfU3wavop1NLd+IJ+//BWy9MELP9WcaY3fitoECM9HqyabeZgonmNQUFTF6vUlqzCyd5n+TwhnMVteVlWuKKxkaU+ZRBN39KFFOHdMuXBK9VjjQjoMeO+4A7rUD4uqiLcuFAqESjaOVSI/TOfzsx45koiwpai/GiDvYvasuEKnXVeDG7jw4V7wl8xeA3niifVIbPzei7aOQfZ0iGDbw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+S2ExEkgQcSmMS2F0eWUENXxiMXGB8TdET/NWs8KqLk=;
+ b=04q2cPl8PT172f2d3M+WCZZ28Iyhu7+qq+UYwoRCLoOCOxKVHrhT+rdfZr6soy18ZapHYUr88jtNCIVl0uJO/MRjsIvI1smdYmsHCWYFXpVqTe5ZIfJE6rm1wm6TfLO3j4TakulyMl8e57MYy321zSOZCyTGQZUzo39S4mfKwvg=
+Received: from BN1PR12CA0001.namprd12.prod.outlook.com (2603:10b6:408:e1::6)
+ by PH0PR12MB999087.namprd12.prod.outlook.com (2603:10b6:510:38f::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.13; Fri, 18 Sep
+ 2026 22:46:19 +0000
+Received: from BN2PEPF0000A801.namprd02.prod.outlook.com
+ (2603:10b6:408:e1:cafe::a) by BN1PR12CA0001.outlook.office365.com
+ (2603:10b6:408:e1::6) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.428.11 via Frontend Transport; Fri,
+ 18 Sep 2026 22:46:19 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BN2PEPF0000A801.mail.protection.outlook.com (10.167.245.170) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.451.8 via Frontend Transport; Fri, 18 Sep 2026 22:46:19 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Fri, 18 Sep
+ 2026 17:46:19 -0500
+Received: from p8.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.49 via Frontend
+ Transport; Fri, 18 Sep 2026 17:46:18 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-Cc: linux-wireless@vger.kernel.org, ath10k@lists.infradead.org,
-        ath11k@lists.infradead.org, ath12k@lists.infradead.org,
-        jjohnson@kernel.org, Troels Vognbjerg <hekatombe@gmail.com>
-Subject: [PULL linux-firmware] ath10k, ath11k and ath12k firmware ath-20260918
-Content-Language: en-US
-From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE4MDIwNCBTYWx0ZWRfX4iOhIxUXBlmQ
- 39Pm1nauopYSfAHcZeMrZI7kYrexeJuoIuy6vh0OqkKneP4eXadcS3nPokBeq7OJ4DgXqQFyVJU
- mBG/nREdn5QDWAtKhEcZIRqlYEcbGjw=
-X-Proofpoint-GUID: R8NgANT2LFJc0M_vSUYm5iX5F4J_6nwd
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE4MDIwNCBTYWx0ZWRfX8SEvE8Rnsnhs
- G0hcuc/Q0bXWVvb+3pNs/rhjX41juiRiM+59kDfjwCFTx19OBMw29jc5sAVIKqSezH+HlKh1srf
- ksNgjLs3oPF7OSgnqTKlrr2cFohECecEBSaruEebbgVNw2Y7b7hQAam28RHxISKbTd6+8eyAZdk
- gPwlpB4I8uBK8U9JATh98rhDyf/XgZo8BdV4E48SzzoLyz7nV5yHTLeLuJWBQuod/qbEYAzTiFO
- n3E5t8fIHr2iSCqNxgKzqm/ghorG2+EzVKBnP58duNzscnY9J174F4iJkbAjwnC/9q5hdwpZtI+
- Rksq5Gny8Byddb4D8tUodrGjTKP5R+jIw8WejI366PCVk8W/fZfZderYfUxQQ5+QRfCQGNw/yfW
- 3VLP6jdnWZ3/TCyC9C4CGH1nPhiM7WERB9JO839KN6QcYitma9lFxetGQFZlP9AM+7PCXxBvCBj
- 3/AnvAbhs3+vnKBf9vw==
-X-Proofpoint-ORIG-GUID: R8NgANT2LFJc0M_vSUYm5iX5F4J_6nwd
-X-Authority-Analysis: v=2.4 cv=cNF1IVeN c=1 sm=1 tr=0 ts=6aad4879 cx=c_pps
- a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=Q1qRzZT12ma5ygSj1D0A:9 a=QEXdDO2ut3YA:10
- a=x9snwWr2DeNwDh03kgHS:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-18_04,2026-09-16_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 impostorscore=0 spamscore=0 phishscore=0
- bulkscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609180204
+To: <linux-firmware@kernel.org>, <Mario.Limonciello@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] amdgpu firmware update
+Date: Fri, 18 Sep 2026 18:46:06 -0400
+Message-ID: <20260918224606.959586-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.55.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF0000A801:EE_|PH0PR12MB999087:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4a85e4f9-a504-433b-eb5c-08df15d6a7f8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|36860700016|23010399003|376014|1800799024|10067099003|11063799006|56012099006|18002099003|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	uk1vz4X0ideBEOMJfA35f7zMWaNwKNjIWCS6dY55o6Gi5wYTxQYk200HqOQJfCAzptNOS75dD0nwMgnRQoIkIQcRZFl5hMGncWhyT5Ewlso2o5wsmUrD558gdGtLiegV4YvtymupEs6khvi+ULNGHRt1yDCvtEQ1ZMcqxnJ6B3QdEZhSwUGUyvSkh6pAHXh5aQ24tJXKv+vcRZaOSQaPUKalEy/hPba+f1/B4gnKASeWeIW8FqfPb3fCx9Tp2SpCgOJIbzxG71dDgJ06dn2d1WcF54hE7PW13hulg+61UNHEs+yPMzK+HNl4APwlVracXSu8wyKP0W+6HgMdr5hWEGoLGqGRetbdgBO0T14cIcAZQ1fOc5v7uOI/zhBpW/0g/5ml0FRYBI2dkkA4sNpZMh+RM6FdGQoFFE2cZRWFnE+KaP/e3YlT5MzO3TLqbKc1vbK3a4dEDdZJcA32wsoUFVh67VD0OXoVDcAaJtMCLc3hHydBYfhghiPFDGO1ven/TMF6oClHAJl5aDOET98sty3kuCIrZ3Y/r7enWUCiwmovvS72xb6pCUr3v/uN3Sdy7Rv8JpZLB5Zq529mK/EuyRgpDb5S243Iv5OFOirvlvcY6og10HJjqX65IhLPjxxpL9tev3VwsvebKCo7F3W5Lw==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(23010399003)(376014)(1800799024)(10067099003)(11063799006)(56012099006)(18002099003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	nQWFT3JmdMh3vMKD9kpZA+oQ+u4l2lYRUwkp/+hGJOV2rhq+eUgbrY4zxT8gKfaBbpM/zwEGQCxgYS3p7Ka0drRDZk1Z6Tld1g9zlo9rxZJv+gJL0s1W5PFBB00QGBm4q1dYuU33oFgDl4yGMOJkw7Q9ht7pGPz/slCrO1/dWIAaLr0t+dcWC25y/hotqQzDqBvlXTHtPnWp0jLXv3We05xkwXZ6iFe0e/hiHMMJn8yJJ4G/NOH30e0A2Im6sV26e887Z7Um5JTbwR2YvvZYx4LCG64s2ya/JBn6WxHNuE6pXDcB1hL+gMYjo8gzozlIjUcKSlC7HRuvgnjWkkUKqZuyj0q/eKWRvv2boLkJ1Ou+edlMnM8VTxiTkfFDuxO3CE0DrdFoIOWnrtbukrttra5GQ5I5AhbJnSlVhpl1OTUgTefRhkzjmLGfe+nM1GJl
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2026 22:46:19.4773
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4a85e4f9-a504-433b-eb5c-08df15d6a7f8
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN2PEPF0000A801.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB999087
 
 Hi,
-Here's a new pull request for ath10k, ath11k and ath12k firmware.
 
-There are no changes for ath10k or ath12k.
+Revert GC 11.0.0 updates.
 
-For ath11k there is a single change that adds four records to the WCN6855
-hw2.0 board-2.bin that cover the following devices:
+The following changes since commit f5e8adfa1e0c2af7ac13280fdbedfd48f37e0c34:
 
-bus=pci,vendor=17cb,device=1103,subsystem-vendor=14cd,subsystem-device=910a,qmi-chip-id=18,qmi-board-id=255
-bus=pci,vendor=17cb,device=1103,subsystem-vendor=14cd,subsystem-device=910a,qmi-chip-id=2,qmi-board-id=255
-bus=pci,vendor=17cb,device=1103,subsystem-vendor=14cd,subsystem-device=940a,qmi-chip-id=18,qmi-board-id=255
-bus=pci,vendor=17cb,device=1103,subsystem-vendor=14cd,subsystem-device=940a,qmi-chip-id=2,qmi-board-id=255
-bus=pci,vendor=17cb,device=1103,subsystem-vendor=14cd,subsystem-device=950a,qmi-chip-id=18,qmi-board-id=255
-bus=pci,vendor=17cb,device=1103,subsystem-vendor=14cd,subsystem-device=950a,qmi-chip-id=18,qmi-board-id=255,variant=UX3407Q
-bus=pci,vendor=17cb,device=1103,subsystem-vendor=14cd,subsystem-device=950a,qmi-chip-id=2,qmi-board-id=255
-bus=pci,vendor=17cb,device=1103,subsystem-vendor=14cd,subsystem-device=950a,qmi-chip-id=2,qmi-board-id=255,variant=UX3407Q
-bus=pci,vendor=17cb,device=1103,subsystem-vendor=14cd,subsystem-device=960a,qmi-chip-id=18,qmi-board-id=255
-bus=pci,vendor=17cb,device=1103,subsystem-vendor=14cd,subsystem-device=960a,qmi-chip-id=2,qmi-board-id=255
-bus=pci,vendor=17cb,device=1103,subsystem-vendor=14cd,subsystem-device=970a,qmi-chip-id=18,qmi-board-id=255
-bus=pci,vendor=17cb,device=1103,subsystem-vendor=14cd,subsystem-device=970a,qmi-chip-id=2,qmi-board-id=255
-bus=pci,vendor=17cb,device=1103,subsystem-vendor=14cd,subsystem-device=980a,qmi-chip-id=18,qmi-board-id=255
-bus=pci,vendor=17cb,device=1103,subsystem-vendor=14cd,subsystem-device=980a,qmi-chip-id=2,qmi-board-id=255
-bus=pci,vendor=17cb,device=1103,subsystem-vendor=14cd,subsystem-device=9f0a,qmi-chip-id=18,qmi-board-id=255
-bus=pci,vendor=17cb,device=1103,subsystem-vendor=14cd,subsystem-device=9f0a,qmi-chip-id=2,qmi-board-id=255
-bus=pci,vendor=17cb,device=1103,subsystem-vendor=17aa,subsystem-device=930a,qmi-chip-id=18,qmi-board-id=255
-bus=pci,vendor=17cb,device=1103,subsystem-vendor=17aa,subsystem-device=930a,qmi-chip-id=2,qmi-board-id=255
-
-For the ASUS Zenbook A14 UX3407Q records the following tags apply.
-
-Reported-by: Troels Vognbjerg <hekatombe@gmail.com>
-Closes: https://lore.kernel.org/all/CAPMyOuCk7SEhPvcNNQ3ZMUf=uH=e3Pp0NHf6zLoakrSvL4qEoA@mail.gmail.com/
-Reported-by: Mohamed N. <private bugzilla e-mail redacted>
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221853
-
-Please let me know if there are any problems.
-
-Thanks,
-/jeff
-
-----------------------------------------------------------------
-
-The following changes since commit c9f6fc67b4833a0e4d0aee2554d637c49f997329:
-
-  Merge branch 'eec-eef' into 'main' (2026-09-17 14:57:59 +0000)
+  amdgpu: DMCUB updates for various ASICs (2026-09-18 17:49:24 +0000)
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/ath/linux-firmware.git ath-20260918
+  https://gitlab.com/kernel-firmware/drm-firmware.git tags/amd-2026-09-18-2
 
-for you to fetch changes up to f8d2ffa59894c9f8858585eecc968d63aee6f46e:
+for you to fetch changes up to 3d99cd46c54b99843d75ef9da22e89c5a54bb4d0:
 
-  ath11k: WCN6855 hw2.0: update board-2.bin (2026-09-18 06:42:58 -0700)
+  Revert "amdgpu: update GC 11.0.0 firmware" (2026-09-18 18:37:33 -0400)
 
 ----------------------------------------------------------------
-Jeff Johnson (1):
-      ath11k: WCN6855 hw2.0: update board-2.bin
+amd-2026-09-18-2:
 
- ath11k/WCN6855/hw2.0/board-2.bin | Bin 7237392 -> 7479440 bytes
- 1 file changed, 0 insertions(+), 0 deletions(-)
+Revert GC 11.0.0 firmware updates due
+to instability in some games.
+
+See:
+https://gitlab.freedesktop.org/drm/amd/-/work_items/5711
+
+----------------------------------------------------------------
+Alex Deucher (2):
+      Revert "amdgpu: update GC 11.0.0 firmware"
+      Revert "amdgpu: update GC 11.0.0 firmware"
+
+ amdgpu/gc_11_0_0_me.bin    | Bin 324064 -> 315120 bytes
+ amdgpu/gc_11_0_0_mec.bin   | Bin 406528 -> 406528 bytes
+ amdgpu/gc_11_0_0_mes1.bin  | Bin 221120 -> 220480 bytes
+ amdgpu/gc_11_0_0_mes_2.bin | Bin 263696 -> 260624 bytes
+ amdgpu/gc_11_0_0_pfp.bin   | Bin 234960 -> 232096 bytes
+ 5 files changed, 0 insertions(+), 0 deletions(-)
