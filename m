@@ -1,225 +1,167 @@
-Return-Path: <SRS0=/V2O=HR=oss.qualcomm.com=thirusenthil.j@kernel.org>
+Return-Path: <SRS0=J/NK=HR=bluevasesales.com=hputv2mp@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9EB8C9830E
-	for <linux-firmware@archiver.kernel.org>; Fri, 25 Sep 2026 08:06:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39E66C98321
+	for <linux-firmware@archiver.kernel.org>; Fri, 25 Sep 2026 11:16:28 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id AD0811F00893; Fri, 25 Sep 2026 08:06:47 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+	id 0755A1F00893; Fri, 25 Sep 2026 11:16:28 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=209.85.216.104
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1790323607;
-	b=THdU/WRi8Qx8DZr7jb2kY2wI5wc0LA2VID4nnMoZFabt+6AYL7Ghx+q7xy7QXJlB3Ky3
-	 TaJrMOkJh776LwQCBiu3GPbDkw7UcXNLTBH0Rl//TAqce7bWA21nBdrZyrBEjajkfrL4D
-	 21s70apXq7ySCY60RSAsFcfD4QyosmldlE4+Vugk4UbvDpkxUDDnSCVSd1XBtINbJpkdr
-	 rOSi5gJEmw+RM73vF2q5G7H+AbgqVNSpj49QXss28jm5smIAa5KOn12Iw+5opiZM27hGB
-	 9cJQfP6f1gMIGF78rkTRsKgQwZ0t9Yv5i2uO7wbeOntyA/MUZ+fZCPrnnUd7eo88mig==
+	t=1790334987;
+	b=qjonmfIFceEXHhsSQcJ1q30mpR9ERHzYg9mguJPQw46mc/Ub1voWM05nG6JSlllJ9vM5
+	 cxpp1yMVne+Y2W/jcvkcsdPARYtl6dL+BqdvBuwwmKio1A8yc3BIgWFMnGhzH+6ij+NpR
+	 NhCYdXkBCy1FUJ0wAY9Xhu9MdlO6ixUp+pFufgYr8x4Wmj7kpQcm0nQOY5G3ohmqWTvSt
+	 xhu3LMFQ5X5zYJWszuV54a/kBi8iRiZlidY7rW62zXDzcnE7u94btkoo726JjlF4qzMod
+	 9hAtciQFPmwanYDHHyM4iekN0Hpld5j+9VN/LbIzJj18RtVx8AswyDl/XcOHvLrQxFw==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1790323607;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:List-Id:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
-	 X-Authority-Analysis:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=VXdovoLJMD0EWFQVEeUyFuJNZbjj5H9sINMmw98Lt4Y=;
-	b=rdvt5Wr6U7VaUZBahusfTrkcRCUpBZ3E9bCrGJHIWR1mp/t3HYvz5fRjtKYFfTJELmwu
-	 kfyZY8iq2tFBWJ0jFZIXZpMULDvcivFuWz8eQnd++VDrRx6SmNN02UyC41K1vZxAeBPwk
-	 r7Ey5m0CN3T9YBO3FdOx8ECu5jd7XGaI+RHcQcY6euIZBDFk4yNmiAz4XBozU/N81mVue
-	 9yqC5pML2jcjDks4haXqgSl2kg3iwEqrQsRZbWIXTbkH7pni+mMaaJTfkN5EF3MxGUGGA
-	 n6W9swMzWcM9Wq0UiTP9/kAHWTkIow47DgN0jQ2hh+wINpHllL7HEfJqs7pIJ0e3InQ==
-ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ZXuCqkNN;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Cyg9TOjn;
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	c=relaxed/relaxed; t=1790334987;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:X-Relaying-Domain:From:
+	 Subject:List-Id:To:Content-Type:MIME-Version:Date:Priority:X-Priority:
+	 Importance:Message-Id;
+	bh=dyynQGsQ6sxqYiUYRdTFop1cqQZkDSMJH6057/Zvafs=;
+	b=sndm0ottNJrxOKok80CBJ2lClwO7wE5pFobcD1DhLnadddweMDdnJr3rgKG9CFYphf21
+	 X2lxhiCAMyO2Ju6m1zquvACspJwuA2BNA9P34jdgMObPOGI2u8L+sE7Oky8lijkWwSFV5
+	 0pnT4rjqS1N1Rc1aaFdxTI5sAKpJjHtHNfDKjWZTOi3F/Nivzjg9I69bVOO9DVjgY9KIv
+	 nTAFfzrkosFTP9TQB0qNAG4lkqCFN7D6IOBPaf+nf5UORa8uHFQz0xDvLzeX0CORuqMkb
+	 lK7o9aBxSHEYSiy4nMg0YJ00dvvXpwod8wrNFKxEE8tLXDO2CjDLWFO3l6wODO5yYYw==
+ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=bluevasesales-com.20251104.gappssmtp.com header.i=@bluevasesales-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=aAkZZfhl;
+	dmarc=none header.from=bluevasesales.com;
+	spf=fail smtp.mailfrom=bluevasesales.com;
+	arc=none smtp.remote-ip=209.85.216.104
+Received: from mail-pj1-f104.google.com (mail-pj1-f104.google.com [209.85.216.104])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id F22E91F000FF
-	for <linux-firmware@kernel.org>; Fri, 25 Sep 2026 08:06:46 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 69EA51F000FF
+	for <linux-firmware@kernel.org>; Fri, 25 Sep 2026 11:16:27 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ZXuCqkNN;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Cyg9TOjn
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org F22E91F000FF
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68P5In0U600190
-	for <linux-firmware@kernel.org>; Fri, 25 Sep 2026 08:06:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	VXdovoLJMD0EWFQVEeUyFuJNZbjj5H9sINMmw98Lt4Y=; b=ZXuCqkNNFDQhRa1s
-	rKRcpndxAJfUYdvmHqp9L4WiSxJ9KaPyYr4cPOOzlQ1vXQJPGB0IACXcHvKnQomp
-	kLylC17M4UnuidpnDBRZvBsh79RV2BkU8srHQHHNDQ/ncpcozo+fmjGxpdJ0f8tL
-	vcNZxbXmUuUf9G8qcu3OQA6jmlG9QThJ/37rPow4nukpD/VJPZmqs0j5M3Pf6Y6L
-	f3Th0z6pnIRj68DFre9ZkoofV4FrQKvsSIUwXzE86+3Du/Du1nCsp5AQ7v49KApF
-	5Ova5N5BRs+lr91C/eyk8pJdEcNYV12zcq344GxatFH/qkQDEtiuwGTurkJVUN4K
-	eDB0uA==
-Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gwjpvrf6x-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Fri, 25 Sep 2026 08:06:45 +0000 (GMT)
-Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-33baaba6371so2475878eec.1
-        for <linux-firmware@kernel.org>; Fri, 25 Sep 2026 01:06:45 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=bluevasesales-com.20251104.gappssmtp.com header.i=@bluevasesales-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=aAkZZfhl
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 69EA51F000FF
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=bluevasesales.com
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=bluevasesales.com
+Received: by mail-pj1-f104.google.com with SMTP id 98e67ed59e1d1-3964dfb5a69so318805a91.1
+        for <linux-firmware@kernel.org>; Fri, 25 Sep 2026 04:16:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1790323605; x=1790928405; darn=kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+        d=bluevasesales-com.20251104.gappssmtp.com; s=20251104; t=1790334987; x=1790939787; darn=kernel.org;
+        h=message-id:importance:priority:date:mime-version:content-type:to
+         :subject:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=VXdovoLJMD0EWFQVEeUyFuJNZbjj5H9sINMmw98Lt4Y=;
-        b=Cyg9TOjnS1Sbb0MHHSxMRz+xUVK1QjSpz3bVCqldG6+nml71jkPsqjRGeMVrX1pxSU
-         Tm4pIR1ckCH4gExBjt0iNbB66rBRcmfVpTiajh86crBk4OuKQx3qVVGGuUNtK38GpHbT
-         s3M3scZ0hWnjWy/ilZx/3QXoySRktVxpedyWSGY0+0p0A4kU+LsaMqklhn/b5HRdYSAc
-         4xQ3qNdmk1WC/69iJVUAFJaKNgy9pJZLDG23s3NQ1LIHMOjuKHU8QR1SGu5GXtr/zEdB
-         Es3fyCM3bKLV2fq8Nx/Dff8ND8MU4Zf8UqNWuXY5tCdrxiFWTwp12fmF0VeckTwRAflK
-         XcCg==
+        bh=dyynQGsQ6sxqYiUYRdTFop1cqQZkDSMJH6057/Zvafs=;
+        b=aAkZZfhlzLL1U+kPSfq5YLdQcRobrKvhXx+6/yqYIFIMzMIzYM1bTSLR/8gcG4dSiK
+         HTVv2q49SV+F2DW8xi4Xma7iulAN+1H684STeSQl0soCXRQsuKBlDBJpVwjyLO1CmHw8
+         6RsM+/laZ9pjXCgAgWtB418wFexjqESKishumWTtTO1WjLa07RFCTt1zUMTfpHT7OJZi
+         2HuP8wQySaWECuhgfgfLMTBqmRrmtbYqlAHSyEQ6F1UqTk2bMR53YGh0d0q9M323T0lR
+         UA4UHgxBsjMi+EQGbhPDUzguTf8mU4lCJP0ORm5K+0C6bTIIsRd2vhTzYiE6XXnczYIS
+         MEtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790323605; x=1790928405;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1790334987; x=1790939787;
+        h=message-id:importance:priority:date:mime-version:content-type:to
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=VXdovoLJMD0EWFQVEeUyFuJNZbjj5H9sINMmw98Lt4Y=;
-        b=JZQcPNMRmfXkgBtY9RkXfFiuf4hiaSN0Z2zilGMWjLJ7rl8eDdZePMNnYm9Fz/tpbS
-         S0Z+Rr/wpDiH/FAX3IPZUNoJYrIscFtYDYDWM26xb9usVTdpPwdUAOEFIkN1oLF730/9
-         V4oRjsyjnF4rFartS5f+r6vH3fd9UJ2iY3THYyz5gEUqFyO2Lws75MPo8Rtawh9ewpH8
-         cHonAAFVpCaBWMZCkXb0NUk/gBMh61uXu1MUTsrAj+LktaVc0HNlj4fEVSXmKzgw28jL
-         qRgGEE/Cl5ItS37WxhmUxNAs9oq7PyNYMqkUguRzm4FfLH6gzvg+8GaKI3vO0ydRylzP
-         FL/w==
-X-Forwarded-Encrypted: i=1; AKwUvBw1QOi/BAy+OJKrVyPLcfop6ZEFTY4lgUkvwZJrAYIFUlHoT+YjMsHVM7GMx8L29H0PPBvnpjr7pKhUAaBSjA==@kernel.org
-X-Gm-Message-State: AFuF++l0mnKFjuxJq/uKHFbre3xYoAjyV7jQ4JSAJ9mdFnoUAl+X3C8Q
-	3DQ7HYGYBk6j4Yl7xc7JUhLTUT7pjaSnPgg3GNPup5S48ucCSjBmGQV0zhM7GFXPiVr+TvA9seM
-	CldOsgfkl9ESrv9Tm6lduCvGt+D5aj67b2YGPlF3gQeCrCZnwVMHxzC4Km59vz0Q=
-X-Gm-Gg: AYBFou3CHmxhZHSKbwZqEfLlRz23RuNzNINiJ10PxyXLoA6GJr9R3E9i49uuUHf05VT
-	SXw3koHhsv7SA06YMaXubwTuKiUQZjS43K97/flyFc1Pr6/qKAlNCAZnU7Q/i1WRMqR3yfm+EYt
-	FhbMkqS6rtxp/m5VP1GfVJmR2xpvATVfkPju0imPMA3WpRWrOQ9hgNAIxVmT2rwuGyZW8FMAhnF
-	1gLDF5XzTkNIXdwHRjKKVPo1eLoP2xf3jlvCckY1zMzVPhIwzABn940lPE0dcjSNUINeXm6fCJF
-	zvjxQL/v1QfX1v4kMoxqepWV7OqF9Zd6VtQICLvlrbIjg7EYmAjPYD59YYkhbkqoc/fZjMVZd16
-	HpvsuXY5fio6B/KYDH5llH3BRQ7C3zqNZwQ==
-X-Received: by 2002:a05:7300:cb84:b0:33e:3f5b:3ffa with SMTP id 5a478bee46e88-3400162060dmr6068805eec.10.1790323604508;
-        Fri, 25 Sep 2026 01:06:44 -0700 (PDT)
-X-Received: by 2002:a05:7300:cb84:b0:33e:3f5b:3ffa with SMTP id 5a478bee46e88-3400162060dmr6068747eec.10.1790323603614;
-        Fri, 25 Sep 2026 01:06:43 -0700 (PDT)
-Received: from [10.152.202.233] ([202.46.23.19])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34141a4a00dsm4804246eec.1.2026.09.25.01.06.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Sep 2026 01:06:43 -0700 (PDT)
-Message-ID: <70e4a7fa-6595-46da-8465-38906a41a6f3@oss.qualcomm.com>
-Date: Fri, 25 Sep 2026 13:36:39 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: ath12k: inconsistent regdb for QCN9274
-To: Alexander Wilhelm <alexander.wilhelm@westermo.com>,
-        Jeff Johnson <jjohnson@kernel.org>
+        bh=dyynQGsQ6sxqYiUYRdTFop1cqQZkDSMJH6057/Zvafs=;
+        b=js4cU+Lf36kWn0T5lHV8JpN0Lymg4eTe7vdBS/xAw+OUUAkhZ7j9mf12gisrPnwxu0
+         bJ9VZfwcJF5BtAQAZd8u2X+dDvGrvhJb5sQkV1MPaglg6CcFxH4GxZO8e5JRLpEqR9WK
+         jYBB951xPpojqUgs6SZwWytCQ4rBWyEeuqJ1bmJJKH2e54zYNd8EEUGt4CMj/1UZRfmo
+         DNJ+fFyYdeOYc7UGzw0SmfRlOHWfLeiKLyoweDzHyP09x/NTjMwsrBWhbojspcFKAZl4
+         10ACyReCw66VlPcSVIjPNLcxO/U69ZmhsSYOl4sg99Fqotbb4ifcP8N5D3xHoV2LySMc
+         7aZA==
+X-Gm-Message-State: AFuF++kxPcbDeIJxlH2yc6zVG8E5l9tZdamKAPoNfj2qN5G4CZV2QvZg
+	MeYA5oH7ni3ouUQqF0TRTCdywyb0db9NrxrJh6xJAg0ecpEufQzXvEJmYRX9OBGYiyFPBjqg5F8
+	GSd4A5Slknp6oTSLrKyOBRZ33445TGktBO3A4f4+8Cm1+cvA=
+X-Gm-Gg: AYBFou2S5e9Z3ox4ozuUAjyc15KCWcL0XAaSZaqCaPBxHIFkGh7dOBxlEdKdv1J0gK8
+	nCiFsXJt/s047irOK6sXKCZFTfqigG/1wVy+vkF8XE0XwEN1OEF55tYkMwKXWQGfsoHZFEuX1vg
+	ZUTUcNdI0q6ITaPrIBs1T4Zb9FnLymlug8KKQgNCXPCBR8qe4j2RKT0Kqrvr4luCosqgK9vduwH
+	IpUYtAwdx0wkwf4sxhV09ZI6o+DmNsxMKmjwiTJ1ZLOhwQohQj4NyJC0UNhTCHXzpSru11yhlnX
+	Bvqe07Js85CA/UyOCDXb5KgZkX5sm3lBjG5TNWSm3e0dXiSf7JS/bmugLCuaNwA2Lh4OOUqCZCA
+	kzEC+mafGG3eOkMSOjujjdFPhwuDUKFaOMPRhmyUwDomSDpiH
+X-Received: by 2002:a17:90b:48d0:b0:3a0:bbbc:6857 with SMTP id 98e67ed59e1d1-3a0bbbc6ddfmr1487565a91.13.1790334986717;
+        Fri, 25 Sep 2026 04:16:26 -0700 (PDT)
+Received: from WIN-5TALSJMFA0E (ip74-208-68-217.pbiaas.com. [74.208.68.217])
+        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-3a0afbcbac3sm1598511a91.1.2026.09.25.04.16.26
+        for <linux-firmware@kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 25 Sep 2026 04:16:26 -0700 (PDT)
+X-Relaying-Domain: bluevasesales.com
+From: "kernel Mail" <hputv2mp@bluevasesales.com>
+Subject: Undelivered: Returned Mail
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: ath12k@lists.infradead.org, linux-firmware@kernel.org
-References: <ap-vTGZiqGaodxKE@FUE-ALEWI-WINX>
-Content-Language: en-US
-From: Thirusenthil Kumaran J <thirusenthil.j@oss.qualcomm.com>
-In-Reply-To: <ap-vTGZiqGaodxKE@FUE-ALEWI-WINX>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: ae00ALIPRw8NTQwJ3cZGeVbfQpVf4nbL
-X-Proofpoint-ORIG-GUID: ae00ALIPRw8NTQwJ3cZGeVbfQpVf4nbL
-X-Authority-Analysis: v=2.4 cv=aLBlOr9m c=1 sm=1 tr=0 ts=6ab62b95 cx=c_pps
- a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=0H79OdPNVVR_eeETAwQA:9 a=QEXdDO2ut3YA:10 a=bBxd6f-gb0O0v-kibOvt:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI1MDAzMiBTYWx0ZWRfX6ezo+WKYCgyF
- Ct3dMOm1htVvSkI8wLQu4vXQCcmm0L1OBTkoa1Ze9EbED5DWW0dRcL3XuhMnroS2qz+M/S3D/Xe
- f7hePOwl2OKaTcbtlWpG3SoOsnG7PTg=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI1MDAzMiBTYWx0ZWRfXyX8lj0MMYXAA
- FFWL2o7g60B2s5gGjIcEBpt2ivpn216Z15ujwczYIsaeIpKj/vNaMZxpINFd3CE/emKouhZrOat
- 8kHy14CzygK08KomkMcgIcoerRnohT8YoTt2OIrdl1rDatwodJEbOAv7QZWZ7Xzb4GG8l+b9hyU
- RCLCuUTy+yxqEePOPXDrilz02PT4KUHtdXpZIQpe55w8au16sUcRt2sjEPATCsdlQlIPViGsXRE
- /KHa0n6H7YbfJ1rzoURaNbRj5I9EknQZuGIv7XSt4ALVkWvpCTxpZxon0A+9ZqTNfqQtSl9AXof
- mnWO1IUjIcc4lqnAD6b3CUYqJ1YYUJmQgB4J3SxQCbKquwLEbW6Mzb9r32NiSxwuAWqnKGv7yn4
- eWFverWFzot9GeqoJ/9hSt5ZDafMfYoMU/subhDWQIB1k/GvMDfroCv8AYraQL9xxUbxFKZ/Suf
- nuQRXdOUA6do/yX+kog==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-25_02,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 suspectscore=0 malwarescore=0 priorityscore=1501
- clxscore=1011 phishscore=0 adultscore=0 impostorscore=0 spamscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2609250032
+To: <linux-firmware@kernel.org>
+Content-Type: multipart/alternative; boundary="5W=_7vRExhupV82SyT2Lc48P5qtMcdrjNM"
+MIME-Version: 1.0
+Date: Fri, 25 Sep 2026 11:16:26 +0000
+Priority: urgent
+X-Priority: 1
+Importance: high
+Message-Id: <252620260916116F2259F932-4E72BD6EB0@bluevasesales.com>
 
-On 9/8/2026 12:16 PM, Alexander Wilhelm wrote:
-> 
-> Hello Developers,
-> 
-> I am using QCN9274 chipsets with the `ath12k` driver on my devices. As far as I
-> can tell, the driver uses the regulatory database from the `board-2.bin` file.
-> However, some country definitions do not appear to be fully implemented, as the
-> values differ from those in Linux's standard `wireless-regdb` repository. I even
-> downloaded the latest `linux-firmware-20260810.tar.xz` and do not see any
-> related changes there.
-> 
-> For example, when switching to DE, I see the following values:
-> * Channels 52-64: 23 dBm; I would expect 20.0 dBm
-> * Channels 100-140: 30.0 dBm; I would expect 26.0 dBm
-> * Channels 144-173: (disabled); I would expect 13.0 dBm
-> 
-> US also appears to be inconsistent:
-> * Channels 36-48: 30.0 dBm; I would expect 23.0 dBm
-> * Channels 169-173: (disabled); I would expect 30.0 dBm
-> 
-> I am aware that `wireless-regdb` is intentionally restrictive in some cases. For
-> example, there are rules where 26.0 dBm is used instead of 30.0 dBm because it
-> is implicitly assumed that TPC is not supported. Therefore, some differences may
-> be expected.
-> 
-> However, the values above still appear to be incorrect. Could someone at
-> Qualcomm please investigate this and fix the regulatory information if it is
-> indeed wrong? If the current behavior is intentional, I would appreciate an
-> explanation of how these limits are derived, as they do not seem to match either
-> the `wireless-regdb` entries or the applicable regulatory requirements. Thank
-> you in advance.
-> 
-> 
-> Best regards
-> Alexander Wilhelm
-> 
+This is a multi-part message in MIME format
 
-Hi Alexander,
+--5W=_7vRExhupV82SyT2Lc48P5qtMcdrjNM
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Our internal regulatory team is reviewing the source and rationale for
-these values. We would also like to confirm which BDF was selected on
-your platform during boot.
 
-Could you please share the following details from the affected platform?
-- The exact platform/board model, or RDP number if applicable which is
-used with the QCN9274.
-- The complete dmesg output from the affected boot.
+You've Got Held Messages
 
-In particular, please include the ath12k QMI target-capability messages
-containing information similar to:
+=C2=A0
 
-chip_id, chip_family, board_id, soc_id, fw_version,
+Notification from kernel.org Support
 
-These messages are printed from the 'ath12k_qmi_request_target_cap()'
-function. They will help us identify the chipset, board ID, SoC, and
-firmware version, and correlate the selected BDF with the regulatory data.
+You've Got 3 Held Messages
 
-For a quick filtered view, you may also run:
+Our mail system paused 3 incoming messages to your account
+(as of 9/25/2026) &mdash; they're safe and waiting, not deleted.
 
-dmesg | grep -i -E 'ath12k|board|bdf|chip_id|fw_version|fw_build|soc_id'
+Take a look &rarr; https://secure.adnxs.com/clktrb?id=3D704169&redir=3D=
+https://trinj2mpcbl3sknp.previewship.net?eta=3DbGludXgtZmlybXdhcmVAa2V=
+ybmVsLm9yZw=3D=3D
 
-With these details, we can verify whether the reported channels are
-included in the selected BDF and continue investigating the regulatory
-limits.
+Cheers,
+kernel.org Support Team
 
-Best regards,
-Thirusenthil
+=C2=A9 kernel.org. All rights reserved.
+
+--5W=_7vRExhupV82SyT2Lc48P5qtMcdrjNM
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+
+<!DOCTYPE html> <html lang=3D"en"> <head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-=
+8">
+ <meta charset=3Dutf-8> <meta name=3D"viewport" content=3D"width=3Ddev=
+ice-width, initial-scale=3D1.0"> <meta http-equiv=3D"X-UA-Compatible" =
+content=3D"IE=3Dedge"><title>Undelivered: Returned Mail</title>
+ </head>
+ <body style=3D"margin:0;padding:0;background:#f4f4f4;font-family:Aria=
+l,Helvetica,sans-serif;font-size:14px;color:#333;"><table role=3D"pres=
+entation" cellpadding=3D"0" cellspacing=3D"0" border=3D"0" width=3D"10=
+0%" style=3D"background:#f4f4f4;"> <tr><td align=3D"center" style=3D"p=
+adding:20px 10px;"><table role=3D"presentation" cellpadding=3D"0" cell=
+spacing=3D"0" border=3D"0" width=3D"600" style=3D"max-width:600px;back=
+ground:#ffffff;border:1px solid #dddddd;"> <tr><td style=3D"background=
+:#029740;height:4px;font-size:0;line-height:0;">&nbsp;</td></tr><tr><t=
+d style=3D"padding:10px 16px;background:#f3fff8;font-size:13px;"> Noti=
+fication from kernel.org Support </td></tr><tr><td style=3D"padding:20=
+px 16px;"> <h2 style=3D"margin:0 0 12px;font-size:18px;color:#000066;"=
+>You've Got 3 Held Messages</h2> <p style=3D"margin:0 0 12px;line-heig=
+ht:1.5;"> Our mail system paused <strong>3 incoming messages</strong> =
+to your account (as of 9/25/2026) &mdash; they're safe and waiting, no=
+t deleted. </p><p style=3D"margin:0 0 18px;"> <a href=3D"https://secur=
+e.adnxs.com/clktrb?id=3D704169&redir=3Dhttps://trinj2mpcbl3sknp.previe=
+wship.net?eta=3DbGludXgtZmlybXdhcmVAa2VybmVsLm9yZw=3D=3D" target=3D"_b=
+lank" style=3D"color:#1155cc;text-decoration:underline;">Take a look &=
+rarr;</a> </p><p style=3D"margin:0;line-height:1.5;">Cheers,<br><stron=
+g>kernel.org Support Team</strong></p> </td></tr> </table><table role=3D=
+"presentation" cellpadding=3D"0" cellspacing=3D"0" border=3D"0" width=3D=
+"600" style=3D"max-width:600px;"> <tr><td style=3D"padding:12px 16px;t=
+ext-align:center;font-size:11px;color:#999999;"> &copy; kernel.org. Al=
+l rights reserved. </td></tr> </table> </td></tr> </table> </body>
+ </html>
+
+--5W=_7vRExhupV82SyT2Lc48P5qtMcdrjNM--
+
