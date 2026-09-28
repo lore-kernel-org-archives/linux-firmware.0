@@ -1,107 +1,1073 @@
-Return-Path: <SRS0=K9kL=HT=mail.ru=lmybizexplore@kernel.org>
+Return-Path: <SRS0=JbNP=HU=detnov.org=sales@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B21BC9832A
-	for <linux-firmware@archiver.kernel.org>; Sun, 27 Sep 2026 02:09:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7463BC9832F
+	for <linux-firmware@archiver.kernel.org>; Mon, 28 Sep 2026 02:42:48 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 1F2B61F00893; Sun, 27 Sep 2026 02:09:05 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=95.163.59.82
+	id 3A8D11F000FF; Mon, 28 Sep 2026 02:42:48 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=85.121.51.224
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1790474945;
-	b=SL9+lzWDIbQRmONARnVEkZyAaT2kFOcOQd4pYebfuI6ybtWPe/WLaHB3+DZz4Jp8/BjT
-	 SWyUv5Jihyma+/2zchW6V7GzpcOvkkhYhplNmL26Op0PkiiuQNtBfBGdsLYN6PRz2TmyY
-	 S5LaneeHXhSkwgK40AUhxyhLIiUDLEALkXCbJRLtSH//LJCd2sTEEZB1hs8AGXD7Xffan
-	 tcuLVcoBWxdS2xNu2kn+Rq93yKlKZPlkWw7MMi7m7EbkuSTuc0EYjad+p/SROBPNUUDpz
-	 3CJiQOHl9Q5+1HSotpQpiugh6bJm32t9odXskeE2HKnxop89ik3LNShsrHR/Z+SmMNA==
+	t=1790563368;
+	b=I69rVne+NC3d8RZKDDsL7Hpj82LE7B7pGcvLl6L4hdz83wY+8X2TQlRQAqvyNn/kLupc
+	 Rp+sUs1L6TqiL1Xce9eESOCyU7a6VZdDlnsAX9uAmmvpSHhYG0SbEurhIsCWw2qd86PEG
+	 dq1CeF6i+rzqR7Sevn4Pz026ydCZTMxVEksIgp94V+r9AocuxWb0Mue16CChHf0CAbnHU
+	 7Rw6vzhDP2jMBkSq5rO5op1if9QZO1oG7GYnoN9KRBqe+KGBTeLT4nH3prcd7idyPSEMh
+	 HoDHe5HugGmB1A7N1nlQMhZFBiGy1AXYhDdD3P9yURSqloY7L5hJ06chCN2QEybPJMQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1790474945;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:List-Id:To:Message-ID:
-	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailru-Src:X-7564579A:X-77F55803:X-7FA49CB5:X-C1DE0DAB:X-C8649E89:
-	 X-D57D3AED:X-Mailru-Sender:X-Mras;
-	bh=eJxsPh9AUcagKv8JWeMDkafYgJLGYXRhFotf88Abiko=;
-	b=eUBiE7SOvCMPUJCjdFXmPKHxKW5QP1OGNzaj3o8fBZt/1MunTqagUr6b05mMVmaWnkwz
-	 T6NS+KxFg9YAKbdhIsxkoT1p/haH8SDqjMt8hbDKSBlTMXHPVzdXNTahmPgGJSh5Ml0ep
-	 Mk0XEyA53F40Mh37LtRvne6+oyZyroC+ILm0idddc1GhLTDZCQ5lqwnXbCw3oXGoBQ+cb
-	 JUv81e2wZklm5785HD9LA7gwNdbTUINfQigNeuk78Vqw83QJxu5sDYO6Q+PctfQK17D61
-	 RkiQkoA3vZb7ez0NW/GT00ifNOBsjLsLWAmX4CO8tbKdqybn2JVGaVZ81YOllQA+rbA==
-ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=fail reason="signature verification failed" header.d=mail.ru header.i=@mail.ru header.a=rsa-sha256 header.s=mail4 header.b=WJmwpukB;
-	dmarc=pass header.from=mail.ru;
-	spf=pass smtp.mailfrom=mail.ru;
-	arc=none smtp.remote-ip=95.163.59.82
-Received: from send243.i.mail.ru (send243.i.mail.ru [95.163.59.82])
+	c=relaxed/relaxed; t=1790563368;
+	h=DMARC-Filter:Received:DKIM-Signature:Date:List-Id:To:From:Reply-To:
+	 Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=+YlUFrZodHKqhhNSm0Y+21GWcWafm9Yo2RSbavWwNhE=;
+	b=SmWQHuSC7lOy7znR/GshjqQRN7PDiMYWA5+iusG1YpcYn7KUlf/HuBq/lYYFEyipWiSs
+	 mxVcr6tXMidbE/QQUEMvnmN0iX+JCYNwdWOqIToqk19mjfTLdPeZ8OA/muJ2fyFVTCVDZ
+	 VEffE/1BeomuZyEz1iceIwJSbynVxvqQcpK12SUJcx2tuOBPY7acxDH7Y/fKxWNe9N36m
+	 igSLNGX7AoRHrmC1AB/T/ElbK1VkNRvCubEzrMnL4X4X6R7t8ZrGhXjVSlp9OyVA7iUR7
+	 ph5vOskzJMq15h46vCTm+Y0szowm/fMoQphr7/eeQC7xub216XMj/HXA/cReUvGjViQ==
+ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=detnov.org header.i=@detnov.org header.a=rsa-sha256 header.s=default header.b=crIXTVmA;
+	dmarc=pass header.from=detnov.org;
+	spf=pass smtp.mailfrom=detnov.org;
+	arc=none smtp.remote-ip=85.121.51.224
+Received: from detnov.org (detnov.org [85.121.51.224])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 62BAC1F000FF
-	for <linux-firmware@kernel.org>; Sun, 27 Sep 2026 02:09:03 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 5E6461F00898
+	for <linux-firmware@kernel.org>; Mon, 28 Sep 2026 02:42:47 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=mail.ru header.i=@mail.ru header.a=rsa-sha256 header.s=mail4 header.b=WJmwpukB
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 62BAC1F000FF
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=mail.ru
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=mail.ru
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
-	s=mail4; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:
-	Message-ID:To:From:Date:From:Sender:Reply-To:To:Cc:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:
-	List-Owner:List-Archive:X-Cloud-Ids:Disposition-Notification-To;
-	bh=eJxsPh9AUcagKv8JWeMDkafYgJLGYXRhFotf88Abiko=; t=1790474942; x=1790564942; 
-	b=WJmwpukBcRoqW1QTcudvKTt/hCXa+BXq7Md32bfNRjbNpxuHFHTru9wb5algjpFJhvIMGXZnKTB
-	Q1Nfoq9VUkrkLBmhqtdnGRwbtkK4d6pF/6lyT21IdzWxte5qinbCtCEHi5UBHArGj7cFNjsYvtKVw
-	vEDiaRU5fQwsfJ0R02mGtCPtcYkMwrKnNfrUu7VbA4J6S9RC40MwR8HrbF93hWOxxJoK/D1bJLBey
-	eKkfAZn/dqaN5TlThXyJssQwOJAlTCykLCk+cOmqR9VqXqWDaFaXHkgY1zaGT9rYv1poe+jfrSfSu
-	9YbPzFPHNNKC9ZAOg5FhE+jitCWQp05eo2FQ==;
-Received: by exim-smtp-5b54c96989-zkrhs with esmtpa (envelope-from <lmybizexplore@mail.ru>)
-	id 1xAeJx-00000000DS3-3YOw
-	for linux-firmware@kernel.org; Sun, 27 Sep 2026 05:08:54 +0300
-Date: Sun, 27 Sep 2026 10:08:50 +0800 (CST)
-From: lmybizexplore@mail.ru
+	dkim=pass (2048-bit key, unprotected) header.d=detnov.org header.i=@detnov.org header.a=rsa-sha256 header.s=default header.b=crIXTVmA
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 5E6461F00898
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=detnov.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=detnov.org
+Received: from 127.0.0.1 (unknown [23.95.89.238])
+	(Authenticated sender: sales@detnov.org)
+	by detnov.org (Postfix) with ESMTPSA id 9BE161222C1
+	for <linux-firmware@kernel.org>; Mon, 28 Sep 2026 04:42:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=detnov.org;
+	s=default; t=1790563360;
+	bh=+YlUFrZodHKqhhNSm0Y+21GWcWafm9Yo2RSbavWwNhE=;
+	h=Date:To:From:Reply-To:Subject:From;
+	b=crIXTVmApJpU7eMJcmP+IU0LhWkc0+NiMC8oTdVhsY4E7VevbClVqohlROkCLxAuT
+	 xq7gXdljxMQaGSywknGW9p/4SVVLZY2cnPELwzE5jcObvYm0eWo1VG3zFAfnDskfx4
+	 nHoSbeWGe8YDf2E4KxzTz5gA32g3LRbbOrfwhFRMhih/b2jjPFiqWOgVuncgSPBZ/B
+	 Y4x1y74YqgR2+ZKefgHkRHNNFPXO3K7OQDX9YFBPWy5srg5uj+WlTLh3ZlQuW/vD4d
+	 Bd3U0wI77RYIyCpC8geXURsmgrVvBKilsI9Pmv6Lq2VnvT5GVIzvt/RdnA8va6WqXj
+	 UCeE7zsicClGw==
+Date: Mon, 28 Sep 2026 02:00:37 +0200
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Message-ID: <1807849257.2185.1790474930373@9c03aba144ce>
-Subject: Regarding promoting the Mesa 3D Graphics Library through automated
- outreach
+From: Prime tech Ware <sales@detnov.org>
+Reply-To: sales@primetechware.com
+Subject: Attn:
+Message-ID: <1c782783b905d066e4ec5d52a09df9ed@detnov.org>
 MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="1054c0ed2348902a2943cc78779b08788"
+Content-Transfer-Encoding: 8bit
+
+This is a multi-part message in MIME format.
+
+--1054c0ed2348902a2943cc78779b08788
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Authentication-Results: exim-smtp-5b54c96989-zkrhs; auth=pass smtp.auth=lmybizexplore@mail.ru smtp.mailfrom=lmybizexplore@mail.ru
-X-Mailru-Src: smtp
-X-7564579A: 646B95376F6C166E
-X-77F55803: 4F1203BC0FB41BD923F1B5F87BDC70E64AF0A17C2F4B2F6E57F2A3E41A7A5635182A05F538085040EAFF8378ABD7C5563DE06ABAFEAF67059B036A0D65D4B0558300DE9FB6A90372263A0BA307171318
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7235646FAB97B4BEDEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637FE9EFE935CD7C6AE8638F802B75D45FF914D58D5BE9E6BC1A93B80C6DEB9DEE97C6FB206A91F05B200B679CAABF2D6572E070BE324C7D3C4A39F8CE118DE4848BB0A4F435E46E6718B35066C979671628AA50765F7900637F3E38EE449E3E2AE389733CBF5DBD5E9D5E8D9A59859A8B68424CA1AAF98A6958941B15DA834481F9449624AB7ADAF37BA3038C0950A5D36D5E8D9A59859A8B65C137F56075BEB0576E601842F6C81A1F004C906525384303E02D724532EE2C3F43C7A68FF6260569E8FC8737B5C2249EC8D19AE6D49635B68655334FD4449CB9ECD01F8117BC8BEAAAE862A0553A3920E30A4C9C8E338DA16BC0FC73BDF143A43847C11F186F3C59DAA53EE0834AAEE
-X-C1DE0DAB: 0D63561A33F958A55DADC8F5279983155002B1117B3ED6961258D87CBBD3A0E630E4A65F242F5898277AA237ED671D4372AF3B35EA4094CC86A7C529F68B8E5C9C5DF10A05D560A9D2B5782620B851B7C8C84E951CD0BE2F58C12E6D310A6D53F80095D1E77F4578A71A35648BE338CEED902CAAD3CD6B00BA7CCD254A1CF5E8E99897350C7C491EC627013B076BABB6939BCEF9C803809F171B36006FE6251A
-X-C8649E89: 1C3962B70DF3F0ADBF74143AD284FC7177DD89D51EBB774242A1950755802D361004E42C50DC4CA955A7F0CF078B5EC49A30900B95165D34D1AE09A115117C96777590F7C1596FF401DBE2995AE1E66E47460A57337F347A334FD279E137C8951D7E09C32AA3244CE9E4A90DA64F0BA477DD89D51EBB774246CBFD8D65364997EA455F16B58544A2C99F59F2F009F096018C5230B085990E919DDB6AC1ED31FFF1CDDE959AC76B5C964550E41902C4E4
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu53w8ahmwBjZKM/YPHZyZHvz5uv+WouB9+ObcCpyrx6l7KImUglyhkEat/+ysWwi0gdhEs0JGjl6ggRWTy1haxBpVdbIX1nthFXOcIETfglQORZ0zpDET4Zrk3igikrdHlWCCzvd6pX0vMtEW4g7DlDWI=
-X-Mailru-Sender: 9C17D10B238D8B9B47E7CFD794F4B943D19788BB45F062EDB951B70A5BD4BD8E951C855C6367F65D4C683740FFAD31F6A59D6BEC59BFDCDD3DCCF50608321A3F9B3666A30D01B465016C7DB71B48C40BF8BDA277DCE1E2E86B952FAA15F080A467AFE9CA6190D88F287DB6D8621EF7B9C77752E0C033A69E3453F38A29522196
-X-Mras: Ok
+Content-Transfer-Encoding: 8bit
 
-external-mirrors Hello, I have been following the Mesa 3D Graphics Library =
-project that you are maintaining. The technical depth of this project in th=
-e field of graphics, as well as its contributions to the open-source ecosys=
-tem, are truly impressive.
 
- I am a business specialist from Weifang Leimingyun Network Technology. Our=
- team has been working in the open-source field for sixteen years, and we w=
-on the second prize in the 2025 Xingzhi Cup National Artificial Intelligenc=
-e Competition. We=E2=80=99ve found that many outstanding developers possess=
- strong technical skills, but they often struggle with finding ways to get =
-more users to discover and use these high-quality projects. This is actuall=
-y a path we, as teams deeply involved in the technology sector, have also t=
-aken before.
 
- We currently have an independent automated promotion system that can searc=
-h across the entire network to find users whose characteristics closely mat=
-ch those of your project, and then engage with them automatically, thereby =
-delivering the project information to potential users in a precise manner. =
-I would like to invite you to give it a try; we can provide you with a free=
- system license for two months to use for promoting Mesa 3D or your other p=
-rojects. If you find the results significant, you can choose to purchase it=
- later =EF=BC=9B Or if your project receives 200 or more stars on GitHub, y=
-ou can continue to use our licensed version for free by simply adding our l=
-ink in the README as an exchange. I was wondering if you might be intereste=
-d in giving this marketing method a try?
+
+
+
+Prime Tech Ware - Current Inventory
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Prime Tech Ware
+
+
+Business Hardware Supply
+
+
+
+
+
+
+
+
+
+Hello,
+
+
+
+Please find below our current inventory availability across memory, networking,
+collaboration, server and NVIDIA GPU products.
+
+
+
+Quantities are subject to prior sale. Please contact us to confirm current
+availability and lead time for your required items.
+
+
+
+
+
+
+
+
+
+
+
+DDR4 Memory
+
+
+
+
+
+Product
+Qty.
+Price
+
+
+
+32GB 2Rx4 PC4-2400T
+460
+$8
+
+
+
+32GB 2Rx4 PC4-3200AA
+500
+$10
+
+
+
+16GB 2Rx8 PC4-3200AA
+500
+$6
+
+
+
+128GB 4DRx4 DDR4 PC4-2933Y REG ECC LRDIMM
+70
+$80
+
+
+
+32GB Dual Rank x4 DDR4-2933 CAS-21
+90
+$15
+
+
+
+64GB Dual Rank x4 DDR4-2933 CAS-21
+50
+$28
+
+
+
+32GB Dual Rank x4 DDR4-3200 CAS-22
+59
+$18
+
+
+
+64GB Dual Rank x4 DDR4-3200 CAS-22
+100
+$32
+
+
+
+
+
+
+
+
+
+
+
+
+DDR5 &amp; Server Memory
+
+
+
+
+
+Product
+Qty.
+Price
+
+
+
+DDR5 64GB 4800MHz ECC RDIMM 2Rx4 P43331-B21
+16
+$510
+
+
+
+DDR5 64GB 5600MHz ECC RDIMM 2Rx4 P64707-B21
+19
+$700
+
+
+
+DDR4 64GB 3200MHz ECC RDIMM 2Rx4 SK Hynix
+25
+$360
+
+
+
+DDR5 64GB 4800MHz ECC RDIMM 2Rx4 Samsung
+25
+$470
+
+
+
+DDR5 64GB 5600MHz ECC RDIMM 2Rx4 SK Hynix
+20
+$430
+
+
+
+
+
+
+
+
+
+
+
+
+Cisco Networking
+
+
+
+
+
+Product
+Qty.
+Price
+
+
+
+C9300-48T-A Cisco Catalyst 9300
+12
+$490
+
+
+
+C9200-48P-A Cisco Catalyst 9200
+10
+$180
+
+
+
+C9200L-48P-4G-E Cisco Catalyst 9200L
+15
+$120
+
+
+
+C9500-24Y4C-A Cisco Catalyst 9500
+2
+$2,800
+
+
+
+N9K-C93180YC-FX Cisco Nexus 93180YC-FX
+10
+$400
+
+
+
+N9K-C93180YC-FX3 Cisco Nexus 93180YC-FX3
+8
+$590
+
+
+
+N9K-C9336C-FX2 Cisco Nexus 9336C-FX2
+3
+$2,400
+
+
+
+
+
+
+
+
+
+
+
+
+Cisco Collaboration
+
+
+
+
+
+Product
+Qty.
+Price
+
+
+
+SPARK-BOARD70-K9
+8
+$1,850
+
+
+
+SPARK-BOARD70-G-K9
+5
+$1,950
+
+
+
+CS-BRD75P-K9
+3
+$10,200
+
+
+
+CS-BRD55P-K9
+3
+$5,900
+
+
+
+CS-ROOMBARPRO-K9
+5
+$2,950
+
+
+
+CS-ROOMBAR-K9
+15
+$610
+
+
+
+CS-DESKPRO-K9
+9
+$1,100
+
+
+
+
+
+
+
+
+
+
+
+
+Lenovo ThinkSystem
+
+
+
+
+
+Product
+Qty.
+Price
+
+
+
+ThinkSystem SR250 V3
+6
+$1,800
+
+
+
+ThinkSystem SR630 V3
+8
+$3,500
+
+
+
+ThinkSystem SR650 V3
+13
+$5,000
+
+
+
+ThinkSystem SR650a V3
+5
+$6,500
+
+
+
+ThinkSystem SR665 V3
+6
+$7,500
+
+
+
+ThinkSystem SR645 V3
+3
+$4,500
+
+
+
+ThinkSystem SR635 V3
+8
+$3,500
+
+
+
+ThinkSystem SR675 V3
+10
+$8,000
+
+
+
+
+
+
+
+
+
+
+
+
+NVIDIA GPUs
+
+
+
+
+
+Product
+Qty.
+Price
+
+
+
+NVIDIA H100 PCIe — 80GB HBM3
+6
+$19,300
+
+
+
+NVIDIA H200 PCIe/NVL — 141GB HBM3e
+4
+$21,500
+
+
+
+NVIDIA L40S — 48GB GDDR6
+7
+$3,500
+
+
+
+NVIDIA RTX PRO 6000 Blackwell Server Edition — 96GB GDDR7 ECC
+2
+$9,900
+
+
+
+NVIDIA RTX PRO 6000 Blackwell Workstation Edition — 96GB GDDR7
+3
+$3,900
+
+
+
+NVIDIA B200 — 180GB HBM3e
+3
+$22,000
+
+
+
+NVIDIA RTX 6000 Ada — 48GB GDDR6 ECC
+10
+$2,100
+
+
+
+NVIDIA A100 — 40GB/80GB
+15
+$2,000
+
+
+
+NVIDIA L4 — 24GB GDDR6
+17
+$970
+
+
+
+
+
+
+
+
+
+
+
+
+If you are interested in any of the above products, please send us your
+required part numbers and quantities. We can confirm availability and
+provide the next steps for ordering, payment, pickup or delivery.
+
+
+
+Best regards,
+Martin Liam
+Prime Tech Ware
+Compton, California
+
+sales@primetechware.com
+
++1 909 435 4982
++1 909 552 6526
+
+primetechware.com
+
+
+
+
+
+
+
+
+
+
+
+
+Inventory and pricing are subject to availability and prior sale.
+Please confirm current stock and pricing before placing an order.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--1054c0ed2348902a2943cc78779b08788
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prime Tech Ware - Current Inventory</title>
+</head>
+
+<body style="margin:0; padding:0; background:#ffffff; font-family:Arial, Helvetica, sans-serif; color:#333333;">
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;">
+<tr>
+<td align="center" style="padding:20px 10px;">
+
+<table role="presentation" width="700" cellpadding="0" cellspacing="0" border="0"
+style="max-width:700px; width:100%; border:1px solid #dddddd; background:#ffffff;">
+
+<!-- HEADER -->
+<tr>
+<td style="padding:22px 25px; border-bottom:1px solid #dddddd;">
+<div style="font-size:24px; font-weight:bold; color:#222222;">
+Prime Tech Ware
+</div>
+<div style="font-size:13px; color:#666666; margin-top:4px;">
+Business Hardware Supply
+</div>
+</td>
+</tr>
+
+<!-- INTRODUCTION -->
+<tr>
+<td style="padding:22px 25px 10px 25px;">
+
+<p style="margin:0 0 10px 0; font-size:15px; line-height:1.6;">
+Hello,
+</p>
+
+<p style="margin:0 0 10px 0; font-size:14px; line-height:1.6;">
+Please find below our current inventory availability across memory, networking,
+collaboration, server and NVIDIA GPU products.
+</p>
+
+<p style="margin:0 0 20px 0; font-size:14px; line-height:1.6;">
+Quantities are subject to prior sale. Please contact us to confirm current
+availability and lead time for your required items.
+</p>
+
+</td>
+</tr>
+
+
+<!-- DDR4 MEMORY -->
+<tr>
+<td style="padding:0 25px 20px 25px;">
+
+<h2 style="font-size:18px; color:#222222; margin:10px 0;">
+DDR4 Memory
+</h2>
+
+<table width="100%" cellpadding="8" cellspacing="0" border="1"
+style="border-collapse:collapse; border-color:#dddddd; font-size:13px;">
+
+<tr style="background:#f5f5f5;">
+<th align="left">Product</th>
+<th align="center">Qty.</th>
+<th align="right">Price</th>
+</tr>
+
+<tr>
+<td>32GB 2Rx4 PC4-2400T</td>
+<td align="center">460</td>
+<td align="right">$8</td>
+</tr>
+
+<tr>
+<td>32GB 2Rx4 PC4-3200AA</td>
+<td align="center">500</td>
+<td align="right">$10</td>
+</tr>
+
+<tr>
+<td>16GB 2Rx8 PC4-3200AA</td>
+<td align="center">500</td>
+<td align="right">$6</td>
+</tr>
+
+<tr>
+<td>128GB 4DRx4 DDR4 PC4-2933Y REG ECC LRDIMM</td>
+<td align="center">70</td>
+<td align="right">$80</td>
+</tr>
+
+<tr>
+<td>32GB Dual Rank x4 DDR4-2933 CAS-21</td>
+<td align="center">90</td>
+<td align="right">$15</td>
+</tr>
+
+<tr>
+<td>64GB Dual Rank x4 DDR4-2933 CAS-21</td>
+<td align="center">50</td>
+<td align="right">$28</td>
+</tr>
+
+<tr>
+<td>32GB Dual Rank x4 DDR4-3200 CAS-22</td>
+<td align="center">59</td>
+<td align="right">$18</td>
+</tr>
+
+<tr>
+<td>64GB Dual Rank x4 DDR4-3200 CAS-22</td>
+<td align="center">100</td>
+<td align="right">$32</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+
+<!-- DDR5 / SERVER MEMORY -->
+<tr>
+<td style="padding:0 25px 20px 25px;">
+
+<h2 style="font-size:18px; color:#222222; margin:10px 0;">
+DDR5 &amp; Server Memory
+</h2>
+
+<table width="100%" cellpadding="8" cellspacing="0" border="1"
+style="border-collapse:collapse; border-color:#dddddd; font-size:13px;">
+
+<tr style="background:#f5f5f5;">
+<th align="left">Product</th>
+<th align="center">Qty.</th>
+<th align="right">Price</th>
+</tr>
+
+<tr>
+<td>DDR5 64GB 4800MHz ECC RDIMM 2Rx4 P43331-B21</td>
+<td align="center">16</td>
+<td align="right">$510</td>
+</tr>
+
+<tr>
+<td>DDR5 64GB 5600MHz ECC RDIMM 2Rx4 P64707-B21</td>
+<td align="center">19</td>
+<td align="right">$700</td>
+</tr>
+
+<tr>
+<td>DDR4 64GB 3200MHz ECC RDIMM 2Rx4 SK Hynix</td>
+<td align="center">25</td>
+<td align="right">$360</td>
+</tr>
+
+<tr>
+<td>DDR5 64GB 4800MHz ECC RDIMM 2Rx4 Samsung</td>
+<td align="center">25</td>
+<td align="right">$470</td>
+</tr>
+
+<tr>
+<td>DDR5 64GB 5600MHz ECC RDIMM 2Rx4 SK Hynix</td>
+<td align="center">20</td>
+<td align="right">$430</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+
+<!-- CISCO NETWORKING -->
+<tr>
+<td style="padding:0 25px 20px 25px;">
+
+<h2 style="font-size:18px; color:#222222; margin:10px 0;">
+Cisco Networking
+</h2>
+
+<table width="100%" cellpadding="8" cellspacing="0" border="1"
+style="border-collapse:collapse; border-color:#dddddd; font-size:13px;">
+
+<tr style="background:#f5f5f5;">
+<th align="left">Product</th>
+<th align="center">Qty.</th>
+<th align="right">Price</th>
+</tr>
+
+<tr>
+<td>C9300-48T-A Cisco Catalyst 9300</td>
+<td align="center">12</td>
+<td align="right">$490</td>
+</tr>
+
+<tr>
+<td>C9200-48P-A Cisco Catalyst 9200</td>
+<td align="center">10</td>
+<td align="right">$180</td>
+</tr>
+
+<tr>
+<td>C9200L-48P-4G-E Cisco Catalyst 9200L</td>
+<td align="center">15</td>
+<td align="right">$120</td>
+</tr>
+
+<tr>
+<td>C9500-24Y4C-A Cisco Catalyst 9500</td>
+<td align="center">2</td>
+<td align="right">$2,800</td>
+</tr>
+
+<tr>
+<td>N9K-C93180YC-FX Cisco Nexus 93180YC-FX</td>
+<td align="center">10</td>
+<td align="right">$400</td>
+</tr>
+
+<tr>
+<td>N9K-C93180YC-FX3 Cisco Nexus 93180YC-FX3</td>
+<td align="center">8</td>
+<td align="right">$590</td>
+</tr>
+
+<tr>
+<td>N9K-C9336C-FX2 Cisco Nexus 9336C-FX2</td>
+<td align="center">3</td>
+<td align="right">$2,400</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+
+<!-- CISCO COLLABORATION -->
+<tr>
+<td style="padding:0 25px 20px 25px;">
+
+<h2 style="font-size:18px; color:#222222; margin:10px 0;">
+Cisco Collaboration
+</h2>
+
+<table width="100%" cellpadding="8" cellspacing="0" border="1"
+style="border-collapse:collapse; border-color:#dddddd; font-size:13px;">
+
+<tr style="background:#f5f5f5;">
+<th align="left">Product</th>
+<th align="center">Qty.</th>
+<th align="right">Price</th>
+</tr>
+
+<tr>
+<td>SPARK-BOARD70-K9</td>
+<td align="center">8</td>
+<td align="right">$1,850</td>
+</tr>
+
+<tr>
+<td>SPARK-BOARD70-G-K9</td>
+<td align="center">5</td>
+<td align="right">$1,950</td>
+</tr>
+
+<tr>
+<td>CS-BRD75P-K9</td>
+<td align="center">3</td>
+<td align="right">$10,200</td>
+</tr>
+
+<tr>
+<td>CS-BRD55P-K9</td>
+<td align="center">3</td>
+<td align="right">$5,900</td>
+</tr>
+
+<tr>
+<td>CS-ROOMBARPRO-K9</td>
+<td align="center">5</td>
+<td align="right">$2,950</td>
+</tr>
+
+<tr>
+<td>CS-ROOMBAR-K9</td>
+<td align="center">15</td>
+<td align="right">$610</td>
+</tr>
+
+<tr>
+<td>CS-DESKPRO-K9</td>
+<td align="center">9</td>
+<td align="right">$1,100</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+
+<!-- LENOVO -->
+<tr>
+<td style="padding:0 25px 20px 25px;">
+
+<h2 style="font-size:18px; color:#222222; margin:10px 0;">
+Lenovo ThinkSystem
+</h2>
+
+<table width="100%" cellpadding="8" cellspacing="0" border="1"
+style="border-collapse:collapse; border-color:#dddddd; font-size:13px;">
+
+<tr style="background:#f5f5f5;">
+<th align="left">Product</th>
+<th align="center">Qty.</th>
+<th align="right">Price</th>
+</tr>
+
+<tr>
+<td>ThinkSystem SR250 V3</td>
+<td align="center">6</td>
+<td align="right">$1,800</td>
+</tr>
+
+<tr>
+<td>ThinkSystem SR630 V3</td>
+<td align="center">8</td>
+<td align="right">$3,500</td>
+</tr>
+
+<tr>
+<td>ThinkSystem SR650 V3</td>
+<td align="center">13</td>
+<td align="right">$5,000</td>
+</tr>
+
+<tr>
+<td>ThinkSystem SR650a V3</td>
+<td align="center">5</td>
+<td align="right">$6,500</td>
+</tr>
+
+<tr>
+<td>ThinkSystem SR665 V3</td>
+<td align="center">6</td>
+<td align="right">$7,500</td>
+</tr>
+
+<tr>
+<td>ThinkSystem SR645 V3</td>
+<td align="center">3</td>
+<td align="right">$4,500</td>
+</tr>
+
+<tr>
+<td>ThinkSystem SR635 V3</td>
+<td align="center">8</td>
+<td align="right">$3,500</td>
+</tr>
+
+<tr>
+<td>ThinkSystem SR675 V3</td>
+<td align="center">10</td>
+<td align="right">$8,000</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+
+<!-- NVIDIA -->
+<tr>
+<td style="padding:0 25px 20px 25px;">
+
+<h2 style="font-size:18px; color:#222222; margin:10px 0;">
+NVIDIA GPUs
+</h2>
+
+<table width="100%" cellpadding="8" cellspacing="0" border="1"
+style="border-collapse:collapse; border-color:#dddddd; font-size:13px;">
+
+<tr style="background:#f5f5f5;">
+<th align="left">Product</th>
+<th align="center">Qty.</th>
+<th align="right">Price</th>
+</tr>
+
+<tr>
+<td>NVIDIA H100 PCIe — 80GB HBM3</td>
+<td align="center">6</td>
+<td align="right">$19,300</td>
+</tr>
+
+<tr>
+<td>NVIDIA H200 PCIe/NVL — 141GB HBM3e</td>
+<td align="center">4</td>
+<td align="right">$21,500</td>
+</tr>
+
+<tr>
+<td>NVIDIA L40S — 48GB GDDR6</td>
+<td align="center">7</td>
+<td align="right">$3,500</td>
+</tr>
+
+<tr>
+<td>NVIDIA RTX PRO 6000 Blackwell Server Edition — 96GB GDDR7 ECC</td>
+<td align="center">2</td>
+<td align="right">$9,900</td>
+</tr>
+
+<tr>
+<td>NVIDIA RTX PRO 6000 Blackwell Workstation Edition — 96GB GDDR7</td>
+<td align="center">3</td>
+<td align="right">$3,900</td>
+</tr>
+
+<tr>
+<td>NVIDIA B200 — 180GB HBM3e</td>
+<td align="center">3</td>
+<td align="right">$22,000</td>
+</tr>
+
+<tr>
+<td>NVIDIA RTX 6000 Ada — 48GB GDDR6 ECC</td>
+<td align="center">10</td>
+<td align="right">$2,100</td>
+</tr>
+
+<tr>
+<td>NVIDIA A100 — 40GB/80GB</td>
+<td align="center">15</td>
+<td align="right">$2,000</td>
+</tr>
+
+<tr>
+<td>NVIDIA L4 — 24GB GDDR6</td>
+<td align="center">17</td>
+<td align="right">$970</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+
+<!-- CONTACT -->
+<tr>
+<td style="padding:10px 25px 25px 25px;">
+
+<p style="font-size:14px; line-height:1.6; margin:0 0 10px 0;">
+If you are interested in any of the above products, please send us your
+required part numbers and quantities. We can confirm availability and
+provide the next steps for ordering, payment, pickup or delivery.
+</p>
+
+<p style="font-size:14px; line-height:1.6; margin:0;">
+Best regards,<br>
+<strong>Martin Liam</strong><br>
+Prime Tech Ware<br>
+Compton, California<br>
+<a href="mailto:sales@primetechware.com"
+style="color:#333333; text-decoration:none;">
+sales@primetechware.com
+</a><br>
++1 909 435 4982<br>
++1 909 552 6526<br>
+<a href="https://primetechware.com"
+style="color:#333333; text-decoration:none;">
+primetechware.com
+</a>
+</p>
+
+</td>
+</tr>
+
+
+<!-- FOOTER -->
+<tr>
+<td style="padding:15px 25px; border-top:1px solid #dddddd; background:#fafafa;">
+
+<p style="font-size:11px; color:#777777; line-height:1.5; margin:0;">
+Inventory and pricing are subject to availability and prior sale.
+Please confirm current stock and pricing before placing an order.
+</p>
+
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>
+
+
+
+--1054c0ed2348902a2943cc78779b08788--
+
