@@ -1,1073 +1,208 @@
-Return-Path: <SRS0=JbNP=HU=detnov.org=sales@kernel.org>
+Return-Path: <SRS0=EiSH=HU=oss.qualcomm.com=venkata.kota@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7463BC9832F
-	for <linux-firmware@archiver.kernel.org>; Mon, 28 Sep 2026 02:42:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BBC2FC98328
+	for <linux-firmware@archiver.kernel.org>; Mon, 28 Sep 2026 03:53:03 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 3A8D11F000FF; Mon, 28 Sep 2026 02:42:48 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=85.121.51.224
+	id 881E21F00893; Mon, 28 Sep 2026 03:53:03 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1790563368;
-	b=I69rVne+NC3d8RZKDDsL7Hpj82LE7B7pGcvLl6L4hdz83wY+8X2TQlRQAqvyNn/kLupc
-	 Rp+sUs1L6TqiL1Xce9eESOCyU7a6VZdDlnsAX9uAmmvpSHhYG0SbEurhIsCWw2qd86PEG
-	 dq1CeF6i+rzqR7Sevn4Pz026ydCZTMxVEksIgp94V+r9AocuxWb0Mue16CChHf0CAbnHU
-	 7Rw6vzhDP2jMBkSq5rO5op1if9QZO1oG7GYnoN9KRBqe+KGBTeLT4nH3prcd7idyPSEMh
-	 HoDHe5HugGmB1A7N1nlQMhZFBiGy1AXYhDdD3P9yURSqloY7L5hJ06chCN2QEybPJMQ==
+	t=1790567583;
+	b=Mp4OlQa1YYZ4M+HVOVvd2Rtsd9lQ/PJC73Y6oQX0mDHYn/8uBnsGcqV2aEPSgIkbJQyd
+	 pxOF8hSDvqvx/VpqYGjL6x9U4OVXnMW2NqqtK0gdV8eODjkjXguSF+258Nu3ciroWpC4E
+	 uzAmHQlx458paCc6PzE/gV0OxRSRWNbUrMDgKDNozFP8pwfIvtZFTVNDhUd6OhcyE1bry
+	 43QRNOxQtcg+NpdWy2C8dIdIAMqDUPfaRPbl5WkI414v0FTg2sIl1X2C0Hfg8aO4aXhUC
+	 ZuJKTBpIJuLI1UFJi2GVFBPHPodpMQ69HBgHXFmd9+ODFw9r2t6Pw6Krbw1a2GxcrQQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1790563368;
-	h=DMARC-Filter:Received:DKIM-Signature:Date:List-Id:To:From:Reply-To:
-	 Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=+YlUFrZodHKqhhNSm0Y+21GWcWafm9Yo2RSbavWwNhE=;
-	b=SmWQHuSC7lOy7znR/GshjqQRN7PDiMYWA5+iusG1YpcYn7KUlf/HuBq/lYYFEyipWiSs
-	 mxVcr6tXMidbE/QQUEMvnmN0iX+JCYNwdWOqIToqk19mjfTLdPeZ8OA/muJ2fyFVTCVDZ
-	 VEffE/1BeomuZyEz1iceIwJSbynVxvqQcpK12SUJcx2tuOBPY7acxDH7Y/fKxWNe9N36m
-	 igSLNGX7AoRHrmC1AB/T/ElbK1VkNRvCubEzrMnL4X4X6R7t8ZrGhXjVSlp9OyVA7iUR7
-	 ph5vOskzJMq15h46vCTm+Y0szowm/fMoQphr7/eeQC7xub216XMj/HXA/cReUvGjViQ==
-ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=detnov.org header.i=@detnov.org header.a=rsa-sha256 header.s=default header.b=crIXTVmA;
-	dmarc=pass header.from=detnov.org;
-	spf=pass smtp.mailfrom=detnov.org;
-	arc=none smtp.remote-ip=85.121.51.224
-Received: from detnov.org (detnov.org [85.121.51.224])
+	c=relaxed/relaxed; t=1790567583;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
+	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Content-Language:List-Id:To:Cc:From:Subject:Autocrypt:
+	 Content-Type:Content-Transfer-Encoding:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=51KA7y3CFVh4jlsyWSekXluIy1kCHhvlpMAdab3S7WI=;
+	b=pY9jc9ZU4+B/fzJ7no/HaHVeC84khY86jsYWU2s7a7zHAH7YpyOxljnnorpF2lotdOY0
+	 jBsI5ywrc6dgzGrt0tsoDUPs5nxwCWtA/JwnnavdoN0zbgI/dIhGcRHr+ImRIbRCgUyXK
+	 A/KweaAly5T0dwkQ2qPwrLQZ8/S6qQaHUCI9vd4j5IEy9j5S4mRxMjg1zNkA0mJkoS8Z7
+	 4J8tOIkd6jTfDcJRas4SQDb6pWudKwE+dOjLo9v97FLMlbS6KcJbWoDW0CPv4f/tcU/kk
+	 TCqT71iyqx6+iBtsExJWFAxYBBNLxZvbTkXP3ktP++2XoUW8VWs1XSkYSkhj9dlmxkA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=TXOW9nVl;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=ENoSfS7F;
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 5E6461F00898
-	for <linux-firmware@kernel.org>; Mon, 28 Sep 2026 02:42:47 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id DDB531F000FF
+	for <linux-firmware@kernel.org>; Mon, 28 Sep 2026 03:53:02 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=detnov.org header.i=@detnov.org header.a=rsa-sha256 header.s=default header.b=crIXTVmA
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 5E6461F00898
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=detnov.org
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=detnov.org
-Received: from 127.0.0.1 (unknown [23.95.89.238])
-	(Authenticated sender: sales@detnov.org)
-	by detnov.org (Postfix) with ESMTPSA id 9BE161222C1
-	for <linux-firmware@kernel.org>; Mon, 28 Sep 2026 04:42:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=detnov.org;
-	s=default; t=1790563360;
-	bh=+YlUFrZodHKqhhNSm0Y+21GWcWafm9Yo2RSbavWwNhE=;
-	h=Date:To:From:Reply-To:Subject:From;
-	b=crIXTVmApJpU7eMJcmP+IU0LhWkc0+NiMC8oTdVhsY4E7VevbClVqohlROkCLxAuT
-	 xq7gXdljxMQaGSywknGW9p/4SVVLZY2cnPELwzE5jcObvYm0eWo1VG3zFAfnDskfx4
-	 nHoSbeWGe8YDf2E4KxzTz5gA32g3LRbbOrfwhFRMhih/b2jjPFiqWOgVuncgSPBZ/B
-	 Y4x1y74YqgR2+ZKefgHkRHNNFPXO3K7OQDX9YFBPWy5srg5uj+WlTLh3ZlQuW/vD4d
-	 Bd3U0wI77RYIyCpC8geXURsmgrVvBKilsI9Pmv6Lq2VnvT5GVIzvt/RdnA8va6WqXj
-	 UCeE7zsicClGw==
-Date: Mon, 28 Sep 2026 02:00:37 +0200
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-From: Prime tech Ware <sales@detnov.org>
-Reply-To: sales@primetechware.com
-Subject: Attn:
-Message-ID: <1c782783b905d066e4ec5d52a09df9ed@detnov.org>
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=TXOW9nVl;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=ENoSfS7F
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org DDB531F000FF
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68RNZm74920214
+	for <linux-firmware@kernel.org>; Mon, 28 Sep 2026 03:53:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=51KA7y3CFVh4jlsyWSekXl
+	uIy1kCHhvlpMAdab3S7WI=; b=TXOW9nVl+ZxmkM/McUoT8jj6CzqgZZUbpbR3LX
+	UKqh2DEhwl8yjd7eOmpMnR/TPaA8NfkbfPQYT9alVbkUwF+9HKTciHm2tnoEuJ/B
+	ToiAKW1se/BICUpS7G3nxWCexKTxnXHFom0NQnKYLmKkd9WUDf9JDYGN7qtUX8GO
+	eopuLzb76Bjcgh/X2+l5pD9/Cs+Fh66wvuYQkFmdkVjIXpZ5Bem1qDNEfyt6ssou
+	EoURpoFjsgzeLkfcOi1zV3c91JLleVMBkyyvKg6XnH5iVfqWKtrOn59Q6o3otwrI
+	GpbPIbDjT6C1EBsNfa1FqF23KE5dZ3RTbNgYz18o1oV5s/tA==
+Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gx3rfvqw0-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-firmware@kernel.org>; Mon, 28 Sep 2026 03:53:01 +0000 (GMT)
+Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-30f1b904861so3875071eec.0
+        for <linux-firmware@kernel.org>; Sun, 27 Sep 2026 20:53:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1790567581; x=1791172381; darn=kernel.org;
+        h=content-transfer-encoding:content-type:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=51KA7y3CFVh4jlsyWSekXluIy1kCHhvlpMAdab3S7WI=;
+        b=ENoSfS7Fxu2mMahKlMAT2poRsYjN+H5/VZ7Dbzd8WoMR2paajZWLxfMvzqUtuaQ8Yl
+         405I6U8Smm/C337UJORptXDDzVu/mEtSkXQvffSeK7Zx6T31mXwD90Hryz++0u9z21k6
+         QQQZwQby22/+BDkVLpb1yo4MJsz6OqzRC8XC4ECS6K9muTqdM8jAsFIyDwE5+WPqdd8w
+         Vx0qKXYOa/ez04TfrVMmLSFdMLfPvQpxK3TIYhzZDr5f4IF35o+uryonR2OAUQOP26Ns
+         a2O5HSdLFSAJi+66loqlUqe+2lBXMXBKlvABZLYatAgCYhwoHGHJRhllBENYcTkArxbj
+         j9Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790567581; x=1791172381;
+        h=content-transfer-encoding:content-type:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=51KA7y3CFVh4jlsyWSekXluIy1kCHhvlpMAdab3S7WI=;
+        b=ozoQcASurmN8O35CZ+nFxz2CJx2VVxk53GGceC3FOww64R35ka3cWIqZvMK3Lq5Uhs
+         iPbWUbh41+uwAieFr+wvE9CEhIs+vo1TADbzJ65/nii9etYNKxOcwyjB9BZteoLDBoyR
+         VLvgjA1MB3iPzYAwGNMO53BH5e5iOa/vSzPW+oQRrbdbvZ8YOgalE7XabsPmInxn5o+l
+         TzFAz6Qv/BNw9VHvZGX5tw5e0+sdJLy6uhs0CSdX1+bs58HNM77R5d7PSCCsly6xyB1v
+         JvSMHzahNUcc+YeeIpkfZFSj3eVNHr7pYdqioaFlAYmAJBe2tNi4UPBAAMkJ860gT9gY
+         0wUg==
+X-Gm-Message-State: AFq9FYJn+9iR1/AZXv3KfaIlpLzOCPaVIKPP8cqu3ZY6K+YqXYIG2cYD
+	o4kAe8oIXd8mTOapnnNfbNwZ3Av2dxJGG/QBMIupEQeGzX+oCAkaqwV8nMkFjATsXeD3Xofj6xn
+	/1UorBEC1fsM250WsN85Iq+gEe3rdvwXjFVMsyTZHiOsFhnS1nTmg8t0diTPuyTA0y6t7m1A=
+X-Gm-Gg: AYBFou2SRIjshKDV6Zo+BSrN85I7zByJQ/oaJzC/8JyGHwjkdxHQdtGgwFw2EPEgkTP
+	jEzpCQ8MP+u4jLpqh+VWqTiIY0o7WJ2zcIiPUDyy9U9AqRgKknSernAMqoFQqgjF+TD3SlTQvEC
+	tqqdLw+oJRmPCPiulmAnkpwdGhelDUh+/QVy2sOVR3M7UrIavwN64rpSkkJsVZzMrOqWBoPtzLh
+	lbHk9LtZLyhoayLJFlDLMxqOgFion+mN8y2tdYePvo1gPTWf3qGBrmOgLvUeQ2hbZIrAiGYZ+d9
+	XZC7qPhyFa0BUaxH+5RPnKDLQbjZaaeLypgxyH4AhJ7tcMkExY39xMKUXL2EkIstQTXpqzppotd
+	LIx9RquTMpGSVcD+ihHsFFR4oALIg
+X-Received: by 2002:a05:7300:e102:b0:33c:16f1:2e11 with SMTP id 5a478bee46e88-3426f8c3e9cmr9013758eec.7.1790567580945;
+        Sun, 27 Sep 2026 20:53:00 -0700 (PDT)
+X-Received: by 2002:a05:7300:e102:b0:33c:16f1:2e11 with SMTP id 5a478bee46e88-3426f8c3e9cmr9013736eec.7.1790567580366;
+        Sun, 27 Sep 2026 20:53:00 -0700 (PDT)
+Received: from [10.219.57.13] ([202.46.23.19])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34145c17074sm22931664eec.26.2026.09.27.20.52.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 27 Sep 2026 20:53:00 -0700 (PDT)
+Message-ID: <17812e6a-365a-445f-81ce-42d5bdc774d3@oss.qualcomm.com>
+Date: Mon, 28 Sep 2026 09:22:57 +0530
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="1054c0ed2348902a2943cc78779b08788"
-Content-Transfer-Encoding: 8bit
-
-This is a multi-part message in MIME format.
-
---1054c0ed2348902a2943cc78779b08788
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-
-
-
-
-
-Prime Tech Ware - Current Inventory
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Prime Tech Ware
-
-
-Business Hardware Supply
-
-
-
-
-
-
-
-
-
-Hello,
-
-
-
-Please find below our current inventory availability across memory, networking,
-collaboration, server and NVIDIA GPU products.
-
-
-
-Quantities are subject to prior sale. Please contact us to confirm current
-availability and lead time for your required items.
-
-
-
-
-
-
-
-
-
-
-
-DDR4 Memory
-
-
-
-
-
-Product
-Qty.
-Price
-
-
-
-32GB 2Rx4 PC4-2400T
-460
-$8
-
-
-
-32GB 2Rx4 PC4-3200AA
-500
-$10
-
-
-
-16GB 2Rx8 PC4-3200AA
-500
-$6
-
-
-
-128GB 4DRx4 DDR4 PC4-2933Y REG ECC LRDIMM
-70
-$80
-
-
-
-32GB Dual Rank x4 DDR4-2933 CAS-21
-90
-$15
-
-
-
-64GB Dual Rank x4 DDR4-2933 CAS-21
-50
-$28
-
-
-
-32GB Dual Rank x4 DDR4-3200 CAS-22
-59
-$18
-
-
-
-64GB Dual Rank x4 DDR4-3200 CAS-22
-100
-$32
-
-
-
-
-
-
-
-
-
-
-
-
-DDR5 &amp; Server Memory
-
-
-
-
-
-Product
-Qty.
-Price
-
-
-
-DDR5 64GB 4800MHz ECC RDIMM 2Rx4 P43331-B21
-16
-$510
-
-
-
-DDR5 64GB 5600MHz ECC RDIMM 2Rx4 P64707-B21
-19
-$700
-
-
-
-DDR4 64GB 3200MHz ECC RDIMM 2Rx4 SK Hynix
-25
-$360
-
-
-
-DDR5 64GB 4800MHz ECC RDIMM 2Rx4 Samsung
-25
-$470
-
-
-
-DDR5 64GB 5600MHz ECC RDIMM 2Rx4 SK Hynix
-20
-$430
-
-
-
-
-
-
-
-
-
-
-
-
-Cisco Networking
-
-
-
-
-
-Product
-Qty.
-Price
-
-
-
-C9300-48T-A Cisco Catalyst 9300
-12
-$490
-
-
-
-C9200-48P-A Cisco Catalyst 9200
-10
-$180
-
-
-
-C9200L-48P-4G-E Cisco Catalyst 9200L
-15
-$120
-
-
-
-C9500-24Y4C-A Cisco Catalyst 9500
-2
-$2,800
-
-
-
-N9K-C93180YC-FX Cisco Nexus 93180YC-FX
-10
-$400
-
-
-
-N9K-C93180YC-FX3 Cisco Nexus 93180YC-FX3
-8
-$590
-
-
-
-N9K-C9336C-FX2 Cisco Nexus 9336C-FX2
-3
-$2,400
-
-
-
-
-
-
-
-
-
-
-
-
-Cisco Collaboration
-
-
-
-
-
-Product
-Qty.
-Price
-
-
-
-SPARK-BOARD70-K9
-8
-$1,850
-
-
-
-SPARK-BOARD70-G-K9
-5
-$1,950
-
-
-
-CS-BRD75P-K9
-3
-$10,200
-
-
-
-CS-BRD55P-K9
-3
-$5,900
-
-
-
-CS-ROOMBARPRO-K9
-5
-$2,950
-
-
-
-CS-ROOMBAR-K9
-15
-$610
-
-
-
-CS-DESKPRO-K9
-9
-$1,100
-
-
-
-
-
-
-
-
-
-
-
-
-Lenovo ThinkSystem
-
-
-
-
-
-Product
-Qty.
-Price
-
-
-
-ThinkSystem SR250 V3
-6
-$1,800
-
-
-
-ThinkSystem SR630 V3
-8
-$3,500
-
-
-
-ThinkSystem SR650 V3
-13
-$5,000
-
-
-
-ThinkSystem SR650a V3
-5
-$6,500
-
-
-
-ThinkSystem SR665 V3
-6
-$7,500
-
-
-
-ThinkSystem SR645 V3
-3
-$4,500
-
-
-
-ThinkSystem SR635 V3
-8
-$3,500
-
-
-
-ThinkSystem SR675 V3
-10
-$8,000
-
-
-
-
-
-
-
-
-
-
-
-
-NVIDIA GPUs
-
-
-
-
-
-Product
-Qty.
-Price
-
-
-
-NVIDIA H100 PCIe — 80GB HBM3
-6
-$19,300
-
-
-
-NVIDIA H200 PCIe/NVL — 141GB HBM3e
-4
-$21,500
-
-
-
-NVIDIA L40S — 48GB GDDR6
-7
-$3,500
-
-
-
-NVIDIA RTX PRO 6000 Blackwell Server Edition — 96GB GDDR7 ECC
-2
-$9,900
-
-
-
-NVIDIA RTX PRO 6000 Blackwell Workstation Edition — 96GB GDDR7
-3
-$3,900
-
-
-
-NVIDIA B200 — 180GB HBM3e
-3
-$22,000
-
-
-
-NVIDIA RTX 6000 Ada — 48GB GDDR6 ECC
-10
-$2,100
-
-
-
-NVIDIA A100 — 40GB/80GB
-15
-$2,000
-
-
-
-NVIDIA L4 — 24GB GDDR6
-17
-$970
-
-
-
-
-
-
-
-
-
-
-
-
-If you are interested in any of the above products, please send us your
-required part numbers and quantities. We can confirm availability and
-provide the next steps for ordering, payment, pickup or delivery.
-
-
-
-Best regards,
-Martin Liam
-Prime Tech Ware
-Compton, California
-
-sales@primetechware.com
-
-+1 909 435 4982
-+1 909 552 6526
-
-primetechware.com
-
-
-
-
-
-
-
-
-
-
-
-
-Inventory and pricing are subject to availability and prior sale.
-Please confirm current stock and pricing before placing an order.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---1054c0ed2348902a2943cc78779b08788
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prime Tech Ware - Current Inventory</title>
-</head>
-
-<body style="margin:0; padding:0; background:#ffffff; font-family:Arial, Helvetica, sans-serif; color:#333333;">
-
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;">
-<tr>
-<td align="center" style="padding:20px 10px;">
-
-<table role="presentation" width="700" cellpadding="0" cellspacing="0" border="0"
-style="max-width:700px; width:100%; border:1px solid #dddddd; background:#ffffff;">
-
-<!-- HEADER -->
-<tr>
-<td style="padding:22px 25px; border-bottom:1px solid #dddddd;">
-<div style="font-size:24px; font-weight:bold; color:#222222;">
-Prime Tech Ware
-</div>
-<div style="font-size:13px; color:#666666; margin-top:4px;">
-Business Hardware Supply
-</div>
-</td>
-</tr>
-
-<!-- INTRODUCTION -->
-<tr>
-<td style="padding:22px 25px 10px 25px;">
-
-<p style="margin:0 0 10px 0; font-size:15px; line-height:1.6;">
-Hello,
-</p>
-
-<p style="margin:0 0 10px 0; font-size:14px; line-height:1.6;">
-Please find below our current inventory availability across memory, networking,
-collaboration, server and NVIDIA GPU products.
-</p>
-
-<p style="margin:0 0 20px 0; font-size:14px; line-height:1.6;">
-Quantities are subject to prior sale. Please contact us to confirm current
-availability and lead time for your required items.
-</p>
-
-</td>
-</tr>
-
-
-<!-- DDR4 MEMORY -->
-<tr>
-<td style="padding:0 25px 20px 25px;">
-
-<h2 style="font-size:18px; color:#222222; margin:10px 0;">
-DDR4 Memory
-</h2>
-
-<table width="100%" cellpadding="8" cellspacing="0" border="1"
-style="border-collapse:collapse; border-color:#dddddd; font-size:13px;">
-
-<tr style="background:#f5f5f5;">
-<th align="left">Product</th>
-<th align="center">Qty.</th>
-<th align="right">Price</th>
-</tr>
-
-<tr>
-<td>32GB 2Rx4 PC4-2400T</td>
-<td align="center">460</td>
-<td align="right">$8</td>
-</tr>
-
-<tr>
-<td>32GB 2Rx4 PC4-3200AA</td>
-<td align="center">500</td>
-<td align="right">$10</td>
-</tr>
-
-<tr>
-<td>16GB 2Rx8 PC4-3200AA</td>
-<td align="center">500</td>
-<td align="right">$6</td>
-</tr>
-
-<tr>
-<td>128GB 4DRx4 DDR4 PC4-2933Y REG ECC LRDIMM</td>
-<td align="center">70</td>
-<td align="right">$80</td>
-</tr>
-
-<tr>
-<td>32GB Dual Rank x4 DDR4-2933 CAS-21</td>
-<td align="center">90</td>
-<td align="right">$15</td>
-</tr>
-
-<tr>
-<td>64GB Dual Rank x4 DDR4-2933 CAS-21</td>
-<td align="center">50</td>
-<td align="right">$28</td>
-</tr>
-
-<tr>
-<td>32GB Dual Rank x4 DDR4-3200 CAS-22</td>
-<td align="center">59</td>
-<td align="right">$18</td>
-</tr>
-
-<tr>
-<td>64GB Dual Rank x4 DDR4-3200 CAS-22</td>
-<td align="center">100</td>
-<td align="right">$32</td>
-</tr>
-
-</table>
-</td>
-</tr>
-
-
-<!-- DDR5 / SERVER MEMORY -->
-<tr>
-<td style="padding:0 25px 20px 25px;">
-
-<h2 style="font-size:18px; color:#222222; margin:10px 0;">
-DDR5 &amp; Server Memory
-</h2>
-
-<table width="100%" cellpadding="8" cellspacing="0" border="1"
-style="border-collapse:collapse; border-color:#dddddd; font-size:13px;">
-
-<tr style="background:#f5f5f5;">
-<th align="left">Product</th>
-<th align="center">Qty.</th>
-<th align="right">Price</th>
-</tr>
-
-<tr>
-<td>DDR5 64GB 4800MHz ECC RDIMM 2Rx4 P43331-B21</td>
-<td align="center">16</td>
-<td align="right">$510</td>
-</tr>
-
-<tr>
-<td>DDR5 64GB 5600MHz ECC RDIMM 2Rx4 P64707-B21</td>
-<td align="center">19</td>
-<td align="right">$700</td>
-</tr>
-
-<tr>
-<td>DDR4 64GB 3200MHz ECC RDIMM 2Rx4 SK Hynix</td>
-<td align="center">25</td>
-<td align="right">$360</td>
-</tr>
-
-<tr>
-<td>DDR5 64GB 4800MHz ECC RDIMM 2Rx4 Samsung</td>
-<td align="center">25</td>
-<td align="right">$470</td>
-</tr>
-
-<tr>
-<td>DDR5 64GB 5600MHz ECC RDIMM 2Rx4 SK Hynix</td>
-<td align="center">20</td>
-<td align="right">$430</td>
-</tr>
-
-</table>
-</td>
-</tr>
-
-
-<!-- CISCO NETWORKING -->
-<tr>
-<td style="padding:0 25px 20px 25px;">
-
-<h2 style="font-size:18px; color:#222222; margin:10px 0;">
-Cisco Networking
-</h2>
-
-<table width="100%" cellpadding="8" cellspacing="0" border="1"
-style="border-collapse:collapse; border-color:#dddddd; font-size:13px;">
-
-<tr style="background:#f5f5f5;">
-<th align="left">Product</th>
-<th align="center">Qty.</th>
-<th align="right">Price</th>
-</tr>
-
-<tr>
-<td>C9300-48T-A Cisco Catalyst 9300</td>
-<td align="center">12</td>
-<td align="right">$490</td>
-</tr>
-
-<tr>
-<td>C9200-48P-A Cisco Catalyst 9200</td>
-<td align="center">10</td>
-<td align="right">$180</td>
-</tr>
-
-<tr>
-<td>C9200L-48P-4G-E Cisco Catalyst 9200L</td>
-<td align="center">15</td>
-<td align="right">$120</td>
-</tr>
-
-<tr>
-<td>C9500-24Y4C-A Cisco Catalyst 9500</td>
-<td align="center">2</td>
-<td align="right">$2,800</td>
-</tr>
-
-<tr>
-<td>N9K-C93180YC-FX Cisco Nexus 93180YC-FX</td>
-<td align="center">10</td>
-<td align="right">$400</td>
-</tr>
-
-<tr>
-<td>N9K-C93180YC-FX3 Cisco Nexus 93180YC-FX3</td>
-<td align="center">8</td>
-<td align="right">$590</td>
-</tr>
-
-<tr>
-<td>N9K-C9336C-FX2 Cisco Nexus 9336C-FX2</td>
-<td align="center">3</td>
-<td align="right">$2,400</td>
-</tr>
-
-</table>
-</td>
-</tr>
-
-
-<!-- CISCO COLLABORATION -->
-<tr>
-<td style="padding:0 25px 20px 25px;">
-
-<h2 style="font-size:18px; color:#222222; margin:10px 0;">
-Cisco Collaboration
-</h2>
-
-<table width="100%" cellpadding="8" cellspacing="0" border="1"
-style="border-collapse:collapse; border-color:#dddddd; font-size:13px;">
-
-<tr style="background:#f5f5f5;">
-<th align="left">Product</th>
-<th align="center">Qty.</th>
-<th align="right">Price</th>
-</tr>
-
-<tr>
-<td>SPARK-BOARD70-K9</td>
-<td align="center">8</td>
-<td align="right">$1,850</td>
-</tr>
-
-<tr>
-<td>SPARK-BOARD70-G-K9</td>
-<td align="center">5</td>
-<td align="right">$1,950</td>
-</tr>
-
-<tr>
-<td>CS-BRD75P-K9</td>
-<td align="center">3</td>
-<td align="right">$10,200</td>
-</tr>
-
-<tr>
-<td>CS-BRD55P-K9</td>
-<td align="center">3</td>
-<td align="right">$5,900</td>
-</tr>
-
-<tr>
-<td>CS-ROOMBARPRO-K9</td>
-<td align="center">5</td>
-<td align="right">$2,950</td>
-</tr>
-
-<tr>
-<td>CS-ROOMBAR-K9</td>
-<td align="center">15</td>
-<td align="right">$610</td>
-</tr>
-
-<tr>
-<td>CS-DESKPRO-K9</td>
-<td align="center">9</td>
-<td align="right">$1,100</td>
-</tr>
-
-</table>
-</td>
-</tr>
-
-
-<!-- LENOVO -->
-<tr>
-<td style="padding:0 25px 20px 25px;">
-
-<h2 style="font-size:18px; color:#222222; margin:10px 0;">
-Lenovo ThinkSystem
-</h2>
-
-<table width="100%" cellpadding="8" cellspacing="0" border="1"
-style="border-collapse:collapse; border-color:#dddddd; font-size:13px;">
-
-<tr style="background:#f5f5f5;">
-<th align="left">Product</th>
-<th align="center">Qty.</th>
-<th align="right">Price</th>
-</tr>
-
-<tr>
-<td>ThinkSystem SR250 V3</td>
-<td align="center">6</td>
-<td align="right">$1,800</td>
-</tr>
-
-<tr>
-<td>ThinkSystem SR630 V3</td>
-<td align="center">8</td>
-<td align="right">$3,500</td>
-</tr>
-
-<tr>
-<td>ThinkSystem SR650 V3</td>
-<td align="center">13</td>
-<td align="right">$5,000</td>
-</tr>
-
-<tr>
-<td>ThinkSystem SR650a V3</td>
-<td align="center">5</td>
-<td align="right">$6,500</td>
-</tr>
-
-<tr>
-<td>ThinkSystem SR665 V3</td>
-<td align="center">6</td>
-<td align="right">$7,500</td>
-</tr>
-
-<tr>
-<td>ThinkSystem SR645 V3</td>
-<td align="center">3</td>
-<td align="right">$4,500</td>
-</tr>
-
-<tr>
-<td>ThinkSystem SR635 V3</td>
-<td align="center">8</td>
-<td align="right">$3,500</td>
-</tr>
-
-<tr>
-<td>ThinkSystem SR675 V3</td>
-<td align="center">10</td>
-<td align="right">$8,000</td>
-</tr>
-
-</table>
-</td>
-</tr>
-
-
-<!-- NVIDIA -->
-<tr>
-<td style="padding:0 25px 20px 25px;">
-
-<h2 style="font-size:18px; color:#222222; margin:10px 0;">
-NVIDIA GPUs
-</h2>
-
-<table width="100%" cellpadding="8" cellspacing="0" border="1"
-style="border-collapse:collapse; border-color:#dddddd; font-size:13px;">
-
-<tr style="background:#f5f5f5;">
-<th align="left">Product</th>
-<th align="center">Qty.</th>
-<th align="right">Price</th>
-</tr>
-
-<tr>
-<td>NVIDIA H100 PCIe — 80GB HBM3</td>
-<td align="center">6</td>
-<td align="right">$19,300</td>
-</tr>
-
-<tr>
-<td>NVIDIA H200 PCIe/NVL — 141GB HBM3e</td>
-<td align="center">4</td>
-<td align="right">$21,500</td>
-</tr>
-
-<tr>
-<td>NVIDIA L40S — 48GB GDDR6</td>
-<td align="center">7</td>
-<td align="right">$3,500</td>
-</tr>
-
-<tr>
-<td>NVIDIA RTX PRO 6000 Blackwell Server Edition — 96GB GDDR7 ECC</td>
-<td align="center">2</td>
-<td align="right">$9,900</td>
-</tr>
-
-<tr>
-<td>NVIDIA RTX PRO 6000 Blackwell Workstation Edition — 96GB GDDR7</td>
-<td align="center">3</td>
-<td align="right">$3,900</td>
-</tr>
-
-<tr>
-<td>NVIDIA B200 — 180GB HBM3e</td>
-<td align="center">3</td>
-<td align="right">$22,000</td>
-</tr>
-
-<tr>
-<td>NVIDIA RTX 6000 Ada — 48GB GDDR6 ECC</td>
-<td align="center">10</td>
-<td align="right">$2,100</td>
-</tr>
-
-<tr>
-<td>NVIDIA A100 — 40GB/80GB</td>
-<td align="center">15</td>
-<td align="right">$2,000</td>
-</tr>
-
-<tr>
-<td>NVIDIA L4 — 24GB GDDR6</td>
-<td align="center">17</td>
-<td align="right">$970</td>
-</tr>
-
-</table>
-</td>
-</tr>
-
-
-<!-- CONTACT -->
-<tr>
-<td style="padding:10px 25px 25px 25px;">
-
-<p style="font-size:14px; line-height:1.6; margin:0 0 10px 0;">
-If you are interested in any of the above products, please send us your
-required part numbers and quantities. We can confirm availability and
-provide the next steps for ordering, payment, pickup or delivery.
-</p>
-
-<p style="font-size:14px; line-height:1.6; margin:0;">
-Best regards,<br>
-<strong>Martin Liam</strong><br>
-Prime Tech Ware<br>
-Compton, California<br>
-<a href="mailto:sales@primetechware.com"
-style="color:#333333; text-decoration:none;">
-sales@primetechware.com
-</a><br>
-+1 909 435 4982<br>
-+1 909 552 6526<br>
-<a href="https://primetechware.com"
-style="color:#333333; text-decoration:none;">
-primetechware.com
-</a>
-</p>
-
-</td>
-</tr>
-
-
-<!-- FOOTER -->
-<tr>
-<td style="padding:15px 25px; border-top:1px solid #dddddd; background:#fafafa;">
-
-<p style="font-size:11px; color:#777777; line-height:1.5; margin:0;">
-Inventory and pricing are subject to availability and prior sale.
-Please confirm current stock and pricing before placing an order.
-</p>
-
-</td>
-</tr>
-
-</table>
-
-</td>
-</tr>
-</table>
-
-</body>
-</html>
-
-
-
---1054c0ed2348902a2943cc78779b08788--
-
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+List-Id: <linux-firmware.lore.kernel.org>
+To: linux-firmware@kernel.org,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Saddam Patan <saddam.patan@oss.qualcomm.com>
+From: Venkata Kota <venkata.kota@oss.qualcomm.com>
+Subject: Revert "qcom: update ADSP firmware for qcs615 platform"
+Autocrypt: addr=venkata.kota@oss.qualcomm.com; keydata=
+ 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
+ tFo24aqEAzhhzFkq6qZ6FaB0f9M8wen4hRAu98k=
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI4MDAxNSBTYWx0ZWRfX8IGNGPiW5hQm
+ VKtbp2CGyWBzk7n8l96en13d2CF4wgzissQb7tIao8Xdvb9f1dPbb3utGyjr+LptgoimAWDn4kw
+ sm/qIsXQMhzrZby6Cz2GK2k9Q7uSss8=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI4MDAxNSBTYWx0ZWRfX4+h6Nvb2baCo
+ 6bShceYQbRqUn/jGcdGlQhE3NTXDdlaJVL1+LSDrS/k9ipTH+A3RmB+CFPise7SosbTctMAA6fw
+ YeI/A8HgD6lexZKOyPD+vZKjYiLQvPM/n6jGbCPJipxiYdkPbJrG8YtfP4T2feujqxoZ8mOdJqL
+ vXlSi5sYUy401zSbcIJhuGV2siUojAKEQJVPK0Hf5z81vREvGoCzgETwmC6v5WbN1lAiIccxk1X
+ s+eER4whwT4AImEYxnqGeIDp4X2U2+jpIOAkr9EZnDJYcDPRp2BvDG5Q5EScypQ/7Ug3YLl2nal
+ wgycfaCaEw/xpYNqk1iDPGwmLgXFVkOkFY5BnAtZqdD3gIXkBJAH6URJeDvgRmLr+4dVyk2qQRq
+ +DkN7utwAmulOtNoxG6nsldJ3Z5FGLxriZBN2ADoxDmGR6+XVJ0PO6G0DEKWhGGkBppjLoXTEcK
+ L/CDy0xpyGeXclPpLYw==
+X-Proofpoint-GUID: pEiPzuNA7n2Pd2do8IJL2LZJh8Uxn5YI
+X-Proofpoint-ORIG-GUID: pEiPzuNA7n2Pd2do8IJL2LZJh8Uxn5YI
+X-Authority-Analysis: v=2.4 cv=K6G3jCWI c=1 sm=1 tr=0 ts=6ab9e49d cx=c_pps
+ a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=qC_FGOx9AAAA:8 a=XwlOL1DTWCUjJ3RtgzEA:9 a=QEXdDO2ut3YA:10
+ a=bBxd6f-gb0O0v-kibOvt:22 a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-26_05,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 suspectscore=0 clxscore=1015 lowpriorityscore=0 bulkscore=0
+ adultscore=0 priorityscore=1501 impostorscore=0 phishscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609280015
+
+The following changes since commit 9b858e5bb58d7bf1fc4d8818cb9100aed6d46f6a:
+
+   Merge branch 'rubikpi3-adsp-00249.1' into 'main' (2026-09-26 12:42:39 
++0000)
+
+are available in the Git repository at:
+
+   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git 
+dspfw-qli-talos1
+
+for you to fetch changes up to e4c6dd83f2578e6c4a53d09ecd165da0780fecec:
+
+   Revert "qcom: update ADSP firmware for qcs615 platform" (2026-09-28 
+09:19:55 +0530)
+
+----------------------------------------------------------------
+Venkata Kota (1):
+       Revert "qcom: update ADSP firmware for qcs615 platform"
+
+  WHENCE               |   2 +-
+  qcom/qcs615/adsp.mbn | Bin 8659084 -> 8532108 bytes
+  2 files changed, 1 insertion(+), 1 deletion(-)
