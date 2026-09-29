@@ -1,276 +1,217 @@
-Return-Path: <SRS0=Z4m2=HU=gmail.com=s.h.vandelden@kernel.org>
+Return-Path: <SRS0=PC6h=HV=oss.qualcomm.com=jinwang.li@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E8817CA5FA3
-	for <linux-firmware@archiver.kernel.org>; Mon, 28 Sep 2026 19:55:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16F59C9832A
+	for <linux-firmware@archiver.kernel.org>; Tue, 29 Sep 2026 03:45:38 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id B95E61F00893; Mon, 28 Sep 2026 19:55:34 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.229.43
-ARC-Seal: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=pass;
-	t=1790625334;
-	b=zDjSpNcFpu2+tDwxlHQpKBPaD88nS9Gm3eVIpabLv1B5ZD/dMQA/jsTjSUi6x7p/y2MN
-	 i+jbXtyzf6tBKcmUhiFiMiwMHplxe1NO37kmVmp0hZIssRTyMsnG3Gixan86RkBoeDWNV
-	 qyQiuN3dymYSkXvv4stky8hW54iaIZKRKLfxih1U9FS3NXHHXwhG03CQVcyNNQzbY95qZ
-	 AJKu/Is64K1Mz64Y8LiJt/R99d9JxqfXGLrrh9GfqsXm+wOAe9EJtK6KkdgCaRZfBD5qE
-	 FiNZVaghl6tIkfH0wvg/8Q8SFYim+sF+60pz5R+DYQh2jt4tO+5Gs4yPWadjsl5qEoQ==
-ARC-Message-Signature: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1790625334;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:From:Date:X-Gm-Features:Message-ID:Subject:List-Id:To:Cc:
-	 Content-Type;
-	bh=kOtvj05JsVBWZXqt9kwOcJeJEPiJwi5KTbKAmNAmb1Y=;
-	b=pKEq3HyL2iasMt7W3LboatxUp5YBikZN/Q5O87LbX0yPGW2BoXvF+cyVQxJLuKDYzTli
-	 VW0B1vC1yJhqrgZi2gJwdKycXbcQLd60M5znPu3pMTaD41Ns1ejhc2rZ3spij7eCBsWgm
-	 46aPH2pYXccxzBCpmaO1+7Z5dR6tdMTowIuogijbIvsHAAMqyQPlw9/YjmEs7y3CRwWmG
-	 mMMYvEvZKYct9h6sa0c9vMphgEv/BJL4wHZQPQlEM6U8oF3OX8SSDihqf1fapk/ZW6D6H
-	 WMokk1EF7Pzq137rXKKU8vqwV4c/FMSc6aRfIGGEifwGOHork2hkfG2zMXeNxT8eKjQ==
-ARC-Authentication-Results: i=2; smtp.kernel.org; dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=sjm2Xejo;
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.229.43
-Received: from mail-dy2-f43.google.com (mail-dy2-f43.google.com [74.125.229.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	id DA3B51F00898; Tue, 29 Sep 2026 03:45:38 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1790653538;
+	b=dT6GLfbE32XcLFeJQMxd92QoDyIFRbs4u//1l7ZLFWt04KZZ1B48Dd5yfhywNSXqBR4n
+	 XmjCcM3uDEbco13aXQ1gKvleScPXqfEGTdlgWwl76UPYH9FRXjuUfim+0gI8jXQXtUo9C
+	 OM58fGD3QdcWhf1o0PMv7fVidLDv4L9zMc4S+F1M+M2b+I1ZBpEZdECFenw6BySUKNNQp
+	 7c/MzgY68F282uLZrV1JnCbZgDuUeqxxlCDaeZOJ8nzz+x2+zsyCAoExC+uIS4+9vyEr8
+	 xj+78wsnJ9KmpFxx8+h/dF7TqvxjTFs0j/7B75cp3ou61SDl/ZnI7U3bMKdVEuTFyjw==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1790653538;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
+	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Content-Language:List-Id:To:From:Cc:Subject:Content-Type:
+	 Content-Transfer-Encoding:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
+	 X-Authority-Analysis:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=805ahTcaB20wRphfpgZ7XuteWpEhOqP0VUm3gjLYqCM=;
+	b=PAeLwi+i4IHSkY1lI8sNqtrrAVttCyc1FkrSNKC5ZhTGoMr5h9Fwinz2RxclXAN1cR/L
+	 rkGvvCmcTR5Up6G0Tmv4kn4J5ZU+A84hYjXl5RSrRkqDXRh0WpkThpP5taSEf2/WwzT7S
+	 TCY8uUFxUN9KtYGQECRi741+2UrGyTEuDFdG8z8f2NQVYJn6cAVV4w1cGqH3xwjKRBTKk
+	 qteWFlOo2ZB3PZcRi2pcaakuC+sjNQaW1BOPVPcLXXA0YfpZ4aJ/UYTfbaOa3XYE2q1kJ
+	 evzDhBXqUMcGWeyYK/LwiqieHowxL2soDSh64qOdzOwxg5a+EaHHH9COgy2svqt5P8w==
+ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=SQilemid;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=TOBeQrrX;
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 97F521F000FF
-	for <linux-firmware@kernel.org>; Mon, 28 Sep 2026 19:55:33 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 3284D1F000FF
+	for <linux-firmware@kernel.org>; Tue, 29 Sep 2026 03:45:38 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=sjm2Xejo
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 97F521F000FF
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy2-f43.google.com with SMTP id 5a478bee46e88-33c24422d4dso4029583eec.2
-        for <linux-firmware@kernel.org>; Mon, 28 Sep 2026 12:55:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790625333; cv=none;
-        d=google.com; s=arc-20260327;
-        b=igxnt5sXGPfyJvmWnTnESq83ID8R2vfoymHk23VCLdYQbuJvJKeDO2NcJp5wm7OAgF
-         noKOHFmwaQP1KCsYB0+oCo0h+4avLeh9FAegl79laypCVKa+7c5Q3byIVHF7EIelOSNi
-         twwiqPq6Upar+MEOGYvNx1PFBkNPRUM3HBtRa1MAO5OfaBai0rAOIu+vBo63EwdfgMlT
-         vBOHWrOJhpAo+WPSdp3Qxo0b89vpMgcYfUHj1Pgdf0WpaPlYxpBTwZiYEZ2Y9FXZwAY4
-         NzSoUDUJy7DwsQUF27Ng1FVqXNdQAJKlgCoD6jW9kkb+y3umc4ctqIcPmh84rGbkIHhS
-         clFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=kOtvj05JsVBWZXqt9kwOcJeJEPiJwi5KTbKAmNAmb1Y=;
-        fh=7yQPd2GXSeddbriV96ZkIYLVqbixEl3VGvOcZOmGlEM=;
-        b=WLGctz7kSe/MNQK3frb8PitzOFCxMF4dvFtZpwnls1Nq+zHCiIRmTiU31MHHQztVuc
-         MC4AEoH1mxWOv8YBLXuVAp+zq0bemvrzsDalsU/RysoXAECtwuiW8eTOffy63aZzsOXT
-         M3rcOTDXcB4ZcZmxaNY4njQwIWBa2g9auDVCPmcUu2eBe41VLkF4aduTH24mfH2wlCB2
-         GcvksG3gfvwyfEYkiMemE0VWCkiTSh6MbP90yca7hCfObzzXn3A3/+ImCWAZ1PXf2Bhu
-         fVXmngOxYMQcewVqVHcsGzsqdzBzRQDrfHTAABdBosMk21GkVpuoHMuiYdKd6Gts53Vp
-         t5jA==;
-        darn=kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=SQilemid;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=TOBeQrrX
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 3284D1F000FF
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68T0ibYa4180024
+	for <linux-firmware@kernel.org>; Tue, 29 Sep 2026 03:45:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=805ahTcaB20wRphfpgZ7Xu
+	teWpEhOqP0VUm3gjLYqCM=; b=SQilemidBOk1/s3xD7aTVEwEOqg+gCKbXbN9NU
+	JYyY95isW4jc2R4c3X6I77YhML6F04NZ6ca8gGEbiMsfD7mmrCGlRKNv0JFmx72+
+	C3RLlRad2k8KlXFALzg5cWiNgel85ooS5YbW3EKSGlBLqSSJQxKHObMaqQMcyo7g
+	oMt5AbA312MUKoADqaj85k3czIWEinU5VIb7CUF5yZ4CZxuzff4/xWY5WLamGf9k
+	gXm9Evh6XAFqFpWv9n3jCYzsd9LeV06d4dcUAZDXoOKE+5bZNkKN7dlfspzqbqBX
+	o25lQbiq6CghFfVWySM7l5+U8/VJylFW+DiQ4W+yXvNBOdNA==
+Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gyxmu9f6q-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-firmware@kernel.org>; Tue, 29 Sep 2026 03:45:37 +0000 (GMT)
+Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-3282d5302ffso894717eec.1
+        for <linux-firmware@kernel.org>; Mon, 28 Sep 2026 20:45:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790625333; x=1791230133; darn=kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=kOtvj05JsVBWZXqt9kwOcJeJEPiJwi5KTbKAmNAmb1Y=;
-        b=sjm2XejoR9qLXO4nqWuCkCLvm6ciHeRVzY2JK+kPDS8ZEJENNlCv2YrvNsoNJmpbGk
-         x/x51pMHlyJT+cvi0smYz4qR8IrKlpLzSu4Ta/DK985M4WGGBBuDyT+ndsO7Rbv20ipj
-         aW8t8YNqLy9uZgZ6Aszvjyjn0YzQxXG31DQVW50Hyl7TSF4IkPogCQboKNvXYUy8lKK5
-         pM5c9gzH8RGY5luiVWcO58F405/h/gZw/EHxZBA21ZB/1vJSbZH4BS8h0xLxk+IVdgfS
-         1G9u0MO1cbyCeZ5ZbVzQELgu6B7D7v7eMg+q0DVy0zKf7Nw2RNxnqYQO/s1R1I66GcYS
-         9A9w==
+        d=oss.qualcomm.com; s=google; t=1790653537; x=1791258337; darn=kernel.org;
+        h=content-transfer-encoding:content-type:subject:cc:from:to
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=805ahTcaB20wRphfpgZ7XuteWpEhOqP0VUm3gjLYqCM=;
+        b=TOBeQrrXNG6Ybs5ayjuM1ShiQUeeF2gOf2mGCE4EB/hm/wYk7B8OREIepyV61JgO8z
+         iGfkZ0uv8cJ5bNz1QqTI6N5meOGAe7wWL1gxStt6v94pD5GpuOOpjqh+RONyteVim2Z7
+         6EC+/c7lO+fNGU3RBemunAHsC4V1ZFV6seoJ3ZWSdX0lu+V0yEL+S+tdPWmIwuCQBI2V
+         LJ4Onm0QrHxpUkJEYjw+lJ/HAJvzFsztiMshHNCBJf/2Fz8oAFNZ0fCvoVOEoQjmsPrj
+         xyiOH5krsC+YBSUqJQ9EjCtARKQbBKPt1v7BN6ZHINnFVZ5UAb6hrja1ekWUIMtT21ur
+         +xIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790625333; x=1791230133;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=kOtvj05JsVBWZXqt9kwOcJeJEPiJwi5KTbKAmNAmb1Y=;
-        b=nVRiaIt87cLR5mfTUxmz0PYX+bUZwEPFclmOZcfUP5u7OLAWTdSwfP+GdtDHMIik04
-         yi4Vj/MC1zZo0owWIppsp4IEodle7h1ynjTQqoABcQaxywp6LXu5AWR99KB5NUKdv/KL
-         GYOds/4Lnq2tHNfHwh4CVNvHTBopTa5RgWe9ADb65Rt1sJO40tRmb1oxHUdCBpYPYtoY
-         Kpff4fhwzAsHpg5N+1MbO4hqnOfSf20Sd1IDYdy/LY/kH9EPaz+MsWYaMzNHB05J0Pzt
-         NcV2xeOZhOAesOCfMUdhMhHIiK5gNCcu5OxZiXFe0gaX69EisgZdB1MouzKErSP6BZNX
-         PxGg==
-X-Forwarded-Encrypted: i=1; AKwUvBwx8f2HDNJdtBOaCct1SiO7MrdgT8pdc9eOrP8tykKoX5xBMv0QJUqb1E80oA0+evnDkGAIQyDPSAYBiZ9X8g==@kernel.org
-X-Gm-Message-State: AFuF++nInDQ28c1ARNh25cZhmfa1eqt+aKqLnpFJ48xPHuYuQn2jHOLo
-	SpOJJNX34F/LkaLKjDhBHZ0/IFXlkCtuToZrd+dTawKYeEJdGM8VyMP691u+IzL4nIntLVe8pBd
-	Pcf3r0/a+23Dqhi6P8ly7i9MnKm0vWoN7MlYz
-X-Gm-Gg: AYBFou2enj4RviyUXlqKAdKnQ1R7geHZv/W2PCwNXLijvXYnytSr69n2GrjvwJHrWWu
-	HzO7JxBcMUULxjDbLoyYQFN4cV24l9MmPOUwo+ubNf4jgJXQTeq8Qdr0HhQLs3D9TssyIERzGx7
-	NsRtr7d5QQQH5TlhMu53UUzSMQiG/L0ZeN4slIHfcZSPgs/LS3VFzQ8xCSAYesp/z+tyhwBx/1Y
-	eDGWuZq2bESGOD3eT1Q9mql8OUIy9N7fTb9F/h3aFjPCeKGHmxWYcyY4xeY8Iy56m0dDKYxcNFv
-	qdra3/AYDPdK1scZKQn9TeF/43A6GBA48rb65yktIfSNjZJ1wKf5LMsHvwmnlmqfL3ngXTMqMSJ
-	ytgyNwEZIRi8Gea2PUwuocQFGyqatdLs1YTVnwOw1SXDhLirN4SSkHDgo+ZUp37um0NUV2wWnlE
-	mrWAfiWQNQYDCIUhdLlyO8bR5SmNynwj8C/qPuXUsvomznlHE6wPfqy/QauKCxcc/nBsfb
-X-Received: by 2002:a05:7022:b055:10b0:145:bd2a:525a with SMTP id
- a92af1059eb24-146cfbd49a5mr11396616c88.26.1790625332474; Mon, 28 Sep 2026
- 12:55:32 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790653537; x=1791258337;
+        h=content-transfer-encoding:content-type:subject:cc:from:to
+         :content-language:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=805ahTcaB20wRphfpgZ7XuteWpEhOqP0VUm3gjLYqCM=;
+        b=M8yTeOPi2djVsux+YwLvZ24PsgjO1iREzjJpoib/LrpHhJYYTmBmPLsGALKFqGJgPq
+         79qzvvjfHRzczhRFj61/apVOHBMVzZlb4NH63lOli/u2+/Qafp2ooeG7xUqSIvWlUT5g
+         y1LJ9YPjN3F7fgfo5O6BKrefVnjILhnBSSYm/FCzJs6kPnqho6KsDWj0P9h7xnNrlRVW
+         +trz3qwza0Vj5V0MMaCAAOLhFjV/g3VnoDxXERcxBCUAWOIGV8woE8eITxLI7mQkW+o1
+         OEMzUhBnACFH4vHH6lqqr41xenUYQCYMjq+x/IPyfrXt0PRwRao5JaDAvz4PnCKuOvLp
+         xZ1Q==
+X-Gm-Message-State: AFuF++kg7IJtzJo9YWd0FOJj/rbEv5dCSLVGjXewSHp5U4CdeGAI7dKZ
+	KJzDDKWQ16aW4zSymyq5Iy4XQifttLCEwGvdXcI1kNVQHYrZrFOaGJnAZBFuL01RKZKHLFhKK5+
+	T85h5i2rDZLJX4KULT4KY8UAUr4rgPZVYYRbFiqlQL3BaRC7BsWTNXnJjbdDzgCMAZSC0SwA=
+X-Gm-Gg: AYBFou23GEFrw8uqjpGub1vtgwLHhR9BYrURYzMAezy7MmZnhK1nt3nB9cz4wWRpfM+
+	fmav92IVJZXEU0/rjicoVsysMn3zWd17qB0or8OMuI0GXUesnFmCav3Xey0UyrIEUbJL/xC9fPh
+	JOeNK+5XoTsseyPzZMpDdSFm9kAvvmcgPShFJOtzzez+mMexeALXK4UD2nPKURrgOXW5eGIWi5f
+	tpq1xtzVW7HblvdOTamonIhOe9PRUQ6BYuHxdIJKWrGKb3juO6Hr+0+6OvAI+wKsr0gnpJg/BMv
+	lZzSJ0PntnxiqtviAW94+N7c1rNRGlxB7Vsjxoe6kYLIXDxJwJjZ1s4sPohT9n7Q2kXnK5M5j5B
+	tsS+G6KUvwBmilBOShWjpD09pAIg=
+X-Received: by 2002:a05:7022:7f18:b0:146:f0f8:cf50 with SMTP id a92af1059eb24-14b2e52d826mr1816932c88.18.1790653536605;
+        Mon, 28 Sep 2026 20:45:36 -0700 (PDT)
+X-Received: by 2002:a05:7022:7f18:b0:146:f0f8:cf50 with SMTP id a92af1059eb24-14b2e52d826mr1816894c88.18.1790653535894;
+        Mon, 28 Sep 2026 20:45:35 -0700 (PDT)
+Received: from [192.168.31.121] ([58.247.180.211])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-145aa0cb6b9sm26321508c88.1.2026.09.28.20.45.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Sep 2026 20:45:35 -0700 (PDT)
+Message-ID: <70dcc907-c20a-43ae-8df3-af11c6e92ec5@oss.qualcomm.com>
+Date: Tue, 29 Sep 2026 11:45:31 +0800
 MIME-Version: 1.0
-From: Sander van Delden <s.h.vandelden@gmail.com>
-Date: Mon, 28 Sep 2026 21:55:21 +0200
-X-Gm-Features: AclHuK8nrFLueLEuhlUydVoyNMIqrSTJl1PaMft6N-xDPuepPs5E8o-UUfLpWpA
-Message-ID: <CAPdpv3xfQiW-Fmn2ydPYSztbm7KV+f=E4dSAD=sT7TACugc-Ew@mail.gmail.com>
-Subject: cs35l56: ThinkBook 16p G6 IAX (17aa:3921) requests firmware without
- spkid, linux-firmware only ships spkid1
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-sound@vger.kernel.org, linux-firmware@kernel.org
-Cc: patches@opensource.cirrus.com
-Content-Type: multipart/alternative; boundary="000000000000de3569065c9072cb"
+To: linux-firmware@kernel.org,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+From: Jinwang Li <jinwang.li@oss.qualcomm.com>
+Cc: cheng.jiang@oss.qualcomm.com, wei.deng@oss.qualcomm.com,
+        xiuzhuo.shang@oss.qualcomm.com, shuai.zhang@oss.qualcomm.com
+Subject: QCA: Update Bluetooth QCA2066 firmware
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI5MDAxNCBTYWx0ZWRfXxOT9bhSc5XNt
+ q0WjOGvpIvJdxbelmvcXV4JTgUxScicInBHvq7x+/PcsgyBCfb4N/IHo+o3LtISMCQRJUJz6kYv
+ Fwkd4eFmYSWrDVOz8vMDkcqZs6D2zn2WuKtUb8jKpCT53xfEotWt/l1J15gbu/HCt1tOb+Nj0V6
+ SCZ8UMmuveB7ig0b8M19HZLxq7JOGJ0GvQ8FqCMzxKU9BdHoVbUbfToYromD7Acr6OeGmXRMKyt
+ jmJGHsZmd8WUxckogxr2zBn7PRGYfBbMjiq259HVVKifhaau0LXoMwbbgPVQzZpEggV303Y/mnU
+ 7h6JX7ijDCd3Ats7D1gLKxpZ+jkcll7w+MJPk+BZlciG9swpUFWFPP85KWtFxClS0GOVjTU3tGw
+ LVG9xgE5Hig1de1y/egbmVivtZbbNS2T7EnjPT/sM6xfDCmM1A4vCLdyRv7odIK5EXjKRBFfcKK
+ Ho2pn7KddoEGOMB8ZeA==
+X-Proofpoint-GUID: 0PuTxP8hU5fNOQ_RJE4fZiBoJ9NBzCq-
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI5MDAxNCBTYWx0ZWRfX+fcKDK9/wywa
+ sLoLZD5Jdjq+q6urjwHdVfYEyXicdqSQxQCDJdKw3aIv3vANEcvzRiRXjb6yRHZZUfOmH8iNw3z
+ J5XpTk0eICeMCZ53dXoxlZdq7jf3RKA=
+X-Proofpoint-ORIG-GUID: 0PuTxP8hU5fNOQ_RJE4fZiBoJ9NBzCq-
+X-Authority-Analysis: v=2.4 cv=c70+0h9l c=1 sm=1 tr=0 ts=6abb3461 cx=c_pps
+ a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=6ys7802BvytzPDmX/GRlTg==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=NEAV23lmAAAA:8 a=PfR9Wuq3k9FvZ909wRoA:9 a=QEXdDO2ut3YA:10
+ a=bBxd6f-gb0O0v-kibOvt:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-29_01,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 phishscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
+ spamscore=0 malwarescore=0 suspectscore=0 adultscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609290014
 
---000000000000de3569065c9072cb
-Content-Type: text/plain; charset="UTF-8"
+Hi linux-firmware maintainers,
 
-Hello,
+Here's a pull request for btfw. Please let me know if you have any 
+problems.
 
-On a Lenovo ThinkBook 16p G6 IAX the CS35L56 driver requests firmware
-names without a speaker-ID suffix, but linux-firmware only ships the
-spkid1 variants for this SSID. Out of the box, no firmware file matching
-the requested names exists.
+The following changes since commit d091548b0825f449581e4f58f94fb793d03cdf3e:
 
-Hardware
---------
-- Lenovo ThinkBook 16p G6 IAX, machine type [output of: sudo dmidecode -s
-system-product-name]
-- BIOS: [output of: sudo dmidecode -s bios-version]
-- Codec: Realtek ALC287, subsystem ID 0x17aa3921
-- Amps: 2x CS35L56 Rev B0 OTP3, ROM fw 3.4.4, on I2C (CSC3556)
-- SOF on Intel Arrow Lake (sof-arl-s.ri, 2.14.1.1)
+   Merge branch 'robot/pr-1-1790599378' into 'main' (2026-09-28 13:15:21 
++0000)
 
-Software
---------
-- Kernel: 7.0.0-34-generic (Ubuntu HWE kernel, Linux Mint 22.3)
-- linux-firmware: [output of: apt policy linux-firmware]The same problem
-occurred on every kernel I have used on this machine:
-Ubuntu 6.8 (generic), 6.14 and 6.17 (HWE), and 7.0 (HWE). Audio only
-worked correctly after manual firmware workarounds. I have not yet
-tested an unmodified mainline kernel.
+are available in the Git repository at:
 
-Observed behaviour
-------------------
-The driver reports the system name without a spkid suffix:
+   https://github.com/jinwli-qc/linux-firmware.git update_QCA2066
 
-  cs35l56-hda i2c-CSC3556:00-cs35l56-hda.0: DSP system name: '17AA3921',
-amp name: 'AMP1'
-  cs35l56-hda i2c-CSC3556:00-cs35l56-hda.1: DSP system name: '17AA3921',
-amp name: 'AMP2'
+for you to fetch changes up to f830e56c110c727e8286eb1cebe18f6f1d9331f6:
 
-and therefore requests:
+   QCA: Add QCA2066 Bluetooth firmware hpnv21g.30c (2026-09-29 11:26:40 
++0800)
 
-  cirrus/cs35l56-b0-dsp1-misc-17aa3921.wmfw
-  cirrus/cs35l56-b0-dsp1-misc-17aa3921-amp1.bin
-  cirrus/cs35l56-b0-dsp1-misc-17aa3921-amp2.bin
+----------------------------------------------------------------
+Jinwang Li (2):
+       QCA: Update Bluetooth QCA2066 firmware to 2.1.0-00653
+       QCA: Add QCA2066 Bluetooth firmware hpnv21g.30c
 
-linux-firmware only provides:
-
-  cirrus/cs35l56-b0-dsp1-misc-17aa3921-spkid1.wmfw.zst
-  cirrus/cs35l56-b0-dsp1-misc-17aa3921-spkid1-amp1.bin.zst
-  cirrus/cs35l56-b0-dsp1-misc-17aa3921-spkid1-amp2.bin.zst
-
-The HDA side also has no SSID quirk for this machine:
-
-  snd_hda_codec_alc269 ehdaudio0D0: ALC287: picked fixup  (pin match)
-  snd_hda_codec_alc269 ehdaudio0D0: Found 2 CSC3556 on i2c
-(-%s:00-cs35l56-hda.%d)
-
-Workaround
-----------
-Symlinking the requested names to the spkid1 files:
-
-  cs35l56-b0-dsp1-misc-17aa3921.wmfw.zst      ->
-cs35l56-b0-dsp1-misc-17aa3921-spkid1.wmfw.zst
-  cs35l56-b0-dsp1-misc-17aa3921-amp1.bin.zst  ->
-cs35l56-b0-dsp1-misc-17aa3921-spkid1-amp1.bin.zst
-  cs35l56-b0-dsp1-misc-17aa3921-amp2.bin.zst  ->
-cs35l56-b0-dsp1-misc-17aa3921-spkid1-amp2.bin.zst
-
-results in a clean load on both amps, with no coefficient version
-warnings, and the speakers work correctly:
-
-  DSP1: cirrus/cs35l56-b0-dsp1-misc-17aa3921.wmfw: Fri 05 Jul 2024 11:25:55
-Central Daylight Time
-  DSP1: Firmware: 1a00d6 vendor: 0x2 v3.11.21, 41 algorithms
-  Calibration applied
-
-Question
---------
-I cannot tell whether the speaker ID is supposed to be read on this
-model (and the kernel is missing a quirk or config for it), or whether
-this model has only one speaker variant, in which case WHENCE links for
-the non-spkid names would fix it. I also cannot confirm that spkid1 is
-the correct tuning for my unit; it is simply the only one available,
-and it sounds correct, although some extra base would be welcome ;-)
-
-alsa-info:
-https://alsa-project.org/db/?f=858b94b1e69ba260d94b17d7037f82b0a71fc2b1
-
-I am happy to test patches or provide further logs.
+  WHENCE           |   4 ++--
+  qca/hpbtfw21.tlv | Bin 160124 -> 163332 bytes
+  qca/hpnv21.301   | Bin 6876 -> 6876 bytes
+  qca/hpnv21.302   | Bin 6876 -> 6876 bytes
+  qca/hpnv21.309   | Bin 6884 -> 6884 bytes
+  qca/hpnv21.30a   | Bin 6917 -> 6917 bytes
+  qca/hpnv21.b10c  | Bin 6618 -> 6618 bytes
+  qca/hpnv21.b111  | Bin 6618 -> 6618 bytes
+  qca/hpnv21.b8c   | Bin 6610 -> 6610 bytes
+  qca/hpnv21.b9f   | Bin 6610 -> 6610 bytes
+  qca/hpnv21.ba0   | Bin 6610 -> 6610 bytes
+  qca/hpnv21.ba1   | Bin 6610 -> 6610 bytes
+  qca/hpnv21.ba2   | Bin 6610 -> 6610 bytes
+  qca/hpnv21.ba3   | Bin 6618 -> 6618 bytes
+  qca/hpnv21.ba4   | Bin 6618 -> 6618 bytes
+  qca/hpnv21.baa   | Bin 6618 -> 6618 bytes
+  qca/hpnv21.bb8   | Bin 6610 -> 6610 bytes
+  qca/hpnv21.bin   | Bin 6610 -> 6610 bytes
+  qca/hpnv21g.301  | Bin 6716 -> 6716 bytes
+  qca/hpnv21g.302  | Bin 6716 -> 6716 bytes
+  qca/hpnv21g.309  | Bin 6716 -> 6716 bytes
+  qca/hpnv21g.30a  | Bin 6749 -> 6749 bytes
+  qca/hpnv21g.30c  | Bin 0 -> 6458 bytes
+  qca/hpnv21g.b10c | Bin 6458 -> 6458 bytes
+  qca/hpnv21g.b111 | Bin 6458 -> 6458 bytes
+  qca/hpnv21g.b8c  | Bin 6450 -> 6450 bytes
+  qca/hpnv21g.b9f  | Bin 6450 -> 6450 bytes
+  qca/hpnv21g.ba0  | Bin 6450 -> 6450 bytes
+  qca/hpnv21g.ba1  | Bin 6450 -> 6450 bytes
+  qca/hpnv21g.ba2  | Bin 6450 -> 6450 bytes
+  qca/hpnv21g.ba3  | Bin 6458 -> 6458 bytes
+  qca/hpnv21g.ba4  | Bin 6458 -> 6458 bytes
+  qca/hpnv21g.baa  | Bin 6458 -> 6458 bytes
+  qca/hpnv21g.bb8  | Bin 6450 -> 6450 bytes
+  qca/hpnv21g.bin  | Bin 6450 -> 6450 bytes
+  35 files changed, 2 insertions(+), 2 deletions(-)
+  create mode 100644 qca/hpnv21g.30c
 
 Thanks,
-Sander
-
------------------------------------------------------
-Dr. ir. Sander H. van Delden
-
-S.H.vanDelden@gmail.com
-Jan Jordensstraat 36709TJ Wageningenmobile: +31 (0)6 49 91 54 42
------------------------------------------------------
-
---000000000000de3569065c9072cb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div style=3D"font-family:georgia,serif;font-size:small;co=
-lor:rgb(68,68,68)" class=3D"gmail_default">Hello,<br><br>On a Lenovo ThinkB=
-ook 16p G6 IAX the CS35L56 driver requests firmware<br>names without a spea=
-ker-ID suffix, but linux-firmware only ships the<br>spkid1 variants for thi=
-s SSID. Out of the box, no firmware file matching<br>the requested names ex=
-ists.<br><br>Hardware<br>--------<br>- Lenovo ThinkBook 16p G6 IAX, machine=
- type [output of: sudo dmidecode -s system-product-name]<br>- BIOS: [output=
- of: sudo dmidecode -s bios-version]<br>- Codec: Realtek ALC287, subsystem =
-ID 0x17aa3921<br>- Amps: 2x CS35L56 Rev B0 OTP3, ROM fw 3.4.4, on I2C (CSC3=
-556)<br>- SOF on Intel Arrow Lake (sof-arl-s.ri, 2.14.1.1)<br><br>Software<=
-br>--------<br>- Kernel: 7.0.0-34-generic (Ubuntu HWE kernel, Linux Mint 22=
-.3)<br>- linux-firmware: [output of: apt policy linux-firmware]The same pro=
-blem occurred on every kernel I have used on this machine:<br>Ubuntu 6.8 (g=
-eneric), 6.14 and 6.17 (HWE), and 7.0 (HWE). Audio only<br>worked correctly=
- after manual firmware workarounds. I have not yet<br>tested an unmodified =
-mainline kernel.<br><br>Observed behaviour<br>------------------<br>The dri=
-ver reports the system name without a spkid suffix:<br><br>=C2=A0 cs35l56-h=
-da i2c-CSC3556:00-cs35l56-hda.0: DSP system name: &#39;17AA3921&#39;, amp n=
-ame: &#39;AMP1&#39;<br>=C2=A0 cs35l56-hda i2c-CSC3556:00-cs35l56-hda.1: DSP=
- system name: &#39;17AA3921&#39;, amp name: &#39;AMP2&#39;<br><br>and there=
-fore requests:<br><br>=C2=A0 cirrus/cs35l56-b0-dsp1-misc-17aa3921.wmfw<br>=
-=C2=A0 cirrus/cs35l56-b0-dsp1-misc-17aa3921-amp1.bin<br>=C2=A0 cirrus/cs35l=
-56-b0-dsp1-misc-17aa3921-amp2.bin<br><br>linux-firmware only provides:<br><=
-br>=C2=A0 cirrus/cs35l56-b0-dsp1-misc-17aa3921-spkid1.wmfw.zst<br>=C2=A0 ci=
-rrus/cs35l56-b0-dsp1-misc-17aa3921-spkid1-amp1.bin.zst<br>=C2=A0 cirrus/cs3=
-5l56-b0-dsp1-misc-17aa3921-spkid1-amp2.bin.zst<br><br>The HDA side also has=
- no SSID quirk for this machine:<br><br>=C2=A0 snd_hda_codec_alc269 ehdaudi=
-o0D0: ALC287: picked fixup =C2=A0(pin match)<br>=C2=A0 snd_hda_codec_alc269=
- ehdaudio0D0: Found 2 CSC3556 on i2c (-%s:00-cs35l56-hda.%d)<br><br>Workaro=
-und<br>----------<br>Symlinking the requested names to the spkid1 files:<br=
-><br>=C2=A0 cs35l56-b0-dsp1-misc-17aa3921.wmfw.zst =C2=A0 =C2=A0 =C2=A0-&gt=
-; cs35l56-b0-dsp1-misc-17aa3921-spkid1.wmfw.zst<br>=C2=A0 cs35l56-b0-dsp1-m=
-isc-17aa3921-amp1.bin.zst =C2=A0-&gt; cs35l56-b0-dsp1-misc-17aa3921-spkid1-=
-amp1.bin.zst<br>=C2=A0 cs35l56-b0-dsp1-misc-17aa3921-amp2.bin.zst =C2=A0-&g=
-t; cs35l56-b0-dsp1-misc-17aa3921-spkid1-amp2.bin.zst<br><br>results in a cl=
-ean load on both amps, with no coefficient version<br>warnings, and the spe=
-akers work correctly:<br><br>=C2=A0 DSP1: cirrus/cs35l56-b0-dsp1-misc-17aa3=
-921.wmfw: Fri 05 Jul 2024 11:25:55 Central Daylight Time<br>=C2=A0 DSP1: Fi=
-rmware: 1a00d6 vendor: 0x2 v3.11.21, 41 algorithms<br>=C2=A0 Calibration ap=
-plied<br><br>Question<br>--------<br>I cannot tell whether the speaker ID i=
-s supposed to be read on this<br>model (and the kernel is missing a quirk o=
-r config for it), or whether<br>this model has only one speaker variant, in=
- which case WHENCE links for<br>the non-spkid names would fix it. I also ca=
-nnot confirm that spkid1 is<br>the correct tuning for my unit; it is simply=
- the only one available,<br>and it sounds correct, although some extra base=
- would be welcome ;-)<br><br>alsa-info: <a href=3D"https://alsa-project.org=
-/db/?f=3D858b94b1e69ba260d94b17d7037f82b0a71fc2b1">https://alsa-project.org=
-/db/?f=3D858b94b1e69ba260d94b17d7037f82b0a71fc2b1</a><br><br>I am happy to =
-test patches or provide further logs.<br><br>Thanks,<br></div><div style=3D=
-"font-family:georgia,serif;font-size:small;color:rgb(68,68,68)" class=3D"gm=
-ail_default">Sander</div><div style=3D"font-family:georgia,serif;font-size:=
-small;color:rgb(68,68,68)" class=3D"gmail_default"><br>--------------------=
----------------------------------<br>Dr. ir. Sander H. van Delden<br><br><a=
- href=3D"mailto:S.H.vanDelden@gmail.com">S.H.vanDelden@gmail.com</a><br>Jan=
- Jordensstraat 36709TJ Wageningenmobile: +31 (0)6 49 91 54 42<br>----------=
--------------------------------------------<br></div></div>
-
---000000000000de3569065c9072cb--
+Jinwang
