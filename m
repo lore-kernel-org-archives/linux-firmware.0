@@ -1,213 +1,1195 @@
-Return-Path: <SRS0=WcIC=HV=opensource.cirrus.com=prvs=1732759d29=sbinding@kernel.org>
+Return-Path: <SRS0=nt1a=HV=detnov.org=sales@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8AED4CA5FA5
-	for <linux-firmware@archiver.kernel.org>; Tue, 29 Sep 2026 14:41:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1845ECA5FA7
+	for <linux-firmware@archiver.kernel.org>; Tue, 29 Sep 2026 22:08:33 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 5F5551F00893; Tue, 29 Sep 2026 14:41:40 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
-ARC-Seal: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=pass;
-	t=1790692900;
-	b=Y0fQbLs+Q/jgPghz338p9b6u772ZZ8PGFwQgBS/lfqwJUJH0TKGYDHPjyio0GcR0s3kt
-	 IIyzm1AghOtvwJE2e3hLqLBHCrpsgUI32BusWM+qIrG5v1DpJzJT9kHUSl8ALbx+m9ZEy
-	 BLfKvSQiPb9uK8IgBphVktu6fLomcvBNUZ7PArME6tJlI/jpnXR1hxxT0Rh132DGJ8wTS
-	 3GpjtejZiObLg6fzcdRFWoGuPgNqigVtPrktf4fFZVWgL2ZUVunv4WcC/AQpuG9mIqiog
-	 wIZYaq+SW7vbaZVVer+Mk23aYgTvwGqSN1k4qgiSV16fuW4gAKlXJMcKq4BflJiKjVA==
-ARC-Message-Signature: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1790692900;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
-	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
-	 Received:Received:Received:Message-ID:Date:MIME-Version:User-Agent:
-	 Content-Language:List-Id:To:Cc:From:Subject:Content-Type:
-	 Content-Transfer-Encoding:X-EOPAttributedMessage:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
-	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Reason;
-	bh=Yn2fGaPIUa1p1J6mxfB4L97Nd44kfc+BsGfDUJEFJ2w=;
-	b=MAajhyn2vPHl94OW563yT47CDg4Ko2aHMCnJlmlyj2oI0LTinteV/rdgs7ORiNkkgylD
-	 j7OQLLGK+dNsoaIDT3gd6v877jbjsH7lBqjMA9buxOG1L7AjOjEZac9iYcuxSo5Qs4crI
-	 J1DDrXOoAu3480zhr7fVwc8LcNBNlhVLs7lhFHFmVJ4EzjeTuM+K9Zz2zRHHqelzK0St5
-	 Sqq5L3pknK2ZLnibV6+o0e71gatVWMXkMXBGaVFlxnAK1zWF2ZszrbvShKR6WQ6lzfADl
-	 uHthkNDfRpgfee6xS+qauXpiIa4cG7GIVkm6hKMnB9YNhg/7j33JeMr8Cwu4mkdBvjA==
-ARC-Authentication-Results: i=2; smtp.kernel.org; dkim=pass header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b="ItwnhS/f";
-	dkim=pass header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b="jtw7R/ao";
-	dmarc=pass header.from=opensource.cirrus.com;
-	spf=pass smtp.mailfrom=opensource.cirrus.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	id E254F1F00893; Tue, 29 Sep 2026 22:08:33 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=85.121.51.224
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1790719713;
+	b=EOUUBmP9H+JN8DadyYc9/zeJBTspKrgK2QYbjZegu6oJYHziMCCE5JFqCKLKiqeybD7C
+	 E9rdtJHW374pF/1eWF8AdqcnV95I3slxq7TSKMakufyE48+ftl4HrQobw01QEQ+5Luyf/
+	 01OP00TXtu/7keGzIY+ZP1W3yPjoq5aNfVXUhv0gNqN6t+/+vB/PbsoqP8QVuGs8D3cst
+	 Ghl/880R3AB89FCsH12UoCDB6BDffembTlsT86BbjWAaOlnTBreEOTXW+Y0IKQOaOPSfD
+	 5qa7twzcmrJUNhyhxqGQREVyxIFvFHRbQ3cwzRHRVAiV4fa16dhviNUTBr4172Fa3rQ==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1790719713;
+	h=DMARC-Filter:Received:DKIM-Signature:Date:List-Id:To:From:Reply-To:
+	 Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=gbqJGP6JwIMJd7e6WzInJsfN6HU4w+mTMe8OnVGqeA0=;
+	b=vIU8o/j5kphXqppSbFBc5lf5eeehCsjFaQQu/fpl1zJqZZB9Of0DerFTmo8esbDuXcn4
+	 0dGzqcMU8O1elcSSfz005ddSEpU0agK45x/xht8lgr+w1iRC+frDceXtIYRnDJdOMgp9Q
+	 OH2SFUV5g+NA9CnYpCIMKYgFCE9sJcnUnhsMwgu9epjrNGs9cTUciT+jpT30W6KCFNOw0
+	 tNVF2VSpdeEXXhZascmKqjhQZVi/DVgi+SPTSSLP44beTKkJpFxYein7g+4QMNJGtKrjc
+	 oMfywuLhCB/tHzhGdo7rx1OORyRLPS2HU8BMF03Mk256VAOWhDw4ifO6njZ0f1TUMSQ==
+ARC-Authentication-Results: i=1; smtp.kernel.org; dkim=pass header.d=detnov.org header.i=@detnov.org header.a=rsa-sha256 header.s=default header.b=RbgpXFz6;
+	dmarc=pass header.from=detnov.org;
+	spf=pass smtp.mailfrom=detnov.org;
+	arc=none smtp.remote-ip=85.121.51.224
+Received: from detnov.org (detnov.org [85.121.51.224])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id AC2171F000FF
-	for <linux-firmware@kernel.org>; Tue, 29 Sep 2026 14:41:39 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 0ADC51F000FF
+	for <linux-firmware@kernel.org>; Tue, 29 Sep 2026 22:08:32 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=ItwnhS/f;
-	dkim=pass (1024-bit key, unprotected) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=jtw7R/ao
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org AC2171F000FF
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68TEDaWt3443161
-	for <linux-firmware@kernel.org>; Tue, 29 Sep 2026 09:41:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=Yn2fGaPIUa1p1J6m
-	xfB4L97Nd44kfc+BsGfDUJEFJ2w=; b=ItwnhS/fNcUi9iNWDKdpFBn/Sq0Pg6/M
-	e16FvcijM5E2/Xaaop9bX1fPmF4ITVEgB7TWBm7k2LcepjQDOdTDNOuwf8k0GpVf
-	5C6Lsh8EEMpawlihhXssW3eW40utaGgyZ1Buo5idhfk+QVIeY5s9QwLQo92tGn/J
-	V2BJfaZL7RjYHkevHIF32wZK0KYxjRwhsVWMWjZr4N73JO6JGhzqvpOlCATBeD/p
-	TjvuuBxhQU6iJ/BVGysZOT1Aj+M5cV+W2OORMnBf5YzVf2SxctDPwTB3C1U03Ha5
-	I7BqY+RJ07O0FjEK6GyFGmLM1pvo4DG8kPs7HqCBph64XKo2gN2UzA==
-Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11022134.outbound.protection.outlook.com [52.101.53.134])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4gxbf0kxjb-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <linux-firmware@kernel.org>; Tue, 29 Sep 2026 09:41:38 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=m3EOTwYkdWaqqMkNX/4pT5EHYLMzuHAJtbPuSvIJ70uVFbgKXdkP/0htwXh0xPILV1jTPmn4oIa7cGMoBmj0uuw+QgImUrfseldzTMQ3r1WX+BC2tH7MaTprLao3nLF4zDlYvoIeOBApVJez3PzID9ouGuTU5MI5T+hEHokLpuW33154nN6/ezgZ0PWFOayaMoPua46KyvH6GAxRAzfBGUAIXTGoxrHDIkUXx8wCM+MV3C5f8q5vQiV6EkkFecjfgJ/huNdDTbjMwkYQcTL/shzVgqyD21f5GhukHye8Zalm+8Vz3TKj2BM8k4aVg80U22+d3LgjFWKnB7vA+yDZjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Yn2fGaPIUa1p1J6mxfB4L97Nd44kfc+BsGfDUJEFJ2w=;
- b=zEX77guiDlkbfGX9K0eYKjxnFpeCJsuP8huBxFDm1REeFbrV1WWZrDbtkvE43PFzq/bv+UjPGjeF3NFlasehzpytxH+aVYgauNFJ6tgJnPtU6CofwOSSyW+S2to+SpWwngbi2KuJV9CsuIAtZMTgjMybkT9x8ezK93kCbvHU5Rkp+rvD9n0QvsYbEdWmE03pURoiRrOp/bby+QE34W16TKM6OGxkinsglk8OeygGNzyZr4sqds0Fx785E8DbQpLZKGz2fCNQQmGHG19StjP+3tAJicRJQoSAY4mVRnQ0nF9u1d0/q3xZnvd7ZNpSky7/8UU97mY4nJirTHZlW5T1xA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Yn2fGaPIUa1p1J6mxfB4L97Nd44kfc+BsGfDUJEFJ2w=;
- b=jtw7R/aoD5wYWTmBt0a6OmE/JCwzpxGiEtaoCgzpA0sGOzM2LJRjf4BA1Cgqkb8pyU/2MzWnBzWvOye2FjPED9WE8cYmrOCY37iT/D0JuKMmyjnI8Eajryw+k+EbDSjqpkxTXPXDJO0O9GZG31VRK6oVn/abavnjirWyvhMbSzY=
-Received: from BY1P220CA0012.NAMP220.PROD.OUTLOOK.COM (2603:10b6:a03:59d::8)
- by SJ0PR19MB6655.namprd19.prod.outlook.com (2603:10b6:a03:44b::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.23; Tue, 29 Sep
- 2026 14:41:32 +0000
-Received: from BY1PEPF0001AE1D.namprd04.prod.outlook.com
- (2603:10b6:a03:59d:cafe::3f) by BY1P220CA0012.outlook.office365.com
- (2603:10b6:a03:59d::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.14 via Frontend Transport; Tue,
- 29 Sep 2026 14:41:29 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
- IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
- not signed) header.d=none;dmarc=fail action=oreject
- header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- BY1PEPF0001AE1D.mail.protection.outlook.com (10.167.242.106) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.14
- via Frontend Transport; Tue, 29 Sep 2026 14:41:28 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id ED344406544;
-	Tue, 29 Sep 2026 14:41:26 +0000 (UTC)
-Received: from [198.61.68.159] (LONNCK4V044.ad.cirrus.com [198.61.68.159])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id C8BA482254B;
-	Tue, 29 Sep 2026 14:41:26 +0000 (UTC)
-Message-ID: <6e6ceb25-80b1-44bc-8674-339d273b5908@opensource.cirrus.com>
-Date: Tue, 29 Sep 2026 15:41:26 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
+	dkim=pass (2048-bit key, unprotected) header.d=detnov.org header.i=@detnov.org header.a=rsa-sha256 header.s=default header.b=RbgpXFz6
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 0ADC51F000FF
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=detnov.org
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=detnov.org
+Received: from 127.0.0.1 (unknown [23.95.89.238])
+	(Authenticated sender: sales@detnov.org)
+	by detnov.org (Postfix) with ESMTPSA id 51C90121AEB
+	for <linux-firmware@kernel.org>; Wed, 30 Sep 2026 00:05:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=detnov.org;
+	s=default; t=1790719522;
+	bh=gbqJGP6JwIMJd7e6WzInJsfN6HU4w+mTMe8OnVGqeA0=;
+	h=Date:To:From:Reply-To:Subject:From;
+	b=RbgpXFz6EpidkfzOchHfqv7z7opWmc4qC5YWDAgs14KNFg7jxFn2Z9BFIExV7HCCZ
+	 zIdfMx92WaRFmCwhCoLXQ15ARIbzmjb1b1q9L+qXsoKgaQNdKr/icWZuMssuLaoJfu
+	 kgb4rqEqVXRAcVhPI2SdFEmi4Ha9Rin7jQjdzI+qwbyLZRdsr2XXUGdgAWK2mBTQeY
+	 d7l7S9TfNKnmmS6Cs2pMD9ZknkSprvnL6KGv6sBde4cT08xba29PtAlm2JzkjKEjQz
+	 xYkS9t01uVeI9PxDDDlFgwW5PjECRqSgPtNXmac/uoEobDHrlOg4fm8+jXem1iS9Z0
+	 QUkVxIVIY6olA==
+Date: Tue, 29 Sep 2026 18:38:24 +0200
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
-Cc: patches@opensource.cirrus.com
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-Subject: [PULL v1 linux-firmware] Add support for Lenovo Yoga Slim 7 Carbon
- 14ACN6
+From: Prime tech Ware <sales@detnov.org>
+Reply-To: sales@primetechware.com
+Subject: Listing
+Message-ID: <8e2862ce428ba1429fa2083b3c1b20e4@detnov.org>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="1eb0380ad81af495006b24de6f2bd6b8f"
+Content-Transfer-Encoding: 8bit
+
+This is a multi-part message in MIME format.
+
+--1eb0380ad81af495006b24de6f2bd6b8f
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY1PEPF0001AE1D:EE_|SJ0PR19MB6655:EE_
-X-MS-Office365-Filtering-Correlation-Id: e7c2e062-1ba0-4ed7-c4cb-08df1e37bf4e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|61400799027|82310400026|36860700016|16102099003|18002099003|10067099003|260925021911599003|260925021311599003|260925022911599003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	O3gR51CoH3tEgM/NkDduvjPLHdPgKhJnW01Tvzg0/J6w78CCsEW8tYYr850d7kIYEyN7mJrD3Q4FI/vnElxhiNnAd1/Xdhz41ZA3oqkc+OYAZxRd/Qbsr2Kt6cxOQkA/dSmerid2YMixKPNsAu963caKWX98ItKlnn/d3jkiFFqEUKlM+pinh2JJYPuAbPKx2XekdVcW+ZrBdgBaOnQibqAHhUAWXmLRcImyX2QuUpfobk1sneQ1xGX8oDPKeavNxiCl8tGNG2MBXNpXZHtJ+hYS9vg+RnPdQxj5wIbbF9N1hSXCnrJhlNsl8nTA5o0d/8VovRJKSqblhm8hmIx7unEfsF7oGlvq4jaAoa8ZrzXX3dmNDC+docVfg5M7J4un+l60wPCd20RhI25bzznvl0vk/BrxsGR2UIU7A8yg0fYvS55az3Pe/ByZVMoUuUFvVwE0mxEunk38hSTbC+GqFKxEV+Nb9w4qfncjpTo35HIzosrans0eKmJzA3BvYZm6yBowTnegFE4OjA2ZnUPGw2Q1puIKsm2qLFOnfnO+HV/Hya30ap46kq8z3AOeU/ZA5kaEE9+EI2RoF04NTFFUOwAZxpBEE7asOJjzgxixNh9WJVDHpAy+RnQoYiZasR/GVSB4KqBIXbrFlsJJdp85NNMCc77YYOW0iI2WEK3AU/iW84NG+cy503cxrG7/KNmuwlDxpNoAcLGWaax5Osmvdg==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(23010399003)(376014)(61400799027)(82310400026)(36860700016)(16102099003)(18002099003)(10067099003)(260925021911599003)(260925021311599003)(260925022911599003)(56012099006)(11063799006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	c4Nj09vU26Oa0vgYa4sXMVcXNmEuUsHCFL6NQIZsKk/6HuNN9xqiq2eIv7PCZoRt4IE1RSOUu+TRDgtXAGdyxGYHDYexx6Ic96Huiz0W8mzQ9eBC7Wjt+osf1cJxipQkAm9rug3w8dMBWR9VAY5P6Ku/bqrkgak0ln177yGO6MnZXFO2X0GHikpE5b9VYOJtpezWv9vXXph47A5Hg+rwILx+Igpi9rTeWYQ6KQ54AhWqCHp28iuopkQCWDC+8Zazy+xtFNwLbvreQlwzDRxVlsw49P12dx/fDE0WAwuXhOVOqvMNkIFnJcOzKKWncaVTte0StBS+iE3tJEmgOUVpwyQLWG7nsiTIaXNuiEFz1Yvf8EUmLIhaahOxgJPso18nR3C9JW2FoR8VhVw521fmBCHo58943kR0ALk4fhWLdJ0xeUVpdu1/VbUZT4xSOG1O
-X-Exchange-RoutingPolicyChecked:
-	lTvxSkIKUYK/wlJqhkFrevdCa/W6/2++J5yIuEKNuRhRhZ4IDFJx8u3I2j5j6owUTelq9WMD27X9VzJ0YzWOOYj96q8uVGbF1G7TN70tCJcJO1raAmp0Ix0MVr8kTyI0uhlEoQ4uBygEYOizOuq60VwrDVtsYv+s+vT8IpB1Zo/kCWHPw/gEC7jRnnVHwquUMAdrY1ZuVKP8Ktg+GnNmgBQyfRRlAp3UN/wImgIMjmRXF9sHepO5Z8Nw9bKFV0x90MWvdn4uszXtOq1OI1QnhaGT18BfxH2T38yf26BBcW2LEM4k9jS8UkJDTclJ23FhDfdWNvt/Htg+QQA4vRONvQ==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2026 14:41:28.8302
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e7c2e062-1ba0-4ed7-c4cb-08df1e37bf4e
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BY1PEPF0001AE1D.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR19MB6655
-X-Authority-Analysis: v=2.4 cv=GvLXaU1C c=1 sm=1 tr=0 ts=6abbce22 cx=c_pps
- a=sw9tB11567c3hJo8WHKnig==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=NEAV23lmAAAA:8 a=8nDi3m2UJF4LRBe0DsAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: VoTn38ET8cYiDSxlohfmXmew1fMz6Ujh
-X-Proofpoint-ORIG-GUID: VoTn38ET8cYiDSxlohfmXmew1fMz6Ujh
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI5MDA1OCBTYWx0ZWRfX905UG+0mxzBn
- //9FzcBgcjxLl0UHUT1LOmJLRSPcOY5iDwJsF0/TF+gNz4fNS57wscjL3E/w1dgGyWHatRGrgEQ
- 70qHgYdld2eyA3Ai+LunSV53kqJ5eiI=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI5MDA1OCBTYWx0ZWRfXylMPXCAWNFj8
- JUW4FeVU7zw3QZ4vSJPxglVfuMUDRIa+i0yszI2TsfbvT5ChiBKfea405Dem8DEGn2WBjLjkso1
- Eoy+k2FsxPdYXWyDajOKq1ZfNJRSm53y+RZ72p3P44W/QkXpUu8PpbQpe/W/mJAuF89Nco7s2aE
- Y8YMl4cRySxFbNPP5spTbTikOrq7LxBTVrsVAYY0qDU7SLYy4er42rnItGt7tuVp34cQR1jdb6/
- w85mpmPFCkxPAt1X+RAURa76UaSvJmHd5vfd7ZXLUYUg9Ikk+E61Z1ozG3Nd9Y1ZK89wD6aezWI
- xK7nYshLxeKVm0YzF1XpvfXAsfR9n0qb68Syh8QlLxTREPSozx4MM4CcTX6IIotcilfm36rPHGy
- AJ2MvAbR9R6QTa91bqQmmG2/lmQk1r9yY7VS49c8NnVHgRnW5N2Qyu2cH6lIPbZbo45jr1IAa6r
- T8cwQ9wfm/25W/P6YLw==
-X-Proofpoint-Spam-Reason: safe
 
-We would like to add firmware files for Cirrus Logic Smart Amp CS35L41 for Lenovo Yoga Slim 7 Carbon 14ACN6.
 
-Thanks,
 
-Stefan Binding
 
-The following changes since commit 33b68e2c701198457657c2e656ef9a9cc4272d01:
 
-  Merge branch 'robot/pr-0-1790661570' into 'main' (2026-09-29 08:17:06 +0000)
 
-are available in the Git repository at:
+Prime Tech Ware - Inventory Update
 
-  https://github.com/CirrusLogic/linux-firmware/ 20260929-cs35l41
 
-for you to fetch changes up to 268afc81c2da1aeba97cc90dd0205a27b9cc108d:
 
-  cirrus: cs35l41: Add support for Lenovo Yoga Slim 7 Carbon 14ACN6 (2026-09-29 15:27:39 +0100)
 
-----------------------------------------------------------------
-Stefan Binding (1):
-      cirrus: cs35l41: Add support for Lenovo Yoga Slim 7 Carbon 14ACN6
 
- WHENCE                                       |   3 +++
- cirrus/cs35l41-dsp1-spk-prot-17aa3856-l0.bin | Bin 0 -> 4716 bytes
- cirrus/cs35l41-dsp1-spk-prot-17aa3856-r0.bin | Bin 0 -> 4708 bytes
- 3 files changed, 3 insertions(+)
- create mode 100644 cirrus/cs35l41-dsp1-spk-prot-17aa3856-l0.bin
- create mode 100644 cirrus/cs35l41-dsp1-spk-prot-17aa3856-r0.bin
+
+
+
+
+
+
+
+
+
+Prime Tech Ware
+
+
+
+Current Inventory Update
+
+
+
+
+
+
+
+
+
+Hello,
+
+
+
+Please find below our current inventory availability.
+
+
+
+Availability and pricing are subject to prior sale and final confirmation.
+For specific quantities, quotations, or product information, please contact
+our sales team.
+
+
+
+
+
+
+
+
+
+DDR4 Memory
+
+
+
+
+
+
+
+
+
+
+
+
+Product
+
+
+Available
+
+
+Unit Price
+
+
+
+
+32GB 2Rx4 PC4-2400T
+460
+$8
+
+
+
+32GB 2Rx4 PC4-3200AA
+500
+$10
+
+
+
+16GB 2Rx8 PC4-3200AA
+500
+$6
+
+
+
+128GB 4DRx4 DDR4 PC4-2933Y REG ECC LRDIMM
+70
+$80
+
+
+
+32GB Dual Rank x4 DDR4-2933 CAS-21
+90
+$15
+
+
+
+64GB Dual Rank x4 DDR4-2933 CAS-21
+50
+$28
+
+
+
+32GB Dual Rank x4 DDR4-3200 CAS-22
+59
+$18
+
+
+
+64GB Dual Rank x4 DDR4-3200 CAS-22
+100
+$32
+
+
+
+
+
+
+
+
+
+
+
+DDR5 / Server Memory
+
+
+
+
+
+
+
+
+
+
+
+
+Product
+
+
+Available
+
+
+Unit Price
+
+
+
+
+DDR5 64GB 4800MHz ECC RDIMM 2Rx4 P43331-B21
+16
+$510
+
+
+
+DDR5 64GB 5600MHz ECC RDIMM 2Rx4 P64707-B21
+19
+$700
+
+
+
+DDR4 64GB 3200MHz ECC RDIMM 2Rx4 SK Hynix
+25
+$360
+
+
+
+DDR5 64GB 4800MHz ECC RDIMM 2Rx4 Samsung
+25
+$470
+
+
+
+DDR5 64GB 5600MHz ECC RDIMM 2Rx4 SK Hynix
+20
+$430
+
+
+
+
+
+
+
+
+
+
+
+Cisco Networking
+
+
+
+
+
+
+
+
+
+
+
+
+Product
+
+
+Available
+
+
+Unit Price
+
+
+
+
+C9300-48T-A Cisco Catalyst 9300
+12
+$490
+
+
+
+C9200-48P-A Cisco Catalyst 9200
+10
+$180
+
+
+
+C9200L-48P-4G-E Cisco Catalyst 9200L
+15
+$120
+
+
+
+C9500-24Y4C-A Cisco Catalyst 9500
+2
+$2,800
+
+
+
+N9K-C93180YC-FX Cisco Nexus 93180YC-FX
+10
+$400
+
+
+
+N9K-C93180YC-FX3 Cisco Nexus 93180YC-FX3
+8
+$590
+
+
+
+N9K-C9336C-FX2 Cisco Nexus 9336C-FX2
+3
+$2,400
+
+
+
+
+
+
+
+
+
+
+
+Cisco Collaboration Equipment
+
+
+
+
+
+
+
+
+
+
+
+
+Product
+
+
+Available
+
+
+Unit Price
+
+
+
+
+SPARK-BOARD70-K9 — Cisco Spark Board 70, Standard
+8
+$1,850
+
+
+
+SPARK-BOARD70-G-K9 — Cisco Spark Board 70, Global/GPL Variant
+5
+$1,950
+
+
+
+CS-BRD75P-K9 — Cisco Board Pro 75
+3
+$10,200
+
+
+
+CS-BRD55P-K9 — Cisco Board Pro 55
+3
+$5,900
+
+
+
+CS-ROOMBARPRO-K9 — Cisco Room Bar Pro
+5
+$2,950
+
+
+
+CS-ROOMBAR-K9 — Cisco Room Bar
+15
+$610
+
+
+
+CS-DESKPRO-K9 — Cisco Desk Pro
+9
+$1,100
+
+
+
+
+
+
+
+
+
+
+
+Lenovo ThinkSystem
+
+
+
+
+
+
+
+
+
+
+
+
+Product
+
+
+Available
+
+
+Unit Price
+
+
+
+
+ThinkSystem SR250 V3 — 1U Single-Socket Rack Server
+6
+$1,800
+
+
+
+ThinkSystem SR630 V3 — 1U Dual-Socket Rack Server
+8
+$3,500
+
+
+
+ThinkSystem SR650 V3 — 2U Dual-Socket Rack Server
+13
+$5,000
+
+
+
+ThinkSystem SR650a V3 — 2U Accelerated Server
+5
+$6,500
+
+
+
+ThinkSystem SR665 V3 — 2U Dual-Socket AMD Server
+6
+$7,500
+
+
+
+ThinkSystem SR645 V3 — 1U Dual-Socket AMD Server
+3
+$4,500
+
+
+
+ThinkSystem SR635 V3 — 1U Single-Socket AMD Server
+8
+$3,500
+
+
+
+ThinkSystem SR675 V3 — 2U Accelerated/GPU-Capable Server
+10
+$8,000
+
+
+
+
+
+
+
+
+
+
+
+NVIDIA GPUs
+
+
+
+
+
+
+
+
+
+
+
+
+Product
+
+
+Available
+
+
+Unit Price
+
+
+
+
+NVIDIA H100 PCIe — 80GB HBM3
+6
+$19,300
+
+
+
+NVIDIA H200 PCIe/NVL — 141GB HBM3e
+4
+$21,500
+
+
+
+NVIDIA L40S — 48GB GDDR6
+7
+$3,500
+
+
+
+NVIDIA RTX PRO 6000 Blackwell Server Edition — 96GB GDDR7 ECC
+2
+$9,900
+
+
+
+NVIDIA RTX PRO 6000 Blackwell Workstation Edition — 96GB GDDR7
+3
+$3,900
+
+
+
+NVIDIA B200 — 180GB HBM3e
+3
+$22,000
+
+
+
+NVIDIA RTX 6000 Ada — 48GB GDDR6 ECC
+10
+$2,100
+
+
+
+NVIDIA A100 — 40GB/80GB
+15
+$2,000
+
+
+
+NVIDIA L4 — 24GB GDDR6
+17
+$970
+
+
+
+
+
+
+
+
+
+
+
+For quotations, availability confirmation, product specifications,
+or inspection requirements, please contact us.
+
+
+
+Martin Liam
+Prime Tech Ware
+Email:
+
+sales@primetechware.com
+
+Phone: +1 909 435 4982
+Phone: +1 909 552 6526
+
+primetechware.com
+
+
+
+
+
+
+
+
+
+
+Inventory and pricing are subject to availability and prior sale.
+Please confirm current stock and pricing before placing an order.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--1eb0380ad81af495006b24de6f2bd6b8f
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prime Tech Ware - Inventory Update</title>
+</head>
+
+<body style="margin:0;padding:0;background:#ffffff;font-family:Arial,Helvetica,sans-serif;color:#333333;">
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td align="center" style="padding:20px 10px;">
+
+<table role="presentation" width="700" cellpadding="0" cellspacing="0" border="0"
+style="width:100%;max-width:700px;background:#ffffff;">
+
+<tr>
+<td style="padding:10px 0 18px 0;border-bottom:1px solid #dddddd;">
+
+<div style="font-size:22px;font-weight:bold;color:#222222;">
+Prime Tech Ware
+</div>
+
+<div style="font-size:13px;color:#666666;margin-top:4px;">
+Current Inventory Update
+</div>
+
+</td>
+</tr>
+
+<tr>
+<td style="padding:20px 0 15px 0;">
+
+<p style="margin:0 0 12px 0;font-size:14px;line-height:1.6;">
+Hello,
+</p>
+
+<p style="margin:0 0 12px 0;font-size:14px;line-height:1.6;">
+Please find below our current inventory availability.
+</p>
+
+<p style="margin:0;font-size:14px;line-height:1.6;">
+Availability and pricing are subject to prior sale and final confirmation.
+For specific quantities, quotations, or product information, please contact
+our sales team.
+</p>
+
+</td>
+</tr>
+
+<tr>
+<td style="padding:12px 0 8px 0;">
+
+<h2 style="font-size:17px;font-weight:bold;margin:0;color:#222222;">
+DDR4 Memory
+</h2>
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+<table role="presentation" width="100%" cellpadding="7" cellspacing="0" border="1"
+style="border-collapse:collapse;border-color:#dddddd;font-size:13px;">
+
+<tr>
+<th align="left" style="padding:8px;background:#f7f7f7;font-weight:bold;">
+Product
+</th>
+<th align="center" style="padding:8px;background:#f7f7f7;font-weight:bold;">
+Available
+</th>
+<th align="right" style="padding:8px;background:#f7f7f7;font-weight:bold;">
+Unit Price
+</th>
+</tr>
+
+<tr>
+<td>32GB 2Rx4 PC4-2400T</td>
+<td align="center">460</td>
+<td align="right">$8</td>
+</tr>
+
+<tr>
+<td>32GB 2Rx4 PC4-3200AA</td>
+<td align="center">500</td>
+<td align="right">$10</td>
+</tr>
+
+<tr>
+<td>16GB 2Rx8 PC4-3200AA</td>
+<td align="center">500</td>
+<td align="right">$6</td>
+</tr>
+
+<tr>
+<td>128GB 4DRx4 DDR4 PC4-2933Y REG ECC LRDIMM</td>
+<td align="center">70</td>
+<td align="right">$80</td>
+</tr>
+
+<tr>
+<td>32GB Dual Rank x4 DDR4-2933 CAS-21</td>
+<td align="center">90</td>
+<td align="right">$15</td>
+</tr>
+
+<tr>
+<td>64GB Dual Rank x4 DDR4-2933 CAS-21</td>
+<td align="center">50</td>
+<td align="right">$28</td>
+</tr>
+
+<tr>
+<td>32GB Dual Rank x4 DDR4-3200 CAS-22</td>
+<td align="center">59</td>
+<td align="right">$18</td>
+</tr>
+
+<tr>
+<td>64GB Dual Rank x4 DDR4-3200 CAS-22</td>
+<td align="center">100</td>
+<td align="right">$32</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+
+<tr>
+<td style="padding:25px 0 8px 0;">
+
+<h2 style="font-size:17px;font-weight:bold;margin:0;color:#222222;">
+DDR5 / Server Memory
+</h2>
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+<table role="presentation" width="100%" cellpadding="7" cellspacing="0" border="1"
+style="border-collapse:collapse;border-color:#dddddd;font-size:13px;">
+
+<tr>
+<th align="left" style="padding:8px;background:#f7f7f7;font-weight:bold;">
+Product
+</th>
+<th align="center" style="padding:8px;background:#f7f7f7;font-weight:bold;">
+Available
+</th>
+<th align="right" style="padding:8px;background:#f7f7f7;font-weight:bold;">
+Unit Price
+</th>
+</tr>
+
+<tr>
+<td>DDR5 64GB 4800MHz ECC RDIMM 2Rx4 P43331-B21</td>
+<td align="center">16</td>
+<td align="right">$510</td>
+</tr>
+
+<tr>
+<td>DDR5 64GB 5600MHz ECC RDIMM 2Rx4 P64707-B21</td>
+<td align="center">19</td>
+<td align="right">$700</td>
+</tr>
+
+<tr>
+<td>DDR4 64GB 3200MHz ECC RDIMM 2Rx4 SK Hynix</td>
+<td align="center">25</td>
+<td align="right">$360</td>
+</tr>
+
+<tr>
+<td>DDR5 64GB 4800MHz ECC RDIMM 2Rx4 Samsung</td>
+<td align="center">25</td>
+<td align="right">$470</td>
+</tr>
+
+<tr>
+<td>DDR5 64GB 5600MHz ECC RDIMM 2Rx4 SK Hynix</td>
+<td align="center">20</td>
+<td align="right">$430</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+
+<tr>
+<td style="padding:25px 0 8px 0;">
+
+<h2 style="font-size:17px;font-weight:bold;margin:0;color:#222222;">
+Cisco Networking
+</h2>
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+<table role="presentation" width="100%" cellpadding="7" cellspacing="0" border="1"
+style="border-collapse:collapse;border-color:#dddddd;font-size:13px;">
+
+<tr>
+<th align="left" style="padding:8px;background:#f7f7f7;font-weight:bold;">
+Product
+</th>
+<th align="center" style="padding:8px;background:#f7f7f7;font-weight:bold;">
+Available
+</th>
+<th align="right" style="padding:8px;background:#f7f7f7;font-weight:bold;">
+Unit Price
+</th>
+</tr>
+
+<tr>
+<td>C9300-48T-A Cisco Catalyst 9300</td>
+<td align="center">12</td>
+<td align="right">$490</td>
+</tr>
+
+<tr>
+<td>C9200-48P-A Cisco Catalyst 9200</td>
+<td align="center">10</td>
+<td align="right">$180</td>
+</tr>
+
+<tr>
+<td>C9200L-48P-4G-E Cisco Catalyst 9200L</td>
+<td align="center">15</td>
+<td align="right">$120</td>
+</tr>
+
+<tr>
+<td>C9500-24Y4C-A Cisco Catalyst 9500</td>
+<td align="center">2</td>
+<td align="right">$2,800</td>
+</tr>
+
+<tr>
+<td>N9K-C93180YC-FX Cisco Nexus 93180YC-FX</td>
+<td align="center">10</td>
+<td align="right">$400</td>
+</tr>
+
+<tr>
+<td>N9K-C93180YC-FX3 Cisco Nexus 93180YC-FX3</td>
+<td align="center">8</td>
+<td align="right">$590</td>
+</tr>
+
+<tr>
+<td>N9K-C9336C-FX2 Cisco Nexus 9336C-FX2</td>
+<td align="center">3</td>
+<td align="right">$2,400</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+
+<tr>
+<td style="padding:25px 0 8px 0;">
+
+<h2 style="font-size:17px;font-weight:bold;margin:0;color:#222222;">
+Cisco Collaboration Equipment
+</h2>
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+<table role="presentation" width="100%" cellpadding="7" cellspacing="0" border="1"
+style="border-collapse:collapse;border-color:#dddddd;font-size:13px;">
+
+<tr>
+<th align="left" style="padding:8px;background:#f7f7f7;font-weight:bold;">
+Product
+</th>
+<th align="center" style="padding:8px;background:#f7f7f7;font-weight:bold;">
+Available
+</th>
+<th align="right" style="padding:8px;background:#f7f7f7;font-weight:bold;">
+Unit Price
+</th>
+</tr>
+
+<tr>
+<td>SPARK-BOARD70-K9 — Cisco Spark Board 70, Standard</td>
+<td align="center">8</td>
+<td align="right">$1,850</td>
+</tr>
+
+<tr>
+<td>SPARK-BOARD70-G-K9 — Cisco Spark Board 70, Global/GPL Variant</td>
+<td align="center">5</td>
+<td align="right">$1,950</td>
+</tr>
+
+<tr>
+<td>CS-BRD75P-K9 — Cisco Board Pro 75</td>
+<td align="center">3</td>
+<td align="right">$10,200</td>
+</tr>
+
+<tr>
+<td>CS-BRD55P-K9 — Cisco Board Pro 55</td>
+<td align="center">3</td>
+<td align="right">$5,900</td>
+</tr>
+
+<tr>
+<td>CS-ROOMBARPRO-K9 — Cisco Room Bar Pro</td>
+<td align="center">5</td>
+<td align="right">$2,950</td>
+</tr>
+
+<tr>
+<td>CS-ROOMBAR-K9 — Cisco Room Bar</td>
+<td align="center">15</td>
+<td align="right">$610</td>
+</tr>
+
+<tr>
+<td>CS-DESKPRO-K9 — Cisco Desk Pro</td>
+<td align="center">9</td>
+<td align="right">$1,100</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+
+<tr>
+<td style="padding:25px 0 8px 0;">
+
+<h2 style="font-size:17px;font-weight:bold;margin:0;color:#222222;">
+Lenovo ThinkSystem
+</h2>
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+<table role="presentation" width="100%" cellpadding="7" cellspacing="0" border="1"
+style="border-collapse:collapse;border-color:#dddddd;font-size:13px;">
+
+<tr>
+<th align="left" style="padding:8px;background:#f7f7f7;font-weight:bold;">
+Product
+</th>
+<th align="center" style="padding:8px;background:#f7f7f7;font-weight:bold;">
+Available
+</th>
+<th align="right" style="padding:8px;background:#f7f7f7;font-weight:bold;">
+Unit Price
+</th>
+</tr>
+
+<tr>
+<td>ThinkSystem SR250 V3 — 1U Single-Socket Rack Server</td>
+<td align="center">6</td>
+<td align="right">$1,800</td>
+</tr>
+
+<tr>
+<td>ThinkSystem SR630 V3 — 1U Dual-Socket Rack Server</td>
+<td align="center">8</td>
+<td align="right">$3,500</td>
+</tr>
+
+<tr>
+<td>ThinkSystem SR650 V3 — 2U Dual-Socket Rack Server</td>
+<td align="center">13</td>
+<td align="right">$5,000</td>
+</tr>
+
+<tr>
+<td>ThinkSystem SR650a V3 — 2U Accelerated Server</td>
+<td align="center">5</td>
+<td align="right">$6,500</td>
+</tr>
+
+<tr>
+<td>ThinkSystem SR665 V3 — 2U Dual-Socket AMD Server</td>
+<td align="center">6</td>
+<td align="right">$7,500</td>
+</tr>
+
+<tr>
+<td>ThinkSystem SR645 V3 — 1U Dual-Socket AMD Server</td>
+<td align="center">3</td>
+<td align="right">$4,500</td>
+</tr>
+
+<tr>
+<td>ThinkSystem SR635 V3 — 1U Single-Socket AMD Server</td>
+<td align="center">8</td>
+<td align="right">$3,500</td>
+</tr>
+
+<tr>
+<td>ThinkSystem SR675 V3 — 2U Accelerated/GPU-Capable Server</td>
+<td align="center">10</td>
+<td align="right">$8,000</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+
+<tr>
+<td style="padding:25px 0 8px 0;">
+
+<h2 style="font-size:17px;font-weight:bold;margin:0;color:#222222;">
+NVIDIA GPUs
+</h2>
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+<table role="presentation" width="100%" cellpadding="7" cellspacing="0" border="1"
+style="border-collapse:collapse;border-color:#dddddd;font-size:13px;">
+
+<tr>
+<th align="left" style="padding:8px;background:#f7f7f7;font-weight:bold;">
+Product
+</th>
+<th align="center" style="padding:8px;background:#f7f7f7;font-weight:bold;">
+Available
+</th>
+<th align="right" style="padding:8px;background:#f7f7f7;font-weight:bold;">
+Unit Price
+</th>
+</tr>
+
+<tr>
+<td>NVIDIA H100 PCIe — 80GB HBM3</td>
+<td align="center">6</td>
+<td align="right">$19,300</td>
+</tr>
+
+<tr>
+<td>NVIDIA H200 PCIe/NVL — 141GB HBM3e</td>
+<td align="center">4</td>
+<td align="right">$21,500</td>
+</tr>
+
+<tr>
+<td>NVIDIA L40S — 48GB GDDR6</td>
+<td align="center">7</td>
+<td align="right">$3,500</td>
+</tr>
+
+<tr>
+<td>NVIDIA RTX PRO 6000 Blackwell Server Edition — 96GB GDDR7 ECC</td>
+<td align="center">2</td>
+<td align="right">$9,900</td>
+</tr>
+
+<tr>
+<td>NVIDIA RTX PRO 6000 Blackwell Workstation Edition — 96GB GDDR7</td>
+<td align="center">3</td>
+<td align="right">$3,900</td>
+</tr>
+
+<tr>
+<td>NVIDIA B200 — 180GB HBM3e</td>
+<td align="center">3</td>
+<td align="right">$22,000</td>
+</tr>
+
+<tr>
+<td>NVIDIA RTX 6000 Ada — 48GB GDDR6 ECC</td>
+<td align="center">10</td>
+<td align="right">$2,100</td>
+</tr>
+
+<tr>
+<td>NVIDIA A100 — 40GB/80GB</td>
+<td align="center">15</td>
+<td align="right">$2,000</td>
+</tr>
+
+<tr>
+<td>NVIDIA L4 — 24GB GDDR6</td>
+<td align="center">17</td>
+<td align="right">$970</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+
+<tr>
+<td style="padding:25px 0 15px 0;border-top:1px solid #dddddd;">
+
+<p style="margin:0 0 10px 0;font-size:14px;line-height:1.6;">
+For quotations, availability confirmation, product specifications,
+or inspection requirements, please contact us.
+</p>
+
+<p style="margin:0;font-size:14px;line-height:1.7;">
+<strong>Martin Liam</strong><br>
+Prime Tech Ware<br>
+Email:
+<a href="mailto:sales@primetechware.com"
+style="color:#333333;text-decoration:none;">
+sales@primetechware.com
+</a><br>
+Phone: +1 909 435 4982<br>
+Phone: +1 909 552 6526<br>
+<a href="https://primetechware.com"
+style="color:#333333;text-decoration:none;">
+primetechware.com
+</a>
+</p>
+
+</td>
+</tr>
+
+<tr>
+<td style="padding:15px 0;border-top:1px solid #dddddd;">
+
+<p style="margin:0;font-size:11px;color:#777777;line-height:1.5;">
+Inventory and pricing are subject to availability and prior sale.
+Please confirm current stock and pricing before placing an order.
+</p>
+
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>
+
+
+
+--1eb0380ad81af495006b24de6f2bd6b8f--
 
