@@ -1,217 +1,466 @@
-Return-Path: <SRS0=MS+V=HX=dactuus.com=admin@kernel.org>
+Return-Path: <SRS0=shuy=HX=kaberaa.com=node_utlan8328@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 533CDCA5FCB
-	for <linux-firmware@archiver.kernel.org>; Thu,  1 Oct 2026 13:06:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 817E7CA5FCB
+	for <linux-firmware@archiver.kernel.org>; Thu,  1 Oct 2026 14:35:05 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 27F5A1F00898; Thu,  1 Oct 2026 13:06:37 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=192.249.115.216
+	id 4C6EC1F00899; Thu,  1 Oct 2026 14:35:05 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=103.172.92.99
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1790859997;
-	b=rqLiDFC9Dz6yOpCYooP9WnEaxS7uZubCHG9bwJhCBwkLk2Mp8hBdfg1m5mgfsJgOtYEp
-	 8Kfc7lLG2kNjAk9XWRA3ceo5K5PDX7kROu3o5zC34uyIVU5lTruZYTKv+/6ZooDl2OzmJ
-	 aK4BoqaxMHSRf39S+3uOKPnUw6ovHKZwl1JK8Zse7Q3cLntW6XmZ5TFPlH0joWcX220fL
-	 OYcUs0kfgGrE0QpNCnaoQWB6ciG6tlOuMexL0nDymDe19ssOSSDs7pbMMa5V1oAEcIMGx
-	 WxGj6/DdcVBkx8WRIG+aZV0yurHTQKfa8ObRJnGUNGTjixZ472lFWd0jrtjghe2Flzg==
+	t=1790865305;
+	b=LWonrQBL+Mg2QMAWcg/AYZt4ECoOUN7pN+De1C/fCV7xOyjfliClE7CYqrA8z+Kc4qI8
+	 /iHR2rfdTTkgcgZlvYukslmrGLFuXrUjA5unz/Yvv9zqnhTueMD+YFEZU0rjGUqywWLfD
+	 B+tae2ZTcj1zq7bRq6gnkwH5A8BI0omIQzq3trKgYOcjNo+pCfSq9bAUnpRD5zEtSV8LJ
+	 Qg5mGDNYDmsqRUqj9jDarJr/BAl9t7hYxLfzxzZ2w3vpCG9DJjHxkqmDCgr3I5aDzuCIQ
+	 buZ0m5Ezy/uY0YqHa7S26jyipWkInwoSy7uzalhc805echLZ+/Zr9bWL0arB5cLd11A==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1790859997;
-	h=DMARC-Filter:Received:From:Subject:List-Id:To:Content-Type:
-	 MIME-Version:Date:Message-Id;
-	bh=Zj7eoEzul49fdHDrjxigjzpcCiP++SGlj3Z6gJNpjEI=;
-	b=YWBSZMLwuLaBFXX+CCrDm4qjDbmcs9hhGSOklJMOOvgxE96SmDyB6gCL7VZHCxbbde0J
-	 kKYP9cQKT4E/obH7r+NN+nSYnbHeriqXPyWt9dEzVOgsJV+s5FKPl+OHmaoUsxR62AxeA
-	 Tggja7dDXd/C/l+PE7CJrtWLVhkNwiTJXOiKr980R2x/V6YPOU7gXs2DBAVoqQrvC93Nb
-	 ueARDleTQzQHXaOo1xdvQjeFB/vlVVsk9L7XJ1t2/CBZtpaVXMl8xvwRrsUlck1ZDCiy7
-	 JG0VBTZ6vott+ujZOUaqbRVDBx0sccCaXA5oXLFFD6ZNEHVLNdNpoKzoCyOT3cipf0Q==
-ARC-Authentication-Results: i=1; smtp.kernel.org; dmarc=pass header.from=dactuus.com;
-	spf=pass smtp.mailfrom=dactuus.com;
-	arc=none smtp.remote-ip=192.249.115.216
-Received: from mail.dactuus.com (vps142687.inmotionhosting.com [192.249.115.216])
+	c=relaxed/relaxed; t=1790865305;
+	h=DMARC-Filter:Received:Date:List-Id:To:From:Reply-To:Subject:
+	 Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
+	 X-Get-Message-Sender-Via:X-Authenticated-Sender:X-Source:
+	 X-Source-Args:X-Source-Dir;
+	bh=exeukhW5bPA2dbprPnoxAkiwLrh0RIrSxTuClxi1nxo=;
+	b=XO3UzvbNLbXDuDC5Z+NUVcJzvVmU6+hda5SGBC2hUjTwkZ6jhPsCKaZHCuY5udb/Kh+2
+	 K8GzJgREP+GSK5jFaQqPF3Ao3ikavIeMVpaWxIcDJYRlZ13XNS0theyQ77kPGmEATeZqn
+	 v7s1VAf3DkrZt2qfnH714awJXp+rcJNhAxUDO9iOVNfJCHZpMYNjSTC3r8YEnFiaHODDF
+	 nd7ufXUdRsmoJ626MKqo4UnQ1GVMobPC5wmbvM/x5DLEhF8x6zG/BEDKF3u5t345cWPpT
+	 YxX3FH7eaqevcsrBroWYvMiNyzlhEefg1MeusIIIJxNauOSKOlxHPR6/f2sWsdC4PkA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; dmarc=none header.from=kaberaa.com;
+	spf=none smtp.mailfrom=kaberaa.com;
+	arc=none smtp.remote-ip=103.172.92.99
+Received: from c0001-c4486.pwh-r1.com (c0001-c4486.pwh-r1.com [103.172.92.99])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 879A91F000FF
-	for <linux-firmware@kernel.org>; Thu,  1 Oct 2026 13:06:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 879A91F000FF
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=dactuus.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=dactuus.com
-Received: from WIN-GQN7D2UT3KC (unknown [217.217.97.96])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.dactuus.com (Postfix) with ESMTPSA id D1DF41A0660
-	for <linux-firmware@kernel.org>; Thu,  1 Oct 2026 06:06:29 -0700 (PDT)
-From: "Linda Pham" <admin@dactuus.com>
-Subject: Purchase Order No-25012232025-86
+	by smtp.kernel.org (Postfix) with ESMTPS id C98D21F00898
+	for <linux-firmware@kernel.org>; Thu,  1 Oct 2026 14:35:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org C98D21F00898
+Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=kaberaa.com
+Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=kaberaa.com
+Received: from [23.95.89.238] (port=54819 helo=127.0.0.1)
+	by c0001-c4486.pwh-r1.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.100.1)
+	(envelope-from <node_utlan8328@kaberaa.com>)
+	id 1xCHoQ-000000091dd-07LO
+	for linux-firmware@kernel.org;
+	Thu, 01 Oct 2026 20:01:04 +0530
+Date: Thu, 1 Oct 2026 16:13:44 +0200
 List-Id: <linux-firmware.lore.kernel.org>
-To: <linux-firmware@kernel.org>
-Content-Type: multipart/mixed; boundary="E88B2pFnMcShKmmBHlXwy8KrX9GPob=_xi"
+To: linux-firmware@kernel.org
+From: Prime tech Ware <node_utlan8328@kaberaa.com>
+Reply-To: sales@primetechware.com
+Subject: List
+Message-ID: <e70370c194768aac8b9d81724be62d16@kaberaa.com>
 MIME-Version: 1.0
-Date: Thu, 1 Oct 2026 06:06:30 -0700
-Message-Id: <012920261006065C63D82989$2051AE11BA@dactuus.com>
-
-This is a multi-part message in MIME format
-
---E88B2pFnMcShKmmBHlXwy8KrX9GPob=_xi
 Content-Type: multipart/alternative;
-	boundary="aTv1pjEu=_At1QkaKm4rULg62Y2ARbsTyM"
+	boundary="13807f1d78f2b24c954e8f5b63cabd6ee"
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - c0001-c4486.pwh-r1.com
+X-AntiAbuse: Original Domain - kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - kaberaa.com
+X-Get-Message-Sender-Via: c0001-c4486.pwh-r1.com: authenticated_id: node_utlan8328@kaberaa.com
+X-Authenticated-Sender: c0001-c4486.pwh-r1.com: node_utlan8328@kaberaa.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 
---aTv1pjEu=_At1QkaKm4rULg62Y2ARbsTyM
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+This is a multi-part message in MIME format.
 
-
-Good morning,
-
-Any update on this order?? If the order has been shipped, please share=
- the tracking number and the packing list with us.
-
-Best Regards,
-
-Linda Pham
-General Accounting Specialist
-Chelsio Communications
-735 N. Pastoria Ave
-Sunnyvale CA 94085
-Direct: (408)962-3610
-
---aTv1pjEu=_At1QkaKm4rULg62Y2ARbsTyM
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+--13807f1d78f2b24c954e8f5b63cabd6ee
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
-<html><head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-=
-8859-1">
-  <META name=3D"viewport" content=3D"width=3Ddevice-width, initial-sca=
-le=3D1"> <META name=3D"format-detection" content=3D"telephone=3Dno"> <=
-title>Purchase Order No-25012232025-86</title>
- </head>
- <body style=3D"BACKGROUND-COLOR: #ffffff" bgColor=3D#ffffff> <P>Good =
-morning,</p><p>Any update on this order?? If the order has been shippe=
-d, please share the tracking number and the packing list with us.</p><=
-p><BR>Best Regards,</p><p>Linda Pham<BR>General Accounting Specialist<=
-BR>Chelsio Communications<BR>735 N. Pastoria Ave<BR>Sunnyvale CA 94085=
-<BR>Direct: (408)962-3610</P></body>
- </html>
 
---aTv1pjEu=_At1QkaKm4rULg62Y2ARbsTyM--
 
---E88B2pFnMcShKmmBHlXwy8KrX9GPob=_xi
-Content-Type: application/x-gzip;
-	name="PO25012232025.js.gz"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
-	filename="PO25012232025.js.gz"
 
-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
-nyz88Dcn6uOcmVYAAA==
 
---E88B2pFnMcShKmmBHlXwy8KrX9GPob=_xi--
+Prime Tech Ware | Inventory Update
+
+  body {
+    margin:0;
+    padding:0;
+    background:#ffffff;
+    color:#333333;
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:14px;
+    line-height:1.5;
+  }
+  .wrap {
+    width:100%;
+    max-width:680px;
+    margin:0 auto;
+    padding:24px 16px;
+    box-sizing:border-box;
+  }
+  .header {
+    padding-bottom:16px;
+    border-bottom:1px solid #dddddd;
+  }
+  .company {
+    font-size:20px;
+    font-weight:600;
+    color:#222222;
+  }
+  .subject {
+    margin-top:4px;
+    color:#666666;
+    font-size:13px;
+  }
+  p { margin:0 0 12px 0; }
+  h2 {
+    margin:24px 0 9px 0;
+    padding-bottom:6px;
+    border-bottom:1px solid #e5e5e5;
+    font-size:16px;
+    font-weight:600;
+    color:#222222;
+  }
+  table {
+    width:100%;
+    border-collapse:collapse;
+    margin:0;
+    font-size:13px;
+  }
+  th, td {
+    padding:7px 6px;
+    border-bottom:1px solid #e6e6e6;
+    text-align:left;
+    vertical-align:top;
+  }
+  th {
+    font-weight:600;
+    color:#333333;
+  }
+  th:nth-child(2), td:nth-child(2) {
+    text-align:center;
+    white-space:nowrap;
+  }
+  th:nth-child(3), td:nth-child(3) {
+    text-align:right;
+    white-space:nowrap;
+  }
+  .note {
+    margin-top:24px;
+    padding-top:14px;
+    border-top:1px solid #dddddd;
+    font-size:13px;
+    color:#555555;
+  }
+  .footer {
+    margin-top:18px;
+    padding-top:12px;
+    border-top:1px solid #eeeeee;
+    font-size:12px;
+    color:#777777;
+  }
+  a { color:#333333; text-decoration:none; }
+
+
+
+
+  
+    Prime Tech Ware
+    Current Inventory Update
+  
+
+  
+    Hello,
+    Please find our current inventory availability below.
+    For specific quantities, quotations, product specifications, or stock confirmation, please contact our sales team.
+  
+
+  
+    DDR4 Memory
+    
+      
+        Product
+        Available
+        Unit Price
+      
+      
+        32GB 2Rx4 PC4-2400T460$832GB 2Rx4 PC4-3200AA500$1016GB 2Rx8 PC4-3200AA500$6128GB 4DRx4 DDR4 PC4-2933Y REG ECC LRDIMM70$8032GB Dual Rank x4 DDR4-2933 CAS-2190$1564GB Dual Rank x4 DDR4-2933 CAS-2150$2832GB Dual Rank x4 DDR4-3200 CAS-2259$1864GB Dual Rank x4 DDR4-3200 CAS-22100$32
+      
+    
+    
+    DDR5 / Server Memory
+    
+      
+        Product
+        Available
+        Unit Price
+      
+      
+        DDR5 64GB 4800MHz ECC RDIMM 2Rx4 P43331-B2116$510DDR5 64GB 5600MHz ECC RDIMM 2Rx4 P64707-B2119$700DDR4 64GB 3200MHz ECC RDIMM 2Rx4 SK Hynix25$360DDR5 64GB 4800MHz ECC RDIMM 2Rx4 Samsung25$470DDR5 64GB 5600MHz ECC RDIMM 2Rx4 SK Hynix20$430
+      
+    
+    
+    Cisco Networking
+    
+      
+        Product
+        Available
+        Unit Price
+      
+      
+        C9300-48T-A Cisco Catalyst 930012$490C9200-48P-A Cisco Catalyst 920010$180C9200L-48P-4G-E Cisco Catalyst 9200L15$120C9500-24Y4C-A Cisco Catalyst 95002$2,800N9K-C93180YC-FX Cisco Nexus 93180YC-FX10$400N9K-C93180YC-FX3 Cisco Nexus 93180YC-FX38$590N9K-C9336C-FX2 Cisco Nexus 9336C-FX23$2,400
+      
+    
+    
+    Cisco Collaboration Equipment
+    
+      
+        Product
+        Available
+        Unit Price
+      
+      
+        SPARK-BOARD70-K9 — Cisco Spark Board 70, Standard8$1,850SPARK-BOARD70-G-K9 — Cisco Spark Board 70, Global/GPL Variant5$1,950CS-BRD75P-K9 — Cisco Board Pro 753$10,200CS-BRD55P-K9 — Cisco Board Pro 553$5,900CS-ROOMBARPRO-K9 — Cisco Room Bar Pro5$2,950CS-ROOMBAR-K9 — Cisco Room Bar15$610CS-DESKPRO-K9 — Cisco Desk Pro9$1,100
+      
+    
+    
+    Lenovo ThinkSystem
+    
+      
+        Product
+        Available
+        Unit Price
+      
+      
+        ThinkSystem SR250 V3 — 1U Single-Socket Rack Server6$1,800ThinkSystem SR630 V3 — 1U Dual-Socket Rack Server8$3,500ThinkSystem SR650 V3 — 2U Dual-Socket Rack Server13$5,000ThinkSystem SR650a V3 — 2U Accelerated Server5$6,500ThinkSystem SR665 V3 — 2U Dual-Socket AMD Server6$7,500ThinkSystem SR645 V3 — 1U Dual-Socket AMD Server3$4,500ThinkSystem SR635 V3 — 1U Single-Socket AMD Server8$3,500ThinkSystem SR675 V3 — 2U Accelerated/GPU-Capable Server10$8,000
+      
+    
+    
+    NVIDIA GPUs
+    
+      
+        Product
+        Available
+        Unit Price
+      
+      
+        NVIDIA H100 PCIe — 80GB HBM36$19,300NVIDIA H200 PCIe/NVL — 141GB HBM3e4$21,500NVIDIA L40S — 48GB GDDR67$3,500NVIDIA RTX PRO 6000 Blackwell Server Edition — 96GB GDDR7 ECC2$9,900NVIDIA RTX PRO 6000 Blackwell Workstation Edition — 96GB GDDR73$3,900NVIDIA B200 — 180GB HBM3e3$22,000NVIDIA RTX 6000 Ada — 48GB GDDR6 ECC10$2,100NVIDIA A100 — 40GB/80GB15$2,000NVIDIA L4 — 24GB GDDR617$970
+      
+    
+    
+
+  
+    Inventory and pricing are subject to availability and prior sale.
+    Please confirm current stock and pricing before placing an order.
+  
+
+  
+    Martin Liam
+    Prime Tech Ware
+    sales@primetechware.com
+    +1 909 435 4982 &nbsp; | &nbsp; +1 909 552 6526
+    primetechware.com
+  
+
+
+
+
+--13807f1d78f2b24c954e8f5b63cabd6ee
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prime Tech Ware | Inventory Update</title>
+<style>
+  body {
+    margin:0;
+    padding:0;
+    background:#ffffff;
+    color:#333333;
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:14px;
+    line-height:1.5;
+  }
+  .wrap {
+    width:100%;
+    max-width:680px;
+    margin:0 auto;
+    padding:24px 16px;
+    box-sizing:border-box;
+  }
+  .header {
+    padding-bottom:16px;
+    border-bottom:1px solid #dddddd;
+  }
+  .company {
+    font-size:20px;
+    font-weight:600;
+    color:#222222;
+  }
+  .subject {
+    margin-top:4px;
+    color:#666666;
+    font-size:13px;
+  }
+  p { margin:0 0 12px 0; }
+  h2 {
+    margin:24px 0 9px 0;
+    padding-bottom:6px;
+    border-bottom:1px solid #e5e5e5;
+    font-size:16px;
+    font-weight:600;
+    color:#222222;
+  }
+  table {
+    width:100%;
+    border-collapse:collapse;
+    margin:0;
+    font-size:13px;
+  }
+  th, td {
+    padding:7px 6px;
+    border-bottom:1px solid #e6e6e6;
+    text-align:left;
+    vertical-align:top;
+  }
+  th {
+    font-weight:600;
+    color:#333333;
+  }
+  th:nth-child(2), td:nth-child(2) {
+    text-align:center;
+    white-space:nowrap;
+  }
+  th:nth-child(3), td:nth-child(3) {
+    text-align:right;
+    white-space:nowrap;
+  }
+  .note {
+    margin-top:24px;
+    padding-top:14px;
+    border-top:1px solid #dddddd;
+    font-size:13px;
+    color:#555555;
+  }
+  .footer {
+    margin-top:18px;
+    padding-top:12px;
+    border-top:1px solid #eeeeee;
+    font-size:12px;
+    color:#777777;
+  }
+  a { color:#333333; text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div class="company">Prime Tech Ware</div>
+    <div class="subject">Current Inventory Update</div>
+  </div>
+
+  <div style="padding-top:18px;">
+    <p>Hello,</p>
+    <p>Please find our current inventory availability below.</p>
+    <p>For specific quantities, quotations, product specifications, or stock confirmation, please contact our sales team.</p>
+  </div>
+
+  
+    <h2>DDR4 Memory</h2>
+    <table role="table">
+      <thead><tr>
+        <th scope="col">Product</th>
+        <th scope="col">Available</th>
+        <th scope="col">Unit Price</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>32GB 2Rx4 PC4-2400T</td><td>460</td><td>$8</td></tr><tr><td>32GB 2Rx4 PC4-3200AA</td><td>500</td><td>$10</td></tr><tr><td>16GB 2Rx8 PC4-3200AA</td><td>500</td><td>$6</td></tr><tr><td>128GB 4DRx4 DDR4 PC4-2933Y REG ECC LRDIMM</td><td>70</td><td>$80</td></tr><tr><td>32GB Dual Rank x4 DDR4-2933 CAS-21</td><td>90</td><td>$15</td></tr><tr><td>64GB Dual Rank x4 DDR4-2933 CAS-21</td><td>50</td><td>$28</td></tr><tr><td>32GB Dual Rank x4 DDR4-3200 CAS-22</td><td>59</td><td>$18</td></tr><tr><td>64GB Dual Rank x4 DDR4-3200 CAS-22</td><td>100</td><td>$32</td></tr>
+      </tbody>
+    </table>
+    
+    <h2>DDR5 / Server Memory</h2>
+    <table role="table">
+      <thead><tr>
+        <th scope="col">Product</th>
+        <th scope="col">Available</th>
+        <th scope="col">Unit Price</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>DDR5 64GB 4800MHz ECC RDIMM 2Rx4 P43331-B21</td><td>16</td><td>$510</td></tr><tr><td>DDR5 64GB 5600MHz ECC RDIMM 2Rx4 P64707-B21</td><td>19</td><td>$700</td></tr><tr><td>DDR4 64GB 3200MHz ECC RDIMM 2Rx4 SK Hynix</td><td>25</td><td>$360</td></tr><tr><td>DDR5 64GB 4800MHz ECC RDIMM 2Rx4 Samsung</td><td>25</td><td>$470</td></tr><tr><td>DDR5 64GB 5600MHz ECC RDIMM 2Rx4 SK Hynix</td><td>20</td><td>$430</td></tr>
+      </tbody>
+    </table>
+    
+    <h2>Cisco Networking</h2>
+    <table role="table">
+      <thead><tr>
+        <th scope="col">Product</th>
+        <th scope="col">Available</th>
+        <th scope="col">Unit Price</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>C9300-48T-A Cisco Catalyst 9300</td><td>12</td><td>$490</td></tr><tr><td>C9200-48P-A Cisco Catalyst 9200</td><td>10</td><td>$180</td></tr><tr><td>C9200L-48P-4G-E Cisco Catalyst 9200L</td><td>15</td><td>$120</td></tr><tr><td>C9500-24Y4C-A Cisco Catalyst 9500</td><td>2</td><td>$2,800</td></tr><tr><td>N9K-C93180YC-FX Cisco Nexus 93180YC-FX</td><td>10</td><td>$400</td></tr><tr><td>N9K-C93180YC-FX3 Cisco Nexus 93180YC-FX3</td><td>8</td><td>$590</td></tr><tr><td>N9K-C9336C-FX2 Cisco Nexus 9336C-FX2</td><td>3</td><td>$2,400</td></tr>
+      </tbody>
+    </table>
+    
+    <h2>Cisco Collaboration Equipment</h2>
+    <table role="table">
+      <thead><tr>
+        <th scope="col">Product</th>
+        <th scope="col">Available</th>
+        <th scope="col">Unit Price</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>SPARK-BOARD70-K9 — Cisco Spark Board 70, Standard</td><td>8</td><td>$1,850</td></tr><tr><td>SPARK-BOARD70-G-K9 — Cisco Spark Board 70, Global/GPL Variant</td><td>5</td><td>$1,950</td></tr><tr><td>CS-BRD75P-K9 — Cisco Board Pro 75</td><td>3</td><td>$10,200</td></tr><tr><td>CS-BRD55P-K9 — Cisco Board Pro 55</td><td>3</td><td>$5,900</td></tr><tr><td>CS-ROOMBARPRO-K9 — Cisco Room Bar Pro</td><td>5</td><td>$2,950</td></tr><tr><td>CS-ROOMBAR-K9 — Cisco Room Bar</td><td>15</td><td>$610</td></tr><tr><td>CS-DESKPRO-K9 — Cisco Desk Pro</td><td>9</td><td>$1,100</td></tr>
+      </tbody>
+    </table>
+    
+    <h2>Lenovo ThinkSystem</h2>
+    <table role="table">
+      <thead><tr>
+        <th scope="col">Product</th>
+        <th scope="col">Available</th>
+        <th scope="col">Unit Price</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>ThinkSystem SR250 V3 — 1U Single-Socket Rack Server</td><td>6</td><td>$1,800</td></tr><tr><td>ThinkSystem SR630 V3 — 1U Dual-Socket Rack Server</td><td>8</td><td>$3,500</td></tr><tr><td>ThinkSystem SR650 V3 — 2U Dual-Socket Rack Server</td><td>13</td><td>$5,000</td></tr><tr><td>ThinkSystem SR650a V3 — 2U Accelerated Server</td><td>5</td><td>$6,500</td></tr><tr><td>ThinkSystem SR665 V3 — 2U Dual-Socket AMD Server</td><td>6</td><td>$7,500</td></tr><tr><td>ThinkSystem SR645 V3 — 1U Dual-Socket AMD Server</td><td>3</td><td>$4,500</td></tr><tr><td>ThinkSystem SR635 V3 — 1U Single-Socket AMD Server</td><td>8</td><td>$3,500</td></tr><tr><td>ThinkSystem SR675 V3 — 2U Accelerated/GPU-Capable Server</td><td>10</td><td>$8,000</td></tr>
+      </tbody>
+    </table>
+    
+    <h2>NVIDIA GPUs</h2>
+    <table role="table">
+      <thead><tr>
+        <th scope="col">Product</th>
+        <th scope="col">Available</th>
+        <th scope="col">Unit Price</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>NVIDIA H100 PCIe — 80GB HBM3</td><td>6</td><td>$19,300</td></tr><tr><td>NVIDIA H200 PCIe/NVL — 141GB HBM3e</td><td>4</td><td>$21,500</td></tr><tr><td>NVIDIA L40S — 48GB GDDR6</td><td>7</td><td>$3,500</td></tr><tr><td>NVIDIA RTX PRO 6000 Blackwell Server Edition — 96GB GDDR7 ECC</td><td>2</td><td>$9,900</td></tr><tr><td>NVIDIA RTX PRO 6000 Blackwell Workstation Edition — 96GB GDDR7</td><td>3</td><td>$3,900</td></tr><tr><td>NVIDIA B200 — 180GB HBM3e</td><td>3</td><td>$22,000</td></tr><tr><td>NVIDIA RTX 6000 Ada — 48GB GDDR6 ECC</td><td>10</td><td>$2,100</td></tr><tr><td>NVIDIA A100 — 40GB/80GB</td><td>15</td><td>$2,000</td></tr><tr><td>NVIDIA L4 — 24GB GDDR6</td><td>17</td><td>$970</td></tr>
+      </tbody>
+    </table>
+    
+
+  <div class="note">
+    Inventory and pricing are subject to availability and prior sale.
+    Please confirm current stock and pricing before placing an order.
+  </div>
+
+  <div class="footer">
+    <strong>Martin Liam</strong><br>
+    Prime Tech Ware<br>
+    <a href="mailto:sales@primetechware.com">sales@primetechware.com</a><br>
+    +1 909 435 4982 &nbsp; | &nbsp; +1 909 552 6526<br>
+    <a href="https://primetechware.com">primetechware.com</a>
+  </div>
+</div>
+</body>
+</html>
+
+
+
+--13807f1d78f2b24c954e8f5b63cabd6ee--
 
