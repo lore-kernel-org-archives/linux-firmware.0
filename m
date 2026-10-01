@@ -1,466 +1,266 @@
-Return-Path: <SRS0=shuy=HX=kaberaa.com=node_utlan8328@kernel.org>
+Return-Path: <SRS0=tK7r=HX=opensource.cirrus.com=prvs=173446e828=simont@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 817E7CA5FCB
-	for <linux-firmware@archiver.kernel.org>; Thu,  1 Oct 2026 14:35:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 648F9CA5FD2
+	for <linux-firmware@archiver.kernel.org>; Thu,  1 Oct 2026 15:18:25 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 4C6EC1F00899; Thu,  1 Oct 2026 14:35:05 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=103.172.92.99
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1790865305;
-	b=LWonrQBL+Mg2QMAWcg/AYZt4ECoOUN7pN+De1C/fCV7xOyjfliClE7CYqrA8z+Kc4qI8
-	 /iHR2rfdTTkgcgZlvYukslmrGLFuXrUjA5unz/Yvv9zqnhTueMD+YFEZU0rjGUqywWLfD
-	 B+tae2ZTcj1zq7bRq6gnkwH5A8BI0omIQzq3trKgYOcjNo+pCfSq9bAUnpRD5zEtSV8LJ
-	 Qg5mGDNYDmsqRUqj9jDarJr/BAl9t7hYxLfzxzZ2w3vpCG9DJjHxkqmDCgr3I5aDzuCIQ
-	 buZ0m5Ezy/uY0YqHa7S26jyipWkInwoSy7uzalhc805echLZ+/Zr9bWL0arB5cLd11A==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1790865305;
-	h=DMARC-Filter:Received:Date:List-Id:To:From:Reply-To:Subject:
-	 Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
-	 X-Get-Message-Sender-Via:X-Authenticated-Sender:X-Source:
-	 X-Source-Args:X-Source-Dir;
-	bh=exeukhW5bPA2dbprPnoxAkiwLrh0RIrSxTuClxi1nxo=;
-	b=XO3UzvbNLbXDuDC5Z+NUVcJzvVmU6+hda5SGBC2hUjTwkZ6jhPsCKaZHCuY5udb/Kh+2
-	 K8GzJgREP+GSK5jFaQqPF3Ao3ikavIeMVpaWxIcDJYRlZ13XNS0theyQ77kPGmEATeZqn
-	 v7s1VAf3DkrZt2qfnH714awJXp+rcJNhAxUDO9iOVNfJCHZpMYNjSTC3r8YEnFiaHODDF
-	 nd7ufXUdRsmoJ626MKqo4UnQ1GVMobPC5wmbvM/x5DLEhF8x6zG/BEDKF3u5t345cWPpT
-	 YxX3FH7eaqevcsrBroWYvMiNyzlhEefg1MeusIIIJxNauOSKOlxHPR6/f2sWsdC4PkA==
-ARC-Authentication-Results: i=1; smtp.kernel.org; dmarc=none header.from=kaberaa.com;
-	spf=none smtp.mailfrom=kaberaa.com;
-	arc=none smtp.remote-ip=103.172.92.99
-Received: from c0001-c4486.pwh-r1.com (c0001-c4486.pwh-r1.com [103.172.92.99])
+	id 358ED1F00898; Thu,  1 Oct 2026 15:18:25 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
+ARC-Seal: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=pass;
+	t=1790867905;
+	b=x++LOrSKZPtrrrzY2epE14elWeETQopHgVfQDaDKt6+9YB/85xU+eQaHYIKs8mZysj+K
+	 65aSmW9e9SdkzUcl6WA7T0RsFx18kwiU5NLIvgNaU6hyImZyjIzpLJrPLS2blKbE2Zxck
+	 z6f8TC5pZ9d4bUiTr9C0cSKOiQdYQV9tY8Jj0XHCb784BZVfib95+GzyE3JSLLmKHr2JD
+	 Pt0yUdiONYw1l3RmcX+XYRCQnHOVO0FUZq+1Un3dntJ1w49kXxNM1PaUoLn1ZMyIrL3fy
+	 z9aAJIYJ0UPUxFUih6fkfXbZnVCZvIglLEb5ErvFdFhZCPGaBKPKKwp4p4dihhlD5fA==
+ARC-Message-Signature: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1790867905;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
+	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
+	 Received:Received:Received:From:Content-Type:
+	 Content-Transfer-Encoding:Mime-Version:Subject:Message-Id:Date:Cc:
+	 List-Id:To:X-Mailer:X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+	 X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Spam-Reason;
+	bh=Mo5fL7wHyHr2v5f0+Zu+XLdiCFCV91WfASufpmLBWYY=;
+	b=DiI5QiaN5Upx4Qz3r/Qt12RB8+SMLtgRpJwfKUWNURWic7lDkjsEdd7bIMgrdSMTBhcY
+	 iRIM/69izeeuuoYmXk5oPn59EduDiV9N9TvqnRShKJ5l69nDQ9+S49tAqZKn2cbC5IipO
+	 vv7PWfWdUgMKIdE4j2TIcpZ0HcruspM0aybPzCOTASjcC+IZ+kaRFqMibsV34+uEC70y1
+	 Ir3s3cCrM8UPNegx3y6cLOg0H3lpkz1evZCP9T8xOGQVYyq/9Z3ImFU7gtBq+/D4MzGpM
+	 f4r2ca9HpLmtxMmwDXu8cqGfVhQuwin00nQUCTpB0sAjzziFkC1VxjfnYXwuGXkBUIQ==
+ARC-Authentication-Results: i=2; smtp.kernel.org; dkim=pass header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=akEZR4OR;
+	dkim=pass header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=jB+wj97l;
+	dmarc=pass header.from=opensource.cirrus.com;
+	spf=pass smtp.mailfrom=opensource.cirrus.com;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id C98D21F00898
-	for <linux-firmware@kernel.org>; Thu,  1 Oct 2026 14:35:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org C98D21F00898
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=kaberaa.com
-Authentication-Results: smtp.kernel.org; spf=none smtp.mailfrom=kaberaa.com
-Received: from [23.95.89.238] (port=54819 helo=127.0.0.1)
-	by c0001-c4486.pwh-r1.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.100.1)
-	(envelope-from <node_utlan8328@kaberaa.com>)
-	id 1xCHoQ-000000091dd-07LO
-	for linux-firmware@kernel.org;
-	Thu, 01 Oct 2026 20:01:04 +0530
-Date: Thu, 1 Oct 2026 16:13:44 +0200
+	by smtp.kernel.org (Postfix) with ESMTPS id 9050C1F000FF
+	for <linux-firmware@kernel.org>; Thu,  1 Oct 2026 15:18:24 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=akEZR4OR;
+	dkim=pass (1024-bit key, unprotected) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=jB+wj97l
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 9050C1F000FF
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 691D24SR3843524
+	for <linux-firmware@kernel.org>; Thu, 1 Oct 2026 10:18:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=Mo5fL7wHyHr2v5f0
+	+Zu+XLdiCFCV91WfASufpmLBWYY=; b=akEZR4OR3EnstckVErxnIeJVErQsCjqN
+	r+/5QQrII/8sZn7fu75UG0R/2oOvtxVPyc9WkmM9XKjdbw9wn0JVlSJzlf7gZMSK
+	MRHGMbKwVJYYPn2RVgUcozw12RDm7dpVwfBgvclVOh4/WvXLJ8mNADxoURqS3umu
+	BcAWi+EvXkhJcOqLnunxNfGlGVvG6h9iLNoHFlbb8MkcTPCzPb20x8/ic/lQordd
+	PD4F5ljCtNZF5PSCKKu1yHV5aGU42bGjXqaMBmtHdcw4/oEP/b2ZysSslDfuZJoy
+	5ZFB//rYfnlfmEIZ9s9SpJVTx2XkRPf2UZ9FYl6/ya9ATLCsYE7ipw==
+Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11022131.outbound.protection.outlook.com [52.101.43.131])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4h1gv7gqa0-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <linux-firmware@kernel.org>; Thu, 01 Oct 2026 10:18:23 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ch/6rAcIBD2lA61Iyklc1D26Cln5t5NdPDD6tlodhBqVkkYohcFeZo2WHCFVxBVZTKzFxxQTjI46FoiVOGvCicRDV0dwVEJ9AQ0qzszolsAsXAr9B3S1xgRcZ0QLzJ0lpF3c1B5tv2DV4G2oraxtPDFmREGSfK5nHD3i5kRYMq7ScbnUClaxzSoWc60jcVvA3N77cXiBUPmprbIq4CO+8r9ULm9zGLAXQXtFeqPB/yTZ+uf516F4irckWFHgRnDkbXSXOQBywgOwDVyn4lxI0KNO7ceQ73YPrjb+oK14Zv9deEspUfi9Waj3ukX5SHLiA16wDmWviDZRGxPK8PzJ2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Mo5fL7wHyHr2v5f0+Zu+XLdiCFCV91WfASufpmLBWYY=;
+ b=gdZRxCVU1kDIOXnHRq4TKazuUoNnNQhwD0n0Sk1vjZSSHbvIJxe+uEzZOP/lqGe8AIJfPL1S85QMmHX0HX/3sZmAo0A6o87hEQw9JMZbqkSg9L+BR0EfpUVTqdBMCjgPtYdp7JG8aF+QuRx5X7+ut5IXiEn6IDWAMc0B4iz0spzoCWvdUROq/fe+WHMNE6PhuGMvgbzVOABPBqxlcL6FTQ91h7fLHt+UtOyiiedSqN/t6Dka6ScuMCZCQ6OIVKJWDi5JmtMq89GM+8/bPoNju7AJt/NbGEUCvamyWDrj4hM6mczryDZPHQQjrr0N0aKwo/OltbdauNd/Okfefe962A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Mo5fL7wHyHr2v5f0+Zu+XLdiCFCV91WfASufpmLBWYY=;
+ b=jB+wj97lYPkA4DhMt3B4aND3K1BYOMDsNj3kRKbbC7DAdvfN2FE1X3VpySjcVCuNPWPS22yZUQ321Vdu/eRj7n/vG1n80nzIq8knPJt4lHUrIiFC9tIHDae7ybCuKV8o+iT0WSG2Xj0q4Ai6S03Zqwa8MadipXzI6OJzVXkoug4=
+Received: from BL1P221CA0023.NAMP221.PROD.OUTLOOK.COM (2603:10b6:208:2c5::10)
+ by DM3PPF954CD4387.namprd19.prod.outlook.com (2603:10b6:f:fc00::746) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.24; Thu, 1 Oct
+ 2026 15:18:04 +0000
+Received: from BN3PEPF00022BCF.namprd03.prod.outlook.com
+ (2603:10b6:208:2c5:cafe::8e) by BL1P221CA0023.outlook.office365.com
+ (2603:10b6:208:2c5::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.16 via Frontend Transport; Thu, 1
+ Oct 2026 15:18:04 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
+ IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
+ not signed) header.d=none;dmarc=fail action=oreject
+ header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ BN3PEPF00022BCF.mail.protection.outlook.com (10.167.248.170) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.14
+ via Frontend Transport; Thu, 1 Oct 2026 15:18:04 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 554AD406544;
+	Thu,  1 Oct 2026 15:18:03 +0000 (UTC)
+Received: from smtpclient.apple (unknown [198.90.190.235])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 3064082254F;
+	Thu,  1 Oct 2026 15:18:03 +0000 (UTC)
+From: Simon Trimmer <simont@opensource.cirrus.com>
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.100.1.1.12\))
+Subject: [RESEND PULL v1 linux-firmware] cirrus: cs35l57 cs35l63: Add firmware
+ for some Dell laptops (20260930)
+Message-Id: <B464DEB2-ECAC-440D-A96B-3B8FC0052B7B@opensource.cirrus.com>
+Date: Thu, 1 Oct 2026 16:17:52 +0100
+Cc: "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-From: Prime tech Ware <node_utlan8328@kaberaa.com>
-Reply-To: sales@primetechware.com
-Subject: List
-Message-ID: <e70370c194768aac8b9d81724be62d16@kaberaa.com>
-MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="13807f1d78f2b24c954e8f5b63cabd6ee"
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - c0001-c4486.pwh-r1.com
-X-AntiAbuse: Original Domain - kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - kaberaa.com
-X-Get-Message-Sender-Via: c0001-c4486.pwh-r1.com: authenticated_id: node_utlan8328@kaberaa.com
-X-Authenticated-Sender: c0001-c4486.pwh-r1.com: node_utlan8328@kaberaa.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+X-Mailer: Apple Mail (2.3901.100.1.1.12)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF00022BCF:EE_|DM3PPF954CD4387:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9271d31c-f297-4521-1e7d-08df1fcf309f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|23010399003|82310400026|61400799027|376014|18002099003|16102099003|13003099007|10067099003|260925022911599003|260925021911599003|260925021311599003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	NKJnwRtj56BMXkzWqN8gAsIJR2HNQO3Ilx17DI+ZzaileSp4lF9waorXKsW3wpwkGmJhx/UwLJM58Aef2etiF4m/LbeHDv8jRc/cFsUODaHmamnu16ZQsPtmcfFnNmOm4HsPGtuHANamcb0cO9CaCUXZj8pPYlUo/GZAPZol/D4q8UHXy5aitjlC02nQAxOrkvWgWrbfWVBYzd3uxeuzLZp4iSsz0WDjyvpqfFbFqKvmblifotUmCBQvE0tMQRGI9dyX33xjov3vI3BRMu1laLIuLE8+1K+2yDx77q5kNOr5TZSohiCmqYErWhXAbmKQKn7Mv+ULOoHvAnKoCGum9ZYifesXC9QiNDI8f7tJnWfJfCw0D9x7uG8o9XtnTSURgCp/FqWnNNZj1eyTblJpJJs9MBr0vsCv/QbRCxuZ2ginErLQh/otLk5Tstsl0QD7gi9B6xz1+QotDQ1gWczPjaDaXQXy0tBlewRrOrh3Yd3m5utbwuTYFx0owqno+461XvFoK2NrH+/L9h5lrhnP+k+YltAUa6H0oegrNxtiL8X97+myuo/dT9i6/gf9p0gty7SVuOPOxzn/4hG/ZWYc9gQA19f116aYDpMynGjBFs5AMLe7f5z2y9Uj3ViRh6lcZSmihjNdRmN7u0eLqGBayEJlfbyO0ODDxxVedsk3RmXvbd6YQjNE15WPgJCF5BuySkB0TXDyb7yRRqow1mUvRQ==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(23010399003)(82310400026)(61400799027)(376014)(18002099003)(16102099003)(13003099007)(10067099003)(260925022911599003)(260925021911599003)(260925021311599003)(56012099006)(11063799006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	o8PL1PHIigZaH0oMUw5xponfWSFhIfDuXqAZLWK1E9XwAopDwZUia0lLVZSL84mU17VRO03SfoeAOeBADxveMjF148AYPG/bh0qHzhb603+JNkyCVEvlqK8znVmsKvAf3TDPlQ2O4tf4QP5mmdF9fV0qdB/TxL/eHi0NJlPHcpZ+S/RW6RUWEfYjKJ5jQMv7+zIQgQYr4XLiVMk2I4PpCWb8uo9gtjKjLCDC5g0rgbagH3Y9ToB1ubg66YoVB8vCwgLRYk48vDVIvHvAekTAjP5/U41d8JiPaITM4CfNWUklwPVUfkyO8UJ1ISBjzlMOcry+/zU6/dVk+6YF2jxFcOsrvmnSO5MUVpzPUrvAmup5XiwXvWeF6Ue95NO/XNR+gjhuzX4mUBdre10Bf/LGrqHJlitvlX+Qn9vKHoRG+ZWinCf4UHPrfmvibD8w/TQD
+X-Exchange-RoutingPolicyChecked:
+	qXrGU/cPF/vfAjl15JOxPM88SdjXdJF3E/xg22QZ3e7SxhBcdehnwyw4VrtaHeObNOo3xDa/yBeogOlnl266xcejMbP2XXnmOyCfuXOaaaOKyD88YzPe71wy4AYb5VPgfv19uKXNsbaCCdbEgzCU5tjdgUZ1XamBPYdNo3T9O4V9O/fpYvIOPw/i9qBXcHLYYT7hQdcqc82xMVKaYu5IfpaA8FZqq9LtsVFUbTUCsHP11q8E+Z/OefsbfQYgBvEojXzaLtycOqmdXF9A5KZ39q/GDT4nbZVceVH+CMJWuNqQioMZnMbpxKc5Pn/AozvTbT9f3nmhj4kGFsFUekLgzg==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2026 15:18:04.2201
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9271d31c-f297-4521-1e7d-08df1fcf309f
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN3PEPF00022BCF.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PPF954CD4387
+X-Authority-Analysis: v=2.4 cv=JtBkP84C c=1 sm=1 tr=0 ts=6abe79bf cx=c_pps
+ a=WiodiXt0wH02q4ozJLtFAw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=NEAV23lmAAAA:8 a=-mhOctSk-lupDXRt30AA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDAxMDA2MCBTYWx0ZWRfX8uttCpJSy5Ns
+ ze0nX5ksywPBAusGpnxbljwTD1HJliW9RacJPYAJrVXXyhMaMrNVT9UpdJi6yLL6WV1zg05Gre5
+ 3VCQ4kqsQ6oqnfcIIg+CPXFJ4K+8tOVFX0O6TcSj/C+6TkVkS4uu40P7hJ6JYDpCO0Ltm8d6B8l
+ TESud//QEfIsmwXZBr1F6/7oQ+5UfW4g9x8gZvWBuLJHt8ZD5dXcdwjpSMEQ9VUjhXWVBdJGLRZ
+ o7hAOyFrwn6Ck8jddhW+AFXMbuNZh3Y+ryQxrNYVy2ylWGvbijPBUDNTO/Ca0yKjn8nearOlTc/
+ 6lYl+SlWtbTN8hhZ5nItXcMkIIM4Z0rmLccYEF2tvo6P/MVaTA2xuYauKH0XpCxF5Y4PMyJ/+d0
+ 59nWJ9XAK497lnZnXcnyuAeLaMIUDX5OQciHurlQ3+sk3whad8VSjZex5J9rOR6IJebWjUeNErT
+ xeJqrL3JU/G27+vKy1A==
+X-Proofpoint-ORIG-GUID: 1o-O3w1i2U9GxEQeUmtLR-0heEh-nus-
+X-Proofpoint-GUID: 1o-O3w1i2U9GxEQeUmtLR-0heEh-nus-
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDAxMDA2MCBTYWx0ZWRfXxkRWVnt1puwL
+ Hhy8/H7p+hAAspd28oxy3EOly6jafcKn9Vo6fqb7IQhQezTZ6FCC8gP7QgL6iZOVNZ1d+2qadHm
+ Mi5DnzTMxEZLaRIOGWcLGIiUGAhzRLI=
+X-Proofpoint-Spam-Reason: safe
 
-This is a multi-part message in MIME format.
+Hi,
+Seems my original email client decided to do ungodly things, hopefully =
+this corrects that and is more intelligible.
 
---13807f1d78f2b24c954e8f5b63cabd6ee
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-
-
-
-
-
-Prime Tech Ware | Inventory Update
-
-  body {
-    margin:0;
-    padding:0;
-    background:#ffffff;
-    color:#333333;
-    font-family:Arial,Helvetica,sans-serif;
-    font-size:14px;
-    line-height:1.5;
-  }
-  .wrap {
-    width:100%;
-    max-width:680px;
-    margin:0 auto;
-    padding:24px 16px;
-    box-sizing:border-box;
-  }
-  .header {
-    padding-bottom:16px;
-    border-bottom:1px solid #dddddd;
-  }
-  .company {
-    font-size:20px;
-    font-weight:600;
-    color:#222222;
-  }
-  .subject {
-    margin-top:4px;
-    color:#666666;
-    font-size:13px;
-  }
-  p { margin:0 0 12px 0; }
-  h2 {
-    margin:24px 0 9px 0;
-    padding-bottom:6px;
-    border-bottom:1px solid #e5e5e5;
-    font-size:16px;
-    font-weight:600;
-    color:#222222;
-  }
-  table {
-    width:100%;
-    border-collapse:collapse;
-    margin:0;
-    font-size:13px;
-  }
-  th, td {
-    padding:7px 6px;
-    border-bottom:1px solid #e6e6e6;
-    text-align:left;
-    vertical-align:top;
-  }
-  th {
-    font-weight:600;
-    color:#333333;
-  }
-  th:nth-child(2), td:nth-child(2) {
-    text-align:center;
-    white-space:nowrap;
-  }
-  th:nth-child(3), td:nth-child(3) {
-    text-align:right;
-    white-space:nowrap;
-  }
-  .note {
-    margin-top:24px;
-    padding-top:14px;
-    border-top:1px solid #dddddd;
-    font-size:13px;
-    color:#555555;
-  }
-  .footer {
-    margin-top:18px;
-    padding-top:12px;
-    border-top:1px solid #eeeeee;
-    font-size:12px;
-    color:#777777;
-  }
-  a { color:#333333; text-decoration:none; }
+I=E2=80=99d like to add support for the Cirrus smart amplifiers for a =
+few more Dell laptops
+Thanks,
+-Simon
 
 
+The following changes since commit =
+33b68e2c701198457657c2e656ef9a9cc4272d01:
 
+ Merge branch 'robot/pr-0-1790661570' into 'main' (2026-09-29 08:17:06 =
++0000)
 
-  
-    Prime Tech Ware
-    Current Inventory Update
-  
+are available in the Git repository at:
 
-  
-    Hello,
-    Please find our current inventory availability below.
-    For specific quantities, quotations, product specifications, or stock confirmation, please contact our sales team.
-  
+ https://github.com/CirrusLogic/linux-firmware 20260930-cs35l57-cs35l63
 
-  
-    DDR4 Memory
-    
-      
-        Product
-        Available
-        Unit Price
-      
-      
-        32GB 2Rx4 PC4-2400T460$832GB 2Rx4 PC4-3200AA500$1016GB 2Rx8 PC4-3200AA500$6128GB 4DRx4 DDR4 PC4-2933Y REG ECC LRDIMM70$8032GB Dual Rank x4 DDR4-2933 CAS-2190$1564GB Dual Rank x4 DDR4-2933 CAS-2150$2832GB Dual Rank x4 DDR4-3200 CAS-2259$1864GB Dual Rank x4 DDR4-3200 CAS-22100$32
-      
-    
-    
-    DDR5 / Server Memory
-    
-      
-        Product
-        Available
-        Unit Price
-      
-      
-        DDR5 64GB 4800MHz ECC RDIMM 2Rx4 P43331-B2116$510DDR5 64GB 5600MHz ECC RDIMM 2Rx4 P64707-B2119$700DDR4 64GB 3200MHz ECC RDIMM 2Rx4 SK Hynix25$360DDR5 64GB 4800MHz ECC RDIMM 2Rx4 Samsung25$470DDR5 64GB 5600MHz ECC RDIMM 2Rx4 SK Hynix20$430
-      
-    
-    
-    Cisco Networking
-    
-      
-        Product
-        Available
-        Unit Price
-      
-      
-        C9300-48T-A Cisco Catalyst 930012$490C9200-48P-A Cisco Catalyst 920010$180C9200L-48P-4G-E Cisco Catalyst 9200L15$120C9500-24Y4C-A Cisco Catalyst 95002$2,800N9K-C93180YC-FX Cisco Nexus 93180YC-FX10$400N9K-C93180YC-FX3 Cisco Nexus 93180YC-FX38$590N9K-C9336C-FX2 Cisco Nexus 9336C-FX23$2,400
-      
-    
-    
-    Cisco Collaboration Equipment
-    
-      
-        Product
-        Available
-        Unit Price
-      
-      
-        SPARK-BOARD70-K9 — Cisco Spark Board 70, Standard8$1,850SPARK-BOARD70-G-K9 — Cisco Spark Board 70, Global/GPL Variant5$1,950CS-BRD75P-K9 — Cisco Board Pro 753$10,200CS-BRD55P-K9 — Cisco Board Pro 553$5,900CS-ROOMBARPRO-K9 — Cisco Room Bar Pro5$2,950CS-ROOMBAR-K9 — Cisco Room Bar15$610CS-DESKPRO-K9 — Cisco Desk Pro9$1,100
-      
-    
-    
-    Lenovo ThinkSystem
-    
-      
-        Product
-        Available
-        Unit Price
-      
-      
-        ThinkSystem SR250 V3 — 1U Single-Socket Rack Server6$1,800ThinkSystem SR630 V3 — 1U Dual-Socket Rack Server8$3,500ThinkSystem SR650 V3 — 2U Dual-Socket Rack Server13$5,000ThinkSystem SR650a V3 — 2U Accelerated Server5$6,500ThinkSystem SR665 V3 — 2U Dual-Socket AMD Server6$7,500ThinkSystem SR645 V3 — 1U Dual-Socket AMD Server3$4,500ThinkSystem SR635 V3 — 1U Single-Socket AMD Server8$3,500ThinkSystem SR675 V3 — 2U Accelerated/GPU-Capable Server10$8,000
-      
-    
-    
-    NVIDIA GPUs
-    
-      
-        Product
-        Available
-        Unit Price
-      
-      
-        NVIDIA H100 PCIe — 80GB HBM36$19,300NVIDIA H200 PCIe/NVL — 141GB HBM3e4$21,500NVIDIA L40S — 48GB GDDR67$3,500NVIDIA RTX PRO 6000 Blackwell Server Edition — 96GB GDDR7 ECC2$9,900NVIDIA RTX PRO 6000 Blackwell Workstation Edition — 96GB GDDR73$3,900NVIDIA B200 — 180GB HBM3e3$22,000NVIDIA RTX 6000 Ada — 48GB GDDR6 ECC10$2,100NVIDIA A100 — 40GB/80GB15$2,000NVIDIA L4 — 24GB GDDR617$970
-      
-    
-    
+for you to fetch changes up to 8d76bcb57a5930197886eadee9bed90d9e0b153d:
 
-  
-    Inventory and pricing are subject to availability and prior sale.
-    Please confirm current stock and pricing before placing an order.
-  
+ cirrus: cs35l57 cs35l63: Add firmware for some Dell laptops (2026-09-30 =
+12:39:41 +0000)
 
-  
-    Martin Liam
-    Prime Tech Ware
-    sales@primetechware.com
-    +1 909 435 4982 &nbsp; | &nbsp; +1 909 552 6526
-    primetechware.com
-  
+----------------------------------------------------------------
+Simon Trimmer (1):
+     cirrus: cs35l57 cs35l63: Add firmware for some Dell laptops
 
-
-
-
---13807f1d78f2b24c954e8f5b63cabd6ee
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Prime Tech Ware | Inventory Update</title>
-<style>
-  body {
-    margin:0;
-    padding:0;
-    background:#ffffff;
-    color:#333333;
-    font-family:Arial,Helvetica,sans-serif;
-    font-size:14px;
-    line-height:1.5;
-  }
-  .wrap {
-    width:100%;
-    max-width:680px;
-    margin:0 auto;
-    padding:24px 16px;
-    box-sizing:border-box;
-  }
-  .header {
-    padding-bottom:16px;
-    border-bottom:1px solid #dddddd;
-  }
-  .company {
-    font-size:20px;
-    font-weight:600;
-    color:#222222;
-  }
-  .subject {
-    margin-top:4px;
-    color:#666666;
-    font-size:13px;
-  }
-  p { margin:0 0 12px 0; }
-  h2 {
-    margin:24px 0 9px 0;
-    padding-bottom:6px;
-    border-bottom:1px solid #e5e5e5;
-    font-size:16px;
-    font-weight:600;
-    color:#222222;
-  }
-  table {
-    width:100%;
-    border-collapse:collapse;
-    margin:0;
-    font-size:13px;
-  }
-  th, td {
-    padding:7px 6px;
-    border-bottom:1px solid #e6e6e6;
-    text-align:left;
-    vertical-align:top;
-  }
-  th {
-    font-weight:600;
-    color:#333333;
-  }
-  th:nth-child(2), td:nth-child(2) {
-    text-align:center;
-    white-space:nowrap;
-  }
-  th:nth-child(3), td:nth-child(3) {
-    text-align:right;
-    white-space:nowrap;
-  }
-  .note {
-    margin-top:24px;
-    padding-top:14px;
-    border-top:1px solid #dddddd;
-    font-size:13px;
-    color:#555555;
-  }
-  .footer {
-    margin-top:18px;
-    padding-top:12px;
-    border-top:1px solid #eeeeee;
-    font-size:12px;
-    color:#777777;
-  }
-  a { color:#333333; text-decoration:none; }
-</style>
-</head>
-<body>
-<div class="wrap">
-  <div class="header">
-    <div class="company">Prime Tech Ware</div>
-    <div class="subject">Current Inventory Update</div>
-  </div>
-
-  <div style="padding-top:18px;">
-    <p>Hello,</p>
-    <p>Please find our current inventory availability below.</p>
-    <p>For specific quantities, quotations, product specifications, or stock confirmation, please contact our sales team.</p>
-  </div>
-
-  
-    <h2>DDR4 Memory</h2>
-    <table role="table">
-      <thead><tr>
-        <th scope="col">Product</th>
-        <th scope="col">Available</th>
-        <th scope="col">Unit Price</th>
-      </tr></thead>
-      <tbody>
-        <tr><td>32GB 2Rx4 PC4-2400T</td><td>460</td><td>$8</td></tr><tr><td>32GB 2Rx4 PC4-3200AA</td><td>500</td><td>$10</td></tr><tr><td>16GB 2Rx8 PC4-3200AA</td><td>500</td><td>$6</td></tr><tr><td>128GB 4DRx4 DDR4 PC4-2933Y REG ECC LRDIMM</td><td>70</td><td>$80</td></tr><tr><td>32GB Dual Rank x4 DDR4-2933 CAS-21</td><td>90</td><td>$15</td></tr><tr><td>64GB Dual Rank x4 DDR4-2933 CAS-21</td><td>50</td><td>$28</td></tr><tr><td>32GB Dual Rank x4 DDR4-3200 CAS-22</td><td>59</td><td>$18</td></tr><tr><td>64GB Dual Rank x4 DDR4-3200 CAS-22</td><td>100</td><td>$32</td></tr>
-      </tbody>
-    </table>
-    
-    <h2>DDR5 / Server Memory</h2>
-    <table role="table">
-      <thead><tr>
-        <th scope="col">Product</th>
-        <th scope="col">Available</th>
-        <th scope="col">Unit Price</th>
-      </tr></thead>
-      <tbody>
-        <tr><td>DDR5 64GB 4800MHz ECC RDIMM 2Rx4 P43331-B21</td><td>16</td><td>$510</td></tr><tr><td>DDR5 64GB 5600MHz ECC RDIMM 2Rx4 P64707-B21</td><td>19</td><td>$700</td></tr><tr><td>DDR4 64GB 3200MHz ECC RDIMM 2Rx4 SK Hynix</td><td>25</td><td>$360</td></tr><tr><td>DDR5 64GB 4800MHz ECC RDIMM 2Rx4 Samsung</td><td>25</td><td>$470</td></tr><tr><td>DDR5 64GB 5600MHz ECC RDIMM 2Rx4 SK Hynix</td><td>20</td><td>$430</td></tr>
-      </tbody>
-    </table>
-    
-    <h2>Cisco Networking</h2>
-    <table role="table">
-      <thead><tr>
-        <th scope="col">Product</th>
-        <th scope="col">Available</th>
-        <th scope="col">Unit Price</th>
-      </tr></thead>
-      <tbody>
-        <tr><td>C9300-48T-A Cisco Catalyst 9300</td><td>12</td><td>$490</td></tr><tr><td>C9200-48P-A Cisco Catalyst 9200</td><td>10</td><td>$180</td></tr><tr><td>C9200L-48P-4G-E Cisco Catalyst 9200L</td><td>15</td><td>$120</td></tr><tr><td>C9500-24Y4C-A Cisco Catalyst 9500</td><td>2</td><td>$2,800</td></tr><tr><td>N9K-C93180YC-FX Cisco Nexus 93180YC-FX</td><td>10</td><td>$400</td></tr><tr><td>N9K-C93180YC-FX3 Cisco Nexus 93180YC-FX3</td><td>8</td><td>$590</td></tr><tr><td>N9K-C9336C-FX2 Cisco Nexus 9336C-FX2</td><td>3</td><td>$2,400</td></tr>
-      </tbody>
-    </table>
-    
-    <h2>Cisco Collaboration Equipment</h2>
-    <table role="table">
-      <thead><tr>
-        <th scope="col">Product</th>
-        <th scope="col">Available</th>
-        <th scope="col">Unit Price</th>
-      </tr></thead>
-      <tbody>
-        <tr><td>SPARK-BOARD70-K9 — Cisco Spark Board 70, Standard</td><td>8</td><td>$1,850</td></tr><tr><td>SPARK-BOARD70-G-K9 — Cisco Spark Board 70, Global/GPL Variant</td><td>5</td><td>$1,950</td></tr><tr><td>CS-BRD75P-K9 — Cisco Board Pro 75</td><td>3</td><td>$10,200</td></tr><tr><td>CS-BRD55P-K9 — Cisco Board Pro 55</td><td>3</td><td>$5,900</td></tr><tr><td>CS-ROOMBARPRO-K9 — Cisco Room Bar Pro</td><td>5</td><td>$2,950</td></tr><tr><td>CS-ROOMBAR-K9 — Cisco Room Bar</td><td>15</td><td>$610</td></tr><tr><td>CS-DESKPRO-K9 — Cisco Desk Pro</td><td>9</td><td>$1,100</td></tr>
-      </tbody>
-    </table>
-    
-    <h2>Lenovo ThinkSystem</h2>
-    <table role="table">
-      <thead><tr>
-        <th scope="col">Product</th>
-        <th scope="col">Available</th>
-        <th scope="col">Unit Price</th>
-      </tr></thead>
-      <tbody>
-        <tr><td>ThinkSystem SR250 V3 — 1U Single-Socket Rack Server</td><td>6</td><td>$1,800</td></tr><tr><td>ThinkSystem SR630 V3 — 1U Dual-Socket Rack Server</td><td>8</td><td>$3,500</td></tr><tr><td>ThinkSystem SR650 V3 — 2U Dual-Socket Rack Server</td><td>13</td><td>$5,000</td></tr><tr><td>ThinkSystem SR650a V3 — 2U Accelerated Server</td><td>5</td><td>$6,500</td></tr><tr><td>ThinkSystem SR665 V3 — 2U Dual-Socket AMD Server</td><td>6</td><td>$7,500</td></tr><tr><td>ThinkSystem SR645 V3 — 1U Dual-Socket AMD Server</td><td>3</td><td>$4,500</td></tr><tr><td>ThinkSystem SR635 V3 — 1U Single-Socket AMD Server</td><td>8</td><td>$3,500</td></tr><tr><td>ThinkSystem SR675 V3 — 2U Accelerated/GPU-Capable Server</td><td>10</td><td>$8,000</td></tr>
-      </tbody>
-    </table>
-    
-    <h2>NVIDIA GPUs</h2>
-    <table role="table">
-      <thead><tr>
-        <th scope="col">Product</th>
-        <th scope="col">Available</th>
-        <th scope="col">Unit Price</th>
-      </tr></thead>
-      <tbody>
-        <tr><td>NVIDIA H100 PCIe — 80GB HBM3</td><td>6</td><td>$19,300</td></tr><tr><td>NVIDIA H200 PCIe/NVL — 141GB HBM3e</td><td>4</td><td>$21,500</td></tr><tr><td>NVIDIA L40S — 48GB GDDR6</td><td>7</td><td>$3,500</td></tr><tr><td>NVIDIA RTX PRO 6000 Blackwell Server Edition — 96GB GDDR7 ECC</td><td>2</td><td>$9,900</td></tr><tr><td>NVIDIA RTX PRO 6000 Blackwell Workstation Edition — 96GB GDDR7</td><td>3</td><td>$3,900</td></tr><tr><td>NVIDIA B200 — 180GB HBM3e</td><td>3</td><td>$22,000</td></tr><tr><td>NVIDIA RTX 6000 Ada — 48GB GDDR6 ECC</td><td>10</td><td>$2,100</td></tr><tr><td>NVIDIA A100 — 40GB/80GB</td><td>15</td><td>$2,000</td></tr><tr><td>NVIDIA L4 — 24GB GDDR6</td><td>17</td><td>$970</td></tr>
-      </tbody>
-    </table>
-    
-
-  <div class="note">
-    Inventory and pricing are subject to availability and prior sale.
-    Please confirm current stock and pricing before placing an order.
-  </div>
-
-  <div class="footer">
-    <strong>Martin Liam</strong><br>
-    Prime Tech Ware<br>
-    <a href="mailto:sales@primetechware.com">sales@primetechware.com</a><br>
-    +1 909 435 4982 &nbsp; | &nbsp; +1 909 552 6526<br>
-    <a href="https://primetechware.com">primetechware.com</a>
-  </div>
-</div>
-</body>
-</html>
-
-
-
---13807f1d78f2b24c954e8f5b63cabd6ee--
-
+WHENCE                                                  |  48 =
+++++++++++++++++++++++++++++++++++++++++++++++++
+cirrus/cs35l56/CS35L56_Rev4.7.9.wmfw                    | Bin 0 -> 39020 =
+bytes
+cirrus/cs35l57-b2-dsp1-misc-10280ee2-spkid1-l2u1.bin    | Bin 0 -> 12952 =
+bytes
+cirrus/cs35l57-b2-dsp1-misc-10280ee2-spkid1-l2u3.bin    | Bin 0 -> 12952 =
+bytes
+cirrus/cs35l57-b2-dsp1-misc-10280ee2-spkid2-l2u1.bin    | Bin 0 -> 12952 =
+bytes
+cirrus/cs35l57-b2-dsp1-misc-10280ee2-spkid2-l2u3.bin    | Bin 0 -> 12952 =
+bytes
+cirrus/cs35l57-b2-dsp1-misc-10280ee2-spkid3-l2u1.bin    | Bin 0 -> 12952 =
+bytes
+cirrus/cs35l57-b2-dsp1-misc-10280ee2-spkid3-l2u3.bin    | Bin 0 -> 12952 =
+bytes
+cirrus/cs35l57-b2-dsp1-misc-10280ee4-spkid1-l2u1.bin    | Bin 0 -> 12944 =
+bytes
+cirrus/cs35l57-b2-dsp1-misc-10280ee4-spkid1-l2u3.bin    | Bin 0 -> 12944 =
+bytes
+cirrus/cs35l57-b2-dsp1-misc-10280ee4-spkid2-l2u1.bin    | Bin 0 -> 12944 =
+bytes
+cirrus/cs35l57-b2-dsp1-misc-10280ee4-spkid2-l2u3.bin    | Bin 0 -> 12944 =
+bytes
+cirrus/cs35l57-b2-dsp1-misc-10280ee4-spkid3-l2u1.bin    | Bin 0 -> 12944 =
+bytes
+cirrus/cs35l57-b2-dsp1-misc-10280ee4-spkid3-l2u3.bin    | Bin 0 -> 12944 =
+bytes
+cirrus/cs35l63-a1-dsp1-misc-10280edc-spkid0-00-l3u1.bin | Bin 0 -> 11440 =
+bytes
+cirrus/cs35l63-a1-dsp1-misc-10280edc-spkid0-00-l3u3.bin | Bin 0 -> 11440 =
+bytes
+cirrus/cs35l63/CS35L63_Rev2.5.11.wmfw                   | Bin 0 -> 30888 =
+bytes
+17 files changed, 48 insertions(+)
+create mode 100644 cirrus/cs35l56/CS35L56_Rev4.7.9.wmfw
+create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280ee2-spkid1-l2u1.bin
+create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280ee2-spkid1-l2u3.bin
+create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280ee2-spkid2-l2u1.bin
+create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280ee2-spkid2-l2u3.bin
+create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280ee2-spkid3-l2u1.bin
+create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280ee2-spkid3-l2u3.bin
+create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280ee4-spkid1-l2u1.bin
+create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280ee4-spkid1-l2u3.bin
+create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280ee4-spkid2-l2u1.bin
+create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280ee4-spkid2-l2u3.bin
+create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280ee4-spkid3-l2u1.bin
+create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280ee4-spkid3-l2u3.bin
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280edc-spkid0-00-l3u1.bin
+create mode 100644 =
+cirrus/cs35l63-a1-dsp1-misc-10280edc-spkid0-00-l3u3.bin
+create mode 100644 cirrus/cs35l63/CS35L63_Rev2.5.11.wmfw=
