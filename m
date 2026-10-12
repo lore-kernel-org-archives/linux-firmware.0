@@ -1,196 +1,402 @@
-Return-Path: <SRS0=mxeZ=IA=crepuse.com=founder@kernel.org>
+Return-Path: <SRS0=nkgK=IC=westermo.com=Alexander.Wilhelm@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from smtp.kernel.org (unknown [10.30.226.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 66787CA6017
-	for <linux-firmware@archiver.kernel.org>; Sat, 10 Oct 2026 12:56:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DFAB3CA9ED5
+	for <linux-firmware@archiver.kernel.org>; Mon, 12 Oct 2026 06:20:28 +0000 (UTC)
 Received: by smtp.kernel.org (Postfix)
-	id 31C8B1F00893; Sat, 10 Oct 2026 12:56:28 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.75.76
+	id AAA061F0089C; Mon, 12 Oct 2026 06:20:28 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.184.10
 ARC-Seal: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=pass;
-	t=1791636988;
-	b=XVwfXnDHQdB6vuyaQaiP3ew/f913b9608XYtzQJyQY/BiVsmM+2hfpGV+jqhdlpLdMho
-	 vxlMe1OX93l54JkHp2x2Lf45WmcBfxWFBOZyIpEVttihk381GltX1qcK0Hmwp9ty+Z47e
-	 mPJKLdGQgAalvozH1jsMePh2CS10E8xJtA2gjrnntkZfKMKsmBiltHzyB5yVOJ2dCrG9E
-	 0aM+mn81Nvr1meKKEwh45OTz8+fpVoboKr0jDqSvuLsy3q+m1mnCk6SGEpE08WjmeJBKX
-	 j4Oe9axv1t+7FGueMCZ1wt3OpKpI6BYICOyVy40OPxAWfb9+8SGJd8NzkLABELYBHbQ==
+	t=1791786028;
+	b=03r83t80clDeLowlg62u9KHoQT4zkyQRiPvH188Rl6aPcfAlAENnAr3P/jw1DUP2j2mj
+	 Tzt6sXpFrw0CmnENPptsgjhIxa1udZBOZ09RtboHeP+Z/8AWdWiGUWu1+1H21RmzA74us
+	 AFRcVHj4m7VOkSwiZ5HpFnRDjexR2L36OTSKq3PoXoewx5FMsiksx80d7aIc3FFwG4mh8
+	 SeAxrX44zEW485IujFr7rehPoSjQmJa1asHuyFG8Sn0+g+4dSI6Emsa4LnBchDe+XOgD7
+	 stNJmqVqSPppdPeimdHp1t4JoCzlDnE4SaBHzl1SadIk9irVe0gFsha/lhQwlXDZwIg==
 ARC-Message-Signature: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1791636988;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:List-Id:To:
-	 Subject:Thread-Topic:Thread-Index:Date:Message-ID:Accept-Language:
-	 Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:x-ms-exchange-senderadcheck:
-	 x-ms-exchange-antispam-relay:x-microsoft-antispam:
-	 x-microsoft-antispam-message-info:x-forefront-antispam-report:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:Content-Type:Content-ID:
-	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	c=relaxed/relaxed; t=1791786028;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
+	 Received:Received:Date:From:To:List-Id:Cc:Subject:Message-ID:
+	 References:Content-Type:Content-Disposition:In-Reply-To:User-Agent:
+	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:X-OriginatorOrg:
 	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-	 X-MS-Exchange-CrossTenant-userprincipalname:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=LWzE3jFdAdz8gq4dwEfhUo0E7dOYQ0nlY3ZEbxqoffk=;
-	b=Bb082rec/XATX62K8HbklXxEpBpu3F4iqOe6GYMw+/Rd/iL5RlzTwEEksavtSc5lFRau
-	 nIvqhV+PDr8gkavpTz8PLso5x/np+I0QRSH6q/ppGPe9oeD8I+8Y7JeRhSqndgKwEsYQI
-	 bLuNbSLi6ZQZLbu3WiACTDASQ6DlGrXCENyR2ZifuulDBezvUPeFnIbKAJc58FNJ4L+bN
-	 VIRJ1/2f3K0W8vFnCrli7aB+VVRcLpX75tcJpBumlZlCcAOgy2YVdiXHXzRLuKsVF451b
-	 Qd8Ecm3bY4k6qZv0vCUqz+qKnokOAwbWoYlrJqotSWuHGMNtOvXzG8sBX3wIK2K+32w==
-ARC-Authentication-Results: i=2; smtp.kernel.org; dkim=pass header.d=crepuse.com header.i=@crepuse.com header.a=rsa-sha256 header.s=selector1 header.b=Q25NFjPK;
-	dmarc=none header.from=crepuse.com;
-	spf=pass smtp.mailfrom=crepuse.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.75.76
-Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11022076.outbound.protection.outlook.com [40.107.75.76])
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+	 X-MS-Exchange-CrossPremises-AuthSource:
+	 X-MS-Exchange-CrossPremises-AuthAs:
+	 X-MS-Exchange-CrossPremises-AuthMechanism:
+	 X-MS-Exchange-CrossPremises-Mapi-Admin-Submission:
+	 X-MS-Exchange-CrossPremises-MessageSource:
+	 X-MS-Exchange-CrossPremises-BCC:
+	 X-MS-Exchange-CrossPremises-OriginalClientIPAddress:
+	 X-MS-Exchange-CrossPremises-TransportTrafficType:
+	 X-MS-Exchange-CrossPremises-Antispam-ScanContext:
+	 X-MS-Exchange-CrossPremises-SCL:
+	 X-MS-Exchange-CrossPremises-Processed-By-Journaling:
+	 X-OrganizationHeadersPreserved:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Details-Enc;
+	bh=eUxlyDgqEOga2eH92OrryBq0GdzNwjPdv2fabUdt4ck=;
+	b=l3ZhPMQPJlARfBbJj9jY5GfzsH97xhoSG2hYjihla6Zx+7l2PiC1NlJgKg+d6aJR3gM0
+	 T7fi3EmdzOq0ADjrQjJf18JJv/OyQmmH5WB2bBF2VE+HBZRRYCIRFojyO75RljWgB+Soj
+	 RZley9ayCGz6ur1WzlFWYISmvzgUhIh20PAkU2TGNJFL1EpQBJo61Weu4rMaKD/wCTPn0
+	 YaAiXlifGSQwo/DL5v2sHN6DRmyujC5Um4oENHRQKv8Lmmom8UNImewldJOX3DNIcAejz
+	 b8xjwWGtrvMDoE20u7B4szjBUHGMkbS+NB7+yoEhXZ0QrvJEtPOPsdt8IT+P6eOicuQ==
+ARC-Authentication-Results: i=2; smtp.kernel.org; dkim=pass header.d=westermo.com header.i=@westermo.com header.a=rsa-sha256 header.s=270620241 header.b=F1ire1tS;
+	dkim=pass header.d=beijerelectronicsab.onmicrosoft.com header.i=@beijerelectronicsab.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-beijerelectronicsab-onmicrosoft-com header.b=JV7K9YKg;
+	dmarc=pass header.from=westermo.com;
+	spf=pass smtp.mailfrom=westermo.com;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.184.10
+Received: from mx07-0057a101.pphosted.com (mx07-0057a101.pphosted.com [205.220.184.10])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 674DC1F000FF
-	for <linux-firmware@kernel.org>; Sat, 10 Oct 2026 12:56:27 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 7613C1F0089B;
+	Mon, 12 Oct 2026 06:20:27 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=crepuse.com header.i=@crepuse.com header.a=rsa-sha256 header.s=selector1 header.b=Q25NFjPK
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 674DC1F000FF
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=crepuse.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=crepuse.com
+	dkim=pass (2048-bit key, unprotected) header.d=westermo.com header.i=@westermo.com header.a=rsa-sha256 header.s=270620241 header.b=F1ire1tS;
+	dkim=pass (1024-bit key, unprotected) header.d=beijerelectronicsab.onmicrosoft.com header.i=@beijerelectronicsab.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-beijerelectronicsab-onmicrosoft-com header.b=JV7K9YKg
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 7613C1F0089B
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=westermo.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=westermo.com
+Received: from pps.filterd (m0214197.ppops.net [127.0.0.1])
+	by mx07-0057a101.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69C56CgP3242365;
+	Mon, 12 Oct 2026 08:20:20 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=westermo.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=270620241; bh=eUxlyDgqEOga2eH92OrryBq0
+	GdzNwjPdv2fabUdt4ck=; b=F1ire1tSg3VQbd53C6dQ0GWtYDslb2OlvnkVSXjS
+	U1yD6hF9RhVKI00m9gYtLCIL+BXqXO6mdlAgzKd7QE+3RKik1yb8deh24En6toZT
+	sChgO3rIe7t8gmjQMQinitkR55U494Wt/QCKEslgg1orSsTtIxMDiXCUHO80JMnF
+	Vq5eL9fLNceyAdcjd4BPxZZeIHwChf42pkb0HdmPRvaE85xUoUlicxaeqLmerXBr
+	JLhyPnRB++8BgoJg7WZMUw8RWzsRDV5B8bd8ZWnLPcJnB8VkakNPAd7CudHFnKpf
+	1yL10GDWrOts9hFBQqXJMDJ+8ETglaxeAdt5NwKJc6Ubug==
+Received: from duzpr83cu001.outbound.protection.outlook.com (mail-northeuropeazon11022133.outbound.protection.outlook.com [52.101.66.133])
+	by mx07-0057a101.pphosted.com (PPS) with ESMTPS id 4h7nfj1g5h-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 12 Oct 2026 08:20:20 +0200 (MEST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TBW2B8NPhzFJqnCSY9X1g0PPWKhuNLAAa6sr+VSD4CpsxsXinKM6xVpiJtY5AS2orzWF9QYtbYlFEOIQ8m+v0iVyCh1Zn/XVjaoaR+k0aj9icag2lS93O6229v4sP6KZaGgQsZJ1dBRMCKsUlu2aKkpL82rswV4PGsAg08X5lYSOPwQK8RWPrdGMsk5Vf0x7ryat321YHl8h4I/nwUqLqWaVOFv9QkRIE1HoyBM/pcY8Q2bAKz8nTgRZymUUDvdjSVP2/3KzrrpOecDyKcoWU+B4GkRaIEr+dHnNxQeS27SAD2vniXUqJjYg2BF6oJl/NDaP63XP3FuHIdkM/VFBBQ==
+ b=xSjn1A1Z6cWOLKzemrGSj2YGy0NdV2c0lNUOFspEiDCTNTCLgdY+/Pyx4682J1sU/TXwIKz17Prae00TL02DcfYL7D0TrA/6fX9Spt/G0dRJFvYXv36Pz/DH9wCh1HkwD7Tq0H9BNw+pJ6CkgDUP1130vzv6sYJI8eS7+UCiF8Bg+AuzjBfcfG8mmfm+ConVtZwhq2zX2xKodRTqEcyldh4Ye121NtNCTX77D8G6sBhYpjSV8WuXeVtTAhIjGHZb/n7D/FgEV5VWIhqlT157JEqIyOfcmyPEA95PBz6pL9O3qexWlSWFCIWiNvtjLRaPgEYXDE6ltEyF7IRMD8pBhg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LWzE3jFdAdz8gq4dwEfhUo0E7dOYQ0nlY3ZEbxqoffk=;
- b=ETe7Ah2jSNcJmr3/1YR55TFi4sRqF5GfFvz2Dyo7L4Mfj4nDGWw2rQRWafJGl0wjqkPeSa3yw3oQlGgL3ulfzUQrwcxjuLYZehOesZ2/NJedDAUDkhNHk2XGoGaOVOfOkVSFZtmtLEoFR+21GrVmGGEvMXkegZdk5VgDjwcdqAZdIhkF85NqpKweR4rLY9E7aOd1KQVCucINR3LUZGpy9rM7GK2JfVD8lk/p3U+JYo/J7SDXX1taMiKBNINIU48K4bAnF0/92ZmWfbV72otShwi1ZWPJVq+X2U6OG3LFDBREvAk132M7tTdSOHTfq+Bm6t2qDQeJo/G32+KWY19TKw==
+ bh=eUxlyDgqEOga2eH92OrryBq0GdzNwjPdv2fabUdt4ck=;
+ b=bmDtNRTa9s9phBbYsyr4ve5m3a+VeTcOTs30AawI0yQhYHFzw6/eaYSST5dHqrSbi+/xOi16qWURQcLZUojJrGI/osmvHMZIfrxVhAXelo+5YnV7UGtwVUbhCTK5Woc5NZu1IEqwZzRdpt2zn8HRZ30CNiTbDq43oehTAGa473IJs+Tz+gLrnP6cR8EfqlgnJF97uM9rYXgQW9fpoNkmc6T24ULJ0Gphv+PSbKwnl0Xq7CLm1UTOBV41o+NhmHyPRCptWC5cFrpQ8ryzRLqBTHCdjo2Av5THJf9bJHAHXsD/jdA523Qp3TSIVhDp1uWYsy1puZ5ncR8SS/ggIp1lpg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=crepuse.com; dmarc=pass action=none header.from=crepuse.com;
- dkim=pass header.d=crepuse.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crepuse.com;
- s=selector1;
+ smtp.mailfrom=westermo.com; dmarc=pass action=none header.from=westermo.com;
+ dkim=pass header.d=westermo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=beijerelectronicsab.onmicrosoft.com;
+ s=selector1-beijerelectronicsab-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LWzE3jFdAdz8gq4dwEfhUo0E7dOYQ0nlY3ZEbxqoffk=;
- b=Q25NFjPKhKgU1qztRuwU7lC456kyg1fYhspOEV2CHtjHnu5dun9edrg/LlJaEDDSQBBzcnlR8DGReHsHv9MknfD/+e3H2bvb0Lj54OIhOEaceeMQII9RATazB6zdVlYBpw9ggW0FEHNttzyWarTw/4xX27GSOAU2uqXpPnhsiw/H4CZDyEqfSjAjBvQruwtMjv9bFVQcC/D20ywRUcWhVd+rSB/dW5zvVgIfDb6z6/Jx3SggRL0kucDVt5vgRJThusjRir0leXtcthk+JyGBuKk/6IGt0UEH87jvel/88K1RUTLDK5NzEPNT9673VZZ5WcH5poB60DhhXIE1+t62nw==
-Received: from KUYPR01MB8186.apcprd01.prod.exchangelabs.com
- (2603:1096:d10:8d::16) by SEZPR01MB7751.apcprd01.prod.exchangelabs.com
- (2603:1096:101:2a5::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.17; Sat, 10 Oct
- 2026 12:56:25 +0000
-Received: from KUYPR01MB8186.apcprd01.prod.exchangelabs.com
- ([fe80::fe2d:77d4:b78a:358a]) by KUYPR01MB8186.apcprd01.prod.exchangelabs.com
- ([fe80::fe2d:77d4:b78a:358a%4]) with mapi id 15.21.0496.017; Sat, 10 Oct 2026
- 12:56:25 +0000
-From: Miotsuki Mizuno <founder@crepuse.com>
+ bh=eUxlyDgqEOga2eH92OrryBq0GdzNwjPdv2fabUdt4ck=;
+ b=JV7K9YKg+hEjiHRGpAris/mij7EoUbjExwv/Mxty1v6qk4IWQxGxODyjMD1Oby5BsKuPF5yU2lEe1wbfRARqJ4tyXSf/mCLA5qB7b3MDoPaVT3HOTjWQDE8Y4SRLBCx1ZPI3gdS8rEXp4vmKs17WHIxblzpkqov9lMVlBwT+rjM=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=westermo.com;
+Received: from DB9P192MB3090.EURP192.PROD.OUTLOOK.COM (2603:10a6:10:5e2::11)
+ by PAWP192MB2276.EURP192.PROD.OUTLOOK.COM (2603:10a6:102:364::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.21; Mon, 12 Oct
+ 2026 06:20:17 +0000
+Received: from DB9P192MB3090.EURP192.PROD.OUTLOOK.COM
+ ([fe80::656d:42d4:bdce:a46b]) by DB9P192MB3090.EURP192.PROD.OUTLOOK.COM
+ ([fe80::656d:42d4:bdce:a46b%6]) with mapi id 15.21.0496.020; Mon, 12 Oct 2026
+ 06:20:17 +0000
+Date: Mon, 12 Oct 2026 08:20:14 +0200
+From: Alexander Wilhelm <alexander.wilhelm@westermo.com>
+To: Thirusenthil Kumaran J <thirusenthil.j@oss.qualcomm.com>
 List-Id: <linux-firmware.lore.kernel.org>
-To: "linux-firmware@kernel.org" <linux-firmware@kernel.org>
-Subject: Question about vendor acknowledgement for GPL-derived MIPI DBI
- firmware
-Thread-Topic: Question about vendor acknowledgement for GPL-derived MIPI DBI
- firmware
-Thread-Index: AQHdWLbBaDj/x24pDk2zZMTILooXwQ==
-Date: Sat, 10 Oct 2026 12:56:25 +0000
-Message-ID: <F3A6CFD2-EE4E-4DC9-B05E-7BD3A3F6295C@crepuse.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=crepuse.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: KUYPR01MB8186:EE_|SEZPR01MB7751:EE_
-x-ms-office365-filtering-correlation-id: 28ff5a85-2bea-4ff0-be3c-08df26cde45b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|6133799003|10067099003|18002099003|3023799007|38070700021|5023799004|56012099006;
-x-microsoft-antispam-message-info:
- DrJwG6+V5hNERxOhPfm8DrVTZFACzqwvbrXM9PRQWBdHAXbVIL4oWGfJneTGCAViBYrcKe90Q2xMazu8NTzJKyWAcFz+t0G/PTZwUqzirDykp6cVTW9BGqU31RbaQETBh3yvQ6DwZwNQdSIhlUjYOpUEyeKeRFXBC8USaMlKBBOdkYyLbztue791UHeyXH11A0ILaf+KUgx/V1HSRl5SVcUfwlr9KLBRQQuW+TmLAvlsG49exAUdr7MumaVgWNiQdq0bvr28UEmwkfWej/FPcXswpZLRdyMl49choxIZSd4Cxymn6RVoXR1gqa5BYar2KX2MkDSJ4zxDZpiAe61gseHZiilfW9SNANcK6Mwy6suqlavkHwncZ7Tp/VJkKLEqoUY/ruVjXHUQCMx0y+JrA8RkyQHxQJBGngGKeaGi0gj+wjrT67CDr4aQGEJyTWhSDL1pFNjRNMTRFMcx/bvwijEjtpvxFeIQf+4cWUAcTxPolAe6PwEJSYoh1GJjJcH8sfnK9LG4zGi01QUc1EoLAyYXko9WV40NP80GpMFZAbTNUufp8N4+aw27Kby3UNCaxVFB0tUaEB2ICgfPPlHVWhqugnFPoAV0jQLXSRdecbShz2CRP4shYiUe4n4tsS3Kf9iCSbr8NIpMa4qvSrSvUVqJWKZqbhOoAGfVbdvSmaDfgtbzCdThQeaRwD4I3AjN/dNxtXVDoXdfbStRoMPLNTjfnJfbwpfRnXClwQk4VSQ=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KUYPR01MB8186.apcprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(6133799003)(10067099003)(18002099003)(3023799007)(38070700021)(5023799004)(56012099006);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?AOm12u/ssZnFqT+Ox6snVT8IpSbZmRUZe8fXXYOQp8pcc9J1+Hdz4RIo/xry?=
- =?us-ascii?Q?4AaI+95dv4PFnhastjgogLX9LjlBp2gNXP2AOMhjS4EdoQ4dqB/mUZ6/cgGE?=
- =?us-ascii?Q?e3th74JtXvwSDi+blK2d67N+Iumzbl5zKfLLohBAf0akXr8JVGvdEbBD1miw?=
- =?us-ascii?Q?Mo1B7Bwsiy+Q3elSbOz+/YgllE/vWQDprlNkJaX8ge33ij9sCyQ3wZkoqGdE?=
- =?us-ascii?Q?1TndDbfJyej+fM9ByX9eZfSx969M3Kb4kco1yCwVbihwVyXLGoez72JdrVxa?=
- =?us-ascii?Q?nL4p9nx1qMxbDhZLadzhlHzrW3PlW9FzB41eaqMZgToI4eI2ffiMZFZ3BpuT?=
- =?us-ascii?Q?WqAVmC+lge3+PEv2Z65BK5v4N6n6XuLs+GlUv9k3eDekvdN3FNKRKa4WSTYk?=
- =?us-ascii?Q?Gdx57gfJkoQs9DJnbD7njKnrkb8Nb36haBU0qbAEE/UzfRAKondHOjhGMnL7?=
- =?us-ascii?Q?V/I3bAJmLF53MII57aFBW/gTWJ+57lfzgtHeNYlduKKGaG9Ft+L0zn8Hw/V4?=
- =?us-ascii?Q?CcMtAPcfAcpWKvsKJMNp277Gn3MQjNX4XEu9YjkK4JjFSBaKs6IsfswY5jhl?=
- =?us-ascii?Q?RZL5iASdhsXIpoZjjk1GxmqtGsk+siAbo3I5xmGYZps80pxqnZoC/2imD+/l?=
- =?us-ascii?Q?8KeuAVcE9d3omMZsfSheQiosOlaFt0DSkLAQzWEwap8CsS79ttSsW0N0gG+J?=
- =?us-ascii?Q?SqG/sja7qjiYQb/veuchF+Ld92MfnFLkMEmimPyc40OOcq5/DGtuDhvJdWQe?=
- =?us-ascii?Q?yKbkzDOlNW+WNQ59kshvn7Ro1/GpfpmqWqipmxy4BsgvY2gKEEeLfO7cl1I5?=
- =?us-ascii?Q?GbvfRJdJxhnt60oE3XeezEr2YHqvw68zpuntTQy7ndgBsjNKvxyWDhV0PVom?=
- =?us-ascii?Q?1QQj/UKQYnspkPTupfvjunXAmfpyzNDr4qovx36crRimtPyGxiwEpb3aONNe?=
- =?us-ascii?Q?KS+BYj77UZZRKGgMIlFf3rUiijXMpbZIfN4H5D1bCWy5WagswMAsAxtBUvpA?=
- =?us-ascii?Q?UorrkGrbORJYAHcgx+7v0OhCr87W3Mkrwo6gXM+Me7aMPavzCjEy4qdx7o03?=
- =?us-ascii?Q?9JUPxEOlULU4pwuAw2TRo+lM/js//l8st43epHpkTFy9FBXfN37u+oETPcat?=
- =?us-ascii?Q?bLXiTbxmOTLZljt7N9J3Yo2FQCNxWd5eVAfVVp1PuTPMhgjq0LzR1hsgMNhB?=
- =?us-ascii?Q?CMSBe8ilBI2vVy8u6Ov4h2i9GMwi7VcGddM7lbtftyR4oRzhoiinegIMoHKI?=
- =?us-ascii?Q?caRIr5BbKPuV+OdBBOr36HnU1bRof4F07xAjRrb2PfBeanV4mEUKylhlK5TM?=
- =?us-ascii?Q?/hosXLD/U9h+Ll/iZ9b9o05m/3nAsPRDJFEtnWsx7HRSPcFIYwPmpoi/0aP6?=
- =?us-ascii?Q?lQCwtheynL5CM/CrFOK/d/B50lh2ehJVQLWfQyvL0hKzUCNRtn+6lb/R4PeW?=
- =?us-ascii?Q?XJ56sigr3CWbOL219NNeJc4FqvIjvYPea2J+L/9hClGMASwKfl160mfkSFk5?=
- =?us-ascii?Q?ug6MBOFYp6DgiOizktDlSgr4VJx+9+3f6Ht+5xxEEG6KZpsxs/xP75rVo5uR?=
- =?us-ascii?Q?BobW9uLyuQTuMTFFwFuj/Yknps9mcg7+GT+K4/wZ/DCzstbbjC77RcE2EFuQ?=
- =?us-ascii?Q?lZMpfao+LyQ1Xsyp1RV13y+PTgbPjYQFHJrC5X/pgcC8B92sMZYLHHUpqOyI?=
- =?us-ascii?Q?ieUOUWLM9z+OoQt7DIIGOnqAbeli0H9dGnfYLUd7V3d+OcB8z/VoKGeBlVd+?=
- =?us-ascii?Q?uBozkWCmsg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <0A742D601E3866438D2895F1BEA2252B@apcprd01.prod.exchangelabs.com>
-Content-Transfer-Encoding: quoted-printable
+Cc: Jeff Johnson <jjohnson@kernel.org>, ath12k@lists.infradead.org,
+        linux-firmware@kernel.org
+Subject: Re: ath12k: inconsistent regdb for QCN9274
+Message-ID: <asx8HvB5C0eAQ_D2@FUE-ALEWI-WINX>
+References: <ap-vTGZiqGaodxKE@FUE-ALEWI-WINX>
+ <70e4a7fa-6595-46da-8465-38906a41a6f3@oss.qualcomm.com>
+ <art3FqNHatt7zjLZ@FUE-ALEWI-WINX>
+ <443818dc-5555-4f65-88d3-6876505baae6@oss.qualcomm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <443818dc-5555-4f65-88d3-6876505baae6@oss.qualcomm.com>
+User-Agent: Mutt/2.2.12 (2023-09-09)
+X-ClientProxiedBy: OS6P279CA0122.NORP279.PROD.OUTLOOK.COM
+ (2603:10a6:e10:3b::14) To DB9P192MB3090.EURP192.PROD.OUTLOOK.COM
+ (2603:10a6:10:5e2::11)
 MIME-Version: 1.0
-X-OriginatorOrg: crepuse.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9P192MB3090:EE_|PAWP192MB2276:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0a0b446c-73b0-4432-7b34-08df2828e251
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|6133799003|10067099003|18002099003|22082099003|3023799007|5023799004|11063799006|4143699003|261009223027099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	AECCIk4Jcghv6ZovwGXvOeh5KhC+5h1x0NehyJw8fEB2RUlFtcdDuK0T6ya2tziwlXAmL/EAR8cjwt4JKpJOeHK9CsSyovbZRolmatN4R6XCTBZUtPTj9hu32XHIrlbWWLqKvH5hS8cjlQfLOKGP2pmC2lBrhtS46yKJxv7zyHqZlSp/CBPkB7iY/lRMP2pi7kpt33Fbco1Zi6OhC6b8QlHlyStVXSZ7p2dJX2U7D0ToZ2eaxXZGjl/N5P/eQ0PIS1RXTN2SrXyWcKppOdLzVRSiefPa3YyRv9AbLZFO9AqTA1+DZnnq4jMD1FDr9amdTSdyDZw4p8SWwgvp+lRPD05K7quybebjKQxYtktQIiiBvvXw0toEqWtUnxHHCd/Ktyor5N+3V+BYWoIS4swaMHq+E41RnEUqDREw2/VZhkUk6BXEVWq4mLlJponv24dat9mYExkP1MuoCjwGC/RaZVcp1Qjd5cOWI55WT8CnnnJzwPgDCk9pgkAIwdIdz/UNPC0EZhUuranGCVq7HiBfd5RbJYk8WLjZ5k7Rugjvl2AfL52p4gpqiPAYs3Spr777BrQmRKZNW4ikFPx5FK7wtbjO3lXMt32fhpdj/05Pe5KHWCuIJfUIoK1hQS2D8HEMhXs8lDoUD6zGuW6ZA/j277FQYZ8/70Tlz4V6zujIaqg=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9P192MB3090.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(6133799003)(10067099003)(18002099003)(22082099003)(3023799007)(5023799004)(11063799006)(4143699003)(261009223027099003)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?0Bz+wXEgEYECNLKyZX8iQxmN8ZymN6+q6un5i/3BhT5xTrzZONq1pmE0kDWX?=
+ =?us-ascii?Q?e4bY+cRPG8hzMbJq6ue3CbbwV/sT5ZWBJ51F7Dcb4ERaKDTql150bB+ukOFz?=
+ =?us-ascii?Q?MwgXener2DmZjSx25QRRXFc+5EDE5YXNnoiD/hr/RnkktgEYuOjbsnF3nhHr?=
+ =?us-ascii?Q?eU9nbDnx3QFKWdEETmjrGb2imoyqAy8qRTdW4qqyysT6kw0FD3tHtjm2KBgn?=
+ =?us-ascii?Q?G506/wKOqJSN7Yaam+UNsukFBr5j/F8xMz5AsSvTxUKi7jp3xZrQ9G+bf/d3?=
+ =?us-ascii?Q?7XthJWCktY13zUiyiSBtWGYqjZ9ZEyMDGRUFEYpAHFJHZvcjGxS6nFD7cU5V?=
+ =?us-ascii?Q?DCiv6DN9Ka2CBW+3XN/Iu6oBqrNBhcFiMktY95UOGOVSjR2RM04dwGnRFZ7X?=
+ =?us-ascii?Q?0+VdP3rOVxY+cAgaMhqye9tsJDQzbr2Wqscru4jq7Cf4/l7djl+UCeY3Gwna?=
+ =?us-ascii?Q?oqHe+NgWhbVVKAASA8hmmbUbv+AWpSRyRBGmkseN4W8oFeUrXsGaspsVV5fB?=
+ =?us-ascii?Q?jTq5hP7Ah8kcJ+TrpaLVl5TjzOVyCKv6j4Kk6htbMVWWxjT8hfLcpDUJ2W5U?=
+ =?us-ascii?Q?xkIp4XgV9GcXv/RPvwpyVUHNsa+0soMwvBgNmVYAnrQsQOEXeu8MEPHTuLSN?=
+ =?us-ascii?Q?O3Xz+DaF1IILV4nO39BvGwl7nY3TlauEkEGSgf0/OBeki6QPZ6OAu4lsvjrK?=
+ =?us-ascii?Q?dWaXovxiBIU1cllxcHekbJPV6Iykfb8iHHFhAPBxNcLG5vJkhpJrbYdrzmHh?=
+ =?us-ascii?Q?u2q5n9n3TKeQDQ+fxBlf4zn4sIbTCG3/7D7cV47aBfuraq7VMRx1y3meeBgG?=
+ =?us-ascii?Q?jp/G5nnPopU6mFVrzuODZ+crPXaRKrF2CZISouKkOJfEZTsES/6Elm0NON0N?=
+ =?us-ascii?Q?mQYMGaYMRmkLHfDawB2wVgVvNNcxyFxtRXCikG1IIa5ZinEtJmcyF+OHf82W?=
+ =?us-ascii?Q?bEirEhtpSzgic4pNi4MMBn1GeUpGOoAi+19Cd1noU0F9zx0ZBk/I648Q/Cic?=
+ =?us-ascii?Q?Hl1h9W+JUcM6pkZC12r4MVvUN4kD9wgniSzT8fzDGoG+Sr+cTjdHw3pliNww?=
+ =?us-ascii?Q?SGZY9KgqAjDSU+184JwShKUOEFOiTDc4IqNyFb2PZsAYZGDFlIiAenQlizcr?=
+ =?us-ascii?Q?K2NOC160Hl4LQ3A8siTpIJdO3R3YrozS441B3Q4EMRWHap5nCU6izyahBMPO?=
+ =?us-ascii?Q?iLUg07ZJL9sYwHYZyQEaKJLiilYSq9Iu8teyumy4bp8AZNWTn6kySmd9hUTe?=
+ =?us-ascii?Q?5omNLqDLt2uFPhJibP8nGFeWd4iiw71mhoe3DRfpMupywhImhlkG6HmHQmM4?=
+ =?us-ascii?Q?j8yOumO0ooAN6FY/WaJb90HegAU7TMNtctqSK9HV71P/raeEIO8fAVOt2Nj5?=
+ =?us-ascii?Q?WrIdQDUMzENrHHj5mZ4F9epwHRY2zLORZTcqWKv68ClRrAf4Yt+o41aOamn4?=
+ =?us-ascii?Q?GnWs8B30IH7WIcc8rD5M4yGEnP+kYx130wKf2QVzUwMNOD64LbawMMEi6Twq?=
+ =?us-ascii?Q?YLQ+TFQ9PnI2jXi8rv7wdMA8DqoLhRmZvkRrMYqDdO6G3I7F/o9IglbVUHAK?=
+ =?us-ascii?Q?5/UAi7sJsoWm61EfYZeEXTzzTHLfQ7PDMnIYEaz+Epoq89QtyXj5vx07Iqfp?=
+ =?us-ascii?Q?iAW9b/IKiOnb8VuM0j77zWovtnPY1mQUTCHlpYgVzOjqdNwtjiQBOLxfIRB5?=
+ =?us-ascii?Q?yZgl34IKMtMhUxub4zJsYJqIKttdWNvMm0jHq9w0HFbusj1MJL4/Q8aZuJP1?=
+ =?us-ascii?Q?FEjC3BN7vA=3D=3D?=
+X-Exchange-RoutingPolicyChecked:
+	1qL63s7eu/COHJKFv+J3S6SEjZVD3oqm+5iURzQxNBiCKwTjLO4iLCNI2HIVvV3KF+VE7Kmkv7dBu1RzUGfOxix9BQphwuh1qdrf4RjFY3CQ4g3q/rDTi2YZDadO4a0cYXVs4/vDkP0k8DtiXPG4j0VVNg2AhIbuOZNNqHQU2BFvPEO3EM3U3cD5xMXOeFiknUuFnfJFFeTzuZ7H7WSUik8+/k1WGB36nso5Nk5fEQ/jzeZq/syRfB0VVIGK5vQfpgA4M78e5sN52K97YfOJIcTRKTZVGaYp8CCCOrcuOsnRNhsgq8yzvfxfS3OeG9UgG8/8R2hdL0zxQOcuNkuF8w==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	FUNV9v7vH3A4xNkj+2Yw4HIkgopuhjrG4G5hguwMddn0oYjuyy1K/9tzg0FP4PLEHZD88AENUlyLaJde6q6k3SXUw64RgnmYcbKUtL+OY4aB/Xfk7NZmOXun5kcUewsttp04lTbtOlWZHBtun/JI4Xy59RX1UYcBo7zPbOp4fgxqcq/vdtv/lf6dF1+E9yhOf/kou91RZz2nY3gNH7QEN9ugG5HmGD1UB66gv1G6lpc5VdZm+mibYLbYzAWCNrXK51H8JBHdc8HlfyLjPhtSiqbP2X7NOEVjdoifjnk2szyqRPPo4XPqBvjZC+EcEERnQ+a+faBjOujgf5uaq/rJatm3Jcc22IFdxJh070QuX1gT2QUDtNvbpKKLUdeEW15aS9QPFT5NAM/b1d9jwkusnmqEUhfRWAobwqIodNEZhHs8CXl/CO1lW22wefFo1+hB9E3suxdImNPOaXyISB3QPvce4cShmoUxTfGtrhzk07PajYsYF1XIdw28jQHSfBeBn6tcLGRI/ssxnEEkr8PwUN6LpcvF55JY0t88eqB5oS9DnIxr+HTxHFgmms19ZEfelwTL+lK5cG7rCvMoJxy4sQ5oxJeKD+2rIjmNEkH85qzQghaty2xA62S4A71rlSd0
+X-OriginatorOrg: westermo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a0b446c-73b0-4432-7b34-08df2828e251
+X-MS-Exchange-CrossTenant-AuthSource: DB9P192MB3090.EURP192.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: KUYPR01MB8186.apcprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 28ff5a85-2bea-4ff0-be3c-08df26cde45b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Oct 2026 12:56:25.0990
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2026 06:20:17.1696
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 9e189589-0b8b-4283-80ca-b0157c0a04fa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RAtEyMA5P9sNX9a09shDtRilhb+4ZXsBUfSlDaW9RxpwmyIOcWoifsatmfd3dF6Y69d+h3x2LDbMi03LAY3Jlg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR01MB7751
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4b2e9b91-de77-4ca7-8130-c80faee67059
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vVPZ/2TsvTGIC0Cf4URPyEgrltuXRNBXMlVC1APsWO8uNio7iyAGmJQ53ajVOz0eD245uJJQ98efxrOx1P+6cA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWP192MB2276
+X-MS-Exchange-CrossPremises-AuthSource: DB9P192MB3090.EURP192.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossPremises-AuthAs: Internal
+X-MS-Exchange-CrossPremises-AuthMechanism: 14
+X-MS-Exchange-CrossPremises-Mapi-Admin-Submission:
+X-MS-Exchange-CrossPremises-MessageSource: StoreDriver
+X-MS-Exchange-CrossPremises-BCC:
+X-MS-Exchange-CrossPremises-OriginalClientIPAddress: 104.151.95.196
+X-MS-Exchange-CrossPremises-TransportTrafficType: Email
+X-MS-Exchange-CrossPremises-Antispam-ScanContext:
+	DIR:Originating;SFV:NSPM;SKIP:0;
+X-MS-Exchange-CrossPremises-SCL: 1
+X-MS-Exchange-CrossPremises-Processed-By-Journaling: Journal Agent
+X-OrganizationHeadersPreserved: PAWP192MB2276.EURP192.PROD.OUTLOOK.COM
+X-Proofpoint-GUID: cLAurqfOmOf3vNKYrDIpQCdK7XlP0gb2
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEyMDAyNCBTYWx0ZWRfX0/CRvptFdKdQ
+ U0z9hGEqOLJWzwNcBBa+jW941JAITJJHQzmcJKulMoYUxgRgIFyQ5dzkZiqJtFnn39IyuooAzW/
+ lsDnD8amqQPA9txfIc5wmE5I1/hBdII=
+X-Proofpoint-ORIG-GUID: cLAurqfOmOf3vNKYrDIpQCdK7XlP0gb2
+X-Authority-Analysis: v=2.4 cv=Z9t5j3RA c=1 sm=1 tr=0 ts=6acc7c24 cx=c_pps
+ a=0CLVQTjxhLEs4UItc+c3Og==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=8gLI3H-aZtYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=tr3XZvuDWTETL0Uaxejn:22 a=8ys4xmT3Mru1TjC2zVq1:22
+ a=xNPjJGTIY6okPvH5OjsA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEyMDAyNCBTYWx0ZWRfX7ILS31H1olSe
+ QtMcMEn5lPmstl2XmW13lo7EugK6seV18ySLZTwfcHVYT0JIwhLG9mGliYhGvnTfqsr0d6Xqnpy
+ 1a7vc8Q3O+L3q4kuCobGOUNOCW3xlALfGPS/WYf1ZBFCWsDfqdpj4IfsUO8g8ToW4OsqxV/1Tta
+ kfuN51qkTsSg+iW5KQihmM1c0tWvdJFZIZ3oQWOLYpsCY2uV0TC+CvpcscR+s82eh+4wealiWdR
+ eOYtW5PelydQv7mbJDVZiDOgY1haYbibqm9TPVU/LpxqpLwgYnr/oqN3vHxM3mpxmd67hX573DE
+ uHUXwiHnXZ9W6v7kIo7nytpKkPXaHMEm/JAblXPps414MsQr/5tilF2XsoFmAN/o3dDK+dHBeHV
+ BuhdTMD0q2Sx1SK4xqFVTjJ5zdQeBaTHw8Jsq6Ou9aW80pAqjA2iOifEmEhrqgFQPohaYYJ4/FI
+ 3GAT8hRZsbIrzGrU2NQ==
 
-Hello,
+On Fri, Oct 09, 2026 at 03:06:04PM +0530, Thirusenthil Kumaran J wrote:
+> On 9/29/2026 2:00 PM, Alexander Wilhelm wrote:
+> > On Fri, Sep 25, 2026 at 01:36:39PM +0530, Thirusenthil Kumaran J wrote:
+> >> On 9/8/2026 12:16 PM, Alexander Wilhelm wrote:
+> >>>
+> >>> Hello Developers,
+> >>>
+> >>> I am using QCN9274 chipsets with the `ath12k` driver on my devices. As far as I
+> >>> can tell, the driver uses the regulatory database from the `board-2.bin` file.
+> >>> However, some country definitions do not appear to be fully implemented, as the
+> >>> values differ from those in Linux's standard `wireless-regdb` repository. I even
+> >>> downloaded the latest `linux-firmware-20260810.tar.xz` and do not see any
+> >>> related changes there.
+> >>>
+> >>> For example, when switching to DE, I see the following values:
+> >>> * Channels 52-64: 23 dBm; I would expect 20.0 dBm
+> >>> * Channels 100-140: 30.0 dBm; I would expect 26.0 dBm
+> >>> * Channels 144-173: (disabled); I would expect 13.0 dBm
+> >>>
+> >>> US also appears to be inconsistent:
+> >>> * Channels 36-48: 30.0 dBm; I would expect 23.0 dBm
+> >>> * Channels 169-173: (disabled); I would expect 30.0 dBm
+> >>>
+> >>> I am aware that `wireless-regdb` is intentionally restrictive in some cases. For
+> >>> example, there are rules where 26.0 dBm is used instead of 30.0 dBm because it
+> >>> is implicitly assumed that TPC is not supported. Therefore, some differences may
+> >>> be expected.
+> >>>
+> >>> However, the values above still appear to be incorrect. Could someone at
+> >>> Qualcomm please investigate this and fix the regulatory information if it is
+> >>> indeed wrong? If the current behavior is intentional, I would appreciate an
+> >>> explanation of how these limits are derived, as they do not seem to match either
+> >>> the `wireless-regdb` entries or the applicable regulatory requirements. Thank
+> >>> you in advance.
+> >>>
+> >>>
+> >>> Best regards
+> >>> Alexander Wilhelm
+> >>>
+> >>
+> >> Hi Alexander,
+> >>
+> >> Our internal regulatory team is reviewing the source and rationale for
+> >> these values. We would also like to confirm which BDF was selected on
+> >> your platform during boot.
+> > 
+> > Hi Thirusenthil,
+> > 
+> > Thank you for your response. I am using a WLE7002Exx cards from "Compex Systems"
+> > and have also received the corresponding custom BDFs. I then added them to
+> > board-2.bin using qca-swiss-army-knife. For the regdb, I am using the default
+> > version that comes with the kernel (the one with ID 255).
+> > 
+> >> Could you please share the following details from the affected platform?
+> >> - The exact platform/board model, or RDP number if applicable which is
+> >> used with the QCN9274.
+> >> - The complete dmesg output from the affected boot.
+> >>
+> >> In particular, please include the ath12k QMI target-capability messages
+> >> containing information similar to:
+> >>
+> >> chip_id, chip_family, board_id, soc_id, fw_version,
+> >>
+> >> These messages are printed from the 'ath12k_qmi_request_target_cap()'
+> >> function. They will help us identify the chipset, board ID, SoC, and
+> >> firmware version, and correlate the selected BDF with the regulatory data.
+> >>
+> >> For a quick filtered view, you may also run:
+> >>
+> >> dmesg | grep -i -E 'ath12k|board|bdf|chip_id|fw_version|fw_build|soc_id'
+> >>
+> >> With these details, we can verify whether the reported channels are
+> >> included in the selected BDF and continue investigating the regulatory
+> >> limits.
+> > 
+> > The wireless modules are running on our in-house board based on a PowerPC64
+> > T1023 platform. I am using OpenWrt v25.12.5 with wireless driver backports from
+> > v6.18.26. The board-2.bin currently originates from v6.12.94. The dmesg output
+> > (without debug messages) is provided below:
+> > 
+> >     user@host-A:~# logread -e ath12k
+> >     ath12k_pci 0001:01:00.0: BAR 0 [mem 0xc00000000-0xc001fffff 64bit]: assigned
+> >     ath12k_pci 0001:01:00.0: MSI vectors: 1
+> >     ath12k_pci 0001:01:00.0: Hardware name: qcn9274 hw2.0
+> >     ath12k_pci 0002:01:00.0: BAR 0 [mem 0xc10000000-0xc101fffff 64bit]: assigned
+> >     ath12k_pci 0002:01:00.0: MSI vectors: 1
+> >     ath12k_pci 0002:01:00.0: Hardware name: qcn9274 hw2.0
+> >     ath12k_pci 0001:01:00.0: qmi dma allocation failed (29360128 B type 1), will try later with small size
+> >     ath12k_pci 0001:01:00.0: memory type 10 not supported
+> >     ath12k_pci 0001:01:00.0: chip_id 0x0 chip_family 0xb board_id 0x1005 soc_id 0x401a2200
+> >     ath12k_pci 0001:01:00.0: fw_version 0x160484db fw_build_timestamp 2025-12-09 20:09 fw_build_id QC_IMAGE_VERSION_STRING=WLAN.WBE.1.6-01243-QCAHKSWPL_SILICONZ-1
+> >     ath12k_pci 0002:01:00.0: qmi dma allocation failed (29360128 B type 1), will try later with small size
+> >     ath12k_pci 0002:01:00.0: memory type 10 not supported
+> >     ath12k_pci 0002:01:00.0: chip_id 0x0 chip_family 0xb board_id 0x1008 soc_id 0x401a2200
+> >     ath12k_pci 0002:01:00.0: fw_version 0x160484db fw_build_timestamp 2025-12-09 20:09 fw_build_id QC_IMAGE_VERSION_STRING=WLAN.WBE.1.6-01243-QCAHKSWPL_SILICONZ-1
+> >     ath12k_pci 0001:01:00.0: leaving PCI ASPM disabled to avoid MHI M2 problems
+> >     debugfs: File 'ath12k' in directory 'phy0' already present!
+> >     ath12k_pci 0002:01:00.0: leaving PCI ASPM disabled to avoid MHI M2 problems
+> >     debugfs: File 'ath12k' in directory 'phy1' already present!
+> > 
+> > 
+> > Best regards
+> > Alexander Wilhelm
+> 
+> 
+> Hi Alexander,
+> 
+> Thank you for providing the platform details and dmesg output.
+> The logs help us identify the two QCN9274 devices and their reported
+> board IDs. They also confirm the firmware being used.
+> 
+> As mentioned earlier, our internal regulatory team is checking the
+> reported TX power restrictions against the regulatory database and
+> reviewing the source and rationale for the DE and US entries.
+> 
+> Since you mentioned that you are using custom BDFs from Compex Systems
+> and added them to board-2.bin, having the exact final board-2.bin or the
+> corresponding custom BDF files would be very helpful. This would allow
+> us to inspect the hardware-specific frequency and channel limits and
+> rule out any issue specific to the custom BDF.
+> 
+> If possible, could you also let us know whether the same behavior is
+> observed with the unmodified default BDF? If so, we can continue the
+> analysis from our side without requiring the custom BDF.
 
-I'm working on mainline Linux support for the DFRobot UNIHIKER M10,
-an RK3308-based development board.
+Hi Thirusenthil,
 
-The board has a 240x320 SPI display using an ILI9341-compatible
-controller. I've successfully tested it with the existing
-panel-mipi-dbi DRM driver, without any driver modifications.
+Unfortunately, I am not able to perform a test using a default BDF. I downloaded
+the latest board-2.bin from linux-firmware (linux-firmware-20260916.tar.xz), but
+it does not contain the board IDs reported by the modules I'm using, namely
+4122, 4101, or 4104. I had also assumed that the default regdb (ID 255) would
+contain all regulatory information. For example, here is the output from the
+linux-wireless regdb in my current kernel:
 
-The panel requires a small initialization firmware file containing
-MIPI DBI register commands.
+global
+country DE: DFS-ETSI
+    (2400 - 2483 @ 40), (N/A, 20), (N/A)
+    (5150 - 5250 @ 80), (N/A, 23), (N/A), NO-OUTDOOR, AUTO-BW
+    (5250 - 5350 @ 80), (N/A, 20), (0 ms), NO-OUTDOOR, DFS, AUTO-BW
+    (5470 - 5725 @ 160), (N/A, 27), (0 ms), DFS
+    (5725 - 5875 @ 80), (N/A, 13), (N/A)
+    (5945 - 6425 @ 320), (N/A, 23), (N/A), NO-OUTDOOR
+    (57000 - 66000 @ 2160), (N/A, 40), (N/A)
 
-Unlike typical proprietary device firmware, this file is generated
-from an initialization sequence in the existing GPL-2.0-or-later
-Linux fb_ili9341 driver, with additional panel configuration.
-The generation process can be published in full.
+And for comparison, here is the output reported by the PHY of one of the
+modules:
 
-I'd like to contribute this file to linux-firmware, but I have
-a question about the vendor participation requirement.
+phy#0 (self-managed)
+country DE: DFS-ETSI
+    (2402 - 2482 @ 40), (N/A, 20), (N/A), NO-80MHZ, NO-160MHZ, NO-320MHZ
+    (5170 - 5250 @ 80), (N/A, 23), (N/A), NO-OUTDOOR, AUTO-BW, NO-320MHZ
+    (5250 - 5330 @ 80), (N/A, 23), (0 ms), NO-OUTDOOR, DFS, AUTO-BW, NO-320MHZ
+    (5490 - 5590 @ 80), (N/A, 30), (0 ms), DFS, AUTO-BW, NO-320MHZ
+    (5590 - 5650 @ 40), (N/A, 30), (600000 ms), DFS, AUTO-BW, NO-320MHZ
+    (5650 - 5710 @ 40), (N/A, 30), (0 ms), DFS, AUTO-BW, NO-320MHZ
+    (5945 - 6425 @ 320), (N/A, 23), (N/A), NO-OUTDOOR, AUTO-BW
 
-Since this is a reproducible initialization command table derived
-from existing GPL-licensed Linux code, rather than a proprietary
-binary provided by the hardware vendor:
+As an example, you can see that the 5 GHz range only extends up to 5710 MHz and
+then resumes at 5945 MHz. As a result, I can only operate up to channel 140 and
+not channel 173 as expected, which is available when using the US regulatory
+domain.
 
-1. Would such a contribution require vendor acknowledgement,
-   even when the original GPL license permits redistribution?
+> Please share the dmesg output from the default-BDF run as well,
+> including the board_id and firmware-information messages.
+> 
+> Best regards,
+> Thirusenthil
 
-2. If vendor participation is required, would acknowledgement
-   from DFRobot, the board manufacturer, be sufficient?
-   Or would it need to come from the LCD module manufacturer
-   or the original code copyright holder?
 
-3. Would a submission with full source, attribution, and
-   GPL-2.0-or-later licensing be acceptable in principle?
-
-I'd appreciate any guidance before preparing the submission.
-
-Best regards,
-Mizuno Miotsuki
+Best regards
+Alexander Wilhelm
