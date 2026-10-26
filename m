@@ -2,197 +2,263 @@ Received: from smtp.kernel.org (ip-10-30-226-227.us-west-2.compute.internal [10.
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D97606A320
-	for <linux-firmware@archiver.kernel.org>; Mon, 26 Oct 2026 19:55:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C5F606A31B
+	for <linux-firmware@archiver.kernel.org>; Mon, 26 Oct 2026 20:55:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ma6VBbww
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=OUdw/4g2
 Received: by smtp.kernel.org (Postfix)
-	id 4E0351F01828; Mon, 26 Oct 2026 19:55:31 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.180
+	id C55EC1F01828; Mon, 26 Oct 2026 20:55:50 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.52.42
 ARC-Seal: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=pass;
-	t=1793044531;
-	b=0XIXvUmZSptPP8/vwA8A5M+Pcp60pvuKTIN7q+Cx8CmF30MarUCxD5y5yXg49mkzkLaj
-	 VDzI58N8eu+gH1reAnJ+V+f1OJBwT3vnmyMRqZGXS68Vq3SHq5qVyK1k6Rzntg3DpvK2L
-	 smAvNCIewzV9FUrbSI8HvaPQuLczlrOlTJtG6o8vGLiZGNdPy00JPWGgDDnUx/hsSLz5l
-	 ogdJs4LUnUEB1LWuXDyXMW2d+7uec1VSMevqdLfuCtAb2ZtVBf3bsRngG51XLMk/t5zdi
-	 +TqLiM6nkjHQVt8G+07lhViY7tG1dIEP/r1wbQvQHlVLQgm/dDyou2FBszENmaHUR2Q==
+	t=1793048150;
+	b=e9H8wmM0wv396pi1I5jneq7iD3wmK+rVqXjLtKosQ2qzWVNZ4k96jz/w+Ppjl3TRUuXj
+	 TSVF2IDQgjjd03T0b1wtMM+gWU5pqhi7b8m5xZ2WxlI/oZh0oysHzNbxswtDrv/DrmnlO
+	 7BeibBP/fzpz8+4XUvrhnleyq4iA2yjPp1I22M+BLiBv2ymJHnbEq9vTQdPvDdDxPCwpl
+	 g2RvFNXgWo5+vGYuWQNXS+W29FtConidbIiNLI5gMJkB+4IUnAovmyz0qn4HTX3Q8gIUB
+	 5cjGyhAmtXPtrAkfkwUjYNe5A7eCt3ifNy5PLQqWoKUbWDZ5mn3QpoGmK29OJxN2sRw==
 ARC-Message-Signature: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1793044531;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:From:Date:
-	 X-Gm-Features:Message-ID:Subject:To:List-Id:Cc:Content-Type;
-	bh=KFWLY101kRHD9mssadgRRPoV47HkqjA/2NAH0ex4JXs=;
-	b=nrUxps8B3MxXBWYYCRpzmXDe/pONCE4Kbp+j9SE7uIwe25jLDLshdc2gxKb6/EHTdOvp
-	 DbwojvpQ26QNBkbqDAnqlMBaC29jwq8mh5EP9vw/JeG7u4DegDEow91tBsedJCU4BAUaC
-	 xmSvGYsg+mFD8elVYImFTTiEO7j66c0vZZITYttUfc/iSqblFvQ/GbMbpdirBUgMHbeUa
-	 /xpO5j9zz8SbB8eZT5RJQPqmoRCm3408Sw09TG32kkceD/q2PHDpKhg3eEm5DHcS3Y6k6
-	 oO5wrZ1MogfFaCmUkWwLg7mH9bCWJR7D287kfQoS3s9DYCa+LAGB4CvOqgB38XDQRSw==
+	c=relaxed/relaxed; t=1793048150;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
+	 Received:From:List-Id:To:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:X-NVConfidentiality:Content-Transfer-Encoding:
+	 Content-Type:X-Originating-IP:X-ClientProxiedBy:
+	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=GhuHEnKt9zXXu0tHADCOPlBuL6rrnV2KlnG/4h5ulC8=;
+	b=Bbsu8CDteVodW/IM2NXrbLnOe00kOaqVZ/oPYBXQNmOY9xIa5IjlVeq/9OPaJyHTzR2T
+	 JmeOj8R3HaDfxvcf+U5LvHI80O7UxKisXTJ2112bM0ffUmhEyawaRHpN+IHVZYqVPaOSK
+	 qaT7ClmtsdtjYrXYXSo826VwCX3RV0WyxTUVmO9BVnLbJBiYlgm7sA3MR+IItrA76p2oD
+	 Ed54c6ZuSflVtfAgJ1GKpAoZUJJf47aIR6Bjicd7IH/aDH7SvnNbxyCnKXhGg6bR2II0t
+	 MV2nKPwswpRcKvBWe+kDXFKn2cJbCxU+FTe9fRx2qXXxtufiU4+Nb0FFOnzoSQjLb5g==
 ARC-Authentication-Results: i=2; smtp.kernel.org; 
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ma6VBbww;
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.180
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b="OUdw/4g2";
+	dmarc=fail header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.52.42
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011042.outbound.protection.outlook.com [52.101.52.42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id B43701F01825
-	for <linux-firmware@kernel.org>; Mon, 26 Oct 2026 19:55:30 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id E79971F01825
+	for <linux-firmware@kernel.org>; Mon, 26 Oct 2026 20:55:49 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ma6VBbww
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org B43701F01825
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2e9e53d011eso23773025ad.1
-        for <linux-firmware@kernel.org>; Mon, 26 Oct 2026 12:55:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793044529; cv=none;
-        d=google.com; s=arc-20260327;
-        b=eOcxXKflUh2G4bzK5rl63oOk1D01LtujrjwKX8VyQb73bPUxD2HlBFxDjXzLnvktcu
-         UleEfYtsGP5r5BxTv04jk+M82C/bdNuxcSEGeGfD96tnDy26lbjkfY3Pp9vCqaBAfXna
-         RkTJhDjB1Q+bbLCikc0wYYx5Sqv8vPz2ravEmCVEf2QOsWl59VAn8kcZprlD3aqjHxKp
-         gudkCD6xNSIFrE71zLOxaQKBFtYuFTNJOoNcB4Hrl/qN09qUBz2pqmI1s3i0TJSb7WCW
-         HNkpmLX05thzCzKUtIZMO2BqIaht1EgFJnfhRl+P74YjewLJo22CwWkuNIGrzyo5BEzG
-         CtlA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=KFWLY101kRHD9mssadgRRPoV47HkqjA/2NAH0ex4JXs=;
-        fh=KX8oQQsdwHZEDxIjK3rm0DF+tF80/skxmPBnrW0cwBA=;
-        b=lEDQp4mUxPpELmQbN3XcXciR8vvk7SOxG43b2RqNThcfKNmIQY6MII5D1u/rCs7qam
-         oUc1+Hegh5VnMs3Y01InNRs3kTe6ahK2xCdGfZ1G0phO59Dl/Ub88SW2IkYeCd9ilPlR
-         JATyOAqqI0qBeV3XSl9ldSHXyzel05It9aYxL7U+jndZ05s5WzaKg2NzG/IJnF0/mzAj
-         4Pilo70T1PfS7QcP6tDxUtpHcpBFD3pTLMjQ9jggTIR6lIlVA8JG+DzN+uDU5sYcfSVD
-         fNfnwpC4q9S6V3Mig+gtMeQWQWiDQkLCRJud8Xj3q+gq3udA7/yeAN1pWU88A36n7oEv
-         pSAw==;
-        darn=kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793044529; x=1793649329; darn=kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=KFWLY101kRHD9mssadgRRPoV47HkqjA/2NAH0ex4JXs=;
-        b=ma6VBbwwJcDY+qDt7ZBNXAl7DvfBhm68ABWGSSjgkBPVmiR/ZnEAVkdl2s9fIPAAjF
-         Qv9YqB87G8hWbRJqo+NDLHuuMwAR+ugawe33aKMsFHn+crrxMhePeREt7Hhv+LxzjKCH
-         M9LKYFvGrWHyGWygv/yZe1fn/tpRRbHdRj1EIo0m6ROE5fcaIj1e/kG7k+hvy8ZfcjQe
-         NrgIfcbx8OFQmqkKBDnxL+KYf5F5BzwrYfYZlBbRLTU1EfQtfeSV2wmGtvgVKiyTBzrO
-         bXeQkiKiW5YEF/O0QSiDiRfcgAzmyXyx+UDLGKjuQF4e/T/7QI8jJLVByE7zusfHsgY2
-         Lolw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793044529; x=1793649329;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=KFWLY101kRHD9mssadgRRPoV47HkqjA/2NAH0ex4JXs=;
-        b=g6RETLDyYg3UeY5rDGP2sMVsHOBZJs/0Dn1Hj3GvyW/6+Q5VCPSJKG7EOgQb6Dr6f9
-         yKxOVHgUgfIpriPvAP9hfh1mZTFr0sDqgFnGRLG0HPsgsrNyCQvGysWa54ErW2VAd5iM
-         eymln0Qak30NaN1R6wXfHjjb99oTX7t21ibitQP/3LuH+ySjpl2oCMKf0f6+DjasCJI5
-         W94Vwy1km0y78rc6rOnEBbTZQH9IScOn/O9aYwgz9KgC0EykieEYc15slMAJz8u1Ksgj
-         qFsNvudySyyUu+d97jdrJYqAVyS36bQzIRUq5jm8y/VyezyfgiYh9b1/Vcrp4BCSfxjH
-         bhxA==
-X-Gm-Message-State: AFq9FYKry5WAK3m8MwTQ81yb15fCjg4e+PyUcqD28PKviaE0+d82ZMTl
-	zu7axX1s0Xhku29APpzi0x9uPrCcUQRcKsbxYf40ICgDBk1UD4/Yym6J52vEwr4+vl7ZVctAwmc
-	mtImicJjEtMG6vw4cQj6cJZOa7bQ2o3w=
-X-Gm-Gg: AYBFou1xetI1LpaBREytMHf0oaAz2fCubEBRUXxP1syG7nxjS79L9y56s/JHQOduLQo
-	jxaDr9yQldVWj2dbqOpBBYbBARsWrpzp49JQopvcAke+fuAoNKgSVTEf8ZLsj3IcgXgNilqIS9T
-	1vT/di4H7uc60qjwF5G+orYNAFCnP25U2SRj3De5ZJ8xpto5WqV/GDZYflOMdBDWBjJ/Timsw5U
-	aIm7WNbkph3CJlc01JnFydvEgh+m6kcL7566ubbsP12+J/q+vK1U2ilUaKCVEI5cMRsd9pBG9s1
-	kj3SHkYhTvu3TEq0CXtcz2Q5R9AjnMR3+UA9LKxmB1D3MIv9eCD6MPZ+EA2Yr1B912k6m7PMWw3
-	CgHQ24ZJpi+GDKjeDe7ITA4PjfjkdxGXZqspp7GmIP3cyHnGe7wGuS8La7SsQcLd3RSE1FSgfnH
-	e0yujklRRyvbuf5ykjGxYLI0QDYkjRo+EctopmvdKml8x0lVVGoIGt4wQaCFt35UV/FuArfTfs4
-	lubPT0NVRmz
-X-Received: by 2002:a17:902:db0f:b0:2e8:4066:d247 with SMTP id
- d9443c01a7336-2ea9c697792mr70723705ad.33.1793044529481; Mon, 26 Oct 2026
- 12:55:29 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=OUdw/4g2
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org E79971F01825
+Authentication-Results: smtp.kernel.org; dmarc=fail (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DljCMAQhMvZPMNRhDGRLd02T/x/7wlsJm/y+jYIeQ103uf7eXpjfrrUg0xYO1LXqq6+BwvkjY6x7+qiZvRvC3lOHo2/dglBbzEl0N1rlRCjb3Dn9s65QISvVa0rnib0t9lFLK1rYk0FI2X/VHsUd/UsTrfbn4RGzPIzWfdEqHeN3A+BK7tRbvDWGisU4BpJF7sjdToJFeXZ3rDtu1aPiYrDbYtMSvpMqAZF2r5j86Y+4NWZwOdkpUxbIYvm+emntevGAkkaaMJWA5wWTW/VexPrAxBxH4gBzscpQ3Sw3xhomHpebpTpTPt1IpNhTvWbRKfhc7LksrhAcYZjb8q0qQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GhuHEnKt9zXXu0tHADCOPlBuL6rrnV2KlnG/4h5ulC8=;
+ b=hfZPTp2lUTOQ4l0vN6QSAQ2utvHJpjOEZbb1kch+U2zZA8C8b/Zyn56EVvT1ZSWIHfZpgjRKVvnqqKKNzt6bUr/+dhKT+NfkibSf5l2J7Rm+JUWU5U3a+D6IlhLmowPcz8BfdUhv/F+i/wAQOGmXIyHwO0SNwmtsNMDW7JAne/Til/hTn5Fd3IgNX6Xe9aj78iAfTv80R5MjtevEYQmAc2zPWrid5DFlFPkjUSbQGwN9FgEz901DNJ4DV+FHEQ4XOx6EhbaGMnDq7Qn1F5VeGN4RbZiKk8Wm9g9dSo3gJzwr/xt9cH/OkdqcUqteyMW49ADOcsVlMeKxE3SYSgo3Dg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GhuHEnKt9zXXu0tHADCOPlBuL6rrnV2KlnG/4h5ulC8=;
+ b=OUdw/4g283YnC0XVoLqUFTwpWfVk5E3cDCvyEV/YrTf8fLTi+UlAITJK3lwS02uZQVAvi3zPT5d1D2AvsleDmVxgVjHETHdNtNjbR/UwH5aqjmkhry8kIvQeNQTzBIZBZ3gJRwuKdHulupCrz41aQTMSJTZlGDtHCwjbsTFODfdtzBPDKHCcvFCF/KzrMCtrwjBREHFoLy9jRVBPvfsYTMHUWvgPwczlHV0/yVUzf3PcdkpAX7ivRInkmZHMFE/d52StBtBclAIdpRKKr3khHzOIMFfQjwnTsJZrAHgB8dFhoVVNQCue+2KC56cCJ7SbT6P8KsMBPZNtapCnOcKgyA==
+Received: from BY3PR03CA0015.namprd03.prod.outlook.com (2603:10b6:a03:39a::20)
+ by DS0PR12MB999080.namprd12.prod.outlook.com (2603:10b6:8:2fe::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Mon, 26 Oct
+ 2026 20:55:40 +0000
+Received: from CO1PEPF00012E7D.namprd03.prod.outlook.com
+ (2603:10b6:a03:39a:cafe::74) by BY3PR03CA0015.outlook.office365.com
+ (2603:10b6:a03:39a::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.546.22 via Frontend Transport; Mon,
+ 26 Oct 2026 20:55:39 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 216.228.117.160) smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ CO1PEPF00012E7D.mail.protection.outlook.com (10.167.249.52) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.569.4 via Frontend Transport; Mon, 26 Oct 2026 20:55:39 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.56; Mon, 26 Oct
+ 2026 13:55:19 -0700
+Received: from ttabi.nvidia.com (10.126.231.37) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.56; Mon, 26 Oct
+ 2026 13:55:19 -0700
+From: Timur Tabi <ttabi@nvidia.com>
+List-Id: <linux-firmware.lore.kernel.org>
+To: <linux-firmware@kernel.org>
+Subject: [PATCH] copy-firmware: allow partial installations
+Date: Mon, 26 Oct 2026 15:55:10 -0500
+Message-ID: <20261026205510.1308898-1-ttabi@nvidia.com>
+X-Mailer: git-send-email 2.54.0
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-From: Athos Andrade <athosandrade04@gmail.com>
-Date: Mon, 26 Oct 2026 16:55:18 -0300
-X-Gm-Features: AclHuK8hIyLF2cY2Je-JDB_x2NuD_QbnLgqmgjFyM3CEYmAXLDMd_z2lD3A7og8
-Message-ID: <CAAErAfLhrvtQOEqtGhEOmNX+0Lkq7ckLekmgSjot4-7jFD0shA@mail.gmail.com>
-Subject: [BUG] rtl_bt: RTL8852B BT USB FW 0x127C_FD78 stops delivering BLE
- keyboard input, 0x42D3_4E04 works
-To: linux-bluetooth@vger.kernel.org
-List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, hildawu@realtek.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=4.0.1
+X-NVConfidentiality: public
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF00012E7D:EE_|DS0PR12MB999080:EE_
+X-MS-Office365-Filtering-Correlation-Id: b4ad5003-ac6a-424e-5eaf-08df33a37e1e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|23010399003|1800799024|376014|82310400026|261009223027099003|261021121427099003|261021123027099003|261022105027099003|10067099003|56012099006|261026140227099003|6133799003|18002099003|261026121527099003|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	Z89hesrUhrUjIxco4mZKWZap3IeSBPOFlo4SJVhOvIWuX1jXNlXJKdC6phdIDrKfAJAtRIWj61vYxza85lFGRKOOqId3lT/fjBpjafhxEuoDb9SuMYHMAg8MulSVwxp6mQ7dALaAU882T9XyhflDAt3eaXtBlfOEKuydTD78mwVx4Yx7/66SZ+K/UyilIMf5XmjcwRyU1DOLTjwKGeTtOKSOhf22Y4IRySwkJhd8V8blIrBGxeSluq+yhiRHmRmnGmiSKD791Rnur2bbjoWYaBQvSdg07XYAj9fcTpqc89Dh/0gDkAbHce1bcdAjSSzj1IZwP7GAiRgOW0CGqi3Mo+3uhSRUnr6ASx731jvqaRR6dXGBpYL4ZbbZz9Nac8tLyuAS13QRTzbVdacgZiZncZGrb6zRwTgONnA/DD3lvMrPZFOeJupW6VHsFTRd6roO06gObKRs/jfI3f2qkGhEhVKFd6DmT6FvEloUpoEfYGRpDbMlRNKPlaa2cwUlTyaLhKKKEFiiDUiELHAdVPJGDvM0Se+U6xrXg1sNnzgw0esnopWW/N0ETUSLh1zUIWrEMnRqOFqvMu9Glq2AzSgd64N7w7KSrGRJmaQgvTw3Zmj34ihBcdqKFYjVJ7HngliGgPkgBGpZer0/AhoYUJtgYzu82IUbv9dLsfuSIzm1OEL4W8x9+f0EV7YogtvtdiopToI5eICs5uN9zvD6NJiYJw==
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700016)(23010399003)(1800799024)(376014)(82310400026)(261009223027099003)(261021121427099003)(261021123027099003)(261022105027099003)(10067099003)(56012099006)(261026140227099003)(6133799003)(18002099003)(261026121527099003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	wKfE/q6pLj3PvOcJl/X84MRfVViz/OugRpGS0my3RC5C0k2ie7attlfxmNIJw8/CV0Eo6oevYBp2Ue9jbHANii/rpyXmRer1/4Lu6FNoox3mtyEKpFxs4MDmKPCsjn+S9/FJygPrtixftGcEhD2rzPwZVix85j63r4typdP0N1txk1iH8KqbVAX5FmntO2X5XkCMXQbXVoZvnW7xqqBBTDOWIOEH1QRWLJoKgw2GihEZslcH8iM4ic1EBDG1+kYgwwyvFlErV9kYgql9Ene6cK0zwdzXVN+QJ5Or4MCDIE+Ce4vj+R1+6hNqln83L5pyyUMsHgDRFH5BgIQ3ILpU/Snbw2KZ1HTlAhS6WRK2bTKUNz3uPYzkrkpnt2f73knnOz8bHaPljT/lT9O83QO2S0fb/Tq8/qX1Z83xU5pGmoQcuW1fXb0yNuoo7JZeGqnh
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2026 20:55:39.7576
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4ad5003-ac6a-424e-5eaf-08df33a37e1e
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF00012E7D.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB999080
+X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FORGED_SPF_HELO,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	SPF_FAIL,SPF_HELO_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Hi,
+Add the "-p <path>" parameter that allows for only installing paths,
+links, and symlinks that match <path>.
 
-Since linux-firmware commit 4ca3317e ("rtl_bt: Update RTL8852B BT USB
-FW to 0x127C_FD78"), a BLE keyboard connected to the RTL8852BU
-Bluetooth controller of my laptop stops delivering key presses every
-1 to 4 minutes. Going back to the previous firmware only
-(0x42D3_4E04, commit 8bcc91d1) fixes it. I did an A/B test and the
-result is repeatable.
+This is useful, for example, for installing firmware only from one
+vendor.  It can also be used to install a subject of a vendor's
+firmware, but symlinks that link to outside that subset will be
+ignored, and so the result could be invalid.  Caveat emptor.
 
-Hardware and software
----------------------
-- Laptop: Lenovo ThinkPad E14 Gen 4 (21E4001GBO), Intel i5-1235U
-- Controller: Realtek RTL8852BE combo card, Bluetooth on USB 0bda:4853
-  (ROM: hci_ver=0b hci_rev=000b lmp_subver=8852)
-- Firmware: rtl_bt/rtl8852bu_fw.bin
-    bad:  0x127cfd78
-    good: 0x42d34e04
-  rtl8852bu_config.bin is the same in both cases
-- Kernel: 7.2.8 (Arch-based distro kernel, linux-omarchy 7.2.8-9)
-- linux-firmware-realtek 20260916 (Arch package)
-- BlueZ 5.87
-- Peripheral: Lofree Flow2-68 keyboard, BLE HID over GATT (HOGP)
-- Other LE devices on the same controller: Logitech MX Master 3S,
-  Logitech MX Ergo S
+None of the other scripts or makefiles are updated to use this option,
+so it can only be triggered by running copy-firmware.sh directly.
 
-Symptom
--------
-The keyboard stays connected but stops sending input. In btmon:
+Signed-off-by: Timur Tabi <ttabi@nvidia.com>
+---
+ copy-firmware.sh | 41 ++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 38 insertions(+), 3 deletions(-)
 
-- The last ATT Handle Value Notification from the keyboard is a
-  key-down report with no matching key-up report.
-- After that, no more ACL data arrives from the keyboard handle.
-- There is no Disconnect Complete event and no supervision timeout.
-- Other LE connections on the same controller (the mouse) keep
-  delivering data during the freeze.
-- The keyboard does not advertise during the freeze.
+diff --git a/copy-firmware.sh b/copy-firmware.sh
+index f9a609cf..8546a467 100755
+--- a/copy-firmware.sh
++++ b/copy-firmware.sh
+@@ -10,9 +10,10 @@ compress=cat
+ compext=
+ destdir=
+ num_jobs=1
++prefix=
+ 
+ usage() {
+-    echo "Usage: $0 [-v] [-jN] [--xz|--zstd] <destination directory>"
++    echo "Usage: $0 [-v] [-jN] [-p <path>] [--xz|--zstd] <destination directory>"
+ }
+ 
+ err() {
+@@ -62,6 +63,16 @@ while test $# -gt 0; do
+             shift
+             ;;
+ 
++        -p | --path)
++            # No path in WHENCE begins with a dash, so an option here means
++            # that the path was left out.
++            case "$2" in
++                "" | -*) err "$1 requires a path argument" ;;
++            esac
++            prefix="$2"
++            shift 2
++            ;;
++
+         --xz)
+             if test "$compext" = ".zst"; then
+                 err "cannot mix XZ and ZSTD compression"
+@@ -108,6 +119,15 @@ if test -z "$destdir"; then
+     err "destination directory was not specified"
+ fi
+ 
++# If -p <path> is specified, then only install paths/files/links that
++# start with <path>.  This allow for a partial installation, e.g.
++# everything only from one vendor.
++prefix="${prefix#/}"
++
++# Escape the regular expression metacharacters in <path> so that the grep call
++# below doesn't get confused.
++prefix_re=$(printf '%s' "$prefix" | sed -e 's/[][\.*+?(){}|^$]/\\&/g')
++
+ if test -d "$destdir"; then
+     find "$destdir" -type d -empty >/dev/null || warn "destination folder is not empty."
+ fi
+@@ -117,8 +137,15 @@ if test -e .git/config; then
+     ./check_whence.py || err "check_whence.py has detected errors."
+ fi
+ 
++if test -n "$prefix"; then
++    $verbose "installing only files and links starting with $prefix"
++    grep -qE "^(RawFile|File|Link): *\"?$prefix_re" WHENCE ||
++        err "no files or links in WHENCE start with \"$prefix\""
++fi
++
++# The optional quote in the patterns below covers paths that contain spaces
+ # shellcheck disable=SC2162 # file/folder name can include escaped symbols
+-grep -E '^(RawFile|File):' WHENCE | sed -E -e 's/^(RawFile|File): */\1 /;s/"//g' | while read k f; do
++grep -E "^(RawFile|File): *\"?$prefix_re" WHENCE | sed -E -e 's/^(RawFile|File): */\1 /;s/"//g' | while read k f; do
+     install -d "$destdir/$(dirname "$f")"
+     $verbose "copying/compressing file $f$compext"
+     if test "$compress" != "cat" && test "$k" = "RawFile"; then
+@@ -142,7 +169,7 @@ if [ "$num_jobs" -gt 1 ]; then
+ fi
+ 
+ # shellcheck disable=SC2162 # file/folder name can include escaped symbols
+-grep -E '^Link:' WHENCE | sed -e 's/^Link: *//g;s/-> //g' | while read l t; do
++grep -E "^Link: *\"?$prefix_re" WHENCE | sed -e 's/^Link: *//g;s/-> //g' | while read l t; do
+     directory="$destdir/$(dirname "$l")"
+     install -d "$directory"
+     target="$(cd "$directory" && realpath -m -s "$t")"
+@@ -154,6 +181,14 @@ grep -E '^Link:' WHENCE | sed -e 's/^Link: *//g;s/-> //g' | while read l t; do
+             ln -s "$t" "$destdir/$l"
+         fi
+     else
++        # Test for situations where a partial installation results in a
++        # a symlink to a file outside the given <path>.  This could happen,
++        # for example, if <path> specifies a small subset of all the files
++        # from one vendor.
++        if test -n "$prefix" && ! test -e "$target$compext"; then
++            warn "skipping link $l, target $t was not installed"
++            continue
++        fi
+         $verbose "creating link $l$compext -> $t$compext"
+         if [ "$num_jobs" -gt 1 ]; then
+             echo "ln -s \"$t$compext\" \"$destdir/$l$compext\"" >> "$parallel_args_file"
 
-The only way to recover is to reconnect the keyboard from the
-keyboard side (Disconnect Complete, reason 0x13). The kernel logs
-"Bluetooth: hci0: ACL packet for unknown connection handle" at each
-reconnect.
+base-commit: 98b55c84e8da5c09dd9b8d21f5667c63db5993fa
+-- 
+2.54.0
 
-The same keyboard works without problems with macOS, with Windows on
-a different machine, and with a phone.
-
-Connection parameters
----------------------
-The keyboard sends an L2CAP Connection Parameter Update Request right
-after connecting, and the host accepts it:
-
-  interval 7.5 ms, peripheral latency 44, supervision timeout 1500 ms
-
-Ruled out (all with 0x127C_FD78)
---------------------------------
-- btusb autosuspend (power/control=on): still freezes
-- reload of btusb (new firmware download): freezes after ~1 min
-- Wi-Fi radio off (rfkill block wlan, wired network): freezes
-  after ~4 min
-- Num Lock LED off (no LED output report): still freezes
-- new pairing on a different keyboard channel: still freezes
-
-A/B test
---------
-1. 0x127C_FD78 (package default): 3 freezes in 6 minutes.
-2. 0x42D3_4E04 copied to /lib/firmware/updates/rtl_bt/, btusb
-   reloaded: no freeze during normal use.
-3. Override removed (back to 0x127C_FD78), btusb reloaded: freeze
-   after about 1 minute.
-4. Override restored (0x42D3_4E04): no freeze again.
-
-I can capture btmon logs (btsnoop) of a freeze and test new firmware
-builds if that helps.
-
-Thanks,
-Athos Andrade
