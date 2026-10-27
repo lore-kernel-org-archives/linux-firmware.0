@@ -1,130 +1,128 @@
 Received: from smtp.kernel.org (ip-10-30-226-227.us-west-2.compute.internal [10.30.226.227])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D486606A31B
-	for <linux-firmware@archiver.kernel.org>; Tue, 27 Oct 2026 10:37:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A91A1606A31B
+	for <linux-firmware@archiver.kernel.org>; Tue, 27 Oct 2026 10:46:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=foursfze.net header.i=commercial@foursfze.net header.a=rsa-sha256 header.s=newfoursfzenet header.b=l6KRoyLs
+	dkim=pass (2048-bit key, unprotected) header.d=foursfze.net header.i=commercial@foursfze.net header.a=rsa-sha256 header.s=newfoursfzenet header.b=EQrFsHX3
 Received: by smtp.kernel.org (Postfix)
-	id 82CF41F031E0; Tue, 27 Oct 2026 10:37:23 +0000 (UTC)
+	id 968441F01828; Tue, 27 Oct 2026 10:46:36 +0000 (UTC)
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=34.213.35.166
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1793097443;
-	b=A9Tl5pkCJt5yZoJTOiHkzVI9/tqoVYVGFH3Mgry/IxsdNp3wUGBzteVILr6kd9xcLIB+
-	 WYpQVO5QjPxlhOzaZ4kClhu500Ng55ao/Wg/+eZUo8sQo7GekcS4j0aPJfMl+9dvIVpnp
-	 KvO4IAXXdBRDO8riIQBhxgNl3ilW6yFQLGpDM5NimghKo3LGtG4nuRdFLK6d4NrgVYROp
-	 7f8w/oH6RjZW9q6fiM3TYLSDCvEAH3gaihVZIkqBhfTkv0OXzLkF2gls9wiwC0jBjWCcL
-	 /OsyR/ao+emoaE5jIIWJHPO0qn9hpp2nkpSmhGemX2anYTqLsvnEjRWdna9gxNU+AGA==
+	t=1793097996;
+	b=u2lrbNccBbuM6iu/t3ie6hxvpaE7oIOEtwk8rgvXTCK8HZPrug5ZUIrNktHLST4vEcL2
+	 u0lqwTyDRolPKeovdrW7PRaYT3osWnQpsCMb+ARtncaxWgbLnf83QG2eEjYmO5oaCTLlZ
+	 ja3CbliLNubV3/mRFoMM/HNB08w7cKO3qMBFE7kBrkQs2p8Js9ytKTe1t297emvTIJmtr
+	 f/v5iuhCpILJXId/gKcrzWDJM/8JCzMOQ156zNWQGvNLFXSFATK0hfg4RUZuX14HlcaY5
+	 yWjRcp51VorGNTpQVdnajsDDUESgKHzmuasRubsfVJdlbArkiPXvGZS8sWmRCoYwy7w==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1793097443;
+	c=relaxed/relaxed; t=1793097996;
 	h=DMARC-Filter:Received:DKIM-Signature:MIME-Version:Date:Message-ID:
 	 Subject:From:Content-Type:List-Id:To:Reply-To:List-Unsubscribe:
 	 List-Unsubscribe-Post;
-	bh=MOoGoZMJ3e5OvIhM1KpZTN2SS+nBCB5dUND6bR+Qqzc=;
-	b=dtNLNsfVDbwZLxRVa90xy/Q3AVulppUAb3tVOljbb8OpziV10rakAfJDT3tLgNIzDPdG
-	 BCaiJJ2kDPHsgbh+tSwo67Yrf3GBHs5yP28pVbpljC0ZxT3kOVIo/Yrjzl1BsWWICz53j
-	 7UasbcYXbxeFX/XGEVULZu330emTf3+Tes1xSFnV60OV2JNSLkLEDy9FE4afD+TtUBvRg
-	 oiUFsH8Ljb4TmkXddOZeVBN2UwxPA2rl1KIA+6PwxxGubKNINvtSLLhSgS8sOx+4IUf0V
-	 YZ67RV9Nn0yPgRALFFdMYyCsFGE5cj9UJzc0ZyL4RwkFIOkYIPzqGAyx4jacf1ppx4w==
+	bh=zlDIBTDLenFFEQtNo/kxbgz4CV0ob5fs+aWajzaKexc=;
+	b=S23bPrij1uY6aSEF2jmupdElTc/TRmSj4TQ4vyjwOUUD7F4BD5xNIlV74c2lT2SwCV8+
+	 qGWZZDAkF1oHO768mB9jwXKCphfEOYL+56yqxhIqjoG0XhxKxWTQ6TXgjxhdMzXTSIgn6
+	 9rPLO4kOMZZeHu3goxB+Ul5xGWeJR8I/mgvLMfnnDWNmbPVsYBjqK2t7bmzlgz6tDNgUm
+	 pTT8Zqi5YO0L6+g+ygTh0BUrEcYZjwekAsRhQrXANLVo9uYaB4E1irDRUDnD1Ge/Qzg8q
+	 hSSnuOSJTql245HTUYaJ/IpfYSvQoD09QnCmGnGQDR2++lsjpubVL0LgntOuo64vOKw==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	dkim=pass header.d=foursfze.net header.i=commercial@foursfze.net header.a=rsa-sha256 header.s=newfoursfzenet header.b=l6KRoyLs;
+	dkim=pass header.d=foursfze.net header.i=commercial@foursfze.net header.a=rsa-sha256 header.s=newfoursfzenet header.b=EQrFsHX3;
 	dmarc=pass header.from=foursfze.net;
 	spf=pass smtp.mailfrom=foursfze.net;
 	arc=none smtp.remote-ip=34.213.35.166
 Received: from c1.cmsmtp.net (c1.cmsmtp.net [34.213.35.166])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 821631F01825
-	for <linux-firmware@kernel.org>; Tue, 27 Oct 2026 10:37:21 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 06A531F01825
+	for <linux-firmware@kernel.org>; Tue, 27 Oct 2026 10:46:34 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=foursfze.net header.i=commercial@foursfze.net header.a=rsa-sha256 header.s=newfoursfzenet header.b=l6KRoyLs
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 821631F01825
+	dkim=pass (2048-bit key, unprotected) header.d=foursfze.net header.i=commercial@foursfze.net header.a=rsa-sha256 header.s=newfoursfzenet header.b=EQrFsHX3
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 06A531F01825
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=foursfze.net
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=foursfze.net
 Received: from [172.31.1.3] (ec2-54-69-101-17.us-west-2.compute.amazonaws.com [54.69.101.17])
 	by c1.cmsmtp.net with ESMTPA
-	; Tue, 27 Oct 2026 10:37:19 +0000
+	; Tue, 27 Oct 2026 10:46:38 +0000
 DKIM-Signature: v=1; a=rsa-sha256; d=foursfze.net; s=newfoursfzenet;
-	c=simple/simple; q=dns/txt; i=commercial@foursfze.net; t=1793097434;
+	c=simple/simple; q=dns/txt; i=commercial@foursfze.net; t=1793097993;
 	h=from:subject:list-unsubscribe:list-unsubscribe-post;
-	bh=MOoGoZMJ3e5OvIhM1KpZTN2SS+nBCB5dUND6bR+Qqzc=;
-	b=l6KRoyLs+qhKPD/2AOO6z4rJNXra5rKsf+y3hjqM0sbnopOVvNd+KLiPARhWW1NRd2/8ienSX8i
-	gB1R1gEI/DHGh2b2PwlFjXfEHelCyCW0QQxAKM3A8F2t+E4d9JOGlbuRNF8TtpW9EkSpXaAa95yH9
-	VoKe/aZAbYAX3kr+Z0sfO0Q2oG0EnAau/ZXuvJUUX9QAzNcD+9uCxcIvy8zp6RWC9RQvfDiDe9dAA
-	unzrtyFjRh9gstooTmgsJqHDIKLzOscGQrUPvFkY3bWQC4VXsZB1nwAyXImRG6ZEEBNYGaX5uFWsk
-	yTN5CZQxF9D8vV3ifGfyBqRAyHVPwEd99AtA==
+	bh=zlDIBTDLenFFEQtNo/kxbgz4CV0ob5fs+aWajzaKexc=;
+	b=EQrFsHX3uNKsXoXoyoMWu0YwN/2tXnbn6IN2Ne9bGBGG+ggDYpw6dd1vzVdNrBP+C60/sDsRiQy
+	KDtTs1fyVOxlfD3+yA6TFchzddcVE49PJJA/RVuyI0XlHUt/xVGxGNyeFe0OqaAtF9w0mOQhaznU3
+	P5Vmm70C44LhB7b7VYhoLCf8N4139daVHa4GJC262toH3TgVgbmIikWOiAiQZhM21Ikc8crFzxZoI
+	K0iZheGW1FsRsK9+uMIvYsLnjkYQKNB6WULGSv6cnTlllG6W+UWnVzIVZ5ntwLk4+247klkiCmumN
+	3tTV4qOqoWJCndyVeXfh/bfpjiT3kgfvCKTw==
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Date: Tue, 27 Oct 2026 10:37:14 +0000
-Message-ID: <a13359dfd60542d980b2a2289a7ff9e2_CAMo1TLckrB4NQBX17GgAwgG0ZKr5L91AvA_YRbBEcbnhrCGSMw@mail.gmail.com>
-Subject: Anfrage zu =?utf-8?q?verf=C3=BCgbaren?= Materialien
+Date: Tue, 27 Oct 2026 10:46:33 +0000
+Message-ID: <961734e91ee6488c95da9ec44ff94f16_CAMo1TLe0+TFcGWYiDf_6=tWasLRDNUM5JVQaqCPoTSHd=_15Fw@mail.gmail.com>
+Subject: =?utf-8?b?UMOkcmluZw==?= saadaolevate materjalide kohta
 From: Commercial - Four Seasons FZE <commercial@foursfze.net>
-Content-Type: multipart/related; boundary="000000000000db74a1065ecf6e1c"
+Content-Type: multipart/related; boundary="00000000000058e6ce065ecf9baa"
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
 Reply-To: commercial2@foursmkt.com
 List-Unsubscribe-Post: List-Unsubscribe=One-Click
 
---000000000000db74a1065ecf6e1c
-Content-Type: multipart/alternative; boundary="000000000000db749e065ecf6e1b"
+--00000000000058e6ce065ecf9baa
+Content-Type: multipart/alternative; boundary="00000000000058e6cc065ecf9ba9"
 
---000000000000db749e065ecf6e1b
+--00000000000058e6cc065ecf9ba9
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
+Tere!
 
-Hallo,
+Siin Anshul Goel ettev=C3=B5ttest Four Season FZE (Araabia =C3=9Chende=
+miraadid).
 
-hier spricht Anshul Goel von Four Season FZE, VAE.
+Soovime osta j=C3=A4rgmisi materjale:
 
-Wir sind am Ankauf der folgenden Materialien interessiert:
+Starterid
+Generaatorid
+Autokompressorid / kliimaseadme kompressorid
+Trafod
+Kaablij=C3=A4=C3=A4tmed
+Soojusvahetid
+Kollektorlatid
+Elektrimootorid
 
-Anlasser
-Lichtmaschinen
-Kfz-Klimakompressoren
-Transformatoren
-Kabelschrott
-W=C3=A4rmetauscher
-Stromschienen (Kollektorschienen)
-Elektromotoren
-
-Falls Sie =C3=BCber diese Materialien verf=C3=BCgen, lassen Sie uns bi=
-tte=20
-entsprechende Details zukommen =E2=80=93 einschlie=C3=9Flich Fotos und=
- Videos, der=20
-verf=C3=BCgbaren Menge sowie Ihres besten FOB-Preises.
+Kui teil on m=C3=B5nda neist materjalidest pakkuda, palun saatke t=C3=A4=
+psem info =E2=80=93=20
+sealhulgas fotod ja videod, saadaolev kogus ning teie parim FOB-hind.
 [image: photo-collage.png (2).png]
- unsubscribe <https://mail.foursfze.net/x/u?u=3D868f24b5-e79a-4c16-ae6=
-5-e62f520189d0> .
+ unsubscribe <https://mail.foursfze.net/x/u?u=3Dba4b9d82-9a57-4442-bd8=
+5-8fa59199729b> .
 
---000000000000db749e065ecf6e1b
+--00000000000058e6cc065ecf9ba9
 Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br>Hallo,<br><br>hier spricht Anshul Goel von Four S=
-eason FZE, VAE.<br><br>Wir sind am Ankauf der folgenden Materialien in=
-teressiert:<br><br>Anlasser<br>Lichtmaschinen<br>Kfz-Klimakompressoren=
-<br>Transformatoren<br>Kabelschrott<br>W=C3=A4rmetauscher<br>Stromschi=
-enen (Kollektorschienen)<br>Elektromotoren<br><br>Falls Sie =C3=BCber =
-diese Materialien verf=C3=BCgen, lassen Sie uns bitte entsprechende De=
-tails zukommen =E2=80=93 einschlie=C3=9Flich Fotos und Videos, der ver=
-f=C3=BCgbaren Menge sowie Ihres besten FOB-Preises.<div><img data-surl=
-=3D"cid:ii_mvqidgvg1" src=3D"cid:ii_mvqidgvg1" alt=3D"photo-collage.pn=
-g (2).png" width=3D"209" height=3D"209" style=3D"margin-right: 0px;"><=
-/div><div>=C2=A0<a href=3D"https://mail.foursfze.net/x/u?u=3D868f24b5-=
-e79a-4c16-ae65-e62f520189d0">unsubscribe</a>=C2=A0.<br></div></div>
-<img src=3D"https://mail.foursfze.net/ANahNsNPPvjniM5YYOGcgKl6P_bfAGtT=
-eVDw4umqnQEAS0lT9eODL5rX0xTpFhODX-jiu92g1BZ7uUSCTYronolwlJxIibkOX5zJWT=
-bHaDfbHF1yo9O6hbQyoT0A27MaUMbRLTBPQZlGenoWvFgarvrNHObb3bR-t7hfsciNjCIa=
-jgmKiB6pZtqxOuuZddOjrUl51UrkOWb3ytwB_OFtbUpkwZG" alt=3D"">
---000000000000db749e065ecf6e1b--
---000000000000db74a1065ecf6e1c
+<div dir=3D"ltr">Tere!<br><br>Siin Anshul Goel ettev=C3=B5ttest Four S=
+eason FZE (Araabia =C3=9Chendemiraadid).<br><br>Soovime osta j=C3=A4rg=
+misi materjale:<br><br>Starterid<br>Generaatorid<br>Autokompressorid /=
+ kliimaseadme kompressorid<br>Trafod<br>Kaablij=C3=A4=C3=A4tmed<br>Soo=
+jusvahetid<br>Kollektorlatid<br>Elektrimootorid<br><br>Kui teil on m=C3=
+=B5nda neist materjalidest pakkuda, palun saatke t=C3=A4psem info =E2=80=
+=93 sealhulgas fotod ja videod, saadaolev kogus ning teie parim FOB-hi=
+nd.<div><img data-surl=3D"cid:ii_mvqimxwp0" src=3D"cid:ii_mvqimxwp0" a=
+lt=3D"photo-collage.png (2).png" width=3D"209" height=3D"209" style=3D=
+"margin-right: 0px;"><br></div><div>=C2=A0<a href=3D"https://mail.four=
+sfze.net/x/u?u=3Dba4b9d82-9a57-4442-bd85-8fa59199729b">unsubscribe</a>=
+=C2=A0.<br></div></div>
+<img src=3D"https://mail.foursfze.net/AlH_SJcbbUQ_26C7FjIZGO8CH4J4YGuz=
+FK1Iv91NwUa6pJTv4Xe3k3wvgyzltM0yJlhfM9nhhYypjJrSjXI18Q2uAV_C9hWQ1JgPJU=
+_ErF_4KbNlgJdLunvDhoE8RX9k88YyTm6OTfkZw2xEPwnV0nVNGNb76KrZ_98je2weYZEa=
+jgmMvQ0XDm_Rp48ru7MH1aI1zOmFZySNxAWPw" alt=3D"">
+--00000000000058e6cc065ecf9ba9--
+--00000000000058e6ce065ecf9baa
 Content-Type: image/png; name="photo-collage.png (2).png"
 Content-Disposition: attachment; filename="photo-collage.png (2).png"
 Content-Transfer-Encoding: base64
-X-Attachment-Id: ii_mvqidgvg1
-Content-ID: <ii_mvqidgvg1>
+X-Attachment-Id: ii_mvqimxwp0
+Content-ID: <ii_mvqimxwp0>
 
 iVBORw0KGgoAAAANSUhEUgAABDgAAAQ4CAYAAADsEGyPAAAQAElEQVR4Aez9B5hl13WeCX/7nHND
 5dw55250owO6kTORQeTMBIJgzjmZSRRFyqTyyJIsyfZYHluWJUqiLIkiJUHMIAKRMzrnrpzrxnP/
@@ -49596,5 +49594,5 @@ gOP/osWcncosB2Y5MMuBWQ7McmCWA7McmOXA/1oOzPY2y4FZDsxyYJYD/+/hwCzA8f+etZod6SwH
 Zjkwy4FZDsxyYJYDsxz4P40Ds+OZ5cAsB2Y5MMuBWQ78H8OBWYDj/5ilmB3ILAdmOTDLgVkOzHJg
 lgP/93FgdkazHJjlwCwHZjkwy4FZDvzv4sAswPG/i9Ozz5nlwCwHZjkwy4FZDsxy4I85MHtmlgOz
 HJjlwCwHZjkwy4FZDvwv4sD/DwAA//+VAc9uAAAABklEQVQDANnaDdfAORShAAAAAElFTkSuQmCC
---000000000000db74a1065ecf6e1c--
+--00000000000058e6ce065ecf9baa--
 
