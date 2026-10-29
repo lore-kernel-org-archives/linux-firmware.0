@@ -1,302 +1,218 @@
 Received: from smtp.kernel.org (ip-10-30-226-227.us-west-2.compute.internal [10.30.226.227])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C83D606A31A
+	for <linux-firmware@archiver.kernel.org>; Thu, 29 Oct 2026 09:08:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=dficKzld;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=A0GTsed7
+Received: by smtp.kernel.org (Postfix)
+	id 4D8A01F01828; Thu, 29 Oct 2026 09:08:13 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793264893;
+	b=ITNLnmf6dNkcKjS5ujZ7/q2p7SyXU2PGVZWUyiFGY8HjYL09wkIhFKTL8q+hofpNOZdH
+	 poYcXM4QFvG0go3QmxiDz4XAuNfcYjG3vufWzjBkK3Qx27dnWGOHOY62FZtmawLlhKvTX
+	 +o+nGWbxATyaSJYZWZxtF/PsalFDqlK0nPQVfgOgsc/MJRHvqqnrVEj6uEaNeRl+wu+XV
+	 vIzBSJnk7b6OOiOXzF+LscGYyGxra5ZlhpAE+aBNHJkwpwFFS0mtYp8iOB2J9q4w4Fv8h
+	 wGaw/3aM0lVD07Pvseoy9vmp2EX8wFEVZeKUx2qNH7jJezFpKByvWAzV/a5XTCZMV+Q==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793264893;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
+	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Content-Language:List-Id:To:From:Subject:Autocrypt:
+	 Content-Type:Content-Transfer-Encoding:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Spam-Info:X-Authority-Analysis:X-Proofpoint-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=gKgRJnM1QPUC1kwOR73FvvdtJATX6L9JgYR0bmwUFGk=;
+	b=F451gApjn6VYNkx9K3O8QcncV0/j9jgiLjcvDux6ITJDQ843G9ZM6TFyUQ3BViapQ64A
+	 nEgkAjwXGW1KUKAzmMyMiKG9X9l3+3ZqLMzPYEs+Y00R65sxYqoL04SVB0+aqH3hMSzyA
+	 mU+P891zZ92Rw2ia/m86uPELgaDG4k56j8nC7j9nshkjqVgKi1RE2VmkVLS1my6V67ZHO
+	 qDkJUQdm+tvCzB6/j2OwbnCkC7nPTfPAjx5rgcmFPO0a4rNr7VFchEEuY51LDKrHpCJmt
+	 MsrVB2+Qu1TajJJ+MKbBpjZaWIGaIo6rxXRHaMCcYrH17znn2K3u8Udnimri8LHuDZA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=dficKzld;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=A0GTsed7;
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46226606A31F
-	for <linux-firmware@archiver.kernel.org>; Thu, 29 Oct 2026 08:42:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key, unprotected) header.d=zappa.cx header.i=@zappa.cx header.a=rsa-sha256 header.s=default header.b=YQxufcpC
-Received: by smtp.kernel.org (Postfix)
-	id 3FA4F1F031E1; Thu, 29 Oct 2026 08:42:34 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=213.136.63.253
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1793263354;
-	b=AaDr6S3bY89QQhDtu+cyAvxjA2bWzv3PMjwXM4+uZ/TG6EtHiuFwzWgstbnDgpnv5ooo
-	 icDda4zBgu0FI/JFUfXOvjnNGzlS4/pTam+q+3p0Dwjv8A7AeT2iQdYRgl9O3p8tz9L4Q
-	 NGoa/m0ASUw9lFIMBNHRHW3+5hlM3Y0FnVIxVjydnR60aezZZMdfdtRJoiWJ+B9Kb3YUN
-	 ICm764Qc2NIQhk70wLqoNdofwEkBfxNblVo931LV2FJ606S7/6V4oyNKF9zZMIZL+Vq/y
-	 oOnAfF/x3rCJSwnLTqJRqaSITKjyK0ZJm+kzaBCfzH11WyGTx/56wpPGvvhc8jbNAtw==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1793263354;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Content-Language:List-Id:To:From:Subject:
-	 Content-Type:Content-Transfer-Encoding:X-Greylist:X-Scanned-By;
-	bh=6YX1vJfoXhPSDym5L9joNW5GBA6VUthp6Q6rn19CeRk=;
-	b=J5Nr6kdovT8mUOQHtQh2a8LUxNvOTLB7G1XgTii2NQ9njIFDhMNRWBOmNH/eWVptDMkG
-	 lxdNc9yPqz/+O1ciQh7jcmjr7nO1OOQyMcsQ0tMjFDoYEXwuT8eLdSq6YdbR93CNIUtee
-	 h58QERI7ni96GdEA4qmmUM5UokPPPPW4fCkTPOZd0u7D2s+xvu+Fpw7DuEEkZveMCgXma
-	 Cto+EZucwZYpKxHj0iYktNgO9ZjBeDlPu3LVcJwSTpp6gfp/VmpD+yc3zED+ZewLmc2xx
-	 OKyIkAmAfZyJ1K0J1ycka+Twzh8qcQmW92ddqJ72hIFyQOJRiRtmodgO2u2qLAqchNg==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	dkim=fail reason="signature verification failed" header.d=zappa.cx header.i=@zappa.cx header.a=rsa-sha256 header.s=default header.b=YQxufcpC;
-	dmarc=none header.from=zappa.cx;
-	spf=pass smtp.mailfrom=zappa.cx;
-	arc=none smtp.remote-ip=213.136.63.253
-Received: from alva.zappa.cx (alva.zappa.cx [213.136.63.253])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id B03771F01829
-	for <linux-firmware@kernel.org>; Thu, 29 Oct 2026 08:42:31 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id A55E11F01825
+	for <linux-firmware@kernel.org>; Thu, 29 Oct 2026 09:08:12 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key, unprotected) header.d=zappa.cx header.i=@zappa.cx header.a=rsa-sha256 header.s=default header.b=YQxufcpC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org B03771F01829
-Authentication-Results: smtp.kernel.org; dmarc=none (p=none dis=none) header.from=zappa.cx
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=zappa.cx
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=zappa.cx;
-	s=default; h=Content-Transfer-Encoding:Content-Type:Subject:From:To:
-	MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=6YX1vJfoXhPSDym5L9joNW5GBA6VUthp6Q6rn19CeRk=; b=YQxufcpCGLAzksA8lppPa2uXyj
-	zi0v7oZZD+AHP3jf2VibVXD+gVyRecLpI0dc7wJzbkMR7EDHt2FgZZ8g7paka7bts1I7dEOzoMtjM
-	30bf3XTcWea130mFdXb6ZW+92ys4+RnDL+k84n1Bl9/NUbl+BWCIeFGsFyxv5OE+DLyg=;
-Received: from h-79-136-20-16.a465.priv.bahnhof.se ([79.136.20.16] helo=matrix.zappa.cx)
-	by alva.zappa.cx with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <sunkan+bugs.linux-firmware@zappa.cx>)
-	id 1xMLiK-001a9Z-0X
-	for linux-firmware@kernel.org;
-	Thu, 29 Oct 2026 09:42:24 +0100
-Received: from [172.17.18.129] (h-213-136-63-242.A137.corp.bahnhof.se [213.136.63.242])
-	(authenticated bits=0)
-	by matrix.zappa.cx (8.17.1.9/8.17.1.9/Debian-2+deb12u2) with ESMTPSA id 69T8gMQV307127
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=dficKzld;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=A0GTsed7
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org A55E11F01825
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69T8vjwl690583
+	for <linux-firmware@kernel.org>; Thu, 29 Oct 2026 09:08:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=gKgRJnM1QPUC1kwOR73Fvv
+	dtJATX6L9JgYR0bmwUFGk=; b=dficKzldcr4vTMyM+yD3Ik4TfmkzAyDwh3G/wm
+	I7gTPLbFc/vyDBRNYRIxuL3fprpk5/2TJbProBPwPddSpTH7J2PaxcANdIv1Ia+O
+	1YarwaQr6ov+y7a5MwIA0BvBkV7VUQ/EID/Ej435ssgm67vMiPsf+yLw1SxtMaPv
+	D/DvNq5DdZT3e+0roJpMQbR/NLF6R03tH6acqAZU1zvyWBXmUnBpIAOjs2AgraYm
+	fQy3Mv4IYiJuk0zPzUFamzuMyFjq44W4h32bXyA3jGv2lAHRz9n5PCE8/cdIm9uB
+	45ZjdpVSfD7TiEjPZEm3q8//mBWdb+V2p/VT7gUMAyyiqCeA==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hkneuu57c-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Thu, 29 Oct 2026 09:42:23 +0100
-Message-ID: <45509f42-2106-4468-83bc-90f67182bc78@zappa.cx>
-Date: Thu, 29 Oct 2026 09:42:21 +0100
+	for <linux-firmware@kernel.org>; Thu, 29 Oct 2026 09:08:11 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-3ab7f1efe5dso3224023a91.1
+        for <linux-firmware@kernel.org>; Thu, 29 Oct 2026 02:08:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1793264891; x=1793869691; darn=kernel.org;
+        h=content-transfer-encoding:content-type:autocrypt:subject:from:to
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=gKgRJnM1QPUC1kwOR73FvvdtJATX6L9JgYR0bmwUFGk=;
+        b=A0GTsed7w3BNo8zAG9IoNADF0f6Vw+pjturQcCd9nl+UVP/ni+YN8I+RlfbPkpxZHT
+         NlVjAVeW5SkdZePp4S7r61n1/KZZhglBdWMZNFiUGKWLRVb4slQUtqEPq7zG6LavkDxN
+         DVP17wwMliMYWmwavOMsI69E6sr69L25f6scizWCMXDbzJAeymKOihaG6zvSkN/wJgUg
+         uzJxvI9VRVp6jQZWKcfJCuJMWedc7FWe34HrLq7/xU5O1Qc8MhUYUEVeic86cdqkrA/o
+         P26n1rTs5cuTCY7tnsibA7W0PNJAW7EGhz1tTzrfEwQBJz1qpT2abdtwF1tTmxtKzMiL
+         xvGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793264891; x=1793869691;
+        h=content-transfer-encoding:content-type:autocrypt:subject:from:to
+         :content-language:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=gKgRJnM1QPUC1kwOR73FvvdtJATX6L9JgYR0bmwUFGk=;
+        b=jedOWVh//GVtNb9+fVg6eXxpMLM2nS9tQQn65Uw9cPIgI+XJFUQ5Lw0HkKPGMuTi/l
+         MTKhgr+9o31VfBrhqx0pw+QTyOozS7eigfo0dFCeBihSw+aZ8EZCNM8ys2Ng1xa9EEGd
+         nG64jmX4X9s2OMqFCtfxrMYEPQdZW4Knj5XGZaxGA9DgRDpVDDaFmD/jCo2RsGHZMdjn
+         H9/+GxyjUV6fDH1yzDb5WZeEPCAJLixXC9bCGbXafhJd8WY+Q1dKMpxqQL25OqxQYiYS
+         IqEIvIIO3RJmrjtzAwjtZH2Err6vKVgD/JIUyCxqzKwxN9w+gqNjmsqME6F7DjyUNp+c
+         UWig==
+X-Gm-Message-State: AFq9FYLt4kuvtuNtiSblG4q7DzjUVdRspFZJLPP5k1T2Z/we2qyTHMkr
+	yEACgzZiuYzhb8nPfId0Xvo5DAPm1jnz4rCfnald3mtJR+o3WbGEYwr06HtlzadJ7+7Yj8hvr7x
+	iADI0keej2ZlWFJ4CvctmPBFjnsJ32pNcPByaaqw2sYKrFEy93B8YRaHQ+vwN71b4XQlr4V0=
+X-Gm-Gg: AYBFou1+XRkTt2z6/PWz1JF0MdmZUgONITJ4p8rXZjVYKQy6SJEFMonNZtf7dYnHpiu
+	mmvazbZhB1skqSopKPVpD55PvE9pBJqQnryhIAx845KECjdbEwwGNGIbfxXnw2xS8KX7qNzahTv
+	RsAQAGbRPuRBeVJPEkk80rXahC2GE4RGW6jaJSmqchH+5JmpkaA/KpYZDSdxoLt1p/MIxCscKci
+	Ae3DeTvq3g0tOdR+v9bbqH/nZOvXOcxGRrrKDGo/fDTbiV0m/+L2LL3fiUbmD1nbS01fJCKHftQ
+	u83KJG6EbCIF2jp0Q2rgKfKIilUg8Hc2dvQlBlkwXv3Je4BLiLdQmANFytExKFaphRcmFaN7taB
+	PJFOS8IYwWW8O3H/ZOyAjegDrD48SkKKbpKg1DF+ZPzLnevDGQ9KmtZG590CIX8XwLWVdCvNURw
+	nwRQ==
+X-Received: by 2002:a17:90b:3c8c:b0:3ac:9c37:9418 with SMTP id 98e67ed59e1d1-3ae5819eb6fmr3833505a91.19.1793264890898;
+        Thu, 29 Oct 2026 02:08:10 -0700 (PDT)
+X-Received: by 2002:a17:90b:3c8c:b0:3ac:9c37:9418 with SMTP id 98e67ed59e1d1-3ae5819eb6fmr3833492a91.19.1793264890419;
+        Thu, 29 Oct 2026 02:08:10 -0700 (PDT)
+Received: from [10.219.57.13] ([202.46.23.19])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae6e7dbe1esm3244660a91.5.2026.10.29.02.08.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Oct 2026 02:08:09 -0700 (PDT)
+Message-ID: <df583827-553c-4b19-878a-159cfc887655@oss.qualcomm.com>
+Date: Thu, 29 Oct 2026 14:38:07 +0530
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: sv-SE
+Content-Language: en-US
 List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org
-From: Andreas Sundstrom <sunkan+bugs.linux-firmware@zappa.cx>
-Subject: Intermittent bluetooth connetion BE200
+To: linux-firmware@kernel.org,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+From: Venkata Kota <venkata.kota@oss.qualcomm.com>
+Subject: qcom: update CDSP firmware for shikra platform
+Autocrypt: addr=venkata.kota@oss.qualcomm.com; keydata=
+ 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
+ tFo24aqEAzhhzFkq6qZ6FaB0f9M8wen4hRAu98k=
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.6.4 (matrix.zappa.cx [192.168.20.100]); Thu, 29 Oct 2026 09:42:23 +0100 (CET)
-X-Scanned-By: MIMEDefang 3.3 on 192.168.20.100
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_PASS,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=4.0.1
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI5MDAzNSBTYWx0ZWRfX7WsOFZz4G0Gb
+ qZGvyG3pLQYMbO/GV6Tn5pmZKcZiKvtzPMvwWZWfTHunyawI1B5maa9WK4Nwf81vux98GoTac9Z
+ kdS7kwOTtQM+kijDmWbya7gNmiK++FL3uXKomb88I9wZIv0uklbKWml9/mvO2ZGksSJ3ekYPJr7
+ WeK1AOBizm78eL3+dCP3ze7WYKQuQUQw9y4UsHIvDS1JuQ+dy+T5+u6NXdzoqKvClnyeQebWGZ8
+ Gds5DQzIaVzUQ8C5cIk3C7x+vX6xgACNPNI6Jr4JPQkE2XufqxplWuDAxeX5MJfieNSKUipepkl
+ aHpIsEI/ZdO4WNOnhXyJxFpq8nlMDiTPWfCHQd7JC5JBDul23as4BsrJD9JpMxm4hE3wP1nWhjR
+ GPtuZQQK19CNd1M05lZIUX10q5EQE4XuTY82qJ5Dh8xprFBrHzRFnmQQiusKaHQMOqMsrU/+sr2
+ h0sWmPtD5Pg8E/6hUkQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI5MDAzNSBTYWx0ZWRfXyA8WfMowQiC6
+ bsYmWYyZaxRxiVxdKqFsjMZ9shXj5dXubl4PWy8Odm98+LpBlWPagq0f5z+5VOYmggHlsmC9zsE
+ Ib7kjVl7K0xTGXQ6DULSE4NyQiLYzYQ=
+X-Authority-Analysis: v=2.4 cv=LoAHWXdc c=1 sm=1 tr=0 ts=6ae30cfb cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=qC_FGOx9AAAA:8 a=7JfiChwgrRLD9I_c1QIA:9 a=QEXdDO2ut3YA:10
+ a=iS9zxrgQBfv6-_F4QbHw:22 a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-GUID: NK4_a0hjkwZs2sYekjUoR_L9PvB6QCM5
+X-Proofpoint-ORIG-GUID: NK4_a0hjkwZs2sYekjUoR_L9PvB6QCM5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-29_03,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 adultscore=0 clxscore=1015 phishscore=0 suspectscore=0
+ bulkscore=0 priorityscore=1501 spamscore=0 impostorscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610290035
+X-Spam-Status: No, score=-21.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	INCLUDES_PULL_REQUEST,KHOP_DYNAMIC,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Hi,
+The following changes since commit d0039fd797d7776d89f00c22c45754914a96706e:
 
-Starting with commit d4070db5 intel/ibt-0093-0291.sfi results in 
-intermittent Bluetooth connection failures. Commit a17cf7dc works correctly.
-Bluetooth device is: (USB 8087:0036 - Intel Corp. BE200 Bluetooth)
-Bluetooth keyboard: Glove80
+   Merge branch 'intel/nvl_gsc_108.0.0.1211' into 'main' (2026-10-27 
+20:31:20 +0000)
 
-Kernel reports follow, I have included two working ones and last is the 
-one that is not working.
-I include two working logs because it seems that `FW download error 
-recovery failed (-19)` can happen and it still works fine for me.
+are available in the Git repository at:
 
-Note that on my device (Debian Trixie with kernel/firmware from the 
-backports repository) ibt-0291-0291.sfi is symlinked to ibt-0093-0291.sfi:
-# ls -l /lib/firmware/intel/ibt-0291-0291.sfi
-lrwxrwxrwx 1 root root 17 okt 17 16:22 
-/lib/firmware/intel/ibt-0291-0291.sfi -> ibt-0093-0291.sfi
+   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git 
+cdsp-qli-fw-shikra
 
-There are also some user-mode errors logged by bluetoothd that I can 
-provide in case that would help.
+for you to fetch changes up to d0bbfb6d79cb4b8a2f740fce17a0a1978538c146:
 
+   qcom: update CDSP firmware for shikra platform (2026-10-29 14:05:46 
++0530)
 
-- Works fine #1
-# LANG=C journalctl --no-hostname --dmesg --grep '(hci0|bluetooth)' -b 
-120e97a1228d4e5b99a206797275b4e8
-Sep 14 07:26:01 kernel: Bluetooth: Core ver 2.22
-Sep 14 07:26:01 kernel: NET: Registered PF_BLUETOOTH protocol family
-Sep 14 07:26:01 kernel: Bluetooth: HCI device and connection manager 
-initialized
-Sep 14 07:26:01 kernel: Bluetooth: HCI socket layer initialized
-Sep 14 07:26:01 kernel: Bluetooth: L2CAP socket layer initialized
-Sep 14 07:26:01 kernel: Bluetooth: SCO socket layer initialized
-Sep 14 07:26:01 kernel: Bluetooth: hci0: Firmware timestamp 2026.18 
-buildtype 1 build 112962
-Sep 14 07:26:01 kernel: Bluetooth: hci0: Firmware SHA1: 0x38841b2b
-Sep 14 07:26:01 kernel: Bluetooth: hci0: DSM reset method type: 0x01
-Sep 14 07:26:01 kernel: Bluetooth: hci0: Found device firmware: 
-intel/ibt-0291-0291.sfi
-Sep 14 07:26:01 kernel: Bluetooth: hci0: Boot Address: 0x100800
-Sep 14 07:26:01 kernel: Bluetooth: hci0: Firmware Version: 176-26.26
-Sep 14 07:26:01 kernel: Bluetooth: hci0: FW download error recovery 
-failed (-19)
-Sep 14 07:26:02 kernel: Bluetooth: hci0: Device revision is 0
-Sep 14 07:26:02 kernel: Bluetooth: hci0: Secure boot is enabled
-Sep 14 07:26:02 kernel: Bluetooth: hci0: OTP lock is disabled
-Sep 14 07:26:02 kernel: Bluetooth: hci0: API lock is enabled
-Sep 14 07:26:02 kernel: Bluetooth: hci0: Debug lock is disabled
-Sep 14 07:26:02 kernel: Bluetooth: hci0: Minimum firmware build 1 week 
-10 2014
-Sep 14 07:26:02 kernel: Bluetooth: hci0: Bootloader timestamp 2022.18 
-buildtype 1 build 16362
-Sep 14 07:26:02 kernel: Bluetooth: hci0: DSM reset method type: 0x01
-Sep 14 07:26:02 kernel: Bluetooth: hci0: Found device firmware: 
-intel/ibt-0291-0291.sfi
-Sep 14 07:26:02 kernel: Bluetooth: hci0: Boot Address: 0x100800
-Sep 14 07:26:02 kernel: Bluetooth: hci0: Firmware Version: 176-26.26
-Sep 14 07:26:04 kernel: Bluetooth: BNEP (Ethernet Emulation) ver 1.3
-Sep 14 07:26:04 kernel: Bluetooth: BNEP filters: protocol multicast
-Sep 14 07:26:04 kernel: Bluetooth: BNEP socket layer initialized
-Sep 14 07:26:05 kernel: Bluetooth: hci0: Waiting for firmware download 
-to complete
-Sep 14 07:26:05 kernel: Bluetooth: hci0: Firmware loaded in 2981458 usecs
-Sep 14 07:26:05 kernel: Bluetooth: hci0: Waiting for device to boot
-Sep 14 07:26:05 kernel: Bluetooth: hci0: Device booted in 52827 usecs
-Sep 14 07:26:05 kernel: Bluetooth: hci0: dsbr: enable: 0x01 value: 0x0b
-Sep 14 07:26:05 kernel: Bluetooth: hci0: Found Intel DDC parameters: 
-intel/ibt-0291-0291.ddc
-Sep 14 07:26:05 kernel: Bluetooth: hci0: Applying Intel DDC parameters 
-completed
-Sep 14 07:26:05 kernel: Bluetooth: hci0: Firmware timestamp 2026.26 
-buildtype 1 build 117936
-Sep 14 07:26:05 kernel: Bluetooth: hci0: Firmware SHA1: 0xfa98b015
-Sep 14 07:26:05 kernel: Bluetooth: hci0: Fseq status: Success (0x00)
-Sep 14 07:26:05 kernel: Bluetooth: hci0: Fseq executed: 00.00.04.202
-Sep 14 07:26:05 kernel: Bluetooth: hci0: Fseq BT Top: 00.00.04.202
-Sep 14 07:26:05 kernel: Bluetooth: MGMT ver 1.23
-Sep 14 07:26:05 kernel: Bluetooth: RFCOMM TTY layer initialized
-Sep 14 07:26:05 kernel: Bluetooth: RFCOMM socket layer initialized
-Sep 14 07:26:05 kernel: Bluetooth: RFCOMM ver 1.11
-Sep 14 07:26:08 kernel: hid-generic 0005:16C0:27DB.0006: input,hidraw5: 
-BLUETOOTH HID v0.01 Keyboard [Glove80] on e4:4a:e0:8a:26:3a
-Sep 15 07:20:47 kernel: hid-generic 0005:16C0:27DB.0008: input,hidraw5: 
-BLUETOOTH HID v0.01 Keyboard [Glove80] on e4:4a:e0:8a:26:3a
-Sep 17 07:06:24 kernel: hid-generic 0005:16C0:27DB.0009: input,hidraw5: 
-BLUETOOTH HID v0.01 Keyboard [Glove80] on e4:4a:e0:8a:26:3a
-Sep 18 07:13:16 kernel: hid-generic 0005:16C0:27DB.000A: input,hidraw5: 
-BLUETOOTH HID v0.01 Keyboard [Glove80] on e4:4a:e0:8a:26:3a
-Sep 21 07:31:01 kernel: hid-generic 0005:16C0:27DB.000B: input,hidraw5: 
-BLUETOOTH HID v0.01 Keyboard [Glove80] on e4:4a:e0:8a:26:3a
-Sep 22 06:55:05 kernel: hid-generic 0005:16C0:27DB.000C: input,hidraw5: 
-BLUETOOTH HID v0.01 Keyboard [Glove80] on e4:4a:e0:8a:26:3a
-Sep 24 07:18:52 kernel: hid-generic 0005:16C0:27DB.000D: input,hidraw5: 
-BLUETOOTH HID v0.01 Keyboard [Glove80] on e4:4a:e0:8a:26:3a
-Sep 24 07:20:00 kernel: hid-generic 0005:16C0:27DB.000E: input,hidraw5: 
-BLUETOOTH HID v0.01 Keyboard [Glove80] on e4:4a:e0:8a:26:3a
-Sep 25 07:08:45 kernel: hid-generic 0005:16C0:27DB.000F: input,hidraw5: 
-BLUETOOTH HID v0.01 Keyboard [Glove80] on e4:4a:e0:8a:26:3a
-Sep 28 07:29:40 kernel: hid-generic 0005:16C0:27DB.0010: input,hidraw5: 
-BLUETOOTH HID v0.01 Keyboard [Glove80] on e4:4a:e0:8a:26:3a
-Sep 29 07:15:11 kernel: hid-generic 0005:16C0:27DB.0011: input,hidraw2: 
-BLUETOOTH HID v0.01 Keyboard [Glove80] on e4:4a:e0:8a:26:3a
+----------------------------------------------------------------
+Venkata Kota (1):
+       qcom: update CDSP firmware for shikra platform
 
-
-- Works fine #2
-# LANG=C journalctl --no-hostname --dmesg --grep '(hci0|bluetooth)' -b 
-fb6b4ce463d6478ab85eb94ff86ce09e
-Oct 06 07:18:06 kernel: Bluetooth: Core ver 2.22
-Oct 06 07:18:06 kernel: NET: Registered PF_BLUETOOTH protocol family
-Oct 06 07:18:06 kernel: Bluetooth: HCI device and connection manager 
-initialized
-Oct 06 07:18:06 kernel: Bluetooth: HCI socket layer initialized
-Oct 06 07:18:06 kernel: Bluetooth: L2CAP socket layer initialized
-Oct 06 07:18:06 kernel: Bluetooth: SCO socket layer initialized
-Oct 06 07:18:06 kernel: Bluetooth: hci0: Firmware timestamp 2026.26 
-buildtype 1 build 117936
-Oct 06 07:18:06 kernel: Bluetooth: hci0: Firmware SHA1: 0xfa98b015
-Oct 06 07:18:06 kernel: Bluetooth: hci0: DSM reset method type: 0x01
-Oct 06 07:18:06 kernel: Bluetooth: hci0: Found device firmware: 
-intel/ibt-0291-0291.sfi
-Oct 06 07:18:06 kernel: Bluetooth: hci0: Boot Address: 0x100800
-Oct 06 07:18:06 kernel: Bluetooth: hci0: Firmware Version: 176-26.26
-Oct 06 07:18:06 kernel: Bluetooth: hci0: Firmware already loaded
-Oct 06 07:18:06 kernel: Bluetooth: hci0: Fseq status: Success (0x00)
-Oct 06 07:18:06 kernel: Bluetooth: hci0: Fseq executed: 00.00.04.202
-Oct 06 07:18:06 kernel: Bluetooth: hci0: Fseq BT Top: 00.00.04.202
-Oct 06 07:18:13 kernel: Bluetooth: BNEP (Ethernet Emulation) ver 1.3
-Oct 06 07:18:13 kernel: Bluetooth: BNEP filters: protocol multicast
-Oct 06 07:18:13 kernel: Bluetooth: BNEP socket layer initialized
-Oct 06 07:18:13 kernel: Bluetooth: MGMT ver 1.23
-Oct 06 07:18:13 kernel: Bluetooth: RFCOMM TTY layer initialized
-Oct 06 07:18:13 kernel: Bluetooth: RFCOMM socket layer initialized
-Oct 06 07:18:13 kernel: Bluetooth: RFCOMM ver 1.11
-Oct 08 07:13:07 kernel: hid-generic 0005:16C0:27DB.0007: input,hidraw2: 
-BLUETOOTH HID v0.01 Keyboard [Glove80] on e4:4a:e0:8a:26:3a
-Oct 08 07:17:10 kernel: hid-generic 0005:16C0:27DB.0009: input,hidraw2: 
-BLUETOOTH HID v0.01 Keyboard [Glove80] on e4:4a:e0:8a:26:3a
-Oct 09 07:13:47 kernel: hid-generic 0005:16C0:27DB.000A: input,hidraw2: 
-BLUETOOTH HID v0.01 Keyboard [Glove80] on e4:4a:e0:8a:26:3a
-Oct 12 07:26:54 kernel: hid-generic 0005:16C0:27DB.000B: input,hidraw2: 
-BLUETOOTH HID v0.01 Keyboard [Glove80] on e4:4a:e0:8a:26:3a
-Oct 13 07:23:31 kernel: hid-generic 0005:16C0:27DB.000C: input,hidraw2: 
-BLUETOOTH HID v0.01 Keyboard [Glove80] on e4:4a:e0:8a:26:3a
-Oct 15 08:08:58 kernel: hid-generic 0005:16C0:27DB.0011: input,hidraw2: 
-BLUETOOTH HID v0.01 Keyboard [Glove80] on e4:4a:e0:8a:26:3a
-Oct 16 07:13:39 kernel: hid-generic 0005:16C0:27DB.0012: input,hidraw2: 
-BLUETOOTH HID v0.01 Keyboard [Glove80] on e4:4a:e0:8a:26:3a
-Oct 22 07:24:09 kernel: hid-generic 0005:16C0:27DB.0013: input,hidraw2: 
-BLUETOOTH HID v0.01 Keyboard [Glove80] on e4:4a:e0:8a:26:3a
-Oct 23 07:53:17 kernel: hid-generic 0005:16C0:27DB.0014: input,hidraw2: 
-BLUETOOTH HID v0.01 Keyboard [Glove80] on e4:4a:e0:8a:26:3a
-
-
-- Does not work properly, my keyboard (Glove80) is just working 
-intermittently, only getting a few characters through sometimes.
-# LANG=C journalctl --no-hostname --dmesg --grep '(hci0|bluetooth)' -b 
-c18f0e74a98f438fa3853efed19fcfa2
-Oct 23 13:29:16 kernel: Bluetooth: Core ver 2.22
-Oct 23 13:29:16 kernel: NET: Registered PF_BLUETOOTH protocol family
-Oct 23 13:29:16 kernel: Bluetooth: HCI device and connection manager 
-initialized
-Oct 23 13:29:16 kernel: Bluetooth: HCI socket layer initialized
-Oct 23 13:29:16 kernel: Bluetooth: L2CAP socket layer initialized
-Oct 23 13:29:16 kernel: Bluetooth: SCO socket layer initialized
-Oct 23 13:29:16 kernel: Bluetooth: hci0: Firmware timestamp 2026.26 
-buildtype 1 build 117936
-Oct 23 13:29:16 kernel: Bluetooth: hci0: Firmware SHA1: 0xfa98b015
-Oct 23 13:29:16 kernel: Bluetooth: hci0: DSM reset method type: 0x01
-Oct 23 13:29:16 kernel: Bluetooth: hci0: Found device firmware: 
-intel/ibt-0291-0291.sfi
-Oct 23 13:29:16 kernel: Bluetooth: hci0: Boot Address: 0x100800
-Oct 23 13:29:16 kernel: Bluetooth: hci0: Firmware Version: 35-29.26
-Oct 23 13:29:16 kernel: Bluetooth: hci0: FW download error recovery 
-failed (-19)
-Oct 23 13:29:16 kernel: Bluetooth: BNEP (Ethernet Emulation) ver 1.3
-Oct 23 13:29:16 kernel: Bluetooth: BNEP filters: protocol multicast
-Oct 23 13:29:16 kernel: Bluetooth: BNEP socket layer initialized
-Oct 23 13:29:17 kernel: Bluetooth: hci0: Device revision is 0
-Oct 23 13:29:17 kernel: Bluetooth: hci0: Secure boot is enabled
-Oct 23 13:29:17 kernel: Bluetooth: hci0: OTP lock is disabled
-Oct 23 13:29:17 kernel: Bluetooth: hci0: API lock is enabled
-Oct 23 13:29:17 kernel: Bluetooth: hci0: Debug lock is disabled
-Oct 23 13:29:17 kernel: Bluetooth: hci0: Minimum firmware build 1 week 
-10 2014
-Oct 23 13:29:17 kernel: Bluetooth: hci0: Bootloader timestamp 2022.18 
-buildtype 1 build 16362
-Oct 23 13:29:17 kernel: Bluetooth: hci0: DSM reset method type: 0x01
-Oct 23 13:29:17 kernel: Bluetooth: hci0: Found device firmware: 
-intel/ibt-0291-0291.sfi
-Oct 23 13:29:17 kernel: Bluetooth: hci0: Boot Address: 0x100800
-Oct 23 13:29:17 kernel: Bluetooth: hci0: Firmware Version: 35-29.26
-Oct 23 13:29:19 kernel: Bluetooth: hci0: Waiting for firmware download 
-to complete
-Oct 23 13:29:19 kernel: Bluetooth: hci0: Firmware loaded in 2108443 usecs
-Oct 23 13:29:19 kernel: Bluetooth: hci0: Waiting for device to boot
-Oct 23 13:29:19 kernel: Bluetooth: hci0: Device booted in 52843 usecs
-Oct 23 13:29:19 kernel: Bluetooth: hci0: dsbr: enable: 0x01 value: 0x0b
-Oct 23 13:29:19 kernel: Bluetooth: hci0: Found Intel DDC parameters: 
-intel/ibt-0291-0291.ddc
-Oct 23 13:29:19 kernel: Bluetooth: hci0: Applying Intel DDC parameters 
-completed
-Oct 23 13:29:19 kernel: Bluetooth: hci0: Firmware timestamp 2026.29 
-buildtype 1 build 120611
-Oct 23 13:29:19 kernel: Bluetooth: hci0: Firmware SHA1: 0x239ed887
-Oct 23 13:29:19 kernel: Bluetooth: hci0: Fseq status: Success (0x00)
-Oct 23 13:29:19 kernel: Bluetooth: hci0: Fseq executed: 00.00.04.202
-Oct 23 13:29:19 kernel: Bluetooth: hci0: Fseq BT Top: 00.00.04.202
-Oct 23 13:29:19 kernel: Bluetooth: MGMT ver 1.23
-Oct 23 13:29:19 kernel: Bluetooth: RFCOMM TTY layer initialized
-Oct 23 13:29:19 kernel: Bluetooth: RFCOMM socket layer initialized
-Oct 23 13:29:19 kernel: Bluetooth: RFCOMM ver 1.11
-Oct 23 13:30:01 kernel: hid-generic 0005:16C0:27DB.0004: input,hidraw3: 
-BLUETOOTH HID v0.01 Keyboard [Glove80] on e4:4a:e0:8a:26:3a
-
--- 
-Andreas
-
+  WHENCE               |   2 +-
+  qcom/shikra/cdsp.mbn | Bin 2614680 -> 2921880 bytes
+  2 files changed, 1 insertion(+), 1 deletion(-)
