@@ -2,217 +2,308 @@ Received: from smtp.kernel.org (ip-10-30-226-227.us-west-2.compute.internal [10.
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C75606A31B
-	for <linux-firmware@archiver.kernel.org>; Tue,  3 Nov 2026 17:42:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73BC8606A326
+	for <linux-firmware@archiver.kernel.org>; Wed,  4 Nov 2026 02:36:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Xi5rb7dr;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=K/kR4TeY
+	dkim=pass (2048-bit key, unprotected) header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=EDTtbSLs
 Received: by smtp.kernel.org (Postfix)
-	id 9DA621F00919; Tue,  3 Nov 2026 17:42:40 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+	id 696A91F0093A; Wed,  4 Nov 2026 02:36:37 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=211.75.126.72
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1793727760;
-	b=1PK+M+AHF/izsOrKzVO/IhMTlwoeIjgBnTvSYlcSbGUE9GQNN747aZhagcpM+1PtETVM
-	 ZDVbHBdYLj+7xHh4CzWOU2WfYc5Ia5feBpK4LVeq8IZ111PLu9JBPf4MyF3UUTjkKSfU6
-	 hZ4Y4a+vhA6fmeGb4bfxzJDKKvY+iDAHJPipnxAzUKQSD+6cVQRbmoUBfdnmCkTxxcyIB
-	 J4AyiXrvHEtub/LjanjuzuBdGEYW2qMHboSfPlYhovF+h2T25kYumLiAlkr/CL0bnRR8/
-	 e2yaiiQiLrt2KiiVTfj4vT07/1iQBspKvP6F7OVaRx90B5KD17UM+iPQXBi41r9i5ug==
+	t=1793759797;
+	b=DIQtn+k+xYPTMfzG5bGJpa5Dt4hZLsBd8Nvrwup52jkVkAvH+dl9jMJv4qCLPqZVW/eD
+	 9opH2lCLVOvoHgbqEi2d3AlflMBmP3esc4ggoX1X6AKUOiy/k8JAe3am61f0iYg+vA3BY
+	 CD/Zs5MUKxMGenelJAZAHTyNKSmUQI+JqDMx7VeGr3AGuhdsHL87lfNjwO4drGrav+TIG
+	 NqDUuAsGDDJnZjiUg5/5fHd5zf2VZNLEtpfYCb3huafeHfT5yHQexMbW1FFliH9R6NTJV
+	 jEspaSg7NdXEdhg5S9fu9xs/1Aqd1Bt320VB9vwsLVKTn3LwDrF1jkQNIOoEVrRiFMg==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1793727760;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
-	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Content-Language:List-Id:To:From:Subject:Autocrypt:
-	 Content-Type:Content-Transfer-Encoding:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=Jm8wiUTPndWveoPkNBvBPHwPlZZuZ5qV/XWLDHLS+m4=;
-	b=nDgPx2DS5agTK2i+XMAII9ykK8s3qHuPHDIu8JKCFsNRt1BQN2etOX7QLoBnW0V68ZTD
-	 1YcmriOco+q/cC0TxEaOFnVwneb/aL/BywHXhaf9YK1uiqlIrOhWls7TclP3O7uxN4yE+
-	 lgRwwK//2VKGdVZf8tdibXE8iNyq9r6TinNwEG2CthgMznIpwG576hyiXVAwMwHeL7ZLk
-	 r4rQix5Npc7NRSygHt2sf/tqnygth5ZleBRdXitA65SUwfX9O2teFRvHlo1okBo+LqMcO
-	 L9cJW5hdBzgnV/V833nQ9EB8wSOKpBY/drmkfSPMhi7W42sorN752m4PRZFJIofClkQ==
+	c=relaxed/relaxed; t=1793759797;
+	h=DMARC-Filter:X-SpamFilter-By:DKIM-Signature:Received:Received:
+	 Received:Received:From:List-Id:To:CC:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type;
+	bh=XdufrmI0ixN7799ghtar1fWU6dowWAWeH8b9RrzsoOY=;
+	b=geaapZFmo0HadZg4XoLVcC6vY02lmy4h+Dxsz5hiaTXgkawGSIPqWh4PlW/J8qxjkb+v
+	 RjuKJz0uwwPyImPa6SyWOy8c6iSqhF1ABEWBJnh0UX/56TLCu1X1UCF2F4djr//wd1XyG
+	 +h4cp5cPSddX8Z5C93Z9gP8SGPiWp14bk9bWoXRV7ZOI0cuRnRt3mMgamZ7kY/eYHLgaZ
+	 E1QPXSWYaAS2xRQpHL/8P44jaHa+t8CQx6zWOdnMR8/Lms2rugIQfEWlapeUaU8iqLqRM
+	 iWH6GsQHWUduD58s40iKemOnYYCA3DEyvy491td6/oWQZ3+9TaRZkbtI1b2oXmsn6bQ==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Xi5rb7dr;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b="K/kR4TeY";
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	dkim=pass header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=EDTtbSLs;
+	dmarc=pass header.from=realtek.com;
+	spf=pass smtp.mailfrom=realtek.com;
+	arc=none smtp.remote-ip=211.75.126.72
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 0632A1F000C1
-	for <linux-firmware@kernel.org>; Tue,  3 Nov 2026 17:42:39 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id EF3971F000C1
+	for <linux-firmware@kernel.org>; Wed,  4 Nov 2026 02:36:35 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Xi5rb7dr;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=K/kR4TeY
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 0632A1F000C1
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A3HPXMB344466
-	for <linux-firmware@kernel.org>; Tue, 3 Nov 2026 17:42:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=Jm8wiUTPndWveoPkNBvBPH
-	wPlZZuZ5qV/XWLDHLS+m4=; b=Xi5rb7drV37Iv5XkQqXsyjRd5hW/QxKvBD4kvk
-	Ea2oweP4Paq2a5pP5KEwDKtwEcJJ+arrPHQtL1cvSKfPiwkLyRdjJvSUdStn9tfa
-	6DKHZFp0rdI5nsmGXq6YvduaDFE/kaZ2N00bSDg/SPG8XpQ5qTH4KcCTErz0XblJ
-	kW5zV5utyrMkn1iGFoWlYpQaWCC7vPlgW7VR0Y677XfNZ0aIfcPnTqDN+3qYL1M8
-	DsJ21GPTQBx+Vw1CGO2SiJuRFcjrYYdfqdreZk36VX90xjAwzJVRORZtigwj7fTR
-	LRDyqjCKk5DZj8JSkook1UUP+v6xinhdPLv357fwWH2IiFoA==
-Received: from mail-dl1-f72.google.com (mail-dl1-f72.google.com [74.125.82.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hq76dbett-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Tue, 03 Nov 2026 17:42:38 +0000 (GMT)
-Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-14373747468so5879774c88.1
-        for <linux-firmware@kernel.org>; Tue, 03 Nov 2026 09:42:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793727758; x=1794332558; darn=kernel.org;
-        h=content-transfer-encoding:content-type:autocrypt:subject:from:to
-         :content-language:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Jm8wiUTPndWveoPkNBvBPHwPlZZuZ5qV/XWLDHLS+m4=;
-        b=K/kR4TeYw3rGmQRf9BTt2Gve1fUAH8VwfDl9Pv/rv8+ZmQNtJLPRaCaVg3VuH0RCVh
-         XGIwcvRRywdq1YAIzFrYPK7CfpfUMrB0uCIIeIVEZos433XPWAZ51YehPfEUwoMS4AKT
-         Du9t8NfLEeY5h2AQzAy+4ZbZlHxOSgKgTc6PJ6YH4cYHMgtwnT8nS8fnZ6jtIOwanLaJ
-         GvZRpXx7Ld8JHW/wPIc/LrOOuzgeCBnSEk7CBj07/IZCbaH/OW0LnM3BBUYDag9y5GmQ
-         ueWgm+VG+j0IeX6rfje+qKpsODZhyzIyyGWjk9O2sXcBzUUe3HPZgFUH5qRudAzsvQaB
-         2Trg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793727758; x=1794332558;
-        h=content-transfer-encoding:content-type:autocrypt:subject:from:to
-         :content-language:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Jm8wiUTPndWveoPkNBvBPHwPlZZuZ5qV/XWLDHLS+m4=;
-        b=0KmengUlQjsKOc+B6fUFdrKLxBPSE3Zoda/ueOMuXc6ujDl7YNCuAzYh0rRBUCc1LT
-         433Mc/SRBanyGYl6Z1OFmENRPAG+JVR8Lpx2QRcUqnvZ+3Qb+cDDRbVNMa9BZSrh4eK9
-         /rZxWH8F3YXqClX5enE1nkUoaKlRzPuL8vis+HxzicA4c0i+vw3uQrKTawGECCBXWl+L
-         CS1g6iW0VwfcmnjJAVn4yYN/AYBGgcQSLSKl3fnD+8ErFTilD20iUr9O9YXs8q0hELh4
-         vZiFh/DnPDbN5tS98mBa//sDO1Evz1sis+epmtAMIijcMr7S1bdhEXUHcB6tmvNRWuLZ
-         zFcw==
-X-Gm-Message-State: APuU4Z+leFlQJBbQeOsDvWWG+frUtco4RXuF54+P4O2FIxYwaSsSRLaK
-	3QZvYYjIdqs3BZB7nl6kWU+LUDuXjxO8EqJ5gttxVdaJlKreMdlD7EKdcjcCtxIG0I7blTU4Whr
-	raxZh3UTb/8GgW3X4GARnWu0Ez+nMmRTf42iEm3SNz07daIbVb+S9Hz/BPftf/LmUKgJesoA=
-X-Gm-Gg: AYBFou2SfWDuN5YG6qbp4tOg3XAmmMe4edZjUG81jDBnhy2tiZorOwaFVkOO7axqKHY
-	E4/tTN1UudU61xWnZyZkrGnEpS7SDYInCCrgAupw+rnQv4Cl/d1jTBUuLsA/yHTUe/sTnauFRJ9
-	GnZkvbcc6oQ+umSgn20xipoG5FKnMdq7xuRiJSI8eZguH6f3xgpl+c+a/qZbKrCllaGAtYrk2pd
-	sYb43w0T2iZu8IY/2WNcTZ/PGZ9IvMs12yGcBZIETWy8c3DC+BghGPCk5x/2BnMvFaxPLG/T1yV
-	Nxd5UosN5PhTlVu6ny12HhiO6gXcOPjhGCf+itx4VhvCqb94v/R/rAa5jb2Pe6DYSIitxsaElbg
-	80nSlhTgPRGjcwwgQuQ1aA9P3+PDwD5bc+j/JQ7RRDBf8LQVKs1ajOHjI0s7xh1v/SDnurljS+6
-	Um
-X-Received: by 2002:a05:7022:eb44:10b0:166:29a2:f83f with SMTP id a92af1059eb24-1ac55774bdfmr21748204c88.5.1793727757938;
-        Tue, 03 Nov 2026 09:42:37 -0800 (PST)
-X-Received: by 2002:a05:7022:eb44:10b0:166:29a2:f83f with SMTP id a92af1059eb24-1ac55774bdfmr21748163c88.5.1793727757211;
-        Tue, 03 Nov 2026 09:42:37 -0800 (PST)
-Received: from [10.216.55.150] ([202.46.23.19])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245c1c290sm405897c88.5.2026.11.03.09.42.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Nov 2026 09:42:36 -0800 (PST)
-Message-ID: <c309b1ac-a416-4a37-9369-2de2511e5d7b@oss.qualcomm.com>
-Date: Tue, 3 Nov 2026 23:12:33 +0530
+	dkim=pass (2048-bit key, unprotected) header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=EDTtbSLs
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org EF3971F000C1
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=realtek.com
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 6A42aNzpD3626910, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1793759793; bh=XdufrmI0ixN7799ghtar1fWU6dowWAWeH8b9RrzsoOY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=EDTtbSLsHuu5wvdcMZKs0mI+hX2pmWi5TbkN4ryVXqk9UsAfW5wmyL0MA5bp5J7vF
+	 OXp7wle3qYhfA6neBmHlg+Wp6g90vTEAQOOUN9AU/SOzGioBiVogGwbIeaRhG+lJZo
+	 VCzbaIUFeJF8bJ9rF0R5WtBO9EHE+Tgpg6hhPgLUCXNYIuS3d5oWCsuaGY0WCrD/eN
+	 diu/c27xg0rgQnkvSB7mvC5AJz9GncwvDltu263rVWWEiQpSCqtZEYODDHemmwHxMF
+	 YR4HhEz3uxU+F62FHU5T34o8BXFvIufGQnuBvauDOw1tb1pvstmyDsWeR90zEutqk9
+	 /+kKVmfa3lCvA==
+Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 6A42aNzpD3626910
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <linux-firmware@kernel.org>; Wed, 4 Nov 2026 10:36:33 +0800
+Received: from RTKEXHMBS05.realtek.com.tw (10.21.1.55) by
+ RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Wed, 4 Nov 2026 10:36:04 +0800
+Received: from RTKEXHMBS03.realtek.com.tw (10.21.1.53) by
+ RTKEXHMBS05.realtek.com.tw (10.21.1.55) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Wed, 4 Nov 2026 10:24:43 +0800
+Received: from sw-server.localdomain (172.24.54.4) by
+ RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server id
+ 15.2.2562.56 via Frontend Transport; Wed, 4 Nov 2026 10:24:43 +0800
+From: <jack.yu@realtek.com>
+List-Id: <linux-firmware.lore.kernel.org>
+To: <linux-firmware@kernel.org>
+CC: <shumingf@realtek.com>, <flove@realtek.com>, <oder_chiou@realtek.com>,
+	<derek.fang@realtek.com>, Jack Yu <jack.yu@realtek.com>
+Subject: [PATCH] realtek: rt1321: Add patch firmware of MCU for VA2
+Date: Wed, 4 Nov 2026 10:24:38 +0800
+Message-ID: <20261104022438.819737-1-jack.yu@realtek.com>
+X-Mailer: git-send-email 2.55.0
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-List-Id: <linux-firmware.lore.kernel.org>
-To: linux-firmware@kernel.org,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-From: Venkata Kota <venkata.kota@oss.qualcomm.com>
-Subject: Update HPASS firmware for Qualcomm nord platform
-Autocrypt: addr=venkata.kota@oss.qualcomm.com; keydata=
- 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
- tFo24aqEAzhhzFkq6qZ6FaB0f9M8wen4hRAu98k=
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=KJTPn1Fo c=1 sm=1 tr=0 ts=6aea1d0e cx=c_pps
- a=bS7HVuBVfinNPG3f6cIo3Q==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
- a=qC_FGOx9AAAA:8 a=-Drb0nzxk0q1A1DO3L8A:9 a=QEXdDO2ut3YA:10
- a=vBUdepa8ALXHeOFLBtFW:22 a=fsdK_YakeE02zTmptMdW:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAzMDA3MCBTYWx0ZWRfX3BshaL1csvpa
- YQXEdDk1HhGk3Ykv8iK7/0frG3JDRWIWB4zhS5I2TgUN2SNHldG1aebaLVbuzdV/ps8TuHX9yBg
- xyLEAvAGbHDE8msmyoTbdPPDNM4D7vU=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAzMDA3MCBTYWx0ZWRfX6uQgiJF0pqjC
- bNqR8dsJQSIhiMutpKyQaca9sH3kW0iXDtWB1sC4I2C3WkFbrEoyDFVodODaJi85q0AgWj37FnA
- +dxopdijL8eEwaBkgrph/nlsYX9TWX9JzQ3T0BuHDepjqQ5Q+EvtMyeYhzehQOuTBr69mE+OA7e
- hRKbT2GTLCKPnZSc6C82KEsWlcB2Ui0Scv6eFOe+hTODN5/hC7eeZ9ZmMiVuBoY8jcDaQcB1d4A
- zy6V3Ntp3nPEYeFmJXUZSAVg0eYn694uLuuwtfSeYZFFkMA5WRnfbnFbVY+RVbJf10Ze76uv3Ru
- L/kYCe9J32MfDtlZQTcKlf6CFNdHwzAJvOwvebGSNoWqSHPeEVKOGeSK2eBzOoI0hdArhMjewZv
- 3Shk1YSkBdUfik9tI0Uk4h9ECEsF7h65cf9bd1njRT8DK0nwdvudFPWGZmiZ239e8hKlzRy/z4I
- T9oBiy23kwBv/SotTFg==
-X-Proofpoint-GUID: oHsKD3pzJxeDNYqJX_SjShQI8nG1vxkX
-X-Proofpoint-ORIG-GUID: oHsKD3pzJxeDNYqJX_SjShQI8nG1vxkX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-03_04,2026-11-03_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 priorityscore=1501 bulkscore=0
- lowpriorityscore=0 adultscore=0 malwarescore=0 phishscore=0 spamscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610300000
- definitions=main-2611030070
-X-Spam-Status: No, score=-21.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=4.0.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-The following changes since commit 02665d2016e1360cd2135998f36cfa303b5be6e1:
+From: Jack Yu <jack.yu@realtek.com>
 
-   Merge branch 'main' into 'main' (2026-11-03 05:36:41 +0000)
+This patch added the patch firmware of rt1321 VA2 MCU.
+The version is v2.1.
 
-are available in the Git repository at:
+Signed-off-by: Jack Yu <jack.yu@realtek.com>
+---
+ WHENCE                                   |   3 +++
+ realtek/rt1320/rt1321-patch-code-va2.bin | Bin 0 -> 9344 bytes
+ 2 files changed, 3 insertions(+)
+ create mode 100644 realtek/rt1320/rt1321-patch-code-va2.bin
 
-   https://git.codelinaro.org/clo/linux-kernel/linux-firmware.git 
-qli-fw-nord-upstream
+diff --git a/WHENCE b/WHENCE
+index 123a62be..50cbb2f8 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -3801,6 +3801,9 @@ Version: 1.0.0
+ File: realtek/rt1320/rt1321-patch-code-va.bin
+ Version: 1.10.0
+ 
++File: realtek/rt1320/rt1321-patch-code-va2.bin
++Version: 2.1.0
++
+ Licence: Redistributable. See LICENSE.rt1320 for details.
+ SPDX-License-Identifier: LicenseRef-LICENSE.rt1320
+ 
+diff --git a/realtek/rt1320/rt1321-patch-code-va2.bin b/realtek/rt1320/rt1321-patch-code-va2.bin
+new file mode 100644
+index 0000000000000000000000000000000000000000..61732ec4e4199d5f70128b92c23bd600beb6d857
+GIT binary patch
+literal 9344
+zcmV-`B!AlkfB+B^00005fB+B&00006fB+C600007fB+Bx00008fB+C900009fB+DW
+z0000AfB+EZ0000BfB+Ew0000CfB+B^0000DfB+B&0000EfB+B>0000FfB+Bx0000G
+zfB+Dq0000HfB+DW0000IfB+EZ0000JfB+Ew0000KfB+CT0000LfB+DO0000MfB+Bx
+z0000NfB+B>0000OfB+D;0000PfB+EZ0000QfB+Bx0000RfB+B>0000SfB+B^0000T
+zfB+B&0000UfB+B&0000VfB+B(0000WfB+C90000XfB+Dx0000YfB+EZ0000ZfB+EW
+z0000afB+CT0000bfB+DO0000cfB+Bx0000dfB+B>0000efB+B^0000ffB+B&0000g
+zfB+E30000hfB+B>0000ifB+C90000jfB+Dr0000kfB+EZ0000lfB+Dp0000mfB+CT
+z0000nfB+DO0000ofB+Bx0000pfB+B>0000qfB+B^0000rfB+B&0000sfB+Cj0000t
+zfB+C20000ufB+C90000vfB+D#0000wfB+EZ0000xfB+Ec0000yfB+CT0000zfB+DO
+z0000!fB+Bx0000#fB+B>0000$fB+B^0000%fB+B&0000&fB+E30000(fB+CO0000)
+zfB+C90000*fB+Dv0000+fB+EZ0000-fB+Ew0000;fB+CT0000<fB+DO0000=fB+Bx
+z0000>fB+B>0000?fB+B^0000@fB+B&0000^fB+B&0000_fB+Ca0000`fB+C90000{
+zfB+D#0000|fB+EZ0000}fB+Dn0000~fB+C@00010fB+DH00011fB+Bx00012fB+Bx
+z0001hfB+DK0001ifB+E30001jfB+ED0001kfB+Cu0001lfB+C<0001mfB+DJ0001n
+zfB+B&0001ofB+B(0001pfB+DK0001qfB+E30001rfB+Ej0001sfB+Cv0001tfB+C<
+z0001ufB+DV0001vfB+B&0001wfB+B%0001xfB+DK0001yfB+E30001zfB+ET0001!
+zfB+Cv0001#fB+C<0001$fB+DR0001%fB+B&0001&fB+B%0001(fB+DK0001)fB+E3
+z0001*fB+ED0001+fB+Cv0001-fB+C<0001;fB+DN0001<fB+B&0001=fB+B%0001>
+zfB+DK0001?fB+E30001@fB+D|0001^fB+Cv0001_fB+C<0001`fB+DJ0001{fB+B&
+z0001|fB+B%0001}fB+DK0001~fB+E300020fB+CN00021fB+Cc00022fB+C<00023
+zfB+Dl00024fB+B&00025fB+B#00026fB+B^00027fB+By00028fB+By00029fB+Ex
+z0002AfB+C90002BfB+CA0002CfB+DI0002DfB+Bx0002EfB+B!0002FfB+E30002G
+zfB+DY0002HfB+Cx0002IfB+C90002JfB+CC0002KfB+B?0002LfB+Bx0002MfB+Da
+z0002NfB+B&0002OfB+B>0002PfB+Bx0002QfB+C<0002RfB+C00002SfB+Ep0002T
+zfB+Bz0002UfB+D;0002VfB+EZ0002WfB+D}0002XfB+Cb0002YfB+Da0002ZfB+DO
+z0002afB+B&0002bfB+Eu0002cfB+DK0002dfB+Du0002efB+Cj0002ffB+Bx0002g
+zfB+Da0002hfB+Ep0002ifB+B|0002jfB+Bx0002kfB+C<0002lfB+DX0002mfB+EZ
+z0002nfB+Bz0002ofB+D;0002pfB+EJ0002qfB+Bx0002rfB+Bx0002sfB+DK0002t
+zfB+E30002ufB+B&0002vfB+Cj0002wfB+Da0002xfB+Ep0002yfB+B&0002zfB+Bz
+z0002!fB+C<0002#fB+DP0002$fB+B&0002%fB+Bx0002&fB+Eh0002(fB+DX0002)
+zfB+EB0002*fB+Dj0002+fB+Da0002-fB+B&0002;fB+C60002<fB+Bx0002=fB+Dq
+z0002>fB+DT0002?fB+Ej0002@fB+Cw0002^fB+DK0002_fB+C60002`fB+D|0002{
+zfB+Bx0002|fB+B!0002}fB+CA0002~fB+DI00030fB+Bx00000fdCK_00001fdCKz
+z00002fdCKz00003fdCKz00004fdCL^00005fdCMI00006fdCKy00007fdCKy00008
+zfdCL^00009fdCMI0000AfdCKy0000BfdCKy0000CfdCML0000DfdCNK0000EfdCM}
+z0000FfdCLu0000GfdCMb0000HfdCNq0000IfdCLE0000JfdCKy0000KfdCL=0000L
+zfdCMO0000MfdCK(0000NfdCK)0000OfdCML0000PfdCN40000QfdCLu0000RfdCLv
+z0000SfdCK_0000TfdCKz0000UfdCKz0000VfdCNy0000WfdCLA0000XfdCLD0000Y
+zfdCK@0000ZfdCKy0000afdCMb0000bfdCMP0000cfdCK}0000dfdCKy0000efdCMr
+z0000ffdCMK0000gfdCNk0000hfdCLv0000ifdCM<0000jfdCNK0000kfdCKy0000l
+zfdCKy0000mfdCML0000nfdCN40000ofdCK(0000pfdCLk0000qfdCMb0000rfdCNq
+z0000sfdCK(0000tfdCK!0000ufdCL=0000vfdCMS0000wfdCK(0000xfdCKy0000y
+zfdCK_0000zfdCK(0000!fdCL70000#fdCKy0000$fdCK_0000%fdCK%0000&fdCK?
+z0000(fdCKy0000)fdCMr0000*fdCMU0000+fdCNU0000-fdCLx0000;fdCNi0000<
+zfdCMI0000=fdCNS0000>fdCNk0000?fdCNi0000@fdCMo0000^fdCNC0000_fdCM+
+z0000`fdCML0000{fdCN40000|fdCK@0000}fdCL{0000~fdCK_00010fdCK(00011
+zfdCLN00012fdCKy00013fdCL=00014fdCMk00015fdCNa00016fdCKy00017fdCK#
+z00018fdCN400019fdCKz0001AfdCL{0001BfdCL=0001CfdCK~0001DfdCNq0001E
+zfdCKy0001FfdCML0001GfdCN40001HfdCM}0001IfdCLv0001JfdCL=0001KfdCMM
+z0001LfdCK(0001MfdCKy0001NfdCNi0001OfdCMo0001PfdCNS0001QfdCMs0001R
+zfdCNi0001SfdCMo0001TfdCNS0001UfdCMz0001VfdCLU0001WfdCNK0001XfdCKy
+z0001YfdCKy0001ZfdCML0001afdCL!0001bfdCK(0001cfdCLx0001dfdCML0001e
+zfdCL70001ffdCM}0001gfdCKy0001hfdCMb0001ifdCMf0001jfdCK(0001kfdCKz
+z0001lfdCMb0001mfdCNK0001nfdCK(0001ofdCKz0001pfdCMb0001qfdCNq0001r
+zfdCNK0001sfdCNy0001tfdCMb0001ufdCMf0001vfdCK(0001wfdCKz0001xfdCMb
+z0001yfdCNK0001zfdCK(0001!fdCKz0001#fdCLA0001$fdCK?0001%fdCNq0001&
+zfdCLx0001(fdCK_0001)fdCKz0001*fdCKz0001+fdCKz0001-fdCL^0001;fdCMI
+z0001<fdCKy0001=fdCKy0001>fdCLU0001?fdCNK0001@fdCKy0001^fdCKy0001_
+zfdCML0001`fdCL!0001{fdCK(0001|fdCLx0001}fdCMb0001~fdCMf00020fdCK(
+z00021fdCKz00022fdCMb00023fdCNK00024fdCK(00025fdCKz00026fdCMb00027
+zfdCNq00028fdCNK00029fdCNy0002AfdCMb0002BfdCMf0002CfdCK(0002DfdCKz
+z0002EfdCMb0002FfdCNK0002GfdCK(0002HfdCKz0002IfdCLA0002JfdCK?0002K
+zfdCNq0002LfdCLx0002MfdCL^0002NfdCMI0002OfdCKy0002PfdCKy0002QfdCML
+z0002RfdCN40002SfdCNE0002TfdCLw0002UfdCL=0002VfdCMK0002WfdCK(0002X
+zfdCK!0002YfdCML0002ZfdCN40002afdCM}0002bfdCLw0002cfdCL=0002dfdCMW
+z0002efdCK(0002ffdCKy0002gfdCML0002hfdCN40002ifdCNk0002jfdCLw0002k
+zfdCL=0002lfdCMS0002mfdCK(0002nfdCKy0002ofdCML0002pfdCN40002qfdCNU
+z0002rfdCLw0002sfdCL=0002tfdCMO0002ufdCK(0002vfdCKy0002wfdCML0002x
+zfdCN40002yfdCLO0002zfdCLd0002!fdCL=0002#fdCMI0002$fdCK(0002%fdCK`
+z0002&fdCML0002(fdCN40002)fdCMJ0002*fdCLv0002+fdCL=0002-fdCMU0002;
+zfdCK(0002<fdCK^0002=fdCML0002>fdCN40002?fdCNE0002@fdCLv0002^fdCL=
+z0002_fdCMQ0002`fdCK(0002{fdCK^0002|fdCML0002}fdCN40002~fdCM(00030
+zfdCLv00000f&dU>00001f&dVN00002f&dT)00003f&dT_00004f&dT$00005f&dW5
+z00006f&dVa00007f&dUz00008f&dT`00009f&dT!0000Af&dT!0000Bf&dWz0000C
+zf&dUB0000Df&dUA0000Ef&dVa0000Ff&dTz0000Gf&dUB0000Hf&dUE0000If&dT^
+z0000Jf&dTz0000Kf&dUB0000Lf&dUC0000Mf&dVK0000Nf&dTz0000Of&dVc0000P
+zf&dT(0000Qf&dU80000Rf&dTz0000Sf&dVc0000Tf&dVN0000Uf&dT)0000Vf&dTz
+z0000Wf&dU>0000Xf&dT{0000Yf&dWL0000Zf&dT>0000af&dV=0000bf&dWL0000c
+zf&dTz0000df&dTz0000ef&dVM0000ff&dW50000gf&dT)0000hf&dUl0000if&dVc
+z0000jf&dWr0000kf&dT)0000lf&dT#0000mf&dU>0000nf&dVL0000of&dT)0000p
+zf&dT>0000qf&dWj0000rf&dVJ0000sf&dU-0000tf&dWY0000uf&dU>0000vf&dT>
+z0000wf&dT&0000xf&dT<0000yf&dUV0000zf&dWY0000!f&dW00000#f&dUd0000$
+zf&dVM0000%f&dUF0000&f&dT%0000(f&dWw0000)f&dVc0000*f&dWL0000+f&dU_
+z0000-f&dTz0000;f&dVc0000<f&dWr0000=f&dT~0000>f&dTz0000?f&dU>0000@
+zf&dVR0000^f&dT)0000_f&dT%0000`f&dT`0000{f&dT&0000|f&dTz0000}f&dTz
+z0000~f&dWj00010f&dVJ00011f&dU700012f&dWV00013f&dT`00014f&dT&00015
+zf&dUe00016f&dU700017f&dVc00018f&dT&00019f&dTz0001Af&dTz0001Bf&dWj
+z0001Cf&dWU0001Df&dWD0001Ef&dWV0001Ff&dVM0001Gf&dUF0001Hf&dT%0001I
+zf&dWw0001Jf&dT`0001Kf&dT&0001Lf&dUe0001Mf&dU70001Nf&dVc0001Of&dT&
+z0001Pf&dTz0001Qf&dTz0001Rf&dVc0001Sf&dWr0001Tf&dWr0001Uf&dWr0001V
+zf&dUB0001Wf&dU80001Xf&dWo0001Yf&dWw0001Zf&dVM0001af&dUF0001bf&dT%
+z0001cf&dWw0001df&dVc0001ef&dWr0001ff&dWr0001gf&dWv0001hf&dUB0001i
+zf&dU80001jf&dWo0001kf&dWw0001lf&dWj0001mf&dWU0001nf&dVY0001of&dWT
+z0001pf&dUV0001qf&dWr0001rf&dTz0001sf&dTz0001tf&dVM0001uf&dUl0001v
+zf&dU#0001wf&dT!0001xf&dVc0001yf&dWr0001zf&dWr0001!f&dT?0001#f&dVc
+z0001$f&dWb0001%f&dUF0001&f&dTz0001(f&dVs0001)f&dT-0001*f&dWr0001+
+zf&dTz0001-f&dUV0001;f&dUl0001<f&dT?0001=f&dTz0001>f&dUV0001?f&dWa
+z0001@f&dW00001^f&dUd0001_f&dVc0001`f&dT&0001{f&dT@0001|f&dTz0001}
+zf&dV=0001~f&dWK00020f&dTz00021f&dT@00022f&dT`00023f&dT)00024f&dWr
+z00025f&dUB00026f&dVM00027f&dUF00028f&dUk00029f&dWw0002Af&dVc0002B
+zf&dWL0002Cf&dT~0002Df&dTz0002Ef&dVc0002Ff&dWr0002Gf&dT~0002Hf&dTz
+z0002If&dU>0002Jf&dVf0002Kf&dV=0002Lf&dTz0002Mf&dVM0002Nf&dVw0002O
+zf&dUk0002Pf&dWz0002Qf&dU>0002Rf&dVD0002Sf&dWr0002Tf&dT#0002Uf&dV=
+z0002Vf&dWL0002Wf&dTz0002Xf&dT@0002Yf&dT$0002Zf&dVw0002af&dUl0002b
+zf&dWz0002cf&dV=0002df&dUl0002ef&dT?0002ff&dTz0002gf&dVc0002hf&dVQ
+z0002if&dWr0002jf&dUB0002kf&dU>0002lf&dWi0002mf&dWb0002nf&dT#0002o
+zf&dT$0002pf&dUC0002qf&dVK0002rf&dTz0002sf&dVc0002tf&dT)0002uf&dT@
+z0002vf&dTz0002wf&dVM0002xf&dU80002yf&dV~0002zf&dTz0002!f&dVs0002#
+zf&dVV0002$f&dWl0002%f&dUy0002&f&dVM0002(f&dUC0002)f&dUf0002*f&dTz
+z0002+f&dT`0002-f&dT!0002;f&dT!0002<f&dT!0002=f&dV20002>f&dVJ0002?
+zf&dU-0002@f&dWl0002^f&dVM0002_f&dVw0002`f&dUk0002{f&dWz0002|f&dVc
+z0002}f&dVQ0002~f&dT~00030f&dTz00000g8&dC00001g8&e!00002g8&fr00003
+zg8&fz00004g8&e300005g8&fl00006g8&fU00007g8&fv00008g8&d?00009g8&c~
+z0000Ag8&c*0000Bg8&c!0000Cg8&c{0000Dg8&c*0000Eg8&c^0000Fg8&c!0000G
+zg8&et0000Hg8&eW0000Ig8&fW0000Jg8&dz0000Kg8&eN0000Lg8&d90000Mg8&f0
+z0000Ng8&c!0000Og8&c%0000Pg8&dD0000Qg8&eL0000Rg8&c!0000Sg8&eN0000T
+zg8&dD0000Ug8&dg0000Vg8&c!0000Wg8&c{0000Xg8&c#0000Yg8&c#0000Zg8&c#
+z0000ag8&d`0000bg8&eK0000cg8&c!0000dg8&c!0000eg8&d`0000fg8&eK0000g
+zg8&c!0000hg8&c!0000ig8&c{0000jg8&c#0000kg8&c#0000lg8&f!0000mg8&dC
+z0000ng8&dD0000og8&eL0000pg8&c!0000qg8&dC0000rg8&eQ0000sg8&c#0000t
+zg8&df0000ug8&dC0000vg8&dF0000wg8&c_0000xg8&c!0000yg8&e>0000zg8&c)
+z0000!g8&c!0000#g8&c_0000$g8&c%0000%g8&f60000&g8&c)0000(g8&dA0000)
+zg8&c%0000*g8&f50000+g8&dw0000-g8&d}0000;g8&c{0000<g8&eO0000=g8&c*
+z0000>g8&c!0000?g8&c{0000@g8&eB0000^g8&fs0000_g8&c@0000`g8&d?0000{
+zg8&d30000|g8&fb0000}g8&c!0000~g8&eN00010g8&f600011g8&eQ00012g8&dA
+z00013g8&c%00014g8&f600015g8&dg00016g8&d}00017g8&ed00018g8&fs00019
+zg8&fs0001Ag8&c@0001Bg8&d?0001Cg8&c+0001Dg8&fs0001Eg8&c)0001Fg8&e>
+z0001Gg8&f60001Hg8&c!0001Ig8&c!0001Jg8&eN0001Kg8&f60001Lg8&c*0001M
+zg8&d#0001Ng8&c{0001Og8&c*0001Pg8&e40001Qg8&c#0001Rg8&ed0001Sg8&fs
+z0001Tg8&fs0001Ug8&c@0001Vg8&d?0001Wg8&eI0001Xg8&fs0001Yg8&c&0001Z
+zg8&e>0001ag8&fc0001bg8&f10001cg8&de0001dg8&ed0001eg8&eR0001fg8&c*
+z0001gg8&fx0001hg8&eN0001ig8&ex0001jg8&dm0001kg8&c!0001lg8&ed0001m
+zg8&fs0001ng8&d00001og8&c!0001pg8&d?0001qg8&eO0001rg8&c*0001sg8&c&
+z0001tg8&e>0001ug8&fM0001vg8&c!0001wg8&c!0001xg8&eN0001yg8&f40001z
+zg8&ex0001!g8&dm0001#g8&ed0001$g8&fs0001%g8&fq0001&g8&c@0001(g8&ed
+z0001)g8&ef0001*g8&d$0001+g8&c!0001-g8&e-0001;g8&eP0001<g8&fq0001=
+zg8&df0001>g8&ed0001?g8&ef0001@g8&dE0001^g8&c!0001_g8&e-0001`g8&eP
+z0001{g8&fq0001|g8&c!0001}g8&c{0001~g8&ef00020g8&dU00021g8&c!00022
+zg8&ed00023g8&fK00024g8&fq00025g8&dg00026g8&fk00027g8&fV00028g8&fE
+z00029g8&fB0002Ag8&c%0002Bg8&eP0002Cg8&dw0002Dg8&d}0002Eg8&fk0002F
+zg8&eq0002Gg8&ep0002Hg8&ft0002Ig8&c%0002Jg8&dD0002Kg8&eL0002Lg8&c!
+z0002Mg8&eN0002Ng8&d90002Og8&f00002Pg8&c!0002Qg8&c%0002Rg8&eP0002S
+zg8&dg0002Tg8&d}0002Ug8&c{0002Vg8&c#0002Wg8&c#0002Xg8&c#0002Yg8&e3
+z0002Zg8&eq0002ag8&ep0002bg8&fx0002cg8&eN0002dg8&d90002eg8&f00002f
+zg8&c!0002gg8&c%0002hg8&dD0002ig8&eL0002jg8&c!0002kg8&c{0002lg8&c#
+z0002mg8&c#0002ng8&c#0002og8&d`0002pg8&eK0002qg8&c!0002rg8&c!0002s
+zg8&e>0002tg8&f60002ug8&c!0002vg8&c!0002wg8&eN0002xg8&f60002yg8&c*
+z0002zg8&d#0002!g8&ed0002#g8&fs0002$g8&dW0002%g8&c!0002&g8&d?0002(
+zg8&eQ0002)g8&c*0002*g8&c=0002+g8&c{0002-g8&c#0002;g8&c#0002<g8&f!
+z0002=g8&dC0002>g8&dD0002?g8&eL0002@g8&c!0002^g8&dC0002_g8&dF0002`
+zg8&c_0002{g8&c!0002|g8&dC0002}g8&dB0002~g8&eb00030g8&c!00000ga8mX
+z00001ga8oK00002ga8l#00003ga8l#00004ga8nO00005ga8mn00006ga8l}00007
+zga8mn00008ga8ne00009ga8ot0000Aga8mH0000Bga8l#0000Cga8m@0000Dga8nX
+z0000Ega8l+0000Fga8l(0000Gga8n?0000Hga8oK0000Iga8l#0000Jga8l_0000K
+zga8nO0000Lga8o70000Mga8l(0000Nga8o#0000Oga8ne0000Pga8ot0000Qga8ot
+z0000Rga8l^0000Sga8m@0000Tga8np0000Uga8l+0000Vga8l(0000Wga8ne0000X
+zga8l+0000Yga8l_0000Zga8l#0000aga8mD0000bga8nT0000cga8oq0000dga8o!
+z0000ega8ne0000fga8l)0000gga8l_0000hga8l#0000iga8l|0000jga8l)0000k
+zga8mA0000lga8l_0000mga8ol0000nga8nb0000oga8m<0000pga8n>0000qga8mX
+z0000rga8l)0000sga8l$0000tga8l#0000uga8ne0000vga8l)0000wga8l#0000x
+zga8l$0000yga8l|0000zga8l)0000!ga8n=0000#ga8nr0000$ga8ol0000%ga8nb
+z0000&ga8m<0000(ga8n=0000)ga8nO0000*ga8mn0000+ga8mE0000-ga8oW0000;
+zga8ne0000<ga8od0000=ga8l+0000>ga8ou0000?ga8ne0000@ga8ot0000^ga8ot
+z0000_ga8l^0000`ga8mD0000{ga8l$0000|ga8oq0000}ga8oW0000~ga8nO00010
+zga8mn00011ga8mE00012ga8oW00013ga8ne00014ga8ot00015ga8ot00016ga8l^
+z00017ga8ne00018ga8od00019ga8l+0001Aga8l(0001Bga8mD0001Cga8l$0001D
+zga8oq0001Ega8oW0001Fga8nO0001Gga8mA0001Hga8o10001Iga8l#0001Jga8l&
+z0001Kga8mE0001Lga8nM0001Mga8l#0001Nga8nO0001Oga8mE0001Pga8mh0001Q
+zga8l#0001Rga8l|0001Sga8l$0001Tga8l$0001Uga8l$0001Vga8m{0001Wga8nL
+z0001Xga8l#0001Yga8l#0001Zga8nO0001aga8mn0001bga8mU0001cga8oW0001d
+zga8ne0001ega8ot0001fga8l+0001gga8l%0001hga8oZ0001iga8nd0001jga8l+
+z0001kga8o!0001lga8nO0001mga8o70001nga8l(0001oga8o#0001pga8l|0001q
+zga8l+0001rga8l_0001sga8l#0001tga8ne0001uga8ot0001vga8ot0001wga8l^
+z0001xga8oZ0001yga8nl0001zga8od0001!ga8oy0001#ga8mX0001$ga8l)0001%
+zga8l$0001&ga8l#0001(ga8ne0001)ga8l)0001*ga8l#0001+ga8l#0001-ga8l|
+z0001;ga8l)0001<ga8n=0001=ga8nr0001>ga8ol0001?ga8nb0001@ga8m<0001^
+zga8n)0001_ga8nO0001`ga8mn0001{ga8l}0001|ga8mn0001}ga8ne0001~ga8ot
+z00020ga8oN00021ga8l^00022ga8nu00023ga8l-00024ga8oq00025ga8mm00026
+zga8mD00027ga8nT00028ga8l(00029ga8o!0002Aga8n40002Bga8om0002Cga8m9
+u0002Dga8ox0002Ega8m{0002Fga8nL0002Gga8l#0002Hga8l#0002w_Jg1R
 
-for you to fetch changes up to 4a0f6cd38a05c17295a0383aaadb2bb69b06dc5e:
+literal 0
+KcmV+b0RR6000031
 
-   Update HPASS firmware for Qualcomm nord platform. (2026-11-03 
-23:09:45 +0530)
+-- 
+2.55.0
 
-----------------------------------------------------------------
-Venkata Kota (1):
-       Update HPASS firmware for Qualcomm nord platform.
-
-  WHENCE                 |   2 +-
-  qcom/nord/adsp.mbn     | Bin 8950424 -> 7930520 bytes
-  qcom/nord/adsp_dtb.mbn | Bin 85864 -> 85864 bytes
-  3 files changed, 1 insertion(+), 1 deletion(-)
