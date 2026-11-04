@@ -1,138 +1,135 @@
 Received: from smtp.kernel.org (ip-10-30-226-227.us-west-2.compute.internal [10.30.226.227])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740EC606A31B
-	for <linux-firmware@archiver.kernel.org>; Wed,  4 Nov 2026 08:08:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC635606A31B
+	for <linux-firmware@archiver.kernel.org>; Wed,  4 Nov 2026 08:48:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=foursfze.net header.i=commercial@foursfze.net header.a=rsa-sha256 header.s=newfoursfzenet header.b=Q2Zz1Xdc
+	dkim=pass (2048-bit key, unprotected) header.d=foursfze.net header.i=commercial@foursfze.net header.a=rsa-sha256 header.s=newfoursfzenet header.b=Dl8gDWa+
 Received: by smtp.kernel.org (Postfix)
-	id 686131F00919; Wed,  4 Nov 2026 08:08:20 +0000 (UTC)
+	id D755B1F00919; Wed,  4 Nov 2026 08:48:32 +0000 (UTC)
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=34.213.35.166
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1793779700;
-	b=iRjmicuUtNLtzAnsxG2QluEgIbs9Y3UcTX/wQYv9go5RERAKKHMXvpeS6MjV3PWd8l0+
-	 dCN4ZHb4PS91cNzZn0uY5ijVcZPMkxvLxGdVCrN6QPemTAhWp5EH8mzFqWU9qLdwmlSjE
-	 usNdWiw7aZD/R2gzyWczB1+OXaZFfF76iMuoeUX7TA4KjIr0piSGYdVzCEzAwMV5x3N3d
-	 RHlsauJmOt5kN+aR6DifAN1oNclXSqPrjArgePLGlgNY47yYtkvKO1vRrbOzrxATIOhNA
-	 UFiOz+TDAQZAYTr3J17CRbCACIICAa/Se+l00oqNYlHAPaGUoUPhrAl/XJWv/Adi0ug==
+	t=1793782112;
+	b=w7jOzilm187iWwCeD7VTbo9chJ03wd90BQwuy6nE4ln9CVL2N/Tx0s5j192f2vTl+Dts
+	 Xtjam/dfA09Sy/LljDaRCxt2aFkpLN/7DmJwNEwU3aR7Hzw2yDADXLApNK9FeA1/09eyR
+	 ozJSnDyJfNuHaJxv0+le8D1SvPZ7NsiI8uU1uxpLrfdDc20EqH7jZ2VXocHalbLakNo6R
+	 uheli35NUaC/GwIdHkbHkuGcAqy87+7LuWnYtFmL+iPeKKPkNE9boBHEY+Gtg6/jkka8L
+	 imXz3WwEIBNc3TEphZSfVbPQuMMIxzqycZI66vBZr93UqL0F0VA4WzBGD5U9uHpOKDw==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1793779700;
+	c=relaxed/relaxed; t=1793782112;
 	h=DMARC-Filter:Received:DKIM-Signature:MIME-Version:Date:Message-ID:
 	 Subject:From:Content-Type:List-Id:To:Reply-To:List-Unsubscribe:
 	 List-Unsubscribe-Post;
-	bh=Ky4IjvkkrghkJJoc3MKqclWs2MFeGrQQOJz5rxqy4Zs=;
-	b=w0luJn1a+azLLPjRl1KHLhyEczmotmf7bNXiTWIJweFGSp7l7al85H8by5uRaqyVZKnC
-	 J0Nu4tiapOw6EY8ojdc92GqKLzb4O1JWp0fFmJ01s+Y7Ydz7smVQSJenOqWNEwy5QJj6c
-	 fH8CsMcOoC8Jhts/lzhnD60yxnINUSU08MhtDK537H/svd/FZ0DfyX8ft+rEWP8vtxTEx
-	 Njf7dcZOSwWUs4zg2T40sq1a8PAK1xbao96xYFwxWN/c+PwtNiN4UV28JtaIzvqehU9v1
-	 IwkElrW1/2y3Xl6D50f6aFo240iT0KI857Cg1yr5nEelAT8zJ6+2zg3LWEjVdAZxtww==
+	bh=csiI2+hLbrTberD22YaxWSt/PGsKszHQqPDw4ic5v5M=;
+	b=Vv0K7ODpfDZq4K3cPU3CD3dfCUwaIaELkr7sETY5D77dDKLDnwQw8vTXtPj38+8TyMKm
+	 vnR6mKULD/hM83EXKWCPnC1Zfo64fsalEz6y8BF6Rvo+QBAnIgfmJN5eNyuT6bldv5GBO
+	 hqCrFLRNj+bpLW7Gba4JJ5/5SsNPJFPY7xrvRFs/EEEXYZ/SJbTwuTyxwOncSkrP8kdQa
+	 krw7FmwOimLjVtYSF6D/Sgfrgcqxj+aPgYgddU7SLTkbtVDQlWLvZUJptgkR6O9BXzgNw
+	 G0DqDQm7nRzx7FkU3duR+nZT2VvZ7pcozFJpwC20DkAycOXCNeq86sTNOl0BSENzzPg==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	dkim=pass header.d=foursfze.net header.i=commercial@foursfze.net header.a=rsa-sha256 header.s=newfoursfzenet header.b=Q2Zz1Xdc;
+	dkim=pass header.d=foursfze.net header.i=commercial@foursfze.net header.a=rsa-sha256 header.s=newfoursfzenet header.b=Dl8gDWa+;
 	dmarc=pass header.from=foursfze.net;
 	spf=pass smtp.mailfrom=foursfze.net;
 	arc=none smtp.remote-ip=34.213.35.166
 Received: from c1.cmsmtp.net (c1.cmsmtp.net [34.213.35.166])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 1FD7B1F000C1
-	for <linux-firmware@kernel.org>; Wed,  4 Nov 2026 08:08:17 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id CD4981F000C1
+	for <linux-firmware@kernel.org>; Wed,  4 Nov 2026 08:48:30 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=foursfze.net header.i=commercial@foursfze.net header.a=rsa-sha256 header.s=newfoursfzenet header.b=Q2Zz1Xdc
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 1FD7B1F000C1
+	dkim=pass (2048-bit key, unprotected) header.d=foursfze.net header.i=commercial@foursfze.net header.a=rsa-sha256 header.s=newfoursfzenet header.b=Dl8gDWa+
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org CD4981F000C1
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=foursfze.net
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=foursfze.net
 Received: from [172.31.1.3] (ec2-54-69-101-17.us-west-2.compute.amazonaws.com [54.69.101.17])
 	by c1.cmsmtp.net with ESMTPA
-	; Wed, 4 Nov 2026 08:08:12 +0000
+	; Wed, 4 Nov 2026 08:48:31 +0000
 DKIM-Signature: v=1; a=rsa-sha256; d=foursfze.net; s=newfoursfzenet;
-	c=simple/simple; q=dns/txt; i=commercial@foursfze.net; t=1793779688;
+	c=simple/simple; q=dns/txt; i=commercial@foursfze.net; t=1793782107;
 	h=from:subject:list-unsubscribe:list-unsubscribe-post;
-	bh=Ky4IjvkkrghkJJoc3MKqclWs2MFeGrQQOJz5rxqy4Zs=;
-	b=Q2Zz1XdchzEatmLSXOmCyJDx3NbYKyTRQjW625TF7YVJD060p3QdErDgrq2v2uYWUueFGS6N8Dv
-	bB6pM6+xdLWM4Iox7xVAvwStWLb+WI5vnDUW5dKYmiPIPuMtXDUbFoh71GdAIqSKKpsN+3SV+1nbe
-	WSb6EOFoVtqWP0PZsYAZ9/+d6JNFDxLi+g94AWKKJDrRHHf0KVbXtIMp9pNAL+91TV7/rp/n5fV6E
-	hSLU6KxWRhzcJYDu5pXVrwv8h4T14Jko9LMBCcGnnuRYnAMDHFvmRlKJPVJEMHUbSYNHEU33vMNu6
-	z9gGu741wFmCPQsCX2iZd/nnnVDl/d+HCFOw==
+	bh=csiI2+hLbrTberD22YaxWSt/PGsKszHQqPDw4ic5v5M=;
+	b=Dl8gDWa+9xeMKLhMg42x7ZFmAX/t8xKHVjT+86riphpyMveXQdPInNySuDuqUaSHANilv190fBE
+	5RNjEO2/yuHs4FIODohYFBywoi4v7DVBs9oNibRMLaeDtrd+L25UkjSZl6kSEFFL94W72E9en78Mf
+	/yU/Lup4IhHHuvtLYoMdW2ymR4HEtOux5P9YfyRSc4Vx+xymT78FRFDI7N2NhDO5uJEJbHISUbZu2
+	uk9djXb4CwuOWRJRIvOI9zcm5gyPreCFw+Fjm+ed6/rQQfxLxSx1uXtNhHKZTlVAltifEDaCX1Q7a
+	u3KS2LbrclyoTeJ9BW6BcI1DZnJDGzjpyl+A==
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 04 Nov 2026 08:08:06 +0000
-Message-ID: <e49ca13b05b84ed2a21cca4009eec882_CAMo1TLcFd2BzZF928WvRgwbtvPjJQSJs-gN=wmmupNDr=EeOwA@mail.gmail.com>
-Subject: Materiaalitiedustelu
+Date: Wed, 04 Nov 2026 08:48:26 +0000
+Message-ID: <72a2a6cecd934bee8d3c6108d371de24_CAMo1TLfPnNcftp1GmNfqDixyii5Yyrr6NmrkK1z62a7XNocr9g@mail.gmail.com>
+Subject: Anfrage =?utf-8?b?ZsO8cg==?= Materialien
 From: Commercial - Four Seasons FZE <commercial@foursfze.net>
-Content-Type: multipart/related; boundary="000000000000d082d7065f6de3e7"
+Content-Type: multipart/related; boundary="000000000000918e05065f6d2cc8"
 List-Id: <linux-firmware.lore.kernel.org>
 To: linux-firmware@kernel.org
 Reply-To: commercial2@foursmkt.com
 List-Unsubscribe-Post: List-Unsubscribe=One-Click
 
---000000000000d082d7065f6de3e7
-Content-Type: multipart/alternative; boundary="000000000000d082d5065f6de3e6"
+--000000000000918e05065f6d2cc8
+Content-Type: multipart/alternative; boundary="000000000000918e03065f6d2cc7"
 
---000000000000d082d5065f6de3e6
+--000000000000918e03065f6d2cc7
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Hei,
+Hallo,
 
-T=C3=A4ss=C3=A4 on Anshul Goel yrityksest=C3=A4 Four Seasons, FZE (Ara=
-biemiirikunnat).
+Hier spricht Anshul Goel von Four Seasons, FZE (UAE).
 
-Etsimme seuraavia materiaaleja:
+Wir sind auf der Suche nach den folgenden Materialien:
 
-Moottoreihin liittyv=C3=A4t materiaalit:
-S=C3=A4hk=C3=B6moottorit | Laturit | Autojen ilmastointikompressorit |=
- Muuntajat |=20
-Ilmastointilaitteiden ulkoyksik=C3=B6t (romu)
+Motorenkomponenten/Elektromaschinen:
+Anker | Generatoren | Kfz-Kompressoren / Klimakompressoren |=20
+Transformatoren | Schrott von Klimaanlagen-Au=C3=9Feneinheiten
 
-Sekametallit:
-Kaapeliromu | L=C3=A4mm=C3=B6nvaihtimet | Virtakiskot | S=C3=A4hk=C3=B6=
-kuristimet (katkaisijat)
+Metallgemische:
+Kabelschrott | W=C3=A4rmetauscher | Stromschienen (Kollektor Schienen)=
+ |=20
+elektrische Drosseln (Leistungsschalter)
 
-Porausmateriaalit:
--HPGR-telat | Porakruunut | Volframikarbidi
+Bohrausr=C3=BCstung/-materialien:
+-HPGR-Walzen | Bohrkronen | Wolframkarbid
 
-Ilmoittakaa meille, onko teill=C3=A4 saatavilla jotakin n=C3=A4ist=C3=A4=
- materiaaleista.=20
-Jos on, kertokaa yst=C3=A4v=C3=A4llisesti saatavilla oleva m=C3=A4=C3=A4=
-r=C3=A4, toimittakaa kuvia=20
-ja videoita sek=C3=A4 ilmoittakaa paras FOB-hintanne.
-
+Bitte lassen Sie uns wissen, ob Sie =C3=BCber eines dieser Materialien=
+ verf=C3=BCgen.=20
+Falls ja, teilen Sie uns bitte die verf=C3=BCgbare Menge, Fotos und Vi=
+deos sowie=20
+Ihren besten FOB-Preis mit.
 [image: photo-collage.png (3).png]
-unsubscribe <https://mail.foursfze.net/x/u?u=3Da49a521a-8285-4cc7-83f4=
--8762e5160b27>.
+ unsubscribe <https://mail.foursfze.net/x/u?u=3D2008c447-ca83-4e0f-8dd=
+0-42daa23e627b>
 
---000000000000d082d5065f6de3e6
+--000000000000918e03065f6d2cc7
 Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hei,<br><br>T=C3=A4ss=C3=A4 on Anshul Goel yrityksest=
-=C3=A4 Four Seasons, FZE (Arabiemiirikunnat).<br><br>Etsimme seuraavia=
- materiaaleja:<br><br>Moottoreihin liittyv=C3=A4t materiaalit:<br>S=C3=
-=A4hk=C3=B6moottorit | Laturit | Autojen ilmastointikompressorit | Muu=
-ntajat | Ilmastointilaitteiden ulkoyksik=C3=B6t (romu)<br><br>Sekameta=
-llit:<br>Kaapeliromu | L=C3=A4mm=C3=B6nvaihtimet | Virtakiskot | S=C3=A4=
-hk=C3=B6kuristimet (katkaisijat)<br><br>Porausmateriaalit:<br>-HPGR-te=
-lat | Porakruunut | Volframikarbidi<div><br></div><div>Ilmoittakaa mei=
-lle, onko teill=C3=A4 saatavilla jotakin n=C3=A4ist=C3=A4 materiaaleis=
-ta. Jos on, kertokaa yst=C3=A4v=C3=A4llisesti saatavilla oleva m=C3=A4=
-=C3=A4r=C3=A4, toimittakaa kuvia ja videoita sek=C3=A4 ilmoittakaa par=
-as FOB-hintanne.</div><div><br></div><div><img data-surl=3D"cid:ii_mw1=
-rjclu0" src=3D"cid:ii_mw1rjclu0" alt=3D"photo-collage.png (3).png" wid=
-th=3D"523" height=3D"294"></div><div><a href=3D"https://mail.foursfze.=
-net/x/u?u=3Da49a521a-8285-4cc7-83f4-8762e5160b27">unsubscribe</a>.<br>=
-</div></div>
-<img src=3D"https://mail.foursfze.net/F9y6-v3HrB2jCS8zN8W8V5DbR25yxvyr=
-0JNz4U_sirHp8U5cpqseFEzP731e1bV1m9mPkKbfDQazQjftn2ifd1xCvTFG3yXnicbqe-=
-nBg8Cko1PtY1bZc0f26Xab1AoYdDelXKWhqisAwqWlOFwBLZWxSpWG6d8CscUcp2siOrQa=
-jgm8q4W9_GTqnfRMRwEF1bnZCibbIVRIkW1kOV5G_N_KjbRP0hKj6nbnwR" alt=3D"">
---000000000000d082d5065f6de3e6--
---000000000000d082d7065f6de3e7
+<div dir=3D"ltr">Hallo,<br><br>Hier spricht Anshul Goel von Four Seaso=
+ns, FZE (UAE).<br><br>Wir sind auf der Suche nach den folgenden Materi=
+alien:<br><br>Motorenkomponenten/Elektromaschinen:<br>Anker | Generato=
+ren | Kfz-Kompressoren / Klimakompressoren | Transformatoren | Schrott=
+ von Klimaanlagen-Au=C3=9Feneinheiten<br><br>Metallgemische:<br>Kabels=
+chrott | W=C3=A4rmetauscher | Stromschienen (Kollektor Schienen) | ele=
+ktrische Drosseln (Leistungsschalter)<br><br>Bohrausr=C3=BCstung/-mate=
+rialien:<br>-HPGR-Walzen | Bohrkronen | Wolframkarbid<br><br>Bitte las=
+sen Sie uns wissen, ob Sie =C3=BCber eines dieser Materialien verf=C3=BC=
+gen. Falls ja, teilen Sie uns bitte die verf=C3=BCgbare Menge, Fotos u=
+nd Videos sowie Ihren besten FOB-Preis mit.<div><img data-surl=3D"cid:=
+ii_mw1pp70m0" src=3D"cid:ii_mw1pp70m0" alt=3D"photo-collage.png (3).pn=
+g" width=3D"523" height=3D"294"></div><div>=C2=A0<a href=3D"https://ma=
+il.foursfze.net/x/u?u=3D2008c447-ca83-4e0f-8dd0-42daa23e627b">unsubscr=
+ibe</a><br></div></div>
+<img src=3D"https://mail.foursfze.net/OzqNT9U_4GWwWja0p6FyDFT8be9Eceic=
+cmpq1co4wj29KePjXp5tByJsZhq5_EU3vSGbU8DfUE4QFQNcbP57ROWIwFQCo6b9lnVQPS=
+xqTm4Od8Q_ZXts6UTx3wEgDOGnh53N-nnufFkac882JpcUf_d-kQiX6fpwqxprxzsjtnEa=
+jgmtThG4w1h7-xS07QIcnaKxbleArCD9QMDL9E3hLZ7n0ckEOqlL" alt=3D"">
+--000000000000918e03065f6d2cc7--
+--000000000000918e05065f6d2cc8
 Content-Type: image/png; name="photo-collage.png (3).png"
 Content-Disposition: attachment; filename="photo-collage.png (3).png"
 Content-Transfer-Encoding: base64
-X-Attachment-Id: ii_mw1rjclu0
-Content-ID: <ii_mw1rjclu0>
+X-Attachment-Id: ii_mw1pp70m0
+Content-ID: <ii_mw1pp70m0>
 
 iVBORw0KGgoAAAANSUhEUgAAB4AAAAQ4CAYAAADo08FDAAAQAElEQVR4Aez9BbhlWXHHDf/XtuPX
 /Xb3bddxd4FhkBlcg7uH4BCcECxIIAFCkJBASAIJHpJAQnCHcdfuab/ux/f+frXPvT09zQCT9+V7
@@ -79768,5 +79765,5 @@ Ai4CLgIuAv/+CLgr/L9BwC0A/9+g5j7jIuAi4CLgIuAi4CLgIuAi4CLgIuAi4CLw/x8C7swuAi4C
 LgIuAi4CLgIuAi4CLgIuAi4CLgIuAi4C/yUC/zYF4P9yhe4NFwEXARcBFwEXARcBFwEXARcBFwEX
 ARcBFwEXgX8bBNyFuAi4CLgIuAi4CLgIuAi4CLgIuAi4CLgI/PcI/H8AAAD///OIAyUAAAAGSURB
 VAMAbtfSueTuZF4AAAAASUVORK5CYII=
---000000000000d082d7065f6de3e7--
+--000000000000918e05065f6d2cc8--
 
