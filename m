@@ -1,195 +1,275 @@
 Received: from smtp.kernel.org (ip-10-30-226-227.us-west-2.compute.internal [10.30.226.227])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3591E606A31B
-	for <linux-firmware@archiver.kernel.org>; Thu,  5 Nov 2026 11:33:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5986082BED
+	for <linux-firmware@archiver.kernel.org>; Thu,  5 Nov 2026 15:19:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=G0Go8Uzj;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=dh1/Ngk3
+	dkim=pass (2048-bit key, unprotected) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=eqBsojZK;
+	dkim=pass (1024-bit key, unprotected) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=lQwevkwp
 Received: by smtp.kernel.org (Postfix)
-	id 2863E1F00A17; Thu,  5 Nov 2026 11:33:40 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=205.220.180.131
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1793878420;
-	b=1gleV+hxmgC9CQPjgO+mzjnH+I6w/A5EuS3MWVk45ELxcPZxwKgxniYeyvXvMh+mvsrP
-	 +55evMSwZHkJseKoLkfgiKhnqimI9bf0VgIdPwDcvHU+AtcLVd3IDWhI9S0jNr5h80B4O
-	 fW4xwbzh4AZmLmuM4qcUEocqFHMrQEmV93uFq6MDimEF5B2UgrkSJh2/bafsvcYnfZSQ+
-	 DLmRMpbgmCmOGDfrP4iDIm0hix2XTYVSJwnDdPOUaJunEoYMRd2Cqt4MejJmgwNryGpHg
-	 y2VWW4rn3TblthjB16cW2x9qSRaBFxOIQ47SpeLVEIz5KPNjXHq1wtmqpxNhf2LmTDw==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1793878420;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
-	 X-Received:X-Received:Received:Date:From:To:List-Id:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=pDRo4l5AU5INXxJEP3aeIGNmrM+6zizpy2Yzww78Q4U=;
-	b=YJ3Uu0LeBJwuxFtEiSuvbgxj4OG8GcRElhf/6qWtPhJSmpTICvHtv968Vjn5DpzN4j1w
-	 6IuqiNPsSIHGQyNvtsU1lkb6d3U27bvCu8vik+cd1GQzqQ09f0MY8BPj0A3ISU/1t7wdJ
-	 MzpfUSctpRwenbGs+UtVXIGihtljJTCtht++RyGUH1Z60O2x0ksvt6XTXtS3YmCZ5PBV4
-	 FVCmA1cpscitR3exr4vp+oGNtKnUTepk2VTypqxBML1DgmlACRNAZ+j9T9ZyMZVHOYdS5
-	 7q0Wld1OUMee8neXUQpER3kHzHBNgFSYt3Npi8pEFlkJTanXPXUNsB+TQCTwG31Gx+A==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=G0Go8Uzj;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b="dh1/Ngk3";
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	id AB4C71F00A18; Thu,  5 Nov 2026 15:19:50 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
+ARC-Seal: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=pass;
+	t=1793891990;
+	b=uPeSUJn7ErA1iJvpwTLHwYLGucRCV5nkHN/HlonIdZkFWiULyDfdhyM2hl+k+fs7nYzA
+	 /ty+Xe3lCtjxlhKgKj82+tE+Wwz6eLLUU2CIiDMhQ0wtQh3//HvrGZuQP8YYJMkpBEeVw
+	 0u0k7pW158g5Ija6Ajhlc9btYNsUF9wIlR5U1wgftyiVX/aWhQxzdCef0ZESTKlWguNZA
+	 GSMCQ8tWRQrpyda3is6TSiD4ip78xuwso5jxM1wvjgja7dTIOdCYyxzxc8hM9oGnlzutX
+	 g4rkQaNKAomLOIemdzhfF90FT0ZRoY5QJ52jyixn9PEfJ/F4jCyasjT9MjPwJlC5xQA==
+ARC-Message-Signature: i=2; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793891990;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
+	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
+	 Received:Received:Received:From:Content-Type:
+	 Content-Transfer-Encoding:Mime-Version:Subject:Message-Id:Date:Cc:
+	 List-Id:To:X-Mailer:X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Spam-Reason;
+	bh=L3GN+lPl3hH4jQPP0gzVkX8EJA8jXMkzqP5rZkyw38c=;
+	b=Cw1Q//kwbKeZsby+OnIyZyo1dSDD7DGOyVTbdq6bjpP931YNklPkfBkUlnimevSYuwYg
+	 6PZFL3idSvlSX2cxMH6DXR0WGiqJiTiiSKIOXSXebgvP9YX78whIHjmaYr5An00cEprBQ
+	 OdsB7L50NPqWHdQsViMS1D0sR8O+Lzq2Jz5fQgwJReJPA3hsuXniCIXJ8T9Puz2D4/MuC
+	 QUtmXbuHnX+nleHKw5qpcUbJ/SKHJA7EZOWXYmQpC+Q1l3exefTAw94BCKKBylhCrszrS
+	 Sd2W/mEB3ZXIp7XM2LTxBFMQhpyAKk5o2ahky2vvTCpJuNGmFZBh2JdDt5lYXoUvcFA==
+ARC-Authentication-Results: i=2; smtp.kernel.org; 
+	dkim=pass header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=eqBsojZK;
+	dkim=pass header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=lQwevkwp;
+	dmarc=pass header.from=opensource.cirrus.com;
+	spf=pass smtp.mailfrom=opensource.cirrus.com;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 6E4DB1F00A02
-	for <linux-firmware@kernel.org>; Thu,  5 Nov 2026 11:33:39 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 6A9871F00A16
+	for <linux-firmware@kernel.org>; Thu,  5 Nov 2026 15:19:49 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=G0Go8Uzj;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=dh1/Ngk3
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 6E4DB1F00A02
-Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A59teRN1028357
-	for <linux-firmware@kernel.org>; Thu, 5 Nov 2026 11:33:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=pDRo4l5AU5INXxJEP3aeIGNm
-	rM+6zizpy2Yzww78Q4U=; b=G0Go8UzjdR1voKoIpQTTMEuVCM1vK1Nphd5eRT0O
-	Z2DKVKXT7S+X7OEn/Zk2vtKmkQ+pxHpJnGR76PfGOXnYSP0Y8KimBxdkskQ+iWkw
-	eR3Qj1JKYVyr4ut1B8k/ERpZQ1P5qXf9xKRcUeN+qyoaEqRk8778Ge4w+P9XlAgH
-	jv94Xi09tvP/THesOl49d36fxJ5rsjQIaA1uVcIXaB7rV8+iEDB41B1KiP4/nrJj
-	uhFg7e9BcHoU92odesJan505+MtKEXJUxSaUNT1rJBcQSkXb6f2G9yDuHRwTRiHU
-	UYWOMDPHhEgEbTUpBEakR1iZLnYm4oQXbooPgW6P4K73RA==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hrkaq9gu3-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Thu, 05 Nov 2026 11:33:38 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-535066512b0so49539401cf.0
-        for <linux-firmware@kernel.org>; Thu, 05 Nov 2026 03:33:38 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=eqBsojZK;
+	dkim=pass (1024-bit key, unprotected) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=lQwevkwp
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 6A9871F00A16
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A5DM9fP1567639
+	for <linux-firmware@kernel.org>; Thu, 5 Nov 2026 09:19:48 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=L3GN+lPl3hH4jQPP
+	0gzVkX8EJA8jXMkzqP5rZkyw38c=; b=eqBsojZK65ZzDOxrV7zZfGpUbCdFRYS1
+	Uj/zl8jpxBHv0+MZEU9KbEIC0aOHx4+cnyYoVEHBRbF3W3aJRYptGvTOtF5cORuM
+	NvFeiRt+fUsN6s9HRTuW9stH1HGipg5sx0/8Y+wj57pL3XcgdMxjPUtEmxpMe8Vl
+	YjjWTtfiX8IKP66OxdDyDcTOlBVkPAaqVbNcDul5bzb09ivkTGaOjS6NpIg8I8wO
+	CczmZqkI7Md96Lpq+ZSPojbmSQQxnrblIAI2BM9jI2e3F8EarnYutnayq7Xx8c+j
+	hKnzNOLCHqs1igBe+DGAN+bmyqXCqfgcprVGZ3iUDD6NxVAZbJkKDg==
+Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11022085.outbound.protection.outlook.com [40.93.195.85])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4hr7c79u1v-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <linux-firmware@kernel.org>; Thu, 05 Nov 2026 09:19:47 -0600 (CST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RzUHFqXodAxA7mhDOEP56hYvSDxTtVCbUxWGnwQ+oq7pnGSw/ZfX4SVLUQ3SMPw+60mL0pfNstZENoFSFnG/Bk0mycdRYGmmT5BpnQWUseXphF7+58kO9pppzaFRySyXGzNauNSRD+5Hw+nHeITlgp2xi+9pF+6yaLSFILwJ+wowttvKKkoiwFdhJZ6yXiy4qQoZb7gM6bWShAhOs8ypkcwfuAtoephvuBEcDmFVqLCi0EKZBhheDXC23l2qpu4vdpNleK+64jk3vkTAMmCyIFkgGt5pKO1H81An9SvS1u4NRbcnMcwtxv+HGLlpFf7Sk0xCIWJdU8CA++/bcoXe9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=L3GN+lPl3hH4jQPP0gzVkX8EJA8jXMkzqP5rZkyw38c=;
+ b=N5n2AuMVMBHrfYgp8PCsvgWl/CfBEajaNc2Gwc+uPs2iWwkMrfhqp57XzU+l2NCiWEnqFcq63lBA6XwVDlC0+Xp3hmAXNKRLvg3ts9mmOCN28CfjGsYUh6zOS8h46jO/C21NgMyAFlyc3R0wtfC+weNRoesjD5nNpjc8yjDubJHM7iFUXfYlkLgDwn+/zyIKhcAmx/8jkWUHIVoCzB2YR5Dq6HE6KAyULV6F/uhb8lhqXLTU3XglY3QDQVhc9ER8me+BJ1dV5+BkxT0nJwGX+mM8d1UGTMHSslImgW6kvP4iRQWJlHT+UuTpaT/zyG+0ha4LLmTbAk0INHuoL21Nyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793878418; x=1794483218; darn=kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=pDRo4l5AU5INXxJEP3aeIGNmrM+6zizpy2Yzww78Q4U=;
-        b=dh1/Ngk3qNelNBD4q1EpxL07V0YsV/UCzSfAByhueHmr/fOMsHlRVQiqkK3DOEchjV
-         symHtx83opxRhwMCiZ8L6URU2ynBNzyamwPm2xaUyHhzrL2vhgVyH0bnRgcXZz14hWQm
-         oStXnbe9b3k5towd2zqaV9pxHJ61lObq8X5sA4xasJjn8s6YyBZmrnD0uoa+mgl/prh7
-         i9Jr4hMvkPDklzC8W7dgAkhwXKCm5GpQS+1Ujtds/rM+PRneJvpHHe+JYOmlOqQc/DE0
-         uM8wCq/rbOpP8DnfXEQKHrifFHzXfYTKkEsZt6EFYYDCY0z/FzIOIRVkaDjpSh2SUYpy
-         WQuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793878418; x=1794483218;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=pDRo4l5AU5INXxJEP3aeIGNmrM+6zizpy2Yzww78Q4U=;
-        b=1r+0P+XMDWSmgGZDhCIRBmw4pTCyvHTPRNbHBPT3r52BPggjeoJbTM75ckSq/mXoth
-         nkRl2g1UdAhV/u3wU+osU8lEcUBUIU8IVSE+Ld9OsJTrqZcLglWFkrdKK6tSVZjDgwd4
-         4ae281v5MN5e16VULhQNnLBVCpXWtOCeB0SkOFXTEYlc237bXqQq/v0s3ssj1/g2oJmg
-         SiBuI1q2Si2EGB5MyG3hxy3xLM7r7b8OfBfN6VHd6IYwaYptOewwy6TPVQNAFOR23J2U
-         lyqCGKHG7463mu90TLAkANsuanKFRdINMKSw63R6YITqqmddGmU1Zw2zf0oKr3NOI/rr
-         aiag==
-X-Gm-Message-State: APuU4Z/fahIZte+2WsvZNA/w3qqgUUDettJcs6mLLtmxhgqqVTtsGuf0
-	xAUQWiQPtXA4MBoZsFnFEjsdAL2ULdeaItcKQS0nlZ88oj8qEtqwntD1MDoKHYjHzbm6XAGmNca
-	b6vcoID7oNEhw9CHHRQ263E6fwuXe00ud+o9BeMvgwKeLhVgDy6JFyHNkDWzpq60=
-X-Gm-Gg: AYBFou0JcIXEW1+1NhGRO62CosUoiYOBIwi+q9uTyZ2fzq0dkIVscfaWZNnGYN2wUyZ
-	QmxRHvgUIC3sWi8OszI7F301JgAG0ZgR4jHv8EZEKWhhNguRtFu5aMbvUqzj9Y0iM+DkXwBVeUC
-	3a8mAwz4EMOtySYWpPtUca5FwMzYAGpVtEsUEQ+u8WeScZScmaoRni4K3kdBtUsIJO7N6y+lDRG
-	T7rhTE672cNkHn5N+rrCNwShGZyF2X/i2MvSMwV+IZu6GDurM9DSfzxMO9Iiv0iM/2IbJ2TPOqw
-	VSitDUWWDruFZLmuplBK6dgV3UQ25B1ifHigExiwwirR0sORUtwymnO4fy74NXLi01QxDQkhrEn
-	ECam3Hi5iUpCREMZPBi5FTglRn5bj5Q0MtGPIGFJ1Vo+AS1y3wxLzq3U8f5Gm6DNFTD2kxzNQih
-	XpW3E+G9KmhsaL7SiEcea/6T+BZ1Cn8tGSccKKq9zK0Ngd0VEIJrnDuOrg9U2M
-X-Received: by 2002:ad4:4ea4:0:b0:91e:a219:fed9 with SMTP id 6a1803df08f44-91ea21a01e5mr2600266d6.1.1793878417428;
-        Thu, 05 Nov 2026 03:33:37 -0800 (PST)
-X-Received: by 2002:ad4:4ea4:0:b0:91e:a219:fed9 with SMTP id 6a1803df08f44-91ea21a01e5mr2599806d6.1.1793878416774;
-        Thu, 05 Nov 2026 03:33:36 -0800 (PST)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3acdc6cd611sm10422671fa.19.2026.11.05.03.33.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 03:33:35 -0800 (PST)
-Date: Thu, 5 Nov 2026 13:33:34 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Zijun Hu <zijun.hu@oss.qualcomm.com>
-List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org, jwboyer@kernel.org
-Subject: Re: [GIT PULL] Bluetooth firmware for Qualcomm QCC2072
-Message-ID: <6rptq66wpput353d5rn4cmvbjmwvz6aljc5a2r4zi2tj3ghahx@xxoibgwyc7yu>
-References: <26c5ed05-8ba0-4747-8c0e-d8c69cd6b012@oss.qualcomm.com>
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L3GN+lPl3hH4jQPP0gzVkX8EJA8jXMkzqP5rZkyw38c=;
+ b=lQwevkwp7JqxFU3UgQXDlbSoa7DS3CPOSqmIBG8xk+Wz4PdedfFoXhWANDW3fwf9/MPi8xcor4MNVH+OGVex/oxtdXajnGOO3NnRrKEWU0ycqzbcOv/MkwwG1ZQcSdEjZ+R4JlyLZ5sP2uZZRkZLF5QjBerfpI1BQPm562nGBhc=
+Received: from DS7PR03CA0055.namprd03.prod.outlook.com (2603:10b6:5:3b5::30)
+ by SA1PR19MB6670.namprd19.prod.outlook.com (2603:10b6:806:259::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.8; Thu, 5 Nov 2026
+ 15:19:24 +0000
+Received: from CH2PEPF00000145.namprd02.prod.outlook.com
+ (2603:10b6:5:3b5:cafe::96) by DS7PR03CA0055.outlook.office365.com
+ (2603:10b6:5:3b5::30) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.10 via Frontend Transport; Thu, 5
+ Nov 2026 15:19:20 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
+ IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
+ not signed) header.d=none;dmarc=fail action=oreject
+ header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CH2PEPF00000145.mail.protection.outlook.com (10.167.244.102) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.5
+ via Frontend Transport; Thu, 5 Nov 2026 15:19:19 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 938AD406544;
+	Thu,  5 Nov 2026 15:19:18 +0000 (UTC)
+Received: from smtpclient.apple (unknown [198.90.190.235])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 7888582026C;
+	Thu,  5 Nov 2026 15:19:18 +0000 (UTC)
+From: Simon Trimmer <simont@opensource.cirrus.com>
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <26c5ed05-8ba0-4747-8c0e-d8c69cd6b012@oss.qualcomm.com>
-X-Proofpoint-GUID: BCcVyM4ScRmUr-hMcqOqV6ZdUwQB-xZB
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA1MDA0NSBTYWx0ZWRfXwq2s20WFCWN/
- Dsy4qvJ1MrYzhTYvLLvNlNC9lCL6p0QwF8Bzoyqi15glRMQadcJBHH4CFZQvBz1pXsVoRpaN0q0
- cCWFenZRqd0VgeqXI3LbF76hqvc6lLA=
-X-Proofpoint-ORIG-GUID: BCcVyM4ScRmUr-hMcqOqV6ZdUwQB-xZB
-X-Authority-Analysis: v=2.4 cv=OZoNnRTY c=1 sm=1 tr=0 ts=6aec6992 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=NEAV23lmAAAA:8
- a=p0WdMEafAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=6tDc20NHRe3dPXSO-9AA:9
- a=CjuIK1q_8ugA:10 a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA1MDA0NSBTYWx0ZWRfXyUTgisAwVZ8L
- SyRTAfacyiml7UjZ0iqm+ExjmFIYyz/Qo0Hw9aEYNvcKwUK4Q3vsWY4PLTA3x6n0HdTSHBN/Ind
- 1xqp6hGDQ/V6BFFUeG8RiMevUzT0EMxVKta17DV50IFRaBK0deyRxyQI9N5BXQQSMsaAvcfK5du
- CnHVJdQuWeTxkBtmuyzuuvRBBDYzXWDWXk3S5cuiWzYlL9hIDAVjY5frZn6ilTkTVJp1a14P4+s
- g/LVVB/IkwhJITb1I0oinv5N2dpMbfcWvNZsepGGOgQqlLFCKkiBlxRxuXF+cBsBjzV17yOPcQ9
- LYzCPB2jS6vJff+dXPnZku4Z2QlF/vrDjI1JEoDTR6K+fDbVqX5pE23P1BAFQtfR5LoGd7+quqZ
- lrlh7lNmAbqnBZ5tSTY/fO7SPQMqDiKn/Yf09F1hGWYvWbZaSa6/gEiD9++Yo3BpIiSQBRbrDEf
- nY0QmvUEtufKqmD7PZw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-05_03,2026-11-04_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0 bulkscore=0 clxscore=1015 malwarescore=0
- suspectscore=0 lowpriorityscore=0 impostorscore=0 priorityscore=1501
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610300000
- definitions=main-2611050045
-X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.100.1.1.12\))
+Subject: [PULL v1 linux-firmware] Add firmware for Cirrus Amps and Codecs for
+ a few Dell and Lenovo laptops (20261105) 
+Message-Id: <A4B28BF4-BCF2-4414-AB13-B58D3BFA6734@opensource.cirrus.com>
+Date: Thu, 5 Nov 2026 15:19:08 +0000
+Cc: patches@opensource.cirrus.com
+List-Id: <linux-firmware.lore.kernel.org>
+To: linux-firmware@kernel.org
+X-Mailer: Apple Mail (2.3901.100.1.1.12)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF00000145:EE_|SA1PR19MB6670:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7287a93c-1761-482f-15f9-08df3b502a05
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|61400799027|36860700016|82310400026|56012099006|11063799006|261102123227099003|261009221727099003|261021121427099003|261009223327099003|261021123027099003|261009220027099003|261009223027099003|261026140227099003|261028144727099003|261022105027099003|261009221227099003|10067099003|18002099003|16102099003|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	l9C8wkTVuL7EXBzYhkfFYGChiv1l6Es+qSUu/spgZkMOXGcU33etJ1m9afu9IHzHTPRXhR69FVOMC608PDy6AQ+Jv5GIRmKPv3SP9HQdo8qKWvYOA/GsytAzlkcVn/eloyYtyPGnuq6b8YilTHeCSqgGjxehuHN5U3xXn4zwqzYeL2i7QDV/vBFRm5VrpkgTkvOIQQmHfBWNiRaigY/Z0j7g3gNM6QzPzuLAC8ynWEvWZFO+1Oh9m4G3kFZYD4br4j2YSVZKf5vjl5DghGek7ZorEbVHkHKzzKHpITe0TSEiGTPeqRzeJ3wfuRc+jMal9/0uVVEgbE/TSwqJxazfqKrkhzzfaR6gtZj7hjIEYzKzqS5+ErR8mflEuWVz/MNwqKLhS6QOF8L3pmGgP78FRz0x/Y0+MwHSC21B79kEV+2iqXU6JpZDrIOwnvQOW+M7Ea9J/1wK5XNy3TeK7WSwlGIKtyLqsW1q4XNsFP00XA9apOEebyo23gqQpvUuNT5NRZAb62zH75YWy00zrjjTMCiUyzYvcMHmNXrmv0daEad+2h2ZQ5xeNpT8rpVsrA4n7Wg3x6jWDibZiR54YTZDJjF7fyxqN9FjvMe49iF7Y+Zy5G9CAaG3BZRV/NLK7hTKpwNsQK6e0s2Zg579y5dftwL+bNIBouGR2Q1bU+s19M+//n+sG5eHmROJWAHYFg+TV8xxviOO2gFqZ06k8ydl7Q==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(376014)(61400799027)(36860700016)(82310400026)(56012099006)(11063799006)(261102123227099003)(261009221727099003)(261021121427099003)(261009223327099003)(261021123027099003)(261009220027099003)(261009223027099003)(261026140227099003)(261028144727099003)(261022105027099003)(261009221227099003)(10067099003)(18002099003)(16102099003)(13003099007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	dmMxYYLOWja7IZ9YKrqdH6oJStkFWt2J1dfYZR3Sn+h8QGptkEOqS0z42hUehjfDMxK4B1g1G40H9hqzxsVwqLdAq2+JG0GnNgmkd1eB2rkeJw0uuqbeKb/FPnW7wHe7v8CMrL7JUcm4/1nvVDo0aO4geBJ8fmzUSa5xqgz7ZXKwYd/NmmZTVX2aFaKMu7YyIDxdQufQyUb+/w8jji4amRFWIL69eudTAKXWsvFagruhOVLG4MPlUX4OCIlgmHoOk1XxSETp53ujB6UxDBFqKo3kVDb2PNmBh7sGVAZt8+wEtXaPxIDFtEKaGG+lSy/vYVhW1FK26q47VkXkTPLFim0pa5b+6mcr8hLWXqIvL0lh/0a6nbmb3aUZabomWNI6+4QrvaZ47CaJ3/eE8cFZNIpXExeF4ZuUPpsKLohxBvvcJixVFAIZAMIwMVhEhKxg
+X-Exchange-RoutingPolicyChecked:
+	YQ0LfpS3X6kxxdq9+A1zXQIVw6tMW/bBEoIUboJKCeqycnnSJQZ3iUAcOuRp929K4s0aZnfCs4Iq2hQCh1O71OmVgmmCErvKquh3fAJV2MsOSPekNFu8IUV5d8m34wU0JMziHd680UPc5pWP0JAdHrCLZ2awUyCciBqrHJlyZGalEXRNY8aTOVNaaaz+RTlsGw8A7ED9qQ/DkBBi2V0ztwOpmFKj8PH/dqw+ZBmjvJuRFB9pte4LLoT57Z6shmaMX+Z2mxTHrxl0dxuDzwgwXpIiuDw14yCEbN8p9W11ucDZI6jX8hH9Psq8H/Nm7mrmML94k+EcD//CLO29+srTTA==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2026 15:19:19.6020
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7287a93c-1761-482f-15f9-08df3b502a05
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH2PEPF00000145.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR19MB6670
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA1MDA2MCBTYWx0ZWRfX+PrLhjmpLVqf
+ O4jyDo9DJqNisR151aOmbzQE4M+810A4jE+ibgrCLghpP9IwM5IMF3mO0lasP4yBkKxNNi7xtvr
+ q5jtJpx4IG1ajwEEq0Oh39/qLuFJLdBe+vaFh+5lAabydzwp7ZXRcfmKdWzEstNgjZTEuWIvnxU
+ Wr/GEwPgUvDzfbU0hXnDncLp+ARgZ3penzJE/6+PR3IB+w2d4NwbXQZIeo21Xd2pv96pqf4GM6A
+ KP+9wJ5U6hj3phHHZRG+A9Am1bGjvuL4dTLdGySEjrBTAmZYqExOIMvJr6hK9MOsZt4xsnHZ75I
+ k2ZKabnutd9bhAYN1NxTwTrfQViptN1bp6YxCVN4GLcHC7IIwXhVuN+gHwMVbRbILu8NRZHlWOF
+ EMFUJu58zAQ9PjYVPRD6qMvyUpS0GfkjAZKg1MIij92Nk5YrcPkUYEy4G5z2+Nc/pCnP8fQnNsp
+ kOMeWA++/tt/ytYtgrQ==
+X-Authority-Analysis: v=2.4 cv=Vr62kO2n c=1 sm=1 tr=0 ts=6aec9e93 cx=c_pps
+ a=IrW4GQFFt97Yz6NwHc2cjQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=NEAV23lmAAAA:8 a=TG_bWCyoMVgd7kiMJ7YA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: LMIW51xqF27Vo3dqiWAJYTI8kVo9tYJE
+X-Proofpoint-GUID: LMIW51xqF27Vo3dqiWAJYTI8kVo9tYJE
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA1MDA2MCBTYWx0ZWRfX6ES9HMQXIEi1
+ Fueg1EfPhEiCc0rmEkLDKvhiugOx3am4kqCqr8kgnOCNLX1YlQ9+jnNPuLMGIdkwtz+OWsmosCb
+ mNrdlvgFYzOqK0pbCHXjLt/IPMCP2Zs=
+X-Proofpoint-Spam-Reason: safe
+X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
 	autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Wed, Nov 04, 2026 at 09:39:58PM +0800, Zijun Hu wrote:
-> Hi linux-firmware maintainers,
-> 
-> Please pull the following linux-firmware update for Qualcomm
-> multi-subsystem QCC2072 btusb support.
-> 
-> The following changes since commit 0cb5a7fb037ef9489deaa4ebecd78b40fe7c07c6:
-> 
->   Merge branch 'Dell_ISH_FW_582.7822.0' into 'main' (2026-11-04 01:33:35 +0000)
-> 
-> are available in the Git repository at:
-> 
->   https://github.com/zijuhu/qca_btfw.git btusb_qcc2072
-> 
-> for you to fetch changes up to 79b0c4d9010f97e79322830461843bbb2740613e:
-> 
->   Bluetooth: btusb: Add firmware for Qualcomm multi-subsystem QCC2072 (2026-11-04 13:51:32 +0100)
+Hi,
+A small series today!
 
-Merged and pushed out:
+We=E2=80=99d like to add the firmware for the Cirrus smart amplifiers =
+and codecs for a few Dell and Lenovo laptops.
+Thanks,
+-Simon
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/1358
+The following changes since commit =
+bc028c505cd77ee52de8a0e0032eb640a57001e0:
 
-Please abstain from adding multiple copies of the same file. There is
-little point in doing that, use Link: tags. I've submitted a pull
-request removing extra copies:
+  Merge branch 'rpi5bd0' into 'main' (2026-11-05 11:37:25 +0000)
 
-https://lore.kernel.org/r/20261105112700.21315-1-dmitry.baryshkov@oss.qualcomm.com
+are available in the Git repository at:
 
-Please take a look and comment if you have any concerns.
+  https://github.com/CirrusLogic/linux-firmware =
+20261105-cs35l56-cs35l57-cs42l49
 
--- 
-With best wishes
-Dmitry
+for you to fetch changes up to b5cb6db823453a8a34b46658e2a718da65010b70:
+
+  cirrus: cs35l57: Add firmware for Cirrus CS35L57 for a Lenovo laptop =
+(2026-11-05 15:12:05 +0000)
+
+----------------------------------------------------------------
+Maciej Strozek (1):
+      cirrus: cs42l45: Update CS42L49 SDCA codec firmware for Dell =
+laptops
+
+Simon Trimmer (2):
+      cirrus: cs35l56: Add firmware for Cirrus CS35L56 family for =
+various Dell laptops
+      cirrus: cs35l57: Add firmware for Cirrus CS35L57 for a Lenovo =
+laptop
+
+ WHENCE                                               |  30 =
++++++++++++++++++++++++++++---
+ cirrus/cs35l56-b2-dsp1-misc-10280ee0-spkid0-l2u0.bin | Bin 0 -> 12916 =
+bytes
+ cirrus/cs35l56-b2-dsp1-misc-10280ee0-spkid0-l2u1.bin | Bin 0 -> 12916 =
+bytes
+ cirrus/cs35l56-b2-dsp1-misc-10280ee0-spkid1-l2u0.bin | Bin 0 -> 12912 =
+bytes
+ cirrus/cs35l56-b2-dsp1-misc-10280ee0-spkid1-l2u1.bin | Bin 0 -> 12912 =
+bytes
+ cirrus/cs35l56/CS35L56_Rev4.7.17.wmfw                | Bin 0 -> 41928 =
+bytes
+ cirrus/cs35l57-b2-dsp1-misc-10280f05-spkid0-l0u3.bin | Bin 0 -> 12844 =
+bytes
+ cirrus/cs35l57-b2-dsp1-misc-10280f05-spkid0-l3u1.bin | Bin 0 -> 12844 =
+bytes
+ cirrus/cs35l57-b2-dsp1-misc-10280f05-spkid1-l0u3.bin | Bin 0 -> 12844 =
+bytes
+ cirrus/cs35l57-b2-dsp1-misc-10280f05-spkid1-l3u1.bin | Bin 0 -> 12844 =
+bytes
+ cirrus/cs35l57-b2-dsp1-misc-17aa3824-spkid0-l0u0.bin | Bin 0 -> 12444 =
+bytes
+ cirrus/cs35l57-b2-dsp1-misc-17aa3824-spkid0-l0u1.bin | Bin 0 -> 12444 =
+bytes
+ cirrus/cs35l57-b2-dsp1-misc-17aa3824-spkid1-l0u0.bin | Bin 0 -> 12428 =
+bytes
+ cirrus/cs35l57-b2-dsp1-misc-17aa3824-spkid1-l0u1.bin | Bin 0 -> 12428 =
+bytes
+ sdca/1fa/1028/cs42l49_v20260921.bin                  | Bin 18032 -> 0 =
+bytes
+ sdca/1fa/1028/cs42l49_v20261104.bin                  | Bin 0 -> 18388 =
+bytes
+ 16 files changed, 27 insertions(+), 3 deletions(-)
+ create mode 100644 cirrus/cs35l56-b2-dsp1-misc-10280ee0-spkid0-l2u0.bin
+ create mode 100644 cirrus/cs35l56-b2-dsp1-misc-10280ee0-spkid0-l2u1.bin
+ create mode 100644 cirrus/cs35l56-b2-dsp1-misc-10280ee0-spkid1-l2u0.bin
+ create mode 100644 cirrus/cs35l56-b2-dsp1-misc-10280ee0-spkid1-l2u1.bin
+ create mode 100644 cirrus/cs35l56/CS35L56_Rev4.7.17.wmfw
+ create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280f05-spkid0-l0u3.bin
+ create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280f05-spkid0-l3u1.bin
+ create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280f05-spkid1-l0u3.bin
+ create mode 100644 cirrus/cs35l57-b2-dsp1-misc-10280f05-spkid1-l3u1.bin
+ create mode 100644 cirrus/cs35l57-b2-dsp1-misc-17aa3824-spkid0-l0u0.bin
+ create mode 100644 cirrus/cs35l57-b2-dsp1-misc-17aa3824-spkid0-l0u1.bin
+ create mode 100644 cirrus/cs35l57-b2-dsp1-misc-17aa3824-spkid1-l0u0.bin
+ create mode 100644 cirrus/cs35l57-b2-dsp1-misc-17aa3824-spkid1-l0u1.bin
+ delete mode 100644 sdca/1fa/1028/cs42l49_v20260921.bin
+ create mode 100644 sdca/1fa/1028/cs42l49_v20261104.bin=
