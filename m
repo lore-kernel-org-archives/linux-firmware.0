@@ -2,206 +2,218 @@ Received: from smtp.kernel.org (ip-10-30-226-227.us-west-2.compute.internal [10.
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 474DE606A339
-	for <linux-firmware@archiver.kernel.org>; Fri,  6 Nov 2026 20:51:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DC0606A32C
+	for <linux-firmware@archiver.kernel.org>; Fri,  6 Nov 2026 20:52:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=PBJf6DCA;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=EHjp9Rpx
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Ym52FXnY;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=V9g1SHxl
 Received: by smtp.kernel.org (Postfix)
-	id 38A241F0089F; Fri,  6 Nov 2026 20:51:46 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+	id E50C61F008A3; Fri,  6 Nov 2026 20:52:44 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1793998306;
-	b=bzGmSCjqzK6ikoVR+7A/SUzLen6QIBp4XQqtFepeUWf8SfbFhSvvTmQ2JVFeUeLPN7bg
-	 bDR2LmNAp53agOE2Zxn5oOMR1xoXtWlK4qFOnO21dUtMjsTrurJyn+ddQYa+f8uvAVqQD
-	 KiQZymazOphfE4b/6KjdEbf+HSlOb2WHhy8yPBapMEgnzZrHilvYhvIwBhUkBcC7oUfn7
-	 qNY6SIf+43zt996vgFR/Y8IF1xOnqkzhx2h6SQxMCwkTphtPgBArH9RZ5H3ylMF63t/7U
-	 R9V3VkP950Lh7uGHblRvraOw8kLmHMvHd2N18tAaJbHBVhZ/pLtikmLRPFttLradfmg==
+	t=1793998364;
+	b=V359VvjIQI+HIBpCoGKJOemN4iBWk91EfqeOnStL5gwloBjKoKYDdJAGzfb+N6WV17mT
+	 oXEdvWvZBBMjtnswK+fiYa2MBHKlpyh27NiT+y/gEzo0BlThuRju6qIFW9jA5cfPKWiDG
+	 QP3+Yjqjio1Rsn1tcPwepA32YKQTeDLvEVQlqP3xGNtw7Th6p4670IHZ2KFZKKPtOCd19
+	 PXIg/RHCg33s/AwEtJOUnqWnq/1M+FcTyelLTPUhWI0OjGEVW95aNhtLnnnl7P3v3KiCa
+	 YTRrZpeXsTf9nyD5VUDjMJpgu68QCdbcqQ1v2njBj+I1ND1Cy+aoYwjfsxQaynAyoog==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1793998306;
+	c=relaxed/relaxed; t=1793998364;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
 	 X-Received:X-Received:Received:Date:From:To:List-Id:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:X-Proofpoint-GUID:
+	 In-Reply-To:X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
 	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=mf95xR8OIyAvK5HfFiOvdKYzUwsJnsioZTKd5rW7VWo=;
-	b=0R96D0T1WQVDdg0ahKwFqRhU/+j9KmUgOo123t6dgjyi10Lrby/64sKK/YuZN++xx2zu
-	 iM8+rpAWHR/6zBD73gCpaFxSLej+uFTIZ/PN3g7vs/i7RJJfQOwahyHMINLHeYO0MtL0O
-	 fgSbkbxcYhevQY7iT9GwAV+8TF3DkFnfgbguilFxEIxuYJK+hQpiMMRyV29xUeVBVCdvb
-	 +17qEdW0mMzleanrJWXiKiGe8M6slQuacdT9QHIoeOhjkKiWtcQosOSlOfqFp3slKyi8M
-	 6xBenT10at953TWikfPImL8ito2PhZ+fbMDKu5HEUsXLH1GcLabXgBJAhMc6Q8cRiIA==
+	bh=+ZKz6bhuYby4zPfuCHwkZLpjOLrSphLLM4wBCm3N4zI=;
+	b=MqOfRpffpDcdqcmOi85Zcl340NuiYyAnXc4PgYstS3hkKJ8gdc3gSTNZS0LmJqr2xBcD
+	 usn/LaIjckOnWN29ItbKS5Y4XzSgrGwLTaZiu8Mioys2A7Z1+tciSdI08gkWt3FusmE6x
+	 UNuvOctNMyyQgZ6wouahw5cd2Vnz1tojpdMLCudd74ElILSk34OGepoKxitEKTkQk7HJw
+	 ADelsx5WTSfakRrJpAiGXUonV1HOqGPu6uzv0lrDwAkf9G9ObExJZ0LNA/kz2LZCCNM2u
+	 HmoocmGvgv2YZ3gOmplmzIdkD4TKeP4ciMXpxXSg7f/+fnh/lnAtkG4jat72uTAJ6gw==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=PBJf6DCA;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=EHjp9Rpx;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Ym52FXnY;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=V9g1SHxl;
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 813741F008A1
-	for <linux-firmware@kernel.org>; Fri,  6 Nov 2026 20:51:45 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 9BEDB1F008A5
+	for <linux-firmware@kernel.org>; Fri,  6 Nov 2026 20:52:21 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=PBJf6DCA;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=EHjp9Rpx
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 813741F008A1
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Ym52FXnY;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=V9g1SHxl
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org 9BEDB1F008A5
 Authentication-Results: smtp.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A6JL9kv106519
-	for <linux-firmware@kernel.org>; Fri, 6 Nov 2026 20:51:44 GMT
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A6JLYTu1263338
+	for <linux-firmware@kernel.org>; Fri, 6 Nov 2026 20:52:20 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=mf95xR8OIyAvK5HfFiOvdKYz
-	UwsJnsioZTKd5rW7VWo=; b=PBJf6DCA1XxuA8iuurPiRawEpEiu+s90Cqeh4+Fu
-	HJP3QWay2O9iF27VCLpZKlRBDRQahXvz7fK2ZdYrTSA0FqWVFVGw4m4KRFCOBHGd
-	yK5YdobCZP6eFN4lf5JZXCmXE/AbfUOO4WGEWHp+WnRdnTXRZ9cGHIP2t3uXxUiN
-	STZrS77PyXAeGUYO5Lw3uuDZu+MkVS4EV+UzPgCKB3uxX5vNPkdfhfzfT1ZKPpyy
-	P2au5okMBCMo8Si7DnuTpHSkqKLwSjxXIIc2u0hggTs0xuv9nEbEhuMJ8TJreO1R
-	HEhb/gRWp9B8zx9+CUK3OfhDz5tLp+aKEu4eSJqxudg85g==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hsmyrga5t-1
+	:references:subject:to; s=qcppdkim1; bh=+ZKz6bhuYby4zPfuCHwkZLpj
+	OLrSphLLM4wBCm3N4zI=; b=Ym52FXnYyO27gB5yKEPG+ugHvWqFrSj2YhyoCutA
+	Lo1+uJv0bvfoF1M4XyvT8oQd3cdr5XLd5csLTL4oqrS6bWCsxvYf7dFaamh8+v7/
+	2yZ0Cwd0lXMO8hiLeQkb1jh4dVLX5TKt03Zl8fFpYWTPVUti1Mp7hFCDboIH89tL
+	f1h7fx1FJJShwJ/U/7emCG3shibRKefH31SYI0OtHF73xVPxXsv+GSGPwxvYrr3B
+	SnCAI5+Fpsr5Bi79F9QCtSRP+8rqeUJ5MoRuIwcGx03qWwPUDgIWref+oE8jb0e2
+	/JIHBhxw6Ypmec10vohiH7XDEUtEd3jFzVYjmiIfBtH/ZA==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hsmywr9kn-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-firmware@kernel.org>; Fri, 06 Nov 2026 20:51:44 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-946038e22f5so38257285a.0
-        for <linux-firmware@kernel.org>; Fri, 06 Nov 2026 12:51:44 -0800 (PST)
+	for <linux-firmware@kernel.org>; Fri, 06 Nov 2026 20:52:19 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-93f26dd2165so350094985a.3
+        for <linux-firmware@kernel.org>; Fri, 06 Nov 2026 12:52:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793998303; x=1794603103; darn=kernel.org;
+        d=oss.qualcomm.com; s=google; t=1793998339; x=1794603139; darn=kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=mf95xR8OIyAvK5HfFiOvdKYzUwsJnsioZTKd5rW7VWo=;
-        b=EHjp9RpxiGiCL5XIx6nXrX5Ci1cn8ziE3NSfzHlwrodRuAIQn3JNLOeTfWkGt+y07T
-         INRlzzYKD6iPeCMb7b+bKjCps9aVtfblu9/Xq/5rAXvou60qzzf6p/Pf680/1/OH+pH3
-         HE9YsAExGx+PyQZfPixYlbkOQMQgim0YMD/Vg64heYSVyBDCOciqP3KSoXPYo7aU3dSi
-         23wYb/0la0h0UZ6qgq2noZ57IR8t+wIU9NtmJJ44xFBQtS95wciVFIoxgVXj4s/ME14W
-         6sBBkTNwbSTWWAHTolGEujGWzg23Q19WnzxoiOBCWsyJ7qHXY2RYcyB++RQ4/7TgdS70
-         9Qqg==
+        bh=+ZKz6bhuYby4zPfuCHwkZLpjOLrSphLLM4wBCm3N4zI=;
+        b=V9g1SHxlYRKuAhJXICgeNbnNQJCyzR1CbcoQ887jvak7rSZtH4bluy9PQXV1lx6x29
+         O4FBZNBaaH9lcbQdcQcKcsvQSIz5ye0MEvdwdOs/22LIzaifOzMPF9nTd/8dydE0MzRz
+         dJi2SLbBoR94FJMJiOO6dtu809SmgcjWKPo+DHdqwowOh86d6CX/RyVeIxuVl0bOgrGv
+         biNQyBSbCkXJATjsw5FDUOsa57B55dNmfn7IKGIaJpDXnFxHkAqAgs7EWzzsNyPEVzpn
+         Jqv7Aa4ibrpqnMHVv6d7FKzUCu8r54GSf27cHo/rXm2cpv7Cm1qo0XZt6yFoABBiEYV9
+         myFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793998303; x=1794603103;
+        d=1e100.net; s=20260707; t=1793998339; x=1794603139;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=mf95xR8OIyAvK5HfFiOvdKYzUwsJnsioZTKd5rW7VWo=;
-        b=UZvcreEYDFKAnWgaprufqrKXoKyKDMkY3lwJTQaS8bv58rnc1umikALuyGES7U3Yfk
-         8bjPtgBvrvp78ExmI58zPTpVGcDmptesxKuPT3UdZblOXqFf6MHbnnTH4ljvh3OJBFT5
-         vL/SXckND9mcUOUERHLzsRBRGyDyXRAXaGFy5/jpigPdDfxJNmMULJpkTCmO41iPE9Zv
-         uqGXk99q8e8XStTzUz4rkJD6TG7UwCIb0Nlth0t7VYc/OGeyV32ixEz0GzEX4tjuy1Q7
-         LDwtfkfcPvqp0MjRMlVA+nDKqTt8Q8kObPYS4Y/9vgH1L3sLXGiD0f+fb5kroiKnI175
-         901Q==
-X-Gm-Message-State: APuU4Z/YfwprdjsmhVlEc/fE7yYEhYA409UbntoIxp1SUhilqAT3mt/H
-	0G+1eWyCaG/a1fihDciqdIAbSolvyHrBACitlHUzlnINWyd+wPu1GwFOjLMC8USLSnzyeZpJAAb
-	XiKOBNsl7I8v33T9x3eC/whOkkn31jButUQ5dCnM6nqcTMUQB5USOjXPNZ9dBg7PnLLdiCXk=
-X-Gm-Gg: AYBFou2btcC6BzzAkSYTugDYbuFdUF+c/QeU+fon0vbpmMpvzwHklAEzxTvi0Dh0JQp
-	lMP0YQ2BVK//G21v1Mmo5y+2AqhsjuPEkflDl1/SQOzvhhs5DQqEw6nSOV6B952F1/5CAlWad0K
-	Qzd7ZvG8atQO0AaZmtbcqXpNQSm9FOLNvVTMj//+KNUrBWQq42XXs4PqQX2V8oL3lpj2X6w1Bjy
-	l7JWeCMVGBx4aCTnwrM5GYYl2QLb/PLA4UM7FILWWZO2G3BSEDBcWJwzyViegcop52pRnWNw+D6
-	rU5rlMwpcVeDf5xQmEGfpm6bwQqZk9mRu/Etn/LtY+CGZi+NQDIXf9D1ToKTd+wYQM+AobozAlt
-	BRSKzXzDFT1Xi5ze5gQh01kaWigxAt8UkuW/PYxCHZ7TdxfkbU+N9C2PTEftqkLSQTTfg1Q9dpc
-	/LZzH3+m1thvKYBCGjsOC4hryGLr8wG49XsGMm4Tl3h+Wxw+DXB/f+xwEOaARO
-X-Received: by 2002:a05:620a:6f03:b0:93f:61a6:b89 with SMTP id af79cd13be357-945f32f1de0mr557542885a.7.1793998303464;
-        Fri, 06 Nov 2026 12:51:43 -0800 (PST)
-X-Received: by 2002:a05:620a:6f03:b0:93f:61a6:b89 with SMTP id af79cd13be357-945f32f1de0mr557540185a.7.1793998302987;
-        Fri, 06 Nov 2026 12:51:42 -0800 (PST)
+        bh=+ZKz6bhuYby4zPfuCHwkZLpjOLrSphLLM4wBCm3N4zI=;
+        b=GIP0jCQ3wY85C18l7EIB0d/Z7R//o7j4/FJMeFQlzuH/j3FNqmCrMnbyiy4nU/eACS
+         z6IDLyqdUBlZnP3DC1M4Pojz1JZV+djbxf+Hv1sHH1FC54PXGj4jSYXSO2nQS85+RVv2
+         mcC7yjuSUiCFcfVXt8dEDmHghO86kPyQLaR5P2tcR/b9AZYsjh3xqLG8ni5IP12JWw75
+         3jDSWR6rrkzyAhrQ26MkqK9j2EhJN/z2huo75dOZaIkZH9WMciV2zb6QAARsUigtga1W
+         npKSqp3WCij1jVghKyg2PayemiLilOMISjwgBaEVIW5n+tENbCbWmZ013xSt6Z5kEWKq
+         tDlg==
+X-Gm-Message-State: APuU4Z9q+GzYU1TBeSPc0WT1aVFg40eQn86F+au4tBU2BuLt3QGY1LsX
+	ljjbbqMQZvI81iKzLvsc/naUv8M90KGjqIOupEKxGN8zbnbsH4qzeSU1jNHwMic50e9idmH/zQt
+	p4sPaZN/jc60OmMDytASZsy2+iZfLGUt4l1XCznppzpPl9U+SPSbORyOMEP0VAhn+HVQt6lo=
+X-Gm-Gg: AYBFou2ssCNtNTxZnrPF03ciYG+MpYit6zbdIjSTO1PlpNRz3LfA3sEABOXpNMhQ16f
+	EnbhaBq/wC3PmTXRTzyfMVk2K7vAWZ5Bg6IFFoL6phKEvZQ4U9l1VtmpGi5ey9HllE9lhYzNs8/
+	udXn/valPDfr52IKJB9son+WNubF1vYJ8Rx6dnUpUatnDiyVFmD08lyrDqc2rEKEveEW4/jyn+q
+	UQcE27FyuQREQbZJVkyjCkTPxIqziWYkB6xsCin9Up80kp3rJYE0Lmzqsy3I35t0YcrRGv6rnbF
+	vYYC9mmWxFUVD5mUColBVQmYi7LDA9cX21O3RC8Cujzmr424fmbIH1kH6zREEmwpOhOekhzPCX9
+	EfbplTMs/Lu3janUgYoC6yUo/sYcI1TKP4OQq5f/8Lam7pSTB/M2Bdid9G94Oud7S8Qm7WTlASc
+	BgsTljHIqLDU8D0xXT4Y+oFLQa+sjgIJ+pdbPDxNP8WxezC18TbYoEjTPpDUG9
+X-Received: by 2002:a05:620a:1983:b0:93f:2ab9:7294 with SMTP id af79cd13be357-945f34b6bf1mr589809485a.29.1793998338991;
+        Fri, 06 Nov 2026 12:52:18 -0800 (PST)
+X-Received: by 2002:a05:620a:1983:b0:93f:2ab9:7294 with SMTP id af79cd13be357-945f34b6bf1mr589806785a.29.1793998338508;
+        Fri, 06 Nov 2026 12:52:18 -0800 (PST)
 Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5c0030869c9sm485577e87.63.2026.11.06.12.51.41
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5c003087030sm525370e87.62.2026.11.06.12.52.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 12:51:41 -0800 (PST)
-Date: Fri, 6 Nov 2026 22:51:39 +0200
+        Fri, 06 Nov 2026 12:52:16 -0800 (PST)
+Date: Fri, 6 Nov 2026 22:52:13 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Zijun Hu <zijun.hu@oss.qualcomm.com>
+To: linux-kernel.supreme403@8alias.com
 List-Id: <linux-firmware.lore.kernel.org>
-Cc: linux-firmware@kernel.org
-Subject: Re: [PULL] qca: dedup QCA USB firmware files
-Message-ID: <oqo6fnkxm2hbl4a5vwvivn35f2o2fu43ggdidyuqbghjgdfwsh@u2blubebipa2>
-References: <20261105112700.21315-1-dmitry.baryshkov@oss.qualcomm.com>
- <20247457-3e1e-4e59-b297-9e422ddccd55@oss.qualcomm.com>
+Cc: linux-firmware@kernel.org, baojun.xu@ti.com,
+        Shenghao Ding <shenghao-ding@ti.com>
+Subject: Re: [PATCH] ti: tas2781: Add firmware names for ASUS models without
+ a speaker ID
+Message-ID: <rt6e362yujxmemaqwg4ywpfubfqpgxfznkzt3p74dqa2r7rv3m@kczfybjlnktz>
+References: <179396478879.8.13751503013951596382.1751156862@8alias.com>
+ <3drvkgys7dre5tegwquecgcwezxw46u3trp7rhjtmzgdvqyeca@steei6i2cskt>
+ <179399805883.7.12517291827121133057.1752646207@8alias.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20247457-3e1e-4e59-b297-9e422ddccd55@oss.qualcomm.com>
-X-Proofpoint-ORIG-GUID: 2u2CCbY4JqbI7loTjpXIgXhDfEYnRm0m
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA2MDA4MyBTYWx0ZWRfX9VC8oZbSsaqq
- 5LA7vysHMdtvhnZSg60w29WYjHlNdg/ERz+88VNhODi18YqVXcBxZRTpGq/2yHs9MuT6V5+PX8f
- Eo6fzAOnm4jMIUy8OkMUyRYpWEv8UOk=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA2MDA4MyBTYWx0ZWRfX9zJJobjauNgw
- 0ed3HnLHjFEtonc/AE1gc5UnU1zN4lE/wMeI/6PDmtrJK1D/uZkAoIvxIM3Yd4+dUF6vjn5sgnK
- 5Ps6BaowFA5tm8LLVwEbphHndva82oaHUoxe9yHNaRP2qExxdPhlr7z5DDEcqEG/pDXLnAvt33y
- rdGAUVvwH5RXuPAG2HxwYUV5Yut7kT+F/h+uf0iMhQRdu2bl3frBekA9Hn9Ya1kZnMKrkKBl3Mh
- LUTKNdak8nubjAHfcd3+rjx8izpR3f1AsQUevx3gH4h0rlJaX5SFkC6TXbEYJ5qH3nnTW2JnaZC
- ORaLuL527atvQBYimaCBJ/MujNXHDxFCLVTJtRMMfKZxf/Ma/wf1I2hAQZZLlnthYdOMmR92vLD
- 16Q4QKePJgQc6cswWajJ+0KryhLnuYCrrggktEQIUl4KbjjYJl9PhngzUgIxONYOUh+EN8fK/vN
- m2eM9LAQAC7nm4EOXyQ==
-X-Authority-Analysis: v=2.4 cv=V+XoQuni c=1 sm=1 tr=0 ts=6aee3de0 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+In-Reply-To: <179399805883.7.12517291827121133057.1752646207@8alias.com>
+X-Authority-Analysis: v=2.4 cv=A6j5rKWG c=1 sm=1 tr=0 ts=6aee3e03 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
  a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=p0WdMEafAAAA:8
- a=EUspDBNiAAAA:8 a=uDHGxvQnKNDiAXwnnGgA:9 a=CjuIK1q_8ugA:10
- a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-GUID: 2u2CCbY4JqbI7loTjpXIgXhDfEYnRm0m
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=EyC9BqI-AAAA:8
+ a=UOvY5qFuRGHJlBgA2BIA:9 a=CjuIK1q_8ugA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+ a=V1rNeAFqr7mUYiG6BXD5:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA2MDA4MyBTYWx0ZWRfX5e/cf0AqdVwU
+ s5L05TMRhOLSXp9kl9vDVJSzUptNP/M0T2E8rG3yHJHmll1x0mKmasm/OvaP65BGcN3gDEeGOjM
+ nfRXASFTXYHPnKEriSmBdWI37kzEHBElO/GKCGk2rQfzpRPwcdN5y2tl2NBblhM+nc83JDfw17S
+ 9BRWAHjwR/TQEAe8bT5uiJH2s1Glq4UF000LtQiSlkXGetIPftV1F3IXqXUFuVhvzzYVk2XpS/8
+ Mej59Z7E2kCauQCrUz+mhpih8yQSEW7uIvLnmMQyEBlWZx01dG8uDIkKLTs3MES/6u3GnQwZlL0
+ WvFkZ9Z6tkD7u4KmUMyI8+n5mBxnYM2DWAmt23yXyuh+5a9S7eaTDh5Pv9+MD0pBIwi5KMkN9jy
+ EcfPAqFhaf688CY96BY30zGoSV3TRLUu7Sc6a+ovSJ5RsbK9Gs5P2k2DQPTjGgZB/+djp2Sat/E
+ +yHEibMEh7F85ZXaWCQ==
+X-Proofpoint-GUID: nRZdldDcwHjTV5uWtN-qUTaJNPLhy6Kp
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA2MDA4MyBTYWx0ZWRfXykpqLnR8eiC7
+ 3gmIeNjGg8QB7A05k9MiuYsERCIrJOR8ONOVZxn3fat0zCl81dkkYoBDqw9YfkiAX6bFkyHrzGc
+ r+HH5690e2x6cvSC/8oAkQKp+NuXHLI=
+X-Proofpoint-ORIG-GUID: nRZdldDcwHjTV5uWtN-qUTaJNPLhy6Kp
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-06_06,2026-11-06_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 clxscore=1015 priorityscore=1501 adultscore=0
- impostorscore=0 spamscore=0 malwarescore=0 bulkscore=0 lowpriorityscore=0
+ lowpriorityscore=0 suspectscore=0 spamscore=0 clxscore=1015 malwarescore=0
+ priorityscore=1501 bulkscore=0 phishscore=0 adultscore=0 impostorscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611060083
-X-Spam-Status: No, score=-19.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PULL_REQUEST,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
+	INCLUDES_CR_TRAILER,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Fri, Nov 06, 2026 at 02:07:09PM +0800, Zijun Hu wrote:
-> On 11/5/2026 7:26 PM, Dmitry Baryshkov wrote:
-> > The following changes since commit 703a4d95f86606b14b8433e7197663874ef89eed:
-> > 
-> >   Merge branch 'robot/pr-0-1793799659' into 'main' (2026-11-04 16:40:59 +0000)
-> > 
-> > are available in the Git repository at:
-> > 
-> >   https://gitlab.com/lumag/linux-firmware.git qcc2072-dedup
-> > 
-> > for you to fetch changes up to 1308e5fd64510223774218c0d1d681e7bfba40d0:
-> > 
-> >   qca: QCA61x4 USB: Link 00000201 firmware to the 00000200 files (2026-11-04 21:00:05 +0100)
-> > 
-> > ----------------------------------------------------------------
-> > Dmitry Baryshkov (3):
+On Fri, Nov 06, 2026 at 09:47:37PM +0100, linux-kernel.supreme403@8alias.com wrote:
 > 
 > Hi Dmitry,
 > 
-> Thanks for the cleanup.
+> Please use assembledev as the author name and add my sign-off:
 > 
-> For these dedups I'd like links to follow these rules:
-> 1. A link file and its target may differ only in the board ID.
-> 2. If a board-specific NVM is identical to the default NVM, link it to the default NVM.
-> 3. If several board-specific NVMs are identical to each other, link them to the one with the
->  smallest board ID.
+> Signed-off-by: assembledev <linux-kernel.supreme403@8alias.com>
+
+This should be the person's name.
+
 > 
-> >       qca: QCC2072: Replace duplicate firmware files with links
-> Reviewed-by: Zijun Hu zijun.hu@oss.qualcomm.com
-> >       qca: QCA61x4 USB: Replace duplicate NVM files with links
-> Reviewed-by: Zijun Hu zijun.hu@oss.qualcomm.com
-
-I'll land these two.
-
-> >       qca: QCA61x4 USB: Link 00000201 firmware to the 00000200 files
->   Suggest dropping this commit. 00000200 is for ROME v2.0 and
->   00000201 is for ROME v2.1. They are separate chip revisions and
->   should not share a firmware build ID, so their firmware is usually
->   updated separately.
-
-These files were added in 2015 and never updated since the initial
-commit. I'm not sure how your comment is relevant. If there are any
-updates which were not posted upstream, then please do.
+> Thanks,
+> assembledev
+> 
+> > On Fri, Nov 06, 2026 at 12:33:07PM +0100, linux-kernel.supreme403@8alias.com wrote:
+> >
+> >> The TAS2781 HDA driver builds the DSP firmware filename from the codec
+> >> subsystem ID and, when available, the speaker ID read through a GPIO.
+> >> For ASUS TP3607SA (1043:3e30), it chooses:
+> >>
+> >>  speaker ID 0:       TAS2XXX3E300.bin
+> >>  speaker ID 1:       TAS2XXX3E301.bin
+> >>  ID unavailable:     TAS2XXX3E30.bin
+> >>
+> >> On TP3607SA with BIOS 308 and Linux 6.18.59, the GPIO lookup returns
+> >> -ENOENT. The TAS2781 device in ASUS's BIOS 308 ACPI tables defines only
+> >> I2C resources. The driver therefore requests TAS2XXX3E30.bin, which
+> >> linux-firmware lacks.
+> >>
+> >> ASUS TP3407SA (1043:10a4) uses the same naming rule and needs
+> >> TAS2XXX10A4.bin when the speaker ID is unavailable. Unsuffixed aliases
+> >> have been used successfully on both models.
+> >>
+> >> The patch below adds the two names requested in this case:
+> >>
+> >>  TAS2XXX10A4.bin -> ti/audio/tas2781/TAS2XXX10A40.bin
+> >>  TAS2XXX3E30.bin -> ti/audio/tas2781/TAS2XXX3E300.bin
+> >>
+> >> For each model, the speaker-ID 0 and 1 binaries are byte-identical, so
+> >> either variant provides the same firmware contents for the unsuffixed
+> >> name. These links let both models load their DSP firmware automatically.
+> >>
+> >
+> > 1. Missing "Signed-off-by: author information"
+> >
+> >
+> > -- 
+> > With best wishes
+> > Dmitry
+> >
+> 
+> 
 
 -- 
 With best wishes
